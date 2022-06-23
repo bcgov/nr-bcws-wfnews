@@ -1,0 +1,30 @@
+.time-dimension-container {
+}
+
+.date-picker-input .mat-button {
+    line-height: 0px;
+}
+
+.date-picker-input .mat-icon {
+    height: 20px;
+    width: 20px;
+}
+
+.date-picker-input .material-icons {
+    font-size: 20px;
+}
+
+.date-picker-input {
+    display: flex;
+}
+.date-picker-input input{ 
+    overflow-wrap: break-word;
+}
+
+.date-range-input {
+    width: 100%;
+}
+
+.time-dimension-container mat-radio-button + mat-radio-button{
+    margin-left: 2em
+}

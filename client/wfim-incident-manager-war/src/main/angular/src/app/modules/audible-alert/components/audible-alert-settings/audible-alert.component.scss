@@ -1,0 +1,49 @@
+@import "../../../../../styles/variables";
+
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: $colour-dark-grey !important;
+}
+
+.wf1-treeview {
+    ::ng-deep .treeview-container {
+        padding-right: 0;
+
+        .treeview-item {
+            border-top: solid 1px $colour-light-grey;
+            padding: 0.4rem 1rem;
+
+            .row-item {
+                .fa {
+                    float: right;
+                    font-family: 'Material Icons';
+                    font-weight: normal;
+                    font-style: normal;
+                    font-size: 24px;
+                    line-height: 1;
+                    text-transform: none;
+                    letter-spacing: normal;
+                    word-wrap: normal;
+                    white-space: nowrap;
+                    direction: ltr;
+                    -webkit-font-smoothing: antialiased;
+                    text-rendering: optimizeLegibility;
+                    -moz-osx-font-smoothing: grayscale;
+                    font-feature-settings: 'liga';
+                }
+
+                .fa-caret-right:after {
+                    content: 'navigate_next'
+                }
+
+                .fa-caret-down:after {
+                    content: 'expand_more'
+                }
+            }
+
+            .treeview-item {
+                //nested item
+                border-top: none;
+            }
+        }
+    }
+}

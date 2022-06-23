@@ -1,0 +1,39 @@
+<div class="update-info-container">
+
+  <div class="incident-panel__last-update-info">
+
+    <div class="incident-panel__form">
+      <form class="form-container" [formGroup]="formGroup">
+
+        <div class="form-compound form-container__form ">
+
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Report Last Updated by</mat-label>
+                <input matInput formControlName="lastUpdatedUserId" type="text" >
+              </mat-form-field>
+            </div>
+
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Last Updated Time/Date</mat-label>
+                <div class="date-picker-input">
+                  <input matInput formControlName="lastUpdatedTimestampDisplay"
+                         [owlDateTime]="lastUpdatedTimestampDisplayDT">
+                  <button mat-button [owlDateTimeTrigger]="lastUpdatedTimestampDisplayDT">
+                    <mat-icon>event</mat-icon>
+                  </button>
+                </div>
+                <owl-date-time #lastUpdatedTimestampDisplayDT [showSecondsTimer]="true"></owl-date-time>
+              </mat-form-field>
+            </div>
+
+            <div class="form-compound__molecule"></div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,12 @@
+<h2>{{arrayLabel}}</h2>
+<ng-container [formGroup]="form">
+	<ng-container formArrayName="{{arrayId}}">
+		<mat-card class="list-container" *ngFor="let element of formArray.controls; let cardIndex=index" [formGroupName]="cardIndex">
+			<div class="form-compound">
+        <button mat-raised-button class="delete-button" [disabled]="formDisabled()" type="button" color="primary" (click)="delete(cardIndex)" >Delete</button>
+			</div>
+		</mat-card>
+		<button class="add-button" mat-raised-button type="button" [disabled]="formDisabled()" color="primary" (click)="add()">Add</button>
+	</ng-container>
+</ng-container>
+

@@ -1,0 +1,15 @@
+<wf-application class="wfim-application"
+    *ngIf="hasAuth"
+    [config]="applicationConfig"
+    [(state)]="applicationState"
+>
+    <wf-header
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+    ></wf-header>
+
+    <div class="im-container">
+		<wfim-im-tabs></wfim-im-tabs>
+	</div>
+
+</wf-application>

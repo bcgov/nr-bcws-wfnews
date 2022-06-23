@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>Upload Files</h1>
+
+<mat-dialog-content>
+    <div *ngFor="let p of uploads; index as i" class="file-progress" [class.cancelled]="p.cancelled">
+        <ng-container *ngIf="!p.cleared">
+            <span class="file-status">
+                <h4 class="file-title" [title]="p.file.name">{{ p.file.name }}</h4>
+                <mat-progress-bar mode="determinate" [value]="p.percent"></mat-progress-bar>
+                <h4 class="file-status">{{ p.status }}</h4>
+            </span>
+
+            <span class="file-action">
+                <button mat-icon-button *ngIf="!isUploading && !isCompleted"
+                    (click)="onClearFile( i )"
+                ><mat-icon>clear</mat-icon></button>
+
+                <button mat-icon-button *ngIf="isUploading && !p.complete"
+                    (click)="onCancelFile( i )"
+                ><mat-icon>clear</mat-icon></button>
+
+                <mat-icon class="completed" *ngIf="p.complete && !p.error">done</mat-icon>
+                <mat-icon class="failed" *ngIf="p.complete && p.error" [title]="p.error">error</mat-icon>
+            </span>
+        </ng-container>
+    </div>
+</mat-dialog-content>
+
+<div class="upload-metadata">
+    <mat-form-field class="filter-text" appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea matInput placeholder="(250 Character Limit)"
+            [(ngModel)]="description"
+            [disabled]="isUploading || isCompleted"
+            maxlength="250"
+        ></textarea>
+    </mat-form-field>
+
+    <mat-form-field class="filter-category">
+        <mat-label>Category</mat-label>
+        <mat-select placeholder="Category"
+            [(ngModel)]="category"
+            [disabled]="isUploading || isCompleted"
+        >
+            <mat-option *ngFor="let c of photoCategories" [value]="c.code">{{ c.description }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+
+<mat-dialog-actions align="end">
+    <button mat-button
+        mat-dialog-close
+        *ngIf="!isCompleted"
+    >
+        <mat-icon>clear</mat-icon>
+        Cancel
+    </button>
+
+    <button mat-button
+        [mat-dialog-close]="uploadResult"
+        *ngIf="isCompleted"
+    >
+        <mat-icon>clear</mat-icon>
+        Close
+    </button>
+
+    <button mat-raised-button
+        color="primary"
+        (click)="onUpload()"
+        cdkFocusInitial
+        [disabled]="isUploading || !isUploadEnabled"
+        *ngIf="!isCompleted"
+    >
+        <mat-icon>cloud_upload</mat-icon>
+        Upload
+    </button>
+</mat-dialog-actions>

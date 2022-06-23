@@ -1,0 +1,22 @@
+.close-button {
+    display: none;
+}
+
+:host-context( .device-mobile ) {
+    .close-button {
+        display: block;
+        position: absolute;
+        z-index: 1;
+        color: white;
+
+        mat-icon {
+            position: relative;
+            top: 8px;
+            left: 5px;
+        }
+    }
+
+    ::ng-deep .search__input .mat-form-field-infix, ::ng-deep .location-toolbar .mat-form-field-infix {
+        width: auto;
+    }
+}

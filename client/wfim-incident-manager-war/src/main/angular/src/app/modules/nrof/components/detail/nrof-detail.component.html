@@ -1,0 +1,96 @@
+<wf1-basic-sidebar-panel
+  titleText="No More Reports of Fire Detail"
+  [showBackButton]="true"
+>
+  <div class="loading-spinner" *ngIf="loading">
+    <wf1-spinner></wf1-spinner>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div class="rof-detail-identification" *ngIf="nrof">
+      <div class="rof-detail-identification-toolbar">
+        <div class="rof-detail-labelled-button">
+          <button mat-button aria-label="Refresh No More Reports of Fire" (click)="refresh()" matTooltip="Refresh" [matTooltipShowDelay]="TOOLTIP_DELAY">
+            <mat-icon color="secondary">autorenew</mat-icon>
+            <div class="label">Refresh</div>
+          </button>
+        </div>
+        <div class="rof-detail-labelled-button">
+          <button mat-button aria-label="Locate No More Reports of Fire on the Map" (click)="locateOnMap()" matTooltip="Locate on Map" [matTooltipShowDelay]="TOOLTIP_DELAY">
+            <mat-icon color="secondary">place</mat-icon>
+            <div class="label">Map</div>
+          </button>
+        </div>
+        <div class="rof-detail-icon">
+          <wf1-application-icon
+            [iconType]="icon.iconType"
+            [iconSize]="icon.iconSize"
+            [colourCode]="icon.colourCode"
+            [isBlinking]="icon.isBlinking"
+            [isCancelled]="icon.isCancelled"
+            [isAssignedToIncident]="icon.isAssignedToIncident"
+            [hasHalo]="icon.hasHalo">
+          </wf1-application-icon>
+        </div>
+        <div class="rof-detail-manage-button">
+          <button class="rof-detail-launch-rof-manager-button" mat-icon-button aria-label="View Selected No More Reports of Fire"	(click)="openNROF()" color="primary" matTooltip="View No More Reports of Fire" [matTooltipShowDelay]="TOOLTIP_DELAY"><mat-icon>launch</mat-icon></button>
+          <!-- <div>Manage</div> -->
+        </div>
+      </div>
+      <div class="rof-detail-identification-details wf-nrof-interface-color">
+        <div class="rof-detail-id-header">
+          <span><h3 class="rof-detail-id cp-rof-id">{{'NROF-' + nrof.provisionalZoneIdentifier}}</h3></span>
+          <span class="rof-detail-status">Expires: <strong><span class="{{expires=='Expired'?'rof-detail-status-emphasis':''}}">{{expires}}</span></strong></span>
+        </div>
+        <div class="rof-detail-id-row">
+          <span class="row-detail-id-col-label">Created By:</span><span class="row-detail-id-col-value"> {{nrof.provisionedByUserId}}</span>
+        </div>
+        <div class="rof-detail-id-row">
+          <span class="row-detail-id-col-label">Created Date/Time:</span><span class="row-detail-id-col-value"> {{nrof.effectiveTimeStamp | date: 'yyyy-MM-dd HH:mm:s' }}</span>
+        </div>
+        <div class="rof-detail-id-row">
+          <span class="row-detail-id-col-label">Expiry Date/Time:</span><span class="row-detail-id-col-value"> {{nrof.expiryTimestamp | date: 'yyyy-MM-dd HH:mm:s' }}</span>
+        </div>
+        <div class="rof-detail-id-row">
+          <span class="row-detail-id-col-label">Dismissed:</span><span class="row-detail-id-col-value">{{(nrof.dismissedInd === true || (nrof.dismissedInd && nrof.dismissedInd === "Y"))?"Yes":"No"}}</span>
+        </div>
+      </div>
+
+      <mat-expansion-panel [expanded]="defaultOpenPanel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="secondary">public</mat-icon><span><strong>SUMMARY</strong></span>
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div class="rof-detail-other-details">
+          <div class="rof-detail-label-row"><span>Fire Centre</span></div>
+          <div class="rof-detail-value-row"><span>{{nrof.fireCentreOrgUnitName}}</span></div>
+          <div class="rof-detail-label-row"><span>Notes</span></div>
+          <div class="rof-detail-value-row"><span><pre style="word-wrap: break-word !important; white-space: pre-wrap !important"><code>{{nrof.provisionalZoneNote}}</code></pre></span></div>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="defaultOpenPanel">
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <mat-icon color="secondary">public</mat-icon><span><strong>SPATIAL</strong></span>
+          </mat-panel-title>
+          <mat-panel-description>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+          <div class="rof-detail-other-details">
+              <div class="rof-detail-label-row">
+                <span>Map Label</span>
+                <span>Spatial Feature Type</span>
+              </div>
+              <div class="rof-detail-value-row">
+                <span>{{nrof.provisionalZonePolygon?'NROF-' + nrof.provisionalZoneIdentifier:"Unspecified"}}</span>
+                <span>{{nrof.provisionalZonePolygon?"Polygon":"Unspecified"}}</span>
+              </div>
+          </div>
+
+      </mat-expansion-panel>
+    </div>
+  </ng-container>
+</wf1-basic-sidebar-panel>

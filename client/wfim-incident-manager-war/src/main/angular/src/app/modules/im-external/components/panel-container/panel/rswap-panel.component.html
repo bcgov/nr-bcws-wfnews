@@ -1,0 +1,132 @@
+<base-error-panel [componentValidationState]="validationState"></base-error-panel>
+<div class="incident-panel">
+    <h1 class="incident-panel__title">{{panelName}}</h1>
+    <div class="incident-panel__form">
+        <form class="form-container" [formGroup]="formGroup">
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Fire Analysis Status</mat-label>
+                <mat-select formControlName="fireAnalysisStatusCode">
+                  <mat-option [value]="null"></mat-option>
+                  <mat-option *ngFor="let option of getCodeOptions('FIRE_ANALYSIS_STATUS_CODE')"
+                              [value]="option.code">
+                    {{option.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Response Objectives</mat-label>
+                <textarea matInput cdkAutosizeMaxRows="10" cdkTextareaAutosize="true" formControlName="responseObjectiveComment" ></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Chance of Success if Resources Assigned</mat-label>
+                <mat-select formControlName="controlChanceOfSuccessCode">
+                  <mat-option [value]="null"></mat-option>
+                  <mat-option *ngFor="let option of getCodeOptions('CONTROL_CHANCE_OF_SUCCESS_CODE')"
+                              [value]="option.code">
+                    {{option.description}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+                <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" (change)="updateCheckbox($event, 'evacuationAlertInd')" [checked]="formGroup.get('evacuationAlertInd').value" [disabled]="formGroup.get('evacuationAlertInd').disabled"> Evacuation Alert </mat-checkbox>
+              </div>
+            </div>
+            <div class="form-compound__molecule">
+              <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+                <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" (change)="updateCheckbox($event, 'evacuationOrderInd')" [checked]="formGroup.get('evacuationOrderInd').value" [disabled]="formGroup.get('evacuationOrderInd').disabled"> Evacuation Order </mat-checkbox>
+              </div>
+            </div>
+            <div class="form-compound__molecule">
+              <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+                <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" (change)="updateCheckbox($event, 'privateAssetDamagedInd')" [checked]="formGroup.get('privateAssetDamagedInd').value" [disabled]="formGroup.get('privateAssetDamagedInd').disabled"> Private Assets Damaged </mat-checkbox>
+              </div>
+            </div>
+          </div>
+          <wfim-rswap-array class="form-compound__molecule" [form]="formGroup" [arrayId]="rswapArrayId" [arrayLabel]="rswapArrayLabel" [topLevelSelection]="getCodeOptions('VALUE_AT_RISK_TYPE_CODE')"></wfim-rswap-array>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>RSWAP Values at Risk Description</mat-label>
+                <input matInput formControlName="valuesAtRiskDescription" type="text">
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Other Considerations</mat-label>
+                <input matInput formControlName="otherConsiderationComment" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Dollar Value ($)</mat-label>
+                <input matInput formControlName="riskEstimatedValue" type="text" currencyMask>
+                <mat-error *ngIf="formGroup.get('riskEstimatedValue').hasError('min')">Value must be a positive number.</mat-error>
+                <mat-error *ngIf="formGroup.get('riskEstimatedValue').hasError('pattern')">Value must be a positive number with maximum 2 decimal precision.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Estimated Total Cost from Analysis ($)</mat-label>
+                <input matInput formControlName="fireAnalysisEstimatedCost" type="text" currencyMask>
+                <mat-error *ngIf="formGroup.get('fireAnalysisEstimatedCost').hasError('min')">Value must be a positive number.</mat-error>
+                <mat-error *ngIf="formGroup.get('fireAnalysisEstimatedCost').hasError('pattern')">Value must be a positive number with maximum 2 decimal precision.</mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom" >
+                <mat-label>Fire Centre Ranking</mat-label>
+                <input matInput formControlName="fireCentrePriorityRank" type="number" >
+                <mat-error *ngIf="formGroup.get('fireCentrePriorityRank').hasError('min')">Value must be a positive number.</mat-error>
+                <mat-error *ngIf="formGroup.get('fireCentrePriorityRank').hasError('pattern')">Value must be a positive whole number.</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Fire Centre Ranking Last Modified By</mat-label>
+                <input matInput formControlName="fireCentrePriorityRankLastModified" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom" >
+                <mat-label>Provincial Ranking</mat-label>
+                <input matInput formControlName="provincialPriorityRank" >
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Provincial Ranking Last Modified By</mat-label>
+                <input matInput formControlName="provincialPriorityRankLastModified" type="text">
+              </mat-form-field>
+            </div>
+          </div>
+
+
+
+            <div class="wf-submit-row">
+                <div class="flex-1"></div>
+                <button mat-raised-button color="primary" [disabled]="!formGroup?.valid || formGroup.pristine" type="submit"
+                        (click)="onSubmit()">Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+

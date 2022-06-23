@@ -1,0 +1,7 @@
+::ng-deep .list-item__section__icon svg {
+  color: green !important;
+}
+
+.mat-list::ng-deep {
+	padding: 0;
+}

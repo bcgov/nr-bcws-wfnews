@@ -1,0 +1,57 @@
+<h2>{{arrayLabel}}<span class="label-subtext">&nbsp;{{arrayLabelSubText}}</span></h2>
+<ng-container [formGroup]="form">
+	<ng-container formArrayName="{{arrayId}}">
+		<mat-card class="list-container" *ngFor="let element of formArray.controls; let cardIndex=index" [formGroupName]="cardIndex">
+			<div class="form-compound">
+				<div class="form-compound__molecule">
+					<mat-form-field class="form-compound__molecule__atom">
+						<mat-select formControlName="forestFuelCategoryCode" placeholder="Fuel Category">
+							<mat-option *ngFor="let option of topLevelSelection"
+										[value]="option.code">
+								{{option.description}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="form-compound__molecule">
+					<mat-form-field class="form-compound__molecule__atom">
+						<mat-select formControlName="forestFuelTypeCode" placeholder="Fuel Type">
+							<mat-option *ngFor="let option of getForestFuelTypeCodes(cardIndex)"
+										[value]="option.code">
+								{{option.description}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="form-compound__molecule">
+					<mat-form-field class="form-compound__molecule__atom">
+						<mat-select formControlName="forestFuelDensityCode" placeholder="Density">
+							<mat-option *ngFor="let option of getForestFuelDensityCodes(cardIndex)"
+										[value]="option.code">
+								{{option.description}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="form-compound__molecule">
+					<mat-form-field class="form-compound__molecule__atom">
+						<mat-select formControlName="forestFuelAgeCode" placeholder="Age">
+							<mat-option *ngFor="let option of getForestFuelAgeCodes(cardIndex)"
+										[value]="option.code">
+								{{option.description}}
+							</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="form-compound__molecule">
+					<mat-form-field class="form-compound__molecule__atom">
+						<input matInput formControlName="otherFuelDescription" placeholder="Description">
+					</mat-form-field>
+				</div>
+        <button mat-raised-button class="delete-button" [disabled]="formDisabled()" type="button" color="primary" (click)="delete(cardIndex)" >Delete</button>
+			</div>
+		</mat-card>
+		<button class="add-button" mat-raised-button type="button" [disabled]="formDisabled()" color="primary" (click)="add()">Add</button>
+	</ng-container>
+</ng-container>
+

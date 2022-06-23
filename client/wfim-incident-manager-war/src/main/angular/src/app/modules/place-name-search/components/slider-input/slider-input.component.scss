@@ -1,0 +1,18 @@
+@import "../../../../../styles/variables";
+
+.slider-control {
+  position: relative;
+  width: 10rem;
+
+  .slider-label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    font-size: x-small;
+    color: $opacity-dark-grey;
+  }
+
+  mat-slider.mat-slider {
+    margin-top: .5rem;
+  }
+}

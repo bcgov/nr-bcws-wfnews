@@ -1,0 +1,102 @@
+<div class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</div>
+
+<wf1-location-sidebar-panel
+  titleText="Find Place/Road Name"
+  [location]="location"
+  (locationSelect)="locationSelected($event)"
+>
+  <div class="place-name-panel">
+    <div class="place-name-section place-name">
+      <div class="place-name-section-header">
+        <h4 class="place-name-section-header-title">Place Names</h4>
+      </div>
+      <div class="place-name-section-form">
+        <div class="place-name-section-form-row">
+          <mat-form-field aria-label="Enter a place name" class="place-name-search-input">
+            <input #placeNameElement  matInput autofocus placeholder="Enter a place name" (keyup)="searchPlaceName(placeNameElement.value)" [formControl]="placeName" (keydown.enter)="selectFirstPlace()" ngDefaultControl>
+          </mat-form-field>
+          <wfim-slider-input label="Select Max # of Results" min="5" max="50" step="5" value="5" [formControl]="numPlaceResults" (change)="setMaxNumPlaceResults($event.value)" ngDefaultControl></wfim-slider-input>
+        </div>
+      </div>
+      <div class="place-name-section-results {{placeNameResults.length > 0 ? 'place-name-section-results-with-data' : ''}}">
+        <table mat-table [dataSource]="placeNameResults" class="mat-elevation-z8" #placeNameTable="matTable">
+          <ng-container matColumnDef="name">
+            <th class="place-name-section-results-cell" mat-header-cell *matHeaderCellDef width="40%">Place Name</th>
+            <td class="place-name-section-results-cell" mat-cell matTooltip="{{element.name}}" [matTooltipShowDelay]="TOOLTIP_DELAY" *matCellDef="let element"> {{element.name}}</td>
+          </ng-container>
+          <ng-container matColumnDef="centreType">
+            <th class="place-name-section-results-cell" mat-header-cell *matHeaderCellDef width="37%">Centre;Type</th>
+            <td class="place-name-section-results-cell" mat-cell matTooltip="{{element.type}}" [matTooltipShowDelay]="TOOLTIP_DELAY" *matCellDef="let element"> {{element.type}} </td>
+          </ng-container>
+          <ng-container matColumnDef="distance">
+            <th class="place-name-section-results-cell, place-name-section-results-number-cell" mat-header-cell *matHeaderCellDef width="23%">Distance</th>
+            <td class="place-name-section-results-cell, place-name-section-results-number-cell" mat-cell *matCellDef="let element" [innerHTML]="formatDistanceDirection( element )">
+                <!-- {{formatDistance(element)}} -->
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="direction">
+            <th class="place-name-section-results-cell, place-name-section-results-direction-cell" mat-header-cell *matHeaderCellDef width="5%"></th>
+            <td class="place-name-section-results-cell, place-name-section-results-direction-cell" mat-cell *matCellDef="let element">
+               {{formatDirection(element)}}
+            </td>
+          </ng-container> -->
+          <tr mat-header-row *matHeaderRowDef="placeNameColumns; sticky: true"></tr>
+          <tr tabindex="0" mat-row class="place-name-section-results-row {{ this.placeNameSelection.isSelected(row) ? 'place-name-section-results-row-selected' : ''}}" *matRowDef="let row; columns: placeNameColumns;" (keydown)="tableKeydown($event, row)" (focus)="showCandidate(row)" (blur)="clearCandidate()" (mouseover)="showCandidate(row)" (mouseout)="clearCandidate()" (click)="selectPlace(row)" (dblclick)="zoomPlace(row)"></tr>
+        </table>
+      </div>
+    </div>
+    <div class="place-name-section road-name">
+      <div class="place-name-section-header">
+        <h4 class="place-name-section-header-title">Road Names/Intersections</h4>
+      </div>
+      <div class="place-name-section-form">
+        <div class="place-name-section-form-row">
+            <span>
+                <div>
+                    <mat-form-field aria-label="Enter a road name" class="road-name-search-input">
+                        <input matInput placeholder="Enter a road name" (keyup)="searchRoadName(roadName.value, intersectingRoadName.value)" [formControl]="roadName" (keydown.enter)="selectFirstRoad()" ngDefaultControl>
+                    </mat-form-field>                                
+                </div>
+                <div>
+                    <mat-form-field aria-label="Enter an intersecting road name" class="road-name-search-input">
+                        <input matInput placeholder="Enter intersecting road" (keyup)="searchRoadName(roadName.value, intersectingRoadName.value)" [formControl]="intersectingRoadName" (keydown.enter)="selectFirstRoad()" ngDefaultControl>
+                    </mat-form-field>
+                </div>
+            </span>
+            <span>
+                <div>
+                    <wfim-slider-input label="Select Max # of Results" min="5" max="50" step="5" value="5" [formControl]="numRoadResults" (change)="setMaxNumRoadResults($event.value)" ngDefaultControl></wfim-slider-input>
+                </div>
+                <div>
+                    <wfim-slider-input label="Select Max Search Distance (km)" min="5" max="500" step="5" value="100" [formControl]="distanceFrom" (change)="setMaximumDistance($event.value)" ngDefaultControl></wfim-slider-input>
+                </div>
+            </span>
+        </div>
+      </div>
+      <div class="place-name-section-results {{roadNameResults.length > 0 ? 'place-name-section-results-with-data' : ''}}">
+        <table mat-table [dataSource]="roadNameResults" class="mat-elevation-z8">
+          <ng-container matColumnDef="name">
+            <th class="place-name-section-results-cell" mat-header-cell *matHeaderCellDef width="77%">Road Name</th>
+            <td class="place-name-section-results-cell" mat-cell matTooltip="{{element.name}}" [matTooltipShowDelay]="TOOLTIP_DELAY" *matCellDef="let element"> {{element.name}}</td>
+          </ng-container>
+          <ng-container matColumnDef="distance">
+            <th class="place-name-section-results-cell, place-name-section-results-number-cell" mat-header-cell *matHeaderCellDef width="33%">Distance</th>
+            <td class="place-name-section-results-cell, place-name-section-results-number-cell" mat-cell *matCellDef="let element" [innerHTML]="formatDistanceDirection( element )">
+                <!-- {{formatDistance(element)}}  -->
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="direction">
+            <th class="place-name-section-results-cell, place-name-section-results-direction-cell" mat-header-cell *matHeaderCellDef width="5%"></th>
+            <td class="place-name-section-results-cell, place-name-section-results-direction-cell" mat-cell *matCellDef="let element">
+              {{formatDirection(element)}}
+            </td>
+          </ng-container> -->
+          <tr mat-header-row *matHeaderRowDef="roadNameColumns; sticky: true"></tr>
+          <tr mat-row class="place-name-section-results-row {{roadNameSelection.isSelected(row) ? 'place-name-section-results-row-selected' : ''}}" *matRowDef="let row; columns: roadNameColumns;" (mouseover)="showCandidate(row)" (click)="selectRoad(row)" (dblclick)="zoomRoad(row)"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</wf1-location-sidebar-panel>

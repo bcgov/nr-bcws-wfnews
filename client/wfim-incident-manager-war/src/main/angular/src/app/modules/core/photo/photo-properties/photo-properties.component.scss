@@ -1,0 +1,80 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    height: 100%;
+    font-family: BCSans,Noto Sans,Verdana,Arial,sans-serif;
+
+    h3 {
+        margin: 0;
+        display: flex;
+        justify-content: space-between;
+
+        .close-button {
+            cursor: pointer;
+        }
+    }
+
+    .metadata {
+        margin-top: 10px;
+
+        .title {
+            font-size: 12px;
+        }
+
+        .value {
+            word-break: break-all;
+            width: 100%;
+            min-width: 100%;
+            max-width: 100%;
+            font-size: 16px;
+            font-family: BCSans,Noto Sans,Verdana,Arial,sans-serif;
+
+            &.missing {
+                font-style: italic;
+                color: gray;
+            }
+        }
+
+        &.category {
+            select {
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,0.42);
+                padding-bottom: 2px;
+
+                &:focus-visible {
+                    outline: none;
+                    border-bottom: 1px solid black;
+                }
+            }
+        }
+
+        &.description {
+            textarea {
+                border: none;
+                border-bottom: 1px solid rgba(0,0,0,0.42);
+                padding-bottom: 2px;
+
+                &:focus-visible {
+                    outline: none;
+                    border-bottom: 1px solid black;
+                }
+            }
+        }
+    }
+
+    .actions {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+        align-items: flex-end;
+
+        .expander {
+            flex-grow: 1;
+        }
+
+        button {
+            margin-left: 10px;
+        }
+    }
+}

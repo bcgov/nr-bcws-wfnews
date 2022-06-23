@@ -1,0 +1,18 @@
+    <h2 mat-dialog-title
+      class="error"
+      cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+      cdkDragHandle cdkDragBoundary=".cdk-overlay-container">{{title}}</h2>
+    <div class="error-dialog-container">
+      <div mat-dialog-content class="no-scroll">
+        <p>{{message}}</p>
+        <mat-radio-group [(ngModel)]="selectedAction">
+          <mat-radio-button value="refresh">Refresh and lose current updates</mat-radio-button><br/>
+          <mat-radio-button value="overwrite">Overwrite with current updates</mat-radio-button>
+        </mat-radio-group>
+      </div>
+      <div mat-dialog-actions align="end">
+        <button mat-raised-button color="secondary" (click)="cancel()">Cancel</button>
+        <button mat-raised-button color="primary" [disabled]="!selectedAction" (click)="ok()">OK</button>
+      </div>
+    </div>
+

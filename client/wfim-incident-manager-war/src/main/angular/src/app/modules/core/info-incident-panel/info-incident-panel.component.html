@@ -1,0 +1,11 @@
+<div [ngClass]="getPanelClasses()">
+  <h3 class="incident-detail-id">
+    {{incident.incidentLabel}}
+    <span class="incident-detail-id-type">{{getLabel("INCIDENT_TYPE_CODE", incident.incidentTypeCode)}}</span>
+  </h3>
+  <div><strong>Point:</strong> {{getFormattedLocation()}}</div>
+  <div><strong>Incident Commander:</strong> {{incident.incidentCommanderName}}</div>
+  <div *ngIf="showStageOfControl()"><strong>Stage of Control:</strong> {{getLabel("STAGE_OF_CONTROL_CODE", incident.incidentSituation.stageOfControlCode)}}</div>
+  <div *ngIf="showIncidentStatus()"><strong>Status:</strong> {{getLabel("INCIDENT_STATUS_CODE", incident.incidentStatusCode)}}</div>
+  <div><strong>Size:</strong> {{incident.incidentSituation.fireSizeHectares}}</div>
+</div>

@@ -1,0 +1,15 @@
+<wf1-basic-sidebar-panel
+  titleText="Audible Alert"
+>
+  <div class="side-panel-toolbar">
+    <mat-checkbox [(ngModel)]="alertUnacknowledged">Unacknowledged</mat-checkbox>
+    <mat-checkbox [(ngModel)]="alertReceivedFromPM">Received from PM</mat-checkbox>
+    <button mat-raised-button type="submit" color="warn" (click)="onSave()">Apply</button>
+  </div>
+
+  <ngx-treeview ngClass="wf1-treeview"
+    [config]="treeviewConfig"
+    [items]="items"
+    (selectedChange)="onSelectedChange($event)"
+  ></ngx-treeview>
+</wf1-basic-sidebar-panel>

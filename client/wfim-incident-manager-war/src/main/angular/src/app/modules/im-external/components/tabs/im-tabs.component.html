@@ -1,0 +1,30 @@
+<mat-tab-group [selectedIndex]="selectedTab" (selectedIndexChange)="selectTab($event)">
+	<mat-tab *ngFor="let tab of tabs; let index = index">
+		<div class="wf-tab-page">
+			<ng-template mat-tab-label>
+				<div class="wf-tab-header">
+					<ng-container *ngIf="index !== 0">
+						<mat-spinner [diameter]="20" *ngIf="isLoading(tab)" class="tab-spinner"></mat-spinner>
+					</ng-container>
+					{{tab.label}}
+					<ng-container *ngIf="index !== 0">
+						<mat-icon class="wf-close-icon" (click)="removeTab(tab)">close</mat-icon>
+					</ng-container>
+				</div>
+			</ng-template>
+			<ng-container *ngIf="index === 0">
+				<div class="wf-tab-page__content">
+					<wfim-incident-table [savedColumns]="savedColumns$ | async"></wfim-incident-table>
+					<div class="table-spinner" *ngIf="loading">
+						<wf1-spinner></wf1-spinner>
+					</div>
+				</div>
+			</ng-container>
+			<ng-container *ngIf="index !== 0">
+				<div class="wf-tab-page__content">
+					<wfim-incident-panel-container [etag]="tab.etag" [incident]="tab.incident" (dirty)="updateFormState($event)"></wfim-incident-panel-container>
+				</div>
+			</ng-container>
+		</div>
+	</mat-tab>
+</mat-tab-group>

@@ -1,0 +1,500 @@
+<div class="incident-panel">
+	<h1 class="incident-panel__title">{{panelName}}</h1>
+	<div class="incident-panel__form">
+		<mat-card class="incident-panel__form__group" *ngIf="forms.general">
+			<h2 class="incident-panel__form__group__heading">General</h2>
+      <form class="form-container" [formGroup]="forms.general">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident Year</mat-label>
+              <input matInput formControlName="incidentYear" type="text">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident ID</mat-label>
+              <input matInput formControlName="incidentLabel" type="text">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident Type</mat-label>
+              <mat-select formControlName="incidentTypeCode" required="true">
+                <mat-option *ngFor="let option of getCodeOptions('INCIDENT_TYPE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Fire Centre</mat-label>
+              <mat-select formControlName="fireCentreOrgUnitIdentifier">
+                <mat-option *ngFor="let option of getOrgCodeOptions('FIRE_CENTRE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Zone</mat-label>
+              <mat-select formControlName="zoneOrgUnitIdentifier" >
+                <mat-option *ngFor="let option of getOrgCodeOptions('ZONE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Latitude/Longitude</mat-label>
+              <input matInput type="text" formControlName="latLong">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+              <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" [checked]="forms.general.get('interfaceFireInd').value" [disabled]="forms.general.get('interfaceFireInd').disabled"> Interface </mat-checkbox>
+            </div>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Response Type</mat-label>
+              <mat-select formControlName="responseTypeCode" >
+                <mat-option *ngFor="let option of getCodeOptions('RESPONSE_TYPE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Geographic Description</mat-label>
+              <textarea matInput cdkAutosizeMaxRows="10" cdkTextareaAutosize="true" formControlName="geographicDescription" ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Size (ha)</mat-label>
+              <input matInput formControlName="fireSizeHectares" type="number">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Stage of Control</mat-label>
+              <mat-select formControlName="stageOfControlCode" >
+                <mat-option *ngFor="let option of getCodeOptions('STAGE_OF_CONTROL_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident Commander</mat-label>
+              <input matInput formControlName="incidentCommanderName" type="text" required="true">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom" >
+              <mat-label>Percent Contained (%)</mat-label>
+              <input matInput formControlName="containedPercentage" type="number" >
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+              <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" [checked]="forms.general.get('fireOfNotePublishedInd').value" [disabled]="forms.general.get('fireOfNotePublishedInd').disabled"> Fire of Note </mat-checkbox>
+            </div>
+          </div>
+<!--          <div class="form-compound__molecule">-->
+<!--            <mat-form-field class="form-compound__molecule__atom" >-->
+<!--              <mat-label>Total Fire Cost ($)</mat-label>-->
+<!--              <input matInput formControlName="actualCostOfControl" type="text" currencyMask [options]="{align:'left'}">-->
+<!--              <mat-icon matSuffix matTooltip="Please enter the final total cost of the fire in this cell. Reports from CAS, AMS and Payroll can be used to determine final cost." [matTooltipShowDelay]="TOOLTIP_DELAY">info</mat-icon>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+        </div>
+      </form>
+    </mat-card>
+		<mat-card class="incident-panel__form__group" *ngIf="forms.fireCharacteristics">
+			<h2 class="incident-panel__form__heading">Fire Characteristics</h2>
+      <form class="form-container" [formGroup]="forms.fireCharacteristics">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Values at Risk</mat-label>
+              <input matInput formControlName="valuesAtRiskDescription" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Slope</mat-label>
+              <mat-select formControlName="slopeRatingCode">
+                <mat-option *ngFor="let option of getCodeOptions('SLOPE_RATING_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Slope Position</mat-label>
+              <mat-select formControlName="slopePositionCode">
+                <mat-option *ngFor="let option of getCodeOptions('SLOPE_POSITION_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Aspect</mat-label>
+              <mat-select formControlName="aspectDirectionCode">
+                <mat-option *ngFor="let option of getCodeOptions('DIRECTION_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Access</mat-label>
+              <mat-select formControlName="siteAccessPointTypeCode">
+                <mat-option *ngFor="let option of getCodeOptions('SITE_ACCESS_POINT_TYPE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Wx Station Code</mat-label>
+              <mat-select formControlName="stationCode">
+                <mat-option *ngFor="let option of getCodeOptions('WEATHER_STATION_POINT_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+		</mat-card>
+		<mat-card class="incident-panel__form__group" *ngIf="forms.landAuthority">
+			<h2 class="incident-panel__form__heading">Land Authority</h2>
+      <form class="form-container" [formGroup]="forms.landAuthority">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Land Status</mat-label>
+              <mat-select formControlName="landOwnershipClassCode">
+                <mat-option *ngFor="let option of getCodeOptions('LAND_OWNERSHIP_CLASS_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+              <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" [checked]="forms.landAuthority.get('costSharingAgreementInd').value" [disabled]="forms.landAuthority.get('costSharingAgreementInd').disabled"> In Area of Wildfire Response Agreement </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+		</mat-card>
+		<mat-card class="incident-panel__form__group" *ngIf="forms.cause">
+			<h2 class="incident-panel__form__heading">Cause</h2>
+      <form class="form-container" [formGroup]="forms.cause">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>FOC Requester</mat-label>
+              <mat-select formControlName="investigationRequesterCode">
+                <mat-option *ngFor="let option of getCodeOptions('INVESTIGATION_REQUESTER_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+              <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" [checked]="forms.cause.get('agencyRespondedInd').value" [disabled]="forms.cause.get('agencyRespondedInd').disabled"> FOC Responded </mat-checkbox>
+            </div>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident Cause Reason</mat-label>
+              <mat-select formControlName="incidentCauseReasonCategoryCode">
+                <mat-option *ngFor="let option of getCodeOptions('INCD_CAUSE_REASON_CAT_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="incidentCauseReasonKindCode">
+                <mat-option *ngFor="let option of getCodeOptions('INCD_CAUSE_REASON_KIND')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Forest Activity Category</mat-label>
+              <mat-select formControlName="forestActivityCategoryCode">
+                <mat-option *ngFor="let option of getCodeOptions('FOREST_ACTIVITY_CATEGORY_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="forestActivityKindCode">
+                <mat-option *ngFor="let option of getCodeOptions('FOREST_ACTIVITY_KIND_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Incident Cause Activity</mat-label>
+              <mat-select formControlName="incidentCauseActivityCategoryCode">
+                <mat-option *ngFor="let option of getCodeOptions('INCD_CAUSE_ACTY_CATEGORY_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="incidentCauseActivityKindCode">
+                <mat-option *ngFor="let option of getCodeOptions('INCD_CAUSE_ACTY_KIND_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="incidentCauseActivitySubkindCode">
+                <mat-option *ngFor="let option of getCodeOptions('INCD_CAUSE_ACTY_SUBKIND_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Cause Certainty</mat-label>
+              <mat-select formControlName="causeCertaintyCode">
+                <mat-option *ngFor="let option of getCodeOptions('CAUSE_CERTAINTY_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Cause Description</mat-label>
+              <textarea matInput cdkAutosizeMaxRows="10" cdkTextareaAutosize="true" formControlName="incidentCauseComment" ></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </mat-card>
+		<mat-card class="incident-panel__form__group" *ngIf="forms.ceInvestigation">
+			<h2 class="incident-panel__form__heading">C&amp;E Investigation</h2>
+      <form class="form-container" [formGroup]="forms.ceInvestigation">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>C&E Investigation requested by</mat-label>
+              <mat-select formControlName="investigationRequesterCode">
+                <mat-option *ngFor="let option of getCodeOptions('INVESTIGATION_REQUESTER_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <div class="form-compound__molecule__atom mat-form-field mat-form-field-appearance-legacy">
+              <mat-checkbox class="mat-form-field-wrapper mat-form-field-infix" [checked]="forms.ceInvestigation.get('agencyRespondedInd').value" [disabled]="forms.ceInvestigation.get('agencyRespondedInd').disabled"> C&E Responded </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </form>
+		</mat-card>
+		<mat-card class="incident-panel__form__group" *ngIf="forms.history">
+			<h2 class="incident-panel__form__heading">Fire History</h2>
+      <form class="form-container" [formGroup]="forms.history">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom" >
+              <mat-label>Ignition Date/Time</mat-label>
+              <div class="date-picker-input">
+                <input matInput formControlName="incidentTimestamp"
+                       [owlDateTime]="incidentTimestampDT">
+                <button mat-button [owlDateTimeTrigger]="incidentTimestampDT">
+                  <mat-icon>event</mat-icon>
+                </button>
+              </div>
+              <owl-date-time #incidentTimestampDT [showSecondsTimer]="true"></owl-date-time>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom" >
+              <mat-label>Reported Date/Time</mat-label>
+              <div class="date-picker-input">
+                <input matInput formControlName="reportedTimestamp"
+                       [owlDateTime]="reportedTimestampDT">
+                <button mat-button [owlDateTimeTrigger]="reportedTimestampDT">
+                  <mat-icon>event</mat-icon>
+                </button>
+              </div>
+              <owl-date-time #reportedTimestampDT [showSecondsTimer]="true"></owl-date-time>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Detection Date/Time</mat-label>
+              <div class="date-picker-input">
+                <input matInput formControlName="discoveryTimestamp"
+                       [owlDateTime]="discoveryTimestampDT">
+                <button mat-button [owlDateTimeTrigger]="discoveryTimestampDT">
+                  <mat-icon>event</mat-icon>
+                </button>
+              </div>
+              <owl-date-time #discoveryTimestampDT [showSecondsTimer]="true"></owl-date-time>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <input matInput formControlName="discoverySizeHectares" type="number" placeholder="Detection Size (ha)">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="detectionSourceCode" placeholder="Detection Source">
+                <mat-option *ngFor="let option of getCodeOptions('DETECTION_SOURCE_CODE')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="firstActionedByPartyName" placeholder="First Agency to Action Incident">
+                <mat-option *ngFor="let option of getCodeOptions('FIRST_AGENCY_PARTIES')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-select formControlName="leadByPartyName" placeholder="Lead Agency">
+                <mat-option *ngFor="let option of getCodeOptions('LEAD_AGENCY_PARTIES')"
+                            [value]="option.code">
+                  {{option.description}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+		</mat-card>
+	</div>
+	<div class="incident-panel__footer">
+		<div class="incident-panel__footer__details" *ngIf="forms.signOff">
+      <form class="form-container" [formGroup]="forms.signOff">
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Signed By</mat-label>
+              <input matInput formControlName="signOffSignatureName" type="text">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Signed Date/Time</mat-label>
+              <input matInput formControlName="signOffSignatureDateDisplay" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-compound form-container__form ">
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Signed By</mat-label>
+              <input matInput formControlName="approvalSignatureName" type="text">
+            </mat-form-field>
+          </div>
+          <div class="form-compound__molecule">
+            <mat-form-field class="form-compound__molecule__atom">
+              <mat-label>Signed Date/Time</mat-label>
+              <input matInput formControlName="approvalSignatureDateDisplay" type="text">
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+		<div class="incident-panel__footer__sign-off">
+			<ng-container>
+				<button mat-raised-button color="primary" [disabled]='disableSignOff || isLoading()'(click)="validateIncident()">{{signButtonText}}</button>
+			</ng-container>
+			<ng-container>
+				<button mat-raised-button color="primary" [disabled]='disableApprove || isLoading()' (click)="checkIncidentApproval()">{{approveButtonText}}</button>
+			</ng-container>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,214 @@
+<base-error-panel [componentValidationState]="validationState"></base-error-panel>
+<div class="incident-panel">
+    <h1 class="incident-panel__title">{{panelName}}</h1>
+    <div class="incident-panel__form">
+        <form class="form-container" [formGroup]="formGroup">
+            <div class="form-compound form-container__form ">
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom" >
+                        <mat-label>Ignition Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="incidentTimestamp"
+                                   [owlDateTime]="incidentTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="incidentTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #incidentTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('incidentTimestamp')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom" >
+                        <mat-label>Reported Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="reportedTimestamp"
+                                   [owlDateTime]="reportedTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="reportedTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #reportedTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('reportedTimestamp')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule"></div>
+            </div>
+            <div class="form-compound form-container__form ">
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom">
+                        <mat-label>Detection Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="discoveryTimestamp"
+                                   [owlDateTime]="discoveryTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="discoveryTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #discoveryTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                      <mat-error *ngFor="let error of getValidationErrorsForPath('discoveryTimestamp')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom">
+                        <input matInput formControlName="discoverySizeHectares" type="number" placeholder="Detection Size (ha)">
+                        <mat-error *ngIf="formGroup.controls.discoverySizeHectares.hasError('min')">Value must be a positive number.</mat-error>
+                        <mat-error *ngIf="formGroup.controls.discoverySizeHectares.hasError('pattern')">Value must be a positive number with maximum 3 decimal precision.</mat-error>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('discoverySizeHectares')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom">
+                        <mat-select formControlName="detectionSourceCode" placeholder="Detection Source">
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let option of getCodeOptions('DETECTION_SOURCE_CODE')"
+                                        [value]="option.code">
+                                {{option.description}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('detectionSourceCode')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="form-compound form-container__form ">
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom">
+                        <mat-select formControlName="firstActionedByPartyName" placeholder="First Agency to Action Incident">
+                            <mat-option [value]="null"></mat-option>
+                            <mat-option *ngFor="let option of getCodeOptions('FIRST_AGENCY_PARTIES')"
+                                        [value]="option.code">
+                                {{option.description}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('firstActionedByParty')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom" >
+                        <mat-label>First Agency to Action Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="firstAgencyToActionIncidentTimestamp"
+                                   [owlDateTime]="firstAgencyToActionIncidentTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="firstAgencyToActionIncidentTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #firstAgencyToActionIncidentTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                        <mat-error *ngFor="let error of getValidationErrorsForPath('firstAgencyToActionIncidentTimestamp')">{{error.displayMessage}}</mat-error>
+                    </mat-form-field>
+                </div>
+              <div class="form-compound__molecule"></div>
+            </div>
+            <div class="form-compound form-container__form ">
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom" >
+                        <mat-label>Lead Agency Start Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="leadAgencyStartTimestamp"
+                                   [owlDateTime]="leadAgencyStartTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="leadAgencyStartTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #leadAgencyStartTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                    </mat-form-field>
+                </div>
+                <div class="form-compound__molecule">
+                    <mat-form-field class="form-compound__molecule__atom" >
+                        <mat-label>Lead Agency End Date/Time</mat-label>
+                        <div class="date-picker-input">
+                            <input matInput formControlName="leadAgencyEndTimestamp"
+                                   [owlDateTime]="leadAgencyEndTimestampDT">
+                            <button mat-button [owlDateTimeTrigger]="leadAgencyEndTimestampDT">
+                                <mat-icon>event</mat-icon>
+                            </button>
+                        </div>
+                        <owl-date-time #leadAgencyEndTimestampDT [showSecondsTimer]="true"></owl-date-time>
+                    </mat-form-field>
+                </div>
+              <div class="form-compound__molecule"></div>
+            </div>
+            <div class="form-compound form-container__form ">
+              <div class="form-compound__molecule">
+                <mat-form-field class="form-compound__molecule__atom">
+                  <mat-label>Fire Contained Date/Time</mat-label>
+                  <div class="date-picker-input">
+                    <input matInput formControlName="fireContainedDate"
+                           [owlDateTime]="fireContainedDateDT">
+                    <button mat-button [owlDateTimeTrigger]="fireContainedDateDT">
+                      <mat-icon>event</mat-icon>
+                    </button>
+                  </div>
+                  <owl-date-time #fireContainedDateDT [showSecondsTimer]="true"></owl-date-time>
+                  <mat-error *ngFor="let error of getValidationErrorsForPath('incidentSituation.fireContainedDate')">{{error.displayMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-compound__molecule">
+                <mat-form-field class="form-compound__molecule__atom">
+                  <mat-label>Fire Under Control Date/Time</mat-label>
+                  <div class="date-picker-input">
+                    <input matInput formControlName="fireUnderControlDate"
+                           [owlDateTime]="fireUnderControlDateDT">
+                    <button mat-button [owlDateTimeTrigger]="fireUnderControlDateDT">
+                      <mat-icon>event</mat-icon>
+                    </button>
+                  </div>
+                  <owl-date-time #fireUnderControlDateDT [showSecondsTimer]="true"></owl-date-time>
+                  <mat-error *ngFor="let error of getValidationErrorsForPath('incidentSituation.fireUnderControlDate')">{{error.displayMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="form-compound__molecule">
+                <mat-form-field class="form-compound__molecule__atom">
+                  <mat-label>Fire Being Held Date/Time</mat-label>
+                  <div class="date-picker-input">
+                    <input matInput formControlName="fireBeingHeldDate"
+                           [owlDateTime]="fireBeingHeldDateDT">
+                    <button mat-button [owlDateTimeTrigger]="fireBeingHeldDateDT">
+                      <mat-icon>event</mat-icon>
+                    </button>
+                  </div>
+                  <owl-date-time #fireBeingHeldDateDT [showSecondsTimer]="true"></owl-date-time>
+                  <mat-error *ngFor="let error of getValidationErrorsForPath('incidentSituation.fireBeingHeldDate')">{{error.displayMessage}}</mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          <div class="form-compound form-container__form ">
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom" >
+                <mat-label>Fire Out Date/Time</mat-label>
+                <div class="date-picker-input">
+                  <input matInput formControlName="fireOutDate"
+                         [owlDateTime]="fireOutDateDT">
+                  <button mat-button [owlDateTimeTrigger]="fireOutDateDT">
+                    <mat-icon>event</mat-icon>
+                  </button>
+                </div>
+                <owl-date-time #fireOutDateDT [showSecondsTimer]="true"></owl-date-time>
+                <mat-error *ngFor="let error of getValidationErrorsForPath('incidentSituation.fireOutDate')">{{error.displayMessage}}</mat-error>
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule">
+              <mat-form-field class="form-compound__molecule__atom">
+                <mat-label>Last Update Date/Time</mat-label>
+                <div class="date-picker-input">
+                  <input matInput formControlName="lastUpdatedTimestamp"
+                         [owlDateTime]="lastUpdatedTimestampDT">
+                  <button mat-button [owlDateTimeTrigger]="lastUpdatedTimestampDT">
+                    <mat-icon>event</mat-icon>
+                  </button>
+                </div>
+                <owl-date-time #lastUpdatedTimestampDT [showSecondsTimer]="true"></owl-date-time>
+              </mat-form-field>
+            </div>
+            <div class="form-compound__molecule"></div>
+          </div>
+            <div class="wf-submit-row">
+                <div class="flex-1"></div>
+                <button mat-raised-button color="primary" [disabled]="!formGroup?.valid || formGroup.pristine" type="submit"
+                        (click)="onSubmit()">Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+

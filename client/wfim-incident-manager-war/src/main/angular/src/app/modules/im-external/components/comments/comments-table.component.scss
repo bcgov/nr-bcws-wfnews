@@ -1,0 +1,35 @@
+.comments-table {
+	.mat-table {
+		overflow-x: auto;
+		&[hidden] {
+			height: 0;
+			visibility: hidden;
+		}
+	}
+
+	.mat-header-row,
+	.mat-row {
+		display: inline-flex;
+	}
+
+	.mat-header-cell,
+	.mat-cell {
+		width: 10rem;
+		padding: 0 0.5rem;
+	}
+
+	&__controls {
+		display: flex;
+
+		&__search,
+		&__filter {
+			flex: 0 0 50%;
+			width: 50%;
+		}
+	}
+
+	&__cell {
+		font-size: 0.8rem;
+		word-break: break-word;
+	}
+}

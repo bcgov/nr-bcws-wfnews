@@ -1,0 +1,22 @@
+<div class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</div>
+
+<wf1-filter-sidebar-panel
+  titleText="Report of Fire List"
+  [linkIcon]="canOpenIncidentScreen() ? 'launch' : ''"
+  (linkClick)="openRofScreen()"
+  [recordCount]="rofs.length"
+  [filters]="filterOptions"
+  [defaultSort]="defaultSort"
+  [sortOptions]="sortOptions"
+  [componentId]="componentId"
+>
+  <wf1-list-container [loading]="loading">
+    <cdk-virtual-scroll-viewport itemSize="73" minBufferPx="1700" maxBufferPx="2500">
+      <div *cdkVirtualFor="let rof of formattedRofs; templateCacheSize: 0" >
+        <wf1-list-item [config]="rof" mapElement="map" (itemSelect)="viewROFDetails(rof)"></wf1-list-item>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </wf1-list-container>
+</wf1-filter-sidebar-panel>

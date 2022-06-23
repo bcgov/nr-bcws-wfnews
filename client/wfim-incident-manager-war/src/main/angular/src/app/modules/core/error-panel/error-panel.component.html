@@ -1,0 +1,12 @@
+<mat-card *ngIf="displayErrors.length > 0" class="error-panel">
+    <mat-card-header [ngClass]="{ 'warnings': errorType == 'WARNING' }">
+        <mat-card-title class="form-panel-title validation-error-panel mat-h3">{{ title ? title : 'Errors'}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <ul class="validation-messages">
+            <li class="error-message validation" *ngFor="let error of displayErrors">
+                {{error.displayMessage}}
+            </li>
+        </ul>
+    </mat-card-content>
+</mat-card>

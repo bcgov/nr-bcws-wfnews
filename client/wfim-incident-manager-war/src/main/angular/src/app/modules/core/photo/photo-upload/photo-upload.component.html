@@ -1,0 +1,15 @@
+<button mat-raised-button
+    color="primary"
+    [disabled]="false"
+    (click)="onSelectFiles( fileInput ); fileInput.click()"
+>
+    <mat-icon>cloud_upload</mat-icon>
+    Upload New Photos and Videos
+</button>
+
+<input type="file" #fileInput multiple
+    (change)="onUpload( $event )"
+    name="uploadFile"
+    accept="image/*,video/*"
+    style="display: none"
+/>

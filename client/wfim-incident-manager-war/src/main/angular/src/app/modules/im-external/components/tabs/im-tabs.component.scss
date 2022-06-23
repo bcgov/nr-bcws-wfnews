@@ -1,0 +1,67 @@
+@import "../../../../../styles/variables";
+
+.loading-spinner {
+  padding-top: 30rem !important;
+}
+
+.wf-tab-header {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: $wf1-toolbar-height;
+  overflow-y: hidden;
+  font-size: 0.8rem;
+
+  mat-icon {
+    padding-left: .5rem;
+  }
+}
+
+.wf-tab-page__content {
+  height: $wf1-app-main-panel-tab-panel-height;
+
+  .table-spinner {
+    height: $wf1-app-main-panel-tab-panel-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: $colour-white;
+  }
+}
+
+.mat-tab-group {
+  &--hidden::ng-deep {
+    .mat-tab-body-wrapper {
+      display: none;
+    }
+  }
+  &::ng-deep {
+    .mat-ink-bar {
+      background-color: $colour-light-yellow;
+    }
+    .mat-tab-labels {
+      background-color: $colour-white;
+    }
+    .mat-tab-label {
+      padding: 0;
+      border-bottom: 1px solid $opacity-grey;
+      &-content {
+        width: 100%;
+      }
+    }
+    //.mat-tab-body-content{
+    //  overflow: scroll;
+    //}
+
+    .mat-tab-label:hover {
+      background-color: $colour-toolbar-grey;
+    }
+  }
+}
+
+.tab-spinner{
+  display:inline; 
+  position:absolute; 
+  left: 0
+}

@@ -1,0 +1,24 @@
+<div class="close-button" (click)="onClose()">
+    <mat-icon>close</mat-icon>
+</div>
+
+<wf1-filter-sidebar-panel
+  titleText="No More Reports of Fire List"
+  [linkIcon]="'launch'"
+  (linkClick)="openNrofScreen()"
+  [recordCount]="nrofs.length"
+  [filters]="filterOptions"
+  [defaultSort]="defaultSort"
+  [sortOptions]="sortOptions"
+  [componentId]="componentId"
+>
+  <span *ngIf="formattedNrofs.length ==0">No records found.</span>
+
+  <wf1-list-container [loading]="loading">
+    <cdk-virtual-scroll-viewport itemSize="73" minBufferPx="1700" maxBufferPx="2500">
+      <div *cdkVirtualFor="let nrof of formattedNrofs; templateCacheSize: 0" >
+        <wf1-list-item [config]="nrof" mapElement="map" (itemSelect)="viewNROFDetails(nrof)"></wf1-list-item>
+      </div>
+    </cdk-virtual-scroll-viewport>
+  </wf1-list-container>
+</wf1-filter-sidebar-panel>

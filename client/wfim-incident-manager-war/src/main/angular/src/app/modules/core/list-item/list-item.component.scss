@@ -1,0 +1,196 @@
+@import "../../../../styles/variables";
+
+$list-item-width: 9rem;
+$list-item-label-width: 3rem;
+$list-item-value-width: $list-item-width - $list-item-label-width;
+$location-button-size: 1rem;
+
+mat-list-item.list-item {
+    height: auto;
+    padding: 0.25rem 0;
+    border-bottom: 0.0625rem solid #c4c4c4;
+
+    .mat-list-item-content {
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: #eeeeee;
+        cursor: pointer;
+    }
+
+    .list-item-icon-section {
+        flex: 0 0 5rem;
+        width: 5rem;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        wf1-application-icon,
+        .wf1-application-icon,
+        .wf1-main-icon,
+        .list-item-icon .mat-icon {
+            width: 3rem;
+            height: 3rem;
+
+            svg {
+                width: 3rem;
+                height: 3rem;
+            }
+        }
+
+        .list-item-time,
+        .list-item-date {
+            font-size: x-small;
+            line-height: 0.75rem;
+        }
+
+        .list-item-date {
+            padding-top: 0.5rem;
+        }
+    }
+
+    .list-item-data-section {
+        // width: 100%;
+        flex-grow: 1;
+
+        .list-item-title-section {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+
+            .list-item-title {
+                flex: 0 0 $list-item-width;
+                display: inline-block;
+                padding-right: 1rem;
+                margin-bottom: 0;
+                font-size: 0.9rem;
+                font-weight: 900;
+
+                @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+                    /* IE10+ CSS styles go here */
+                    /*
+            IE doesn't need the right padding for the list item titleText element
+          */
+                    padding-right: 0;
+                }
+            }
+        }
+
+        .list-item-info-row {
+            display: flex;
+            justify-content: flex-start;
+            align-items: baseline;
+        }
+
+        .list-item-info.list-item-info-full-width {
+            flex: 0 0 $list-item-width * 2;
+
+            .list-item-info-value {
+                flex: 0 0 $list-item-width * 2-$list-item-label-width;
+            }
+        }
+
+        .list-item-info {
+            flex: 0 0 $list-item-width;
+            display: flex;
+            justify-content: flex-start;
+            font-size: small;
+
+            .list-item-info-label {
+                flex: 0 0 $list-item-label-width;
+                padding-right: 0.5rem;
+                width: $list-item-label-width;
+                font-size: x-small;
+                text-transform: uppercase;
+            }
+
+            .list-item-info-value.list-item-info-value-emphasis {
+                color: $colour-red;
+            }
+
+            .list-item-info-value {
+                flex: 0 0 $list-item-value-width;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: $list-item-value-width;
+                margin-right: 0.5rem;
+                font-size: 0.75rem;
+            }
+        }
+    }
+
+    .indicator-section {
+        display: flex;
+        flex-direction: column;
+        margin-right: 10px;
+        align-self: flex-start;
+
+        button, .indicator {
+            height: $location-button-size;
+            width: $location-button-size;
+            margin-bottom: 5px;
+
+            &.mat-button {
+                min-width: $location-button-size;
+                line-height: $location-button-size;
+                padding: 0;
+            }
+
+            .mat-icon {
+                height: $location-button-size;
+                width: $location-button-size;
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+:host-context(.device-mobile) {
+    .list-item .list-item-data-section {
+        .list-item-title-section {
+            flex-direction: column;
+            position: relative;
+
+            .list-item-title {
+                flex: auto;
+                padding-right: 0;
+                order: 1;
+            }
+
+            .list-item-title-level-info {
+                display: block;
+                order: 3;
+                .list-item-info {
+                    .list-item-info-value {
+                        flex: auto;
+                        width: auto;
+                    }
+                }
+            }
+
+            .list-item-locate-button {
+                order: 2;
+                position: absolute;
+                right: 10px;
+                top: 0px;
+            }
+        }
+
+        .list-item-info-row {
+            flex-direction: column;
+
+            .list-item-info {
+                flex: auto;
+
+                .list-item-info-value {
+                    flex: auto;
+                    width: auto;
+                }
+            }
+        }
+    }
+}
