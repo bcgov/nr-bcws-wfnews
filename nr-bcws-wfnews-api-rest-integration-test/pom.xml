@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>nr-bcws-wfnews-api-rest-integration-test</artifactId>
+    <name>nr-bcws-wfnews-api-v1-rest-integration-test</name>
+    <packaging>jar</packaging>
+	<parent>
+		<groupId>ca.bc.gov.nrs.wfnews</groupId>
+		<artifactId>nr-bcws-wfnews</artifactId>
+		<version>2.0.0-SNAPSHOT</version>
+	</parent>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  
+		<test.client.id>WFONE_TEST_CLIENT</test.client.id>
+		<test.client.secret>password</test.client.secret>
+		<webade-oauth2.token.url>https://d1api.vividsolutions.com/oauth2/v1/oauth/token?disableDeveloperFilter=true</webade-oauth2.token.url>
+		<webade-oauth2.authorize.url>https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize</webade-oauth2.authorize.url>
+		<webade-oauth2.check.token.url>https://d1api.vividsolutions.com/oauth2/v2/check_token?disableDeveloperFilter=true</webade-oauth2.check.token.url>
+		<context.wfone-resources-rest>https://d1wfapi.vividsolutions.com/wfone-resources-api</context.wfone-resources-rest>
+
+<!--
+		<test.client.id>WFONE_TEST_CLIENT</test.client.id>
+		<test.client.secret>c637cb47ef24d49c921bcc7bc18923c7</test.client.secret>
+		<webade-oauth2.token.url>https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true</webade-oauth2.token.url>
+		<webade-oauth2.authorize.url>https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize</webade-oauth2.authorize.url>
+		<webade-oauth2.check.token.url>https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true</webade-oauth2.check.token.url>
+		<context.wfone-resources-rest>https://intapps.nrs.gov.bc.ca/pub/wfone-resources-api-v2</context.wfone-resources-rest>
+		<context.wfone-resources-rest>https://i1bcwsapi.nrs.gov.bc.ca/wfone-resources-api-v2</context.wfone-resources-rest>
+-->
+
+		<!--context.wfone-resources-rest>http://localhost:8080/wfone-resources-api-v2-rest-endpoints</context.wfone-resources-rest-->
+		<!--context.wfone-resources-rest>https://sevenup:8033/wfone-resources-api-v2/v1</context.wfone-resources-rest-->
+		<!--context.wfone-resources-rest>https://d1wfapi.vividsolutions.com/wfone-resources-api-v2</context.wfone-resources-rest-->
+
+	</properties>
+	<dependencies>
+
+		<!-- Logging -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.36</version>
+   </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.17.2</version>
+    </dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<additionalProjectnatures>
+						<projectnature>org.springframework.ide.eclipse.core.springnature</projectnature>
+					</additionalProjectnatures>
+					<additionalBuildcommands>
+						<buildcommand>org.springframework.ide.eclipse.core.springbuilder</buildcommand>
+					</additionalBuildcommands>
+					<downloadSources>true</downloadSources>
+					<downloadJavadocs>true</downloadJavadocs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${java-source-version}</source>
+					<target>${java-target-version}</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

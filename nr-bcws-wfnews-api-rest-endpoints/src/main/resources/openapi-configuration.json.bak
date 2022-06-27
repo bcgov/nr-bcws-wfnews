@@ -1,0 +1,9 @@
+{
+	"prettyPrint": true,
+	"openAPI": {
+		"info": {
+			"version": "${project.parent.version}",
+			"title": "wfone Resource V1 API"
+		}
+	}
+}
