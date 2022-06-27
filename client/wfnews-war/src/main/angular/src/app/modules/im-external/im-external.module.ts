@@ -154,11 +154,6 @@ export const DATE_FORMATS = {
         IMTabsComponent,
         IncidentTableComponent,
         IncidentPanelContainerComponent,
-    ],
-    entryComponents: [
-        SnackbarErrorComponent,
-        SnackbarErrorWithOKComponent,
-        MessageDialogComponent
     ]
 })
 export class IMExternalModule { }

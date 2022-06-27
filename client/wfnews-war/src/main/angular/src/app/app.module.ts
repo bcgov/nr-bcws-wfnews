@@ -126,18 +126,18 @@ export const DATE_FORMATS = {
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
-            runtimeChecks: { // added to suppress runtime error, couldn't find root cause
+            runtimeChecks: {
                 strictStateImmutability: false,
                 strictActionImmutability: false,
             }
         }),
         StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' }),
         StoreDevtoolsModule.instrument({
-            maxAge: 25, // Retains last 25 states
+            maxAge: 25,
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
         EffectsModule.forRoot([]),
-        ServiceWorkerModule.register( 'wfim-service-worker.js', { enabled: environment.production, scope: './' }),
+        ServiceWorkerModule.register('wfim-service-worker.js', { enabled: environment.production, scope: './' }),
         ScrollingModule,
         WildfireApplicationModule.forRoot(),
         DocumentAPIServiceModule
@@ -147,9 +147,9 @@ export const DATE_FORMATS = {
             provide: APP_BASE_HREF,
             useValue: environment.app_base
         },
-        { 
-            provide: RouteReuseStrategy, 
-            useClass: CustomReuseStrategy 
+        {
+            provide: RouteReuseStrategy,
+            useClass: CustomReuseStrategy
         },
         provideBootstrapEffects(rootEffects),
         PollingMonitorService,
@@ -169,7 +169,7 @@ export const DATE_FORMATS = {
         {
             provide: IncidentsConfiguration,
             useFactory: function (appConfig: AppConfigService) {
-                return new IncidentsConfiguration( { basePath: appConfig.getConfig().rest.incidents } );
+                return new IncidentsConfiguration({ basePath: appConfig.getConfig().rest.incidents });
             },
             multi: false,
             deps: [AppConfigService]
@@ -177,7 +177,7 @@ export const DATE_FORMATS = {
         {
             provide: OrgUnitConfiguration,
             useFactory: function (appConfig: AppConfigService) {
-                return new OrgUnitConfiguration( { basePath: appConfig.getConfig().rest.orgunit } );
+                return new OrgUnitConfiguration({ basePath: appConfig.getConfig().rest.orgunit });
             },
             multi: false,
             deps: [AppConfigService]
@@ -185,23 +185,20 @@ export const DATE_FORMATS = {
         {
             provide: DocumentAPIServiceConfiguration,
             useFactory: function (appConfig: AppConfigService) {
-                return new DocumentAPIServiceConfiguration( { basePath: appConfig.getConfig().rest.wfdm } );
+                return new DocumentAPIServiceConfiguration({ basePath: appConfig.getConfig().rest.wfdm });
             },
             multi: false,
             deps: [AppConfigService]
         },
-        { 
-            provide: OWL_DATE_TIME_FORMATS, 
-            useValue: DATE_FORMATS 
+        {
+            provide: OWL_DATE_TIME_FORMATS,
+            useValue: DATE_FORMATS
         },
         WFMapService,
         MapConfigService,
         WfimMapService,
         MapStatePersistenceService,
         DocumentManagementService
-    ],
-    entryComponents: [
-        ReportDialogComponent
     ],
     bootstrap: [
         AppComponent

@@ -87,9 +87,6 @@ import { WildfireApplicationModule } from '@wf1/wfcc-application-ui';
         ErrorDialog412Component,
         PhotoGalleryComponent,
         PhotoUploadComponent,
-    ],
-    entryComponents: [
-        ErrorDialog412Component
     ]
 })
 export class CoreModule { }
