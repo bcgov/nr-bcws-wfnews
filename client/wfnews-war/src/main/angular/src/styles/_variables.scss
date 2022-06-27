@@ -83,8 +83,8 @@ $wf1-app-side-panel-with-toolbar-and-filter-content-height: calc( 100vh - #{ $wf
 $wf1-app-main-panel-container-height: calc(100vh - $wf1-app-header-height);
 $wf1-app-main-panel-tab-panel-height: calc( 100vh - #{ $wf1-app-header-height } - #{ $wf1-toolbar-height } - 1.1rem);
 // TODO: Fix filter styling issue that requires .1rem to be added to below variables to hide vertical scrollbar.
-$wf1-app-main-panel-table-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height});
-$wf1-app-main-panel-table-with-filter-content-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height + .1rem});
+// $wf1-app-main-panel-table-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height});
+// $wf1-app-main-panel-table-with-filter-content-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height + .1rem});
 
 // Other measurements
 $wf1-app-header-mobile-height: 4rem;
