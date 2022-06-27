@@ -1,12 +1,12 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, Input, NgZone, OnInit, Type, ViewChild, ViewContainerRef, ViewEncapsulation } from '@angular/core';
 import { AttachmentResource } from '@wf1/incidents-rest-api';
-import { InitDetail } from 'lightgallery/lg-events';
-import { LgQuery } from 'lightgallery/lgQuery';
-import { LightGallery } from 'lightgallery/lightgallery';
-import lgFullscreen from 'lightgallery/plugins/fullscreen';
-import lgThumbnails from 'lightgallery/plugins/thumbnail';
-import lgVideo from 'lightgallery/plugins/video';
-import lgZoom from 'lightgallery/plugins/zoom';
+// import { InitDetail } from 'lightgallery/lg-events';
+// import { LgQuery } from 'lightgallery/lgQuery';
+// import { LightGallery } from 'lightgallery/lightgallery';
+// import lgFullscreen from 'lightgallery/plugins/fullscreen';
+// import lgThumbnails from 'lightgallery/plugins/thumbnail';
+// import lgVideo from 'lightgallery/plugins/video';
+// import lgZoom from 'lightgallery/plugins/zoom';
 import 'video.js';
 import { download } from '../../../../download';
 import { getCodeOptions } from '../../../../utils';
@@ -99,20 +99,20 @@ export class PhotoGalleryComponent implements PropertyAccessor, OnInit, AfterVie
     ngAfterViewInit() {
         // console.log('ngAfterViewInit')
 
-        this.lgSettings = {
-            licenseKey: 'A28EDEE4-01F14A98-998D0598-D5E03886',
-            counter: false,
-            plugins: [
-                lgZoom,
-                lgThumbnails,
-                lgVideo,
-                lgFullscreen,
-                makeProperties( this.propertiesContainer, this.componentFactoryResolver, this.zone, this ) ],
-            videojs: true,
-            showZoomInOutIcons: true,
-            scale: 0.5,
-            actualSize: false
-        }
+        // this.lgSettings = {
+        //     licenseKey: 'A28EDEE4-01F14A98-998D0598-D5E03886',
+        //     counter: false,
+        //     plugins: [
+        //         lgZoom,
+        //         lgThumbnails,
+        //         lgVideo,
+        //         lgFullscreen,
+        //         makeProperties( this.propertiesContainer, this.componentFactoryResolver, this.zone, this ) ],
+        //     videojs: true,
+        //     showZoomInOutIcons: true,
+        //     scale: 0.5,
+        //     actualSize: false
+        // }
     }
 
     onUploadFiles( results: UploadResult[] ) {
@@ -175,19 +175,19 @@ export class PhotoGalleryComponent implements PropertyAccessor, OnInit, AfterVie
 
     onLgInit() {
         let self = this
-        return ( detail: InitDetail ) => {
-            // console.log('lightgallery init')
-            self.lightGallery = detail.instance
+        // return ( detail: InitDetail ) => {
+        //     // console.log('lightgallery init')
+        //     self.lightGallery = detail.instance
 
-            // replace lg icons with material icons
-            self.lightGallery.outer.find( 'button.lg-close' ).append( '<i class="material-icons">close</i>' )
-            self.lightGallery.outer.find( 'a.lg-download' ).append( '<i class="material-icons">file_download</i>' )
-            self.lightGallery.outer.find( 'button.lg-zoom-in' ).append( '<i class="material-icons">zoom_in</i>' )
-            self.lightGallery.outer.find( 'button.lg-zoom-out' ).append( '<i class="material-icons">zoom_out</i>' )
-            self.lightGallery.outer.find( 'button.lg-fullscreen' ).append( '<i class="material-icons">fullscreen</i>' )
-            self.lightGallery.outer.find( 'button.lg-prev' ).append( '<i class="material-icons">arrow_back</i>' )
-            self.lightGallery.outer.find( 'button.lg-next' ).append( '<i class="material-icons">arrow_forward</i>' )
-        }
+        //     // replace lg icons with material icons
+        //     self.lightGallery.outer.find( 'button.lg-close' ).append( '<i class="material-icons">close</i>' )
+        //     self.lightGallery.outer.find( 'a.lg-download' ).append( '<i class="material-icons">file_download</i>' )
+        //     self.lightGallery.outer.find( 'button.lg-zoom-in' ).append( '<i class="material-icons">zoom_in</i>' )
+        //     self.lightGallery.outer.find( 'button.lg-zoom-out' ).append( '<i class="material-icons">zoom_out</i>' )
+        //     self.lightGallery.outer.find( 'button.lg-fullscreen' ).append( '<i class="material-icons">fullscreen</i>' )
+        //     self.lightGallery.outer.find( 'button.lg-prev' ).append( '<i class="material-icons">arrow_back</i>' )
+        //     self.lightGallery.outer.find( 'button.lg-next' ).append( '<i class="material-icons">arrow_forward</i>' )
+        // }
     }
 
     createForm() {
@@ -383,92 +383,92 @@ export class PhotoGalleryComponent implements PropertyAccessor, OnInit, AfterVie
 }
 
 
-function makeProperties( propertiesContainer: ViewContainerRef, componentFactoryResolver: ComponentFactoryResolver, zone: NgZone, propertyAccessor: PropertyAccessor ) {
-    return class {
-        core: LightGallery
-        $LG: LgQuery
-        propertiesVisible: boolean = false
-        componentRef: ComponentRef<any>
-        slideIndex: number
+// function makeProperties( propertiesContainer: ViewContainerRef, componentFactoryResolver: ComponentFactoryResolver, zone: NgZone, propertyAccessor: PropertyAccessor ) {
+//     return class {
+//         core: LightGallery
+//         $LG: LgQuery
+//         propertiesVisible: boolean = false
+//         componentRef: ComponentRef<any>
+//         slideIndex: number
 
-        constructor( instance: LightGallery, $LG: LgQuery ) {
-            // console.log('Properties constructor')
-            this.core = instance;
-            this.$LG = $LG;
-        }
+//         constructor( instance: LightGallery, $LG: LgQuery ) {
+//             // console.log('Properties constructor')
+//             this.core = instance;
+//             this.$LG = $LG;
+//         }
 
-        init() {
-            // console.log('Properties init')
-            this.core.$toolbar.first().append( '<button id="properties" type="button" class="properties lg-icon"><i class="material-icons">info</i></button>' )
+//         init() {
+//             // console.log('Properties init')
+//             this.core.$toolbar.first().append( '<button id="properties" type="button" class="properties lg-icon"><i class="material-icons">info</i></button>' )
 
-            this.core.outer.find( 'button.properties' ).first().on( 'click.lg', () => {
-                if ( this.isPropertiesVisible() ) {
-                    this.hideProperties()
-                }
-                else {
-                    this.showProperties()
-                }
-            } )
+//             this.core.outer.find( 'button.properties' ).first().on( 'click.lg', () => {
+//                 if ( this.isPropertiesVisible() ) {
+//                     this.hideProperties()
+//                 }
+//                 else {
+//                     this.showProperties()
+//                 }
+//             } )
 
-            this.core.LGel.on( 'lgAfterSlide', ( event ) => {
-                this.setSlideIndex( event.detail.index )
-            } )
-        }
+//             this.core.LGel.on( 'lgAfterSlide', ( event ) => {
+//                 this.setSlideIndex( event.detail.index )
+//             } )
+//         }
 
-        isPropertiesVisible() {
-            return this.propertiesVisible
-        }
+//         isPropertiesVisible() {
+//             return this.propertiesVisible
+//         }
 
-        showProperties() {
-            this.core.$container.addClass( 'property-list-active' )
-            this.core.outer.find( 'button.properties' ).addClass( 'active' )
-            this.core.$container.append( '<div class="property-list"></div>' )
-            let el = this.core.$container.find( '.property-list' )
+//         showProperties() {
+//             this.core.$container.addClass( 'property-list-active' )
+//             this.core.outer.find( 'button.properties' ).addClass( 'active' )
+//             this.core.$container.append( '<div class="property-list"></div>' )
+//             let el = this.core.$container.find( '.property-list' )
 
-            zone.run( () => {
-                this.makeComponent( PhotoPropertiesComponent )
-                this.componentRef.instance.setPropertyAccessor( propertyAccessor )
-                this.componentRef.instance.setPropertyAccessor( propertyAccessor )
-                this.componentRef.instance.setSlideIndex( this.slideIndex )
-                this.componentRef.instance.setCloseHandler( () => {
-                    this.hideProperties()
-                } )
-                el.append( this.componentRef.location.nativeElement )
-            } )
+//             zone.run( () => {
+//                 this.makeComponent( PhotoPropertiesComponent )
+//                 this.componentRef.instance.setPropertyAccessor( propertyAccessor )
+//                 this.componentRef.instance.setPropertyAccessor( propertyAccessor )
+//                 this.componentRef.instance.setSlideIndex( this.slideIndex )
+//                 this.componentRef.instance.setCloseHandler( () => {
+//                     this.hideProperties()
+//                 } )
+//                 el.append( this.componentRef.location.nativeElement )
+//             } )
 
-            this.propertiesVisible = true
-        }
+//             this.propertiesVisible = true
+//         }
 
-        setSlideIndex( i ) {
-            this.slideIndex = i
-            if ( this.componentRef )
-                this.componentRef.instance.setSlideIndex( i )
-        }
+//         setSlideIndex( i ) {
+//             this.slideIndex = i
+//             if ( this.componentRef )
+//                 this.componentRef.instance.setSlideIndex( i )
+//         }
 
-        hideProperties() {
-            this.core.$container.removeClass( 'property-list-active' )
-            this.core.outer.find( 'button.properties' ).removeClass( 'active' )
-            this.core.$container.find( '.property-list' ).remove()
-            this.componentRef.destroy()
-            this.componentRef = null
-            this.propertiesVisible = false
-        }
+//         hideProperties() {
+//             this.core.$container.removeClass( 'property-list-active' )
+//             this.core.outer.find( 'button.properties' ).removeClass( 'active' )
+//             this.core.$container.find( '.property-list' ).remove()
+//             this.componentRef.destroy()
+//             this.componentRef = null
+//             this.propertiesVisible = false
+//         }
 
-        destroy() {
-            // console.log('Properties destroy')
-        }
+//         destroy() {
+//             // console.log('Properties destroy')
+//         }
 
-        makeComponent<C>( component: Type<C>): ComponentRef<C> {
-            if ( this.componentRef )
-                this.componentRef.destroy()
+//         makeComponent<C>( component: Type<C>): ComponentRef<C> {
+//             if ( this.componentRef )
+//                 this.componentRef.destroy()
 
-            propertiesContainer.clear()
-            this.componentRef = propertiesContainer.createComponent( componentFactoryResolver.resolveComponentFactory( component ) )
+//             propertiesContainer.clear()
+//             this.componentRef = propertiesContainer.createComponent( componentFactoryResolver.resolveComponentFactory( component ) )
 
-            return this.componentRef
-        }
-    }
-}
+//             return this.componentRef
+//         }
+//     }
+// }
 
 function extractActualFilename( fn: string ): string {
     let m = fn.match( /^[-0-9a-f]{36}--(.+)$/ )

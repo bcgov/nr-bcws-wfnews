@@ -25,7 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatListModule } from '@angular/material/list';
-import { LightgalleryModule } from 'lightgallery/angular/11';
+// import { LightgalleryModule } from 'lightgallery/angular/11';
 import { PhotoGalleryComponent } from './photo/photo-gallery/photo-gallery.component';
 import { PhotoPropertiesComponent } from './photo/photo-properties/photo-properties.component';
 import { PhotoUploadDialogComponent } from './photo/photo-upload-dialog/photo-upload-dialog.component';
@@ -58,7 +58,7 @@ import { WildfireApplicationModule } from '@wf1/wfcc-application-ui';
         MatListModule,
         ReactiveFormsModule,
         MomentModule,
-        LightgalleryModule,
+        // LightgalleryModule,
         MatSlideToggleModule,
         MatCheckboxModule,
         MatProgressBarModule,
