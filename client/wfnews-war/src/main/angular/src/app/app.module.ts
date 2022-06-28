@@ -36,10 +36,8 @@ import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
-import { DocumentManagementService } from "./services/document-management.service";
 import { MapConfigService } from "./services/map-config.service";
 import { MapStatePersistenceService } from "./services/map-state-persistence.service";
-import { PollingMonitorService } from "./services/polling-monitor.service";
 import { UpdateService } from './services/update.service';
 import { WFMapService } from "./services/wf-map.service";
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
@@ -123,7 +121,6 @@ export const DATE_FORMATS = {
             provide: RouteReuseStrategy,
             useClass: CustomReuseStrategy
         },
-        PollingMonitorService,
         UpdateService,
         {
             provide: APP_INITIALIZER,
@@ -163,7 +160,6 @@ export const DATE_FORMATS = {
         WFMapService,
         MapConfigService,
         MapStatePersistenceService,
-        DocumentManagementService
     ],
     bootstrap: [
         AppComponent

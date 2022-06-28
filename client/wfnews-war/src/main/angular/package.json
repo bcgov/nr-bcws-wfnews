@@ -9,7 +9,7 @@
     "start": "ng serve --proxy-config ../dm-proxy/proxy.conf.json",
     "start.prod": "ng serve --configuration production",
     "build": "ng build",
-    "build.prod": "ng build --configuration production --base-href /pub/wfim/ && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
+    "build.prod": "ng build --configuration production --base-href /wfnews/ && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",

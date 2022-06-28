@@ -17,7 +17,6 @@ import { catchError, map } from "rxjs/operators";
 import { ApplicationStateService } from "../services/application-state.service";
 import { MapConfigService } from "../services/map-config.service";
 import { MapStatePersistenceService } from "../services/map-state-persistence.service";
-import { PollingMonitorService } from "../services/polling-monitor.service";
 import { UpdateService } from "../services/update.service";
 import { WfimMapService } from "../services/wfnews-map.service";
 import { RootState } from "../store";
@@ -60,7 +59,6 @@ export class MarkerLayerBaseComponent {
         protected location: Location,
         protected tokenService: TokenService,
         protected messagingService: WindowMessagingService,
-        protected pollService: PollingMonitorService,
         protected updateService: UpdateService,
         protected changeDetectorRef: ChangeDetectorRef,
         protected applicationStateService: ApplicationStateService,

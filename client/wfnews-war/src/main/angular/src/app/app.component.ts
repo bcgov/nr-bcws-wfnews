@@ -78,7 +78,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
         this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
-            this.pollService.startPolling();
             this.appConfigService.configEmitter.subscribe((config) => {
                 this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '')
                 this.applicationConfig.version.long = config.application.version

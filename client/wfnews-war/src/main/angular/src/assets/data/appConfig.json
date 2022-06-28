@@ -4,7 +4,7 @@
         "version": "1.0.0-SNAPSHOT",
         "buildNumber": ".0000",
         "environment": "LOCAL",
-        "baseUrl": "http://localhost:6200/pub/wfim/",
+        "baseUrl": "http://localhost:6200/wfnews/",
         "polling": {
             "mapTool": {
                 "incidentsPolling": 10000,
@@ -104,7 +104,7 @@
 
     "causeCodeConfig": {
         "web": {
-            "url": "https://d1apps.vividsolutions.com/pub/wfim"
+            "url": "https://d1apps.vividsolutions.com/wfnews"
         },
         "rest": {
             "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"

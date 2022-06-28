@@ -7,8 +7,8 @@ export const environment = {
 	production: false,
 	override_webade_preference_config: '',
 	webade_preference_config: '',
-	app_config_location: '/pub/wfim/assets/data/appConfig.json',
-	app_base: '/pub/wfim/',
+	app_config_location: '/wfnews/assets/data/appConfig.json',
+	app_base: '/wfnews/',
     document_management_proxy_auth_url: '/auth'
 };
 

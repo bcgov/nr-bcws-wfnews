@@ -5,7 +5,7 @@ import {Injectable} from "@angular/core";
 } )
 export class WFMapService {
     private patchPromise: Promise<any>;
-    private smkBaseUrl = `${window.location.protocol}//${window.location.host}/pub/wfim/assets/smk/`
+    private smkBaseUrl = `${window.location.protocol}//${window.location.host}/wfnews/assets/smk/`
 
     identifyCallback
     identifyDoneCallback
