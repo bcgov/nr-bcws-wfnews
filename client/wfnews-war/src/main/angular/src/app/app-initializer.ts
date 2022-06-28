@@ -3,9 +3,6 @@ import { Injector } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppConfigService} from "@wf1/core-ui";
 import { MapStatePersistenceService } from "./services/map-state-persistence.service";
-import { formatCodeHierarchies } from "./store/code-data/code-data.reducers";
-import { loadUserPrefsSuccess } from "./store/searchAndConfig/search-and-config.actions";
-import { CODE_TABLE_CACHE } from "./utils";
 
 export function codeTableAndUserPrefFnInit(appConfig: AppConfigService, http: HttpClient, mapStatePersistenceService: MapStatePersistenceService, injector: Injector): () => Promise<any> {
     return () => {
@@ -24,14 +21,6 @@ export function codeTableAndUserPrefFnInit(appConfig: AppConfigService, http: Ht
                 }
 
             })
-            .then(() => {
-                return mapStatePersistenceService.getNonMapPrefs()
-                    .then((prefs) => {
-                        prefs.forEach((p) => {
-                            store.dispatch(loadUserPrefsSuccess(p))
-                        })
-                    })
-            })
             .catch((e) => {
                 console.warn('Failed initializing app', e)
             })
@@ -40,12 +29,7 @@ export function codeTableAndUserPrefFnInit(appConfig: AppConfigService, http: Ht
 
 export function populateCodeTableCache(codeTable, codeHierarchy, orgCodeTable, orgHierarchy) {
     try {
-        CODE_TABLE_CACHE['codeTables'] = codeTable.reduce((acc, table) => ({ ...acc, [table.codeTableName]: table.codes.filter((item: any) => Date.now() <= new Date(item.expiryDate).getTime()) }), {});
-        CODE_TABLE_CACHE['orgCodeTables'] = orgCodeTable.reduce((acc, table) => ({ ...acc, [table.codeTableName]: table.codes }), {});
 
-        const codeTableHierarchies = orgHierarchy.codeHierarchyList || [];
-        const formattedCodeHierarchies = formatCodeHierarchies(codeTableHierarchies);
-        CODE_TABLE_CACHE['orgCodeHierarchyIndex'] = formattedCodeHierarchies;
     }
     catch (error) {
         console.error(error)

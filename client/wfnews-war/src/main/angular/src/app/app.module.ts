@@ -35,36 +35,22 @@ import { codeTableAndUserPrefFnInit } from "./app-initializer";
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
-import { WfimInterceptor } from "./interceptors/wfim-interceptor";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
-import { CoreModule } from './modules/core/core.module';
-import { IMExternalModule } from './modules/im-external/im-external.module';
-import { IncidentManagementModule } from './modules/incident-management/incident-management.module';
-import { NROFModule } from "./modules/nrof/nrof.module";
-import { PlaceNameSearchModule } from './modules/place-name-search/place-name-search.module';
-import { PointIdModule } from './modules/point-id/point-id.module';
-import { ROFModule } from './modules/rof/rof.module';
 import { DocumentManagementService } from "./services/document-management.service";
 import { MapConfigService } from "./services/map-config.service";
 import { MapStatePersistenceService } from "./services/map-state-persistence.service";
 import { PollingMonitorService } from "./services/polling-monitor.service";
-import { UIReportingService } from "./services/ui-reporting.service";
 import { UpdateService } from './services/update.service';
 import { WFMapService } from "./services/wf-map.service";
-import { WfimMapService } from "./services/wfim-map.service";
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
-import { INCIDENT_COMPONENT_ID, INCIDENT_MAP_COMPONENT_ID } from "./store/im/im.state";
-import { ROF_MAP_COMPONENT_ID } from "./store/rof/rof.state";
-import { provideBootstrapEffects } from './utils';
 import {
     ApiModule as DocumentAPIServiceModule,
     Configuration as DocumentAPIServiceConfiguration
 } from "@wf1/wfdm-document-management-api";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
-export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any> {
-    return localStorageSync({ keys: [INCIDENT_MAP_COMPONENT_ID, ROF_MAP_COMPONENT_ID, INCIDENT_COMPONENT_ID], rehydrate: true })(reducer);
-}
+
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -83,6 +69,7 @@ export const DATE_FORMATS = {
         WFMapContainerComponent,
     ],
     imports: [
+        MatSnackBarModule,
         HttpClientModule,
         BrowserModule,
         BrowserAnimationsModule,
@@ -108,13 +95,6 @@ export const DATE_FORMATS = {
         IncidentsApiModule,
         OrgUnitApiModule,
         MatTooltipModule,
-        IMExternalModule,
-        IncidentManagementModule,
-        ROFModule,
-        NROFModule,
-        PlaceNameSearchModule,
-        PointIdModule,
-        CoreModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
@@ -143,21 +123,15 @@ export const DATE_FORMATS = {
             provide: RouteReuseStrategy,
             useClass: CustomReuseStrategy
         },
-        provideBootstrapEffects(rootEffects),
         PollingMonitorService,
         UpdateService,
-        UIReportingService,
         {
             provide: APP_INITIALIZER,
             useFactory: codeTableAndUserPrefFnInit,
             multi: true,
             deps: [AppConfigService, HttpClient, MapStatePersistenceService, Injector]
         },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: WfimInterceptor,
-            multi: true
-        },
+
         {
             provide: IncidentsConfiguration,
             useFactory: function (appConfig: AppConfigService) {
@@ -188,7 +162,6 @@ export const DATE_FORMATS = {
         },
         WFMapService,
         MapConfigService,
-        WfimMapService,
         MapStatePersistenceService,
         DocumentManagementService
     ],

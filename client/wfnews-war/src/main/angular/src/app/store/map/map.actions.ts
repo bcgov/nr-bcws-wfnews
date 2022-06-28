@@ -1,6 +1,6 @@
 import {Action} from "@ngrx/store";
 import {PublicReportOfFireResource, WildfireIncidentResource} from "@wf1/incidents-rest-api";
-import { LonLat } from "../../services/wfim-map.service/util";
+import { LonLat } from "../../services/wfnews-map.service/util";
 
 export const SET_MAP_POSITION = '[ map ] set map position';
 export const SET_MAP_POSITION_COMPLETE = '[ map ] set map position complete';

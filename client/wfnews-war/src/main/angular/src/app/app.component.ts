@@ -12,27 +12,17 @@ import * as moment from 'moment';
 import { forkJoin, Subscription } from 'rxjs';
 import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
 import { UtilHash } from "./hash-util";
-import { IncidentRoutes } from './modules/incident-management/incident-route-definitions';
-import { NROFRoutes } from "./modules/nrof/nrof-route-definitions";
-import { PlaceNameSearchRoutes } from './modules/place-name-search/place-name-search-route-definitions';
-import { PointIdRoutes } from './modules/point-id/point-id-route-definitions';
-import { ROFRoutes } from './modules/rof/rof-route-definitions';
-import { enterExitLeft } from './shared/animations/index';
-import * as AuthActions from './store/auth/auth.actions';
-import * as RofActions from "./store/rof/rof.actions";
-import { selectLastSyncDate } from "./store/rof/rof.selectors";
-import * as MapActions from './store/map/map.actions';
-import { NROF_MAP_COMPONENT_ID } from './store/nrof/nrof.state';
-import { LonLat } from './services/wfim-map.service/util';
 import { WfApplicationState, RouterLink, WfApplicationConfiguration } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import { MapServiceStatus } from './services/map-config.service';
+import * as MapActions from './store/map/map.actions';
+import { LonLat } from './services/wfnews-map.service/util';
+
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    animations: [enterExitLeft]
 })
 export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy, OnInit, AfterViewInit {
     public TOOLTIP_DELAY = 500;
@@ -85,7 +75,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         this.updateService.checkForUpdates();
 
         this.checkUserPermissions();
-        this.registerAuth();
 
         this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
@@ -174,20 +163,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
             });
         }
 
-        this.wfimMapService.incidentsVisibilityChange.subscribe( ( vis ) => {
-            console.log( 'incidents visible', vis )
-            if ( vis ) this.loadIncidents()
-        } )
-
-        this.wfimMapService.rofsVisibilityChange.subscribe( ( vis ) => {
-            console.log( 'rofs visible', vis )
-            if ( vis ) this.loadFireReports()
-        } )
-
-        this.wfimMapService.nrofsVisibilityChange.subscribe( ( vis ) => {
-            console.log( 'nrofs visible', vis )
-            if ( vis ) this.loadProvisionalZones()
-        } )
 
         this.tokenService.credentialsEmitter.subscribe( (creds) => {
             let first = creds.given_name || creds.givenName
@@ -213,79 +188,12 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     ngAfterViewInit() {
-        this.lastSuccessPollSub = this.lastSuccessPollSub ? this.lastSuccessPollSub : this.store.select(selectLastSyncDate()).subscribe((date) => {
-            if (date) {
-                this.lastSyncDate = moment(date);
-            }
-        });
 
         //monitor incident updates
-        this.store.pipe(select('incidentManagementMap', 'simpleIncidents')).subscribe(
-            (incidents: SimpleWildfireIncidentResource[]) => {
-                if (this.isNonIncidentListRoute()) {
-                    this.updateIncidents(incidents);
 
-                    // if (this.incidentLayerVisible() && this.retrievingIncidentMarkers) {
-                    if (this.incidentLayerVisible()) {
-                        this.loadIncidentMarkers();
-                        // this.retrievingIncidentMarkers = false;
-                    }
-                }
-            }
-        );
 
         //monitor ROF updates
-        this.store.pipe(select('rof', 'simpleRofs')).subscribe(
-            (simpleRofs: SimpleReportOfFireResource[]) => {
-                if (this.isNonRofListRoute()) {
-                    this.simpleRofs = simpleRofs;
-                }
-            }
-        );
 
-        this.store.pipe(select('rof', 'newSimpleRofs')).subscribe(
-            (simpleRofs: SimpleReportOfFireResource[]) => {
-                if (this.isNonRofListRoute()) {
-                    if (simpleRofs && simpleRofs.length > 0) {
-                        let rofs: PublicReportOfFireResource[] = [];
-                        forkJoin(this.getBatchReportOfFire(simpleRofs)).subscribe((values) => {
-                            rofs = values;
-                            this.store.dispatch(new RofActions.ROFSyncAction(rofs));
-                        });
-                    }
-                }
-            }
-        );
-
-        this.store.pipe(select('rof', 'rofs')).subscribe(
-            (rofs: PublicReportOfFireResource[]) => {
-                if (this.isNonRofListRoute()) {
-                    this.updateFireReports(rofs);
-                    // this.detectChanges();
-
-                    // if (this.rofLayerVisible() && this.retrievingRofMarkers) {
-                    if (this.rofLayerVisible()) {
-                        this.loadRofMarkers();
-                    }
-                }
-            }
-        );
-
-        //monitor NROF updates
-        this.store.pipe(select('nrofMap', 'nrofs')).subscribe(
-            (nrofs: ProvisionalZoneResource[]) => {
-                if (this.isNonNrofListRoute()) {
-                    this.updateProvisionalZones(nrofs);
-                    // this.detectChanges();
-
-                    // if (this.nrofLayerVisible() && this.retrievingNrofMarkers) {
-                    if (this.nrofLayerVisible()) {
-                        this.loadNRofMarkers();
-                        // this.retrievingNrofMarkers = false;
-                    }
-                }
-            }
-        );
 
         setInterval(() => {
             this.getLastSync();
@@ -345,44 +253,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     private receiveWindowMessage(message: Message) {
         if (message.type === MessageType.ACTION) {
             switch (message.action.type) {
-                case MapActions.SET_MAP_POSITION:
-                    this.store.dispatch(new MapActions.SetMapLocation((<any>message.action).location));
-                    break;
-
-                case MapActions.CLEAR_MAP_SELECT_POINT:
-                    this.store.dispatch(new MapActions.ClearMapSelectPoint());
-                    break;
-
-                case MapActions.ACTIVATE_SELECT_POINT:
-                    this.store.dispatch(new MapActions.ActivateSelectTool());
-                    break;
-
-                case MapActions.SET_MAP_POLYGON:
-                    this.store.dispatch(new MapActions.SetMapPolygon((<any>message.action).polygon));
-                    break;
-
-                case MapActions.SET_ACTIVE_MAP_POLYGON:
-                    this.store.dispatch(new MapActions.SetActiveMapPolygon((<any>message.action).polygon));
-                    break;
-
-                case MapActions.CLEAR_MAP_SELECT_POLYGON:
-                    this.store.dispatch(new MapActions.ClearMapSelectPolygon());
-                    break;
-
-                case MapActions.ACTIVATE_SELECT_POLYGON:
-                    this.store.dispatch(new MapActions.ActivateSelectPolygonTool());
-                    break;
-
-                case SearchActions.SearchActionTypes.REFRESH_SEARCH:
-                    let typedAction = message.action as (SearchActions.RefreshSearchAction);
-                    if (typedAction.componentId == NROF_MAP_COMPONENT_ID) {
-                        this.store.dispatch(new MapActions.ClearMapSelectPolygon());
-                    }
-                    this.store.dispatch(message.action);
-                    break;
-
-                default:
-                    this.store.dispatch(message.action);
             }
         } else {
             console.warn('Unhandled message:', JSON.stringify(message));
@@ -398,17 +268,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         }
     }
 
-    registerAuth() {
-        this.tokenService.credentialsEmitter.subscribe(
-            state => {
-                // TODO: FInd a more elegant solution to this problem.  Startup effects don't appear to fire without this fix.
-                // Wait 1 tick to make sure routing is finished so effect is not interrupted
-                //setTimeout(() => {
-                return this.store.dispatch(new AuthActions.SetAuthAction(state))
-                //}, 0);
-            }
-        );
-    }
 
     checkUserPermissions() {
         this.hasAccess = true;

@@ -8,7 +8,7 @@ import * as assert from "assert";
 import { from, Observable, of } from 'rxjs';
 import { catchError, switchMap, withLatestFrom } from "rxjs/operators";
 import * as uuid from 'uuid';
-import { WfimMapService } from '../../services/wfim-map.service';
+import { WfimMapService } from '../../services/wfnews-map.service';
 import { RootState } from "../index";
 import * as UIActions from '../ui/ui.actions';
 import * as MapActions from './map.actions';

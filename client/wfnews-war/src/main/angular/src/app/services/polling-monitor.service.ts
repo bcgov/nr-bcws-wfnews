@@ -6,10 +6,6 @@ import { SimpleReportOfFireListService } from '@wf1/incidents-rest-api';
 import * as moment from 'moment';
 import { filter } from 'rxjs/operators';
 import { AudibleAlertState, RootState } from "../store";
-import { IncidentPollingAction } from "../store/im/im.actions";
-import * as NrofActions from "../store/nrof/nrof.actions";
-import * as RofActions from "../store/rof/rof.actions";
-import { selectAudibleAlertState } from "../store/rof/rof.selectors";
 import { ApplicationStateService } from "./application-state.service";
 
 @Injectable()
@@ -59,17 +55,14 @@ export class PollingMonitorService {
         this.rofPollingInterval = setInterval(() => {
             if ( !this.isRouteRofList && !this.isRouteRofDetail && !this.isRoutePlaceNameSearch ) return
 
-            this.store.dispatch(new RofActions.ROFPollingAction());
 
             let d = this.isRouteRofDetail
             if ( d ) {
                 let wildFireYear = parseInt( d[ 1 ] )
                 let rofNumber = parseInt( d[ 2 ] )
 
-                this.store.dispatch(new RofActions.ROFLoadAction( wildFireYear, rofNumber, true));
 
                 if (this.canLoadComments ) {
-                    this.store.dispatch(new RofActions.ROFLoadCommentsAction( wildFireYear, rofNumber ));
                 }
             }
         }, rofInterval);
@@ -82,13 +75,11 @@ export class PollingMonitorService {
         this.nrofPollingInterval = setInterval(() => {
             if ( !this.isRouteNrofList && !this.isRouteNrofDetail && !this.isRoutePlaceNameSearch ) return
 
-            this.store.dispatch(new NrofActions.NROFPollingAction());
 
             let d = this.isRouteNrofDetail
             if ( d ) {
                 let provisionalZoneGuid = d[ 1 ]
 
-                this.store.dispatch(new NrofActions.NROFLoadAction(provisionalZoneGuid, true));
             }
         }, nrofInterval);
     }
@@ -99,7 +90,6 @@ export class PollingMonitorService {
 
         this.incidentPollingInterval = setInterval(() => {
             if ( this.isRouteIncidentList ) {
-                this.store.dispatch(new IncidentPollingAction());
             }
         }, incidentInterval);
     }
@@ -117,14 +107,6 @@ export class PollingMonitorService {
             enableUnacknowledged: false,
             selectedZoneIds: null
         }
-        this.store.pipe(select(selectAudibleAlertState())).subscribe((a) => {
-            // console.log(a)
-            if ( a[ 'enabled' ] ) {
-                a.enableReceivedFromPM = true
-                a.enableUnacknowledged = true
-            }
-            audibleAlertState = a;
-        });
 
         let rofAlertCount = 0
         let checkAlertStatus = () => {

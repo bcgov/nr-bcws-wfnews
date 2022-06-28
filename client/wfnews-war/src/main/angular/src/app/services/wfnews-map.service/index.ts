@@ -2,7 +2,6 @@ import { DatePipe } from "@angular/common";
 import { ComponentFactoryResolver, ComponentRef, Injectable, NgZone, Type, ViewContainerRef, EventEmitter } from "@angular/core";
 import { SpatialUtilsService, TokenService } from "@wf1/core-ui";
 import { ProvisionalZoneResource, PublicReportOfFireResource, SimpleWildfireIncidentResource } from "@wf1/incidents-rest-api";
-import { getCodeLabel } from "../../utils";
 import { WFMapService } from "../wf-map.service";
 import { Location, PlaceData } from "./place-data";
 import { formatDistance, LonLat, toLatLon, toPoint, Translate } from "./util";
@@ -306,6 +305,8 @@ export class WfimMapService {
             map.dragging.enable()
         } )
 
+
+
         this.wfMapService.setHandler( 'resources', 'cluster-click', ( features ) => {
             // console.log( features )
 
@@ -323,7 +324,6 @@ export class WfimMapService {
             if ( prop.layer.id === 'fw-activereporting-wstn' ) return 'Morecast'
             return false
         } )
-
 
         let self = this
         this.wfMapService.setHandler( 'IdentifyFeatureTool', 'attribute-replacer-context', function ( layerId ) {
@@ -343,49 +343,7 @@ export class WfimMapService {
     }
     // _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
     //
-    loadSimpleIncidents( incidents: SimpleWildfireIncidentResource[], clickCallback?: ClickCallback, temporary = false ): SmkPromise {
-        return this.loadLayer( temporary ? 'temporary-incident' : 'incidents', clickCallback, () => {
-            return incidents.map( incident => {
-                const markerLabel = ( incident.incidentLabel === `${ incident.wildfireYear }-${ incident.incidentNumberSequence }` ) ? `${ incident.incidentNumberSequence }` : incident.incidentLabel;
 
-                return {
-                    type: 'Feature',
-                    set: 'incidents',
-                    properties: {
-                        wildfireYear: incident.wildfireYear,
-                        incidentNumberSequence: incident.incidentNumberSequence,
-                        hoverTitle: getCodeLabel( 'INCIDENT_TYPE_CODE', incident.incidentTypeCode ),
-                        incidentId: incident.incidentNumberSequence,
-                        incidentName: incident.incidentLabel,
-                        incidentLocation: {
-                            latitude: incident.latitude || '',
-                            longitude: incident.longitude || ''
-                        },
-                        incidentSituation: {
-                            interfaceFireInd: incident.interfaceFireInd
-                        },
-                        incidentStatusCode: incident.incidentStatusCode,
-                        markerLabel: markerLabel,
-                        incidentLabel: incident.incidentLabel,
-                        // probabilityOfInitialAttackSuccessCode: incident.????,
-                        suspectedCauseCategoryCode: incident.suspectedCauseCategoryCode,
-                        // incidentCategoryCode: incident.????,
-                        incidentTypeCode: getCodeLabel( 'INCIDENT_TYPE_CODE', incident.incidentTypeCode ),
-                        stageOfControlCode: getCodeLabel( 'STAGE_OF_CONTROL_CODE', incident.stageOfControlCode ),
-                        fireCentreOrgUnitIdentifier: incident.fireCentreOrgUnitName,
-                        zoneOrgUnitIdentifier: incident.zoneOrgUnitName,
-                        latLon: this.translate.formatCoordinate( [ incident.longitude, incident.latitude ] ),
-                        geographicDescription: incident.geographicDescription || '',
-                        fireSizeHectares: incident.fireSizeHectares
-                    },
-                    geometry: {
-                        type: 'Point',
-                        coordinates: [ incident.longitude, incident.latitude ]
-                    }
-                }
-            } )
-        } )
-    }
 
     clearSimpleIncidents( temporary = false ) {
         return this.clearLayer( temporary ? 'temporary-incident' : 'incidents' )

@@ -1,5 +1,0 @@
-import {CodeIndex} from "./code-index";
-
-export interface CodeTablesIndex {
-	[tableName: string]: CodeIndex;
-}

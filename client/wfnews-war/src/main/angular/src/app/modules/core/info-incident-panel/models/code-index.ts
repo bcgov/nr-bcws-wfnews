@@ -1,3 +1,0 @@
-export interface CodeIndex {
-	[code: string]: string;
-}
