@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfone.api.rest.client.v1.exception;
+package ca.bc.gov.nrs.wfnews.api.rest.client.v1.exception;
 
 import java.util.ArrayList;
 import java.util.List;
