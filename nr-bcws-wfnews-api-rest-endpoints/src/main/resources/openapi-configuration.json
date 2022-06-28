@@ -1,9 +1,0 @@
-{
-	"prettyPrint": true,
-	"openAPI": {
-		"info": {
-			"version": "${project.parent.version}",
-			"title": "WFNEWS Resource V1 API"
-		}
-	}
-}
