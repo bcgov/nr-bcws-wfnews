@@ -18,7 +18,7 @@ export type SmkLayer = any
 @Injectable( {
     providedIn: 'root',
 } )
-export class WfimMapService {
+export class WfnewsMapService {
     private smkInstance: Smk
     private smkInstancePromise: SmkPromise
     private resolveSmkInstance = function ( smk: Smk ): void {

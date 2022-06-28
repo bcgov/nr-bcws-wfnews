@@ -3,13 +3,13 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-		<groupId>ca.bc.gov.nrs.wfim</groupId>
-		<artifactId>wfim-incident-manager-parent</artifactId>
+		<groupId>ca.bc.gov.nrs.wfnews</groupId>
+		<artifactId>wfnews-parent</artifactId>
 		<version>1.5.6</version>
 	</parent>
-	<artifactId>wfim-incident-manager-war</artifactId>
+	<artifactId>wfnews-war</artifactId>
 	<packaging>war</packaging>
-	<name>wfim-incident-manager-war</name>
+	<name>wfnews-war</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<build.number>${env.BUILD_NUMBER}</build.number>

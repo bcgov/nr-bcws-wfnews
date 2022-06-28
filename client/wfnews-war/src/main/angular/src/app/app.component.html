@@ -2,7 +2,7 @@
 
 <router-outlet #extOutlet="outlet" name="root"></router-outlet>
 
-<wf-application class="wfim-application"
+<wf-application class="wfnews-application"
     [ngClass]="'orientation-' + orientation"
     *ngIf="!extOutlet.isActivated"
     [config]="applicationConfig"
@@ -19,7 +19,7 @@
         [(state)]="applicationState"
     ></wf-menu>
 
-    <wfim-panel-container
+    <wfnews-panel-container
         [showLeftPanel]="showLeftPanel"
     >
         <ng-container left-panel >
@@ -30,7 +30,7 @@
             [mapConfig]="mapConfig"
             (mapInitialized)="initMap($event)"
         ></wf-map-container>
-    </wfim-panel-container>
+    </wfnews-panel-container>
 
     <!-- <wf-footer></wf-footer> -->
 </wf-application>

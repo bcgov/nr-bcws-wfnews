@@ -10,4 +10,4 @@ causeCodeToken.json
 *.iml
 .idea
 *.versionsBackup
-wfim-incident-manager-war/src/main/dm-proxy/node_modules
+wfnews-war/src/main/dm-proxy/node_modules

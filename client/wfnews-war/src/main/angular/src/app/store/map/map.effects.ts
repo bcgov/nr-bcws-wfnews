@@ -8,7 +8,7 @@ import * as assert from "assert";
 import { from, Observable, of } from 'rxjs';
 import { catchError, switchMap, withLatestFrom } from "rxjs/operators";
 import * as uuid from 'uuid';
-import { WfimMapService } from '../../services/wfnews-map.service';
+import { WfnewsMapService } from '../../services/wfnews-map.service';
 import { RootState } from "../index";
 import * as UIActions from '../ui/ui.actions';
 import * as MapActions from './map.actions';
@@ -23,19 +23,19 @@ export class MapEffects {
         private http: HttpClient,
         private config: AppConfigService,
         private store: Store<RootState>,
-        protected wfimMapService: WfimMapService
+        protected wfnewsMapService: WfnewsMapService
     ) { }
 
 
     setLocation$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.SET_MAP_POSITION),
         switchMap((actions) => {
-            return from(this.wfimMapService.clearHighlight()
+            return from(this.wfnewsMapService.clearHighlight()
                 .then(() => {
-                    return this.wfimMapService.zoomToPoint((<MapActions.SetMapLocation>actions).location)
+                    return this.wfnewsMapService.zoomToPoint((<MapActions.SetMapLocation>actions).location)
                 })
                 .then(() => {
-                    return this.wfimMapService.putHighlight((<MapActions.SetMapLocation>actions).location)
+                    return this.wfnewsMapService.putHighlight((<MapActions.SetMapLocation>actions).location)
                 })
                 .then(() => {
                     return new MapActions.SetMapLocationComplete()
@@ -49,9 +49,9 @@ export class MapEffects {
     setPolygon$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.SET_MAP_POLYGON),
         switchMap((actions) => {
-            return from(this.wfimMapService.clearHighlight()
+            return from(this.wfnewsMapService.clearHighlight()
                 .then(() => {
-                    return this.wfimMapService.zoomToGeometry((<MapActions.SetMapPolygon>actions).polygon)
+                    return this.wfnewsMapService.zoomToGeometry((<MapActions.SetMapPolygon>actions).polygon)
                 })
                 .then(() => {
                     return new MapActions.SetMapPolygonComplete();
@@ -65,7 +65,7 @@ export class MapEffects {
     clearSelectPoint$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.CLEAR_MAP_SELECT_POINT),
         switchMap((actions) => {
-            return from(this.wfimMapService.clearSelectedPoint()
+            return from(this.wfnewsMapService.clearSelectedPoint()
                 .then(() => {
                     clearClipboard()
                     return new MapActions.ClearMapSelectPointComplete()
@@ -79,7 +79,7 @@ export class MapEffects {
     activateSelectPoint$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.ACTIVATE_SELECT_POINT),
         switchMap((actions) => {
-            return from(this.wfimMapService.activateTool('MarkupTool--point')
+            return from(this.wfnewsMapService.activateTool('MarkupTool--point')
                 .then(() => {
                     return new MapActions.ActivateSelectComplete()
                 })
@@ -92,7 +92,7 @@ export class MapEffects {
     clearSelectPolygonPoint$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.CLEAR_MAP_SELECT_POLYGON),
         switchMap((actions) => {
-            return from(this.wfimMapService.clearSelectedPolygon()
+            return from(this.wfnewsMapService.clearSelectedPolygon()
                 .then(() => {
                     clearClipboard()
                     return new MapActions.ClearMapSelectPolygonComplete()
@@ -106,7 +106,7 @@ export class MapEffects {
     activateSelectPolygon$: Observable<Action> = createEffect(() => this.actions$.pipe(
         ofType(MapActions.ACTIVATE_SELECT_POLYGON),
         switchMap((actions) => {
-            return from(this.wfimMapService.activateTool('MarkupTool--polygon')
+            return from(this.wfnewsMapService.activateTool('MarkupTool--polygon')
                 .then(() => {
                     return new MapActions.ActivateSelectPolygonComplete()
                 })
@@ -129,7 +129,7 @@ export class MapEffects {
                     return of(new MapActions.LoadRoFItemComplete())
             }
 
-            return from(this.wfimMapService.loadRofs(loadRofItemAction.rofItems, null, true)
+            return from(this.wfnewsMapService.loadRofs(loadRofItemAction.rofItems, null, true)
                 .then(() => {
                     return new MapActions.LoadRoFItemComplete()
                 })
@@ -153,7 +153,7 @@ export class MapEffects {
                     return of(new MapActions.LoadIncidentItemComplete())
             }
 
-            return from(this.wfimMapService.loadSimpleIncidents(loadIncidentItemAction.incidentItems, null, true)
+            return from(this.wfnewsMapService.loadSimpleIncidents(loadIncidentItemAction.incidentItems, null, true)
                 .then(() => {
                     return new MapActions.LoadIncidentItemComplete()
                 })

@@ -1,5 +1,5 @@
 ( function ( worker ) {
-    console.log('wfim service worker! 17')
+    console.log('wfnews service worker! 17')
 
     var pathTokens = []
 

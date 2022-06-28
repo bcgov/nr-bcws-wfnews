@@ -16,7 +16,7 @@ import { ApplicationStateService } from "../services/application-state.service";
 import { MapConfigService } from "../services/map-config.service";
 import { MapStatePersistenceService } from "../services/map-state-persistence.service";
 import { UpdateService } from "../services/update.service";
-import { WfimMapService } from "../services/wfnews-map.service";
+import { WfnewsMapService } from "../services/wfnews-map.service";
 import { RootState } from "../store";
 
 @Directive()
@@ -62,7 +62,7 @@ export class MarkerLayerBaseComponent {
         protected rofService: PublicReportOfFireService,
         protected nrofService: ProvisionalZoneService,
         protected mapConfigService: MapConfigService,
-        protected wfimMapService: WfimMapService,
+        protected wfnewsMapService: WfnewsMapService,
         protected mapStatePersistenceService: MapStatePersistenceService
     ) {
         this.construct()
@@ -95,15 +95,15 @@ export class MarkerLayerBaseComponent {
     // }
 
     incidentLayerVisible(): boolean {
-        return this.wfimMapService.isIncidentsVisible()
+        return this.wfnewsMapService.isIncidentsVisible()
     }
 
     rofLayerVisible(): boolean {
-        return this.wfimMapService.isRofsVisible()
+        return this.wfnewsMapService.isRofsVisible()
     }
 
     nrofLayerVisible(): boolean {
-        return this.wfimMapService.isNrofsVisible()
+        return this.wfnewsMapService.isNrofsVisible()
     }
 
     onClose() {

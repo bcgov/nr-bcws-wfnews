@@ -6,7 +6,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "WFIM": {
+        "WFNEWS": {
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
@@ -88,19 +88,19 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "WFIM:build",
+                        "browserTarget": "WFNEWS:build",
                         "port": 6200
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "WFIM:build:production"
+                            "browserTarget": "WFNEWS:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "WFIM:build"
+                        "browserTarget": "WFNEWS:build"
                     }
                 },
                 "test": {
@@ -159,7 +159,7 @@
             }
         }
     },
-    "defaultProject": "WFIM",
+    "defaultProject": "WFNEWS",
     "schematics": {
         "@schematics/angular:component": {
             "prefix": "app",

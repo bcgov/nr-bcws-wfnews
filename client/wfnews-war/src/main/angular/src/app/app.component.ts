@@ -87,7 +87,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 this.checkMapServiceStatus()
                     .then( ( mapServiceStatus ) => {
                         console.log(mapServiceStatus)
-                        this.wfimMapService.mapServiceStatus = mapServiceStatus
+                        this.wfnewsMapService.mapServiceStatus = mapServiceStatus
 
                         return this.mapConfigService.getMapConfig( mapServiceStatus, this.applicationConfig.device )
                     } )
@@ -117,7 +117,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                         self.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?']
                     })
 
-                this.wfimMapService.setMapStateSaveHandler((state) => {
+                this.wfnewsMapService.setMapStateSaveHandler((state) => {
                     state.version = {
                         app: this.applicationConfig.version.short,
                         build: config.application.buildNumber
@@ -130,7 +130,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                         })
                 })
 
-                this.wfimMapService.setSelectPointHandler((location: LonLat) => {
+                this.wfnewsMapService.setSelectPointHandler((location: LonLat) => {
                     const action = new MapActions.SetActiveMapLocation(location);
 
                     let windowId = this.messagingService.getWindowId(WFROF_WINDOW_NAME);
@@ -141,7 +141,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                     this.store.dispatch(action);
                 })
 
-                this.wfimMapService.setSelectPolygonHandler((polygon) => {
+                this.wfnewsMapService.setSelectPolygonHandler((polygon) => {
                     const action = new MapActions.SetActiveMapPolygon(polygon);
 
                     let windowId = this.messagingService.getWindowId(WFNROF_WINDOW_NAME);
@@ -267,19 +267,19 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 this.showLeftPanel = (event as NavigationStart).url != '/'
                 this.updateMapSize()
 
-                this.wfimMapService.clearSelectedPoint()
+                this.wfnewsMapService.clearSelectedPoint()
                     .then(() => {
-                        return this.wfimMapService.clearSearch()
+                        return this.wfnewsMapService.clearSearch()
                     })
                     .then(() => {
-                        return this.wfimMapService.clearHighlight()
+                        return this.wfnewsMapService.clearHighlight()
                     })
             }
         });
     }
 
     initMap(smk: any) {
-        this.wfimMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
+        this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
 
         this.updateMapSize = function () {
             this.storeViewportSize()
