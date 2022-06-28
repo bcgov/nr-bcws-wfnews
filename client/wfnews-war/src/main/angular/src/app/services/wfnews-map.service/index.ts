@@ -1,6 +1,6 @@
 import { DatePipe } from "@angular/common";
 import { ComponentFactoryResolver, ComponentRef, Injectable, NgZone, Type, ViewContainerRef, EventEmitter } from "@angular/core";
-import { SpatialUtilsService, TokenService } from "@wf1/core-ui";
+import { SpatialUtilsService } from "@wf1/core-ui";
 import { ProvisionalZoneResource, PublicReportOfFireResource, SimpleWildfireIncidentResource } from "@wf1/incidents-rest-api";
 import { WFMapService } from "../wf-map.service";
 import { Location, PlaceData } from "./place-data";
@@ -63,7 +63,6 @@ export class WfimMapService {
         protected wfMapService: WFMapService,
         protected ngZone: NgZone,
         protected componentFactoryResolver: ComponentFactoryResolver,
-        protected tokenService: TokenService
     ) {
         this.translate = new Translate( this.spatialUtils )
 

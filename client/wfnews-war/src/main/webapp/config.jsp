@@ -24,6 +24,7 @@
 
     // General Application Section
     json.append("\"application\":{");
+      json.append("\"lazyAuthenticate\":\"").append("true").append(",");
       json.append("\"acronym\":\"").append(properties.getProperty("project.acronym", "")).append("\"").append(",");
       json.append("\"version\":\"").append(properties.getProperty("application.version", "")).append("\"").append(",");
       json.append("\"buildNumber\":\"").append(properties.getProperty("build.number", "")).append("\"").append(",");
@@ -116,14 +117,7 @@
     json.append("},");
 
     // WebADE OAuth Section
-    json.append("\"webade\":{");
-      json.append("\"oauth2Url\":\"").append(properties.getProperty("webade-oauth2.authorize.url", "")).append("\",");
-      json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
-      json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
-      json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"checkToken.jsp\"");
 
-    json.append("},");
 
     // mapServiceConfig Section
     json.append("\"mapServiceConfig\":{");

@@ -3,16 +3,14 @@ import { ChangeDetectorRef, Directive, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
-import { AppConfigService, IncidentType, ReportOfFireType, TokenService, WindowMessagingService } from "@wf1/core-ui";
+import { AppConfigService, WindowMessagingService } from "@wf1/core-ui";
 import {
     ProvisionalZoneResource, ProvisionalZoneService,
     PublicReportOfFireResource, PublicReportOfFireService,
     SimpleReportOfFireResource,
     SimpleWildfireIncidentResource
 } from "@wf1/incidents-rest-api";
-import * as moment from "moment";
 import { of, Subject } from "rxjs";
-import { catchError, map } from "rxjs/operators";
 
 import { ApplicationStateService } from "../services/application-state.service";
 import { MapConfigService } from "../services/map-config.service";
@@ -57,7 +55,6 @@ export class MarkerLayerBaseComponent {
         protected appConfigService: AppConfigService,
         protected router: Router,
         protected location: Location,
-        protected tokenService: TokenService,
         protected messagingService: WindowMessagingService,
         protected updateService: UpdateService,
         protected changeDetectorRef: ChangeDetectorRef,

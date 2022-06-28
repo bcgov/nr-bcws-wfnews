@@ -1,5 +1,5 @@
 import {RouterModule, Routes} from '@angular/router';
-import {AuthGuard, UnauthorizedPageComponent} from "@wf1/core-ui";
+import {UnauthorizedPageComponent} from "@wf1/core-ui";
 // Components
 // import {ActionsPanelComponent} from './panels';
 

@@ -163,12 +163,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         }
 
 
-        this.tokenService.credentialsEmitter.subscribe( (creds) => {
-            let first = creds.given_name || creds.givenName
-            let last = creds.family_name || creds.familyName
 
-            this.applicationConfig.userName = `${ first } ${ last }`
-        } )
 
         this.initAppMenu()
     }
@@ -212,13 +207,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         }
     }
 
-    public isGeneralStaff() {
-        return this.applicationStateService.isGeneralStaff();
-    }
-
-    public canViewNROF() {
-        return !this.isGeneralStaff();
-    }
 
     @HostListener('window:orientationchange', ['$event'])
     onOrientationChange() {
@@ -302,11 +290,11 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     checkMapServiceStatus(): Promise<MapServiceStatus> {
-        return this.tokenService.authTokenEmitter.toPromise().then( () => {
+
             return Promise.resolve( {
                 useSecure: true,
             } )
-        } )
+        
 
 		// return this.appConfigService.loadAppConfig().then( () => {
         //     let layerServices = this.appConfigService.getConfig().mapServiceConfig.layerSettings.layerServices

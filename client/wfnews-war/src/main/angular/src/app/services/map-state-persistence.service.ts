@@ -1,6 +1,6 @@
 import { Injectable, Injector } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AppConfigService, TokenService } from '@wf1/core-ui';
+import { AppConfigService } from '@wf1/core-ui';
 import { UtilHash } from '../hash-util';
 
 export interface MapState {
@@ -35,10 +35,8 @@ export class MapStatePersistenceService {
             this.userPrefsUrl = this.appConfig.getConfig()['userPreferences']['preferencesUrl']
             if ( this.userPrefsUrl ) {
                 // prevents circular dependency
-                const tokenService = this.injector.get( TokenService )
 
-                let fetchUserPrefs = tokenService.authTokenEmitter.toPromise()
-                    .then( () => this.httpClient.get( this.userPrefsUrl ).toPromise() )
+                let fetchUserPrefs = this.httpClient.get( this.userPrefsUrl ).toPromise()
 
                 this.mapUserPrefsRead = fetchUserPrefs.then( ( result ) => this.parseMapUserPrefs( result ) )
                 this.nonMapUserPrefsRead = fetchUserPrefs.then( ( result ) => this.parseNonMapUserPrefs( result ) )
