@@ -37,7 +37,6 @@ import { ROUTING } from './app.routing';
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
 import { WfimInterceptor } from "./interceptors/wfim-interceptor";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
-import { AudibleAlertModule } from "./modules/audible-alert/audible-alert.module";
 import { CoreModule } from './modules/core/core.module';
 import { IMExternalModule } from './modules/im-external/im-external.module';
 import { IncidentManagementModule } from './modules/incident-management/incident-management.module';
@@ -114,7 +113,6 @@ export const DATE_FORMATS = {
         ROFModule,
         NROFModule,
         PlaceNameSearchModule,
-        AudibleAlertModule,
         PointIdModule,
         CoreModule,
         StoreModule.forRoot(rootReducers, {
