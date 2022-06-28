@@ -1,0 +1,398 @@
+package ca.bc.gov.nrs.wfnews.common.rest.client;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.oauth2.client.AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.InMemoryReactiveOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistration;
+import org.springframework.security.oauth2.client.registration.InMemoryReactiveClientRegistrationRepository;
+import org.springframework.security.oauth2.client.registration.ReactiveClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.reactive.function.client.ServerOAuth2AuthorizedClientExchangeFilterFunction;
+import org.springframework.security.oauth2.core.AuthorizationGrantType;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClient.Builder;
+
+import com.vividsolutions.jts.geom.Geometry;
+import com.vividsolutions.jts.io.geojson.GeoJsonWriter;
+
+import ca.bc.gov.nrs.common.wfone.rest.resource.BaseResource;
+import ca.bc.gov.nrs.common.wfone.rest.resource.HealthCheckResponseRsrc;
+import ca.bc.gov.nrs.common.wfone.rest.resource.RelLink;
+import ca.bc.gov.nrs.common.wfone.rest.resource.transformers.JsonTransformer;
+import ca.bc.gov.nrs.common.wfone.rest.resource.transformers.Transformer;
+import ca.bc.gov.nrs.common.wfone.rest.resource.types.BaseResourceTypes;
+
+public abstract class BaseRestServiceClient {
+	
+	private static final Logger logger = LoggerFactory.getLogger(BaseRestServiceClient.class);
+	
+	private static final int DefaultMaxInMemorySize = 16 * 1024 * 1024;
+
+	private RestDAOFactory restDAOFactory;
+
+	private Transformer transformer;
+	
+	private WebClient webClient;
+	
+	private String topLevelRestURL;
+	
+	/**
+	 * Constructor used for making OAuth2 Client Credentials requests
+	 * @param webadeOauth2ClientId
+	 * @param webadeOauth2ClientSecret
+	 * @param webadeOauth2TokenUrl
+	 */
+	public BaseRestServiceClient(String webadeOauth2ClientId, String webadeOauth2ClientSecret, String webadeOauth2TokenUrl, String scopes) {
+		
+		this(webadeOauth2ClientId, webadeOauth2ClientSecret, webadeOauth2TokenUrl, scopes, DefaultMaxInMemorySize);
+	}
+	
+	/**
+	 * Constructor used for making OAuth2 Client Credentials requests
+	 * @param webadeOauth2ClientId
+	 * @param webadeOauth2ClientSecret
+	 * @param webadeOauth2TokenUrl
+	 * @param maxInMemorySize
+	 */
+	public BaseRestServiceClient(String webadeOauth2ClientId, String webadeOauth2ClientSecret, String webadeOauth2TokenUrl, String scopes, int maxInMemorySize) {
+		logger.debug("<BaseWebadeOauth2Service");
+		
+		ClientRegistration.Builder builder = ClientRegistration.withRegistrationId(webadeOauth2ClientId);
+		
+		builder
+		.clientId(webadeOauth2ClientId)
+		.clientSecret(webadeOauth2ClientSecret)
+		.tokenUri(webadeOauth2TokenUrl)
+		.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
+		.scope(scopes);
+		
+		ClientRegistration clientRegistration = builder.build();
+		
+		ReactiveClientRegistrationRepository clientRegistrationRepository = new InMemoryReactiveClientRegistrationRepository(clientRegistration);
+		
+		InMemoryReactiveOAuth2AuthorizedClientService authorizedClientService = new InMemoryReactiveOAuth2AuthorizedClientService(clientRegistrationRepository);
+		
+		AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager clientManager = new AuthorizedClientServiceReactiveOAuth2AuthorizedClientManager(
+				clientRegistrationRepository,
+				authorizedClientService);
+		
+		ServerOAuth2AuthorizedClientExchangeFilterFunction exchangeFilter = new ServerOAuth2AuthorizedClientExchangeFilterFunction(clientManager);
+	    
+		exchangeFilter.setDefaultClientRegistrationId(webadeOauth2ClientId);
+		
+		init(exchangeFilter, maxInMemorySize);
+		
+		logger.debug(">BaseWebadeOauth2Service");
+	}
+	
+	/**
+	 * Constructor used for making requests with basic credentials
+	 * 
+	 * @param webadeOauth2ClientId
+	 * @param webadeOauth2ClientSecret
+	 */
+	public BaseRestServiceClient(String webadeOauth2ClientId, String webadeOauth2ClientSecret) {
+		
+		this(webadeOauth2ClientId, webadeOauth2ClientSecret, DefaultMaxInMemorySize);
+	}
+	
+	/**
+	 * Constructor used for making requests with basic credentials
+	 * 
+	 * @param webadeOauth2ClientId
+	 * @param webadeOauth2ClientSecret
+	 * @param maxInMemorySize
+	 */
+	public BaseRestServiceClient(String webadeOauth2ClientId, String webadeOauth2ClientSecret, int maxInMemorySize) {
+		logger.debug("<BaseWebadeOauth2Service");
+		
+		BasicAuthorizationExchangeFilterFunction exchangeFilter = new BasicAuthorizationExchangeFilterFunction(webadeOauth2ClientId, webadeOauth2ClientSecret);
+		
+		init(exchangeFilter, maxInMemorySize);
+		
+		logger.debug(">BaseWebadeOauth2Service");
+	}
+	
+	/**
+	 * Constructor used for making requests with a provided authorization header value
+	 * 
+	 * @param headerValue
+	 */
+	public BaseRestServiceClient(String headerValue) {
+		
+		this(headerValue, DefaultMaxInMemorySize);
+	}
+	
+	/**
+	 * Constructor used for making requests with a provided authorization header value
+	 * 
+	 * @param headerValue
+	 * @param maxInMemorySize
+	 */
+	public BaseRestServiceClient(String headerValue, int maxInMemorySize) {
+		logger.debug("<BaseWebadeOauth2Service");
+		
+		ProvidedAuthorizationExchangeFilterFunction exchangeFilter = new ProvidedAuthorizationExchangeFilterFunction(headerValue);
+		
+		init(exchangeFilter, maxInMemorySize);
+		
+		logger.debug(">BaseWebadeOauth2Service");
+	}
+	
+	/**
+	 * Constructor used for making requests using the authorization header of the current HttpServletRequest
+	 * 
+	 */
+	public BaseRestServiceClient() {
+		
+		this(DefaultMaxInMemorySize);
+	}
+	
+	/**
+	 * Constructor used for making requests using the authorization header of the current HttpServletRequest
+	 * 
+	 * @param maxInMemorySize
+	 */
+	public BaseRestServiceClient(int maxInMemorySize) {
+		logger.debug("<BaseWebadeOauth2Service");
+		
+		ChainedAuthorizationExchangeFilterFunction exchangeFilter = new ChainedAuthorizationExchangeFilterFunction();
+		
+		init(exchangeFilter, maxInMemorySize);
+		
+		logger.debug(">BaseWebadeOauth2Service");
+	}
+	
+	protected void init(ExchangeFilterFunction exchangeFilter, int maxInMemorySize) {
+		
+		webClient = webClient(exchangeFilter, maxInMemorySize);
+
+		this.restDAOFactory = new RestDAOFactory(getClientVersion());
+		this.transformer = new JsonTransformer();
+	}
+	
+	protected abstract String getClientVersion();
+
+	protected String getTopLevelRestURL() {
+		return topLevelRestURL;
+	}
+
+	public void setTopLevelRestURL(String topLevelRestURL) {
+		this.topLevelRestURL = topLevelRestURL;
+	}
+
+	protected RestDAOFactory getRestDAOFactory() {
+		return restDAOFactory;
+	}
+
+	protected Transformer getTransformer() {
+		return transformer;
+	}
+	
+	private static WebClient webClient(ExchangeFilterFunction filter, int maxInMemorySize) {
+		WebClient result;
+		
+	    Builder builder = WebClient.builder();
+	    builder.filter(filter);
+	    builder.exchangeStrategies(ExchangeStrategies.builder()
+	            .codecs(configurer -> configurer
+	                      .defaultCodecs()
+	                      .maxInMemorySize(maxInMemorySize)).build());
+	    result = builder.build();
+	    
+	    return result;
+	}
+
+	protected WebClient getWebClient() {
+		return webClient;
+	}
+
+	public String getSwaggerString() throws RestClientServiceException {
+		logger.debug("<getSwaggerString");
+
+		String result = null;
+
+		try {
+		
+			StringRestDAO dao = restDAOFactory.getStringRestDAO();
+			Response<String> restResponse = dao.Process(
+					BaseResourceTypes.SELF, transformer, new BaseResource() {
+	
+					private static final long serialVersionUID = 1L;
+	
+					@Override
+					public List<RelLink> getLinks() {
+						List<RelLink> r = new ArrayList<RelLink>();
+						r.add(new RelLink(BaseResourceTypes.SELF, 
+								getTopLevelRestURL()+"openapi.json", "GET"));
+						return r;
+					}
+				}, getWebClient());
+			
+			result = restResponse.getResource();
+	
+		} catch (RestDAOException e) {
+			logger.error(e.getMessage(), e);
+			throw new RestClientServiceException(e);
+		}
+
+	logger.debug(">getSwaggerString");
+	return result;
+	}
+
+	public HealthCheckResponseRsrc getHealthCheck(String callstack) throws RestClientServiceException {
+		logger.debug("<getHealthCheck");
+
+		HealthCheckResponseRsrc result = null;
+
+		try {
+			
+			Map<String,String> queryParams = new HashMap<String,String>();
+			queryParams.put("callstack", callstack);
+
+			GenericRestDAO<HealthCheckResponseRsrc> dao = this.restDAOFactory
+					.getGenericRestDAO(HealthCheckResponseRsrc.class);
+			Response<HealthCheckResponseRsrc> response = dao.Process(
+					BaseResourceTypes.HEALTH_CHECK_RESPONSE, transformer, new BaseResource() {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public List<RelLink> getLinks() {
+							List<RelLink> links = new ArrayList<RelLink>();
+							links.add(new RelLink(BaseResourceTypes.HEALTH_CHECK_RESPONSE,
+									getTopLevelRestURL() + "checkHealth", "GET"));
+							return links;
+						}
+					}, queryParams, getWebClient());
+
+			result = response.getResource();
+
+		} catch (RestDAOException e) {
+			logger.error(e.getMessage(), e);
+			throw new RestClientServiceException(e);
+		}
+
+		logger.debug(">getHealthCheck");
+		return result;
+	}
+	
+	protected static String toQueryParam(String value) throws UnsupportedEncodingException {
+		String result = null;
+		if(value != null) {
+			result = URLEncoder.encode(value, "UTF-8");
+		}
+		return result;
+	}
+	
+	protected static String toQueryParam(Date value) {
+		String result = null;
+		if(value != null) {
+			result = Long.toString(value.getTime());
+		}
+		return result;
+	}
+	
+	protected static String toQueryParam(LocalDate value) {
+		String result = null;
+		if(value != null) {
+			result = value.format(DateTimeFormatter.ISO_LOCAL_DATE);
+		}
+		return result;
+	}
+	
+	protected String toQueryParam(Geometry value) {
+		String result = null;
+		
+		if (value != null) {
+			
+			try {
+				
+				GeoJsonWriter geoJsonWriter = new GeoJsonWriter();
+
+				result = geoJsonWriter.write(value);
+
+				result = URLEncoder.encode(result, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		
+		return result;
+	}
+
+	protected static String toQueryParam(Number value) {
+		String result = null;
+		
+		if(value!=null) {
+			result = value.toString();
+		}
+		
+		return result;
+	}
+
+	protected static String toQueryParam(Boolean value) {
+		String result = null;
+		
+		if(value!=null) {
+			result = value.toString();
+		}
+		
+		return result;
+	}
+	
+	protected void putQueryParam(Map<String, String> queryParams, String key, Long... values) {
+		String result = "";
+		
+		if(values!=null) {
+			
+			for(Iterator<Long> iter = Arrays.asList(values).iterator();iter.hasNext();) {
+				Long value = iter.next();
+				if(value!=null) {
+					
+					result += value;
+					if(iter.hasNext()) {
+						result += ",";
+					}
+				}
+			}
+		}
+		
+		queryParams.put(key, result);
+	}
+	
+	protected void putQueryParam(Map<String, String> queryParams, String key, String... values) {
+		String result = "";
+		
+		if(values!=null) {
+			
+			for(Iterator<String> iter = Arrays.asList(values).iterator();iter.hasNext();) {
+				String value = iter.next();
+				if(value!=null) {
+					
+					result += value;
+					if(iter.hasNext()) {
+						result += ",";
+					}
+				}
+			}
+		}
+		
+		queryParams.put(key, result);
+	}
+	
+}
