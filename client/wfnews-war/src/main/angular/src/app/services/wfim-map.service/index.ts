@@ -2,8 +2,6 @@ import { DatePipe } from "@angular/common";
 import { ComponentFactoryResolver, ComponentRef, Injectable, NgZone, Type, ViewContainerRef, EventEmitter } from "@angular/core";
 import { SpatialUtilsService, TokenService } from "@wf1/core-ui";
 import { ProvisionalZoneResource, PublicReportOfFireResource, SimpleWildfireIncidentResource } from "@wf1/incidents-rest-api";
-import { MeasureComponent } from "../../components/measure/measure.component";
-import { TimeDimensionComponent } from "../../components/time-dimension/time-dimension.component";
 import { getCodeLabel } from "../../utils";
 import { WFMapService } from "../wf-map.service";
 import { Location, PlaceData } from "./place-data";
@@ -308,14 +306,6 @@ export class WfimMapService {
             map.dragging.enable()
         } )
 
-        this.wfMapService.setHandler( 'BespokeTool--time-dimension', 'activated', (smk, tool, el) => {
-            this.ngZone.run( () => {
-                let compRef = this.makeComponent( TimeDimensionComponent )
-                // compRef.instance.setWeatherStation( this.weatherStation );
-                el.appendChild( compRef.location.nativeElement )
-            } )
-        });
-
         this.wfMapService.setHandler( 'resources', 'cluster-click', ( features ) => {
             // console.log( features )
 
@@ -334,13 +324,6 @@ export class WfimMapService {
             return false
         } )
 
-        this.wfMapService.setHandler( 'MeasureTool', 'activated', ( smk, tool, el  ) => {
-            this.ngZone.run( () => {
-                let compRef = this.makeComponent( MeasureComponent )
-                compRef.instance.setSmk( smk );
-                el.appendChild( compRef.location.nativeElement )
-            } )
-        } )
 
         let self = this
         this.wfMapService.setHandler( 'IdentifyFeatureTool', 'attribute-replacer-context', function ( layerId ) {

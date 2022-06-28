@@ -15,7 +15,7 @@ export class IMContainerComponent implements OnInit {
     hasAuth: boolean = false;
 
     applicationConfig: WfApplicationConfiguration = {
-        title: 'INCIDENT MANAGEMENT',
+        title: 'NEWS',
         device: null,
         userName: '',
         version: {

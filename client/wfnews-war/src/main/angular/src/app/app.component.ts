@@ -38,7 +38,7 @@ import { MapServiceStatus } from './services/map-config.service';
 export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy, OnInit, AfterViewInit {
     public TOOLTIP_DELAY = 500;
 
-    title: string = 'Incident Management';
+    title: string = 'News';
 
     isLoggedIn: boolean = true;
     hasAccess: boolean = true;
@@ -46,7 +46,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     mapConfig = null;
 
     applicationConfig: WfApplicationConfiguration = {
-        title: 'INCIDENT MANAGEMENT',
+        title: 'NEWS',
         device: this.applicationStateService.getDevice(),
         userName: '',
         version: {
@@ -205,22 +205,10 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         this.appMenu = ( this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Home', '/', 'home', 'expanded', this.router),
-                new RouterLink('Incidents', IncidentRoutes.LIST, 'wf/incident', 'collapsed', this.router),
-                new RouterLink('Reports of Fire', ROFRoutes.LIST, 'wf/report-of-fire', 'collapsed', this.router),
-                new RouterLink('No More Reports of Fire', NROFRoutes.LIST, 'wf/no-more-report-of-fire', 'collapsed', this.router),
-                new RouterLink('Place Name Search', PlaceNameSearchRoutes.SEARCH, 'wf/place-name-search', 'collapsed', this.router),
-                new RouterLink('Point ID', PointIdRoutes.POINT_ID, 'wf/point-id', 'collapsed', this.router),
-                new RouterLink('Audible Alerts', AudibleAlertRoutes.AUDIBLE_ALERT, 'volume_up', 'collapsed', this.router),
             ]
         :
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
-                new RouterLink('Incidents', IncidentRoutes.LIST, 'wf/incident', 'hidden', this.router),
-                new RouterLink('Reports of Fire', ROFRoutes.LIST, 'wf/report-of-fire', 'hidden', this.router),
-                new RouterLink('No More Reports of Fire', NROFRoutes.LIST, 'wf/no-more-report-of-fire', 'hidden', this.router),
-                // new RouterLink('Place Name Search', PlaceNameSearchRoutes.SEARCH, 'wf/place-name-search', 'hidden', this.router),
-                new RouterLink('Point ID', PointIdRoutes.POINT_ID, 'wf/point-id', 'hidden', this.router),
-                // new RouterLink('Audible Alerts', AudibleAlertRoutes.AUDIBLE_ALERT, 'volume_up', 'hidden', this.router),
             ]
         ) as unknown as WfMenuItems
     }
@@ -460,7 +448,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         return this.tokenService.authTokenEmitter.toPromise().then( () => {
             return Promise.resolve( {
                 useSecure: true,
-                token: this.tokenService.getOauthToken()
             } )
         } )
 

@@ -34,10 +34,7 @@ import { environment } from '../environments/environment';
 import { codeTableAndUserPrefFnInit } from "./app-initializer";
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
-import { MeasureComponent } from "./components/measure/measure.component";
-import { TimeDimensionComponent } from "./components/time-dimension/time-dimension.component";
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
-import { WfimPanelContainerComponent } from "./components/wfim-panel-container/wfim-panel-container.component";
 import { WfimInterceptor } from "./interceptors/wfim-interceptor";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
 import { AudibleAlertModule } from "./modules/audible-alert/audible-alert.module";
@@ -85,9 +82,6 @@ export const DATE_FORMATS = {
     declarations: [
         AppComponent,
         WFMapContainerComponent,
-        TimeDimensionComponent,
-        MeasureComponent,
-        WfimPanelContainerComponent,
     ],
     imports: [
         HttpClientModule,
