@@ -1,9 +1,5 @@
 import { LayerServiceConfig, LayerSettings } from '@wf1/core-ui';
 import { MapServiceStatus } from '..';
-import { BcgwLayersConfig } from "./bcgw-layers.config";
-import { FireReportLayersConfig } from "./fire-report-layers.config";
-import { MobileResourcesLayersConfig } from './mobile-resources-layers.config';
-import { WildfireLayersConfig } from "./wildfire-layers.config";
 
 export interface LayerConfig {
     layerServices: {
@@ -34,9 +30,5 @@ export function LayerConfig(layerSettings: LayerSettings, serviceStatus: MapServ
     }
 
     return [
-        ...FireReportLayersConfig(c),
-        ...BcgwLayersConfig(c),
-        ...WildfireLayersConfig(c),
-        ...MobileResourcesLayersConfig(c)
     ]
 }

@@ -7,29 +7,6 @@ export function LayerDisplayConfig(layerSettings: LayerSettings) {
             isVisible: true
         },
         {
-            id: "temporary-incident",
-            isVisible: true,
-            showItem: false
-        },
-        {
-            id: "rofs",
-            isVisible: true
-        },
-        {
-            id: "temporary-rof",
-            isVisible: true,
-            showItem: false
-        },
-        {
-            id: "nrofs",
-            isVisible: true
-        },
-        {
-            id: "temporary-nrof",
-            isVisible: true,
-            showItem: false
-        },
-        {
             type: "folder",
             id: "mobile-resources",
             title: "Mobile Resources",
