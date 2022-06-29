@@ -214,115 +214,115 @@ export class WFMapService {
             .then( function () {
                 include.tag( "plugin-wfim-util",
                     // { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/util.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/util.js" }
                     // ] }
                 )
 
                 include.tag( "layer-fire-reports-cluster",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-fire-reports-cluster.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-fire-reports-cluster.js" }
                     ] }
                 )
 
                 include.tag( "layer-fire-reports-cluster-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-fire-reports-cluster-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-fire-reports-cluster-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "layer-incidents",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-incidents.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-incidents.js" }
                     ] }
                 )
 
                 include.tag( "layer-incidents-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-incidents-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-incidents-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "layer-rofs",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-rofs.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-rofs.js" }
                     ] }
                 )
 
                 include.tag( "layer-rofs-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-rofs-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-rofs-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "layer-nrofs",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-nrofs.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-nrofs.js" }
                     ] }
                 )
 
                 include.tag( "layer-nrofs-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-nrofs-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-nrofs-leaflet.js" },
                     ] }
                 )
 				include.tag( "util-date",
 				    { loader: "group", tags: [
-    				    { loader: "script", url: "./assets/js/smk/plugin-wfim/lib/date.js" }
+    				    { loader: "script", url: "./assets/js/smk/plugin-wfnews/lib/date.js" }
 				    ] }
 				)
 				include.tag( "layer-wms-time-cql",
 				    { loader: "group", tags: [
-				        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-wms-time-cql.js" }
+				        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-wms-time-cql.js" }
 				    ] }
 				)
 				include.tag( "layer-wms-time-cql-leaflet",
 				    { loader: "group", tags: [
-				        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-wms-time-cql-leaflet.js" }
+				        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-wms-time-cql-leaflet.js" }
 				    ] }
 				)
                 include.tag( "layer-mobile-resources-cluster",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-mobile-resources-cluster.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-mobile-resources-cluster.js" }
                     ] }
                 )
 
                 include.tag( "layer-mobile-resources-cluster-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-mobile-resources-cluster-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-mobile-resources-cluster-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "layer-mobile-resources",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-mobile-resources.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-mobile-resources.js" }
                     ] }
                 )
 
                 include.tag( "layer-mobile-resources-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-mobile-resources-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-mobile-resources-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "layer-resource-tracks",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/layer/layer-resource-tracks.js" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/layer/layer-resource-tracks.js" }
                     ] }
                 )
 
                 include.tag( "layer-resource-tracks-leaflet",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/layer/layer-resource-tracks-leaflet.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-resource-tracks-leaflet.js" },
                     ] }
                 )
 
                 include.tag( "leaflet-extensions",
                     { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/lib/layer-tooltip.js" },
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/lib/layer-arrow.js" },
-                        { loader: "script", url: "./assets/js/smk/plugin-wfim/viewer-leaflet/lib/layer-crosshairs.js" },
-                        { loader: "style", url: "./assets/js/smk/plugin-wfim/style/wfim-markers2.css" },
-                        { loader: "style", url: "./assets/js/smk/plugin-wfim/style/wfim-info.css" }
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-tooltip.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-arrow.js" },
+                        { loader: "script", url: "./assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-crosshairs.js" },
+                        { loader: "style", url: "./assets/js/smk/plugin-wfnews/style/wfnews-markers2.css" },
+                        { loader: "style", url: "./assets/js/smk/plugin-wfnews/style/wfnews-info.css" }
                     ] }
                 )
 
