@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfim.util;
+package ca.bc.gov.nrs.wfnews.util;
 
 import ca.bc.gov.nrs.common.rest.client.AuthorizationHeaderRestTemplate;
 import org.slf4j.Logger;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 public class ChainedAuthorizationRestTemplate extends AuthorizationHeaderRestTemplate {
 
-    private static final Logger logger = LoggerFactory.getLogger(ca.bc.gov.nrs.wfim.util.ChainedAuthorizationRestTemplate.class);
+    private static final Logger logger = LoggerFactory.getLogger(ca.bc.gov.nrs.wfnews.util.ChainedAuthorizationRestTemplate.class);
 
     @Override
     public String getAuthorizationHeaderValue() {
