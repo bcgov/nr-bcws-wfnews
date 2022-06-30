@@ -26,7 +26,6 @@
 		<webade.datasource.password>password</webade.datasource.password>
 	</properties>
 	<dependencies>
-
 		<!-- WebADE  -->
 		<dependency>
 			<groupId>ca.bc.gov.webade</groupId>

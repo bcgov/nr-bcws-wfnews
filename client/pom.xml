@@ -19,7 +19,6 @@
 
 	<dependencyManagement>
 		<dependencies>
-
 			<!-- WebADE Rest -->
 
 			<dependency>

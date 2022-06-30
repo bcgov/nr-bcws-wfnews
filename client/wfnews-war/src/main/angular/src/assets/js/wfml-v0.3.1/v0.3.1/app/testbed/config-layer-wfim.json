@@ -1,0 +1,1151 @@
+{
+  "services": {
+    "bcgw": {
+      "name": "BCGW",
+      "url": "https://openmaps.gov.bc.ca/geo/pub/wms"
+    },
+    "wf": {
+      "name": "Wildfire-GS",
+      "url": "https://wf1geoi.nrs.gov.bc.ca/geoserver/wms"
+    },
+    "wfgwc": {
+      "name": "WF-GWC",
+      "tiled": true,
+      "url": "https://wf1geod.nrs.gov.bc.ca/geoserver/gwc/service/wms"
+    },
+    "xwf": {
+      "name": "Wildfire-GS",
+      "url": "https://d1geo.vividsolutions.com/geoserver/wms"
+    }
+  },
+  "layers": [
+    {
+      "id": "incident",
+      "title": "Incidents",
+      "folder": [],
+      "source": "WFML.Markers",
+      "visible": false
+    },
+    {
+      "id": "rof",
+      "title": "Report of Fire",
+      "folder": [],
+      "source": "WFML.Markers",
+      "visible": false
+    },
+    {
+      "id": "in-current-fire-polygons",
+      "title": "Fire Perimeter",
+      "folder": [
+        "Operational Planning"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.8,
+      "layers": "IN_CURRENT_FIRE_POLYGONS"
+    },
+    {
+      "id": "atr-active",
+      "title": "Active ATR",
+      "folder": [
+        "Operational Planning",
+        "Air Tanker Request"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "ATR_ACTIVE"
+    },
+    {
+      "id": "atr-complete",
+      "title": "Completed ATR",
+      "folder": [
+        "Operational Planning",
+        "Air Tanker Request"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "ATR_COMPLETE"
+    },
+    {
+      "id": "htr-active",
+      "title": "Active HTR",
+      "folder": [
+        "Operational Planning",
+        "Heli Tanker Request"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "HTR_ACTIVE"
+    },
+    {
+      "id": "htr-complete",
+      "title": "Completed HTR",
+      "folder": [
+        "Operational Planning",
+        "Heli Tanker Request"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "HTR_COMPLETE"
+    },
+    {
+      "id": "ofts-active",
+      "title": "Active OFTS",
+      "folder": [
+        "Operational Planning",
+        "Open Burning Registration  (OFTS)"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "OFTS_ACTIVE",
+      "attributes": [
+        {
+          "name": "id",
+          "title": "Ref #"
+        },
+        {
+          "name": "FireCentre",
+          "title": "Fire Centre"
+        },
+        {
+          "name": "ExpiryTimeStamp",
+          "title": "Expiry Date"
+        },
+        {
+          "name": "Latitude",
+          "title": "Latitude"
+        },
+        {
+          "name": "Longitude",
+          "title": "Longitude"
+        },
+        {
+          "name": "GeographicDescription",
+          "title": "Geographic"
+        },
+        {
+          "name": "ClFirstName",
+          "title": "Client First Name"
+        },
+        {
+          "name": "ClLastName",
+          "title": "Client Last Name"
+        },
+        {
+          "name": "ClAreaCode",
+          "title": "Phone Area Code"
+        },
+        {
+          "name": "ClPhone",
+          "title": "Phone Number"
+        },
+        {
+          "name": "ClPhoneExt",
+          "title": "Phone Extension"
+        },
+        {
+          "name": "BurnCategoryCode",
+          "title": "Burn Category"
+        },
+        {
+          "name": "BurnArea",
+          "title": "Burn Area"
+        },
+        {
+          "name": "PilesWindrows",
+          "title": "Number of Fires"
+        }
+      ]
+    },
+    {
+      "id": "ofts-expired",
+      "title": "Expired OFTS",
+      "folder": [
+        "Operational Planning",
+        "Open Burning Registration  (OFTS)"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "OFTS_EXPIRED",
+      "attributes": [
+        {
+          "name": "id",
+          "title": "Ref #"
+        },
+        {
+          "name": "FireCentre",
+          "title": "Fire Centre"
+        },
+        {
+          "name": "ExpiryTimeStamp",
+          "title": "Expiry Date"
+        },
+        {
+          "name": "Latitude",
+          "title": "Latitude"
+        },
+        {
+          "name": "Longitude",
+          "title": "Longitude"
+        },
+        {
+          "name": "GeographicDescription",
+          "title": "Geographic"
+        },
+        {
+          "name": "ClFirstName",
+          "title": "Client First Name"
+        },
+        {
+          "name": "ClLastName",
+          "title": "Client Last Name"
+        },
+        {
+          "name": "ClAreaCode",
+          "title": "Phone Area Code"
+        },
+        {
+          "name": "ClPhone",
+          "title": "Phone Number"
+        },
+        {
+          "name": "ClPhoneExt",
+          "title": "Phone Extension"
+        },
+        {
+          "name": "BurnCategoryCode",
+          "title": "Burn Category"
+        },
+        {
+          "name": "BurnArea",
+          "title": "Burn Area"
+        },
+        {
+          "name": "PilesWindrows",
+          "title": "Number of Fires"
+        }
+      ]
+    },
+    {
+      "id": "ofts-invalid",
+      "title": "Invalid OFTS",
+      "folder": [
+        "Operational Planning",
+        "Open Burning Registration  (OFTS)"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "OFTS_INVALID",
+      "attributes": [
+        {
+          "name": "id",
+          "title": "Ref #"
+        },
+        {
+          "name": "FireCentre",
+          "title": "Fire Centre"
+        },
+        {
+          "name": "ExpiryTimeStamp",
+          "title": "Expiry Date"
+        },
+        {
+          "name": "Latitude",
+          "title": "Latitude"
+        },
+        {
+          "name": "Longitude",
+          "title": "Longitude"
+        },
+        {
+          "name": "GeographicDescription",
+          "title": "Geographic"
+        },
+        {
+          "name": "ClFirstName",
+          "title": "Client First Name"
+        },
+        {
+          "name": "ClLastName",
+          "title": "Client Last Name"
+        },
+        {
+          "name": "ClAreaCode",
+          "title": "Phone Area Code"
+        },
+        {
+          "name": "ClPhone",
+          "title": "Phone Number"
+        },
+        {
+          "name": "ClPhoneExt",
+          "title": "Phone Extension"
+        },
+        {
+          "name": "BurnCategoryCode",
+          "title": "Burn Category"
+        },
+        {
+          "name": "BurnArea",
+          "title": "Burn Area"
+        },
+        {
+          "name": "PilesWindrows",
+          "title": "Number of Fires"
+        }
+      ]
+    },
+    {
+      "id": "udo-staging-area",
+      "title": "Staging Area - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Camps and Staging Areas"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_STAGING_AREA"
+    },
+    {
+      "id": "udo-camp-complex",
+      "title": "Camp / Complex - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Camps and Staging Areas"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_CAMP_COMPLEX"
+    },
+    {
+      "id": "udo-landmark",
+      "title": "Landmark - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Landmark"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_LANDMARK"
+    },
+    {
+      "id": "whse-imagery-and-base-maps-mot-rest-areas-sp",
+      "title": "Highway Rest Stop",
+      "folder": [
+        "Operational Planning",
+        "Landmark"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_IMAGERY_AND_BASE_MAPS.MOT_REST_AREAS_SP"
+    },
+    {
+      "id": "udo-fuel-cache",
+      "title": "Fuel Cache - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Caches"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_FUEL_CACHE"
+    },
+    {
+      "id": "udo-tool-cache",
+      "title": "Tool Cache - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Caches"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_TOOL_CACHE"
+    },
+    {
+      "id": "udo-air-patrol-checkpoint",
+      "title": "Air Patrol Checkpoint - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Detection"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_AIR_PATROL_CHECKPOINT"
+    },
+    {
+      "id": "udo-surface-patrol-checkpoint",
+      "title": "Surface Patrol Checkpoint - Dispatch",
+      "folder": [
+        "Operational Planning",
+        "Detection"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_SURFACE_PATROL_CHECKPOINT"
+    },
+    {
+      "id": "sfms-temperature",
+      "title": "Temperature - Daily",
+      "folder": [
+        "Fire Weather",
+        "Weather"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_TEMPERATURE"
+    },
+    {
+      "id": "sfms-relative-humidity",
+      "title": "Relative Humidity - Daily",
+      "folder": [
+        "Fire Weather",
+        "Weather"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_RELATIVE_HUMIDITY"
+    },
+    {
+      "id": "sfms-wind-speed",
+      "title": "Wind Speed - Daily",
+      "folder": [
+        "Fire Weather",
+        "Weather"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_WIND_SPEED"
+    },
+    {
+      "id": "sfms-wind-direction",
+      "title": "Wind Direction - Daily",
+      "folder": [
+        "Fire Weather",
+        "Weather"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_WIND_DIRECTION"
+    },
+    {
+      "id": "sfms-precipitation",
+      "title": "Precipitation - Daily",
+      "folder": [
+        "Fire Weather",
+        "Weather"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_PRECIPITATION"
+    },
+    {
+      "id": "sfms-danger-rating",
+      "title": "Danger Rating",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_DANGER_RATING"
+    },
+    {
+      "id": "sfms-fine-fuel-moisture-code",
+      "title": "Fine Fuel Moisture Code",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "SFMS_FINE_FUEL_MOISTURE_CODE"
+    },
+    {
+      "id": "sfms-duff-moisture-code",
+      "title": "Duff Moisture Code",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_DUFF_MOISTURE_CODE"
+    },
+    {
+      "id": "sfms-drought-code",
+      "title": "Drought Code",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_DROUGHT_CODE"
+    },
+    {
+      "id": "sfms-initial-spread-index",
+      "title": "Initial Spread Index",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_INITIAL_SPREAD_INDEX"
+    },
+    {
+      "id": "sfms-buildup-index",
+      "title": "Buildup Index",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_BUILDUP_INDEX"
+    },
+    {
+      "id": "sfms-fire-weather-index",
+      "title": "Fire Weather Index",
+      "folder": [
+        "Fire Weather",
+        "Fire Weather Indices"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.5,
+      "layers": "SFMS_FIRE_WEATHER_INDEX"
+    },
+    {
+      "id": "udo-hazard",
+      "title": "Hazards - Dispatch",
+      "folder": [
+        "Responder Safety",
+        "Hazard"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_HAZARD"
+    },
+    {
+      "id": "wf1-refuse-site",
+      "title": "Refuse Site",
+      "folder": [
+        "Responder Safety",
+        "Hazard"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_REFUSE_SITE"
+    },
+    {
+      "id": "whse-human-cultural-economic-emrg-order-and-alert-areas-sp",
+      "title": "Evacuation Order and Alert Areas",
+      "folder": [
+        "Human Life and Safety",
+        "Evacuations and Emergency Services"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.7,
+      "layers": "WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP"
+    },
+    {
+      "id": "udo-industrial-activity",
+      "title": "Industrial Activity - Dispatch",
+      "folder": [
+        "Critical Infrastructure",
+        "Energy, Utilities and Facilities"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "UDO_INDUSTRIAL_ACTIVITY"
+    },
+    {
+      "id": "wf1-pipelines",
+      "title": "Oil and Gas - Pipeline",
+      "folder": [
+        "Critical Infrastructure",
+        "Energy, Utilities and Facilities"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_PIPELINES"
+    },
+    {
+      "id": "wf1-transmissionlines",
+      "title": "Transmission Line",
+      "folder": [
+        "Critical Infrastructure",
+        "Energy, Utilities and Facilities"
+      ],
+      "service": "wf",
+      "visible": true,
+      "layers": "WF1_TRANSMISSIONLINES"
+    },
+    {
+      "id": "wf1-ci-flnro-radio-tower",
+      "title": "Radio Tower - FLNRO",
+      "folder": [
+        "Critical Infrastructure",
+        "Communication and Information Tech"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_CI_FLNRO_RADIO_TOWER"
+    },
+    {
+      "id": "wf1-ci-other-radio-tower",
+      "title": "Radio Tower - Other",
+      "folder": [
+        "Critical Infrastructure",
+        "Communication and Information Tech"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_CI_OTHER_RADIO_TOWER"
+    },
+    {
+      "id": "whse-imagery-and-base-maps-gsr-hospitals-svw",
+      "title": "Hospital",
+      "folder": [
+        "Critical Infrastructure",
+        "Health Care"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_IMAGERY_AND_BASE_MAPS.GSR_HOSPITALS_SVW"
+    },
+    {
+      "id": "wf1-aviation-airport",
+      "title": "Airport",
+      "folder": [
+        "Critical Infrastructure",
+        "Transportation - Aviation"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_AVIATION_AIRPORT"
+    },
+    {
+      "id": "wf1-aviation-airstrip",
+      "title": "Airstrip or Other Facility",
+      "folder": [
+        "Critical Infrastructure",
+        "Transportation - Aviation"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_AVIATION_AIRSTRIP"
+    },
+    {
+      "id": "wf1-aviation-hospital-heliport",
+      "title": "Hospital Heliport",
+      "folder": [
+        "Critical Infrastructure",
+        "Transportation - Aviation"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_AVIATION_HOSPITAL_HELIPORT"
+    },
+    {
+      "id": "wf1-aviation-helipad-heliport",
+      "title": "Heliport & Helipad",
+      "folder": [
+        "Critical Infrastructure",
+        "Transportation - Aviation"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_AVIATION_HELIPAD_HELIPORT"
+    },
+    {
+      "id": "wf1-aviation-seaplane",
+      "title": "Seaplane Facility",
+      "folder": [
+        "Critical Infrastructure",
+        "Transportation - Aviation"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_AVIATION_SEAPLANE"
+    },
+    {
+      "id": "fw-activereporting-wstn",
+      "title": "Weather Station - Active",
+      "folder": [
+        "Critical Infrastructure",
+        "Weather Infrastructure"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "FW_ACTIVEREPORTING_WSTN"
+    },
+    {
+      "id": "whse-imagery-and-base-maps-gsr-climate-stations-svw",
+      "title": "Climate Station",
+      "folder": [
+        "Critical Infrastructure",
+        "Weather Infrastructure"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_IMAGERY_AND_BASE_MAPS.GSR_CLIMATE_STATIONS_SVW"
+    },
+    {
+      "id": "whse-water-management-wls-community-ws-pub-svw",
+      "title": "Community Watershed",
+      "folder": [
+        "High Environment Cultural Values",
+        "Water"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_WATER_MANAGEMENT.WLS_COMMUNITY_WS_PUB_SVW"
+    },
+    {
+      "id": "wf1-place-names",
+      "title": "Place Name",
+      "folder": [
+        "Place and Terrain Names",
+        "Annotation / Labels"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_PLACE_NAMES"
+    },
+    {
+      "id": "wf1-terrain-names",
+      "title": "Terrain Name",
+      "folder": [
+        "Place and Terrain Names",
+        "Annotation / Labels"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_TERRAIN_NAMES"
+    },
+    {
+      "id": "wf1-fire-centre-spg",
+      "title": "Fire Centre",
+      "folder": [
+        "Boundaries",
+        "BC Wildfire"
+      ],
+      "service": "wf",
+      "visible": true,
+      "layers": "WF1_FIRE_CENTRE_SPG"
+    },
+    {
+      "id": "wf1-fire-zone-spg",
+      "title": "Fire Zone",
+      "folder": [
+        "Boundaries",
+        "BC Wildfire"
+      ],
+      "service": "wf",
+      "visible": true,
+      "scaleMax": 2000000,
+      "layers": "WF1_FIRE_ZONE_SPG"
+    },
+    {
+      "id": "whse-admin-boundaries-adm-nr-areas-spg",
+      "title": "Natural Resource Area",
+      "folder": [
+        "Boundaries",
+        "FLNRO"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "styles": "Natural_Resource_Areas_Outlined",
+      "layers": "WHSE_ADMIN_BOUNDARIES.ADM_NR_AREAS_SPG"
+    },
+    {
+      "id": "whse-admin-boundaries-adm-nr-districts-spg",
+      "title": "Natural Resource District",
+      "folder": [
+        "Boundaries",
+        "FLNRO"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "styles": "Natural_Resource_Districts_Outlined",
+      "layers": "WHSE_ADMIN_BOUNDARIES.ADM_NR_DISTRICTS_SPG"
+    },
+    {
+      "id": "whse-admin-boundaries-adm-nr-regions-spg",
+      "title": "Natural Resource Region",
+      "folder": [
+        "Boundaries",
+        "FLNRO"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "styles": "Natural_Resource_Regions_Outlined",
+      "layers": "WHSE_ADMIN_BOUNDARIES.ADM_NR_REGIONS_SPG"
+    },
+    {
+      "id": "whse-legal-admin-boundaries-abms-regional-districts-sp",
+      "title": "Regional District",
+      "folder": [
+        "Boundaries",
+        "Local Government"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "styles": "Regional_Districts_Tantalis_Outlined",
+      "layers": "WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_REGIONAL_DISTRICTS_SP"
+    },
+    {
+      "id": "whse-legal-admin-boundaries-abms-municipalities-sp",
+      "title": "Municipality",
+      "folder": [
+        "Boundaries",
+        "Local Government"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.5,
+      "styles": "Municipalities_ABMS_Outlined",
+      "layers": "WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP"
+    },
+    {
+      "id": "bndy-fire-departments",
+      "title": "Fire Department",
+      "folder": [
+        "Boundaries",
+        "Local Government"
+      ],
+      "service": "wf",
+      "visible": true,
+      "layers": "BNDY_FIRE_DEPARTMENTS"
+    },
+    {
+      "id": "wf1-bndy-tfl",
+      "title": "Tree Farm Licence (TFL)",
+      "folder": [
+        "Boundaries",
+        "Tenures"
+      ],
+      "service": "wf",
+      "visible": false,
+      "opacity": 0.8,
+      "layers": "WF1_BNDY_TFL"
+    },
+    {
+      "id": "reg-legal-and-admin-boundaries-rec-tenure-alpine-ski-areas-sp",
+      "title": "Alpine Ski Area ",
+      "folder": [
+        "Boundaries",
+        "Tenures"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "REG_LEGAL_AND_ADMIN_BOUNDARIES.REC_TENURE_ALPINE_SKI_AREAS_SP"
+    },
+    {
+      "id": "whse-forest-tenure-ften-recreation-poly-svw",
+      "title": "Recreation Area  (RSTBC)",
+      "folder": [
+        "Boundaries",
+        "Tenures"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_FOREST_TENURE.FTEN_RECREATION_POLY_SVW"
+    },
+    {
+      "id": "whse-forest-tenure-ften-managed-licence-poly-svw",
+      "title": "Woodlot (Active or Pending)",
+      "folder": [
+        "Boundaries",
+        "Tenures"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_FOREST_TENURE.FTEN_MANAGED_LICENCE_POLY_SVW"
+    },
+    {
+      "id": "whse-legal-admin-boundaries-fnt-treaty-land-sp",
+      "title": "First Nation Treaty Land",
+      "folder": [
+        "Land Ownership Status",
+        "First Nations"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.6,
+      "layers": "WHSE_LEGAL_ADMIN_BOUNDARIES.FNT_TREATY_LAND_SP"
+    },
+    {
+      "id": "wf1-fn-title-area",
+      "title": "First Nation Title Area",
+      "folder": [
+        "Land Ownership Status",
+        "First Nations"
+      ],
+      "service": "wf",
+      "visible": true,
+      "opacity": 0.6,
+      "layers": "WF1_FN_TITLE_AREA"
+    },
+    {
+      "id": "whse-admin-boundaries-clab-indian-reserves",
+      "title": "Indian Reserve",
+      "folder": [
+        "Land Ownership Status",
+        "First Nations"
+      ],
+      "service": "bcgw",
+      "visible": true,
+      "opacity": 0.6,
+      "layers": "WHSE_ADMIN_BOUNDARIES.CLAB_INDIAN_RESERVES"
+    },
+    {
+      "id": "whse-admin-boundaries-clab-national-parks",
+      "title": "National Park (BC)",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": true,
+      "opacity": 0.6,
+      "layers": "WHSE_ADMIN_BOUNDARIES.CLAB_NATIONAL_PARKS"
+    },
+    {
+      "id": "whse-tantalis-ta-park-ecores-pa-svw",
+      "title": "BC Parks and Protected Areas",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": true,
+      "opacity": 0.6,
+      "scaleMax": 1000000,
+      "layers": "WHSE_TANTALIS.TA_PARK_ECORES_PA_SVW"
+    },
+    {
+      "id": "whse-tantalis-ta-wildlife-mgmt-areas-svw",
+      "title": "Wildlife Management Area",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.6,
+      "layers": "WHSE_TANTALIS.TA_WILDLIFE_MGMT_AREAS_SVW"
+    },
+    {
+      "id": "whse-tantalis-ta-conservancy-areas-svw",
+      "title": "Conservancy Area",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.6,
+      "layers": "WHSE_TANTALIS.TA_CONSERVANCY_AREAS_SVW"
+    },
+    {
+      "id": "whse-legal-admin-boundaries-wcl-conservation-lands-sp",
+      "title": "Conservation Land",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.6,
+      "layers": "WHSE_LEGAL_ADMIN_BOUNDARIES.WCL_CONSERVATION_LANDS_SP"
+    },
+    {
+      "id": "whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp",
+      "title": "Conservation Land (NGO)",
+      "folder": [
+        "Land Ownership Status",
+        "Parks and Protected Lands"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "opacity": 0.6,
+      "layers": "WHSE_LEGAL_ADMIN_BOUNDARIES.WCL_CONSERVATION_AREAS_NGO_SP"
+    },
+    {
+      "id": "wf1-cadastre",
+      "title": "Cadastre",
+      "folder": [
+        "Land Ownership Status",
+        "Ownership"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_CADASTRE"
+    },
+    {
+      "id": "wf1-forest-service-road",
+      "title": "Forest Service Road",
+      "folder": [
+        "Transportation and Trails",
+        "Roads"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "layers": "WHSE_FOREST_TENURE.FTEN_ROAD_SECTION_LINES_SVW",
+      "sld": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sld:StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\"><sld:NamedLayer><sld:Name>pub:WHSE_FOREST_TENURE.FTEN_ROAD_SECTION_LINES_SVW</sld:Name><sld:UserStyle><sld:Name>labelsOnly</sld:Name><sld:Title>All_Forest_Road_Sections_FTEN_Colour_Themed</sld:Title><sld:IsDefault>1</sld:IsDefault><sld:FeatureTypeStyle><sld:Name>name</sld:Name><sld:Rule><sld:Title/><sld:Abstract/><sld:MaxScaleDenominator>125000.0</sld:MaxScaleDenominator><sld:TextSymbolizer><sld:Label><ogc:PropertyName>ROAD_SECTION_NAME</ogc:PropertyName></sld:Label><sld:Font><sld:CssParameter name=\"font-family\">Arial</sld:CssParameter><sld:CssParameter name=\"font-size\">13</sld:CssParameter><sld:CssParameter name=\"font-style\">normal</sld:CssParameter><sld:CssParameter name=\"font-weight\">bold</sld:CssParameter></sld:Font><sld:LabelPlacement><sld:LinePlacement><sld:PerpendicularOffset>0</sld:PerpendicularOffset></sld:LinePlacement></sld:LabelPlacement><sld:Fill><sld:CssParameter name=\"fill\">#111111</sld:CssParameter></sld:Fill><sld:VendorOption name=\"autoWrap\">100</sld:VendorOption><sld:VendorOption name=\"spaceAround\">10</sld:VendorOption><sld:VendorOption name=\"goodnessOfFit\">0.3</sld:VendorOption><sld:VendorOption name=\"group\">true</sld:VendorOption></sld:TextSymbolizer></sld:Rule></sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>",
+      "merge": false
+    },
+    {
+      "id": "wf1-roads",
+      "title": "Road",
+      "folder": [
+        "Transportation and Trails",
+        "Roads"
+      ],
+      "service": "wf",
+      "visible": true,
+      "layers": "WF1_ROADS"
+    },
+    {
+      "id": "whse-basemapping-gba-railway-tracks-sp",
+      "title": "Railway",
+      "folder": [
+        "Transportation and Trails",
+        "Railway"
+      ],
+      "service": "bcgw",
+      "scaleMax": 1000000,
+      "visible": true,
+      "layers": "WHSE_BASEMAPPING.GBA_RAILWAY_TRACKS_SP",
+      "merge": false,
+      "sld": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><sld:StyledLayerDescriptor xmlns=\"http://www.opengis.net/sld\" xmlns:sld=\"http://www.opengis.net/sld\" xmlns:gml=\"http://www.opengis.net/gml\" xmlns:ogc=\"http://www.opengis.net/ogc\" version=\"1.0.0\"><sld:NamedLayer><sld:Name>pub:WHSE_BASEMAPPING.GBA_RAILWAY_TRACKS_SP</sld:Name><sld:UserStyle><sld:Name>Railway_Tracks</sld:Name><sld:Title>Railway_Tracks</sld:Title><sld:IsDefault>1</sld:IsDefault><sld:FeatureTypeStyle><sld:Name>name</sld:Name><sld:Rule><sld:Name>Railway Track</sld:Name><sld:Title>Railway Track</sld:Title><sld:Abstract/><ogc:Filter><ogc:Or><ogc:PropertyIsEqualTo><ogc:PropertyName>TRACK_CLASSIFICATION</ogc:PropertyName><ogc:Literal>Main</ogc:Literal></ogc:PropertyIsEqualTo><ogc:PropertyIsEqualTo><ogc:PropertyName>TRACK_CLASSIFICATION</ogc:PropertyName><ogc:Literal>Connecting</ogc:Literal></ogc:PropertyIsEqualTo></ogc:Or></ogc:Filter><sld:MaxScaleDenominator>1.0E7</sld:MaxScaleDenominator><sld:LineSymbolizer><sld:Stroke><sld:CssParameter name=\"stroke\">#FFFFFF</sld:CssParameter><sld:CssParameter name=\"stroke-width\">2</sld:CssParameter></sld:Stroke></sld:LineSymbolizer><sld:LineSymbolizer><sld:Stroke><sld:GraphicStroke><sld:Graphic><sld:Mark><sld:WellKnownName>shape://vertline</sld:WellKnownName><sld:Stroke><sld:CssParameter name=\"stroke\">#FFFFFF</sld:CssParameter><sld:CssParameter name=\"stroke-width\">2</sld:CssParameter></sld:Stroke></sld:Mark><sld:Size>8</sld:Size></sld:Graphic></sld:GraphicStroke><sld:CssParameter name=\"stroke-dasharray\">8 10</sld:CssParameter></sld:Stroke></sld:LineSymbolizer><sld:LineSymbolizer><sld:Stroke><sld:CssParameter name=\"stroke-width\">0.75</sld:CssParameter></sld:Stroke></sld:LineSymbolizer><sld:LineSymbolizer><sld:Stroke><sld:GraphicStroke><sld:Graphic><sld:Mark><sld:WellKnownName>shape://vertline</sld:WellKnownName><sld:Stroke><sld:CssParameter name=\"stroke-width\">0.75</sld:CssParameter></sld:Stroke></sld:Mark><sld:Size>8</sld:Size></sld:Graphic></sld:GraphicStroke><sld:CssParameter name=\"stroke-dasharray\">8 10</sld:CssParameter></sld:Stroke></sld:LineSymbolizer></sld:Rule></sld:FeatureTypeStyle></sld:UserStyle></sld:NamedLayer></sld:StyledLayerDescriptor>"
+    },
+    {
+      "id": "wf1-trails",
+      "title": "Trail",
+      "folder": [
+        "Transportation and Trails",
+        "Trails and Trailheads"
+      ],
+      "service": "wf",
+      "visible": false,
+      "layers": "WF1_TRAILS"
+    },
+    {
+      "id": "whse-basemapping-fwa-stream-networks-sp",
+      "title": "Rivers & Streams",
+      "folder": [
+        "Natural Features"
+      ],
+      "service": "bcgw",
+      "visible": true,
+      "scaleMax": 70000,
+      "layers": "WHSE_BASEMAPPING.FWA_STREAM_NETWORKS_SP",
+      "cqlFilter": "EDGE_TYPE NOT IN (1200,1300,1400,1450,1475)",
+      "merge": false
+    },
+    {
+      "id": "whse-basemapping-fwa-lakes-poly",
+      "title": "Lakes",
+      "folder": [
+        "Natural Features"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "scaleMax": 140000,
+      "layers": "WHSE_BASEMAPPING.FWA_LAKES_POLY"
+    },
+    {
+      "id": "whse-basemapping-nts-bc-contour-lines-125m",
+      "title": "Contours NTS (80,000 to 500,000)",
+      "folder": [
+        "Natural Features",
+        "Contours"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "scaleMax": 600000,
+      "scaleMin": 80000,
+      "layers": "WHSE_BASEMAPPING.NTS_BC_CONTOUR_LINES_125M"
+    },
+    {
+      "id": "whse-basemapping-trim-contour-lines",
+      "title": "Contours TRIM (1 to 80,000)",
+      "folder": [
+        "Natural Features",
+        "Contours"
+      ],
+      "service": "bcgw",
+      "visible": false,
+      "scaleMax": 80000,
+      "layers": "WHSE_BASEMAPPING.TRIM_CONTOUR_LINES"
+    }
+  ],
+  "hoverIdentify": [
+    "ofts-active",
+    "ofts-expired",
+    "ofts-invalid"
+  ],
+  "quickFilters": [
+    {
+      "title": "All",
+      "filter": "."
+    },
+    {
+      "title": "OFTS",
+      "layers": [
+        "ofts-active",
+        "ofts-expired",
+        "whse-human-cultural-economic-emrg-order-and-alert-areas-sp"
+      ]
+    },
+    {
+      "title": "RoF",
+      "layers": [
+        "rof",
+        "wf1-transmissionlines",
+        "wf1-fire-centre-spg",
+        "wf1-fire-zone-spg",
+        "bndy-fire-departments",
+        "whse-admin-boundaries-clab-indian-reserves",
+        "whse-admin-boundaries-clab-national-parks",
+        "whse-tantalis-ta-park-ecores-pa-svw",
+        "wf1-roads",
+        "whse-basemapping-gba-railway-tracks-sp",
+        "whse-basemapping-fwa-stream-networks-sp"
+      ]
+    },
+    {
+      "title": "IM",
+      "layers": [
+        "incident",
+        "in-current-fire-polygons",
+        "wf1-fire-centre-spg",
+        "wf1-fire-zone-spg",
+        "whse-legal-admin-boundaries-fnt-treaty-land-sp",
+        "whse-admin-boundaries-clab-indian-reserves",
+        "whse-admin-boundaries-clab-national-parks",
+        "whse-tantalis-ta-park-ecores-pa-svw",
+        "whse-tantalis-ta-wildlife-mgmt-areas-svw",
+        "whse-tantalis-ta-conservancy-areas-svw",
+        "whse-legal-admin-boundaries-wcl-conservation-lands-sp",
+        "whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp",
+        "wf1-cadastre"
+      ]
+    }
+  ]
+}

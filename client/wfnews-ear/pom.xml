@@ -9,6 +9,16 @@
 	<packaging>ear</packaging>
 	<name>wfnews-ear</name>
 	<url>http://maven.apache.org</url>
+	<dependencies>
+
+		<dependency>
+			<groupId>ca.bc.gov.nrs.wfnews</groupId>
+			<artifactId>wfnews-war</artifactId>
+			<version>${project.parent.version}</version>
+			<type>war</type>
+		</dependency>
+
+	</dependencies>
 	<build>
 		<plugins>
 			<plugin>
@@ -19,6 +29,13 @@
 					<version>1.4</version>
 					<applicationName>wfnews-ear</applicationName>
 					<fileNameMapping>no-version</fileNameMapping>
+					<modules>
+						<webModule>
+							<groupId>ca.bc.gov.nrs.wfnews</groupId>
+							<artifactId>wfnews-war</artifactId>
+							<contextRoot>wfnews</contextRoot>
+						</webModule>
+					</modules>
 				</configuration>
 			</plugin>
 			<plugin>

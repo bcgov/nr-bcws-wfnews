@@ -1,0 +1,36 @@
+<ng-template #bespokeContainer></ng-template>
+
+<router-outlet #extOutlet="outlet" name="root"></router-outlet>
+
+<wf-application class="wfnews-application"
+    [ngClass]="'orientation-' + orientation"
+    *ngIf="!extOutlet.isActivated"
+    [config]="applicationConfig"
+    [(state)]="applicationState"
+>
+    <wf-header
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+    ></wf-header>
+
+    <wf-menu
+        [menuItems]="appMenu"
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+    ></wf-menu>
+
+    <wfnews-panel-container
+        [showLeftPanel]="showLeftPanel"
+    >
+        <ng-container left-panel >
+            <router-outlet></router-outlet>
+        </ng-container>
+
+        <wf-map-container right-panel
+            [mapConfig]="mapConfig"
+            (mapInitialized)="initMap($event)"
+        ></wf-map-container>
+    </wfnews-panel-container>
+
+    <!-- <wf-footer></wf-footer> -->
+</wf-application>
