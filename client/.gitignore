@@ -1,0 +1,13 @@
+*.classpath
+*.project
+*/target
+*.settings
+webade-rest-endpoints/logs/
+override_config.json
+override_config.json.*
+.vscode
+causeCodeToken.json
+*.iml
+.idea
+*.versionsBackup
+wfnews-war/src/main/dm-proxy/node_modules

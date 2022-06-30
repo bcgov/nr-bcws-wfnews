@@ -1,0 +1,536 @@
+@import "@angular/material/theming";
+@import "./variables";
+
+body {
+    margin: 0;
+    // min-height: 100vh;
+}
+
+.wf1-loading-screen {
+    height: $wf1-loading-screen-height;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-toolbar.wf1-application-header.mat-primary {
+    background-color: $colour-header-background;
+    border-bottom: $colour-orange;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    height: $wf1-app-header-height;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0;
+
+    .bc-logo-div {
+        img { display: none; }
+
+        flex-shrink: 0;
+        background-image: url( '../assets/images/logo/bcwfservice-logo.png' );
+    	background-size: auto 70px;
+        background-position: center;
+        background-repeat: no-repeat;
+        height: 70px;
+        width: 185px;
+    }
+
+    .app-logo-and-title-div {
+        flex-grow: 1;
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+
+        .mat-title {
+            font-size: 1.4rem;
+            color: $colour-white;
+            white-space: nowrap;
+            margin-left: 0.4rem;
+            margin-bottom: 0.575rem;
+        }
+    }
+
+    .system-and-user-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-right: 20px;
+
+        & > div {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+
+            .header-caption-label {
+                width: 4rem;
+                align-self: flex-end;
+            }
+
+            .header-caption-text {
+                min-width: 8rem;
+                align-self: flex-start;
+            }
+        }
+    }
+
+    .header-caption-label,
+    .header-caption-text {
+        font-size: 0.75rem;
+        margin-bottom: 0.4rem;
+    }
+
+    .header-caption-label {
+        text-align: right;
+        color: #9db1bb;
+        margin-right: 0.5rem;
+    }
+}
+
+mat-toolbar.wf1-application-toolbar {
+    height: $wf1-toolbar-height;
+    .right-text {
+        margin-left: auto;
+        font-size: 0.75rem;
+        font-weight: normal;
+    }
+    .wf1-menu-button {
+        max-height: $wf1-toolbar-height;
+        min-width: 2rem;
+        min-height: 2rem;
+        padding: 0.5rem;
+
+        .mat-icon {
+            width: 2rem;
+            height: 2rem;
+            font-size: 2rem;
+        }
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    mat-button-toggle.mat-button-toggle,
+    mat-button-toggle.mat-button-toggle-checked {
+        max-height: $wf1-toolbar-height;
+        min-width: 2rem;
+        padding: 0;
+        box-shadow: none;
+        color: $colour-dark-grey;
+    }
+
+    .wf1-toolbar-spacer {
+        flex: 1 1 auto;
+    }
+}
+
+#core-interface-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    mat-toolbar.wf1-application-header,
+    mat-toolbar.wf1-application-toolbar {
+        flex: 0 0 auto;
+        box-sizing: border-box;
+    }
+
+    mat-sidenav-container {
+        flex: 1 1 auto;
+        display: flex;
+        align-items: stretch;
+
+        mat-sidenav {
+            width: 440px;
+            overflow-x: hidden;
+        }
+
+        mat-sidenav-content {
+            position: relative;
+            height: unset;
+            flex-grow: 1;
+
+            #side-nav-toggle {
+                width: 16px;
+                height: 40px;
+                background: #ff0000;
+                color: #ffffff;
+                position: absolute;
+                top: 1rem;
+                left: 0;
+                border-top-right-radius: 6px;
+                border-bottom-right-radius: 6px;
+                z-index: 500;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                cursor: pointer;
+
+                mat-icon {
+                    font-size: 18px;
+                    line-height: 18px;
+                    height: 18px;
+                    width: 12px;
+                }
+            }
+        }
+    }
+}
+
+.wf1-application-icon {
+    position: relative;
+
+    &.wf1-icon-size-toolbar {
+        width: 2rem;
+        height: 2rem;
+
+        .wf1-cancelled-icon,
+        .wf1-assigned-to-incident-icon {
+            position: absolute;
+            top: -0.2rem;
+            left: -0.25rem;
+
+            .mat-icon {
+                font-size: 2.5rem;
+            }
+        }
+    }
+
+    &.wf1-icon-size-list-small {
+        width: 2rem;
+        height: 2rem;
+
+        .wf1-cancelled-icon,
+        .wf1-assigned-to-incident-icon {
+            position: absolute;
+            top: -0.3rem;
+            left: -0.3rem;
+
+            .mat-icon {
+                font-size: 2.7rem;
+            }
+        }
+    }
+
+    &.wf1-icon-size-list-large {
+        width: 3rem;
+        height: 3rem;
+
+        .wf1-cancelled-icon,
+        .wf1-assigned-to-incident-icon {
+            position: absolute;
+            top: -0.5rem;
+            left: -0.5rem;
+
+            .mat-icon {
+                font-size: 4rem;
+            }
+        }
+    }
+
+    .wf1-main-icon {
+        position: absolute;
+        top: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 10;
+        width: 100%;
+        height: 100%;
+
+        .mat-icon {
+            width: 100%;
+            height: 100%;
+
+            svg {
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .wf1-halo-icon {
+        position: absolute;
+        top: 0;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 5;
+        width: 100%;
+        height: 100%;
+
+        .mat-icon {
+            width: 100%;
+            height: 100%;
+
+            svg {
+                color: $colour-white;
+                fill: $colour-white;
+                width: 100%;
+                height: 100%;
+            }
+        }
+    }
+
+    .wf1-icon-contained {
+        transform: scale(0.75);
+    }
+
+    .wf1-cancelled-icon,
+    .wf1-assigned-to-incident-icon {
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        z-index: 15;
+        width: 100%;
+    }
+
+    .wf1-cancelled-icon {
+        color: $colour-red;
+    }
+
+    .wf1-assigned-to-incident-icon {
+        color: $colour-green;
+    }
+
+    .wf1-icon-blink {
+        animation: blink-animation 1s infinite ease-in-out;
+    }
+    @keyframes blink-animation {
+        25% {
+            opacity: 1;
+        }
+        50% {
+            opacity: 0;
+        }
+        75% {
+            opacity: 1;
+        }
+    }
+
+    .wf1-incident-icon-default {
+        svg {
+            color: $colour-incident-default;
+            fill: $colour-incident-default;
+        }
+    }
+
+    .wf1-incident-icon-out {
+        svg {
+            color: $colour-incident-out;
+            fill: $colour-incident-out;
+        }
+    }
+
+    .wf1-incident-icon-being-held {
+        svg {
+            color: $colour-incident-being-held;
+            fill: $colour-incident-being-held;
+        }
+    }
+
+    .wf1-incident-icon-not-set {
+        svg {
+            color: $colour-incident-not-set;
+            fill: $colour-incident-not-set;
+        }
+    }
+
+    .wf1-incident-icon-out-of-control {
+        svg {
+            color: $colour-incident-out-of-control;
+            fill: $colour-incident-out-of-control;
+        }
+    }
+
+    .wf1-incident-icon-under-control {
+        svg {
+            color: $colour-incident-under-control;
+            fill: $colour-incident-under-control;
+        }
+    }
+
+    .wf1-incident-with-status-icon-active {
+        svg {
+            color: $colour-incident-with-status-active;
+            fill: $colour-incident-with-status-active;
+        }
+    }
+
+    .wf1-incident-with-status-icon-completed {
+        svg {
+            color: $colour-incident-with-status-completed;
+            fill: $colour-incident-with-status-completed;
+        }
+    }
+
+    .wf1-incident-agency-assist-icon-active {
+        svg {
+            color: $colour-incident-agency-assist-active;
+            fill: $colour-incident-agency-assist-active;
+        }
+    }
+
+    .wf1-incident-agency-assist-icon-completed {
+        svg {
+            color: $colour-incident-agency-assist-completed;
+            fill: $colour-incident-agency-assist-completed;
+        }
+    }
+
+    .wf1-incident-field-activity-icon-active {
+        svg {
+            color: $colour-incident-field-activity-active;
+            fill: $colour-incident-field-activity-active;
+        }
+    }
+
+    .wf1-incident-field-activity-icon-completed {
+        svg {
+            color: $colour-incident-field-activity-completed;
+            fill: $colour-incident-field-activity-completed;
+        }
+    }
+
+    .wf1-rof-icon-default {
+        svg {
+            color: $colour-rof-default;
+            fill: $colour-rof-default;
+        }
+    }
+
+    .wf1-rof-icon-general {
+        svg {
+            color: $colour-rof-general;
+            fill: $colour-rof-general;
+        }
+    }
+
+    .wf1-rof-icon-interface {
+        svg {
+            color: $colour-rof-interface;
+            fill: $colour-rof-interface;
+        }
+    }
+
+    .wf1-rof-icon-campfire {
+        svg {
+            color: $colour-rof-campfire;
+            fill: $colour-rof-campfire;
+        }
+    }
+
+    .wf1-rof-icon-cigarette {
+        svg {
+            color: $colour-rof-cigarette;
+            fill: $colour-rof-cigarette;
+        }
+    }
+
+    .wf1-rof-icon-draft {
+        svg {
+            color: $colour-rof-draft;
+            fill: $colour-rof-draft;
+        }
+    }
+}
+//
+//mat-list-item.list-item {
+//  .list-item-icon-section {
+//    wf1-application-icon,
+//    .wf1-application-icon,
+//    .wf1-main-icon,
+//    .list-item-icon .mat-icon {
+//      width: 3rem;
+//      height: 3rem;
+//
+//      svg {
+//        width: 3rem;
+//        height: 3rem;
+//      }
+//    }
+//  }
+//}
+
+wf1-list-container mat-list.mat-list {
+    padding-top: 0;
+    height: 100%;
+    cdk-virtual-scroll-viewport {
+        height: 100%;
+    }
+}
+
+wf1-list-container wf1-spinner {
+    height: 75vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+mat-list-item.list-item {
+    .mat-list-item-content {
+        align-items: center;
+        padding: 0 !important;
+    }
+}
+
+#map {
+    width: 100%;
+    min-height: $wf1-app-map-panel-height;
+}
+
+.wf1-layer-tree ul {
+    padding-left: 20px;
+}
+
+.wf1-layer-tree ul,
+.wf1-layer-tree li {
+    list-style-type: none;
+}
+
+iframe#login-iframe {
+    z-index: 10000;
+    position: absolute;
+    width: 800px !important;
+    right: calc(50% - 350px) !important;
+    background-color: white;
+}
+
+@media screen and (max-width: 900px) {
+    mat-toolbar.wf1-application-header {
+        height: $wf1-app-header-mobile-height;
+
+        img[alt="BC Gov"] {
+            width: 6rem;
+        }
+
+        img[alt="Wildfire ONE"] {
+            width: 8.5rem;
+            padding-bottom: 0.2rem;
+        }
+
+        #header-title {
+            font-size: 0.9rem;
+            margin-left: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .header-caption-label,
+        .header-caption-text {
+            margin-bottom: 0.2rem;
+        }
+
+        .header-caption-label {
+            margin-right: 0.5rem;
+        }
+    }
+
+    #map {
+        min-height: $wf1-app-map-mobile-height;
+    }
+}
