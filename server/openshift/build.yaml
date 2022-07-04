@@ -1,0 +1,233 @@
+apiVersion: v1
+kind: Template
+metadata: {}
+parameters:
+  - name: SUFFIX
+  - name: TAG
+    value: latest
+    description: The output image tag beig generated
+  - name: GIT_URL
+    value: https://bwa.nrs.gov.bc.ca/int/stash/scm/WFONE/wfone-notifications-api.git
+  - name: GIT_REF
+    value: feature/openshift
+labels:
+  app.kubernetes.io/part-of: 'wfone-notifications-api'
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfone-notifications-api
+    name: wfone-notifications-api-tomcat
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: 'tomcat:8.5.47-jdk11-openjdk'
+      from:
+        kind: DockerImage
+        name: 'tomcat:8.5.47-jdk11-openjdk'
+      generation: 2
+      importPolicy: {}
+      name: '8.5.47-jdk11-openjdk'
+      referencePolicy:
+        type: Source
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfone-notifications-api     
+    name: openjdk
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: openjdk:8-jre-alpine
+      from:
+        kind: DockerImage
+        name: openjdk:8-jre-alpine
+      generation: null
+      importPolicy: {}
+      name: 8-jre-alpine
+      referencePolicy:
+        type: "Local"
+    - annotations:
+        openshift.io/imported-from: openjdk:8-jdk-alpine
+      from:
+        kind: DockerImage
+        name: openjdk:8-jdk-alpine
+      generation: null
+      importPolicy: {}
+      name: 8-jdk-alpine
+      referencePolicy:
+        type: "Local"
+    - annotations:
+        openshift.io/imported-from: openjdk:8-jdk-alpine
+      from:
+        kind: DockerImage
+        name: openjdk:7
+      generation: null
+      importPolicy: {}
+      name: "7"
+      referencePolicy:
+        type: "Local"
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfone-notifications-api
+      shared: true
+    name: wfone-notifications-api
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfone-notifications-api
+      shared: true
+    name: wfone-notifications-api-final
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfone-notifications-api
+    name: wfone-notifications-api${SUFFIX}
+  spec:
+    nodeSelector: null
+    runPolicy: SerialLatestOnly
+    completionDeadlineSeconds: 1200 # 20 minutes
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wfone-notifications-api:${TAG}
+    postCommit: {}
+    resources:
+      limits:
+        cpu: '2'
+        memory: 5Gi
+      requests:
+        cpu: '1'
+        memory: 1Gi
+    source:
+      git:
+        uri: ${GIT_URL}
+        ref: ${GIT_REF}
+      sourceSecret:
+        name: bitbucket-account
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+          - name: MAVEN_CLEAR_REPO
+            value: 'true'
+          - name: MAVEN_S2I_ARTIFACT_DIRS
+            value: 'wfone-notifications-api-rest-endpoints/target/'
+          - name: S2I_SOURCE_DEPLOYMENTS_FILTER
+            value: '*.war'
+          - name: MAVEN_ARGS
+            value: '-Dnpm.url=https://bwa.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/ -DskipTests'
+          - name: MAVEN_OPTS
+            value: '-Xms640m -Xmx2048m -XX:MaxMetaspaceSize=200m'
+        from:
+          kind: ImageStreamTag
+          name: base-openjdk18-openshift:1.7-5
+      type: Source
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    name: wfone-notifications-api-final${SUFFIX}
+  spec:
+    nodeSelector: null
+    completionDeadlineSeconds: 600 # 10 minutes
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wfone-notifications-api-final:${TAG}
+    postCommit: {}
+    resources:
+      limits:
+        cpu: '2'
+        memory: 2Gi
+      requests:
+        cpu: '1'
+        memory: 1Gi
+    source:
+      dockerfile: |-
+        FROM tomcat:8.5.47-jdk11-openjdk
+        ENV TOMCAT_HOME=/usr/local/tomcat \
+            CATALINA_HOME=/usr/local/tomcat \
+            CATALINA_OUT=/usr/local/tomcat/logs
+        ADD deployments/ /temp/
+        RUN rm -rf /usr/local/tomcat/webapps/ROOT
+        RUN unzip /temp/wfone-notifications-api-*.war -d /usr/local/tomcat/webapps/ROOT/
+        RUN adduser --system tomcat
+        RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
+          chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
+          chown -h tomcat:0 ${CATALINA_HOME}
+        # run as tomcat user
+        USER tomcat
+        EXPOSE 8080
+        CMD ["catalina.sh", "run"]
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: wfone-notifications-api:${TAG}
+        paths:
+        - destinationDir: .
+          sourcePath: /deployments
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        imageOptimizationPolicy: SkipLayers
+        from:
+          kind: ImageStreamTag
+          name: wfone-notifications-api-tomcat:8.5.47-jdk11-openjdk
+      type: Docker
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: wfone-notifications-api:${TAG}
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
