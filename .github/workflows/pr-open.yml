@@ -225,8 +225,7 @@ jobs:
       - name: Tests
         run: |
           cd server
-          npm ci
-          npm test
+          mvn test
 
   trivy-server:
     name: Trivy-Server
