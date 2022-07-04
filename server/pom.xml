@@ -77,11 +77,18 @@
 			</dependency>
 
 			<dependency>
+<<<<<<< HEAD
 -               <groupId>ca.bc.gov.nrs.wfone.common</groupId>
 -               <artifactId>wfone-common-model</artifactId>
 -               <version>1.3.0</version>
 -           </dependency>
 	
+=======
+				<groupId>ca.bc.gov.nrs.wfone.common</groupId>
+				<artifactId>wfone-common-model</artifactId>
+				<version>1.3.0</version>
+			</dependency>
+>>>>>>> ee8548fb025fa1ce2b59d5807fe70005a23095dd
 			<dependency>
 				<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 				<artifactId>wfone-common-rest-common</artifactId>
