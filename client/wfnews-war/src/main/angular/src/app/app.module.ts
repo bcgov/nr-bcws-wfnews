@@ -47,6 +47,7 @@ import {
     Configuration as DocumentAPIServiceConfiguration
 } from "@wf1/wfdm-document-management-api";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -110,7 +111,8 @@ export const DATE_FORMATS = {
         ServiceWorkerModule.register('wfim-service-worker.js', { enabled: environment.production, scope: './' }),
         ScrollingModule,
         WildfireApplicationModule.forRoot(),
-        DocumentAPIServiceModule
+        DocumentAPIServiceModule,
+        MatToolbarModule,
     ],
     providers: [
         {
