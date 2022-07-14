@@ -1,14 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
-import javax.sql.DataSource;
-
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -19,8 +14,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
-import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
-import ca.bc.gov.test.jetty.EmbeddedServer;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentListResource;
@@ -33,6 +26,7 @@ public class IncidentsEndpointsTest {
 	protected IncidentsService service;
 	protected static ApplicationContext testApplicationContext;
 	protected static ApplicationContext webApplicationContext;
+	static String queryUrl = null;
 	
 	@Before
 	public void setUp() {
@@ -48,6 +42,9 @@ public class IncidentsEndpointsTest {
 		
 		Properties applicationProperties = testApplicationContext.getBean("applicationProperties", Properties.class);
 		
+		queryUrl = applicationProperties.getProperty("wfnews-agol-query.url");
+		Assert.assertNotNull(queryUrl);
+		
 		for(String key:applicationProperties.stringPropertyNames()) {
 			
 			String value = applicationProperties.getProperty(key);
@@ -55,11 +52,7 @@ public class IncidentsEndpointsTest {
 			
 			System.setProperty(key, value);
 		}
-				
-		Map<String, DataSource> dataSources = new HashMap<String, DataSource>();
-
-		EmbeddedServer.startIfRequired(port, contextPath, dataSources);
-		
+						
 		logger.debug(">startServer");
 	}
 
@@ -67,22 +60,18 @@ public class IncidentsEndpointsTest {
 	public void teardown() {
 		this.service = null;
 	}
-	
-	@AfterClass
-	public static void stopServer() throws Exception {
-		EmbeddedServer.stop();
-		logger.debug("stopServer");
-	}
 
 	@Test
 	public void testGetIncidentsByID() {
-		IncidentResource incidentResource = null;
-		incidentResource = this.service.getIncidentByID("393");
-		Assert.assertNotNull(incidentResource);
+		this.service.setAgolQueryUrl(queryUrl);
+        IncidentResource incidentResource = this.service.getIncidentByID("391");
+        Assert.assertNotNull(incidentResource.getFireID());
+        Assert.assertTrue(incidentResource.getFireID().equals(391));
 	}
 	
 	@Test
 	public void testGetIncidents() {
+		this.service.setAgolQueryUrl(queryUrl);
 		String status = "Being held";
 		String date = "2022-06-30";
 		Double minLatitude = 55.0;
