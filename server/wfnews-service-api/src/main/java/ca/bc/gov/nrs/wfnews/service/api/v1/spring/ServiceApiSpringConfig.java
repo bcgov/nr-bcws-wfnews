@@ -5,7 +5,6 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -18,6 +17,8 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.impl.EmailNotificationServiceImpl;
+import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
+import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
 
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
@@ -161,5 +162,12 @@ public class ServiceApiSpringConfig {
 		return result;
 	}
 	
+	@Bean
+	public IncidentsService incidentsService() {
 
+		IncidentsServiceImpl result = new IncidentsServiceImpl();
+		
+		return result;
+	}
+	
 }
