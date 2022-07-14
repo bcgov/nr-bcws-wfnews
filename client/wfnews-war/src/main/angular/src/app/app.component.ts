@@ -49,7 +49,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     applicationState: WfApplicationState = {
-        menu: this.applicationConfig.device == 'desktop' ? 'expanded' : 'hidden'
+        menu: 'hidden'
     }
 
     appMenu: WfMenuItems
@@ -178,9 +178,9 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         this.appMenu = ( this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Active Wildfires Map', '/'+ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
-                new RouterLink('Wildfires List', '/', 'home', 'expanded', this.router),
-                new RouterLink('Current Statistics', '/', 'home', 'expanded', this.router),
-                new RouterLink('Resources', '/', 'home', 'expanded', this.router),
+                new RouterLink('Wildfires List', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router), //temp route
+                new RouterLink('Current Statistics', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router),//temp route
+                new RouterLink('Resources', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router),
 
 
             ]
