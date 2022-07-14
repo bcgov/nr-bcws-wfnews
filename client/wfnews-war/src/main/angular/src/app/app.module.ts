@@ -35,6 +35,7 @@ import { codeTableAndUserPrefFnInit } from "./app-initializer";
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
+import { WFActiveFireCountContainerComponent } from "./components/wf-active-fire-count-container/wf-active-fire-count-container.component";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
 import { MapConfigService } from "./services/map-config.service";
 import { MapStatePersistenceService } from "./services/map-state-persistence.service";
@@ -65,6 +66,7 @@ export const DATE_FORMATS = {
     declarations: [
         AppComponent,
         WFMapContainerComponent,
+        WFActiveFireCountContainerComponent,
     ],
     imports: [
         MatSnackBarModule,
