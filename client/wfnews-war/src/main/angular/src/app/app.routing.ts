@@ -10,6 +10,10 @@ const PANEL_ROUTES: Routes = [
   { path: 'unauthorized', component: UnauthorizedPageComponent, pathMatch: 'full', outlet: 'root' },
   { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.ACTIVEWILDFIREMAP, pathMatch: "full",},
   { path: ResourcesRoutes.ACTIVEWILDFIREMAP, component: WFMapContainerComponent, pathMatch: "full",},
+  { path: ResourcesRoutes.WILDFIRESLIST, component: WFMapContainerComponent, pathMatch: "full",},
+  { path: ResourcesRoutes.CURRENTSTATISTICS, component: WFMapContainerComponent, pathMatch: "full",},
+  { path: ResourcesRoutes.RESOURCES, component: WFMapContainerComponent, pathMatch: "full",},
+
   { path: ResourcesRoutes.ERROR_PAGE, component: WFMapContainerComponent, pathMatch: "full",},
 ];
   

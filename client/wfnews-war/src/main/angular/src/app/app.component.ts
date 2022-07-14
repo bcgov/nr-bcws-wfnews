@@ -1,13 +1,9 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Event, NavigationStart, OutletContext } from '@angular/router';
-import { select } from '@ngrx/store';
 import {
-    Message, MessageType, SearchActions, WFNROF_WINDOW_NAME, WFROF_WINDOW_NAME
+    Message, MessageType, WFNROF_WINDOW_NAME, WFROF_WINDOW_NAME
 } from '@wf1/core-ui';
-import {
-    ProvisionalZoneResource, PublicReportOfFireResource, SimpleReportOfFireResource,
-    SimpleWildfireIncidentResource
-} from "@wf1/incidents-rest-api";
+
 import * as moment from 'moment';
 import { forkJoin, Subscription } from 'rxjs';
 import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
@@ -178,9 +174,9 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         this.appMenu = ( this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Active Wildfires Map', '/'+ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
-                new RouterLink('Wildfires List', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router), //temp route
-                new RouterLink('Current Statistics', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router),//temp route
-                new RouterLink('Resources', '/'+ResourcesRoutes.ERROR_PAGE, 'home', 'expanded', this.router),
+                new RouterLink('Wildfires List', '/'+ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
+                new RouterLink('Current Statistics', '/'+ResourcesRoutes.CURRENTSTATISTICS, 'home', 'expanded', this.router),//temp route
+                new RouterLink('Resources', '/'+ResourcesRoutes.RESOURCES, 'home', 'expanded', this.router),
 
 
             ]
@@ -195,12 +191,12 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         console.log('initFooterMenu')
         this.footerMenu = ( this.applicationConfig.device == 'desktop' ?
             [
-                new RouterLink('Home', '/', 'home', 'expanded', this.router),
-                new RouterLink('Disclaimer', '/', 'home', 'expanded', this.router),
-                new RouterLink('Privacy', '/', 'home', 'expanded', this.router),
-                new RouterLink('Accessibility', '/', 'home', 'expanded', this.router),
-                new RouterLink('Copyright', '/', 'home', 'expanded', this.router),
-                new RouterLink('Contact Us', '/', 'home', 'expanded', this.router),
+                new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
+                new RouterLink('Disclaimer', 'https://www2.gov.bc.ca/gov/content/home/disclaimer', 'home', 'expanded', this.router),
+                new RouterLink('Privacy', 'https://www2.gov.bc.ca/gov/content/home/privacy', 'home', 'expanded', this.router),
+                new RouterLink('Accessibility', 'https://www2.gov.bc.ca/gov/content/home/accessible-government', 'home', 'expanded', this.router),
+                new RouterLink('Copyright', 'https://www2.gov.bc.ca/gov/content/home/copyright', 'home', 'expanded', this.router),
+                new RouterLink('Contact Us', 'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services', 'home', 'expanded', this.router),
 
 
             ]
@@ -343,7 +339,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     navigateToFooterPage(event:any) {
-        console.log(event)
+        window.open(event.route, "_blank");
     }
 }
 
