@@ -10,4 +10,11 @@ public class ResourceTypes extends BaseResourceTypes {
 
 	public static final String ATTACHMENT_NAME = "attachment";
 	public static final String ATTACHMENT = NAMESPACE + ATTACHMENT_NAME;
+	
+	public static final String INCIDENT_NAME = "incident";
+	public static final String INCIDENT = NAMESPACE + INCIDENT_NAME;
+	
+	public static final String INCIDENT_LIST_NAME = "incident";
+	public static final String INCIDENT_LIST = NAMESPACE + INCIDENT_NAME;
+	
 }
