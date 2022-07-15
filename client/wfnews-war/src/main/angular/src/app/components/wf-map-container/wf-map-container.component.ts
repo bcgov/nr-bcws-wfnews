@@ -27,6 +27,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
         this.mapIndexAuto = mapIndexAuto
         // console.log('WFMapContainerComponent constructor',this.mapIndexAuto)
     }
+    
 
     ngOnDestroy() {
         this.destroyMap()

@@ -1,13 +1,9 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Event, NavigationStart, OutletContext } from '@angular/router';
-import { select } from '@ngrx/store';
 import {
-    Message, MessageType, SearchActions, WFNROF_WINDOW_NAME, WFROF_WINDOW_NAME
+    Message, MessageType, WFNROF_WINDOW_NAME, WFROF_WINDOW_NAME
 } from '@wf1/core-ui';
-import {
-    ProvisionalZoneResource, PublicReportOfFireResource, SimpleReportOfFireResource,
-    SimpleWildfireIncidentResource
-} from "@wf1/incidents-rest-api";
+
 import * as moment from 'moment';
 import { forkJoin, Subscription } from 'rxjs';
 import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
@@ -17,6 +13,7 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import { MapServiceStatus } from './services/map-config.service';
 import * as MapActions from './store/map/map.actions';
 import { LonLat } from './services/wfnews-map.service/util';
+import { ResourcesRoutes } from './utils';
 
 
 @Component({
@@ -24,7 +21,9 @@ import { LonLat } from './services/wfnews-map.service/util';
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
+
 export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy, OnInit, AfterViewInit {
+
     public TOOLTIP_DELAY = 500;
 
     title: string = 'News';
@@ -46,14 +45,15 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     applicationState: WfApplicationState = {
-        menu: this.applicationConfig.device == 'desktop' ? 'expanded' : 'hidden'
+        menu: 'hidden'
     }
 
     appMenu: WfMenuItems
-
+    footerMenu: WfMenuItems
     orientation
 
     showLeftPanel = true
+
 
     private lastSuccessPollSub: Subscription;
     private lastSyncDate;
@@ -165,14 +165,20 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
 
 
-        this.initAppMenu()
+        this.initAppMenu();
+        this.initFooterMenu();
     }
 
     initAppMenu() {
         console.log('initAppMenu')
         this.appMenu = ( this.applicationConfig.device == 'desktop' ?
             [
-                new RouterLink('Home', '/', 'home', 'expanded', this.router),
+                new RouterLink('Active Wildfires Map', '/'+ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
+                new RouterLink('Wildfires List', '/'+ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
+                new RouterLink('Current Statistics', '/'+ResourcesRoutes.CURRENTSTATISTICS, 'home', 'expanded', this.router),//temp route
+                new RouterLink('Resources', '/'+ResourcesRoutes.RESOURCES, 'home', 'expanded', this.router),
+
+
             ]
         :
             [
@@ -180,6 +186,27 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
             ]
         ) as unknown as WfMenuItems
     }
+
+    initFooterMenu() {
+        console.log('initFooterMenu')
+        this.footerMenu = ( this.applicationConfig.device == 'desktop' ?
+            [
+                new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
+                new RouterLink('Disclaimer', 'https://www2.gov.bc.ca/gov/content/home/disclaimer', 'home', 'expanded', this.router),
+                new RouterLink('Privacy', 'https://www2.gov.bc.ca/gov/content/home/privacy', 'home', 'expanded', this.router),
+                new RouterLink('Accessibility', 'https://www2.gov.bc.ca/gov/content/home/accessible-government', 'home', 'expanded', this.router),
+                new RouterLink('Copyright', 'https://www2.gov.bc.ca/gov/content/home/copyright', 'home', 'expanded', this.router),
+                new RouterLink('Contact Us', 'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services', 'home', 'expanded', this.router),
+
+
+            ]
+        :
+            [
+                new RouterLink('Home', '/', 'home', 'hidden', this.router),
+            ]
+        ) as unknown as WfMenuItems
+    }
+
 
     ngAfterViewInit() {
 
@@ -305,6 +332,14 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         //         return { useSecure: !resp.ok }
         //     } )
 		// } )
+    }
+
+    navigateToBcWebsite() {
+        window.open("https://www2.gov.bc.ca/gov/content/safety/wildfire-status", "_blank");
+    }
+
+    navigateToFooterPage(event:any) {
+        window.open(event.route, "_blank");
     }
 }
 
