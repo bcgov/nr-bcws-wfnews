@@ -19,7 +19,6 @@
 		<dependency>
 			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
 			<artifactId>wfone-common-model</artifactId>
-			<version>1.3.0</version>
 		</dependency>
 
 		<dependency>

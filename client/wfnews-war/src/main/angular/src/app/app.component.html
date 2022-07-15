@@ -7,28 +7,34 @@
     *ngIf="!extOutlet.isActivated"
     [config]="applicationConfig"
     [(state)]="applicationState"
+
 >
     <wf-header
         [config]="applicationConfig"
         [(state)]="applicationState"
+        [useAppLogo]="false"
+        [useSystemAndUser]="false"
+        [useMenu]="false"
+        (bcLogoClick)="navigateToBcWebsite()"
     ></wf-header>
 
-    <wf-menu
+    <wf-menu-bar
         [menuItems]="appMenu"
         [config]="applicationConfig"
         [(state)]="applicationState"
-    ></wf-menu>
+    ></wf-menu-bar>
 
     <wfnews-panel-container
-        [showLeftPanel]="showLeftPanel"
+        [showLeftPanel]="false"
     >
-        <ng-container left-panel >
-            <router-outlet></router-outlet>
+        <ng-container>
+            <!-- <router-outlet></router-outlet> -->
         </ng-container>
 
         <wf-active-fire-count-container
             [config]="applicationConfig"
-        [(state)]="applicationState"></wf-active-fire-count-container>
+        [(state)]="applicationState">
+    </wf-active-fire-count-container>
 
         <wf-map-container right-panel
             [mapConfig]="mapConfig"
@@ -36,5 +42,11 @@
         ></wf-map-container>
     </wfnews-panel-container>
 
-    <!-- <wf-footer></wf-footer> -->
+    <wf-footer
+        [footerItems]="footerMenu"
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+        (activeItemChanged)="navigateToFooterPage($event)"
+    ></wf-footer>
+
 </wf-application>
