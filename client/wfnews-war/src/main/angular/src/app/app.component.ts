@@ -14,6 +14,7 @@ import { MapServiceStatus } from './services/map-config.service';
 import * as MapActions from './store/map/map.actions';
 import { LonLat } from './services/wfnews-map.service/util';
 import { ResourcesRoutes } from './utils';
+import { getIncidents } from './store/incidents/incidents.actions';
 
 
 @Component({
@@ -161,7 +162,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 this.onResize()
             });
         }
-
+        this.store.dispatch(getIncidents('test'))
 
 
 
