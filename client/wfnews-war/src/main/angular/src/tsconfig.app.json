@@ -3,7 +3,7 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "types": []
+    "types": ["jest"]
   },
   "files": [
     "main.ts",
@@ -11,6 +11,7 @@
     "globals.ts"
   ],
   "include": [
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "**/*.ts"
   ]
 }
