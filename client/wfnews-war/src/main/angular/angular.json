@@ -115,17 +115,17 @@
                             "node_modules/popper.js/dist/umd/popper.min.js",
                             "node_modules/bootstrap/dist/js/bootstrap.min.js",
                             "node_modules/leaflet/dist/leaflet.js",
-                            "src/assets/js/wfml/src/wfml/wfml-leafext.js",
-                            "src/assets/js/wfml/src/wfml/wfml-main.js",
-                            "src/assets/js/wfml/src/wfml/wfml-location.js",
-                            "src/assets/js/wfml/src/wfml/wfml-layer.js"
+                            // "src/assets/js/wfml/src/wfml/wfml-leafext.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-main.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-location.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-layer.js"
                         ],
                         "styles": [
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
                             "node_modules/font-awesome/css/font-awesome.css",
-                            "src/styles.scss",
+                            // "src/styles.scss",
                             "node_modules/leaflet/dist/leaflet.css",
-                            "src/assets/js/wfml/src/wfml/wfml.css"
+                            // "src/assets/js/wfml/src/wfml/wfml.css"
                         ],
                         "assets": [
                             "src/assets",
@@ -133,10 +133,10 @@
                             "src/oauth.html",
                             "src/config.jsp",
                             "src/override_config.json",
-                            "src/assets/js/wfml/src/wfml/wfml-leafext.js",
-                            "src/assets/js/wfml/src/wfml/wfml-main.js",
-                            "src/assets/js/wfml/src/wfml/wfml-location.js",
-                            "src/assets/js/wfml/src/wfml/wfml-layer.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-leafext.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-main.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-location.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-layer.js",
                             "src/manifest.json",
                             "src/refresh-token.html"
                         ]
