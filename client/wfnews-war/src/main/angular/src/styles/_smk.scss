@@ -1,0 +1,40 @@
+.wfim-application.orientation-portrait {
+    .smk-map-frame.smk-theme-wf.smk-device-mobile {
+        .smk-overlay {
+            .smk-toolbar {
+                right: unset;
+            }
+
+            .smk-actionbar {
+                top: calc( var( --overlay-padding ) + var( --toolbar-height ) );
+            }
+        }
+    }
+}
+
+.wfim-application.orientation-landscape {
+    .smk-map-frame.smk-theme-wf.smk-device-mobile {
+        .smk-overlay {
+            .smk-toolbar {
+                right: unset;
+            }
+        }
+
+        .smk-sidepanel {
+            position: absolute;
+            top: calc(var(--toolbar-height) + 10px);
+            left: 0;
+            right: unset;
+            bottom: var(--panel-bottom);
+            width: var(--panel-width);
+
+            border-bottom: unset;
+            margin-top: unset;
+            background-color: unset;
+
+            .smk-elastic-panel {
+                height: auto;
+            }
+        }
+    }
+}

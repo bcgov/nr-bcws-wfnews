@@ -1,0 +1,52 @@
+<ng-template #bespokeContainer></ng-template>
+
+<router-outlet #extOutlet="outlet" name="root"></router-outlet>
+
+<wf-application class="wfnews-application"
+    [ngClass]="'orientation-' + orientation"
+    *ngIf="!extOutlet.isActivated"
+    [config]="applicationConfig"
+    [(state)]="applicationState"
+
+>
+    <wf-header
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+        [useAppLogo]="false"
+        [useSystemAndUser]="false"
+        [useMenu]="false"
+        (bcLogoClick)="navigateToBcWebsite()"
+    ></wf-header>
+
+    <wf-menu-bar
+        [menuItems]="appMenu"
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+    ></wf-menu-bar>
+
+    <wfnews-panel-container
+        [showLeftPanel]="false"
+    >
+        <ng-container>
+            <!-- <router-outlet></router-outlet> -->
+        </ng-container>
+
+        <wf-active-fire-count-container
+            [config]="applicationConfig"
+        [(state)]="applicationState">
+    </wf-active-fire-count-container>
+
+        <wf-map-container right-panel
+            [mapConfig]="mapConfig"
+            (mapInitialized)="initMap($event)"
+        ></wf-map-container>
+    </wfnews-panel-container>
+
+    <wf-footer
+        [footerItems]="footerMenu"
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+        (activeItemChanged)="navigateToFooterPage($event)"
+    ></wf-footer>
+
+</wf-application>

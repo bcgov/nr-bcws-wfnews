@@ -1,0 +1,172 @@
+{
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "cli": {
+      "analytics": false
+    },
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "WFNEWS": {
+            "root": "",
+            "sourceRoot": "src",
+            "projectType": "application",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "preserveSymlinks": true,
+                        "baseHref": "/wfnews/",
+                        "outputPath": "dist/wfnews",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "tsConfig": "src/tsconfig.app.json",
+                        "polyfills": "src/polyfills.ts",
+                        "assets": [
+                            "src/assets",
+                            "src/favicon.ico",
+                            "src/config.jsp",
+                            "src/causeCodesToken.jsp",
+                            "src/manifest.json",
+                            "src/refresh-token.html",
+                            "src/wfim-service-worker.js",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/@qqnluaq/smk/dist/assets",
+                                "output": "assets/smk/assets"
+                            },
+                            {
+                                "glob": "splash-screen/**/*",
+                                "input": "node_modules/@wf1/wfcc-application-ui",
+                                "output": "assets"
+                            }
+                        ],
+                        "styles": [
+                            "src/styles/main.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/popper.js/dist/umd/popper.min.js",
+                            "src/assets/js/visualize.js/visualize.js",
+                            "node_modules/@qqnluaq/smk/dist/smk.js"
+                        ],
+                        "vendorChunk": true,
+                        "extractLicenses": false,
+                        "buildOptimizer": false,
+                        "sourceMap": true,
+                        "optimization": false,
+                        "namedChunks": true
+                    },
+                    "configurations": {
+                        "production": {
+                            "budgets": [
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb"
+                                }
+                            ],
+                            "optimization": {
+                                "scripts": true,
+                                "styles": true,
+                                "fonts": false
+                            },
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "serviceWorker": true
+                        }
+                    },
+                    "defaultConfiguration": ""
+                },
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "WFNEWS:build",
+                        "port": 6200
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "WFNEWS:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "WFNEWS:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "karmaConfig": "./karma.conf.js",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "src/tsconfig.spec.json",
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/popper.js/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/leaflet/dist/leaflet.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-leafext.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-main.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-location.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-layer.js"
+                        ],
+                        "styles": [
+                            "node_modules/bootstrap/dist/css/bootstrap.min.css",
+                            "node_modules/font-awesome/css/font-awesome.css",
+                            // "src/styles.scss",
+                            "node_modules/leaflet/dist/leaflet.css",
+                            // "src/assets/js/wfml/src/wfml/wfml.css"
+                        ],
+                        "assets": [
+                            "src/assets",
+                            "src/favicon.ico",
+                            "src/oauth.html",
+                            "src/config.jsp",
+                            "src/override_config.json",
+                            // "src/assets/js/wfml/src/wfml/wfml-leafext.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-main.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-location.js",
+                            // "src/assets/js/wfml/src/wfml/wfml-layer.js",
+                            "src/manifest.json",
+                            "src/refresh-token.html"
+                        ]
+                    }
+                }
+            }
+        },
+        "WFIM-e2e": {
+            "root": "",
+            "sourceRoot": "e2e",
+            "projectType": "application",
+            "architect": {
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "./protractor.conf.js",
+                        "devServerTarget": "WFIM:serve"
+                    }
+                }
+            }
+        }
+    },
+    "defaultProject": "WFNEWS",
+    "schematics": {
+        "@schematics/angular:component": {
+            "prefix": "app",
+            "style": "css"
+        },
+        "@schematics/angular:directive": {
+            "prefix": "app"
+        }
+    }
+}

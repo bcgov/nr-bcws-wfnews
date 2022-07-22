@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../out-tsc/app",
+    "baseUrl": "./",
+    "types": ["jest"]
+  },
+  "files": [
+    "main.ts",
+    "polyfills.ts",
+    "globals.ts"
+  ],
+  "include": [
+    "src/**/*.d.ts",
+    "**/*.ts"
+  ]
+}

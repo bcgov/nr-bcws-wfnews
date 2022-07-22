@@ -1,0 +1,14 @@
+@import '../variables';
+
+.error-dialog {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+
+  h1 {
+    color: $colour-red;
+    font-size: large;
+    text-align: center;
+  }
+}

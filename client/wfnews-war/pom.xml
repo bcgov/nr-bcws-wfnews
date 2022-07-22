@@ -1,0 +1,263 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>ca.bc.gov.nrs.wfnews</groupId>
+		<artifactId>wfnews-parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
+	<artifactId>wfnews-war</artifactId>
+	<packaging>war</packaging>
+	<name>wfnews-war</name>
+	<url>http://maven.apache.org</url>
+	<properties>
+		<build.number>${env.BUILD_NUMBER}</build.number>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<dollar>$</dollar>
+	    <node.version>v12.17.0</node.version>
+        <npm.version>6.14.5</npm.version>
+		<node.path>${user.home}/.node</node.path>
+		<typescript.path>src/main/angular</typescript.path>
+		<npm.url>https://apps.vividsolutions.com/artifactory/api/npm/npm/</npm.url>
+
+		<webade.datasource.url>jdbc:oracle:thin:@osdb.vividsolutions.com:1521:dev</webade.datasource.url>
+		<webade.datasource.username>proxy_webade_bootstrap</webade.datasource.username>
+		<webade.datasource.password>password</webade.datasource.password>
+	</properties>
+	<dependencies>
+		<!-- WebADE  -->
+		<dependency>
+			<groupId>ca.bc.gov.webade</groupId>
+			<artifactId>webade-spring-bootstrap-support</artifactId>
+		</dependency>
+
+		<!-- WebAde Rest -->
+		<dependency>
+			<groupId>ca.bc.gov.webade</groupId>
+			<artifactId>webade-rest-client</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>ca.bc.gov.nrs.common</groupId>
+			<artifactId>nrs-common-rest-client</artifactId>
+		</dependency>
+
+		<!-- Webade OAUTH2 -->
+		<dependency>
+			<groupId>ca.bc.gov.webade</groupId>
+			<artifactId>webade-oauth2-common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ca.bc.gov.webade</groupId>
+			<artifactId>webade-oauth2-rest-token-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ca.bc.gov.webade</groupId>
+			<artifactId>webade-oauth2-test-support</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+		</dependency> 
+
+		<!-- Spring Security -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- Logging -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+		</dependency>
+
+		<!-- apache io for webade pref compress/decompress -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+		</dependency>
+
+		</dependencies>
+	<build>
+		<!-- Configure the resources to be filtered for property replacement -->
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.1.1</version>
+				<configuration>
+					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
+					<webResources>
+					  <resource>
+						<directory>${basedir}/target/angular</directory>
+						<includes>
+						  <include>assets/**/*.*</include>
+						  <include>*.*</include>
+						</includes>
+					  </resource>
+					  <resource>
+						<directory>src/main/webapp</directory>
+					  </resource>
+					</webResources>
+
+				</configuration>
+
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.9.1</version>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.2.1</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.1</version>
+				<configuration>
+					<source>${java-source-version}</source>
+					<target>${java-target-version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.5.5</version>
+				<executions>
+					<execution>
+						<id>create-distribution</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+						<descriptorSourceDirectory>src/cd/assemblies</descriptorSourceDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+            <plugin>
+				<groupId>com.github.eirslett</groupId>
+				<artifactId>frontend-maven-plugin</artifactId>
+				<version>1.6</version>
+				<configuration>
+					<nodeVersion>${node.version}</nodeVersion>
+					<npmVersion>${npm.version}</npmVersion>
+					<workingDirectory>${typescript.path}</workingDirectory>
+					<installDirectory>${node.path}</installDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>install node and npm</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>install-node-and-npm</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>npm install</id>
+						<phase>initialize</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>install --no-package-lock --registry=${npm.url}</arguments>
+						</configuration>
+					</execution>
+					<execution>
+						<id>npm run-script mavenbuild</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>npm</goal>
+						</goals>
+						<configuration>
+							<arguments>run-script mavenbuild</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,93 @@
+/**
+ Colour Variables
+ */
+$opacity-grey: rgba(0, 0, 0, 0.13);
+$opacity-dark-grey: rgba(0, 0, 0, 0.54);
+$background-color: $opacity-grey;
+$colour-dark-grey: #263238;
+$colour-medium-grey: #7d7d7d;
+$colour-light-grey: #a7a9ac;
+$colour-toolbar-grey: #bdbdbd;
+$colour-yellow: #e69f00;
+$colour-light-yellow: #f9ca81;
+$colour-lighter-yellow: #f9f9cd;
+$colour-black: #000000;
+$colour-red: #ff4545;
+$colour-green: #009e73;
+$colour-blue: #0600FF;
+$colour-white: #ffffff;
+$colour-errors: #f44336;
+$colour-warnings: orange;
+$colour-orange: #F59A23;
+
+$colour-toolbar-background: rgb(192, 198, 202);
+
+$colour-incident-default: $colour-dark-grey;
+$colour-incident-out: $colour-light-grey;
+$colour-incident-being-held: $colour-yellow;
+$colour-incident-not-set: $colour-black;
+$colour-incident-out-of-control: $colour-red;
+$colour-incident-under-control: $colour-green;
+$colour-incident-interface: $colour-red;
+$colour-incident-non-interface: $colour-green;
+
+$colour-incident-with-status-active: $colour-green;
+$colour-incident-with-status-completed: $colour-light-grey;
+
+$colour-incident-agency-assist-active: $colour-green;
+$colour-incident-agency-assist-completed: $colour-light-grey;
+
+$colour-incident-field-activity-active: $colour-green;
+$colour-incident-field-activity-completed: $colour-light-grey;
+
+$colour-rof-default: $colour-dark-grey;
+$colour-rof-draft: $colour-light-grey;
+$colour-rof-general: $colour-blue;
+$colour-rof-interface: $colour-red;
+$colour-rof-campfire: $colour-yellow;
+$colour-rof-cigarette: $colour-black;
+
+$colour-sidebar-title: $colour-white;
+$colour-sidebar-title-background: $colour-medium-grey;
+$colour-sidebar-toolbar: $colour-black;
+$colour-sidebar-toolbar-background: $colour-toolbar-grey;
+$colour-sidebar-filter: $colour-dark-grey;
+$colour-sidebar-filter-background: $colour-white;
+
+$colour-header-background: #003366;
+
+/**
+ Spacing Variables
+ */
+
+// Standard measurements
+$wf1-app-header-height: 72px;
+$wf1-toolbar-height: 3rem;
+$wf1-sidebar-title-height: 2.75rem;
+$wf1-filter-toolbar-content-height: 12.5rem;
+$wf1-filter-toolbar-total-height: $wf1-toolbar-height + $wf1-filter-toolbar-content-height;
+
+// Side panel related measurements for sidebar interfaces
+$wf1-total-app-header-height: calc( #{ $wf1-app-header-height } + #{ $wf1-toolbar-height } );
+$wf1-header-plus-toolbar-total-height: $wf1-sidebar-title-height + $wf1-toolbar-height;
+$wf1-header-plus-toolbar-and-filter-total-height: $wf1-header-plus-toolbar-total-height + $wf1-toolbar-height;
+$wf1-header-plus-toolbar-and-filter-content-total-height: $wf1-header-plus-toolbar-total-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height;
+$wf1-app-map-panel-height: calc(100vh - #{$wf1-total-app-header-height});
+$wf1-app-side-panel-height: calc( 100vh - #{ $wf1-app-header-height } - #{ $wf1-sidebar-title-height } );
+$wf1-app-side-panel-with-toolbar-height: calc( 100vh - #{ $wf1-app-header-height } - #{ $wf1-header-plus-toolbar-total-height } );
+// TODO: Fix filter styling issue that requires .1rem to be added to below variables to hide vertical scrollbar.
+$wf1-app-side-panel-with-toolbar-and-filter-height: calc( 100vh - #{ $wf1-total-app-header-height } - #{ $wf1-header-plus-toolbar-and-filter-total-height } + .1rem );
+$wf1-app-side-panel-with-toolbar-and-filter-content-height: calc( 100vh - #{ $wf1-total-app-header-height } - #{ $wf1-header-plus-toolbar-and-filter-content-total-height } + .1rem);
+
+// Main panel related measurements for full screen interfaces. (No top-level toolbar)
+$wf1-app-main-panel-container-height: calc(100vh - $wf1-app-header-height);
+$wf1-app-main-panel-tab-panel-height: calc( 100vh - #{ $wf1-app-header-height } - #{ $wf1-toolbar-height } - 1.1rem);
+// TODO: Fix filter styling issue that requires .1rem to be added to below variables to hide vertical scrollbar.
+// $wf1-app-main-panel-table-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height});
+// $wf1-app-main-panel-table-with-filter-content-height: calc(100vh - #{$wf1-total-app-header-height + $wf1-toolbar-height + $wf1-filter-toolbar-content-height + .1rem});
+
+// Other measurements
+$wf1-app-header-mobile-height: 4rem;
+$wf1-app-map-mobile-height: calc(100vh - (7rem));
+$wf1-loading-screen-height: calc(100vh - (6rem));
+$max-component-width: 65rem;
