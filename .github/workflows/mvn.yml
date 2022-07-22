@@ -21,6 +21,19 @@ jobs:
       - name: maven-settings-xml-action
         uses: whelk-io/maven-settings-xml-action@v20
         with:
+          servers: >
+            [
+              {
+                "id":"central",
+                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
+                "password": "${{ secrets.IDIR_PASSWORD}}"
+              },
+              {
+                "id":"snapshots",
+                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
+                "password": "${{ secrets.IDIR_PASSWORD}}"
+              }
+            ]
           repositories: >
             [
               {
@@ -32,19 +45,6 @@ jobs:
                 "id": "central", 
                 "name": "libs-release",
                 "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-release"
-              }
-            ]
-          servers: >
-            [
-              {
-                "id":"central",
-                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
-                "password": "${{ secrets.IDIR_AS_EMAIL}}"
-              },
-              {
-                "id":"snapshots",
-                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
-                "password": "${{ secrets.IDIR_AS_EMAIL}}"
               }
             ]
       - name: Build with Maven
