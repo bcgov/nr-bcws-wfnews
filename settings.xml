@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<settings xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.1.0 http://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="http://maven.apache.org/SETTINGS/1.1.0"
- xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<settings xsi:schemaLocation="https://maven.apache.org/SETTINGS/1.1.0 https://maven.apache.org/xsd/settings-1.1.0.xsd" xmlns="https://maven.apache.org/SETTINGS/1.1.0"
+ xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance">
 <servers>
 <server>
   <username>chrprest@gov.bc.ca</username>
@@ -22,13 +22,13 @@
    </snapshots>
    <id>central</id>
    <name>libs-release</name>
-   <url>http://bwa.nrs.gov.bc.ca/int/artifactory/libs-release</url>
+   <url>https://bwa.nrs.gov.bc.ca/int/artifactory/libs-release</url>
  </repository>
  <repository>
    <snapshots />
    <id>snapshots</id>
    <name>libs-snapshot</name>
-   <url>http://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot</url>
+   <url>https://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot</url>
  </repository>
 </repositories>
 <pluginRepositories>
@@ -38,13 +38,13 @@
    </snapshots>
    <id>central</id>
    <name>plugins-release</name>
-   <url>http://bwa.nrs.gov.bc.ca/int/artifactory/plugins-release</url>
+   <url>https://bwa.nrs.gov.bc.ca/int/artifactory/plugins-release</url>
  </pluginRepository>
  <pluginRepository>
    <snapshots />
    <id>snapshots</id>
    <name>plugins-snapshot</name>
-   <url>http://bwa.nrs.gov.bc.ca/int/artifactory/plugins-snapshot</url>
+   <url>https://bwa.nrs.gov.bc.ca/int/artifactory/plugins-snapshot</url>
  </pluginRepository>
 </pluginRepositories>
 <id>artifactory</id>
