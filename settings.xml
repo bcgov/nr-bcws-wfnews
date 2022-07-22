@@ -3,13 +3,13 @@
  xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance">
 <servers>
 <server>
-  <username>chrprest@gov.bc.ca</username>
-  <password>turning_WIDENING*gyre</password>
+  <username>${repo.login}</username>
+  <password>${repo.password}</password>
   <id>central</id>
 </server>
 <server>
-  <username>chrprest@gov.bc.ca</username>
-  <password>turning_WIDENING*gyre</password>
+  <username>${repo.login}</username>
+  <password>${repo.password}</password>
 <id>snapshots</id>
 </server>
 </servers>
