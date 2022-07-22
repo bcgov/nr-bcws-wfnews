@@ -1,7 +1,7 @@
 name: Java CI
 
 # Controls when the action will run.
-on: [workflow_dispatch]
+on: workflow_dispatch
 
 jobs:
   build:
