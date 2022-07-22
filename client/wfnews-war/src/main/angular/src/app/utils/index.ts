@@ -50,3 +50,28 @@ export function provideBootstrapEffects(effects: Type<any>[]): any {
         }
     ];
 }
+
+export const DATE_FORMATS = {
+    fullPickerInput: "Y-MM-DD HH:mm",
+    datePickerInput: "Y-MM-DD",
+    timePickerInput: "HH:mm",
+    monthYearLabel: "Y-MM",
+    dateA11yLabel: "Y-MMM-DD",
+    monthYearA11yLabel: "YYYY-MMM",
+    simplifiedDate: "MMM DD",
+    simplifiedMonthDate: "MM-DD",
+    fullPickerInputWithSlash: "Y-MM-DD/ HH:mm",
+    API_DATE: "Y-MM-DD",
+    API_TIMESTAMP: 'Y-MM-DD HH:mm:ss',
+    API_TIMESTAMP_WITH_SEP: 'Y-MM-DDTHH:mm:ss'
+};
+
+export function getElementInnerText(el: HTMLElement): string {
+    return el.innerText;
+}
+
+export  const hasValues = (obj) => Object.values(obj).some(v => v !== null && typeof v !== "undefined");
+
+export function isElementTruncated(el: HTMLElement): boolean {
+    return el.offsetWidth < el.scrollWidth;
+}

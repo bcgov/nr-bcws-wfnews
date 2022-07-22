@@ -1,9 +1,8 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { Actions } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { TokenService } from "@wf1/core-ui";
-import { IncidentsContainer } from "../../containers/incidents/incidents-container.component";
 import { RootState } from "../../store";
 import { getIncidents } from "../../store/incidents/incidents.actions";
 
@@ -12,16 +11,34 @@ import { getIncidents } from "../../store/incidents/incidents.actions";
   templateUrl: './wf-active-fire-count-container.component.html',
   styleUrls: [ './wf-active-fire-count-container.component.scss' ],
 })
-export class WFActiveFireCountContainerComponent extends IncidentsContainer implements OnInit, OnChanges { 
-  ngOnInit()  {
-    setTimeout(() => {
-      this.store.dispatch(getIncidents('test'))
-    },2000)
-    //this.store.dispatch(getIncidents('test'))
+export class WFActiveFireCountContainerComponent implements OnInit, OnChanges { 
+
+  @Input() incidents:any;
+
+  activeFireCount: number;
+
+  constructor(private http: HttpClient){
 
   }
 
+  ngOnInit()  {
+      this.getActiveFireCounts();
+  }
+
   ngOnChanges(changes: SimpleChanges) {
-      console.log('sa')
+
+  }
+
+  getActiveFireCounts(){
+    setTimeout(() => {
+      let url = `http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT/incidents`;
+      let headers = new HttpHeaders();
+      headers.append('Access-Control-Allow-Origin','*');
+      headers.append('Accept','*/*');
+      this.http.get<any>(url,{headers}).subscribe(response => {
+        console.log(response)
+        this.activeFireCount = response.collection.length;
+      })
+    },2000)
   }
 }
