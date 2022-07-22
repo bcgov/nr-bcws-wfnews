@@ -3,7 +3,9 @@ import { ActionReducer, ActionReducerMap } from '@ngrx/store';
 import { searchReducer, SearchState, SortDirection } from '@wf1/core-ui';
 import { storeLogger } from 'ngrx-store-logger';
 import { ApplicationState } from "./application/application.state";
+// import { ApplicationState } from "./application/application.state";
 import { IncidentsEffects } from "./incidents/incidents.effects";
+import { incidentsReducer } from "./incidents/incidents.reducer";
 import { IncidentsState } from "./incidents/incidents.state";
 
 
@@ -18,6 +20,7 @@ export interface RouterState {
 }
 
 export const rootReducers: ActionReducerMap<any> = {
+    incidents: incidentsReducer,
     search: searchReducer,
     router: routerReducer
 };

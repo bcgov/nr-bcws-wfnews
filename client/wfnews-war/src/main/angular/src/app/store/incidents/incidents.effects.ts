@@ -45,12 +45,14 @@ export class IncidentsEffects{
         debounceTime(500),
         switchMap(
             ([action,store]) =>{
-                let url = `localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT/incidents`;
+                let url = `http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT/incidents`;
                 let headers = new HttpHeaders();
+                headers.append('Access-Control-Allow-Origin','*');
+                headers.append('Accept','*/*');
                 let typedAction = <GetIncidentsAction> action;
-                console.log("SAWAW@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
                 return this.http.get<any>(url,{headers}).pipe(
                     map((response:any) => {
+                        console.log(response)
                         return getIncidentsSuccess(typedAction.componentId,response);
                     }),
                     catchError(error => of(getIncidentsError(typedAction.componentId,convertToErrorState(error))))

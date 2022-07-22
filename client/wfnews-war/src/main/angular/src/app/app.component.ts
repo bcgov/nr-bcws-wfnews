@@ -162,7 +162,9 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 this.onResize()
             });
         }
-        this.store.dispatch(getIncidents('test'))
+            console.log("yes?")
+            // this.store.dispatch(getIncidents('test'))
+        
 
 
 
@@ -337,6 +339,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     navigateToBcWebsite() {
         window.open("https://www2.gov.bc.ca/gov/content/safety/wildfire-status", "_blank");
+        
     }
 
     navigateToFooterPage(event:any) {

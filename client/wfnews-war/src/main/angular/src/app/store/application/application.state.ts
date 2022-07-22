@@ -1,9 +1,9 @@
-import { SearchState } from "@wf1/core-ui";
+// import { SearchState } from "@wf1/core-ui";
 
-export interface PagingSearchState extends SearchState {
-    pageIndex?: number;
-    pageSize?: number;
-}
+// export interface PagingSearchState extends SearchState {
+//     pageIndex?: number;
+//     pageSize?: number;
+// }
 export interface PagingInfoRequest {
     query?: string;
     pageNumber: number;
