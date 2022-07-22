@@ -18,34 +18,5 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: maven-settings-xml-action
-        uses: whelk-io/maven-settings-xml-action@v20
-        with:
-          servers: >
-            [
-              {
-                "id":"central",
-                "username": "chrprest@gov.bc.ca", 
-                "password": "turning_WIDENING*gyre"
-              },
-              {
-                "id":"snapshots",
-                "username": "chrprest@gov.bc.ca", 
-                "password": "turning_WIDENING*gyre"
-              }
-            ]
-          repositories: >
-            [
-              {
-                "id": "snapshots",
-                "name": "libs-snapshots",
-                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot"
-              },
-              {
-                "id": "central", 
-                "name": "libs-release",
-                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-release"
-              }
-            ]
       - name: Build with Maven
         run: mvn --settings settings.xml --batch-mode --update-snapshots -f server/pom.xml package
