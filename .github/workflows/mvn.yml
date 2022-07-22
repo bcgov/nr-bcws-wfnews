@@ -26,14 +26,23 @@ jobs:
               {
                 "id": "snapshots",
                 "name": "libs-snapshots",
-                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot", 
-                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
-                "password": "${{ secrets.IDIR_AS_EMAIL}}"
+                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot"
               },
               {
                 "id": "central", 
                 "name": "libs-release",
-                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-release", 
+                "url":"https://bwa.nrs.gov.bc.ca/int/artifactory/libs-release"
+              }
+            ]
+          servers: >
+            [
+              {
+                "id":"central",
+                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
+                "password": "${{ secrets.IDIR_AS_EMAIL}}"
+              },
+              {
+                "id":"snapshots",
                 "username": "${{ secrets.IDIR_AS_EMAIL}}", 
                 "password": "${{ secrets.IDIR_AS_EMAIL}}"
               }
