@@ -18,5 +18,10 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      - name: update mvn settings
+        uses: s4u/maven-settings-action@v2.6.0
+          with:
+            servers: '[{"id": "snapshots", "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot", "username": "${{ secrets.IDIR_AS_EMAIL}}", "password": "IDIR_PASSWORD"},
+                       {"id": "central", "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-release", "username": "${{ secrets.IDIR_AS_EMAIL}}", "password": "IDIR_PASSWORD""}']
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots -f server/pom.xml package
