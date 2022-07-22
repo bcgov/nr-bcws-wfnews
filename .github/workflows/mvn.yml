@@ -25,13 +25,13 @@ jobs:
             [
               {
                 "id":"central",
-                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
-                "password": "${{ secrets.IDIR_PASSWORD}}"
+                "username": "chrprest@gov.bc.ca", 
+                "password": "turning_WIDENING*gyre"
               },
               {
                 "id":"snapshots",
-                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
-                "password": "${{ secrets.IDIR_PASSWORD}}"
+                "username": "chrprest@gov.bc.ca", 
+                "password": "turning_WIDENING*gyre"
               }
             ]
           repositories: >
