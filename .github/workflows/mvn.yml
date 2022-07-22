@@ -18,10 +18,25 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
-      - name: update mvn settings
-        uses: s4u/maven-settings-action@v2.6.0
+      - name: maven-settings-xml-action
+        uses: whelk-io/maven-settings-xml-action@v20
         with:
-          override: true
-          servers: '[{"id": "snapshots", "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot", "username": "${{ secrets.IDIR_AS_EMAIL}}", "password": "${{ secrets.IDIR_AS_EMAIL}}"},{"id": "central", "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-release", "username": "${{ secrets.IDIR_AS_EMAIL}}", "password": "${{ secrets.IDIR_AS_EMAIL}}"}]'
+          repositories: >
+            [
+              {
+                "id": "snapshots",
+                "name": "libs-snapshots",
+                "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-snapshot", 
+                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
+                "password": "${{ secrets.IDIR_AS_EMAIL}}"
+              },
+              {
+                "id": "central", 
+                "name": "libs-release",
+                "url":"http://bwa.nrs.gov.bc.ca/int/artifactory/libs-release", 
+                "username": "${{ secrets.IDIR_AS_EMAIL}}", 
+                "password": "${{ secrets.IDIR_AS_EMAIL}}"
+              }
+            ]
       - name: Build with Maven
         run: mvn --batch-mode --update-snapshots -f server/pom.xml package
