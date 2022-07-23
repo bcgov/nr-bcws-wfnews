@@ -1,5 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Actions } from "@ngrx/effects";
 import { Store } from "@ngrx/store";
 import { TokenService } from "@wf1/core-ui";
@@ -10,6 +12,7 @@ import { getIncidents } from "../../store/incidents/incidents.actions";
   selector: 'wf-active-fire-count-container',
   templateUrl: './wf-active-fire-count-container.component.html',
   styleUrls: [ './wf-active-fire-count-container.component.scss' ],
+  
 })
 export class WFActiveFireCountContainerComponent implements OnInit, OnChanges { 
 
@@ -17,12 +20,19 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
 
   activeFireCount: number;
 
-  constructor(private http: HttpClient){
-
+  constructor(
+    private http: HttpClient,
+    private matIconRegistry: MatIconRegistry,
+    private domSanitize: DomSanitizer
+    ){
   }
 
   ngOnInit()  {
       this.getActiveFireCounts();
+      this.matIconRegistry.addSvgIcon (
+        'map-sign01',
+        this.domSanitize.bypassSecurityTrustResourceUrl("assets/icons/map-signs.svg")
+      )
   }
 
   ngOnChanges(changes: SimpleChanges) {

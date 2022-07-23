@@ -1,7 +1,11 @@
+:host{
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+
+}
+
 div {
     padding:10;
     margin-left: 10px;
-    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
     box-sizing: border-box;
 }
 p.title {
@@ -24,11 +28,31 @@ i.material-icons-outlined {
     padding-bottom: 0px;
 }
 
+.map-layer-divider {
+    width: 100%; 
+    height: 20px; 
+    border-bottom: 1px solid #dddddd; 
+    text-align: center
+}
+
+.map-layer-divider-text {
+    font-size: 15px; 
+    background: white; 
+    padding: 0 10px;
+}
+
 .map-layers {
+    padding: 20px 0;
     display: flex;
     justify-content: center;
 }
 
 .map-layer-item {
     padding: 10px 50px ;
+    color: #4f4f52
+}
+
+.map-layer-icon {
+    vertical-align: bottom;
+    padding-right: 10px;
 }
