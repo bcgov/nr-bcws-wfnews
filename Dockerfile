@@ -1,9 +1,9 @@
 FROM tomcat:8.5.47-jdk11-openjdk
 ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
-  CATALINA_OUT=/usr/local/tomcat/logs \
-  TOMCAT_MAJOR=8 
-  JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
+  CATALINA_OUT=/usr/local/tomcat/logs
+ENV TOMCAT_MAJOR=8 
+ENV JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 COPY server/wfnews-api-rest-endpoints/target/nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
 RUN apt-get update
 RUN apt-get install -y telnet
