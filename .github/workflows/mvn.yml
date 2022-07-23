@@ -19,7 +19,7 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} package
+        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
       - run: mkdir staging && cp target/*.jar staging
       - uses: actions/upload-artifact@v3
         with:
