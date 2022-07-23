@@ -2,11 +2,6 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-import { Actions } from "@ngrx/effects";
-import { Store } from "@ngrx/store";
-import { TokenService } from "@wf1/core-ui";
-import { RootState } from "../../store";
-import { getIncidents } from "../../store/incidents/incidents.actions";
 
 @Component({
   selector: 'wf-active-fire-count-container',

@@ -14,7 +14,6 @@ import { MapServiceStatus } from './services/map-config.service';
 import * as MapActions from './store/map/map.actions';
 import { LonLat } from './services/wfnews-map.service/util';
 import { ResourcesRoutes } from './utils';
-import { getIncidents } from './store/incidents/incidents.actions';
 
 
 @Component({
