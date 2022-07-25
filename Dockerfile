@@ -4,7 +4,8 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs
 ENV TOMCAT_MAJOR=8 
 ENV JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
-COPY /server/wfnews-api-rest-endpoints/target/nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
+WORKDIR /server
+COPY wfnews-api-rest-endpoints/target/nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
 RUN apt-get update
 RUN apt-get install -y telnet
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
