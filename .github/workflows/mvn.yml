@@ -32,7 +32,6 @@ jobs:
          
   docker:
     runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -44,7 +43,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          path: .
+          path: /tmp/
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
