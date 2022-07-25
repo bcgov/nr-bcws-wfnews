@@ -8,14 +8,14 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
 
 COPY server/wfnews-api-rest-endpoints/target/nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
 
-RUN apt-get update &&
-apt-get install -y telnet &&
-rm -rf /usr/local/tomcat/webapps/ROOT  &&
-unzip /temp/nr-bcws-wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&
-adduser --system tomcat &&
-chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
-chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
-chown -h tomcat:0 ${CATALINA_HOME}
+RUN apt-get update &&\
+  apt-get install -y telnet &&\
+  rm -rf /usr/local/tomcat/webapps/ROOT  &&\
+  unzip /temp/nr-bcws-wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
+  adduser --system tomcat &&\
+  chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
+  chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
+  chown -h tomcat:0 ${CATALINA_HOME}
 
 # run as tomcat user
 USER tomcat
