@@ -8,7 +8,7 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
 
 RUN ls . && pwd
 
-COPY ./wfnews-api-rest-endpoints-*.war /temp/
+COPY /tmp/wfnews-api-rest-endpoints-*.war /temp/
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
