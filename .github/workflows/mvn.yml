@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          path: "{{defaultContext}}/tmp"
+          path: /usr/local/tomcat
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
