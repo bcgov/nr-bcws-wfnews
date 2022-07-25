@@ -44,7 +44,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          path: /tmp/
+          path: "{{defaultContext}}/tmp"
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
@@ -55,7 +55,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: /
           push: true
           tags: user/app:latest
      
