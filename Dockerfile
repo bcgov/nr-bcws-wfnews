@@ -6,6 +6,8 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 
+RUN ls .
+
 COPY ./wfnews-api-rest-endpoints-*.war /temp/
 
 RUN apt-get update &&\
