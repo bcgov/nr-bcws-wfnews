@@ -14,13 +14,6 @@ export const ErrorMessages = {
     "min": (x) => `Value cannot be less than ${x}`,
     "maxlength": (x) => `Value cannot exceed ${x} characters`,
     "minlength": (x) => `Value must be at least ${x} characters`,
-    "signup": () => "Please sign up before proceeding",
-    "notsignedup": () => "Employee is currently not signed up",
-
-    "error.employee.number.invalid": () => `The provided employee number doesn't match our records.`,
-    "error.registration.email.address.invalid": () => `The provided email address doesn't match our records.`,
-    "error.employee.already.registered": () => `The employee matching these details has already been registered to a different account.`,
-    "error.diary.entry.is.not.in.an.approval.state": ({messageArguments}: ValidationError) => `Diary entry for ${messageArguments[0]} is not in a supervisor approvable state.`,
 };
 
 export function getDisplayErrorMessage(err:ValidationError){

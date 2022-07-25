@@ -161,8 +161,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 this.onResize()
             });
         }
-            console.log("yes?")
-            // this.store.dispatch(getIncidents('test'))
+
         
 
 

@@ -45,7 +45,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     backRouteQueryParams: any;
     backRouteLabel: string = null;
     summaryString: string = null;
-    isLocalSaving: boolean = false;
     isConnected: boolean = true;
     protected model: BaseComponentModel;
     public viewModel: BaseComponentModel;
@@ -120,16 +119,10 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     }
 
-    save(etag?: string) {
-        this.isLocalSaving = true;
-    }
 
     reload() {
     }
 
-    saveOverwrite(etag: string) {
-        this.save(etag);
-    }
 
     ngOnInit() {
         this.loadPage();
@@ -143,29 +136,15 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         if (changes.loadState) {
             this.isLoading = changes.loadState.currentValue.isLoading;
             let previousValue = changes.loadState.previousValue;
-            if (!this.isLoading && previousValue && previousValue.isLoading && !this.isLocalSaving) {
+            if (!this.isLoading && previousValue && previousValue.isLoading) {
                 this.updateView();
                 this.invokeAfterLoaded();
             }
-        }
-        if (changes.severeErrorState) {
-            this.isLocalSaving = false;
         }
         if (changes.errorState) {
             this.errorState = changes.errorState.currentValue as ErrorState[];
             if (this.viewModel.formGroup) {
                 this.viewModel.setErrorState(this.errorState);
-            }
-            if (this.isLocalSaving) {
-                if (this.errorState && this.errorState.length > 0) {
-                    this.isLocalSaving = false;
-                    // if (this.SAVE_FAIL_TEXT && !this.showingErrorDialog) {
-                    //     setTimeout(() => {
-                    //         this.snackbarService.openFromComponent(WFSnackbarComponent, getSnackbarConfig(this.SAVE_FAIL_TEXT, WF_SNACKBAR_TYPES.ERROR));
-                    //     });
-                    // }
-
-                }
             }
             // let err = this.errorState.find(err2 => err2.type == ERROR_TYPE.VALIDATION);
             // if (err) {

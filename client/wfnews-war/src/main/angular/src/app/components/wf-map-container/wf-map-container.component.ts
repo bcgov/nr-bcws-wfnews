@@ -40,7 +40,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
 
     initMap(): void {
         var self = this
-        console.log(self)
         var mapIndex = this.mapIndex || this.mapIndexAuto,
             mapConfig = clone( this.mapConfig )
 

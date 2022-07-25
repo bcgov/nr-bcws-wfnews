@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
 import { MatIconRegistry } from "@angular/material/icon";
 import { DomSanitizer } from "@angular/platform-browser";
-
+import { AppConfigService } from '@wf1/core-ui';
 @Component({
   selector: 'wf-active-fire-count-container',
   templateUrl: './wf-active-fire-count-container.component.html',
@@ -14,16 +14,21 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
   @Input() incidents:any;
 
   activeFireCount: number;
+  incidentsServiceUrl: string
 
   constructor(
     private http: HttpClient,
     private matIconRegistry: MatIconRegistry,
-    private domSanitize: DomSanitizer
+    private domSanitize: DomSanitizer,
+    private appConfig: AppConfigService,
     ){
+      this.incidentsServiceUrl = appConfig.getConfig().rest['newsLocal']
   }
 
   ngOnInit()  {
       this.getActiveFireCounts();
+      console.log(this.incidentsServiceUrl)
+
       this.matIconRegistry.addSvgIcon (
         'map-sign01',
         this.domSanitize.bypassSecurityTrustResourceUrl("assets/icons/map-signs.svg")
@@ -36,7 +41,7 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
 
   getActiveFireCounts(){
     setTimeout(() => {
-      let url = `http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT/incidents`;
+      let url = this.incidentsServiceUrl + '/incidents';
       let headers = new HttpHeaders();
       headers.append('Access-Control-Allow-Origin','*');
       headers.append('Accept','*/*');
