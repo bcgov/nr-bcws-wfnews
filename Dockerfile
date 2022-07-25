@@ -6,12 +6,12 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 
-COPY ./nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
+COPY ./wfnews-api-rest-endpoints-*.war /temp/
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
-  unzip ./nr-bcws-wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
+  unzip /temp/wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
