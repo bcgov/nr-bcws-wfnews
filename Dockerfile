@@ -8,12 +8,12 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
 
 RUN ls . && pwd
 
-COPY /tmp/wfnews-api-rest-endpoints-*.war /temp/
+#COPY /tmp/wfnews-api-rest-endpoints-*.war /temp/
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
-  unzip /temp/wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
+  unzip /tmp/wfnews-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
