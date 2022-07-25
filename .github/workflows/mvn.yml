@@ -44,10 +44,10 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          path: /temp
+          path: /tmp
           
       - name: Extract war file from package
-        run: unzip 'Package*'
+        run: unzip '/tmp/Package*'
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
