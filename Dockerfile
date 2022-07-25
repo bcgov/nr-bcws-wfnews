@@ -5,7 +5,6 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
 ENV TOMCAT_MAJOR=8 
 ENV JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 WORKDIR /server
-RUN ls
 COPY wfnews-api-rest-endpoints/target/nr-bcws-wfnews-api-rest-endpoints-*.war /temp/
 RUN apt-get update
 RUN apt-get install -y telnet
