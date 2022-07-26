@@ -42,12 +42,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
-      - run: cp dockerfile /
+      - run: cp dockerfile /tmp/
+      - run: cp server/wfnews-api-rest-endpoints/target/*.war /tmp/
         
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: /
+          context: /tmp
           push: true
           tags: user/app:latest
      
