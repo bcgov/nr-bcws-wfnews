@@ -1,6 +1,6 @@
 FROM tomcat:8.5.47-jdk11-openjdk
 
-COPY . .
+COPY *.war .
 
 ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
