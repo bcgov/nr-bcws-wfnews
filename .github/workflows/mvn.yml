@@ -41,9 +41,6 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          
-      - name: Unzip artifact
-        run: echo "BEFORE UNZIPPING:" && ls && unzip Package && echo "AFTER UNZIPPING" && ls
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
