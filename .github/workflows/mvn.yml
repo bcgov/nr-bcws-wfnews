@@ -50,8 +50,6 @@ jobs:
         with:
           name: Package
           path: .
-          
-      - run: echo "Checking dir" && ls && echo "CHECKING HOME" && ls ~/work -R && echo "PWD" && pwd
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
