@@ -132,38 +132,24 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        //console.log(changes);
         if (changes.loadState) {
             this.isLoading = changes.loadState.currentValue.isLoading;
             let previousValue = changes.loadState.previousValue;
             if (!this.isLoading && previousValue && previousValue.isLoading) {
-                this.updateView();
                 this.invokeAfterLoaded();
             }
         }
         if (changes.errorState) {
             this.errorState = changes.errorState.currentValue as ErrorState[];
-            if (this.viewModel.formGroup) {
-                this.viewModel.setErrorState(this.errorState);
-            }
-            // let err = this.errorState.find(err2 => err2.type == ERROR_TYPE.VALIDATION);
-            // if (err) {
-            //     // has a valphoneation error, scroll to top of screen to display error panel
-            //     window.scrollTo(0, 0);
-            // }
+
         }
 
-        // console.log('end base is local saving', this.isLocalSaving);
 
     }
 
 
     invokeAfterLoaded() {
 
-    }
-
-    protected updateView(): void {
-        //this.viewModel = this.model.clone();
     }
 
 
@@ -213,7 +199,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     unsavedForm(form?: FormGroup, arrayProperty?: string): boolean {
-        //console.log("unsaved", this.componentId);
         let fg = form ? form : this.viewModel.formGroup;
         if (arrayProperty) {
             this.unsavedBatchForm(arrayProperty);
@@ -229,14 +214,12 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         let fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
         let arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
         let hasAddedUnsavedItem = this.hasAddedUnsavedItemNotBlank(fg, arrayProperty);
-        //console.log("arrayHasDirtyFlag", arrayHasDirtyFlag, "fgDirty", fg.dirty, "hasAddedUnsavedItem", hasAddedUnsavedItem);
         this.doUnsavedStateUpdateIfNeeded(this.componentId, arrayHasDirtyFlag || fg.dirty || hasAddedUnsavedItem);
         return this.isUnsaved;
     }
 
     doUnsavedStateUpdateIfNeeded(componentId: string, newUnsavedState: boolean) {
         let prevUnsaved = this.isUnsaved; //save old value for comparison
-        //console.log(componentId, "prev", prevUnsaved, "new", newUnsavedState);
         this.isUnsaved = newUnsavedState;
     }
 
@@ -245,19 +228,15 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         let ret = controls.some(ac => {
                 let fg: FormGroup = <FormGroup>ac;
                 if (!fg.get("id").value && controls.length > 1) { //not a default empty entry
-                    //console.log("not default entry");
                     return true;
                 } else if (!fg.get("id").value && controls.length == 1) { //check if empty entry
                     let item = fg.getRawValue();
                     if (!hasValues(item)) {
-                        //console.log("is default empty entry");
                         return false;
                     } else {
-                        //console.log("default entry with info");
                         return true;
                     }
                 } else {
-                    //console.log("existing entry");
                     return false;
                 }
             }

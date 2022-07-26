@@ -27,7 +27,6 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
 
   ngOnInit()  {
       this.getActiveFireCounts();
-      console.log(this.incidentsServiceUrl)
 
       this.matIconRegistry.addSvgIcon (
         'map-sign01',
@@ -46,7 +45,6 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
       headers.append('Access-Control-Allow-Origin','*');
       headers.append('Accept','*/*');
       this.http.get<any>(url,{headers}).subscribe(response => {
-        console.log(response)
         this.activeFireCount = response.collection.length;
       })
     },2000)

@@ -86,7 +86,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 let mapConfig = []
                 this.checkMapServiceStatus()
                     .then( ( mapServiceStatus ) => {
-                        console.log(mapServiceStatus)
                         this.wfnewsMapService.mapServiceStatus = mapServiceStatus
 
                         return this.mapConfigService.getMapConfig( mapServiceStatus, this.applicationConfig.device )
@@ -97,11 +96,9 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                         return this.mapStatePersistenceService.getMapState()
                     })
                     .then((mapState) => {
-                        console.log('map state version', mapState?.version)
                         if (!mapState || !mapState.version) return
                         if (mapState.version.app != this.applicationConfig.version.short) return
                         if (mapState.version.build != config.application.buildNumber) return
-                        console.log('using map state')
 
                         eachDisplayContextItem( mapState.viewer.displayContext, ( item ) => {
                             if ( item.id == 'resource-track' )
@@ -171,7 +168,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     initAppMenu() {
-        console.log('initAppMenu')
         this.appMenu = ( this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Active Wildfires Map', '/'+ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
@@ -189,7 +185,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     initFooterMenu() {
-        console.log('initFooterMenu')
         this.footerMenu = ( this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
@@ -239,7 +234,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     @HostListener('window:orientationchange', ['$event'])
     onOrientationChange() {
         setTimeout(() => {
-            console.log('window:orientationchange')
             this.updateMapSize();
         }, 250);
     }
@@ -247,7 +241,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     @HostListener('window:resize', ['$event'])
     onResize() {
         setTimeout(() => {
-            console.log('window:resize')
             this.updateMapSize();
         }, 250);
     }
@@ -336,7 +329,8 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     }
 
     navigateToBcWebsite() {
-        window.open("https://www2.gov.bc.ca/gov/content/safety/wildfire-status", "_blank");
+        let url = this.appConfigService.getConfig().externalAppConfig['bcWildfirePage'].toString();
+        window.open(url, "_blank");
         
     }
 

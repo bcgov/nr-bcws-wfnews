@@ -10,7 +10,7 @@ import {
     SimpleReportOfFireResource,
     SimpleWildfireIncidentResource
 } from "@wf1/incidents-rest-api";
-import { of, Subject } from "rxjs";
+import { Subject } from "rxjs";
 
 import { ApplicationStateService } from "../services/application-state.service";
 import { MapConfigService } from "../services/map-config.service";

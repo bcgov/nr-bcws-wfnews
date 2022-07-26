@@ -60,7 +60,6 @@ export class MapStatePersistenceService {
             return {}
         } )
         .then( ( s ) => {
-            console.log( 'read map state', s )
             return s
         } )
     }

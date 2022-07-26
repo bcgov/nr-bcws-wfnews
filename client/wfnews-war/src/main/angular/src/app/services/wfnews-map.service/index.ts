@@ -68,7 +68,6 @@ export class WfnewsMapService {
 
         this.smkInstancePromise = new Promise( ( res, rej ) => {
             this.resolveSmkInstance = function ( smk: Smk ) {
-                // console.log('set smk instance')
                 this.smkInstance = smk
                 res( smk )
             }
@@ -98,21 +97,6 @@ export class WfnewsMapService {
         this.provinceBbox = window[ 'turf' ].bboxPolygon( provinceExtent )
 
         this.setTime( DateRange.parseWms( "PT24H/PRESENT" ) )
-
-        // if ( this.mapServiceStatus.useSecure ) {
-        //     let prevToken
-        //     this.tokenService.authTokenEmitter.subscribe( (x) => {
-        //         let token = this.tokenService.getOauthToken()
-        //         if ( token == prevToken ) return
-        //         prevToken = token
-        //         console.log('set layer token',token)
-
-        //         this.setLayersAuthToken( ly => true, token )
-        //             .then( ( ids ) => {
-        //                 this.refreshLayers( ly => ids.includes( ly.id ) )
-        //             } )
-        //     })
-        // }
 
         let changedView = () => { this.viewChange.emit() }
         smk.$viewer.map.on( 'zoomend', changedView )
@@ -191,7 +175,6 @@ export class WfnewsMapService {
 
         this.smkInstance.on( 'IdentifyFeatureTool', {
             'custom': ( ev ) => {
-                // console.log( ev )
                 if ( ev.layer.id.startsWith( 'bc-' ) ) {
                     this.smkInstance.$viewer.displayContext.layers.setItemVisible( 'resource-track', false )
                     this.smkInstance.$viewer.updateLayersVisible().then( () => {
@@ -224,7 +207,6 @@ export class WfnewsMapService {
 
         this.wfMapService.setHandler( 'MarkupTool--point', 'initialized', ( smk, tool, ft ) => {
             smk.$viewer.handlePick( 3, function ( location ) {
-                // console.log('MarkupTool--point handle pick',markupPointHandled)
                 let h = markupPointHandled
                 markupPointHandled = false
                 return h
@@ -247,7 +229,6 @@ export class WfnewsMapService {
 
         this.wfMapService.setHandler( 'MarkupTool--polygon', 'initialized', ( smk, tool, ft ) => {
             smk.$viewer.handlePick( 3, function ( location ) {
-                // console.log('MarkupTool--polygon handle pick',markupPolygonHandled)
                 let h = markupPolygonHandled
                 return h
             } )
@@ -307,7 +288,6 @@ export class WfnewsMapService {
 
 
         this.wfMapService.setHandler( 'resources', 'cluster-click', ( features ) => {
-            // console.log( features )
 
             this.smkInstance.$viewer.identified.clear()
             features.forEach( ( f ) => {
@@ -317,7 +297,6 @@ export class WfnewsMapService {
         } )
 
         this.wfMapService.setHandler( 'IdentifyFeatureTool', 'show-custom', ( prop ) => {
-            // console.log( prop )
             if ( prop.layer.id.startsWith( 'bc-' ) ) return 'Show Track'
             if ( prop.layer.id.startsWith( 'ued-' ) ) return 'Edit'
             if ( prop.layer.id === 'fw-activereporting-wstn' ) return 'Morecast'
@@ -326,14 +305,12 @@ export class WfnewsMapService {
 
         let self = this
         this.wfMapService.setHandler( 'IdentifyFeatureTool', 'attribute-replacer-context', function ( layerId ) {
-            // console.log( 'wfim replace', this, layerId )
 
             let $ = { ...this.feature.properties }
             let $$ = self.translate
 
             return function ( token ) {
                 var e = eval( token )
-                // console.log( 'wfim replace', this, layerId, token, e )
                 return e
             }
         } )
@@ -725,7 +702,6 @@ export class WfnewsMapService {
         return this.clearLayer( layerId )
             .then( () => this.showLayer( layerId, true ) )
             .then( ( smk ) => {
-                // console.log( 'loading layer', layerId )
                 smk.$viewer.layerId[ layerId ].load( data() )
                 smk.$viewer.layerId[ layerId ].setClickCallback( clickCallback )
 
@@ -737,7 +713,6 @@ export class WfnewsMapService {
     private clearLayer( layerId: string ): SmkPromise {
         return this.smkInstancePromise
             .then( ( smk ) => {
-                // console.log( 'clear layer', layerId )
                 smk.$viewer.layerId[ layerId ].clear()
 
                 return smk
@@ -747,7 +722,6 @@ export class WfnewsMapService {
     private showLayer( layerId: string, visible: boolean ): SmkPromise {
         return this.smkInstancePromise
             .then( ( smk ) => {
-                // console.log( 'show layer', layerId, visible )
                 smk.$viewer.displayContext.layers.setItemVisible( layerId, visible )
 
                 return smk.$viewer.refreshLayers()
@@ -781,7 +755,6 @@ export class WfnewsMapService {
 		  	.then(layers=>{
 			    var affectedLayers = layers.filter(layer=>layer.setTime) // Find temporal layers
 				affectedLayers.forEach(layer=>{
-						console.log("Setting time on layer", layer.id)
 						layer.setTime(this.time)
 					})
 				return affectedLayers.map(layer=> layer.id)
@@ -804,7 +777,6 @@ export class WfnewsMapService {
     refreshLayers( filter: ( SmkLayer ) => boolean ): Promise<any> {
         this.refreshPromise = this.refreshPromise.then( () => {
             let vis = {}, anyVis = false
-            // console.log( 'start refresh' )
             return this.getLayers()
                 .then( ( layers ) => {
                     let lys = layers.filter( filter )
@@ -813,7 +785,6 @@ export class WfnewsMapService {
                         if ( !vis[ ly.id ] ) return
 
                         anyVis = true
-                        // console.log('was vis',ly.id)
                         this.smkInstance.$viewer.displayContext.layers.setItemVisible( ly.id, false )
                     } )
 
@@ -823,10 +794,8 @@ export class WfnewsMapService {
                 } )
                 .then( () => {
                     let cacheKeys = Object.keys( this.smkInstance.$viewer.layerIdPromise )
-                    // console.log( cacheKeys )
                     Object.keys( vis ).forEach( ( id ) => {
                         let k = cacheKeys.find( ( k ) => k.includes( id ) )
-                        // console.log( k )
                         if ( k )
                             this.smkInstance.$viewer.layerIdPromise[ k ] = null
                     } )
@@ -836,7 +805,6 @@ export class WfnewsMapService {
                     Object.entries( vis ).forEach( ( [ id, v ] ) => {
                         if ( !v ) return
 
-                        // console.log( 'set vis',id)
                         this.smkInstance.$viewer.displayContext.layers.setItemVisible( id, true )
                     } )
 
@@ -844,22 +812,15 @@ export class WfnewsMapService {
                     return this.smkInstance.$viewer.updateLayersVisible()
                 } )
                 .then( () => {
-                    // console.log( 'end refresh' )
                     return Object.keys( vis )
                 } )
                 .catch( ( e ) => {
-                    // console.log( 'fail refresh' )
                     console.warn( e )
                     return []
                 } )
         } )
 
         return this.refreshPromise
-            // .then( ( layers ) => {
-            //     return layers.reduce( ( acc, ly ) => {
-            //         return acc.then( () => this.refreshLayer( ly.id ) )
-            //     }, Promise.resolve() ).then( () => layers.map( ly => ly.id ) )
-            // } )
 	}
 
 	private onTimeChange(time: DateRange<any, any>, affectedLayers: string[]){

@@ -65,7 +65,6 @@ export class WFMapService {
 
         if ( !this.patchPromise ) this.patchPromise = Promise.resolve()
             .then( function () {
-                console.log( "start patching SMK" );
 
                 // Create a DIV for a temporary map.
                 // This map is used to ensure that SMK is completely loaded before monkey-patching
@@ -180,7 +179,6 @@ export class WFMapService {
                         extends: f,
                         computed: {
                             content: function () {
-                                // console.log( 'get content', this.feature.properties )
                                 return {
                                     create: this.feature.properties.createContent
                                 }
@@ -348,7 +346,6 @@ export class WFMapService {
                     'layer-resource-tracks-leaflet',
                     'layer-wms-time-cql-leaflet'
                 ).then( function () {
-                    console.log('custom smk layers loaded')
                 } )
             } )
             .then( function () {
@@ -370,7 +367,6 @@ export class WFMapService {
                 }
 
                 SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function ( feature, zoomIn ) {
-                    // console.log('panToFeature')
                     const turf = window[ 'turf' ], L = window[ 'L' ]
 
                     var bounds
@@ -435,7 +431,6 @@ export class WFMapService {
                 }
 
                 SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function ( area, view, option ) {
-                    // console.log('getFeaturesInArea')
                     var self = this
 
                     var extraFilter = this.config.where || ''
@@ -476,7 +471,6 @@ export class WFMapService {
                         } )
                     } )
                     .then( function ( data: any ) {
-                        // console.log( data )
 
                         if ( !data ) throw new Error( 'no features' )
                         if ( !data.features || data.features.length == 0 ) throw new Error( 'no features' )
@@ -494,7 +488,6 @@ export class WFMapService {
 
                 SMK.TYPE.Layer[ 'wms-time-cql' ]['leaflet'].prototype.initLegends =
                 SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.initLegends = function () {
-                    // console.log('initLegends')
                     const J = window['jQuery']
 
                     var url =  this.config.serviceUrl + '?' + J.param( {
@@ -547,7 +540,6 @@ export class WFMapService {
                 }
             } )
             .then( function () {
-                console.log( "done patching SMK" );
             } )
 
         return this.patchPromise
@@ -567,7 +559,6 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string, o
         title,
         order,
         create: function () {
-            // console.log('create',title)
             return baseMaps.map( function ( bm ) {
                 const L = window[ 'L' ]
 
@@ -587,7 +578,6 @@ function defineWmsBasemap( id, title: string, baseMaps: { url: string, option?: 
         title,
         order,
         create: function () {
-            // console.log('create',title)
             return baseMaps.map( function ( bm ) {
                 const L = window[ 'L' ]
 

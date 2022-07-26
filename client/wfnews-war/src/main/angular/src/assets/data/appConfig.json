@@ -50,7 +50,8 @@
             "url": "https://vs1auth.nrs.gov.bc.ca/int/wfjcrs",
             "themeHash": "B4AF69F",
             "scriptsHash": "60875027"
-        }
+        },
+        "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status"
     },
 
     "rest": {

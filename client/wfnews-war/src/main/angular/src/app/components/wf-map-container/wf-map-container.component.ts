@@ -25,7 +25,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     ) {
         mapIndexAuto += 1
         this.mapIndexAuto = mapIndexAuto
-        // console.log('WFMapContainerComponent constructor',this.mapIndexAuto)
     }
     
 
@@ -34,23 +33,20 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log("ngOnChanges", clone(changes),clone(this.mapConfig));
         this.initMap()
     }
 
     initMap(): void {
-        var self = this
-        var mapIndex = this.mapIndex || this.mapIndexAuto,
+        let self = this
+        let mapIndex = this.mapIndex || this.mapIndexAuto,
             mapConfig = clone( this.mapConfig )
 
         if ( !mapConfig ) return
 
         this.destroyMap()        
 
-        // console.log( "initMap", mapIndex );
 
         initPromise = initPromise.then( function () {            
-            // console.log("initMap");
             
             return self.wfMap.createSMK( {
                 id: mapIndex,
@@ -58,7 +54,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
                 config: mapConfig
             } )
             .then( function ( smk ) {
-                // console.log("map created");
                 self.mapInitialized.emit( smk )
                 return smk
             } )
@@ -74,7 +69,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
         this.initPromise = this.initPromise.then( function ( smk ) {
             if ( !smk ) return
             
-            // console.log( "destroyMap", smk.$option.id );
             
             smk.destroy()
         } )
