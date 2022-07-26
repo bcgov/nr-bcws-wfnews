@@ -69,5 +69,5 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: user/app:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/nr-bcws-wfnews-server:latest
      
