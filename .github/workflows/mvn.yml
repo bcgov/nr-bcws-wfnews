@@ -30,6 +30,8 @@ jobs:
          name: Package
          path: staging
          
+     
+         
   docker:
     runs-on: ubuntu-latest
     needs: build
@@ -44,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: Package
-          path: /tmp/
+          path: staging
         
       - name: Login to DockerHub
         uses: docker/login-action@v2
