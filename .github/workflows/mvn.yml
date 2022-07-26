@@ -23,7 +23,7 @@ jobs:
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
-      - run: mkdir staging && cp server/wfnews-api-rest-endpoints/target/*.war staging
+      - run: mkdir staging && cp server/wfnews-api-rest-endpoints/target/*.war staging && cp server/wfnews-api-rest-endpoints/target/*.war .
       
       - uses: actions/upload-artifact@v3
         with:
@@ -42,13 +42,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
         
-      - run: cp dockerfile /tmp/
-      - run: cp server/wfnews-api-rest-endpoints/target/*.war /tmp/
-        
       - name: Build and push
         uses: docker/build-push-action@v3
         with:
-          context: /tmp
+          context: .
           push: true
           tags: user/app:latest
      
