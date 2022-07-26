@@ -32,6 +32,7 @@ jobs:
          path: staging
          
   docker:
+    needs: build
     runs-on: ubuntu-latest
     
     steps:
