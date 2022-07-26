@@ -8,10 +8,6 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 
-RUN echo "CURRENT DIR CONTENTS ARE:" && ls . && echo "PWD IS:" && pwd && echo "FIND *.war RETURNS" &&find / -name "*.war" && echo "FIND Package* RETURNS" && find / -name "Package*"
-
-#COPY /tmp/wfnews-api-rest-endpoints-*.war /temp/
-
 RUN apt-get update &&\
   apt-get install -y telnet &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
