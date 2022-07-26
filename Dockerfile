@@ -13,7 +13,7 @@ RUN echo "CURRENT DIR CONTENTS ARE:\n" && ls . && echo "PWD IS: \n" &&pwd && fin
 RUN apt-get update &&\
   apt-get install -y telnet &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
-  find /tmp -name "wfnews-api-rest-endpoints-*.war" | xargs unzip -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
+  find / -name "wfnews-api-rest-endpoints-*.war" | xargs unzip -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
