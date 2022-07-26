@@ -42,7 +42,7 @@ jobs:
           name: Package
           path: .
           
-      - run: echo "Checking dir" && ls && echo "FIND DOCKERFILE" && find / -name 'Dockerfile'
+      - run: echo "Checking dir" && ls && echo "CHECKING HOME" && ls ~ && echo "PWD" && pwd
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
