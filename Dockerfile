@@ -6,7 +6,7 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
 
-RUN echo "CURRENT DIR CONTENTS ARE:\n" && ls . && echo "PWD IS: \n" &&pwd && find /tmp -name "wfnews-api-rest-endpoints-*.war" && find /tmp -name "Package*"
+RUN echo "CURRENT DIR CONTENTS ARE:\n" && ls . && echo "PWD IS: \n" &&pwd && find / -name "wfnews-api-rest-endpoints-*.war" && find / -name "Package*"
 
 #COPY /tmp/wfnews-api-rest-endpoints-*.war /temp/
 
