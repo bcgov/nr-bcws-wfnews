@@ -53,8 +53,7 @@ function getRofIconType ( rof ){
             return (rof.publicReportTypeCode + '-CANCELLED').toUpperCase();
         }
         return rof.publicReportTypeCode;
-    }
-    console.log( 'rof undefined', rof);
+      }
 
     return;
 }
@@ -119,12 +118,12 @@ function resourceLabel( feature ) {
     var time10minsAgo = now( { minute: -10 } ).toISOString()
     var time30minsAgo = now( { minute: -30 } ).toISOString()
 
-    var status = 'unknown' 
+    var status = 'unknown'
     if ( feature.properties.at_base )
-        status = 'station'        
-    else if ( feature.properties.position_timestamp > time10minsAgo ) 
+        status = 'station'
+    else if ( feature.properties.position_timestamp > time10minsAgo )
         status = 'active'
-    else if ( feature.properties.position_timestamp < time30minsAgo ) 
+    else if ( feature.properties.position_timestamp < time30minsAgo )
         status = 'ground'
     else
         status = 'lost'
@@ -173,7 +172,7 @@ WFIM.getHandlers = function ( getAPI ) {
                 }
             }
 
-            var selectedMarker, popupMarker 
+            var selectedMarker, popupMarker
 
             return {
                 maxClusterRadius: 40,
@@ -190,33 +189,30 @@ WFIM.getHandlers = function ( getAPI ) {
                         html: `<div class="wfim-fire-resource-labels">${ labels.join( '' ) }</div>`
                     } )
                 },
-            
-                onClick: function ( leafLayer, features, featureId, mod ) {    
+
+                onClick: function ( leafLayer, features, featureId, mod ) {
                     selectedMarker = null
                     var html = mod.Util.featureSetHtml( features, featureId, callbackProxy, function ( marker ) { selectedMarker = marker } )
                     leafLayer
                         .bindPopup( html, { autoPanPaddingTopLeft: [ 50, 50 ], offset: [ 0, 0 ] } )
                         .openPopup()
                         .on( 'popupclose', function () {
-                    // console.log('popupclose',selectedMarker)
                             selectedMarker = null
                         } )
                     callbackOpt.popup = leafLayer
                 },
 
                 onBeforeUpdate: function () {
-                    // console.log('onBeforeUpdate',selectedMarker)
                     if ( !selectedMarker ) return
 
                     popupMarker = selectedMarker
                 },
 
                 onAfterUpdate: function ( clusterClick ) {
-                    // console.log('onAfterUpdate',popupMarker)
                     if ( !popupMarker ) return
 
                     var id = featureId( popupMarker.feature )
-                    var newMarker 
+                    var newMarker
                     ov.leafLayer.eachLayer( function ( ly ) {
                         if ( !newMarker && featureId( ly.feature ) == id )
                             newMarker = ly
@@ -225,7 +221,6 @@ WFIM.getHandlers = function ( getAPI ) {
                     if ( newMarker ) {
                         var clus = ov.leafLayer.getVisibleParent( newMarker )
                         clusterClick( clus, featureId( newMarker.feature ) )
-                        // console.log(newMarker)
                     }
 
                     popupMarker = null
@@ -262,7 +257,7 @@ WFIM.getHandlers = function ( getAPI ) {
             }
 
             res.features.push(
-                Object.assign( { 
+                Object.assign( {
                     properties: {
                         _style: {
                             weight: 5,
@@ -274,7 +269,7 @@ WFIM.getHandlers = function ( getAPI ) {
             )
 
             res.features.push(
-                Object.assign( { 
+                Object.assign( {
                     properties: {
                         _style: {
                             weight: 3,
@@ -285,7 +280,7 @@ WFIM.getHandlers = function ( getAPI ) {
                 }, ls )
             )
 
-            return res 
+            return res
         },
 
         'layer.resource-track.title': function ( ly ) {
@@ -302,7 +297,7 @@ WFIM.getHandlers = function ( getAPI ) {
             mapapi.layer.setParameter( 'resources-track', 'Call_Sign', properties.Call_Sign )
             mapapi.layer.setParameter( 'resources-track', 'OperationalFunction', properties.OperationalFunction )
             mapapi.layer.setParameter( 'resources-track', 'Agency', properties.Agency )
-            
+
             mapapi.layer.visible( 'resources-track', true )
             mapapi.layer.enable( 'resources-track', true )
 
@@ -322,8 +317,8 @@ WFIM.getHandlers = function ( getAPI ) {
                 var incidentIcon = 'incident-icon-' + ( feature.properties.incidentSituation.interfaceFireInd ? 'red' : 'green' )
 
                 return {
-                    icon: L.divIcon( { 
-                        className:  'wfim-incident', 
+                    icon: L.divIcon( {
+                        className:  'wfim-incident',
                         html:       `<div class="incident-label">${ feature.properties.incidentLabel }</div><div class="incident-icon ${ incidentIcon }"></div>`,
                         iconSize:   [ 50, 36 ],
                         iconAnchor: [ 25, 20 ]
@@ -335,9 +330,9 @@ WFIM.getHandlers = function ( getAPI ) {
                 var statusCode = feature.properties.messageStatusCode
 
                 var label = feature.properties.reportOfFireLabel
-                if ( statusCode == 'Draft' ) 
+                if ( statusCode == 'Draft' )
                     label = 'Draft'
-                if ( statusCode == 'Assigned To Incident' ) 
+                if ( statusCode == 'Assigned To Incident' )
                     label = feature.properties.incidentLabel
 
                 var classes = 'wfim-rof'
@@ -347,8 +342,8 @@ WFIM.getHandlers = function ( getAPI ) {
                 var rofIcon = 'rof-icon-' + getRofIconType( feature.properties ).toLowerCase()
 
                 return {
-                    icon: L.divIcon( { 
-                        className:  classes, 
+                    icon: L.divIcon( {
+                        className:  classes,
                         html:       `<div class="rof-label">${ label }</div><div class="rof-icon ${ rofIcon }"></div>`,
                         iconSize:   [ 50, 36 ],
                         iconAnchor: [ 25, 20 ]
@@ -359,7 +354,7 @@ WFIM.getHandlers = function ( getAPI ) {
 
         'layer.wfim.feature': function ( ly, feature, leafLayer ) {
             if ( ly.id == WFIM.Incident.LAYER_ID ) {
-                leafLayer.hideDelay = 800; 
+                leafLayer.hideDelay = 800;
                 leafLayer.bindTooltipDelayed( function ( featureLayer ) {
                     return WFML.Util.infoHtml( feature.properties, INFO_ATTR_INCIDENT, {
                         className:  'incident-tooltip',
@@ -374,7 +369,7 @@ WFIM.getHandlers = function ( getAPI ) {
             }
 
             if ( ly.id == WFIM.RoF.LAYER_ID ) {
-                leafLayer.hideDelay = 800; 
+                leafLayer.hideDelay = 800;
                 leafLayer.bindTooltipDelayed( function ( featureLayer ) {
                     return WFML.Util.infoHtml( feature.properties, INFO_ATTR_ROF, {
                         className:  'rof-tooltip',
@@ -400,9 +395,9 @@ WFIM.getHandlers = function ( getAPI ) {
 
                 onCreate: function ( features ) {
                     var rofHTML = ''
-                    if ( features.some( function ( f ) { return f.set == WFIM.RoF.LAYER_ID } ) ) 
+                    if ( features.some( function ( f ) { return f.set == WFIM.RoF.LAYER_ID } ) )
                         rofHTML = `<div class="rof-cluster ${ features.some( function ( f ) { return f.properties.messageStatusCode == 'Submitted' } ) ? 'rof-cluster-unack' : '' }"></div>`
-                    
+
                     var incidentHTML = ''
                     if ( features.some( function ( f ) { return f.set == WFIM.Incident.LAYER_ID } ) )
                         incidentHTML = `<div class="incident-cluster"></div>`

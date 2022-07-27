@@ -36,31 +36,31 @@ var INFO_ATTR_INCIDENT = [
 
 function incidentIconFile(incident) {
   return incident.incidentSituation.interfaceFireInd
-            ? 'incident-red.png' 
+            ? 'incident-red.png'
             : 'incident-green.png';
-}             
+}
 
 var ROF_ICON_MAP = {
                 'DRAFT': 'rof_draft.png',
 
-                'CAMPFIRE-CANCELLED':   'rof_campfire_cancel.png', 
-                'CAMPFIRE-ASSIGNED':    'rof_campfire_assign.png', 
-                'CAMPFIRE':             'rof_campfire.png', 
+                'CAMPFIRE-CANCELLED':   'rof_campfire_cancel.png',
+                'CAMPFIRE-ASSIGNED':    'rof_campfire_assign.png',
+                'CAMPFIRE':             'rof_campfire.png',
 
-                'CIGARETTE-CANCELLED':  'rof_cigarette_cancel.png', 
-                'CIGARETTE-ASSIGNED':   'rof_cigarette_assign.png', 
-                'CIGARETTE':            'rof_cigarette.png', 
+                'CIGARETTE-CANCELLED':  'rof_cigarette_cancel.png',
+                'CIGARETTE-ASSIGNED':   'rof_cigarette_assign.png',
+                'CIGARETTE':            'rof_cigarette.png',
 
                 'GENERAL-CANCELLED':    'rof_general_cancel.png',
-                'GENERAL-ASSIGNED':     'rof_general_assign.png', 
+                'GENERAL-ASSIGNED':     'rof_general_assign.png',
                 'GENERAL':              'rof_general.png',
 
-                'INTERFACE-CANCELLED':  'rof_interface_cancel.png', 
-                'INTERFACE-ASSIGNED':   'rof_interface_assign.png', 
-                'INTERFACE':            'rof_interface.png', 
+                'INTERFACE-CANCELLED':  'rof_interface_cancel.png',
+                'INTERFACE-ASSIGNED':   'rof_interface_assign.png',
+                'INTERFACE':            'rof_interface.png',
 
-                'REGULAR-CANCELLED':    'rof_general_cancel.png', 
-                'REGULAR-ASSIGNED':     'rof_general_assign.png', 
+                'REGULAR-CANCELLED':    'rof_general_cancel.png',
+                'REGULAR-ASSIGNED':     'rof_general_assign.png',
                 'REGULAR':              'rof_general.png'
             };
 
@@ -87,7 +87,6 @@ function getRofIconType ( rof ){
         }
         return rof.publicReportTypeCode;
     }
-    console.log( 'rof undefined', rof);
 
     return;
 }
@@ -124,7 +123,7 @@ WFML.RoF.Util.addClusteredMarkers = function(mapapi, features, callback) {
         },
         */
         populateTooltip: function ( ft ) {
-            var html = WFML.Popup.infoHtml( ft, 
+            var html = WFML.Popup.infoHtml( ft,
                 INFO_ATTR_ROF, {
                     className: 'rof-tooltip',
                     title: WFML.RoF.INFO_TITLE + ' - ' + ft.hoverTitle
@@ -147,8 +146,8 @@ WFML.RoF.Util.addClusteredMarkers = function(mapapi, features, callback) {
                 if (hasUnack(cluster)) clz = 'rof-cluster-unack';
 
                 var childCount = cluster.getChildCount();
-                return new L.DivIcon( { 
-                    html: '<div><span>' + childCount + '</span></div>', className: clz, 
+                return new L.DivIcon( {
+                    html: '<div><span>' + childCount + '</span></div>', className: clz,
                     iconSize: new L.Point(40, 40),
                 } );
 
@@ -159,7 +158,7 @@ WFML.RoF.Util.addClusteredMarkers = function(mapapi, features, callback) {
                     });
                     return unack != null;
                 }
-            } 
+            }
         },
         tooltipConfig : {
             permanent: false,
@@ -181,7 +180,7 @@ WFML.RoF.Util.addMarkers = function(mapapi, features) {
         }
     } );
 }
-     
+
 
 WFML.RoF.Util.getMarkers = function(reportOfFires, options) {
     var markers = [];
@@ -192,7 +191,7 @@ WFML.RoF.Util.getMarkers = function(reportOfFires, options) {
 
             var file = rofIconFile( rof )
             var url = WFML.BASE_URL + '/' + file;
-            
+
             var lblClass = WFML.RoF.Util.isUnack( rof ) ? 'rof-label-unack' : 'rof-label';
             var iconClass = WFML.RoF.Util.isUnack(rof) ? 'rof-icon rof-blinking' : 'rof-icon';
             var lbl = '';
@@ -214,7 +213,7 @@ WFML.RoF.Util.getMarkers = function(reportOfFires, options) {
                     anchor: [ 25, 20 ],
                     className: iconClass,
                     imageClass: 'rof-img',
-                    labelClass: lblClass                       
+                    labelClass: lblClass
                 }
             );
             m.feature = rof;
@@ -223,7 +222,7 @@ WFML.RoF.Util.getMarkers = function(reportOfFires, options) {
         }
     }
     return markers;
-}; 
+};
 
 
 
@@ -249,7 +248,7 @@ WFML.Incident.Util.addClusteredMarkers = function(mapapi, features, callback) {
         },
         */
         populateTooltip: function ( ft ) {
-            var html = WFML.Popup.infoHtml( ft, 
+            var html = WFML.Popup.infoHtml( ft,
             INFO_ATTR_INCIDENT, {
                 className: 'incident-tooltip',
                 title: WFML.Incident.INFO_TITLE + ' - ' + ft.hoverTitle
@@ -265,7 +264,7 @@ WFML.Incident.Util.addClusteredMarkers = function(mapapi, features, callback) {
             },
             spiderfyOnMaxZoom: true,
             forceSpiderfyOnClick: false,
-            className: 'incident-cluster',                      
+            className: 'incident-cluster',
         },
         tooltipConfig : {
             permanent: false,
@@ -310,7 +309,7 @@ WFML.Incident.Util.getMarkers = function(incidents, options) {
                         anchor: [ 25, 20 ],
                         className: 'incident-icon',
                         imageClass: 'incident-img',
-                        labelClass: 'incident-label'                       
+                        labelClass: 'incident-label'
                     }
                 );
                 m.feature = incident;
@@ -321,8 +320,8 @@ WFML.Incident.Util.getMarkers = function(incidents, options) {
         return markers;
     }
     return;
-};    
-    
+};
+
 function markerImgLabel(location, imgUrl, labelTxt, options) {
     var icon = iconImgLabel(imgUrl, labelTxt, options);
     var m = L.marker( location, { icon: icon } );
@@ -339,7 +338,7 @@ function iconImgLabel(imgUrl, labelTxt, options) {
     var html = '<div class="' + lblClass + '">' + labelTxt + '</div>'
         + '<div><img class="' + imgClass + '" src="' + imgUrl + '"></div>';
 
-    icon = L.divIcon( { className: className, 
+    icon = L.divIcon( { className: className,
         html: html,
         iconSize: size,
         iconAnchor: anchor

@@ -1,7 +1,7 @@
-import {DomSanitizer} from "@angular/platform-browser";
-import {FormGroup} from "@angular/forms";
-import { ErrorState, ValidationError } from "../../store/application/application.state";
-import { getDisplayErrorMessage } from "../../utils/error-messages";
+import {DomSanitizer} from '@angular/platform-browser';
+import {FormGroup} from '@angular/forms';
+import { ErrorState, ValidationError } from '../../store/application/application.state';
+import { getDisplayErrorMessage } from '../../utils/error-messages';
 
 export class BaseComponentModel {
     public base = [];
@@ -14,12 +14,12 @@ export class BaseComponentModel {
     formGroup: FormGroup;
 
     constructor(protected sanitizer: DomSanitizer) {
-        this.sanitizer.bypassSecurityTrustResourceUrl("");
+        this.sanitizer.bypassSecurityTrustResourceUrl('');
         this.initFormErrorMappings();
     }
 
     public clone(): BaseComponentModel {
-        let clonedModel: BaseComponentModel = new BaseComponentModel(this.sanitizer);
+        const clonedModel: BaseComponentModel = new BaseComponentModel(this.sanitizer);
         clonedModel.base = this.base;
         return clonedModel;
     }
@@ -27,14 +27,14 @@ export class BaseComponentModel {
     public setErrorState(errorState: ErrorState[]) {
         this.errorState = errorState;
         this.validationErrors = [];
-        for (let error of this.errorState) {
+        for (const error of this.errorState) {
             if (error.validationErrors) {
                 this.validationErrors.push.apply(this.validationErrors, error.validationErrors);
             }
         }
         this.formControlNameErrors = new Map();
         Object.keys(this.formGroup.controls).forEach(element => {
-            let elementErrors = this.setErrors(element);
+            const elementErrors = this.setErrors(element);
             if (elementErrors) {
                 this.formControlNameErrors.set(element, elementErrors);
             }
@@ -44,12 +44,12 @@ export class BaseComponentModel {
 
 
     setErrors(formControl: string) {
-        let formControlErrorTemplates = this.formControlNameErrorMap.get(formControl) as string[];
+        const formControlErrorTemplates = this.formControlNameErrorMap.get(formControl) as string[];
         if (this.validationErrors && formControlErrorTemplates && formControlErrorTemplates.length > 0) {
-            let formControlValidationErrors = this.validationErrors.filter(validationError => formControlErrorTemplates.includes(validationError.message));
-            let valErrors = formControlValidationErrors.map(validationError => this.DISPLAY_ERROR_MESSAGE(validationError));
+            const formControlValidationErrors = this.validationErrors.filter(validationError => formControlErrorTemplates.includes(validationError.message));
+            const valErrors = formControlValidationErrors.map(validationError => this.DISPLAY_ERROR_MESSAGE(validationError));
             if (valErrors && valErrors.length > 0) {
-                return {msgs: "<span>" + valErrors.join("</span><br/><span>") + "</span>"};
+                return {msgs: '<span>' + valErrors.join('</span><br/><span>') + '</span>'};
             } else {
                 return null;
             }

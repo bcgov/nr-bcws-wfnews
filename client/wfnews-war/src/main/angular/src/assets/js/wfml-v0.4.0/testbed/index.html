@@ -152,7 +152,7 @@
             </div>
 
             <div class='search-bar'>
-                Maximum: 
+                Maximum:
                 <label class="search-number">Distance <select id='search-max-distance'>
                     <option value="50">50 km</option>
                     <option value="100">100 km</option>
@@ -170,7 +170,7 @@
             </div>
 
             <div>
-                Anchor <input type='text' id='search-anchor-txt'>                
+                Anchor <input type='text' id='search-anchor-txt'>
             </div>
             <div class='search-bar'>
                 <button id='search-clear'>Clear</button>
@@ -179,7 +179,7 @@
                 <button id='search-set-pt'>Set From Map</button>
             </div>
             <div>
-                Place <input type='text' id='search-txt-place'> 
+                Place <input type='text' id='search-txt-place'>
             </div>
             <table id='search-item-place' class='search-list'>
                 <tr>
@@ -216,14 +216,14 @@
             <h2>ROF</h2>
 
             <div>
-                <button id='load-rof'>Load RoF markers</button> 
-                <label>Count:<input type="text" id="count-rof" value="100" style="width:30px; text-align:right"></label> 
+                <button id='load-rof'>Load RoF markers</button>
+                <label>Count:<input type="text" id="count-rof" value="100" style="width:30px; text-align:right"></label>
             <div>
                 <label><input type="checkbox" id="cluster-rof"  checked>Cluster</label>
             </div>
             <div>
                 <label><input type="checkbox" id="show-rof" disabled checked>Show markers</label>
-                <button id='remove-rof' disabled>Remove markers</button> 
+                <button id='remove-rof' disabled>Remove markers</button>
             </div>
 
             <h2>Incident</h2>
@@ -271,7 +271,7 @@
         // **** comment next line when using grunt develop:micro
         import WFML from '../wfml.js'
         window.WFML = WFML
-        // **** 
+        // ****
 
         import Tab from './tab.js'
         import initUI from './testbed-ui.js'
@@ -285,7 +285,7 @@
             .then( function ( data ) {
                 LAYER_CONFIG = data
                 $(document).ready(init);
-            } )            
+            } )
 
         var tabs = new Tab();
         tabs.show('layers');
@@ -389,26 +389,22 @@
             //layerTreeUI(mapapi);
 
             mapapi.callback.loadEnd(function() {
-                //console.log('Layer Load finished ');
             });
             mapapi.callback.extentChange(function() {
                 var extent = mapapi.map.extent();
-                var txt = '[ ' 
+                var txt = '[ '
                 + WFML.Location.format( [ extent[0], extent[1] ] )
                 + "  "
                 + WFML.Location.format( [ extent[2], extent[3] ] )
                 + " ]";
                 $('#txt-map-extent').text(txt);
-                //console.log('Layer Load finished ');
             });
 
             setTimeout( function () {
                 mapapi.state.persist( 'testbed', {
                     onSave: function() {
-                        console.log( 'onSave' )
                     },
                     onLoad: function() {
-                        console.log( 'onLoad' )
                     }
                 } )
             }, 500 )
@@ -434,7 +430,7 @@ function filterActiveFires(id, features) {
         f.properties.DiscoveryDate = val;
     }
     return features;
-}   
+}
 
         //  =====================================  TESTING...
 

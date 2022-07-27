@@ -143,6 +143,22 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+  lint-client:
+    name: Lint-Client
+    needs:
+      - check
+    if: needs.check.outputs.build == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Linting
+        run: |
+          cd client/wfnews-war/src/main/angular
+          npm ci
+          npm run lint
+
   tests-client:
     name: Tests-Client
     needs:
@@ -155,9 +171,9 @@ jobs:
 
       - name: Tests
         run: |
-          cd client
+          cd client/wfnews-war/src/main/angular
           npm ci
-          npm test
+          npm run test
 
   # Update to trigger junit on Java server
   tests-server:
