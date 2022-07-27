@@ -1,27 +1,29 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { Event, NavigationStart, OutletContext } from '@angular/router';
-import {
-    Message, MessageType, WFNROF_WINDOW_NAME, WFROF_WINDOW_NAME
-} from '@wf1/core-ui';
-
-import * as moment from 'moment';
-import { forkJoin, Subscription } from 'rxjs';
-import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
-import { UtilHash } from "./hash-util";
-import { WfApplicationState, RouterLink, WfApplicationConfiguration } from '@wf1/wfcc-application-ui';
+import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { Event, NavigationStart } from '@angular/router';
+import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
-import { MapServiceStatus } from './services/map-config.service';
-import * as MapActions from './store/map/map.actions';
-import { LonLat } from './services/wfnews-map.service/util';
+import * as moment from 'moment';
+import { Subscription } from 'rxjs';
+import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
 import { ResourcesRoutes } from './utils';
 
+export const ICON = {
+    TWITTER: 'twitter',
+    FACEBOOK: 'facebook',
+    FIRE: 'fire',
+    MAP_SIGNS: 'map-signs',
+    INCIDENT: 'incident',
+    ADVISORIES: 'advisories',
+    EXT_LINK: 'external-link',
+    EXCLAMATION_CIRCLE: 'exclamation-circle',
+    CLOUD_SUN: 'cloud-sun',
+}
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-
 export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy, OnInit, AfterViewInit {
 
     public TOOLTIP_DELAY = 500;
@@ -30,8 +32,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     isLoggedIn: boolean = true;
     hasAccess: boolean = true;
-
-    mapConfig = null;
 
     applicationConfig: WfApplicationConfiguration = {
         title: 'NEWS',
@@ -54,134 +54,53 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     showLeftPanel = true
 
-
-    private lastSuccessPollSub: Subscription;
-    private lastSyncDate;
-    private lastSyncValue = undefined;
-    private refreshMapInterval;
+    lastSuccessPollSub: Subscription;
+    lastSyncDate;
+    lastSyncValue = undefined;
 
     private updateMapSize = function () {
         this.storeViewportSize()
     }
 
-    @ViewChild('extOutlet', { static: true }) extOutlet: OutletContext;
-    @ViewChild('bespokeContainer', { read: ViewContainerRef }) bespokeContainerRef: ViewContainerRef;
-
     ngOnInit() {
         const self = this
 
         super.ngOnInit();
+
+        this.addCustomMaterialIcons()
         this.initializeRouterSubscription();
         this.updateService.checkForUpdates();
 
         this.checkUserPermissions();
 
-        this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
+        // this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
             this.appConfigService.configEmitter.subscribe((config) => {
                 this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '')
                 this.applicationConfig.version.long = config.application.version
                 this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '')
 
-                let mapConfig = []
-                this.checkMapServiceStatus()
-                    .then( ( mapServiceStatus ) => {
-                        console.log(mapServiceStatus)
-                        this.wfnewsMapService.mapServiceStatus = mapServiceStatus
-
-                        return this.mapConfigService.getMapConfig( mapServiceStatus, this.applicationConfig.device )
-                    } )
-                    .then((config) => {
-                        mapConfig.push(config)
-
-                        return this.mapStatePersistenceService.getMapState()
-                    })
-                    .then((mapState) => {
-                        console.log('map state version', mapState?.version)
-                        if (!mapState || !mapState.version) return
-                        if (mapState.version.app != this.applicationConfig.version.short) return
-                        if (mapState.version.build != config.application.buildNumber) return
-                        console.log('using map state')
-
-                        eachDisplayContextItem( mapState.viewer.displayContext, ( item ) => {
-                            if ( item.id == 'resource-track' )
-                                item.isVisible = false
-                            delete item.isEnabled
-                        } )
-
-                        mapConfig.push(mapState)
-                    })
-                    .then(() => {
-                        let deviceConfig = { viewer: { device: this.applicationConfig.device } }
-
-                        self.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?']
-                    })
-
-                this.wfnewsMapService.setMapStateSaveHandler((state) => {
-                    state.version = {
-                        app: this.applicationConfig.version.short,
-                        build: config.application.buildNumber
-                    }
-
-                    this.mapStatePersistenceService.putMapState(state)
-                        .then(() => { console.log('map state saved') })
-                        .catch((e) => {
-                            // console.warn( e, 'failed saving map state' )
-                        })
-                })
-
-                this.wfnewsMapService.setSelectPointHandler((location: LonLat) => {
-                    const action = new MapActions.SetActiveMapLocation(location);
-
-                    let windowId = this.messagingService.getWindowId(WFROF_WINDOW_NAME);
-                    if (windowId) {
-                        this.messagingService.broadcastAction(windowId, action);
-                    }
-
-                    this.store.dispatch(action);
-                })
-
-                this.wfnewsMapService.setSelectPolygonHandler((polygon) => {
-                    const action = new MapActions.SetActiveMapPolygon(polygon);
-
-                    let windowId = this.messagingService.getWindowId(WFNROF_WINDOW_NAME);
-                    if (windowId) {
-                        this.messagingService.broadcastAction(windowId, action);
-                    }
-
-                    this.store.dispatch(action);
-                })
-
-
-                // const refreshRate = config?.application?.polling?.mapTool?.layerRefreshPolling
-                // this.refreshMapInterval = setInterval(() => {
-                //     this.wfimMapService.redrawMap();
-                // }, refreshRate || 5000);
 
                 this.onResize()
             });
         }
 
-        
-
-
-
         this.initAppMenu();
         this.initFooterMenu();
+
+        window['SPLASH_SCREEN'].remove()
     }
 
     initAppMenu() {
         console.log('initAppMenu')
-        this.appMenu = ( this.applicationConfig.device == 'desktop' ?
+        this.appMenu = (this.applicationConfig.device == 'desktop' ?
             [
-                new RouterLink('Active Wildfires Map', '/'+ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
-                new RouterLink('Wildfires List', '/'+ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
-                new RouterLink('Current Statistics', '/'+ResourcesRoutes.CURRENTSTATISTICS, 'home', 'expanded', this.router),//temp route
-                new RouterLink('Resources', '/'+ResourcesRoutes.RESOURCES, 'home', 'expanded', this.router),
-
-
+                new RouterLink('Active Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
+                new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
+                new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'home', 'expanded', this.router),//temp route
+                new RouterLink('Resources', '/' + ResourcesRoutes.RESOURCES, 'home', 'expanded', this.router),
             ]
-        :
+            :
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
@@ -190,7 +109,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     initFooterMenu() {
         console.log('initFooterMenu')
-        this.footerMenu = ( this.applicationConfig.device == 'desktop' ?
+        this.footerMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
                 new RouterLink('Disclaimer', 'https://www2.gov.bc.ca/gov/content/home/disclaimer', 'home', 'expanded', this.router),
@@ -198,16 +117,13 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                 new RouterLink('Accessibility', 'https://www2.gov.bc.ca/gov/content/home/accessible-government', 'home', 'expanded', this.router),
                 new RouterLink('Copyright', 'https://www2.gov.bc.ca/gov/content/home/copyright', 'home', 'expanded', this.router),
                 new RouterLink('Contact Us', 'https://www2.gov.bc.ca/gov/content/home/get-help-with-government-services', 'home', 'expanded', this.router),
-
-
             ]
-        :
+            :
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
         ) as unknown as WfMenuItems
     }
-
 
     ngAfterViewInit() {
 
@@ -254,35 +170,15 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     storeViewportSize() {
         this.orientation = this.applicationStateService.getOrientation()
-        document.documentElement.style.setProperty( '--viewport-height', `${ window.innerHeight }px`);
-        document.documentElement.style.setProperty( '--viewport-width', `${ window.innerWidth }px`);
-    }
-
-    getMapStateHashIgnoreTimestamp(state) {
-        let stateWithoutTimestamp = Object.assign({}, state);
-        delete stateWithoutTimestamp.timestamp;
-
-        return UtilHash(stateWithoutTimestamp);
-    }
-
-    private receiveWindowMessage(message: Message) {
-        if (message.type === MessageType.ACTION) {
-            switch (message.action.type) {
-            }
-        } else {
-            console.warn('Unhandled message:', JSON.stringify(message));
-        }
+        document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
+        document.documentElement.style.setProperty('--viewport-width', `${window.innerWidth}px`);
     }
 
     ngOnDestroy() {
         if (this.lastSuccessPollSub) {
             this.lastSuccessPollSub.unsubscribe();
         }
-        if (this.refreshMapInterval) {
-            clearInterval(this.refreshMapInterval);
-        }
     }
-
 
     checkUserPermissions() {
         this.hasAccess = true;
@@ -306,49 +202,60 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         });
     }
 
-    initMap(smk: any) {
-        this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
-
-        this.updateMapSize = function () {
-            this.storeViewportSize()
-            smk.updateMapSize();
-        };
-
-        window[ 'SPLASH_SCREEN' ].remove()
-    }
-
-    checkMapServiceStatus(): Promise<MapServiceStatus> {
-
-            return Promise.resolve( {
-                useSecure: true,
-            } )
-        
-
-		// return this.appConfigService.loadAppConfig().then( () => {
-        //     let layerServices = this.appConfigService.getConfig().mapServiceConfig.layerSettings.layerServices
-		// 	let unsecuredUrl = layerServices[ 'bcgw' ].url
-		// 	// let securedUrl = layerServices[ 'bcgw-secured' ].url
-
-        //     return fetch( unsecuredUrl ).then( ( resp ) => {
-        //         return { useSecure: !resp.ok }
-        //     } )
-		// } )
-    }
-
     navigateToBcWebsite() {
         window.open("https://www2.gov.bc.ca/gov/content/safety/wildfire-status", "_blank");
-        
+
     }
 
-    navigateToFooterPage(event:any) {
+    navigateToFooterPage(event: any) {
         window.open(event.route, "_blank");
     }
-}
 
-function eachDisplayContextItem( items, callback ) {
-    items.forEach( ( item ) => {
-        callback( item )
+    addCustomMaterialIcons() {
+        this.matIconRegistry.addSvgIcon(
+            ICON.TWITTER,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/twitter.svg')
+        )
 
-        if ( item.items ) eachDisplayContextItem( item.items, callback )
-    } )
+        this.matIconRegistry.addSvgIcon(
+            ICON.FACEBOOK,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/facebook.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.FIRE,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/fire.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.EXCLAMATION_CIRCLE,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/exclamation-circle.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.MAP_SIGNS,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/map-signs.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.INCIDENT,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/incident.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.ADVISORIES,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/bullhorn.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.EXT_LINK,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/external-link.svg')
+        )
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.CLOUD_SUN,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/cloud-sun.svg')
+        )
+    }
+
 }

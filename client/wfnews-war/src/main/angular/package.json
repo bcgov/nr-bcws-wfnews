@@ -36,7 +36,7 @@
     "@ngrx/router-store": "^13.1.0 ",
     "@ngrx/store": "^13.1.0 ",
     "@ngrx/store-devtools": "^13.1.0 ",
-    "@qqnluaq/smk": "^1.0.34",
+    "@qqnluaq/smk": "=1.0.16000",
     "@wf1/core-ui": "^2.4.5",
     "@wf1/incidents-rest-api": "^1.5.1-SNAPSHOT",
     "@wf1/orgunit-rest-api": "^2.0.2",

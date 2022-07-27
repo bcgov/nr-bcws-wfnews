@@ -1,0 +1,80 @@
+<!-- <head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+</head> -->
+<div class="top">
+    <div class="title">
+        <h1>Active Wildfires Map</h1>
+        <h2 class="wildfire-count">
+            <i class="material-icons-outlined">local_fire_department</i>
+            {{activeFireCount}} Active Wildfires
+        </h2>
+    </div>
+
+    <div class="divider">
+        <span>Map Layers</span>
+    </div>
+
+    <div class="map-layers">
+        <div class="item"
+            (click)="onSelectLayer( 'evacuation-orders-and-alerts' )"
+        >
+            <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
+            Evacuation Orders and Alerts
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'area-restrictions' )"
+        >
+            <wf-icon class="icon" iconName="wf/map-signs" iconSize="small"></wf-icon>
+            Area Restrictions
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'bans-and-prohibitions' )"
+        >
+            <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
+            Bans and Prohibitions
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'smoke-forecast' )"
+        >
+            <wf-icon class="icon" iconName="filter_drama" iconSize="small"></wf-icon>
+            Smoke Forecast
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'fire-danger' )"
+        >
+            <wf-icon class="icon" iconName="format_list_bulleted" iconSize="small"></wf-icon>
+            Fire Danger
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'local-authorities' )"
+        >
+            <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
+            Local Authorities
+        </div>
+
+        <div class="item"
+            (click)="onSelectLayer( 'routes-impacted' )"
+        >
+            <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
+            Routes Impacted
+        </div>
+    </div>
+</div>
+
+<div class="bottom">
+    <div class="details">
+        <app-wf-left-panel></app-wf-left-panel>
+    </div>
+
+    <div class="map">
+        <wf-map-container
+            [mapConfig]="mapConfig"
+            (mapInitialized)="initMap($event)"
+        ></wf-map-container>
+    </div>
+</div>

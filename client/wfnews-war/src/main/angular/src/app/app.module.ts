@@ -2,7 +2,7 @@ import { DragDropModule } from "@angular/cdk/drag-drop";
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,37 +22,37 @@ import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { EffectsModule } from '@ngrx/effects';
 import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
-import { ActionReducer, StoreModule } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
-import { AppConfigService, CoreUIModule, ReportDialogComponent } from '@wf1/core-ui';
+import { AppConfigService, CoreUIModule } from '@wf1/core-ui';
 import { ApiModule as IncidentsApiModule, Configuration as IncidentsConfiguration } from '@wf1/incidents-rest-api';
 import { ApiModule as OrgUnitApiModule, OrgUnitConfiguration } from '@wf1/orgunit-rest-api';
 import { OwlDateTimeModule, OWL_DATE_TIME_FORMATS } from "ng-pick-datetime";
 import { OwlMomentDateTimeModule } from 'ng-pick-datetime-moment';
-import { localStorageSync } from "ngrx-store-localstorage";
 import { environment } from '../environments/environment';
 import { codeTableAndUserPrefFnInit } from "./app-initializer";
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { WFMapContainerComponent } from "./components/wf-map-container/wf-map-container.component";
-import { WFActiveFireCountContainerComponent } from "./components/wf-active-fire-count-container/wf-active-fire-count-container.component";
+// import { WFActiveFireCountContainerComponent } from "./components/wf-active-fire-count-container/wf-active-fire-count-container.component";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { MatSlideToggleModule } from "@angular/material/slide-toggle";
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { WildfireApplicationModule } from "@wf1/wfcc-application-ui";
+import {
+    ApiModule as DocumentAPIServiceModule,
+    Configuration as DocumentAPIServiceConfiguration
+} from "@wf1/wfdm-document-management-api";
+import { ActiveWildfireMapComponent } from "./components/active-wildfire-map/active-wildfire-map.component";
+import { WfLeftPanelComponent } from "./components/wf-left-panel/wf-left-panel.component";
 import { MapConfigService } from "./services/map-config.service";
 import { MapStatePersistenceService } from "./services/map-state-persistence.service";
 import { UpdateService } from './services/update.service';
 import { WFMapService } from "./services/wf-map.service";
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
-import {
-    ApiModule as DocumentAPIServiceModule,
-    Configuration as DocumentAPIServiceConfiguration
-} from "@wf1/wfdm-document-management-api";
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatToolbarModule } from "@angular/material/toolbar";
 import { provideBootstrapEffects } from "./utils";
-import { WfLeftPanelComponent } from "./components/wf-left-panel/wf-left-panel.component";
-import {MatSlideToggleModule} from "@angular/material/slide-toggle";
-import { MatExpansionModule } from "@angular/material/expansion";
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -71,8 +71,8 @@ export const DATE_FORMATS = {
     declarations: [
         AppComponent,
         WFMapContainerComponent,
-        WFActiveFireCountContainerComponent,
-        WfLeftPanelComponent
+        WfLeftPanelComponent,
+        ActiveWildfireMapComponent
     ],
     imports: [
         MatSnackBarModule,

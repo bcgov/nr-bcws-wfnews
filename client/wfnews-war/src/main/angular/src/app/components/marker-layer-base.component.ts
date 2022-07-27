@@ -1,6 +1,8 @@
 import { Location } from "@angular/common";
 import { ChangeDetectorRef, Directive, Injectable } from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
 import { AppConfigService, WindowMessagingService } from "@wf1/core-ui";
@@ -63,7 +65,9 @@ export class MarkerLayerBaseComponent {
         protected nrofService: ProvisionalZoneService,
         protected mapConfigService: MapConfigService,
         protected wfnewsMapService: WfnewsMapService,
-        protected mapStatePersistenceService: MapStatePersistenceService
+        protected mapStatePersistenceService: MapStatePersistenceService,
+        protected matIconRegistry: MatIconRegistry,
+        protected domSanitizer: DomSanitizer
     ) {
         this.construct()
     }
@@ -85,8 +89,8 @@ export class MarkerLayerBaseComponent {
     }
 
 
- 
-  
+
+
     // updateMarkerLayerStates() {
     //     this.incidentLayerState = this.mapPersistedState.layers.find(item => item.id === 'incident');
     //     this.rofLayerState = this.mapPersistedState.layers.find(item => item.id === 'rof');
