@@ -8,6 +8,9 @@
 
 .top {
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 
     .title {
         padding:10px;
@@ -16,14 +19,18 @@
 
         h1 {
             font-size: 24px;
+            font-weight: normal;
             margin-bottom: 0;
             padding-bottom: 0;
         }
 
         h2.wildfire-count {
-            font-size: 16px;
+            font-size: 14px;
+            font-weight: normal;
             margin-top: 0;
             padding-top: 0;
+            display: flex;
+            align-items: center;
 
             i.material-icons-outlined {
                 height: 24px;
@@ -35,17 +42,18 @@
         }
     }
 
-
     .divider {
-        width: 100%;
         height: 20px;
         border-bottom: 1px solid #dddddd;
-        text-align: center
+        display: flex;
+        justify-content: center;
 
         span {
             font-size: 15px;
             background: white;
             padding: 0 10px;
+            position: relative;
+            bottom: -5px;
         }
     }
 
@@ -55,7 +63,6 @@
         justify-content: center;
 
         .item {
-            // padding: 0 50px;
             margin: 0 20px;
             color: #4f4f52;
             font-size: 14px;
@@ -70,7 +77,6 @@
             }
 
             .icon {
-                // vertical-align: bottom;
                 padding-right: 10px;
             }
         }

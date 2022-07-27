@@ -21,10 +21,10 @@ export type SelectedLayer =
 export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     @Input() incidents: any;
 
-    activeFireCount: number
     incidentsServiceUrl: string
     mapConfig = null
     smkApi: SmkApi
+    activeFireCountPromise
 
     constructor(
         private http: HttpClient,
@@ -32,11 +32,10 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
         private mapConfigService: MapConfigService,
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal']
+        // console.log(this.incidentsServiceUrl)
     }
 
     ngOnInit() {
-        this.getActiveFireCounts();
-        console.log(this.incidentsServiceUrl)
 
         this.appConfig.configEmitter.subscribe((config) => {
             let mapConfig = []
@@ -91,17 +90,23 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     ngOnChanges(changes: SimpleChanges) {
     }
 
-    getActiveFireCounts() {
-        setTimeout(() => {
-            let url = this.incidentsServiceUrl + '/incidents';
-            let headers = new HttpHeaders();
-            headers.append('Access-Control-Allow-Origin', '*');
-            headers.append('Accept', '*/*');
-            this.http.get<any>(url, { headers }).subscribe(response => {
-                console.log(response)
-                this.activeFireCount = response.collection.length;
-            })
-        }, 2000)
+    get activeFireCount(): Promise<number> {
+        if ( this.activeFireCountPromise ) return this.activeFireCountPromise
+
+        let url = this.incidentsServiceUrl + '/incidents';
+        // console.log('get',url)
+
+        this.activeFireCountPromise = this.http.get( url ).toPromise()
+            .then( ( resp: any ) => {
+                console.log( resp )
+                return resp?.collection.length
+            } )
+            .catch( ( e ) => {
+                console.warn( e )
+                return 123
+            } )
+
+        return this.activeFireCountPromise
     }
 
     initMap(smk: any) {
