@@ -63,10 +63,8 @@ export class WFMapService {
         const SMK = window[ 'SMK' ];
         const jQuery = window[ 'jQuery' ];
 
-        if ( !this.patchPromise ) {
-this.patchPromise = Promise.resolve()
-            .then( function() {
-                console.log( 'start patching SMK' );
+        if ( !this.patchPromise ) this.patchPromise = Promise.resolve()
+            .then( function () {
 
                 // Create a DIV for a temporary map.
                 // This map is used to ensure that SMK is completely loaded before monkey-patching
@@ -178,8 +176,7 @@ this.patchPromise = Promise.resolve()
                         template: '#wf-weather-station-feature-template',
                         extends: f,
                         computed: {
-                            content() {
-                                // console.log( 'get content', this.feature.properties )
+                            content: function () {
                                 return {
                                     create: this.feature.properties.createContent
                                 };
@@ -346,9 +343,8 @@ this.patchPromise = Promise.resolve()
                     'layer-mobile-resources-leaflet',
                     'layer-resource-tracks-leaflet',
                     'layer-wms-time-cql-leaflet'
-                ).then( function() {
-                    console.log('custom smk layers loaded');
-                } );
+                ).then( function () {
+                } )
             } )
             .then( function() {
                 SMK.TYPE.Viewer.leaflet.prototype.mapResized = function() {
@@ -368,9 +364,8 @@ this.patchPromise = Promise.resolve()
                     this.map.setMaxBounds(maxBounds);
                 };
 
-                SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function( feature, zoomIn ) {
-                    // console.log('panToFeature')
-                    const turf = window[ 'turf' ]; const L = window[ 'L' ];
+                SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function ( feature, zoomIn ) {
+                    const turf = window[ 'turf' ], L = window[ 'L' ]
 
                     let bounds;
                     let maxZoom;
@@ -435,9 +430,8 @@ self.identifyDoneCallback( location, area );
                     return this.config.combiningClass && this.config.combiningClass === other.config.combiningClass;
                 };
 
-                SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function( area, view, option ) {
-                    // console.log('getFeaturesInArea')
-                    const self = this;
+                SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function ( area, view, option ) {
+                    var self = this
 
                     let extraFilter = this.config.where || '';
                     if ( extraFilter ) {
@@ -481,8 +475,7 @@ extraFilter = ' AND ' + extraFilter;
                             reader.readAsBinaryString( blob );
                         } );
                     } )
-                    .then( function( data: any ) {
-                        // console.log( data )
+                    .then( function ( data: any ) {
 
                         if ( !data ) {
 throw new Error( 'no features' );
@@ -504,9 +497,8 @@ f.title = 'Feature #' + ( i + 1 );
                 };
 
                 SMK.TYPE.Layer[ 'wms-time-cql' ]['leaflet'].prototype.initLegends =
-                SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.initLegends = function() {
-                    // console.log('initLegends')
-                    const J = window['jQuery'];
+                SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.initLegends = function () {
+                    const J = window['jQuery']
 
                     const url =  this.config.serviceUrl + '?' + J.param( {
                         SERVICE:    'WMS',
@@ -549,9 +541,11 @@ f.title = 'Feature #' + ( i + 1 );
 }
                         } ) )
                     .catch( ( e ) => {
-                        console.warn( e );
-                    } );
-                };
+                        console.warn( e )
+                    } )
+                }
+            } )
+            .then( function () {
             } )
             .then( function() {
                 console.log( 'done patching SMK' );
@@ -574,16 +568,15 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
     window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
         title,
         order,
-        create() {
-            // console.log('create',title)
-            return baseMaps.map( function( bm ) {
-                const L = window[ 'L' ];
+        create: function () {
+            return baseMaps.map( function ( bm ) {
+                const L = window[ 'L' ]
 
-                const orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options );
-                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone( bm.option || {} ) );
-                L.esri.BasemapLayer.TILES[ bm.id ].options = orig;
-                return bmly;
-            } );
+                var orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options )
+                var bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone( bm.option || {} ) )
+                L.esri.BasemapLayer.TILES[ bm.id ].options = orig
+                return bmly
+            } )
         }
     };
 }
@@ -594,10 +587,9 @@ function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: 
     window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
         title,
         order,
-        create() {
-            // console.log('create',title)
-            return baseMaps.map( function( bm ) {
-                const L = window[ 'L' ];
+        create: function () {
+            return baseMaps.map( function ( bm ) {
+                const L = window[ 'L' ]
 
                 return L.tileLayer( bm.url, bm.option );
             } );

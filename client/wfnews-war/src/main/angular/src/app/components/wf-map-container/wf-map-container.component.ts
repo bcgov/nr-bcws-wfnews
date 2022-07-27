@@ -23,9 +23,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     constructor(
         protected wfMap: WFMapService
     ) {
-        mapIndexAuto += 1;
-        this.mapIndexAuto = mapIndexAuto;
-        // console.log('WFMapContainerComponent constructor',this.mapIndexAuto)
+        mapIndexAuto += 1
+        this.mapIndexAuto = mapIndexAuto
     }
     
 
@@ -34,14 +33,13 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        // console.log("ngOnChanges", clone(changes),clone(this.mapConfig));
-        this.initMap();
+        this.initMap()
     }
 
     initMap(): void {
-        const self = this;
-        const mapIndex = this.mapIndex || this.mapIndexAuto;
-            const mapConfig = clone( this.mapConfig );
+        let self = this
+        let mapIndex = this.mapIndex || this.mapIndexAuto,
+            mapConfig = clone( this.mapConfig )
 
         if ( !mapConfig ) {
 return;
@@ -49,25 +47,22 @@ return;
 
         this.destroyMap();        
 
-        // console.log( "initMap", mapIndex );
 
-        initPromise = initPromise.then( function() {            
-            // console.log("initMap");
+        initPromise = initPromise.then( function () {            
             
             return self.wfMap.createSMK( {
                 id: mapIndex,
                 containerSel: self.mapContainer.nativeElement,
                 config: mapConfig
             } )
-            .then( function( smk ) {
-                // console.log("map created");
-                self.mapInitialized.emit( smk );
-                return smk;
-            } );
-        } ).catch( function( e ) {
-            console.warn( e );
-        } );
-        this.initPromise = initPromise;
+            .then( function ( smk ) {
+                self.mapInitialized.emit( smk )
+                return smk
+            } )
+        } ).catch( function ( e ) {
+            console.warn( e )
+        } )
+        this.initPromise = initPromise
     }
 
     destroyMap(): void {
@@ -80,7 +75,6 @@ return;
 return;
 }
             
-            // console.log( "destroyMap", smk.$option.id );
             
             smk.destroy();
         } );

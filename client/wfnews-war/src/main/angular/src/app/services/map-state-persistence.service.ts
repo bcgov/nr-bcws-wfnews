@@ -61,9 +61,8 @@ return Promise.reject( Error( 'not read yet' ) );
             return {};
         } )
         .then( ( s ) => {
-            console.log( 'read map state', s );
-            return s;
-        } );
+            return s
+        } )
     }
 
     putMapState( mapState: MapState ): Promise<void> {

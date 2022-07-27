@@ -67,12 +67,11 @@ export class WfnewsMapService {
         this.translate = new Translate( this.spatialUtils );
 
         this.smkInstancePromise = new Promise( ( res, rej ) => {
-            this.resolveSmkInstance = function( smk: Smk ) {
-                // console.log('set smk instance')
-                this.smkInstance = smk;
-                res( smk );
-            };
-        } );
+            this.resolveSmkInstance = function ( smk: Smk ) {
+                this.smkInstance = smk
+                res( smk )
+            }
+        } )
 
         this.timeoutLiveLayerRefresh();
 
@@ -101,26 +100,9 @@ self.timeoutLiveLayerRefresh();
 
         this.setTime( DateRange.parseWms( 'PT24H/PRESENT' ) );
 
-        // if ( this.mapServiceStatus.useSecure ) {
-        //     let prevToken
-        //     this.tokenService.authTokenEmitter.subscribe( (x) => {
-        //         let token = this.tokenService.getOauthToken()
-        //         if ( token == prevToken ) return
-        //         prevToken = token
-        //         console.log('set layer token',token)
-
-        //         this.setLayersAuthToken( ly => true, token )
-        //             .then( ( ids ) => {
-        //                 this.refreshLayers( ly => ids.includes( ly.id ) )
-        //             } )
-        //     })
-        // }
-
-        const changedView = () => {
- this.viewChange.emit(); 
-};
-        smk.$viewer.map.on( 'zoomend', changedView );
-        smk.$viewer.map.on( 'moveend', changedView );
+        let changedView = () => { this.viewChange.emit() }
+        smk.$viewer.map.on( 'zoomend', changedView )
+        smk.$viewer.map.on( 'moveend', changedView )
     }
 
     installLayerHooks() {
@@ -196,8 +178,7 @@ return;
         // } )
 
         this.smkInstance.on( 'IdentifyFeatureTool', {
-            custom: ( ev ) => {
-                // console.log( ev )
+            'custom': ( ev ) => {
                 if ( ev.layer.id.startsWith( 'bc-' ) ) {
                     this.smkInstance.$viewer.displayContext.layers.setItemVisible( 'resource-track', false );
                     this.smkInstance.$viewer.updateLayersVisible().then( () => {
@@ -227,13 +208,12 @@ return;
         let markupPointHandled = false;
 
         this.wfMapService.setHandler( 'MarkupTool--point', 'initialized', ( smk, tool, ft ) => {
-            smk.$viewer.handlePick( 3, function( location ) {
-                // console.log('MarkupTool--point handle pick',markupPointHandled)
-                const h = markupPointHandled;
-                markupPointHandled = false;
-                return h;
-            } );
-        } );
+            smk.$viewer.handlePick( 3, function ( location ) {
+                let h = markupPointHandled
+                markupPointHandled = false
+                return h
+            } )
+        } )
 
         this.wfMapService.setHandler( 'MarkupTool--point', 'activated', ( smk, tool, ft ) => {
             this.clearSelectedPoint();
@@ -250,12 +230,11 @@ return;
         let markupPolygonHandled = false;
 
         this.wfMapService.setHandler( 'MarkupTool--polygon', 'initialized', ( smk, tool, ft ) => {
-            smk.$viewer.handlePick( 3, function( location ) {
-                // console.log('MarkupTool--polygon handle pick',markupPolygonHandled)
-                const h = markupPolygonHandled;
-                return h;
-            } );
-        } );
+            smk.$viewer.handlePick( 3, function ( location ) {
+                let h = markupPolygonHandled
+                return h
+            } )
+        } )
 
         this.wfMapService.setHandler( 'MarkupTool--polygon', 'activated', ( smk, tool, ft ) => {
             this.clearPolygonMarkup();
@@ -311,7 +290,6 @@ return;
 
 
         this.wfMapService.setHandler( 'resources', 'cluster-click', ( features ) => {
-            // console.log( features )
 
             this.smkInstance.$viewer.identified.clear();
             features.forEach( ( f ) => {
@@ -321,32 +299,23 @@ return;
         } );
 
         this.wfMapService.setHandler( 'IdentifyFeatureTool', 'show-custom', ( prop ) => {
-            // console.log( prop )
-            if ( prop.layer.id.startsWith( 'bc-' ) ) {
-return 'Show Track';
-}
-            if ( prop.layer.id.startsWith( 'ued-' ) ) {
-return 'Edit';
-}
-            if ( prop.layer.id === 'fw-activereporting-wstn' ) {
-return 'Morecast';
-}
-            return false;
-        } );
+            if ( prop.layer.id.startsWith( 'bc-' ) ) return 'Show Track'
+            if ( prop.layer.id.startsWith( 'ued-' ) ) return 'Edit'
+            if ( prop.layer.id === 'fw-activereporting-wstn' ) return 'Morecast'
+            return false
+        } )
 
-        const self = this;
-        this.wfMapService.setHandler( 'IdentifyFeatureTool', 'attribute-replacer-context', function( layerId ) {
-            // console.log( 'wfim replace', this, layerId )
+        let self = this
+        this.wfMapService.setHandler( 'IdentifyFeatureTool', 'attribute-replacer-context', function ( layerId ) {
 
             const $ = { ...this.feature.properties };
             const $$ = self.translate;
 
-            return function( token ) {
-                const e = eval( token );
-                // console.log( 'wfim replace', this, layerId, token, e )
-                return e;
-            };
-        } );
+            return function ( token ) {
+                var e = eval( token )
+                return e
+            }
+        } )
 
 
     }
@@ -738,9 +707,8 @@ return this.clearTemporaryLayer( 'arrow' );
         return this.clearLayer( layerId )
             .then( () => this.showLayer( layerId, true ) )
             .then( ( smk ) => {
-                // console.log( 'loading layer', layerId )
-                smk.$viewer.layerId[ layerId ].load( data() );
-                smk.$viewer.layerId[ layerId ].setClickCallback( clickCallback );
+                smk.$viewer.layerId[ layerId ].load( data() )
+                smk.$viewer.layerId[ layerId ].setClickCallback( clickCallback )
 
                 return smk;
             } );
@@ -750,8 +718,7 @@ return this.clearTemporaryLayer( 'arrow' );
     private clearLayer( layerId: string ): SmkPromise {
         return this.smkInstancePromise
             .then( ( smk ) => {
-                // console.log( 'clear layer', layerId )
-                smk.$viewer.layerId[ layerId ].clear();
+                smk.$viewer.layerId[ layerId ].clear()
 
                 return smk;
             } );
@@ -760,8 +727,7 @@ return this.clearTemporaryLayer( 'arrow' );
     private showLayer( layerId: string, visible: boolean ): SmkPromise {
         return this.smkInstancePromise
             .then( ( smk ) => {
-                // console.log( 'show layer', layerId, visible )
-                smk.$viewer.displayContext.layers.setItemVisible( layerId, visible );
+                smk.$viewer.displayContext.layers.setItemVisible( layerId, visible )
 
                 return smk.$viewer.refreshLayers()
                     .then( () => smk );
@@ -798,10 +764,9 @@ return smk;
 		  	.then(layers=>{
 			    const affectedLayers = layers.filter(layer=>layer.setTime); // Find temporal layers
 				affectedLayers.forEach(layer=>{
-						console.log('Setting time on layer', layer.id);
-						layer.setTime(this.time);
-					});
-				return affectedLayers.map(layer=> layer.id);
+						layer.setTime(this.time)
+					})
+				return affectedLayers.map(layer=> layer.id)
 			})
 			.then(layerIds=>this.onTimeChange(this.getTime(), layerIds));
     }
@@ -820,8 +785,7 @@ return smk;
 
     refreshLayers( filter: ( SmkLayer ) => boolean ): Promise<any> {
         this.refreshPromise = this.refreshPromise.then( () => {
-            const vis = {}; let anyVis = false;
-            // console.log( 'start refresh' )
+            let vis = {}, anyVis = false
             return this.getLayers()
                 .then( ( layers ) => {
                     const lys = layers.filter( filter );
@@ -831,10 +795,9 @@ return smk;
 return;
 }
 
-                        anyVis = true;
-                        // console.log('was vis',ly.id)
-                        this.smkInstance.$viewer.displayContext.layers.setItemVisible( ly.id, false );
-                    } );
+                        anyVis = true
+                        this.smkInstance.$viewer.displayContext.layers.setItemVisible( ly.id, false )
+                    } )
 
                     if ( anyVis )
                         // return this.smkInstance.$viewer.refreshLayers()
@@ -843,15 +806,12 @@ return this.smkInstance.$viewer.updateLayersVisible();
 }
                 } )
                 .then( () => {
-                    const cacheKeys = Object.keys( this.smkInstance.$viewer.layerIdPromise );
-                    // console.log( cacheKeys )
+                    let cacheKeys = Object.keys( this.smkInstance.$viewer.layerIdPromise )
                     Object.keys( vis ).forEach( ( id ) => {
-                        const k = cacheKeys.find( ( k ) => k.includes( id ) );
-                        // console.log( k )
-                        if ( k ) {
-this.smkInstance.$viewer.layerIdPromise[ k ] = null;
-}
-                    } );
+                        let k = cacheKeys.find( ( k ) => k.includes( id ) )
+                        if ( k )
+                            this.smkInstance.$viewer.layerIdPromise[ k ] = null
+                    } )
 
                     if ( !anyVis ) {
 return;
@@ -862,30 +822,22 @@ return;
 return;
 }
 
-                        // console.log( 'set vis',id)
-                        this.smkInstance.$viewer.displayContext.layers.setItemVisible( id, true );
-                    } );
+                        this.smkInstance.$viewer.displayContext.layers.setItemVisible( id, true )
+                    } )
 
                     // return this.smkInstance.$viewer.refreshLayers()
                     return this.smkInstance.$viewer.updateLayersVisible();
                 } )
-                .then( () => 
-                    // console.log( 'end refresh' )
-                     Object.keys( vis )
-                 )
+                .then( () => {
+                    return Object.keys( vis )
+                } )
                 .catch( ( e ) => {
-                    // console.log( 'fail refresh' )
-                    console.warn( e );
-                    return [];
-                } );
-        } );
+                    console.warn( e )
+                    return []
+                } )
+        } )
 
-        return this.refreshPromise;
-            // .then( ( layers ) => {
-            //     return layers.reduce( ( acc, ly ) => {
-            //         return acc.then( () => this.refreshLayer( ly.id ) )
-            //     }, Promise.resolve() ).then( () => layers.map( ly => ly.id ) )
-            // } )
+        return this.refreshPromise
 	}
 
 	private onTimeChange(time: DateRange<any, any>, affectedLayers: string[]){

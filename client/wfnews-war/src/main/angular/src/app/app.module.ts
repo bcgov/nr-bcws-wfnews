@@ -43,10 +43,6 @@ import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
-import {
-    ApiModule as DocumentAPIServiceModule,
-    Configuration as DocumentAPIServiceConfiguration
-} from '@wf1/wfdm-document-management-api';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { provideBootstrapEffects } from './utils';
@@ -118,7 +114,6 @@ export const DATE_FORMATS = {
         ServiceWorkerModule.register('wfim-service-worker.js', { enabled: environment.production, scope: './' }),
         ScrollingModule,
         WildfireApplicationModule.forRoot(),
-        DocumentAPIServiceModule,
         MatToolbarModule,
         MatSlideToggleModule,
         MatExpansionModule
@@ -157,14 +152,6 @@ export const DATE_FORMATS = {
             provide: OrgUnitConfiguration,
             useFactory(appConfig: AppConfigService) {
                 return new OrgUnitConfiguration({ basePath: appConfig.getConfig().rest.orgunit });
-            },
-            multi: false,
-            deps: [AppConfigService]
-        },
-        {
-            provide: DocumentAPIServiceConfiguration,
-            useFactory(appConfig: AppConfigService) {
-                return new DocumentAPIServiceConfiguration({ basePath: appConfig.getConfig().rest.wfdm });
             },
             multi: false,
             deps: [AppConfigService]
