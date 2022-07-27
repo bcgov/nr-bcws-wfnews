@@ -17,7 +17,6 @@ var token
 app.put('/auth/:token', ( req,res,next) => {
     token = req.params.token
     res.send( 'token set' )
-    // console.log( '[', token, ']' )
 } )
 
 app.use('/doc-man', createProxyMiddleware({

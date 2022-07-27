@@ -3,11 +3,11 @@ import { MapServiceStatus } from '..';
 
 export interface LayerConfig {
     layerServices: {
-        wildfire: LayerServiceConfig
-        bcgw: LayerServiceConfig
-        mobileResource: LayerServiceConfig
-    },
-    token?: string
+        wildfire: LayerServiceConfig;
+        bcgw: LayerServiceConfig;
+        mobileResource: LayerServiceConfig;
+    };
+    token?: string;
 }
 
 export function LayerConfig(layerSettings: LayerSettings, serviceStatus: MapServiceStatus) {
@@ -18,17 +18,17 @@ export function LayerConfig(layerSettings: LayerSettings, serviceStatus: MapServ
     //     "resources": []
     // }
 
-    let suffix = serviceStatus.useSecure ? '-secured' : ''
+    const suffix = serviceStatus.useSecure ? '-secured' : '';
 
-    let c: LayerConfig = {
+    const c: LayerConfig = {
         layerServices: {
             bcgw: layerSettings.layerServices[ 'bcgw' + suffix ],
             wildfire: layerSettings.layerServices[ 'wildfire' + suffix ],
             mobileResource: layerSettings.layerServices[ 'mobileResource' + suffix ]
         },
         token: serviceStatus.token
-    }
+    };
 
     return [
-    ]
+    ];
 }

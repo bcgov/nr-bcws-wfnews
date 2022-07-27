@@ -8,7 +8,7 @@ export default function (mapapi) {
     //=============== TESTING ONLY
     $('#btn-load-points').click(function() { loadPoints(mapapi, 500); });
     $('#btn-load-rofs').click(function() { loadRoFs(mapapi, 100); });
-    //=============== 
+    //===============
 
     $('#btn-parse-coord').click(function() {
         var coord = $('#input-parse-coord').val();
@@ -47,7 +47,7 @@ export default function (mapapi) {
     $('#btn-layer-refresh').click(function() {
         mapapi.layer.redraw("landmark");
     });
-    
+
     $('#btn-layer-show-incident').click(function() {
         mapapi.layer.visible('incident', true);
     });
@@ -64,7 +64,7 @@ export default function (mapapi) {
 
         var liveLayerIds = mapapi.layer.getLive()
         $('#live-layer-ids').text(liveLayerIds.join(', '))
-        
+
         $( '#redraw-layer-count' ).text( layerIds.length + liveLayerIds.length)
     }
     parseLayerIds()
@@ -73,12 +73,10 @@ export default function (mapapi) {
     function parseTime() {
         try {
             var newTime = DateRange.parseWms($('#time-defn').val())
-            console.log("changing time", newTime)
             mapapi.map.setTime(newTime)
             $('#time-defn')[0].setCustomValidity("")
             parseLayerIds()
         } catch(e) {
-            console.log(e)
             $('#time-defn')[0].setCustomValidity(e.toString())
         }
     }
@@ -89,19 +87,15 @@ export default function (mapapi) {
     $( '#cb-redraw-timer' ).click( function ( ev ) {
         if ( ev.target.checked ) {
             var delay = parseInt( $( '#redraw-delay' ).val() )
-            console.log('timer interval', delay )
             timerId = setInterval( redrawLayers, delay * 1000 )
         }
         else {
-            console.log('timer off')
             clearInterval( timerId )
         }
     } )
 
     function redrawLayers() {
-        console.log('redraw layers', layerIds )
         mapapi.layer.redraw( layerIds )
-        console.log('redraw live layers')
         mapapi.layer.redrawLive()
     }
 
@@ -217,7 +211,7 @@ export default function (mapapi) {
         mapapi.highlight.clear();
     });
 
-    //---------  Editing  
+    //---------  Editing
     $('#btn-edit-new').click(function() {
         $("#edit-curr").text(" - , -");
         mapapi.edit.start(null, displayEdit);
