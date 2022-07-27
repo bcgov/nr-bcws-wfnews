@@ -28,15 +28,16 @@
         [showLeftPanel]="false"
     >
         <ng-container>
-            <!-- <router-outlet></router-outlet> -->
+            <router-outlet
+            ></router-outlet>
         </ng-container>
 
-        <wf-active-fire-count-container
+        <!-- <wf-active-fire-count-container
             [config]="applicationConfig"
-        [(state)]="applicationState">
-    </wf-active-fire-count-container>
+            [(state)]="applicationState">
+        </wf-active-fire-count-container> -->
 
-        <wf-map-container right-panel
+        <wf-map-container *ngIf = "router.url == '/activeWildfireMap'"
             [mapConfig]="mapConfig"
             (mapInitialized)="initMap($event)"
         ></wf-map-container>

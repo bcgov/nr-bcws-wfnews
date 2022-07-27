@@ -21,6 +21,18 @@ export class ApplicationStateService {
         return 'portrait'
     }
 
+    private checkMobileResolution() {
+        if (window.innerWidth < 768 || (window.innerWidth < 900 && window.innerHeight < 450)/*support for landscape mobile views*/) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public getIsMobileResolution(): boolean {
+        return this.checkMobileResolution();
+    }
+
 
 
 }

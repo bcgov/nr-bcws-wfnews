@@ -49,6 +49,10 @@ import {
 } from "@wf1/wfdm-document-management-api";
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { provideBootstrapEffects } from "./utils";
+import { WfLeftPanelComponent } from "./components/wf-left-panel/wf-left-panel.component";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import { MatExpansionModule } from "@angular/material/expansion";
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -68,6 +72,7 @@ export const DATE_FORMATS = {
         AppComponent,
         WFMapContainerComponent,
         WFActiveFireCountContainerComponent,
+        WfLeftPanelComponent
     ],
     imports: [
         MatSnackBarModule,
@@ -115,8 +120,14 @@ export const DATE_FORMATS = {
         WildfireApplicationModule.forRoot(),
         DocumentAPIServiceModule,
         MatToolbarModule,
+        MatSlideToggleModule,
+        MatExpansionModule
     ],
     providers: [
+        // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
+        // providers have finished initializing.
+        // See https://github.com/ngrx/platform/issues/931 for more information.
+        provideBootstrapEffects(rootEffects),
         {
             provide: APP_BASE_HREF,
             useValue: environment.app_base
@@ -125,6 +136,7 @@ export const DATE_FORMATS = {
             provide: RouteReuseStrategy,
             useClass: CustomReuseStrategy
         },
+
         UpdateService,
         {
             provide: APP_INITIALIZER,

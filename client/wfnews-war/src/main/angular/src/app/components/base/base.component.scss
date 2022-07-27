@@ -1,0 +1,105 @@
+@import 'src/styles/variables';
+
+.page-width-container {
+  display: block;
+  overflow: auto;
+}
+
+.wfrm-base-container {
+  justify-items: center;
+  font-size: $font-size;
+  overflow: visible;
+
+  .flex-y {
+    display: flex;
+    flex-direction: column;
+    //max-height: calc(var(--vh, 1vh) * 100 - 72px);
+
+    .flex-y-fixed {
+      flex: 0 0 auto;
+    }
+
+    .flex-y-grow {
+      flex: 1 1 auto;
+    }
+  }
+
+  .wfrm-base {
+    margin: auto;
+    padding-right: 0;
+    padding-left: 0;
+
+    .spinner-header {
+      display: inline-flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+
+  }
+
+  .wf1-resources-header-bar {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+
+    //.spinner-header {
+    //  margin-top: var(--wf1-gutter-space);
+    //}
+
+    h1{
+      margin-top: var(--wf1-gutter-space);
+      //white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow-x: hidden;
+      padding-right: var(--wf1-gutter-space);
+    }
+  }
+
+  .comments-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--wf1-gutter-space);
+
+    div.text-wrapper {
+      flex: auto;
+      display: flex;
+
+      textarea {
+        flex: auto;
+      }
+    }
+
+    div.button-wrapper {
+      flex: auto;
+      padding-top: 10px;
+
+      button {
+        float: right;
+        margin-left: 10px;
+      }
+    }
+
+  }
+
+  .table-search-header .search-and-filters{
+    .input-clear-button {
+      margin-left: 278px;
+      position: relative;
+      top: -30px;
+      line-height: 0;
+      height: 0;
+      width: 0;
+
+      ::ng-deep .mat-button-wrapper{
+        display: flex;
+        border-radius: 20%;
+        background-color: $colour-lighter-grey;
+        height: 24px;
+        width: 24px;
+      }
+    }
+  }
+}
