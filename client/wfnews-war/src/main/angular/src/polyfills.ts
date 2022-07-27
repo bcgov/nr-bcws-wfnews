@@ -19,16 +19,16 @@
 */
 
 
-import 'core-js/es7/array';
-import 'core-js/es7/object';
+import "core-js/es7/array";
+import "core-js/es7/object";
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
+import "core-js/es7/reflect";
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import './globals.ts';
-import 'zone.js'; // Included with Angular CLI.
+import "./globals.ts";
+import "zone.js"; // Included with Angular CLI.
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import "classlist.js";  // Run `npm install --save classlist.js`.

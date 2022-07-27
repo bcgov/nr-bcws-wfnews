@@ -1,5 +1,5 @@
-import { RootState } from '..';
-import { ErrorState, LoadState } from './application.state';
+import { RootState } from "..";
+import { ErrorState, LoadState } from "./application.state";
 
 
 export const selectIncidentsLoadState = () => (state: RootState): LoadState => ((state.application.loadStates.incidents) ? state.application.loadStates.incidents : undefined);
@@ -10,7 +10,7 @@ export const selectFormStatesUnsaved = (componentIds: string[]) => (state: RootS
     let ret = false;
     if (componentIds && componentIds.length) {
         componentIds.forEach(componentId => {
-            const formUnsaved = state.application.formStates[componentId] ? state.application.formStates[componentId].isUnsaved : false;
+            let formUnsaved = state.application.formStates[componentId] ? state.application.formStates[componentId].isUnsaved : false;
             ret = ret || formUnsaved;
         });
     }

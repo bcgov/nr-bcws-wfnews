@@ -45,7 +45,7 @@ export interface ApplicationState {
 }
 
 export interface LoadStates {
-    incidents: LoadState;
+    incidents: LoadState
 }
 
 export interface ErrorStates {

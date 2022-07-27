@@ -6,8 +6,8 @@ import {
 
 import * as moment from 'moment';
 import { forkJoin, Subscription } from 'rxjs';
-import { MarkerLayerBaseComponent } from './components/marker-layer-base.component';
-import { UtilHash } from './hash-util';
+import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
+import { UtilHash } from "./hash-util";
 import { WfApplicationState, RouterLink, WfApplicationConfiguration } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import { MapServiceStatus } from './services/map-config.service';
@@ -26,10 +26,10 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     public TOOLTIP_DELAY = 500;
 
-    title = 'News';
+    title: string = 'News';
 
-    isLoggedIn = true;
-    hasAccess = true;
+    isLoggedIn: boolean = true;
+    hasAccess: boolean = true;
 
     mapConfig = null;
 
@@ -42,17 +42,17 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
             short: ''
         },
         environment: ''
-    };
+    }
 
     applicationState: WfApplicationState = {
         menu: 'hidden'
-    };
+    }
 
-    appMenu: WfMenuItems;
-    footerMenu: WfMenuItems;
-    orientation;
+    appMenu: WfMenuItems
+    footerMenu: WfMenuItems
+    orientation
 
-    showLeftPanel = true;
+    showLeftPanel = true
 
 
     private lastSuccessPollSub: Subscription;
@@ -60,15 +60,15 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     private lastSyncValue = undefined;
     private refreshMapInterval;
 
-    private updateMapSize = function() {
-        this.storeViewportSize();
-    };
+    private updateMapSize = function () {
+        this.storeViewportSize()
+    }
 
     @ViewChild('extOutlet', { static: true }) extOutlet: OutletContext;
     @ViewChild('bespokeContainer', { read: ViewContainerRef }) bespokeContainerRef: ViewContainerRef;
 
     ngOnInit() {
-        const self = this;
+        const self = this
 
         super.ngOnInit();
         this.initializeRouterSubscription();
@@ -79,21 +79,21 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
         this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
             this.appConfigService.configEmitter.subscribe((config) => {
-                this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '');
-                this.applicationConfig.version.long = config.application.version;
-                this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '');
+                this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '')
+                this.applicationConfig.version.long = config.application.version
+                this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '')
 
-                const mapConfig = [];
+                let mapConfig = []
                 this.checkMapServiceStatus()
                     .then( ( mapServiceStatus ) => {
                         this.wfnewsMapService.mapServiceStatus = mapServiceStatus
 
-                        return this.mapConfigService.getMapConfig( mapServiceStatus, this.applicationConfig.device );
+                        return this.mapConfigService.getMapConfig( mapServiceStatus, this.applicationConfig.device )
                     } )
                     .then((config) => {
-                        mapConfig.push(config);
+                        mapConfig.push(config)
 
-                        return this.mapStatePersistenceService.getMapState();
+                        return this.mapStatePersistenceService.getMapState()
                     })
                     .then((mapState) => {
                         if (!mapState || !mapState.version) return
@@ -101,56 +101,53 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
                         if (mapState.version.build != config.application.buildNumber) return
 
                         eachDisplayContextItem( mapState.viewer.displayContext, ( item ) => {
-                            if ( item.id == 'resource-track' ) {
-item.isVisible = false;
-}
-                            delete item.isEnabled;
-                        } );
+                            if ( item.id == 'resource-track' )
+                                item.isVisible = false
+                            delete item.isEnabled
+                        } )
 
-                        mapConfig.push(mapState);
+                        mapConfig.push(mapState)
                     })
                     .then(() => {
-                        const deviceConfig = { viewer: { device: this.applicationConfig.device } };
+                        let deviceConfig = { viewer: { device: this.applicationConfig.device } }
 
-                        self.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
-                    });
+                        self.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?']
+                    })
 
                 this.wfnewsMapService.setMapStateSaveHandler((state) => {
                     state.version = {
                         app: this.applicationConfig.version.short,
                         build: config.application.buildNumber
-                    };
+                    }
 
                     this.mapStatePersistenceService.putMapState(state)
-                        .then(() => {
- console.log('map state saved'); 
-})
+                        .then(() => { console.log('map state saved') })
                         .catch((e) => {
                             // console.warn( e, 'failed saving map state' )
-                        });
-                });
+                        })
+                })
 
                 this.wfnewsMapService.setSelectPointHandler((location: LonLat) => {
                     const action = new MapActions.SetActiveMapLocation(location);
 
-                    const windowId = this.messagingService.getWindowId(WFROF_WINDOW_NAME);
+                    let windowId = this.messagingService.getWindowId(WFROF_WINDOW_NAME);
                     if (windowId) {
                         this.messagingService.broadcastAction(windowId, action);
                     }
 
                     this.store.dispatch(action);
-                });
+                })
 
                 this.wfnewsMapService.setSelectPolygonHandler((polygon) => {
                     const action = new MapActions.SetActiveMapPolygon(polygon);
 
-                    const windowId = this.messagingService.getWindowId(WFNROF_WINDOW_NAME);
+                    let windowId = this.messagingService.getWindowId(WFNROF_WINDOW_NAME);
                     if (windowId) {
                         this.messagingService.broadcastAction(windowId, action);
                     }
 
                     this.store.dispatch(action);
-                });
+                })
 
 
                 // const refreshRate = config?.application?.polling?.mapTool?.layerRefreshPolling
@@ -158,7 +155,7 @@ item.isVisible = false;
                 //     this.wfimMapService.redrawMap();
                 // }, refreshRate || 5000);
 
-                this.onResize();
+                this.onResize()
             });
         }
 
@@ -184,7 +181,7 @@ item.isVisible = false;
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
-        ) as unknown as WfMenuItems;
+        ) as unknown as WfMenuItems
     }
 
     initFooterMenu() {
@@ -203,7 +200,7 @@ item.isVisible = false;
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
-        ) as unknown as WfMenuItems;
+        ) as unknown as WfMenuItems
     }
 
 
@@ -224,8 +221,8 @@ item.isVisible = false;
         if (!this.lastSyncDate) {
             return '-';
         }
-        const now = moment();
-        const value = now.diff(this.lastSyncDate, 'second', false);
+        let now = moment();
+        let value = now.diff(this.lastSyncDate, 'second', false);
         if (value > 240) {
             this.lastSyncValue = '240+';
         } else {
@@ -249,13 +246,13 @@ item.isVisible = false;
     }
 
     storeViewportSize() {
-        this.orientation = this.applicationStateService.getOrientation();
+        this.orientation = this.applicationStateService.getOrientation()
         document.documentElement.style.setProperty( '--viewport-height', `${ window.innerHeight }px`);
         document.documentElement.style.setProperty( '--viewport-width', `${ window.innerWidth }px`);
     }
 
     getMapStateHashIgnoreTimestamp(state) {
-        const stateWithoutTimestamp = Object.assign({}, state);
+        let stateWithoutTimestamp = Object.assign({}, state);
         delete stateWithoutTimestamp.timestamp;
 
         return UtilHash(stateWithoutTimestamp);
@@ -288,32 +285,36 @@ item.isVisible = false;
     initializeRouterSubscription() {
         this.router.events.subscribe((event: Event) => {
             if (event instanceof NavigationStart) {
-                this.showLeftPanel = (event as NavigationStart).url != '/';
-                this.updateMapSize();
+                this.showLeftPanel = (event as NavigationStart).url != '/'
+                this.updateMapSize()
 
                 this.wfnewsMapService.clearSelectedPoint()
-                    .then(() => this.wfnewsMapService.clearSearch())
-                    .then(() => this.wfnewsMapService.clearHighlight());
+                    .then(() => {
+                        return this.wfnewsMapService.clearSearch()
+                    })
+                    .then(() => {
+                        return this.wfnewsMapService.clearHighlight()
+                    })
             }
         });
     }
 
     initMap(smk: any) {
-        this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent);
+        this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
 
-        this.updateMapSize = function() {
-            this.storeViewportSize();
+        this.updateMapSize = function () {
+            this.storeViewportSize()
             smk.updateMapSize();
         };
 
-        window[ 'SPLASH_SCREEN' ].remove();
+        window[ 'SPLASH_SCREEN' ].remove()
     }
 
     checkMapServiceStatus(): Promise<MapServiceStatus> {
 
             return Promise.resolve( {
                 useSecure: true,
-            } );
+            } )
         
 
 		// return this.appConfigService.loadAppConfig().then( () => {
@@ -333,17 +334,15 @@ item.isVisible = false;
         
     }
 
-    navigateToFooterPage(event: any) {
-        window.open(event.route, '_blank');
+    navigateToFooterPage(event:any) {
+        window.open(event.route, "_blank");
     }
 }
 
 function eachDisplayContextItem( items, callback ) {
     items.forEach( ( item ) => {
-        callback( item );
+        callback( item )
 
-        if ( item.items ) {
-eachDisplayContextItem( item.items, callback );
-}
-    } );
+        if ( item.items ) eachDisplayContextItem( item.items, callback )
+    } )
 }

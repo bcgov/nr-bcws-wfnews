@@ -9,7 +9,9 @@ export class UpdateService {
         console.log('wfim swUpdate, enabled:', swUpdate.isEnabled);
         if (swUpdate.isEnabled) {
             swUpdate.checkForUpdate();
-            interval(5 * 60 * 1000).subscribe(() => swUpdate.checkForUpdate());
+            interval(5 * 60 * 1000).subscribe(() => {
+                return swUpdate.checkForUpdate();
+            });
         }
     }
 

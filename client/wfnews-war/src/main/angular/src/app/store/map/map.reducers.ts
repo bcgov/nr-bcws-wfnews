@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 import * as MapActions from './map.actions';
-import { mapInitialState, MapState } from './map.state';
+import { mapInitialState, MapState } from "./map.state";
 
 export function mapReducer(state: MapState = mapInitialState, action: Action) {
     switch (action.type) {

@@ -1,9 +1,9 @@
-import { Location } from '@angular/common';
-import { ChangeDetectorRef, Directive, Injectable } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppConfigService, WindowMessagingService } from '@wf1/core-ui';
+import { Location } from "@angular/common";
+import { ChangeDetectorRef, Directive, Injectable } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
+import { AppConfigService, WindowMessagingService } from "@wf1/core-ui";
 import {
     ProvisionalZoneResource, ProvisionalZoneService,
     PublicReportOfFireResource, PublicReportOfFireService,
@@ -12,12 +12,12 @@ import {
 } from "@wf1/incidents-rest-api";
 import { Subject } from "rxjs";
 
-import { ApplicationStateService } from '../services/application-state.service';
-import { MapConfigService } from '../services/map-config.service';
-import { MapStatePersistenceService } from '../services/map-state-persistence.service';
-import { UpdateService } from '../services/update.service';
-import { WfnewsMapService } from '../services/wfnews-map.service';
-import { RootState } from '../store';
+import { ApplicationStateService } from "../services/application-state.service";
+import { MapConfigService } from "../services/map-config.service";
+import { MapStatePersistenceService } from "../services/map-state-persistence.service";
+import { UpdateService } from "../services/update.service";
+import { WfnewsMapService } from "../services/wfnews-map.service";
+import { RootState } from "../store";
 
 @Directive()
 @Injectable()
@@ -43,9 +43,9 @@ export class MarkerLayerBaseComponent {
     prevNrofLayerState: any;
     nrofLayerState: any;
 
-    retrievingIncidentMarkers = false;
-    retrievingRofMarkers = false;
-    retrievingNrofMarkers = false;
+    retrievingIncidentMarkers: boolean = false;
+    retrievingRofMarkers: boolean = false;
+    retrievingNrofMarkers: boolean = false;
 
     public incidentsRetrieved$ = new Subject<boolean>();
 
@@ -65,7 +65,7 @@ export class MarkerLayerBaseComponent {
         protected wfnewsMapService: WfnewsMapService,
         protected mapStatePersistenceService: MapStatePersistenceService
     ) {
-        this.construct();
+        this.construct()
     }
 
     construct() {}
@@ -95,18 +95,18 @@ export class MarkerLayerBaseComponent {
     // }
 
     incidentLayerVisible(): boolean {
-        return this.wfnewsMapService.isIncidentsVisible();
+        return this.wfnewsMapService.isIncidentsVisible()
     }
 
     rofLayerVisible(): boolean {
-        return this.wfnewsMapService.isRofsVisible();
+        return this.wfnewsMapService.isRofsVisible()
     }
 
     nrofLayerVisible(): boolean {
-        return this.wfnewsMapService.isNrofsVisible();
+        return this.wfnewsMapService.isNrofsVisible()
     }
 
     onClose() {
-        this.router.navigate( [ '/' ] );
+        this.router.navigate( [ '/' ] )
     }
 }

@@ -1,11 +1,11 @@
-import {Directive, HostListener, Injectable, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
-import {select, Store} from '@ngrx/store';
-import {RootState} from '../../store';
-import {ApplicationStateService} from '../../services/application-state.service';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable, Subscription} from 'rxjs';
-import { selectFormStatesUnsaved } from '../../store/application/application.selector';
+import {Directive, HostListener, Injectable, OnDestroy} from "@angular/core";
+import {Router} from "@angular/router";
+import {select, Store} from "@ngrx/store";
+import {RootState} from "../../store";
+import {ApplicationStateService} from "../../services/application-state.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {Observable, Subscription} from "rxjs";
+import { selectFormStatesUnsaved } from "../../store/application/application.selector";
 
 @Directive()
 @Injectable()
@@ -13,7 +13,7 @@ export class BaseContainer implements OnDestroy {
     unsavedForms$: Observable<boolean>;
     hasUnsavedForms = false;
     unsavedFormsSub: Subscription;
-    displayLabel = '';
+    displayLabel = "";
 
     constructor(
         protected store: Store<RootState>,

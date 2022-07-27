@@ -1,6 +1,6 @@
-import { WFActiveFireCountContainerComponent } from './wf-active-fire-count-container.component';
-import { ComponentFixture }  from '@angular/core/testing';
-import { TestBed }  from '@angular/core/testing';
+import { WFActiveFireCountContainerComponent } from "./wf-active-fire-count-container.component";
+import { ComponentFixture }  from "@angular/core/testing";
+import { TestBed }  from "@angular/core/testing";
 
 TestBed.configureTestingModule({
     imports: [ /*… */ ],
