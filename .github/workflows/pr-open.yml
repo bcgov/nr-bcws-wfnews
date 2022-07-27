@@ -4,6 +4,15 @@ on:
   pull_request:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
+    paths:
+      - ".github/workflows/pr.yaml"
+      - ".github/workflows/tf-plan.yaml"
+      - "client/**"
+      - "server/**"
+      - "terraform/**"
+      - "!terraform/sandbox/**"
+      - "Dockerfile"
+      - "!**/README.md"
 
 env:
   REGISTRY: ghcr.io
@@ -104,6 +113,10 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Store the Server docker image URL for later steps
+        run: |
+          echo "SERVER_IMAGE=${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.number }}-client" >> $GITHUB_ENV
+
   build-client:
     name: Build-Client
     needs:
@@ -142,6 +155,10 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.number }}-client
           cache-from: type=gha
           cache-to: type=gha,mode=max
+
+      - name: Store the Client docker image URL for later steps
+        run: |
+          echo "CLIENT_IMAGE=${{ env.REGISTRY }}/${{ github.repository }}:${{ github.event.number }}-client" >> $GITHUB_ENV
 
   tests-client:
     name: Tests-Client
