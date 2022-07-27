@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from "@angular/core";
-import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { AppConfigService } from '@wf1/core-ui';
 @Component({
   selector: 'wf-active-fire-count-container',
@@ -11,10 +11,10 @@ import { AppConfigService } from '@wf1/core-ui';
 })
 export class WFActiveFireCountContainerComponent implements OnInit, OnChanges { 
 
-  @Input() incidents:any;
+  @Input() incidents: any;
 
   activeFireCount: number;
-  incidentsServiceUrl: string
+  incidentsServiceUrl: string;
 
   constructor(
     private http: HttpClient,
@@ -22,17 +22,17 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
     private domSanitize: DomSanitizer,
     private appConfig: AppConfigService,
     ){
-      this.incidentsServiceUrl = appConfig.getConfig().rest['newsLocal']
+      this.incidentsServiceUrl = appConfig.getConfig().rest['newsLocal'];
   }
 
   ngOnInit()  {
       this.getActiveFireCounts();
-      console.log(this.incidentsServiceUrl)
+      console.log(this.incidentsServiceUrl);
 
       this.matIconRegistry.addSvgIcon (
         'map-sign01',
-        this.domSanitize.bypassSecurityTrustResourceUrl("assets/icons/map-signs.svg")
-      )
+        this.domSanitize.bypassSecurityTrustResourceUrl('assets/icons/map-signs.svg')
+      );
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -41,14 +41,14 @@ export class WFActiveFireCountContainerComponent implements OnInit, OnChanges {
 
   getActiveFireCounts(){
     setTimeout(() => {
-      let url = this.incidentsServiceUrl + '/incidents';
-      let headers = new HttpHeaders();
+      const url = this.incidentsServiceUrl + '/incidents';
+      const headers = new HttpHeaders();
       headers.append('Access-Control-Allow-Origin','*');
       headers.append('Accept','*/*');
       this.http.get<any>(url,{headers}).subscribe(response => {
-        console.log(response)
+        console.log(response);
         this.activeFireCount = response.collection.length;
-      })
-    },2000)
+      });
+    },2000);
   }
 }

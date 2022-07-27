@@ -7,30 +7,30 @@ import {
     OnChanges,
     OnInit,
     SimpleChanges
-} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
-import {DomSanitizer} from "@angular/platform-browser";
-import {Store} from "@ngrx/store";
-import {BaseComponentModel} from "./base.component.model";
+} from '@angular/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {DomSanitizer} from '@angular/platform-browser';
+import {Store} from '@ngrx/store';
+import {BaseComponentModel} from './base.component.model';
 import {
     DATE_FORMATS,
     getElementInnerText,
     hasValues,
     isElementTruncated,
     ResourcesRoutes
-} from "../../../app/utils";
-import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {ConnectionService} from "ngx-connection-service";
-import {Overlay} from "@angular/cdk/overlay";
-import {ApplicationStateService} from "../../services/application-state.service";
-import {AppConfigService, TokenService} from "@wf1/core-ui";
-import {HttpClient} from "@angular/common/http";
-import {MatDialog} from "@angular/material/dialog";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {PaginationInstance} from "ngx-pagination";
+} from '../../../app/utils';
+import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
+import {ConnectionService} from 'ngx-connection-service';
+import {Overlay} from '@angular/cdk/overlay';
+import {ApplicationStateService} from '../../services/application-state.service';
+import {AppConfigService, TokenService} from '@wf1/core-ui';
+import {HttpClient} from '@angular/common/http';
+import {MatDialog} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {PaginationInstance} from 'ngx-pagination';
 
-import { RootState } from "../../store";
-import { ErrorState, LoadState } from "../../store/application/application.state";
+import { RootState } from '../../store';
+import { ErrorState, LoadState } from '../../store/application/application.state';
 
 @Directive()
 @Injectable()
@@ -39,43 +39,43 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() errorState: ErrorState[];
     @Input() saveErrorState: ErrorState[];
     @Input() severeErrorState?: ErrorState[];
-    displayLabel = "Data";
+    displayLabel = 'Data';
     showingErrorDialog = false;
     backRoute: ResourcesRoutes = null;
     backRouteQueryParams: any;
     backRouteLabel: string = null;
     summaryString: string = null;
-    isConnected: boolean = true;
+    isConnected = true;
     protected model: BaseComponentModel;
     public viewModel: BaseComponentModel;
     isLoading: boolean;
-    componentId = "";
+    componentId = '';
     mobile = this.getIsMobileResolution();
 
 
-    SAVE_FAIL_TEXT = "Save failed";
-    SAVE_SUCCESS_TEXT = "Saved Successfully";
+    SAVE_FAIL_TEXT = 'Save failed';
+    SAVE_SUCCESS_TEXT = 'Saved Successfully';
 
 
     DATE_FORMATS = DATE_FORMATS;
 
 
-    unsavedChangesMessage = "Unsaved Changes";
+    unsavedChangesMessage = 'Unsaved Changes';
 
     isUnsaved = false;
     getElementInnerText = getElementInnerText;
     isElementTruncated = isElementTruncated;
 
     config: PaginationInstance = {
-        id: "Paginator",
+        id: 'Paginator',
         itemsPerPage: 5,
         currentPage: 1,
         totalItems: 0
     };
 
     public paginatorLabels: any = {
-        previousLabel: "",
-        nextLabel: "",
+        previousLabel: '',
+        nextLabel: '',
     };
 
     constructor(protected router: Router,
@@ -135,7 +135,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         //console.log(changes);
         if (changes.loadState) {
             this.isLoading = changes.loadState.currentValue.isLoading;
-            let previousValue = changes.loadState.previousValue;
+            const previousValue = changes.loadState.previousValue;
             if (!this.isLoading && previousValue && previousValue.isLoading) {
                 this.updateView();
                 this.invokeAfterLoaded();
@@ -172,11 +172,11 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     redirectWithOAuth(redirectRoutePath: string) {
-        let baseUrl = this.appConfigService.getConfig().application.baseUrl;
-        let clientId = this.appConfigService.getConfig().webade.clientId;
-        let authorizeUrl = this.appConfigService.getConfig().webade.oauth2Url;
-        let authScopes = this.appConfigService.getConfig().webade.authScopes;
-        let url = baseUrl;
+        const baseUrl = this.appConfigService.getConfig().application.baseUrl;
+        const clientId = this.appConfigService.getConfig().webade.clientId;
+        const authorizeUrl = this.appConfigService.getConfig().webade.oauth2Url;
+        const authScopes = this.appConfigService.getConfig().webade.authScopes;
+        const url = baseUrl;
         window.location.href = url;
     }
 
@@ -185,17 +185,17 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     disableSaveForm(form?: FormGroup): boolean {
-        let fg = form ? form : this.viewModel.formGroup;
+        const fg = form ? form : this.viewModel.formGroup;
         return !fg.dirty || !fg.valid;
     }
 
     disableBatchSaveForm(arrayProperty: string, form?: FormGroup): boolean {
-        let fg = form ? form : this.viewModel.formGroup;
+        const fg = form ? form : this.viewModel.formGroup;
         //Check form array for dirty flag
-        let fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
+        const fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
 
-        let arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
-        let arrayHasInvalidFlag = fgArray.some(contactFg => !contactFg.valid);
+        const arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
+        const arrayHasInvalidFlag = fgArray.some(contactFg => !contactFg.valid);
 
         /*
          * Disable if
@@ -214,7 +214,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     unsavedForm(form?: FormGroup, arrayProperty?: string): boolean {
         //console.log("unsaved", this.componentId);
-        let fg = form ? form : this.viewModel.formGroup;
+        const fg = form ? form : this.viewModel.formGroup;
         if (arrayProperty) {
             this.unsavedBatchForm(arrayProperty);
         } else {
@@ -224,31 +224,31 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     unsavedBatchForm(arrayProperty: string): boolean {
-        let fg = this.viewModel.formGroup;
+        const fg = this.viewModel.formGroup;
         //Check form array for dirty flag
-        let fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
-        let arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
-        let hasAddedUnsavedItem = this.hasAddedUnsavedItemNotBlank(fg, arrayProperty);
+        const fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
+        const arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
+        const hasAddedUnsavedItem = this.hasAddedUnsavedItemNotBlank(fg, arrayProperty);
         //console.log("arrayHasDirtyFlag", arrayHasDirtyFlag, "fgDirty", fg.dirty, "hasAddedUnsavedItem", hasAddedUnsavedItem);
         this.doUnsavedStateUpdateIfNeeded(this.componentId, arrayHasDirtyFlag || fg.dirty || hasAddedUnsavedItem);
         return this.isUnsaved;
     }
 
     doUnsavedStateUpdateIfNeeded(componentId: string, newUnsavedState: boolean) {
-        let prevUnsaved = this.isUnsaved; //save old value for comparison
+        const prevUnsaved = this.isUnsaved; //save old value for comparison
         //console.log(componentId, "prev", prevUnsaved, "new", newUnsavedState);
         this.isUnsaved = newUnsavedState;
     }
 
     hasAddedUnsavedItemNotBlank(fgMain: FormGroup, arrayProperty: string) {
-        let controls = fgMain?.controls[arrayProperty]['controls'];
-        let ret = controls.some(ac => {
-                let fg: FormGroup = <FormGroup>ac;
-                if (!fg.get("id").value && controls.length > 1) { //not a default empty entry
+        const controls = fgMain?.controls[arrayProperty]['controls'];
+        const ret = controls.some(ac => {
+                const fg: FormGroup = <FormGroup>ac;
+                if (!fg.get('id').value && controls.length > 1) { //not a default empty entry
                     //console.log("not default entry");
                     return true;
-                } else if (!fg.get("id").value && controls.length == 1) { //check if empty entry
-                    let item = fg.getRawValue();
+                } else if (!fg.get('id').value && controls.length == 1) { //check if empty entry
+                    const item = fg.getRawValue();
                     if (!hasValues(item)) {
                         //console.log("is default empty entry");
                         return false;
