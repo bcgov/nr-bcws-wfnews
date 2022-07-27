@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild} from "@angular/core";
-import { WFMapService } from "../../services/wf-map.service";
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleChanges, ViewChild} from '@angular/core';
+import { WFMapService } from '../../services/wf-map.service';
 
-let mapIndexAuto = 0
-let initPromise = Promise.resolve()
+let mapIndexAuto = 0;
+let initPromise = Promise.resolve();
 
 @Component({
   selector: 'wf-map-container',
@@ -10,7 +10,7 @@ let initPromise = Promise.resolve()
   styleUrls: [ './wf-map-container.component.scss' ]
 })
 export class WFMapContainerComponent implements OnDestroy, OnChanges  { 
-    @Input() mapIndex: number = 0;
+    @Input() mapIndex = 0;
     @Input() mapConfig: Array<any>;
 
     @Output() mapInitialized = new EventEmitter<any>();
@@ -18,7 +18,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     @ViewChild('mapContainer') mapContainer;
 
     private initPromise: Promise<any>; // = Promise.resolve()
-    private mapIndexAuto
+    private mapIndexAuto;
 
     constructor(
         protected wfMap: WFMapService
@@ -29,7 +29,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     
 
     ngOnDestroy() {
-        this.destroyMap()
+        this.destroyMap();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -41,9 +41,11 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
         let mapIndex = this.mapIndex || this.mapIndexAuto,
             mapConfig = clone( this.mapConfig )
 
-        if ( !mapConfig ) return
+        if ( !mapConfig ) {
+return;
+}
 
-        this.destroyMap()        
+        this.destroyMap();        
 
 
         initPromise = initPromise.then( function () {            
@@ -64,16 +66,22 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     }
 
     destroyMap(): void {
-        if ( !this.initPromise ) return
+        if ( !this.initPromise ) {
+return;
+}
 
-        this.initPromise = this.initPromise.then( function ( smk ) {
-            if ( !smk ) return
+        this.initPromise = this.initPromise.then( function( smk ) {
+            if ( !smk ) {
+return;
+}
             
             
-            smk.destroy()
-        } )
+            smk.destroy();
+        } );
     }
 
 }
 
-function clone( o ) { return JSON.parse( JSON.stringify( o ) ) }
+function clone( o ) {
+ return JSON.parse( JSON.stringify( o ) ); 
+}
