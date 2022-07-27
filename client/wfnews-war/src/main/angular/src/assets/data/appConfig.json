@@ -54,8 +54,7 @@
     },
 
     "rest": {
-        "incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
-        "#incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
+        "newsLocal": "http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT",
         "orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
         "#orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
         "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",

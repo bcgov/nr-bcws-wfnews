@@ -12,7 +12,7 @@ export function mapConfig(layerSettings: LayerSettings, serviceStatus: MapServic
             location: {
                 extent: [ -136.3, 49, -116, 60.2 ],
             },
-            baseMap: 'bc-roads',
+            baseMap: 'imagery',
             minZoom: 4,
             displayContext: [
                 {

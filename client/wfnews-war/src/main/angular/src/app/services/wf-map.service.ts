@@ -109,11 +109,7 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    // defineEsriBasemap( 'imagery', 'ESRI Imagery', [
-                    //     { id: 'Imagery', option: { ...imageryOption } },
-                    //     { id: 'ImageryTransportation', option: { ...imageryOption } },
-                    //     { id: 'ImageryLabels', option: { ...imageryOption } },
-                    // ] )
+
 
                     defineEsriBasemap( 'imagery', 'Imagery', [
                         { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
@@ -127,9 +123,7 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    defineEsriBasemap( 'streets', 'ESRI Streets', [
-                        { id: 'Streets', option: { ...streetsOption } }
-                    ] )
+
 
 
                     const bcOption = {
@@ -137,19 +131,7 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    defineWmsBasemap( 'bc-topo', 'BC Topographic', [
-                        {
-                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/web_mercator_cache/MapServer/tile/{z}/{y}/{x}",
-                            option: bcOption
-                        }
-                    ] )
 
-                    defineWmsBasemap( 'bc-roads', 'BC Roads', [
-                        {
-                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/roads_wm/MapServer/tile/{z}/{y}/{x}",
-                            option: bcOption
-                        }
-                    ] )
 
 
                     const lightGrayOption = {
@@ -157,9 +139,6 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    defineEsriBasemap( 'light-gray', 'Light Gray', [
-                        { id: 'Gray', option: { ...lightGrayOption } }
-                    ] )
 
                     smk.destroy()
                     temp.parentElement.removeChild( temp )
