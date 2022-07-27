@@ -147,6 +147,6 @@ variable "cloudfront_origin_domain" {
 }*/
 
 variable "aws_sec_group" {
-    description "Security group limiting access to app"
+    description = "Security group limiting access to app"
     type = string
 }
