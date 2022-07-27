@@ -25,7 +25,7 @@ jobs:
           distribution: 'adopt'
           
       - name: Build with Maven
-        run: mvn --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
+        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp client/wfnews-war/*.war staging
