@@ -29,7 +29,7 @@ jobs:
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
       - name: Copy files to neccessary folders
-        run: mkdir staging && cp client/wfnews-war/*.war staging
+        run: mkdir staging && cp client/wfnews-war/*.war staging && cp client/wfnews-ear/*.ear staging
       
       - uses: actions/upload-artifact@v3
         with:
