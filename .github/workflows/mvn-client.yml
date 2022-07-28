@@ -6,6 +6,7 @@ env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-client
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  NPM_URL: ${{ secrets.NPM_REPO }}
 
 # Controls when the workflow will run
 on:
