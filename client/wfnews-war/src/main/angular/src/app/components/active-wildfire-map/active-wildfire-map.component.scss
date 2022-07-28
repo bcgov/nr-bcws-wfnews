@@ -1,0 +1,109 @@
+:host {
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.top {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    .title {
+        padding:10px;
+        margin-left: 10px;
+        box-sizing: border-box;
+
+        h1 {
+            font-size: 24px;
+            font-weight: normal;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        h2.wildfire-count {
+            font-size: 14px;
+            font-weight: normal;
+            margin-top: 0;
+            padding-top: 0;
+            display: flex;
+            align-items: center;
+
+            i.material-icons-outlined {
+                height: 24px;
+                width: 24px;
+                color: #0056a5;
+                margin-bottom: 0px;
+                padding-bottom: 0px;
+            }
+        }
+    }
+
+    .divider {
+        height: 20px;
+        border-bottom: 1px solid #dddddd;
+        display: flex;
+        justify-content: center;
+
+        span {
+            font-size: 15px;
+            background: white;
+            padding: 0 10px;
+            position: relative;
+            bottom: -5px;
+        }
+    }
+
+    .map-layers {
+        padding: 20px 0;
+        display: flex;
+        justify-content: center;
+
+        .item {
+            margin: 0 10px;
+            padding: 10px 10px;
+            color: #4f4f52;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+
+            &:hover {
+                border: 2px dotted #1A5A96;
+            }
+
+            &.active {
+                border: 2px solid #1A5A96;
+                color: #1A5A96;
+            }
+
+            .icon {
+                padding-right: 10px;
+            }
+        }
+    }
+}
+
+.bottom {
+    flex-shrink: 1;
+    height: 100%;
+
+    display: flex;
+    flex-direction: row;
+
+    .details {
+        flex-shrink: 0;
+        min-width: 600px;
+        max-width: 600px;
+    }
+
+    .map {
+        flex-grow: 1;
+    }
+ }

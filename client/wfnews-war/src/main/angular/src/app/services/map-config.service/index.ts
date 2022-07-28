@@ -8,15 +8,24 @@ export interface MapServiceStatus {
     token?: string
 }
 
+export type MapServices = {
+    [service: string]: string
+}
+
 @Injectable()
 export class MapConfigService {
 	constructor(
 		private appConfig: AppConfigService
 	) {}
 
-	getMapConfig( status: MapServiceStatus, device: WfDevice ): Promise<any> {
+	getMapConfig(): Promise<any> {
+        let status: MapServiceStatus = {
+            useSecure: true,
+            token: null,
+        }
+
 		return this.appConfig.loadAppConfig().then( ( config ) => {
-			return mapConfig( this.appConfig.getConfig().mapServiceConfig.layerSettings, status, device )
+			return mapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop' )
 		} )
 	}
 }

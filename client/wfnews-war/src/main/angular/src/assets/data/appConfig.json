@@ -77,29 +77,10 @@
         "#preferencesUrl": "https://d1wfapps.vividsolutions.com/pub/wfim/webade/userPrefs.jsp"
     },
 
-    "mapServiceConfig": {
-        "layerSettings": {
-            "layerServices": {
-                "bcgw": {
-                    "url": "https://d1wfbs.vividsolutions.com/geoserver/wms"
-                },
-                "wildfire": {
-                    "url": "https://d1wfbs.vividsolutions.com/geoserver/wms"
-                },
-                "mobileResource": {
-                    "url": "https://d1wfbs.vividsolutions.com/geoserver/wfs"
-                },
-                "bcgw-secured": {
-                    "url": "https://d1wfapi.vividsolutions.com/wfss-geoserver-api/ows"
-                },
-                "wildfire-secured": {
-                    "url": "https://d1wfapi.vividsolutions.com/wfss-geoserver-api/ows"
-                },
-                "mobileResource-secured": {
-                    "url": "https://d1wfapi.vividsolutions.com/wfss-geoserver-api/ows"
-                }
-            }
-        }
+    "mapServices": {
+        "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
+        "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
+        "drivebcBaseUrl": "http://dev-maps.th.gov.bc.ca/geoV05/ows"
     },
 
     "causeCodeConfig": {
