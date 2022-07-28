@@ -1,6 +1,3 @@
-<!-- <head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
-</head> -->
 <div class="top">
     <div class="title">
         <h1>Active Wildfires Map</h1>
@@ -17,6 +14,7 @@
 
     <div class="map-layers">
         <div class="item"
+            [class.active]="selectedLayer == 'evacuation-orders-and-alerts'"
             (click)="onSelectLayer( 'evacuation-orders-and-alerts' )"
         >
             <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
@@ -24,6 +22,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'area-restrictions'"
             (click)="onSelectLayer( 'area-restrictions' )"
         >
             <wf-icon class="icon" iconName="wf/map-signs" iconSize="small"></wf-icon>
@@ -31,6 +30,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'bans-and-prohibitions'"
             (click)="onSelectLayer( 'bans-and-prohibitions' )"
         >
             <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
@@ -38,6 +38,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'smoke-forecast'"
             (click)="onSelectLayer( 'smoke-forecast' )"
         >
             <wf-icon class="icon" iconName="filter_drama" iconSize="small"></wf-icon>
@@ -45,6 +46,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'fire-danger'"
             (click)="onSelectLayer( 'fire-danger' )"
         >
             <wf-icon class="icon" iconName="format_list_bulleted" iconSize="small"></wf-icon>
@@ -52,6 +54,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'local-authorities'"
             (click)="onSelectLayer( 'local-authorities' )"
         >
             <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
@@ -59,6 +62,7 @@
         </div>
 
         <div class="item"
+            [class.active]="selectedLayer == 'routes-impacted'"
             (click)="onSelectLayer( 'routes-impacted' )"
         >
             <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
@@ -68,9 +72,81 @@
 </div>
 
 <div class="bottom">
-    <div class="details">
-        <app-wf-left-panel></app-wf-left-panel>
-    </div>
+    <mat-accordion class="details">
+        <mat-expansion-panel #WildfireStageOfControl class="wildfire-stage-of-control">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Wildfire Stage of Control
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <panel-wildfire-stage-of-control></panel-wildfire-stage-of-control>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #EvacuationOrdersAndAlerts class="evacuation-orders-and-alerts">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Evacuation Orders and Alerts
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <panel-evacuation-orders-and-alerts></panel-evacuation-orders-and-alerts>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #AreaRestrictions class="area-restrictions">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Area Restrictions
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #BansAndProhibitions class="bans-and-prohibitions">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Bans and Prohibitions
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #SmokeForecast class="smoke-forecast">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Smoke Forecast
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #FireDanger class="fire-danger">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Fire Danger
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #LocalAuthorities class="local-authorities">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Local Authorities
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+
+        <mat-expansion-panel #RoutesImpacted class="routes-impacted">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Routes Impacted
+                </mat-panel-title>
+            </mat-expansion-panel-header>
+
+        </mat-expansion-panel>
+    </mat-accordion>
 
     <div class="map">
         <wf-map-container

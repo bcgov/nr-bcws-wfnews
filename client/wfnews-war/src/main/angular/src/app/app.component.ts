@@ -1,10 +1,15 @@
+import { Location } from "@angular/common";
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Event, NavigationStart } from '@angular/router';
+import { MatIconRegistry } from "@angular/material/icon";
+import { DomSanitizer } from "@angular/platform-browser";
+import { Router } from '@angular/router';
+import { AppConfigService } from "@wf1/core-ui";
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { MarkerLayerBaseComponent } from "./components/marker-layer-base.component";
+import { ApplicationStateService } from "./services/application-state.service";
+import { UpdateService } from "./services/update.service";
 import { ResourcesRoutes } from './utils';
 
 export const ICON = {
@@ -24,7 +29,7 @@ export const ICON = {
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
 })
-export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy, OnInit, AfterViewInit {
+export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     public TOOLTIP_DELAY = 500;
 
@@ -58,6 +63,17 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     lastSyncDate;
     lastSyncValue = undefined;
 
+    constructor(
+        protected appConfigService: AppConfigService,
+        protected router: Router,
+        protected location: Location,
+        protected updateService: UpdateService,
+        protected applicationStateService: ApplicationStateService,
+        protected matIconRegistry: MatIconRegistry,
+        protected domSanitizer: DomSanitizer
+    ) {
+    }
+
     private updateMapSize = function () {
         this.storeViewportSize()
     }
@@ -65,10 +81,7 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     ngOnInit() {
         const self = this
 
-        super.ngOnInit();
-
         this.addCustomMaterialIcons()
-        this.initializeRouterSubscription();
         this.updateService.checkForUpdates();
 
         this.checkUserPermissions();
@@ -183,23 +196,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
     checkUserPermissions() {
         this.hasAccess = true;
         this.isLoggedIn = true;
-    }
-
-    initializeRouterSubscription() {
-        this.router.events.subscribe((event: Event) => {
-            if (event instanceof NavigationStart) {
-                this.showLeftPanel = (event as NavigationStart).url != '/'
-                this.updateMapSize()
-
-                this.wfnewsMapService.clearSelectedPoint()
-                    .then(() => {
-                        return this.wfnewsMapService.clearSearch()
-                    })
-                    .then(() => {
-                        return this.wfnewsMapService.clearHighlight()
-                    })
-            }
-        });
     }
 
     navigateToBcWebsite() {

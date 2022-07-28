@@ -63,17 +63,24 @@
         justify-content: center;
 
         .item {
-            margin: 0 20px;
+            margin: 0 10px;
+            padding: 10px 10px;
             color: #4f4f52;
             font-size: 14px;
             display: flex;
             align-items: center;
             white-space: nowrap;
-            border-bottom: 1px solid transparent;
+            border: 2px solid transparent;
+            border-radius: 5px;
             cursor: pointer;
 
             &:hover {
-                border-bottom: 1px solid black;
+                border: 2px dotted #1A5A96;
+            }
+
+            &.active {
+                border: 2px solid #1A5A96;
+                color: #1A5A96;
             }
 
             .icon {
@@ -92,6 +99,7 @@
 
     .details {
         flex-shrink: 0;
+        min-width: 600px;
     }
 
     .map {
