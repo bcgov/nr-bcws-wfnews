@@ -10,7 +10,7 @@ ENV ENV TOMCAT_HOME=/usr/local/tomcat \
 
 RUN apt-get update &&\
   apt-get install -y telnet &&\
-  rm -rf /usr/local/tomcat/webapps/ROOT  &&\
+  #rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   unzip -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ '*.war' &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
