@@ -15,7 +15,8 @@ RUN apt-get update &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
-  chown -h tomcat:0 ${CATALINA_HOME}
+  chown -h tomcat:0 ${CATALINA_HOME} &&\
+  find /usr/local/tomcat/webapps/nr-bcws-wfnews -name context.xml | xargs cat
 
 # run as tomcat user
 USER tomcat
