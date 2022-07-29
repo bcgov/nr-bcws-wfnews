@@ -51,7 +51,8 @@
             "themeHash": "B4AF69F",
             "scriptsHash": "60875027"
         },
-        "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status"
+        "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
+        "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training"
     },
 
     "rest": {

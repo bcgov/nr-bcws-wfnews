@@ -159,10 +159,6 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
             });
         }
 
-        
-
-
-
         this.initAppMenu();
         this.initFooterMenu();
     }
@@ -336,6 +332,19 @@ export class AppComponent extends MarkerLayerBaseComponent implements OnDestroy,
 
     navigateToFooterPage(event:any) {
         window.open(event.route, "_blank");
+    }
+
+    isAdminPage() {
+        if (this.router.url === '/admin' ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    navigateToBcSupport() {
+        let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
+        window.open(url, "_blank");    
     }
 }
 
