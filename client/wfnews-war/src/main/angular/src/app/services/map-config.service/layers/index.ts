@@ -1,32 +1,32 @@
 // import { AppResourcesConfig } from "../../app-config.service";
-import { ActiveWildfiresLayerConfig } from "./active-wildfires.config";
-import { AreaRestrictionsLayerConfig } from "./area-restrictions.config";
-import { BansAndProhibitionsLayerConfig } from "./bans-and-prohibitions.config";
-import { FireCentresLayerConfig } from "./bc-fire-centres.config";
-import { WildfiresInactiveLayerConfig } from "./bcws-activefires-publicview-inactive.config";
-import { ClosedRecreationSitesLayerConfig } from "./closed-recreation-sites.config";
-import { DangerRatingLayerConfig } from "./danger-rating.config";
-import { DriveBCEventsLayerConfig } from "./drive-bc-active-events.config";
-import { FirePerimetersLayerConfig } from "./fire-perimeters.config";
-import { WeatherLayerConfig } from "./weather.config";
-import { EvacuationOrdersLayerConfig } from "./evacuation-orders-and-alerts-wms.config";
-import { SmokeForecastLayerConfig } from "./hourly-currentforecast-firesmoke.config";
-import { PrescribedFireLayerConfig } from "./prescribed-fire.config";
+import { ActiveWildfiresLayerConfig } from './active-wildfires.config';
+import { AreaRestrictionsLayerConfig } from './area-restrictions.config';
+import { BansAndProhibitionsLayerConfig } from './bans-and-prohibitions.config';
+import { FireCentresLayerConfig } from './bc-fire-centres.config';
+import { WildfiresInactiveLayerConfig } from './bcws-activefires-publicview-inactive.config';
+import { ClosedRecreationSitesLayerConfig } from './closed-recreation-sites.config';
+import { DangerRatingLayerConfig } from './danger-rating.config';
+import { DriveBCEventsLayerConfig } from './drive-bc-active-events.config';
+import { FirePerimetersLayerConfig } from './fire-perimeters.config';
+import { WeatherLayerConfig } from './weather.config';
+import { EvacuationOrdersLayerConfig } from './evacuation-orders-and-alerts-wms.config';
+import { SmokeForecastLayerConfig } from './hourly-currentforecast-firesmoke.config';
+import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 // import { NearMeItem } from "../../point-id.service";
-import { WeatherStationsLayerConfig } from "./weather-stations.config";
-import { PrecipitationLayerConfig } from "./precipitation.config";
-import { MapServices, MapServiceStatus } from "..";
+import { WeatherStationsLayerConfig } from './weather-stations.config';
+import { PrecipitationLayerConfig } from './precipitation.config';
+import { MapServices, MapServiceStatus } from '..';
 
-export type layerSettings = {
-    openmapsBaseUrl: string
-    drivebcBaseUrl: string
+export interface layerSettings {
+    openmapsBaseUrl: string;
+    drivebcBaseUrl: string;
 
-}
+};
 export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus ) {
-    let ls: layerSettings = {
+    const ls: layerSettings = {
         openmapsBaseUrl: mapServices[ 'openmapsBaseUrl' ],
         drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ]
-    }
+    };
 
 	return [
 		...ActiveWildfiresLayerConfig( ls ),
@@ -44,7 +44,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
 		// ...WeatherLayerConfig( ls ),
         // ...WeatherStationsLayerConfig( ls ),
         // ...PrecipitationLayerConfig( ls )
-	]
+	];
 }
 
 // export function notificationDetailLayerConfig( res: AppResourcesConfig ) {

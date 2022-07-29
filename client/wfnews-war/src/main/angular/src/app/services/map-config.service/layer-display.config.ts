@@ -1,44 +1,44 @@
-import { MapServices } from ".";
+import { MapServices } from '.';
 
 export function LayerDisplayConfig(mapServices: MapServices) {
     return [
         {
-            id: "active-wildfires",
+            id: 'active-wildfires',
             isVisible: true,
             alwaysShowLegend: false
         },
         {
-            id: "evacuation-orders-and-alerts-wms",
+            id: 'evacuation-orders-and-alerts-wms',
             isVisible: true,
             alwaysShowLegend: false
         },
         {
-            id: "evacuation-orders-and-alerts-wms-highlight",
+            id: 'evacuation-orders-and-alerts-wms-highlight',
             isVisible: false,
             showItem: false
         },
         {
-            id: "danger-rating",
+            id: 'danger-rating',
             isVisible: false,
             alwaysShowLegend: false
         },
         {
-            id: "bans-and-prohibitions",
+            id: 'bans-and-prohibitions',
             isVisible: false,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "bans-and-prohibitions-highlight",
+            id: 'bans-and-prohibitions-highlight',
             isVisible: false,
             showItem: false
         },
         {
-            id: "area-restrictions",
+            id: 'area-restrictions',
             isVisible: false,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "area-restrictions-highlight",
+            id: 'area-restrictions-highlight',
             isVisible: false,
             showItem: false
         },
@@ -47,22 +47,22 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         //     isVisible: false
         // },
         {
-            id: "fire-perimeters",
+            id: 'fire-perimeters',
             isVisible: true,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "bcws-activefires-publicview-inactive",
+            id: 'bcws-activefires-publicview-inactive',
             isVisible: false,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "closed-recreation-sites",
+            id: 'closed-recreation-sites',
             isVisible: false,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "drive-bc-active-events",
+            id: 'drive-bc-active-events',
             isVisible: false
         },
         // {
@@ -78,19 +78,19 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         //     isVisible: false
         // },
         {
-            id: "bc-fire-centres",
+            id: 'bc-fire-centres',
             isVisible: true,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
         {
-            id: "prescribed-fire",
+            id: 'prescribed-fire',
             isVisible: false,
-            class: "smk-inline-legend"
+            class: 'smk-inline-legend'
         },
     //     {
     //         id: "weather-stations",
     //         isVisible: true,
     //         showItem: false
     //     }
-    ]
+    ];
 }

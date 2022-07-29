@@ -1,15 +1,15 @@
-import { Location } from "@angular/common";
+import { Location } from '@angular/common';
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { MatIconRegistry } from "@angular/material/icon";
-import { DomSanitizer } from "@angular/platform-browser";
+import { MatIconRegistry } from '@angular/material/icon';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { AppConfigService } from "@wf1/core-ui";
+import { AppConfigService } from '@wf1/core-ui';
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
-import { ApplicationStateService } from "./services/application-state.service";
-import { UpdateService } from "./services/update.service";
+import { ApplicationStateService } from './services/application-state.service';
+import { UpdateService } from './services/update.service';
 import { ResourcesRoutes } from './utils';
 
 export const ICON = {
@@ -22,7 +22,7 @@ export const ICON = {
     EXT_LINK: 'external-link',
     EXCLAMATION_CIRCLE: 'exclamation-circle',
     CLOUD_SUN: 'cloud-sun',
-}
+};
 
 @Component({
     selector: 'app-root',
@@ -33,10 +33,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     public TOOLTIP_DELAY = 500;
 
-    title: string = 'News';
+    title = 'News';
 
-    isLoggedIn: boolean = true;
-    hasAccess: boolean = true;
+    isLoggedIn = true;
+    hasAccess = true;
 
     applicationConfig: WfApplicationConfiguration = {
         title: 'NEWS',
@@ -47,17 +47,17 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             short: ''
         },
         environment: ''
-    }
+    };
 
     applicationState: WfApplicationState = {
         menu: 'hidden'
-    }
+    };
 
-    appMenu: WfMenuItems
-    footerMenu: WfMenuItems
-    orientation
+    appMenu: WfMenuItems;
+    footerMenu: WfMenuItems;
+    orientation;
 
-    showLeftPanel = true
+    showLeftPanel = true;
 
     lastSuccessPollSub: Subscription;
     lastSyncDate;
@@ -74,14 +74,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     ) {
     }
 
-    private updateMapSize = function () {
-        this.storeViewportSize()
-    }
+    private updateMapSize = function() {
+        this.storeViewportSize();
+    };
 
     ngOnInit() {
-        const self = this
-
-        this.addCustomMaterialIcons()
+        this.addCustomMaterialIcons();
         this.updateService.checkForUpdates();
 
         this.checkUserPermissions();
@@ -89,23 +87,23 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         // this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
             this.appConfigService.configEmitter.subscribe((config) => {
-                this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '')
-                this.applicationConfig.version.long = config.application.version
-                this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '')
+                this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '');
+                this.applicationConfig.version.long = config.application.version;
+                this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '');
 
 
-                this.onResize()
+                this.onResize();
             });
         }
 
         this.initAppMenu();
         this.initFooterMenu();
 
-        window['SPLASH_SCREEN'].remove()
+        window['SPLASH_SCREEN'].remove();
     }
 
     initAppMenu() {
-        console.log('initAppMenu')
+        console.log('initAppMenu');
         this.appMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Active Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
@@ -117,11 +115,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
-        ) as unknown as WfMenuItems
+        ) as unknown as WfMenuItems;
     }
 
     initFooterMenu() {
-        console.log('initFooterMenu')
+        console.log('initFooterMenu');
         this.footerMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
@@ -135,17 +133,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             [
                 new RouterLink('Home', '/', 'home', 'hidden', this.router),
             ]
-        ) as unknown as WfMenuItems
+        ) as unknown as WfMenuItems;
     }
 
     ngAfterViewInit() {
-
-        //monitor incident updates
-
-
-        //monitor ROF updates
-
-
         setInterval(() => {
             this.getLastSync();
         }, 1000);
@@ -155,8 +146,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         if (!this.lastSyncDate) {
             return '-';
         }
-        let now = moment();
-        let value = now.diff(this.lastSyncDate, 'second', false);
+        const now = moment();
+        const value = now.diff(this.lastSyncDate, 'second', false);
         if (value > 240) {
             this.lastSyncValue = '240+';
         } else {
@@ -168,7 +159,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:orientationchange', ['$event'])
     onOrientationChange() {
         setTimeout(() => {
-            console.log('window:orientationchange')
+            console.log('window:orientationchange');
             this.updateMapSize();
         }, 250);
     }
@@ -176,13 +167,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:resize', ['$event'])
     onResize() {
         setTimeout(() => {
-            console.log('window:resize')
+            console.log('window:resize');
             this.updateMapSize();
         }, 250);
     }
 
     storeViewportSize() {
-        this.orientation = this.applicationStateService.getOrientation()
+        this.orientation = this.applicationStateService.getOrientation();
         document.documentElement.style.setProperty('--viewport-height', `${window.innerHeight}px`);
         document.documentElement.style.setProperty('--viewport-width', `${window.innerWidth}px`);
     }
@@ -199,59 +190,59 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     navigateToBcWebsite() {
-        window.open("https://www2.gov.bc.ca/gov/content/safety/wildfire-status", "_blank");
+        window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status', '_blank');
 
     }
 
     navigateToFooterPage(event: any) {
-        window.open(event.route, "_blank");
+        window.open(event.route, '_blank');
     }
 
     addCustomMaterialIcons() {
         this.matIconRegistry.addSvgIcon(
             ICON.TWITTER,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/twitter.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.FACEBOOK,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/facebook.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.FIRE,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/fire.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.EXCLAMATION_CIRCLE,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/exclamation-circle.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.MAP_SIGNS,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/map-signs.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.INCIDENT,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/incident.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.ADVISORIES,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/bullhorn.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.EXT_LINK,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/external-link.svg')
-        )
+        );
 
         this.matIconRegistry.addSvgIcon(
             ICON.CLOUD_SUN,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/cloud-sun.svg')
-        )
+        );
     }
 
 }

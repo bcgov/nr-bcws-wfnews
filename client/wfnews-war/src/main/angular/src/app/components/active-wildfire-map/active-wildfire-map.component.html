@@ -14,7 +14,7 @@
 
     <div class="map-layers">
         <div class="item"
-            [class.active]="selectedLayer == 'evacuation-orders-and-alerts'"
+            [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
             (click)="onSelectLayer( 'evacuation-orders-and-alerts' )"
         >
             <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
@@ -22,7 +22,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'area-restrictions'"
+            [class.active]="selectedLayer === 'area-restrictions'"
             (click)="onSelectLayer( 'area-restrictions' )"
         >
             <wf-icon class="icon" iconName="wf/map-signs" iconSize="small"></wf-icon>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'bans-and-prohibitions'"
+            [class.active]="selectedLayer === 'bans-and-prohibitions'"
             (click)="onSelectLayer( 'bans-and-prohibitions' )"
         >
             <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
@@ -38,7 +38,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'smoke-forecast'"
+            [class.active]="selectedLayer === 'smoke-forecast'"
             (click)="onSelectLayer( 'smoke-forecast' )"
         >
             <wf-icon class="icon" iconName="filter_drama" iconSize="small"></wf-icon>
@@ -46,7 +46,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'fire-danger'"
+            [class.active]="selectedLayer === 'fire-danger'"
             (click)="onSelectLayer( 'fire-danger' )"
         >
             <wf-icon class="icon" iconName="format_list_bulleted" iconSize="small"></wf-icon>
@@ -54,7 +54,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'local-authorities'"
+            [class.active]="selectedLayer === 'local-authorities'"
             (click)="onSelectLayer( 'local-authorities' )"
         >
             <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
@@ -62,7 +62,7 @@
         </div>
 
         <div class="item"
-            [class.active]="selectedLayer == 'routes-impacted'"
+            [class.active]="selectedLayer === 'routes-impacted'"
             (click)="onSelectLayer( 'routes-impacted' )"
         >
             <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>

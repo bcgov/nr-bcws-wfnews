@@ -6,8 +6,8 @@ import { LayerConfig } from './layers';
 export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceStatus, device: WfDevice ) {
     return {
         viewer: {
-            type: "leaflet",
-            device: device,
+            type: 'leaflet',
+            device,
             location: {
                 extent: [ -136.3, 49, -116, 60.2 ],
             },
@@ -16,17 +16,17 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
         },
         tools: [
             {
-                type: "location",
+                type: 'location',
                 enabled: false
             },
 			{
-				type: "layers",
+				type: 'layers',
 				enabled: true,
 				showTitle: false,
-				position: "shortcut-menu",
+				position: 'shortcut-menu',
 				glyph: {
-					visible: "check_box",
-					hidden: "check_box_outline_blank"
+					visible: 'check_box',
+					hidden: 'check_box_outline_blank'
 				},
 				command: {
 					allVisibility: false,
@@ -38,8 +38,8 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
 				display: LayerDisplayConfig( mapServices )
 			},
             {
-                type: "identify",
-                title: "Identify",
+                type: 'identify',
+                title: 'Identify',
                 enabled: false,
                 showTitle: false,
                 showWidget: false,
@@ -58,7 +58,7 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
                         style: {
                             stroke: false,
                             fill: true,
-                            fillColor: "white",
+                            fillColor: 'white',
                             fillOpacity: 0.1,
                         },
                     },
@@ -66,23 +66,23 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
                         id: 'search-border-1',
                         style: {
                             strokeWidth: 1,
-                            strokeColor: "black",
+                            strokeColor: 'black',
                             strokeOpacity: 1,
-                            strokeCap: "butt",
+                            strokeCap: 'butt',
                         },
                     },
                     {
                         id: 'search-border-2',
                         style: {
                             strokeWidth: 1,
-                            strokeColor: "white",
+                            strokeColor: 'white',
                             strokeOpacity: 1,
-                            strokeCap: "butt",
+                            strokeCap: 'butt',
                         }
                     },
                     {
                         id: 'location',
-                        title: "Identify Location",
+                        title: 'Identify Location',
                         style: {
                             markerUrl: null,
                         },
@@ -93,18 +93,18 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
                         id: 'edit-search-area',
                         style: {
                             strokeWidth: 3,
-                            strokeColor: "red",
+                            strokeColor: 'red',
                             strokeOpacity: 1
                         }
                     }
                 ]
             },
             {
-                type: "pan",
+                type: 'pan',
                 enabled: true
             },
             {
-                type: "zoom",
+                type: 'zoom',
                 enabled: true,
                 mouseWheel: true,
                 doubleClick: true,
@@ -112,24 +112,24 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
                 control: true
             },
 			{
-				type: "baseMaps",
+				type: 'baseMaps',
 				enabled: true,
 				showTitle: false,
 				showPanel: false,
 				choices: [
 				],
-				position: "shortcut-menu",
+				position: 'shortcut-menu',
 				mapStyle: {
-					width: "60px",
-					height: "100px"
+					width: '60px',
+					height: '100px'
 				},
 				order: 3
 			},
             {
-                type: "search",
+                type: 'search',
                 enabled: false
             },
         ],
         layers: LayerConfig(mapServices,serviceStatus)
-    }
+    };
 }

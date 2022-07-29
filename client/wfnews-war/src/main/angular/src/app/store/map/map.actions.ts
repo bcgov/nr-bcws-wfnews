@@ -1,6 +1,6 @@
-import {Action} from "@ngrx/store";
-import {PublicReportOfFireResource, WildfireIncidentResource} from "@wf1/incidents-rest-api";
-import { LonLat } from "../../services/wfnews-map.service/util";
+import {Action} from '@ngrx/store';
+import {PublicReportOfFireResource, WildfireIncidentResource} from '@wf1/incidents-rest-api';
+import { LonLat } from '../../services/wfnews-map.service/util';
 
 export const SET_MAP_POSITION = '[ map ] set map position';
 export const SET_MAP_POSITION_COMPLETE = '[ map ] set map position complete';
@@ -94,42 +94,42 @@ export class ActivateSelectPolygonComplete {
 }
 
 export interface LoadUserMapPrefsAction extends Action {
-  key: string,
+  key: string;
   payload: {
-  }
+  };
 }
 
 export interface LoadUserMapPrefsSuccessAction extends Action {
-  key: string,
+  key: string;
   payload: {
     value: any;
-  }
+  };
 }
 
 export interface LoadUserMapPrefsErrorAction extends Action {
   payload: {
     error: Error;
-  }
+  };
 }
 
 export interface SaveUserMapPrefsAction extends Action {
-  key: string,
+  key: string;
   payload: {
-    state:any
-  }
+    state: any;
+  };
 }
 
 export interface SaveUserMapPrefsSuccessAction extends Action {
-  key: string,
+  key: string;
   payload: {
-  }
+  };
 }
 
 export interface SaveUserMapPrefsErrorAction extends Action {
-  key: string,
+  key: string;
   payload: {
     error: Error;
-  }
+  };
 }
 
 export class LoadRoFItem {
@@ -138,7 +138,7 @@ export class LoadRoFItem {
 }
 
 export class LoadRoFItemComplete {
-  type = LOAD_ROF_ITEM_COMPLETE
+  type = LOAD_ROF_ITEM_COMPLETE;
   constructor() {}
 }
 
@@ -148,7 +148,7 @@ export class LoadNRoFItem {
 }
 
 export class LoadNRoFItemComplete {
-  type = LOAD_NROF_ITEM_COMPLETE
+  type = LOAD_NROF_ITEM_COMPLETE;
   constructor() {}
 }
 
@@ -158,6 +158,6 @@ export class LoadIncidentItem {
 }
 
 export class LoadIncidentItemComplete {
-  type = LOAD_INCIDENT_ITEM_COMPLETE
+  type = LOAD_INCIDENT_ITEM_COMPLETE;
   constructor() {}
 }

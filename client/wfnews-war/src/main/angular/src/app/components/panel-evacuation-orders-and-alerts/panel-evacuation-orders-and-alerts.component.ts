@@ -1,5 +1,5 @@
-import { HttpClient } from "@angular/common/http";
-import { Component, OnChanges, OnInit, SimpleChanges } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({

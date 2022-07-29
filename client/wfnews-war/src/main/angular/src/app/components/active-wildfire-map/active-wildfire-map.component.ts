@@ -1,9 +1,9 @@
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from "@angular/core";
-import { MatExpansionPanel } from "@angular/material/expansion";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
-import { MapConfigService } from "../../services/map-config.service";
-import { SmkApi } from "../../utils/smk";
+import { MapConfigService } from '../../services/map-config.service';
+import { SmkApi } from '../../utils/smk';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -12,7 +12,7 @@ export type SelectedLayer =
     'smoke-forecast' |
     'fire-danger' |
     'local-authorities' |
-    'routes-impacted'
+    'routes-impacted';
 
 @Component({
     selector: 'active-wildfire-map',
@@ -32,25 +32,25 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     @ViewChild('LocalAuthorities') localAuthoritiesPanel: MatExpansionPanel;
     @ViewChild('RoutesImpacted') routesImpactedPanel: MatExpansionPanel;
 
-    incidentsServiceUrl: string
-    mapConfig = null
-    smkApi: SmkApi
-    activeFireCountPromise
-    selectedLayer: SelectedLayer
+    incidentsServiceUrl: string;
+    mapConfig = null;
+    smkApi: SmkApi;
+    activeFireCountPromise;
+    selectedLayer: SelectedLayer;
 
     constructor(
         private http: HttpClient,
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
     ) {
-        this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal']
+        this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         // console.log(this.incidentsServiceUrl)
     }
 
     ngOnInit() {
 
         this.appConfig.configEmitter.subscribe((config) => {
-            let mapConfig = []
+            const mapConfig = [];
             // this.checkMapServiceStatus()
             // .then( ( mapServiceStatus ) => {
             // console.log(mapServiceStatus)
@@ -63,7 +63,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
                 //     return this.mapStatePersistenceService.getMapState()
                 // })
                 .then((mapState) => {
-                    console.log('map state version', mapState?.version)
+                    console.log('map state version', mapState?.version);
                     // if (!mapState || !mapState.version) return
                     // if (mapState.version.app != this.applicationConfig.version.short) return
                     // if (mapState.version.build != config.application.buildNumber) return
@@ -75,13 +75,13 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
                     // delete item.isEnabled
                     // } )
 
-                    mapConfig.push(mapState)
+                    mapConfig.push(mapState);
                 })
                 .then(() => {
-                    let deviceConfig = { viewer: { device: 'desktop' } }
+                    const deviceConfig = { viewer: { device: 'desktop' } };
 
-                    this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?']
-                })
+                    this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+                });
 
             // this.wfnewsMapService.setMapStateSaveHandler((state) => {
             //     state.version = {
@@ -103,26 +103,28 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     }
 
     get activeFireCount(): Promise<number> {
-        if ( this.activeFireCountPromise ) return this.activeFireCountPromise
+        if ( this.activeFireCountPromise ) {
+return this.activeFireCountPromise;
+}
 
-        let url = this.incidentsServiceUrl + '/incidents';
+        const url = this.incidentsServiceUrl + '/incidents';
         // console.log('get',url)
 
         this.activeFireCountPromise = this.http.get( url ).toPromise()
             .then( ( resp: any ) => {
-                console.log( resp )
-                return resp?.collection.length
+                console.log( resp );
+                return resp?.collection.length;
             } )
             .catch( ( e ) => {
-                console.warn( e )
-                return 123
-            } )
+                console.warn( e );
+                return 123;
+            } );
 
-        return this.activeFireCountPromise
+        return this.activeFireCountPromise;
     }
 
     initMap(smk: any) {
-        this.smkApi = new SmkApi(smk)
+        this.smkApi = new SmkApi(smk);
         // this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
 
         // this.updateMapSize = function () {
@@ -134,74 +136,74 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     }
 
     onSelectLayer(selectedLayer: SelectedLayer) {
-        this.selectedLayer = selectedLayer
+        this.selectedLayer = selectedLayer;
 
-        let layers = [
-            /* 00 */ { itemId: "active-wildfires", visible: false },
-            /* 01 */ { itemId: "evacuation-orders-and-alerts-wms", visible: false },
-            /* 02 */ { itemId: "evacuation-orders-and-alerts-wms-highlight", visible: false },
-            /* 03 */ { itemId: "danger-rating", visible: false },
-            /* 04 */ { itemId: "bans-and-prohibitions", visible: false },
-            /* 05 */ { itemId: "bans-and-prohibitions-highlight", visible: false },
-            /* 06 */ { itemId: "area-restrictions", visible: false },
-            /* 07 */ { itemId: "area-restrictions-highlight", visible: false },
-            /* 08 */ { itemId: "fire-perimeters", visible: false },
-            /* 09 */ { itemId: "bcws-activefires-publicview-inactive", visible: false },
-            /* 10 */ { itemId: "closed-recreation-sites", visible: false },
-            /* 11 */ { itemId: "drive-bc-active-events", visible: false },
-            /* 12 */ { itemId: "bc-fire-centres", visible: false },
-            /* 13 */ { itemId: "prescribed-fire", visible: false }
-        ]
+        const layers = [
+            /* 00 */ { itemId: 'active-wildfires', visible: false },
+            /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
+            /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
+            /* 03 */ { itemId: 'danger-rating', visible: false },
+            /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
+            /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
+            /* 06 */ { itemId: 'area-restrictions', visible: false },
+            /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
+            /* 08 */ { itemId: 'fire-perimeters', visible: false },
+            /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
+            /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
+            /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
+            /* 12 */ { itemId: 'bc-fire-centres', visible: false },
+            /* 13 */ { itemId: 'prescribed-fire', visible: false }
+        ];
 
         switch (selectedLayer) {
             case 'evacuation-orders-and-alerts':
-                layers[ 1 ].visible = true
-                layers[ 2 ].visible = true
+                layers[ 1 ].visible = true;
+                layers[ 2 ].visible = true;
 
-                this.evacuationOrdersAndAlertsPanel.open()
-                break
+                this.evacuationOrdersAndAlertsPanel.open();
+                break;
 
             case 'area-restrictions':
-                layers[ 6 ].visible = true
-                layers[ 7 ].visible = true
+                layers[ 6 ].visible = true;
+                layers[ 7 ].visible = true;
 
-                this.areaRestrictionsPanel.open()
-                break
+                this.areaRestrictionsPanel.open();
+                break;
 
             case 'bans-and-prohibitions':
-                layers[ 4 ].visible = true
-                layers[ 5 ].visible = true
+                layers[ 4 ].visible = true;
+                layers[ 5 ].visible = true;
 
-                this.bansAndProhibitionsPanel.open()
-                break
+                this.bansAndProhibitionsPanel.open();
+                break;
 
             case 'smoke-forecast':
                 // layers[ 2 ].visible = true
 
-                this.smokeForecastPanel.open()
-                break
+                this.smokeForecastPanel.open();
+                break;
 
             case 'fire-danger':
-                layers[ 0 ].visible = true
-                layers[ 3 ].visible = true
+                layers[ 0 ].visible = true;
+                layers[ 3 ].visible = true;
 
-                this.fireDangerPanel.open()
-                break
+                this.fireDangerPanel.open();
+                break;
 
             case 'local-authorities':
-                layers[ 12 ].visible = true
+                layers[ 12 ].visible = true;
 
-                this.localAuthoritiesPanel.open()
-                break
+                this.localAuthoritiesPanel.open();
+                break;
 
             case 'routes-impacted':
-                layers[ 11 ].visible = true
+                layers[ 11 ].visible = true;
 
-                this.routesImpactedPanel.open()
-                break
+                this.routesImpactedPanel.open();
+                break;
         }
 
-        return this.smkApi.setDisplayContextItemsVisible( ...layers )
+        return this.smkApi.setDisplayContextItemsVisible( ...layers );
     }
 
 }
