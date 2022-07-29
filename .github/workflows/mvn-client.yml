@@ -27,7 +27,7 @@ jobs:
           distribution: 'adopt'
           
       - name: Add .npmrc file
-        run: echo $NPMRC > ~/.npmrc
+        run: echo -e $NPMRC > ~/.npmrc
           
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
