@@ -28,6 +28,9 @@ jobs:
           
       - name: Add .npmrc file
         run: echo -e $NPMRC > ~/.npmrc
+        
+      - name: validate structure of .npmrc #If email isn't at the start of a new line, something has gone wrong piping in .npmrc
+        run: grep ~/.npmrc -e ^email
           
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
