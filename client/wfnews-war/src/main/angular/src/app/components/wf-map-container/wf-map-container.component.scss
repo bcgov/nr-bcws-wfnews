@@ -4,14 +4,13 @@
     align-items: stretch;
     height: 100%;
     border-top: 1px solid #dddddd;
-}
 
-
-.smk-map-frame {
-    width: 100%;
-    height: 100%;
-    order: 2
-    // background-color: red;
+    .smk-map-frame {
+        width: 100%;
+        height: 100%;
+        order: 2
+        // background-color: red;
+    }
 }
 
 ::ng-deep .smk-map-frame {
@@ -20,7 +19,24 @@
     }
 
     &.smk-theme-wf .smk-toolbar {
-        padding: 0 5px;
+        background-color: unset;
+
+        .smk-tool {
+            background-color: white;
+            box-shadow: 0 1px 5px rgb(0 0 0 / 65%);
+            margin-right: 10px;
+            padding: 5px;
+            display: flex;
+            align-items: center;
+
+            &.smk-tool-LayersTool::after {
+                content: 'All Layers'
+            }
+
+            &.smk-tool-BaseMapsTool::after {
+                content: 'Base Map'
+            }
+        }
     }
 
     .smk-layers-panel .smk-panel {
@@ -68,83 +84,83 @@
         }
     }
 
-    .smk-bespoke-panel .smk-body .smk-bespoke-content {
-        height: 100%;
-    }
+    // .smk-bespoke-panel .smk-body .smk-bespoke-content {
+    //     height: 100%;
+    // }
 
-    .wf-feature {
-        .button-bar {
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            margin: 5px 0;
+    // .wf-feature {
+    //     .button-bar {
+    //         display: flex;
+    //         justify-content: flex-end;
+    //         align-items: center;
+    //         margin: 5px 0;
 
-            button {
-                margin-left: 10px;
-            }
-        }
+    //         button {
+    //             margin-left: 10px;
+    //         }
+    //     }
 
-        .wf-feature-attribute {
-            padding-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            word-break: break-word;
-        }
+    //     .wf-feature-attribute {
+    //         padding-top: 10px;
+    //         display: flex;
+    //         justify-content: space-between;
+    //         align-items: flex-start;
+    //         word-break: break-word;
+    //     }
 
-        .wf-feature-attribute.wf-title-feature-attribute {
-            font-weight: bold;
-            padding-top: 0px;
-        }
+    //     .wf-feature-attribute.wf-title-feature-attribute {
+    //         font-weight: bold;
+    //         padding-top: 0px;
+    //     }
 
-        .wf-feature-attribute-title {
-            flex-basis: 40%;
-            font-size: 11px;
-            text-align: right;
-        }
+    //     .wf-feature-attribute-title {
+    //         flex-basis: 40%;
+    //         font-size: 11px;
+    //         text-align: right;
+    //     }
 
-        .wf-feature-attribute-value {
-            flex-basis: 55%;
-            font-size: 13px;
-            text-align: left;
-        }
-    }
+    //     .wf-feature-attribute-value {
+    //         flex-basis: 55%;
+    //         font-size: 13px;
+    //         text-align: left;
+    //     }
+    // }
 
-    .wf-weather-station-feature {
-        .footer {
-            flex-grow: 1;
+    // .wf-weather-station-feature {
+    //     .footer {
+    //         flex-grow: 1;
 
-            display: flex;
-            justify-content: flex-end;
-            align-items: flex-end;
+    //         display: flex;
+    //         justify-content: flex-end;
+    //         align-items: flex-end;
 
-            .smk-command-button {
-                justify-content: flex-end;
+    //         .smk-command-button {
+    //             justify-content: flex-end;
 
-                &.icon {
-                    margin-left: 10px;
+    //             &.icon {
+    //                 margin-left: 10px;
 
-                    .smk-command {
-                        border: none;
-                        padding: 0;
+    //                 .smk-command {
+    //                     border: none;
+    //                     padding: 0;
 
-                        .material-icons {
-                            font-size: 24px;
-                        }
-                    }
-                }
+    //                     .material-icons {
+    //                         font-size: 24px;
+    //                     }
+    //                 }
+    //             }
 
-                .smk-command {
-                    display: flex;
-                    align-items: center;
+    //             .smk-command {
+    //                 display: flex;
+    //                 align-items: center;
 
-                    i.material-icons {
-                        font-size: 20px;
-                    }
-                }
-            }
-        }
-    }
+    //                 i.material-icons {
+    //                     font-size: 20px;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
 
     &.smk-viewer-leaflet {
         .smk-overlay {
@@ -158,41 +174,41 @@
             }
         }
 
-        .leaflet-container {
-            .leaflet-control-container {
-                .leaflet-control-minimap.leaflet-container {
-                    margin-bottom: 60px;
+        // .leaflet-container {
+        //     .leaflet-control-container {
+        //         .leaflet-control-minimap.leaflet-container {
+        //             margin-bottom: 60px;
 
-                    .leaflet-control-minimap-toggle-display {
-                        background-image: url( '../../../../node_modules/@qqnluaq/smk/dist/assets/src/smk/viewer-leaflet/tool/minimap/lib/images/toggle.svg' );
-                    }
-                }
-            }
-        }
+        //             .leaflet-control-minimap-toggle-display {
+        //                 background-image: url( '../../../../node_modules/@qqnluaq/smk/dist/assets/src/smk/viewer-leaflet/tool/minimap/lib/images/toggle.svg' );
+        //             }
+        //         }
+        //     }
+        // }
     }
 
-    .smk-time-dimension {
-        cursor: pointer;
-        pointer-events: all;
+    // .smk-time-dimension {
+    //     cursor: pointer;
+    //     pointer-events: all;
 
-        position: absolute;
+    //     position: absolute;
 
-        font-size: 14px;
-        font-weight: bold;
-        background-color: white;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        padding: 0px 5px;
-        order: -1;
-        align-self: flex-start;
+    //     font-size: 14px;
+    //     font-weight: bold;
+    //     background-color: white;
+    //     border-radius: 8px;
+    //     display: flex;
+    //     align-items: center;
+    //     padding: 0px 5px;
+    //     order: -1;
+    //     align-self: flex-start;
 
-        .play-pause {
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-        }
-    }
+    //     .play-pause {
+    //         margin-right: 5px;
+    //         display: flex;
+    //         align-items: center;
+    //     }
+    // }
 
     .smk-layers-panel .smk-body .smk-display {
         [title='id: hourly-currentforecast-firesmoke'], [title='id: precipitation'] {
@@ -218,18 +234,18 @@
         }
     }
 
-    path.wfim-rofx-active, path.wfim-rofx-expired {
-        stroke-width: 1px;
-        stroke: red;
-        fill-opacity: 0.3;
-    }
+    // path.wfim-rofx-active, path.wfim-rofx-expired {
+    //     stroke-width: 1px;
+    //     stroke: red;
+    //     fill-opacity: 0.3;
+    // }
 
-    path.wfim-rofx-active {
-        fill: url(#rofx-stripes-light);
-    }
+    // path.wfim-rofx-active {
+    //     fill: url(#rofx-stripes-light);
+    // }
 
-    path.wfim-rofx-expired {
-        fill: url(#rofx-stripes-dark);
-    }
+    // path.wfim-rofx-expired {
+    //     fill: url(#rofx-stripes-dark);
+    // }
 
 }
