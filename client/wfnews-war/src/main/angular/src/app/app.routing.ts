@@ -1,6 +1,7 @@
 import {RouterModule, Routes} from '@angular/router';
 import {UnauthorizedPageComponent} from "@wf1/core-ui";
 import { WFActiveFireCountContainerComponent } from './components/wf-active-fire-count-container/wf-active-fire-count-container.component';
+import { WfAdminPanelComponent } from './components/wf-admin-panel/wf-admin-panel.component';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
 import { ResourcesRoutes } from './utils';
 // Components
@@ -15,6 +16,8 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.CURRENTSTATISTICS, component: WFMapContainerComponent, pathMatch: "full",},
   { path: ResourcesRoutes.RESOURCES, component: WFMapContainerComponent, pathMatch: "full",},
   { path: ResourcesRoutes.ERROR_PAGE, component: WFMapContainerComponent, pathMatch: "full",},
+  { path: ResourcesRoutes.ADMIN_PANEL, component: WfAdminPanelComponent, pathMatch: "full",},
+
 ];
   
 
