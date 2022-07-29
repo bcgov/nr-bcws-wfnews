@@ -20,7 +20,7 @@ import {
     ResourcesRoutes
 } from "../../../app/utils";
 import {AbstractControl, FormBuilder, FormGroup} from "@angular/forms";
-import {ConnectionService} from "ngx-connection-service";
+// import {ConnectionService} from "ngx-connection-service";
 import {Overlay} from "@angular/cdk/overlay";
 import {ApplicationStateService} from "../../services/application-state.service";
 import {AppConfigService, TokenService} from "@wf1/core-ui";
@@ -86,7 +86,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected dialog: MatDialog,
                 protected applicationStateService: ApplicationStateService,
                 protected tokenService: TokenService,
-                protected connectionService: ConnectionService,
+                // protected connectionService: ConnectionService,
                 protected snackbarService: MatSnackBar,
                 protected overlay: Overlay,
                 protected cdr: ChangeDetectorRef,
@@ -101,9 +101,9 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     initializeConnectionService() {
-        this.connectionService.monitor().subscribe(isConnected => {
-            this.isConnected = isConnected.hasNetworkConnection;
-        });
+        // this.connectionService.monitor().subscribe(isConnected => {
+        //     this.isConnected = isConnected.hasNetworkConnection;
+        // });
     }
 
     getPagingConfig(): PaginationInstance {

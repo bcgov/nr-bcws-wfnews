@@ -1,13 +1,7 @@
-<ng-template #bespokeContainer></ng-template>
-
-<router-outlet #extOutlet="outlet" name="root"></router-outlet>
-
 <wf-application class="wfnews-application"
     [ngClass]="'orientation-' + orientation"
-    *ngIf="!extOutlet.isActivated"
     [config]="applicationConfig"
     [(state)]="applicationState"
-
 >
     <wf-header
         [config]="applicationConfig"
@@ -24,24 +18,7 @@
         [(state)]="applicationState"
     ></wf-menu-bar>
 
-    <wfnews-panel-container
-        [showLeftPanel]="false"
-    >
-        <ng-container>
-            <router-outlet
-            ></router-outlet>
-        </ng-container>
-
-        <!-- <wf-active-fire-count-container
-            [config]="applicationConfig"
-            [(state)]="applicationState">
-        </wf-active-fire-count-container> -->
-
-        <wf-map-container *ngIf = "router.url == '/activeWildfireMap'"
-            [mapConfig]="mapConfig"
-            (mapInitialized)="initMap($event)"
-        ></wf-map-container>
-    </wfnews-panel-container>
+    <router-outlet></router-outlet>
 
     <wf-footer
         [footerItems]="footerMenu"
