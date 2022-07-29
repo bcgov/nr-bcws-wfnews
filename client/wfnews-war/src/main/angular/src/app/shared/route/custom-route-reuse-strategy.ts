@@ -1,5 +1,5 @@
 import {ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy} from '@angular/router';
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomReuseStrategy implements RouteReuseStrategy {
@@ -23,7 +23,9 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
 
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
     //console.debug('CustomReuseStrategy:retrieve', route);
-    if (!route.routeConfig) { return null; }
+    if (!route.routeConfig) {
+ return null; 
+}
     return this.handlers[route.routeConfig.path];
   }
 
