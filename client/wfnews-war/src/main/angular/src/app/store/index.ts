@@ -1,17 +1,15 @@
-import { routerReducer } from "@ngrx/router-store";
+import { routerReducer } from '@ngrx/router-store';
 import { ActionReducer, ActionReducerMap } from '@ngrx/store';
 import { searchReducer, SearchState, SortDirection } from '@wf1/core-ui';
 import { storeLogger } from 'ngrx-store-logger';
-
-
-
+import { ApplicationState } from './application/application.state';
 
 export interface BaseRouterStoreState {
     url: string;
 }
 
 export interface RouterState {
-    state: BaseRouterStoreState
+    state: BaseRouterStoreState;
 }
 
 export const rootReducers: ActionReducerMap<any> = {
@@ -20,13 +18,15 @@ export const rootReducers: ActionReducerMap<any> = {
 };
 
 export interface RootState {
-}
+    application?: ApplicationState;
+};
 
 export const initialRootState: RootState = {
 };
 
 export const rootEffects: any[] = [
     // PlaceNameSearchEffects,
+
 ];
 
 export function logger(reducer: ActionReducer<RootState>): any {
@@ -41,8 +41,8 @@ export function logger(reducer: ActionReducer<RootState>): any {
 }
 
 export interface AudibleAlertState {
-    enableUnacknowledged: boolean
-    enableReceivedFromPM: boolean
+    enableUnacknowledged: boolean;
+    enableReceivedFromPM: boolean;
     selectedZoneIds?: string[];
 }
 
@@ -63,9 +63,10 @@ export class SearchStateAndConfig implements SearchState {
 }
 
 export function isEmpty(obj) {
-    for (var key in obj) {
-        if (obj.hasOwnProperty(key))
-            return false;
+    for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+return false;
+}
     }
     return true;
 }
