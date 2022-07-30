@@ -17,7 +17,7 @@ RUN apt-get update &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
   chown -h tomcat:0 ${CATALINA_HOME} &&\
   find /usr/local/tomcat/ -name server.xml | xargs cat &&\
-  sed -i 's/<\/tomcat-users>/<user username="vivid-support" password="TOMCAT_PASSWORD" roles="manager-gui"\/><\/tomcat-users>/' tomcat-users.xml.copy
+  sed -i 's/<\/tomcat-users>/<user username="vivid-support" password="TOMCAT_PASSWORD" roles="manager-gui"\/><\/tomcat-users>/' /usr/local/tomcat/conf/tomcat-users.xml
 
 # run as tomcat user
 USER tomcat
