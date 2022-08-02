@@ -17,8 +17,8 @@ RUN apt-get update &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
   chown -h tomcat:0 ${CATALINA_HOME} &&\
   sed -i 's/<\/tomcat-users>/<role rolename="manager-gui"\/><role rolename="admin-gui"\/><user username="vivid-support" password="TOMCAT_PASSWORD" roles="manager-gui, admin-gui"\/><\/tomcat-users>/' /usr/local/tomcat/conf/tomcat-users.xml &&\
-  sed -i 's/<Context antiResourceLocking="false" privileged="true" >/<Context antiResourceLocking="false" privileged="true" ><!--/' /usr/local/tomcat/webapps/manager/META-INF/context.xml &&\
-  sed -i 's/<Manager/--><Manager/' /usr/local/tomcat/webapps/manager/META-INF/context.xml &&\
+  find . -type f -name 'context.xml' | xargs sed -i 's/<Context antiResourceLocking="false" privileged="true" >/<Context antiResourceLocking="false" privileged="true" ><!--/' &&\
+  find . -type f -name 'context.xml' | xargs sed -i 's/<Manager/--><Manager/' &&\
   cat /usr/local/tomcat/conf/tomcat-users.xml
 
 # run as tomcat user
