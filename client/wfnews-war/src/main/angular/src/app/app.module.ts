@@ -48,7 +48,6 @@ import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evac
 import { PanelWildfireStageOfControlComponent } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
 import { MapConfigService } from './services/map-config.service';
-import { MapStatePersistenceService } from './services/map-state-persistence.service';
 import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
@@ -145,7 +144,7 @@ export const DATE_FORMATS = {
             provide: APP_INITIALIZER,
             useFactory: codeTableAndUserPrefFnInit,
             multi: true,
-            deps: [AppConfigService, HttpClient, MapStatePersistenceService, Injector]
+            deps: [AppConfigService, HttpClient, Injector]
         },
 
         {
@@ -178,7 +177,6 @@ export const DATE_FORMATS = {
         },
         WFMapService,
         MapConfigService,
-        MapStatePersistenceService,
     ],
     bootstrap: [
         AppComponent
