@@ -2,10 +2,12 @@
 
 variable "target_env" {
   description = "AWS workload account env (e.g. dev, test, prod, sandbox, unclass)"
+  type = string
 }
 
 variable "target_aws_account_id" {
   description = "AWS workload account id"
+  type = string
 }
 
 variable "aws_region" {
@@ -54,7 +56,7 @@ variable "client_image" {
 
 variable "server_port" {
   description = "Port exposed by the docker image to redirect traffic to"
-  default     = 80
+  default     = 443
 }
 
 variable "client_port" {
@@ -149,4 +151,14 @@ variable "cloudfront_origin_domain" {
 variable "aws_sec_group" {
     description = "Security group limiting access to app"
     type = string
+}
+
+variable aws_vpc {
+    description = "name of VPC to use"
+    type = string
+}
+
+variable db_pass {
+    description = "db password, passed in as env variable at runtime"
+    type=string
 }

@@ -2,20 +2,40 @@
 
 # ALB Security Group: Edit to restrict access to the application
 data "aws_security_group" "web" {
-  name = "${local.aws_sec_group}"
+  name = "${var.aws_sec_group}"
+}
+
+data "aws_security_group" "default" {
+  vpc_id = var.aws_vpc
+  name = "default"
 }
 
 # Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "allow inbound access from the ALB only"
-  vpc_id      = local.aws_vpc
+  vpc_id      = var.aws_vpc
 
   ingress {
     protocol        = "tcp"
-    from_port       = var.app_port
-    to_port         = var.app_port
+    from_port       = var.server_port
+    to_port         = var.server_port
     security_groups = [data.aws_security_group.web.id]
+  }
+  #necessary to pull image from ghcr
+  ingress {
+    protocol = "tcp"
+    from_port = 443
+    to_port = 443
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  #Permit external access for text purposes
+  ingress {
+    protocol = "tcp"
+    from_port = 8080
+    to_port = 8080
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
