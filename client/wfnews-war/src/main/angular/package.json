@@ -14,8 +14,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cr": "npm run lint && npm start.prod",
-    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href /pub/wfim/ && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
-    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href /pub/wfim/ --source-map && replace-in-file /ngsw:/g ngsw:wfimi: ../../../target/angular/ngsw-worker.js --verbose --isRegex"
+    "mavenbuild-base-href": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href /pub/wfnews/ && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
+    "mavenbuild-source-map-base-href": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href /pub/wfnews/ --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex",
+    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
+    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex"
   },
   "private": true,
   "dependencies": {
