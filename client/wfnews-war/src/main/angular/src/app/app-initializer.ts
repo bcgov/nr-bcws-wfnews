@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injector } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppConfigService} from '@wf1/core-ui';
-import { MapStatePersistenceService } from './services/map-state-persistence.service';
 
-export function codeTableAndUserPrefFnInit(appConfig: AppConfigService, http: HttpClient, mapStatePersistenceService: MapStatePersistenceService, injector: Injector): () => Promise<any> {
+export function codeTableAndUserPrefFnInit(appConfig: AppConfigService, http: HttpClient, injector: Injector): () => Promise<any> {
     return () => {
         const store = injector.get(Store);
 
