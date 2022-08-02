@@ -19,7 +19,6 @@
 		<module>wfnews-api-rest-common</module>
 		<module>wfnews-api-rest-endpoints</module>
 		<module>wfnews-api-rest-integration-test</module>
-		<module>wfnews-api-rest-ear</module>
 		<module>wfnews-persistence</module>
 	</modules>
 	<dependencyManagement>

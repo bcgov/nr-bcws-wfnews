@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfim.util;
+package ca.bc.gov.nrs.wfnews.util;
 
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;

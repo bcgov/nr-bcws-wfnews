@@ -1,0 +1,12 @@
+.header {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dddddd;
+    padding-bottom: 10px;
+
+    .show-toggle {
+        flex-grow: 1;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

@@ -10,7 +10,7 @@
 	
 	<mvc:annotation-driven />
 	
-	<context:component-scan base-package="ca.bc.gov.nrs.wfim.web.controller" />
+	<context:component-scan base-package="ca.bc.gov.nrs.wfnews.web.controller" />
 
 	<mvc:default-servlet-handler />
  

@@ -26,8 +26,8 @@ import javax.mail.Session;
 
 @Configuration
 @Import({
-	PersistenceSpringConfig.class,
-	FileServiceSpringConfig.class
+	PersistenceSpringConfig.class
+	// FileServiceSpringConfig.class
 //	TokenServiceSpringConfig.class
 })
 public class ServiceApiSpringConfig {

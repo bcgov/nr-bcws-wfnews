@@ -1,12 +1,16 @@
-import { Injectable } from "@angular/core";
-import { mapConfig } from "./map.config";
-import { AppConfigService } from "@wf1/core-ui";
-import { WfDevice } from "@wf1/wfcc-application-ui";
+import { Injectable } from '@angular/core';
+import { mapConfig } from './map.config';
+import { AppConfigService } from '@wf1/core-ui';
+import { WfDevice } from '@wf1/wfcc-application-ui';
 
 export interface MapServiceStatus {
-    useSecure: boolean
-    token?: string
+    useSecure: boolean;
+    token?: string;
 }
+
+export interface MapServices {
+    [service: string]: string;
+};
 
 @Injectable()
 export class MapConfigService {
@@ -14,9 +18,12 @@ export class MapConfigService {
 		private appConfig: AppConfigService
 	) {}
 
-	getMapConfig( status: MapServiceStatus, device: WfDevice ): Promise<any> {
-		return this.appConfig.loadAppConfig().then( ( config ) => {
-			return mapConfig( this.appConfig.getConfig().mapServiceConfig.layerSettings, status, device )
-		} )
+	getMapConfig(): Promise<any> {
+        const status: MapServiceStatus = {
+            useSecure: true,
+            token: null,
+        };
+
+		return this.appConfig.loadAppConfig().then( ( config ) => mapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop' ) );
 	}
 }
