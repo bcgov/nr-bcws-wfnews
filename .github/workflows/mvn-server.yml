@@ -4,7 +4,7 @@ name: Build Server
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}-server
 
 # Controls when the workflow will run
 on:
