@@ -54,6 +54,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { WfAdminComponent } from './components/wf-admin/wf-admin.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -73,7 +74,8 @@ export const DATE_FORMATS = {
         WFMapContainerComponent,
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
-        PanelEvacuationOrdersAndAlertsComponent
+        PanelEvacuationOrdersAndAlertsComponent,
+        WfAdminComponent
     ],
     imports: [
         MatSnackBarModule,

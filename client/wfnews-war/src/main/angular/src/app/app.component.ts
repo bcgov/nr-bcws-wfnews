@@ -245,4 +245,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         );
     }
 
+    isAdminPage() {
+        if (this.router.url === '/admin' ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    navigateToBcSupport() {
+        let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
+        window.open(url, "_blank");    
+    }
+
+
 }
