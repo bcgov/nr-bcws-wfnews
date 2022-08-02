@@ -55,6 +55,31 @@
       json.append("\"baseUrl\":\"").append(baseUrl).append("\"");
     json.append("},");
 
+    // Map Icon Section
+    json.append("\"mapIcons\":{");
+      json.append("\"iconAnchor\":\"").append(properties.getProperty("map-icons.icon.anchor.size", "")).append("\"").append(",");
+      json.append("\"iconSize\":\"").append(properties.getProperty("map-icons.icon.size", "")).append("\"").append(",");
+      json.append("\"tooltipOffset\":\"").append(properties.getProperty("map-icons.tooltip.offset", "")).append("\"").append(",");
+      json.append("\"shadowSize\":\"").append(properties.getProperty("map-icons.shadow.size", "")).append("\"");
+    json.append("},");
+
+    // External Application Section
+    json.append("\"externalAppConfig\":{");
+      json.append("\"im\":{");
+        json.append("\"url\":\"").append(properties.getProperty("externalAppConfig.im.url", "")).append("\"");
+      json.append("},");
+      json.append("\"pointId\":{");
+        json.append("\"url\":\"").append(properties.getProperty("externalAppConfig.pointId.url", "")).append("\"");
+      json.append("}");
+    json.append("},");
+
+    // External Application Section
+    json.append("\"mapServices\":{");
+      json.append("\"openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.url", "")).append("\"").append(",");
+      json.append("\"#openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.internal.url", "")).append("\"").append(",");
+      json.append("\"drivebcBaseUrl\":\"").append(properties.getProperty("drivebc.url", "")).append("\"");
+    json.append("},");
+
     // REST API Section
     String incidentsUri = properties.getProperty("wfim-rest.url", "");
     if (incidentsUri.endsWith("/")) {
