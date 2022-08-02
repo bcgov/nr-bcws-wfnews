@@ -1,8 +1,10 @@
 Name: Build Dev Images
 
+on:
+  workflow_dispatch:
+
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-client
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
   EMAIL_ENABLED: true
@@ -22,16 +24,16 @@ jobs:
     uses: ./.github/workflows/mvn-client.yml
     with:
       EMAIL_ENABLED: ${{ env.EMAIL_ENABLED }}
-      SMTP_HOSTNAME: ${{ SMTP_HOSTNAME }}
-      SMTP_USER: ${{ SMTP_USER }}
-      SMTP_PASSWORD: ${{ SMTP_PASSWORD }}
-      SMTP_FROM_EMAIL: ${{ SMTP_FROM_EMAIL }}
-      ADMIN_EMAIL: ${{ ADMIN_EMAIL }}
-      EMAIL_SYNC_ERROR_FREQUENCY: ${{ EMAIL_SYNC_ERROR_FREQUENCY }}
-      EMAIL_SYNC_SEND_FREQUENCY: ${{ EMAIL_SYNC_SEND_FREQUENCY }}
-      EMAIL_SYNC_ERROR_SUBJECT: ${{ EMAIL_SYNC_ERROR_SUBJECT }}
-      EMAIL_SYNC_SUBJECT: ${{ EMAIL_SYNC_SUBJECT }}
-      DEFAULT_APPLICATION_ENVIRONMENT: ${{ DEFAULT_APPLICATION_ENVIRONMENT }}
+      SMTP_HOSTNAME: ${{ env.SMTP_HOSTNAME }}
+      SMTP_USER: ${{ env.SMTP_USER }}
+      SMTP_PASSWORD: ${{ env.SMTP_PASSWORD }}
+      SMTP_FROM_EMAIL: ${{ env.SMTP_FROM_EMAIL }}
+      ADMIN_EMAIL: ${{ env.ADMIN_EMAIL }}
+      EMAIL_SYNC_ERROR_FREQUENCY: ${{ env.EMAIL_SYNC_ERROR_FREQUENCY }}
+      EMAIL_SYNC_SEND_FREQUENCY: ${{ env.EMAIL_SYNC_SEND_FREQUENCY }}
+      EMAIL_SYNC_ERROR_SUBJECT: ${{ env.EMAIL_SYNC_ERROR_SUBJECT }}
+      EMAIL_SYNC_SUBJECT: ${{ env.EMAIL_SYNC_SUBJECT }}
+      DEFAULT_APPLICATION_ENVIRONMENT: ${{ env.DEFAULT_APPLICATION_ENVIRONMENT }}
     secrets: inherit
   call-mvn-server:
     uses: ./.github/workflows/mvn-server.yml
