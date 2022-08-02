@@ -14,7 +14,7 @@ RUN apt-get update &&\
   unzip -d /usr/local/tomcat/webapps/nr-bcws-wfnews/ '*.war' &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
-  chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
+  chmod -R 777 `readlink -f ${CATALINA_HOME}` &&\ # TODO: REVERT TO 770 ONCE DONE TESTING
   chown -h tomcat:0 ${CATALINA_HOME} &&\
   sed -i 's/<\/tomcat-users>/<role rolename="manager-gui"\/><role rolename="admin-gui"\/><user username="vivid-support" password="TOMCAT_PASSWORD" roles="manager-gui, admin-gui"\/><\/tomcat-users>/' /usr/local/tomcat/conf/tomcat-users.xml &&\
   find . -type f -name 'context.xml' | xargs sed -i 's/<Context antiResourceLocking="false" privileged="true" >/<Context antiResourceLocking="false" privileged="true" ><!--/' &&\
