@@ -3,7 +3,6 @@
   <Appenders>
     <RollingFile name="file" 
       fileName="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-war.log"
-      encoding="UTF-8"
       filePattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%p] %l - %m%n %throwable{2}" 
       ignoreExceptions="false"
       immediateFlush="true">
