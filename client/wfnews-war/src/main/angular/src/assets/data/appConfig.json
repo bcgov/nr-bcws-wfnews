@@ -72,11 +72,6 @@
         "checkTokenUrl": "assets/data/checktoken-INCIDENT_DISPATCH.json"
     },
 
-    "userPreferences": {
-        "preferencesUrl": "assets/data/stubUserPrefs.json",
-        "#preferencesUrl": "https://d1wfapps.vividsolutions.com/pub/wfim/webade/userPrefs.jsp"
-    },
-
     "mapServices": {
         "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
         "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
