@@ -28,7 +28,7 @@ generate "dev_tfvars" {
     aws_sec_group = "Vivid-developers"
     target_env = "dev"
     target_aws_account_id = "460053263286"
-    server_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews:main"
+    server_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main"
     client_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main"
     db_pass = "${local.db_pass}"
     client_port = 8080
