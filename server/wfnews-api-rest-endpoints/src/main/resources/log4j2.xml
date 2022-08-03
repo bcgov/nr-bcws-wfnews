@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
   <Appenders>
-    <RollingFile name="file" 
+    <!--RollingFile name="file" 
       fileName="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log"
       filePattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%p] %l - %m%n %throwable{2}" 
       ignoreExceptions="false"
@@ -20,7 +20,7 @@
                 <IfLastModified age="20d" />
             </Delete>
         </DefaultRolloverStrategy>
-    </RollingFile>
+    </RollingFile-->
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </Console>
