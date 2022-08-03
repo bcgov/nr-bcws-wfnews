@@ -67,6 +67,9 @@ jobs:
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.error.subject}/${{ inputs.EMAIL_SYNC_ERROR_SUBJECT }}/'
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.subject}/${{ inputs.EMAIL_SYNC_SUBJECT }}/'
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.default.application.environment}/${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}/'
+          
+      - name: validate properties files
+        run: find server -type f -name 'application.properties' | xargs cat -n
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp server/wfnews-api-rest-endpoints/target/*.war staging
