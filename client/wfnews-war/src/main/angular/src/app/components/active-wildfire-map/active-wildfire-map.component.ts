@@ -60,7 +60,6 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
                 // .then((config) => {
                 //     mapConfig.push(config)
 
-                //     return this.mapStatePersistenceService.getMapState()
                 // })
                 .then((mapState) => {
                     console.log('map state version', mapState?.version);
@@ -82,19 +81,6 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
 
                     this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
                 });
-
-            // this.wfnewsMapService.setMapStateSaveHandler((state) => {
-            //     state.version = {
-            //         app: this.applicationConfig.version.short,
-            //         build: config.application.buildNumber
-            //     }
-
-            //     this.mapStatePersistenceService.putMapState(state)
-            //         .then(() => { console.log('map state saved') })
-            //         .catch((e) => {
-            //             // console.warn( e, 'failed saving map state' )
-            //         })
-            // })
         });
 
     }
