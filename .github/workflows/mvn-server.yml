@@ -11,7 +11,7 @@ on:
   workflow_call:
     inputs:
       EMAIL_ENABLED: 
-        type: boolean
+        type: string
         required: true
       SMTP_HOSTNAME: 
         type: string
@@ -55,17 +55,17 @@ jobs:
 
       - name: input properties
         run:
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.notifications.enabled.ind}/${{ env.EMAIL_ENABLED }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.host.name}/${{ env.SMTP_HOSTNAME }}/' 
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.user}/${{ env.SMTP_USER}}/' 
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/' 
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.user}/${{ inputs.SMTP_USER}}/' 
           find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.password}/${{ secrets.SMTP_PASSWORD }}/' 
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.from.address}/${{ SMTP_FROM_EMAIL }}/' 
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.admin.address}/${{ env.ADMIN_EMAIL }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.send.error.frequency}/${{ env.EMAIL_SYNC_ERROR_FREQUENCY }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.send.frequency}/${{ env.EMAIL_SYNC_SEND_FREQUENCY }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.error.subject}/${{ env.EMAIL_SYNC_ERROR_SUBJECT }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.subject}/${{ env.EMAIL_SYNC_SUBJECT }}/'
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.default.application.environment}/${{ env.DEFAULT_APPLICATION_ENVIRONMENT }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.from.address}/${{ inputs.SMTP_FROM_EMAIL }}/' 
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.admin.address}/${{ inputs.ADMIN_EMAIL }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.send.error.frequency}/${{ inputs.EMAIL_SYNC_ERROR_FREQUENCY }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.send.frequency}/${{ inputs.EMAIL_SYNC_SEND_FREQUENCY }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.error.subject}/${{ inputs.EMAIL_SYNC_ERROR_SUBJECT }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.subject}/${{ inputs.EMAIL_SYNC_SUBJECT }}/'
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.default.application.environment}/${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}/'
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp server/wfnews-api-rest-endpoints/target/*.war staging
