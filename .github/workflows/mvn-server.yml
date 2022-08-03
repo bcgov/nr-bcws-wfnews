@@ -55,9 +55,9 @@ jobs:
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
 
       - name: input properties
-        run:
+        run: |
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/' 
+          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/'
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.credentials.user}/${{ inputs.SMTP_USER}}/' 
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.credentials.password}/${{ inputs.SMTP_PASSWORD }}/' 
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.from.address}/${{ inputs.SMTP_FROM_EMAIL }}/' 
