@@ -27,11 +27,9 @@
   </Appenders>
   <Loggers>
     <Root level="DEBUG">
-      <AppenderRef ref="file"/>
       <AppenderRef ref="Console" />
     </Root>
     <Logger name="ca.bc.gov.nrs.wfnews" level="DEBUG">
-      <AppenderRef ref="file"/>
       <AppenderRef ref="Console" />
     </Logger>
   </Loggers>
