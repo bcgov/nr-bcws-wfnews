@@ -127,6 +127,12 @@ variable "service_names" {
   type        = list(string)
 }
 
+variable cert_domain {
+    description = "Certificate to use"
+    default = ""
+    type = string
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"

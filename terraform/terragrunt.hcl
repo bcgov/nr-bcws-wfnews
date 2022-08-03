@@ -1,10 +1,9 @@
 locals {
-  project = "nr-bcws-wfnews"
   tfc_hostname     = "app.terraform.io"
-  tfc_organization = "nr-bcws-wfnews"
+  tfc_organization = "bcgov"
+  project          = "nr-bcws-wfnews"
   environment      = reverse(split("/", get_terragrunt_dir()))[0]
-  workspace        = "test_workspace"
-  deploy_role      = "terraform-test"
+  app_image        = get_env("app_image", "")
 }
 
 generate "remote_state" {
@@ -43,7 +42,7 @@ generate "provider" {
 provider "aws" {
   region  = var.aws_region
   assume_role {
-    role_arn = "arn:aws:iam::$${var.target_aws_account_id}:role/${local.deploy_role}"
+    role_arn = "arn:aws:iam::$${var.target_aws_account_id}:role/BCGOV_$${var.target_env}_Automation_Admin_Role"
   }
 }
 EOF

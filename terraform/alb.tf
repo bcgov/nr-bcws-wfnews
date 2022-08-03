@@ -4,7 +4,7 @@
 # This ALB has all traffic on *.LICENSE-PLATE-ENV.nimbus.cloud.gob.bc.ca routed to it
 
 resource "aws_lb" "main" {
-  name               = "wfnews-main-alb-${var.target_env}"
+  name               = "wfnews-server-alb-${var.target_env}"
   internal           = false
   load_balancer_type = "application"
   security_groups    = [data.aws_security_group.web.id]
@@ -44,6 +44,12 @@ resource "aws_lb" "client" {
 }
 
 
+data "aws_acm_certificate" "issued" {
+  domain   = var.cert_domain
+  statuses = ["ISSUED"]
+}
+
+
 # Redirect all traffic from the ALB to the target group
 resource "aws_alb_listener" "front_end" {
   default_action {
@@ -53,6 +59,7 @@ resource "aws_alb_listener" "front_end" {
   load_balancer_arn = aws_lb.main.id
   port              = 443
   protocol = "HTTPS"
+  certificate_arn = data.aws_acm_certificate.issued.arn
 }
 
 resource "aws_alb_listener" "client_front_end" {
@@ -63,10 +70,11 @@ resource "aws_alb_listener" "client_front_end" {
   load_balancer_arn = aws_lb.client.id
   port              = 443
   protocol = "HTTPS"
+  certificate_arn = data.aws_acm_certificate.issued.arn
 }
 
 resource "aws_alb_target_group" "server" {
-  name                 = "wfnews-target-group-${var.target_env}"
+  name                 = "wfnews-server-target-group-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
   vpc_id               = var.aws_vpc

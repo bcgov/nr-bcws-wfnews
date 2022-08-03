@@ -7,18 +7,23 @@ include {
 }
 
 locals {
-  aws_vpc="vpc-018906cab60cf165b"
-  sec_group = "Web_sg"
+  aws_vpc="vpc-2b1c6443"
+  sec_group = "Prod-Public-Mobile-Hosts"
   db_pass = get_env("DB_PASS")
+  project = "nr-bcws-wfnews"
+  tfc_hostname     = "app.terraform.io"
+  tfc_organization = "nr-bcws-wfnews"
+  environment      = reverse(split("/", get_terragrunt_dir()))[0]
+  workspace        = "test_workspace"
+  deploy_role      = "terraform-test"
 }
-
 
 generate "dev_tfvars" {
   path              = "terragrunt.auto.tfvars"
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-    cert_domain = "*.example.ca"
+    cert_domain = "*.bcwildfireservices.com"
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"
@@ -26,9 +31,9 @@ generate "dev_tfvars" {
     fargate_memory = 2048
     service_names = ["wfnews-project"]
     aws_vpc="vpc-2b1c6443"
-    aws_sec_group = "Web_sg"
+    aws_sec_group = "Prod-Public-Mobile-Hosts"
     target_env = "dev"
-    target_aws_account_id = "718963518348"
+    target_aws_account_id = "460053263286"
     server_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main"
     client_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main"
     db_pass = "${local.db_pass}"
