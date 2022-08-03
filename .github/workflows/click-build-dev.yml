@@ -8,7 +8,8 @@ env:
   EMAIL_ENABLED: true
   SMTP_HOSTNAME: sample_user
   SMTP_USER: sample_user@sample.com
-  SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD}}
+  #SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD}}
+  #DEV_SMTP_PASSWORD should be set in Settings > Secrets
   SMTP_FROM_EMAIL: noreply@sample.com
   ADMIN_EMAIL: admin_user@sample.com
   EMAIL_SYNC_ERROR_FREQUENCY: 30
