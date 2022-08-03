@@ -19,6 +19,8 @@ on:
         type: string
       SMTP_FROM_EMAIL:
         type: string
+      SMTP_PASSWORD:
+        type: string
       ADMIN_EMAIL:
         type: string
       EMAIL_SYNC_ERROR_FREQUENCY:
@@ -31,8 +33,7 @@ on:
         type: string
       DEFAULT_APPLICATION_ENVIRONMENT:
         type: string
-    secrets:
-      SMTP_PASSWORD:
+      
 
 
 
@@ -58,7 +59,7 @@ jobs:
           find . -name 'application.properties' | xargs sed -i '/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
           find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/' 
           find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.user}/${{ inputs.SMTP_USER}}/' 
-          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.password}/${{ secrets.SMTP_PASSWORD }}/' 
+          find . -name 'application.properties' | xargs sed -i '/#{wfone.smtp.credentials.password}/${{ inputs.SMTP_PASSWORD }}/' 
           find . -name 'application.properties' | xargs sed -i '/#{wfone.email.from.address}/${{ inputs.SMTP_FROM_EMAIL }}/' 
           find . -name 'application.properties' | xargs sed -i '/#{wfone.email.admin.address}/${{ inputs.ADMIN_EMAIL }}/'
           find . -name 'application.properties' | xargs sed -i '/#{wfone.email.sync.send.error.frequency}/${{ inputs.EMAIL_SYNC_ERROR_FREQUENCY }}/'
