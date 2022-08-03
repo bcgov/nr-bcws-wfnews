@@ -24,7 +24,7 @@ on:
       EMAIL_SYNC_ERROR_FREQUENCY:
         type: string
       EMAIL_SYNC_SEND_FREQUENCY:
-        type: number
+        type: string
       EMAIL_SYNC_ERROR_SUBJECT:
         type: string
       EMAIL_SYNC_SUBJECT:
