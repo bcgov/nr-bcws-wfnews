@@ -1,0 +1,59 @@
+<div class="top">
+  <div class="title">
+    <div>
+      <h1>Fire Number: {{incident.fireNumber}}<span class="chip-holder">{{incident.publishedStatus}}</span></h1>
+      <h2 class="wildfire-count">
+        Last Published: {{incident.lastPublished.toDateString()}} - {{incident.lastPublished.toLocaleTimeString()}}
+      </h2>
+    </div>
+    <div class="button-holder">
+      <button mat-button>Show Preview</button>
+      <button mat-button color="primary">Publish Changes</button>
+    </div>
+  </div>
+</div>
+<!-- Main Body Content -->
+<mat-accordion class="details">
+  <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel">
+      <mat-expansion-panel-header>
+          <mat-panel-title>
+              <span class="panel-title">Incident Details</span>
+          </mat-panel-title>
+      </mat-expansion-panel-header>
+      <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="panel-title">Contact</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+
+  <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="panel-title">Response</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="panel-title">Evacuation Orders and Alerts</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+  <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="panel-title">Area Restrictions</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+  </mat-expansion-panel>
+</mat-accordion>

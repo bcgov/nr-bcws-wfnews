@@ -1,0 +1,77 @@
+<ng-container [formGroup]="formGroup" class="incident-form">
+  <div class="form-flex  form-flex-thirds">
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Fire Name</mat-label>
+        <input matInput type="text" placeholder="Fire Name" formControlName="fireName" readonly>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Traditional Territory</mat-label>
+        <input matInput type="text" placeholder="Traditional Territory" formControlName="traditionalTerritory">
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field>
+        <mat-radio-group formControlName="fireOfNote" [required]="true">
+            <mat-label id="fireOfNote">Wildfire Of Note</mat-label><br/>
+            <mat-radio-button value="N">No </mat-radio-button>
+            <mat-radio-button value="Y">Yes </mat-radio-button>
+        </mat-radio-group>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Location</mat-label>
+        <input matInput type="text" placeholder="location" formControlName="location">
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="form-flex  form-flex-thirds">
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Size Type</mat-label>
+        <input matInput type="text" placeholder="Size Type" formControlName="sizeType" readonly>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Size</mat-label>
+        <input matInput type="text" placeholder="Size" formControlName="sizeHectares" readonly>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">General Disclaimer and Comments</mat-label>
+        <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            formControlName="sizeComments"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="form-flex  form-flex-thirds">
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">Cause</mat-label>
+        <input matInput type="text" placeholder="Cause" formControlName="cause" readonly>
+      </mat-form-field>
+    </div>
+    <div class="field">
+      <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
+        <mat-label class="label required">General Disclaimer and Comments</mat-label>
+        <textarea matInput
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+            cdkAutosizeMaxRows="5"
+            formControlName="causeComments"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+</ng-container>
