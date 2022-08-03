@@ -21,6 +21,9 @@ on:
   workflow_dispatch:
 
 jobs:
+  call-mvn-client:
+    uses: ./.github/workflows/mvn-client.yml
+    secrets: inherit
   call-mvn-server:
     uses: ./.github/workflows/mvn-server.yml
     with:
@@ -34,7 +37,4 @@ jobs:
       EMAIL_SYNC_ERROR_SUBJECT: $EMAIL_SYNC_ERROR_SUBJECT
       EMAIL_SYNC_SUBJECT: $EMAIL_SYNC_SUBJECT
       DEFAULT_APPLICATION_ENVIRONMENT: $DEFAULT_APPLICATION_ENVIRONMENT
-    secrets: inherit
-  call-mvn-client:
-    uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
