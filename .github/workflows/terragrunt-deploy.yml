@@ -1,0 +1,48 @@
+name: Deploy using terragrunt
+
+on:
+  # workflow_call:
+  workflow_dispatch:
+
+# inputs:
+#   CLIENT_IMAGE:
+#     type: string
+#     required: true
+#   SERVER_IMAGE:
+#     type: string
+#     required: true
+#   TARGET_ENV:
+#     type: string
+#     required: true
+
+
+env:
+  TF_VERSION: 1.2.2
+  TG_VERSION: 0.37.1
+  TG_SRC_PATH: terraform
+  TFC_WORKSPACE: wfnews-dev
+
+jobs:
+  steps:
+    - name: Check out the repo
+      uses: actions/checkout@v2
+
+    - uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: ${{ env.TF_VERSION }}
+        cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+
+    - uses: peter-murray/terragrunt-github-action@v1.0.0
+      with:
+        terragrunt_version: ${{ env.TG_VERSION }}
+    
+    - name: Terragrunt Apply
+      # working-directory: ${{env.TG_SOURCE_PATH}}/${{ input.TARGET_ENV }}
+      working-directory: ${{env.TG_SOURCE_PATH}}/dev
+      env:
+        # CLIENT_IMAGE: ${{ input.CLIENT_IMAGE }}
+        # SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
+        CLIENT_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main
+        SERVER_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main
+      run: terragrunt plan
+

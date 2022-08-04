@@ -10,6 +10,8 @@ locals {
   aws_vpc="vpc-018906cab60cf165b"
   sec_group = "Web_sg"
   db_pass = get_env("DB_PASS")
+  server_image = get_env("SERVER_IMAGE")
+  client_image = get_env("CLIENT_IMAGE")
 }
 
 
@@ -29,8 +31,8 @@ generate "dev_tfvars" {
     aws_sec_group = "Web_sg"
     target_env = "dev"
     target_aws_account_id = "718963518348"
-    server_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main"
-    client_image     = "ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main"
+    server_image     = "${local.server_image}"
+    client_image     = "${local.client_image}"
     db_pass = "${local.db_pass}"
     client_port = 8080
     server_port=8080

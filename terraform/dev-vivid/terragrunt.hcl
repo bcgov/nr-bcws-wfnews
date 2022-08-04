@@ -2,10 +2,6 @@ terraform {
   source = ".."
 }
 
-include {
-  path = find_in_parent_folders()
-}
-
 locals {
   aws_vpc="vpc-2b1c6443"
   sec_group = "Prod-Public-Mobile-Hosts"
@@ -13,9 +9,25 @@ locals {
   project = "nr-bcws-wfnews"
   tfc_hostname     = "app.terraform.io"
   tfc_organization = "nr-bcws-wfnews"
-  environment      = reverse(split("/", get_terragrunt_dir()))[0]
+  environment      = "dev"
   workspace        = "test_workspace"
   deploy_role      = "terraform-test"
+}
+
+generate "remote_state" {
+  path      = "backend.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+terraform {
+  backend "remote" {
+    hostname = "${local.tfc_hostname}"
+    organization = "${local.tfc_organization}"
+    workspaces {
+      name = "${local.project}-${local.environment}"
+    }
+  }
+}
+EOF
 }
 
 generate "dev_tfvars" {
@@ -41,4 +53,17 @@ generate "dev_tfvars" {
     server_port=8080
 
   EOF
+}
+
+generate "provider" {
+  path      = "provider.tf"
+  if_exists = "overwrite"
+  contents  = <<EOF
+provider "aws" {
+  region  = var.aws_region
+  assume_role {
+    role_arn = "arn:aws:iam::$${var.target_aws_account_id}:role/terraform-test"
+  }
+}
+EOF
 }
