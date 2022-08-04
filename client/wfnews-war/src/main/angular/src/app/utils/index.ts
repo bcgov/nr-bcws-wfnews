@@ -12,6 +12,7 @@ export enum ResourcesRoutes {
     SIGN_OUT = 'sign-out-page',
     ERROR_PAGE = 'error-page',
     ADMIN = 'admin',
+    ADMIN_INCIDENT = 'incident'
 }
 
 export function getPageInfoRequestForSearchState(searchState: any): PagingInfoRequest {

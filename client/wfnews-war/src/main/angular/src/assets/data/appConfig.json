@@ -1,10 +1,10 @@
 {
     "application": {
-        "acronym": "WFIM-LONG-NAME",
+        "acronym": "WFNEWS",
         "version": "1.0.0-SNAPSHOT",
         "buildNumber": ".0000",
         "environment": "LOCAL",
-        "baseUrl": "http://localhost:6200/wfnews/",
+        "baseUrl": "http://localhost:6200/",
         "polling": {
             "mapTool": {
                 "incidentsPolling": 10000,

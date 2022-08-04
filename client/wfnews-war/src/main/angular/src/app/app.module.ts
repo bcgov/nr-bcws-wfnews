@@ -10,6 +10,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
@@ -20,6 +21,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
@@ -44,6 +46,7 @@ import { codeTableAndUserPrefFnInit } from './app-initializer';
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { ActiveWildfireMapComponent } from './components/active-wildfire-map/active-wildfire-map.component';
+import { AdminIncidentForm } from './components/admin-incident-form/admin-incident-form.component';
 import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evacuation-orders-and-alerts/panel-evacuation-orders-and-alerts.component';
 import { PanelWildfireStageOfControlComponent } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
@@ -54,6 +57,7 @@ import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy'
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { WfAdminComponent } from './components/wf-admin/wf-admin.component';
+import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -75,6 +79,8 @@ export const DATE_FORMATS = {
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
         WfAdminComponent
+        AdminIncidentForm,
+        IncidentDetailsPanel
     ],
     imports: [
         MatSnackBarModule,
@@ -98,6 +104,8 @@ export const DATE_FORMATS = {
         MatFormFieldModule,
         MatExpansionModule,
         MatSelectModule,
+        MatGridListModule,
+        MatChipsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         OwlMomentDateTimeModule,
