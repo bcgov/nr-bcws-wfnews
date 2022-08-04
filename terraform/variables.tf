@@ -133,6 +133,11 @@ variable cert_domain {
     type = string
 }
 
+variable subnet_filter {
+  description = "subnet keyword to filter for"
+  type = string
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"

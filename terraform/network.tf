@@ -9,6 +9,6 @@ data aws_subnets my_subnets {
   }
   filter {
     name = "tag:Name"
-    values = ["*public*"]
+    values = ["*${var.subnet_filter}*"]
   }
 }

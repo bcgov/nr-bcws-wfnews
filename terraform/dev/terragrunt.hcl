@@ -27,7 +27,8 @@ generate "dev_tfvars" {
     fargate_cpu = 1024
     fargate_memory = 2048
     service_names = ["wfnews-project"]
-    aws_vpc="vpc-2b1c6443"
+    aws_vpc="vpc-018906cab60cf165b"
+    subnet_filter = "Web"
     aws_sec_group = "Web_sg"
     target_env = "dev"
     target_aws_account_id = "718963518348"
