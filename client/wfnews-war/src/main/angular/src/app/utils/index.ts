@@ -11,6 +11,7 @@ export enum ResourcesRoutes {
     UNAUTHORIZED = 'unauthorized',
     SIGN_OUT = 'sign-out-page',
     ERROR_PAGE = 'error-page',
+    ADMIN = 'admin',
     ADMIN_INCIDENT = 'incident'
 }
 

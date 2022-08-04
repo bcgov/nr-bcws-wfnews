@@ -56,6 +56,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { WfAdminComponent } from './components/wf-admin/wf-admin.component';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -77,6 +78,7 @@ export const DATE_FORMATS = {
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
+        WfAdminComponent
         AdminIncidentForm,
         IncidentDetailsPanel
     ],
@@ -128,7 +130,6 @@ export const DATE_FORMATS = {
         ServiceWorkerModule.register('wfim-service-worker.js', { enabled: environment.production, scope: './' }),
         ScrollingModule,
         WildfireApplicationModule.forRoot(),
-        DocumentAPIServiceModule,
         MatToolbarModule,
         MatSlideToggleModule,
         MatExpansionModule
