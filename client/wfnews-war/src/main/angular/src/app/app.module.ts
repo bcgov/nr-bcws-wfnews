@@ -78,7 +78,7 @@ export const DATE_FORMATS = {
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
-        WfAdminComponent
+        WfAdminComponent,
         AdminIncidentForm,
         IncidentDetailsPanel
     ],
