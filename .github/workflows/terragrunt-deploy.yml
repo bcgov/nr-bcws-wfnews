@@ -14,6 +14,9 @@ on:
 #   TARGET_ENV:
 #     type: string
 #     required: true
+#   TFC_PROJECT:
+#     type: string
+#     required: true
 
 
 env:
@@ -47,6 +50,7 @@ jobs:
           # SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
           CLIENT_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main
           SERVER_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
         run: terragrunt plan
 
