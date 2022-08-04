@@ -53,20 +53,20 @@ jobs:
           
       - name: input properties
         run: |
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.credentials.user}/${{ inputs.SMTP_USER}}/' 
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.smtp.credentials.password}/${{ inputs.SMTP_PASSWORD }}/' 
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.from.address}/${{ inputs.SMTP_FROM_EMAIL }}/' 
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.admin.address}/${{ inputs.ADMIN_EMAIL }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.send.error.frequency}/${{ inputs.EMAIL_SYNC_ERROR_FREQUENCY }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.send.frequency}/${{ inputs.EMAIL_SYNC_SEND_FREQUENCY }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.error.subject}/${{ inputs.EMAIL_SYNC_ERROR_SUBJECT }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.subject}/${{ inputs.EMAIL_SYNC_SUBJECT }}/'
-          find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.default.application.environment}/${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.smtp.host.name}/${{ inputs.SMTP_HOSTNAME }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.smtp.credentials.user}/${{ inputs.SMTP_USER}}/' 
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.smtp.credentials.password}/${{ inputs.SMTP_PASSWORD }}/' 
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.from.address}/${{ inputs.SMTP_FROM_EMAIL }}/' 
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.admin.address}/${{ inputs.ADMIN_EMAIL }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.sync.send.error.frequency}/${{ inputs.EMAIL_SYNC_ERROR_FREQUENCY }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.sync.send.frequency}/${{ inputs.EMAIL_SYNC_SEND_FREQUENCY }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.sync.error.subject}/${{ inputs.EMAIL_SYNC_ERROR_SUBJECT }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.sync.subject}/${{ inputs.EMAIL_SYNC_SUBJECT }}/'
+          find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.default.application.environment}/${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}/'
 
       - name: validate properties files
-        run: find server -type f -name 'application.properties' |  xargs sed -s 1F
+        run: find server -type f -name '*.properties' |  xargs sed -s 1F
 
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
