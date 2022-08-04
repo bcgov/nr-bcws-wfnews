@@ -1,6 +1,7 @@
 locals {
   tfc_hostname     = "app.terraform.io"
   tfc_organization = "bcgov"
+  project = get_env("TFC_PROJECT","")
   environment      = reverse(split("/", get_terragrunt_dir()))[0]
 }
 

@@ -12,7 +12,6 @@ locals {
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
-  project          = get_env("TFC_PROJECT","")
 }
 
 
