@@ -1,6 +1,6 @@
 locals {
   tfc_hostname     = "app.terraform.io"
-  tfc_organization = "nr-bcws-wfnews"
+  tfc_organization = "bcgov"
   project          = "nr-bcws-wfnews"
   environment      = reverse(split("/", get_terragrunt_dir()))[0]
   app_image        = get_env("app_image", "")
