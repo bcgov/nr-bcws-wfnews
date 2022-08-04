@@ -40,8 +40,8 @@ jobs:
           terragrunt_version: ${{ env.TG_VERSION }}
       
       - name: Terragrunt Apply
-        # working-directory: ${{env.TG_SOURCE_PATH}}/${{ input.TARGET_ENV }}
-        working-directory: ${{env.TG_SOURCE_PATH}}/dev
+        # working-directory: ${{env.TG_SRC_PATH}}/${{ input.TARGET_ENV }}
+        working-directory: ${{env.TG_SRC_PATH}}/dev
         env:
           # CLIENT_IMAGE: ${{ input.CLIENT_IMAGE }}
           # SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
