@@ -17,7 +17,7 @@ jobs:
     #SMTP_PASSWORD IS STORED AS SECRET
     with:
       EMAIL_ENABLED: true
-      SMTP_HOSTNAME: sample_user
+      SMTP_HOSTNAME: sample.com
       SMTP_USER: sample_user@sample.com
       SMTP_FROM_EMAIL: noreply@sample.com
       ADMIN_EMAIL: admin_user@sample.com
