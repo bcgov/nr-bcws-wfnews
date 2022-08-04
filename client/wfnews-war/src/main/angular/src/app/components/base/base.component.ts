@@ -132,12 +132,10 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        //console.log(changes);
         if (changes.loadState) {
             this.isLoading = changes.loadState.currentValue.isLoading;
             const previousValue = changes.loadState.previousValue;
             if (!this.isLoading && previousValue && previousValue.isLoading) {
-                this.updateView();
                 this.invokeAfterLoaded();
             }
         }
@@ -152,10 +150,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     invokeAfterLoaded() {
 
-    }
-
-    protected updateView(): void {
-        //this.viewModel = this.model.clone();
     }
 
 
@@ -242,14 +236,11 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 } else if (!fg.get('id').value && controls.length == 1) { //check if empty entry
                     const item = fg.getRawValue();
                     if (!hasValues(item)) {
-                        //console.log("is default empty entry");
                         return false;
                     } else {
-                        //console.log("default entry with info");
                         return true;
                     }
                 } else {
-                    //console.log("existing entry");
                     return false;
                 }
             }

@@ -49,7 +49,6 @@ return;
 
         this.destroyMap();
 
-        // console.log( "initMap", mapIndex );
 
         initPromise = initPromise.then( function() {
             // console.log("initMap");
