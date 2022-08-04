@@ -47,5 +47,6 @@ jobs:
           # SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
           CLIENT_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main
           SERVER_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main
+          DB_PASS: ${{ secrets.DB_PASS }}
         run: terragrunt plan
 
