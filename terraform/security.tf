@@ -5,11 +5,6 @@ data "aws_security_group" "web" {
   name = "${var.aws_sec_group}"
 }
 
-data "aws_security_group" "default" {
-  vpc_id = var.aws_vpc
-  name = "default"
-}
-
 # Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
@@ -30,7 +25,7 @@ resource "aws_security_group" "ecs_tasks" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  #Permit external access for text purposes
+  #Permit external access for test purposes
   ingress {
     protocol = "tcp"
     from_port = 8080
