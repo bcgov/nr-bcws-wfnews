@@ -15,11 +15,11 @@
 		<build.number>${env.BUILD_NUMBER}</build.number>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<dollar>$</dollar>
-	    <node.version>v12.20.0</node.version>
+	    <node.version>v14.15.0</node.version>
         <npm.version>6.14.5</npm.version>
 		<node.path>${user.home}/.node</node.path>
 		<typescript.path>src/main/angular</typescript.path>
-		<npm.url>https://bwa.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/</npm.url>
+		<npm.url>https://apps.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/</npm.url>
 	</properties>
 	<dependencies>
 		<!-- Spring -->

@@ -311,7 +311,6 @@ return;
 
 
         this.wfMapService.setHandler( 'resources', 'cluster-click', ( features ) => {
-            // console.log( features )
 
             this.smkInstance.$viewer.identified.clear();
             features.forEach( ( f ) => {

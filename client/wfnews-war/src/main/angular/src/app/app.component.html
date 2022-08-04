@@ -6,13 +6,16 @@
     <wf-header
         [config]="applicationConfig"
         [(state)]="applicationState"
-        [useAppLogo]="false"
-        [useSystemAndUser]="false"
-        [useMenu]="false"
+        [useAppLogo]="isAdminPage()"
+        [useSystemAndUser]="isAdminPage()"
+        [useMenu]="isAdminPage()"
+        [useSupportLink]="isAdminPage()"
+        [useLogoutButton]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
+        (navigateToBcSupport)="navigateToBcSupport()"
     ></wf-header>
 
-    <wf-menu-bar
+    <wf-menu-bar *ngIf ="!isAdminPage()"
         [menuItems]="appMenu"
         [config]="applicationConfig"
         [(state)]="applicationState"
