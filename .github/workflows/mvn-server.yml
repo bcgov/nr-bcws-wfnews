@@ -51,9 +51,6 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           
-      - name: Build with Maven
-        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
-
       - name: input properties
         run: |
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
@@ -67,9 +64,12 @@ jobs:
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.error.subject}/${{ inputs.EMAIL_SYNC_ERROR_SUBJECT }}/'
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.email.sync.subject}/${{ inputs.EMAIL_SYNC_SUBJECT }}/'
           find server -type f -name 'application.properties' | xargs sed -i 's/#{wfone.default.application.environment}/${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}/'
-          
+
       - name: validate properties files
-        run: find server -type f -name 'application.properties' | xargs cat -n
+        run: find server -type f -name 'application.properties' |  xargs sed -s 1F
+
+      - name: Build with Maven
+        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp server/wfnews-api-rest-endpoints/target/*.war staging
