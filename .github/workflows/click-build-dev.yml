@@ -14,7 +14,7 @@ jobs:
     secrets: inherit
   call-mvn-server:
     uses: ./.github/workflows/mvn-server.yml
-    #SMTP_PASSWORD IS STORED AS SECRET
+    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       EMAIL_ENABLED: true
       SMTP_HOSTNAME: sample.com
@@ -27,3 +27,12 @@ jobs:
       EMAIL_SYNC_SUBJECT: MESSAGE
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
+  terragrunt-deploy:
+    uses: ./.github/workflows/terragrunt-deploy.yml
+    needs: [call-mvn-client, call-mvn-server]
+    with:
+      CLIENT_IMAGE: ${{ needs.call-mvn-client.outputs.client-image }}
+      SERVER_IMAGE: ${{ needs.call-mvn-server.outputs.server-image }}
+      TARGET_ENV: dev
+    secrets: inherit
+    
