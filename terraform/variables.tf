@@ -164,9 +164,9 @@ variable "aws_sec_group" {
     type = string
 }
 
-variable aws_vpc {
-    description = "name of VPC to use"
-    type = string
+variable vpc_name {
+  description = "name of VPC to use"
+  type = string
 }
 
 variable db_pass {

@@ -9,7 +9,7 @@ data "aws_security_group" "web" {
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "allow inbound access from the ALB only"
-  vpc_id      = var.aws_vpc
+  vpc_id      = data.aws_vpc.main_vpc.id
 
   ingress {
     protocol        = "tcp"

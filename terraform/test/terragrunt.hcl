@@ -7,7 +7,7 @@ include {
 }
 
 locals {
-  aws_vpc="vpc-018906cab60cf165b"
+  vpc_name="Test_vpc"
   sec_group = "Web_sg"
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
@@ -28,7 +28,7 @@ generate "dev_tfvars" {
     fargate_cpu = 1024
     fargate_memory = 2048
     service_names = ["wfnews-project"]
-    aws_vpc="vpc-018906cab60cf165b"
+    vpc_name="${local.vpc_name}"
     subnet_filter = "Web"
     aws_sec_group = "Web_sg"
     target_env = "${local.target_env}"
