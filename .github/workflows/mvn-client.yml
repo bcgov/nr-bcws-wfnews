@@ -11,12 +11,15 @@ env:
 # Controls when the workflow will run
 on:
   workflow_call:
+    outputs:
+      CLIENT_IMAGE_NAME:
+        description: "Name of client package"
+        value: ${{ env.IMAGE_NAME }}-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
       
