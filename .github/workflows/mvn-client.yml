@@ -14,7 +14,7 @@ on:
     outputs:
       CLIENT_IMAGE_NAME:
         description: "Name of client package"
-        value: ${{ github.repository }}-client-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
+        value: ${{ jobs.docker.outputs.CLIENT_IMAGE_NAME }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -56,6 +56,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
+      CLIENT_IMAGE_NAME: ${{ steps.im.outputs.CLIENT_IMAGE_NAME}}
     
     steps:
       - uses: actions/checkout@v3
@@ -65,6 +66,10 @@ jobs:
         run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Update image name if PR number present
+        if: ${{"" != jobs.docker.outputs.pull_request_number}}
+        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ jobs.docker.outputs.pull_request_number }}" >> $GITHUB_ENV
       
       - name: download artifact
         uses: actions/download-artifact@v3
@@ -89,7 +94,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ steps.pr.outputs.pull_request_number }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          
+      - name: output image name
+        id: im
+        run: echo "::set-output name=CLIENT_IMAGE_NAME::${{ env.IMAGE_NAME }}"
         
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
