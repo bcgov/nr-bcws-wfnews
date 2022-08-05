@@ -23,7 +23,7 @@ resource "aws_ecs_task_definition" "server" {
   count                    = local.create_ecs_service
   family                   = "wfnews-server-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
-  task_role_arn            = aws_iam_role.wfnews_wfnews_app_container_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu

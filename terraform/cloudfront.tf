@@ -102,7 +102,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing" {
 }
 
 output "wfnews_cloudfront_url" {
-  value = "https://${aws_cloudfront_distribution.geofencing[0].domain_name}"
+  value = "https://${aws_cloudfront_distribution.wfnews_geofencing[0].domain_name}"
 
 }
 
