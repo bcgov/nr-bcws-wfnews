@@ -6,7 +6,7 @@ data "aws_security_group" "web" {
 }
 
 # Traffic to the ECS cluster should only come from the ALB
-resource "aws_security_group" "ecs_tasks" {
+resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "allow inbound access from the ALB only"
   vpc_id      = var.aws_vpc

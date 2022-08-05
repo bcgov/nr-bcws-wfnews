@@ -1,11 +1,11 @@
 
 
-resource "random_integer" "cf_origin_id" {
+resource "random_integer" "wfnews_cf_origin_id" {
   min = 1
   max = 100
 }
 
-resource "aws_cloudfront_distribution" "geofencing" {
+resource "aws_cloudfront_distribution" "wfnews_geofencing" {
 
   count = var.cloudfront ? 1 : 0
 
@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "geofencing" {
     }
 
     domain_name = var.cloudfront_origin_domain
-    origin_id   = random_integer.cf_origin_id.result
+    origin_id   = random_integer.wfnews_cf_origin_id.result
   }
 
   enabled         = true
@@ -46,7 +46,7 @@ resource "aws_cloudfront_distribution" "geofencing" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = random_integer.cf_origin_id.result
+    target_origin_id = random_integer.wfnews_cf_origin_id.result
 
     forwarded_values {
       query_string = true
@@ -67,7 +67,7 @@ resource "aws_cloudfront_distribution" "geofencing" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = random_integer.cf_origin_id.result
+    target_origin_id = random_integer.wfnews_cf_origin_id.result
 
     forwarded_values {
       query_string = false
@@ -101,7 +101,7 @@ resource "aws_cloudfront_distribution" "geofencing" {
   }
 }
 
-output "cloudfront_url" {
+output "wfnews_cloudfront_url" {
   value = "https://${aws_cloudfront_distribution.geofencing[0].domain_name}"
 
 }

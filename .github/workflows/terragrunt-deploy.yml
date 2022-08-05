@@ -39,6 +39,7 @@ jobs:
       - name: Terragrunt Apply
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
+          TARGET_ENV: ${{ inputs.TARGET_ENV }}
           CLIENT_IMAGE: ${{ inputs.CLIENT_IMAGE }}
           SERVER_IMAGE: ${{ inputs.SERVER_IMAGE }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}

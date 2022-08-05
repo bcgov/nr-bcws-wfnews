@@ -1,4 +1,4 @@
-resource "aws_db_instance" "pgsqlDB"{
+resource "aws_db_instance" "wfnews_pgsqlDB"{
     engine = "postgres"
     name = "wfnews${var.target_env}"
     instance_class       = "db.t3.micro"

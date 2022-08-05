@@ -14,7 +14,7 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
   }
 }
 # ECS task execution role
-resource "aws_iam_role" "ecs_task_execution_role" {
+resource "aws_iam_role" "wfnews_ecs_task_execution_role" {
   name               = var.ecs_task_execution_role_name
   assume_role_policy = data.aws_iam_policy_document.ecs_task_execution_role.json
 
@@ -22,14 +22,14 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 }
 
 # ECS task execution role policy attachment
-resource "aws_iam_role_policy_attachment" "ecs_task_execution_role" {
-  role       = aws_iam_role.ecs_task_execution_role.name
+resource "aws_iam_role_policy_attachment" "wfnews_ecs_task_execution_role" {
+  role       = aws_iam_role.wfnews_ecs_task_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
 }
 
-resource "aws_iam_role_policy" "ecs_task_execution_cwlogs" {
+resource "aws_iam_role_policy" "wfnews_ecs_task_execution_cwlogs" {
   name = "ecs_task_execution_cwlogs"
-  role = aws_iam_role.ecs_task_execution_role.id
+  role = aws_iam_role.wfnews_ecs_task_execution_role.id
 
   policy = <<-EOF
   {
@@ -95,7 +95,7 @@ resource "aws_iam_role_policy" "wfnews_app_container_cwlogs" {
   }
 EOF
 }
-resource "aws_iam_role_policy" "ssp_bucket_policy" {
+resource "aws_iam_role_policy" "wfnews_ssp_bucket_policy" {
   name   = "upload_bucket_policy"
   role   = aws_iam_role.wfnews_app_container_role.id
   policy = <<-EOF
@@ -112,10 +112,10 @@ resource "aws_iam_role_policy" "ssp_bucket_policy" {
                 "s3:PutBucketCORS"
             ],
             "Resource": [
-                "${aws_s3_bucket.upload_bucket.arn}",
-                "${aws_s3_bucket.upload_bucket.arn}/*",
-                "${aws_s3_bucket.log_bucket.arn}",
-                "${aws_s3_bucket.log_bucket.arn}/*",
+                "${aws_s3_bucket.wfnews_upload_bucket.arn}",
+                "${aws_s3_bucket.wfnews_upload_bucket.arn}/*",
+                "${aws_s3_bucket.wfnews_log_bucket.arn}",
+                "${aws_s3_bucket.wfnews_log_bucket.arn}/*",
                 "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"
             ]
         }

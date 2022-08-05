@@ -1,14 +1,14 @@
 # ecs.tf
 
-resource "aws_ecs_cluster" "main" {
+resource "aws_ecs_cluster" "wfnews_main" {
   name               = "wfnews-cluster"
   capacity_providers = ["FARGATE_SPOT"]
 
   tags = local.common_tags
 }
 
-resource "aws_ecs_cluster_capacity_providers" "main_providers" {
-    cluster_name = aws_ecs_cluster.main.name
+resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
+    cluster_name = aws_ecs_cluster.wfnews_main.name
 
     capacity_providers = ["FARGATE","FARGATE_SPOT"]
 
@@ -22,8 +22,8 @@ resource "aws_ecs_cluster_capacity_providers" "main_providers" {
 resource "aws_ecs_task_definition" "server" {
   count                    = local.create_ecs_service
   family                   = "wfnews-server-task-${var.target_env}"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
-  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -47,15 +47,15 @@ resource "aws_ecs_task_definition" "server" {
       environment = [
         {
           name  = "DB_NAME"
-          value = "${aws_db_instance.pgsqlDB.name}"
+          value = "${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
           name  = "AWS_REGION",
-          value = var.aws_region
+          value = var.wfnews_aws_region
         },
         {
           name  = "bucketName",
-          value = aws_s3_bucket.upload_bucket.id
+          value = aws_s3_bucket.wfnews_upload_bucket.id
         }
       ]
       logConfiguration = {
@@ -76,7 +76,7 @@ resource "aws_ecs_task_definition" "server" {
 resource "aws_ecs_task_definition" "client" {
   count                    = local.create_ecs_service
   family                   = "wfnews-client-task-${var.target_env}"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -105,7 +105,7 @@ resource "aws_ecs_task_definition" "client" {
         },
         {
           name  = "bucketName",
-          value = aws_s3_bucket.upload_bucket.id
+          value = aws_s3_bucket.wfnews_upload_bucket.id
         }
       ]
       logConfiguration = {
@@ -123,11 +123,11 @@ resource "aws_ecs_task_definition" "client" {
   ])
 }
 
-resource "aws_ecs_service" "main" {
+resource "aws_ecs_service" "wfnews_main" {
   count                             = local.create_ecs_service
   name                              = "wfnews-server-service-${var.target_env}"
-  cluster                           = aws_ecs_cluster.main.id
-  task_definition                   = aws_ecs_task_definition.server[count.index].arn
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews_server[count.index].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -142,18 +142,18 @@ resource "aws_ecs_service" "main" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
     subnets          = data.aws_subnets.my_subnets.ids
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.server.id
+    target_group_arn = aws_alb_target_group.wfnews_server.id
     container_name   = var.server_container_name
     container_port   = var.server_port
   }
 
-  depends_on = [aws_alb_listener.front_end, aws_iam_role_policy_attachment.ecs_task_execution_role]
+  depends_on = [aws_alb_listener.wfnews_front_end, aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }
@@ -161,8 +161,8 @@ resource "aws_ecs_service" "main" {
 resource "aws_ecs_service" "client" {
   count                             = local.create_ecs_service
   name                              = "wfnews-client-service-${var.target_env}"
-  cluster                           = aws_ecs_cluster.main.id
-  task_definition                   = aws_ecs_task_definition.client[count.index].arn
+  cluster                           = aws_ecs_cluster.wfnews_wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -177,18 +177,18 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
     subnets          = data.aws_subnets.my_subnets.ids
     assign_public_ip = true
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.client.id
+    target_group_arn = aws_alb_target_group.wfnews_client.id
     container_name   = var.client_container_name
     container_port   = var.client_port
   }
 
-  depends_on = [aws_alb_listener.client_front_end, aws_iam_role_policy_attachment.ecs_task_execution_role]
+  depends_on = [aws_alb_listener.wfnews_client_front_end, aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }

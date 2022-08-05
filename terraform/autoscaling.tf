@@ -1,20 +1,20 @@
 # auto_scaling.tf
 
-resource "aws_appautoscaling_target" "target" {
+resource "aws_appautoscaling_target" "wfnews_target" {
   count              = local.create_ecs_service
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = 1
   max_capacity       = 6
 }
 
 # Automatically scale capacity up by one
-resource "aws_appautoscaling_policy" "up" {
+resource "aws_appautoscaling_policy" "wfnews_up" {
   count              = local.create_ecs_service
   name               = "wfnews_scale_up"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -28,15 +28,15 @@ resource "aws_appautoscaling_policy" "up" {
     }
   }
 
-  depends_on = [aws_appautoscaling_target.target]
+  depends_on = [aws_appautoscaling_target.wfnews_target]
 }
 
 # Automatically scale capacity down by one
-resource "aws_appautoscaling_policy" "down" {
+resource "aws_appautoscaling_policy" "wfnews_down" {
   count              = local.create_ecs_service
   name               = "wfnews_scale_down"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.main.name}/${aws_ecs_service.main[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -54,7 +54,7 @@ resource "aws_appautoscaling_policy" "down" {
 }
 
 # CloudWatch alarm that triggers the autoscaling up policy
-resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
+resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
   count               = local.create_ecs_service
   alarm_name          = "wfnews_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
@@ -66,17 +66,17 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_high" {
   threshold           = "85"
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.main.name
-    ServiceName = aws_ecs_service.main[count.index].name
+    ClusterName = aws_ecs_cluster.wfnews_main.name
+    ServiceName = aws_ecs_service.wfnews_main[count.index].name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.up[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_up[count.index].arn]
 
   tags = local.common_tags
 }
 
 # CloudWatch alarm that triggers the autoscaling down policy
-resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
+resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
   count               = local.create_ecs_service
   alarm_name          = "wfnews_cpu_utilization_low"
   comparison_operator = "LessThanOrEqualToThreshold"
@@ -88,11 +88,11 @@ resource "aws_cloudwatch_metric_alarm" "service_cpu_low" {
   threshold           = "10"
 
   dimensions = {
-    ClusterName = aws_ecs_cluster.main.name
-    ServiceName = aws_ecs_service.main[count.index].name
+    ClusterName = aws_ecs_cluster.wfnews_main.name
+    ServiceName = aws_ecs_service.wfnews_[count.index].name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.down[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_down[count.index].arn]
 
   tags = local.common_tags
 }
