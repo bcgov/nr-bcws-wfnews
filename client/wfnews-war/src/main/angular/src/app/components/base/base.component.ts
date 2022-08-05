@@ -120,7 +120,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     loadPage() {
-        console.log("WQ")
     }
 
 

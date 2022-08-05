@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { timestamp } from 'rxjs/operators';
 import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
-import { initIncidentsPaging } from '../../store/incidents/incidents.stats';
+import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WfAdminPanelComponentModel } from './wf-admin-panel.component.model';
 
@@ -24,7 +24,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 }
 
   loadPage() {
-    // this.componentId = ADMIN_SEARCH_INCIDENTS_COMPONENT_ID;
+    this.componentId = SEARCH_INCIDENTS_COMPONENT_ID;
     this.getFireCentres();
     this.getCurrentYearString()
     this.updateView();
@@ -58,10 +58,6 @@ clearSearchAndFilters() {
     return <WfAdminPanelComponentModel>this.viewModel;
 }
 
-  // ngOnInit(): void {
-  //   this.getCurrentYearString();
-
-  // }
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
@@ -106,5 +102,4 @@ clearSearchAndFilters() {
 
 
 }
-//In this case : var time = moment(1382086394000).format("DD-MM-YYYY h:mm:ss");
 

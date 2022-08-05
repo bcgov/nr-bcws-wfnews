@@ -40,7 +40,7 @@
 </div>
 
 
-<div class="table-wrapper flex-y-grow" *ngIf="collectionData">
+<div class="table-wrapper flex-y-grow" *ngIf="collectionData; else loading">
     <table mat-table matSort [dataSource]="collectionData | paginate:config"
             [matSortActive]="this.searchState.sortParam"
             [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
@@ -74,6 +74,9 @@
         <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
     </table>
 </div>
+
+<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>
+
 
 <div class="bottom-summary flex-y-fixed">
     <div class="showing-summary">{{summaryString}}</div>

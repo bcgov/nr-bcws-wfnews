@@ -64,6 +64,7 @@ import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-adm
 import { AdminContainerDesktop } from './containers/admin/admin-container.component.desktop';
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -91,6 +92,7 @@ export const DATE_FORMATS = {
         IncidentDetailsPanel
     ],
     imports: [
+        MatProgressSpinnerModule,
         MatTableModule,
         MatSnackBarModule,
         HttpClientModule,
@@ -143,8 +145,7 @@ export const DATE_FORMATS = {
         MatSlideToggleModule,
         MatExpansionModule,
         MatPaginatorModule,
-        NgxPaginationModule
-
+        NgxPaginationModule,
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

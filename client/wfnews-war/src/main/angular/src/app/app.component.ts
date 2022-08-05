@@ -109,7 +109,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             let last = creds.family_name || creds.familyName;
 
             this.applicationConfig.userName = `${ first } ${ last }`;
-            console.log(creds)
         } );
 
 
@@ -118,18 +117,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
         window['SPLASH_SCREEN'].remove();
     }
-
-    // registerAuth() {
-    //     this.tokenService.credentialsEmitter.subscribe(
-    //         state => {
-    //             // TODO: FInd a more elegant solution to this problem.  Startup effects don't appear to fire without this fix.
-    //             // Wait 1 tick to make sure routing is finished so effect is not interrupted
-    //             //setTimeout(() => {
-    //             return this.store.dispatch(new AuthActions.SetAuthAction(state))
-    //             //}, 0);
-    //         }
-    //     );
-    // }
 
     initAppMenu() {
         console.log('initAppMenu');
