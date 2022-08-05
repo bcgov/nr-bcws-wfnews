@@ -50,7 +50,7 @@ resource "aws_appautoscaling_policy" "wfnews_down" {
     }
   }
 
-  depends_on = [aws_appautoscaling_target.target]
+  depends_on = [aws_appautoscaling_target.wfnews_target]
 }
 
 # CloudWatch alarm that triggers the autoscaling up policy
