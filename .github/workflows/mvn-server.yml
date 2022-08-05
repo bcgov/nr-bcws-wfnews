@@ -33,6 +33,10 @@ on:
         type: string
       DEFAULT_APPLICATION_ENVIRONMENT:
         type: string
+    outputs:
+      SERVER_IMAGE_NAME: 
+        description: Name of server image
+        value: ${{ env.IMAGE_NAME }}-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
       
 
 
