@@ -135,7 +135,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        if (changes.loadState) {
+        if (changes.loadState && changes.loadState.currentValue) {
             console.log(changes.loadState)
             this.isLoading = changes.loadState.currentValue.isLoading;
             const previousValue = changes.loadState.previousValue;

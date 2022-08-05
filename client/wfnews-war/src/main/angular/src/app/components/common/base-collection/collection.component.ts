@@ -73,7 +73,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
 
     ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
-        if (changes.collection) {
+        if (changes.collection && changes.collection.currentValue) {
             this.updateCollection(changes.collection.currentValue);
             setTimeout(() => {
                 this.fixPaginationA11y();

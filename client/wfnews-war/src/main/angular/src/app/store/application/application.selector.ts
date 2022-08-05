@@ -5,8 +5,8 @@ import { ErrorState, LoadState } from './application.state';
 export const selectSearchState = (componentId) => (state: RootState): SearchState => ((state[componentId]) ? state[componentId] : undefined);
 
 
-export const selectIncidentsLoadState = () => (state: RootState): LoadState => ((state.application.loadStates.incidents) ? state.application.loadStates.incidents : undefined);
-export const selectIncidentsErrorState = () => (state: RootState): ErrorState[] => ((state.application.errorStates.incidents) ? state.application.errorStates.incidents : undefined);
+export const selectIncidentsLoadState = () => (state: RootState): LoadState => ((state.application && state.application.loadStates.incidents) ? state.application.loadStates.incidents : undefined);
+export const selectIncidentsErrorState = () => (state: RootState): ErrorState[] => ((state.application && state.application.errorStates.incidents) ? state.application.errorStates.incidents : undefined);
 
 //------ code table cache ----
 export const selectFormStatesUnsaved = (componentIds: string[]) => (state: RootState): boolean => {
