@@ -36,7 +36,7 @@ on:
     outputs:
       SERVER_IMAGE_NAME: 
         description: Name of server image
-        value: ${{ env.IMAGE_NAME }}-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
+        value: ${{ github.repository }}-server-${{ jobs.docker.outputs.pull_request_number }}
       
 
 
@@ -45,6 +45,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
 
     steps:
       - uses: actions/checkout@v3
