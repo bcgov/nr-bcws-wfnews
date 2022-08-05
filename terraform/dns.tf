@@ -1,4 +1,4 @@
-data "aws_route53_zone" "wfnews_zone" {
+data "aws_route53_zone" "zone" {
     name = "bcwildfireservices.com"
 }
 

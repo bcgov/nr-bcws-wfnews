@@ -19,7 +19,7 @@ resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
     }
 }
 
-resource "aws_ecs_task_definition" "server" {
+resource "aws_ecs_task_definition" "wfnews_server" {
   count                    = local.create_ecs_service
   family                   = "wfnews-server-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
@@ -51,7 +51,7 @@ resource "aws_ecs_task_definition" "server" {
         },
         {
           name  = "AWS_REGION",
-          value = var.wfnews_aws_region
+          value = var.aws_region
         },
         {
           name  = "bucketName",
@@ -73,7 +73,7 @@ resource "aws_ecs_task_definition" "server" {
   ])
 }
 
-resource "aws_ecs_task_definition" "client" {
+resource "aws_ecs_task_definition" "wfnews_client" {
   count                    = local.create_ecs_service
   family                   = "wfnews-client-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
@@ -161,7 +161,7 @@ resource "aws_ecs_service" "wfnews_main" {
 resource "aws_ecs_service" "client" {
   count                             = local.create_ecs_service
   name                              = "wfnews-client-service-${var.target_env}"
-  cluster                           = aws_ecs_cluster.wfnews_wfnews_main.id
+  cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
