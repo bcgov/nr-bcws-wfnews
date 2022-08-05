@@ -51,6 +51,12 @@ jobs:
           java-version: '11'
           distribution: 'adopt'
           
+      - name: Get Pull Request Number
+        id: pr
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
       - name: input properties
         run: |
           find server -type f -name '*.properties' | xargs sed -i 's/#{wfone.email.notifications.enabled.ind}/${{ inputs.EMAIL_ENABLED }}/'
@@ -116,7 +122,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ steps.pr.outputs.pull_request_number }}
         
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
