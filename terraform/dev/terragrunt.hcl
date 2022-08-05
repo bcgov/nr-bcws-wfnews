@@ -12,6 +12,7 @@ locals {
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
+  target_env = get_env("TARGET_ENV")
 }
 
 
@@ -27,7 +28,7 @@ generate "dev_tfvars" {
     fargate_cpu = 1024
     fargate_memory = 2048
     service_names = ["wfnews-project"]
-    vpc_name = ${local.vpc_name}
+    vpc_name = "${local.vpc_name}"
     subnet_filter = "Web"
     aws_sec_group = "Web_sg"
     target_env = "dev"
