@@ -113,7 +113,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Update image name if PR number present
-        if: ${{"" != jobs.docker.outputs.pull_request_number}}
+        if: ${{'' != jobs.docker.outputs.pull_request_number}}
         run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV
       
       - name: Set up QEMU
