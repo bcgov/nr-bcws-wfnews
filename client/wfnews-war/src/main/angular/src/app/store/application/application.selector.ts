@@ -1,5 +1,8 @@
+import { SearchState } from '@wf1/core-ui';
 import { RootState } from '..';
 import { ErrorState, LoadState } from './application.state';
+
+export const selectSearchState = (componentId) => (state: RootState): SearchState => ((state[componentId]) ? state[componentId] : undefined);
 
 
 export const selectIncidentsLoadState = () => (state: RootState): LoadState => ((state.application.loadStates.incidents) ? state.application.loadStates.incidents : undefined);

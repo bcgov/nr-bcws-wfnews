@@ -3,14 +3,18 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angu
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { AppConfigService } from '@wf1/core-ui';
+import { Store } from '@ngrx/store';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
+import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
+import * as AuthActions from './store/auth/auth.actions';
+
 
 export const ICON = {
     TWITTER: 'twitter',
@@ -62,6 +66,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     lastSuccessPollSub: Subscription;
     lastSyncDate;
     lastSyncValue = undefined;
+    tokenSubscription: Subscription;
 
     constructor(
         protected appConfigService: AppConfigService,
@@ -70,8 +75,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected updateService: UpdateService,
         protected applicationStateService: ApplicationStateService,
         protected matIconRegistry: MatIconRegistry,
-        protected domSanitizer: DomSanitizer
-    ) {
+        protected domSanitizer: DomSanitizer,
+        protected tokenService: TokenService,
+        protected store: Store<RootState>,
+        ) {
     }
 
     private updateMapSize = function() {
@@ -81,7 +88,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     ngOnInit() {
         this.addCustomMaterialIcons();
         this.updateService.checkForUpdates();
-
+        // this.registerAuth()
         this.checkUserPermissions();
 
         // this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
@@ -95,12 +102,32 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.onResize();
             });
         }
+        this.tokenSubscription = this.tokenService.credentialsEmitter.subscribe( (creds) => {
+            let first = creds.given_name || creds.givenName;
+            let last = creds.family_name || creds.familyName;
+
+            this.applicationConfig.userName = `${ first } ${ last }`;
+            console.log(creds)
+        } );
+
 
         this.initAppMenu();
         this.initFooterMenu();
 
         window['SPLASH_SCREEN'].remove();
     }
+
+    // registerAuth() {
+    //     this.tokenService.credentialsEmitter.subscribe(
+    //         state => {
+    //             // TODO: FInd a more elegant solution to this problem.  Startup effects don't appear to fire without this fix.
+    //             // Wait 1 tick to make sure routing is finished so effect is not interrupted
+    //             //setTimeout(() => {
+    //             return this.store.dispatch(new AuthActions.SetAuthAction(state))
+    //             //}, 0);
+    //         }
+    //     );
+    // }
 
     initAppMenu() {
         console.log('initAppMenu');
@@ -182,6 +209,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         if (this.lastSuccessPollSub) {
             this.lastSuccessPollSub.unsubscribe();
         }
+        if (this.tokenSubscription) {
+            this.tokenSubscription.unsubscribe()
+        }
     }
 
     checkUserPermissions() {
@@ -243,6 +273,19 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             ICON.CLOUD_SUN,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/cloud-sun.svg')
         );
+    }
+
+    isAdminPage() {
+        if (this.router.url === '/admin' ) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    navigateToBcSupport() {
+        let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
+        window.open(url, "_blank");    
     }
 
 }

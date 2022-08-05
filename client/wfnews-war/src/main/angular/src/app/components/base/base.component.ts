@@ -31,6 +31,7 @@ import {PaginationInstance} from 'ngx-pagination';
 
 import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';
+import { CONSTANTS } from "../../../app/utils/index";
 
 @Directive()
 @Injectable()
@@ -51,6 +52,9 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     isLoading: boolean;
     componentId = '';
     mobile = this.getIsMobileResolution();
+
+    CONSTANTS = CONSTANTS;
+
 
 
     SAVE_FAIL_TEXT = 'Save failed';
@@ -116,7 +120,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     loadPage() {
-
+        console.log("WQ")
     }
 
 
@@ -133,6 +137,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     ngOnChanges(changes: SimpleChanges) {
         if (changes.loadState) {
+            console.log(changes.loadState)
             this.isLoading = changes.loadState.currentValue.isLoading;
             const previousValue = changes.loadState.previousValue;
             if (!this.isLoading && previousValue && previousValue.isLoading) {
@@ -150,6 +155,10 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     invokeAfterLoaded() {
 
+    }
+
+    protected updateView(): void {
+        this.viewModel = this.model.clone();
     }
 
 

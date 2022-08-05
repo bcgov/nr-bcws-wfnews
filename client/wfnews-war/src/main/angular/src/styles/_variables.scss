@@ -56,6 +56,8 @@ $colour-sidebar-filter-background: $colour-white;
 
 $colour-header-background: #003366;
 
+$colour-success: #2E7940;
+
 /**
  Spacing Variables
  */
@@ -91,3 +93,9 @@ $wf1-app-header-mobile-height: 4rem;
 $wf1-app-map-mobile-height: calc(100vh - (7rem));
 $wf1-loading-screen-height: calc(100vh - (6rem));
 $max-component-width: 65rem;
+
+// Tables measurements
+$font-family-main: 'BCSans', 'Noto Sans', 'Verdana', 'Arial', 'sans-serif';
+$font-size: 15px;
+$colour-button-primary: $colour-blue;
+$colour-intermediate-action: $colour-success;

@@ -1,8 +1,12 @@
 import { routerReducer } from '@ngrx/router-store';
-import { ActionReducer, ActionReducerMap } from '@ngrx/store';
+import { Action, ActionReducer, ActionReducerMap } from '@ngrx/store';
 import { searchReducer, SearchState, SortDirection } from '@wf1/core-ui';
 import { storeLogger } from 'ngrx-store-logger';
-import { ApplicationState } from './application/application.state';
+import { ApplicationState, PagingSearchState } from './application/application.state';
+import { pageSearchReducer } from './common/page-search.reducer';
+import { IncidentsEffect } from './incidents/incidents.effects';
+import { incidentsReducer } from './incidents/incidents.reducer';
+import { initialIncidentsSearchState, IncidentsState } from './incidents/incidents.stats';
 
 export interface BaseRouterStoreState {
     url: string;
@@ -14,18 +18,24 @@ export interface RouterState {
 
 export const rootReducers: ActionReducerMap<any> = {
     search: searchReducer,
-    router: routerReducer
+    router: routerReducer,
+    incidents: incidentsReducer,
+    searchIncidents: pageSearchReducer
 };
 
 export interface RootState {
     application?: ApplicationState;
+    incidents?: IncidentsState;
+    searchIncidents?: PagingSearchState
 };
 
 export const initialRootState: RootState = {
+    searchIncidents: initialIncidentsSearchState,
 };
 
 export const rootEffects: any[] = [
     // PlaceNameSearchEffects,
+    IncidentsEffect
 
 ];
 
@@ -70,4 +80,9 @@ return false;
     }
     return true;
 }
+
+export interface LabeledAction extends Action {
+    displayLabel: string;
+}
+
 
