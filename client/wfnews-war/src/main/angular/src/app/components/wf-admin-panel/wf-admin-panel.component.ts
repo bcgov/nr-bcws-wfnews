@@ -46,6 +46,11 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
         this.selectedFireCentreCode,this.displayLabel));
 }
 
+onChangeFilters() {
+  super.onChangeFilters();
+  this.doSearch();
+}
+
 clearSearchAndFilters() {
   this.searchText = null;
   this.selectedFireCentreCode = null;
