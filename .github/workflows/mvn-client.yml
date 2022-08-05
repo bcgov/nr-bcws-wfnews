@@ -14,7 +14,7 @@ on:
     outputs:
       CLIENT_IMAGE_NAME:
         description: "Name of client package"
-        value: ${{ env.IMAGE_NAME }}-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
+        value: ${{ github.repository }}-client-${{ jobs.docker.steps.pr.outputs.pull_request_number }}
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -54,6 +54,8 @@ jobs:
   docker:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     
     steps:
       - uses: actions/checkout@v3
