@@ -4,7 +4,7 @@ name: Build Client
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-client
+  IMAGE_NAME: ${{ github.repository }}-client-{{ github.PullRequestEvent.number }}
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
 
@@ -28,9 +28,6 @@ jobs:
           
       - name: Add .npmrc file
         run: echo -e $NPMRC > ~/.npmrc
-        
-      - name: validate structure of .npmrc #If there aren't multiple lines, something has gone wrong piping in the .npmrc file
-        run: wc -l ~/.npmrc
           
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
@@ -57,6 +54,13 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
+      
+      - name: Get Pull Request Number
+        id: pr
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      
       - name: download artifact
         uses: actions/download-artifact@v3
         with:
@@ -80,7 +84,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}-${{ steps.pr.outputs.pull_request_number }}
         
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
