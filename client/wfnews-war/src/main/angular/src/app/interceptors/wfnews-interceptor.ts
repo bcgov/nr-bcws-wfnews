@@ -210,7 +210,6 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
             (errorMessage) => {
                 this.displayRefreshErrorMessage(errorMessage);
             });
-        console.log(this.asyncTokenRefresh)
         return this.asyncTokenRefresh;
 
     }

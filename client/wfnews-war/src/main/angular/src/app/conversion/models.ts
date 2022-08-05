@@ -5,3 +5,8 @@ export interface PagedCollection {
     totalPageCount?: number;
     collection?: Array<any>;
 }
+
+export interface fireCentreOption {
+    code?: string;
+    fireCentreName?: string;
+}

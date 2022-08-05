@@ -13,7 +13,6 @@ import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
-import * as AuthActions from './store/auth/auth.actions';
 
 
 export const ICON = {
@@ -26,6 +25,7 @@ export const ICON = {
     EXT_LINK: 'external-link',
     EXCLAMATION_CIRCLE: 'exclamation-circle',
     CLOUD_SUN: 'cloud-sun',
+    FILTER_CANCEL: "filter-cancel"
 };
 
 @Component({
@@ -84,6 +84,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     private updateMapSize = function() {
         this.storeViewportSize();
     };
+
+    
 
     ngOnInit() {
         this.addCustomMaterialIcons();
@@ -272,6 +274,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.matIconRegistry.addSvgIcon(
             ICON.CLOUD_SUN,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/cloud-sun.svg')
+        );
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.FILTER_CANCEL,
+            this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/filter-cancel.svg")
         );
     }
 

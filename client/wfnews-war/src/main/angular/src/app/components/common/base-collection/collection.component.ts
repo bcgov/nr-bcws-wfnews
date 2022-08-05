@@ -73,7 +73,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
 
     ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
-        console.log(changes);
         if (changes.collection) {
             this.updateCollection(changes.collection.currentValue);
             setTimeout(() => {
@@ -108,7 +107,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     updateCollection(collection: PagedCollection) {
         this.collection = collection;
         this.collectionData = this.collection.collection;
-        console.log(this.collectionData)
         this.config = this.getPagingConfig();
         this.config.currentPage = this.collection.pageNumber;
         this.summaryString = this.getSummaryString();
@@ -161,7 +159,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     getSummaryString() {
-        console.log('wq')
         let showNum = Number(this.showEntriesSelection);
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;

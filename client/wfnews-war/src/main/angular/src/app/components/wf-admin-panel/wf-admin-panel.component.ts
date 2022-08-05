@@ -1,4 +1,6 @@
+import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging } from '../../store/incidents/incidents.stats';
 import { CollectionComponent } from '../common/base-collection/collection.component';
@@ -12,19 +14,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 
   displayLabel = "Simple Incidents Search"
   selectedFireCentreCode = "";
-
-  dataSource: any[] = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  ];
+  fireCentreOptions : fireCentreOption[] = []
 
   initModels() {
     this.model = new WfAdminPanelComponentModel(this.sanitizer);
@@ -33,7 +23,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 
   loadPage() {
     // this.componentId = ADMIN_SEARCH_INCIDENTS_COMPONENT_ID;
-    console.log('wq')
+    this.getFireCentres();
     this.getCurrentYearString()
     this.updateView();
     this.initSortingAndPaging(initIncidentsPaging);
@@ -53,6 +43,14 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
         },
         this.selectedFireCentreCode,this.displayLabel));
 }
+
+clearSearchAndFilters() {
+  this.searchText = null;
+  this.selectedFireCentreCode = null;
+  super.onChangeFilters();
+  this.doSearch();
+}
+
 
   getViewModel(): WfAdminPanelComponentModel {
     return <WfAdminPanelComponentModel>this.viewModel;
@@ -83,5 +81,20 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
     const liveDateTime: string  = (todayString + " " + todaysDate.toLocaleDateString("en-US", options)).replace(" at ", " - ");
     this.currentDateTimeString = liveDateTime
   }
+
+  getFireCentres(){
+        let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
+        let headers = new HttpHeaders();
+        headers.append('Access-Control-Allow-Origin','*');
+        headers.append('Accept','*/*');
+        this.http.get<any>(url,{headers}).subscribe(response => {
+          if(response.features){
+            response.features.forEach(element => {
+              this.fireCentreOptions.push({code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE})
+            });
+          }
+        })
+  }
+
 
 }

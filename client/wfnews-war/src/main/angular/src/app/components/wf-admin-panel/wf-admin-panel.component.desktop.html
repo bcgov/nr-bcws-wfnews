@@ -1,11 +1,50 @@
 <div>
     <p class="dashboard-title">Dashboard: {{currentYearString}}</p>
-    <p class ="active-incidents"><b>123 ACTIVE</b> Fire Incidents</p> 
+    <p class ="active-incidents" *ngIf="collectionData"><b> {{collectionData.length}} ACTIVE</b> Fire Incidents</p> 
     <p class="datetime"> {{currentDateTimeString}}</p>     
 </div>
 
+<div class="table-search-header flex-y-fixed">
+    <div class="search-and-filters">
+        <div class="field search-input">
+            <mat-label class="label">Search</mat-label>
+            <input class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
+                    aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+                    matTooltip="Clear">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="field">
+            <mat-label class="label">Fire Centre</mat-label>
+            <select appWFSingleSelect appWFPlaceholder="Select..."
+                    aria-label="Type"
+                    [options]="fireCentreOptions"
+                    [selected]="selectedFireCentreCode"
+                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)">
+                <option value="">
+                    <span class="placeholder">Select...</span>
+                </option>
+                <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+                    <span>{{item.fireCentreName}}</span>
+                </option>
+            </select>
+        </div>
+
+        <div class="field">
+            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
+        </div>
+    </div>
+
+</div>
+
+
 <div class="table-wrapper flex-y-grow" *ngIf="collectionData">
-    <table mat-table matSort [dataSource]="collectionData | paginate:config">
+    <table mat-table matSort [dataSource]="collectionData | paginate:config"
+            [matSortActive]="this.searchState.sortParam"
+            [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
+            (matSortChange)="sortData($event)">
         <ng-container matColumnDef = "fireNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.incidentNumberSequence}}</span></td>

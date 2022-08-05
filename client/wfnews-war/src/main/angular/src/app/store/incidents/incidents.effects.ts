@@ -58,14 +58,14 @@ export class IncidentsEffect {
                 if (pagingInfoRequest.query && pagingInfoRequest.query.length > 0) {
                     searchText[0] = pagingInfoRequest.query;
                 } else {
-                    searchText[0] = undefined;
+                    searchText = undefined;
                 }
                 let savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
 
                 let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
 
                 return this.incidentListService.getWildfireIncidentList(
-                    undefined,
+                    searchText,
                     [`2022`],
                     undefined,
                     undefined,
@@ -90,7 +90,7 @@ export class IncidentsEffect {
                     undefined,
                     undefined,
                     undefined,
-                    undefined,
+                    ['Active'],
                     undefined,
                     undefined,
                     undefined,
