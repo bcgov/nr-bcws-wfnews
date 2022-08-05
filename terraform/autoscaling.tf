@@ -89,7 +89,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.wfnews_[count.index].name
+    ServiceName = aws_ecs_service.wfnews_main[count.index].name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_down[count.index].arn]
