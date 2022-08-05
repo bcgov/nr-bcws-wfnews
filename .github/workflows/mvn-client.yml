@@ -4,7 +4,7 @@ name: Build Client
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-client-{{ github.PullRequestEvent.number }}
+  IMAGE_NAME: ${{ github.repository }}-client
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
 
