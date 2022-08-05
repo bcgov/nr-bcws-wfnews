@@ -36,20 +36,21 @@ export class IncidentsEffect {
                 let pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initIncidentsPaging.pageNumber;
                 let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initIncidentsPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
+                console.log(sortParam)
                 if (sortParam == "fireNumber") {
-                    sortParam = "substitutionTypeCode";
+                    sortParam = "incidentNumberSequence";
                 }
                 if (sortParam == "fireName") {
-                    sortParam = "validStartDate";
+                    sortParam = "incidentName";
                 }
                 if (sortParam == "fireCentre") {
-                    sortParam = "validEndDate";
+                    sortParam = "fireCentreOrgUnitName";
                 }
                 if (sortParam == "wildfireOfNote") {
-                    sortParam = "positionCode";
+                    sortParam = "fireOfNotePublishedInd";
                 }
                 if (sortParam == "lastPublished") {
-                    sortParam = "positionSubCode";
+                    sortParam = "discoveryTimestamp";
                 }
 
 
@@ -100,7 +101,7 @@ export class IncidentsEffect {
                     undefined,
                     `${pageNumber}`,
                     `${pageSize}`,
-                    undefined,
+                    orderBy,
                     undefined,
                     undefined,
                     'response'

@@ -65,6 +65,7 @@ import { AdminContainerDesktop } from './containers/admin/admin-container.compon
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -92,6 +93,7 @@ export const DATE_FORMATS = {
         IncidentDetailsPanel
     ],
     imports: [
+        MatSortModule,
         MatProgressSpinnerModule,
         MatTableModule,
         MatSnackBarModule,

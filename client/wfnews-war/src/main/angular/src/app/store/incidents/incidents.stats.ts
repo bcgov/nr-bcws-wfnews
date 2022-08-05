@@ -21,7 +21,7 @@ export interface IncidentsState { // will need to specify the type . use any for
 
 export const initialIncidentsSearchState: SearchState = {
     query: null,
-    sortParam: "validStartDate",
+    sortParam: "discoveryTimestamp",
     sortDirection: "DESC",
     sortModalVisible: false,
     filters: {},
@@ -29,7 +29,7 @@ export const initialIncidentsSearchState: SearchState = {
     componentId: SEARCH_INCIDENTS_COMPONENT_ID
 };
 
-export const initIncidentsPaging = getDefaultPagingInfoRequest(1, 20, "validStartDate", "ASC", undefined);
+export const initIncidentsPaging = getDefaultPagingInfoRequest(1, 20, "discoveryTimestamp", "DESC", undefined);
 
 export function getDefaultIncidentsState(): IncidentsState {
     return {
