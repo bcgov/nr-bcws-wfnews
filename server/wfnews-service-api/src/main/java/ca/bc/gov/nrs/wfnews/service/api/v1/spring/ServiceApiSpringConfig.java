@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.beans.factory.annotation.Value;
 
-import ca.bc.gov.nrs.wfdm.api.rest.client.FileService;
 import ca.bc.gov.nrs.wfnews.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
@@ -26,8 +25,8 @@ import javax.mail.Session;
 
 @Configuration
 @Import({
-	PersistenceSpringConfig.class,
-	FileServiceSpringConfig.class
+	PersistenceSpringConfig.class
+	// FileServiceSpringConfig.class
 //	TokenServiceSpringConfig.class
 })
 public class ServiceApiSpringConfig {
@@ -76,11 +75,6 @@ public class ServiceApiSpringConfig {
 
 	// Imported Spring Config
 	@Autowired PersistenceSpringConfig persistenceSpringConfig;
-
-	// Beans provided by FileServiceSpringConfig
-	// This allows Spring to use the proxied service
-	@Autowired
-	FileService fileService;
 	
 	@Bean
 	public ModelValidator modelValidator() {

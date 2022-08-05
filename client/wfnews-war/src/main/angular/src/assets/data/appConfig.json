@@ -1,10 +1,10 @@
 {
     "application": {
-        "acronym": "WFIM-LONG-NAME",
+        "acronym": "WFNEWS",
         "version": "1.0.0-SNAPSHOT",
         "buildNumber": ".0000",
         "environment": "LOCAL",
-        "baseUrl": "http://localhost:6200/wfnews/",
+        "baseUrl": "http://localhost:6200/",
         "polling": {
             "mapTool": {
                 "incidentsPolling": 10000,
@@ -74,11 +74,6 @@
         "enableCheckToken": true,
         "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
         "checkTokenUrl": "assets/data/checktoken-INCIDENT_DISPATCH.json"
-    },
-
-    "userPreferences": {
-        "preferencesUrl": "assets/data/stubUserPrefs.json",
-        "#preferencesUrl": "https://d1wfapps.vividsolutions.com/pub/wfim/webade/userPrefs.jsp"
     },
 
     "mapServices": {
