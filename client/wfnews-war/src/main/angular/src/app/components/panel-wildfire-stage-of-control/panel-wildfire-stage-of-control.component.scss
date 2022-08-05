@@ -10,3 +10,103 @@
         justify-content: flex-end;
     }
 }
+
+section {
+    border: 2px solid #e9eff5;
+
+    h1 {
+        background-color: #e9eff5;
+        font-size: 15px;
+        font-weight: normal;
+        padding: 10px 20px;
+        margin: 0;
+    }
+
+    article {
+        font-size: 15px;
+        padding: 10px 20px;
+
+        h2 {
+            font-size: 15px;
+            padding: 0;
+            margin: 0;
+            display: flex;
+
+            &.orange {
+                color: #b85000;
+
+                &::before {
+                    background-color: #e69138;
+                    transform: rotate(45deg);
+                }
+            }
+
+            &.black {
+                color: #000000;
+
+                .fire-icon-container {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 50%;
+                    background-color:#AA1D3E ;
+                    margin-right: 8px;
+
+                    .fire-icon{
+                        width:14.4px; 
+                        height:18px;
+                        color: #FFFFFF;
+                    }
+                }
+
+                &::before {
+                    width: 0;
+                    content:none;
+                    background-color: #000000
+                }
+            }
+
+            &.red {
+                color: #aa0d0d;
+
+                &::before {
+                    background-color: #aa0d0d;
+                    border-radius: 50%;
+                }
+            }
+
+            &.yellow {
+                color: #6c4a00;
+
+                &::before {
+                    background-color: #ffd966;
+                    border-radius: 50%;
+                }
+            }
+
+            &.green {
+                color: #6aa84f;
+
+                &::before {
+                    background-color: #207148;
+                    border-radius: 50%;
+                }
+            }
+
+            &.grey {
+                color: #5c6671;
+
+                &::before {
+                    background-color: #5c6671;
+                    border-radius: 50%;
+                }
+            }
+            
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                margin-right: 10px
+            }
+        }
+    }
+}
