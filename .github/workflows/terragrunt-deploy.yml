@@ -1,22 +1,20 @@
 name: Deploy using terragrunt
 
 on:
-  # workflow_call:
-  workflow_dispatch:
-
-# inputs:
-#   CLIENT_IMAGE:
-#     type: string
-#     required: true
-#   SERVER_IMAGE:
-#     type: string
-#     required: true
-#   TARGET_ENV:
-#     type: string
-#     required: true
-#   TFC_PROJECT:
-#     type: string
-#     required: true
+  workflow_call:
+    inputs:
+      CLIENT_IMAGE:
+        type: string
+        required: true
+      SERVER_IMAGE:
+        type: string
+        required: true
+      TARGET_ENV:
+        type: string
+        required: true
+      TFC_PROJECT:
+        type: string
+        required: true
 
 
 env:
@@ -43,13 +41,10 @@ jobs:
           terragrunt_version: ${{ env.TG_VERSION }}
       
       - name: Terragrunt Apply
-        # working-directory: ${{env.TG_SRC_PATH}}/${{ input.TARGET_ENV }}
-        working-directory: ${{env.TG_SRC_PATH}}/dev
+        working-directory: ${{env.TG_SRC_PATH}}/${{ input.TARGET_ENV }}
         env:
-          # CLIENT_IMAGE: ${{ input.CLIENT_IMAGE }}
-          # SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
-          CLIENT_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-client:main
-          SERVER_IMAGE: ghcr.io/vivid-cpreston/nr-bcws-wfnews-server:main
+          CLIENT_IMAGE: ${{ input.CLIENT_IMAGE }}
+          SERVER_IMAGE: ${{ input.SERVER_IMAGE }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
         run: terragrunt plan
