@@ -1,5 +1,7 @@
 import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Component, Directive, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import * as moment from 'moment';
+import { timestamp } from 'rxjs/operators';
 import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging } from '../../store/incidents/incidents.stats';
@@ -96,5 +98,13 @@ clearSearchAndFilters() {
         })
   }
 
+  convertToDate(value: string) {
+    if(value){
+     return moment(value).format('YYYY-MM-DD hh:mm:ss')
+    }
+  }
+
 
 }
+//In this case : var time = moment(1382086394000).format("DD-MM-YYYY h:mm:ss");
+
