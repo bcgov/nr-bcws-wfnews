@@ -44,5 +44,5 @@ jobs:
           SERVER_IMAGE: ${{ inputs.SERVER_IMAGE }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
-        run: terragrunt apply --terragrunt-non-interactive
+        run: terragrunt apply --terragrunt-non-interactive --terragrunt-include-external-dependencies
 
