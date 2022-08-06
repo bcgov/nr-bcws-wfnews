@@ -77,7 +77,7 @@ resource "aws_alb_target_group" "wfnews_server" {
   name                 = "wfnews-server-target-group-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
-  vpc_id               = var.aws_vpc
+  vpc_id               = data.aws_vpc.main_vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
@@ -98,7 +98,7 @@ resource "aws_alb_target_group" "wfnews_client" {
   name                 = "wfnews-client-target-group-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
-  vpc_id               = var.aws_vpc
+  vpc_id               = data.aws_vpc.main_vpc.id
   target_type          = "ip"
   deregistration_delay = 30
 
