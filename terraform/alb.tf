@@ -3,52 +3,55 @@
 # Use the default ALB that is pre-provisioned as part of the account creation
 # This ALB has all traffic on *.LICENSE-PLATE-ENV.nimbus.cloud.gob.bc.ca routed to it
 
-resource "aws_lb" "wfnews_main" {
-  name               = "wfnews-server-alb-${var.target_env}"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.web.id]
-  subnets            = [for id in data.aws_subnets.my_subnets.ids : id]
-
-  enable_deletion_protection = true
-
-  # access_logs {
-  #   bucket  = aws_s3_bucket.log_bucket.bucket
-  #   prefix  = "${var.target_env}-lb"
-  #   enabled = true
-  # }
-
-  tags = {
-    Environment = var.target_env
-  }
+data aws_lb main_lb {
+  name = var.alb_name
 }
 
-resource "aws_lb" "wfnews_client" {
-  name               = "wfnews-client-alb-${var.target_env}"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [data.aws_security_group.web.id]
-  subnets            = [for id in data.aws_subnets.my_subnets.ids : id]
+# resource "aws_lb" "wfnews_main" {
+#   name               = "wfnews-server-alb-${var.target_env}"
+#   internal           = false
+#   load_balancer_type = "application"
+#   security_groups    = [data.aws_security_group.web.id]
+#   subnets            = [for id in data.aws_subnets.my_subnets.ids : id]
 
-  enable_deletion_protection = true
+#   enable_deletion_protection = true
 
-  # access_logs {
-  #   bucket  = aws_s3_bucket.log_bucket.bucket
-  #   prefix  = "${var.target_env}-lb"
-  #   enabled = true
-  # }
+#   # access_logs {
+#   #   bucket  = aws_s3_bucket.log_bucket.bucket
+#   #   prefix  = "${var.target_env}-lb"
+#   #   enabled = true
+#   # }
 
-  tags = {
-    Environment = var.target_env
-  }
-}
+#   tags = {
+#     Environment = var.target_env
+#   }
+# }
+
+# resource "aws_lb" "wfnews_client" {
+#   name               = "wfnews-client-alb-${var.target_env}"
+#   internal           = false
+#   load_balancer_type = "application"
+#   security_groups    = [data.aws_security_group.web.id]
+#   subnets            = [for id in data.aws_subnets.my_subnets.ids : id]
+
+#   enable_deletion_protection = true
+
+#   # access_logs {
+#   #   bucket  = aws_s3_bucket.log_bucket.bucket
+#   #   prefix  = "${var.target_env}-lb"
+#   #   enabled = true
+#   # }
+
+#   tags = {
+#     Environment = var.target_env
+#   }
+# }
 
 
 data "aws_acm_certificate" "issued" {
   domain   = var.cert_domain
   statuses = ["ISSUED"]
 }
-
 
 # Redirect all traffic from the ALB to the target group
 resource "aws_alb_listener" "wfnews_front_end" {
@@ -57,7 +60,7 @@ resource "aws_alb_listener" "wfnews_front_end" {
     target_group_arn = aws_alb_target_group.wfnews_server.arn
   }
   load_balancer_arn = aws_lb.wfnews_main.id
-  port              = 443
+  port              = 8081
   protocol = "HTTPS"
   certificate_arn = data.aws_acm_certificate.issued.arn
 }
@@ -68,7 +71,7 @@ resource "aws_alb_listener" "wfnews_client_front_end" {
     target_group_arn = aws_alb_target_group.wfnews_client.arn
   }
   load_balancer_arn = aws_lb.wfnews_client.id
-  port              = 443
+  port              = 8082
   protocol = "HTTPS"
   certificate_arn = data.aws_acm_certificate.issued.arn
 }

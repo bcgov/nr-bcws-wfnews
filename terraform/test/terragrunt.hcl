@@ -13,6 +13,7 @@ locals {
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
   target_env = get_env("TARGET_ENV")
+  alb_name = get_env("ALB_NAME")
 }
 
 
@@ -21,7 +22,7 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-    cert_domain = "*.example.ca"
+    cert_domain = "bcwildfireservices.com"
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"
@@ -36,6 +37,7 @@ generate "dev_tfvars" {
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     db_pass = "${local.db_pass}"
+    alb_name = "${local.alb_name}""
     client_port = 8080
     server_port=8080
 

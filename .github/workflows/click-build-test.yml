@@ -34,5 +34,6 @@ jobs:
       CLIENT_IMAGE: ${{ needs.call-mvn-client.outputs.client-image }}
       SERVER_IMAGE: ${{ needs.call-mvn-server.outputs.server-image }}
       TARGET_ENV: test
+      ALB_NAME: Core-Pp93w9Test-2F70A1-alb
     secrets: inherit
     
