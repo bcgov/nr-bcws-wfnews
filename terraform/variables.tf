@@ -133,11 +133,6 @@ variable cert_domain {
     type = string
 }
 
-variable subnet_filter {
-  description = "subnet keyword to filter for"
-  type = string
-}
-
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
@@ -162,11 +157,6 @@ variable "cloudfront_origin_domain" {
 variable "aws_sec_group" {
     description = "Security group limiting access to app"
     type = string
-}
-
-variable vpc_name {
-  description = "name of VPC to use"
-  type = string
 }
 
 variable db_pass {
