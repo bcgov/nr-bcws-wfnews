@@ -163,3 +163,8 @@ variable db_pass {
     description = "db password, passed in as env variable at runtime"
     type=string
 }
+
+variable vpc_name {
+  description = "name of VPC to use"
+  type=string
+}

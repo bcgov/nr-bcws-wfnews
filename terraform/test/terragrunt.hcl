@@ -13,6 +13,7 @@ locals {
   client_image = get_env("CLIENT_IMAGE")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
+  vpc_name = get_env("VPC_NAME")
 }
 
 
@@ -37,6 +38,7 @@ generate "dev_tfvars" {
     alb_name = "${local.alb_name}"
     client_port = 443
     server_port=8080
+    vpc_name = "${local.vpc_name}"
 
   EOF
 }
