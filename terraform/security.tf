@@ -5,11 +5,10 @@ data "aws_security_group" "web" {
   name = "${var.aws_sec_group}"
 }
 
-# Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
-  description = "allow inbound access from the ALB only"
-  vpc_id      = data.aws_vpc.main_vpc.id
+  description = "Allow access"
+  vpc_id      = aws_vpc.wfnews_vpc.id
 
   ingress {
     protocol        = "tcp"
