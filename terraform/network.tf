@@ -53,6 +53,6 @@ resource aws_route_table_association wfnews_route_table_b_association{
 }
 
 resource aws_route_table_association wfnews_route_table_gw_association{
-  gatewat_id = aws_internet_gateway.wfnews_gateway.id
+  gateway_id = aws_internet_gateway.wfnews_gateway.id
   route_table_id = aws_route_table.wfnews_route_table.id
 }

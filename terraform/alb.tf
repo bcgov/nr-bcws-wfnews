@@ -116,7 +116,7 @@ resource "aws_alb_target_group" "wfnews_client" {
 }
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
-  listener_arn = aws_alb_listener.wfnews_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
