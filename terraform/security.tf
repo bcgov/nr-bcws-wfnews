@@ -8,7 +8,7 @@ data "aws_security_group" "web" {
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "Allow access"
-  vpc_id      = aws_vpc.wfnews_vpc.id
+  vpc_id      = data.aws_vpc.main_vpc.id
 
   ingress {
     protocol        = "tcp"
