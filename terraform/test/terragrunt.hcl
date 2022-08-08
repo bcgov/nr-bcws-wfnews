@@ -37,9 +37,9 @@ generate "dev_tfvars" {
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     db_pass = "${local.db_pass}"
-    alb_name = "${local.alb_name}""
+    alb_name = "${local.alb_name}"
     client_port = 8080
-    server_port=8080
+    server_port=8081
 
   EOF
 }
