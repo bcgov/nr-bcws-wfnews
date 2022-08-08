@@ -21,19 +21,19 @@ resource aws_vpc wfnews_vpc {
   tags = local.common_tags
 }
 
-resource aws_vpc_subnet wfnews_subnet_public_a {
+resource aws_subnet wfnews_subnet_public_a {
   vpc_id = aws_vpc.wfnews_vpc.id
   cidr_block = "10.0.1.0/24"
   tags = local.common_tags
 }
 
-resource aws_vpc_subnet wfnews_subnet_public_b {
+resource aws_subnet wfnews_subnet_public_b {
   vpc_id = aws_vpc.wfnews_vpc.id
   cidr_block = "10.0.2.0/24"
   tags = local.common_tags
 }
 
-resource aws_vpc_subnet wfnews_subnet_private {
+resource aws_subnet wfnews_subnet_private {
   vpc_id = aws_vpc.wfnews_vpc.id
   cidr_block = "10.0.20.0/24"
   tags = local.common_tags
@@ -47,11 +47,11 @@ resource aws_internet_gateway wfnews_gateway {
 resource aws_route_table wfnews_route_table {
   vpc_id = aws_vpc.wfnews_vpc.id
   route {
-    cidr_block = aws_vpc_subnet.wfnews_subnet_public_a.cidr_block
+    cidr_block = aws_subnet.wfnews_subnet_public_a.cidr_block
     gateway_id = aws_internet_gateway.wfnews_gateway.id
   }
   route {
-    cidr_block = aws_vpc_subnet.wfnews_subnet_public_b.cidr_block
+    cidr_block = aws_subnet.wfnews_subnet_public_b.cidr_block
     gateway_id = aws_internet_gateway.wfnews_gateway.id
   }
   tags = local.common_tags
