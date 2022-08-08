@@ -48,5 +48,5 @@ jobs:
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
-        run: terragrunt plan
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
