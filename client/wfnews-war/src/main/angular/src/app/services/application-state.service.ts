@@ -1,13 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
+import { TokenService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
-import { ROLES_UI } from '../shared/scopes/scopes';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ApplicationStateService {
-    constructor(
-    ) {}
+
+    tokenService: TokenService;
+
+    constructor(private injector: Injector
+    ) {
+
+    }
 
     getDevice(): WfDevice {
         if ( window.innerWidth < 768 || ( window.innerWidth >= 768 && window.innerHeight < 450 ) ) {
@@ -37,6 +42,21 @@ return 'landscape';
         return this.checkMobileResolution();
     }
 
+    public doesUserHaveScopes(scopes: string[]): boolean {
+        return this.getTokenService().doesUserHaveApplicationPermissions(scopes);
+    }
+
+    public getUserCredentialsEmitter() {
+        return this.getTokenService().credentialsEmitter;
+    }
+
+    public getUserDetails() {
+        return this.getTokenService() ? this.getTokenService().getTokenDetails() : null;
+    }
+
+    private getTokenService() {
+        return this.tokenService ? this.tokenService : this.injector.get(TokenService);
+    }
 
 
 }

@@ -2,7 +2,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -31,7 +31,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { AppConfigService, CoreUIModule } from '@wf1/core-ui';
+import { AppConfigService, CoreUIModule, TokenService } from '@wf1/core-ui';
 import { ApiModule as IncidentsApiModule, Configuration as IncidentsConfiguration } from '@wf1/incidents-rest-api';
 import { ApiModule as OrgUnitApiModule, OrgUnitConfiguration } from '@wf1/orgunit-rest-api';
 import { WildfireApplicationModule } from '@wf1/wfcc-application-ui';
@@ -56,8 +56,16 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { WfAdminComponent } from './components/wf-admin/wf-admin.component';
+import { MatTableModule} from "@angular/material/table";
+import { SingleSelectDirective } from './directives/singleselect.directive';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-admin-panel.component.desktop';
+import { AdminContainerDesktop } from './containers/admin/admin-container.component.desktop';
+import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSortModule } from '@angular/material/sort';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -78,11 +86,16 @@ export const DATE_FORMATS = {
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
-        WfAdminComponent,
+        WfAdminPanelComponentDesktop,
+        SingleSelectDirective,
+        AdminContainerDesktop,
         AdminIncidentForm,
         IncidentDetailsPanel
     ],
     imports: [
+        MatSortModule,
+        MatProgressSpinnerModule,
+        MatTableModule,
         MatSnackBarModule,
         HttpClientModule,
         BrowserModule,
@@ -132,7 +145,9 @@ export const DATE_FORMATS = {
         WildfireApplicationModule.forRoot(),
         MatToolbarModule,
         MatSlideToggleModule,
-        MatExpansionModule
+        MatExpansionModule,
+        MatPaginatorModule,
+        NgxPaginationModule,
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
@@ -147,7 +162,7 @@ export const DATE_FORMATS = {
             provide: RouteReuseStrategy,
             useClass: CustomReuseStrategy
         },
-
+        TokenService,
         UpdateService,
         {
             provide: APP_INITIALIZER,
@@ -183,6 +198,11 @@ export const DATE_FORMATS = {
         {
             provide: OWL_DATE_TIME_FORMATS,
             useValue: DATE_FORMATS
+        },
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: WfnewsInterceptor,
+            multi: true
         },
         WFMapService,
         MapConfigService,

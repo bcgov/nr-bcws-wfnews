@@ -1,5 +1,6 @@
 import { APP_BOOTSTRAP_LISTENER, Inject, InjectionToken, Type } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
+import { SortDirection } from '@wf1/core-ui';
 import { PagingInfoRequest } from '../store/application/application.state';
 
 export enum ResourcesRoutes {
@@ -77,3 +78,19 @@ export  const hasValues = (obj) => Object.values(obj).some(v => v !== null && ty
 export function isElementTruncated(el: HTMLElement): boolean {
     return el.offsetWidth < el.scrollWidth;
 }
+
+export const CONSTANTS= {
+    NO_RECORDS_MESSAGE: "No records to display.",
+}
+
+export function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+        Array.isArray(b) &&
+        a.length === b.length &&
+        a.every((val, index) => val === b[index]);
+}
+
+export const formatSort = (param: string, direction: SortDirection) => param && direction ? `${param} ${direction}` : undefined;
+
+export const WF_SNACKBAR_TYPES = {SUCCESS: "success", ERROR: "error", WARNING: "warning", INFO: "info", UPDATE: "update"};
+
