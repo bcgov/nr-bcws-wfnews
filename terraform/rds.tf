@@ -1,4 +1,5 @@
 resource "aws_db_instance" "wfnews_pgsqlDB"{
+    identifier = "wfnews${var.target_env}"
     engine = "postgres"
     name = "wfnews${var.target_env}"
     instance_class       = "db.t3.micro"
