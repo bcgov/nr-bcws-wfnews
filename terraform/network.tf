@@ -42,17 +42,17 @@ resource aws_route_table wfnews_route_table {
   tags = local.common_tags
 }
 
-resource aws_route_table_association wfnews_route_table_association{
+resource aws_route_table_association wfnews_route_table_a_association{
   subnet_id = aws_subnet.wfnews_subnet_public_a.id
   route_table_id = aws_route_table.wfnews_route_table.id
 }
 
-resource aws_route_table_association wfnews_route_table_association{
+resource aws_route_table_association wfnews_route_table_b_association{
   subnet_id = aws_subnet.wfnews_subnet_public_b.id
   route_table_id = aws_route_table.wfnews_route_table.id
 }
 
-resource aws_route_table_association wfnews_route_table_association{
+resource aws_route_table_association wfnews_route_table_gw_association{
   gatewat_id = aws_internet_gateway.wfnews_gateway.id
   route_table_id = aws_route_table.wfnews_route_table.id
 }
