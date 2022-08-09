@@ -37,6 +37,6 @@ jobs:
       TARGET_ENV: test
       ALB_NAME: Core-Pp93w9Test-2F70A1-alb
       VPC_NAME: Test_vpc
-      SUBNET_FILTER: Web
+      SUBNET_FILTER: App
     secrets: inherit
     
