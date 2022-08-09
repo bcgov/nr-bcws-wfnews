@@ -33,10 +33,6 @@ on:
         type: string
       DEFAULT_APPLICATION_ENVIRONMENT:
         type: string
-    outputs:
-      SERVER_IMAGE_NAME: 
-        description: Name of server image
-        value: ${{ jobs.docker.outputs.SERVER_IMAGE_NAME }}
       
 
 
@@ -96,7 +92,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
-      SERVER_IMAGE_NAME: ${{ steps.im.outputs.SERVER_IMAGE_NAME }}
     
     steps:
       - uses: actions/checkout@v3
