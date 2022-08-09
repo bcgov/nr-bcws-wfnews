@@ -1,5 +1,4 @@
-
-name: Build Dev Images
+name: Deploy Dev
 
 env:
   REGISTRY: ghcr.io
@@ -31,9 +30,11 @@ jobs:
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server]
     with:
-      CLIENT_IMAGE: ${{ needs.call-mvn-client.outputs.client-image }}
-      SERVER_IMAGE: ${{ needs.call-mvn-server.outputs.server-image }}
+      #Server and Image name get PR number as appropriate inside deploy step
+      CLIENT_IMAGE: nr-bcws-wfnews-client
+      SERVER_IMAGE: nr-bcws-wfnews-server
       TARGET_ENV: dev
-      ALB_NAME: Core-Pp93w9Test-2F70A1-alb
+      ALB_NAME: default
+      VPC_NAME: Dev_vpc
+      SUBNET_FILTER: App
     secrets: inherit
-    
