@@ -1,9 +1,9 @@
-// import { SearchState } from "@wf1/core-ui";
+import { SearchState } from "@wf1/core-ui";
 
-// export interface PagingSearchState extends SearchState {
-//     pageIndex?: number;
-//     pageSize?: number;
-// }
+export interface PagingSearchState extends SearchState {
+    pageIndex?: number;
+    pageSize?: number;
+}
 export interface PagingInfoRequest {
     query?: string;
     pageNumber: number;
@@ -94,5 +94,15 @@ export function getDefaultErrorStates(): ErrorStates {
 export function getDefaultFormStates(): FormStates {
     return {
         incidents: getDefaultFormState(),
+    };
+}
+
+export function getDefaultPagingInfoRequest(pageNumber = 1, pageSize = 5, sortColumn?: string, sortDirection?: string, query?: string): PagingInfoRequest {
+    return {
+        query: query,
+        pageNumber: pageNumber,
+        pageRowCount: pageSize,
+        sortColumn: sortColumn,
+        sortDirection: sortDirection
     };
 }

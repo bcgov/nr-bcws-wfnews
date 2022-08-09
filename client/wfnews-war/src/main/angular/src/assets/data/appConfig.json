@@ -27,8 +27,7 @@
             "rofs": 2000,
             "rofs-table": 500,
             "incidents-table": 500
-        },
-        "lazyAuthenticate": true
+        }
     },
 
     "externalAppConfig": {
@@ -52,10 +51,13 @@
             "scriptsHash": "60875027"
         },
         "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
-        "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training"
+        "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
+        "AGOLfireCentres": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token="
     },
 
     "rest": {
+        "incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
+        "#incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
         "newsLocal": "http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT",
         "orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
         "#orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",

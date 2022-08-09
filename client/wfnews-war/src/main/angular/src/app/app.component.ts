@@ -3,14 +3,17 @@ import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angu
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { AppConfigService } from '@wf1/core-ui';
+import { Store } from '@ngrx/store';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
+import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
+
 
 export const ICON = {
     TWITTER: 'twitter',
@@ -22,6 +25,7 @@ export const ICON = {
     EXT_LINK: 'external-link',
     EXCLAMATION_CIRCLE: 'exclamation-circle',
     CLOUD_SUN: 'cloud-sun',
+    FILTER_CANCEL: "filter-cancel"
 };
 
 @Component({
@@ -62,6 +66,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     lastSuccessPollSub: Subscription;
     lastSyncDate;
     lastSyncValue = undefined;
+    tokenSubscription: Subscription;
 
     constructor(
         protected appConfigService: AppConfigService,
@@ -70,18 +75,22 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected updateService: UpdateService,
         protected applicationStateService: ApplicationStateService,
         protected matIconRegistry: MatIconRegistry,
-        protected domSanitizer: DomSanitizer
-    ) {
+        protected domSanitizer: DomSanitizer,
+        protected tokenService: TokenService,
+        protected store: Store<RootState>,
+        ) {
     }
 
     private updateMapSize = function() {
         this.storeViewportSize();
     };
 
+    
+
     ngOnInit() {
         this.addCustomMaterialIcons();
         this.updateService.checkForUpdates();
-
+        // this.registerAuth()
         this.checkUserPermissions();
 
         // this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
@@ -95,6 +104,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.onResize();
             });
         }
+        this.tokenSubscription = this.tokenService.credentialsEmitter.subscribe( (creds) => {
+            let first = creds.given_name || creds.givenName;
+            let last = creds.family_name || creds.familyName;
+
+            this.applicationConfig.userName = `${ first } ${ last }`;
+        } );
+
 
         this.initAppMenu();
         this.initFooterMenu();
@@ -182,6 +198,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         if (this.lastSuccessPollSub) {
             this.lastSuccessPollSub.unsubscribe();
         }
+        if (this.tokenSubscription) {
+            this.tokenSubscription.unsubscribe()
+        }
     }
 
     checkUserPermissions() {
@@ -243,6 +262,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             ICON.CLOUD_SUN,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/cloud-sun.svg')
         );
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.FILTER_CANCEL,
+            this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/filter-cancel.svg")
+        );
     }
 
     isAdminPage() {
@@ -257,6 +281,5 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
         window.open(url, "_blank");    
     }
-
 
 }
