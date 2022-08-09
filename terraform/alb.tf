@@ -83,7 +83,7 @@ resource "aws_alb_target_group" "wfnews_server" {
 
   health_check {
     healthy_threshold   = "2"
-    interval            = "600"
+    interval            = "300"
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
@@ -104,7 +104,7 @@ resource "aws_alb_target_group" "wfnews_client" {
 
   health_check {
     healthy_threshold   = "2"
-    interval            = "600"
+    interval            = "300"
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
