@@ -18,6 +18,9 @@ on:
       VPC_NAME:
         type: string
         required: true
+      SUBNET_FILTER:
+        type: string
+        required: true
 
 env:
   TF_VERSION: 1.2.2
@@ -52,5 +55,6 @@ jobs:
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
           VPC_NAME: ${{ inputs.VPC_NAME }}
+          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
