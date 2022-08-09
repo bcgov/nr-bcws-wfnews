@@ -7,7 +7,7 @@ resource "aws_route53_record" "wfnews_server" {
     name = "wfnews-${var.target_env}.bcwildfireservices.com"
     type = "CNAME"
     ttl = "300"
-    records = [aws_lb.wfnews_main.dns_name]
+    records = [data.aws_lb.wfnews_main.dns_name]
 
 }
 
