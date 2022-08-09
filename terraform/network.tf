@@ -16,6 +16,11 @@ data aws_subnets my_subnets {
   }
 }
 
+data "aws_subnet" "web_subnet" {
+  for_each = toset(data.aws_subnets.example.ids)
+  id       = each.value
+}
+
 # resource aws_subnet wfnews_subnet_public_a {
 #   vpc_id = data.aws_vpc.main_vpc.id
 #   cidr_block = "10.0.160.0/24"

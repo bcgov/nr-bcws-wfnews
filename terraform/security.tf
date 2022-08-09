@@ -21,7 +21,7 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     protocol = "tcp"
     from_port = 443
     to_port = 443
-    cidr_blocks = [for cidr_block in data.aws_subnets.my_subnets.cidr_blocks : cidr_block]
+    cidr_blocks = [for s in data.aws_subnet.web_subnet : s.cidr_block]
   }
 
   #Permit external access for test purposes
@@ -29,14 +29,14 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     protocol = "tcp"
     from_port = 8080
     to_port = 8080
-    cidr_blocks = [for cidr_block in data.aws_subnets.my_subnets.cidr_blocks : cidr_block]
+    cidr_blocks = [for s in data.aws_subnet.web_subnet : s.cidr_block]
   }
 
   egress {
     protocol    = "-1"
     from_port   = 0
     to_port     = 0
-    cidr_blocks = [for cidr_block in data.aws_subnets.my_subnets.cidr_blocks : cidr_block]
+    cidr_blocks = [for s in data.aws_subnet.web_subnet : s.cidr_block]
   }
 
   tags = local.common_tags
