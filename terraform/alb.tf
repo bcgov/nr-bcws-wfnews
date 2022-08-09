@@ -8,7 +8,7 @@ resource "aws_lb" "wfnews_main" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [data.aws_security_group.web.id]
-  subnets            = [aws_subnet.wfnews_subnet_public_a.id,aws_subnet.wfnews_subnet_public_b.id]
+  subnets            = [for id in data.aws_subnets.my_subnets.ids : id]
 
   enable_deletion_protection = true
 

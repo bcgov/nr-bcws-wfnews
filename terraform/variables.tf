@@ -168,3 +168,8 @@ variable vpc_name {
   description = "name of VPC to use"
   type=string
 }
+
+variable subnet_filter {
+  description = "Text to filter subnet on"
+  type=string
+}
