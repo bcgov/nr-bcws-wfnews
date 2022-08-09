@@ -72,7 +72,7 @@ resource "aws_alb_listener" "wfnews_client_front_end" {
     target_group_arn = aws_alb_target_group.wfnews_client.arn
   }
   load_balancer_arn = data.aws_lb.wfnews_main.id
-  port              = 443
+  port              = 8081
   protocol = "HTTPS"
   certificate_arn = data.aws_acm_certificate.issued.arn
 }
