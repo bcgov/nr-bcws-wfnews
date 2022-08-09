@@ -30,8 +30,10 @@ env:
 
 jobs:
   plan:
-    name: Plan
+    name: Deploy
     runs-on: ubuntu-22.04
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -40,17 +42,38 @@ jobs:
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+          
+      - name: Get Pull Request Number
+        id: pr
+        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: peter-murray/terragrunt-github-action@v1.0.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply
+      - name: Terragrunt Apply (No PR)
+        if: ${{'' == steps.pr.outputs.pull_request_number}}
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
           CLIENT_IMAGE: ${{ inputs.CLIENT_IMAGE }}
           SERVER_IMAGE: ${{ inputs.SERVER_IMAGE }}
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          ALB_NAME: ${{ inputs.ALB_NAME }}
+          VPC_NAME: ${{ inputs.VPC_NAME }}
+          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+        
+      - name: Terragrunt Apply (With PR)
+        if: ${{'' != steps.pr.outputs.pull_request_number}}
+        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
+        env:
+          TARGET_ENV: ${{ inputs.TARGET_ENV }}
+          CLIENT_IMAGE: ${{ inputs.CLIENT_IMAGE }}-${{ steps.pr.outputs.pull_request_number }}
+          SERVER_IMAGE: ${{ inputs.SERVER_IMAGE }}-${{ steps.pr.outputs.pull_request_number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
