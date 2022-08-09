@@ -17,7 +17,7 @@ data aws_subnets my_subnets {
 }
 
 data "aws_subnet" "web_subnet" {
-  for_each = toset(data.aws_subnets.example.ids)
+  for_each = toset(data.aws_subnets.my_subnets.ids)
   id       = each.value
 }
 
