@@ -48,26 +48,32 @@ jobs:
         run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Update image name if PR number present
-        if: ${{'' != steps.pr.outputs.pull_request_number}}
-        run: echo "CLIENT_IMAGE = ${{inputs.CLIENT_IMAGE}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV &&\
-             echo "SERVER_IMAGE = ${{inputs.SERVER_IMAGE}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV
-          
-      - name: Else, leave image names as they are
-        if: ${{'' == steps.pr.outputs.pull_request_number}}
-        run: echo "CLIENT_IMAGE = ${{inputs.CLIENT_IMAGE}} >> $GITHUB_ENV &&\ echo "SERVER_IMAGE = ${{inputs.SERVER_IMAGE}} >> $GITHUB_ENV
 
       - uses: peter-murray/terragrunt-github-action@v1.0.0
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply
+      - name: Terragrunt Apply (No PR)
+        if: ${{'' == steps.pr.outputs.pull_request_number}}
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
           CLIENT_IMAGE: ${{ env.CLIENT_IMAGE }}
           SERVER_IMAGE: ${{ env.SERVER_IMAGE }}
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          ALB_NAME: ${{ inputs.ALB_NAME }}
+          VPC_NAME: ${{ inputs.VPC_NAME }}
+          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+        
+      - name: Terragrunt Apply (With PR)
+        if: ${{'' != steps.pr.outputs.pull_request_number}}
+        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
+        env:
+          TARGET_ENV: ${{ inputs.TARGET_ENV }}
+          CLIENT_IMAGE: ${{ env.CLIENT_IMAGE }}-${{ steps.pr.outputs.pull_request_number }}
+          SERVER_IMAGE: ${{ env.SERVER_IMAGE }}-${{ steps.pr.outputs.pull_request_number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
