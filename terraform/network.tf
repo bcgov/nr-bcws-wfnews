@@ -1,27 +1,37 @@
-
-
-data aws_vpc main_vpc {
-  filter {
-    name = "tag:Name"
-    values = [var.vpc_name]
-	}
+module "network" {
+  source      = "git::https://github.com/BCDevOps/terraform-octk-aws-sea-network-info.git//?ref=master"
+  environment = var.target_env
 }
 
-data aws_subnets my_subnets {
-  filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.main_vpc.id]
-  }
-  filter {
-    name = "tag:Name"
-    values = ["*${var.subnet_filter}*"]
-  }
-}
 
-data "aws_subnet" "web_subnet" {
-  for_each = toset(data.aws_subnets.my_subnets.ids)
-  id       = each.value
-}
+# #GET MINISTRY VPC AND SUBNETS
+# data aws_vpc main_vpc {
+#   filter {
+#     name = "tag:Name"
+#     values = [var.vpc_name]
+# 	}
+# }
+
+# data aws_subnets my_subnets {
+#   filter {
+#     name   = "vpc-id"
+#     values = [data.aws_vpc.main_vpc.id]
+#   }
+#   filter {
+#     name = "tag:Name"
+#     values = ["*${var.subnet_filter}*"]
+#   }
+# }
+
+# data "aws_subnet" "web_subnet" {
+#   for_each = toset(data.aws_subnets.my_subnets.ids)
+#   id       = each.value
+# }
+
+
+
+
+#CREATE OWN SUBNETS
 
 # resource aws_subnet wfnews_subnet_public_a {
 #   vpc_id = data.aws_vpc.main_vpc.id

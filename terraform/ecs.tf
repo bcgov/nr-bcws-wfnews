@@ -143,7 +143,7 @@ resource "aws_ecs_service" "wfnews_main" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
-    subnets          = [for id in data.aws_subnets.my_subnets.ids : id]
+    subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
 
@@ -178,7 +178,7 @@ resource "aws_ecs_service" "client" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
-    subnets          = [for id in data.aws_subnets.my_subnets.ids : id]
+    subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
 
