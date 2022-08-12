@@ -92,6 +92,7 @@ jobs:
 
         
       - name: Build and push Docker image (no PR)
+        if: ${{ github.event.pull_request.number == '' }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
@@ -100,6 +101,7 @@ jobs:
           labels: ${{ steps.meta_nopr.outputs.labels }}
           
       - name: Build and push Docker image (with PR)
+        if: ${{ github.event.pull_request.number > 0 }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
