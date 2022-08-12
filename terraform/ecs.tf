@@ -193,7 +193,7 @@ resource "aws_ecs_service" "client" {
     container_port   = var.client_port
   }
 
-  depends_on = [aws_alb_listener.wfnews_server_front_end, aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }
