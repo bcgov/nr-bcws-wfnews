@@ -12,6 +12,8 @@ jobs:
   call-mvn-client:
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
+    with:
+      REGISTRY: ghcr.io
   call-mvn-server:
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
@@ -26,6 +28,7 @@ jobs:
       EMAIL_SYNC_ERROR_SUBJECT: ERROR
       EMAIL_SYNC_SUBJECT: MESSAGE
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
+      REGISTRY: ghcr.io
     secrets: inherit
   terragrunt-deploy:
     uses: ./.github/workflows/terragrunt-deploy.yml
@@ -38,5 +41,6 @@ jobs:
       ALB_NAME: Core-Pp93w9Test-2F70A1-alb
       VPC_NAME: Test_vpc
       SUBNET_FILTER: App
+      REGISTRY: ghcr.io
     secrets: inherit
     
