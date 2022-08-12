@@ -61,18 +61,7 @@ resource "aws_alb_listener" "wfnews_server_front_end" {
     target_group_arn = aws_alb_target_group.wfnews_server.arn
   }
   load_balancer_arn = data.aws_lb.wfnews_main.id
-  port              = 8080
-  protocol = "HTTPS"
-  certificate_arn = data.aws_acm_certificate.issued.arn
-}
-
-resource "aws_alb_listener" "wfnews_client_front_end" {
-  default_action {
-    type = "forward"
-    target_group_arn = aws_alb_target_group.wfnews_client.arn
-  }
-  load_balancer_arn = data.aws_lb.wfnews_main.id
-  port              = 8081
+  port              = 443
   protocol = "HTTPS"
   certificate_arn = data.aws_acm_certificate.issued.arn
 }
@@ -129,14 +118,14 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
 
   condition {
     host_header {
-      values = [for sn in var.service_names : "${sn}.*"]
+      values = [for sn in var.server_names : "${sn}.*"]
     }
   }
 }
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 
-  listener_arn = aws_alb_listener.wfnews_client_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
@@ -145,7 +134,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
 
   condition {
     host_header {
-      values = [for sn in var.service_names : "${sn}.*"]
+      values = [for sn in var.client_names : "${sn}.*"]
     }
   }
 }

@@ -137,7 +137,12 @@ resource "aws_ecs_service" "wfnews_main" {
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
-    weight            = 100
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight = 20
+    base = 1
   }
 
 
@@ -188,7 +193,7 @@ resource "aws_ecs_service" "client" {
     container_port   = var.client_port
   }
 
-  depends_on = [aws_alb_listener.wfnews_client_front_end, aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+  depends_on = [aws_alb_listener.wfnews_server_front_end, aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }

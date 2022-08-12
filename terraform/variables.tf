@@ -121,9 +121,15 @@ variable "common_tags" {
   }
 }
 
-variable "service_names" {
+variable "server_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfnews-project", "ssp"]
+  default     = ["wfnews-server"]
+  type        = list(string)
+}
+
+variable "client_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-client"]
   type        = list(string)
 }
 
