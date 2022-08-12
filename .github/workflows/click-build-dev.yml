@@ -11,10 +11,13 @@ jobs:
   call-mvn-client:
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
+    with: 
+      REGISTRY: ghcr.io
   call-mvn-server:
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
+      REGISTRY: ghcr.io
       EMAIL_ENABLED: true
       SMTP_HOSTNAME: sample.com
       SMTP_USER: sample_user@sample.com
@@ -30,6 +33,7 @@ jobs:
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server]
     with:
+      REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
