@@ -57,16 +57,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
-      - name: Get Pull Request Number
-        id: pr
-        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Update image name if PR number present
-        if: ${{'' != steps.pr.outputs.pull_request_number}}
-        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV
-      
       - name: download artifact
         uses: actions/download-artifact@v3
         with:
@@ -87,16 +77,35 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for Docker
-        id: meta
+        if: ${{ github.event.pull_request.number > 0 }}
+        id: meta_pr
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+        with:
+          images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}-${{ github.event.pull_request.number}}
+      
+      - name: Extract metadata (tags, labels) for Docker
+        if: ${{ github.event.pull_request.number == '' }}
+        id: meta_nopr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}
+
         
-      - name: Build and push Docker image
+      - name: Build and push Docker image (no PR)
+        if: ${{ github.event.pull_request.number == '' }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta_nopr.outputs.tags }}
+          labels: ${{ steps.meta_nopr.outputs.labels }}
+          
+      - name: Build and push Docker image (with PR)
+        if: ${{ github.event.pull_request.number > 0 }}
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          push: true
+          tags: ${{ steps.meta_pr.outputs.tags }}
+          labels: ${{ steps.meta_pr.outputs.labels }}
      
