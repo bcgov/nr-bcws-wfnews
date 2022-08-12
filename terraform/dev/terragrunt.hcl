@@ -37,7 +37,7 @@ generate "dev_tfvars" {
     client_image     = "${local.client_image}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
-    client_port = 443
+    client_port = 8080
     server_port=8080
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
