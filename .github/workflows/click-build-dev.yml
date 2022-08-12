@@ -5,7 +5,17 @@ env:
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
 on:
-  workflow_dispatch:
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/pr.yaml"
+      - ".github/workflows/tf-plan.yaml"
+      - "client/**"
+      - "server/**"
+      - "terraform/**"
+      - "Dockerfile"
+      - "!**/README.md"
 
 jobs:
   call-mvn-client:
