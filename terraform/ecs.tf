@@ -2,7 +2,6 @@
 
 resource "aws_ecs_cluster" "wfnews_main" {
   name               = "wfnews-cluster"
-  capacity_providers = ["FARGATE_SPOT"]
 
   tags = local.common_tags
 }
@@ -177,7 +176,12 @@ resource "aws_ecs_service" "client" {
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE_SPOT"
-    weight            = 100
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight = 20
+    base = 1
   }
 
 
