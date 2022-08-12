@@ -3,13 +3,15 @@
 name: Build Server
 
 env:
-  REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}-server
 
 # Controls when the workflow will run
 on:
   workflow_call:
     inputs:
+      REGISTRY:
+        type: string
+        required: true
       EMAIL_ENABLED: 
         type: string
         required: true
@@ -119,7 +121,7 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ env.REGISTRY }}
+          registry: ${{ inputs.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
@@ -127,7 +129,7 @@ jobs:
         id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ inputs.REGISTRY }}/${{ env.IMAGE_NAME }}
         
       - name: Build and push Docker image
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
