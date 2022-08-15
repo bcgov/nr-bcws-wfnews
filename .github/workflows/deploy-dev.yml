@@ -21,45 +21,45 @@ on:
       - "!**/README.md"
 
 jobs:
-  check:
-    name: Check
-    outputs:
-      build: ${{ steps.check.outputs.build }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  # check:
+  #   name: Check
+  #   outputs:
+  #     build: ${{ steps.check.outputs.build }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Check and process modified files
-        id: check
-        run: |
-          # Fetch main to diff against
-          git fetch origin main:refs/remotes/origin/master
-          # Trigger build if diff matches any triggers
-          TRIGGERS=${{ env.TRIGGERS }}
-          while read -r check
-          do
-              for t in "${TRIGGERS[@]}"; do
-                  if [[ "${check}" =~ "${t}" ]]
-                  then
-                      # Output build=true for next steps
-                      echo "::set-output name=build::true"
-                      echo -e "${t}\n --> ${check}\n"
-                      exit 0
-                  fi
-              done
-          done < <(git diff origin/main --name-only)
-          echo "Build and deploy workflows not triggered"
+  #     - name: Check and process modified files
+  #       id: check
+  #       run: |
+  #         # Fetch main to diff against
+  #         git fetch origin main:refs/remotes/origin/master
+  #         # Trigger build if diff matches any triggers
+  #         TRIGGERS=${{ env.TRIGGERS }}
+  #         while read -r check
+  #         do
+  #             for t in "${TRIGGERS[@]}"; do
+  #                 if [[ "${check}" =~ "${t}" ]]
+  #                 then
+  #                     # Output build=true for next steps
+  #                     echo "::set-output name=build::true"
+  #                     echo -e "${t}\n --> ${check}\n"
+  #                     exit 0
+  #                 fi
+  #             done
+  #         done < <(git diff origin/main --name-only)
+  #         echo "Build and deploy workflows not triggered"
 
   call-mvn-client:
-    if: needs.check.outputs.build == 'true'
+    # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
 
   call-mvn-server:
-    if: needs.check.outputs.build == 'true'
+    # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
@@ -77,12 +77,12 @@ jobs:
     secrets: inherit
 
   trivy:
-    if: needs.check.outputs.build == 'true'
+    # if: needs.check.outputs.build == 'true'
     needs: [call-mvn-client, call-mvn-server]
     uses: ./.github/workflows/trivy.yml
 
   terragrunt-deploy:
-    if: needs.check.outputs.build == 'true'
+    # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server, trivy]
     with:
