@@ -12,17 +12,15 @@ env:
   REPOSITORY: ghcr.io
   CLIENT_IMAGE: "wfnews-client"
   SERVER_IMAGE: "wfnews-server"
-  TARGEN_ENV: "dev"
+  TARGET_ENV: "dev"
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
   SUBNET_FILTER: "App"
 
 jobs:
   plan:
-    name: Deploy
+    name: plan
     runs-on: ubuntu-22.04
-    outputs:
-      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -36,8 +34,7 @@ jobs:
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply (No PR)
-        if: ${{ github.event.pull_request.number == ''}}
+      - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ env.TARGET_ENV }}
