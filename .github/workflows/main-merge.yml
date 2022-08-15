@@ -31,5 +31,8 @@ jobs:
     name: Terragrunt Plan
     runs-on: ubuntu-18.04
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Run terraform plan for generic Dev environment  
         uses: ./.github/workflows/terragrunt-plan.yml
