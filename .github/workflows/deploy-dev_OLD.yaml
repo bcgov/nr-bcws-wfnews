@@ -1,11 +1,11 @@
-Name: Deploy Dev
+Name: Deploy Dev - OLD
 # change to trigger a PR
-on:
-  workflow_run:
-    workflows:
-      - Pull Request
-    types:
-      - completed
+# on:
+#   workflow_run:
+#     workflows:
+#       - Pull Request
+#     types:
+#       - completed
 
 env:
   #NOTE: Server Image ID and Client Image ID are set in pr-open.yml, after the images are built
