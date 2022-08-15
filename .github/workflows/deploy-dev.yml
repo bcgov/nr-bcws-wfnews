@@ -75,6 +75,7 @@ jobs:
     secrets: inherit
 
   trivy:
+    #checks both the repo, and the output
     if: needs.check.outputs.build == 'true'
     needs: [call-mvn-client, call-mvn-server]
     uses: ./.github/workflows/trivy.yml
