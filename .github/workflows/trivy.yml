@@ -110,6 +110,8 @@ jobs:
   trivy-server:
     name: Trivy-Server
     runs-on: ubuntu-latest
+    needs:
+      - tests-server
     timeout-minutes: 5
     steps:
       - name: Checkout repository
@@ -132,6 +134,8 @@ jobs:
   trivy-client:
     name: Trivy-Client
     runs-on: ubuntu-latest
+    needs:
+      - tests-client
     timeout-minutes: 5
     steps:
       - name: Checkout repository
