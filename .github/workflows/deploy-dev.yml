@@ -50,6 +50,7 @@ jobs:
           echo "Build and deploy workflows not triggered"
 
   call-mvn-client:
+    if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
@@ -73,10 +74,15 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
 
+  trivy:
+    if: needs.check.outputs.build == 'true'
+    needs: [call-mvn-client, call-mvn-server]
+    uses: ./.github/workflows/trivy.yml
+
   terragrunt-deploy:
     if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server]
+    needs: [call-mvn-client, call-mvn-server, trivy]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
