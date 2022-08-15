@@ -31,4 +31,5 @@ jobs:
     name: Terragrunt Plan
     runs-on: ubuntu-18.04
     steps:
-      uses: ./.github/workflows/terragrunt-plan.yml
+      - name: Run terraform plan for generic Dev environment  
+        uses: ./.github/workflows/terragrunt-plan.yml
