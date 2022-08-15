@@ -1,6 +1,6 @@
 # alb.tf
 
-# Use the default ALB that is pre-provisioned as part of the account creation
+# Must use the pre-existing ALB, such as default that is pre-provisioned as part of the account creation
 # This ALB has all traffic on *.LICENSE-PLATE-ENV.nimbus.cloud.gob.bc.ca routed to it
 
 data "aws_lb" "wfnews_main" {
