@@ -10,3 +10,21 @@ export interface fireCentreOption {
     code?: string;
     fireCentreName?: string;
 }
+
+export interface EvacOrderOption {
+  eventName?: string;
+  eventType?: string;
+  orderAlertStatus?: string;
+  issuingAgency?: string;
+  preOcCode?: string;
+  emrgOAAsysID?: number;
+}
+
+export interface AreaRestrictionsOption {
+  protRsSysID?: number;
+  name?: string;
+  accessStatusEffectiveDate?: Date;
+  fireCentre?: string;
+  fireZone?: string;
+  bulletinUrl?: string;
+}
