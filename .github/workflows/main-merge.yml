@@ -26,13 +26,3 @@ jobs:
         uses: github/codeql-action/upload-sarif@v2
         with:
           sarif_file: "trivy-results.sarif"
-  
-  terragrunt-plan:
-    name: Terragrunt Plan
-    runs-on: ubuntu-18.04
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Run terraform plan for generic Dev environment  
-        uses: ./.github/workflows/terragrunt-plan.yml
