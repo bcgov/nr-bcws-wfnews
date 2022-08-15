@@ -4,6 +4,7 @@ env:
   REGISTRY: ghcr.io
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
+  TRIGGERS: ('client/' 'server/' '.github/workflows')
 on:
   pull_request:
     # The branches below must be a subset of the branches above
@@ -18,12 +19,44 @@ on:
       - "!**/README.md"
 
 jobs:
+  check:
+    name: Check
+    outputs:
+      build: ${{ steps.check.outputs.build }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Check and process modified files
+        id: check
+        run: |
+          # Fetch main to diff against
+          git fetch origin main:refs/remotes/origin/master
+          # Trigger build if diff matches any triggers
+          TRIGGERS=${{ env.TRIGGERS }}
+          while read -r check
+          do
+              for t in "${TRIGGERS[@]}"; do
+                  if [[ "${check}" =~ "${t}" ]]
+                  then
+                      # Output build=true for next steps
+                      echo "::set-output name=build::true"
+                      echo -e "${t}\n --> ${check}\n"
+                      exit 0
+                  fi
+              done
+          done < <(git diff origin/main --name-only)
+          echo "Build and deploy workflows not triggered"
+
   call-mvn-client:
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
+
   call-mvn-server:
+    if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
@@ -39,7 +72,9 @@ jobs:
       EMAIL_SYNC_SUBJECT: MESSAGE
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
+
   terragrunt-deploy:
+    if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server]
     with:

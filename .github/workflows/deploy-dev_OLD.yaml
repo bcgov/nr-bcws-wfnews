@@ -1,6 +1,7 @@
 Name: Deploy Dev - OLD
 # change to trigger a PR
-# on:
+on:
+  workflow_dispatch:
 #   workflow_run:
 #     workflows:
 #       - Pull Request
