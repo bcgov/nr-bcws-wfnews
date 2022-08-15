@@ -10,8 +10,10 @@ on:
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
     paths:
-      - ".github/workflows/pr.yaml"
-      - ".github/workflows/tf-plan.yaml"
+      - ".github/workflows/deploy-dev.yml"
+      - ".github/workflows/mvn-client.yml"
+      - ".github/workflows/mvn-server.yml"
+      - ".github/workflows/terragrunt-deploy.yml"
       - "client/**"
       - "server/**"
       - "terraform/**"
