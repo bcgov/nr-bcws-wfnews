@@ -21,41 +21,8 @@ env:
   NAME: gfp
 
 jobs:
-  check:
-    name: Check
-    outputs:
-      build: ${{ steps.check.outputs.build }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Check and process modified files
-        id: check
-        run: |
-          # Fetch main to diff against
-          git fetch origin main:refs/remotes/origin/master
-          # Trigger build if diff matches any triggers
-          TRIGGERS=${{ env.TRIGGERS }}
-          while read -r check
-          do
-              for t in "${TRIGGERS[@]}"; do
-                  if [[ "${check}" =~ "${t}" ]]
-                  then
-                      # Output build=true for next steps
-                      echo "::set-output name=build::true"
-                      echo -e "${t}\n --> ${check}\n"
-                      exit 0
-                  fi
-              done
-          done < <(git diff origin/main --name-only)
-          echo "Build and deploy workflows not triggered"
-
   trivy-repo:
     name: Trivy-Repo
-    needs:
-      - check
-    if: needs.check.outputs.build == 'true'
     runs-on: ubuntu-18.04
     steps:
       - name: Checkout code
@@ -75,43 +42,35 @@ jobs:
         with:
           sarif_file: "trivy-results.sarif"
 
-  tests-client:
-    name: Tests-Client
-    needs:
-      - check
-    if: needs.check.outputs.build == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #tests-client:
+  #  name: Tests-Client
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v2
 
-      - name: Tests
-        run: |
-          cd client
-          npm ci
-          npm test
+  #    - name: Tests
+  #      run: |
+  #        cd client
+  #        npm ci
+  #        npm test
 
   # Update to trigger junit on Java server
-  tests-server:
-    name: Tests-Server
-    needs:
-      - check
-    if: needs.check.outputs.build == 'true'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  #tests-server:
+  #  name: Tests-Server
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v2
 
-      - name: Tests
-        run: |
-          cd server
-          mvn test
+  #    - name: Tests
+  #      run: |
+  #        cd server
+  #        mvn test
 
   trivy-server:
     name: Trivy-Server
     runs-on: ubuntu-latest
-    needs:
-      - tests-server
     timeout-minutes: 5
     steps:
       - name: Checkout repository
@@ -120,7 +79,7 @@ jobs:
       - name: Trivy Vulnerability Scan
         uses: aquasecurity/trivy-action@0.3.0
         with:
-          image-ref: ${{env.REGISTRY}}/${{ github.actor }}/${{ github.repository }}-server-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          image-ref: ${{env.REGISTRY}}/${{ github.repository }}-server-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           ignore-unfixed: true
           severity: CRITICAL
           format: "sarif"
@@ -134,8 +93,6 @@ jobs:
   trivy-client:
     name: Trivy-Client
     runs-on: ubuntu-latest
-    needs:
-      - tests-client
     timeout-minutes: 5
     steps:
       - name: Checkout repository
@@ -144,7 +101,7 @@ jobs:
       - name: Trivy Vulnerability Scan
         uses: aquasecurity/trivy-action@0.3.0
         with:
-          image-ref: ${{env.REGISTRY}}/${{ github.actor }}/${{ github.repository }}-client-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          image-ref: ${{env.REGISTRY}}/${{ github.repository }}-client-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           ignore-unfixed: true
           severity: CRITICAL
           format: "sarif"
