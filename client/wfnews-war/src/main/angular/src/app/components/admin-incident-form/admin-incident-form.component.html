@@ -22,23 +22,21 @@
       </mat-expansion-panel-header>
       <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
   </mat-expansion-panel>
-
   <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel">
     <mat-expansion-panel-header>
         <mat-panel-title>
           <span class="panel-title">Contact</span>
         </mat-panel-title>
     </mat-expansion-panel-header>
-
+    <contacts-details-panel [incident]="incident" [formGroup]="incidentForm"></contacts-details-panel>
   </mat-expansion-panel>
-
   <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel">
     <mat-expansion-panel-header>
         <mat-panel-title>
           <span class="panel-title">Response</span>
         </mat-panel-title>
     </mat-expansion-panel-header>
-
+    <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
   </mat-expansion-panel>
   <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel">
     <mat-expansion-panel-header>
@@ -46,7 +44,7 @@
           <span class="panel-title">Evacuation Orders and Alerts</span>
         </mat-panel-title>
     </mat-expansion-panel-header>
-
+    <evac-orders-details-panel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
   </mat-expansion-panel>
   <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel">
     <mat-expansion-panel-header>
@@ -54,6 +52,6 @@
           <span class="panel-title">Area Restrictions</span>
         </mat-panel-title>
     </mat-expansion-panel-header>
-
+    <area-restrictions-details-panel [incident]="incident" [formGroup]="incidentForm"></area-restrictions-details-panel>
   </mat-expansion-panel>
 </mat-accordion>

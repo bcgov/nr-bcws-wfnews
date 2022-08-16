@@ -74,3 +74,303 @@
     background-color: lightgray;
   }
 }
+
+#core-interface-container {
+  font-family: $font-family-main;
+
+  .mat-paginator-container {
+    justify-content: center;
+    font-size: $font-size;
+  }
+
+}
+
+.owl-dt-popup-container{
+  font-family: $font-family-main;
+}
+
+//.mat-snack-bar-container{
+//  position: relative;
+//  top: 60px;
+//}
+
+// .snackbar-error {
+//   background-color: rgba(246, 189, 189, 1);
+//   color: $colour-black;
+//   position: inherit;
+
+//   .mat-simple-snackbar{
+//     font-family: $font-family-main;
+//     font-size: 13px;
+//   }
+//   .mat-simple-snackbar-action{
+//     color: $colour-errors;
+//   }
+// }
+
+// .snackbar-warning {
+//   background-color: rgba(244, 230, 195, 1);
+//   color: $colour-black;
+//   position: inherit;
+
+//   .mat-simple-snackbar{
+//     font-family: $font-family-main;
+//     font-size: 13px;
+//   }
+//   .mat-simple-snackbar-action{
+//     color: #f1780e;
+//   }
+
+// }
+
+// .snackbar-success {
+//   background-color: rgba(149, 206, 170, 1);
+//   color: $colour-black;
+//   position: inherit;
+
+//   .mat-simple-snackbar{
+//     font-family: $font-family-main;
+//     font-size: 13px;
+//   }
+// }
+
+.full-snack-bar-online{
+  //width: 100%;
+  //background-color: rgba(149, 206, 170, 1);
+  //color: $colour-black;
+  //max-width: calc(var(--vw, 1vw) * 80) !important;
+  //word-break: break-word;
+  //
+  //.mat-simple-snackbar{
+  //  font-family: $font-family-main;
+  //  font-size: 13px;
+  //}
+  .mat-simple-snackbar-action{
+    color: #acdbac;
+  }
+}
+
+.full-snack-bar-offline{
+  background-color: $colour-errors;
+  color: $colour-white;
+  font-family: $font-family-main;
+  font-size: 13px;
+  max-width: calc(var(--vw, 1vw) * 80) !important;
+  word-break: break-word;
+}
+
+//.mat-tab-body{
+//  position: relative !important;
+//  overflow-x: hidden !important;
+//  overflow-y: auto !important;
+//  z-index: 1 !important;
+//  flex-grow: 1 !important;
+//}
+
+@media print {
+
+  mat-table,
+  tr,
+  mat-sidenav-content{
+    width: 750px !important;
+  }
+  mat-table{
+    display: block;
+  }
+
+  .mat-table .mat-cell,
+  .mat-table .mat-header-cell{
+    padding: 0 !important;
+  }
+
+  .nav-menu-button fa-icon,
+  mat-tab-header,
+  .review-item-header .header-icons,
+  td.select-cell,
+  .bottom-toolbar,
+  wf1-search-bar,
+  wf1-filters,
+  wf1-public-application-header,
+  wf1-application-header{
+    display: none !important;
+  }
+
+  #core-interface-container .mat-header-cell,
+  .review-item .mat-expansion-panel-content .fixed-table-layout td,
+  mat-expansion-panel .review-item-header .review-item-status,
+  mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description{
+    font-size: 10px !important;
+  }
+
+  .cdk-overlay-pane{
+    display: none;
+  }
+
+  //mat-expansion-panel{
+  //  page-break-inside: avoid;
+  //}
+}
+
+.float-right{
+  float: right;
+}
+
+.padding-right{
+  padding-right: 16px;
+}
+
+.wfone-base-container .table-wrapper .options-bar-header{
+  >div.label{
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 0;
+  }
+  select,
+  input {
+    border-radius: 5px;
+    border: solid 1px grey;
+  }
+
+  >div{
+    padding: 0 10px;
+    display: inline-block;
+
+    .select{
+      width: auto;
+
+      .select-value{
+        min-width: 150px;
+      }
+    }
+
+  }
+}
+.display-columns-selector.select-panel{
+  max-height: unset;
+
+  .option{
+    height: 30px;
+    font-family: $font-family-main;
+    font-size: $font-size;
+    padding: 10px;
+  }
+
+  button{
+    margin: 10px;
+    padding: 10px;
+    font-family: $font-family-main;
+    font-size: $font-size;
+    border-radius: 5px;
+    border: solid 1px grey;
+    background-color: $colour-lighter-grey;
+  }
+}
+
+.mat-accordion {
+  &>wfone-base-expansion-panel .mat-expansion-panel-spacing:last-child,
+  &>*:last-child:not(.mat-expansion-panel) .mat-expansion-panel-spacing {
+    margin-bottom: var(--wf1-gutter-space) !important;
+  }
+
+  mat-expansion-panel:not(.mat-expanded),
+  mat-expansion-panel.mat-expansion-panel-spacing {
+    margin: var(--wf1-gutter-space) var(--wf1-gutter-space);
+
+    .mat-expansion-panel-header {
+      padding-left: var(--wf1-gutter-space);
+      padding-right: var(--wf1-gutter-space);
+      height: unset !important;
+      min-height: 50px !important;
+      border-bottom: 1px solid $colour-light-grey;
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      font-family: $font-family-main;
+
+      .expansion-header{
+        align-items: center;
+        padding: 5px 0;
+      }
+
+      mat-panel-description{
+        flex-grow: unset;
+        margin-right: 5px;
+        margin-left: -5px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      &[aria-disabled=true]{
+        color: unset;
+      }
+
+      h1{
+        padding: 0;
+        margin: 0;
+      }
+
+    }
+
+    .mat-expansion-panel-content{
+      font-family: $font-family-main;
+      .mat-expansion-panel-body{
+        padding: 0;
+      }
+    }
+
+    .wf1-expansion-panel-body {
+      padding: 0 var(--wf1-gutter-space) var(--wf1-gutter-space);
+      font-size: $font-size;
+      font-family: $font-family-main;
+
+      .expansion-header-sub{
+        display: flex;
+        justify-content: flex-end;
+
+        h3{
+          margin-bottom: 0;
+        }
+      }
+
+      .table-wrapper{
+        margin: var(--wf1-gutter-space) 0;
+        width: 100%;
+      }
+
+      .summary-card{
+        margin: var(--wf1-gutter-space) 0 0 0;
+      }
+
+      mat-card.mat-card.wf1-vendor-portal-header-bar {
+        padding: 0;
+      }
+
+      mat-expansion-panel.mat-expansion-panel-spacing{
+        margin: var(--wf1-gutter-space) 0 0 0;
+      }
+
+      .card-wrapper{
+        margin: 0;
+      }
+    }
+
+    .mat-tab-body{
+      .table-wrapper{
+        margin: var(--wf1-gutter-space);
+        width: calc(100% - 2*var(--wf1-gutter-space));
+      }
+    }
+
+    .mat-action-row {
+      border-bottom: 1px solid $colour-lighter-grey;
+      padding: var(--wf1-gutter-space);
+      background-color: $colour-lighter-grey;
+    }
+
+
+  }
+
+  .mat-expansion-panel-spacing:last-child, .mat-accordion>*:last-child:not(.mat-expansion-panel) .mat-expansion-panel-spacing {
+    margin-bottom: var(--wf1-gutter-space);
+  }
+}
