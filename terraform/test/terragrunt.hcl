@@ -30,14 +30,14 @@ generate "dev_tfvars" {
     fargate_cpu = 1024
     fargate_memory = 2048
     service_names = ["wfnews-project"]
-    aws_sec_group = "Web_sg"
+    aws_sec_group = "App_sg"
     target_env = "${local.target_env}"
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
-    client_port = 443
+    client_port = 8080
     server_port=8080
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
