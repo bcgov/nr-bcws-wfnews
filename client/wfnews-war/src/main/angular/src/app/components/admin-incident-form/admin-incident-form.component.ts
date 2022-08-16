@@ -24,7 +24,24 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     sizeHectares: 987,
     sizeComments: '',
     cause: 'Lightning',
-    causeComments: ''
+    causeComments: '',
+    responseComments: '',
+    wildifreCrewsInd: true,
+    crewsComments: '',
+    aviationInd: true,
+    aviationComments: '',
+    incidentManagementInd: true,
+    incidentManagementComments: '',
+    heavyEquipmentInd: true,
+    heavyEquipmentComments: '',
+    structureProtectionInd: true,
+    structureProtectionComments: '',
+    contact: {
+      isPrimary: true,
+      fireCentre: null,
+      phoneNumber: '1231231233',
+      emailAddress: 'email@address.com'
+    }
   }
 
   public readonly incidentForm: FormGroup
@@ -45,6 +62,22 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       sizeComments: [],
       cause: [],
       causeComments: [],
+      responseComments:[],
+      wildifreCrewsInd: [],
+      crewsComments: [],
+      aviationInd: [],
+      aviationComments: [],
+      incidentManagementInd: [],
+      incidentManagementComments: [],
+      heavyEquipmentInd: [],
+      heavyEquipmentComments: [],
+      structureProtectionInd: [],
+      structureProtectionComments: [],
+      contact: this.formBuilder.group({
+        fireCentre: [],
+        phoneNumber: [],
+        emailAddress: []
+      })
       // Alternatively, move each section into a subgroup
       //incidentInformation: this.formBuilder.group({
       //  fireName: [],

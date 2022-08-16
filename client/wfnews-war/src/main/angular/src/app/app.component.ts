@@ -85,7 +85,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.storeViewportSize();
     };
 
-    
+
 
     ngOnInit() {
         this.addCustomMaterialIcons();
@@ -279,7 +279,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     navigateToBcSupport() {
         let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
-        window.open(url, "_blank");    
+        window.open(url, "_blank");
     }
 
 }
