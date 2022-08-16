@@ -66,6 +66,12 @@ import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
+import { MatCardModule } from '@angular/material/card';
+import { ResponseDetailsPanel } from './components/admin-incident-form/response-details-panel/response-details-panel.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ContactsDetailsPanel } from './components/admin-incident-form/contacts-details-panel/contacts-details-panel.component';
+import { EvacOrdersDetailsPanel } from './components/admin-incident-form/evac-orders-details-panel/evac-orders-details-panel.component';
+import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel copy/area-restrictions-details-panel.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -90,7 +96,11 @@ export const DATE_FORMATS = {
         SingleSelectDirective,
         AdminContainerDesktop,
         AdminIncidentForm,
-        IncidentDetailsPanel
+        IncidentDetailsPanel,
+        ResponseDetailsPanel,
+        ContactsDetailsPanel,
+        EvacOrdersDetailsPanel,
+        AreaRestrictionsDetailsPanel
     ],
     imports: [
         MatSortModule,
@@ -114,10 +124,12 @@ export const DATE_FORMATS = {
         MatMenuModule,
         MatRadioModule,
         MatInputModule,
+        MatCheckboxModule,
         MatFormFieldModule,
         MatExpansionModule,
         MatSelectModule,
         MatGridListModule,
+        MatCardModule,
         MatChipsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
