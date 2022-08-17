@@ -14,6 +14,9 @@ on:
       REGISTRY:
         required: true
         type: string
+      TARGET_ENV:
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
