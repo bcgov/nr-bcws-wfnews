@@ -99,8 +99,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '');
                 this.applicationConfig.version.long = config.application.version;
                 this.applicationConfig.environment = config.application.environment.replace(/^.*prod.*$/i, '');
-
-
                 this.onResize();
             });
         }
