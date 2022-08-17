@@ -58,6 +58,7 @@ jobs:
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
+      #TARGET_ENV used when generating self-referential url
       TARGET_ENV: dev
 
   call-mvn-server:
