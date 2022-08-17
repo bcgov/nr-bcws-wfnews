@@ -58,6 +58,7 @@ jobs:
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
+      TARGET_ENV: dev
 
   call-mvn-server:
     # if: needs.check.outputs.build == 'true'
