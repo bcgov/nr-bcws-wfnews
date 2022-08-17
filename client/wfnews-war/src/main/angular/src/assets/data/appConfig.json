@@ -27,7 +27,8 @@
             "rofs": 2000,
             "rofs-table": 500,
             "incidents-table": 500
-        }
+        },
+        "lazyAuthenticate": "true"
     },
 
     "externalAppConfig": {
