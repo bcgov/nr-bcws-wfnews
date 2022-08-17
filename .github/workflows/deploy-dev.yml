@@ -85,7 +85,7 @@ jobs:
   terragrunt-deploy:
     # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, trivy]
+    needs: [trivy]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
