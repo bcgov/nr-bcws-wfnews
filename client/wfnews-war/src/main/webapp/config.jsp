@@ -114,6 +114,16 @@
       json.append("\"causecodes\":\"").append(causecodesUri).append("\"");
     json.append("}");
 
+    // WebADE OAuth Section
+    json.append("\"webade\":{");
+      json.append("\"oauth2Url\":\"").append(properties.getProperty("webade-oauth2.authorize.url", "")).append("\",");
+      json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
+      json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
+      json.append("\"enableCheckToken\":true,");
+      json.append("\"checkTokenUrl\":\"checkToken.jsp\"");
+
+    json.append("},");
+
     json.append("}");
     out.write(json.toString());
   } else {
