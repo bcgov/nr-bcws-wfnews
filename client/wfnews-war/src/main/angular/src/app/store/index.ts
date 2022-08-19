@@ -4,7 +4,11 @@ import { searchReducer, SearchState, SortDirection } from '@wf1/core-ui';
 import { storeLogger } from 'ngrx-store-logger';
 import { ApplicationState, PagingSearchState } from './application/application.state';
 import { pageSearchReducer } from './common/page-search.reducer';
+import { IncidentEffect } from './incident/incident.effect';
+import { incidentReducer } from './incident/incident.reducer';
+import { IncidentState } from './incident/incident.stats';
 import { IncidentsEffect } from './incidents/incidents.effects';
+
 import { incidentsReducer } from './incidents/incidents.reducer';
 import { initialIncidentsSearchState, IncidentsState } from './incidents/incidents.stats';
 
@@ -20,13 +24,15 @@ export const rootReducers: ActionReducerMap<any> = {
     search: searchReducer,
     router: routerReducer,
     incidents: incidentsReducer,
-    searchIncidents: pageSearchReducer
+    searchIncidents: pageSearchReducer,
+    incident: incidentReducer
 };
 
 export interface RootState {
     application?: ApplicationState;
     incidents?: IncidentsState;
     searchIncidents?: PagingSearchState
+    incident?: IncidentState;
 };
 
 export const initialRootState: RootState = {
@@ -35,7 +41,8 @@ export const initialRootState: RootState = {
 
 export const rootEffects: any[] = [
     // PlaceNameSearchEffects,
-    IncidentsEffect
+    IncidentsEffect,
+    IncidentEffect
 
 ];
 

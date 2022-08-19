@@ -46,7 +46,6 @@ import { codeTableAndUserPrefFnInit } from './app-initializer';
 import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { ActiveWildfireMapComponent } from './components/active-wildfire-map/active-wildfire-map.component';
-import { AdminIncidentForm } from './components/admin-incident-form/admin-incident-form.component';
 import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evacuation-orders-and-alerts/panel-evacuation-orders-and-alerts.component';
 import { PanelWildfireStageOfControlComponent } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
@@ -72,6 +71,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ContactsDetailsPanel } from './components/admin-incident-form/contacts-details-panel/contacts-details-panel.component';
 import { EvacOrdersDetailsPanel } from './components/admin-incident-form/evac-orders-details-panel/evac-orders-details-panel.component';
 import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel copy/area-restrictions-details-panel.component';
+import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
+import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -95,12 +96,13 @@ export const DATE_FORMATS = {
         WfAdminPanelComponentDesktop,
         SingleSelectDirective,
         AdminContainerDesktop,
-        AdminIncidentForm,
+        AdminIncidentFormDesktop,
         IncidentDetailsPanel,
         ResponseDetailsPanel,
         ContactsDetailsPanel,
         EvacOrdersDetailsPanel,
-        AreaRestrictionsDetailsPanel
+        AreaRestrictionsDetailsPanel,
+        IncidentContainerDesktop
     ],
     imports: [
         MatSortModule,

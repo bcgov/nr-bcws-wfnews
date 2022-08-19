@@ -47,7 +47,7 @@
             (matSortChange)="sortData($event)">
         <ng-container matColumnDef = "fireNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.incidentNumberSequence}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentNumberSequence}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireName">
