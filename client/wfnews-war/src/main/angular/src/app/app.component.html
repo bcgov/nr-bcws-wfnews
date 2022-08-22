@@ -6,7 +6,7 @@
     <wf-header
         [config]="applicationConfig"
         [(state)]="applicationState"
-        [useAppLogo]="false"
+        [useAppLogo]="isAdminPage()"
         [useSystemAndUser]="isAdminPage()"
         [useSupportLink]="isAdminPage()"
         [useMenu]="isAdminPage()"
