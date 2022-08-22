@@ -8,6 +8,7 @@ import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common"
     template: `
         <wf-admin-incident-desktop
             [adminIncident]="adminIncident$ | async"
+            [adminIncidentCause]="adminIncidentCause$ | async"
         ></wf-admin-incident-desktop>`,
     providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })

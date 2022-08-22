@@ -6,10 +6,12 @@
     <wf-header
         [config]="applicationConfig"
         [(state)]="applicationState"
-        [useAppLogo]="isAdminPage()"
+        [useAppLogo]="false"
         [useSystemAndUser]="isAdminPage()"
+        [useSupportLink]="isAdminPage()"
         [useMenu]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
+        (onSupportLinkClick)="navigateToBcSupport()"
         (navigateToBcSupport)="navigateToBcSupport()"
     ></wf-header>
 

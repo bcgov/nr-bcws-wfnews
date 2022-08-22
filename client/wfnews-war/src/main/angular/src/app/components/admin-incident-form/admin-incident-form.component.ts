@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppConfigService } from '@wf1/core-ui';
-import { WildfireIncidentResource } from '@wf1/incidents-rest-api';
+import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import { RootState } from '../../store';
 import { getIncident } from '../../store/incident/incident.action';
 
@@ -14,6 +14,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   // when an actual resource model is in place, use that
   // and load from the store/api
   @Input() adminIncident: any;
+  @Input() adminIncidentCause: any;
+
 
   public incident = {
     fireNumber: 'V245512',
@@ -49,6 +51,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   wildFireYear: string;
   incidentNumberSequnce: string;
   currentAdminIncident: WildfireIncidentResource;
+  currentAdminIncidentCause: IncidentCauseResource;
+
 
   public readonly incidentForm: FormGroup
 
@@ -59,15 +63,16 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               private store: Store<RootState>,
               ) {
     this.incidentForm = this.formBuilder.group({
-      fireName: [],
-      fireNumber: [],
+      incidentName: [],
+      incidentNumberSequence: [],
+      incidentLocation:[],
       traditionalTerritory: [],
       lastPublished: [],
       publishedStatus: [],
-      fireOfNote: [],
-      location: [],
+      fireOfNotePublishedInd: [],
+      geographicDescription: [],
       sizeType: [],
-      sizeHectares: [],
+      incidentSituation: [],
       sizeComments: [],
       cause: [],
       causeComments: [],
@@ -94,7 +99,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       //myRequiredField: ['', Validators.required],
     })
     // Update this to to pull from the api... service.getData().subscribe(...)
-    this.incidentForm.patchValue(this.incident)
+    // this.incidentForm.patchValue(this.incident)
   }
 
   ngOnInit() {
@@ -112,6 +117,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.adminIncident){
       this.currentAdminIncident = changes.adminIncident.currentValue
+      this.incidentForm.patchValue(this.currentAdminIncident)
+    }
+
+    if (changes.adminIncidentCause){
+      this.currentAdminIncidentCause = changes.adminIncidentCause.currentValue
     }
   }
 
