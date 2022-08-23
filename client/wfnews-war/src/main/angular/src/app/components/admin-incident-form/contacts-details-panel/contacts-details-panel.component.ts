@@ -7,7 +7,8 @@ import { fireCentreOption } from '../../../conversion/models';
 @Component({
   selector: 'contacts-details-panel',
   templateUrl: './contacts-details-panel.component.html',
-  styleUrls: ['./contacts-details-panel.component.scss']
+  styleUrls: ['./contacts-details-panel.component.scss',
+    '../../base/base.component.scss']
 })
 export class ContactsDetailsPanel implements OnInit, OnChanges {
   @Input() public readonly formGroup: FormGroup

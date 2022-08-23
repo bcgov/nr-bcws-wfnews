@@ -1,4 +1,5 @@
 import {Action} from "@ngrx/store";
+import { GET_INCIDENT, GET_INCIDENT_ERROR } from "../incident/incident.action";
 import { SEARCH_INCIDENTS, SEARCH_INCIDENTS_ERROR, SEARCH_INCIDENTS_SUCCESS } from "../incidents/incidents.action";
 import { INCIDENTS_COMPONENT_ID } from "../incidents/incidents.stats";
 import {
@@ -14,14 +15,17 @@ import {
 export function applicationReducer(state: ApplicationState = getDefaultApplicationState(), action: Action): ApplicationState {
     switch (action.type) {
 
-        case SEARCH_INCIDENTS: {
+        case SEARCH_INCIDENTS: 
+        case GET_INCIDENT: {
             return updateLoadState(state, action, true);
         }
 
-        case SEARCH_INCIDENTS_SUCCESS: {
+        case SEARCH_INCIDENTS_SUCCESS: 
+        case GET_INCIDENT_ERROR: {
             return updateLoadState(state, action, false);
         }
-        case SEARCH_INCIDENTS_ERROR: {
+        case SEARCH_INCIDENTS_ERROR:
+        case GET_INCIDENT_ERROR: {
             return updateErrorState(state, action, action["payload"]["error"]);
         }
 

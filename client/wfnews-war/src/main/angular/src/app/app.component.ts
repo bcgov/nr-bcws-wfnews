@@ -268,7 +268,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     isAdminPage() {
-        if (this.router.url === '/admin' ) {
+        if (this.router.url === '/admin' || this.router.url.includes("/incident?")) {
             return true;
         } else {
             return false;
