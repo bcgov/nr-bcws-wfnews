@@ -5,6 +5,7 @@ import { timestamp } from 'rxjs/operators';
 import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
+import { ResourcesRoutes } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WfAdminPanelComponentModel } from './wf-admin-panel.component.model';
 
@@ -105,6 +106,12 @@ clearSearchAndFilters() {
     }
   }
 
+  selectIncident(incident: any) {
+    console.log(incident)
+    setTimeout(() => {
+        this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], { queryParams: {wildFireYear: incident.wildfireYear, incidentNumberSequence: incident.incidentNumberSequence}});
+    }, 100);
+}
 
 }
 

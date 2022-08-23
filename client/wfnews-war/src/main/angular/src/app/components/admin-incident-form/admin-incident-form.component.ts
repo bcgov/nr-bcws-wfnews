@@ -1,17 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Store } from '@ngrx/store';
 import { AppConfigService } from '@wf1/core-ui';
+import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
+import { RootState } from '../../store';
+import { getIncident } from '../../store/incident/incident.action';
 
-@Component({
-  selector: 'admin-incident-form',
-  templateUrl: './admin-incident-form.component.html',
-  styleUrls: ['./admin-incident-form.component.scss']
-})
+@Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
   // when an actual resource model is in place, use that
   // and load from the store/api
+  @Input() adminIncident: any;
+  @Input() adminIncidentCause: any;
+
+
   public incident = {
     fireNumber: 'V245512',
     fireName: 'This is a Test',
@@ -43,22 +48,31 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       emailAddress: 'email@address.com'
     }
   }
+  wildFireYear: string;
+  incidentNumberSequnce: string;
+  currentAdminIncident: WildfireIncidentResource;
+  currentAdminIncidentCause: IncidentCauseResource;
+
 
   public readonly incidentForm: FormGroup
 
   constructor(private http: HttpClient,
               private appConfig: AppConfigService,
-              private readonly formBuilder: FormBuilder) {
+              private readonly formBuilder: FormBuilder,
+              private router: ActivatedRoute,
+              private store: Store<RootState>,
+              ) {
     this.incidentForm = this.formBuilder.group({
-      fireName: [],
-      fireNumber: [],
+      incidentName: [],
+      incidentNumberSequence: [],
+      incidentLocation:[],
       traditionalTerritory: [],
       lastPublished: [],
       publishedStatus: [],
-      fireOfNote: [],
-      location: [],
+      fireOfNotePublishedInd: [],
+      geographicDescription: [],
       sizeType: [],
-      sizeHectares: [],
+      incidentSituation: [],
       sizeComments: [],
       cause: [],
       causeComments: [],
@@ -85,13 +99,30 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       //myRequiredField: ['', Validators.required],
     })
     // Update this to to pull from the api... service.getData().subscribe(...)
-    this.incidentForm.patchValue(this.incident)
+    // this.incidentForm.patchValue(this.incident)
   }
 
   ngOnInit() {
+    this.router.queryParams.subscribe(
+      (params:ParamMap) => {
+        if (params && params['wildFireYear'] && params['incidentNumberSequence']){
+          this.wildFireYear = params['wildFireYear'];
+          this.incidentNumberSequnce = params['incidentNumberSequence']
+          this.store.dispatch(getIncident(this.wildFireYear,this.incidentNumberSequnce))
+        }
+      }
+    )
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    if (changes.adminIncident){
+      this.currentAdminIncident = changes.adminIncident.currentValue
+      this.incidentForm.patchValue(this.currentAdminIncident)
+    }
+
+    if (changes.adminIncidentCause){
+      this.currentAdminIncidentCause = changes.adminIncidentCause.currentValue
+    }
   }
 
   publish () {

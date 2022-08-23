@@ -1,11 +1,11 @@
 import { Action } from "@ngrx/store";
+import { WildfireIncidentResource } from "@wf1/incidents-rest-api";
 import { LabeledAction } from "..";
 import { ErrorState, PagingInfoRequest } from "../application/application.state";
 
 export const SEARCH_INCIDENTS = "SEARCH_INCIDENTS";
 export const SEARCH_INCIDENTS_SUCCESS = "SEARCH_INCIDENTS_SUCCESS";
 export const SEARCH_INCIDENTS_ERROR = "SEARCH_INCIDENTS_ERROR";
-
 export interface SearchIncidentsAction extends LabeledAction {
     componentId: string;
     payload: {
@@ -29,6 +29,7 @@ export interface SearchIncidentsErrorAction extends Action {
         error: ErrorState;
     };
 }
+
 
 export function searchIncidents(componentId: string,
     pageInfoRequest: PagingInfoRequest,
@@ -67,3 +68,4 @@ export function SearchIncidentsError(componentId: string, error: ErrorState): Se
         }
     };
 }
+

@@ -8,6 +8,8 @@ import { AdminContainerDesktop } from './containers/admin/admin-container.compon
 import { ResourcesRoutes } from './utils';
 import { ROLES_UI } from './shared/scopes/scopes';
 import { NewsAuthGuard } from './services/util/NewsAuthGuard';
+import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
+import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 // Components
 // import {ActionsPanelComponent} from './panels';
 
@@ -24,7 +26,8 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.ERROR_PAGE, component: WFMapContainerComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full',
   canActivate: [NewsAuthGuard],},
-  { path: ResourcesRoutes.ADMIN_INCIDENT, component: AdminIncidentForm, pathMatch: 'full'}
+  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full',
+  canActivate: [NewsAuthGuard],}
 ];
 
 

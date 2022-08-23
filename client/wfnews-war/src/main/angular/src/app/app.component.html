@@ -8,8 +8,10 @@
         [(state)]="applicationState"
         [useAppLogo]="isAdminPage()"
         [useSystemAndUser]="isAdminPage()"
+        [useSupportLink]="isAdminPage()"
         [useMenu]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
+        (onSupportLinkClick)="navigateToBcSupport()"
         (navigateToBcSupport)="navigateToBcSupport()"
     ></wf-header>
 

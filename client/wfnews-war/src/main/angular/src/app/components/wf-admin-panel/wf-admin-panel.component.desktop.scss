@@ -44,3 +44,15 @@ table tr:nth-child(even) td{
     width:15%;
     display: inline-block;
 }
+
+.input-clear-button{
+    margin-bottom: 8px;
+    margin-left: 278px;
+    position: absolute;
+    line-height: 24px;
+    height: 24px;
+    width: 24px;
+    font-size: 15px;
+    border-radius: 20%;
+    background-color: #f2f2f2;
+}

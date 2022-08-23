@@ -6,7 +6,7 @@
             <div class="field">
               <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
                 <mat-label class="label required">Fire Name</mat-label>
-                <input matInput type="text" placeholder="Fire Name" formControlName="fireName" readonly>
+                <input matInput type="text" placeholder="Fire Name" formControlName="incidentNumberSequence" readonly>
               </mat-form-field>
             </div>
             <div class="field">
@@ -17,15 +17,15 @@
             </div>
             <div class="field">
                 <mat-label id="fireOfNote">Wildfire Of Note</mat-label><br/>
-                <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNote">
-                  <mat-radio-button value="N">No</mat-radio-button>
-                  <mat-radio-button value="Y">Yes</mat-radio-button>
+                <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNotePublishedInd">
+                  <mat-radio-button value="fireOfNotePublishedInd">No</mat-radio-button>
+                  <mat-radio-button value="fireOfNotePublishedInd">Yes</mat-radio-button>
                 </mat-radio-group>
             </div>
             <div class="field">
               <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
                 <mat-label class="label required">Location</mat-label>
-                <input matInput type="text" placeholder="location" formControlName="location">
+                <input matInput type="text" placeholder="location" formControlName="geographicDescription">
               </mat-form-field>
             </div>
           </div>
@@ -45,7 +45,7 @@
           <div class="field">
             <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
               <mat-label class="label required">Size</mat-label>
-              <input matInput type="text" placeholder="Size" formControlName="sizeHectares" readonly>
+              <input matInput type="text" placeholder="Size" formControlName="incidentLocation.latitude" readonly>
             </mat-form-field>
           </div>
           <div class="field">
