@@ -152,6 +152,7 @@ variable "cloudfront" {
 
 variable "cloudfront_origin_domain" {
   description = "domain name of the ssp"
+  default = ""
   type        = string
 }
 

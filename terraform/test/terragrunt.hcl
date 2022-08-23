@@ -7,7 +7,7 @@ include {
 }
 
 locals {
-  sec_group = "Web_sg"
+  sec_group = "App_sg"
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
