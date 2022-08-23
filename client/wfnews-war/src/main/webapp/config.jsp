@@ -112,7 +112,7 @@
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"causecodes\":\"").append(causecodesUri).append("\"");
-    json.append("}");
+    json.append("},");
 
     // WebADE OAuth Section
     json.append("\"webade\":{");
@@ -122,7 +122,7 @@
       json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"checkToken.jsp\"");
 
-    json.append("},");
+    json.append("}");
 
     json.append("}");
     out.write(json.toString());
