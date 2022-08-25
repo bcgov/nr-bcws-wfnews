@@ -3,19 +3,21 @@
     <fieldset class="field-set" formGroupName="contact">
       <div class="news-form">
           <div class="field size-third">
-            <mat-label class="label">Fire Centre</mat-label>
-            <select appWFSingleSelect appWFPlaceholder="Select..."
-                    aria-label="Type"
-                    [options]="fireCentreOptions"
-                    formControlName="fireCentre">
-                <option value="">
-                    <span class="placeholder">Select...</span>
-                </option>
-                <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
-                    <span>{{item.fireCentreName}}</span>
-                </option>
-            </select>
-        </div>
+            <mat-form-field appearance="standard" class="item-full-width">
+              <mat-label>Fire Centre</mat-label>
+              <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+              aria-label="Type"
+              [options]="fireCentreOptions"
+              formControlName="fireCentre">
+                <mat-option value="">
+                  <span class="placeholder">Select...</span>
+                </mat-option>
+                <mat-option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+                  <span>{{item.fireCentreName}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
           <div class="field size-third">
             <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
               <mat-label class="label required">Phone Number</mat-label>

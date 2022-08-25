@@ -3,21 +3,19 @@
     <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of evacOrders">
       <div class="news-form">
         <div class="field size-third">
-          <select appWFSingleSelect appWFPlaceholder="Select..."
-                  aria-label="Type"
-                  [value]="item.orderAlertStatus"
-                  disabled
-                  class="disabled-input">
-            <option value="">
-                <span class="placeholder">Select...</span>
-            </option>
-            <option value="Order">
-              <span>Order</span>
-            </option>
-            <option value="Alert">
-              <span>Alert</span>
-            </option>
-          </select>
+          <mat-form-field appearance="standard" class="item-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select class="disabled-input" appWFSingleSelect appWFPlaceholder="Select..."
+                        aria-label="Type"
+                        [value]="item.orderAlertStatus" disabled>
+              <mat-option value="Order">
+                <span>Order</span>
+              </mat-option>
+              <mat-option value="Alert">
+                <span>Alert</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
