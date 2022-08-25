@@ -7,7 +7,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import { RootState } from '../../store';
 import { getIncident } from '../../store/incident/incident.action';
-
+import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
@@ -16,6 +16,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @Input() adminIncident: any;
   @Input() adminIncidentCause: any;
 
+  public Editor = Editor;
 
   public incident = {
     fireNumber: 'V245512',
@@ -134,5 +135,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     const rawData = this.incidentForm.getRawValue()
     console.log(rawData)
     //this.service.submitUpdate(this.incidentForm.getRawValue()).subscribe((): void => {...})
+  }
+
+  // for decoupled editor
+  public onReady( editor ) {
+    editor.ui.getEditableElement().parentElement.insertBefore(
+        editor.ui.view.toolbar.element,
+        editor.ui.getEditableElement()
+    );
   }
 }

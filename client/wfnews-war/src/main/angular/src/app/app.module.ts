@@ -73,6 +73,8 @@ import { EvacOrdersDetailsPanel } from './components/admin-incident-form/evac-or
 import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel copy/area-restrictions-details-panel.component';
 import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -133,9 +135,12 @@ export const DATE_FORMATS = {
         MatGridListModule,
         MatCardModule,
         MatChipsModule,
+        MatTableModule,
+        MatTabsModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         OwlMomentDateTimeModule,
+        CKEditorModule,
         CoreUIModule.forRoot({ configurationPath: environment.app_config_location }),
         IncidentsApiModule,
         OrgUnitApiModule,
