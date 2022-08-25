@@ -29,7 +29,17 @@ export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
     // need to support a spatial query here
     // query by the fire location point with a buffer
     // also, move to a service class
+
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString();
+    // append query. Only search for Fire events
+    url += "query?where=EVENT_TYPE='fire'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token="
+
+    if (Object.prototype.hasOwnProperty.call(this.incident, 'geometry')) {
+      // Get the incident geometry, buffer the points by x metres
+      // right now, just moving by 10 points of lat/long
+      url += `&geometry=${this.incident.geometry.x - 5},${this.incident.geometry.y - 5},${this.incident.geometry.x + 5},${this.incident.geometry.y + 5}`
+    }
+
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin','*');
     headers.append('Accept','*/*');

@@ -4,18 +4,19 @@
       <div class="news-form">
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
-            <mat-label class="label required">Fire Name</mat-label>
+            <mat-label class="label">Fire Name</mat-label>
             <input matInput class="disabled-input" type="text" placeholder="Fire Name" formControlName="incidentNumberSequence" disabled>
           </mat-form-field>
         </div>
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
-            <mat-label class="label required">Traditional Territory</mat-label>
+            <mat-label class="label">Traditional Territory</mat-label>
             <input matInput type="text" placeholder="Traditional Territory" formControlName="traditionalTerritory">
           </mat-form-field>
         </div>
-        <div class="field size-third">
-            <mat-label id="fireOfNote">Wildfire Of Note</mat-label><br/>
+        <div class="field size-third radio-checkbox-group">
+            <mat-label id="fireOfNote">Wildfire Of Note</mat-label>
+            <mat-icon class="fire-icon">local_fire_department</mat-icon>
             <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNotePublishedInd">
               <mat-radio-button value="fireOfNotePublishedInd">No</mat-radio-button>
               <mat-radio-button value="fireOfNotePublishedInd">Yes</mat-radio-button>

@@ -72,6 +72,7 @@
   font-size: 20px;
   padding-left: 16px;
   padding-right: 16px;
+  font-weight: 600;
 }
 
 .details {
@@ -241,20 +242,6 @@
 
 	button{
 		margin-left: 10px;
-	}
-}
-
-::ng-deep mat-icon.polygon-tool{
-	svg {
-		height: 26px;
-		width: 26px;
-	}
-}
-
-::ng-deep mat-icon.pin-tool{
-	svg {
-		height: 25px;
-		width: 26px;
 	}
 }
 

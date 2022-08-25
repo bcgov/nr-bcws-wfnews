@@ -46,6 +46,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       fireCentre: null,
       phoneNumber: '1231231233',
       emailAddress: 'email@address.com'
+    },
+    geometry: {
+      x: -115,
+      y: 50
     }
   }
   wildFireYear: string;
@@ -108,7 +112,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         if (params && params['wildFireYear'] && params['incidentNumberSequence']){
           this.wildFireYear = params['wildFireYear'];
           this.incidentNumberSequnce = params['incidentNumberSequence']
-          this.store.dispatch(getIncident(this.wildFireYear,this.incidentNumberSequnce))
+          this.store.dispatch(getIncident(this.wildFireYear, this.incidentNumberSequnce))
         }
       }
     )
