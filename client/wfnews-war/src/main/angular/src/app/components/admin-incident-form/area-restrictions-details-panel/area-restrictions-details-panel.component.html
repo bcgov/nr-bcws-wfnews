@@ -1,0 +1,20 @@
+<ng-container [formGroup]="formGroup" class="incident-form">
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of areaRestrictions">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label required">Area Restriction Name</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Area Restriction Name" [value]="item.name" disabled>
+          </mat-form-field>
+        </div>
+        <div class="field size-two-thirds">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label">Information Bulletin URL</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Information Bulletin URL" [value]="item.bulletinUrl" disabled>
+          </mat-form-field>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+</ng-container>

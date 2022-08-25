@@ -70,7 +70,7 @@ import { ResponseDetailsPanel } from './components/admin-incident-form/response-
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ContactsDetailsPanel } from './components/admin-incident-form/contacts-details-panel/contacts-details-panel.component';
 import { EvacOrdersDetailsPanel } from './components/admin-incident-form/evac-orders-details-panel/evac-orders-details-panel.component';
-import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel copy/area-restrictions-details-panel.component';
+import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel/area-restrictions-details-panel.component';
 import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 
