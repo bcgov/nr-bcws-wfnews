@@ -1,34 +1,34 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card form-card">
-    <fieldset formGroupName="contact">
-        <div class="form-flex-wrapper">
-          <div class="form-flex flex-basis-full">
-            <div class="field">
-              <mat-label class="label">Fire Centre</mat-label>
-              <select appWFSingleSelect appWFPlaceholder="Select..."
-                      aria-label="Type"
-                      [options]="fireCentreOptions"
-                      formControlName="fireCentre">
-                  <option value="">
-                      <span class="placeholder">Select...</span>
-                  </option>
-                  <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
-                      <span>{{item.fireCentreName}}</span>
-                  </option>
-              </select>
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set" formGroupName="contact">
+      <div class="news-form">
+          <div class="field size-third">
+            <mat-form-field appearance="standard" class="item-full-width">
+              <mat-label>Fire Centre</mat-label>
+              <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+              aria-label="Type"
+              [options]="fireCentreOptions"
+              formControlName="fireCentre">
+                <mat-option value="">
+                  <span class="placeholder">Select...</span>
+                </mat-option>
+                <mat-option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+                  <span>{{item.fireCentreName}}</span>
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-            <div class="field">
-              <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-                <mat-label class="label required">Phone Number</mat-label>
-                <input matInput type="text" placeholder="Phone Number" formControlName="phoneNumber">
-              </mat-form-field>
-            </div>
-            <div class="field" >
-              <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-                <mat-label class="label required">Email Address</mat-label>
-                <input matInput type="text" placeholder="Email Address" formControlName="emailAddress">
-              </mat-form-field>
-            </div>
+          <div class="field size-third">
+            <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+              <mat-label class="label required">Phone Number</mat-label>
+              <input matInput type="text" placeholder="Phone Number" formControlName="phoneNumber">
+            </mat-form-field>
+          </div>
+          <div class="field size-third" >
+            <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+              <mat-label class="label required">Email Address</mat-label>
+              <input matInput type="text" placeholder="Email Address" formControlName="emailAddress">
+            </mat-form-field>
           </div>
         </div>
     </fieldset>

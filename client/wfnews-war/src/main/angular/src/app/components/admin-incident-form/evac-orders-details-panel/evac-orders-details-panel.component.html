@@ -1,36 +1,33 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card form-card">
-    <fieldset formGroupName="contact" *ngFor = "let item of evacOrders">
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <select appWFSingleSelect appWFPlaceholder="Select..."
-                    aria-label="Type"
-                    [value]="item.orderAlertStatus"
-                    readonly>
-              <option value="">
-                  <span class="placeholder">Select...</span>
-              </option>
-              <option value="Order">
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of evacOrders">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-form-field appearance="standard" class="item-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select class="disabled-input" appWFSingleSelect appWFPlaceholder="Select..."
+                        aria-label="Type"
+                        [value]="item.orderAlertStatus" disabled>
+              <mat-option value="Order">
                 <span>Order</span>
-              </option>
-              <option value="Alert">
+              </mat-option>
+              <mat-option value="Alert">
                 <span>Alert</span>
-              </option>
-            </select>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">Evacuation Name</mat-label>
-              <input matInput type="text" placeholder="Evacuation Name" [value]="item.eventName" readonly>
-            </mat-form-field>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">Evacuation Information URL</mat-label>
-              <input matInput type="text" placeholder="Evacuation Information URL" formControlName="evacInformationUrl">
-            </mat-form-field>
-          </div>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label required">Evacuation Name</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Evacuation Name" [value]="item.eventName" disabled>
+          </mat-form-field>
+        </div>
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label required">Evacuation Information URL</mat-label>
+            <input matInput type="text" placeholder="Evacuation Information URL" formControlName="evacInformationUrl">
+          </mat-form-field>
         </div>
       </div>
     </fieldset>

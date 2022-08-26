@@ -30,6 +30,16 @@ export class AreaRestrictionsDetailsPanel implements OnInit, OnChanges {
     // query by the fire location point with a buffer
     // also, move this into a service class
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
+
+    // append query
+    url += 'query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token='
+
+    if (Object.prototype.hasOwnProperty.call(this.incident, 'geometry')) {
+      // Get the incident geometry, buffer the points by x metres
+      // right now, just moving by 10 points of lat/long
+      url += `&geometry=${this.incident.geometry.x - 5},${this.incident.geometry.y - 5},${this.incident.geometry.x + 5},${this.incident.geometry.y + 5}`
+    }
+
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin','*');
     headers.append('Accept','*/*');

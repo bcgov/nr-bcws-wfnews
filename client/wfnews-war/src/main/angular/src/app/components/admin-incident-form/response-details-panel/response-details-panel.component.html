@@ -1,144 +1,132 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card form-card">
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="responseComments"></textarea>
-            </mat-form-field>
-          </div>
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="responseComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
+  <mat-card class="info-card news-form-card">
     <mat-card-title>
       Wildfire Crews
     </mat-card-title>
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin">Wildfire Crews</mat-checkbox>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="crewsComments"></textarea>
-            </mat-form-field>
-          </div>
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin">Wildfire Crews</mat-checkbox>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="crewsComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
+  <mat-card class="info-card news-form-card">
     <mat-card-title>
       Aviation
     </mat-card-title>
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-checkbox formControlName="aviationInd" class="example-margin">Wildfire Aviation</mat-checkbox>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="aviationComments"></textarea>
-            </mat-form-field>
-          </div>
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-checkbox formControlName="aviationInd" class="example-margin">Wildfire Aviation</mat-checkbox>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="aviationComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
+  <mat-card class="info-card news-form-card">
     <mat-card-title>
       Incident Management Teams
     </mat-card-title>
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-checkbox formControlName="incidentManagementInd" class="example-margin">Incident Management Teams</mat-checkbox>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="incidentManagementComments"></textarea>
-            </mat-form-field>
-          </div>
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-checkbox formControlName="incidentManagementInd" class="example-margin">Incident Management Teams</mat-checkbox>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="incidentManagementComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
+  <mat-card class="info-card news-form-card">
     <mat-card-title>
       Heavy Equipment
     </mat-card-title>
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin">Heavy Equipment</mat-checkbox>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="heavyEquipmentComments"></textarea>
-            </mat-form-field>
-          </div>
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin">Heavy Equipment</mat-checkbox>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="heavyEquipmentComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
+  <mat-card class="info-card news-form-card">
     <mat-card-title>
       Structure Protection
     </mat-card-title>
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-checkbox formControlName="structureProtectionInd" class="example-margin">Structure Protection Units</mat-checkbox>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="structureProtectionComments"></textarea>
-            </mat-form-field>
-          </div>
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-checkbox formControlName="structureProtectionInd" class="example-margin">Structure Protection Units</mat-checkbox>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="structureProtectionComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
