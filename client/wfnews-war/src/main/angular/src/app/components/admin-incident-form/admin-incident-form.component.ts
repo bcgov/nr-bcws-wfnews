@@ -47,7 +47,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       fireCentre: null,
       phoneNumber: '1231231233',
       emailAddress: 'email@address.com'
-    }
+    },
+    incidentOverview: ''
   }
   wildFireYear: string;
   incidentNumberSequnce: string;
