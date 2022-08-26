@@ -13,45 +13,54 @@
   </div>
 </div>
 <!-- Main Body Content -->
-<mat-accordion class="details">
-  <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel">
-      <mat-expansion-panel-header>
-          <mat-panel-title>
-              <span class="panel-title">Incident Details</span>
-          </mat-panel-title>
-      </mat-expansion-panel-header>
-      <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
-  </mat-expansion-panel>
-  <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="panel-title">Contact</span>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <contacts-details-panel [incident]="incident" [formGroup]="incidentForm"></contacts-details-panel>
-  </mat-expansion-panel>
-  <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="panel-title">Response</span>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
-  </mat-expansion-panel>
-  <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="panel-title">Evacuation Orders and Alerts</span>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <evac-orders-details-panel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
-  </mat-expansion-panel>
-  <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel">
-    <mat-expansion-panel-header>
-        <mat-panel-title>
-          <span class="panel-title">Area Restrictions</span>
-        </mat-panel-title>
-    </mat-expansion-panel-header>
-    <area-restrictions-details-panel [incident]="incident" [formGroup]="incidentForm"></area-restrictions-details-panel>
-  </mat-expansion-panel>
-</mat-accordion>
+<mat-tab-group>
+  <mat-tab label="Incident Information">
+    <mat-accordion class="details">
+      <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel">
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  <span class="panel-title">Incident Details</span>
+              </mat-panel-title>
+          </mat-expansion-panel-header>
+          <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="panel-title">Contact</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <contacts-details-panel [incident]="incident" [formGroup]="incidentForm"></contacts-details-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="panel-title">Response</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="panel-title">Evacuation Orders and Alerts</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <evac-orders-details-panel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
+      </mat-expansion-panel>
+      <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel">
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+              <span class="panel-title">Area Restrictions</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <area-restrictions-details-panel [incident]="incident" [formGroup]="incidentForm"></area-restrictions-details-panel>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mat-tab>
+  <mat-tab label="Incident Overview">
+    <ckeditor [editor]="Editor" [data]="incident.incidentOverview" (ready)="onReady($event)"></ckeditor>
+  </mat-tab>
+  <mat-tab label="Image/Video Gallery">Image/Video Gallery</mat-tab>
+  <mat-tab label="Maps">Maps</mat-tab>
+</mat-tab-group>
