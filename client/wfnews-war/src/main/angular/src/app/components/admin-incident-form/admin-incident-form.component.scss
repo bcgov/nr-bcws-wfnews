@@ -1,3 +1,5 @@
+@import '../../../styles/variables';
+
 :host {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 
@@ -14,7 +16,7 @@
   position: sticky;
   top: 0;
   border-bottom: 1px solid #e0e0e0;
-  z-index: 1;
+  z-index: 10;
   background: white;
 
   .title {
@@ -70,9 +72,184 @@
   font-size: 20px;
   padding-left: 16px;
   padding-right: 16px;
+  font-weight: 600;
 }
 
 .details {
   margin: 16px 16px
 }
 
+::ng-deep .disabled-input {
+  color: black !important;
+}
+
+
+.news-panel {
+	box-sizing: border-box;
+	max-height: $wf1-app-main-panel-tab-panel-height;
+
+    mat-card {
+    	margin-bottom: .5rem;
+    }
+}
+
+::ng-deep .item-full-width {
+  width: 100%;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane .fire-size-select-content,mat-select-panel-done-animating{
+	min-height: 20rem !important
+}
+
+::ng-deep .news-form-card {
+	box-sizing: border-box;
+	padding: 1rem;
+
+  .field-set {
+    border: none;
+    border-bottom: 1px solid #a1a3a6;
+  }
+
+	.news-form {
+		display: flex;
+		flex-wrap: wrap;
+
+    .size-unset {
+			box-sizing: border-box;
+			padding: .5rem 1rem;
+		}
+
+		.size-third {
+			flex: 0 0 33.33%;
+			box-sizing: border-box;
+			padding: .5rem 1rem;
+		}
+
+		.size-half {
+			flex: 0 0 50%;
+			box-sizing: border-box;
+			padding: .5rem 1rem;
+		}
+
+		.size-two-thirds {
+			flex: 0 0 66.67%;
+			box-sizing: border-box;
+			padding: .5rem 1rem;
+		}
+
+		.size-full {
+			flex: 0 0 100%;
+			box-sizing: border-box;
+			padding: .25rem 1rem 0;
+		}
+
+		.location-controls {
+			display: flex;
+
+			mat-form-field {
+				flex: 1 1 auto;
+				padding-right: 1rem;
+			}
+
+			.location-buttons {
+				display: flex;
+
+				button.mat-button {
+					flex: 0 0 2rem;
+					min-width: 2rem;
+					width: 2rem;
+					min-height: 2rem;
+					height: 2rem;
+					padding: 0;
+
+					mat-icon {
+						min-width: 2rem;
+						width: 2rem;
+						min-height: 2rem;
+						height: 2rem;
+					}
+				}
+			}
+		}
+
+		.radio-checkbox-group {
+			position: relative;
+
+			mat-label {
+				position: absolute;
+				top: 0;
+				left: 1rem;
+				font-size: x-small;
+			}
+
+			mat-radio-group,
+			.checkbox-group {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				padding-bottom: .5rem;
+
+				mat-radio-button,
+				mat-checkbox {
+					box-sizing: border-box;
+					padding-top: 1rem;
+					padding-right: 1rem;
+				}
+
+				.short-label {
+					flex: 0 0 6rem;
+					max-width: 6rem;
+				}
+
+				.long-label {
+					flex: 0 0 7rem;
+					max-width: 7rem;
+				}
+			}
+		}
+
+		.submit-controls {
+			display: flex;
+			justify-content: flex-end;
+			// padding-right: 5rem;
+			.flex-spacer {
+				flex: 1 1 auto;
+			}
+		}
+	}
+}
+
+.relay-form{
+	padding-bottom: 20px;
+}
+.news-form-card .news-form .size-full.relay-panel {
+	display: flex;
+	padding-top: 20px;
+
+	.fill-space {
+		flex: 1 1 auto;
+		padding: 0 .5rem;
+	}
+
+	.fixed-width-350{
+		width:350px;
+	}
+
+	.submit-controls {
+		flex: 0 0 auto;
+		padding: 0 2rem;
+	}
+
+	button{
+		margin-left: 10px;
+	}
+}
+
+mat-card h3 {
+    display: flex;
+    align-items: center;
+
+    wf-icon {
+        margin-right: 5px;
+    }
+}

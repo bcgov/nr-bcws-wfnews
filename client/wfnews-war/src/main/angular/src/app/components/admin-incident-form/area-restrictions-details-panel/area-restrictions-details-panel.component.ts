@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AppConfigService } from '@wf1/core-ui';
+import { FormGroup } from '@angular/forms';
 import { AreaRestrictionsOption } from '../../../conversion/models';
+import { AGOLService } from '../../../services/AGOL-service';
 
 @Component({
   selector: 'area-restrictions-details-panel',
@@ -15,7 +14,7 @@ export class AreaRestrictionsDetailsPanel implements OnInit, OnChanges {
 
   areaRestrictions : AreaRestrictionsOption[] = []
 
-  constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
+  constructor(private agolService: AGOLService) {
   }
 
   ngOnInit() {
@@ -25,15 +24,8 @@ export class AreaRestrictionsDetailsPanel implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
   }
 
-  getAreaRestrictions(){
-    // need to support a spatial query here
-    // query by the fire location point with a buffer
-    // also, move this into a service class
-    let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin','*');
-    headers.append('Accept','*/*');
-    this.http.get<any>(url,{headers}).subscribe(response => {
+  getAreaRestrictions () {
+    this.agolService.getAreaRestrictions(this.incident.geometry).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push({

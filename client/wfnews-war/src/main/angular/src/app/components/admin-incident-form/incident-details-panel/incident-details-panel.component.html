@@ -1,89 +1,84 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card form-card">
-    <fieldset>
-        <div class="form-flex-wrapper">
-          <div class="form-flex flex-basis-full">
-            <div class="field">
-              <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-                <mat-label class="label required">Fire Name</mat-label>
-                <input matInput type="text" placeholder="Fire Name" formControlName="incidentNumberSequence" readonly>
-              </mat-form-field>
-            </div>
-            <div class="field">
-              <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-                <mat-label class="label required">Traditional Territory</mat-label>
-                <input matInput type="text" placeholder="Traditional Territory" formControlName="traditionalTerritory">
-              </mat-form-field>
-            </div>
-            <div class="field">
-                <mat-label id="fireOfNote">Wildfire Of Note</mat-label><br/>
-                <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNotePublishedInd">
-                  <mat-radio-button value="fireOfNotePublishedInd">No</mat-radio-button>
-                  <mat-radio-button value="fireOfNotePublishedInd">Yes</mat-radio-button>
-                </mat-radio-group>
-            </div>
-            <div class="field">
-              <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-                <mat-label class="label required">Location</mat-label>
-                <input matInput type="text" placeholder="location" formControlName="geographicDescription">
-              </mat-form-field>
-            </div>
-          </div>
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label">Fire Name</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Fire Name" formControlName="incidentNumberSequence" disabled>
+          </mat-form-field>
         </div>
-    </fieldset>
-  </mat-card>
-  <mat-card class="info-card form-card">
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">Size Type</mat-label>
-              <input matInput type="text" placeholder="Size Type" formControlName="sizeType" readonly>
-            </mat-form-field>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">Size</mat-label>
-              <input matInput type="text" placeholder="Size" formControlName="incidentLocation.latitude" readonly>
-            </mat-form-field>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="sizeComments"></textarea>
-            </mat-form-field>
-          </div>
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label">Traditional Territory</mat-label>
+            <input matInput type="text" placeholder="Traditional Territory" formControlName="traditionalTerritory">
+          </mat-form-field>
+        </div>
+        <div class="field size-third radio-checkbox-group">
+            <mat-label id="fireOfNote">Wildfire Of Note</mat-label>
+            <mat-icon class="fire-icon">local_fire_department</mat-icon>
+            <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNotePublishedInd">
+              <mat-radio-button value="fireOfNotePublishedInd">No</mat-radio-button>
+              <mat-radio-button value="fireOfNotePublishedInd">Yes</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">Location</mat-label>
+            <input matInput type="text" placeholder="location" formControlName="geographicDescription">
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card form-card">
-    <fieldset>
-      <div class="form-flex-wrapper">
-        <div class="form-flex flex-basis-full">
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">Cause</mat-label>
-              <input matInput type="text" placeholder="Cause" formControlName="cause" readonly>
-            </mat-form-field>
-          </div>
-          <div class="field">
-            <mat-form-field class="field-label-value" appearance="standard" floatLabel="always">
-              <mat-label class="label required">General Disclaimer and Comments</mat-label>
-              <textarea matInput
-                  cdkTextareaAutosize
-                  #autosize="cdkTextareaAutosize"
-                  cdkAutosizeMinRows="1"
-                  cdkAutosizeMaxRows="5"
-                  formControlName="causeComments"></textarea>
-            </mat-form-field>
-          </div>
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Size Type</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Size Type" formControlName="sizeType" disabled>
+          </mat-form-field>
+        </div>
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Size</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Size" formControlName="size" disabled>
+          </mat-form-field>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="sizeComments"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-third">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label required">Cause</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Cause" formControlName="cause" disabled>
+          </mat-form-field>
+        </div>
+        <div class="field size-full">
+          <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
+            <mat-label class="label required">General Disclaimer and Comments</mat-label>
+            <textarea matInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                formControlName="causeComments"></textarea>
+          </mat-form-field>
         </div>
       </div>
     </fieldset>
