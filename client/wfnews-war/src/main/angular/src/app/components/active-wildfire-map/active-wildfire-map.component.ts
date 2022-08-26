@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
+import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
 import { SmkApi } from '../../utils/smk';
 
@@ -42,6 +43,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
         private http: HttpClient,
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
+        private agolService: AGOLService
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         // console.log(this.incidentsServiceUrl)
@@ -89,22 +91,16 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     }
 
     get activeFireCount(): Promise<number> {
-        if ( this.activeFireCountPromise ) {
-return this.activeFireCountPromise;
-}
-
-        const url = this.incidentsServiceUrl + '/incidents';
-        // console.log('get',url)
-
-        this.activeFireCountPromise = this.http.get( url ).toPromise()
-            .then( ( resp: any ) => {
-                console.log( resp );
-                return resp?.collection.length;
-            } )
-            .catch( ( e ) => {
-                console.warn( e );
-                return 123;
-            } );
+      if ( this.activeFireCountPromise ) {
+        return this.activeFireCountPromise;
+      }
+      this.activeFireCountPromise = this.agolService.getActiveFireCount().toPromise()
+        .then( ( resp: any ) => {
+            return resp?.features[0].attributes.value;
+        }).catch( ( e ) => {
+          console.error('COUNTSTATS-FAIL' );
+            return 123;
+        });
 
         return this.activeFireCountPromise;
     }

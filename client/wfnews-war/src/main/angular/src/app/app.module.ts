@@ -75,6 +75,7 @@ import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { AGOLService } from './services/AGOL-service';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -181,6 +182,7 @@ export const DATE_FORMATS = {
             provide: RouteReuseStrategy,
             useClass: CustomReuseStrategy
         },
+        AGOLService,
         TokenService,
         UpdateService,
         {
