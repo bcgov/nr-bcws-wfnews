@@ -24,6 +24,15 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     security_groups = [data.aws_security_group.web.id]
     #cidr_blocks = ["0.0.0.0/0"]
   }
+    
+  #necessary for postgres dev work
+  #TODO: REMOVE  THIS
+  ingress {
+    protocol = "postgresql"
+    from_port = 0
+    to_port = 5432
+    #cidr_blocks = ["0.0.0.0/0"]
+  }
 
   # #Permit external access for test purposes
   # ingress {

@@ -13,6 +13,11 @@ data "aws_iam_policy_document" "ecs_task_execution_role" {
     }
   }
 }
+
+data "aws_iam_role" "wfnews_automation_role" {
+  name = "BCGOV_${var.target_env}_Automation_Admin_Role"
+}
+
 # ECS task execution role
 resource "aws_iam_role" "wfnews_ecs_task_execution_role" {
   name               = var.ecs_task_execution_role_name

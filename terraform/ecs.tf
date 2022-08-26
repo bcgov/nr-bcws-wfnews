@@ -6,6 +6,7 @@ resource "aws_ecs_cluster" "wfnews_main" {
   tags = local.common_tags
 }
 
+# note - update strategy to use both spot and non-spot
 resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
     cluster_name = aws_ecs_cluster.wfnews_main.name
 
