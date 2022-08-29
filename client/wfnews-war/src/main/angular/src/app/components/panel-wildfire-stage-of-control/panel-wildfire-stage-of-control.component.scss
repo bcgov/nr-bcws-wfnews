@@ -2,12 +2,21 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;
+    padding: 10px 20px;
+
+    
+    .list-view-button{
+        margin-left:10px;
+    }
 
     .show-toggle {
         flex-grow: 1;
         display: flex;
         justify-content: flex-end;
+
+        .wildfires-note-toggle{
+            padding: 0px 10px;
+        }
     }
 }
 
