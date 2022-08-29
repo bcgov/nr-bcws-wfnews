@@ -24,7 +24,7 @@ section {
 
     article {
         font-size: 15px;
-        padding: 10px 20px;
+        padding: 5px 20px;
 
         h2 {
             font-size: 15px;
@@ -107,6 +107,10 @@ section {
                 height: 20px;
                 margin-right: 10px
             }
+        }
+        .paragraph-format{
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
     }
 }
