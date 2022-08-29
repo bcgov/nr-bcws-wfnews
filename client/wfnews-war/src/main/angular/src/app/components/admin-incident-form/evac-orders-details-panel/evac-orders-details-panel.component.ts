@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { EvacOrderOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
 
@@ -14,7 +14,7 @@ export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
 
   evacOrders : EvacOrderOption[] = []
 
-  constructor(private agolService: AGOLService) {
+  constructor(private agolService: AGOLService, private readonly formBuilder: FormBuilder) {
   }
 
   ngOnInit() {
@@ -22,6 +22,33 @@ export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+  }
+
+  addEvacOrder () {
+    this.incident.evacOrders.push({
+      orderAlertStatus: null,
+      eventName: '',
+      url: ''
+    })
+    this.evacOrderForm.push(this.formBuilder.group({
+      orderAlertStatus: [],
+      eventName: [],
+      url: []
+    }))
+    console.log(this.incident.evacOrders)
+    console.log(this.formGroup.value)
+  }
+
+  deleteEvacOrder (evacOrder) {
+    const index = this.incident.evacOrders.indexOf(evacOrder)
+    if (index) {
+      this.incident.evacOrders.splice(index, 1)
+      this.evacOrderForm.removeAt(index)
+    }
+  }
+
+  get evacOrderForm() : FormArray {
+    return this.formGroup.get("evacOrders") as FormArray
   }
 
   getEvacOrders () {
