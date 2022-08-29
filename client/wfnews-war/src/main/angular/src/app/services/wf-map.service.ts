@@ -304,39 +304,45 @@ this.patchPromise = Promise.resolve()
                     ] }
                 );
 
-                // include.tag( "layer-image-leaflet",
-                //     { loader: "group", tags: [
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-image-leaflet.js" },
-                //     ] }
-                // )
+                include.tag( "layer-image",
+                    { loader: "group", tags: [
+                        { loader: "script", url: "./assets/js/smk/plugin-time-dimension/layer/layer-image.js" },
+                    ] }
+                )
 
-                // include.tag( "layer-wms-time",
-                //     { loader: "group", tags: [
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/layer/layer-wms-time.js" }
-                //     ] }
-                // );
+                include.tag( "layer-image-leaflet",
+                     { loader: "group", tags: [
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-image-leaflet.js" },
+                     ] }
+                 )
 
-                // include.tag( "layer-wms-time-leaflet",
-                //     { loader: "group", tags: [
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-wms-time-leaflet.js" }
-                //     ] }
-                // );
+                 include.tag( "layer-wms-time",
+                     { loader: "group", tags: [
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/layer/layer-wms-time.js" }
+                     ] }
+                 );
 
-                // include.tag( "tool-time-dimension",
-                //     { loader: "group", tags: [
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/tool/time-dimension/tool-time-dimension.js" }
-                //     ] }
-                // )
+                 include.tag( "layer-wms-time-leaflet",
+                     { loader: "group", tags: [
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-wms-time-leaflet.js" }
+                     ] }
+                 );
 
-                // include.tag( "tool-time-dimension-leaflet",
-                //     { loader: "sequence", tags: [
-                //         { loader: "style", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" },
-                //         { loader: "script", url: "https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js" },
-                //         { loader: "script", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js" },
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/lib/time-dimension-layer-image-overlay.js" },
-                //         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/tool-time-dimension-leaflet.js" }
-                //     ] }
-                // )
+                 include.tag( "tool-time-dimension",
+                     { loader: "group", tags: [
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/tool/time-dimension/tool-time-dimension.js" }
+                     ] }
+                 )
+
+                 include.tag( "tool-time-dimension-leaflet",
+                     { loader: "sequence", tags: [
+                         { loader: "style", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" },
+                         { loader: "script", url: "https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js" },
+                         { loader: "script", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js" },
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/lib/time-dimension-layer-image-overlay.js" },
+                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/tool-time-dimension-leaflet.js" }
+                     ] }
+                 )
 
                 return include(
                     'leaflet-extensions',
@@ -345,7 +351,9 @@ this.patchPromise = Promise.resolve()
                     'layer-nrofs-leaflet',
                     'layer-mobile-resources-leaflet',
                     'layer-resource-tracks-leaflet',
-                    'layer-wms-time-cql-leaflet'
+                    'layer-wms-time-cql-leaflet',
+                    'layer-image-leaflet',
+                    'layer-wms-time-leaflet'
                 ).then( function() {
                     console.log('custom smk layers loaded');
                 } );
@@ -445,7 +453,7 @@ extraFilter = ' AND ' + extraFilter;
 }
 
                     const polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[ 0 ].map( function( c ) {
- return c.join( ' ' ); 
+ return c.join( ' ' );
 } ).join( ',' ) + '))';
 
                     const data = {
@@ -475,7 +483,7 @@ extraFilter = ' AND ' + extraFilter;
                                 try {
                                     res( JSON.parse( reader.result.toString() ) );
                                 } catch ( e ) {
- rej( e ); 
+ rej( e );
 }
                             };
                             reader.readAsBinaryString( blob );
@@ -530,7 +538,7 @@ f.title = 'Feature #' + ( i + 1 );
                                 reader.onload = () => res( reader.result );
                                 reader.readAsDataURL( blob );
                             } catch ( e ) {
- rej( e ); 
+ rej( e );
 }
                         } ) )
                     .then( ( dataUrl: string ) => new Promise( ( res, rej ) => {
@@ -545,7 +553,7 @@ f.title = 'Feature #' + ( i + 1 );
                                 img.onerror = ( ev ) => rej( ev );
                                 img.src = dataUrl;
                             } catch ( e ) {
- rej( e ); 
+ rej( e );
 }
                         } ) )
                     .catch( ( e ) => {
@@ -612,7 +620,7 @@ return url;
 
     const params = Object.keys( data )
         .filter( function( k ) {
- return data[ k ]; 
+ return data[ k ];
 } )
         .map( function( k ) {
             return `${ encodeURIComponent( k ) }=${ encodeURIComponent( data[ k ] ) }`;
