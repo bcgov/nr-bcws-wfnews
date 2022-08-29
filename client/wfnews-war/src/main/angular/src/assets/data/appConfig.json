@@ -60,24 +60,24 @@
     },
 
     "rest": {
-        "incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
-        "#incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
+        "#incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
+        "incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
         "newsLocal": "http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT",
-        "orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
-        "#orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
+        "#orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
+        "orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
         "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
-        "wfdm": "/doc-man",
+        "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
         "causecodes": "causeCodes/token.jsp"
     },
 
     "webade": {
-        "oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
-        "#oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
+        "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
+        "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
         "clientId": "WFIM_INCIDENT_MANAGER_UI",
         "authScopes": "WFIM.* WFONE.* WFORG.* WFDM.*",
         "enableCheckToken": true,
         "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
-        "checkTokenUrl": "assets/data/checktoken-INCIDENT_DISPATCH.json"
+        "checkTokenUrl": "assets/data/checktoken-LULI.json"
     },
 
     "mapServices": {
