@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
@@ -18,7 +18,7 @@ export class ContactsDetailsPanel implements OnInit, OnChanges {
   private contacts: any
   fireCentreOptions : fireCentreOption[] = []
 
-  constructor(private appConfigService: AppConfigService, protected http: HttpClient, private cdr: ChangeDetectorRef) {
+  constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
   }
 
   ngOnInit() {
