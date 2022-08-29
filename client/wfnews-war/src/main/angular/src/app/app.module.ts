@@ -76,6 +76,7 @@ import { IncidentContainerDesktop } from './containers/incident/incident-contain
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { AGOLService } from './services/AGOL-service';
+import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -96,6 +97,7 @@ export const DATE_FORMATS = {
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
+        PanelFireDangerComponent,
         WfAdminPanelComponentDesktop,
         SingleSelectDirective,
         AdminContainerDesktop,
