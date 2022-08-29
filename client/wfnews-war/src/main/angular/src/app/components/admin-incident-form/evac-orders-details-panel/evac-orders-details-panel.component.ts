@@ -35,8 +35,6 @@ export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
       eventName: [],
       url: []
     }))
-    console.log(this.incident.evacOrders)
-    console.log(this.formGroup.value)
   }
 
   deleteEvacOrder (evacOrder) {
