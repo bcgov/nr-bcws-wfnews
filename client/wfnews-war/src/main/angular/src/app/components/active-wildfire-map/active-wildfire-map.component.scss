@@ -67,6 +67,7 @@
         padding: 20px 0;
         display: flex;
         justify-content: center;
+        overflow-x: auto;
 
         .item {
             margin: 0 10px;
@@ -115,6 +116,21 @@
     }
  }
 
+ .map-layers::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.map-layers::-webkit-scrollbar-track {
+  background: white;
+}
+
+.map-layers::-webkit-scrollbar-thumb {
+  background-color: #f1f1f3;
+  border-radius: 16px;
+  border: 1px solid #f1f1f3;
+}
+
 .mat-accordion .mat-expansion-panel {
   margin-bottom: 8px;
   box-shadow: none !important;
@@ -148,4 +164,13 @@ mat-panel-title {
 ::ng-deep .paragraph-format {
   font-size: 13px;
   line-height: 1.5;
+}
+
+::ng-deep .panel-header {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1c5a97;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #f1f1f3;
 }
