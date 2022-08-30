@@ -104,7 +104,7 @@ jobs:
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=${{ github.event.pull_request.number}}
+            type=raw,value=pr-${{ github.event.pull_request.number}}
           
 
         
