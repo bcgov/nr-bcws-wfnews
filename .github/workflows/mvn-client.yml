@@ -102,9 +102,9 @@ jobs:
           images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
-            type=ref,event=branch
+            type=raw,value=${GITHUB_REF##*/}
             type=ref,event=tag
-            type=ref,event=pr
+            type=raw,value=${{ github.event.pull_request.number}}
           
 
         
