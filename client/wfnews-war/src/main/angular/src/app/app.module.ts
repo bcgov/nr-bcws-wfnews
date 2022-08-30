@@ -76,6 +76,7 @@ import { IncidentContainerDesktop } from './containers/incident/incident-contain
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { AGOLService } from './services/AGOL-service';
+import { PanelBansAndProhibitionsComponent } from './components/panel-bans-prohibitions/panel-bans-prohibitions.component';
 import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/panel-smoke-forecast.component';
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
 import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
@@ -99,6 +100,7 @@ export const DATE_FORMATS = {
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
+        PanelBansAndProhibitionsComponent,
         PanelSmokeForecastComponent,
         PanelAreaRestrictionsComponent,
         PanelFireDangerComponent,
