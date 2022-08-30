@@ -4,6 +4,7 @@ resource "aws_db_subnet_group" "wfnews_db_subnet_group" {
   tags = local.common_tags
 }
 
+  /*todo: adapt to be accessible externally*/
 resource "aws_db_instance" "wfnews_pgsqlDB"{
     identifier = "wfnews${var.target_env}"
     engine = "postgres"
