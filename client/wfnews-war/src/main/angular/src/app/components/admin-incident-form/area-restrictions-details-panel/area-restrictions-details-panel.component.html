@@ -1,4 +1,7 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
+  <div *ngIf="areaRestrictions === null || areaRestrictions.length === 0">
+    There are no current Area Restrictions
+  </div>
   <mat-card class="info-card news-form-card">
     <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of areaRestrictions">
       <div class="news-form">
