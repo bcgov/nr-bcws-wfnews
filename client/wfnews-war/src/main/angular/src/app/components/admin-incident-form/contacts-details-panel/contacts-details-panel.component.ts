@@ -1,7 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { AppConfigService } from '@wf1/core-ui';
+import { Observable } from 'rxjs';
 import { fireCentreOption } from '../../../conversion/models';
 
 @Component({
@@ -14,6 +15,7 @@ export class ContactsDetailsPanel implements OnInit, OnChanges {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
+  private contacts: any
   fireCentreOptions : fireCentreOption[] = []
 
   constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
@@ -21,9 +23,27 @@ export class ContactsDetailsPanel implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getFireCentres();
+    this.getFireCentreContacts().subscribe(data => {
+      this.contacts = data
+     });
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
+  }
+
+  setDefaultContactInfo (value) {
+    const control = this.formGroup.get("contact")
+    if (Object.prototype.hasOwnProperty.call(this.contacts, value)) {
+      control.patchValue({
+        phoneNumber: this.contacts[value].phone,
+        emailAddress: this.contacts[value].url
+      })
+    }
+  }
+
+  public getFireCentreContacts (): Observable<any> {
+    return this.http.get('../../../../assets/data/fire-center-contacts.json')
   }
 
   getFireCentres(){

@@ -13,6 +13,14 @@
     </div>
 
     <div class="map-layers">
+      <div class="item"
+            [class.active]="selectedLayer === 'wildfire-stage-of-control'"
+            (click)="onSelectLayer( 'wildfire-stage-of-control' )"
+        >
+            <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+            Incidents
+        </div>
+
         <div class="item"
             [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
             (click)="onSelectLayer( 'evacuation-orders-and-alerts' )"
@@ -41,7 +49,7 @@
             [class.active]="selectedLayer === 'smoke-forecast'"
             (click)="onSelectLayer( 'smoke-forecast' )"
         >
-            <wf-icon class="icon" iconName="filter_drama" iconSize="small"></wf-icon>
+            <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
             Smoke Forecast
         </div>
 
@@ -49,7 +57,7 @@
             [class.active]="selectedLayer === 'fire-danger'"
             (click)="onSelectLayer( 'fire-danger' )"
         >
-            <wf-icon class="icon" iconName="format_list_bulleted" iconSize="small"></wf-icon>
+            <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
             Danger Rating
         </div>
 
@@ -72,81 +80,14 @@
 </div>
 
 <div class="bottom">
-    <mat-accordion class="details">
-        <mat-expansion-panel #WildfireStageOfControl class="wildfire-stage-of-control" [expanded]="true">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Wildfire Stages of Control
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <panel-wildfire-stage-of-control></panel-wildfire-stage-of-control>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #EvacuationOrdersAndAlerts class="evacuation-orders-and-alerts">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Evacuation Orders and Alerts
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <panel-evacuation-orders-and-alerts></panel-evacuation-orders-and-alerts>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #AreaRestrictions class="area-restrictions">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Area Restrictions
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #BansAndProhibitions class="bans-and-prohibitions">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Bans and Prohibitions
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #SmokeForecast class="smoke-forecast">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Smoke Forecast
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #FireDanger class="fire-danger">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Danger Rating
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #LocalAuthorities class="local-authorities">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                    Local Authorities
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-
-        <mat-expansion-panel #RoutesImpacted class="routes-impacted">
-            <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Road Conditions
-                </mat-panel-title>
-            </mat-expansion-panel-header>
-
-        </mat-expansion-panel>
-    </mat-accordion>
+    <div class="details">
+      <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control'" ></panel-wildfire-stage-of-control>
+      <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"></panel-evacuation-orders-and-alerts>
+      <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions'"></panel-area-restrictions>
+      <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions'"></panel-bans-prohibitions>
+      <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast'"></panel-smoke-forecast>
+      <panel-fire-danger *ngIf="selectedPanel === 'fire-danger'"></panel-fire-danger>
+    </div>
 
     <div class="map">
         <wf-map-container
