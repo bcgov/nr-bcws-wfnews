@@ -7,6 +7,8 @@ env:
   TRIGGERS: ('client/' 'server/' '.github/workflows')
 on:
   pull_request:
+    types:
+      - closed
     # The branches below must be a subset of the branches above
     branches: [ "main" ]
     paths:
@@ -23,6 +25,7 @@ on:
 jobs:
 
   call-mvn-client:
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
@@ -31,6 +34,7 @@ jobs:
       TARGET_ENV: dev
 
   call-mvn-server:
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
