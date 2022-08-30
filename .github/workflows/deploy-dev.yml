@@ -1,0 +1,73 @@
+name: Deploy Dev
+
+env:
+  REGISTRY: ghcr.io
+  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  NPMRC: ${{ secrets.NPMRC }}
+  TRIGGERS: ('client/' 'server/' '.github/workflows')
+on:
+  pull_request:
+    types:
+      - closed
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+    paths:
+      - ".github/workflows/deploy-dev.yml"
+      - ".github/workflows/mvn-client.yml"
+      - ".github/workflows/mvn-server.yml"
+      - ".github/workflows/terragrunt-deploy.yml"
+      - "client/**"
+      - "server/**"
+      - "terraform/**"
+      - "Dockerfile"
+      - "!**/README.md"
+
+jobs:
+
+  call-mvn-client:
+    if: github.event.pull_request.merged == true
+    uses: ./.github/workflows/mvn-client.yml
+    secrets: inherit
+    with: 
+      REGISTRY: ghcr.io
+      #TARGET_ENV used when generating self-referential url
+      TARGET_ENV: dev
+
+  call-mvn-server:
+    if: github.event.pull_request.merged == true
+    uses: ./.github/workflows/mvn-server.yml
+    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
+    with:
+      REGISTRY: ghcr.io
+      EMAIL_ENABLED: true
+      SMTP_HOSTNAME: sample.com
+      SMTP_USER: sample_user@sample.com
+      SMTP_FROM_EMAIL: noreply@sample.com
+      ADMIN_EMAIL: admin_user@sample.com
+      EMAIL_SYNC_ERROR_FREQUENCY: 30
+      EMAIL_SYNC_SEND_FREQUENCY: 60
+      EMAIL_SYNC_ERROR_SUBJECT: ERROR
+      EMAIL_SYNC_SUBJECT: MESSAGE
+      DEFAULT_APPLICATION_ENVIRONMENT: wfnews
+    secrets: inherit
+
+
+#  trivy:
+#    # if: needs.check.outputs.build == 'true'
+#    needs: [call-mvn-client, call-mvn-server]
+#    uses: ./.github/workflows/trivy.yml
+
+  terragrunt-deploy:
+    # if: needs.check.outputs.build == 'true'
+    uses: ./.github/workflows/terragrunt-deploy.yml
+    needs: [trivy]
+    with:
+      REGISTRY: ghcr.io
+      #Server and Image name get PR number as appropriate inside deploy step
+      CLIENT_IMAGE: nr-bcws-wfnews-client
+      SERVER_IMAGE: nr-bcws-wfnews-server
+      TARGET_ENV: dev
+      ALB_NAME: default
+      VPC_NAME: Dev_vpc
+      SUBNET_FILTER: App
+    secrets: inherit

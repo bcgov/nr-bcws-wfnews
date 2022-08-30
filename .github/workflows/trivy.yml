@@ -1,0 +1,113 @@
+name: "Pull Request"
+
+on:
+  workflow_call:
+#   pull_request:
+#     # The branches below must be a subset of the branches above
+#     branches: [ "main" ]
+#     paths:
+#       - ".github/workflows/pr.yaml"
+#       - ".github/workflows/tf-plan.yaml"
+#       - "client/**"
+#       - "server/**"
+#       - "terraform/**"
+#       - "!terraform/sandbox/**"
+#       - "Dockerfile"
+#       - "!**/README.md"
+
+env:
+  REGISTRY: ghcr.io
+  TRIGGERS: ('client/' 'server/' '.github/workflows')
+  NAME: gfp
+
+jobs:
+  trivy-repo:
+    name: Trivy-Repo
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run Trivy vulnerability scanner in repo mode
+        uses: aquasecurity/trivy-action@0.3.0
+        with:
+          scan-type: "fs"
+          ignore-unfixed: true
+          format: "sarif"
+          output: "trivy-results.sarif"
+          severity: "CRITICAL"
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "trivy-results.sarif"
+
+  #tests-client:
+  #  name: Tests-Client
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v2
+
+  #    - name: Tests
+  #      run: |
+  #        cd client
+  #        npm ci
+  #        npm test
+
+  # Update to trigger junit on Java server
+  #tests-server:
+  #  name: Tests-Server
+  #  runs-on: ubuntu-latest
+  #  steps:
+  #    - name: Checkout repository
+  #      uses: actions/checkout@v2
+
+  #    - name: Tests
+  #      run: |
+  #        cd server
+  #        mvn test
+
+  trivy-server:
+    name: Trivy-Server
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@0.3.0
+        with:
+          image-ref: ${{env.REGISTRY}}/${{ github.repository }}-server-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          ignore-unfixed: true
+          severity: CRITICAL
+          format: "sarif"
+          output: "trivy-results.sarif"
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "trivy-results.sarif"
+
+  trivy-client:
+    name: Trivy-Client
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Trivy Vulnerability Scan
+        uses: aquasecurity/trivy-action@0.3.0
+        with:
+          image-ref: ${{env.REGISTRY}}/${{ github.repository }}-client-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          ignore-unfixed: true
+          severity: CRITICAL
+          format: "sarif"
+          output: "trivy-results.sarif"
+
+      - name: Upload Trivy results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: "trivy-results.sarif"

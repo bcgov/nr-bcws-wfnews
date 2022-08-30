@@ -1,0 +1,47 @@
+
+name: Deploy Test
+
+env:
+  REGISTRY: ghcr.io
+  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  NPMRC: ${{ secrets.NPMRC }}
+on:
+  workflow_dispatch:
+
+jobs:
+  call-mvn-client:
+    uses: ./.github/workflows/mvn-client.yml
+    secrets: inherit
+    with:
+      REGISTRY: ghcr.io
+      TARGET_ENV: test
+  call-mvn-server:
+    uses: ./.github/workflows/mvn-server.yml
+    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
+    with:
+      EMAIL_ENABLED: true
+      SMTP_HOSTNAME: sample.com
+      SMTP_USER: sample_user@sample.com
+      SMTP_FROM_EMAIL: noreply@sample.com
+      ADMIN_EMAIL: admin_user@sample.com
+      EMAIL_SYNC_ERROR_FREQUENCY: 30
+      EMAIL_SYNC_SEND_FREQUENCY: 60
+      EMAIL_SYNC_ERROR_SUBJECT: ERROR
+      EMAIL_SYNC_SUBJECT: MESSAGE
+      DEFAULT_APPLICATION_ENVIRONMENT: wfnews
+      REGISTRY: ghcr.io
+    secrets: inherit
+  terragrunt-deploy:
+    uses: ./.github/workflows/terragrunt-deploy.yml
+    needs: [call-mvn-client, call-mvn-server]
+    with:
+      #Server and Image name get PR number as appropriate inside deploy step
+      CLIENT_IMAGE: nr-bcws-wfnews-client
+      SERVER_IMAGE: nr-bcws-wfnews-server
+      TARGET_ENV: test
+      ALB_NAME: Core-Pp93w9Test-2F70A1-alb
+      VPC_NAME: Test_vpc
+      SUBNET_FILTER: App
+      REGISTRY: ghcr.io
+    secrets: inherit
+    

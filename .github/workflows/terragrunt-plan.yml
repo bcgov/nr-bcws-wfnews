@@ -1,0 +1,49 @@
+name: Plan using terragrunt
+
+on:
+  push:
+    branches: [ "main" ]
+
+env:
+  TF_VERSION: 1.2.2
+  TG_VERSION: 0.37.1
+  TG_SRC_PATH: terraform
+  TFC_WORKSPACE: wfnews-dev
+  REPOSITORY: ghcr.io
+  CLIENT_IMAGE: "wfnews-client"
+  SERVER_IMAGE: "wfnews-server"
+  TARGET_ENV: "dev"
+  ALB_NAME: "default"
+  VPC_NAME: "Dev_vpc"
+  SUBNET_FILTER: "App"
+
+jobs:
+  plan:
+    name: plan
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+
+      - uses: peter-murray/terragrunt-github-action@v1.0.0
+        with:
+          terragrunt_version: ${{ env.TG_VERSION }}
+      
+      - name: Terragrunt Plan
+        working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
+        env:
+          TARGET_ENV: ${{ env.TARGET_ENV }}
+          CLIENT_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.CLIENT_IMAGE }}:main
+          SERVER_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.SERVER_IMAGE }}:main
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          ALB_NAME: ${{ env.ALB_NAME }}
+          VPC_NAME: ${{ env.VPC_NAME }}
+          SUBNET_FILTER: ${{ env.SUBNET_FILTER }}
+        run: terragrunt plan --terragrunt-non-interactive
+
