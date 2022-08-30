@@ -133,9 +133,9 @@ jobs:
           images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}-${{ github.event.pull_request.number}}
           tags: |
             type=schedule
-            type=ref,event=branch
+            type=raw,value=${GITHUB_REF##*/}
             type=ref,event=tag
-            type=ref,event=pr
+            type=raw,value=${{ github.event.pull_request.number}}
       
       - name: Extract metadata (tags, labels) for Docker (no PR)
         if: ${{ github.event.pull_request.number == '' }}
