@@ -16,10 +16,8 @@ export function PrecipitationLayerConfig( ls: layerSettings ) {
             tiled: false,
             version: '1.3.0',
             serviceUrl:'https://geo.weather.gc.ca/geomet',
-
             layerName: 'GDPS.ETA_RT',
             styleName: 'PRECIPPRTMMH',
-
             legend: {
                 title: ' ',
                 url: 'assets/images/precipitation-legend.png',

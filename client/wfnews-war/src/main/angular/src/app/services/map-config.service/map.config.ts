@@ -125,6 +125,12 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
 				},
 				order: 3
 			},
+      {
+				type: "time-dimension",
+				enabled: true,
+				timeDimensionOptions: {
+				}
+			},
             {
                 type: 'search',
                 enabled: false

@@ -42,10 +42,10 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false,
             showItem: false
         },
-        // {
-        //     id: "hourly-currentforecast-firesmoke",
-        //     isVisible: false
-        // },
+        {
+            id: "hourly-currentforecast-firesmoke",
+            isVisible: false
+        },
         {
             id: 'fire-perimeters',
             isVisible: true,
@@ -65,18 +65,18 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             id: 'drive-bc-active-events',
             isVisible: false
         },
-        // {
-        //     id: "radar-1km-rrai--radarurpprecipr14-linear",
-        //     isVisible: false
-        // },
-        // {
-        //     id: "precipitation",
-        //     isVisible: false
-        // },
-        // {
-        //     id: "current-conditions--default",
-        //     isVisible: false
-        // },
+        {
+            id: "radar-1km-rrai--radarurpprecipr14-linear",
+            isVisible: false
+        },
+        {
+            id: "precipitation",
+            isVisible: false
+        },
+        {
+            id: "current-conditions--default",
+            isVisible: false
+        },
         {
             id: 'bc-fire-centres',
             isVisible: true,
@@ -87,10 +87,10 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false,
             class: 'smk-inline-legend'
         },
-    //     {
-    //         id: "weather-stations",
-    //         isVisible: true,
-    //         showItem: false
-    //     }
+        {
+            id: "weather-stations",
+            isVisible: true,
+            showItem: false
+        }
     ];
 }
