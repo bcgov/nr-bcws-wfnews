@@ -77,6 +77,9 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
 import { AGOLService } from './services/AGOL-service';
 import { PanelBansAndProhibitionsComponent } from './components/panel-bans-prohibitions/panel-bans-prohibitions.component';
+import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/panel-smoke-forecast.component';
+import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
+import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -98,6 +101,9 @@ export const DATE_FORMATS = {
         PanelWildfireStageOfControlComponent,
         PanelEvacuationOrdersAndAlertsComponent,
         PanelBansAndProhibitionsComponent,
+        PanelSmokeForecastComponent,
+        PanelAreaRestrictionsComponent,
+        PanelFireDangerComponent,
         WfAdminPanelComponentDesktop,
         SingleSelectDirective,
         AdminContainerDesktop,

@@ -134,7 +134,8 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
             /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
             /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
             /* 12 */ { itemId: 'bc-fire-centres', visible: false },
-            /* 13 */ { itemId: 'prescribed-fire', visible: false }
+            /* 13 */ { itemId: 'prescribed-fire', visible: false },
+            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false }
         ];
 
         switch (selectedLayer) {
@@ -160,7 +161,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
                 break;
 
             case 'smoke-forecast':
-                // layers[ 2 ].visible = true
+                layers[ 14 ].visible = true
 
                 this.smokeForecastPanel.open();
                 break;

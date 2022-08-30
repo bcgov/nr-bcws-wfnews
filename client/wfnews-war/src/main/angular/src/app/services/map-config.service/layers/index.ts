@@ -39,11 +39,11 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
 		...DriveBCEventsLayerConfig( ls ),
 		...EvacuationOrdersLayerConfig( ls ),
 		...FirePerimetersLayerConfig( ls ),
-		// ...SmokeForecastLayerConfig( ls ),
+		...SmokeForecastLayerConfig( ls ),
 		...PrescribedFireLayerConfig( ls ),
-		// ...WeatherLayerConfig( ls ),
-        // ...WeatherStationsLayerConfig( ls ),
-        // ...PrecipitationLayerConfig( ls )
+		...WeatherLayerConfig( ls ),
+    ...WeatherStationsLayerConfig( ls ),
+    ...PrecipitationLayerConfig( ls )
 	];
 }
 

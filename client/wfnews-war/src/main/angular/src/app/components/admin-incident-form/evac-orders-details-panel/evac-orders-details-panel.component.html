@@ -1,5 +1,8 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
   <mat-card class="info-card news-form-card">
+    <div *ngIf="evacOrders === null || evacOrders.length === 0">
+      There are no current Evacuation Orders or Alerts
+    </div>
     <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of evacOrders">
       <div class="news-form">
         <div class="field size-third">
@@ -26,10 +29,47 @@
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
             <mat-label class="label required">Evacuation Information URL</mat-label>
-            <input matInput type="text" placeholder="Evacuation Information URL" formControlName="evacInformationUrl">
+            <input matInput type="text" placeholder="Evacuation Information URL" disabled>
           </mat-form-field>
         </div>
       </div>
     </fieldset>
   </mat-card>
+  <mat-card *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
+    <fieldset class="field-set" formArrayName="evacOrders" *ngFor = "let item of evacOrderForm.controls; let i=index">
+      <div [formGroupName]="i" class="news-form">
+        <div class="field size-quarter">
+          <mat-form-field appearance="standard" class="item-full-width">
+            <mat-label>Type</mat-label>
+            <mat-select class="disabled-input" appWFSingleSelect appWFPlaceholder="Select..."
+                        aria-label="Type"
+                        formControlName="orderAlertStatus">
+              <mat-option value="Order">
+                <span>Order</span>
+              </mat-option>
+              <mat-option value="Alert">
+                <span>Alert</span>
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label required">Evacuation Name</mat-label>
+            <input matInput class="disabled-input" type="text" placeholder="Evacuation Name" formControlName="eventName">
+          </mat-form-field>
+        </div>
+        <div class="field size-third">
+          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-label class="label required">Evacuation Information URL</mat-label>
+            <input matInput type="text" placeholder="Evacuation Information URL" formControlName="url">
+          </mat-form-field>
+        </div>
+        <div class="field size-unset">
+          <button mat-button matSuffix mat-icon-button class="input-clear-button" (click)="deleteEvacOrder(item)"><mat-icon>delete</mat-icon></button>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+  <button mat-button color="primary" (click)="addEvacOrder()">Add</button>
 </ng-container>
