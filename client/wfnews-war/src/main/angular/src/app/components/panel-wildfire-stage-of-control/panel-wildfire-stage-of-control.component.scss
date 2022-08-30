@@ -2,12 +2,21 @@
     display: flex;
     align-items: center;
     border-bottom: 1px solid #dddddd;
-    padding-bottom: 10px;
+    padding: 10px 20px;
+
+    
+    .list-view-button{
+        margin-left:10px;
+    }
 
     .show-toggle {
         flex-grow: 1;
         display: flex;
         justify-content: flex-end;
+
+        .wildfires-note-toggle{
+            padding: 0px 10px;
+        }
     }
 }
 
@@ -24,7 +33,7 @@ section {
 
     article {
         font-size: 15px;
-        padding: 10px 20px;
+        padding: 5px 20px;
 
         h2 {
             font-size: 15px;
@@ -107,6 +116,10 @@ section {
                 height: 20px;
                 margin-right: 10px
             }
+        }
+        .paragraph-format{
+            margin-top: 5px;
+            margin-bottom: 5px;
         }
     }
 }
