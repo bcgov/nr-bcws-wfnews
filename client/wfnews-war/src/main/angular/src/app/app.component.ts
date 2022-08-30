@@ -10,6 +10,7 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { ApplicationStateService } from './services/application-state.service';
+import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
 import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
@@ -78,6 +79,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected domSanitizer: DomSanitizer,
         protected tokenService: TokenService,
         protected store: Store<RootState>,
+        private commonUtilityService: CommonUtilityService,
+
         ) {
     }
 
@@ -112,6 +115,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
         this.initAppMenu();
         this.initFooterMenu();
+
+        this.commonUtilityService.preloadGeolocation();
 
         window['SPLASH_SCREEN'].remove();
     }
