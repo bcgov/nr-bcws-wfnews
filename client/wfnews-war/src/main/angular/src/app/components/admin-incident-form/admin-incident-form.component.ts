@@ -52,7 +52,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       x: -115,
       y: 50
     },
-    incidentOverview: ''
+    incidentOverview: '',
+    evacOrders: []
   }
   wildFireYear: string;
   incidentNumberSequnce: string;
@@ -97,15 +98,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         fireCentre: [],
         phoneNumber: [],
         emailAddress: []
-      })
-      // Alternatively, move each section into a subgroup
-      //incidentInformation: this.formBuilder.group({
-      //  fireName: [],
-      //})
-      //myRequiredField: ['', Validators.required],
+      }),
+      evacOrders: this.formBuilder.array([])
     })
-    // Update this to to pull from the api... service.getData().subscribe(...)
-    // this.incidentForm.patchValue(this.incident)
   }
 
   ngOnInit() {

@@ -7,8 +7,9 @@
               <mat-label>Fire Centre</mat-label>
               <mat-select appWFSingleSelect appWFPlaceholder="Select..."
               aria-label="Type"
+              formControlName="fireCentre"
               [options]="fireCentreOptions"
-              formControlName="fireCentre">
+              (valueChange)="setDefaultContactInfo($event)">
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>

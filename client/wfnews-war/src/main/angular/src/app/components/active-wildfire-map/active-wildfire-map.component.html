@@ -41,7 +41,7 @@
             [class.active]="selectedLayer === 'smoke-forecast'"
             (click)="onSelectLayer( 'smoke-forecast' )"
         >
-            <wf-icon class="icon" iconName="filter_drama" iconSize="small"></wf-icon>
+            <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
             Smoke Forecast
         </div>
 
@@ -49,7 +49,7 @@
             [class.active]="selectedLayer === 'fire-danger'"
             (click)="onSelectLayer( 'fire-danger' )"
         >
-            <wf-icon class="icon" iconName="format_list_bulleted" iconSize="small"></wf-icon>
+            <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
             Danger Rating
         </div>
 
@@ -99,7 +99,7 @@
                     Area Restrictions
                 </mat-panel-title>
             </mat-expansion-panel-header>
-
+            <panel-area-restrictions></panel-area-restrictions>
         </mat-expansion-panel>
 
         <mat-expansion-panel #BansAndProhibitions class="bans-and-prohibitions">
@@ -126,7 +126,7 @@
                   Danger Rating
                 </mat-panel-title>
             </mat-expansion-panel-header>
-
+            <panel-fire-danger></panel-fire-danger>
         </mat-expansion-panel>
 
         <mat-expansion-panel #LocalAuthorities class="local-authorities">
