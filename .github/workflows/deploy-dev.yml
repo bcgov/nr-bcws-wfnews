@@ -23,7 +23,6 @@ on:
 jobs:
 
   call-mvn-client:
-    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
