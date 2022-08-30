@@ -135,7 +135,7 @@ jobs:
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=${{ github.event.pull_request.number}}
+            type=raw,value=pr-${{ github.event.pull_request.number}}
       
       - name: Extract metadata (tags, labels) for Docker (no PR)
         if: ${{ github.event.pull_request.number == '' }}
