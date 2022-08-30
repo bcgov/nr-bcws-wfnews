@@ -51,10 +51,11 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
 
-  trivy:
-    # if: needs.check.outputs.build == 'true'
-    needs: [call-mvn-client, call-mvn-server]
-    uses: ./.github/workflows/trivy.yml
+
+#  trivy:
+#    # if: needs.check.outputs.build == 'true'
+#    needs: [call-mvn-client, call-mvn-server]
+#    uses: ./.github/workflows/trivy.yml
 
   terragrunt-deploy:
     # if: needs.check.outputs.build == 'true'
