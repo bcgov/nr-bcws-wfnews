@@ -1,0 +1,20 @@
+on:
+  workflow_dispatch:
+
+name: SonarQube Scan
+jobs:
+  sonarqube:
+    name: SonarQube Trigger
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checking out
+      uses: actions/checkout@master
+      with:
+        # Disabling shallow clone is recommended for improving relevancy of reporting
+        fetch-depth: 0
+    - name: SonarQube Scan
+      uses: kitabisa/sonarqube-action@v1.2.0
+      with:
+        host: https://sonarcloud.io/organizations/bcgov-sonarcloud
+        login: ${{ secrets.IDIR_AS_EMAIL }}
+        password: ${{ secrets.IDIR_PASSWORD }}
