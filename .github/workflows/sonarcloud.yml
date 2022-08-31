@@ -26,7 +26,7 @@ jobs:
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
       - name: Build and analyze
-        run: mvn --settings server/mvn_settings/settings.xml -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage
+        run: mvn --settings server/mvn_settings/settings.xml -f server/pom.xml --batch-mode -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Pcoverage -Dskiptests
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
