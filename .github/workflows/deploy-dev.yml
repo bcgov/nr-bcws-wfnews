@@ -6,7 +6,7 @@ env:
   NPMRC: ${{ secrets.NPMRC }}
   TRIGGERS: ('client/' 'server/' '.github/workflows')
 on:
-  pull_request:
+  pull_request_target:
     types:
       - closed
     # The branches below must be a subset of the branches above
