@@ -174,3 +174,9 @@ mat-panel-title {
   margin-bottom: 10px;
   background-color: #f1f1f3;
 }
+
+@media screen and (max-width: 768px) {
+  .hide {
+      display: none !important;
+  }
+}
