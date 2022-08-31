@@ -36,6 +36,10 @@
             &.smk-tool-BaseMapsTool::after {
                 content: 'Base Map'
             }
+
+            &.smk-tool-BespokeTool--show-list::after {
+                content: 'Show List'
+            }
         }
     }
 

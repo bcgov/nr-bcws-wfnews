@@ -18,7 +18,7 @@
             (click)="onSelectLayer( 'wildfire-stage-of-control' )"
         >
             <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-            Incidents
+            <span class="hide">Incidents</span>
         </div>
 
         <div class="item"
@@ -26,7 +26,7 @@
             (click)="onSelectLayer( 'evacuation-orders-and-alerts' )"
         >
             <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
-            Evacuation Orders and Alerts
+            <span class="hide">Evacuation Orders and Alerts</span>
         </div>
 
         <div class="item"
@@ -34,7 +34,7 @@
             (click)="onSelectLayer( 'area-restrictions' )"
         >
             <wf-icon class="icon" iconName="wf/map-signs" iconSize="small"></wf-icon>
-            Area Restrictions
+            <span class="hide">Area Restrictions</span>
         </div>
 
         <div class="item"
@@ -42,7 +42,7 @@
             (click)="onSelectLayer( 'bans-and-prohibitions' )"
         >
             <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
-            Bans and Prohibitions
+            <span class="hide">Bans and Prohibitions</span>
         </div>
 
         <div class="item"
@@ -50,7 +50,7 @@
             (click)="onSelectLayer( 'smoke-forecast' )"
         >
             <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
-            Smoke Forecast
+            <span class="hide">Smoke Forecast</span>
         </div>
 
         <div class="item"
@@ -58,7 +58,7 @@
             (click)="onSelectLayer( 'fire-danger' )"
         >
             <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
-            Danger Rating
+            <span class="hide">Danger Rating</span>
         </div>
 
         <div class="item"
@@ -66,7 +66,7 @@
             (click)="onSelectLayer( 'local-authorities' )"
         >
             <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
-            Local Authorities
+            <span class="hide">Local Authorities</span>
         </div>
 
         <div class="item"
@@ -74,25 +74,26 @@
             (click)="onSelectLayer( 'routes-impacted' )"
         >
             <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
-            Road Conditions
+            <span class="hide">Road Conditions</span>
         </div>
     </div>
 </div>
 
 <div class="bottom">
-    <div class="details">
-      <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control'" ></panel-wildfire-stage-of-control>
-      <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"></panel-evacuation-orders-and-alerts>
-      <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions'"></panel-area-restrictions>
-      <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions'"></panel-bans-prohibitions>
-      <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast'"></panel-smoke-forecast>
-      <panel-fire-danger *ngIf="selectedPanel === 'fire-danger'"></panel-fire-danger>
+    <div [ngClass]="showAccordion ? 'details' : 'details close'">
+      <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion" ></panel-wildfire-stage-of-control>
+      <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
+      <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
+      <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion"></panel-bans-prohibitions>
+      <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
+      <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
     </div>
 
     <div class="map">
         <wf-map-container
             [mapConfig]="mapConfig"
             (mapInitialized)="initMap($event)"
+            (toggleAccordion)="onToggleAccordion()"
         ></wf-map-container>
     </div>
 </div>
