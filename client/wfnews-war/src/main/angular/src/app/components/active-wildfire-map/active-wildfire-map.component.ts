@@ -39,6 +39,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     activeFireCountPromise;
     selectedLayer: SelectedLayer;
     selectedPanel = 'wildfire-stage-of-control'
+    showAccordion: boolean;
 
     constructor(
         private http: HttpClient,
@@ -51,7 +52,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     }
 
     ngOnInit() {
-
+        this.showAccordion = true;
         this.appConfig.configEmitter.subscribe((config) => {
             const mapConfig = [];
             // this.checkMapServiceStatus()
@@ -118,6 +119,10 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
         // window[ 'SPLASH_SCREEN' ].remove()
     }
 
+    onToggleAccordion() {
+        this.showAccordion = !this.showAccordion;
+    }
+    
     onSelectLayer(selectedLayer: SelectedLayer) {
         this.selectedLayer = selectedLayer;
         this.selectedPanel = selectedLayer

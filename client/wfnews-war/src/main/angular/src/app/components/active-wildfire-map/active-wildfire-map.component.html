@@ -80,7 +80,7 @@
 </div>
 
 <div class="bottom">
-    <div class="details">
+    <div [ngClass]="showAccordion ? 'details' : 'details close'">
       <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control'" ></panel-wildfire-stage-of-control>
       <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"></panel-evacuation-orders-and-alerts>
       <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions'"></panel-area-restrictions>
@@ -93,6 +93,7 @@
         <wf-map-container
             [mapConfig]="mapConfig"
             (mapInitialized)="initMap($event)"
+            (toggleAccordion)="onToggleAccordion()"
         ></wf-map-container>
     </div>
 </div>
