@@ -14,6 +14,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges  {
     @Input() mapConfig: Array<any>;
 
     @Output() mapInitialized = new EventEmitter<any>();
+    @Output() toggleAccordion = new EventEmitter<any>();
 
     @ViewChild('mapContainer') mapContainer;
 
@@ -56,7 +57,8 @@ return;
             return self.wfMap.createSMK( {
                 id: mapIndex,
                 containerSel: self.mapContainer.nativeElement,
-                config: mapConfig
+                config: mapConfig,
+                toggleAccordion: self.toggleAccordion
             } )
             .then( function( smk ) {
                 // console.log("map created");

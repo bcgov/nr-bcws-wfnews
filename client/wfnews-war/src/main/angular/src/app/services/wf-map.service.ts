@@ -34,7 +34,17 @@ export class WFMapService {
         const self = this;
 
         const SMK = window[ 'SMK' ];
+        
+        const toggleHideListButton = (display)=>{
+            const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--hide-list');
+            hideListButtonElement[0]["style"]["display"] = display;
+        }
 
+        const toggleShowListButton = (display)=>{
+            const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
+            hideListButtonElement[0]["style"]["display"] = display;
+        }
+        
         return this.patch()
             .then( function() {
                 option.config.push( {
@@ -45,14 +55,46 @@ export class WFMapService {
                         {
                             type: 'baseMaps',
                             choices: baseMapIds
+                        },
+                        {
+                            type: "bespoke",
+                            instance: "show-list",
+                            title: "Show list menu",
+                            position: "toolbar",
+                            enabled: true,
+                            order: 0,
+                            icon: "arrow_forward"
+                        },
+                        {
+                            type: "bespoke",
+                            instance: "hide-list",
+                            title: "Hide list menu",
+                            position: "toolbar",
+                            enabled: true,
+                            order: 1,
+                            icon: "arrow_back"
                         }
                     ]
                 } );
+                
+                SMK.HANDLER.set('BespokeTool--show-list', 'triggered', (smk, tool) => {
+                    toggleHideListButton("flex");
+                    toggleShowListButton("none");
+                    option.toggleAccordion.emit();
+                });
 
+                SMK.HANDLER.set('BespokeTool--hide-list', 'triggered', (smk, tool) => {
+                    toggleHideListButton("none");
+                    toggleShowListButton("flex");
+                    option.toggleAccordion.emit();
+                });
+                
                 return SMK.INIT( {
                     baseUrl: self.smkBaseUrl,
                     ...option
-                } );
+                } ).then(function(){
+                    toggleShowListButton("none");
+                });
             } );
     }
 
