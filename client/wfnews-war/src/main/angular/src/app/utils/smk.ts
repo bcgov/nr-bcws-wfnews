@@ -9,8 +9,8 @@ export class SmkApi {
 
     with<T>( block: ( smk: SmkMap ) => T, fail?: T ) {
         if ( !this.smkMap ) {
-return fail;
-}
+          return fail;
+        }
 
         return block( this.smkMap );
     }
@@ -29,14 +29,14 @@ return fail;
 
     setDisplayContextItemsVisible( ...layerVisibilities: { itemId: string; visible: boolean; reload?: boolean }[] ): Promise<any> {
         if ( !this.smkMap ) {
-return Promise.reject();
-}
+          return Promise.reject();
+        }
 
         layerVisibilities.forEach( ( { itemId: id, visible, reload } ) => {
             this.smkMap.$viewer.displayContext.layers.setItemVisible( id, visible );
 
             if ( reload ) {
-this.smkMap.$viewer.layerIdPromise[ id ] = null;
+        this.smkMap.$viewer.layerIdPromise[ id ] = null;
 }
         } );
 
