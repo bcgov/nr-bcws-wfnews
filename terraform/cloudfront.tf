@@ -3,6 +3,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   count = var.cloudfront ? 1 : 0
 
+  aliases = ["wf1-wfnews-client-${var.target_env}.bcwildfireservices.com"]
+
   origin {
     custom_origin_config {
       http_port              = 80
@@ -91,13 +93,15 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   tags = local.common_tags
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = data.aws_acm_certificate.issued.arn
   }
 }
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
   count = var.cloudfront ? 1 : 0
+
+  aliases = ["wf1-wfnews-server-${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -187,7 +191,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   tags = local.common_tags
 
   viewer_certificate {
-    cloudfront_default_certificate = true
+    acm_certificate_arn = data.aws_acm_certificate.issued.arn
   }
 }
 
