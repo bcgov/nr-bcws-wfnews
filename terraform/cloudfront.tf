@@ -94,6 +94,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   viewer_certificate {
     acm_certificate_arn = data.aws_acm_certificate.issued.arn
+    ssl_support_method = "sni-only"
   }
 }
 
