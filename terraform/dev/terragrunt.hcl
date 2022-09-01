@@ -15,6 +15,7 @@ locals {
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
   subnet_filter = get_env("SUBNET_FILTER")
+  license_plate = get_env("TFC_PROJECT")
 }
 
 
@@ -41,6 +42,7 @@ generate "dev_tfvars" {
     server_port=8080
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
-
+    license_plate = "${local.license_plate}"
+    certificate_arn = "arn:aws:acm:ca-central-1:718963518348:certificate/f65ff46c-2616-48e6-b461-eaa8692d0b49"
   EOF
 }
