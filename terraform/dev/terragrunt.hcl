@@ -43,6 +43,6 @@ generate "dev_tfvars" {
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
-    certificate_arn = "arn:aws:acm:ca-central-1:718963518348:certificate/f65ff46c-2616-48e6-b461-eaa8692d0b49"
+    certificate_arn = "arn:aws:acm:us-east-1:718963518348:certificate/1c9a7d75-634b-41a3-a9c7-1d31138633d2"
   EOF
 }
