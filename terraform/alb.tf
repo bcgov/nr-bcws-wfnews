@@ -47,12 +47,10 @@ data "aws_lb" "wfnews_main" {
 #   }
 # }
 
-
-# NOTE: NEED TO USE ARN, AS MULTIPLE CERTIFICATES FOR DOMAIN EXIST IN REGION
-# data "aws_acm_certificate" "issued" {
-#   domain   = var.cert_domain
-#   statuses = ["ISSUED"]
-# }
+data "aws_acm_certificate" "issued" {
+  domain   = var.cert_domain
+  statuses = ["ISSUED"]
+}
 
 
 # Redirect all traffic from the ALB to the target group
