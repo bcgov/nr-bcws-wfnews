@@ -3,7 +3,9 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '../../services/AGOL-service';
+import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
+import { WFMapService } from '../../services/wf-map.service';
 import { SmkApi } from '../../utils/smk';
 
 export type SelectedLayer =
@@ -40,12 +42,16 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     selectedLayer: SelectedLayer;
     selectedPanel = 'wildfire-stage-of-control'
     showAccordion: boolean;
+    searchText = undefined;
+
 
     constructor(
         private http: HttpClient,
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
-        private agolService: AGOLService
+        private agolService: AGOLService,
+        private commonUtilityService: CommonUtilityService,
+        private wfMapService: WFMapService,
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         // console.log(this.incidentsServiceUrl)
@@ -179,6 +185,18 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
         }
 
         return this.smkApi.setDisplayContextItemsVisible( ...layers );
+    }
+
+    useMyCurrentLocation(){
+        this.searchText = undefined;
+        this.commonUtilityService.getCurrentLocationPromise()
+        this.wfMapService.setHandler('nearme','activated',null)
+
+    }
+
+    searchTextUpdated(){
+        // will need to call News API to fetch the results
+        console.log(this.searchText)
     }
 
 }
