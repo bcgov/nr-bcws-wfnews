@@ -42,5 +42,6 @@ generate "dev_tfvars" {
     server_port=8080
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
+    license_plate = "${local.license_plate}"
   EOF
 }

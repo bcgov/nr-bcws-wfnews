@@ -180,3 +180,8 @@ variable subnet_filter {
   description = "Text to filter subnet on"
   type=string
 }
+
+variable license_plate {
+  description = "license plate number to use"
+  type=string
+}
