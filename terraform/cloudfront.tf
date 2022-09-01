@@ -93,7 +93,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = data.aws_acm_certificate.issued.arn
+    acm_certificate_arn = var.certificate_arn
     ssl_support_method = "sni-only"
   }
 }
@@ -192,7 +192,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = data.aws_acm_certificate.issued.arn
+    acm_certificate_arn = var.certificate_arn
     ssl_support_method = "sni-only"
   }
 }
