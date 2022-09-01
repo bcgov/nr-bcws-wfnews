@@ -12,7 +12,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-client.${data.aws_lb.wfnews_main.dns_name}"
+    domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_client_${var.target_env}"
   }
 
@@ -108,7 +108,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-server.${data.aws_lb.wfnews_main.dns_name}"
+    domain_name = "wfnews-server.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_server_${var.target_env}"
   }
 
