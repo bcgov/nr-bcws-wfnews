@@ -15,8 +15,8 @@
 <!-- Main Body Content -->
 <mat-tab-group>
   <mat-tab label="Incident Information">
-    <mat-accordion class="details">
-      <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel">
+    <mat-accordion class="details" multi>
+      <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel" expanded>
           <mat-expansion-panel-header>
               <mat-panel-title>
                   <span class="panel-title">Incident Details</span>
@@ -24,7 +24,7 @@
           </mat-expansion-panel-header>
           <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
       </mat-expansion-panel>
-      <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel">
+      <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
               <span class="panel-title">Contact</span>
@@ -32,7 +32,7 @@
         </mat-expansion-panel-header>
         <contacts-details-panel [incident]="incident" [formGroup]="incidentForm"></contacts-details-panel>
       </mat-expansion-panel>
-      <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel">
+      <mat-expansion-panel #ResponseDetailsPanel class="response-details-panel" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
               <span class="panel-title">Response</span>
@@ -40,7 +40,7 @@
         </mat-expansion-panel-header>
         <response-details-panel [incident]="incident" [formGroup]="incidentForm"></response-details-panel>
       </mat-expansion-panel>
-      <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel">
+      <mat-expansion-panel #EvacuationDetailsPanel class="evacuation-details-panel" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
               <span class="panel-title">Evacuation Orders and Alerts</span>
@@ -48,7 +48,7 @@
         </mat-expansion-panel-header>
         <evac-orders-details-panel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
       </mat-expansion-panel>
-      <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel">
+      <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel" expanded>
         <mat-expansion-panel-header>
             <mat-panel-title>
               <span class="panel-title">Area Restrictions</span>
