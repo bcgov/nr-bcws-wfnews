@@ -1,11 +1,43 @@
 <div class="top">
-    <div class="title">
-        <h1>Active Wildfires Map</h1>
-        <h2 class="wildfire-count">
-            <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-            <!-- <i class="material-icons-outlined">local_fire_department</i> -->
-            {{ activeFireCount | async }} Active Wildfires
-        </h2>
+    <div class="header-row">
+        <div class="title">
+            <h1>Active Wildfires Map</h1>
+            <h2 class="wildfire-count">
+                <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+                <!-- <i class="material-icons-outlined">local_fire_department</i> -->
+                {{ activeFireCount | async }} Active Wildfires
+            </h2>
+        </div>
+
+        <div class="search-row">
+            <div class="search-bar">
+                <input class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()" placeholder="Search by Location">
+                <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
+                        aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+                        matTooltip="Clear">
+                    <mat-icon>close</mat-icon>
+                </button>
+            </div>
+            <div class="my-location-button">
+                <button mat-raised-button (click)="useMyCurrentLocation()">
+                    <mat-icon class="location-icon">my_location</mat-icon>
+                    Use My Location
+                </button>
+            </div>
+            <div class="firecentre-filter">
+                <select appWFSingleSelect appWFPlaceholder="Select a fire centre..."
+                    [options]=""
+                    [selected]="">
+                    <option value="">
+                        <span class="placeholder">Select a Fire Centre..</span>
+                    </option>
+                    <option >
+                        <span></span>
+                    </option>
+                </select>
+            </div>
+
+        </div>
     </div>
 
     <div class="divider">

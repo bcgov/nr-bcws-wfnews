@@ -18,6 +18,39 @@
     flex-direction: column;
     align-items: stretch;
 
+    .header-row {
+      display: flex;
+
+      .search-row {
+        display:flex;
+        margin:auto;
+        padding-right: 25rem;
+
+        .search-bar{
+          padding: 0 5px;
+          display: flex;
+
+          .input-clear-button{
+            position: absolute;
+            margin-left: 140px;
+            line-height: 20px;
+            font-size: 10px;
+            color:#999999
+          }
+        }
+
+        .my-location-button{
+          padding-left: 5px;
+          padding-right: 10px;
+        }
+
+        .firecentre-filter{
+          display:flex;
+          padding-left: 10px;
+        }
+      }
+    }
+
     .title {
         padding:10px;
         margin-left: 10px;
@@ -179,4 +212,8 @@ mat-panel-title {
   .hide {
       display: none !important;
   }
+}
+
+.location-icon {
+  padding-right: 5px;
 }
