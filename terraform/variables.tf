@@ -185,3 +185,8 @@ variable license_plate {
   description = "license plate number to use"
   type=string
 }
+
+variable certificate_arn {
+  description = "ARN of bcwildfire certificate"
+  type = string
+}
