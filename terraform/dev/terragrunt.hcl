@@ -24,7 +24,7 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-    cert_domain = "bcwildfireservices.com"
+    cert_domain = "*.dev.bcwildfireservices.com"
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"
@@ -43,6 +43,6 @@ generate "dev_tfvars" {
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
-    certificate_arn = "arn:aws:acm:us-east-1:718963518348:certificate/d08dbea9-563d-4d2c-a939-e7dc31f27067"
+    certificate_arn = "arn:aws:acm:ca-central-1:718963518348:certificate/eded70ec-bd6e-48f0-8a76-919a0f053586"
   EOF
 }
