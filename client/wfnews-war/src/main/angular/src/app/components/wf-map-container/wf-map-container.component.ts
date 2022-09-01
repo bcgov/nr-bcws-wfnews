@@ -61,10 +61,13 @@ return;
                 toggleAccordion: self.toggleAccordion
             } )
             .then( function( smk ) {
-                // console.log("map created");
                 self.mapInitialized.emit( smk );
+
+                const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
+                hideListButtonElement[0]["style"]["display"] = 'none';
+
                 return smk;
-            } );
+            } )
         } ).catch( function( e ) {
             console.warn( e );
         } );
@@ -90,5 +93,5 @@ return;
 }
 
 function clone( o ) {
- return JSON.parse( JSON.stringify( o ) ); 
+ return JSON.parse( JSON.stringify( o ) );
 }
