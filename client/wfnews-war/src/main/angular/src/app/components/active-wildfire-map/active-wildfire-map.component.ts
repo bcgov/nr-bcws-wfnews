@@ -128,7 +128,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     onToggleAccordion() {
         this.showAccordion = !this.showAccordion;
     }
-    
+
     onSelectLayer(selectedLayer: SelectedLayer) {
         this.selectedLayer = selectedLayer;
         this.selectedPanel = selectedLayer
@@ -146,7 +146,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
             /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
             /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
             /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
-            /* 12 */ { itemId: 'bc-fire-centres', visible: false },
+            /* 12 */ { itemId: 'bc-fire-centres', visible: true },
             /* 13 */ { itemId: 'prescribed-fire', visible: false },
             /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false }
         ];
