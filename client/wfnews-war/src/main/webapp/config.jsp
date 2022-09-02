@@ -18,7 +18,7 @@
     StringBuffer url = request.getRequestURL();
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
-    String baseUrl = properties.getProperty("baseUrl");
+    String baseUrl = "https://" + properties.getProperty("subdomain") + "." + System.getEnv("TARGET_ENV") + "." + properties.getProperty("domain");
 
     StringBuilder json = new StringBuilder("{");
 
