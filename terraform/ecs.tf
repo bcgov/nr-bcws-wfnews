@@ -105,6 +105,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
+        },
+        {
+          name = "TARGET_ENV",
+          value = var.target_env
         }
       ]
       logConfiguration = {
