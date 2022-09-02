@@ -108,7 +108,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "BASE_URL",
-          value = "https://${aws_route53_record.wfnews_client.name}"
+          value = "https://${aws_route53_record.wfnews_client.name}/"
         }
       ]
       logConfiguration = {
