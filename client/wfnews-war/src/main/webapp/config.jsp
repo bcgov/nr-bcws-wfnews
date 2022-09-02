@@ -18,7 +18,7 @@
     StringBuffer url = request.getRequestURL();
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
-    String baseUrl = url.substring(0, url.length() - uri.length() + ctx.length()) + "/";
+    String baseUrl = properties.getProperty("baseUrl")
 
     StringBuilder json = new StringBuilder("{");
 
