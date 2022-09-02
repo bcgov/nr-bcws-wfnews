@@ -107,8 +107,8 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
         {
-          name = "TARGET_ENV",
-          value = var.target_env
+          name = "BASE_URL",
+          value = "https://${aws_route53_record.wfnews_client.name}"
         }
       ]
       logConfiguration = {
