@@ -18,7 +18,7 @@
     StringBuffer url = request.getRequestURL();
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
-    String baseUrl = properties.getProperty("baseUrl")
+    String baseUrl = System.getenv("BASE_URL");
 
     StringBuilder json = new StringBuilder("{");
 

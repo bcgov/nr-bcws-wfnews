@@ -33,9 +33,6 @@ jobs:
       
       - name: Add .npmrc file
         run: echo -e $NPMRC > ~/.npmrc
-        
-      - name: Add self-referential URL
-        run: sed -i 's/#{wfnews.url}/https:\/\/wfnews-client.${{ inputs.TARGET_ENV }}.bcwildfireservices.com/' client/wfnews-war/src/main/resources/static.properties
           
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
