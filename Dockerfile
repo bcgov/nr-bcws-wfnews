@@ -2,7 +2,7 @@ FROM tomcat:8.5.47-jdk11-openjdk
 
 COPY *.war .
 
-ENV ENV TOMCAT_HOME=/usr/local/tomcat \
+ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs \
   TOMCAT_MAJOR=8 \
