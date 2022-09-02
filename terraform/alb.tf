@@ -48,7 +48,7 @@ data "aws_lb" "wfnews_main" {
 # }
 
 
-# NOTE: NEED TO USE ARN, AS MULTIPLE CERTIFICATES FOR DOMAIN EXIST IN REGION
+# NOTE: NEED TO USE ARN, AS CERTIFICATE NEEDED IS NOT IN CA-CENTRAL-1 REGION
 # data "aws_acm_certificate" "issued" {
 #   domain   = var.cert_domain
 #   statuses = ["ISSUED"]

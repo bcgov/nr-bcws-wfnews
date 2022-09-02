@@ -3,7 +3,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wf1-wfnews-client-${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-client.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
@@ -102,7 +102,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wf1-wfnews-server-${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-server.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
