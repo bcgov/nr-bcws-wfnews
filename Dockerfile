@@ -20,7 +20,7 @@ RUN apt-get update &&\
   mkdir -p /usr/local/tomcat/conf/Catalina/localhost &&\
   echo 'RewriteCond %{REQUEST_PATH} !-f' > /usr/local/tomcat/conf/Catalina/localhost/rewrite.config &&\
   echo 'RewriteRule ^/(.*) /index.html ' >> /usr/local/tomcat/conf/Catalina/localhost/rewrite.config &&\
-  find /usr/local/tomcat/webapps/ROOT -name static.properties | xargs sed -i "s/TARGET_ENV/$TARGET_ENV/" &&\
+  find /usr/local/tomcat/webapps/ROOT -name static.properties | xargs sed -i "s/{TARGET_ENV}/$TARGET_ENV/" &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
