@@ -193,12 +193,12 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     }
 
     useMyCurrentLocation(){
-        var self = this
+        let self = this
         this.searchText = undefined;
         this.commonUtilityService.getCurrentLocationPromise();
         
-        var long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
-        var lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
+        let long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
+        let lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
         if( lat && long ){
             self.showAreaHighlight([long,lat],50)
             self.showLocationMarker({
