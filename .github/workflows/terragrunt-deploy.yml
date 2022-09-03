@@ -56,8 +56,8 @@ jobs:
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
-          CLIENT_IMAGE: ${{inputs.registry}}/${{ env.GITHUB_REPOSITORY_OWNER }}/${{ inputs.CLIENT_IMAGE }}:main
-          SERVER_IMAGE: ${{inputs.registry}}/${{ env.GITHUB_REPOSITORY_OWNER }}/${{ inputs.SERVER_IMAGE }}:main
+          CLIENT_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.CLIENT_IMAGE }}:main
+          SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:main
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
@@ -70,8 +70,8 @@ jobs:
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
-          CLIENT_IMAGE: ${{inputs.registry}}/${{ env.GITHUB_REPOSITORY_OWNER }}/${{ inputs.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          SERVER_IMAGE: ${{inputs.registry}}/${{ env.GITHUB_REPOSITORY_OWNER }}/${{ inputs.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          CLIENT_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
