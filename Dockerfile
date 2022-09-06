@@ -16,6 +16,10 @@ RUN apt-get update &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\
   unzip -d /usr/local/tomcat/webapps/ROOT/ '*.war' &&\
+  find /usr/local/tomcat/conf -type f -name 'server.xml' | xargs sed -i 's/<\/Host>/<Valve className="org.apache.catalina.valves.rewrite.RewriteValve" \/><\/Host>/' &&\
+  mkdir -p /usr/local/tomcat/conf/Catalina/localhost &&\
+  echo 'RewriteCond %{REQUEST_PATH} !-f' > /usr/local/tomcat/conf/Catalina/localhost/rewrite.config &&\
+  echo 'RewriteRule ^/(.*) / ' >> /usr/local/tomcat/conf/Catalina/localhost/rewrite.config &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
