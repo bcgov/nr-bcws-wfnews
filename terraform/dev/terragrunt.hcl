@@ -11,6 +11,7 @@ locals {
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
+  db_image = get_env("DB_IMAGE")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
