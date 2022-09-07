@@ -51,6 +51,10 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
 
+  reverse-proxy:
+    uses: ./.github/workflows/reverse-proxy.yml
+    needs: [terragrunt-deploy]
+    secrets: inherit
 
 #  trivy:
 #    # if: needs.check.outputs.build == 'true'
@@ -70,4 +74,9 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
+    secrets: inherit
+
+  liquibase-deploy:
+    uses: ./.github/workflows/liquibase.yml
+    needs: [terragrunt-deploy]
     secrets: inherit

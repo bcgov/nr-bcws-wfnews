@@ -190,3 +190,25 @@ variable certificate_arn {
   description = "ARN of bcwildfire certificate"
   type = string
 }
+
+variable db_container_name {
+  description = "Name of DB container"
+  type = string
+}
+
+variable db_image {
+  description = "Full name of DB image"
+  type = string
+}
+
+variable db_port {
+  description = "Port the DB communicates on"
+  type = number
+  default = 5432
+}
+
+variable "db_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-db"]
+  type        = list(string)
+}

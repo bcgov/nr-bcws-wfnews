@@ -1,0 +1,10 @@
+steps:
+  - uses: actions/checkout@v2
+  - uses: liquibase/liquibase-github-action@v7
+    with:
+      operation: 'update'
+      classpath: '.'
+      changeLogFile: 'database/main-changelog.json'
+      username: wfnewsdev
+      password: ${{ secrets.DB_PASS }}
+      url: ${{ secrets.WFNEWS_DB_uRL }}
