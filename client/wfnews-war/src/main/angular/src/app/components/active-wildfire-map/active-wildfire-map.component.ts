@@ -158,7 +158,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
 
         switch (selectedLayer) {
             case 'evacuation-orders-and-alerts':
-                layers[ 2 ].visible = true;
+                layers[ 1 ].visible = true;
                 break;
 
             case 'area-restrictions':
@@ -194,7 +194,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
 
     useMyCurrentLocation(){
         this.searchText = undefined;
-        
+
         const long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
         const lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
         if( lat && long ){

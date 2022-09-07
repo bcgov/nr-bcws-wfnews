@@ -83,7 +83,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
                     format: 'asLink(this.feature.properties.FIRE_OF_NOTE_URL)'
                 }
             ],
-            popupTemplate: '@wf-feature',
+            // popupTemplate: '@wf-feature',
             titleAttribute: 'FIRE_NUMBER'
         }
     ];
