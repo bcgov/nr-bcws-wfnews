@@ -71,7 +71,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          file: Dockerfile_db_reverse_proxy
+          file: docker/Dockerfile_db_reverse_proxy
           push: true
           tags: ${{ steps.meta_pr.outputs.tags }}
           labels: ${{ steps.meta_pr.outputs.labels }}

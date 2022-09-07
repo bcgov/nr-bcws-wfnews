@@ -1,10 +1,18 @@
+on:
+  workflow_call:
+    inputs:
+      DB_USER:
+        required: true
+        type: string
+
 steps:
   - uses: actions/checkout@v2
+  
   - uses: liquibase/liquibase-github-action@v7
     with:
       operation: 'update'
-      classpath: '.'
-      changeLogFile: 'database/main-changelog.json'
-      username: wfnewsdev
+      classpath: './database'
+      changeLogFile: 'main-changelog.json'
+      username: ${{ inputs.DB_USER }}
       password: ${{ secrets.DB_PASS }}
-      url: ${{ secrets.WFNEWS_DB_uRL }}
+      url: ${{ secrets.WFNEWS_DB_URL }}

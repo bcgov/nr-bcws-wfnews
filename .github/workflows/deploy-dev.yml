@@ -79,4 +79,6 @@ jobs:
   liquibase-deploy:
     uses: ./.github/workflows/liquibase.yml
     needs: [terragrunt-deploy]
+    with:
+      DB_USER: wfnewsdev
     secrets: inherit
