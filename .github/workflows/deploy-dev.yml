@@ -9,15 +9,13 @@ on:
   pull_request_target:
     types:
       - closed
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches:
+      - 'main'
     paths:
-      - ".github/workflows/deploy-dev.yml"
-      - ".github/workflows/mvn-client.yml"
-      - ".github/workflows/mvn-server.yml"
-      - ".github/workflows/terragrunt-deploy.yml"
+      - ".github/workflows/**"
       - "client/**"
       - "server/**"
+      - "database/**"
       - "terraform/**"
       - "Dockerfile"
       - "!**/README.md"
@@ -51,6 +49,12 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
 
+  reverse-proxy:
+    uses: ./.github/workflows/reverse-proxy.yml
+    with:
+      REGISTRY: ghcr.io
+      TARGET_ENV: dev
+    secrets: inherit
 
 #  trivy:
 #    # if: needs.check.outputs.build == 'true'
@@ -60,14 +64,22 @@ jobs:
   terragrunt-deploy:
     # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server]
+    needs: [call-mvn-client, call-mvn-server, reverse-proxy]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
+      DB_IMAGE: nr-bcws-wfnews-db
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
+    secrets: inherit
+
+  liquibase-deploy:
+    uses: ./.github/workflows/liquibase.yml
+    needs: [terragrunt-deploy]
+    with:
+      TARGET_ENV: dev
     secrets: inherit
