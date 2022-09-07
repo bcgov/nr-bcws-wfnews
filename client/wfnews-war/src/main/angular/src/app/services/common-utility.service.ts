@@ -40,7 +40,6 @@ export class CommonUtilityService {
         this.location = new Promise<Position>(function (res, rej) {
             self.getCurrentLocation(res)
         })
-        console.log(this.location)
         return this.location
     }
 
