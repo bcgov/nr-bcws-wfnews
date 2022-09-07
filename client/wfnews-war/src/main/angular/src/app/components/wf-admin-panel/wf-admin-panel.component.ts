@@ -18,6 +18,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   displayLabel = "Simple Incidents Search"
   selectedFireCentreCode = "";
   fireCentreOptions : fireCentreOption[] = []
+  fireOfNotePublishedInd = true;
 
   initModels() {
     this.model = new WfAdminPanelComponentModel(this.sanitizer);
@@ -44,7 +45,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
             sortDirection: this.currentSortDirection,
             query: this.searchText
         },
-        this.selectedFireCentreCode,this.displayLabel));
+        this.selectedFireCentreCode,this.fireOfNotePublishedInd,this.displayLabel));
 }
 
 onChangeFilters() {
@@ -55,6 +56,7 @@ onChangeFilters() {
 clearSearchAndFilters() {
   this.searchText = null;
   this.selectedFireCentreCode = null;
+  this.fireOfNotePublishedInd = true;
   super.onChangeFilters();
   this.doSearch();
 }
@@ -107,11 +109,20 @@ clearSearchAndFilters() {
   }
 
   selectIncident(incident: any) {
-    console.log(incident)
     setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], { queryParams: {wildFireYear: incident.wildfireYear, incidentNumberSequence: incident.incidentNumberSequence}});
     }, 100);
-}
+  }
+
+  fireTypeChange(event:any){
+    if(event.value ==  'note'){
+      this.fireOfNotePublishedInd = true
+    } else {
+      this.fireOfNotePublishedInd = false
+    }
+
+    this.doSearch()
+  }
 
 }
 
