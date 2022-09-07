@@ -3,15 +3,28 @@ section {
 
     h1 {
         background-color: #e9eff5;
-        font-size: 15px;
+        font-size: 13px;
         font-weight: normal;
         padding: 10px 20px;
         margin: 0;
+        letter-spacing: 2px;
     }
 
     article {
         font-size: 15px;
         padding: 10px 20px;
+
+        a:link {
+            color: #1A5A96
+        }
+
+        a:visited{
+            color: #1A5A96
+        }
+
+        a:hover{
+            text-decoration: none;
+        }
 
         h2 {
             font-size: 15px;
@@ -20,7 +33,7 @@ section {
             display: flex;
 
             &.orange {
-                color: #ef9c00;
+                color: #9A6400 ;
 
                 &::before {
                     background-color: #ef9c00
