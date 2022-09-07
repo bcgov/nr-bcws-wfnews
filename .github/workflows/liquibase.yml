@@ -1,7 +1,7 @@
 on:
   workflow_call:
     inputs:
-      DB_USER:
+      TARGET_ENV:
         required: true
         type: string
 
@@ -16,6 +16,6 @@ jobs:
           operation: 'update'
           classpath: './database'
           changeLogFile: 'main-changelog.json'
-          username: ${{ inputs.DB_USER }}
+          username: wfnews${{ inputs.TARGET_ENV }}
           password: ${{ secrets.DB_PASS }}
-          url: ${{ secrets.WFNEWS_DB_URL }}
+          url: jdbc:postgresql://${{ secrets.WFNEWS_DB_URL }}:5432/wfnews${{ inputs.TARGET_ENV }}
