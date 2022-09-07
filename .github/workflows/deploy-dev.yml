@@ -12,12 +12,10 @@ on:
     branches:
       - 'main'
     paths:
-      - ".github/workflows/deploy-dev.yml"
-      - ".github/workflows/mvn-client.yml"
-      - ".github/workflows/mvn-server.yml"
-      - ".github/workflows/terragrunt-deploy.yml"
+      - ".github/workflows/**"
       - "client/**"
       - "server/**"
+      - "database/**"
       - "terraform/**"
       - "Dockerfile"
       - "!**/README.md"
