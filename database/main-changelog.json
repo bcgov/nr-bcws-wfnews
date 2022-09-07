@@ -17,7 +17,7 @@
                 "splitStatements" : "true",
                 "stripComments" : "true"
               } ,
-             "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT_TYPE_CODE cascade", 
+             "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT_TYPE_CODE cascade"
             },
             {
               "sqlFile": {
@@ -115,7 +115,7 @@
                 "relativeToChangelogFile" : "true",
                 "splitStatements" : "true",
                 "stripComments" : "true"
-              },
+              }
             },
             {
               "sqlFile": {
@@ -136,7 +136,7 @@
                 "relativeToChangelogFile" : "true",
                 "splitStatements" : "true",
                 "stripComments" : "true"
-              },
+              }
             },
             {
               "sqlFile": {
@@ -146,7 +146,7 @@
                 "relativeToChangelogFile" : "true",
                 "splitStatements" : "true",
                 "stripComments" : "true"
-              },
+              }
             },
             {
               "sqlFile": {
@@ -156,9 +156,9 @@
                 "relativeToChangelogFile" : "true",
                 "splitStatements" : "true",
                 "stripComments" : "true"
-              },
-            },
-          ],
+              }
+            }
+          ]
         }
       }
     ]
