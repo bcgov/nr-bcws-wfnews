@@ -20,6 +20,7 @@
 
     .header-row {
       display: flex;
+      height: 75px;
 
       .search-row {
         display:flex;
@@ -42,6 +43,12 @@
         .my-location-button{
           padding-left: 5px;
           padding-right: 10px;
+          border: 1px solid grey;
+          border-radius: 2px;
+
+          .mat-raised-button {
+            box-shadow: none;
+          }
         }
 
         .firecentre-filter{
@@ -88,7 +95,8 @@
         justify-content: center;
 
         span {
-            font-size: 15px;
+            font-size: 13px;
+            letter-spacing: 2px;
             background: white;
             padding: 0 10px;
             position: relative;
@@ -97,7 +105,7 @@
     }
 
     .map-layers {
-        padding: 20px 0;
+        padding: 20px 16px 8px 20px;
         display: flex;
         justify-content: center;
         overflow-x: auto;
@@ -115,7 +123,7 @@
             cursor: pointer;
 
             &:hover {
-                border: 2px dotted #1A5A96;
+                background-color:#f1f1f3;
             }
 
             &.active {
