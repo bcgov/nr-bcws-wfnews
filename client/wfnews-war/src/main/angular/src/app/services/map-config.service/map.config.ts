@@ -40,7 +40,7 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
             {
                 type: 'identify',
                 title: 'Identify',
-                enabled: false,
+                enabled: true,
                 showTitle: false,
                 showWidget: false,
                 showPanel: true,

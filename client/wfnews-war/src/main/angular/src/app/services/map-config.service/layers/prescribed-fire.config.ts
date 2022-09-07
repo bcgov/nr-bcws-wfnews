@@ -10,7 +10,7 @@ export function PrescribedFireLayerConfig(ls: layerSettings) {
             attribution: 'Copyright 117 DataBC, Government of British Columbia',
             serviceUrl: 'https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Prescribed_Fire/FeatureServer/0',
             where: '',
-            popupTemplate: '@wf-feature',
+            // popupTemplate: '@wf-feature',
             titleAttribute: 'Fire_Zone',
             attributes: [
                 {
