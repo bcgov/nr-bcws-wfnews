@@ -1,12 +1,15 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, Input, NgZone, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '../../services/AGOL-service';
 import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
 import { WFMapService } from '../../services/wf-map.service';
+import { selectFormStatesUnsaved } from '../../store/application/application.selector';
 import { SmkApi } from '../../utils/smk';
+import * as L from 'leaflet';
+
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -18,6 +21,7 @@ export type SelectedLayer =
     'routes-impacted' |
     'wildfire-stage-of-control';
 
+declare const window: any;
 @Component({
     selector: 'active-wildfire-map',
     templateUrl: './active-wildfire-map.component.html',
@@ -43,6 +47,7 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
     selectedPanel = 'wildfire-stage-of-control'
     showAccordion: boolean;
     searchText = undefined;
+    zone: NgZone;
 
 
     constructor(
@@ -189,9 +194,36 @@ export class ActiveWildfireMapComponent implements OnInit, OnChanges {
 
     useMyCurrentLocation(){
         this.searchText = undefined;
-        this.commonUtilityService.getCurrentLocationPromise()
-        this.wfMapService.setHandler('nearme','activated',null)
+        
+        const long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
+        const lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
+        if( lat && long ){
+            this.showAreaHighlight([long,lat],50)
+            this.showLocationMarker({
+                type: 'Point',
+                coordinates: [long, lat]
+            });
+        }
+    }
 
+    showAreaHighlight(center, radius) {
+        const circle = window.turf.circle(center, radius, { steps: 40, units: 'kilometers' });
+        this.smkApi.showFeature('near-me-highlight3x', circle);
+        this.smkApi.panToFeature(circle,10)
+    }
+
+    showLocationMarker(point) {
+        this.smkApi.showFeature('my-location', point, {
+            pointToLayer: function (geojson, latLong) {
+                return L.marker(latLong, {
+                    icon: L.divIcon({
+                        className: 'wfone-my-location',
+                        html: '<i class="material-icons">my_location</i>',
+                        iconSize: [24, 24]
+                    })
+                })
+            }
+        })
     }
 
     searchTextUpdated(){
