@@ -104,7 +104,7 @@ export class WFMapService {
         const jQuery = window[ 'jQuery' ];
 
         if ( !this.patchPromise ) {
-this.patchPromise = Promise.resolve()
+          this.patchPromise = Promise.resolve()
             .then( function() {
                 console.log( 'start patching SMK' );
 
@@ -145,12 +145,9 @@ this.patchPromise = Promise.resolve()
                         { id: 'Topographic', option: { ...topographicOption, ...option2x } }
                     ] );
 
-
                     const imageryOption = {
                         maxZoom: 30
                     };
-
-
 
                     defineEsriBasemap( 'imagery', 'Imagery', [
                         { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
@@ -164,22 +161,15 @@ this.patchPromise = Promise.resolve()
                         maxZoom: 30
                     };
 
-
-
-
                     const bcOption = {
                         maxNativeZoom: 17,
                         maxZoom: 30
                     };
 
-
-
-
                     const lightGrayOption = {
                         maxNativeZoom: 16,
                         maxZoom: 30
                     };
-
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -188,7 +178,6 @@ this.patchPromise = Promise.resolve()
             .then( function() {
                 // add a component to Vue global used by SMK
                 const Vue = window['Vue'];
-
                 return include( 'component' ).then( function() {
                     const f = Vue.component( 'wf-feature', {
                         template: '#wf-feature-template',

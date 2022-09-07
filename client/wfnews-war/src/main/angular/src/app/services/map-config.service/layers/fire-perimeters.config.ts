@@ -16,10 +16,10 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
                     title: 'Fire Perimeter Number'
                 },
                 {
-                    //   "name": "TRACK_DATE",
+                    name: "TRACK_DATE",
                     title: 'Track Date',
-                    value: '<%= this.asDate( \'TRACK_DATE\' ) %>'
-                    //   "format": "asLocalDate"
+                    value: '<%= this.asDate( \'TRACK_DATE\' ) %>',
+                    format: "asLocalDate"
                 },
                 {
                     name: 'FIRE_STATUS',
@@ -31,7 +31,6 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
                     format: 'asLink(this.feature.properties.FIRE_OF_NOTE_URL)'
                 }
             ],
-            popupTemplate: '@wf-feature',
             titleAttribute: 'FIRE_NUMBER'
         }
     ];

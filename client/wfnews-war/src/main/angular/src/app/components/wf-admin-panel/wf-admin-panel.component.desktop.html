@@ -31,6 +31,17 @@
                 </option>
             </select>
         </div>
+        <div class="fire-type-radio-button-group">
+            <mat-label>Fire Type</mat-label>
+            <mat-radio-group class="radio-group">
+                <mat-radio-button class="radio-button" (change)="fireTypeChange($event)" value="note" [checked]="fireOfNotePublishedInd">
+                    Wildfires Of Note
+                </mat-radio-button>
+                <mat-radio-button class="radio-button" (change)="fireTypeChange($event)" value="all">
+                    All Fire Incidents
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
 
         <div class="field">
             <button mat-raised-button color="primary" (click)="clearSearchAndFilters()"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
