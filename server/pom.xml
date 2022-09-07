@@ -11,6 +11,13 @@
 		<java-source-version>1.8</java-source-version>
 		<java-target-version>1.8</java-target-version>
 		<dollar>$</dollar>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+	        <!-- 
+	        The two following properties are displayed on your project
+	        at https://sonarcloud.io
+	        -->
+	        <sonar.organization>bcgov-sonarcloud</sonar.organization>
+	        <sonar.projectKey>bcgov_nr-bcws-wfnews</sonar.projectKey>
 	</properties>
 	<modules>
 		<module>wfnews-model</module>
