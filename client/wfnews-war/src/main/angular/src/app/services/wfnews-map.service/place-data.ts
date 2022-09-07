@@ -325,7 +325,7 @@ function searchAddresses( data: PlaceData ) {
 
     const query = {
         ver:            1.2,
-        maxResults:     100,
+        maxResults:     10,
         outputSRS:      4326,
         addressString:  data.getSearchState().roadText,
         autoComplete:   true
