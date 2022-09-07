@@ -105,7 +105,7 @@ resource "aws_alb_target_group" "wfnews_client" {
 
 resource "aws_alb_target_group" "wfnews_db" {
   name                 = "wfnews-db-target-group-${var.target_env}"
-  port                 = var.client_port
+  port                 = var.db_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
   target_type          = "ip"
