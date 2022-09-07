@@ -193,6 +193,7 @@ variable certificate_arn {
 
 variable db_container_name {
   description = "Name of DB container"
+  default = "wfnews-db-app"
   type = string
 }
 
