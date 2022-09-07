@@ -53,6 +53,9 @@ jobs:
 
   reverse-proxy:
     uses: ./.github/workflows/reverse-proxy.yml
+    with:
+      REGISTRY: ghcr.io
+      TARGET_ENV: dev
     needs: [terragrunt-deploy]
     secrets: inherit
 
