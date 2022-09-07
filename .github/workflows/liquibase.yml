@@ -1,0 +1,21 @@
+on:
+  workflow_call:
+    inputs:
+      TARGET_ENV:
+        required: true
+        type: string
+
+jobs:
+  run_liquibase:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: liquibase/liquibase-github-action@v7
+        with:
+          operation: 'update'
+          classpath: './database'
+          changeLogFile: 'main-changelog.json'
+          username: wfnews${{ inputs.TARGET_ENV }}
+          password: ${{ secrets.DB_PASS }}
+          url: jdbc:postgresql://${{ secrets.WFNEWS_DB_URL }}:5432/wfnews${{ inputs.TARGET_ENV }}
