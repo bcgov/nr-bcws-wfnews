@@ -115,12 +115,7 @@ clearSearchAndFilters() {
   }
 
   fireTypeChange(event:any){
-    if(event.value ==  'note'){
-      this.fireOfNotePublishedInd = true
-    } else {
-      this.fireOfNotePublishedInd = false
-    }
-
+    this.fireOfNotePublishedInd = event.value === 'note'
     this.doSearch()
   }
 
