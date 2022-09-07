@@ -62,8 +62,11 @@ export class IncidentsEffect {
                     searchText = undefined;
                 }
                 let savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
+                let savedFireOfNotePublishedIndFilter = savedFilters && savedFilters.selectedFireOfNotePublishedInd ? savedFilters.selectedFireOfNotePublishedInd : undefined;
+
 
                 let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
+                let fireOfNotePublishedInd = typedaction.payload.filters["selectedFireOfNotePublishedInd"] ? typedaction.payload.filters["selectedFireOfNotePublishedInd"] : savedFireOfNotePublishedIndFilter;
 
                 return this.incidentListService.getWildfireIncidentList(
                     searchText,
@@ -97,7 +100,7 @@ export class IncidentsEffect {
                     undefined,
                     undefined,
                     undefined,
-                    undefined,
+                    fireOfNotePublishedInd[0],
                     undefined,
                     `${pageNumber}`,
                     `${pageSize}`,
