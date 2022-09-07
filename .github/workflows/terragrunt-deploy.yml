@@ -9,6 +9,9 @@ on:
       SERVER_IMAGE:
         type: string
         required: true
+      DB_IMAGE:
+        type: string
+        required: true
       TARGET_ENV:
         type: string
         required: true
@@ -72,6 +75,7 @@ jobs:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
           CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          DB_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.DB_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
