@@ -200,6 +200,7 @@ variable db_container_name {
 variable db_image {
   description = "Full name of DB image"
   type = string
+  default = ""
 }
 
 variable db_port {
