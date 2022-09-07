@@ -54,7 +54,6 @@ jobs:
     with:
       REGISTRY: ghcr.io
       TARGET_ENV: dev
-    needs: [terragrunt-deploy]
     secrets: inherit
 
 #  trivy:
@@ -65,7 +64,7 @@ jobs:
   terragrunt-deploy:
     # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server]
+    needs: [call-mvn-client, call-mvn-server, reverse-proxy]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
