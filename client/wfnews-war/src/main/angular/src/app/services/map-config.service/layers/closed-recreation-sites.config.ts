@@ -41,7 +41,7 @@ export function ClosedRecreationSitesLayerConfig(ls: layerSettings) {
             ],
             serviceUrl: 'https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/RecSitesReservesInterpForests_DetailsClosures_publicView/FeatureServer/0',
             where: 'CLOSURE_IND = \'Y\'',
-            popupTemplate: '@wf-feature',
+            // popupTemplate: '@wf-feature',
             titleAttribute: 'PROJECT_NAME',
             drawingInfo: {
                 renderer: {
