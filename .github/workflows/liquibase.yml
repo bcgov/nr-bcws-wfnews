@@ -6,7 +6,7 @@ on:
         type: string
 
 jobs:
-  run liquibase:
+  run_liquibase:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
