@@ -197,7 +197,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   }
 }
 
-resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
+resource "aws_cloudfront_distribution" "wfnews_geofencing_db" {
 
   count = var.cloudfront ? 1 : 0
 
