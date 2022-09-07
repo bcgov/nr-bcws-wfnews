@@ -9,8 +9,6 @@ on:
   pull_request_target:
     types:
       - closed
-    # The branches below must be a subset of the branches above
-    branches: [ "main" ]
     paths:
       - ".github/workflows/deploy-dev.yml"
       - ".github/workflows/mvn-client.yml"
@@ -25,7 +23,7 @@ on:
 jobs:
 
   call-mvn-client:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'main')
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
     with: 
@@ -34,7 +32,7 @@ jobs:
       TARGET_ENV: dev
 
   call-mvn-server:
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'main')
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
