@@ -7,13 +7,15 @@ on:
 
 jobs:
   run liquibase:
-    - uses: actions/checkout@v2
-    
-    - uses: liquibase/liquibase-github-action@v7
-      with:
-        operation: 'update'
-        classpath: './database'
-        changeLogFile: 'main-changelog.json'
-        username: ${{ inputs.DB_USER }}
-        password: ${{ secrets.DB_PASS }}
-        url: ${{ secrets.WFNEWS_DB_URL }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - uses: liquibase/liquibase-github-action@v7
+        with:
+          operation: 'update'
+          classpath: './database'
+          changeLogFile: 'main-changelog.json'
+          username: ${{ inputs.DB_USER }}
+          password: ${{ secrets.DB_PASS }}
+          url: ${{ secrets.WFNEWS_DB_URL }}
