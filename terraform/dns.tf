@@ -27,7 +27,7 @@ resource "aws_route53_record" "wfnews_server" {
 
   resource "aws_route53_record" "wfnews_db" {
      zone_id = data.aws_route53_zone.zone.id
-     name = "wfnews-client.${var.target_env}.bcwildfireservices.com"
+     name = "wfnews-db.${var.target_env}.bcwildfireservices.com"
      type = "A"
      alias { 
         name = aws_cloudfront_distribution.wfnews_geofencing_db[0].domain_name
