@@ -37,6 +37,7 @@ generate "dev_tfvars" {
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
+    db_image     = "${local.db_image}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
     client_port = 8080

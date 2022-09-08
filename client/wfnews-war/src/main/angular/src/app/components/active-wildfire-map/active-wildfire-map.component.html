@@ -1,7 +1,7 @@
 <div class="top">
     <div class="header-row">
         <div class="title">
-            <h1>Active Wildfires Map</h1>
+            <h1>Wildfires Map</h1>
             <h2 class="wildfire-count">
                 <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
                 <!-- <i class="material-icons-outlined">local_fire_department</i> -->
@@ -46,7 +46,7 @@
         <div class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
             (click)="onSelectLayer( 'wildfire-stage-of-control' )">
             <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-            <span class="hide">Incidents</span>
+            <span class="hide">Wildfires</span>
         </div>
 
         <div class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
