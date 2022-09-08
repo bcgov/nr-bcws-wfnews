@@ -30,7 +30,6 @@ export class SetMapLocation {
 
 export class SetMapLocationComplete {
   type = SET_MAP_POSITION_COMPLETE;
-  constructor() { }
 }
 
 export class SetMapPolygon {
@@ -40,7 +39,6 @@ export class SetMapPolygon {
 
 export class SetMapPolygonComplete {
   type = SET_MAP_POLYGON_COMPLETE;
-  constructor() { }
 }
 
 export class SetActiveMapLocation {
@@ -55,42 +53,34 @@ export class SetActiveMapPolygon {
 
 export class ClearMapSelectPoint {
   type = CLEAR_MAP_SELECT_POINT;
-  constructor() {}
 }
 
 export class ClearMapSelectPointComplete {
   type = CLEAR_MAP_SELECT_POINT_COMPLETE;
-  constructor() {}
 }
 
 export class ActivateSelectTool {
   type = ACTIVATE_SELECT_POINT;
-  constructor() {}
 }
 
 export class ActivateSelectComplete {
   type = ACTIVATE_SELECT_POINT_COMPLETE;
-  constructor() {}
 }
 
 export class ClearMapSelectPolygon {
   type = CLEAR_MAP_SELECT_POLYGON;
-  constructor() {}
 }
 
 export class ClearMapSelectPolygonComplete {
   type = CLEAR_MAP_SELECT_POLYGON_COMPLETE;
-  constructor() {}
 }
 
 export class ActivateSelectPolygonTool {
   type = ACTIVATE_SELECT_POLYGON;
-  constructor() {}
 }
 
 export class ActivateSelectPolygonComplete {
   type = ACTIVATE_SELECT_POLYGON_COMPLETE;
-  constructor() {}
 }
 
 export interface LoadUserMapPrefsAction extends Action {
@@ -139,7 +129,6 @@ export class LoadRoFItem {
 
 export class LoadRoFItemComplete {
   type = LOAD_ROF_ITEM_COMPLETE;
-  constructor() {}
 }
 
 export class LoadNRoFItem {
@@ -149,7 +138,6 @@ export class LoadNRoFItem {
 
 export class LoadNRoFItemComplete {
   type = LOAD_NROF_ITEM_COMPLETE;
-  constructor() {}
 }
 
 export class LoadIncidentItem {
@@ -159,5 +147,4 @@ export class LoadIncidentItem {
 
 export class LoadIncidentItemComplete {
   type = LOAD_INCIDENT_ITEM_COMPLETE;
-  constructor() {}
 }

@@ -15,7 +15,6 @@ export class BaseComponentModel {
 
     constructor(protected sanitizer: DomSanitizer) {
         this.sanitizer.bypassSecurityTrustResourceUrl('');
-        this.initFormErrorMappings();
     }
 
     public clone(): BaseComponentModel {
@@ -60,10 +59,6 @@ export class BaseComponentModel {
 
     public getErrors(formControl: string) {
         return this.formControlNameErrors.get(formControl);
-    }
-
-    // should be overridden if field level api errors need to be shown - see profile as reference
-    protected initFormErrorMappings() {
     }
 
     protected updateValidators() {

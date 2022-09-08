@@ -66,7 +66,7 @@ export class ActiveWildfireMapComponent implements OnInit {
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
-        
+
         // console.log(this.incidentsServiceUrl)
 
         this.placeData.setResultHandler((result) => {
@@ -85,27 +85,10 @@ export class ActiveWildfireMapComponent implements OnInit {
         this.showAccordion = true;
         this.appConfig.configEmitter.subscribe((config) => {
             const mapConfig = [];
-            
-            this.mapConfigService.getMapConfig() // this.applicationConfig.device )
-                // .then((config) => {
-                //     mapConfig.push(config)
 
-                // })
+            this.mapConfigService.getMapConfig()
                 .then((mapState) => {
-                    console.log('map state version', mapState?.version);
-                    // if (!mapState || !mapState.version) return
-                    // if (mapState.version.app != this.applicationConfig.version.short) return
-                    // if (mapState.version.build != config.application.buildNumber) return
-                    // console.log('using map state')
-
-                    // eachDisplayContextItem( mapState.viewer.displayContext, ( item ) => {
-                    // if ( item.id == 'resource-track' )
-                    // item.isVisible = false
-                    // delete item.isEnabled
-                    // } )
                     this.SMK = window[ 'SMK' ];
-                    // this.leafletInstance = window[ 'L' ];
-                    // this.searchLocationsLayerGroup = this.leafletInstance.layerGroup().addTo(this.SMK.MAP[1].$viewer.map);
                     mapConfig.push(mapState);
                 })
                 .then(() => {
@@ -127,11 +110,11 @@ export class ActiveWildfireMapComponent implements OnInit {
     }
 
     onLocationSelected(selectedOption) {
-        var self=this;
+        const self = this;
         self.searchLayerGroup.clearLayers();
         this.searchByLocationControl.setValue(selectedOption.name);
-        
-        var geojsonFeature = {
+
+        const geojsonFeature = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
@@ -139,7 +122,7 @@ export class ActiveWildfireMapComponent implements OnInit {
             }
         };
 
-        var starIcon = this.leaflet.icon({
+        const starIcon = this.leaflet.icon({
             iconUrl: "data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 55.867 55.867' xml:space='preserve'%3E%3Cpath d='M55.818,21.578c-0.118-0.362-0.431-0.626-0.808-0.681L36.92,18.268L28.83,1.876c-0.168-0.342-0.516-0.558-0.896-0.558 s-0.729,0.216-0.896,0.558l-8.091,16.393l-18.09,2.629c-0.377,0.055-0.689,0.318-0.808,0.681c-0.117,0.361-0.02,0.759,0.253,1.024 l13.091,12.76l-3.091,18.018c-0.064,0.375,0.09,0.754,0.397,0.978c0.309,0.226,0.718,0.255,1.053,0.076l16.182-8.506l16.18,8.506 c0.146,0.077,0.307,0.115,0.466,0.115c0.207,0,0.413-0.064,0.588-0.191c0.308-0.224,0.462-0.603,0.397-0.978l-3.09-18.017 l13.091-12.761C55.838,22.336,55.936,21.939,55.818,21.578z' fill='%23FCBA19'/%3E%3C/svg%3E%0A",
             iconSize:     [19, 47],
             iconAnchor:   [22, 94],
@@ -175,14 +158,6 @@ export class ActiveWildfireMapComponent implements OnInit {
 
     initMap(smk: any) {
         this.smkApi = new SmkApi(smk);
-        // this.wfnewsMapService.setSmkInstance(smk, this.bespokeContainerRef, this.mapConfig[0].viewer.location.extent)
-
-        // this.updateMapSize = function () {
-        //     this.storeViewportSize()
-        //     smk.updateMapSize();
-        // };
-
-        // window[ 'SPLASH_SCREEN' ].remove()
     }
 
     onToggleAccordion() {

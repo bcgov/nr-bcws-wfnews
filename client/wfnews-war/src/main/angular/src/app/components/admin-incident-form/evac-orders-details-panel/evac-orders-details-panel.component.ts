@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { EvacOrderOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
@@ -8,7 +8,7 @@ import { AGOLService } from '../../../services/AGOL-service';
   templateUrl: './evac-orders-details-panel.component.html',
   styleUrls: ['./evac-orders-details-panel.component.scss']
 })
-export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
+export class EvacOrdersDetailsPanel implements OnInit {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
@@ -19,9 +19,6 @@ export class EvacOrdersDetailsPanel implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getEvacOrders();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
   }
 
   addEvacOrder () {

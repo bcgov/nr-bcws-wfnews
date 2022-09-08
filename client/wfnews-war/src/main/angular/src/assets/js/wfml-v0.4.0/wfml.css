@@ -45,7 +45,7 @@
 }
 
 .wfml-feature-set {
-    display: flex;    
+    display: flex;
     height: 20em;
 }
 
@@ -337,16 +337,16 @@
     background-image: url('img/layer-on.png');
 }
 .wfml-layerlist-tool-filter {
-    background-image: url('img/layer-filter.png');  
+    background-image: url('img/layer-filter.png');
 }
 .wfml-layerlist-tool-legend {
     background-image: url('img/legend.png');
 }
 .wfml-layerlist-tool-hide {
-    background-image: url('img/layer-hide.png');  
+    background-image: url('img/layer-hide.png');
 }
 .wfml-layerlist-tool-refresh {
-    background-image: url('img/refresh.png');  
+    background-image: url('img/refresh.png');
 }
 
 .wfml-layerlist {
@@ -590,7 +590,7 @@
     margin: 3px;
     flex-grow: 1;
     flex-basis: 50%;
-    display: flex;    
+    display: flex;
 }
 
 .wfml-sidebar-left-tools div {
@@ -760,13 +760,13 @@
     animation:spin 4s linear infinite;
 }
 
-@keyframes spin { 
+@keyframes spin {
     0% {
         transform: translate(15px,15px) rotate(-45deg);
     }
-    100% { 
+    100% {
         transform: translate(15px,15px) rotate(315deg);
-    } 
+    }
 }
 
 .wfml-find-icon .wfml-find-lens {
@@ -787,7 +787,7 @@
 
     width: 2px;
     height: 8px;
-    background-color: black;    
+    background-color: black;
 }
 
 .wfml-find-icon .wfml-find-lens.wfml-find-shadow {
@@ -808,7 +808,7 @@
 
     width: 4px;
     height: 10px;
-    background-color: white;    
+    background-color: white;
 }
 
 .wfml-time-mode-hidden {
@@ -836,9 +836,6 @@
 
 .wfml-layerlist-live .wfml-layerlist-title:before, .wfml-layerlist-historical .wfml-layerlist-title:before {
     display: inline-block;
-    margin-right: 0.5ex;
-    position: relative;
-    top: 1px;
     margin-right: 0.5ex;
     position: relative;
     top: 1px;

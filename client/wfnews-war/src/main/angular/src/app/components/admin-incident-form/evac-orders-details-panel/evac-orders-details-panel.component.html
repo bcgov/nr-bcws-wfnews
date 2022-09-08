@@ -4,6 +4,7 @@
       There are no current Evacuation Orders or Alerts
     </div>
     <fieldset class="field-set" formGroupName="contact" *ngFor = "let item of evacOrders">
+      <legend>Evac Order Fields</legend>
       <div class="news-form">
         <div class="field size-third">
           <mat-form-field appearance="standard" class="item-full-width">
@@ -37,6 +38,7 @@
   </mat-card>
   <mat-card *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
     <fieldset class="field-set" formArrayName="evacOrders" *ngFor = "let item of evacOrderForm.controls; let i=index">
+      <legend>Evac Order Fields</legend>
       <div [formGroupName]="i" class="news-form">
         <div class="field size-quarter">
           <mat-form-field appearance="standard" class="item-full-width">
