@@ -34,9 +34,11 @@ export interface SearchIncidentsErrorAction extends Action {
 export function searchIncidents(componentId: string,
     pageInfoRequest: PagingInfoRequest,
     selectedFireCentre: string,
+    fireOfNotePublishedInd: boolean,
     displayLabel: string): SearchIncidentsAction {
         let filters = {};
         filters["selectedFireCentreCode"] = selectedFireCentre ? [selectedFireCentre] : [];
+        filters["selectedFireOfNotePublishedInd"] = fireOfNotePublishedInd? [fireOfNotePublishedInd] : []
 
         return {
             type: SEARCH_INCIDENTS,

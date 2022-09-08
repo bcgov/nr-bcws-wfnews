@@ -12,12 +12,11 @@ on:
     branches:
       - 'main'
     paths:
-      - ".github/workflows/deploy-dev.yml"
-      - ".github/workflows/mvn-client.yml"
-      - ".github/workflows/mvn-server.yml"
-      - ".github/workflows/terragrunt-deploy.yml"
+      - ".github/workflows/**"
       - "client/**"
       - "server/**"
+      - "database/**"
+      - "docker/**"
       - "terraform/**"
       - "Dockerfile"
       - "!**/README.md"
@@ -83,5 +82,5 @@ jobs:
     uses: ./.github/workflows/liquibase.yml
     needs: [terragrunt-deploy]
     with:
-      DB_USER: wfnewsdev
+      TARGET_ENV: dev
     secrets: inherit

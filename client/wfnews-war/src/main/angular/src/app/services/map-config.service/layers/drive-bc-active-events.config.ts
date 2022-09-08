@@ -9,7 +9,7 @@ export function DriveBCEventsLayerConfig(ls: layerSettings) {
             isQueryable: true,
             serviceUrl: ls.drivebcBaseUrl,
             layerName: 'op5:OP5_EVENT511_ACTIVE_V',
-            popupTemplate: '@wf-feature',
+            // popupTemplate: '@wf-feature',
             titleAttribute: 'HEADLINE',
             geometryAttribute: 'GEOMETRY',
             attributes: [

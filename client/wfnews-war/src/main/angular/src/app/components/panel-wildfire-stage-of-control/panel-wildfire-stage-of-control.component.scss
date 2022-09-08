@@ -1,3 +1,7 @@
+.mat-raised-button {
+    box-shadow: none;
+}
+
 .header {
     display: flex;
     align-items: center;
@@ -7,6 +11,8 @@
     
     .list-view-button{
         margin-left:10px;
+        border: 1px solid grey;
+        border-radius: 2px;
     }
 
     .show-toggle {
