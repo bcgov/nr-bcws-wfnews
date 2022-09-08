@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
@@ -156,6 +157,7 @@ export const DATE_FORMATS = {
         IncidentsApiModule,
         OrgUnitApiModule,
         MatTooltipModule,
+        MatAutocompleteModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
