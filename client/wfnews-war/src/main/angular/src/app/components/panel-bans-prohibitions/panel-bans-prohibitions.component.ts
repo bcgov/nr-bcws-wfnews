@@ -1,22 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { AppConfigService } from '@wf1/core-ui';
+import { Component } from '@angular/core';
 
 @Component({
     selector: 'panel-bans-prohibitions',
     templateUrl: './panel-bans-prohibitions.component.html',
     styleUrls: ['./panel-bans-prohibitions.component.scss'],
 })
-export class PanelBansAndProhibitionsComponent implements OnInit, OnChanges {
-    constructor(
-        private http: HttpClient,
-        private appConfig: AppConfigService
-    ) {
-    }
+export class PanelBansAndProhibitionsComponent {
 
-    ngOnInit() {
-    }
-
-    ngOnChanges(changes: SimpleChanges) {
-    }
 }
