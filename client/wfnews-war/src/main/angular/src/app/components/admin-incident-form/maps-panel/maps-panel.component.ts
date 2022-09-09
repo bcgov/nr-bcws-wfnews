@@ -14,6 +14,8 @@ import { TokenService, AppConfigService } from '@wf1/core-ui';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { RootState } from '../../../store';
 import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
+import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
+import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
 
 @Component({
   selector: 'maps-panel',
@@ -118,22 +120,43 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     }
   }
 
+  upload () {
+    let dialogRef = this.dialog.open(UploadMapDialogComponent, {
+      width: '350px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log(result);
+        // just refresh after attachment create?
+      }
+      this.cdr.detectChanges();
+    });
+  }
+
   edit (item: AttachmentResource) {
-    this.loaded = false;
-    // load popup to edit title
-    // then save
-    this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
-    .toPromise().then(result => {
-      this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
-      this.loaded = false;
-    }).catch(err => {
-      this.snackbarService.open('Failed to Update Attachment: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
-      this.loaded = false;
-    })
+    let dialogRef = this.dialog.open(EditMapDialogComponent, {
+      width: '350px',
+      data: {
+        attachment: item
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
+        .toPromise().then(() => {
+          this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+          this.loaded = false;
+        }).catch(err => {
+          this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          this.loaded = false;
+        })
+      }
+      this.cdr.detectChanges();
+    });
   }
 
   download (item: AttachmentResource) {
-    this.loaded = false;
+    // this is a call to WFDM with the File ID
   }
 
   delete (item: AttachmentResource) {
@@ -150,8 +173,9 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         .toPromise().then(() => {
           this.snackbarService.open('Attachment Deleted Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
           this.loaded = false;
+          this.cdr.detectChanges();
         }).catch(err => {
-          this.snackbarService.open('Failed to Delete Attachment: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
           this.loaded = false;
         })
       }

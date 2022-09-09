@@ -84,6 +84,8 @@ import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-f
 import { CommonUtilityService } from "./services/common-utility.service";
 import { MapsPanel } from './components/admin-incident-form/maps-panel/maps-panel.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
+import { EditMapDialogComponent } from './components/admin-incident-form/maps-panel/edit-map-dialog/edit-map-dialog.component';
+import { UploadMapDialogComponent } from './components/admin-incident-form/maps-panel/upload-map-dialog/upload-map-dialog.component';
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -120,7 +122,9 @@ export const DATE_FORMATS = {
         AreaRestrictionsDetailsPanel,
         IncidentContainerDesktop,
         MapsPanel,
-        MessageDialogComponent
+        MessageDialogComponent,
+        EditMapDialogComponent,
+        UploadMapDialogComponent
     ],
     imports: [
         MatSortModule,

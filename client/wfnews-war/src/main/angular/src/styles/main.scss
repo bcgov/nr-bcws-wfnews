@@ -108,31 +108,28 @@
 //   }
 // }
 
-// .snackbar-warning {
-//   background-color: rgba(244, 230, 195, 1);
-//   color: $colour-black;
-//   position: inherit;
+.snackbar-warning {
+  background-color: rgba(244, 230, 195, 1);
+  color: $colour-black;
+  position: inherit;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 13px;
+  }
+  .mat-simple-snackbar-action{
+    color: #f1780e;
+  }
+}
 
-//   .mat-simple-snackbar{
-//     font-family: $font-family-main;
-//     font-size: 13px;
-//   }
-//   .mat-simple-snackbar-action{
-//     color: #f1780e;
-//   }
-
-// }
-
-// .snackbar-success {
-//   background-color: rgba(149, 206, 170, 1);
-//   color: $colour-black;
-//   position: inherit;
-
-//   .mat-simple-snackbar{
-//     font-family: $font-family-main;
-//     font-size: 13px;
-//   }
-// }
+.snackbar-success {
+  background-color: rgba(149, 206, 170, 1);
+  color: $colour-black;
+  position: inherit;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 13px;
+  }
+}
 
 .full-snack-bar-online{
   //width: 100%;
@@ -450,4 +447,30 @@
   font-weight: 700;
   margin: 0 5px;
   font-size: 14px;
+}
+
+.mat-dialog-container {
+  padding: 0px 0px 24px 0px !important;
+  overflow: hidden !important;
+}
+
+.dialog-container {
+  h1 {
+    background-color: #003366;
+    color: white;
+    padding: 10px;
+    font-size: 20px;
+  }
+  .dialog-content {
+    color: black;
+    background-color: white;
+    padding: 0px 32px 0px 32px;
+  }
+  .dialog-actions {
+    background-color: #eeeeee;
+    flex-flow: row-reverse;
+    button {
+      margin-right: 7px;
+    }
+  }
 }

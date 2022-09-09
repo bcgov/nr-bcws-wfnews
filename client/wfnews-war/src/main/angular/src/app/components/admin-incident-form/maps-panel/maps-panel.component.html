@@ -1,7 +1,7 @@
 <ng-container class="wfone-base-container">
   <div class="header-panel">
     <span style="font-size: 24px;">Maps</span>
-    <button mat-button color="primary" class="primary-button">Upload Map</button>
+    <button mat-button color="primary" class="primary-button" (click)="upload()">Upload Map</button>
   </div>
   <div class="table-wrapper flex-y-grow" *ngIf="attachments; else loading">
     <table style = "width: fit-content;" mat-table matSort [dataSource]="attachments"
