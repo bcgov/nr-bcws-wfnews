@@ -52,7 +52,8 @@
         json.append("\"rofs-table\":\"").append(properties.getProperty("wildfire.incidents.table.maximum.results", "")).append("\"").append(",");
         json.append("\"rofs\":\"").append(properties.getProperty("report.of.fires.maximum.results", "")).append("\"");
       json.append("},");
-      json.append("\"baseUrl\":\"").append(baseUrl).append("\"");
+      json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");;
+      json.append("\"siteminderUrlPrefix\":\"").append(properties.getProperty("siteminder.url.prefix", "")).append("\"");
     json.append("},");
 
     // Map Icon Section
