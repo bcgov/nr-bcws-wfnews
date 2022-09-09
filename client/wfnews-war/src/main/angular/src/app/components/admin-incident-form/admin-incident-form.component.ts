@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -20,6 +20,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public incident = {
     fireNumber: 'V245512',
+    wildfireYear: '2022',
+    incidentNumberSequence: 0,
     fireName: 'This is a Test',
     traditionalTerritory: 'Tsawassen',
     lastPublished: new Date(),
@@ -53,7 +55,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       y: 50
     },
     incidentOverview: '',
-    evacOrders: []
+    evacOrders: [],
+    mapAttachments: [],
+    incidentData: null
   }
   wildFireYear: string;
   incidentNumberSequnce: string;
@@ -68,7 +72,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
               private store: Store<RootState>,
-              ) {
+              protected cdr: ChangeDetectorRef) {
     this.incidentForm = this.formBuilder.group({
       incidentName: [],
       incidentNumberSequence: [],
@@ -79,6 +83,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       fireOfNotePublishedInd: [],
       geographicDescription: [],
       sizeType: [],
+      sizeHectares: [],
       incidentSituation: [],
       sizeComments: [],
       cause: [],
@@ -116,14 +121,22 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.adminIncident){
+    if (changes.adminIncident && changes.adminIncident.currentValue){
       this.currentAdminIncident = changes.adminIncident.currentValue
       this.incidentForm.patchValue(this.currentAdminIncident)
+
+      // update the stub, until we wire this properly
+      this.incident.wildfireYear = this.wildFireYear
+      this.incident.incidentNumberSequence = this.currentAdminIncident.incidentNumberSequence
+      this.incident.fireName = this.currentAdminIncident.incidentName
+      this.incident.incidentData = this.currentAdminIncident
     }
 
     if (changes.adminIncidentCause){
       this.currentAdminIncidentCause = changes.adminIncidentCause.currentValue
     }
+
+    this.cdr.detectChanges();
   }
 
   publish () {

@@ -1,0 +1,10 @@
+<div class="error-dialog">
+  <h1>{{data.title}}</h1>
+	<div class="message">
+		<strong>{{data.message}}</strong>
+	</div>
+  <div mat-dialog-actions>
+  	<button mat-raised-button color="primary" [mat-dialog-close]="true">Ok</button>
+	  <button mat-raised-button color="warn" [mat-dialog-close]="false">Cancel</button>
+  </div>
+</div>

@@ -1,0 +1,47 @@
+<ng-container class="wfone-base-container">
+  <div class="header-panel">
+    <span style="font-size: 24px;">Maps</span>
+    <button mat-button color="primary" class="primary-button">Upload Map</button>
+  </div>
+  <div class="table-wrapper flex-y-grow" *ngIf="attachments; else loading">
+    <table style = "width: fit-content;" mat-table matSort [dataSource]="attachments"
+            [matSortActive]="this.searchState.sortParam"
+            [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
+            (matSortChange)="sortData($event)"
+            aria-label="Map PDF Table">
+        <ng-container matColumnDef = "fileName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>File Name</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fileName}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "attachmentTitle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Map Title</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.attachmentTitle}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "uploadedTimestamp">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Date Uploaded</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{convertToDate(item.uploadedTimestamp)}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "edit">
+            <th mat-header-cell *matHeaderCellDef>Edit</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><mat-icon (click)="edit(item)">edit</mat-icon></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "download">
+          <th mat-header-cell *matHeaderCellDef>Download</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item"><mat-icon (click)="download(item)">download</mat-icon></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "delete">
+          <th mat-header-cell *matHeaderCellDef>Delete</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item"><mat-icon (click)="delete(item)">delete</mat-icon></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
+        <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+    </table>
+</div>
+<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>
+</ng-container>

@@ -1,0 +1,12 @@
+.error-dialog {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	align-items: center;
+
+  h1 {
+    color: #ff4545;
+    font-size: large;
+    text-align: center;
+  }
+}
