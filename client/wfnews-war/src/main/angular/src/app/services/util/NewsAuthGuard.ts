@@ -31,8 +31,6 @@ export class NewsAuthGuard extends AuthGuard {
     }
 
     getTokenInfo(route) {
-        console.log(this.tokenService)
-
         if (!this.tokenService.getOauthToken()) {
             if (this.asyncCheckingToken) {
                 return this.asyncCheckingToken;
