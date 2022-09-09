@@ -86,6 +86,7 @@ import { MapsPanel } from './components/admin-incident-form/maps-panel/maps-pane
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { EditMapDialogComponent } from './components/admin-incident-form/maps-panel/edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './components/admin-incident-form/maps-panel/upload-map-dialog/upload-map-dialog.component';
+import { DocumentManagementService } from './services/document-management.service';
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -157,6 +158,7 @@ export const DATE_FORMATS = {
         MatChipsModule,
         MatTableModule,
         MatTabsModule,
+        MatProgressSpinnerModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         OwlMomentDateTimeModule,
@@ -247,7 +249,8 @@ export const DATE_FORMATS = {
         },
         WFMapService,
         MapConfigService,
-        CommonUtilityService
+        CommonUtilityService,
+        DocumentManagementService
     ],
     bootstrap: [
         AppComponent

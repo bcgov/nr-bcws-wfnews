@@ -6,7 +6,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -16,6 +16,7 @@ import { RootState } from '../../../store';
 import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
 import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
+import { DocumentManagementService } from '../../../services/document-management.service';
 
 @Component({
   selector: 'maps-panel',
@@ -31,6 +32,9 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     sortDirection: 'DESC'
   };
   private loaded = false
+  public uploadProgress = 0
+  public uploadStatus = ''
+  public statusBar
 
   public columnsToDisplay = ["fileName", "attachmentTitle", "uploadedTimestamp", "edit", "download", "delete"];
   public attachments: AttachmentResource[] = []
@@ -49,7 +53,8 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
               protected appConfigService: AppConfigService,
               protected http: HttpClient,
               protected incidentAttachmentsService: IncidentAttachmentsService,
-              protected incidentAttachmentService: IncidentAttachmentService) {
+              protected incidentAttachmentService: IncidentAttachmentService,
+              private documentManagementService: DocumentManagementService,) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http);
   }
 
@@ -84,7 +89,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         else return 0;
       })
       this.attachments = docs.collection
-      console.log(this.attachments)
       this.cdr.detectChanges();
     }).catch(err => {
       this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
@@ -121,16 +125,68 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   }
 
   upload () {
+    const self = this;
     let dialogRef = this.dialog.open(UploadMapDialogComponent, {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+      if (result && result.file) {
         console.log(result);
-        // just refresh after attachment create?
+
+        setTimeout( () => {
+
+        }, 1000 )
+
+        // upload to WFDM
+        //self.documentManagementService.makeDocumentUrl()
+        self.uploadFile(result.file, ( percent, loaded, total ) => {
+          self.uploadProgress = percent
+          self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`
+          if (!self.statusBar) {
+            self.statusBar = this.snackbarService.open(self.uploadStatus, 'OK', { duration: 0, panelClass: 'snackbar-success' });
+          } else {
+            (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
+          }
+        }).then(doc => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFORMATION').then(() => {
+            this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+          }).catch(err => {
+            this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          }).finally(() => {
+            self.loaded = false;
+            this.cdr.detectChanges();
+          })
+        }).catch(err => {
+          this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+        })
       }
-      this.cdr.detectChanges();
     });
+  }
+
+  uploadFile( file: File, progressCallback: ( percent: number, loaded: number, total: number ) => void ): Promise<any> {
+    return this.documentManagementService.uploadDocument( {
+        file: file,
+        onProgress: progressCallback
+    } )
+  }
+
+  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
+    const attachment = {
+      '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
+      type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
+
+      sourceObjectNameCode: 'INCIDENT',
+      fileName: uploadPath,
+      attachmentDescription: description,
+      attachmentTypeCode: category,
+      fileIdentifier: fileId,
+      mimeType: mimeType
+    } as AttachmentResource;
+
+    return this.incidentAttachmentsService.createIncidentAttachment(
+      '' + this.incident.wildfireYear,
+      '' + this.incident.incidentNumberSequence,
+      attachment, undefined, 'response').toPromise()
   }
 
   edit (item: AttachmentResource) {
