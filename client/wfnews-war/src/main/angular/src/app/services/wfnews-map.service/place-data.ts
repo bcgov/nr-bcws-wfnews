@@ -13,8 +13,8 @@ export interface Location {
 
 export class PlaceData {
     private anchorPoint?: LonLat;
-    private maxDistance?: number; 
-    private callback?: any; 
+    private maxDistance?: number;
+    private callback?: any;
     private searchState: {
         placeText?: string;
         places?: Location[];
@@ -23,8 +23,6 @@ export class PlaceData {
         intersectionsText?: [ string, string ];
         intersections?: Location[];
     } = {};
-    
-    constructor() {}
 
     init() {
         return this.updateResults();
@@ -85,7 +83,7 @@ return;
         return this.updateResults();
     }
 
-    updateResults(): Promise<any> {      
+    updateResults(): Promise<any> {
         const self = this;
 
         if ( !this.callback ) {
@@ -94,21 +92,21 @@ return Promise.resolve();
 
         return Promise.resolve()
             .then( function() {
- return searchPlaces( self ); 
+ return searchPlaces( self );
 } )
             .then( function() {
- return searchRoads( self ); 
+ return searchRoads( self );
 } )
             .then( function() {
- return searchOccupants( self ); 
+ return searchOccupants( self );
 } )
             .then( function() {
- return searchAddresses( self ); 
+ return searchAddresses( self );
 } )
             .then( function() {
- return searchIntersections( self ); 
+ return searchIntersections( self );
 } )
-            .then( 
+            .then(
                 function() {
                     if ( !self.callback ) {
 return;
@@ -118,7 +116,7 @@ return;
                         anchorPt:       self.anchorPoint,
                         maxDistance:    self.maxDistance,
                     }, self.searchState ) );
-                }, 
+                },
                 function( e ) {
                     if ( !self.callback ) {
 return;
@@ -128,7 +126,7 @@ return;
                         anchorPt:       self.anchorPoint,
                         maxDistance:    self.maxDistance,
                     }, self.searchState ) );
-                } 
+                }
             );
     }
 }
@@ -140,17 +138,17 @@ const fetchCache: { [url: string]: Promise<any> } = {};
 function fetchData( url: string ): Promise<any> {
     if ( fetchCache[ url ] ) {
 return fetchCache[ url ];
-} 
+}
 
-    return fetchCache[ url ] = fetch( url, { credentials: 'same-origin' } )            
-        .then( function( res ) { 
+    return fetchCache[ url ] = fetch( url, { credentials: 'same-origin' } )
+        .then( function( res ) {
             if ( res.ok ) {
 return res.json();
-} 
-            
+}
+
             throw new Error( `fetching ${ url }: ${ res.statusText }` );
         } );
-}   
+}
 
 function searchPlaces( data: PlaceData ) {
     if ( data.getSearchState().placeText ) {
@@ -218,7 +216,7 @@ function sortData( locations ) {
 return a.name > b.name ? 1 : -1;
 }
 
-        return a.dist - b.dist; 
+        return a.dist - b.dist;
     } );
     return sorted;
 }
@@ -269,9 +267,9 @@ location.isAnchor = true;
 function searchIntersections( data: PlaceData ) {
     if ( !data.getSearchState().intersectionsText ) {
         data.getSearchState().intersections = [];
-        return; 
+        return;
     }
-    
+
     const query = {
         ver:            1.2,
         maxResults:     1000,
@@ -304,12 +302,12 @@ return;
                         dist: null,
                         dir: null,
                         loc: feature.geometry.coordinates
-                    };  
+                    };
                     setAnchorData(data.getAnchor(), loc);
                     return loc;
                 } )
                 .filter( function( item ) {
- return item; 
+ return item;
 } );
             data.getSearchState().intersections = removeDuplicateIntersections( sortData( resultLoc ));
         } )
@@ -320,12 +318,12 @@ return;
 
 function searchAddresses( data: PlaceData ) {
     if ( data.getSearchState().roads.length > 0 || !data.getSearchState().roadText || !data.getSearchState().roadText.trim() ) {
-        return; 
+        return;
     }
 
     const query = {
         ver:            1.2,
-        maxResults:     100,
+        maxResults:     10,
         outputSRS:      4326,
         addressString:  data.getSearchState().roadText,
         autoComplete:   true
@@ -350,12 +348,12 @@ return;
                         dist: null,
                         dir: null,
                         loc: feature.geometry.coordinates
-                    };  
+                    };
                     setAnchorData(data.getAnchor(), loc);
                     return loc;
                 } )
                 .filter( function( item ) {
- return item; 
+ return item;
 } );
             data.getSearchState().roads = removeDuplicateIntersections( sortData( resultLoc ));
         } )
@@ -366,7 +364,7 @@ return;
 
 function searchOccupants( data: PlaceData ) {
     if ( data.getSearchState().places.length > 0 || !data.getSearchState().placeText || !data.getSearchState().placeText.trim() ) {
-        return; 
+        return;
     }
 
     const query = {
@@ -396,12 +394,12 @@ return;
                         dist: null,
                         dir: null,
                         loc: feature.geometry.coordinates
-                    };  
+                    };
                     setAnchorData(data.getAnchor(), loc);
                     return loc;
                 } )
                 .filter( function( item ) {
- return item; 
+ return item;
 } );
             data.getSearchState().places = removeDuplicateIntersections( sortData( resultLoc ));
         } )

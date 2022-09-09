@@ -7,10 +7,20 @@ export function ClosedRecreationSitesLayerConfig(ls: layerSettings) {
             id: 'closed-recreation-sites',
             title: 'Closed Recreation Sites',
             attribution: 'Copyright 117 DataBC, Government of British Columbia',
+            popupTemplate: '<div class="smk-popup"><div class="popup-header"><mat-icon role="img" class="mat-icon notranslate material-icons mat-icon-no-color" aria-hidden="true" data-mat-icon-type="font">camping</mat-icon><span class="title-label">Closed Recreation Site</span></div><div class="popup-title">{{feature.properties["PROJECT_NAME"]}}</div><div class="popup-attributes"><div class="label">Location:</div><div class="attribute">{{feature.properties["SITE_LOCATION"]}}</div></div><div class="popup-attributes"><div class="label">Closure Date:</div><div class="attribute">{{new Date(feature.properties["CLOSURE_DATE"]).toISOString().slice(0, 10)}}</div></div><div class="popup-attributes"><div class="label">Comment:</div><div class="attribute">{{feature.properties["CLOSURE_COMMENT"]}}</div></div><div class="popup-button-container"><a class="popup-button" target="_blank" rel="noopener"v-bind:href="`http://www.sitesandtrailsbc.ca/search/search-result.aspx?site=${feature.properties[\'FOREST_FILE_ID\']}&type=${feature.properties[\'PROJECT_TYPE\'] === \'SIT - Recreation Site\' ? \'SITE\' : \'TRAIL\'}`">Learn More</a></div></div>',
+
             attributes: [
                 {
                     name: 'PROJECT_NAME',
                     title: 'Name'
+                },
+                {
+                  name: 'FOREST_FILE_ID',
+                  title: 'ID'
+                },
+                {
+                  name: 'PROJECT_TYPE',
+                  title: 'Type'
                 },
                 {
                     name: 'SITE_LOCATION',
@@ -25,10 +35,8 @@ export function ClosedRecreationSitesLayerConfig(ls: layerSettings) {
                     title: 'Closure Indicator'
                 },
                 {
-                    //   "name": "CLOSURE_DATE",
+                    name: 'CLOSURE_DATE',
                     title: 'Closure Date',
-                    value: '<%= this.asDate( \'CLOSURE_DATE\' ) %>'
-                    //   "format": "asLocalDate"
                 },
                 {
                     name: 'CLOSURE_TYPE',
@@ -41,7 +49,6 @@ export function ClosedRecreationSitesLayerConfig(ls: layerSettings) {
             ],
             serviceUrl: 'https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/RecSitesReservesInterpForests_DetailsClosures_publicView/FeatureServer/0',
             where: 'CLOSURE_IND = \'Y\'',
-            popupTemplate: '@wf-feature',
             titleAttribute: 'PROJECT_NAME',
             drawingInfo: {
                 renderer: {

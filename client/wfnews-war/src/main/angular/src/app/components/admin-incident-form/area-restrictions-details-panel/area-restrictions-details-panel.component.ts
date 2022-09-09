@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AreaRestrictionsOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
@@ -8,7 +8,7 @@ import { AGOLService } from '../../../services/AGOL-service';
   templateUrl: './area-restrictions-details-panel.component.html',
   styleUrls: ['./area-restrictions-details-panel.component.scss']
 })
-export class AreaRestrictionsDetailsPanel implements OnInit, OnChanges {
+export class AreaRestrictionsDetailsPanel implements OnInit {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
@@ -19,9 +19,6 @@ export class AreaRestrictionsDetailsPanel implements OnInit, OnChanges {
 
   ngOnInit() {
     this.getAreaRestrictions();
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
   }
 
   getAreaRestrictions () {

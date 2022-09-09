@@ -22,7 +22,7 @@ jobs:
         
       - name: update config
         run: |
-          find server -type f -name '*.properties' | xargs sed -i 's/{wfnews_db_url/${{ secrets.WFNEWS_DB_URL }}/'
+          find docker -type f -name 'default.conf' | xargs sed -i 's/{wfnews_db_url}/${{ secrets.WFNEWS_DB_URL }}/'
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2

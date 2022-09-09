@@ -1,7 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Directive, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, OnChanges, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { timestamp } from 'rxjs/operators';
 import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
@@ -18,11 +17,12 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   displayLabel = "Simple Incidents Search"
   selectedFireCentreCode = "";
   fireCentreOptions : fireCentreOption[] = []
+  fireOfNotePublishedInd = true;
 
   initModels() {
     this.model = new WfAdminPanelComponentModel(this.sanitizer);
     this.viewModel = new WfAdminPanelComponentModel(this.sanitizer);
-}
+  }
 
   loadPage() {
     this.componentId = SEARCH_INCIDENTS_COMPONENT_ID;
@@ -44,7 +44,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
             sortDirection: this.currentSortDirection,
             query: this.searchText
         },
-        this.selectedFireCentreCode,this.displayLabel));
+        this.selectedFireCentreCode,this.fireOfNotePublishedInd,this.displayLabel));
 }
 
 onChangeFilters() {
@@ -55,6 +55,7 @@ onChangeFilters() {
 clearSearchAndFilters() {
   this.searchText = null;
   this.selectedFireCentreCode = null;
+  this.fireOfNotePublishedInd = true;
   super.onChangeFilters();
   this.doSearch();
 }
@@ -107,11 +108,15 @@ clearSearchAndFilters() {
   }
 
   selectIncident(incident: any) {
-    console.log(incident)
     setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], { queryParams: {wildFireYear: incident.wildfireYear, incidentNumberSequence: incident.incidentNumberSequence}});
     }, 100);
-}
+  }
+
+  fireTypeChange(event:any){
+    this.fireOfNotePublishedInd = event.value === 'note'
+    this.doSearch()
+  }
 
 }
 

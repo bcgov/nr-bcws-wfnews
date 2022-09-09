@@ -30,8 +30,8 @@ export class CommonUtilityService {
      ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
-        var self = this
-        var now = (new Date()).getTime()
+        const self = this
+        const now = Date.now()
         if (this.locationTime && (now - this.locationTime) < MAX_CACHE_AGE){
             return this.location
         }
