@@ -4,7 +4,6 @@
             <h1>Wildfires Map</h1>
             <h2 class="wildfire-count">
                 <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-                <!-- <i class="material-icons-outlined">local_fire_department</i> -->
                 {{ activeFireCount | async }} Active Wildfires
             </h2>
         </div>
@@ -55,9 +54,11 @@
             <span class="hide">Evacuation Orders and Alerts</span>
         </div>
 
-        <div class="item" [class.active]="selectedLayer === 'area-restrictions'"
-            (click)="onSelectLayer( 'area-restrictions' )">
-            <wf-icon class="icon" iconName="wf/map-signs" iconSize="small"></wf-icon>
+        <div class="item"
+            [class.active]="selectedLayer === 'area-restrictions'"
+            (click)="onSelectLayer( 'area-restrictions' )"
+        >   
+            <span class="icon signpost mat-icon"></span>
             <span class="hide">Area Restrictions</span>
         </div>
 
