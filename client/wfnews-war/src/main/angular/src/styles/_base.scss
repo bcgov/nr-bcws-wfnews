@@ -610,3 +610,12 @@ iframe#login-iframe {
 .smk-toolbar {
     box-shadow: none !important;
 }
+
+wf-footer a.nav-item {
+    text-decoration: none;
+}
+
+wf-footer a.nav-item:hover {
+    text-decoration: underline;
+    color:white;
+}
