@@ -122,7 +122,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     initAppMenu() {
-        console.log('initAppMenu');
         this.appMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
@@ -138,7 +137,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     initFooterMenu() {
-        console.log('initFooterMenu');
         this.footerMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Home', 'https://www2.gov.bc.ca/gov/content/home', 'home', 'expanded', this.router),
@@ -283,6 +281,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     navigateToBcSupport() {
         let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
         window.open(url, "_blank");
+    }
+
+    logOutCurrentUser() {
+        setTimeout(() => {
+            this.router.navigate([ResourcesRoutes.SIGN_OUT]);
+        }, 100);
     }
 
 }
