@@ -126,7 +126,7 @@ export const DATE_FORMATS = {
         MapsPanel,
         MessageDialogComponent,
         EditMapDialogComponent,
-        UploadMapDialogComponent
+        UploadMapDialogComponent,
         SignOutPageComponent
     ],
     imports: [
