@@ -75,13 +75,18 @@ import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/a
 import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
-import { MatTabGroup, MatTabsModule } from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { AGOLService } from './services/AGOL-service';
 import { PanelBansAndProhibitionsComponent } from './components/panel-bans-prohibitions/panel-bans-prohibitions.component';
 import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/panel-smoke-forecast.component';
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
 import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
 import { CommonUtilityService } from "./services/common-utility.service";
+import { MapsPanel } from './components/admin-incident-form/maps-panel/maps-panel.component';
+import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
+import { EditMapDialogComponent } from './components/admin-incident-form/maps-panel/edit-map-dialog/edit-map-dialog.component';
+import { UploadMapDialogComponent } from './components/admin-incident-form/maps-panel/upload-map-dialog/upload-map-dialog.component';
+import { DocumentManagementService } from './services/document-management.service';
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 
 
@@ -118,6 +123,10 @@ export const DATE_FORMATS = {
         EvacOrdersDetailsPanel,
         AreaRestrictionsDetailsPanel,
         IncidentContainerDesktop,
+        MapsPanel,
+        MessageDialogComponent,
+        EditMapDialogComponent,
+        UploadMapDialogComponent,
         SignOutPageComponent
     ],
     imports: [
@@ -151,6 +160,7 @@ export const DATE_FORMATS = {
         MatChipsModule,
         MatTableModule,
         MatTabsModule,
+        MatProgressSpinnerModule,
         OwlDateTimeModule,
         OwlNativeDateTimeModule,
         OwlMomentDateTimeModule,
@@ -242,6 +252,7 @@ export const DATE_FORMATS = {
         WFMapService,
         MapConfigService,
         CommonUtilityService,
+        DocumentManagementService
     ],
     bootstrap: [
         AppComponent

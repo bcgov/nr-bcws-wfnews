@@ -25,7 +25,7 @@ table{
     border: 1;
     width: 96%;
     margin-left: 2%;
-    margin-right: 2%; 
+    margin-right: 2%;
 }
 
 td {
@@ -37,7 +37,7 @@ td {
   }
 
 table tr:nth-child(even) td{
-    background-color:#DCDCDC;
+    background-color: white;
 }
 
 .block{
@@ -61,11 +61,11 @@ table tr:nth-child(even) td{
     margin-top: 13px !important;
     flex-basis: auto !important;
     width: auto !important;
-    
+
     .radio-group {
         margin-top: 10px;
         display: flex;
-        
+
         .radio-button {
             margin-left: 5px;
         }
