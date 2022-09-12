@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable( {
     providedIn: 'root',
@@ -9,10 +9,6 @@ export class WFMapService {
 
     identifyCallback;
     identifyDoneCallback;
-
-    constructor(
-    ) {
-    }
 
     setHandler( id, method, handler ): Promise<any> {
         const SMK = window[ 'SMK' ];
@@ -81,12 +77,14 @@ export class WFMapService {
                     toggleHideListButton("flex");
                     toggleShowListButton("none");
                     option.toggleAccordion.emit();
+                    SMK.MAP[1].$viewer.mapResized();
                 });
 
                 SMK.HANDLER.set('BespokeTool--hide-list', 'triggered', (smk, tool) => {
                     toggleHideListButton("none");
                     toggleShowListButton("flex");
                     option.toggleAccordion.emit();
+                    SMK.MAP[1].$viewer.mapResized();
                 });
 
                 return SMK.INIT({
@@ -413,18 +411,18 @@ export class WFMapService {
                     let maxZoom;
                     switch ( turf.getType( feature ) ) {
                     case 'Point':
-                        var ll = L.latLng( feature.geometry.coordinates[ 1 ], feature.geometry.coordinates[ 0 ] );
+                        const ll = L.latLng( feature.geometry.coordinates[ 1 ], feature.geometry.coordinates[ 0 ] );
                         bounds = L.latLngBounds( [ ll, ll ] );
                         maxZoom = 16;
                         break;
 
                     default:
-                        var bbox = turf.bbox( feature );
+                        const bbox = turf.bbox( feature );
                         bounds = L.latLngBounds( [ bbox[ 1 ], bbox[ 0 ] ], [ bbox[ 3 ], bbox[ 2 ] ] );
                     }
                     if ( !bounds ) {
-return;
-}
+                      return;
+                    }
 
                     const padding = this.getPanelPadding();
 
@@ -451,8 +449,8 @@ return;
                     const vw = this;
 
                     if ( self.identifyCallback ) {
-self.identifyCallback( location, area );
-}
+                      self.identifyCallback( location, area );
+                    }
 
                     return Promise.resolve()
                         .then( function() {
@@ -460,8 +458,8 @@ self.identifyCallback( location, area );
                         } )
                         .then( function() {
                             if ( self.identifyDoneCallback ) {
-self.identifyDoneCallback( location, area );
-}
+                              self.identifyDoneCallback( location, area );
+                            }
                         } );
                 };
 
@@ -478,12 +476,12 @@ self.identifyDoneCallback( location, area );
 
                     let extraFilter = this.config.where || '';
                     if ( extraFilter ) {
-extraFilter = ' AND ' + extraFilter;
-}
+                      extraFilter = ' AND ' + extraFilter;
+                    }
 
                     const polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[ 0 ].map( function( c ) {
- return c.join( ' ' );
-} ).join( ',' ) + '))';
+                      return c.join( ' ' );
+                    } ).join( ',' ) + '))';
 
                     const data = {
                         service:        'WFS',
@@ -512,28 +510,26 @@ extraFilter = ' AND ' + extraFilter;
                                 try {
                                     res( JSON.parse( reader.result.toString() ) );
                                 } catch ( e ) {
- rej( e );
-}
+                                  rej( e );
+                                }
                             };
                             reader.readAsBinaryString( blob );
                         } );
                     } )
                     .then( function( data: any ) {
-                        // console.log( data )
-
                         if ( !data ) {
-throw new Error( 'no features' );
-}
+                          throw new Error( 'no features' );
+                        }
                         if ( !data.features || data.features.length == 0 ) {
-throw new Error( 'no features' );
-}
+                          throw new Error( 'no features' );
+                        }
 
                         return data.features.map( function( f, i ) {
                             if ( self.config.titleAttribute ) {
-f.title = f.properties[ self.config.titleAttribute ];
-} else {
-f.title = 'Feature #' + ( i + 1 );
-}
+                              f.title = f.properties[ self.config.titleAttribute ];
+                            } else {
+                              f.title = 'Feature #' + ( i + 1 );
+                            }
 
                             return f;
                         } );
@@ -542,7 +538,6 @@ f.title = 'Feature #' + ( i + 1 );
 
                 SMK.TYPE.Layer[ 'wms-time-cql' ]['leaflet'].prototype.initLegends =
                 SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.initLegends = function() {
-                    // console.log('initLegends')
                     const J = window['jQuery'];
 
                     const url =  this.config.serviceUrl + '?' + J.param( {
@@ -567,8 +562,8 @@ f.title = 'Feature #' + ( i + 1 );
                                 reader.onload = () => res( reader.result );
                                 reader.readAsDataURL( blob );
                             } catch ( e ) {
- rej( e );
-}
+                              rej( e );
+                            }
                         } ) )
                     .then( ( dataUrl: string ) => new Promise( ( res, rej ) => {
                             try {
@@ -582,8 +577,8 @@ f.title = 'Feature #' + ( i + 1 );
                                 img.onerror = ( ev ) => rej( ev );
                                 img.src = dataUrl;
                             } catch ( e ) {
- rej( e );
-}
+                              rej( e );
+                            }
                         } ) )
                     .catch( ( e ) => {
                         console.warn( e );
@@ -604,7 +599,7 @@ function clone( obj ) {
 }
 
 let order = 100;
-var baseMapIds = [];
+let baseMapIds = [];
 function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; option?: { [key: string]: any } }[] ) {
     order += 1;
     baseMapIds.push( id );
@@ -644,25 +639,25 @@ function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: 
 
 function encodeUrl( url, data ) {
     if ( !data ) {
-return url;
-}
+      return url;
+    }
 
     const params = Object.keys( data )
         .filter( function( k ) {
- return data[ k ];
-} )
+          return data[ k ];
+        } )
         .map( function( k ) {
             return `${ encodeURIComponent( k ) }=${ encodeURIComponent( data[ k ] ) }`;
         } )
         .join( '&' );
 
     if ( /[?]\S+$/.test( url ) ) {
-return `${ url }&${ params }`;
-}
+      return `${ url }&${ params }`;
+    }
 
     if ( /[?]$/.test( url ) ) {
-return `${ url }${ params }`;
-}
+      return `${ url }${ params }`;
+    }
 
     return `${ url }?${ params }`;
 }
