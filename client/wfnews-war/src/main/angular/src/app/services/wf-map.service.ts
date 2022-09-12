@@ -77,12 +77,14 @@ export class WFMapService {
                     toggleHideListButton("flex");
                     toggleShowListButton("none");
                     option.toggleAccordion.emit();
+                    SMK.MAP[1].$viewer.mapResized();
                 });
 
                 SMK.HANDLER.set('BespokeTool--hide-list', 'triggered', (smk, tool) => {
                     toggleHideListButton("none");
                     toggleShowListButton("flex");
                     option.toggleAccordion.emit();
+                    SMK.MAP[1].$viewer.mapResized();
                 });
 
                 return SMK.INIT({
