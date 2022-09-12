@@ -1,5 +1,8 @@
 <div class="image-panel">
-  <img [src]="imageSrc" alt="gallery image" />
+  <div class="image-container">
+    <mat-spinner style="margin-left: 130px; margin-top: 100px;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
+    <img *ngIf="loaded" [src]="imageSrc" alt="gallery image" />
+  </div>
   <div class="info-panel">
     <div class="row">Image Title: <strong>{{attachment.attachmentTitle}}</strong></div>
     <div class="row">File Name: <strong>{{attachment.fileName}}</strong></div>

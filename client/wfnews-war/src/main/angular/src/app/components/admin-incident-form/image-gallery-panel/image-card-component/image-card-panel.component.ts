@@ -21,7 +21,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   public includeInPublicGallery = false;
 
   public imageSrc = null;
-  private loaded = false;
+  public loaded = false;
 
   constructor (private documentManagementService: DocumentManagementService,
                protected incidentAttachmentService: IncidentAttachmentService,

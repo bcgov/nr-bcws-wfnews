@@ -93,7 +93,6 @@ import { EditImageDialogComponent } from './components/admin-incident-form/image
 import { UploadImageDialogComponent } from './components/admin-incident-form/image-gallery-panel/upload-image-dialog/upload-image-dialog.component';
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
 
-
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
 // Copied from im-external.module  TODO: consolidate in one place
