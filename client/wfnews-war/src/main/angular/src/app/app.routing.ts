@@ -10,6 +10,7 @@ import { ROLES_UI } from './shared/scopes/scopes';
 import { NewsAuthGuard } from './services/util/NewsAuthGuard';
 import { AdminIncidentFormDesktop } from './components/admin-incident-form/admin-incident-form.component.desktop';
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
+import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 // Components
 // import {ActionsPanelComponent} from './panels';
 
@@ -27,7 +28,8 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full',
   canActivate: [NewsAuthGuard],},
   { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full',
-  canActivate: [NewsAuthGuard],}
+  canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',}
 ];
 
 
