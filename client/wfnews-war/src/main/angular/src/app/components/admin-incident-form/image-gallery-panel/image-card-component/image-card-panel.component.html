@@ -1,0 +1,18 @@
+<div class="image-panel">
+  <img [src]="imageSrc" alt="gallery image" />
+  <div class="info-panel">
+    <div class="row">Image Title: <strong>{{attachment.attachmentTitle}}</strong></div>
+    <div class="row">File Name: <strong>{{attachment.fileName}}</strong></div>
+    <div class="row">Uploaded On: <strong>{{convertToDate(attachment.uploadedTimestamp)}}</strong></div>
+    <div class="divider action"></div>
+    <div class="action">
+      <mat-radio-button [value]="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
+    </div>
+    <div class="action">
+      <mat-icon (click)="edit()">edit</mat-icon> Edit Image Title
+    </div>
+    <div class="action">
+      <mat-checkbox [value]="includeInPublicGallery" (change)="includeInGallery()">Include in Public Gallery</mat-checkbox>
+    </div>
+  </div>
+</div>
