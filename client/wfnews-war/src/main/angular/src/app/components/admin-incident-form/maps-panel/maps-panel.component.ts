@@ -95,9 +95,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     })
   }
 
-  ngAfterViewInit() {
-  }
-
   ngOnchanges(changes: SimpleChanges) {
     if (this.incident) {
       this.loadPage();
