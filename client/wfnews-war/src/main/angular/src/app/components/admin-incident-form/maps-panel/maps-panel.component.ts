@@ -139,12 +139,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.file) {
-        console.log(result);
-
-        setTimeout( () => {
-
-        }, 1000 )
-
         // upload to WFDM
         //self.documentManagementService.makeDocumentUrl()
         self.uploadFile(result.file, ( percent, loaded, total ) => {
