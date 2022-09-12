@@ -93,7 +93,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       // remove any non-pdf types
       for (const doc of docs.collection) {
         const idx = docs.collection.indexOf(doc)
-        if (idx && doc.mimeType.toLowerCase().includes('pdf')) {
+        if (idx && !doc.mimeType.toLowerCase().includes('pdf')) {
           docs.collection.splice(idx, 1)
         }
       }
@@ -139,12 +139,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.file) {
-        console.log(result);
-
-        setTimeout( () => {
-
-        }, 1000 )
-
         // upload to WFDM
         //self.documentManagementService.makeDocumentUrl()
         self.uploadFile(result.file, ( percent, loaded, total ) => {
