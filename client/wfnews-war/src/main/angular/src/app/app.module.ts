@@ -82,7 +82,6 @@ import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/p
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
 import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
 import { CommonUtilityService } from "./services/common-utility.service";
-import { CookieService } from 'ngx-cookie-service';
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 
 
@@ -243,7 +242,6 @@ export const DATE_FORMATS = {
         WFMapService,
         MapConfigService,
         CommonUtilityService,
-        CookieService
     ],
     bootstrap: [
         AppComponent
