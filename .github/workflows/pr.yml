@@ -1,4 +1,4 @@
-name: Main Merge
+name: PR Creation Scan
 
 on:
   pull_request:

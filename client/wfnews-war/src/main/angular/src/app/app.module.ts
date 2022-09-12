@@ -87,6 +87,7 @@ import { MessageDialogComponent } from './components/message-dialog/message-dial
 import { EditMapDialogComponent } from './components/admin-incident-form/maps-panel/edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './components/admin-incident-form/maps-panel/upload-map-dialog/upload-map-dialog.component';
 import { DocumentManagementService } from './services/document-management.service';
+import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -126,6 +127,7 @@ export const DATE_FORMATS = {
         MessageDialogComponent,
         EditMapDialogComponent,
         UploadMapDialogComponent
+        SignOutPageComponent
     ],
     imports: [
         MatSortModule,
