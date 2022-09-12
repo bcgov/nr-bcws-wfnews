@@ -65,14 +65,16 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   }
 
   loadPage() {
-    // this gets all attachments. We'll want a filter for just the PDF maps
+    // this gets all INFO attachments. Because we dont have a proper
+    // filter for PDF maps at the moment, this means no paging as we'll
+    // have to manually filter.
     this.incidentAttachmentsService.getIncidentAttachmentList(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
       'false',
       'false',
       undefined,
-      undefined,
+      ['INFO'],
       undefined,
       undefined,
       undefined,
@@ -88,6 +90,13 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) return dir;
         else return 0;
       })
+      // remove any non-pdf types
+      for (const doc of docs.collection) {
+        const idx = docs.collection.indexOf(doc)
+        if (idx && doc.mimeType.toLowerCase().includes('pdf')) {
+          docs.collection.splice(idx, 1)
+        }
+      }
       this.attachments = docs.collection
       this.cdr.detectChanges();
     }).catch(err => {
@@ -147,7 +156,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
-          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFORMATION').then(() => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFO').then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
           }).catch(err => {
             this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
