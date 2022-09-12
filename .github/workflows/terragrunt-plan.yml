@@ -3,6 +3,10 @@ name: Plan using terragrunt
 on:
   pull_request:
     branches: [ "main" ]
+    paths:
+      - ".github/workflows/**"
+      - "terraform/**"
+      - "!**/README.md"
 
 env:
   TF_VERSION: 1.2.2
