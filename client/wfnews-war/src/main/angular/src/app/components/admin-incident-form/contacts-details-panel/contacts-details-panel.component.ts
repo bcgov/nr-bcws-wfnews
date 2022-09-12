@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
@@ -11,7 +11,7 @@ import { fireCentreOption } from '../../../conversion/models';
   styleUrls: ['./contacts-details-panel.component.scss',
     '../../base/base.component.scss']
 })
-export class ContactsDetailsPanel implements OnInit, OnChanges {
+export class ContactsDetailsPanel implements OnInit {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
@@ -27,9 +27,6 @@ export class ContactsDetailsPanel implements OnInit, OnChanges {
       this.contacts = data
      });
 
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
   }
 
   setDefaultContactInfo (value) {

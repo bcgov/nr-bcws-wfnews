@@ -20,7 +20,6 @@ import {
     ResourcesRoutes
 } from '../../../app/utils';
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
-// import {ConnectionService} from "ngx-connection-service";
 import {Overlay} from '@angular/cdk/overlay';
 import {ApplicationStateService} from '../../services/application-state.service';
 import {AppConfigService, TokenService} from '@wf1/core-ui';
@@ -28,7 +27,6 @@ import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {PaginationInstance} from 'ngx-pagination';
-
 import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';
 import { CONSTANTS } from "../../../app/utils/index";
@@ -90,48 +88,36 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected dialog: MatDialog,
                 protected applicationStateService: ApplicationStateService,
                 protected tokenService: TokenService,
-                // protected connectionService: ConnectionService,
                 protected snackbarService: MatSnackBar,
                 protected overlay: Overlay,
                 protected cdr: ChangeDetectorRef,
                 protected appConfigService: AppConfigService,
                 protected http: HttpClient) {
         this.initModels();
-        this.initializeConnectionService();
-    }
-
-    initComponentPreferences() {
-
-    }
-
-    initializeConnectionService() {
-        // this.connectionService.monitor().subscribe(isConnected => {
-        //     this.isConnected = isConnected.hasNetworkConnection;
-        // });
     }
 
     getPagingConfig(): PaginationInstance {
         return this.config;
     }
 
-
     initModels() {
-
+      /* empty, for override purposes only */
     }
 
     loadPage() {
+      /* empty, for override purposes only */
     }
-
 
     reload() {
+      /* empty, for override purposes only */
     }
-
 
     ngOnInit() {
         this.loadPage();
     }
 
     ngAfterViewInit() {
+      /* empty */
     }
 
     ngOnChanges(changes: SimpleChanges) {
@@ -153,13 +139,12 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
 
     invokeAfterLoaded() {
-
+      /* empty, for override purposes only */
     }
 
     protected updateView(): void {
         this.viewModel = this.model.clone();
     }
-
 
     getIsMobileResolution(): boolean {
         return this.applicationStateService.getIsMobileResolution();

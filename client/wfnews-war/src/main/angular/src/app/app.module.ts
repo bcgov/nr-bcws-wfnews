@@ -22,6 +22,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
@@ -81,6 +82,7 @@ import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/p
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
 import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
 import { CommonUtilityService } from "./services/common-utility.service";
+import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
@@ -115,7 +117,8 @@ export const DATE_FORMATS = {
         ContactsDetailsPanel,
         EvacOrdersDetailsPanel,
         AreaRestrictionsDetailsPanel,
-        IncidentContainerDesktop
+        IncidentContainerDesktop,
+        SignOutPageComponent
     ],
     imports: [
         MatSortModule,
@@ -156,6 +159,7 @@ export const DATE_FORMATS = {
         IncidentsApiModule,
         OrgUnitApiModule,
         MatTooltipModule,
+        MatAutocompleteModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
@@ -237,7 +241,7 @@ export const DATE_FORMATS = {
         },
         WFMapService,
         MapConfigService,
-        CommonUtilityService
+        CommonUtilityService,
     ],
     bootstrap: [
         AppComponent

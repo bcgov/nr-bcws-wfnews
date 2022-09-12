@@ -1,7 +1,6 @@
 import { HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Component, Directive, OnChanges, OnInit, SimpleChange, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, OnChanges, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { timestamp } from 'rxjs/operators';
 import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
@@ -23,7 +22,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   initModels() {
     this.model = new WfAdminPanelComponentModel(this.sanitizer);
     this.viewModel = new WfAdminPanelComponentModel(this.sanitizer);
-}
+  }
 
   loadPage() {
     this.componentId = SEARCH_INCIDENTS_COMPONENT_ID;

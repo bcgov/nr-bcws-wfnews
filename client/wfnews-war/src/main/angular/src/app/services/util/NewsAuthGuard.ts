@@ -31,8 +31,6 @@ export class NewsAuthGuard extends AuthGuard {
     }
 
     getTokenInfo(route) {
-        console.log(this.tokenService)
-
         if (!this.tokenService.getOauthToken()) {
             if (this.asyncCheckingToken) {
                 return this.asyncCheckingToken;
@@ -57,7 +55,6 @@ export class NewsAuthGuard extends AuthGuard {
             return this.checkForToken(redirectUri, route).pipe(mergeMap((result) => {
                 this.asyncCheckingToken = undefined;
                 if (!result) {
-                    ('wrong-1')
                     this.redirectToErrorPage();
                     return of(result);
                 } else {

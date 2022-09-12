@@ -10,9 +10,10 @@
         [useSystemAndUser]="isAdminPage()"
         [useSupportLink]="isAdminPage()"
         [useMenu]="isAdminPage()"
+        [useLogoutButton]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
-        (onSupportLinkClick)="navigateToBcSupport()"
-        (navigateToBcSupport)="navigateToBcSupport()"
+        (logoutClick)="logOutCurrentUser()"
+        (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
 
     <wf-menu-bar *ngIf ="!isAdminPage()"

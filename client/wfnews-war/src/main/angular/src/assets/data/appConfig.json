@@ -28,7 +28,8 @@
             "rofs-table": 500,
             "incidents-table": 500
         },
-        "lazyAuthenticate": "true"
+        "lazyAuthenticate": "true",
+        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl="    
     },
 
     "externalAppConfig": {

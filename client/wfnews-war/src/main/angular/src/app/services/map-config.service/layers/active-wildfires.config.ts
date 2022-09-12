@@ -157,8 +157,8 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
                     title: 'Fire Number'
                 },
                 {
+                    name: 'IGNITION_DATE',
                     title: 'Date of Discovery',
-                    value: '<%= this.asDate( \'IGNITION_DATE\' ) %>'
                 },
                 {
                     name: 'FIRE_CAUSE',
@@ -170,8 +170,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
                 },
                 {
                     name: 'CURRENT_SIZE',
-                    title: 'Estimated Size',
-                    format: 'asUnit(\'ha\')'
+                    title: 'Estimated Size'
                 },
                 {
                     name: 'FIRE_STATUS',
@@ -179,8 +178,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
                 },
                 {
                     name: 'FIRE_OF_NOTE_NAME',
-                    title: 'Fire of Note Information',
-                    format: 'asLink(this.feature.properties.FIRE_OF_NOTE_URL)'
+                    title: 'Fire of Note Information'
                 }
             ],
             // popupTemplate: '@wf-feature',

@@ -1,7 +1,7 @@
 name: Plan using terragrunt
 
 on:
-  push:
+  pull_request:
     branches: [ "main" ]
 
 env:
