@@ -125,12 +125,6 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
     this.loadPage();
   }
 
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
-    }
-  }
-
   upload () {
     const self = this;
     let dialogRef = this.dialog.open(UploadImageDialogComponent, {
@@ -187,68 +181,5 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
       attachment, undefined, 'response').toPromise()
-  }
-
-  edit (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(EditImageDialogComponent, {
-      width: '350px',
-      data: {
-        attachment: item
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
-        .toPromise().then(() => {
-          this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
-          this.loaded = false;
-        }).catch(err => {
-          this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-          this.loaded = false;
-        })
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  download (item: AttachmentResource) {
-    this.documentManagementService.downloadDocument(item.fileIdentifier).toPromise().then(response => {
-      const blob = (response as any).body
-      if (blob) {
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.download = item.fileName;
-        anchor.href = url;
-        anchor.click();
-        anchor.remove();
-      } else {
-        throw Error('File could not be found')
-      }
-    }).catch(err => {
-      this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-    })
-  }
-
-  delete (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(MessageDialogComponent, {
-      width: '350px',
-      data: {
-          title: 'Are you sure you want to continue?',
-          message: 'This will permenantly delete this attachment. This action cannot be undone.',
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.incidentAttachmentService.deleteIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid)
-        .toPromise().then(() => {
-          this.snackbarService.open('Attachment Deleted Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
-          this.loaded = false;
-          this.cdr.detectChanges();
-        }).catch(err => {
-          this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-          this.loaded = false;
-        })
-      }
-    });
   }
 }
