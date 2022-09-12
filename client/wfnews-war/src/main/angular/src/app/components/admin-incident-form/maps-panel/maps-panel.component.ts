@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
-import {BaseComponent} from "../../base/base.component";
+import { BaseComponent } from "../../base/base.component";
 import * as moment from 'moment';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -96,12 +96,14 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   }
 
   ngOnchanges(changes: SimpleChanges) {
-    if (this.incident) {
-      this.loadPage();
-    }
+    this.updateTable();
   }
 
   ngDoCheck() {
+    this.updateTable();
+  }
+
+  updateTable () {
     if (!this.loaded && this.incident) {
       this.loadPage();
       this.loaded = true
@@ -171,7 +173,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
-
       sourceObjectNameCode: 'INCIDENT',
       fileName: uploadPath,
       attachmentDescription: description,
@@ -209,7 +210,21 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   }
 
   download (item: AttachmentResource) {
-    // this is a call to WFDM with the File ID
+    this.documentManagementService.downloadDocument(item.fileIdentifier).toPromise().then(response => {
+      const blob = (response as any).body
+      if (blob) {
+        const url = window.URL.createObjectURL(blob);
+        const anchor = document.createElement("a");
+        anchor.download = item.fileName;
+        anchor.href = url;
+        anchor.click();
+        anchor.remove();
+      } else {
+        throw Error('File could not be found')
+      }
+    }).catch(err => {
+      this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+    })
   }
 
   delete (item: AttachmentResource) {

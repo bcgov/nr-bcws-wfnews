@@ -32,6 +32,14 @@ export class DocumentManagementService {
         } )
     }
 
+    downloadDocument (fileId) {
+      const url = `${this.makeDocumentUrl(fileId)}`
+      return this.httpClient.request( new HttpRequest( 'GET', url, {
+        reportProgress: true,
+        responseType: 'blob'
+      }))
+    }
+
     uploadDocument( {
         file,
         fileName,

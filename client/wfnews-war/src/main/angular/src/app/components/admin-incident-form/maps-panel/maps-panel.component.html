@@ -11,7 +11,7 @@
             aria-label="Map PDF Table">
         <ng-container matColumnDef = "fileName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header>File Name</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fileName}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="item.fileName"><span #el >{{item.fileName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "attachmentTitle">
