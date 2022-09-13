@@ -32,6 +32,10 @@
           display: flex;
           align-items: center;
 
+          input{
+            margin-top:0 !important
+          }
+
           .input-clear-button{
             position: absolute;
             margin-left: 140px;
