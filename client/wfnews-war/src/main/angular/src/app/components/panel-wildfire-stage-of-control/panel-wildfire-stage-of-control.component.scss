@@ -1,4 +1,7 @@
 ::ng-deep .wildfires-tabs{
+    .mat-tab-labels{
+        padding-bottom: 5px;
+    }
     .mat-tab-header{
      border-bottom: none;   
     }
@@ -13,6 +16,10 @@
         opacity: 1;
         color: #1a5a96;
         height: 36px;
+        font-size: 15px;
+        border-style: solid;
+        border-radius: 40px;
+        border-width: 1px;
     }
     .mat-ink-bar{
         background-color: white !important
