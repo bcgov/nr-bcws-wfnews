@@ -7,14 +7,6 @@ stream {
   server {
     listen 8080 so_keepalive=on;
     allow all;
-    server_name _;
-
-    location /healthCheck {
-      return 200;
-    }
-
-    location / {
-      proxy_pass postgres;
-    }
+    proxy_pass postgres;
   }
 }

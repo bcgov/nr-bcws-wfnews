@@ -1,3 +1,6 @@
 FROM nginx:latest
+EXPOSE 8080
+EXPOSE 8081
+COPY docker/default.conf /etc/nginx/conf.d/default.conf
 COPY docker/streamconf /etc/nginx/streamconf
 RUN cat /etc/nginx/streamconf >> /etc/nginx/nginx.conf
