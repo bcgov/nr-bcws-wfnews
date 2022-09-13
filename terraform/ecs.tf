@@ -149,12 +149,6 @@ resource "aws_ecs_task_definition" "wfnews_db" {
           protocol      = "tcp"
           containerPort = var.db_port
           hostPort      = var.db_port
-        },
-        {
-          #Used only for health checks - not accessible from outside VPC
-          protocol      = "tcp"
-          containerPort = 80
-          hostPort      = 80
         }
       ]
       environment = [
