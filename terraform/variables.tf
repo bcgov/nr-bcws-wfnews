@@ -83,8 +83,8 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "db_health_check_path" {
-  default = "/healthCheck"
+variable "db_health_check_port" {
+  default = 8081
 }
 
 variable "fargate_cpu" {
