@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+  <Appenders>
+    <RollingFile name="file" 
+      fileName="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log"
+      filePattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%p] %l - %m%n %throwable{2}" 
+      ignoreExceptions="false"
+      immediateFlush="true">
+        <PatternLayout>
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} %p %m%n</Pattern>
+        </PatternLayout>
+        <Policies>
+            <OnStartupTriggeringPolicy />
+            <SizeBasedTriggeringPolicy size="5 KB" />
+            <TimeBasedTriggeringPolicy />
+        </Policies>
+        <DefaultRolloverStrategy>
+            <Delete basePath="${dollar}{logging.home.dir}{dollar}{file.separator}" maxDepth="2">
+                <IfFileName glob="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log.gz" />
+                <IfLastModified age="20d" />
+            </Delete>
+        </DefaultRolloverStrategy>
+    </RollingFile>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+    </Console>
+  </Appenders>
+  <Loggers>
+    <Root level="DEBUG">
+      <AppenderRef ref="file"/>
+      <AppenderRef ref="Console" />
+    </Root>
+    <Logger name="ca.bc.gov.nrs.wfnews" level="DEBUG">
+      <AppenderRef ref="file"/>
+      <AppenderRef ref="Console" />
+    </Logger>
+  </Loggers>
+</Configuration>
