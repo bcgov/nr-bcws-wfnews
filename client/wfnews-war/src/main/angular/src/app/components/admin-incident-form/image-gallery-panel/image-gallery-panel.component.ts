@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
-import * as moment from 'moment';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
@@ -13,18 +12,16 @@ import { Store } from '@ngrx/store';
 import { TokenService, AppConfigService } from '@wf1/core-ui';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { RootState } from '../../../store';
-import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';
-import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
-import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
+import { UploadImageDialogComponent } from './upload-image-dialog/upload-image-dialog.component';
 import { DocumentManagementService } from '../../../services/document-management.service';
 
 @Component({
-  selector: 'maps-panel',
-  templateUrl: './maps-panel.component.html',
-  styleUrls: ['./maps-panel.component.scss'],
+  selector: 'image-gallery-panel',
+  templateUrl: './image-gallery-panel.component.html',
+  styleUrls: ['./image-gallery-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
+export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChanges {
   @Input() public incident
 
   public searchState = {
@@ -36,7 +33,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
   public uploadStatus = ''
   public statusBar
 
-  public columnsToDisplay = ["fileName", "attachmentTitle", "uploadedTimestamp", "edit", "download", "delete"];
   public attachments: AttachmentResource[] = []
 
   constructor(protected router: Router,
@@ -54,7 +50,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
               protected http: HttpClient,
               protected incidentAttachmentsService: IncidentAttachmentsService,
               protected incidentAttachmentService: IncidentAttachmentService,
-              private documentManagementService: DocumentManagementService,) {
+              private documentManagementService: DocumentManagementService) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http);
   }
 
@@ -74,7 +70,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       'false',
       'false',
       undefined,
-      ['INFO'],
+      undefined,
       undefined,
       undefined,
       undefined,
@@ -90,17 +86,17 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) return dir;
         else return 0;
       })
-      // remove any non-pdf types
+      // remove any non-image types
       for (const doc of docs.collection) {
         const idx = docs.collection.indexOf(doc)
-        if (idx && !doc.mimeType.toLowerCase().includes('pdf')) {
+        if (idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
           docs.collection.splice(idx, 1)
         }
       }
       this.attachments = docs.collection
       this.cdr.detectChanges();
     }).catch(err => {
-      this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      this.snackbarService.open('Failed to load Image Attachments: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
     })
   }
 
@@ -126,15 +122,9 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     this.loadPage();
   }
 
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
-    }
-  }
-
   upload () {
     const self = this;
-    let dialogRef = this.dialog.open(UploadMapDialogComponent, {
+    let dialogRef = this.dialog.open(UploadImageDialogComponent, {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -150,7 +140,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
-          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFO').then(() => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Incident Photo', 'INFO').then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
           }).catch(err => {
             this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
@@ -176,7 +166,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
-      sourceObjectNameCode: 'INCIDENT',
+      sourceObjectNameCode: 'INCIDENT PHOTO',
       fileName: uploadPath,
       attachmentDescription: description,
       attachmentTypeCode: category,
@@ -188,68 +178,5 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
       attachment, undefined, 'response').toPromise()
-  }
-
-  edit (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(EditMapDialogComponent, {
-      width: '350px',
-      data: {
-        attachment: item
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
-        .toPromise().then(() => {
-          this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
-          this.loaded = false;
-        }).catch(err => {
-          this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-          this.loaded = false;
-        })
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  download (item: AttachmentResource) {
-    this.documentManagementService.downloadDocument(item.fileIdentifier).toPromise().then(response => {
-      const blob = (response as any).body
-      if (blob) {
-        const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
-        anchor.download = item.fileName;
-        anchor.href = url;
-        anchor.click();
-        anchor.remove();
-      } else {
-        throw Error('File could not be found')
-      }
-    }).catch(err => {
-      this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-    })
-  }
-
-  delete (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(MessageDialogComponent, {
-      width: '350px',
-      data: {
-          title: 'Are you sure you want to continue?',
-          message: 'This will permenantly delete this attachment. This action cannot be undone.',
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.incidentAttachmentService.deleteIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid)
-        .toPromise().then(() => {
-          this.snackbarService.open('Attachment Deleted Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
-          this.loaded = false;
-          this.cdr.detectChanges();
-        }).catch(err => {
-          this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
-          this.loaded = false;
-        })
-      }
-    });
   }
 }

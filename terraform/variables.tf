@@ -83,6 +83,10 @@ variable "health_check_path" {
   default = "/"
 }
 
+variable "db_health_check_path" {
+  default = "/healthCheck"
+}
+
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = 1024
@@ -204,9 +208,9 @@ variable db_image {
 }
 
 variable db_port {
-  description = "Port the DB communicates on"
+  description = "Port used to communicate with database"
   type = number
-  default = 5432
+  default = 8080
 }
 
 variable "db_names" {
