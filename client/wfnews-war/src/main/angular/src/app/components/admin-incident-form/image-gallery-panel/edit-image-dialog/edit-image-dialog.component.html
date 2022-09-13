@@ -1,0 +1,13 @@
+<div class="dialog-container">
+  <h1 mat-dialog-title>Edit Image Title</h1>
+  <div class="dialog-content" mat-dialog-content>
+    <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+      <mat-label class="label">Title</mat-label>
+      <input matInput type="text" placeholder="Title" [(ngModel)]="data.attachment.attachmentTitle" [value]="data.attachment.attachmentTitle" required>
+    </mat-form-field>
+  </div>
+  <div class="dialog-actions" mat-dialog-actions>
+  	<button mat-raised-button color="primary" [mat-dialog-close]="true">Save</button>
+	  <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+  </div>
+</div>
