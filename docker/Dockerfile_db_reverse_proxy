@@ -1,3 +1,3 @@
 FROM nginx:latest
 COPY docker/streamconf /etc/nginx/streamconf
-RUN cat streamconf >> /etc/nginx/nginx.conf
+RUN cat /etc/nginx/streamconf >> /etc/nginx/nginx.conf
