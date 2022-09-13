@@ -1,3 +1,24 @@
+::ng-deep .wildfires-tabs{
+    .mat-tab-header{
+     border-bottom: none;   
+    }
+    .mat-tab-label.mat-tab-label-active {
+        border-radius: 40px;
+        background-color:#1a5a96;
+        color:white !important;
+        opacity: 1;
+        font-weight: 700;
+    }
+    .mat-tab-label{
+        opacity: 1;
+        color: #1a5a96;
+        height: 36px;
+    }
+    .mat-ink-bar{
+        background-color: white !important
+    }
+}
+
 .mat-raised-button {
     box-shadow: none;
 }

@@ -1,70 +1,75 @@
-<div class="panel-header">Wildfire Stages of Control</div>
-<div class="header">
-    <span class="count">23 results</span>
-    <span class="show-toggle">
-        <mat-label class="wildfires-note-toggle">Show only Wildfires of Note</mat-label>
-        <mat-slide-toggle></mat-slide-toggle>
-    </span>
-    <button mat-raised-button class="list-view-button"> List View</button>
-</div>
+<mat-tab-group class="wildfires-tabs" mat-align-tabs="center">
+        <mat-tab label="Legend">
+            <div class="panel-header">Wildfire Stages of Control</div>
+        
+            <section>
+                <h1>LEGEND & DEFINITIONS</h1>
+                <article>
+                    <p class="paragraph-format">
+                        The BC Wildfire Service uses stages of control to report on wildfire progress.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="black">
+                        <div class="fire-icon-container">
+                            <mat-icon class="fire-icon">local_fire_department</mat-icon>
+                        </div>
+                        Wildfire of Note
+                    </h2>
+                    <p class="paragraph-format">
+                        A wildfire that is highly visible or poses a potential threat to public safety.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="orange">New</h2>
+                    <p class="paragraph-format">
+                        A new wildfire that has been posted within the last 24 hours.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="red">Out of Control</h2>
+                    <p class="paragraph-format">
+                        A wildfire that is continuing to spread and is not responding to suppression efforts.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="yellow">Being Held</h2>
+                    <p class="paragraph-format">
+                        A  wildfire that is not likely to spread beyond predetermined boundaries under current conditions.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="green">Under Control</h2>
+                    <p class="paragraph-format">
+                        A wildfire that will not spread any further due to suppression efforts.
+                    </p>
+                </article>
+                <article>
+                    <h2 class="grey">Out</h2>
+                    <p class="paragraph-format">
+                        A wildfire that is extinguished.  Suppression efforts are complete.
+                    </p>
+                </article>
+            </section>
+            <section>
+                <h1>MORE INFORMATION</h1>
+                <article>
+                    <p>
+                        <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control" target="_blank" rel="noopener">Wildfire Stages of Control</a>
+                    </p>
+                    <p>
+                        <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed" target="_blank" rel="noopener">Plan, Prepare, Stay Informed</a>
+                    </p>
+                </article>
+            </section>
+        </mat-tab>
+    <mat-tab label="Wildfires List">
+        <div>Choose Wildfires to display</div>
+        <div>
+            <mat-checkbox class="example-margin">Active Wildfires</mat-checkbox>
+            <mat-checkbox class="example-margin">Wildfires of Note</mat-checkbox>
+            <mat-checkbox class="example-margin">Wildfires that are 'Out'</mat-checkbox>
+        </div>
+    </mat-tab>
 
-<section>
-    <h1>LEGEND & DEFINITIONS</h1>
-    <article>
-        <p class="paragraph-format">
-            The BC Wildfire Service uses stages of control to report on wildfire progress.
-        </p>
-    </article>
-    <article>
-        <h2 class="black">
-            <div class="fire-icon-container">
-                <mat-icon class="fire-icon">local_fire_department</mat-icon>
-            </div>
-             Wildfire of Note
-        </h2>
-        <p class="paragraph-format">
-            A wildfire that is highly visible or poses a potential threat to public safety.
-        </p>
-    </article>
-    <article>
-        <h2 class="orange">New</h2>
-        <p class="paragraph-format">
-            A new wildfire that has been posted within the last 24 hours.
-        </p>
-    </article>
-    <article>
-        <h2 class="red">Out of Control</h2>
-        <p class="paragraph-format">
-            A wildfire that is continuing to spread and is not responding to suppression efforts.
-        </p>
-    </article>
-    <article>
-        <h2 class="yellow">Being Held</h2>
-        <p class="paragraph-format">
-            A  wildfire that is not likely to spread beyond predetermined boundaries under current conditions.
-        </p>
-    </article>
-    <article>
-        <h2 class="green">Under Control</h2>
-        <p class="paragraph-format">
-            A wildfire that will not spread any further due to suppression efforts.
-        </p>
-    </article>
-    <article>
-        <h2 class="grey">Out</h2>
-        <p class="paragraph-format">
-            A wildfire that is extinguished.  Suppression efforts are complete.
-        </p>
-    </article>
-</section>
-<section>
-    <h1>MORE INFORMATION</h1>
-    <article>
-        <p>
-            <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control" target="_blank" rel="noopener">Wildfire Stages of Control</a>
-        </p>
-        <p>
-            <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed" target="_blank" rel="noopener">Plan, Prepare, Stay Informed</a>
-        </p>
-    </article>
-</section>
+</mat-tab-group>
