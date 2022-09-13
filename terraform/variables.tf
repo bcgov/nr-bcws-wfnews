@@ -208,9 +208,9 @@ variable db_image {
 }
 
 variable db_port {
-  description = "Port the DB communicates on"
+  description = "Port used to communicate with database"
   type = number
-  default = 5432
+  default = 8080
 }
 
 variable "db_names" {
