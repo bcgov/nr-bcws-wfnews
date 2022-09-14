@@ -99,7 +99,6 @@ export class WFMapService {
 
         const include = window[ 'include' ];
         const SMK = window[ 'SMK' ];
-        const jQuery = window[ 'jQuery' ];
 
         if ( !this.patchPromise ) {
           this.patchPromise = Promise.resolve()
@@ -223,18 +222,6 @@ export class WFMapService {
                     // ] }
                 );
 
-                include.tag( 'layer-fire-reports-cluster',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-fire-reports-cluster.js' }
-                    ] }
-                );
-
-                include.tag( 'layer-fire-reports-cluster-leaflet',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-fire-reports-cluster-leaflet.js' },
-                    ] }
-                );
-
                 include.tag( 'layer-incidents',
                     { loader: 'group', tags: [
                         { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-incidents.js' }
@@ -247,77 +234,19 @@ export class WFMapService {
                     ] }
                 );
 
-                include.tag( 'layer-rofs',
+                include.tag( 'util-date',
                     { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-rofs.js' }
+                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/lib/date.js' }
                     ] }
                 );
-
-                include.tag( 'layer-rofs-leaflet',
+                include.tag( 'layer-wms-time-cql',
                     { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-rofs-leaflet.js' },
+                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-wms-time-cql.js' }
                     ] }
                 );
-
-                include.tag( 'layer-nrofs',
+                include.tag( 'layer-wms-time-cql-leaflet',
                     { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-nrofs.js' }
-                    ] }
-                );
-
-                include.tag( 'layer-nrofs-leaflet',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-nrofs-leaflet.js' },
-                    ] }
-                );
-				include.tag( 'util-date',
-				    { loader: 'group', tags: [
-    				    { loader: 'script', url: './assets/js/smk/plugin-wfnews/lib/date.js' }
-				    ] }
-				);
-				include.tag( 'layer-wms-time-cql',
-				    { loader: 'group', tags: [
-				        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-wms-time-cql.js' }
-				    ] }
-				);
-				include.tag( 'layer-wms-time-cql-leaflet',
-				    { loader: 'group', tags: [
-				        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-wms-time-cql-leaflet.js' }
-				    ] }
-				);
-                include.tag( 'layer-mobile-resources-cluster',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-mobile-resources-cluster.js' }
-                    ] }
-                );
-
-                include.tag( 'layer-mobile-resources-cluster-leaflet',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-mobile-resources-cluster-leaflet.js' },
-                    ] }
-                );
-
-                include.tag( 'layer-mobile-resources',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-mobile-resources.js' }
-                    ] }
-                );
-
-                include.tag( 'layer-mobile-resources-leaflet',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-mobile-resources-leaflet.js' },
-                    ] }
-                );
-
-                include.tag( 'layer-resource-tracks',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/layer/layer-resource-tracks.js' }
-                    ] }
-                );
-
-                include.tag( 'layer-resource-tracks-leaflet',
-                    { loader: 'group', tags: [
-                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-resource-tracks-leaflet.js' },
+                        { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/layer/layer-wms-time-cql-leaflet.js' }
                     ] }
                 );
 
@@ -374,10 +303,6 @@ export class WFMapService {
                 return include(
                     'leaflet-extensions',
                     'layer-incidents-leaflet',
-                    'layer-rofs-leaflet',
-                    'layer-nrofs-leaflet',
-                    'layer-mobile-resources-leaflet',
-                    'layer-resource-tracks-leaflet',
                     'layer-wms-time-cql-leaflet',
                     'layer-image-leaflet',
                     'layer-wms-time-leaflet'
