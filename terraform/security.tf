@@ -5,6 +5,10 @@ data "aws_security_group" "web" {
   name = "Web_sg"
 }
 
+data "aws_security_group" "app" {
+  name = "App_sg"
+}
+
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "Allow access"
@@ -14,14 +18,20 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     protocol        = "tcp"
     from_port       = var.server_port
     to_port         = var.server_port
-    security_groups = [data.aws_security_group.web.id]
+    security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
+  }
+    ingress {
+    protocol        = "tcp"
+    from_port       = var.db_health_check_port
+    to_port         = var.db_health_check_port
+    security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
   }
   #necessary to pull image from ghcr
   ingress {
     protocol = "tcp"
     from_port = 443
     to_port = 443
-    security_groups = [data.aws_security_group.web.id]
+    security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
     #cidr_blocks = ["0.0.0.0/0"]
   }
     

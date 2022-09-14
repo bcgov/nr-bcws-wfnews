@@ -117,7 +117,7 @@ resource "aws_alb_target_group" "wfnews_db" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
-    path                = var.db_health_check_path
+    port                = var.db_health_check_port
     unhealthy_threshold = "2"
   }
 
