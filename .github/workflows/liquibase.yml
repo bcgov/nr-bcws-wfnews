@@ -7,6 +7,9 @@ on:
       TARGET_ENV:
         required: true
         type: string
+      REGISTRY:
+        required: true
+        type: string
 
 jobs:
   run_liquibase:
