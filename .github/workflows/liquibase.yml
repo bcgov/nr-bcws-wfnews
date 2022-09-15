@@ -14,10 +14,6 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Update DB properties
-        run: |
-          sed -i 's/{wfnews_db_pass}/${{ secrets.DB_PASS }}'
-
       - name: Extract metadata (tags, labels) for Docker
         if: ${{ github.event.pull_request.number > 0 }}
         id: meta_pr
