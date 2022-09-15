@@ -55,8 +55,7 @@ jobs:
     with:
       REGISTRY: ghcr.io
       TARGET_ENV: dev
-    secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    secrets: inherit
 
   # reverse-proxy:
   #   uses: ./.github/workflows/reverse-proxy.yml
