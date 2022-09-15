@@ -53,6 +53,7 @@ jobs:
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
     with:
+      REGISTRY: ghcr.io
       TARGET_ENV: dev
 
   # reverse-proxy:
