@@ -1,114 +1,115 @@
-<div class="top">
-    <div class="header-row">
-        <div class="title">
-            <h1>Wildfires Map</h1>
-            <h2 class="wildfire-count">
-                <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-                {{ activeFireCount | async }} Active Wildfires
-            </h2>
-        </div>
+<div class="container">
+  <div class="top">
+      <div class="header-row">
+          <div class="title">
+              <h1>Wildfires Map</h1>
+              <h2 class="wildfire-count">
+                  <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+                  {{ activeFireCount | async }} Active Wildfires
+              </h2>
+          </div>
 
-        <div class="search-row">
-            <div class="search-bar">
-                <input type="text" placeholder="Search by Location" aria-label="Search" matInput
-                    [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
-                <div class="search-location-close-container">
-                    <mat-icon class="search-location-search">search</mat-icon>
-                    <mat-icon class="search-location-close" (click)="clearSearchLocationControl()">close</mat-icon>
-                </div>
+          <div class="search-row">
+              <div class="search-bar">
+                  <input type="text" placeholder="Search by Location" aria-label="Search" matInput
+                      [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
+                  <div class="search-location-close-container">
+                      <mat-icon class="search-location-search">search</mat-icon>
+                      <mat-icon class="search-location-close" (click)="clearSearchLocationControl()">close</mat-icon>
+                  </div>
 
-                <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                    <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
-                        [value]="option">
-                        <div class="location-option">
-                            <mat-icon>place</mat-icon><span
-                                class="address">{{option.name.split(',')[0]}}</span>&nbsp;<span>{{option.name.split(',')[1]}},
-                            </span>&nbsp;<span>{{option.name.split(',')[2]}}</span>
-                        </div>
-                    </mat-option>
-                </mat-autocomplete>
-            </div>
-            <div class="my-location-button">
-                <button mat-raised-button (click)="useMyCurrentLocation()">
-                    <mat-icon class="location-icon">my_location</mat-icon>
-                    Find My Location
-                </button>
-            </div>
-        </div>
-    </div>
+                  <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
+                      <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
+                          [value]="option">
+                          <div class="location-option">
+                              <mat-icon>place</mat-icon><span
+                                  class="address">{{option.name.split(',')[0]}}</span>&nbsp;<span>{{option.name.split(',')[1]}},
+                              </span>&nbsp;<span>{{option.name.split(',')[2]}}</span>
+                          </div>
+                      </mat-option>
+                  </mat-autocomplete>
+              </div>
+              <div class="my-location-button">
+                  <button mat-raised-button (click)="useMyCurrentLocation()">
+                      <mat-icon class="location-icon">my_location</mat-icon>
+                      Find My Location
+                  </button>
+              </div>
+          </div>
+      </div>
 
-    <div class="divider">
-        <span>MAP LAYERS</span>
-    </div>
+      <div class="divider">
+          <span>MAP LAYERS</span>
+      </div>
 
-    <div class="map-layers">
-        <div class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
-            (click)="onSelectLayer( 'wildfire-stage-of-control' )">
-            <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-            <span class="hide">Wildfires</span>
-        </div>
+      <div class="map-layers">
+          <div class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
+              (click)="onSelectLayer( 'wildfire-stage-of-control' )">
+              <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+              <span class="hide">Wildfires</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
-            (click)="onSelectLayer( 'evacuation-orders-and-alerts' )">
-            <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
-            <span class="hide">Evacuation Orders and Alerts</span>
-        </div>
+          <div class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
+              (click)="onSelectLayer( 'evacuation-orders-and-alerts' )">
+              <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
+              <span class="hide">Evacuation Orders and Alerts</span>
+          </div>
 
-        <div class="item"
-            [class.active]="selectedLayer === 'area-restrictions'"
-            (click)="onSelectLayer( 'area-restrictions' )"
-        >   
-            <span class="icon signpost mat-icon"></span>
-            <span class="hide">Area Restrictions</span>
-        </div>
+          <div class="item"
+              [class.active]="selectedLayer === 'area-restrictions'"
+              (click)="onSelectLayer( 'area-restrictions' )"
+          >
+              <span class="icon signpost mat-icon"></span>
+              <span class="hide">Area Restrictions</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'bans-and-prohibitions'"
-            (click)="onSelectLayer( 'bans-and-prohibitions' )">
-            <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
-            <span class="hide">Bans and Prohibitions</span>
-        </div>
+          <div class="item" [class.active]="selectedLayer === 'bans-and-prohibitions'"
+              (click)="onSelectLayer( 'bans-and-prohibitions' )">
+              <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
+              <span class="hide">Bans and Prohibitions</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'smoke-forecast'"
-            (click)="onSelectLayer( 'smoke-forecast' )">
-            <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
-            <span class="hide">Smoke Forecast</span>
-        </div>
+          <div class="item" [class.active]="selectedLayer === 'smoke-forecast'"
+              (click)="onSelectLayer( 'smoke-forecast' )">
+              <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
+              <span class="hide">Smoke Forecast</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'fire-danger'" (click)="onSelectLayer( 'fire-danger' )">
-            <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
-            <span class="hide">Danger Rating</span>
-        </div>
+          <div class="item" [class.active]="selectedLayer === 'fire-danger'" (click)="onSelectLayer( 'fire-danger' )">
+              <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
+              <span class="hide">Danger Rating</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'local-authorities'"
-            (click)="onSelectLayer( 'local-authorities' )">
-            <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
-            <span class="hide">Local Authorities</span>
-        </div>
+          <div class="item" [class.active]="selectedLayer === 'local-authorities'"
+              (click)="onSelectLayer( 'local-authorities' )">
+              <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
+              <span class="hide">Local Authorities</span>
+          </div>
 
-        <div class="item" [class.active]="selectedLayer === 'routes-impacted'"
-            (click)="onSelectLayer( 'routes-impacted' )">
-            <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
-            <span class="hide">Road Conditions</span>
-        </div>
-    </div>
+          <div class="item" [class.active]="selectedLayer === 'routes-impacted'"
+              (click)="onSelectLayer( 'routes-impacted' )">
+              <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
+              <span class="hide">Road Conditions</span>
+          </div>
+      </div>
+  </div>
+
+  <div class="bottom">
+      <div [ngClass]="showAccordion ? 'details' : 'details close'">
+          <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion">
+          </panel-wildfire-stage-of-control>
+          <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion">
+          </panel-evacuation-orders-and-alerts>
+          <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion">
+          </panel-area-restrictions>
+          <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion">
+          </panel-bans-prohibitions>
+          <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
+          <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
+      </div>
+      <div class="map">
+          <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
+              (toggleAccordion)="onToggleAccordion()"></wf-map-container>
+      </div>
 </div>
-
-<div class="bottom">
-    <div [ngClass]="showAccordion ? 'details' : 'details close'">
-        <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion">
-        </panel-wildfire-stage-of-control>
-        <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion">
-        </panel-evacuation-orders-and-alerts>
-        <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion">
-        </panel-area-restrictions>
-        <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion">
-        </panel-bans-prohibitions>
-        <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
-        <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
-    </div>
-
-    <div class="map">
-        <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
-            (toggleAccordion)="onToggleAccordion()"></wf-map-container>
-    </div>
 </div>
