@@ -29,13 +29,10 @@ on:
         required: true
     secrets:
       LICENSE_PLATE:
-        type: string
         required: true
       DB_PASS:
-        type: string
         required: true
       TFC_TEAM_TOKEN:
-        type: string
         required: true
 
 
