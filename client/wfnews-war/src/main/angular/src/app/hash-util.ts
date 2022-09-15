@@ -49,7 +49,7 @@ h = walk( h, val[ j1 ] );
       return h;
     case 'object':
       h = addBits( h, typeCode[ t ] );
-      var keys = Object.keys( val ).sort();
+      const keys = Object.keys( val ).sort();
       for ( const j2 in keys ) {
         const key = keys[ j2 ];
         h = addBits( h, key );
