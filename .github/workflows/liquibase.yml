@@ -7,9 +7,6 @@ on:
       TARGET_ENV:
         required: true
         type: string
-      DB_PASS:
-        required: true
-        type: string
 
 jobs:
   run_liquibase:
@@ -19,7 +16,7 @@ jobs:
 
       - name: Update DB properties
         run: |
-          sed -i 's/{wfnews_db_pass}/${{ inputs.DB_PASS }}'
+          sed -i 's/{wfnews_db_pass}/${{ secrets.DB_PASS }}'
 
       - name: Extract metadata (tags, labels) for Docker
         if: ${{ github.event.pull_request.number > 0 }}

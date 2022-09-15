@@ -54,8 +54,8 @@ jobs:
     uses: ./.github/workflows/liquibase.yml
     with:
       TARGET_ENV: dev
-      DB_PASS: ${{secrets.DEV_DB_PASS}}
-    secrets: inherit
+    secrets:
+      DB_PASS: ${{ secrets.DEV_DB_PASS}}
 
   # reverse-proxy:
   #   uses: ./.github/workflows/reverse-proxy.yml
