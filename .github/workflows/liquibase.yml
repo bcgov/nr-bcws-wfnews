@@ -1,3 +1,6 @@
+env:
+  IMAGE_NAME: ${{ github.repository }}-liquibase
+
 on:
   workflow_call:
     inputs:
@@ -10,12 +13,33 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - uses: liquibase/liquibase-github-action@v7
+
+      - name: Extract metadata (tags, labels) for Docker
+        if: ${{ github.event.pull_request.number > 0 }}
+        id: meta_pr
+        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          operation: 'update'
-          classpath: './database'
-          changeLogFile: 'main-changelog.json'
-          username: wfnews${{ inputs.TARGET_ENV }}
-          password: ${{ secrets.DB_PASS }}
-          url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }}
+          images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=schedule
+            type=raw,value=${{ github.base_ref }}
+            type=ref,event=tag
+            type=raw,value=pr-${{ github.event.pull_request.number}}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+        with:
+          context: .
+          file: docker/Dockerfile_liquibase
+          push: true
+          tags: ${{ steps.meta_nopr.outputs.tags }}
+          labels: ${{ steps.meta_nopr.outputs.labels }}
+      
+      # - uses: liquibase/liquibase-github-action@v7
+      #   with:
+      #     operation: 'update'
+      #     classpath: './database'
+      #     changeLogFile: 'main-changelog.json'
+      #     username: wfnews${{ inputs.TARGET_ENV }}
+      #     password: ${{ secrets.DB_PASS }}
+      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }} 

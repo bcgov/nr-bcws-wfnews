@@ -50,12 +50,24 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: wfnews
     secrets: inherit
 
-  reverse-proxy:
-    uses: ./.github/workflows/reverse-proxy.yml
+  liquibase-build:
+    uses: ./.github/workflows/liquibase.yml
     with:
-      REGISTRY: ghcr.io
       TARGET_ENV: dev
-    secrets: inherit
+
+  # reverse-proxy:
+  #   uses: ./.github/workflows/reverse-proxy.yml
+  #   with:
+  #     REGISTRY: ghcr.io
+  #     TARGET_ENV: dev
+  #   secrets: inherit
+
+  # reverse-proxy:
+  #   uses: ./.github/workflows/reverse-proxy.yml
+  #   with:
+  #     REGISTRY: ghcr.io
+  #     TARGET_ENV: dev
+  #   secrets: inherit
 
 #  trivy:
 #    # if: needs.check.outputs.build == 'true'
@@ -65,22 +77,18 @@ jobs:
   terragrunt-deploy:
     # if: needs.check.outputs.build == 'true'
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, reverse-proxy]
+    needs: [call-mvn-client, call-mvn-server, liquibase-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
-      DB_IMAGE: nr-bcws-wfnews-db
+      LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
-    secrets: inherit
-
-  liquibase-deploy:
-    uses: ./.github/workflows/liquibase.yml
-    needs: [terragrunt-deploy]
-    with:
-      TARGET_ENV: dev
-    secrets: inherit
+    secrets:
+      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
+      DB_PASS: ${{ secrets.DEV_DB_PASS }}
+      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
