@@ -64,6 +64,13 @@ jobs:
   #     TARGET_ENV: dev
   #   secrets: inherit
 
+  # reverse-proxy:
+  #   uses: ./.github/workflows/reverse-proxy.yml
+  #   with:
+  #     REGISTRY: ghcr.io
+  #     TARGET_ENV: dev
+  #   secrets: inherit
+
 #  trivy:
 #    # if: needs.check.outputs.build == 'true'
 #    needs: [call-mvn-client, call-mvn-server]
@@ -86,4 +93,4 @@ jobs:
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.DEV_DB_PASS }}
-      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
+      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }} 

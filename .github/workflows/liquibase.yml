@@ -42,4 +42,4 @@ jobs:
       #     changeLogFile: 'main-changelog.json'
       #     username: wfnews${{ inputs.TARGET_ENV }}
       #     password: ${{ secrets.DB_PASS }}
-      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }}
+      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }} 
