@@ -83,7 +83,7 @@ jobs:
       #Server and Image name get PR number as appropriate inside deploy step
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
-      DB_IMAGE: nr-bcws-wfnews-db
+      LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
