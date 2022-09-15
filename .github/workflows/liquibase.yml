@@ -7,6 +7,9 @@ on:
       TARGET_ENV:
         required: true
         type: string
+      REGISTRY:
+        required: true
+        type: string
 
 jobs:
   run_liquibase:
@@ -15,8 +18,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Extract metadata (tags, labels) for Docker
-        if: ${{ github.event.pull_request.number > 0 }}
-        id: meta_pr
+        id: meta
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
           images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}
@@ -32,8 +34,8 @@ jobs:
           context: .
           file: docker/Dockerfile_liquibase
           push: true
-          tags: ${{ steps.meta_nopr.outputs.tags }}
-          labels: ${{ steps.meta_nopr.outputs.labels }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
       
       # - uses: liquibase/liquibase-github-action@v7
       #   with:
