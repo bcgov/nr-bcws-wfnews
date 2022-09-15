@@ -1,7 +1,6 @@
-include.module( 'layer-incidents-leaflet', [ 
+include.module( 'layer-incidents-leaflet', [
     'layer-incidents', 
-    'layer-fire-reports-cluster-leaflet', 
-    'plugin-wfim-util' 
+    'plugin-wfim-util'
 ], function ( inc ) {
     "use strict";
 
@@ -15,7 +14,7 @@ include.module( 'layer-incidents-leaflet', [
 
     SMK.TYPE.Layer[ 'incidents' ][ 'leaflet' ] = IncidentsLeafletLayer
     // _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    //  
+    //
     const incidentAttributesFire = [
         { title: 'Incident #', name: 'incidentLabel'  },
         { title: 'Year', name: 'wildfireYear'  },
@@ -28,7 +27,7 @@ include.module( 'layer-incidents-leaflet', [
         { title: "Size", name: "fireSizeHectares" },
         { title: "Cause", name: "suspectedCauseCategoryCode" }
     ];
-    
+
     const incidentAttributesOther = [
         { title: 'Incident #', name: 'incidentLabel'  },
         { title: 'Year', name: 'wildfireYear'  },
@@ -41,10 +40,10 @@ include.module( 'layer-incidents-leaflet', [
         { title: "Size", name: "fireSizeHectares" },
         { title: "Cause", name: "suspectedCauseCategoryCode" }
     ];
-    
+
     const incidentFireTypes = ['fire', 'nuisance fire']
     // _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    //  
+    //
     SMK.TYPE.Layer[ 'incidents' ][ 'leaflet' ].create = function ( layers, zIndex ) {
         var self = this
         // console.log( 'create layer incidents' )
@@ -56,7 +55,7 @@ include.module( 'layer-incidents-leaflet', [
                 var status = feature.properties.incidentStatusCode
                 var incidentIcon = "incident-icon"
                 var width = feature.properties.incidentLabel.length*50/7
-    
+
                 if (type) {
                     incidentIcon = incidentIcon + ' incident-type-' + type.toLowerCase().replace(/\s/g,"-")
                 }
@@ -66,10 +65,10 @@ include.module( 'layer-incidents-leaflet', [
                 if (status) {
                     incidentIcon = incidentIcon + ' incident-status-' + status.toLowerCase().replace(/\s/g,"-")
                 }
-                
+
                 return {
                     icon: L.divIcon( {
-                        className:  'wfim-incident', 
+                        className:  'wfim-incident',
                         html:       `<div class="incident-label">${ feature.properties.incidentLabel }</div><div class="${ incidentIcon }"></div>`,
                         iconSize:   [ width, 36 ],
                         iconAnchor: [ width/2, 27 ]
@@ -77,13 +76,13 @@ include.module( 'layer-incidents-leaflet', [
                 }
             }
         }
-    
+
         var featureHandler = function ( ly, feature, leafLayer ) {
             if ( feature.set == 'incidents' ) {
                 var type = feature.properties.incidentTypeCode.toLowerCase()
                 var incidentAttributes = incidentFireTypes.includes(type) ? incidentAttributesFire : incidentAttributesOther
-                    
-                leafLayer.hideDelay = 800; 
+
+                leafLayer.hideDelay = 800;
                 leafLayer.bindTooltipDelayed( function ( featureLayer ) {
                     return inc[ 'plugin-wfim-util' ].infoHtml( feature.properties, incidentAttributes, {
                         className:  'incident-tooltip',
@@ -97,18 +96,18 @@ include.module( 'layer-incidents-leaflet', [
                 } )
             }
         }
-       
+
         var layerCreate = function () {
             var layer = L.geoJSON( null, {
                 pointToLayer: function ( geojson, latlng ) {
-                    var mark = L.marker( latlng, Object.assign( { 
+                    var mark = L.marker( latlng, Object.assign( {
                         layerId: self.id
                     }, pointHandler( self, geojson ) ) )
                 return mark
                 },
                 onEachFeature: function ( feature, leafLayer ) {
                     featureHandler( self, feature, leafLayer )
-        
+
                     leafLayer.on( 'click', function( event ) {
                         return layers[ 0 ].clickCallback( event )
                     } )
@@ -117,7 +116,7 @@ include.module( 'layer-incidents-leaflet', [
                     return feature.properties._style || {}
                 }
             } )
-        
+
             layer.on( {
                 add: function () {
                     if ( layer.options?.renderer?._container )
@@ -128,7 +127,7 @@ include.module( 'layer-incidents-leaflet', [
             return layer
         }
 
-        layers[ 0 ].loadLayer = function ( data ) {            
+        layers[ 0 ].loadLayer = function ( data ) {
             layers[ 0 ].updateClusters( function () {
                 var ly = layerCreate()
                 // console.log( 'load layer incidents' )
@@ -154,9 +153,9 @@ include.module( 'layer-incidents-leaflet', [
         // return layer
     }
     // _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
-    //  
+    //
     IncidentsLeafletLayer.prototype.setClickCallback = function ( cb ) {
         this.clickCallback = cb
     }
-        
+
 } )

@@ -8,6 +8,7 @@ The high-level goals of Wildfire News 2.0 are:
 * Use a Content Management System to manage information where it makes sense.
 * Provide a map interface option for public users, while addressing issues identified with current sites.
 * Try and utilize Public Mobile to a point where Wildfire News and Public Mobile are two channels exposing the same data. 
+* Streamline access to Wildfire and related incident information
 
 ## Built With
 

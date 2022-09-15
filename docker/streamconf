@@ -1,0 +1,12 @@
+stream {
+
+  upstream postgres {
+    server {wfnews_db_url}:5432;
+  }
+
+  server {
+    listen 8080 so_keepalive=on;
+    allow all;
+    proxy_pass postgres;
+  }
+}
