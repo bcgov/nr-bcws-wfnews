@@ -83,6 +83,54 @@ return;
         return this.updateResults();
     }
 
+    searchAddresses( txt: string ) {
+        var self = this;
+
+        const query = {
+            ver:            1.2,
+            maxResults:     10,
+            outputSRS:      4326,
+            addressString:  txt,
+            autoComplete:   true
+        };
+    
+        return fetchJsonP( 'https://geocoder.api.gov.bc.ca/addresses.geojsonp', query ).response
+            .then( function( result ) {
+                const resultLoc = result.features
+                    .map( function( feature ) {
+                        if ( !feature.geometry.coordinates ) {
+                            return;
+                        }
+    
+                        // exclude whole province match
+                        if ( feature.properties.fullAddress == 'BC' ) {
+                            return;
+                        }
+                        
+                        const loc = {
+                            streetName: feature.properties.streetName,
+                            streetQualifier: feature.properties.streetQualifier,
+                            streetType: feature.properties.streetType,
+                            localityName: feature.properties.localityName,
+                            localityType: feature.properties.localityType,
+                            civicNumber: feature.properties.civicNumber,
+                            dist: null,
+                            dir: null,
+                            loc: feature.geometry.coordinates
+                        };
+
+                        return loc;
+                    } )
+                    .filter( function( item ) {
+                        return item;
+                    } );
+                    return resultLoc;
+            } )
+            .catch( function( e ) {
+                console.warn( 'address match:', e );
+            } );
+    }
+
     updateResults(): Promise<any> {
         const self = this;
 
