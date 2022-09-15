@@ -7,19 +7,12 @@ on:
       TARGET_ENV:
         required: true
         type: string
-      DB_PASS:
-        required: true
-        type: string
 
 jobs:
   run_liquibase:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-
-      - name: Update DB properties
-        run: |
-          sed -i 's/{wfnews_db_pass}/${{ inputs.DB_PASS }}'
 
       - name: Extract metadata (tags, labels) for Docker
         if: ${{ github.event.pull_request.number > 0 }}
@@ -49,4 +42,4 @@ jobs:
       #     changeLogFile: 'main-changelog.json'
       #     username: wfnews${{ inputs.TARGET_ENV }}
       #     password: ${{ secrets.DB_PASS }}
-      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }}
+      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }} 

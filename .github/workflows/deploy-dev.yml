@@ -54,8 +54,15 @@ jobs:
     uses: ./.github/workflows/liquibase.yml
     with:
       TARGET_ENV: dev
-      DB_PASS: ${{secrets.DEV_DB_PASS}}
-    secrets: inherit
+    secrets:
+      DB_PASS: ${{ secrets.DEV_DB_PASS}}
+
+  # reverse-proxy:
+  #   uses: ./.github/workflows/reverse-proxy.yml
+  #   with:
+  #     REGISTRY: ghcr.io
+  #     TARGET_ENV: dev
+  #   secrets: inherit
 
   # reverse-proxy:
   #   uses: ./.github/workflows/reverse-proxy.yml
@@ -83,4 +90,7 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
-    secrets: inherit
+    secrets:
+      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
+      DB_PASS: ${{ secrets.DEV_DB_PASS }}
+      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }} 
