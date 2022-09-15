@@ -39,7 +39,7 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
 			},
             {
                 type: 'identify',
-                title: 'Identify',
+                title: 'Learn More',
                 enabled: true,
                 showTitle: false,
                 showWidget: false,
