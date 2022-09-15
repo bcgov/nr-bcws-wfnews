@@ -11,7 +11,7 @@ locals {
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
-  db_image = get_env("DB_IMAGE")
+  liquibase_image = get_env("LIQUIBASE_IMAGE")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
@@ -37,7 +37,7 @@ generate "dev_tfvars" {
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
-    db_image     = "${local.db_image}"
+    db_image     = "${local.liquibase_image}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
     client_port = 8080

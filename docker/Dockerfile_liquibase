@@ -1,0 +1,5 @@
+FROM liquibase/liquibase
+ADD database /liquibase
+RUN echo -e '#!/bin/bash\nliquibase update --defaultsFile=/liquibase/liquibase.properties --url=$DB_URL --username=$DB_USER --password=$DB_PASS' > /liquibase/docker-entrypoint.sh
+
+
