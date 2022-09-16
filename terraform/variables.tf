@@ -83,10 +83,6 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "db_health_check_port" {
-  default = 8081
-}
-
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = 1024
