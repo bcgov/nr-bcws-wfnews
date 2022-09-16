@@ -5,24 +5,81 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
+import ca.bc.gov.nrs.common.service.ConflictException;
+import ca.bc.gov.nrs.common.service.NotFoundException;
+import ca.bc.gov.nrs.common.service.ValidationFailureException;
+import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
+import ca.bc.gov.nrs.wfone.common.webade.authentication.WebAdeAuthentication;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentListResource;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
 import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
-public class IncidentsServiceImpl implements IncidentsService{
+import ca.bc.gov.nrs.wfone.common.model.Message;
+import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebAdeOAuth2Authentication;
+import ca.bc.gov.nrs.common.persistence.dao.DaoException;
+import ca.bc.gov.nrs.common.persistence.dao.IntegrityConstraintViolatedDaoException;
+import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
+import ca.bc.gov.nrs.common.persistence.dao.OptimisticLockingFailureDaoException;
+import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+import ca.bc.gov.nrs.common.service.ServiceException;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
+import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
+
+public class IncidentsServiceImpl extends BaseEndpointsImpl implements IncidentsService{
 
     private static final Logger logger = LoggerFactory.getLogger(IncidentsServiceImpl.class);
     
+    private PublishedIncidentFactory publishedIncidentFactory;
+	private ExternalUriFactory externalUriFactory;
+	
+	private PublishedIncidentDao publishedIncidentDao;
+	private ExternalUriDao externalUriDao;
+	
+	@Autowired
+	private ModelValidator modelValidator;
+    
     public void setAgolQueryUrl(String agolQueryUrl) {
     	this.agolQueryUrl = agolQueryUrl;
+    }
+    
+    public void setPublishedIncidentFactory(PublishedIncidentFactory publishedIncidentFactory) {
+		this.publishedIncidentFactory = publishedIncidentFactory;
+	}
+	
+	public void setExternalUriFactory(ExternalUriFactory externalUriFactory) {
+		this.externalUriFactory = externalUriFactory;
+	}
+	
+	public void setPublishedIncidentDao(PublishedIncidentDao publishedIncidentDao) {
+        this.publishedIncidentDao = publishedIncidentDao;
+    }
+    
+    public void setExternalUriDao(ExternalUriDao externalUriDao) {
+        this.externalUriDao = externalUriDao;
     }
       
     @Value("${wfnews-agol-query.url}")
@@ -144,5 +201,380 @@ public class IncidentsServiceImpl implements IncidentsService{
          
          return result;
     }
+    
+    @Override
+    public PublishedIncidentResource createPublishedWildfireIncident(PublishedIncident publishedIncident, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		logger.debug("<createupdatePublishedWildfireIncident");
+		PublishedIncidentResource response = null;
+		
+		long effectiveAsOfMillis =  publishedIncident.getDiscoveryDate()==null?System.currentTimeMillis():publishedIncident.getDiscoveryDate().getTime();
+		
+		try {
+			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident, effectiveAsOfMillis);
+			
+			if(!errors.isEmpty()) {
+				throw new ValidationException(errors);	
+			}
+			
+			PublishedIncidentResource result = new PublishedIncidentResource();
+		
+			result = (PublishedIncidentResource) createPublishedWildfireIncident(
+								publishedIncident, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+			
+			response = result;
+		
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}catch (Exception e) {
+			throw new Exception("Service threw an exception", e);
+		}
+
+		logger.debug(">createPublishedWildfireIncident");
+		return response;
+	
+		
+	}
+    
+    @Override
+    public PublishedIncidentResource updatePublishedWildfireIncident(PublishedIncident publishedIncident, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		logger.debug("<updatePublishedWildfireIncident");
+		PublishedIncidentResource response = null;
+		
+		long effectiveAsOfMillis =  publishedIncident.getDiscoveryDate()==null?System.currentTimeMillis():publishedIncident.getDiscoveryDate().getTime();
+		
+		try {
+			List<Message> errors = this.modelValidator.validatePublishedIncident(publishedIncident, effectiveAsOfMillis);
+			
+			if(!errors.isEmpty()) {
+				throw new ValidationException(errors);	
+			}
+			
+			PublishedIncidentResource result = new PublishedIncidentResource();
+		
+				PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncidentByIncidentGuid(
+						publishedIncident,
+						getWebAdeAuthentication(), 
+						factoryContext);
+	
+					if (currentWildfireIncident != null) {
+						result = (PublishedIncidentResource) updatePublishedWildfireIncident(
+								publishedIncident, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+					}else {
+						result = (PublishedIncidentResource) createPublishedWildfireIncident(
+								publishedIncident, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+					}
+			
+				response = result;
+		
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}catch (Exception e) {
+			throw new Exception("Service threw an exception", e);
+		}
+
+		logger.debug(">updatePublishedWildfireIncident");
+		return response;
+	
+		
+	}
+	
+	private PublishedIncidentResource updatePublishedWildfireIncident(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+
+		PublishedIncidentResource result = null;
+		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
+		try {
+			dto.setUpdateDate(new Date());
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
+			if (dto.getCreateUser() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateUser(webAdeAuthentication.getUserId());
+			if (dto.getCreateDate() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateDate(new Date());
+			
+			this.publishedIncidentDao.update(dto);
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+
+		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
+		return result;
+	}
+	
+	private PublishedIncidentResource createPublishedWildfireIncident(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+
+		PublishedIncidentResource result = null;
+		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
+		try {	
+			dto.setUpdateDate(new Date());
+			dto.setRevisionCount(Long.valueOf(0));
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
+			if (dto.getCreateUser() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateUser(webAdeAuthentication.getUserId());
+			if (dto.getCreateDate() == null && webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateDate(new Date());
+			
+			this.publishedIncidentDao.insert(dto);
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+
+		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
+		return result;
+	}
+	
+	@Override
+	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+
+		PublishedIncidentResource result = null;
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+		if (fetchedDto != null) {
+			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
+		}
+		return result;
+	}
+	
+	@Override
+	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+
+		PublishedIncidentResource result = null;
+		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(dto.getIncidentGuid());
+		if (fetchedDto != null) {
+			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
+		}
+		return result;
+	}
+	
+	@Override
+	public void deletePublishedIncident(String publishedIncidentDetailGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException{
+		logger.debug("<deletePublishedIncident");
+		
+		try {
+			
+			PublishedIncidentDto dto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+			
+			if(dto==null) {
+				throw new NotFoundException("Did not find the PublishedIncident: "+publishedIncidentDetailGuid);
+			}
+			
+			this.publishedIncidentDao.delete(publishedIncidentDetailGuid, "Sean");
+
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+
+		logger.debug(">deletePublishedIncident");
+	}
+	
+	@Override
+	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, 
+			Integer pageRowCount, FactoryContext factoryContext) {
+		PublishedIncidentListResource results = null;
+		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<PublishedIncidentDto>();
+		try {
+			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount);
+			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount, factoryContext);
+		}catch(DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		return results;
+	}
+	
+	@Override
+	public ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception{
+		ExternalUriResource response = null;
+		long effectiveAsOfMillis =  externalUri.getCreateDate() ==null?System.currentTimeMillis():externalUri.getCreateDate().getTime();
+		try {
+			List<Message> errors = this.modelValidator.validateExternalUri(externalUri, effectiveAsOfMillis);
+			if(!errors.isEmpty()) {
+				throw new Exception("Validation failed for ExternalUri: " + errors.toString());	
+			}
+			
+			ExternalUriResource result = new ExternalUriResource();
+			result = (ExternalUriResource) createExternalUri(
+								externalUri, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+					
+			response = result;
+		
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}catch (Exception e) {
+			throw new Exception("Service threw an exception", e);
+		}
+
+		logger.debug(">PublishedWildfireIncident");
+		return response;
+			
+	}
+	
+	@Override
+	public ExternalUriResource updateExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception{
+		ExternalUriResource response = null;
+		long effectiveAsOfMillis =  externalUri.getCreateDate() ==null?System.currentTimeMillis():externalUri.getCreateDate().getTime();
+		try {
+			List<Message> errors = this.modelValidator.validateExternalUri(externalUri, effectiveAsOfMillis);
+			if(!errors.isEmpty()) {
+				throw new Exception("Validation failed for ExternalUri: " + errors.toString());	
+			}
+			
+			ExternalUriResource result = new ExternalUriResource();
+		
+			ExternalUriResource currentExternalUri = (ExternalUriResource) getExternalUri(
+					externalUri.getExternalUriGuid(),
+						getWebAdeAuthentication(), 
+						factoryContext);
+	
+					if (currentExternalUri != null) {
+						result = (ExternalUriResource) updateExternalUri(
+								externalUri, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+					}else {
+						result = (ExternalUriResource) createExternalUri(
+								externalUri, 
+								getWebAdeAuthentication(), 
+								factoryContext);
+					}
+			
+				response = result;
+		
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}catch (Exception e) {
+			throw new Exception("Service threw an exception", e);
+		}
+
+		logger.debug(">PublishedWildfireIncident");
+		return response;
+			
+	}
+	
+	@Override
+	public ExternalUriResource getExternalUri(String externalUriGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+
+		ExternalUriResource result = null;
+		ExternalUriDto fetchedDto = this.externalUriDao.fetch(externalUriGuid);
+		if (fetchedDto != null) {
+			result = this.externalUriFactory.getExternalUri(fetchedDto, factoryContext);
+		}
+		return result;
+	}
+	
+	private ExternalUriResource createExternalUri(ExternalUriResource publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		
+		ExternalUriResource result = null;
+		ExternalUriDto dto = new ExternalUriDto(publishedIncident);
+		try {
+			if (dto.getCreateDate()==null)dto.setCreateDate(new Date());
+			if (dto.getCreatedTimestamp()==null)dto.setUpdateDate(new Date());
+			dto.setRevisionCount(Long.valueOf(0));
+			if (dto.getCreatedTimestamp()==null)dto.setCreatedTimestamp(new Date());
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateUser(webAdeAuthentication.getUserId());
+			
+			this.externalUriDao.insert(dto);
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		ExternalUriDto updatedDto = this.externalUriDao.fetch(dto.getExternalUriGuid());
+
+		result = this.externalUriFactory.getExternalUri(updatedDto, factoryContext);
+		return result;
+	}
+	
+	private ExternalUriResource updateExternalUri(ExternalUriResource publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		
+		ExternalUriResource result = null;
+		ExternalUriDto dto = new ExternalUriDto(publishedIncident);
+		try {
+			if (dto.getCreateDate()==null)dto.setCreateDate(new Date());
+			if (dto.getCreatedTimestamp()==null)dto.setUpdateDate(new Date());
+			if (dto.getCreatedTimestamp()==null)dto.setCreatedTimestamp(new Date());
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
+			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateUser(webAdeAuthentication.getUserId());
+			
+			this.externalUriDao.update(dto);
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		ExternalUriDto updatedDto = this.externalUriDao.fetch(dto.getExternalUriGuid());
+
+		result = this.externalUriFactory.getExternalUri(updatedDto, factoryContext);
+		return result;
+	}
+	
+	
+	@Override
+	public void deleteExternalUri(String externalUriGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException{
+		logger.debug("<deleteExternalUri");
+		
+		try {
+			ExternalUriDto dto = this.externalUriDao.fetch(externalUriGuid);
+			
+			if(dto==null) {
+				throw new NotFoundException("Did not find the externalUri: "+externalUriGuid);
+			}
+			
+			this.externalUriDao.delete(externalUriGuid, getWebAdeAuthentication().getUserId());
+
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+
+		logger.debug(">deleteExternalUri");
+	}
+	
+	@Override
+	public ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber, 
+			Integer pageRowCount, FactoryContext factoryContext) {
+		ExternalUriListResource results = null;
+		try {
+			PagedDtos<ExternalUriDto> externalUriList = this.externalUriDao.select(sourceObjectUniqueId, pageNumber, pageRowCount);
+			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount, factoryContext);
+		}catch(DaoException e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+		
+		return results;
+	}
+	
      
 }
