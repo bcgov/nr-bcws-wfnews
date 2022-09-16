@@ -46,16 +46,16 @@ public class EndpointsSpringConfig {
 		return result;
 	}
 	
-	// @Value("${wfone.datasource.url}")
+	@Value("${wfone.datasource.url}")
 	private String wfoneDataSourceUrl;
 	
-	// @Value("${wfone.datasource.username}")
+	@Value("${wfone.datasource.username}")
 	private String wfoneDataSourceUsername;
 	
-	// @Value("${wfone.datasource.password}")
+	@Value("${wfone.datasource.password}")
 	private String wfoneDataSourcePassword;
 	
-	// @Value("${wfone.datasource.max.connections}")
+	@Value("${wfone.datasource.max.connections}")
 	private String wfoneDataSourceMaxConnections;
 
 	@Bean
@@ -65,13 +65,13 @@ public class EndpointsSpringConfig {
 		String dbUrl = wfoneDataSourceUrl;
 		BasicDataSource result = new BasicDataSource();
 
-		// result.setUsername(wfoneDataSourceUsername);
-		// result.setPassword(wfoneDataSourcePassword);
-		// result.setDriverClassName(org.postgresql.Driver.class.getName());
-		// result.setUrl(dbUrl);
-		// result.setInitialSize(1);
-		// logger.debug("wfoneDataSourceMaxConnections="+wfoneDataSourceMaxConnections);
-		// result.setMaxTotal(Integer.parseInt(wfoneDataSourceMaxConnections));
+		 result.setUsername(wfoneDataSourceUsername);
+		 result.setPassword(wfoneDataSourcePassword);
+		 result.setDriverClassName(org.postgresql.Driver.class.getName());
+		 result.setUrl(dbUrl);
+		 result.setInitialSize(1);
+		 logger.debug("wfoneDataSourceMaxConnections="+wfoneDataSourceMaxConnections);
+		 result.setMaxTotal(Integer.parseInt(wfoneDataSourceMaxConnections));
 
 		return result;
 	}
@@ -111,8 +111,8 @@ public class EndpointsSpringConfig {
 		CompositeValidator result;
 		
 		result = new CompositeValidator();
-		result.setComponentIdentifier("WFONE_NOTIFICATIONS_API");
-		result.setComponentName("Wildfire Notifications Rest API");
+		result.setComponentIdentifier("WFNEWS_API");
+		result.setComponentName("Wildfire News Rest API");
 		result.setValidators(healthCheckValidators());
 		
 		return result;

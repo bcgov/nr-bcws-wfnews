@@ -2,30 +2,32 @@ package ca.bc.gov.nrs.wfnews.service.api.v1.spring;
 
 import java.util.Properties;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Import;
-import org.springframework.context.support.ResourceBundleMessageSource;
-import org.springframework.beans.factory.annotation.Value;
-
-import ca.bc.gov.nrs.wfnews.persistence.v1.spring.PersistenceSpringConfig;
-import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
-import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
-import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
-import ca.bc.gov.nrs.wfnews.service.api.v1.impl.EmailNotificationServiceImpl;
-import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
-import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
-
 import javax.mail.Authenticator;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.support.ResourceBundleMessageSource;
+
+import ca.bc.gov.nrs.wfnews.persistence.v1.spring.PersistenceSpringConfig;
+import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
+import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
+import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
+import ca.bc.gov.nrs.wfnews.service.api.v1.impl.EmailNotificationServiceImpl;
+import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
+
 @Configuration
 @Import({
-	PersistenceSpringConfig.class
+	PersistenceSpringConfig.class,
 	// FileServiceSpringConfig.class
 //	TokenServiceSpringConfig.class
 })
@@ -68,13 +70,17 @@ public class ServiceApiSpringConfig {
 	
 	@Value("${wfone.email.sync.send.frequency}")
 	private String emailFrequency;
-
+		
 	// Beans provided by EndpointsSpringConfig
 	@Autowired ResourceBundleMessageSource messageSource;
 	@Autowired Properties applicationProperties;
 
 	// Imported Spring Config
 	@Autowired PersistenceSpringConfig persistenceSpringConfig;
+	
+	@Autowired PublishedIncidentFactory publishedIncidentFactory;
+	@Autowired ExternalUriFactory externalUriFactory;
+	
 	
 	@Bean
 	public ModelValidator modelValidator() {
@@ -85,7 +91,7 @@ public class ServiceApiSpringConfig {
 		
 		return result;
 	}
-
+	
 	@Bean
 	public Session emailSession() {
 		logger.debug("<emailSession");
@@ -160,8 +166,16 @@ public class ServiceApiSpringConfig {
 	public IncidentsService incidentsService() {
 
 		IncidentsServiceImpl result = new IncidentsServiceImpl();
+		result.setPublishedIncidentDao(persistenceSpringConfig.publishedIncidentDao());
+		result.setExternalUriDao(persistenceSpringConfig.externalUriDao());
+		result.setPublishedIncidentFactory(publishedIncidentFactory);
+		result.setExternalUriFactory(externalUriFactory);	
 		
 		return result;
 	}
+	
+	
+	
+	
 	
 }

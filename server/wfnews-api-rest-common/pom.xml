@@ -25,7 +25,10 @@
 			<artifactId>wfone-common-rest-common</artifactId>
 			<version>1.3.0</version>
 		</dependency>
-		
+		<dependency>
+				<groupId>ca.bc.gov.nrs.common</groupId>
+				<artifactId>nrs-common-rest-common</artifactId>
+		</dependency>
     <dependency>
       <groupId>org.codehaus.jackson</groupId>
       <artifactId>jackson-mapper-asl</artifactId>

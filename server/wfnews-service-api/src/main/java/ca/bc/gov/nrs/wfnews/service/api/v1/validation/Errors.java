@@ -41,5 +41,31 @@ public class Errors {
 	public static final String ROF_SMOKE_COLOR_INVALID = "Invalid RoF smokeColor value";
 	public static final String ROF_BURNING_INVALID = "Invalid RoF burning value";
 	
+	public static final String PUBLISHED_INCIDENT_GUID_NOTBLANK = "error.published.incident.guid.notblank";
+	public static final String PUBLISHED_INCIDENT_LABEL_NOTBLANK = "error.published.incident.label.notblank";
+	public static final String INCIDENT_GUID_NOTBLANK = "error.incident.guid.notblank";
+	public static final String PUBLISHED_NEWS_CREATED_TIMESTAMP_NOTBLANK = "published.news.created.timestamp.notblank";
+	public static final String PUBLISHED_DISCOVERY_DATE_NOTBLANK = "published.discovery.date.notblank";
+	public static final String PUBLISHED_FIRE_OF_NOTE_IND_NOTBLANK = "published.fire.note.ind.notblank";
+	public static final String PUBLISHED_INCIDENT_SIZE_TYPE_NOTBLANK = "published.incident.size.type.notblank";
+	public static final String PUBLISHED_WILDFIRE_CREW_IND_NOTBLANK = "published.wildfire.crew.ind.notblank";
+	public static final String PUBLISHED_HEAVY_EQUPIPMENT_IND_NOTBLANK = "published.heavy.equipment.ind.notblank";
+	public static final String PUBLISHED_INCIDENT_MGMT_CREW_NOTBLANK = "published.incident.mgmt.crew.notblank";
+	public static final String PUBLISHED_STRUCTURE_PROTECTION_NOTBLANK = "published.structure.protection.notblank";
+	public static final String PUBLISHED_NEWS_PUBLICATION_CODE_INVALID = "published.news.publication.code.invalid";
+	public static final String PUBLISHED_STAGE_CONTROL_CODE_INVALID = "published.news.publication.code.invalid";
+	
+	public static final String EXTERNAL_URI_GUID_NOTBLANK = "error.external.uri.notblank";
+	public static final String EXTERNAL_SOURCE_OBJECT_NOTBLANK = "error.external.source.object.notblank";
+	public static final String EXTERNAL_SOURCE_GUID_NOTBLANK = "error.external.source.guid.notblank";
+	public static final String EXTERNAL_URI_CATEGORY_TAG_NOTBLANK = "error.external.category.tag.notblank";
+	public static final String EXTERNAL_URI_DISPLAY_LABEL_NOTBLANK = "error.external.display.label.notblank";
+	public static final String EXTERNAL_URI_CREATED_TIMESTAMP_NOTBLANK = "external.uri.created.timestamp.notblank";
+	public static final String EXTERNAL_PRIVATE_IND_NOTBLANK = "error.external.private.ind.notblank";
+	public static final String EXTERNAL_ARCHIVED_IND_NOTBLANK = "error.external.archived.ind.notblank";
+	public static final String EXTERNAL_PUBLISHED_IND_NOTBLANK = "error.external.published.ind.notblank";
+	public static final String EXTERNAL_PRIMARY_IND_NOTBLANK = "error.external.primary.ind.notblank";
+	public static final String EXTERNAL_SOURCE_OBJECT_INVALID = "error.external.source.object.invalid";
+	
 }
 
