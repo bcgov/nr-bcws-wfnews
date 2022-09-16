@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 
 import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebAdeOAuth2Authentication;
@@ -53,6 +54,10 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
     private static final Logger logger = LoggerFactory.getLogger(IncidentsServiceImpl.class);
     
+    String topLevelRestURL;
+
+	private OAuth2RestTemplate restTemplate;
+    
     private PublishedIncidentFactory publishedIncidentFactory;
 	private ExternalUriFactory externalUriFactory;
 	
@@ -61,6 +66,14 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	
 	@Autowired
 	private ModelValidator modelValidator;
+	
+	public void setRestTemplate(OAuth2RestTemplate restTemplate) {
+		this.restTemplate = restTemplate;
+	}
+	
+	public void setTopLevelRestURL(String topLevelRestURL) {
+		this.topLevelRestURL = topLevelRestURL;
+	}
     
     public void setAgolQueryUrl(String agolQueryUrl) {
     	this.agolQueryUrl = agolQueryUrl;
@@ -566,8 +579,12 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	public ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber, 
 			Integer pageRowCount, FactoryContext factoryContext) {
 		ExternalUriListResource results = null;
+		PagedDtos<ExternalUriDto> externalUriList = null;
 		try {
-			PagedDtos<ExternalUriDto> externalUriList = this.externalUriDao.select(sourceObjectUniqueId, pageNumber, pageRowCount);
+			//if sourceObjectUniqueId is null return all
+			if(sourceObjectUniqueId!=null) {
+				externalUriList = this.externalUriDao.select(sourceObjectUniqueId, pageNumber, pageRowCount);
+			}else externalUriList = this.externalUriDao.fetchAll(pageNumber, pageRowCount);
 			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
