@@ -18,6 +18,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublishedIncidentEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto;
@@ -66,7 +67,7 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 	}
 	
 	private static void setSelfLink(ExternalUriResource resource, URI baseUri) {
-		String selfUri = getExternalUriSelfUri(baseUri);
+		String selfUri = getExternalUriSelfUri(resource.getExternalUriGuid(), baseUri);
 		
 		resource.getLinks().add(new RelLink(ResourceTypes.SELF, selfUri, "GET"));
 	}
@@ -97,11 +98,11 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 //		}
 //	}
 	
-	public static String getExternalUriSelfUri(URI baseUri) {
+	public static String getExternalUriSelfUri(String externalUriGuid, URI baseUri) {
 		
 		String result = UriBuilder.fromUri(baseUri)
 		.path(ExternalUriEndpoint.class)
-		.build().toString();
+		.build(externalUriGuid).toString();
 		return result;
 	}
 	
@@ -119,15 +120,16 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 			resources.add(resource);
 		}
 		
-		int totalRowCount = dtos.getTotalRowCount();
-		int totalPageCount = (int) Math.ceil(((double)totalRowCount)/((double)pageRowCount));
-		
 		result = new ExternalUriListResource();
 		result.setCollection(resources);
-		result.setPageNumber(pageNumber);
-		result.setPageRowCount(pageRowCount);
-		result.setTotalRowCount(totalRowCount);
-		result.setTotalPageCount(totalPageCount);
+		result.setTotalRowCount(dtos.getTotalRowCount());
+		
+		if (pageNumber != null && pageRowCount != null) {
+			int totalPageCount = (int) Math.ceil(((double)dtos.getTotalRowCount())/((double)pageRowCount));
+			result.setPageNumber(pageNumber);
+			result.setPageRowCount(pageRowCount);
+			result.setTotalPageCount(totalPageCount);
+		}	
 
 		String eTag = getEtag(result);
 		result.setETag(eTag);

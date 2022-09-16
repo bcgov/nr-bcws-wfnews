@@ -46,7 +46,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 	}
 
 	private static void setSelfLink(PublishedIncidentResource resource, URI baseUri) {
-		String selfUri = getPublishedIncidentSelfUri(baseUri);
+		String selfUri = getPublishedIncidentSelfUri(resource.getPublishedIncidentDetailGuid(), baseUri);
 		
 		resource.getLinks().add(new RelLink(ResourceTypes.SELF, selfUri, "GET"));
 	}
@@ -74,11 +74,11 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 //		}
 //	}
 	
-	public static String getPublishedIncidentSelfUri(URI baseUri) {
+	public static String getPublishedIncidentSelfUri(String publisedIncidentDetailGuid, URI baseUri) {
 		
 		String result = UriBuilder.fromUri(baseUri)
 		.path(PublishedIncidentEndpoint.class)
-		.build().toString();
+		.build(publisedIncidentDetailGuid).toString();
 		
 		return result;
 	}
@@ -144,15 +144,16 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 			resources.add(resource);
 		}
 		
-		int totalRowCount = dtos.getTotalRowCount();
-		int totalPageCount = (int) Math.ceil(((double)totalRowCount)/((double)pageRowCount));
-		
 		result = new PublishedIncidentListResource();
 		result.setCollection(resources);
-		result.setPageNumber(pageNumber);
-		result.setPageRowCount(pageRowCount);
-		result.setTotalRowCount(totalRowCount);
-		result.setTotalPageCount(totalPageCount);
+		result.setTotalRowCount(dtos.getTotalRowCount());
+		
+		if (pageNumber != null && pageRowCount != null) {
+			int totalPageCount = (int) Math.ceil(((double)dtos.getTotalRowCount())/((double)pageRowCount));
+			result.setPageNumber(pageNumber);
+			result.setPageRowCount(pageRowCount);
+			result.setTotalPageCount(totalPageCount);
+		}	
 
 		String eTag = getEtag(result);
 		result.setETag(eTag);

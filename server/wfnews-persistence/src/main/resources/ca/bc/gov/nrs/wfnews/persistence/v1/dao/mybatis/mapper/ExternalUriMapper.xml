@@ -93,6 +93,11 @@
 		WHERE EXTERNAL_URI_GUID = #{externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
 	</delete> 
 	
+	<select id="fetchAll" resultMap="ExternalUriDtoMap"> 
+		SELECT *
+		  FROM WFNEWS.EXTERNAL_URI
+	</select>
+	
 	<select id="select" resultMap="ExternalUriDtoMap">
 
 		SELECT *

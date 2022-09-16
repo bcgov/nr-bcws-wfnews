@@ -13,6 +13,8 @@ public interface ExternalUriMapper {
 	
 	ExternalUriDto fetch(Map<String, Object> parameters);
 	
+	List<ExternalUriDto> fetchAll();
+	
 	List<ExternalUriDto> select(Map<String, Object> parameters);
 	
 	int delete(Map<String, Object> parameters);
