@@ -143,6 +143,13 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }
+      ]
       environment = [
         {
           name  = "DB_URL",
