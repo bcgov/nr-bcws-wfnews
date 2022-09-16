@@ -195,14 +195,14 @@ variable certificate_arn {
   type = string
 }
 
-variable db_container_name {
+variable liquibase_container_name {
   description = "Name of DB container"
-  default = "wfnews-db-app"
+  default = "wfnews-liquibase-app"
   type = string
 }
 
-variable db_image {
-  description = "Full name of DB image"
+variable liquibase_image {
+  description = "Full name of liquibase image"
   type = string
   default = ""
 }
