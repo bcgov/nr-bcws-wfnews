@@ -143,6 +143,13 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }
+      ]
       environment = [
         {
           name  = "DB_URL",
@@ -170,6 +177,41 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       volumesFrom = []
     }
   ])
+}
+
+resource "aws_ecs_service" "wfnews_liquibase" {
+  count                             = 1
+  name                              = "wfnews-liquibase-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews_liquibase.arn
+  desired_count                     = 1
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight = 100
+    base = 1
+  }
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    subnets          = module.network.aws_subnet_ids.app.ids
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
+    container_name   = var.liquibase_container_name
+    container_port   = var.db_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
 }
 
 resource "null_resource" "ecs_run_liquibase" {
