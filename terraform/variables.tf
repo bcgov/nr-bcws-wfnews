@@ -201,8 +201,8 @@ variable liquibase_container_name {
   type = string
 }
 
-variable db_image {
-  description = "Full name of DB image"
+variable liquibase_image {
+  description = "Full name of liquibase image"
   type = string
   default = ""
 }
