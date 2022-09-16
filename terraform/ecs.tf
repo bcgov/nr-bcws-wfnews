@@ -127,7 +127,6 @@ resource "aws_ecs_task_definition" "wfnews_client" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_liquibase" {
-  count                    = local.create_ecs_service
   family                   = "wfnews-liquibase-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
