@@ -127,7 +127,6 @@ resource "aws_ecs_task_definition" "wfnews_client" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_liquibase" {
-  count                    = local.create_ecs_service
   family                   = "wfnews-liquibase-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -176,7 +175,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
 resource "null_resource" "ecs_run_liquibase" {
   provisioner "local-exec" {
     # add other args as necessary: https://docs.aws.amazon.com/cli/latest/reference/ecs/run-task.html
-    command     = "ecs run task --task-definition ${aws_ecs_task_definition.wfnews_liquibase[count.index].arn}"
+    command     = "ecs run task --task-definition ${aws_ecs_task_definition.wfnews_liquibase.arn}"
     interpreter = ["aws"]
   }
 }
