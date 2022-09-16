@@ -38,8 +38,11 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 		Response response = null;
 	
 	try {
-		Integer pageNum = Integer.parseInt(pageNumber);
-		Integer rowCount = Integer.parseInt(pageRowCount);
+		Integer pageNum = null;
+		Integer rowCount = null;
+		
+		if (pageNumber!=null)pageNum = Integer.parseInt(pageNumber);
+		if (pageRowCount!=null)rowCount = Integer.parseInt(pageRowCount);
 		
 		PagingQueryParameters parameters = new PagingQueryParameters();
 		

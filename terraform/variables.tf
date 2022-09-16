@@ -83,10 +83,6 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "db_health_check_path" {
-  default = "/healthCheck"
-}
-
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = 1024
@@ -195,22 +191,22 @@ variable certificate_arn {
   type = string
 }
 
-variable db_container_name {
+variable liquibase_container_name {
   description = "Name of DB container"
-  default = "wfnews-db-app"
+  default = "wfnews-liquibase-app"
   type = string
 }
 
-variable db_image {
-  description = "Full name of DB image"
+variable liquibase_image {
+  description = "Full name of liquibase image"
   type = string
   default = ""
 }
 
 variable db_port {
-  description = "Port the DB communicates on"
+  description = "Port used to communicate with database"
   type = number
-  default = 5432
+  default = 8080
 }
 
 variable "db_names" {

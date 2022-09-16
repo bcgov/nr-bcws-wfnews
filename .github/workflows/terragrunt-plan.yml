@@ -16,7 +16,7 @@ env:
   REPOSITORY: ghcr.io
   CLIENT_IMAGE: "wfnews-client"
   SERVER_IMAGE: "wfnews-server"
-  DB_IMAGE: "wfnews-db"
+  LIQUIBASE_IMAGE: "wfnews-liquibase"
   TARGET_ENV: "dev"
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
@@ -45,7 +45,7 @@ jobs:
           TARGET_ENV: ${{ env.TARGET_ENV }}
           CLIENT_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.CLIENT_IMAGE }}:main
           SERVER_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.SERVER_IMAGE }}:main
-          DB_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.DB_IMAGE }}:main
+          DB_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.LIQUIBASE_IMAGE }}:main
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ env.ALB_NAME }}

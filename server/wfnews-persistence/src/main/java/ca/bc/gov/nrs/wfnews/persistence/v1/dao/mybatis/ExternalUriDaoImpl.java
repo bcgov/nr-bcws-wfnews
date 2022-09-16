@@ -109,6 +109,28 @@ public class ExternalUriDaoImpl extends BaseDao implements
 		return result;
 	}
 	
+	@Override
+	public PagedDtos<ExternalUriDto> fetchAll(Integer pageNumber, Integer pageRowCount) throws DaoException {
+		logger.debug("<fetchAll");
+
+		PagedDtos<ExternalUriDto> results = new PagedDtos<ExternalUriDto>();
+
+		try {
+			List<ExternalUriDto> dtos = this.externalUriMapper.fetchAll();
+			results.setResults(dtos);
+			results.setPageRowCount(dtos.size());
+			results.setTotalRowCount(dtos.size());
+			results.setPageNumber(pageNumber == null ? 0 : pageNumber.intValue());
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">fetchAll " + results);
+		return results;
+	}
+	
+	
 	
 	@Override
 	public void delete(String externalUriGuid, String userId) throws DaoException, NotFoundDaoException {

@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
 import ca.bc.gov.nrs.common.wfone.rest.resource.RelLink;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.TopLevelEndpoints;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.EndpointsRsrc;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.ExternalUriResourceFactory;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.PublishedIncidentResourceFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
@@ -33,7 +35,17 @@ public class TopLevelEndpointsImpl extends BaseEndpointsImpl implements TopLevel
 		EndpointsRsrc result = new EndpointsRsrc();
 
 		result.setReleaseVersion(this.getApplicationProperties().getProperty("application.version"));
-
+		
+		{
+			String selfURI = PublishedIncidentResourceFactory.getPublishedIncidentSelfUri(null, baseUri);
+			result.getLinks().add(new RelLink(ResourceTypes.PUBLISHED_INCIDENT_LIST, selfURI, HttpMethod.GET));
+		}
+		
+		{
+			String selfURI = ExternalUriResourceFactory.getExternalUriSelfUri(null, baseUri);
+			result.getLinks().add(new RelLink(ResourceTypes.EXTERNAL_URI_LIST, selfURI, HttpMethod.GET));
+		}
+		
 		try {
 			result.setETag(getEtag(result));
 

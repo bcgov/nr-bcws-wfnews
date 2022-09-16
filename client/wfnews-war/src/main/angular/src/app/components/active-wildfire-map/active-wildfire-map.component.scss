@@ -12,6 +12,11 @@
   margin-right: 8px;
 }
 
+.container {
+  height: calc(100vh - 180px) !important;
+  overflow: hidden;
+}
+
 .top {
     flex-shrink: 0;
     display: flex;
@@ -31,6 +36,10 @@
           padding: 0 30px;
           display: flex;
           align-items: center;
+
+          input{
+            margin-top:0 !important
+          }
 
           .input-clear-button{
             position: absolute;
@@ -151,10 +160,14 @@
         min-width: 600px;
         max-width: 600px;
         padding: 8px;
+        overflow: auto;
+        height: calc(100% - 196px);
     }
 
     .map {
         flex-grow: 1;
+        overflow: hidden;
+        height: calc(100% - 180px);
     }
  }
 
@@ -184,7 +197,7 @@
 }
 
 mat-expansion-panel-header {
-  background-color: #F1F1F3;
+  background-color: white
 }
 
 mat-panel-title {
@@ -209,12 +222,12 @@ mat-panel-title {
 }
 
 ::ng-deep .panel-header {
-  font-size: 15px;
-  font-weight: 700;
+  font-size: 20px;
+  font-weight: 400;
   color: #1c5a97;
   padding: 10px 20px;
   margin-bottom: 10px;
-  background-color: #f1f1f3;
+  background-color: white
 }
 
 @media screen and (max-width: 768px) {

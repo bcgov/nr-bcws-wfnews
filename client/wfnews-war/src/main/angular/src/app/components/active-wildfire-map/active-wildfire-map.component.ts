@@ -97,6 +97,7 @@ export class ActiveWildfireMapComponent implements OnInit {
                     this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
                 });
         });
+        this.commonUtilityService.getCurrentLocationPromise()
     }
 
     get leaflet(){
@@ -139,6 +140,7 @@ export class ActiveWildfireMapComponent implements OnInit {
 
     clearSearchLocationControl() {
         this.searchByLocationControl.reset();
+        this.clearMyLocation()
     }
 
     get activeFireCount(): Promise<number> {
@@ -234,6 +236,7 @@ export class ActiveWildfireMapComponent implements OnInit {
                 coordinates: [long, lat]
             });
         }
+        this.searchByLocationControl.setValue(lat + ',' + long)
     }
 
     showAreaHighlight(center, radius) {
@@ -254,6 +257,11 @@ export class ActiveWildfireMapComponent implements OnInit {
                 })
             }
         })
+    }
+
+    clearMyLocation() {
+        this.smkApi.showFeature('near-me-highlight3x');
+        this.smkApi.showFeature('my-location')
     }
 
     searchTextUpdated(){
