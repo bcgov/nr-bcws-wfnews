@@ -1,9 +1,9 @@
 FROM liquibase/liquibase
 ADD database /liquibase
 EXPOSE 8080
+USER root
 RUN apt-get update &&\
   apt-get install -y nginx &&\
-  echo -e '#!/bin/bash\nliquibase update --defaultsFile=/liquibase/liquibase.properties --url=$DB_URL --username=$DB_USER --password=$DB_PASS' > /liquibase/docker-entrypoint.sh
+  echo '#!/bin/bash\nnginx\nliquibase update --defaultsFile=/liquibase/liquibase.properties --log-file=/liquibase/liquibase.log --url=$DB_URL --username=$DB_USER --password=$DB_PASS\ntail -f /liquibase/liquibase.log' > /liquibase/docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
-RUN systemctl enable nginx && systemctl start nginx
 
