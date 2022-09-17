@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, NgZone, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
@@ -10,6 +10,8 @@ import { WFMapService } from '../../services/wf-map.service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
+import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -27,7 +29,7 @@ declare const window: any;
     templateUrl: './active-wildfire-map.component.html',
     styleUrls: ['./active-wildfire-map.component.scss'],
 })
-export class ActiveWildfireMapComponent implements OnInit {
+export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     @Input() incidents: any;
 
     @ViewChild('WildfireStageOfControl') wildfireStageOfControlPanel: MatExpansionPanel;
@@ -38,6 +40,8 @@ export class ActiveWildfireMapComponent implements OnInit {
     @ViewChild('FireDanger') fireDangerPanel: MatExpansionPanel;
     @ViewChild('LocalAuthorities') localAuthoritiesPanel: MatExpansionPanel;
     @ViewChild('RoutesImpacted') routesImpactedPanel: MatExpansionPanel;
+
+    @ViewChildren("locationOptions") locationOptions: QueryList<ElementRef>;
 
     incidentsServiceUrl: string;
     mapConfig = null;
@@ -55,6 +59,7 @@ export class ActiveWildfireMapComponent implements OnInit {
     SMK: any;
     leafletInstance: any;
     searchLocationsLayerGroup: any;
+    markers: any[];
 
     constructor(
         private http: HttpClient,
@@ -66,18 +71,41 @@ export class ActiveWildfireMapComponent implements OnInit {
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
+        this.markers = new Array();
+        let self = this;
 
-        // console.log(this.incidentsServiceUrl)
-
-        this.placeData.setResultHandler((result) => {
-            this.filteredOptions = result.roads;
-        });
-
-        this.searchByLocationControl.valueChanges.subscribe((val:string)=>{
-            if(!val) this.filteredOptions= [];
-            if(val.length > 2) {
-                this.placeData.findRoad(val);
+        this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
+            if(!val) {
+                this.filteredOptions= [];
+                self.searchLayerGroup.clearLayers();
+                return;
             }
+             
+            if(val.length > 2) {
+                this.filteredOptions= [];
+                self.searchLayerGroup.clearLayers();
+
+                this.placeData.searchAddresses(val).then(function(results){
+                    if(results) {
+                        results.forEach((result) => {
+                            let address = self.getFullAddress(result);
+                            result.address = address.trim();
+                            self.highlight(result);
+                        });
+
+                        self.filteredOptions = results;
+                    }
+                });
+            }
+        });
+    }
+
+    ngAfterViewInit(){
+        this.locationOptions.changes.subscribe(() => {
+            this.locationOptions.forEach((option: ElementRef) => {
+                option.nativeElement.addEventListener('mouseover', this.onLocationOptionOver.bind(this));
+                option.nativeElement.addEventListener('mouseout', this.onLocationOptionOut.bind(this));
+            });
         });
     }
 
@@ -100,6 +128,28 @@ export class ActiveWildfireMapComponent implements OnInit {
         this.commonUtilityService.getCurrentLocationPromise()
     }
 
+    getFullAddress(location) {
+        let result = "";
+
+        if(location.civicNumber) {
+            result += location.civicNumber
+        }
+
+        if(location.streetName) {
+            result += " " + location.streetName
+        }
+
+        if(location.streetQualifier) {
+            result += " " + location.streetQualifier
+        }
+
+        if(location.streetType) {
+            result += " " + location.streetType
+        }
+
+        return result;
+    }
+
     get leaflet(){
         if(!this.leafletInstance) this.leafletInstance = window[ 'L' ];
         return this.leafletInstance;
@@ -110,22 +160,44 @@ export class ActiveWildfireMapComponent implements OnInit {
         return this.searchLocationsLayerGroup;
     }
 
-    onLocationSelected(selectedOption) {
-        const self = this;
-        self.searchLayerGroup.clearLayers();
-        this.searchByLocationControl.setValue(selectedOption.name);
+    onLocationOptionOver(event) {
+        let long = window.jQuery(event.currentTarget).data("loc-long");
+        let lat = window.jQuery(event.currentTarget).data("loc-lat");
 
+        this.removeMarker([lat, long]);
+
+        if(!long || !lat) return;
+
+        this.highlight({loc: [lat, long]}, [19+9, 47+23]);
+    }
+
+    onLocationOptionOut(event) {
+        let long = window.jQuery(event.currentTarget).data("loc-long");
+        let lat = window.jQuery(event.currentTarget).data("loc-lat");
+
+        this.removeMarker([lat, long]);
+
+        if(!long || !lat) return;
+
+        this.highlight({loc: [lat, long]});
+    }
+
+    highlight(place, iconSize?) {
+
+        if(!iconSize) iconSize = [19, 47];
+
+        const self = this;
         const geojsonFeature = {
             "type": "Feature",
             "geometry": {
                 "type": "Point",
-                "coordinates": selectedOption.loc
+                "coordinates": place.loc
             }
         };
 
         const starIcon = this.leaflet.icon({
             iconUrl: "data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 55.867 55.867' xml:space='preserve'%3E%3Cpath d='M55.818,21.578c-0.118-0.362-0.431-0.626-0.808-0.681L36.92,18.268L28.83,1.876c-0.168-0.342-0.516-0.558-0.896-0.558 s-0.729,0.216-0.896,0.558l-8.091,16.393l-18.09,2.629c-0.377,0.055-0.689,0.318-0.808,0.681c-0.117,0.361-0.02,0.759,0.253,1.024 l13.091,12.76l-3.091,18.018c-0.064,0.375,0.09,0.754,0.397,0.978c0.309,0.226,0.718,0.255,1.053,0.076l16.182-8.506l16.18,8.506 c0.146,0.077,0.307,0.115,0.466,0.115c0.207,0,0.413-0.064,0.588-0.191c0.308-0.224,0.462-0.603,0.397-0.978l-3.09-18.017 l13.091-12.761C55.838,22.336,55.936,21.939,55.818,21.578z' fill='%23FCBA19'/%3E%3C/svg%3E%0A",
-            iconSize:     [19, 47],
+            iconSize:     iconSize,
             iconAnchor:   [22, 94],
             shadowAnchor: [4, 62],
             popupAnchor:  [-3, -76]
@@ -133,9 +205,44 @@ export class ActiveWildfireMapComponent implements OnInit {
 
         this.leaflet.geoJson(geojsonFeature, {
             pointToLayer: function (feature, latlng) {
-                return self.leaflet.marker(latlng, {icon: starIcon});
+                let marker = self.leaflet.marker(latlng, {icon: starIcon});
+                self.markers[self.serializeLatLng(latlng)] = marker;
+                return marker;
             }
         }).addTo(self.searchLayerGroup);
+    }
+
+    serializeLatLng(latLng) {
+        let latRounded = Math.round((latLng['lat'] + Number.EPSILON) * 100) / 100;
+        let longRounded = Math.round((latLng['lng'] + Number.EPSILON) * 100) / 100;
+
+        let latLongRounded = {
+            latRounded,longRounded
+        };
+
+        return JSON.stringify(latLongRounded);
+    }
+
+    removeMarker(latLng) {
+        const self = this;
+        this.searchLayerGroup.clearLayers();
+
+        this.filteredOptions.forEach((result) => {
+            var first =this.serializeLatLng( {lat:latLng[0], lng:latLng[1]});
+            var second =this.serializeLatLng({lat:result.loc[0], lng:result.loc[1]} );
+            if(first != second) {
+                self.highlight(result);
+            }
+        });
+    }
+
+    onLocationSelected(selectedOption) {
+        const self = this;
+        self.searchLayerGroup.clearLayers();
+        let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
+        this.searchByLocationControl.setValue(locationControlValue.trim(), {onlySelf: true, emitEvent: false});
+        this.highlight(selectedOption);
+        this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.loc), 8);
     }
 
     clearSearchLocationControl() {
