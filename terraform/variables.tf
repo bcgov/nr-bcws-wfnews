@@ -133,6 +133,12 @@ variable "client_names" {
   type        = list(string)
 }
 
+variable "liquibase_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-liquibase"]
+  type        = list(string)
+}
+
 variable cert_domain {
     description = "Certificate to use"
     default = ""

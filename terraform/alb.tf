@@ -154,3 +154,19 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.liquibase_names : "${sn}.*"]
+    }
+  }
+}
