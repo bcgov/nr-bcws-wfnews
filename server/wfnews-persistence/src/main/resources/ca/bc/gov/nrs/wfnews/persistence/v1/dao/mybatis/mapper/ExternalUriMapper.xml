@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.ExternalUriMapper">
+	<resultMap id="ExternalUriDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto">
+	<id property="externalUriGuid" column="EXTERNAL_URI_GUID" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="sourceObjectNameCode" column="SOURCE_OBJECT_NAME_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="sourceObjectUniqueId" column="SOURCE_OBJECT_UNIQUE_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="externalUriCategoryTag" column="EXTERNAL_URI_CATEGORY_TAG" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="externalUriDisplayLabel" column="EXTERNAL_URI_DISPLAY_LABEL" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="externalUri" column="EXTERNAL_URI" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="publishedInd" column="PUBLISHED_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="createdTimestamp" column="CREATED_TIMESTAMP" javaType="java.util.Date" jdbcType="TIMESTAMP" />
+		<result property="privateInd" column="PRIVATE_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="archivedInd" column="ARCHIVED_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="primaryInd" column="PRIMARY_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="revisionCount" column="REVISION_COUNT" javaType="java.lang.Long" jdbcType="NUMERIC" />
+		<result property="createUser" column="CREATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="createDate" column="CREATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
+		<result property="updateUser" column="UPDATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" /> 
+	</resultMap>
+	
+	<insert id="insert">
+		
+		INSERT INTO wfnews.external_uri  
+			( EXTERNAL_URI_GUID,
+				SOURCE_OBJECT_NAME_CODE,
+				SOURCE_OBJECT_UNIQUE_ID,
+				EXTERNAL_URI_CATEGORY_TAG,
+				EXTERNAL_URI_DISPLAY_LABEL,
+				EXTERNAL_URI,
+				PUBLISHED_IND,
+				CREATED_TIMESTAMP,
+				PRIVATE_IND,
+				ARCHIVED_IND,
+				PRIMARY_IND,
+				REVISION_COUNT,
+				CREATE_USER,
+				CREATE_DATE,
+				UPDATE_USER,
+				UPDATE_DATE
+				)
+		VALUES
+			  (#{dto.externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+			  	#{dto.sourceObjectNameCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			  	#{dto.sourceObjectUniqueId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.externalUriCategoryTag, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.externalUriDisplayLabel, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.externalUri, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.publishedInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.privateInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.archivedInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.primaryInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.revisionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}) 
+	</insert> 
+	
+	<update id="update">
+	
+	UPDATE WFNEWS.EXTERNAL_URI
+		   SET EXTERNAL_URI_GUID = #{dto.externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+				SOURCE_OBJECT_NAME_CODE = 			  	#{dto.sourceObjectNameCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				SOURCE_OBJECT_UNIQUE_ID = 			  	#{dto.sourceObjectUniqueId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				EXTERNAL_URI_CATEGORY_TAG =				#{dto.externalUriCategoryTag, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				EXTERNAL_URI_DISPLAY_LABEL =				#{dto.externalUriDisplayLabel, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				EXTERNAL_URI =				#{dto.externalUri, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				PUBLISHED_IND =				#{dto.publishedInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				CREATED_TIMESTAMP =				#{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				PRIVATE_IND =					#{dto.privateInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				ARCHIVED_IND =				#{dto.archivedInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				PRIMARY_IND =				#{dto.primaryInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				REVISION_COUNT =				REVISION_COUNT + 1,
+				CREATE_USER =				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				CREATE_DATE =				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				UPDATE_USER =				#{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				UPDATE_DATE =				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+		 WHERE EXTERNAL_URI_GUID = #{dto.externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+	</update>
+	
+	<select id="fetch" resultMap="ExternalUriDtoMap"> 
+		SELECT *
+		  FROM WFNEWS.EXTERNAL_URI
+		  WHERE EXTERNAL_URI_GUID = #{externalUriGuid}
+	</select>
+	
+	<delete id="delete">
+		DELETE FROM WFNEWS.EXTERNAL_URI 
+		WHERE EXTERNAL_URI_GUID = #{externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+	</delete> 
+	
+	<select id="fetchAll" resultMap="ExternalUriDtoMap"> 
+		SELECT *
+		  FROM WFNEWS.EXTERNAL_URI
+	</select>
+	
+	<select id="select" resultMap="ExternalUriDtoMap">
+
+		SELECT *
+		  FROM WFNEWS.EXTERNAL_URI WHERE SOURCE_OBJECT_UNIQUE_ID = #{sourceObjectUniqueId}
+		<if test="offset != null and pageRowCount != null">
+	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
+	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
+		</if> 
+		</select>
+	
+	<select id="selectCount" resultType="int">
+
+		SELECT COUNT(*)
+		  FROM WFNEWS.EXTERNAL_URI
+		  WHERE EXTERNAL_URI_GUID IS NOT NULL
+
+	</select>
+	
+</mapper>

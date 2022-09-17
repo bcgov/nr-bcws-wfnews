@@ -12,6 +12,11 @@
   margin-right: 8px;
 }
 
+.container {
+  height: calc(100vh - 180px) !important;
+  overflow: hidden;
+}
+
 .top {
     flex-shrink: 0;
     display: flex;
@@ -155,10 +160,14 @@
         min-width: 600px;
         max-width: 600px;
         padding: 8px;
+        overflow: auto;
+        height: calc(100% - 196px);
     }
 
     .map {
         flex-grow: 1;
+        overflow: hidden;
+        height: calc(100% - 180px);
     }
  }
 

@@ -83,10 +83,6 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "db_health_check_port" {
-  default = 8081
-}
-
 variable "fargate_cpu" {
   description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
   default     = 1024
@@ -134,6 +130,12 @@ variable "server_names" {
 variable "client_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-client"]
+  type        = list(string)
+}
+
+variable "liquibase_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-liquibase"]
   type        = list(string)
 }
 
@@ -195,14 +197,14 @@ variable certificate_arn {
   type = string
 }
 
-variable db_container_name {
+variable liquibase_container_name {
   description = "Name of DB container"
-  default = "wfnews-db-app"
+  default = "wfnews-liquibase-app"
   type = string
 }
 
-variable db_image {
-  description = "Full name of DB image"
+variable liquibase_image {
+  description = "Full name of liquibase image"
   type = string
   default = ""
 }

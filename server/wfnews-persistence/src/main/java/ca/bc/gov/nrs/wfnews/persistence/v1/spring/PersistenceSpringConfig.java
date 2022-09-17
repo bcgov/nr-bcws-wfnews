@@ -17,15 +17,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.ExternalUriDaoImpl;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.PublishedIncidentDaoImpl;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.BooleanTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.InstantTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.LocalDateTimeTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.LocalDateTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.LocalTimeTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.ResetDirtyInterceptor;
+import ca.bc.gov.webade.oauth2.spring.security.core.WebAdeAuthentication;
 
 @EnableTransactionManagement
 @Configuration
@@ -37,6 +43,11 @@ public class PersistenceSpringConfig {
 		logger.debug("<PersistenceSpringConfig");
 		
 		logger.debug(">PersistenceSpringConfig");
+	}
+	
+	@Bean
+	public WebAdeAuthentication webAdeAuthentication() {
+		return (WebAdeAuthentication) SecurityContextHolder.getContext().getAuthentication();
 	}
 
 	@Bean
@@ -73,8 +84,21 @@ public class PersistenceSpringConfig {
 	@Bean
 	public static MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer configurer = new MapperScannerConfigurer();
-		configurer.setBasePackage("ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper");
+		configurer.setBasePackage("ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper");
 		configurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
 		return configurer;
 	}
+	
+	@Bean
+	public PublishedIncidentDao publishedIncidentDao() {
+		return new PublishedIncidentDaoImpl();
+	}
+	
+	@Bean
+	public ExternalUriDao externalUriDao() {
+		return new ExternalUriDaoImpl();
+	}
+	
+	
+	
 }
