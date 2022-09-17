@@ -20,12 +20,7 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     to_port         = var.server_port
     security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
   }
-    ingress {
-    protocol        = "tcp"
-    from_port       = var.db_health_check_port
-    to_port         = var.db_health_check_port
-    security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
-  }
+
   #necessary to pull image from ghcr
   ingress {
     protocol = "tcp"
