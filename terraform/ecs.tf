@@ -214,12 +214,6 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   tags = local.common_tags
 }
 
-resource "null_resource" "ecs_run_liquibase" {
-  provisioner "local-exec" {
-    # add other args as necessary: https://docs.aws.amazon.com/cli/latest/reference/ecs/run-task.html
-    command     = "aws ecs run-task --region ${var.aws_region} --cluster ${aws_ecs_cluster.wfnews_main.id} --task-definition ${aws_ecs_task_definition.wfnews_liquibase.arn}"
-  }
-}
 
 resource "aws_ecs_service" "wfnews_main" {
   count                             = local.create_ecs_service
