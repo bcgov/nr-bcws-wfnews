@@ -62,7 +62,7 @@ data "aws_alb_listener" "wfnews_server_front_end" {
 }
 
 resource "aws_alb_target_group" "wfnews_server" {
-  name                 = "wfnews-server-target-group-${var.target_env}"
+  name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -83,7 +83,7 @@ resource "aws_alb_target_group" "wfnews_server" {
 }
 
 resource "aws_alb_target_group" "wfnews_client" {
-  name                 = "wfnews-client-target-group-${var.target_env}"
+  name                 = "wfnews-client-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
