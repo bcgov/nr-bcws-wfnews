@@ -9,35 +9,41 @@
               </h2>
           </div>
 
-          <div class="search-row">
-              <div class="search-bar">
-                  <input type="text" placeholder="Search by Location" aria-label="Search" matInput
-                      [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
-                  <div class="search-location-close-container">
-                      <mat-icon class="search-location-search">search</mat-icon>
-                      <mat-icon class="search-location-close" (click)="clearSearchLocationControl()">close</mat-icon>
-                  </div>
-
-                  <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                      <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
-                          [value]="option">
-                          <div class="location-option">
-                              <mat-icon>place</mat-icon><span
-                                  class="address">{{option.name.split(',')[0]}}</span>&nbsp;<span>{{option.name.split(',')[1]}},
-                              </span>&nbsp;<span>{{option.name.split(',')[2]}}</span>
-                          </div>
-                      </mat-option>
-                  </mat-autocomplete>
-              </div>
-              <div class="my-location-button">
-                  <button mat-raised-button (click)="useMyCurrentLocation()">
-                      <mat-icon class="location-icon">my_location</mat-icon>
-                      Find My Location
-                  </button>
-              </div>
-          </div>
-      </div>
-
+        <div class="search-row">
+            <div class="search-bar">
+                <input type="text" placeholder="Search by Location" aria-label="Search" matInput
+                    [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
+                <div class="search-location-close-container">
+                    <mat-icon class="search-location-search">search</mat-icon>
+                    <mat-icon class="search-location-close" (click)="clearSearchLocationControl()">close</mat-icon>
+                </div>
+                <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
+                    <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
+                        [value]="option">
+                        <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
+                            <div *ngIf="option.address !== ''">
+                                <div>
+                                    <span class="address">{{option.address}}</span> 
+                                </div>
+                                <div class="locality">{{option.localityName}} ({{option.localityType}})</div>     
+                            </div>
+                            <div *ngIf="option.address === ''">
+                                <div>
+                                    <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-option>
+                </mat-autocomplete>
+            </div>
+            <div class="my-location-button">
+                <button mat-raised-button (click)="useMyCurrentLocation()">
+                    <mat-icon class="location-icon">my_location</mat-icon>
+                    Find My Location
+                </button>
+            </div>
+        </div>
+    </div>
       <div class="divider">
           <span>MAP LAYERS</span>
       </div>
