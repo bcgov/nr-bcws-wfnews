@@ -14,11 +14,14 @@ export class WFStatsComponent implements OnInit {
   public firesLast7Days = 'Unknown'
   public thisYearCount = 'Unknown'
   public loading = true
-
+  public tabIndex = 0
   // chart data
   public activeFiresByCentre = []
   public activeFiresByCause = []
   public activeFiresByStatus = []
+  public allFiresByCentre = []
+  public allFiresByCause = []
+  public allFiresByStatus = []
 
   private updateSubscription: Subscription;
 
@@ -56,6 +59,13 @@ export class WFStatsComponent implements OnInit {
       this.thisYearCount = yearlyCountResult.features[0].attributes.value;
     }
 
+    const outResults = await this.agolService.getOutFiresNoGeom().toPromise()
+    if (outResults.features) {
+      for (const fire of outResults.features) {
+        this.outFires.push(fire);
+      }
+    }
+
     const results = await this.agolService.getActiveFiresNoGeom().toPromise()
     if (results.features) {
       for (const fire of results.features) {
@@ -63,40 +73,61 @@ export class WFStatsComponent implements OnInit {
       }
 
       const fcData = []
+      const fcAllData = []
       for (const centre of FIRE_CENTRES) {
+        const fireCount = this.fires.filter(f => f.attributes.FIRE_CENTRE === centre.id).length
+        const outFireCount = this.outFires.filter(f => f.attributes.FIRE_CENTRE === centre.id).length
         fcData.push({
           name: centre.name,
-          value: this.fires.filter(f => f.attributes.FIRE_CENTRE === centre.id).length
+          value: fireCount
+        })
+        fcAllData.push({
+          name: centre.name,
+          value: fireCount + outFireCount
         })
       }
 
       const causeData = []
+      const causeAllData = []
       for (const cause of FIRE_CAUSE) {
+        const fireCount = this.fires.filter(f => f.attributes.FIRE_CAUSE === cause.id).length
+        const outFireCount = this.outFires.filter(f => f.attributes.FIRE_CAUSE === cause.id).length
         causeData.push({
           name: cause.name,
-          value: this.fires.filter(f => f.attributes.FIRE_CAUSE === cause.id).length
+          value: fireCount
+        })
+        causeAllData.push({
+          name: cause.name,
+          value: fireCount + outFireCount
         })
       }
 
       const statusData = []
+      const statusAllData = []
       for (const status of FIRE_STATUS) {
+        const fireCount = this.fires.filter(f => f.attributes.FIRE_STATUS === status.id).length
         statusData.push({
           name: status.name,
-          value: this.fires.filter(f => f.attributes.FIRE_STATUS === status.id).length
+          value: fireCount
+        })
+        statusAllData.push({
+          name: status.name,
+          value: fireCount
         })
       }
+      statusAllData.push({
+        name: 'Out',
+        value: this.outFires.length
+      })
 
       // work around to get change detection on the data
       this.activeFiresByCentre = [...fcData]
       this.activeFiresByCause = [...causeData]
       this.activeFiresByStatus = [...statusData]
-    }
 
-    const outResults = await this.agolService.getOutFiresNoGeom().toPromise()
-    if (outResults.features) {
-      for (const fire of outResults.features) {
-        this.outFires.push(fire);
-      }
+      this.allFiresByCentre = [...fcAllData]
+      this.allFiresByCause = [...causeAllData]
+      this.allFiresByStatus = [...statusAllData]
     }
 
     this.cdr.detectChanges()
