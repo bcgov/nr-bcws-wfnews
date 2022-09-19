@@ -2,6 +2,49 @@
   "databaseChangeLog": [
      {
           "changeSet": {
+            "id": "01_00_00_00",
+            "author": "hsaldyga",
+            "changes": [
+              {
+                "sqlFile": {
+                  "dbms": "postgresql",
+                  "endDelimiter": ";",
+                  "path": "scripts/01_00_00/00/ddl/schema/wfnews.ddl.create_wfnews_schema.sql"
+                }
+              },
+              {
+                "sqlFile": {
+                  "dbms": "postgresql",
+                  "endDelimiter": ";",
+                  "path": "scripts/01_00_00/00/ddl/extension/wfnews.ddl.add_extensions.sql"
+                }
+              },
+              { 
+                "sqlFile": {
+                  "dbms": "postgresql",
+                  "endDelimiter": ";",
+                  "path": "scripts/01_00_00/00/ddl/roles/wfnews.ddl.create_roles.sql"
+                }
+              },
+              { 
+                "sqlFile": {
+                  "dbms": "postgresql",
+                  "endDelimiter": ";",
+                  "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_APP_WF1_NEWS.sql"
+                }
+              },
+              { 
+                "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_PROXY_WF1_NEWS_REST.sql"
+                }
+              }
+            ]
+          }
+      },
+      {
+          "changeSet": {
             "id": "01_00_00_01", 
             "author": "hsaldyga",
             "changes": [
