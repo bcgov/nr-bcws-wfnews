@@ -4,6 +4,10 @@ resource "aws_db_subnet_group" "wfnews_db_subnet_group" {
   tags = local.common_tags
 }
 
+data "aws_kms_key" "rds_key" {
+  key_id="aws/rds"
+}
+
   /*TODO: adapt to be accessible externally*/
 resource "aws_db_instance" "wfnews_pgsqlDB"{
     identifier = "wfnews${var.target_env}"
@@ -17,6 +21,9 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     vpc_security_group_ids = [data.aws_security_group.app.id, aws_security_group.wfnews_ecs_tasks.id]
     tags = local.common_tags
     db_subnet_group_name = aws_db_subnet_group.wfnews_db_subnet_group.name
+    enabled_cloudwatch_log_exports = ['postgresql']
+    performance_insights_enabled = true
+    performance_insights_kms_key_id = data.aws_kms_key.rds_key.arn
 }
 /*
 resource "aws_db_proxy" "wfnews_db_proxy" {
