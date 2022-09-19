@@ -94,8 +94,7 @@ import { UploadImageDialogComponent } from './components/admin-incident-form/ima
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
 import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-
-// const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
+import { LightgalleryModule } from 'lightgallery/angular/13';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -180,6 +179,7 @@ export const DATE_FORMATS = {
         OrgUnitApiModule,
         MatTooltipModule,
         MatAutocompleteModule,
+        LightgalleryModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
