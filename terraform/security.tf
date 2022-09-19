@@ -36,7 +36,7 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
     protocol = "postgresql"
     from_port = 0
     to_port = 5432
-    #cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
   }
 
   # #Permit external access for test purposes

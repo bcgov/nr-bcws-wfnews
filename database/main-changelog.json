@@ -3,7 +3,7 @@
      {
           "changeSet": {
             "id": "01_00_00_00",
-            "author": "hsaldyga",
+            "author": "cpreston and hsaldyga",
             "changes": [
               { 
                 "sqlFile": {
