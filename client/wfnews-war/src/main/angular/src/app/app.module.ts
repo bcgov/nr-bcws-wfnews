@@ -94,6 +94,8 @@ import { UploadImageDialogComponent } from './components/admin-incident-form/ima
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { ResourcePanelComponent } from './components/wildfire-resources/resource-panel/resource-panel.component';
+import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 // const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
 
@@ -138,7 +140,8 @@ export const DATE_FORMATS = {
         UploadImageDialogComponent,
         ImageCardPanel,
         WildfirewResourcesComponent,
-        ResourcePanelComponent
+        ResourcePanelComponent,
+        WFStatsComponent
     ],
     imports: [
         MatSortModule,
@@ -203,6 +206,7 @@ export const DATE_FORMATS = {
         MatExpansionModule,
         MatPaginatorModule,
         NgxPaginationModule,
+        NgxChartsModule
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
