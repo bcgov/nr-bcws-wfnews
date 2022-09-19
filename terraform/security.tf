@@ -33,7 +33,7 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
   #necessary for postgres dev work
   #TODO: REMOVE  THIS
   ingress {
-    protocol = "postgresql"
+    protocol = "tcp"
     from_port = 0
     to_port = 5432
     security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
