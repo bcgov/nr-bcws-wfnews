@@ -22,6 +22,17 @@
 		<npm.url>https://bwa.nrs.gov.bc.ca/int/artifactory/api/npm/nrs-virtual-npm/</npm.url>
 	</properties>
 	<dependencies>
+
+		<!-- Webade OAUTH2 -->
+		<dependency>
+			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
+			<artifactId>wfone-common-webade-oauth2</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>ca.bc.gov.nrs.wfone.common</groupId>
+			<artifactId>wfone-common-webade-oauth2-test</artifactId>
+		</dependency>
+
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
