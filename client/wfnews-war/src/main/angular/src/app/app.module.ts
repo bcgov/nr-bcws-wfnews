@@ -96,8 +96,7 @@ import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-
 import { ResourcePanelComponent } from './components/wildfire-resources/resource-panel/resource-panel.component';
 import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { NgxChartsModule } from "@swimlane/ngx-charts";
-
-// const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
+import { LightgalleryModule } from 'lightgallery/angular/13';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -184,6 +183,7 @@ export const DATE_FORMATS = {
         OrgUnitApiModule,
         MatTooltipModule,
         MatAutocompleteModule,
+        LightgalleryModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
