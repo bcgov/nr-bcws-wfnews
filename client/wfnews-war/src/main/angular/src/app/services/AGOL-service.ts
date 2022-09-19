@@ -51,4 +51,38 @@ export class AGOLService {
     url += `/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{\"statisticType\":\"count\",\"onStatisticField\":\"OBJECTID\",\"outStatisticFieldName\":\"value\"}]`
     return this.http.get<any>(encodeURI(url));
   }
+
+  getActiveFiresNoGeom (): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLactiveFirest'].toString();
+    url += `/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*`
+    return this.http.get<any>(encodeURI(url));
+  }
+
+  getOutFiresNoGeom (): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLactiveFirest'].toString();
+    url += `/query?f=json&where=FIRE_STATUS = 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*`
+    return this.http.get<any>(encodeURI(url));
+  }
+
+  getCurrentYearFireLastXDaysStats(lastXDays: number): Observable<any> {
+    let startdate = new Date();
+    const enddate = new Date();
+    startdate.setDate(startdate.getDate() - lastXDays);
+    const sStartdate = `${startdate.getFullYear()}-${startdate.getMonth() + 1}-${startdate.getDate()} ${startdate.getHours() < 10 ? '0' : ''}${startdate.getHours()}:${startdate.getMinutes() < 10 ? '0' : ''}${startdate.getMinutes()}:${startdate.getSeconds() < 10 ? '0' : ''}${startdate.getSeconds()}`
+    const sEnddate = `${enddate.getFullYear()}-${enddate.getMonth() + 1}-${enddate.getDate()} ${enddate.getHours() < 10 ? '0' : ''}${enddate.getHours()}:${enddate.getMinutes() < 10 ? '0' : ''}${enddate.getMinutes()}:${enddate.getSeconds() < 10 ? '0' : ''}${enddate.getSeconds()}`
+
+    let url = `${this.appConfigService.getConfig().externalAppConfig['AGOLactiveFirest']}/query?f=json&` +
+        `where=IGNITION_DATE<=timestamp '${sEnddate}' AND IGNITION_DATE>=timestamp '${sStartdate}'` +
+        `&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*` +
+        `&outStatistics=[{\"statisticType\":\"count\",\"onStatisticField\":\"OBJECTID\",\"outStatisticFieldName\":\"value\"}]`;
+    url = encodeURI(url);
+    return this.http.get<any>(url);
+  }
+
+  getCurrentYearFireStats(): Observable<any> {
+    let url = `${this.appConfigService.getConfig().externalAppConfig['AGOLactiveFirest']}/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&
+    outFields=*&outStatistics=[{\"statisticType\":\"count\",\"onStatisticField\":\"OBJECTID\",\"outStatisticFieldName\":\"value\"}]`;
+    url = encodeURI(url);
+    return this.http.get<any>(url);
+}
 }

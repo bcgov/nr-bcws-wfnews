@@ -62,7 +62,7 @@ data "aws_alb_listener" "wfnews_server_front_end" {
 }
 
 resource "aws_alb_target_group" "wfnews_server" {
-  name                 = "wfnews-server-target-group-${var.target_env}"
+  name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -83,7 +83,7 @@ resource "aws_alb_target_group" "wfnews_server" {
 }
 
 resource "aws_alb_target_group" "wfnews_client" {
-  name                 = "wfnews-client-target-group-${var.target_env}"
+  name                 = "wfnews-client-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -103,6 +103,26 @@ resource "aws_alb_target_group" "wfnews_client" {
   tags = local.common_tags
 }
 
+resource "aws_alb_target_group" "wfnews_liquibase" {
+  name                 = "wfnews-liquibase-${var.target_env}"
+  port                 = var.client_port
+  protocol             = "HTTP"
+  vpc_id               = module.network.aws_vpc.id
+  target_type          = "ip"
+  deregistration_delay = 30
+
+  health_check {
+    healthy_threshold   = "2"
+    interval            = "300"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "3"
+    path                = var.health_check_path
+    unhealthy_threshold = "2"
+  }
+
+  tags = local.common_tags
+}
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
@@ -131,6 +151,22 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
   condition {
     host_header {
       values = [for sn in var.client_names : "${sn}.*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.liquibase_names : "${sn}.*"]
     }
   }
 }
