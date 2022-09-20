@@ -563,7 +563,7 @@ iframe#login-iframe {
     line-height: 1.3;
     display: flex;
     flex-direction: column;
-    padding: 3px 0;
+    padding: 3px 0 5px 0;
 }
 .location-option .mat-icon{
     color: #9e9e9e;
@@ -574,7 +574,6 @@ iframe#login-iframe {
 }
 .location-option .address{
     font-size: 15px;
-    font-weight: bold;
 }
 
 .search-location {
