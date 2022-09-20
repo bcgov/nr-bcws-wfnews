@@ -1,5 +1,3 @@
-import { Type } from "@angular/core";
-
 export interface WeatherHourlyCondition {
     hour: string;
     index: number;

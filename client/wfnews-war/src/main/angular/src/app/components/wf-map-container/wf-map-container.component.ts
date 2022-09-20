@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, createNgModuleRef, EventEmitter, Injector, Input, NgModuleRef, NgZone, OnChanges, OnDestroy, Output, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Injector, Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
@@ -76,7 +76,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
           self.addNearbyWeatherStation(smk)
-          return
         })
 
         return smk;
