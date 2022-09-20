@@ -108,12 +108,17 @@
     if (causecodesUri.endsWith("/")) {
       causecodesUri = causecodesUri.substring(0, causecodesUri.length() - 1); //Strip off trailing slash, if it exists.
     }
+    String pointId = properties.getProperty("pointId.url", "");
+    if (causecodesUri.endsWith("/")) {
+      pointId = pointId.substring(0, pointId.length() - 1);
+    }
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(localApiUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"causecodes\":\"").append(causecodesUri).append("\"");
+      json.append("\"pointId\":\"").append(pointId).append("\"");
     json.append("},");
 
     // WebADE OAuth Section

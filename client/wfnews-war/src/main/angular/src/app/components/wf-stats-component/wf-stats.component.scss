@@ -2,6 +2,36 @@
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
 
+::ng-deep .wildfires-tabs {
+  .mat-tab-labels {
+      padding-bottom: 5px;
+  }
+  .mat-tab-header {
+   border-bottom: none;
+  }
+  .mat-tab-label.mat-tab-label-active {
+      border-radius: 40px;
+      background-color:#1a5a96;
+      color:white !important;
+      opacity: 1;
+      font-weight: 700;
+  }
+  .mat-tab-label {
+      opacity: 1;
+      color: #1a5a96;
+      height: 36px;
+      min-width: 100px;
+      font-size: 15px;
+      border-style: solid;
+      border-radius: 40px;
+      border-width: 1px;
+      margin-right: 10px;
+  }
+  .mat-ink-bar{
+      background-color: white !important
+  }
+}
+
 mat-tab-group {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
 }
