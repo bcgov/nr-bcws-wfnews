@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AppConfigService } from '@wf1/core-ui';
 import { WeatherStationConditions, WeatherStationResult } from "./interfaces";
 
-export { NearMeTemplate, NearMeHeader, NearMeItem, WeatherHourlyCondition, WeatherDailyCondition, WeatherStation, WeatherStationConditions, WeatherStationResult } from './interfaces'
+export { WeatherHourlyCondition, WeatherDailyCondition, WeatherStation, WeatherStationConditions, WeatherStationResult } from './interfaces'
 
 const MAX_CACHE_AGE = 60 * 1000 //ms
 
