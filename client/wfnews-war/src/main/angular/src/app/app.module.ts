@@ -92,6 +92,8 @@ import { ImageGalleryPanel } from './components/admin-incident-form/image-galler
 import { EditImageDialogComponent } from './components/admin-incident-form/image-gallery-panel/edit-image-dialog/edit-image-dialog.component';
 import { UploadImageDialogComponent } from './components/admin-incident-form/image-gallery-panel/upload-image-dialog/upload-image-dialog.component';
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
+import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
+import { ResourcePanelComponent } from './components/wildfire-resources/resource-panel/resource-panel.component';
 import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { LightgalleryModule } from 'lightgallery/angular/13';
@@ -139,7 +141,9 @@ export const DATE_FORMATS = {
         UploadImageDialogComponent,
         ImageCardPanel,
         WFStatsComponent,
-        WeatherPanelComponent
+        WeatherPanelComponent,
+        WildfirewResourcesComponent,
+        ResourcePanelComponent
     ],
     imports: [
         MatSortModule,
