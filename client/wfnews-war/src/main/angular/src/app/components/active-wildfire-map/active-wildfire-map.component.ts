@@ -80,7 +80,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                 self.searchLayerGroup.clearLayers();
                 return;
             }
-             
+
             if(val.length > 2) {
                 this.filteredOptions= [];
                 self.searchLayerGroup.clearLayers();
