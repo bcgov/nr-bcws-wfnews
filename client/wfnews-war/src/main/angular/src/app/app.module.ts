@@ -94,8 +94,9 @@ import { UploadImageDialogComponent } from './components/admin-incident-form/ima
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { ResourcePanelComponent } from './components/wildfire-resources/resource-panel/resource-panel.component';
-
-// const metaReducers: Array<MetaReducer<any, any>> = (environment.production) ? [] : [logger];
+import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
+import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { LightgalleryModule } from 'lightgallery/angular/13';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -138,7 +139,8 @@ export const DATE_FORMATS = {
         UploadImageDialogComponent,
         ImageCardPanel,
         WildfirewResourcesComponent,
-        ResourcePanelComponent
+        ResourcePanelComponent,
+        WFStatsComponent
     ],
     imports: [
         MatSortModule,
@@ -181,6 +183,7 @@ export const DATE_FORMATS = {
         OrgUnitApiModule,
         MatTooltipModule,
         MatAutocompleteModule,
+        LightgalleryModule,
         StoreModule.forRoot(rootReducers, {
             initialState: initialRootState,
             // metaReducers: metaReducers,
@@ -203,6 +206,7 @@ export const DATE_FORMATS = {
         MatExpansionModule,
         MatPaginatorModule,
         NgxPaginationModule,
+        NgxChartsModule
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

@@ -38,6 +38,7 @@
     "@ngrx/router-store": "^13.1.0 ",
     "@ngrx/store": "^13.1.0 ",
     "@ngrx/store-devtools": "^13.1.0 ",
+    "@swimlane/ngx-charts": "20.1.0",
     "@qqnluaq/smk": "=1.0.16000",
     "@types/geojson": "7946.0.8",
     "@wf1/core-ui": "^2.4.5",
@@ -75,7 +76,8 @@
     "tslib": "^2.0.0",
     "vanilla-text-mask": "^5.1.1",
     "video.js": "^7.15.4",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "lightgallery": "2.7.0-beta.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.3.8",
