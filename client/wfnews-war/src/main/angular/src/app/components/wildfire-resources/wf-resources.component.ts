@@ -13,7 +13,7 @@ export class WildfirewResourcesComponent {
       title: 'Preparedness and Prevention',
       resources: [
         {
-          title: 'Wildfire Prevention', subtitle: 'BC Wildfire Services', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
+          title: 'Wildfire Prevention', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
           description: 'Wildfire prevention can happen at home, in the backcountry, and through larger-scale fire and fuel management planning. Learn what you can do to help.'
         },
         {
