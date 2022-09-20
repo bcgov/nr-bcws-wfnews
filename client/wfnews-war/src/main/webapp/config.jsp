@@ -113,7 +113,7 @@
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
-      json.append("\"causecodes\":\"").append(causecodesUri).append(",");
+      json.append("\"causecodes\":\"").append(causecodesUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 
