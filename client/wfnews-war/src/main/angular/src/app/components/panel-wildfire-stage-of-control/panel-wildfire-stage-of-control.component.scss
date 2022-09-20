@@ -1,6 +1,10 @@
 ::ng-deep .wildfires-tabs{
+
+    border-top: 1px solid #dddddd;
+    padding-top: 1rem;
+
     .mat-tab-labels{
-        padding-bottom: 5px;
+        padding-bottom: 1rem;
     }
     .mat-tab-header{
      border-bottom: none;   
@@ -24,6 +28,22 @@
     .mat-ink-bar{
         background-color: white !important
     }
+    .mat-tab-body-content{
+        overflow: hidden
+    }
+}
+
+.wildfire-list-toggle-title{
+    border-top: 1px solid #dddddd;
+    padding: 1rem;
+}
+
+.wildfire-checkboxs{
+    padding: 1rem;
+    .mat-checkbox {
+        margin-right: 1rem;
+    }
+    border-bottom: 1px solid #dddddd;
 }
 
 .mat-raised-button {
