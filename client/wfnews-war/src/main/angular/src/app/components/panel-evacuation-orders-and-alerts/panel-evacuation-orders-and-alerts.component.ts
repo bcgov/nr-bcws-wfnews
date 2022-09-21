@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
-
+import L from 'leaflet';
 
 @Component({
     selector: 'panel-evacuation-orders-and-alerts',
@@ -23,7 +23,29 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   zoomToEvac (evac) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
-      SMK.MAP[1].$viewer.panToFeature(window['turf'].point([evac.centroid.x, evac.centroid.y]), 10)
+      const viewer = SMK.MAP[1].$viewer;
+      viewer.panToFeature(window['turf'].point([evac.centroid.x, evac.centroid.y]), 10)
+
+      const map = viewer.map;
+      let latlngPoint = new L.LatLng(evac.centroid.y, evac.centroid.x);
+      map.fireEvent('click', {
+        latlng: latlngPoint,
+        layerPoint: map.latLngToLayerPoint(latlngPoint),
+        containerPoint: map.latLngToContainerPoint(latlngPoint)
+      });
+
+      setTimeout(() => {
+        for (const set in viewer.identified.featureSet) {
+          if (Object.prototype.hasOwnProperty.call(viewer.identified.featureSet, set)) {
+            const feature = viewer.identified.featureSet[set]
+            if (feature.type === 'Feature' && feature.layerId === 'evacuation-orders-and-alerts-wms') {
+              viewer.identified.pick(feature.id)
+              break;
+            }
+          }
+        }
+      }, 1000)
+      viewer.identified.remove('weather-stations')
     })
   }
 
