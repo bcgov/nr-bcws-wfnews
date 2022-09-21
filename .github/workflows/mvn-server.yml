@@ -15,6 +15,13 @@ on:
       TARGET_ENV:
         type: string
         required: true
+    secrets:
+      DB_PASS:
+        required: true
+      IDIR_AS_EMAIL:
+        required: true
+      IDIR_PASSWORD:
+        required: true
       
 
 
