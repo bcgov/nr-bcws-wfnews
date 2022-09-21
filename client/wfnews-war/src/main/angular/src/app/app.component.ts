@@ -19,6 +19,7 @@ import { ResourcesRoutes } from './utils';
 export const ICON = {
     TWITTER: 'twitter',
     FACEBOOK: 'facebook',
+    FACEBOOK_SQUARE: 'fb-square',
     FIRE: 'fire',
     MAP_SIGNS: 'map-signs',
     INCIDENT: 'incident',
@@ -228,6 +229,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             ICON.FACEBOOK,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/facebook.svg')
         );
+
+        this.matIconRegistry.addSvgIcon(
+          ICON.FACEBOOK_SQUARE,
+          this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/facebook-square.svg')
+      );
 
         this.matIconRegistry.addSvgIcon(
             ICON.FIRE,
