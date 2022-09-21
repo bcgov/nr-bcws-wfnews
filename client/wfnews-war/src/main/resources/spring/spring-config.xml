@@ -10,6 +10,7 @@
 		<property name="locations">
 			<list>
 				<value>classpath:static.properties</value>
+				<value>classpath:application.properties</value>
 			</list>
 		</property>
 	</bean>
