@@ -38,7 +38,7 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
         for (const set in viewer.identified.featureSet) {
           if (Object.prototype.hasOwnProperty.call(viewer.identified.featureSet, set)) {
             const feature = viewer.identified.featureSet[set]
-            if (feature.type === 'Feature' && feature.layerId === 'area-restrictions') {
+            if (feature.type === 'Feature' && feature.layerId === 'evacuation-orders-and-alerts-wms') {
               viewer.identified.pick(feature.id)
               break;
             }
