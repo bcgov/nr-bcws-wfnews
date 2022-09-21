@@ -1,0 +1,86 @@
+<mat-tab-group (selectedTabChange)="tabChange($event)" class="wildfires-tabs">
+  <mat-tab label="Readings">
+    <div class="smk-popup">
+      <div class="popup-header">
+        <span>Current Weather ({{convertName(hourly.hour)}} PST)</span>
+      </div>
+      <div class="popup-title">{{stationData.stationName}}</div>
+      <div class="popup-attributes">
+        <div class="label">Temperature:</div>
+        <div class="attribute">{{hourly.temp}}°</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Relative Humidity:</div>
+        <div class="attribute">{{hourly.relativeHumidity}}%</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Wind Speed:</div>
+        <div class="attribute">{{hourly.windSpeed}} km/h</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Wind Direction:</div>
+        <div class="attribute">{{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Precipitation:</div>
+        <div class="attribute">{{hourly.precipitation}}mm</div>
+      </div>
+      <!-- Should we include indices? Not high value detail
+      <div>Fire Weather Indices</div>
+      <div class="popup-attributes">
+        <div class="label">Fine Fuel Moisture Code:</div>
+        <div class="attribute">{{hourly.fineFuelMoistureCode}}</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Initial Spread Index:</div>
+        <div class="attribute">{{hourly.initialSpreadIndex}}</div>
+      </div>
+      <div class="popup-attributes">
+        <div class="label">Fire Weather Index:</div>
+        <div class="attribute">{{hourly.fireWeatherIndex}}</div>
+      </div> -->
+    </div>
+  </mat-tab>
+  <mat-tab label="Charts">
+    <div class="charts">
+      <div class="chart">
+        <div>Temperature and Wind</div>
+        <ngx-charts-line-chart
+          scheme="vivid"
+          [gradient]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [roundDomains]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Reading Times"
+          yAxisLabel="Values"
+          [animations]="true"
+          [showGridLines]="true"
+          [autoScale]="true"
+          [results]="tempWindData">
+        </ngx-charts-line-chart>
+      </div>
+      <div class="chart">
+        <div>Humidity and Precipitation</div>
+        <ngx-charts-line-chart
+          scheme="vivid"
+          [gradient]="true"
+          [xAxis]="true"
+          [yAxis]="true"
+          [legend]="false"
+          [roundDomains]="false"
+          [showXAxisLabel]="true"
+          [showYAxisLabel]="true"
+          xAxisLabel="Reading Times"
+          yAxisLabel="Values"
+          [animations]="true"
+          [showGridLines]="true"
+          [autoScale]="true"
+          [results]="precipHumidityData">
+        </ngx-charts-line-chart>
+     </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
