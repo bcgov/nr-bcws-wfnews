@@ -38,7 +38,7 @@ jobs:
         run: cp properties/WFNEWS_${{ inputs.TARGET_ENV }}.properties server/wfnews-api-rest-endpoints/src/main/resources/application.properties
 
       - name: input secret properties
-        run: echo ${{ secrets.DB_PASS }} > server/wfnews-api-rest-endpoints/src/main/resources/application-secrets.properties
+        run: echo 'wfone.datasource.password = ${{ secrets.DB_PASS }}' > server/wfnews-api-rest-endpoints/src/main/resources/application-secrets.properties
 
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f server/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
