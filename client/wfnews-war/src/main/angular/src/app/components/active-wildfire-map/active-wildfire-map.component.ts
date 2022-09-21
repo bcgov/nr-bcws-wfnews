@@ -87,7 +87,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
                 this.placeData.searchAddresses(val).then(function(results){
                     if(results) {
-                        
+
                         results.forEach((result) => {
                             let address = self.getFullAddress(result);
                             result.address = address.trim();
@@ -126,7 +126,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                     this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
                 });
         });
-        this.commonUtilityService.getCurrentLocationPromise()
     }
 
     getFullAddress(location) {
@@ -349,11 +348,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         return this.smkApi.setDisplayContextItemsVisible( ...layers );
     }
 
-    useMyCurrentLocation(){
+    async useMyCurrentLocation() {
         this.searchText = undefined;
 
-        const long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
-        const lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
+        const location = await this.commonUtilityService.getCurrentLocationPromise()
+
+        const long = location.coords.longitude;
+        const lat = location.coords.latitude;
         if( lat && long ){
             this.showAreaHighlight([long,lat],50)
             this.showLocationMarker({
