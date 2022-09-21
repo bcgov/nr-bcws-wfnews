@@ -18,6 +18,7 @@ export interface EvacOrderOption {
   issuingAgency?: string;
   preOcCode?: string;
   emrgOAAsysID?: number;
+  centroid?: any;
 }
 
 export interface AreaRestrictionsOption {
@@ -27,4 +28,5 @@ export interface AreaRestrictionsOption {
   fireCentre?: string;
   fireZone?: string;
   bulletinUrl?: string;
+  centroid?: any;
 }
