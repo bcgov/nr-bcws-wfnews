@@ -82,7 +82,7 @@
                 }
               ],
               "serviceWorker": true,
-              "ngswConfigPath": "src/ngsw-config.json"
+              "ngswConfigPath": "./ngsw-config.json"
             }
           },
           "defaultConfiguration": ""
