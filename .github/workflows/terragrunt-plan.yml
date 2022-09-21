@@ -1,19 +1,26 @@
 name: Plan using terragrunt
 
 on:
-  pull_request:
-    branches: [ "main" ]
+  pull_request_target:
+    types: 
+      - opened
+    branches:
+      - 'main'
     paths:
       - ".github/workflows/**"
+      - "client/**"
+      - "server/**"
+      - "database/**"
+      - "docker/**"
       - "terraform/**"
+      - "Dockerfile"
       - "!**/README.md"
 
 env:
   TF_VERSION: 1.2.2
   TG_VERSION: 0.37.1
   TG_SRC_PATH: terraform
-  TFC_WORKSPACE: wfnews-dev
-  REPOSITORY: ghcr.io
+  REGISTRY: ghcr.io
   CLIENT_IMAGE: "wfnews-client"
   SERVER_IMAGE: "wfnews-server"
   LIQUIBASE_IMAGE: "wfnews-liquibase"
@@ -42,12 +49,11 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
-          TARGET_ENV: ${{ env.TARGET_ENV }}
-          CLIENT_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.CLIENT_IMAGE }}:main
-          SERVER_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.SERVER_IMAGE }}:main
-          DB_IMAGE: ${{env.registry}}/${{ github.actor }}/${{ env.LIQUIBASE_IMAGE }}:main
+          CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ env.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ env.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
-          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_PASS: dbTESTsecretUNUSED
           ALB_NAME: ${{ env.ALB_NAME }}
           VPC_NAME: ${{ env.VPC_NAME }}
           SUBNET_FILTER: ${{ env.SUBNET_FILTER }}
