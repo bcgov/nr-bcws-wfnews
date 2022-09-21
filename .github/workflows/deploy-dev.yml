@@ -38,17 +38,11 @@ jobs:
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       REGISTRY: ghcr.io
-      EMAIL_ENABLED: true
-      SMTP_HOSTNAME: sample.com
-      SMTP_USER: sample_user@sample.com
-      SMTP_FROM_EMAIL: noreply@sample.com
-      ADMIN_EMAIL: admin_user@sample.com
-      EMAIL_SYNC_ERROR_FREQUENCY: 30
-      EMAIL_SYNC_SEND_FREQUENCY: 60
-      EMAIL_SYNC_ERROR_SUBJECT: ERROR
-      EMAIL_SYNC_SUBJECT: MESSAGE
-      DEFAULT_APPLICATION_ENVIRONMENT: wfnews
-    secrets: inherit
+      TARGET_ENV: dev
+    secrets:
+      DB_PASS: ${{ secrets.DEV_DB_PASS }}
+      IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
+      IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
 
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
