@@ -22,9 +22,9 @@ public class TokenServiceSpringConfig  {
 		logger.info(">TokenServiceSpringConfig");
 	}
 
-	String clientSecret= System.getProperty("webade-oauth2.wfim-incident-manager-ui.client.secret"); 
-	String tokenUrl= System.getProperty("webade-oauth2.token.url"); 
-	String checkTokenUrl= System.getProperty("webade-oauth2.check.token.v2.url"); 
+	String clientSecret= System.getEnv("WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET"); 
+	String tokenUrl= System.getEnv("WEBADE-OAUTH2_TOKEN_URL"); 
+	String checkTokenUrl= System.getEnv("WEBADE-OAUTH2_TOKEN_CLIENT_URL"); 
 
 
 
