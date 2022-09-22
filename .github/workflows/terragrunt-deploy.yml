@@ -4,29 +4,77 @@ on:
   workflow_call:
     inputs:
       CLIENT_IMAGE:
+        required: true
+        type: string
       SERVER_IMAGE:
+        required: true
+        type: string
       LIQUIBASE_IMAGE:
+        required: true
+        type: string
       TARGET_ENV:
+        required: true
+        type: string
       ALB_NAME:
+        required: true
+        type: string
       VPC_NAME:
+        required: true
+        type: string
       SUBNET_FILTER:
+        required: true
+        type: string
       REGISTRY:
+        required: true
+        type: string
       WEBADE-OAUTH2_TOKEN_CLIENT_URL:
+        required: true
+        type: string
       WEBADE-OAUTH2_TOKEN_URL:
+        required: true
+        type: string
       WFDM_REST_URL:
+        required: true
+        type: string
       WFIM_CLIENT_URL:
+        required: true
+        type: string
       WFIM_CODE_TABLES_URL:
+        required: true
+        type: string
       WEBADE-OAUTH2_CHECK_TOKEN_URL:
+        required: true
+        type: string
       WFONE_EMAIL_NOTIFICATIONS_ENABLED:
+        required: true
+        type: string
       SMTP_HOST_NAME:
+        required: true
+        type: string
       SMTP_FROM_EMAIL:
+        required: true
+        type: string
       SMTP_ADMIN_EMAIL:
+        required: true
+        type: string
       SMTP_EMAIL_SYNC_ERROR_FREQ:
+        required: true
+        type: string
       SMTP_EMAIL_FREQ:
+        required: true
+        type: string
       SMTP_EMAIL_ERROR_SUBJECT:
+        required: true
+        type: string
       SMTP_EMAIL_SUBJECT:
+        required: true
+        type: string
       DEFAULT_APPLICATION_ENVIRONMENT:
+        required: true
+        type: string
       WFNEWS_AGOL_QUERY_URL:
+        required: true
+        type: string
 
     secrets:
       LICENSE_PLATE:
