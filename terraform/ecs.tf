@@ -181,6 +181,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "BASE_URL",
           value = "https://${aws_route53_record.wfnews_client.name}/"
+        },
+        {
+          name = "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET",
+          value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
         }
       ]
       logConfiguration = {

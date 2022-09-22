@@ -234,7 +234,7 @@ variable "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET" {
   type = string
   default = ""
 }
-variable "WRDM_REST_URL" {
+variable "WFDM_REST_URL" {
   type = string
   default = ""
 }
