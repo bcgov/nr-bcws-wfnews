@@ -88,15 +88,15 @@
     json.append("},");
 
     // REST API Section
-    String incidentsUri = properties.getProperty("wfim-rest.url", "");
+    String incidentsUri = System.getenv("WFIM_API_URL"); 
     if (incidentsUri.endsWith("/")) {
       incidentsUri = incidentsUri.substring(0, incidentsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String orgunitUri = properties.getProperty("wforg-org-unit-rest.url", "");
+    String orgunitUri = System.getenv("ORG_UNIT_URL"); 
     if (orgunitUri.endsWith("/")) {
       orgunitUri = orgunitUri.substring(0, orgunitUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String wfdmUri = properties.getProperty("wfdm-rest.url", "");
+    String wfdmUri = System.getenv("WFDM_API_URL"); 
     if (wfdmUri.endsWith("/")) {
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
     }
@@ -118,12 +118,18 @@
     json.append("},");
 
     // WebADE OAuth Section
+    String webadeOauth2AuthorizeUrl = System.getenv("WEBADE_OAUTH2_AUTHORIZE_URL"); 
+    if (webadeOauth2AuthorizeUrl.endsWith("/")) {
+      webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
+    }
+    
+
     json.append("\"webade\":{");
-      json.append("\"oauth2Url\":\"").append(properties.getProperty("webade-oauth2.authorize.url", "")).append("\",");
+      json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append("\",");
       json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
       json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
+      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("checkToken.jsp", "")).append("\"");
 
     json.append("}");
 

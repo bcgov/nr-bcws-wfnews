@@ -22,18 +22,15 @@ public class TokenServiceSpringConfig  {
 		logger.info(">TokenServiceSpringConfig");
 	}
 
+	String clientSecret= System.getProperty("webade-oauth2.wfim-incident-manager-ui.client.secret"); 
+	String tokenUrl= System.getProperty("webade-oauth2.token.url"); 
+	String checkTokenUrl= System.getProperty("webade-oauth2.check.token.v2.url"); 
+
+
+
 	// Can be defined in static.properties
 	@Value("${webade-oauth2.client.id}")
 	private String webadeOauth2ClientId;
-
-	@Value("${webade-oauth2.wfim-incident-manager-ui.client.secret}")
-	private String webadeOauth2ClientSecret;
-
-	@Value("${webade-oauth2.check.token.v2.url}")
-	private String webadeOauth2CheckTokenUrl;
-
-	@Value("${webade-oauth2.token.url}")
-	private String webadeOauth2TokenUrl;
 
 	@Bean
 	public TokenService tokenServiceImpl() {
@@ -41,9 +38,9 @@ public class TokenServiceSpringConfig  {
 
 		result = new TokenServiceImpl(
 				webadeOauth2ClientId,
-				webadeOauth2ClientSecret,
-				webadeOauth2CheckTokenUrl,
-				webadeOauth2TokenUrl);
+				clientSecret,
+				tokenUrl,
+				checkTokenUrl);
 
 		return result;
 	}
