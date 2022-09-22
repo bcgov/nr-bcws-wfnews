@@ -49,7 +49,7 @@
 
 	<bean id="basicAuthenticationManager"
 		class="ca.bc.gov.webade.oauth2.spring.security.authentication.BasicAuthenticationManager">
-		<property name="resourceId" value="wfrm" />
+		<property name="resourceId" value="wfim" />
 		<property name="tokenEndpointUrl" value="${webade-oauth2.token.url}" />
 		<property name="tokenServices" ref="tokenServices"/>
 	</bean>
