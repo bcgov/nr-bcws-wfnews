@@ -117,6 +117,7 @@
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(localApiUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
+      json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"causecodes\":\"").append(causecodesUri).append("\"").append(",");
