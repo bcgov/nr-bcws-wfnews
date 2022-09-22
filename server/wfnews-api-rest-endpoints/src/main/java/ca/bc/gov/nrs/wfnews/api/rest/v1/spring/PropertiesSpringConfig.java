@@ -1,7 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +22,23 @@ public class PropertiesSpringConfig {
 	public PropertiesSpringConfig() {
 		logger.info("<PropertiesSpringConfig");
 		
+
 		logger.info(">PropertiesSpringConfig");
+	}
+
+	@Bean
+	static Properties systemProperties() throws IOException {
+		logger.debug(">systemProperties()");
+		Properties result = new Properties();
+		
+		Map<String, String> env = System.getenv();
+		for (Entry<String, String> entry : env.entrySet()) {
+			logger.debug("Fetching Environment Variable: {}", entry.getKey());
+			result.setProperty(entry.getKey(), entry.getValue());
+		}
+
+		logger.debug("<systemProperties()");
+		return result;
 	}
 
 	@Bean
@@ -33,11 +51,9 @@ public class PropertiesSpringConfig {
 		
 		propertiesFactory.setLocalOverride(true);
 
-		propertiesFactory.setPropertiesArray(bootstrapProperties());
+		propertiesFactory.setPropertiesArray(bootstrapProperties(), systemProperties());
 		propertiesFactory.setLocations(
-				new ClassPathResource("static.properties"),
-				new ClassPathResource("application-secrets.properties"),
-				new ClassPathResource("application.properties") );
+				new ClassPathResource("static.properties"));
 		
 		propertiesFactory.afterPropertiesSet();
 		
@@ -45,8 +61,6 @@ public class PropertiesSpringConfig {
 	    logger.debug("<applicationProperties()");
 		return result;
 	}
-
-
 
 	@Bean
 	public static Properties bootstrapProperties() {

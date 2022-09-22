@@ -117,8 +117,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.initAppMenu();
         this.initFooterMenu();
 
-        this.commonUtilityService.preloadGeolocation();
-
         window['SPLASH_SCREEN'].remove();
     }
 

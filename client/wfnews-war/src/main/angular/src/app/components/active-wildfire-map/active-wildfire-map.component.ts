@@ -6,12 +6,10 @@ import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '../../services/AGOL-service';
 import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
-import { WFMapService } from '../../services/wf-map.service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
-import { debounceTime, map, startWith, switchMap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -66,8 +64,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
         private agolService: AGOLService,
-        private commonUtilityService: CommonUtilityService,
-        private wfMapService: WFMapService,
+        private commonUtilityService: CommonUtilityService
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
@@ -87,7 +84,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
                 this.placeData.searchAddresses(val).then(function(results){
                     if(results) {
-                        
+
                         results.forEach((result) => {
                             let address = self.getFullAddress(result);
                             result.address = address.trim();
@@ -126,7 +123,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                     this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
                 });
         });
-        this.commonUtilityService.getCurrentLocationPromise()
     }
 
     getFullAddress(location) {
@@ -349,11 +345,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         return this.smkApi.setDisplayContextItemsVisible( ...layers );
     }
 
-    useMyCurrentLocation(){
+    async useMyCurrentLocation() {
         this.searchText = undefined;
 
-        const long = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.longitude);
-        const lat = (this.commonUtilityService.getCurrentLocationPromise()['__zone_symbol__value'].coords.latitude);
+        const location = await this.commonUtilityService.getCurrentLocationPromise()
+
+        const long = location.coords.longitude;
+        const lat = location.coords.latitude;
         if( lat && long ){
             this.showAreaHighlight([long,lat],50)
             this.showLocationMarker({
