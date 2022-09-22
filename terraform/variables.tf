@@ -230,7 +230,7 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   type = string
   default = ""
 }
-variable "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET" {
+variable "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
   type = string
   default = ""
 }
@@ -250,7 +250,7 @@ variable "WEBADE-OAUTH2_CHECK_TOKEN_URL" {
   type = string
   default = ""
 }
-variable "WFONE_EMAIL_NOTIFICATIONS_ENABLED"{
+variable "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED"{
   type = string
   default = ""
 }
