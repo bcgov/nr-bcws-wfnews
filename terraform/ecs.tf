@@ -55,7 +55,79 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET",
+          value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
+        },
+        {
+          name = "WRDM_REST_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name = "WFIM_CLIENT_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name = "WFIM_CODE_TABLES_URL",
+          value = var.WFIM_CODE_TABLES_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_CHECK_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name = "WFONE_EMAIL_NOTIFICATIONS_ENABLED_IND",
+          value = var.EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name = "SMTP_HOST_NAME",
+          value = var.SMTP_HOSTNAME
+        },
+        {
+          name = "SMTP_PASSWORD",
+          value = var.SMTP_PASSWORD
+        },
+        {
+          name = "SMTP_FROM_EMAIL",
+          value = var.SMTP_FROM_EMAIL
+        },
+        {
+          name = "SMTP_ADMIN_EMAIL",
+          value = var.SMTP_ADMIN_EMAIL
+        },
+        {
+          name = "SMTP_EMAIL_SYNC_ERROR_FREQ",
+          value = var.SMTP_EMAIL_SYNC_ERROR_FREQ
+        },
+        {
+          name = "SMTP_EMAIL_FREQ",
+          value = var.SMTP_EMAIL_FREQ
+        },{
+          name = "SMTP_EMAIL_ERROR_SUBJECT",
+          value = var.SMTP_EMAIL_ERROR_SUBJECT
+        },
+        {
+          name = "SMTP_EMAIL_SUBJECT",
+          value = var.SMTP_EMAIL_SUBJECT
+        },
+        {
+          name = "DEFAULT_APPLICATION_ENVIRONMENT",
+          value = var.DEFAULT_APPLICATION_ENVIRONMENT
+        },
+        {
+          name = "WFNEWS_AGOL_QUERY_URL",
+          value = var.WFNEWS_AGOL_QUERY_URL
         }
+
       ]
       logConfiguration = {
         logDriver = "awslogs"
