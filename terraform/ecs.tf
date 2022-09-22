@@ -69,7 +69,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
         },
         {
-          name = "WRDM_REST_URL",
+          name = "WFDM_REST_URL",
           value = var.WFDM_REST_URL
         },
         {
@@ -185,7 +185,27 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET",
           value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
         }
+        {
+          name = "WFIM_API_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name = "WFDM_API_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name = "ORG_UNIT_URL",
+          value = ""
+        }  
       ]
       logConfiguration = {
         logDriver = "awslogs"
