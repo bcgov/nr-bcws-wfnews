@@ -117,7 +117,7 @@ self.timeoutLiveLayerRefresh();
         // }
 
         const changedView = () => {
- this.viewChange.emit(); 
+ this.viewChange.emit();
 };
         smk.$viewer.map.on( 'zoomend', changedView );
         smk.$viewer.map.on( 'moveend', changedView );
@@ -868,7 +868,7 @@ return;
                     // return this.smkInstance.$viewer.refreshLayers()
                     return this.smkInstance.$viewer.updateLayersVisible();
                 } )
-                .then( () => 
+                .then( () =>
                     // console.log( 'end refresh' )
                      Object.keys( vis )
                  )
@@ -955,7 +955,7 @@ this.componentRef.destroy();
 }
 
 function leaflet() {
- return window[ 'L' ]; 
+ return window[ 'L' ];
 }
 
 function stripePattern(id, stripes, transform) {

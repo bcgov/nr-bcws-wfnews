@@ -29,6 +29,7 @@
               "src/causeCodesToken.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
+              "src/robots.txt",
               "src/wfim-service-worker.js",
               {
                 "glob": "**/*",
@@ -126,6 +127,7 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
+              "src/robots.txt",
               "src/oauth.html",
               "src/config.jsp",
               "src/override_config.json",

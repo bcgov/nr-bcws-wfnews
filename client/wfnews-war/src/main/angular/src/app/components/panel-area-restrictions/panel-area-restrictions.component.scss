@@ -45,7 +45,7 @@ section {
         a:hover{
             text-decoration: none;
         }
-        
+
         h2 {
             font-size: 15px;
             padding: 0;
@@ -110,4 +110,39 @@ section {
             }
         }
     }
+}
+
+.restriction-list {
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 5px;
+  .status {
+    padding: 4px;
+    border-radius: 4px;
+    min-width: 40px;
+    text-align: center;
+    &.red {
+      background-color: #cf2a2769;
+      border: 1px solid #cf2a27;
+      color: #cf2a27
+    }
+    &.orange {
+      background-color: #ef9c0069;
+      border: 1px solid #ef9c00;
+      color: #9A6400;
+    }
+  }
+  .label {
+    padding: 4px;
+    cursor: pointer;
+    color: #1A5A96;
+    text-decoration: underline;
+  }
+  .issued-by {
+    padding: 4px;
+    font-size: 12px;
+    font-style: italic;
+    color: gray;
+    text-decoration: none;
+  }
 }
