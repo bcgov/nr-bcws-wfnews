@@ -83,8 +83,8 @@
     },
 
     "mapServices": {
-        "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
-        "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
+        "#openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
+        "openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
         "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows"
     },
 
