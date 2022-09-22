@@ -100,6 +100,12 @@
     if (wfdmUri.endsWith("/")) {
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
     }
+
+    String wfnewsUri = System.getenv("WFNEWS_API_URL"); 
+    if (wfnewsUri.endsWith("/")) {
+      wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     String causecodesUri = properties.getProperty("wfim-cause-codes-config.url", "");
     if (causecodesUri.endsWith("/")) {
       causecodesUri = causecodesUri.substring(0, causecodesUri.length() - 1); //Strip off trailing slash, if it exists.
