@@ -133,7 +133,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name = "WFNEWS_DB_URL",
-          value = aws_db_instance.wfnews_pgsqlDB.endpoint
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
           name = "WFNEWS_USERNAME",
