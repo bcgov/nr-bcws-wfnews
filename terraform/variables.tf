@@ -230,7 +230,7 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   type = string
   default = ""
 }
-variable "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
+variable "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
   type = string
   default = ""
 }
