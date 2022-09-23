@@ -142,6 +142,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "WFNEWS_MAX_CONNECTIONS",
           value = var.WFNEWS_MAX_CONNECTIONS
+        },
+        {
+          name = "DB_PASS"
+          value = "${var.db_pass}"
         }
 
       ]
