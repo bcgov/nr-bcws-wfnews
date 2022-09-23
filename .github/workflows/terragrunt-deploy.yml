@@ -152,5 +152,6 @@ jobs:
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
           WFNEWS_USERNAME: ${{inputs.WFNEWS_USERNAME}}
           WFNEWS_MAX_CONNECTIONS: ${{inputs.WFNEWS_MAX_CONNECTIONS}}
+
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
