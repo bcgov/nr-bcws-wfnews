@@ -38,7 +38,7 @@ export class WFStatsComponent implements OnInit {
         this.loadData()
       });
     }).catch(err => {
-      this.snackbarService.open('Failed to load fire data: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      this.snackbarService.open('Failed to load fire data: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
     })
   }
 
