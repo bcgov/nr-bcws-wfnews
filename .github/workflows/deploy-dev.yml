@@ -84,6 +84,7 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
+      WEBADE_OAUTH2_CLIENT_ID: WFIM_REST
       WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true&grant_type=client_credentials
       WEBADE-OAUTH2_TOKEN_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WFDM_REST_URL: https://wfappsi.nrs.gov.bc.ca/int/wfdm-document-management-api/

@@ -81,6 +81,9 @@ on:
       WFNEWS_MAX_CONNECTIONS:
         required: true
         type: number
+      WEBADE_OAUTH2_CLIENT_ID:
+        required: true
+        type: string
 
     secrets:
       LICENSE_PLATE:
@@ -132,6 +135,7 @@ jobs:
           ALB_NAME: ${{ inputs.ALB_NAME }}
           VPC_NAME: ${{ inputs.VPC_NAME }}
           SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_CLIENT_ID}}
           WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE-OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
           WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}

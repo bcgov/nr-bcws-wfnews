@@ -57,6 +57,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
         {
+          name = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
           name = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
           value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
         },
