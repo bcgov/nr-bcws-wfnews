@@ -132,8 +132,8 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFNEWS_AGOL_QUERY_URL
         },
         {
-          name = "WFNEWS_DB_URL",
-          value = aws_db_instance.wfnews_pgsqlDB.endpoint
+          name  = "DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
           name = "WFNEWS_USERNAME",
