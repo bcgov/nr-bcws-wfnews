@@ -75,6 +75,12 @@ on:
       WFNEWS_AGOL_QUERY_URL:
         required: true
         type: string
+      WFNEWS_USERNAME:
+        required: true
+        type: string
+      WFNEWS_MAX_CONNECTIONS:
+        required: true
+        type: number
 
     secrets:
       LICENSE_PLATE:
@@ -144,5 +150,7 @@ jobs:
           WFNEWS_AGOL_QUERY_URL: ${{inputs.WFNEWS_AGOL_QUERY_URL}}
           SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
+          WFNEWS_USERNAME: ${{inputs.WFNEWS_USERNAME}}
+          WFNEWS_MAX_CONNECTIONS: ${{inputs.WFNEWS_MAX_CONNECTIONS}}
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
