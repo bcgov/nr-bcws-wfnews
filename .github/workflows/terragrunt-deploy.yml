@@ -85,7 +85,7 @@ on:
         required: true
       SMTP_PASSWORD:
         required: true
-      WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET:
+      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
         required: true
 
 env:
@@ -143,6 +143,6 @@ jobs:
           DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
           WFNEWS_AGOL_QUERY_URL: ${{inputs.WFNEWS_AGOL_QUERY_URL}}
           SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
-          WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
+          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
