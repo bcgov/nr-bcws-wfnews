@@ -301,6 +301,6 @@ variable "WFNEWS_USERNAME" {
 }
 
 variable WFNEWS_MAX_CONNECTIONS {
-  type = number
-  default = 10
+  type = string
+  default = "10"
 }
