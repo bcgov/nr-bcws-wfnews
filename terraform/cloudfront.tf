@@ -86,7 +86,9 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
     geo_restriction {
       restriction_type = "whitelist"
       locations = [
-      "CA"]
+      "CA",
+      "AR"
+      ]
     }
   }
 
@@ -185,7 +187,9 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
     geo_restriction {
       restriction_type = "whitelist"
       locations = [
-      "CA"]
+      "CA",
+      "AR"
+      ]
     }
   }
 
