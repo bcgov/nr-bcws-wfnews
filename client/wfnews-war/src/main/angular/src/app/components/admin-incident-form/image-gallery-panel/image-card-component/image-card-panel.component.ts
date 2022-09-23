@@ -60,10 +60,10 @@ export class ImageCardPanel implements OnInit, OnChanges {
   updateIncidentAttachment () {
     this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, this.attachment.attachmentGuid, this.attachment)
     .toPromise().then(() => {
-      this.snackbarService.open('Image Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+      this.snackbarService.open('Image Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
       this.loaded = false;
     }).catch(err => {
-      this.snackbarService.open('Failed to Update Image: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      this.snackbarService.open('Failed to Update Image: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
       this.loaded = false;
     })
   }
