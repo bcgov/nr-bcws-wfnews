@@ -65,8 +65,8 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
-          name = "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET",
-          value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
+          name = "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
         {
           name = "WFDM_REST_URL",
@@ -85,7 +85,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
         },
         {
-          name = "WFONE_EMAIL_NOTIFICATIONS_ENABLED_IND",
+          name = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
           value = var.EMAIL_NOTIFICATIONS_ENABLED
         },
         {
@@ -183,8 +183,8 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = "https://${aws_route53_record.wfnews_client.name}/"
         },
         {
-          name = "WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET",
-          value = var.WEBADE-OAUTH2_WFONE_REST_CLIENT_SECRET
+          name = "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
         {
           name = "WEBADE-OAUTH2_TOKEN_URL",
@@ -193,7 +193,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
           value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
-        }
+        },
         {
           name = "WFIM_API_URL",
           value = var.WFIM_CLIENT_URL
