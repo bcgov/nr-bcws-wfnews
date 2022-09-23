@@ -9,9 +9,13 @@ import org.springframework.aop.framework.ProxyFactoryBean;
 import org.springframework.aop.target.HotSwappableTargetSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 @Configuration
+@EnableWebMvc
+@ComponentScan("ca.bc.gov.nrs.wfnews.web.controller")
 public class TokenServiceSpringConfig  {
 
 	private static final Logger logger = LoggerFactory.getLogger(TokenServiceSpringConfig.class);

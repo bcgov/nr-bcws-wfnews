@@ -13,7 +13,15 @@
 	<context:component-scan base-package="ca.bc.gov.nrs.wfnews.web.controller" />
 
 	<mvc:default-servlet-handler />
- 
+
+	<bean id="tokenService"
+		  class="ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.impl.TokenServiceImpl">
+		<constructor-arg index="0" value="${webade-oauth2.client.id}"/>
+		<constructor-arg index="1" value="${webade-oauth2.wfnews-incident-manager-ui.client.secret}"/>
+		<constructor-arg index="2" value="${webade-oauth2.check.token.v2.url}"/>
+		<constructor-arg index="3" value="${webade-oauth2.token.url}"/>
+	</bean>
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
