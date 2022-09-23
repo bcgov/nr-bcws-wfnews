@@ -100,7 +100,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       this.attachments = docs.collection
       this.cdr.detectChanges();
     }).catch(err => {
-      this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
     })
   }
 
@@ -145,21 +145,21 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
           self.uploadProgress = percent
           self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`
           if (!self.statusBar) {
-            self.statusBar = this.snackbarService.open(self.uploadStatus, 'OK', { duration: 0, panelClass: 'snackbar-success' });
+            self.statusBar = this.snackbarService.open(self.uploadStatus, 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           } else {
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
           self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFO').then(() => {
-            this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+            this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           }).catch(err => {
-            this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+            this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {
             self.loaded = false;
             this.cdr.detectChanges();
           })
         }).catch(err => {
-          this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
         })
       }
     });
@@ -201,10 +201,10 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       if (result) {
         this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
         .toPromise().then(() => {
-          this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+          this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           this.loaded = false;
         }).catch(err => {
-          this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           this.loaded = false;
         })
       }
@@ -226,7 +226,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         throw Error('File could not be found')
       }
     }).catch(err => {
-      this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
     })
   }
 
@@ -242,11 +242,11 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       if (result) {
         this.incidentAttachmentService.deleteIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid)
         .toPromise().then(() => {
-          this.snackbarService.open('Attachment Deleted Successfully', 'OK', { duration: 0, panelClass: 'snackbar-success' });
+          this.snackbarService.open('Attachment Deleted Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           this.loaded = false;
           this.cdr.detectChanges();
         }).catch(err => {
-          this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
+          this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           this.loaded = false;
         })
       }
