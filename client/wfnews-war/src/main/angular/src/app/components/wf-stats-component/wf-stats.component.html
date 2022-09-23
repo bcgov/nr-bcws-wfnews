@@ -1,0 +1,156 @@
+<div class="container">
+  <div class="header-row">
+    <div class="title">
+        <h1>Wildfires Statistics</h1>
+    </div>
+  </div>
+  <div class="stats-container">
+    <div class="summary-container">
+      <div class="resource-panel">
+        <div class="title">Wildfire Summary</div>
+        <div class="summary-data">
+          <div class="summary-data-row"><div class="summary-data-cell">{{thisYearCount}}</div><div class="summary-data-label">Fires this Year</div></div>
+          <div class="summary-data-row"><div class="summary-data-cell">{{fires.length}}</div><div class="summary-data-label">Active Fires</div></div>
+          <div class="summary-data-row"><div class="summary-data-cell">{{firesLast7Days}}</div><div class="summary-data-label">Fires in the Last 7 Days</div></div>
+        </div>
+      </div>
+      <div class="resource-panel">
+        <div class="title">Cause Summary</div>
+        <div class="summary-data">
+          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name}}</div></div>
+        </div>
+      </div>
+      <div class="resource-panel">
+        <div class="title">Status Summary</div>
+        <div class="summary-data">
+          <div *ngFor="let data of activeFiresByStatus" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name}}</div></div>
+        </div>
+      </div>
+    </div>
+    <mat-tab-group [(selectedIndex)]="tabIndex" class="wildfires-tabs" mat-align-tabs="center">
+      <mat-tab label="Active Fires">
+      </mat-tab>
+      <mat-tab label="Fires This Year">
+      </mat-tab>
+    </mat-tab-group>
+    <div>
+      <h2>Fire Centres</h2>
+      <div class="info-panel">
+        <div class="info-text">
+          <!-- Traditional table view -->
+          <!-- div class="fire-centre-table">
+            <div class="row">
+              <div class="cell"><strong>Fire Centre</strong></div>
+              <div class="value-cell"><strong>Total Fires</strong></div>
+            </div>
+            <div class="row" *ngFor="let row of activeFiresByCentre">
+              <div class="cell">{{row.name}}</div>
+              <div class="value-cell">{{row.value}}</div>
+            </div>
+          </div -->
+          <!-- number panel view -->
+          <ngx-charts-number-card
+            scheme="cool"
+            cardColor="#232837"
+            [results]="tabIndex === 0 ? activeFiresByCentre : allFiresByCentre">
+          </ngx-charts-number-card>
+        </div>
+        <div class="info-chart">
+          <ngx-charts-bar-vertical
+            scheme="cool"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Fire Centres"
+            yAxisLabel="Number of Fires"
+            [roundEdges]="true"
+            [animations]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
+            [results]="tabIndex === 0 ? activeFiresByCentre: allFiresByCentre">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div>
+      <h2>Wildfire Causes</h2>
+      <div class="info-panel">
+        <div class="info-text">
+          <p class="paragraph-format">What causes wildfires in British Columbia? There are two broad categories of causes:</p>
+          <ul class="paragraph-format">
+            <li>Lightning (and a rare chance of other natural causes) causes approximately 60% of wildfires</li>
+            <li>Human activity causes approximately 40% of wildfires</li>
+          </ul>
+          <h4>Natural (lightning) caused wildfires</h4>
+          <p class="paragraph-format">Most wildfires in B.C. are started by lightning strikes. When lightning strikes an object it can release enough heat to ignite a tree or other fuels.</p>
+          <p class="paragraph-format">Although lightning caused fires cannot be prevented, there are ways of predicting where they might start. The risk from natural fires can also be reduced with fuel management and prescribed burning</p>
+          <h4>Human-caused wildfires</h4>
+          <p class="paragraph-format">The most important thing about human-caused wildfires is that they are preventable. The easiest way to fight a wildfire is to prevent it from starting. Humans start wildfires in several ways, either by accident or intentionally. For example:</p>
+          <ul class="paragraph-format">
+            <li>Vehicle and engine use</li>
+            <li>Industrial activity</li>
+            <li>Fireworks, sky-lanterns, outdoor flame lighting</li>
+            <li>Discarding burning items (cigarettes)</li>
+          </ul>
+        </div>
+        <div class="info-chart">
+          <ngx-charts-bar-vertical
+            scheme="cool"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Fire Cause"
+            yAxisLabel="Number of Fires"
+            [roundEdges]="true"
+            [animations]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
+            [results]="tabIndex === 0 ? activeFiresByCause : allFiresByCause">
+          </ngx-charts-bar-vertical>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="info-panel">
+        <div class="info-chart">
+          <ngx-charts-bar-vertical
+            scheme="cool"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="true"
+            [showXAxisLabel]="true"
+            [showYAxisLabel]="true"
+            xAxisLabel="Fire Status"
+            yAxisLabel="Number of Fires"
+            [roundEdges]="true"
+            [animations]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
+            [results]="tabIndex === 0 ? activeFiresByStatus : allFiresByStatus">
+          </ngx-charts-bar-vertical>
+        </div>
+        <div class="info-text">
+          <h2>Stages of Control</h2>
+          <p class="paragraph-format">The following stages of control describe the current status of a fire or incident.</p>
+          <h4>Wildfires of Note</h4>
+          <p class="paragraph-format">Wildfires of note are wildfires which are highly visible or which pose a potential threat to public safety.</p>
+          <h4>Out of Control</h4>
+          <p class="paragraph-format">Describes a wildfire that is not responding (or only responding on a limited basis) to suppression action, such that the perimeter spread is  not being contained.</p>
+          <h4>Being Held</h4>
+          <p class="paragraph-format">Indicates that (with the resources currently committed to the fire) sufficient suppression action has been taken that the fire is not likely  to spread beyond existing or predetermined boundaries under the  prevailing and forecasted conditions.</p>
+          <h4>Under Control</h4>
+          <p class="paragraph-format">The fire has received sufficient suppression action to ensure no further spread of the fire.</p>
+          <h4>Out</h4>
+          <p class="paragraph-format">The fire has been extinguished.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -369,10 +369,10 @@ export class WFMapService {
                 };
 
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
-
                 SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
                     const vw = this;
 
+                    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
                     if ( self.identifyCallback ) {
                       self.identifyCallback( location, area );
                     }

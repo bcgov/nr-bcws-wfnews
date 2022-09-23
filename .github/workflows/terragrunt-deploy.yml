@@ -4,29 +4,78 @@ on:
   workflow_call:
     inputs:
       CLIENT_IMAGE:
-        type: string
         required: true
+        type: string
       SERVER_IMAGE:
-        type: string
         required: true
+        type: string
       LIQUIBASE_IMAGE:
-        type: string
         required: true
+        type: string
       TARGET_ENV:
-        type: string
         required: true
+        type: string
       ALB_NAME:
-        type: string
         required: true
+        type: string
       VPC_NAME:
-        type: string
         required: true
+        type: string
       SUBNET_FILTER:
-        type: string
         required: true
+        type: string
       REGISTRY:
-        type: string
         required: true
+        type: string
+      WEBADE-OAUTH2_TOKEN_CLIENT_URL:
+        required: true
+        type: string
+      WEBADE-OAUTH2_TOKEN_URL:
+        required: true
+        type: string
+      WFDM_REST_URL:
+        required: true
+        type: string
+      WFIM_CLIENT_URL:
+        required: true
+        type: string
+      WFIM_CODE_TABLES_URL:
+        required: true
+        type: string
+      WEBADE-OAUTH2_CHECK_TOKEN_URL:
+        required: true
+        type: string
+      WFNEWS_EMAIL_NOTIFICATIONS_ENABLED:
+        required: true
+        type: string
+      SMTP_HOST_NAME:
+        required: true
+        type: string
+      SMTP_FROM_EMAIL:
+        required: true
+        type: string
+      SMTP_ADMIN_EMAIL:
+        required: true
+        type: string
+      SMTP_EMAIL_SYNC_ERROR_FREQ:
+        required: true
+        type: string
+      SMTP_EMAIL_FREQ:
+        required: true
+        type: string
+      SMTP_EMAIL_ERROR_SUBJECT:
+        required: true
+        type: string
+      SMTP_EMAIL_SUBJECT:
+        required: true
+        type: string
+      DEFAULT_APPLICATION_ENVIRONMENT:
+        required: true
+        type: string
+      WFNEWS_AGOL_QUERY_URL:
+        required: true
+        type: string
+
     secrets:
       LICENSE_PLATE:
         required: true
@@ -34,7 +83,10 @@ on:
         required: true
       TFC_TEAM_TOKEN:
         required: true
-
+      SMTP_PASSWORD:
+        required: true
+      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
+        required: true
 
 env:
   TF_VERSION: 1.2.2
@@ -62,32 +114,35 @@ jobs:
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply (No PR)
-        if: ${{ github.event.pull_request.number == ''}}
-        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
-        env:
-          TARGET_ENV: ${{ inputs.TARGET_ENV }}
-          CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.CLIENT_IMAGE }}:main
-          SERVER_IMAGE: ${{inputs.registry}}/bcgov}/${{ inputs.SERVER_IMAGE }}:main
-          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
-          DB_PASS: ${{ secrets.DB_PASS }}
-          ALB_NAME: ${{ inputs.ALB_NAME }}
-          VPC_NAME: ${{ inputs.VPC_NAME }}
-          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
-        run: terragrunt apply --terragrunt-non-interactive -auto-approve
-      
-      - name: Terragrunt Apply (PR)
-        if: ${{ github.event.pull_request.number > 0}}
+      - name: Terragrunt Apply
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
           CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
           SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.SERVER_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
           VPC_NAME: ${{ inputs.VPC_NAME }}
           SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
+          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
+          WEBADE-OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
+          WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
+          WFIM_CLIENT_URL: ${{inputs.WFIM_CLIENT_URL}}
+          WFIM_CODE_TABLES_URL: ${{inputs.WFIM_CODE_TABLES_URL}}
+          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_CHECK_TOKEN_URL}}
+          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{inputs.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
+          SMTP_HOST_NAME: ${{inputs.SMTP_HOST_NAME}}
+          SMTP_FROM_EMAIL: ${{inputs.SMTP_FROM_EMAIL}}
+          SMTP_ADMIN_EMAIL: ${{inputs.SMTP_ADMIN_EMAIL}}
+          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{inputs.SMTP_EMAIL_SYNC_ERROR_FREQ}}
+          SMTP_EMAIL_FREQ: ${{inputs.SMTP_EMAIL_FREQ}}
+          SMTP_EMAIL_ERROR_SUBJECT: ${{inputs.SMTP_EMAIL_ERROR_SUBJECT}}
+          SMTP_EMAIL_SUBJECT: ${{inputs.SMTP_EMAIL_SUBJECT}}
+          DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
+          WFNEWS_AGOL_QUERY_URL: ${{inputs.WFNEWS_AGOL_QUERY_URL}}
+          SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
+          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

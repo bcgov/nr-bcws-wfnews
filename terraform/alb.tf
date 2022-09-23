@@ -62,7 +62,7 @@ data "aws_alb_listener" "wfnews_server_front_end" {
 }
 
 resource "aws_alb_target_group" "wfnews_server" {
-  name                 = "wfnews-server-target-group-${var.target_env}"
+  name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -83,7 +83,7 @@ resource "aws_alb_target_group" "wfnews_server" {
 }
 
 resource "aws_alb_target_group" "wfnews_client" {
-  name                 = "wfnews-client-target-group-${var.target_env}"
+  name                 = "wfnews-client-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -104,7 +104,7 @@ resource "aws_alb_target_group" "wfnews_client" {
 }
 
 resource "aws_alb_target_group" "wfnews_liquibase" {
-  name                 = "wfnews-liquibase-target-group-${var.target_env}"
+  name                 = "wfnews-liquibase-${var.target_env}"
   port                 = var.client_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -151,6 +151,22 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
   condition {
     host_header {
       values = [for sn in var.client_names : "${sn}.*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.liquibase_names : "${sn}.*"]
     }
   }
 }

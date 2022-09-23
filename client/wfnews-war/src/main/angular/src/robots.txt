@@ -1,0 +1,14 @@
+User-agent: Googlebot
+Disallow: /nogooglebot/
+
+User-agent: AdsBot-Google
+Disallow: /
+
+User-agent: *
+Disallow: /admin
+Disallow: /incident
+
+User-agent: *
+Allow: /activeWildfireMap
+Allow: /currentStatistics
+Allow: /resources

@@ -133,6 +133,12 @@ variable "client_names" {
   type        = list(string)
 }
 
+variable "liquibase_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-liquibase"]
+  type        = list(string)
+}
+
 variable cert_domain {
     description = "Certificate to use"
     default = ""
@@ -213,4 +219,78 @@ variable "db_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-db"]
   type        = list(string)
+}
+
+//wfnews server property variables
+variable "WEBADE-OAUTH2_TOKEN_CLIENT_URL" {
+  type = string
+  default = ""
+}
+variable "WEBADE-OAUTH2_TOKEN_URL" {
+  type = string
+  default = ""
+}
+variable "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
+  type = string
+  default = ""
+}
+variable "WFDM_REST_URL" {
+  type = string
+  default = ""
+}
+variable "WFIM_CLIENT_URL" {
+  type = string
+  default = ""
+}
+variable  "WFIM_CODE_TABLES_URL" {
+  type = string
+  default = ""
+}
+variable "WEBADE-OAUTH2_CHECK_TOKEN_URL" {
+  type = string
+  default = ""
+}
+variable "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED"{
+  type = string
+  default = ""
+}
+variable "SMTP_HOST_NAME" {
+  type = string
+  default = ""
+}
+variable "SMTP_PASSWORD" {
+  type = string
+  default = ""
+}
+variable "SMTP_FROM_EMAIL" {
+  type = string
+  default = ""
+}
+variable "SMTP_ADMIN_EMAIL" {
+  type = string
+  default = ""
+}
+variable "SMTP_EMAIL_SYNC_ERROR_FREQ" {
+  type = string
+  default = ""
+}
+variable "SMTP_EMAIL_FREQ" {
+  type = string
+  default = ""
+}
+variable "SMTP_EMAIL_ERROR_SUBJECT" {
+  type = string
+  default = ""
+}
+variable "SMTP_EMAIL_SUBJECT" {
+  type = string
+  default = ""
+}
+variable "DEFAULT_APPLICATION_ENVIRONMENT" {
+  type = string
+  default = ""
+}
+variable "WFNEWS_AGOL_QUERY_URL" {
+  type = string
+  default = ""
 }

@@ -29,7 +29,7 @@
             "incidents-table": 500
         },
         "lazyAuthenticate": "true",
-        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl="    
+        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl="
     },
 
     "externalAppConfig": {
@@ -68,7 +68,8 @@
         "orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
         "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
         "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
-        "causecodes": "causeCodes/token.jsp"
+        "causecodes": "causeCodes/token.jsp",
+        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api"
     },
 
     "webade": {
@@ -82,8 +83,8 @@
     },
 
     "mapServices": {
-        "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
-        "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
+        "#openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
+        "openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
         "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows"
     },
 

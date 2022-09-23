@@ -55,7 +55,79 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
+        },
+        {
+          name = "WFDM_REST_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name = "WFIM_CLIENT_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name = "WFIM_CODE_TABLES_URL",
+          value = var.WFIM_CODE_TABLES_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_CHECK_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
+          value = var.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name = "SMTP_HOST_NAME",
+          value = var.SMTP_HOST_NAME
+        },
+        {
+          name = "SMTP_PASSWORD",
+          value = var.SMTP_PASSWORD
+        },
+        {
+          name = "SMTP_FROM_EMAIL",
+          value = var.SMTP_FROM_EMAIL
+        },
+        {
+          name = "SMTP_ADMIN_EMAIL",
+          value = var.SMTP_ADMIN_EMAIL
+        },
+        {
+          name = "SMTP_EMAIL_SYNC_ERROR_FREQ",
+          value = var.SMTP_EMAIL_SYNC_ERROR_FREQ
+        },
+        {
+          name = "SMTP_EMAIL_FREQ",
+          value = var.SMTP_EMAIL_FREQ
+        },{
+          name = "SMTP_EMAIL_ERROR_SUBJECT",
+          value = var.SMTP_EMAIL_ERROR_SUBJECT
+        },
+        {
+          name = "SMTP_EMAIL_SUBJECT",
+          value = var.SMTP_EMAIL_SUBJECT
+        },
+        {
+          name = "DEFAULT_APPLICATION_ENVIRONMENT",
+          value = var.DEFAULT_APPLICATION_ENVIRONMENT
+        },
+        {
+          name = "WFNEWS_AGOL_QUERY_URL",
+          value = var.WFNEWS_AGOL_QUERY_URL
         }
+
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -109,7 +181,31 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "BASE_URL",
           value = "https://${aws_route53_record.wfnews_client.name}/"
-        }
+        },
+        {
+          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
+        },
+        {
+          name = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name = "WFIM_API_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name = "WFDM_API_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name = "ORG_UNIT_URL",
+          value = ""
+        }  
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -198,7 +294,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   }
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
@@ -214,12 +310,6 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   tags = local.common_tags
 }
 
-resource "null_resource" "ecs_run_liquibase" {
-  provisioner "local-exec" {
-    # add other args as necessary: https://docs.aws.amazon.com/cli/latest/reference/ecs/run-task.html
-    command     = "aws ecs run-task --region ${var.aws_region} --cluster ${aws_ecs_cluster.wfnews_main.id} --task-definition ${aws_ecs_task_definition.wfnews_liquibase.arn}"
-  }
-}
 
 resource "aws_ecs_service" "wfnews_main" {
   count                             = local.create_ecs_service

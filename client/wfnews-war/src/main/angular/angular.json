@@ -29,6 +29,7 @@
               "src/causeCodesToken.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
+              "src/robots.txt",
               "src/wfim-service-worker.js",
               {
                 "glob": "**/*",
@@ -70,7 +71,7 @@
                 "fonts": false
               },
               "outputHashing": "all",
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
@@ -81,7 +82,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "serviceWorker": true
+              "serviceWorker": true,
+              "ngswConfigPath": "./ngsw-config.json"
             }
           },
           "defaultConfiguration": ""
@@ -125,6 +127,7 @@
             "assets": [
               "src/assets",
               "src/favicon.ico",
+              "src/robots.txt",
               "src/oauth.html",
               "src/config.jsp",
               "src/override_config.json",
