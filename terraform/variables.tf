@@ -230,6 +230,12 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   type = string
   default = ""
 }
+
+variable "WEBADE_OAUTH2_CLIENT_ID" {
+  type = string
+  default = ""
+}
+
 variable "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
   type = string
   default = ""
@@ -293,4 +299,14 @@ variable "DEFAULT_APPLICATION_ENVIRONMENT" {
 variable "WFNEWS_AGOL_QUERY_URL" {
   type = string
   default = ""
+}
+
+variable "WFNEWS_USERNAME" {
+  type = string
+  default = ""
+}
+
+variable WFNEWS_MAX_CONNECTIONS {
+  type = string
+  default = "10"
 }
