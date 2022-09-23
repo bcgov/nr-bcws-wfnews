@@ -126,6 +126,18 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "WFNEWS_AGOL_QUERY_URL",
           value = var.WFNEWS_AGOL_QUERY_URL
+        },
+        {
+          name = "WFNEWS_DB_URL",
+          value = aws_db_instance.wfnews_pgsqlDB.endpoint
+        },
+        {
+          name = "WFNEWS_USERNAME",
+          value = var.WFNEWS_USERNAME
+        },
+        {
+          name = "WFNEWS_MAX_CONNECTIONS",
+          value = var.WFNEWS_MAX_CONNECTIONS
         }
 
       ]

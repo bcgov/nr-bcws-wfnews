@@ -294,3 +294,13 @@ variable "WFNEWS_AGOL_QUERY_URL" {
   type = string
   default = ""
 }
+
+variable "WFNEWS_USERNAME" {
+  type = string
+  default = ""
+}
+
+variable WFNEWS_MAX_CONNECTIONS {
+  type = number
+  default = 10
+}
