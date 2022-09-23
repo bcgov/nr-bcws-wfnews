@@ -84,6 +84,7 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
+      WEBADE_OAUTH2_CLIENT_ID: WFIM_REST
       WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true&grant_type=client_credentials
       WEBADE-OAUTH2_TOKEN_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WFDM_REST_URL: https://wfappsi.nrs.gov.bc.ca/int/wfdm-document-management-api/
@@ -100,10 +101,12 @@ jobs:
       SMTP_EMAIL_SUBJECT: WFNEWS API Error [DEV]
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=FIRE_STATUS+%3C%3E+%27Out%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=
+      WFNEWS_USERNAME: wfnews_user
+      WFNEWS_MAX_CONNECTIONS: 10
 
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.DEV_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
       SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD }}
-      WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.DEV_WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
+      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}

@@ -95,7 +95,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
         this.externalUriDao = externalUriDao;
     }
       
-    @Value("${wfnews-agol-query.url}")
+    @Value("${WFNEWS_AGOL_QUERY_URL}")
     private String agolQueryUrl;
     
     private String concatenatedQueryString = "&f=pjson&outFields=*&inSR=4326";
