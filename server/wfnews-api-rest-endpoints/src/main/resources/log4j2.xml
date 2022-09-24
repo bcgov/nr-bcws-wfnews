@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
   <Appenders>
-    <!--RollingFile name="file" 
-      fileName="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log"
+    <RollingFile name="file" 
+      fileName="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log.log"
+      encoding="UTF-8"
       filePattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] [%p] %l - %m%n %throwable{2}" 
       ignoreExceptions="false"
       immediateFlush="true">
@@ -16,23 +17,24 @@
         </Policies>
         <DefaultRolloverStrategy>
             <Delete basePath="${dollar}{logging.home.dir}{dollar}{file.separator}" maxDepth="2">
-                <IfFileName glob="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log.gz" />
+                <IfFileName glob="${dollar}{logging.home.dir}{dollar}{file.separator}wfnews-v1-api.log.log.gz" />
                 <IfLastModified age="20d" />
             </Delete>
         </DefaultRolloverStrategy>
-    </RollingFile-->
+    </RollingFile>
     <Console name="Console" target="SYSTEM_OUT">
       <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
     </Console>
   </Appenders>
   <Loggers>
     <Root level="DEBUG">
-      <!--AppenderRef ref="file"/-->
+      <AppenderRef ref="file"/>
       <AppenderRef ref="Console" />
     </Root>
-    <Logger name="ca.bc.gov.nrs.wfnews" level="DEBUG">
-      <!--AppenderRef ref="file"/-->
+    <Logger name="ca.bc.gov.nrs.wfone" level="DEBUG">
+      <AppenderRef ref="file"/>
       <AppenderRef ref="Console" />
     </Logger>
   </Loggers>
 </Configuration>
+

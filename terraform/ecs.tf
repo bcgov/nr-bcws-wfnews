@@ -132,7 +132,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFNEWS_AGOL_QUERY_URL
         },
         {
-          name = "WFNEWS_DB_URL",
+          name  = "WFNEWS_DB_URL",
           value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
@@ -355,7 +355,7 @@ resource "aws_ecs_service" "wfnews_main" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
@@ -395,7 +395,7 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
