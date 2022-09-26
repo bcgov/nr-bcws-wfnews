@@ -72,6 +72,7 @@ public class EndpointsSpringConfig {
 		 result.setInitialSize(1);
 		 logger.debug("wfoneDataSourceMaxConnections="+wfoneDataSourceMaxConnections);
 		 result.setMaxTotal(Integer.parseInt(wfoneDataSourceMaxConnections));
+		 result.setValidationQuery("SELECT 1");
 
 		return result;
 	}
