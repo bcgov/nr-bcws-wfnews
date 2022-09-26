@@ -8,6 +8,7 @@ resource "aws_db_subnet_group" "wfnews_db_subnet_group" {
 resource "aws_db_instance" "wfnews_pgsqlDB"{
     identifier = "wfnews${var.target_env}"
     engine = "postgres"
+    engine_version = "13.4"
     name = "wfnews${var.target_env}"
     instance_class       = "db.t3.micro"
     allocated_storage = 10
