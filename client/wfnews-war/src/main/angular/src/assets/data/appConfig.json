@@ -75,8 +75,8 @@
     "webade": {
         "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
         "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
-        "clientId": "WFIM_INCIDENT_MANAGER_UI",
-        "authScopes": "WFIM.* WFONE.* WFORG.* WFDM.*",
+        "clientId": "WFNEWS-UI",
+        "authScopes": "WFIM.* WFORG.* WFDM.*",
         "enableCheckToken": true,
         "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
         "checkTokenUrl": "assets/data/checktoken-LULI.json"
