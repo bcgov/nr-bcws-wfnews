@@ -57,6 +57,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
         {
+          name = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
           name = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
           value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
         },
@@ -65,8 +69,8 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
-          name = "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET",
-          value = var.WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET
+          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
         {
           name = "WFDM_REST_URL",
@@ -86,11 +90,11 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
-          value = var.EMAIL_NOTIFICATIONS_ENABLED
+          value = var.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED
         },
         {
           name = "SMTP_HOST_NAME",
-          value = var.SMTP_HOSTNAME
+          value = var.SMTP_HOST_NAME
         },
         {
           name = "SMTP_PASSWORD",
@@ -126,6 +130,22 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "WFNEWS_AGOL_QUERY_URL",
           value = var.WFNEWS_AGOL_QUERY_URL
+        },
+        {
+          name  = "WFNEWS_DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+        },
+        {
+          name = "WFNEWS_USERNAME",
+          value = var.WFNEWS_USERNAME
+        },
+        {
+          name = "WFNEWS_MAX_CONNECTIONS",
+          value = var.WFNEWS_MAX_CONNECTIONS
+        },
+        {
+          name = "DB_PASS"
+          value = "${var.db_pass}"
         }
 
       ]
@@ -183,8 +203,8 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = "https://${aws_route53_record.wfnews_client.name}/"
         },
         {
-          name = "WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET",
-          value = var.WEBADE-OAUTH2_WFNEWS_REST_CLIENT_SECRET
+          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
         {
           name = "WEBADE-OAUTH2_TOKEN_URL",
@@ -335,7 +355,7 @@ resource "aws_ecs_service" "wfnews_main" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
@@ -375,7 +395,7 @@ resource "aws_ecs_service" "client" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }

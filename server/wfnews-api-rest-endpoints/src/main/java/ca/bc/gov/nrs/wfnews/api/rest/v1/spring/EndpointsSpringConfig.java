@@ -46,16 +46,16 @@ public class EndpointsSpringConfig {
 		return result;
 	}
 	
-	@Value("${wfone.datasource.url}")
+	@Value("${WFNEWS_DB_URL}")
 	private String wfoneDataSourceUrl;
 	
-	@Value("${wfone.datasource.username}")
+	@Value("${WFNEWS_USERNAME}")
 	private String wfoneDataSourceUsername;
 	
-	@Value("${wfone.datasource.password}")
+	@Value("${DB_PASS}")
 	private String wfoneDataSourcePassword;
 	
-	@Value("${wfone.datasource.max.connections}")
+	@Value("${WFNEWS_MAX_CONNECTIONS}")
 	private String wfoneDataSourceMaxConnections;
 
 	@Bean
