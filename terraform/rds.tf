@@ -12,7 +12,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     name = "wfnews${var.target_env}"
     instance_class       = "db.t3.micro"
     allocated_storage = 10
-    username = "wfnews${var.target_env}"
+    username = var.WFNEWS_USERNAME
     password = var.db_pass
     skip_final_snapshot = true
     vpc_security_group_ids = [data.aws_security_group.app.id, aws_security_group.wfnews_ecs_tasks.id]
