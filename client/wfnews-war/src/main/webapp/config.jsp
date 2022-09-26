@@ -122,7 +122,7 @@
       json.append("\"oauth2Url\":\"").append(properties.getProperty("webade-oauth2.authorize.url", "")).append("\",");
       json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
       json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
-      json.append("\"enableCheckToken\":false,");
+      json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
     json.append("}");

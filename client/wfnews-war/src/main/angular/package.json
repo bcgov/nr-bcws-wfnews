@@ -14,8 +14,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "cr": "npm run lint && npm start.prod",
-    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
-    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex"
+    "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href ./ && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
+    "mavenbuild-source-map": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href ./ --source-map && replace-in-file /ngsw:/g ngsw:wfnewsi: ../../../target/angular/ngsw-worker.js --verbose --isRegex"
   },
   "private": true,
   "dependencies": {
