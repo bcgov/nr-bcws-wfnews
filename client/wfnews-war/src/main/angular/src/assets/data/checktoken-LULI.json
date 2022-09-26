@@ -89,8 +89,8 @@
         "WFDM.UPDATE_FILE_CHECKOUT",
         "WFIM.UPDATE_RESOURCE_ALLOCATION_ASSESSMENT"
     ],
-    "clientId": "WFIM_INCIDENT_MANAGER_UI",
-    "cid": "WFIM_INCIDENT_MANAGER_UI",
+    "clientId": "WFNEWS-UI",
+    "cid": "WFNEWS-UI",
     "clientAppCode": "WFIM",
     "grantType": "implicit",
     "userId": "IDIR\\LULI",

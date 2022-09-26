@@ -28,6 +28,26 @@ env:
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
   SUBNET_FILTER: "App"
+  WEBADE-OAUTH2_TOKEN_CLIENT_URL: "default"
+  WEBADE-OAUTH2_TOKEN_URL: "default"
+  WFDM_REST_URL: "default"
+  WFIM_CLIENT_URL: "default"
+  WFIM_CODE_TABLES_URL: "default"
+  WEBADE-OAUTH2_CHECK_TOKEN_URL: "default"
+  WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: "default"
+  SMTP_HOST_NAME: "default"
+  SMTP_FROM_EMAIL: "default"
+  SMTP_ADMIN_EMAIL: "default"
+  SMTP_EMAIL_SYNC_ERROR_FREQ: 10
+  SMTP_EMAIL_FREQ: 10
+  SMTP_EMAIL_ERROR_SUBJECT: "default"
+  SMTP_EMAIL_SUBJECT: "default"
+  DEFAULT_APPLICATION_ENVIRONMENT: "default"
+  WFNEWS_AGOL_QUERY_URL: "default"
+  SMTP_PASSWORD: "default"
+  WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: "default"
+  WFNEWS_USERNAME: "default"
+  WFNEWS_MAX_CONNECTIONS: 10
 
 jobs:
   plan:
@@ -49,13 +69,34 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
-          CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ env.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ env.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: dbTESTsecretUNUSED
           ALB_NAME: ${{ env.ALB_NAME }}
           VPC_NAME: ${{ env.VPC_NAME }}
           SUBNET_FILTER: ${{ env.SUBNET_FILTER }}
+          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{env.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
+          WEBADE-OAUTH2_TOKEN_URL: ${{env.WEBADE-OAUTH2_TOKEN_URL}}
+          WFDM_REST_URL: ${{env.WFDM_REST_URL}}
+          WFIM_CLIENT_URL: ${{env.WFIM_CLIENT_URL}}
+          WFIM_CODE_TABLES_URL: ${{env.WFIM_CODE_TABLES_URL}}
+          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{env.WEBADE-OAUTH2_CHECK_TOKEN_URL}}
+          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{env.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
+          SMTP_HOST_NAME: ${{env.SMTP_HOST_NAME}}
+          SMTP_FROM_EMAIL: ${{env.SMTP_FROM_EMAIL}}
+          SMTP_ADMIN_EMAIL: ${{env.SMTP_ADMIN_EMAIL}}
+          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{env.SMTP_EMAIL_SYNC_ERROR_FREQ}}
+          SMTP_EMAIL_FREQ: ${{env.SMTP_EMAIL_FREQ}}
+          SMTP_EMAIL_ERROR_SUBJECT: ${{env.SMTP_EMAIL_ERROR_SUBJECT}}
+          SMTP_EMAIL_SUBJECT: ${{env.SMTP_EMAIL_SUBJECT}}
+          DEFAULT_APPLICATION_ENVIRONMENT: ${{env.DEFAULT_APPLICATION_ENVIRONMENT}}
+          WFNEWS_AGOL_QUERY_URL: ${{env.WFNEWS_AGOL_QUERY_URL}}
+          SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
+          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
+          WFNEWS_USERNAME: ${{env.WFNEWS_USERNAME}}
+          WFNEWS_MAX_CONNECTIONS: ${{env.WFNEWS_MAX_CONNECTIONS}}
+
         run: terragrunt plan --terragrunt-non-interactive
 

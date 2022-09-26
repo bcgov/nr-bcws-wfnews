@@ -19,20 +19,21 @@
     </article>
 </section>
 <section>
+  <h1>CURRENT ORDERS / ALERTS</h1>
+  <article>
+    <div class="evac-list" *ngFor="let evac of evacOrders">
+      <div [ngClass]="evac.orderAlertStatus === 'Alert' ? 'status orange' : ' status red'">{{evac.orderAlertStatus}}</div>
+      <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
+      <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
+    </div>
+  </article>
+</section>
+<section>
     <h1>MORE INFORMATION</h1>
     <article>
-        <p>
-            <a href="https://www.emergencyinfobc.gov.bc.ca/" target="_blank" rel="noopener">Current Evacuation Advisories</a>
-        </p>
-        <p>
-            <a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance" target="_blank" rel="noopener">Evacuee Guidance</a>
-        </p>
-        <p>
-            <a href="https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems" target="_blank" rel="noopener">Local Government System in B.C</a>
-        </p>
-        <p>
-            <a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts" target="_blank" rel="noopener">B.C. Emergency Alerts</a>
-        </p>
-
+        <p><a href="https://www.emergencyinfobc.gov.bc.ca/" target="_blank" rel="noopener">Current Evacuation Advisory Information</a></p>
+        <p><a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance" target="_blank" rel="noopener">Evacuee Guidance</a></p>
+        <p><a href="https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems" target="_blank" rel="noopener">Local Government System in B.C</a></p>
+        <p><a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts" target="_blank" rel="noopener">B.C. Emergency Alerts</a></p>
     </article>
 </section>

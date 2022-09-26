@@ -88,18 +88,24 @@
     json.append("},");
 
     // REST API Section
-    String incidentsUri = properties.getProperty("wfim-rest.url", "");
+    String incidentsUri = System.getenv("WFIM_API_URL"); 
     if (incidentsUri.endsWith("/")) {
       incidentsUri = incidentsUri.substring(0, incidentsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String orgunitUri = properties.getProperty("wforg-org-unit-rest.url", "");
+    String orgunitUri = System.getenv("ORG_UNIT_URL"); 
     if (orgunitUri.endsWith("/")) {
       orgunitUri = orgunitUri.substring(0, orgunitUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String wfdmUri = properties.getProperty("wfdm-rest.url", "");
+    String wfdmUri = System.getenv("WFDM_API_URL"); 
     if (wfdmUri.endsWith("/")) {
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
     }
+
+    String wfnewsUri = System.getenv("WFNEWS_API_URL"); 
+    if (wfnewsUri.endsWith("/")) {
+      wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     String causecodesUri = properties.getProperty("wfim-cause-codes-config.url", "");
     if (causecodesUri.endsWith("/")) {
       causecodesUri = causecodesUri.substring(0, causecodesUri.length() - 1); //Strip off trailing slash, if it exists.
@@ -111,6 +117,7 @@
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(localApiUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
+      json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"causecodes\":\"").append(causecodesUri).append("\"").append(",");
@@ -118,9 +125,15 @@
     json.append("},");
 
     // WebADE OAuth Section
+    String webadeOauth2AuthorizeUrl = System.getenv("WEBADE_OAUTH2_AUTHORIZE_URL"); 
+    if (webadeOauth2AuthorizeUrl.endsWith("/")) {
+      webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
+    }
+    
+
     json.append("\"webade\":{");
-      json.append("\"oauth2Url\":\"").append(properties.getProperty("webade-oauth2.authorize.url", "")).append("\",");
-      json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
+      json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append("\",");
+      json.append("\"clientId\":\"WFNEWS-UI\",");
       json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");

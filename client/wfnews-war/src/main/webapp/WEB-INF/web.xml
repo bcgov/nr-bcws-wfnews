@@ -8,8 +8,35 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			classpath:spring/spring-config.xml
+			classpath:spring/security/spring-config.xml
 		</param-value>
 	</context-param>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	
+	<filter>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+		<init-param>
+			<param-name>confPath</param-name>
+			<param-value>/WEB-INF/urlrewrite.xml</param-value>
+		</init-param>		
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<servlet-name>Check Token Servlet</servlet-name>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>UrlRewriteFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<dispatcher>REQUEST</dispatcher>
+		<dispatcher>FORWARD</dispatcher>
+	</filter-mapping>
 
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
@@ -18,14 +45,14 @@
 	<listener>
 		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
 	</listener>
-
+	
 	<servlet>
-		<servlet-name>Webade Servlet</servlet-name>
+		<servlet-name>Check Token Servlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-		<init-param>
-			<param-name>contextConfigLocation</param-name>
-			<param-value>classpath:spring/dispatcher/spring-config.xml</param-value>
-		</init-param>
+			<init-param>
+				<param-name>contextConfigLocation</param-name>
+				<param-value>classpath:spring/dispatcher/spring-config.xml</param-value>
+			</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
@@ -37,5 +64,5 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-
+	
 </web-app>
