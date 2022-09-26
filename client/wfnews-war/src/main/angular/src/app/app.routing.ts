@@ -35,4 +35,4 @@ const PANEL_ROUTES: Routes = [
 ];
 
 
-export const ROUTING = RouterModule.forRoot(PANEL_ROUTES, { relativeLinkResolution: 'legacy', useHash:true });
+export const ROUTING = RouterModule.forRoot(PANEL_ROUTES, { relativeLinkResolution: 'legacy' });
