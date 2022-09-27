@@ -7,8 +7,8 @@
 	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
 		                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
-	                    http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd">
+	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
+	                    http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd">
 	
 	<!-- No additional authentication-manager config required for a resource server.  The authentication will be handled by the authorization server. -->
 	<sec:authentication-manager />
