@@ -36,7 +36,7 @@ import io.swagger.annotations.ResponseHeader;
 @Path("/externalUri")
 @Api(value = "ExternalUriEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
 public interface ExternalUriEndpoint extends BaseEndpoints{
-	@ApiOperation(value = "Add a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Add a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Add a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Add a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
@@ -52,7 +52,7 @@ public interface ExternalUriEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response createExternalUri(
 			@ApiParam(name = "externalUri", value = "The ExternalUri resource containing the new values.", required = true) ExternalUriResource resource) throws NotFoundException, ForbiddenException, ConflictException;	
-	@ApiOperation(value = "Update a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Update a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Update a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Update a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
@@ -68,7 +68,7 @@ public interface ExternalUriEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response updateExternalUri(
 			@ApiParam(name = "externalUri", value = "The ExternalUri resource containing the new values.", required = true) ExternalUriResource resource) throws NotFoundException, ForbiddenException, ConflictException;	
-	@ApiOperation(value = "Delete ExternalURI resource by ID", notes = "Delete ExternalURI by ID", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Delete ExternalURI resource by ID", notes = "Delete ExternalURI by ID", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
 		@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
