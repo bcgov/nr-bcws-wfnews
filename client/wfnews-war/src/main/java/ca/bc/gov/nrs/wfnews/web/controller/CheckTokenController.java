@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.web.controller;
 
+import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.impl.TokenServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +24,24 @@ public class CheckTokenController {
 	
 	@Autowired
 	private Properties applicationProperties;
-	@Autowired
-	TokenService tokenService;
 
 	@RequestMapping(value="/checkToken", method=RequestMethod.GET, headers="Accept=*/*")
 	@ResponseBody
 	protected CheckedToken token(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.debug("<checkToken");
+
+		TokenServiceImpl tokenService;
+
+		String clientSecret= System.getenv("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET");
+		String tokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_URL");
+		String checkTokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_CLIENT_URL");
+
+		tokenService = new TokenServiceImpl(
+				"WFNEWS-UI",
+				clientSecret,
+				checkTokenUrl,
+				tokenUrl);
+
 		CheckedToken result = null;
 		String authorizationHeader = request.getHeader("Authorization");
 		request.getSession().setAttribute("authToken", authorizationHeader);

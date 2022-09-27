@@ -133,10 +133,10 @@
 
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append("\",");
-      json.append("\"clientId\":\"WFIM_INCIDENT_MANAGER_UI\",");
+      json.append("\"clientId\":\"WFNEWS-UI\",");
       json.append("\"authScopes\":\"WFIM.* WFONE.* WFORG.* WEBADE-REST.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("checkToken.jsp", "")).append("\"");
+      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
     json.append("}");
 
