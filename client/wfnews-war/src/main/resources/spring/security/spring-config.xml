@@ -14,7 +14,7 @@
 	<sec:authentication-manager />
 	
 	<bean id="tokenClient" class="ca.bc.gov.webade.oauth2.rest.v1.token.client.impl.TokenServiceImpl">
-		<constructor-arg value="WFIM_INCIDENT_MANAGER_UI"/>
+		<constructor-arg value="WFNEWS-UI"/>
 		<constructor-arg value="${webade-oauth2.wfim-incident-manager-ui.client.secrett}" />
 		<constructor-arg value="${webade-oauth2.check.token.v2.url}" />
 		<constructor-arg value="${webade-oauth2.token.url}" />

@@ -84,13 +84,13 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
-      WEBADE_OAUTH2_CLIENT_ID: WFIM_REST
-      WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true&grant_type=client_credentials
-      WEBADE-OAUTH2_TOKEN_URL: https://i1api.nrs.gov.bc.ca/oauth2/v1/oauth/token?disableDeveloperFilter=true
+      WEBADE_OAUTH2_CLIENT_ID: WFNEWS-UI
+      WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
+      WEBADE-OAUTH2_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WFDM_REST_URL: https://wfappsi.nrs.gov.bc.ca/int/wfdm-document-management-api/
       WFIM_CLIENT_URL: https://wfappsi.nrs.gov.bc.ca/int/wfim-incidents-api/
       WFIM_CODE_TABLES_URL: https://wfappsi.nrs.gov.bc.ca/int/wfim-incidents-api/codeTables
-      WEBADE-OAUTH2_CHECK_TOKEN_URL: https://i1api.nrs.gov.bc.ca/oauth2/v2/check_token?disableDeveloperFilter=true
+      WEBADE-OAUTH2_CHECK_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true
       WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: true
       SMTP_HOST_NAME: apps.smtp.gov.bc.ca
       SMTP_FROM_EMAIL: noreply@gov.bc.ca
@@ -101,7 +101,7 @@ jobs:
       SMTP_EMAIL_SUBJECT: WFNEWS API Error [DEV]
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=FIRE_STATUS+%3C%3E+%27Out%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=true&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=
-      WFNEWS_USERNAME: wfnews_user
+      WFNEWS_USERNAME: wfnewsdev
       WFNEWS_MAX_CONNECTIONS: 10
 
     secrets:
