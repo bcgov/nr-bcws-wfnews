@@ -5,19 +5,19 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
-		                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.1.xsd
-	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-5.2.xsd
-	                    http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	                    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+	                    http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2.xsd">
 	
 	<!-- No additional authentication-manager config required for a resource server.  The authentication will be handled by the authorization server. -->
 	<sec:authentication-manager />
 	
 	<bean id="tokenClient" class="ca.bc.gov.webade.oauth2.rest.v1.token.client.impl.TokenServiceImpl">
 		<constructor-arg value="WFNEWS-UI"/>
-		<constructor-arg value="${webade-oauth2.wfim-incident-manager-ui.client.secrett}" />
-		<constructor-arg value="${webade-oauth2.check.token.v2.url}" />
-		<constructor-arg value="${webade-oauth2.token.url}" />
+		<constructor-arg value="${WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}" />
+		<constructor-arg value="${WEBADE-OAUTH2_TOKEN_CLIENT_URL}" />
+		<constructor-arg value="${WEBADE-OAUTH2_TOKEN_URL}" />
 	</bean>
 	
 	<!-- The token client is made hot swappable to support JUNIT tests. -->
@@ -40,7 +40,7 @@
 	
 	<!-- The resource-server defines a security filter for the specified resource.  The resource-payPeriodId should corrispond to a resource that -->
 	<!-- has been configured on the authorization server.  The token service that will be used to decode the oauth token is also specified. -->
-	<oauth:resource-server id="resourceServerFilter" resource-id="wfim" token-services-ref="tokenServices" />
+	<oauth:resource-server id="resourceServerFilter" resource-id="wfnews" token-services-ref="tokenServices" />
 	
 	 <bean id="basicAuthenticationFilter" class="ca.bc.gov.webade.oauth2.spring.security.authentication.www.BasicAuthenticationFilter">         
 		<constructor-arg index="0" ref="basicAuthenticationManager"/>
@@ -49,14 +49,14 @@
 
 	<bean id="basicAuthenticationManager"
 		class="ca.bc.gov.webade.oauth2.spring.security.authentication.BasicAuthenticationManager">
-		<property name="resourceId" value="wfim" />
-		<property name="tokenEndpointUrl" value="${webade-oauth2.token.url}" />
+		<property name="resourceId" value="wfnews" />
+		<property name="tokenEndpointUrl" value="${WEBADE-OAUTH2_TOKEN_URL}" />
 		<property name="tokenServices" ref="tokenServices"/>
 	</bean>
 		
  	<!-- If a token or basic authentication is not provided then we will return 401. -->
 	<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint">
-		<property name="realmName" value="wfim-incident-manager-ui-war"/>
+		<property name="realmName" value="wfnews-war"/>
 	</bean>
  
  	<!-- The http tag sets up the standard security filters for the specified URL pattern in the correct order.  The request-matcher attribute specifies -->
@@ -84,8 +84,7 @@
 
 	<bean id='webadeAuthenticationHolder' class='ca.bc.gov.webade.oauth2.spring.security.core.WebAdeAuthenticationHolder' />
 
-	<bean scope="request" factory-bean="webadeAuthenticationHolder"
-		factory-method="getWebAdeAuthentication">
+	<bean scope="request" factory-bean="webadeAuthenticationHolder" factory-method="getWebAdeAuthentication">
 		<aop:scoped-proxy />
 	</bean>
 	
