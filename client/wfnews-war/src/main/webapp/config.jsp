@@ -8,6 +8,7 @@
 <%@ page import="java.io.InputStreamReader" %>
 <%@ page import="org.springframework.core.io.Resource" %>
 <%@ page import="org.springframework.core.io.ClassPathResource" %>
+<%@ page import="ca.bc.gov.nrs.wfnews.util.EnvironmentVariable" %>
 
 <%@ page language="java" contentType="application/json; charset=UTF-8" pageEncoding="UTF-8"%>
 
@@ -18,7 +19,7 @@
     StringBuffer url = request.getRequestURL();
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
-    String baseUrl = System.getenv("BASE_URL");
+    String baseUrl = EnvironmentVariable.getVariable("BASE_URL");
 
     StringBuilder json = new StringBuilder("{");
 
@@ -88,48 +89,37 @@
     json.append("},");
 
     // REST API Section
-    String incidentsUri = System.getenv("WFIM_API_URL"); 
+    String incidentsUri = EnvironmentVariable.getVariable("WFIM_API_URL"); 
     if (incidentsUri.endsWith("/")) {
       incidentsUri = incidentsUri.substring(0, incidentsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String orgunitUri = System.getenv("ORG_UNIT_URL"); 
+    String orgunitUri = EnvironmentVariable.getVariable("ORG_UNIT_URL"); 
     if (orgunitUri.endsWith("/")) {
       orgunitUri = orgunitUri.substring(0, orgunitUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String wfdmUri = System.getenv("WFDM_API_URL"); 
+    String wfdmUri = EnvironmentVariable.getVariable("WFDM_API_URL"); 
     if (wfdmUri.endsWith("/")) {
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
     }
-
-    String wfnewsUri = System.getenv("WFNEWS_API_URL"); 
+    String wfnewsUri = EnvironmentVariable.getVariable("WFNEWS_API_URL"); 
     if (wfnewsUri.endsWith("/")) {
       wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
-    String causecodesUri = properties.getProperty("wfim-cause-codes-config.url", "");
-    if (causecodesUri.endsWith("/")) {
-      causecodesUri = causecodesUri.substring(0, causecodesUri.length() - 1); //Strip off trailing slash, if it exists.
-    }
-    String localApiUri = properties.getProperty("wfnews.url", "");
-    if (causecodesUri.endsWith("/")) {
-      causecodesUri = causecodesUri.substring(0, causecodesUri.length() - 1); //Strip off trailing slash, if it exists.
-    }
     json.append("\"rest\":{");
-      json.append("\"newsLocal\":\"").append(localApiUri).append("\"").append(",");
+      json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"orgunit\":\"").append(orgunitUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
-      json.append("\"causecodes\":\"").append(causecodesUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 
     // WebADE OAuth Section
-    String webadeOauth2AuthorizeUrl = System.getenv("WEBADE_OAUTH2_AUTHORIZE_URL"); 
+    String webadeOauth2AuthorizeUrl = EnvironmentVariable.getVariable("WEBADE_OAUTH2_AUTHORIZE_URL"); 
     if (webadeOauth2AuthorizeUrl.endsWith("/")) {
       webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
     }
-    
 
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append("\",");
