@@ -583,8 +583,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		try {
 			//if sourceObjectUniqueId is null return all
 			if(sourceObjectUniqueId!=null) {
-				externalUriList = this.externalUriDao.select(sourceObjectUniqueId, pageNumber, pageRowCount);
-			}else externalUriList = this.externalUriDao.fetchAll(pageNumber, pageRowCount);
+				externalUriList = this.externalUriDao.selectForIncident(sourceObjectUniqueId, pageNumber, pageRowCount);
+			}else externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
 			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);

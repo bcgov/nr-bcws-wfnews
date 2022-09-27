@@ -8,10 +8,13 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import ca.bc.gov.nrs.common.rest.resource.RelLink;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.resource.factory.BaseResourceFactory;
 import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
+import ca.bc.gov.nrs.wfone.common.webade.authentication.WebAdeAuthentication;
 import ca.bc.gov.nrs.common.service.model.factory.FactoryException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.ExternalUriEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublishedIncidentEndpoint;
@@ -42,7 +45,7 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 
 		setSelfLink(result, baseUri);
 
-//		setLinks(dto.getExternalUri(), result, baseUri);
+		setLinks(dto.getExternalUri(), result, baseUri);
 
 		return result;
 	}
@@ -72,31 +75,35 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 		resource.getLinks().add(new RelLink(ResourceTypes.SELF, selfUri, "GET"));
 	}
 	
-//	private void setLinks(String publishedIncidentDetailGuid, ExternalUriResource resource, URI baseUri){
-//		
-//		if (hasAuthority(Scopes.UPDATE_WILDFIRE_INCIDENT)) {
-//
-//			{
-//				String result = UriBuilder
-//						.fromUri(baseUri)
-//						.path(PublishedIncidentEndpoint.class)
-//						.build(publishedIncidentDetailGuid).toString();
-//				resource.getLinks().
-//				add(new RelLink
-//						(ResourceTypes.UPDATE_WILDFIRE_INCIDENT, 
-//								result, "PUT"));
-//			}
-//		}
-//
-//		if (hasAuthority(Scopes.DELETE_WILDFIRE_INCIDENT)) {
-//
-//			String result = UriBuilder
-//					.fromUri(baseUri)
-//					.path(PublishedIncidentEndpoint.class)
-//					.build(publishedIncidentDetailGuid).toString();
-//			resource.getLinks().add(new RelLink(ResourceTypes.DELETE_WILDFIRE_INCIDENT, result, "DELETE"));
-//		}
-//	}
+	private void setLinks(String externalUriGuid, ExternalUriResource resource, URI baseUri){
+		
+		if (hasAuthority(Scopes.CREATE_EXTERNAL_URI)) {
+
+				String result = UriBuilder
+						.fromUri(baseUri)
+						.path(ExternalUriEndpoint.class)
+						.build(externalUriGuid).toString();
+				resource.getLinks().add(new RelLink(ResourceTypes.CREATE_EXTERNAL_URI, result, "PUT"));
+		}
+		
+		if (hasAuthority(Scopes.UPDATE_EXTERNAL_URI)) {
+
+				String result = UriBuilder
+						.fromUri(baseUri)
+						.path(ExternalUriEndpoint.class)
+						.build(externalUriGuid).toString();
+				resource.getLinks().add(new RelLink(ResourceTypes.UPDATE_EXTERNAL_URI, result, "POST"));
+		}
+
+		if (hasAuthority(Scopes.DELETE_EXTERNAL_URI)) {
+
+			String result = UriBuilder
+					.fromUri(baseUri)
+					.path(ExternalUriEndpoint.class)
+					.build(externalUriGuid).toString();
+			resource.getLinks().add(new RelLink(ResourceTypes.DELETE_EXTERNAL_URI, result, "DELETE"));
+		}
+	}
 	
 	public static String getExternalUriSelfUri(String externalUriGuid, URI baseUri) {
 		
@@ -116,6 +123,7 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 		for (ExternalUriDto dto : dtos.getResults()) {
 			ExternalUriResource resource = new ExternalUriResource();
 			populate(resource, dto);
+			setLinks(resource.getExternalUriGuid(), resource, baseUri);
 			setSelfLink(resource, baseUri);
 			resources.add(resource);
 		}
@@ -137,5 +145,26 @@ public class ExternalUriResourceFactory extends BaseResourceFactory implements E
 		return result;
 	}
 	
+	protected final boolean hasAuthority(String authorityName) {
+        boolean result = false;
+        
+        WebAdeAuthentication webAdeAuthentication = getWebAdeAuthentication();
+        
+        if (webAdeAuthentication != null) {
+        	 for (GrantedAuthority grantedAuthority : webAdeAuthentication.getAuthorities()) {
+                 String authority = grantedAuthority.getAuthority();
+                 if (authority.equalsIgnoreCase(authorityName)) {
+                     result = true;
+                     break;
+                 }
+             }
+        }
+
+        return result;
+    }
+	
+	protected static final WebAdeAuthentication getWebAdeAuthentication() {
+		return (WebAdeAuthentication) SecurityContextHolder.getContext().getAuthentication();
+	}	
 	
 }

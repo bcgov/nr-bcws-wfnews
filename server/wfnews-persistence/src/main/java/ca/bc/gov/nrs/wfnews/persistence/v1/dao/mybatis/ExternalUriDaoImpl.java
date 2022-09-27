@@ -156,10 +156,38 @@ public class ExternalUriDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public PagedDtos<ExternalUriDto> select(String sourceObjectUniqueId, Integer pageNumber, Integer pageRowCount) throws DaoException{
+	public PagedDtos<ExternalUriDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException {
+		logger.debug("<select");
+
+		PagedDtos<ExternalUriDto> results = new PagedDtos<ExternalUriDto>();
+
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			Integer offset = null;
+			pageNumber = pageNumber==null?Integer.valueOf(0):pageNumber;
+			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
+			//avoid jdbc exception for offset when pageNumber is 0
+			if (offset < 0) offset = 0;
+			parameters.put("offset", offset);
+			parameters.put("pageRowCount", pageRowCount);
+			List<ExternalUriDto> dtos = this.externalUriMapper.select(parameters);
+			results.setResults(dtos);
+			results.setPageRowCount(dtos.size());
+			results.setTotalRowCount(dtos.size());
+			results.setPageNumber(pageNumber == null ? 0 : pageNumber.intValue());
+
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		logger.debug(">select " + results);
+		return results;
+	}
+	
+	@Override
+	public PagedDtos<ExternalUriDto> selectForIncident(String sourceObjectUniqueId, Integer pageNumber, Integer pageRowCount) throws DaoException{
 		
-		PagedDtos<ExternalUriDto> results = new PagedDtos<>();
-		
+		PagedDtos<ExternalUriDto> results = new PagedDtos<>();	
 		
 		try {
 
@@ -167,10 +195,12 @@ public class ExternalUriDaoImpl extends BaseDao implements
 			Integer offset = null;
 			int totalRowCount = this.externalUriMapper.selectCount(parameters);
 			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
+			//avoid jdbc exception for offset when pageNumber is 0
+			if (offset < 0) offset = 0;
 			parameters.put("sourceObjectUniqueId", sourceObjectUniqueId);
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
-			List<ExternalUriDto> dtos = this.externalUriMapper.select(parameters);
+			List<ExternalUriDto> dtos = this.externalUriMapper.selectForIncident(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
 			results.setTotalRowCount(totalRowCount);

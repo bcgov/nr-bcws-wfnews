@@ -163,7 +163,10 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			Integer offset = null;
 			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
+			pageNumber = pageNumber==null?Integer.valueOf(0):pageNumber;
 			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
+			//avoid jdbc exception for offset when pageNumber is 0
+			if (offset < 0) offset = 0;
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
