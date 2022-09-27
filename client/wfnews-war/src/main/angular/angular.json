@@ -26,7 +26,6 @@
               "src/assets",
               "src/favicon.ico",
               "src/config.jsp",
-              "src/causeCodesToken.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
               "src/robots.txt",
