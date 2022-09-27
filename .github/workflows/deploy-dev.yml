@@ -19,6 +19,7 @@ on:
       - "docker/**"
       - "terraform/**"
       - "Dockerfile"
+      - "Dockerfile_client"
       - "!**/README.md"
 
 jobs:
