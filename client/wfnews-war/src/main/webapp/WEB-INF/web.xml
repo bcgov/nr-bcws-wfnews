@@ -41,8 +41,8 @@
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>Webade Servlet</servlet-name>
-		<url-pattern>/auth/*</url-pattern>
+		<servlet-name>Check Token Servlet</servlet-name>
+		<url-pattern>/checkToken.jsp</url-pattern>
 	</servlet-mapping>
 
 	<welcome-file-list>
