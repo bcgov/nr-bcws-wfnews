@@ -28,6 +28,7 @@ env:
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
   SUBNET_FILTER: "App"
+  WEBADE_OAUTH2_CLIENT_ID: "default"
   WEBADE-OAUTH2_TOKEN_CLIENT_URL: "default"
   WEBADE-OAUTH2_TOKEN_URL: "default"
   WFDM_REST_URL: "default"
@@ -77,6 +78,7 @@ jobs:
           ALB_NAME: ${{ env.ALB_NAME }}
           VPC_NAME: ${{ env.VPC_NAME }}
           SUBNET_FILTER: ${{ env.SUBNET_FILTER }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{env.WEBADE_OAUTH2_CLIENT_ID}}
           WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{env.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE-OAUTH2_TOKEN_URL: ${{env.WEBADE-OAUTH2_TOKEN_URL}}
           WFDM_REST_URL: ${{env.WFDM_REST_URL}}

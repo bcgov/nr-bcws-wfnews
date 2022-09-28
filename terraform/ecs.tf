@@ -225,7 +225,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "ORG_UNIT_URL",
           value = ""
-        }  
+        },
+        {
+          name = "WFNEWS_API_URL",
+          value = "https://${aws_route53_record.wfnews_server.name}/"
+        }
       ]
       logConfiguration = {
         logDriver = "awslogs"
