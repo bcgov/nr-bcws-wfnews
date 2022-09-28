@@ -229,6 +229,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "WFNEWS_API_URL",
           value = "https://${aws_route53_record.wfnews_server.name}/"
+        },
+        {
+          name = "WEBADE_OAUTH2_AUTHORIZE_URL"
+          value = var.WEBADE_OAUTH2_AUTHORIZE_URL
         }
       ]
       logConfiguration = {
