@@ -240,6 +240,12 @@ variable "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET" {
   type = string
   default = ""
 }
+
+variable "WEBADE_OAUTH2_AUTHORIZE_URL" {
+  type = string
+  default = ""
+}
+
 variable "WFDM_REST_URL" {
   type = string
   default = ""
