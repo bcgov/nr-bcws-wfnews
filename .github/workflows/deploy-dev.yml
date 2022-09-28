@@ -88,6 +88,7 @@ jobs:
       WEBADE_OAUTH2_CLIENT_ID: WFNEWS-UI
       WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
       WEBADE-OAUTH2_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
+      WEBADE_OAUTH2_AUTHORIZE_URL: https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize
       WFDM_REST_URL: https://wfappsi.nrs.gov.bc.ca/int/wfdm-document-management-api/
       WFIM_CLIENT_URL: https://wfappsi.nrs.gov.bc.ca/int/wfim-incidents-api/
       WFIM_CODE_TABLES_URL: https://wfappsi.nrs.gov.bc.ca/int/wfim-incidents-api/codeTables
