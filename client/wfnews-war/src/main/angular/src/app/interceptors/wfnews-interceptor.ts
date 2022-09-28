@@ -24,7 +24,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         let processedRequest = req;
         let requestId;
         if (this.isUrlSecured(req.url)) {
-            requestId = `WFIMUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
+            requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
             if (!this.tokenService) {
                 this.tokenService = this.injector.get(TokenService);
             }
