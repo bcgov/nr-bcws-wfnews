@@ -5,7 +5,7 @@ import ca.bc.gov.nrs.common.wfone.rest.resource.types.BaseResourceTypes;
 public class ResourceTypes extends BaseResourceTypes {
 	public static final String NAMESPACE = "http://wfnews.nrs.gov.bc.ca/v1/";
 
-  public static final String ENDPOINTS_NAME = "endpoints";
+	public static final String ENDPOINTS_NAME = "endpoints";
 	public static final String ENDPOINTS = NAMESPACE + ENDPOINTS_NAME;
 
 	public static final String ATTACHMENT_NAME = "attachment";
@@ -27,8 +27,12 @@ public class ResourceTypes extends BaseResourceTypes {
 	public static final String EXTERNAL_URI_LIST_NAME = "externalUriList";
 	public static final String EXTERNAL_URI_LIST = NAMESPACE + EXTERNAL_URI_LIST_NAME;
 	
-	public static final String CREATE_WILDFIRE_INCIDENT = NAMESPACE + "createWildfireIncident";
-	public static final String UPDATE_WILDFIRE_INCIDENT = NAMESPACE + "updateWildfireIncident";
-	public static final String DELETE_WILDFIRE_INCIDENT = NAMESPACE + "deleteWildfireIncident";
+	public static final String CREATE_PUBLISHED_INCIDENT = NAMESPACE + "createPublishedIncident";
+	public static final String UPDATE_PUBLISHED_INCIDENT = NAMESPACE + "updatePublishedIncident";
+	public static final String DELETE_PUBLISHED_INCIDENT = NAMESPACE + "deletePublishedIncident";
+	
+	public static final String CREATE_EXTERNAL_URI = NAMESPACE + "createExternalUri";
+	public static final String UPDATE_EXTERNAL_URI = NAMESPACE + "updateExternalUri";
+	public static final String DELETE_EXTERNAL_URI = NAMESPACE + "deleteExternalUri";
 	
 }

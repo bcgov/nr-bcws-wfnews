@@ -17,6 +17,8 @@ public interface ExternalUriMapper {
 	
 	List<ExternalUriDto> select(Map<String, Object> parameters);
 	
+	List<ExternalUriDto> selectForIncident(Map<String, Object> parameters);
+	
 	int delete(Map<String, Object> parameters);
 	
 	int selectCount(Map<String, Object> parameters);

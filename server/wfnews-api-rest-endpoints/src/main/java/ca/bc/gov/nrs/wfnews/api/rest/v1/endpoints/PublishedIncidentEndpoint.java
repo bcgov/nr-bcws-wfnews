@@ -36,7 +36,7 @@ import io.swagger.annotations.ResponseHeader;
 @Path("/publishedIncident")
 @Api(value = "PublishedIncidentEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
 public interface PublishedIncidentEndpoint extends BaseEndpoints{
-	@ApiOperation(value = "Add a Published Incident Resource to the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Add a Published Incident Resource to the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Add a Published Incident Resource to the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Add a Published Incident Resource to the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
@@ -52,7 +52,7 @@ public interface PublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response createPublishedIncident(
 			@ApiParam(name = "publishedIncident", value = "The PublishedIncident resource containing the new values.", required = true) PublishedIncidentResource publishedIncident) throws NotFoundException, ForbiddenException, ConflictException;
-	@ApiOperation(value = "Update a Published Incident Resource to the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Update a Published Incident Resource to the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Update a Published Incident Resource to the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Update a Published Incident Resource to the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
@@ -68,7 +68,7 @@ public interface PublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response updatePublishedIncident(
 			@ApiParam(name = "publishedIncident", value = "The PublishedIncident resource containing the new values.", required = true) PublishedIncidentResource publishedIncident) throws NotFoundException, ForbiddenException, ConflictException;
-	@ApiOperation(value = "Get the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Get the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_WILDFIRE_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Get the List of Published Incident resources", response = PublishedIncidentResource.class, notes = "Get the List of Published Incident resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
