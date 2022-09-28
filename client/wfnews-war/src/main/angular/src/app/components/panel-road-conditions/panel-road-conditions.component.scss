@@ -1,0 +1,178 @@
+.image-size {
+  max-width: 100px;
+  margin-left: auto;
+}
+
+.list-rows {
+  display: flex;
+
+  ul {
+    margin-top: -10px;
+  }
+}
+
+section {
+    border: 2px solid #e9eff5;
+
+    h1 {
+        background-color: #e9eff5;
+        font-size: 13px;
+        font-weight: normal;
+        padding: 10px 20px;
+        margin: 0;
+        letter-spacing: 2px;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #003366
+    }
+
+    article {
+        font-size: 15px;
+        padding: 10px 20px;
+
+        a:link {
+          color: #1A5A96
+        }
+
+        a:visited{
+            color: #1A5A96
+        }
+
+        a:hover{
+            text-decoration: none;
+        }
+
+        .conditions-content {
+          display: flex;
+          flex-direction: row;
+          .phone {
+            background-color: #ffffff00;
+            background: url('/assets/images/drivebc/phone-square.svg') no-repeat center;
+            width: 15px;
+            height: 15px;
+          }
+        }
+
+        h2 {
+            font-size: 15px;
+            padding: 0;
+            margin: 0;
+            display: flex;
+
+            &.curret-conditions {
+              color: black;
+              display: block;
+              margin-left: -10px;
+            }
+
+            &.minor-severity-road-op {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Minor Red Line.svg') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.moderate-severity-road-op {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Moderate Red Line.svg') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.major-severity-road-op {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Major Red Line.svg') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.major-severity-event {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Major-Severity-Events-and-Incidents.svg') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.future-events {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/calendar-alt.svg') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.weather-conditions {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Weather-Conditions.png') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.planned-events {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Current-Planned-Events.png') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.incidents {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Incidents.png') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &.road-conditions {
+              color: black;
+
+              &::before {
+                background-color: #ffffff00;
+                background: url('/assets/images/drivebc/Road-Conditions.png') no-repeat center;
+                width: 25px;
+                height: 25px;
+              }
+            }
+
+            &::before {
+                content: '';
+                width: 20px;
+                height: 20px;
+                margin-right: 10px
+            }
+        }
+    }
+}
