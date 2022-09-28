@@ -23,9 +23,9 @@
                         <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
                             <div *ngIf="option.address !== ''">
                                 <div>
-                                    <span class="address">{{option.address}}</span> 
+                                    <span class="address">{{option.address}}</span>
                                 </div>
-                                <div class="locality">{{option.localityName}} ({{option.localityType}})</div>     
+                                <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
                             </div>
                             <div *ngIf="option.address === ''">
                                 <div>
@@ -112,6 +112,7 @@
           </panel-bans-prohibitions>
           <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
           <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
+          <panel-road-conditions *ngIf="selectedPanel === 'routes-impacted' && showAccordion"></panel-road-conditions>
       </div>
       <div class="map">
           <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
