@@ -54,7 +54,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.CREATE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.CREATE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
@@ -88,7 +88,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.UPDATE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.UPDATE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
@@ -121,7 +121,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.DELETE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.DELETE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		

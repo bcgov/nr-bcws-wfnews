@@ -101,6 +101,16 @@
 	<select id="select" resultMap="ExternalUriDtoMap">
 
 		SELECT *
+		  FROM WFNEWS.EXTERNAL_URI
+		<if test="offset != null and pageRowCount != null">
+	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
+	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
+		</if> 
+	</select>
+	
+	<select id="selectForIncident" resultMap="ExternalUriDtoMap">
+
+		SELECT *
 		  FROM WFNEWS.EXTERNAL_URI WHERE SOURCE_OBJECT_UNIQUE_ID = #{sourceObjectUniqueId}
 		<if test="offset != null and pageRowCount != null">
 	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS

@@ -48,7 +48,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.CREATE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.CREATE_EXTERNAL_URI)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
@@ -78,7 +78,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.UPDATE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.UPDATE_EXTERNAL_URI)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
@@ -106,7 +106,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 		
 		logRequest();
 		
-		if(!hasAuthority(Scopes.DELETE_WILDFIRE_INCIDENT)) {
+		if(!hasAuthority(Scopes.DELETE_EXTERNAL_URI)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
 		
