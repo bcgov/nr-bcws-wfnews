@@ -6,7 +6,6 @@
 	
 	<bean id="applicationProperties"
 		  class="org.springframework.beans.factory.config.PropertiesFactoryBean">
-		<property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
 		<property name="localOverride" value="true" />
 		<property name="locations">
 			<list>
@@ -25,4 +24,3 @@
 	<bean id="applicationContextProvider" class="ca.bc.gov.nrs.wfnews.util.ApplicationContextProvider"></bean>
 	
 </beans>
-
