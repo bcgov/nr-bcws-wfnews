@@ -121,7 +121,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     initAppMenu() {
-        this.appMenu = (this.applicationConfig.device == 'desktop'?
+        this.appMenu = (this.applicationConfig.device == 'desktop' ?
             [
                 new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
                 new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
