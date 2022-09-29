@@ -14,7 +14,7 @@
 <%;
 try {
   CheckTokenUtil util = new CheckTokenUtil();
-  Object token = util.token(request, response).toString();
+  Object token = util.token(request, response);
   out.write(token.toString());
 } catch (Exception e) {
   out.write("{}");
