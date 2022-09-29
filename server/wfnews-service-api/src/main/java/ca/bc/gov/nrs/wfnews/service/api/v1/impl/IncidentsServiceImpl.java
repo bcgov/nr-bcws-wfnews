@@ -270,8 +270,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			PublishedIncidentResource result = new PublishedIncidentResource();
 		
-				PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncidentByIncidentGuid(
-						publishedIncident,
+				PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncident(
+						publishedIncident.getPublishedIncidentDetailGuid(),
 						getWebAdeAuthentication(), 
 						factoryContext);
 	
@@ -508,8 +508,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		ExternalUriResource result = null;
 		ExternalUriDto dto = new ExternalUriDto(publishedIncident);
 		try {
-			if (dto.getCreateDate()==null)dto.setCreateDate(new Date());
-			if (dto.getCreatedTimestamp()==null)dto.setUpdateDate(new Date());
+			dto.setCreateDate(new Date());
+			dto.setUpdateDate(new Date());
 			dto.setRevisionCount(Long.valueOf(0));
 			if (dto.getCreatedTimestamp()==null)dto.setCreatedTimestamp(new Date());
 			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
@@ -531,8 +531,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		ExternalUriResource result = null;
 		ExternalUriDto dto = new ExternalUriDto(publishedIncident);
 		try {
+			dto.setUpdateDate(new Date());
 			if (dto.getCreateDate()==null)dto.setCreateDate(new Date());
-			if (dto.getCreatedTimestamp()==null)dto.setUpdateDate(new Date());
 			if (dto.getCreatedTimestamp()==null)dto.setCreatedTimestamp(new Date());
 			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setUpdateUser(webAdeAuthentication.getUserId());
 			if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null) dto.setCreateUser(webAdeAuthentication.getUserId());

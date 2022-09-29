@@ -149,6 +149,7 @@
 	UPDATE WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		   SET PUBLISHED_INCIDENT_DETAIL_GUID = #{dto.publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 				INCIDENT_GUID = 			  	#{dto.incidentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+				INCIDENT_NUMBER_LABEL = 		#{dto.incidentNumberLabel, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
 				NEWS_CREATED_TIMESTAMP =				#{dto.newsCreatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				STAGE_OF_CONTROL_CODE =				#{dto.stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				GENERAL_INCIDENT_CAUSE_CAT_ID =				#{dto.generalIncidentCauseCatId, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
@@ -190,7 +191,7 @@
 				CREATE_DATE =				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				UPDATE_USER =				#{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				UPDATE_DATE =				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
-		 WHERE INCIDENT_GUID = #{dto.incidentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{dto.publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
 	</update>
 	
 	<select id="fetch" resultMap="PublishedIncidentDtoMap"> 
