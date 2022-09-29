@@ -14,6 +14,15 @@
 
 	<mvc:default-servlet-handler />
 
+	<mvc:cors>
+		<mvc:mapping path="/**"
+			allowed-origin-patterns="*"
+			allowed-methods="GET, PUT, POST, OPTIONS"
+			allowed-headers="*"
+			exposed-headers="*" 
+			allow-credentials="true" />
+	</mvc:cors>
+
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver">
 		<property name="viewClass"
