@@ -21,9 +21,6 @@ public class CheckTokenUtil {
 		String tokenUrl = System.getenv("WEBADE-OAUTH2_TOKEN_URL");
 		String checkTokenUrl = System.getenv("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL");
 
-		logger.debug("Token URL: {}", tokenUrl);
-		logger.debug("Check Token URL: {}", checkTokenUrl);
-
 		TokenService tokenService = new TokenServiceImpl(
 				"WFNEWS-UI",
 				clientSecret,
