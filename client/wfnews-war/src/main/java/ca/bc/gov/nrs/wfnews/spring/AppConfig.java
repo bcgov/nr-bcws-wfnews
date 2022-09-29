@@ -6,7 +6,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @Import({
   PropertiesSpringConfig.class
 })
-public class AppConfig {
+public class AppConfig implements WebMvcConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
 
@@ -32,5 +33,14 @@ public class AppConfig {
 
         logger.info(">viewResolver");
         return resolver;
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+        .allowCredentials(true)
+        .allowedOriginPatterns("*")
+        .allowedHeaders("*")
+        .allowedMethods("GET", "POST", "OPTIONS");
     }
 }
