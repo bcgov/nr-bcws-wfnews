@@ -1,2 +1,10 @@
 docker build -t wfnews .
 docker run -p 1337:8080 --env WEBADE-OAUTH2_TOKEN_CLIENT_URL=https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true --env WEBADE-OAUTH2_TOKEN_URL=https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true --env WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET=*** wfnews
+
+For https to test logins may need to add
+
+-v /etc/docker/certs:/etc/ssl/certs:ro
+or whatever your certs path is
+
+or:
+--mount type=bind,src=/etc/docker/certs,dst=/etc/ssl/certs,readonly
