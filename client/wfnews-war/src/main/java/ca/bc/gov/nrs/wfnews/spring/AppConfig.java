@@ -11,7 +11,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -20,16 +20,12 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 @EnableWebMvc
 @ComponentScan("ca.bc.gov.nrs.wfnews.web.controller")
 @Import({
-  PropertiesSpringConfig.class
+  PropertiesSpringConfig.class,
+  SecuritySpringConfig.class
 })
 public class AppConfig implements WebMvcConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
-
-    @Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-       // registry.addViewController("/").setViewName("index");
-    }
     
     @Bean
     public UrlBasedViewResolver viewResolver() {
@@ -56,6 +52,11 @@ public class AppConfig implements WebMvcConfigurer {
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
       configurer.enable();
+    }
+
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+      configurer.setUseSuffixPatternMatch(true);
     }
 
     @Bean
