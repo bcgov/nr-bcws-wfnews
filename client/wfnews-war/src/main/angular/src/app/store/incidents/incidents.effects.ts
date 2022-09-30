@@ -28,7 +28,7 @@ export class IncidentsEffect {
         debounceTime(500),
         switchMap(
             ([action, store]) => {
-                
+
                 let typedaction = <SearchIncidentsAction>action;
                 let pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchIncidents);
                 let savedFilters = store.searchIncidents.filters;

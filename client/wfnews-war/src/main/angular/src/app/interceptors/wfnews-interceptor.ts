@@ -8,6 +8,8 @@ import {Router} from "@angular/router";
 import {RouterExtService} from "../services/router-ext.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
 import { ErrorHandlingInstructions } from "../utils/user-feedback-utils";
+import { ApplicationStateService } from "../services/application-state.service";
+import { ResourcesRoutes } from "../utils";
 
 @Injectable()
 export class WfnewsInterceptor extends AuthenticationInterceptor implements HttpInterceptor {
@@ -29,6 +31,11 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
                 this.tokenService = this.injector.get(TokenService);
             }
             if (this.tokenService.getTokenDetails()) {
+                let appStateService = this.injector.get(ApplicationStateService);
+                if (!appStateService.isAdminPageAccessable()){
+                    this.router.navigate([ResourcesRoutes.ERROR_PAGE])
+                }
+
                 if (this.tokenService.isTokenExpired(this.tokenService.getTokenDetails())) {
                     return this.refreshWindow().pipe(mergeMap((tokenResponse) => {
                         this.tokenService.updateToken(tokenResponse);

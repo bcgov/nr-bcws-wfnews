@@ -100,6 +100,7 @@ import { LightgalleryModule } from 'lightgallery/angular/13';
 import { PointIdService } from "./services/point-id.service";
 import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
 import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
+import { ErrorPageComponent } from './components/error-page/error-page.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -145,7 +146,8 @@ export const DATE_FORMATS = {
         WeatherPanelComponent,
         WildfirewResourcesComponent,
         ResourcePanelComponent,
-        PanelRoadConditionsComponent
+        PanelRoadConditionsComponent,
+        ErrorPageComponent,
     ],
     imports: [
         MatSortModule,
