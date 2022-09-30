@@ -27,10 +27,8 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.WILDFIRESLIST, component: WFMapContainerComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.CURRENTSTATISTICS, component: WFStatsComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full',
-  canActivate: [NewsAuthGuard],},
-  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full',
-  canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
   { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',}
 ];
