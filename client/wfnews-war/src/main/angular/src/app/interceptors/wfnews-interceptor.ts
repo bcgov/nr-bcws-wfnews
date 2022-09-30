@@ -1,8 +1,7 @@
 import {Injectable, Injector} from "@angular/core";
 import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {AppConfigService, AuthenticationInterceptor} from "@wf1/core-ui";
-import { TokenService } from '../services/token.service';
+import {AppConfigService, AuthenticationInterceptor, TokenService} from "@wf1/core-ui";
 import {UUID} from "angular2-uuid";
 import {catchError, mergeMap} from "rxjs/operators";
 import {Router} from "@angular/router";

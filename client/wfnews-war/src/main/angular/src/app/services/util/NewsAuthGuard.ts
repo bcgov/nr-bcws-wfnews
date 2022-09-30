@@ -1,6 +1,5 @@
-import {AppConfigService, AuthGuard} from "@wf1/core-ui";
-import { TokenService } from '../../services/token.service';
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
+import {AppConfigService, AuthGuard, TokenService} from "@wf1/core-ui";
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/router";
 import {Injectable} from "@angular/core";
 import {AsyncSubject, Observable, of} from "rxjs";
 import {mergeMap} from "rxjs/operators";
@@ -14,7 +13,7 @@ export class NewsAuthGuard extends AuthGuard {
     private asyncCheckingToken;
 
     constructor(tokenService: TokenService, router: Router, private appConfigService: AppConfigService, protected snackbarService: MatSnackBar) {
-        super(tokenService as any, router);
+        super(tokenService, router);
         this.baseScopes = [];
     }
 
@@ -63,7 +62,7 @@ export class NewsAuthGuard extends AuthGuard {
                 }
             }));
 
-        } else if (this.canAccessRoute(route.data.scopes, this.tokenService as any)) {
+        } else if (this.canAccessRoute(route.data.scopes, this.tokenService)) {
             return of(true);
         } else {
             this.redirectToErrorPage();
@@ -92,10 +91,12 @@ export class NewsAuthGuard extends AuthGuard {
         }
 
         this.asyncCheckingToken = new AsyncSubject();
+        alert('Check fort token ' + redirectUri)
         this.tokenService.checkForToken(redirectUri);
 
         this.tokenService.authTokenEmitter.subscribe(() => {
-            if (!this.canAccessRoute(route.data.scopes, this.tokenService as any)) {
+          alert('emit result')
+            if (!this.canAccessRoute(route.data.scopes, this.tokenService)) {
                 this.asyncCheckingToken.next(false);
                 this.asyncCheckingToken.complete();
             } else {

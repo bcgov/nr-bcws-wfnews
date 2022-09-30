@@ -4,7 +4,7 @@ import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppConfigService } from '@wf1/core-ui';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
@@ -12,7 +12,6 @@ import { Subscription } from 'rxjs';
 import { ApplicationStateService } from './services/application-state.service';
 import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
-import { TokenService } from './services/token.service';
 import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
 
