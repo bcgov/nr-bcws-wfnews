@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
@@ -22,6 +23,11 @@ public class AppConfig implements WebMvcConfigurer {
 
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+       // registry.addViewController("/").setViewName("index");
+    }
+    
     @Bean
     public UrlBasedViewResolver viewResolver() {
         logger.info("<viewResolver");
