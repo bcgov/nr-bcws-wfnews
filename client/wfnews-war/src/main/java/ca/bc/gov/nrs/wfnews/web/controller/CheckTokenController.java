@@ -23,7 +23,7 @@ public class CheckTokenController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CheckTokenController.class);
 
-	@GetMapping(value="/checkToken", headers="Accept=*/*")
+	@GetMapping(value="/checkToken", headers="Accept=*/*", produces={"application/json", "text/xml"})
 	@ResponseBody
 	protected CheckedToken token(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.debug("<checkToken");
