@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.view.UrlBasedViewResolver;
 
 @Configuration
 @EnableWebMvc
+@EnableWebSecurity
 @ComponentScan("ca.bc.gov.nrs.wfnews.web.controller")
 @Import({
   PropertiesSpringConfig.class,
@@ -46,7 +48,7 @@ public class AppConfig implements WebMvcConfigurer {
         .allowCredentials(true)
         .allowedOriginPatterns("*")
         .allowedHeaders("*")
-        .allowedMethods("GET", "POST", "OPTIONS");
+        .allowedMethods("HEAD", "GET", "POST", "OPTIONS");
     }
 
     @Override
