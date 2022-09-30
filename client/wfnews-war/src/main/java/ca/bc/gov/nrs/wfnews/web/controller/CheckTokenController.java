@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,11 +22,8 @@ import java.util.Properties;
 public class CheckTokenController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CheckTokenController.class);
-	
-	@Autowired
-	private Properties applicationProperties;
 
-	@RequestMapping(value="/checkToken", method=RequestMethod.GET, headers="Accept=*/*")
+	@GetMapping(value="/checkToken", headers="Accept=*/*")
 	@ResponseBody
 	protected CheckedToken token(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		logger.debug("<checkToken");
@@ -58,9 +56,4 @@ public class CheckTokenController {
 		logger.debug(">checkToken");
 		return result;
 	}
-
-	public void setApplicationProperties(Properties applicationProperties) {
-		this.applicationProperties = applicationProperties;
-	}
-
 }
