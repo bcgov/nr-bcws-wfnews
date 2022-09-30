@@ -1,6 +1,7 @@
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppConfigService, TokenService } from "@wf1/core-ui";
+import { AppConfigService } from "@wf1/core-ui";
+import { TokenService } from '../services/token.service';
 import { FileDetailsRsrc, FileMetadataRsrc } from "@wf1/wfdm-document-management-api";
 import { UUID } from 'angular2-uuid';
 import { environment } from '../../environments/environment';

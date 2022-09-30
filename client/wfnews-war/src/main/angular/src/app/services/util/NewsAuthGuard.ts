@@ -1,4 +1,5 @@
-import {AppConfigService, AuthGuard, TokenService} from "@wf1/core-ui";
+import {AppConfigService, AuthGuard} from "@wf1/core-ui";
+import { TokenService } from '../../services/token.service';
 import {ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
 import {Injectable} from "@angular/core";
 import {AsyncSubject, Observable, of} from "rxjs";
