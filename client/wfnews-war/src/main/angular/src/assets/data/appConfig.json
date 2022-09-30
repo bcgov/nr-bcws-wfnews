@@ -79,7 +79,7 @@
         "authScopes": "WFIM.* WFORG.* WFDM.*",
         "enableCheckToken": true,
         "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
-        "checkTokenUrl": "assets/data/checktoken-LULI.json"
+        "checkTokenUrl": "./assets/data/checktoken-LULI.json"
     },
 
     "mapServices": {

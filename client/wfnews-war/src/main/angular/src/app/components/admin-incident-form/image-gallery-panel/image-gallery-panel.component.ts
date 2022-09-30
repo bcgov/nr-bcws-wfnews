@@ -9,7 +9,7 @@ import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { TokenService, AppConfigService } from '@wf1/core-ui';
+import { AppConfigService,  TokenService} from '@wf1/core-ui';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { RootState } from '../../../store';
 import { UploadImageDialogComponent } from './upload-image-dialog/upload-image-dialog.component';
