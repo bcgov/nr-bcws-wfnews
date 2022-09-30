@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationManagerResolver;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -103,15 +104,19 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Override
 	public void configure(WebSecurity web) throws Exception {
 
-		/* web.ignoring()
+		web.ignoring()
 				.antMatchers(HttpMethod.OPTIONS, "/**")
-				.antMatchers(HttpMethod.GET, "/**"); */
+				.antMatchers(HttpMethod.GET, "/**");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		http.cors().and().csrf().disable().authorizeRequests().anyRequest().permitAll();
+		http.cors().and().csrf().disable()
+    .oauth2ResourceServer(oauth2 -> oauth2.authenticationManagerResolver(authenticationManagerResolver()))
+    .authorizeRequests().anyRequest().permitAll().and()
+    .exceptionHandling()
+		.authenticationEntryPoint(authenticationEntryPoint());
 	}
 
   @Bean
