@@ -14,7 +14,7 @@ export class NewsAuthGuard extends AuthGuard {
     private asyncCheckingToken;
 
     constructor(tokenService: TokenService, router: Router, private appConfigService: AppConfigService, protected snackbarService: MatSnackBar) {
-        super(tokenService, router);
+        super(tokenService as any, router);
         this.baseScopes = [];
     }
 
@@ -63,7 +63,7 @@ export class NewsAuthGuard extends AuthGuard {
                 }
             }));
 
-        } else if (this.canAccessRoute(route.data.scopes, this.tokenService)) {
+        } else if (this.canAccessRoute(route.data.scopes, this.tokenService as any)) {
             return of(true);
         } else {
             this.redirectToErrorPage();
@@ -95,7 +95,7 @@ export class NewsAuthGuard extends AuthGuard {
         this.tokenService.checkForToken(redirectUri);
 
         this.tokenService.authTokenEmitter.subscribe(() => {
-            if (!this.canAccessRoute(route.data.scopes, this.tokenService)) {
+            if (!this.canAccessRoute(route.data.scopes, this.tokenService as any)) {
                 this.asyncCheckingToken.next(false);
                 this.asyncCheckingToken.complete();
             } else {
