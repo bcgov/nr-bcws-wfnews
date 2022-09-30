@@ -26,6 +26,7 @@
               "src/assets",
               "src/favicon.ico",
               "src/config.jsp",
+              "src/token.jsp",
               "src/manifest.json",
               "src/refresh-token.html",
               "src/robots.txt",
@@ -129,6 +130,7 @@
               "src/robots.txt",
               "src/oauth.html",
               "src/config.jsp",
+              "src/token.jsp",
               "src/override_config.json",
               "src/manifest.json",
               "src/refresh-token.html"
