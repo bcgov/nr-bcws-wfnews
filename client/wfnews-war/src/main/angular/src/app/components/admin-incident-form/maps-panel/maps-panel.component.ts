@@ -10,8 +10,7 @@ import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { AppConfigService } from '@wf1/core-ui';
-import { TokenService } from '../../../services/token.service';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { RootState } from '../../../store';
 import { MessageDialogComponent } from '../../message-dialog/message-dialog.component';

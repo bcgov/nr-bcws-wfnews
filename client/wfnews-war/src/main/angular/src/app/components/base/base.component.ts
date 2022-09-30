@@ -22,8 +22,7 @@ import {
 import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
 import {Overlay} from '@angular/cdk/overlay';
 import {ApplicationStateService} from '../../services/application-state.service';
-import {AppConfigService} from '@wf1/core-ui';
-import { TokenService } from '../../services/token.service';
+import {AppConfigService, TokenService} from '@wf1/core-ui';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
 import {MatSnackBar} from '@angular/material/snack-bar';
