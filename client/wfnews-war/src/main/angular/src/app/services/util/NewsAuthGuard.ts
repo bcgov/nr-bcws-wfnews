@@ -91,11 +91,9 @@ export class NewsAuthGuard extends AuthGuard {
         }
 
         this.asyncCheckingToken = new AsyncSubject();
-        alert('Check fort token ' + redirectUri)
         this.tokenService.checkForToken(redirectUri);
 
         this.tokenService.authTokenEmitter.subscribe(() => {
-          alert('emit result')
             if (!this.canAccessRoute(route.data.scopes, this.tokenService)) {
                 this.asyncCheckingToken.next(false);
                 this.asyncCheckingToken.complete();
