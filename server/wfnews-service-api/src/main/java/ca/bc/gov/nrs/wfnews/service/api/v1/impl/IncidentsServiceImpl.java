@@ -107,8 +107,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
     	String queryUrl = agolQueryUrl;
     	
     	if (status != null && status !="") {
-    		queryUrl = queryUrl + "+AND+FIRE_STATUS+%3D+'"+ status.replace(" ", "+") + "'";
-    	}
+    		queryUrl = queryUrl + "FIRE_STATUS+%3D+'"+ status.replace(" ", "+") + "'";
+    	}else queryUrl = queryUrl + "FIRE_STATUS+%3C%3E+'OUT'";
     	
     	if (date != null && date!= "") {
     		queryUrl = queryUrl + "+AND+IGNITION_DATE+%3E%3D+'"+ date +"+00%3A00%3A00'+AND+IGNITION_DATE+%3C%3D+'"+ date +"+23%3A59%3A59'";
@@ -144,7 +144,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
     public IncidentResource getIncidentByID(String id) {
     	IncidentResource result = new IncidentResource();
     	IncidentListResource incidentListResource = null;
-    	String queryUrl = agolQueryUrl + "+AND+FIRE_ID+%3D" + id + concatenatedQueryString;
+    	String queryUrl = agolQueryUrl + "FIRE_ID+%3D" + id + concatenatedQueryString;
     	 try{
          	
              HttpResponse<JsonNode> response = Unirest
