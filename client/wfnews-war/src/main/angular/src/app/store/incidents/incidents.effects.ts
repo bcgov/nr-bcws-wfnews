@@ -1,7 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { SortDirection, TokenService } from "@wf1/core-ui";
+import { SortDirection } from "@wf1/core-ui";
+import { TokenService } from '../../services/token.service';
 import { WildfireIncidentListService } from "@wf1/incidents-rest-api";
 import { Observable, of } from "rxjs";
 import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
@@ -28,7 +29,7 @@ export class IncidentsEffect {
         debounceTime(500),
         switchMap(
             ([action, store]) => {
-                
+
                 let typedaction = <SearchIncidentsAction>action;
                 let pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchIncidents);
                 let savedFilters = store.searchIncidents.filters;
