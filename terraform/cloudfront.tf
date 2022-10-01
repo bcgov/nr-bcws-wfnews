@@ -46,6 +46,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
     forwarded_values {
       query_string = true
+      headers      = ["*"]
 
       cookies {
         forward = "all"
