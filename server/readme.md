@@ -1,9 +1,12 @@
 To locally test the build:
 
+```
 mvn clean install (option -DskipTests if you want to ignore tests)
+```
 
 Then, once the build is complete,
 
+```
 docker build -t wfnews-api .
 docker run -p 1338:8080 
 --env DB_NAME=
@@ -28,8 +31,16 @@ docker run -p 1338:8080
 --env WFNEWS_USERNAME=
 --env WFNEWS_MAX_CONNECTIONS=100
 --env DB_PASS=***
-
 wfnews-api
+```
 
 You can use --env for environment variables, or pass in a list (see the docker documentation for instructions)
 Look in the deploy-dev.yml for Dev env variable configs
+
+If you've deployed a Postgres image, you can supply that as your wfnews DB, but you can't wire it to "localhost", as your API container won't find it. You will need to change it to the IP of your DB container. You can find this by:
+
+`docker ps`
+then, Copy the container ID of your postgres container and:
+`run docker inspect <container id>`
+
+Down at the bottom in IP settings, you can copy the IP address out and use that in the postgres connection instead of localhost. Or, use docker desktop to inspect and get it from there.
