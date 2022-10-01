@@ -200,7 +200,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "BASE_URL",
-          value = "https://wfnews-client.pp93w9-dev.nimbus.cloud.gov.bc.ca/"
+          value = "https://${aws_route53_record.wfnews_client.name}/"
         },
         {
           name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
