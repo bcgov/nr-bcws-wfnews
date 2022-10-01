@@ -22,6 +22,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebadeOauth2AuthenticationProvider;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.TokenService;
 
@@ -118,7 +119,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.httpBasic().and()
 		.authorizeRequests(authorize -> authorize
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/**").hasAuthority("WFIM.GET_TOPLEVEL")
+				.antMatchers("/**").hasAuthority(Scopes.GET_TOPLEVEL)
 				.anyRequest().denyAll()
 			)
 		.exceptionHandling()
