@@ -28,7 +28,7 @@ public class TokenServiceSpringConfig  {
 
 	String clientSecret = System.getenv("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET");
 	String tokenUrl = System.getenv("WEBADE-OAUTH2_TOKEN_URL");
-	String checkTokenUrl = System.getenv("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"); 
+	String checkTokenUrl = System.getenv("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL");
 
 	// Can be defined in static.properties
 	// @Value("${webade-oauth2.client.id}")
