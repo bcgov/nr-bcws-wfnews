@@ -101,6 +101,7 @@ import { PointIdService } from "./services/point-id.service";
 import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
 import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { PublishedIncidentService } from './services/published-incident-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -275,6 +276,7 @@ export const DATE_FORMATS = {
         MapConfigService,
         CommonUtilityService,
         DocumentManagementService,
+        PublishedIncidentService,
         PointIdService,
     ],
     bootstrap: [
