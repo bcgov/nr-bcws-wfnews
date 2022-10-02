@@ -9,7 +9,7 @@
 <%
   String documentId = request.getParameter("documentId");
 
-  String token = (String) request.getSession().getAttribute("authToken");
+  String token = (String) request.getHeader("Authorization");
   if (token == null) {
     response.sendError(401, "No token available in session to authenticate to WFDM.  Use checkToken to set it.");
     return;
