@@ -123,6 +123,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.adminIncident && changes.adminIncident.currentValue){
       this.currentAdminIncident = changes.adminIncident.currentValue
+      // We need to load the Published Incident from IM as well at this point!
       this.incidentForm.patchValue(this.currentAdminIncident)
 
       // update the stub, until we wire this properly

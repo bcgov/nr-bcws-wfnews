@@ -31,15 +31,15 @@ public class TokenServiceSpringConfig  {
 	String checkTokenUrl = System.getenv("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"); 
 
 	// Can be defined in static.properties
-	@Value("${webade-oauth2.client.id}")
-	private String webadeOauth2ClientId;
+	// @Value("${webade-oauth2.client.id}")
+	// private String webadeOauth2ClientId;
 
 	@Bean
 	public TokenService tokenServiceImpl() {
 		TokenServiceImpl result;
 
 		result = new TokenServiceImpl(
-				webadeOauth2ClientId,
+				"WFNEWS-UI",
 				clientSecret,
 				tokenUrl,
 				checkTokenUrl);
