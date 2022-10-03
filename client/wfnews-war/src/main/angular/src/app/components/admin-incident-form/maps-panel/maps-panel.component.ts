@@ -150,7 +150,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
-          self.attachmentCreator(doc.fileId, doc.filePath, result.file.mimeType, 'Perimeter Map', 'INFO').then(() => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Perimeter Map', 'INFO').then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           }).catch(err => {
             this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
