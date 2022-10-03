@@ -10,12 +10,11 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.ExternalUriEndpointImpl;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.IncidentsEndpointsImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicPublishedIncidentEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublishedIncidentEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
 import io.swagger.v3.jaxrs2.integration.resources.AcceptHeaderOpenApiResource;
@@ -39,7 +38,6 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(TopLevelEndpointsImpl.class);
 		register(OpenApiResource.class);
 		register(AcceptHeaderOpenApiResource.class);
-		register(IncidentsEndpointsImpl.class);
 		register(PublishedIncidentEndpointImpl.class);
 		register(PublicPublishedIncidentEndpointImpl.class);
 		register(ExternalUriEndpointImpl.class);

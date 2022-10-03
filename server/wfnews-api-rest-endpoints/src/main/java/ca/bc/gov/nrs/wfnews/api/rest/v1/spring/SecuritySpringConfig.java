@@ -22,7 +22,6 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
-import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebadeOauth2AuthenticationProvider;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.TokenService;
 
@@ -78,7 +77,6 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.antMatchers(HttpMethod.GET, "/openapi.*")
 		.antMatchers(HttpMethod.OPTIONS, "/checkHealth")
 		.antMatchers(HttpMethod.GET, "/checkHealth")
-		.antMatchers(HttpMethod.GET, "/incidents/**")
 		.antMatchers(HttpMethod.GET, "/publicPublishedIncident/**")
 		.antMatchers(HttpMethod.GET, "/publicExternalUri/**")
 		.antMatchers(HttpMethod.GET, "/")
@@ -119,7 +117,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.httpBasic().and()
 		.authorizeRequests(authorize -> authorize
 				.antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-				.antMatchers("/**").hasAuthority(Scopes.GET_TOPLEVEL)
+				.antMatchers("/**").hasAuthority("WFNEWS.GET_TOPLEVEL")
 				.anyRequest().denyAll()
 			)
 		.exceptionHandling()
