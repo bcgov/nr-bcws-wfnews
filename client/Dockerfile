@@ -1,6 +1,6 @@
 FROM tomcat:8.5.47-jdk11-openjdk
 
-COPY *.war .
+COPY /wfnews-war/target/wfnews-war-1.0.0.war .
 
 ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \

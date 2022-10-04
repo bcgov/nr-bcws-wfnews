@@ -103,6 +103,7 @@ import { PanelRoadConditionsComponent } from './components/panel-road-conditions
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
+import { PublishedIncidentService } from './services/published-incident-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -280,6 +281,7 @@ export const DATE_FORMATS = {
         MapConfigService,
         CommonUtilityService,
         DocumentManagementService,
+        PublishedIncidentService,
         PointIdService,
     ],
     bootstrap: [
