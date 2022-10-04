@@ -1,5 +1,4 @@
 import { Action } from "@ngrx/store";
-import { WildfireIncidentResource } from "@wf1/incidents-rest-api";
 import { LabeledAction } from "..";
 import { ErrorState, PagingInfoRequest } from "../application/application.state";
 
