@@ -21,7 +21,7 @@ export interface WildfiresState { // will need to specify the type . use any for
 
 export const initialWildfiresSearchState: SearchState = {
     query: null,
-    sortParam: "discoveryTimestamp",
+    sortParam: "lastUpdatedTimestamp",
     sortDirection: "DESC",
     sortModalVisible: false,
     filters: {},

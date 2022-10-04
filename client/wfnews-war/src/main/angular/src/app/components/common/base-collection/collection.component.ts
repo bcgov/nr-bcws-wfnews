@@ -73,7 +73,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
 
     ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
-        console.log(changes)
         if (changes.collection && changes.collection.currentValue) {
             this.updateCollection(changes.collection.currentValue);
             setTimeout(() => {
@@ -82,7 +81,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         }
         if (changes.searchState) {
             this.searchState = changes.searchState.currentValue ? changes.searchState.currentValue : this.initPagingRequest;
-            //console.log(this.searchState, this.currentSort);
             this.searchText = this.searchState.query;
             setTimeout(() => {
                 this.cdr.detectChanges();

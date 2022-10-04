@@ -24,7 +24,7 @@ export class WildfiresListEffect {
     }
 
     @Effect()
-    getIncidentList: Observable<Action> = this.actions.pipe(
+    getWildfiresList: Observable<Action> = this.actions.pipe(
         ofType(SEARCH_WILDFIRES),
         withLatestFrom(this.store),
         debounceTime(500),
@@ -38,20 +38,26 @@ export class WildfiresListEffect {
                 let pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
-                if (sortParam == "fireNumber") {
-                    sortParam = "incidentNumberSequence";
-                }
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
                 }
-                if (sortParam == "fireCentre") {
-                    sortParam = "fireCentreOrgUnitName";
+                if (sortParam == "fireNumber") {
+                    sortParam = "incidentNumberLabel";
+                }
+                if (sortParam == "lastUpdated") {
+                    sortParam = "lastUpdatedTimestamp";
+                }
+                if (sortParam == "stageOfControl") {
+                    sortParam = "stageOfControlCode";
                 }
                 if (sortParam == "wildfireOfNote") {
-                    sortParam = "fireOfNotePublishedInd";
+                    sortParam = "fireOfNoteInd";
                 }
-                if (sortParam == "lastPublished") {
-                    sortParam = "discoveryTimestamp";
+                if (sortParam == "fireCentre") {
+                    sortParam = "contactOrgUnitIdentifer";
+                }
+                if (sortParam == "location") {
+                    sortParam = "incidentLocation";
                 }
 
 
@@ -63,12 +69,16 @@ export class WildfiresListEffect {
                     searchText = undefined;
                 }
                 let savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
-                let savedFireOfNotePublishedIndFilter = savedFilters && savedFilters.selectedFireOfNotePublishedInd ? savedFilters.selectedFireOfNotePublishedInd : undefined;
 
 
                 let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
-                let fireOfNotePublishedInd = typedaction.payload.filters["selectedFireOfNotePublishedInd"] ? typedaction.payload.filters["selectedFireOfNotePublishedInd"] : savedFireOfNotePublishedIndFilter;
+                orderBy = encodeURIComponent(orderBy.trim());
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
+                if (orderBy) {
+                    url = url.concat('&orderBy=')
+                    url = url.concat(orderBy)
+                    console.log(url)
+                }
                 let headers = new HttpHeaders();
                 headers.append('Access-Control-Allow-Origin','*');
                 headers.append('Accept','*/*');

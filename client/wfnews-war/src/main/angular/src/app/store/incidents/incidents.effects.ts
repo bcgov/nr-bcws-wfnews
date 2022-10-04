@@ -36,7 +36,6 @@ export class IncidentsEffect {
                 let pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initIncidentsPaging.pageNumber;
                 let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initIncidentsPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
-                console.log(sortParam)
                 if (sortParam == "fireNumber") {
                     sortParam = "incidentNumberSequence";
                 }

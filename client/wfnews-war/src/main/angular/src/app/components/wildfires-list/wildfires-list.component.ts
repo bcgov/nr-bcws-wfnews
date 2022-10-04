@@ -88,17 +88,17 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
 
   getFireCentres() {
-    // let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
-    // let headers = new HttpHeaders();
-    // headers.append('Access-Control-Allow-Origin', '*');
-    // headers.append('Accept', '*/*');
-    // this.http.get<any>(url, { headers }).subscribe(response => {
-    //   if (response.features) {
-    //     response.features.forEach(element => {
-    //       this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE })
-    //     });
-    //   }
-    // })
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin', '*');
+    headers.append('Accept', '*/*');
+    this.http.get<any>(url, { headers }).subscribe(response => {
+      if (response.features) {
+        response.features.forEach(element => {
+          this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE })
+        });
+      }
+    })
   }
 
   convertToDate(value: string) {
@@ -108,13 +108,20 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   selectIncident(incident: any) {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], { queryParams: { wildFireYear: incident.wildfireYear, incidentNumberSequence: incident.incidentNumberSequence } });
-    }, 100);
+    //TODO
   }
 
+  addToWatchlist(incident: any) {
+    //TODO, add to sessionStorage
+  }
+
+  viewMap(incident: any) {
+    //TODO, navigate to map page
+  }
+
+
   stagesOfControlChange(event: any) {
-    this.fireOfNotePublishedInd = event.value === 'note'
+    // TODO, filter should update
     this.doSearch()
   }
 
