@@ -2,8 +2,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
-import { AppConfigService, SortDirection, TokenService } from "@wf1/core-ui";
-import { WildfireIncidentListService } from "@wf1/incidents-rest-api";
+import { AppConfigService, SortDirection } from "@wf1/core-ui";
 import { Observable, of } from "rxjs";
 import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
 import { RootState } from "..";
@@ -15,9 +14,8 @@ import { initWildfiresListPaging } from "./wildfiresList.stats";
 export class WildfiresListEffect {
     constructor(
         private actions: Actions,
-        private incidentListService: WildfireIncidentListService,
         private store: Store<RootState>,
-        private appConfigService: AppConfigService, 
+        private appConfigService: AppConfigService,
         protected http: HttpClient
     ) {
 
@@ -31,12 +29,11 @@ export class WildfiresListEffect {
         switchMap(
             ([action, store]) => {
 
-                let typedaction = <SearchWildfiresAction>action;
-                let pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchWildfires);
-                let savedFilters = store.searchWildfires.filters;
+                const typedaction = <SearchWildfiresAction>action;
+                const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchWildfires);
 
-                let pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
-                let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
+                const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
+                const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
@@ -60,24 +57,13 @@ export class WildfiresListEffect {
                     sortParam = "incidentLocation";
                 }
 
-
                 let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
-                let searchText = [];
-                if (pagingInfoRequest.query && pagingInfoRequest.query.length > 0) {
-                    searchText[0] = pagingInfoRequest.query;
-                } else {
-                    searchText = undefined;
-                }
-                let savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
 
-
-                let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
                 orderBy = encodeURIComponent(orderBy.trim());
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
                 if (orderBy) {
                     url = url.concat('&orderBy=')
                     url = url.concat(orderBy)
-                    console.log(url)
                 }
                 let headers = new HttpHeaders();
                 headers.append('Access-Control-Allow-Origin','*');
@@ -89,8 +75,6 @@ export class WildfiresListEffect {
                         }),
                         catchError(error => of(searchWildfiresError(typedaction.componentId, error)))
                     );
-
-
             }
         )
     );

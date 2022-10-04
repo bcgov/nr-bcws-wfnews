@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { fireCentreOption, PagedCollection } from '../../conversion/models';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { ResourcesRoutes } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 

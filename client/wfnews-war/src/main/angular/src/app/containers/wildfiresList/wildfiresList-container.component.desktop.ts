@@ -1,5 +1,4 @@
 import { Component } from "@angular/core";
-import { BaseContainer } from "../base/base-container.component";
 import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
 import { WildfiresListContainer } from "./wildfiresList-container.component";
 

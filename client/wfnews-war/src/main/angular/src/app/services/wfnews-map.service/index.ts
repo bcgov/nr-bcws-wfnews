@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { ComponentFactoryResolver, ComponentRef, Injectable, NgZone, Type, ViewContainerRef, EventEmitter } from '@angular/core';
 import { SpatialUtilsService } from '@wf1/core-ui';
-import { ProvisionalZoneResource, PublicReportOfFireResource, SimpleWildfireIncidentResource } from '@wf1/incidents-rest-api';
+import { ProvisionalZoneResource, PublicReportOfFireResource } from '@wf1/incidents-rest-api';
 import { WFMapService } from '../wf-map.service';
 import { Location, PlaceData } from './place-data';
 import { formatDistance, LonLat, toLatLon, toPoint, Translate } from './util';
