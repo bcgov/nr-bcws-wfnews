@@ -27,7 +27,9 @@ export const ICON = {
     EXT_LINK: 'external-link',
     EXCLAMATION_CIRCLE: 'exclamation-circle',
     CLOUD_SUN: 'cloud-sun',
-    FILTER_CANCEL: "filter-cancel"
+    FILTER_CANCEL: "filter-cancel",
+    BOOKMARK: 'bookmark',
+    MAP: 'map',
 };
 
 @Component({
@@ -271,6 +273,16 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.matIconRegistry.addSvgIcon(
             ICON.FILTER_CANCEL,
             this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/filter-cancel.svg")
+        );
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.BOOKMARK,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/bookmark.svg')
+        );
+
+        this.matIconRegistry.addSvgIcon(
+            ICON.MAP,
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/map.svg')
         );
     }
 

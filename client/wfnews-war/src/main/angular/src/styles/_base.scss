@@ -14,6 +14,16 @@ body {
     align-items: center;
 }
 
+button.mat-fab.mat-primary,
+button.mat-raised-button.mat-primary {
+  background-color: $colour-button-primary;
+  color: $colour-white;
+
+  &:not([disabled]).intermediate-action{
+    background-color: $colour-intermediate-action;
+  }
+}
+
 mat-toolbar.wf1-application-header.mat-primary {
     background-color: $colour-header-background;
     border-bottom: $colour-orange;

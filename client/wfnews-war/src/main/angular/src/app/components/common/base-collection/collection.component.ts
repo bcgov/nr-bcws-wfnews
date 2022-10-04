@@ -45,7 +45,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         }
         this.currentPage = this.searchState && this.searchState.pageIndex ? this.searchState.pageIndex : this.initPagingRequest.pageNumber;
         this.showEntriesSelection = Number(this.searchState && this.searchState.pageSize ? this.searchState.pageSize : this.initPagingRequest.pageRowCount);
-        console.log(this.showEntriesSelection )
     }
 
     getPagingConfig(): PaginationInstance {
@@ -82,7 +81,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         }
         if (changes.searchState) {
             this.searchState = changes.searchState.currentValue ? changes.searchState.currentValue : this.initPagingRequest;
-            //console.log(this.searchState, this.currentSort);
             this.searchText = this.searchState.query;
             setTimeout(() => {
                 this.cdr.detectChanges();

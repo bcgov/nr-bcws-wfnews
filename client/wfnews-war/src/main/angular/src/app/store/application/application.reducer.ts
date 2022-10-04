@@ -2,6 +2,7 @@ import {Action} from "@ngrx/store";
 import { GET_INCIDENT, GET_INCIDENT_ERROR } from "../incident/incident.action";
 import { SEARCH_INCIDENTS, SEARCH_INCIDENTS_ERROR, SEARCH_INCIDENTS_SUCCESS } from "../incidents/incidents.action";
 import { INCIDENTS_COMPONENT_ID } from "../incidents/incidents.stats";
+import { SEARCH_WILDFIRES, SEARCH_WILDFIRES_ERROR, SEARCH_WILDFIRES_SUCCESS } from "../wildfiresList/wildfiresList.action";
 import {
     ApplicationState,
     ERROR_TYPE,
@@ -16,16 +17,22 @@ export function applicationReducer(state: ApplicationState = getDefaultApplicati
     switch (action.type) {
 
         case SEARCH_INCIDENTS: 
-        case GET_INCIDENT: {
+        case GET_INCIDENT:
+        case SEARCH_WILDFIRES:
+        {
             return updateLoadState(state, action, true);
         }
 
         case SEARCH_INCIDENTS_SUCCESS: 
-        case GET_INCIDENT_ERROR: {
+        case GET_INCIDENT_ERROR:
+        case SEARCH_WILDFIRES_SUCCESS:
+        {
             return updateLoadState(state, action, false);
         }
         case SEARCH_INCIDENTS_ERROR:
-        case GET_INCIDENT_ERROR: {
+        case GET_INCIDENT_ERROR:
+        case SEARCH_WILDFIRES_ERROR:
+        {
             return updateErrorState(state, action, action["payload"]["error"]);
         }
 
