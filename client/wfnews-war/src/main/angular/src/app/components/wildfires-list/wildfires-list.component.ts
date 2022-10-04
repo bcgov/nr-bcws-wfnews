@@ -113,7 +113,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }, 100);
   }
 
-  fireTypeChange(event: any) {
+  stagesOfControlChange(event: any) {
     this.fireOfNotePublishedInd = event.value === 'note'
     this.doSearch()
   }

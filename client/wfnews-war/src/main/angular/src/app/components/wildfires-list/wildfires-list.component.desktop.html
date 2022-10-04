@@ -40,6 +40,15 @@
         </div>
 
         <div class="field">
+            <div class="my-location-button">
+                <button mat-raised-button >
+                    <mat-icon>my_location</mat-icon>
+                    Find My Location
+                </button>
+            </div>
+        </div>
+
+        <div class="field" style = "padding-left: 4rem;">
             <mat-label class="label">Fire Centre</mat-label>
             <select appWFSingleSelect appWFPlaceholder="Select..."
                     aria-label="Type"
@@ -54,25 +63,25 @@
                 </option>
             </select>
         </div>
-        <div class="fire-type-radio-button-group">
-            <mat-label>Fire Type</mat-label>
-            <mat-radio-group class="radio-group">
-                <mat-radio-button class="radio-button" (change)="fireTypeChange($event)" value="note" [checked]="fireOfNotePublishedInd">
-                    Wildfires Of Note
-                </mat-radio-button>
-                <mat-radio-button class="radio-button" (change)="fireTypeChange($event)" value="all">
-                    All Fire Incidents
-                </mat-radio-button>
-            </mat-radio-group>
+        <div class="stage-of-control-checkbox-group">
+            <mat-label>Stages of Control</mat-label>
+            <section class="checkbox-group">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [checked]="fireOfNotePublishedInd">
+                    Active Wildfires
+                </mat-checkbox>
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                    Wildfires of Note
+                </mat-checkbox>
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                    Wildfires that are 'Out'
+                </mat-checkbox>
+            </section>
         </div>
 
-        <div class="field">
-            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
-        </div>
     </div>
 
 </div>
-<p class ="results-count" >Results</p>
+<p class ="results-count" >{{collection? collection.totalRowCount : null}} Results</p>
 
 
 
@@ -84,47 +93,47 @@
             aria-label="Incident Table">
         <ng-container matColumnDef = "fireName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentNumberSequence}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{item.incidentName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.incidentName}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.incidentNumberLabel}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "lastUpdated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fireCentreOrgUnitName}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.lastUpdatedTimestamp}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "stageOfControl">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fireOfNotePublishedInd? 'Yes' : 'No'}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.stageOfControlCode}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "wildfireOfNote">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire of Note</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{item.fireOfNoteInd? 'Yes' : 'No'}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireCentre">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" ><span #el >{{item.contactOrgUnitIdentifer}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{item.incidentLocation}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "addToWatchlist">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Add to Watchlist</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></td>
         </ng-container>
 
         <ng-container matColumnDef = "viewMap">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> View Map</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
