@@ -1,0 +1,174 @@
+
+<div>
+    <div class="header-row">
+        <p class="dashboard-title">Wildfires List
+        </p>
+        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stage of Control?</button>
+    </div>
+    <mat-tab-group>
+        <mat-tab label="Wildfires"></mat-tab>
+        <mat-tab label="Current Alerts"></mat-tab>
+    </mat-tab-group>
+</div>
+
+<div class="table-search-header flex-y-fixed">
+    <div class="search-and-filters">
+        <div class="field search-input">
+            <mat-label class="label">Search for a Wildfire of Address</mat-label>
+            <input class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
+                    aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+                    matTooltip="Clear">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="field">
+            <mat-label class="label">Search Radius</mat-label>
+            <select appWFSingleSelect appWFPlaceholder="Select..."
+                    aria-label="Type"
+                    [options]="radiusOptions"
+                    [selected]="selectedRadius"
+                    (updated)="selectFilterUpdated('selectedRadius', $event)">
+                <option value="">
+                    <span class="placeholder">Select...</span>
+                </option>
+                <option *ngFor = "let item of radiusOptions" value="{{item}}">
+                    <span>{{item}}</span>
+                </option>
+            </select>
+        </div>
+
+        <div class="field">
+            <div class="my-location-button">
+                <button mat-raised-button >
+                    <mat-icon>my_location</mat-icon>
+                    Find My Location
+                </button>
+            </div>
+        </div>
+
+        <div class="field" style = "padding-left: 4rem;">
+            <mat-label class="label">Fire Centre</mat-label>
+            <select appWFSingleSelect appWFPlaceholder="Select..."
+                    aria-label="Type"
+                    [options]="fireCentreOptions"
+                    [selected]="selectedFireCentreCode"
+                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)">
+                <option value="">
+                    <span class="placeholder">Select...</span>
+                </option>
+                <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+                    <span>{{item.fireCentreName}}</span>
+                </option>
+            </select>
+        </div>
+        <div class="stage-of-control-checkbox-group">
+            <mat-label>Stages of Control</mat-label>
+            <section class="checkbox-group">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [checked]="fireOfNotePublishedInd">
+                    Active Wildfires
+                </mat-checkbox>
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                    Wildfires of Note
+                </mat-checkbox>
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                    Wildfires that are 'Out'
+                </mat-checkbox>
+            </section>
+        </div>
+
+    </div>
+
+</div>
+<p class ="results-count" >{{collection? collection.totalRowCount : null}} Results</p>
+
+
+
+<div class="table-wrapper flex-y-grow" *ngIf="collectionData; else loading">
+    <table style = "width: fit-content;" mat-table matSort [dataSource]="collectionData | paginate:config"
+            [matSortActive]="this.searchState.sortParam"
+            [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
+            (matSortChange)="sortData($event)"
+            aria-label="Incident Table">
+        <ng-container matColumnDef = "fireName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentName}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "fireNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentNumberLabel}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "lastUpdated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.lastUpdatedTimestamp}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "stageOfControl">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.stageOfControlCode}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "wildfireOfNote">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire of Note</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNoteInd? 'Yes' : 'No'}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "fireCentre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.contactOrgUnitIdentifer}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "location">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentLocation}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "addToWatchlist">
+            <th mat-header-cell *matHeaderCellDef> Add to Watchlist</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="addToWatchlist(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "viewMap">
+            <th mat-header-cell *matHeaderCellDef> View Map</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span></td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
+        <tr mat-row *matRowDef="let item; columns: columnsToDisplay"></tr>
+    </table>
+</div>
+
+<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>
+
+
+<div class="bottom-summary flex-y-fixed">
+    <div class="showing-summary">{{summaryString}}</div>
+    <pagination-controls style = "text-align:center" [id]="config.id"
+                         [maxSize]="5"
+                         [responsive]="false"
+                         [directionLinks]="true"
+                         [previousLabel]="paginatorLabels.previousLabel"
+                         [nextLabel]="paginatorLabels.nextLabel"
+                         [autoHide]="false"
+                         (pageChange)="onPageChange($event)"></pagination-controls>
+    <div class="show-entries-info">
+                    <span>
+                        Show
+                    </span>
+        <select appWFSingleSelect appWFPlaceholder="Select..."
+                class="select-showEntriesSelection"
+                aria-label="Show entries"
+                [position]="'top'"
+                [selected]="showEntriesSelection"
+                [options]="showEntriesOptions"
+                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)">
+            <option *ngFor="let option of showEntriesOptions" value="{{option.value}}">
+                <span>{{option.label}}</span>
+            </option>
+        </select>
+        <span>entries</span>
+    </div>
+</div>

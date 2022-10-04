@@ -101,6 +101,8 @@ import { PointIdService } from "./services/point-id.service";
 import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
 import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
+import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -149,6 +151,9 @@ export const DATE_FORMATS = {
         ResourcePanelComponent,
         PanelRoadConditionsComponent,
         ErrorPageComponent,
+        WildFiresListComponentDesktop,
+        WildfiresListContainerDesktop
+
     ],
     imports: [
         MatSortModule,
