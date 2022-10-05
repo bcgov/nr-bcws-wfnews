@@ -30,8 +30,6 @@ jobs:
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
-      #TARGET_ENV used when generating self-referential url
-      TARGET_ENV: dev
 
   call-mvn-server:
     if: github.event.pull_request.merged == true
@@ -39,9 +37,7 @@ jobs:
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       REGISTRY: ghcr.io
-      TARGET_ENV: dev
     secrets:
-      DB_PASS: ${{ secrets.DEV_DB_PASS }}
       IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
       IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
 
@@ -49,30 +45,9 @@ jobs:
     uses: ./.github/workflows/liquibase.yml
     with:
       REGISTRY: ghcr.io
-      TARGET_ENV: dev
     secrets: inherit
 
-  # reverse-proxy:
-  #   uses: ./.github/workflows/reverse-proxy.yml
-  #   with:
-  #     REGISTRY: ghcr.io
-  #     TARGET_ENV: dev
-  #   secrets: inherit
-
-  # reverse-proxy:
-  #   uses: ./.github/workflows/reverse-proxy.yml
-  #   with:
-  #     REGISTRY: ghcr.io
-  #     TARGET_ENV: dev
-  #   secrets: inherit
-
-#  trivy:
-#    # if: needs.check.outputs.build == 'true'
-#    needs: [call-mvn-client, call-mvn-server]
-#    uses: ./.github/workflows/trivy.yml
-
-  terragrunt-deploy:
-    # if: needs.check.outputs.build == 'true'
+  terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server, liquibase-build]
     with:
@@ -105,6 +80,7 @@ jobs:
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
       WFNEWS_USERNAME: wfnewsdev
       WFNEWS_MAX_CONNECTIONS: 10
+      IMAGE_TAG: pr-${{ github.event.pull_request.number }}
 
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
