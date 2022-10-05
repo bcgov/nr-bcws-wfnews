@@ -22,7 +22,8 @@
                     aria-label="Type"
                     [options]="fireCentreOptions"
                     [selected]="selectedFireCentreCode"
-                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)">
+                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)"
+                    [(ngModel)]="selectedFireCentreCode">
                 <option value="">
                     <span class="placeholder">Select...</span>
                 </option>
