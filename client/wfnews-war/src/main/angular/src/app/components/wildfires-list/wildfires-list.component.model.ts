@@ -1,5 +1,5 @@
-import {DomSanitizer} from "@angular/platform-browser";
-import { BaseComponentModel } from "../base/base.component.model";
+import {DomSanitizer} from '@angular/platform-browser';
+import { BaseComponentModel } from '../base/base.component.model';
 
 export class WildFiresListComponentModel extends BaseComponentModel {
 
@@ -9,7 +9,7 @@ export class WildFiresListComponentModel extends BaseComponentModel {
     }
 
     public clone(): WildFiresListComponentModel {
-        let clonedModel: WildFiresListComponentModel = new WildFiresListComponentModel(this.sanitizer);
+        const clonedModel: WildFiresListComponentModel = new WildFiresListComponentModel(this.sanitizer);
         return clonedModel;
     }
 }

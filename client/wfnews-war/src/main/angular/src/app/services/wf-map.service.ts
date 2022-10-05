@@ -33,13 +33,13 @@ export class WFMapService {
 
         const toggleHideListButton = (display) => {
             const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--hide-list');
-            hideListButtonElement[0]["style"]["display"] = display;
-        }
+            hideListButtonElement[0]['style']['display'] = display;
+        };
 
         const toggleShowListButton = (display) => {
             const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-            hideListButtonElement[0]["style"]["display"] = display;
-        }
+            hideListButtonElement[0]['style']['display'] = display;
+        };
 
         return this.patch()
             .then( function() {
@@ -53,36 +53,36 @@ export class WFMapService {
                             choices: baseMapIds
                         },
                         {
-                            type: "bespoke",
-                            instance: "show-list",
-                            title: "Show list menu",
-                            position: "toolbar",
+                            type: 'bespoke',
+                            instance: 'show-list',
+                            title: 'Show list menu',
+                            position: 'toolbar',
                             enabled: true,
                             order: 0,
-                            icon: "arrow_forward"
+                            icon: 'arrow_forward'
                         },
                         {
-                            type: "bespoke",
-                            instance: "hide-list",
-                            title: "Hide list menu",
-                            position: "toolbar",
+                            type: 'bespoke',
+                            instance: 'hide-list',
+                            title: 'Hide list menu',
+                            position: 'toolbar',
                             enabled: true,
                             order: 1,
-                            icon: "arrow_back"
+                            icon: 'arrow_back'
                         }
                     ]
                 } );
 
                 SMK.HANDLER.set('BespokeTool--show-list', 'triggered', (smk, tool) => {
-                    toggleHideListButton("flex");
-                    toggleShowListButton("none");
+                    toggleHideListButton('flex');
+                    toggleShowListButton('none');
                     option.toggleAccordion.emit();
                     SMK.MAP[1].$viewer.mapResized();
                 });
 
                 SMK.HANDLER.set('BespokeTool--hide-list', 'triggered', (smk, tool) => {
-                    toggleHideListButton("none");
-                    toggleShowListButton("flex");
+                    toggleHideListButton('none');
+                    toggleShowListButton('flex');
                     option.toggleAccordion.emit();
                     SMK.MAP[1].$viewer.mapResized();
                 });
@@ -260,45 +260,45 @@ export class WFMapService {
                     ] }
                 );
 
-                include.tag( "layer-image",
-                    { loader: "group", tags: [
-                        { loader: "script", url: "./assets/js/smk/plugin-time-dimension/layer/layer-image.js" },
+                include.tag( 'layer-image',
+                    { loader: 'group', tags: [
+                        { loader: 'script', url: './assets/js/smk/plugin-time-dimension/layer/layer-image.js' },
                     ] }
-                )
+                );
 
-                include.tag( "layer-image-leaflet",
-                     { loader: "group", tags: [
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-image-leaflet.js" },
-                     ] }
-                 )
-
-                 include.tag( "layer-wms-time",
-                     { loader: "group", tags: [
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/layer/layer-wms-time.js" }
+                include.tag( 'layer-image-leaflet',
+                     { loader: 'group', tags: [
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-image-leaflet.js' },
                      ] }
                  );
 
-                 include.tag( "layer-wms-time-leaflet",
-                     { loader: "group", tags: [
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-wms-time-leaflet.js" }
+                 include.tag( 'layer-wms-time',
+                     { loader: 'group', tags: [
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/layer/layer-wms-time.js' }
                      ] }
                  );
 
-                 include.tag( "tool-time-dimension",
-                     { loader: "group", tags: [
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/tool/time-dimension/tool-time-dimension.js" }
+                 include.tag( 'layer-wms-time-leaflet',
+                     { loader: 'group', tags: [
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/viewer-leaflet/layer/layer-wms-time-leaflet.js' }
                      ] }
-                 )
+                 );
 
-                 include.tag( "tool-time-dimension-leaflet",
-                     { loader: "sequence", tags: [
-                         { loader: "style", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css" },
-                         { loader: "script", url: "https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js" },
-                         { loader: "script", url: "https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js" },
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/lib/time-dimension-layer-image-overlay.js" },
-                         { loader: "script", url: "./assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/tool-time-dimension-leaflet.js" }
+                 include.tag( 'tool-time-dimension',
+                     { loader: 'group', tags: [
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/tool/time-dimension/tool-time-dimension.js' }
                      ] }
-                 )
+                 );
+
+                 include.tag( 'tool-time-dimension-leaflet',
+                     { loader: 'sequence', tags: [
+                         { loader: 'style', url: 'https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.min.css' },
+                         { loader: 'script', url: 'https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js' },
+                         { loader: 'script', url: 'https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js' },
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/lib/time-dimension-layer-image-overlay.js' },
+                         { loader: 'script', url: './assets/js/smk/plugin-time-dimension/viewer-leaflet/tool/time-dimension/tool-time-dimension-leaflet.js' }
+                     ] }
+                 );
 
                 return include(
                     'leaflet-extensions',
@@ -524,7 +524,7 @@ function clone( obj ) {
 }
 
 let order = 100;
-let baseMapIds = [];
+const baseMapIds = [];
 function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; option?: { [key: string]: any } }[] ) {
     order += 1;
     baseMapIds.push( id );

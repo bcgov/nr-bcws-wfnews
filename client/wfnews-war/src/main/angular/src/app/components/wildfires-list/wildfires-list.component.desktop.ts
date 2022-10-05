@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { WildFiresListComponent } from "./wildfires-list.component";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WildFiresListComponent } from './wildfires-list.component';
 
 @Component({
     selector: 'wf-list-desktop',
@@ -11,5 +11,5 @@ import { WildFiresListComponent } from "./wildfires-list.component";
   })
 
 export class WildFiresListComponentDesktop extends WildFiresListComponent {
-    columnsToDisplay = ["fireName", "fireNumber", "lastUpdated", "stageOfControl", "wildfireOfNote", "fireCentre", "location", "addToWatchlist", "viewMap"];
+    columnsToDisplay = ['fireName', 'fireNumber', 'lastUpdated', 'stageOfControl', 'wildfireOfNote', 'fireCentre', 'location', 'addToWatchlist', 'viewMap'];
 }

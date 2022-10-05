@@ -62,7 +62,7 @@ return 'landscape';
     }
 
     public isAdminPageAccessable(): boolean {
-        return this.doesUserHaveScopes([ROLES_UI.ADMIN])
+        return this.doesUserHaveScopes([ROLES_UI.ADMIN]);
     }
 
 }

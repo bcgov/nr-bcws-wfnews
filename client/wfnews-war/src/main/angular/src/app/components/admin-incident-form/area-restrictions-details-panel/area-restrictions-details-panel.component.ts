@@ -9,10 +9,10 @@ import { AGOLService } from '../../../services/AGOL-service';
   styleUrls: ['./area-restrictions-details-panel.component.scss']
 })
 export class AreaRestrictionsDetailsPanel implements OnInit {
-  @Input() public readonly formGroup: FormGroup
-  @Input() public incident
+  @Input() public readonly formGroup: FormGroup;
+  @Input() public incident;
 
-  areaRestrictions : AreaRestrictionsOption[] = []
+  areaRestrictions: AreaRestrictionsOption[] = [];
 
   constructor(private agolService: AGOLService) {
   }
@@ -21,7 +21,7 @@ export class AreaRestrictionsDetailsPanel implements OnInit {
     this.getAreaRestrictions();
   }
 
-  getAreaRestrictions () {
+  getAreaRestrictions() {
     this.agolService.getAreaRestrictions(this.incident.geometry).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
@@ -32,9 +32,9 @@ export class AreaRestrictionsDetailsPanel implements OnInit {
             fireCentre: element.attributes.FIRE_CENTRE_NAME,
             fireZone: element.attributes.FIRE_ZONE_NAME,
             bulletinUrl: element.attributes.BULLETIN_URL
-          })
+          });
         }
       }
-    })
+    });
   }
 }

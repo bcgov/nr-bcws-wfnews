@@ -13,74 +13,74 @@ export class WeatherPanelComponent implements OnDestroy {
   public precipHumidityData;
 
   ngOnDestroy(): void {
-    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width')
+    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
   }
 
-  tabChange (event: MatTabChangeEvent) {
+  tabChange(event: MatTabChangeEvent) {
     const panels = document.getElementsByClassName('smk-sidepanel');
     const hostPanel = document.getElementsByClassName('map');
 
     if (panels.item(0)) {
-      panels.item(0).setAttribute('style', 'transition: all .5s linear;')
+      panels.item(0).setAttribute('style', 'transition: all .5s linear;');
       if (event.index === 1) {
-        let width = (hostPanel.item(0) as HTMLElement).clientWidth - 80;
+        const width = (hostPanel.item(0) as HTMLElement).clientWidth - 80;
         (panels.item(0) as HTMLElement).style.width = `${width > 640 ? 640 : width}px`;
       } else {
-        (panels.item(0) as HTMLElement).style.removeProperty('width')
+        (panels.item(0) as HTMLElement).style.removeProperty('width');
       }
     }
   }
 
-  setWeatherStation (station) {
+  setWeatherStation(station) {
     this.stationData = station;
-    this.hourly = station.hourly[0].temperature ? station.hourly[0] : station.hourly[1]
+    this.hourly = station.hourly[0].temperature ? station.hourly[0] : station.hourly[1];
 
-    this.tempWindData = []
+    this.tempWindData = [];
     this.precipHumidityData = [];
 
-    const tempWindDataHolder = []
-    const precipHumidityDataHolder = []
+    const tempWindDataHolder = [];
+    const precipHumidityDataHolder = [];
     const temp = {
       name: 'Temperature',
       series: []
-    }
+    };
     const humidity = {
       name: 'Relative Humidity',
       series: []
-    }
+    };
     const precip = {
       name: 'Precipitation',
       series: []
-    }
+    };
     const wind = {
       name: 'Windspeed',
       series: []
-    }
+    };
     tempWindDataHolder.push(...[temp, wind]);
     precipHumidityDataHolder.push(...[humidity, precip]);
     for (const hour of station.hourly) {
-      const name = this.convertName(hour.hour)
+      const name = this.convertName(hour.hour);
       if (hour.temp) {
         temp.series.push({
-          name: name,
+          name,
           value: hour.temp || 0,
         });
       }
       if (hour.relativeHumidity) {
         humidity.series.push({
-          name: name,
+          name,
           value: hour.relativeHumidity || 0,
         });
       }
       if (hour.precipitation) {
         precip.series.push({
-          name: name,
+          name,
           value: hour.precipitation || 0,
         });
       }
       if (hour.windSpeed) {
         wind.series.push({
-          name: name,
+          name,
           value: hour.windSpeed || 0,
         });
       }
@@ -91,7 +91,7 @@ export class WeatherPanelComponent implements OnDestroy {
     this.precipHumidityData = [...precipHumidityDataHolder];
   }
 
-  convertName (name: string) {
+  convertName(name: string) {
     return name.substring(4, 6) + '-' + name.substring(6, 8) + ' ' + name.substring(8, 10) + ':00';
   }
 }

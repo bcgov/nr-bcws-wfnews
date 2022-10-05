@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
-import { BaseComponent } from "../../base/base.component";
+import { BaseComponent } from '../../base/base.component';
 import * as moment from 'moment';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -25,19 +25,19 @@ import { DocumentManagementService } from '../../../services/document-management
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
-  @Input() public incident
+  @Input() public incident;
 
   public searchState = {
     sortParam: 'attachmentTitle',
     sortDirection: 'DESC'
   };
-  private loaded = false
-  public uploadProgress = 0
-  public uploadStatus = ''
-  public statusBar
+  private loaded = false;
+  public uploadProgress = 0;
+  public uploadStatus = '';
+  public statusBar;
 
-  public columnsToDisplay = ["fileName", "attachmentTitle", "uploadedTimestamp", "edit", "download", "delete"];
-  public attachments: AttachmentResource[] = []
+  public columnsToDisplay = ['fileName', 'attachmentTitle', 'uploadedTimestamp', 'edit', 'download', 'delete'];
+  public attachments: AttachmentResource[] = [];
 
   constructor(protected router: Router,
               protected route: ActivatedRoute,
@@ -85,23 +85,27 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       'body'
     ).toPromise().then( ( docs ) => {
       docs.collection.sort((a, b) => {
-        const dir = this.searchState.sortDirection === 'desc' ? -1 : 1
-        if(a[this.searchState.sortParam] < b[this.searchState.sortParam]) return -dir;
-        else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) return dir;
-        else return 0;
-      })
+        const dir = this.searchState.sortDirection === 'desc' ? -1 : 1;
+        if(a[this.searchState.sortParam] < b[this.searchState.sortParam]) {
+return -dir;
+} else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) {
+return dir;
+} else {
+return 0;
+}
+      });
       // remove any non-pdf types
       for (const doc of docs.collection) {
-        const idx = docs.collection.indexOf(doc)
+        const idx = docs.collection.indexOf(doc);
         if (idx && !doc.mimeType.toLowerCase().includes('pdf')) {
-          docs.collection.splice(idx, 1)
+          docs.collection.splice(idx, 1);
         }
       }
-      this.attachments = docs.collection
+      this.attachments = docs.collection;
       this.cdr.detectChanges();
     }).catch(err => {
       this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-    })
+    });
   }
 
   ngOnchanges(changes: SimpleChanges) {
@@ -112,29 +116,29 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     this.updateTable();
   }
 
-  updateTable () {
+  updateTable() {
     if (!this.loaded && this.incident) {
       this.loadPage();
-      this.loaded = true
+      this.loaded = true;
     }
   }
 
   sortData(event) {
-    this.loaded = false
-    this.searchState.sortParam = event.active
-    this.searchState.sortDirection = event.direction
+    this.loaded = false;
+    this.searchState.sortParam = event.active;
+    this.searchState.sortDirection = event.direction;
     this.loadPage();
   }
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
+      return moment(value).format('YYYY-MM-DD hh:mm:ss');
     }
   }
 
-  upload () {
+  upload() {
     const self = this;
-    let dialogRef = this.dialog.open(UploadMapDialogComponent, {
+    const dialogRef = this.dialog.open(UploadMapDialogComponent, {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -142,12 +146,12 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         // upload to WFDM
         //self.documentManagementService.makeDocumentUrl()
         self.uploadFile(result.file, ( percent, loaded, total ) => {
-          self.uploadProgress = percent
-          self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`
+          self.uploadProgress = percent;
+          self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`;
           if (!self.statusBar) {
             self.statusBar = this.snackbarService.open(self.uploadStatus, 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           } else {
-            (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
+            (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus;
           }
         }).then(doc => {
           self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Perimeter Map', 'INFO').then(() => {
@@ -157,22 +161,22 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
           }).finally(() => {
             self.loaded = false;
             this.cdr.detectChanges();
-          })
+          });
         }).catch(err => {
           this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-        })
+        });
       }
     });
   }
 
   uploadFile( file: File, progressCallback: ( percent: number, loaded: number, total: number ) => void ): Promise<any> {
     return this.documentManagementService.uploadDocument( {
-        file: file,
+        file,
         onProgress: progressCallback
-    } )
+    } );
   }
 
-  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
+  attachmentCreator(fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
@@ -181,17 +185,17 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       attachmentDescription: description,
       attachmentTypeCode: category,
       fileIdentifier: fileId,
-      mimeType: mimeType
+      mimeType
     } as AttachmentResource;
 
     return this.incidentAttachmentsService.createIncidentAttachment(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
-      attachment, undefined, 'response').toPromise()
+      attachment, undefined, 'response').toPromise();
   }
 
-  edit (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(EditMapDialogComponent, {
+  edit(item: AttachmentResource) {
+    const dialogRef = this.dialog.open(EditMapDialogComponent, {
       width: '350px',
       data: {
         attachment: item
@@ -206,32 +210,32 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         }).catch(err => {
           this.snackbarService.open('Failed to Update Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           this.loaded = false;
-        })
+        });
       }
       this.cdr.detectChanges();
     });
   }
 
-  download (item: AttachmentResource) {
+  download(item: AttachmentResource) {
     this.documentManagementService.downloadDocument(item.fileIdentifier).toPromise().then(response => {
-      const blob = (response as any).body
+      const blob = (response as any).body;
       if (blob) {
         const url = window.URL.createObjectURL(blob);
-        const anchor = document.createElement("a");
+        const anchor = document.createElement('a');
         anchor.download = item.fileName;
         anchor.href = url;
         anchor.click();
         anchor.remove();
       } else {
-        throw Error('File could not be found')
+        throw Error('File could not be found');
       }
     }).catch(err => {
       this.snackbarService.open('Failed to Download Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-    })
+    });
   }
 
-  delete (item: AttachmentResource) {
-    let dialogRef = this.dialog.open(MessageDialogComponent, {
+  delete(item: AttachmentResource) {
+    const dialogRef = this.dialog.open(MessageDialogComponent, {
       width: '350px',
       data: {
           title: 'Are you sure you want to continue?',
@@ -248,7 +252,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         }).catch(err => {
           this.snackbarService.open('Failed to Delete Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           this.loaded = false;
-        })
+        });
       }
     });
   }

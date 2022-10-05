@@ -1,4 +1,4 @@
-import { SearchState } from "@wf1/core-ui";
+import { SearchState } from '@wf1/core-ui';
 
 export interface PagingSearchState extends SearchState {
     pageIndex?: number;
@@ -104,10 +104,10 @@ export function getDefaultFormStates(): FormStates {
 
 export function getDefaultPagingInfoRequest(pageNumber = 1, pageSize = 5, sortColumn?: string, sortDirection?: string, query?: string): PagingInfoRequest {
     return {
-        query: query,
-        pageNumber: pageNumber,
+        query,
+        pageNumber,
         pageRowCount: pageSize,
-        sortColumn: sortColumn,
-        sortDirection: sortDirection
+        sortColumn,
+        sortDirection
     };
 }

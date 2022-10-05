@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
-import { WildfiresListContainer } from "./wildfiresList-container.component";
+import { Component } from '@angular/core';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
+import { WildfiresListContainer } from './wildfiresList-container.component';
 
 
 @Component({
-    selector: "wf-list-container-desktop",
+    selector: 'wf-list-container-desktop',
     template: `
         <wf-list-desktop
             [collection]="collection$ | async"

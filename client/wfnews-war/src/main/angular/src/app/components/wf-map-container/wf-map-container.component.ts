@@ -37,7 +37,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     mapIndexAuto += 1;
     this.mapIndexAuto = mapIndexAuto;
 
-    this.zone = this.injector.get(NgZone)
+    this.zone = this.injector.get(NgZone);
   }
 
 
@@ -61,26 +61,26 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     this.destroyMap();
 
     // initialize the map
-    initPromise = initPromise.then(function () {
+    initPromise = initPromise.then(function() {
       return self.wfMap.createSMK({
         id: mapIndex,
         containerSel: self.mapContainer.nativeElement,
         config: mapConfig,
         toggleAccordion: self.toggleAccordion
-      }).then(function (smk) {
+      }).then(function(smk) {
         self.mapInitialized.emit(smk);
 
         const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-        hideListButtonElement[0]["style"]["display"] = 'none';
+        hideListButtonElement[0]['style']['display'] = 'none';
 
-        smk.$viewer.handlePick(3, function (location) {
-          self.lastClickedLocation = location
-          self.addNearbyWeatherStation(smk)
-        })
+        smk.$viewer.handlePick(3, function(location) {
+          self.lastClickedLocation = location;
+          self.addNearbyWeatherStation(smk);
+        });
 
         return smk;
-      })
-    }).catch(function (e) {
+      });
+    }).catch(function(e) {
       console.warn(e);
     });
     this.initPromise = initPromise;
@@ -91,7 +91,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       return;
     }
 
-    this.initPromise = this.initPromise.then(function (smk) {
+    this.initPromise = this.initPromise.then(function(smk) {
       if (!smk) {
         return;
       }
@@ -100,40 +100,41 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     });
   }
 
-  addNearbyWeatherStation (smk) {
+  addNearbyWeatherStation(smk) {
     const self = this;
     this.pointIdService.fetchNearestWeatherStation(this.lastClickedLocation.map.latitude, this.lastClickedLocation.map.longitude)
-    .then(function (station) {
+    .then(function(station) {
       smk.$viewer.identified.add('weather-stations', [{
           type: 'Feature',
           title: station.stationName,
           properties: {
               code: station.stationCode,
-              createContent: function (el) {
-                  self.zone.run(function () {
-                      let compRef = self.makeComponent(WeatherPanelComponent);
+              createContent(el) {
+                  self.zone.run(function() {
+                      const compRef = self.makeComponent(WeatherPanelComponent);
                       (compRef.instance as any).setWeatherStation(station);
-                      el.appendChild(compRef.location.nativeElement)
+                      el.appendChild(compRef.location.nativeElement);
                       self.cdr.detectChanges();
-                  })
+                  });
               },
           },
           geometry: {
               type: 'Point',
               coordinates: [self.lastClickedLocation.map.longitude, self.lastClickedLocation.map.latitude]
           }
-      }])
+      }]);
     });
   }
 
   makeComponent<C>(component: Type<C>): ComponentRef<C> {
-    if (this.componentRef)
-        this.componentRef.destroy()
+    if (this.componentRef) {
+this.componentRef.destroy();
+}
 
-    this.identifyContainer.clear()
-    this.componentRef = this.identifyContainer.createComponent(this.componentFactoryResolver.resolveComponentFactory(component))
+    this.identifyContainer.clear();
+    this.componentRef = this.identifyContainer.createComponent(this.componentFactoryResolver.resolveComponentFactory(component));
 
-    return this.componentRef
+    return this.componentRef;
   }
 }
 

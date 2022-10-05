@@ -7,6 +7,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./response-details-panel.component.scss']
 })
 export class ResponseDetailsPanel {
-  @Input() public readonly formGroup: FormGroup
-  @Input() public incident
+  @Input() public readonly formGroup: FormGroup;
+  @Input() public incident;
 }

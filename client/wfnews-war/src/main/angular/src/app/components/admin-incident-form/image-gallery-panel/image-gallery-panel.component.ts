@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
-import { BaseComponent } from "../../base/base.component";
+import { BaseComponent } from '../../base/base.component';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
@@ -22,18 +22,18 @@ import { DocumentManagementService } from '../../../services/document-management
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChanges {
-  @Input() public incident
+  @Input() public incident;
 
   public searchState = {
     sortParam: 'attachmentTitle',
     sortDirection: 'DESC'
   };
-  private loaded = false
-  public uploadProgress = 0
-  public uploadStatus = ''
-  public statusBar
+  private loaded = false;
+  public uploadProgress = 0;
+  public uploadStatus = '';
+  public statusBar;
 
-  public attachments: AttachmentResource[] = []
+  public attachments: AttachmentResource[] = [];
 
   constructor(protected router: Router,
               protected route: ActivatedRoute,
@@ -81,23 +81,27 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       'body'
     ).toPromise().then( ( docs ) => {
       docs.collection.sort((a, b) => {
-        const dir = this.searchState.sortDirection === 'desc' ? -1 : 1
-        if(a[this.searchState.sortParam] < b[this.searchState.sortParam]) return -dir;
-        else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) return dir;
-        else return 0;
-      })
+        const dir = this.searchState.sortDirection === 'desc' ? -1 : 1;
+        if(a[this.searchState.sortParam] < b[this.searchState.sortParam]) {
+return -dir;
+} else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) {
+return dir;
+} else {
+return 0;
+}
+      });
       // remove any non-image types
       for (const doc of docs.collection) {
-        const idx = docs.collection.indexOf(doc)
+        const idx = docs.collection.indexOf(doc);
         if (idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
-          docs.collection.splice(idx, 1)
+          docs.collection.splice(idx, 1);
         }
       }
-      this.attachments = docs.collection
+      this.attachments = docs.collection;
       this.cdr.detectChanges();
     }).catch(err => {
       this.snackbarService.open('Failed to load Image Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-    })
+    });
   }
 
   ngOnchanges(changes: SimpleChanges) {
@@ -108,23 +112,23 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
     this.updateTable();
   }
 
-  updateTable () {
+  updateTable() {
     if (!this.loaded && this.incident) {
       this.loadPage();
-      this.loaded = true
+      this.loaded = true;
     }
   }
 
   sortData(event) {
-    this.loaded = false
-    this.searchState.sortParam = event.active
-    this.searchState.sortDirection = event.direction
+    this.loaded = false;
+    this.searchState.sortParam = event.active;
+    this.searchState.sortDirection = event.direction;
     this.loadPage();
   }
 
-  upload () {
+  upload() {
     const self = this;
-    let dialogRef = this.dialog.open(UploadImageDialogComponent, {
+    const dialogRef = this.dialog.open(UploadImageDialogComponent, {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -132,12 +136,12 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
         // upload to WFDM
         //self.documentManagementService.makeDocumentUrl()
         self.uploadFile(result.file, ( percent, loaded, total ) => {
-          self.uploadProgress = percent
-          self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`
+          self.uploadProgress = percent;
+          self.uploadStatus = `Uploaded ${ Math.floor(loaded / 1048576) }mb of ${ Math.floor(loaded / 1048576) }mb`;
           if (!self.statusBar) {
             self.statusBar = this.snackbarService.open(self.uploadStatus, 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           } else {
-            (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
+            (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus;
           }
         }).then(doc => {
           self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Incident Photo', 'INFO').then(() => {
@@ -147,22 +151,22 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
           }).finally(() => {
             self.loaded = false;
             this.cdr.detectChanges();
-          })
+          });
         }).catch(err => {
           this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-        })
+        });
       }
     });
   }
 
   uploadFile( file: File, progressCallback: ( percent: number, loaded: number, total: number ) => void ): Promise<any> {
     return this.documentManagementService.uploadDocument( {
-        file: file,
+        file,
         onProgress: progressCallback
-    } )
+    } );
   }
 
-  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
+  attachmentCreator(fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
@@ -171,12 +175,12 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       attachmentDescription: description,
       attachmentTypeCode: category,
       fileIdentifier: fileId,
-      mimeType: mimeType
+      mimeType
     } as AttachmentResource;
 
     return this.incidentAttachmentsService.createIncidentAttachment(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
-      attachment, undefined, 'response').toPromise()
+      attachment, undefined, 'response').toPromise();
   }
 }

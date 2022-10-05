@@ -7,5 +7,5 @@ import { ResourcePanel } from '../../../models/ResourcePanel';
   styleUrls: [ './resource-panel.component.scss' ]
 })
 export class ResourcePanelComponent {
-  @Input() panelInfo: ResourcePanel
+  @Input() panelInfo: ResourcePanel;
 }

@@ -1,4 +1,4 @@
-import { GeoJsonTypes } from 'geojson'
+import { GeoJsonTypes } from 'geojson';
 
 export type SmkMap = any;
 
@@ -16,15 +16,19 @@ export class SmkApi {
     }
 
     showFeature( acetate: string, geometry?: GeoJsonTypes, opt?: object): void {
-        if ( !this.smkMap ) return
+        if ( !this.smkMap ) {
+return;
+}
 
-        this.smkMap.showFeature( acetate, geometry, opt )
+        this.smkMap.showFeature( acetate, geometry, opt );
     }
 
     panToFeature( geometry: GeoJsonTypes, zoomIn? ) {
-        if ( !this.smkMap ) return
+        if ( !this.smkMap ) {
+return;
+}
 
-        this.smkMap.$viewer.panToFeature( geometry, zoomIn )
+        this.smkMap.$viewer.panToFeature( geometry, zoomIn );
     }
 
     setDisplayContextItemsVisible( ...layerVisibilities: { itemId: string; visible: boolean; reload?: boolean }[] ): Promise<any> {

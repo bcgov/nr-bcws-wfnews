@@ -84,7 +84,7 @@ return;
     }
 
     searchAddresses( txt: string ) {
-        var self = this;
+        const self = this;
 
         const query = {
             ver:            1.2,

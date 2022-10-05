@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { AdminIncidentForm } from "./admin-incident-form.component";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { AdminIncidentForm } from './admin-incident-form.component';
 
 @Component({
     selector: 'wf-admin-incident-desktop',

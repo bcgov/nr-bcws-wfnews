@@ -1,6 +1,6 @@
-import {AfterViewInit, Component} from "@angular/core";
-import { AppConfigService } from "@wf1/core-ui/public_api";
-import {BaseComponent} from "../base/base.component";
+import {AfterViewInit, Component} from '@angular/core';
+import { AppConfigService } from '@wf1/core-ui/public_api';
+import {BaseComponent} from '../base/base.component';
 
 @Component({
   selector: 'wfnews-sign-out-page',
@@ -8,14 +8,14 @@ import {BaseComponent} from "../base/base.component";
   styleUrls: ['./sign-out-page.component.scss']
 })
 export class SignOutPageComponent extends BaseComponent implements AfterViewInit {
-  appConfig: AppConfigService
+  appConfig: AppConfigService;
 
   ngOnInit() {
 
-    this.tokenService.clearLocalStorageToken()
+    this.tokenService.clearLocalStorageToken();
     const siteminderUrlPrefix = this.appConfigService.getConfig().application['siteminderUrlPrefix'].toString();
-    const baseUrl = this.appConfigService.getConfig().application.baseUrl
-    window.location.href = siteminderUrlPrefix + baseUrl + "&retnow=1";
+    const baseUrl = this.appConfigService.getConfig().application.baseUrl;
+    window.location.href = siteminderUrlPrefix + baseUrl + '&retnow=1';
     
   }
 

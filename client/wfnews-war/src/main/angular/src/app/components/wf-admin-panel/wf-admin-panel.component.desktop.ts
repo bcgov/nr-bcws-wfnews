@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { WfAdminPanelComponent } from "./wf-admin-panel.component";
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { WfAdminPanelComponent } from './wf-admin-panel.component';
 
 @Component({
     selector: 'wf-admin-panel-desktop',
@@ -11,5 +11,5 @@ import { WfAdminPanelComponent } from "./wf-admin-panel.component";
   })
 
 export class WfAdminPanelComponentDesktop extends WfAdminPanelComponent {
-    columnsToDisplay = ["fireNumber", "fireName", "fireCentre", "wildFireOfNote", "lastPublished"];
+    columnsToDisplay = ['fireNumber', 'fireName', 'fireCentre', 'wildFireOfNote', 'lastPublished'];
 }

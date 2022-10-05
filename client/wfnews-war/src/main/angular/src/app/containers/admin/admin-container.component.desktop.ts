@@ -1,10 +1,10 @@
-import { Component } from "@angular/core";
-import { AdminContainer } from "./admin-container.component";
-import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
+import { Component } from '@angular/core';
+import { AdminContainer } from './admin-container.component';
+import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 
 
 @Component({
-    selector: "wf-admin-panel-container-desktop",
+    selector: 'wf-admin-panel-container-desktop',
     template: `
         <wf-admin-panel-desktop
             [collection]="collection$ | async"

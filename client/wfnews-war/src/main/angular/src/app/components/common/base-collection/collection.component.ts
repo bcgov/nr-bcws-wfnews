@@ -1,9 +1,9 @@
-import {AfterViewInit, Directive, Injectable, Input, OnChanges, SimpleChanges} from "@angular/core";
-import {BaseComponent} from "../../base/base.component";
-import {PaginationInstance} from "ngx-pagination";
-import {PagedCollection} from "../../../conversion/models";
-import {PagingInfoRequest, PagingSearchState} from "../../../store/application/application.state";
-import {NavigationEnd} from "@angular/router";
+import {AfterViewInit, Directive, Injectable, Input, OnChanges, SimpleChanges} from '@angular/core';
+import {BaseComponent} from '../../base/base.component';
+import {PaginationInstance} from 'ngx-pagination';
+import {PagedCollection} from '../../../conversion/models';
+import {PagingInfoRequest, PagingSearchState} from '../../../store/application/application.state';
+import {NavigationEnd} from '@angular/router';
 
 @Directive()
 @Injectable()
@@ -21,14 +21,14 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     columnsToSortBy = [];
     showEntriesSelection = 20; // default
     showEntriesOptions = [
-        {label: "5", value: 5},
-        {label: "10", value: 10},
-        {label: "20", value: 20},
-        {label: "50", value: 50},
-        {label: "100", value: 100},
+        {label: '5', value: 5},
+        {label: '10', value: 10},
+        {label: '20', value: 20},
+        {label: '50', value: 50},
+        {label: '100', value: 100},
     ];
 
-    summaryString = "";
+    summaryString = '';
 
 
     isFirstLoad = true;
@@ -50,7 +50,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     getPagingConfig(): PaginationInstance {
         return {
             ...super.getPagingConfig(),
-            id: this.componentId + "Paginator",
+            id: this.componentId + 'Paginator',
             itemsPerPage: this.showEntriesSelection,
             totalItems: this.collection && this.collection.totalRowCount ? this.collection.totalRowCount : 0
         };
@@ -89,17 +89,17 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     fixPaginationA11y() {
-        let paginationUlEls = document.getElementsByClassName("ngx-pagination");
+        const paginationUlEls = document.getElementsByClassName('ngx-pagination');
         if (paginationUlEls && paginationUlEls.length) {
-            let el = <HTMLUListElement>paginationUlEls[0];
-            let aEls = el.getElementsByTagName("a");
+            const el = <HTMLUListElement>paginationUlEls[0];
+            const aEls = el.getElementsByTagName('a');
             for (let i = 0; i < aEls.length; i++) {
-                aEls.item(i).removeAttribute("aria-label");
+                aEls.item(i).removeAttribute('aria-label');
             }
-            el.removeAttribute("role");
-            el.removeAttribute("aria-label");
-            el.parentElement.setAttribute("role", "navigation");
-            el.parentElement.setAttribute("aria-label", "Pagination");
+            el.removeAttribute('role');
+            el.removeAttribute('aria-label');
+            el.parentElement.setAttribute('role', 'navigation');
+            el.parentElement.setAttribute('aria-label', 'Pagination');
         }
     }
 
@@ -148,7 +148,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     doSort() {
         this.columnsToSortBy = this.columnsToSortBy.map(col => {
             const newCol = {...col};
-            newCol.dir = this.currentSortDirection == "DESC" ? "ASC" : "DESC";
+            newCol.dir = this.currentSortDirection == 'DESC' ? 'ASC' : 'DESC';
             if (col.def == this.currentSort) {
                 this.currentSortLabel = col.label;
             }
@@ -158,7 +158,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     getSummaryString() {
-        let showNum = Number(this.showEntriesSelection);
+        const showNum = Number(this.showEntriesSelection);
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;
             let end = (start + showNum) - 1;
@@ -203,8 +203,8 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     defaultItemKeyEnterAction(event, item) {
-        let enterKey = "Enter";
-        let spaceKey = " ";
+        const enterKey = 'Enter';
+        const spaceKey = ' ';
         if (this.defaultItemActionPermitted(item) && (event.key == enterKey || event.key == spaceKey)) {
             this.doDefaultItemAction(item);
         }

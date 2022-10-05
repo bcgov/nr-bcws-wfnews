@@ -16,10 +16,10 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
                     title: 'Fire Perimeter Number'
                 },
                 {
-                    name: "TRACK_DATE",
+                    name: 'TRACK_DATE',
                     title: 'Track Date',
                     value: '<%= this.asDate( \'TRACK_DATE\' ) %>',
-                    format: "asLocalDate"
+                    format: 'asLocalDate'
                 },
                 {
                     name: 'FIRE_STATUS',

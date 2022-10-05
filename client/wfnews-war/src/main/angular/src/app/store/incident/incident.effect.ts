@@ -1,12 +1,12 @@
-import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
 import { TokenService} from '@wf1/core-ui';
-import { IncidentCauseService, WildfireIncidentService } from "@wf1/incidents-rest-api";
-import { Observable, of } from "rxjs";
-import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
-import { RootState } from "..";
-import { GET_INCIDENT, GetIncidentAction, getIncidentSuccess, getIncidentError, getIncidentCauseError, getIncidentCauseSuccess, GetIncidentCauseAction, GET_INCIDENT_CAUSE} from "./incident.action";
+import { IncidentCauseService, WildfireIncidentService } from '@wf1/incidents-rest-api';
+import { Observable, of } from 'rxjs';
+import { withLatestFrom, debounceTime, switchMap, catchError, map } from 'rxjs/operators';
+import { RootState } from '..';
+import { GET_INCIDENT, GetIncidentAction, getIncidentSuccess, getIncidentError, getIncidentCauseError, getIncidentCauseSuccess, GetIncidentCauseAction, GET_INCIDENT_CAUSE} from './incident.action';
 
 
 @Injectable()
@@ -30,20 +30,16 @@ export class IncidentEffect {
         debounceTime(500),
         switchMap(
             ([action, store]) => {
-                let typedAction = <GetIncidentAction>action;
+                const typedAction = <GetIncidentAction>action;
                 return this.incidentService.getWildfireIncident(
                     typedAction.payload.fireYear,
                     typedAction.payload.incidentSequenceNumber,
                     1,
-                    "response"
+                    'response'
                 )
                 .pipe(
-                    map((response: any) => {
-                        return getIncidentSuccess(response.body);
-                    }),
-                    catchError(error => {
-                            return of(getIncidentError(error));
-                        })
+                    map((response: any) => getIncidentSuccess(response.body)),
+                    catchError(error => of(getIncidentError(error)))
                 );
             }
         )
@@ -56,20 +52,16 @@ export class IncidentEffect {
         debounceTime(500),
         switchMap(
             ([action, store]) => {
-                let typedAction = <GetIncidentCauseAction>action;
+                const typedAction = <GetIncidentCauseAction>action;
                 return this.incidentCauseService.getIncidentCause(
                     typedAction.payload.fireYear,
                     typedAction.payload.incidentSequenceNumber,
                     1,
-                    "response"
+                    'response'
                 )
                 .pipe(
-                    map((response: any) => {
-                        return getIncidentCauseSuccess(response.body);
-                    }),
-                    catchError(error => {
-                            return of(getIncidentCauseError(error));
-                        })
+                    map((response: any) => getIncidentCauseSuccess(response.body)),
+                    catchError(error => of(getIncidentCauseError(error)))
                 );
             }
         )

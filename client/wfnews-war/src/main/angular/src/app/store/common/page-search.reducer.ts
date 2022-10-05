@@ -1,16 +1,16 @@
-import {searchReducer, SearchState} from "@wf1/core-ui";
-import {Action} from "@ngrx/store";
-import {SearchActions} from "@wf1/core-ui/lib/search/store/actions";
-import deepEqual from "deep-equal";
-import { SearchIncidentsAction, SEARCH_INCIDENTS } from "../incidents/incidents.action";
+import {searchReducer, SearchState} from '@wf1/core-ui';
+import {Action} from '@ngrx/store';
+import {SearchActions} from '@wf1/core-ui/lib/search/store/actions';
+import deepEqual from 'deep-equal';
+import { SearchIncidentsAction, SEARCH_INCIDENTS } from '../incidents/incidents.action';
 
 export function pageSearchReducer(state, action: Action): SearchState {
     if (action.type == SEARCH_INCIDENTS) {
         const typedAction = <SearchIncidentsAction>action;
         return pagingSearchHelper(state, typedAction);
     } else {
-        let searchAction = action as SearchActions;
-        return searchReducer(state, searchAction)
+        const searchAction = action as SearchActions;
+        return searchReducer(state, searchAction);
     }
 
 }

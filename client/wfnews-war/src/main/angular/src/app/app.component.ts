@@ -27,7 +27,7 @@ export const ICON = {
     EXT_LINK: 'external-link',
     EXCLAMATION_CIRCLE: 'exclamation-circle',
     CLOUD_SUN: 'cloud-sun',
-    FILTER_CANCEL: "filter-cancel",
+    FILTER_CANCEL: 'filter-cancel',
     BOOKMARK: 'bookmark',
     MAP: 'map',
 };
@@ -109,8 +109,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             });
         }
         this.tokenSubscription = this.tokenService.credentialsEmitter.subscribe( (creds) => {
-            let first = creds.given_name || creds.givenName;
-            let last = creds.family_name || creds.familyName;
+            const first = creds.given_name || creds.givenName;
+            const last = creds.family_name || creds.familyName;
 
             this.applicationConfig.userName = `${ first } ${ last }`;
         } );
@@ -201,7 +201,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             this.lastSuccessPollSub.unsubscribe();
         }
         if (this.tokenSubscription) {
-            this.tokenSubscription.unsubscribe()
+            this.tokenSubscription.unsubscribe();
         }
     }
 
@@ -272,7 +272,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
         this.matIconRegistry.addSvgIcon(
             ICON.FILTER_CANCEL,
-            this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/filter-cancel.svg")
+            this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/filter-cancel.svg')
         );
 
         this.matIconRegistry.addSvgIcon(
@@ -287,7 +287,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     isAdminPage() {
-        if (this.router.url === '/admin' || this.router.url.includes("/incident?") || this.router.url === '/error-page') {
+        if (this.router.url === '/admin' || this.router.url.includes('/incident?') || this.router.url === '/error-page') {
             return true;
         } else {
             return false;
@@ -295,8 +295,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     navigateToBcSupport() {
-        let url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
-        window.open(url, "_blank");
+        const url = this.appConfigService.getConfig().externalAppConfig['bcWildFireSupportPage'].toString();
+        window.open(url, '_blank');
     }
 
     logOutCurrentUser() {

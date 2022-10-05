@@ -43,7 +43,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             showItem: false
         },
         {
-            id: "hourly-currentforecast-firesmoke",
+            id: 'hourly-currentforecast-firesmoke',
             isVisible: false
         },
         {
@@ -70,15 +70,15 @@ export function LayerDisplayConfig(mapServices: MapServices) {
           isVisible: false
         },
         {
-            id: "radar-1km-rrai--radarurpprecipr14-linear",
+            id: 'radar-1km-rrai--radarurpprecipr14-linear',
             isVisible: false
         },
         {
-            id: "precipitation",
+            id: 'precipitation',
             isVisible: false
         },
         {
-            id: "current-conditions--default",
+            id: 'current-conditions--default',
             isVisible: false
         },
         {
@@ -92,7 +92,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
-            id: "weather-stations",
+            id: 'weather-stations',
             isVisible: true,
             showItem: false
         }

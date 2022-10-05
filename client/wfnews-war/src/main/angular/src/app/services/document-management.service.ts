@@ -1,18 +1,18 @@
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AppConfigService, TokenService } from "@wf1/core-ui";
-import { FileDetailsRsrc, FileMetadataRsrc } from "@wf1/wfdm-document-management-api";
+import { AppConfigService, TokenService } from '@wf1/core-ui';
+import { FileDetailsRsrc, FileMetadataRsrc } from '@wf1/wfdm-document-management-api';
 import { UUID } from 'angular2-uuid';
 import { environment } from '../../environments/environment';
 
-export const UPLOAD_DIRECTORY = '/WFIM/uploads'
+export const UPLOAD_DIRECTORY = '/WFIM/uploads';
 
 @Injectable({
     providedIn: 'root'
 })
 export class DocumentManagementService {
-    wfdmBaseUrl: string
-    userGuid: string
+    wfdmBaseUrl: string;
+    userGuid: string;
 
     constructor(
         private appConfigService: AppConfigService,
@@ -20,24 +20,24 @@ export class DocumentManagementService {
         private httpClient: HttpClient
     ) {
         this.tokenService.credentialsEmitter.subscribe( ( cred ) => {
-            this.userGuid = cred.user_guid || cred.userGuid
-        } )
+            this.userGuid = cred.user_guid || cred.userGuid;
+        } );
 
         this.appConfigService.loadAppConfig().then( () => {
-            this.wfdmBaseUrl = this.appConfigService.getConfig().rest[ 'wfdm' ]
+            this.wfdmBaseUrl = this.appConfigService.getConfig().rest[ 'wfdm' ];
 
             this.tokenService.authTokenEmitter.subscribe( ( token ) => {
-                this.installServiceWorkerPathHandlers( token )
-            } )
-        } )
+                this.installServiceWorkerPathHandlers( token );
+            } );
+        } );
     }
 
-    downloadDocument (fileId) {
-      const url = `${this.makeDocumentUrl(fileId)}`
+    downloadDocument(fileId) {
+      const url = `${this.makeDocumentUrl(fileId)}`;
       return this.httpClient.request( new HttpRequest( 'GET', url, {
         reportProgress: true,
         responseType: 'blob'
-      }))
+      }));
     }
 
     uploadDocument( {
@@ -47,78 +47,78 @@ export class DocumentManagementService {
         uploadDirectory = UPLOAD_DIRECTORY,
         onProgress = () => {}
     }: {
-        file: File,
-        fileName?: string,
-        userId?: string,
-        uploadDirectory?: string,
-        onProgress?: ( percent: number, loaded: number, total: number ) => void
+        file: File;
+        fileName?: string;
+        userId?: string;
+        uploadDirectory?: string;
+        onProgress?: ( percent: number, loaded: number, total: number ) => void;
     } ): Promise<FileDetailsRsrc> {
-        if ( !fileName ) fileName = file.name
+        if ( !fileName ) {
+fileName = file.name;
+}
 
-        const unique = UUID.UUID()
-        const path = `${ uploadDirectory }/users/${ userId }/${ unique }--${ fileName }`
+        const unique = UUID.UUID();
+        const path = `${ uploadDirectory }/users/${ userId }/${ unique }--${ fileName }`;
 
-        const formData = new FormData()
+        const formData = new FormData();
         formData.append( 'resource', new Blob( [
             JSON.stringify( makeFileDetail( file.size, path, [
                 makeMetadata( 'actual-filename', file.name ),
                 makeMetadata( 'content-type', file.type ),
             ] ) )
-        ], { type: 'application/json' } ) )
+        ], { type: 'application/json' } ) );
 
-        formData.append( 'file', file )
+        formData.append( 'file', file );
 
-        const url = `${ this.wfdmBaseUrl }/documents`
+        const url = `${ this.wfdmBaseUrl }/documents`;
 
-        let req = this.httpClient.request( new HttpRequest( 'POST', url, formData, {
+        const req = this.httpClient.request( new HttpRequest( 'POST', url, formData, {
             reportProgress: true,
             responseType: 'json',
-        } ) )
+        } ) );
 
         return new Promise( ( res, rej ) => {
             req.subscribe(
                 ( ev ) => {
                     if ( ev.type == HttpEventType.UploadProgress ) {
-                        onProgress( Math.round( 100 * ev.loaded / ev.total ), ev.loaded, ev.total )
-                    }
-                    else if ( ev.type == HttpEventType.Sent ) {
+                        onProgress( Math.round( 100 * ev.loaded / ev.total ), ev.loaded, ev.total );
+                    } else if ( ev.type == HttpEventType.Sent ) {
                         // console.log('start')
-                    }
-                    else if ( ev instanceof HttpResponse ) {
+                    } else if ( ev instanceof HttpResponse ) {
                         // console.log('done')
-                        onProgress( 100, file.size, file.size )
-                        res( ev.body as FileDetailsRsrc )
+                        onProgress( 100, file.size, file.size );
+                        res( ev.body as FileDetailsRsrc );
                     }
                 },
                 ( err ) => rej( err )
-            )
-        } )
+            );
+        } );
     }
 
     installServiceWorkerPathHandlers( token: string ) {
         if ( environment[ 'document_management_proxy_auth_url' ] ) {
-            let url = environment[ 'document_management_proxy_auth_url' ] + '/' + token
+            const url = environment[ 'document_management_proxy_auth_url' ] + '/' + token;
             fetch( url, {
                 method: 'PUT',
                 cache: 'no-cache',
                 body: new FormData()
-            } ).catch( console.warn )
-        }
-        else {
+            } ).catch( console.warn );
+        } else {
             navigator.serviceWorker.controller.postMessage( {
                 type: 'token-for-path',
                 id: 'wfim-uploads',
                 pathPattern: new RegExp( `^${ this.wfdmBaseUrl }/documents/[0-9]+/bytes` ),
-                token: token
-            } )
+                token
+            } );
         }
     }
 
     makeDocumentUrl( fileId: string ): string {
-        if ( environment[ 'document_management_proxy_auth_url' ] )
-            return `${ this.wfdmBaseUrl }/documents/${ fileId }/bytes`
+        if ( environment[ 'document_management_proxy_auth_url' ] ) {
+return `${ this.wfdmBaseUrl }/documents/${ fileId }/bytes`;
+}
 
-        return `wfdmProxy.jsp?documentId=${ fileId }`
+        return `wfdmProxy.jsp?documentId=${ fileId }`;
     }
 }
 
@@ -129,12 +129,12 @@ function makeFileDetail( fileSize: number, fileName: string, metadata: Array<Fil
         type: FileDetailsType,
         // fileId: undefined,
         // parent: undefined,
-        fileSize: fileSize,
-        fileType: "DOCUMENT",
+        fileSize,
+        fileType: 'DOCUMENT',
         filePath: fileName,
         // retention: undefined,
         security: [],
-        metadata: metadata
+        metadata
         // fileCheckout: null,
         // lockedInd: null,
         // uploadedOnTimestamp: null
@@ -148,6 +148,6 @@ function makeMetadata( name: string, value: string, etag?: string ): FileMetadat
         type: MetadataType,
         metadataName: name,
         metadataValue: value,
-        etag: etag
-    } as FileMetadataRsrc
+        etag
+    } as FileMetadataRsrc;
 }

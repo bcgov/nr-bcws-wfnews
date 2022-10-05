@@ -1,14 +1,14 @@
-import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Action, Store } from "@ngrx/store";
-import { SortDirection, TokenService } from "@wf1/core-ui";
-import { WildfireIncidentListService } from "@wf1/incidents-rest-api";
-import { Observable, of } from "rxjs";
-import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
-import { RootState } from "..";
-import { formatSort, getPageInfoRequestForSearchState } from "../../utils";
-import { SearchIncidentsAction, SearchIncidentsError, searchIncidentsSuccess, SEARCH_INCIDENTS } from "./incidents.action";
-import { initIncidentsPaging } from "./incidents.stats";
+import { Injectable } from '@angular/core';
+import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Action, Store } from '@ngrx/store';
+import { SortDirection, TokenService } from '@wf1/core-ui';
+import { WildfireIncidentListService } from '@wf1/incidents-rest-api';
+import { Observable, of } from 'rxjs';
+import { withLatestFrom, debounceTime, switchMap, catchError, map } from 'rxjs/operators';
+import { RootState } from '..';
+import { formatSort, getPageInfoRequestForSearchState } from '../../utils';
+import { SearchIncidentsAction, SearchIncidentsError, searchIncidentsSuccess, SEARCH_INCIDENTS } from './incidents.action';
+import { initIncidentsPaging } from './incidents.stats';
 
 @Injectable()
 export class IncidentsEffect {
@@ -29,43 +29,43 @@ export class IncidentsEffect {
         switchMap(
             ([action, store]) => {
 
-                let typedaction = <SearchIncidentsAction>action;
-                let pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchIncidents);
-                let savedFilters = store.searchIncidents.filters;
+                const typedaction = <SearchIncidentsAction>action;
+                const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchIncidents);
+                const savedFilters = store.searchIncidents.filters;
 
-                let pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initIncidentsPaging.pageNumber;
-                let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initIncidentsPaging.pageRowCount;
+                const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initIncidentsPaging.pageNumber;
+                const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initIncidentsPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
-                if (sortParam == "fireNumber") {
-                    sortParam = "incidentNumberSequence";
+                if (sortParam == 'fireNumber') {
+                    sortParam = 'incidentNumberSequence';
                 }
-                if (sortParam == "fireName") {
-                    sortParam = "incidentName";
+                if (sortParam == 'fireName') {
+                    sortParam = 'incidentName';
                 }
-                if (sortParam == "fireCentre") {
-                    sortParam = "fireCentreOrgUnitName";
+                if (sortParam == 'fireCentre') {
+                    sortParam = 'fireCentreOrgUnitName';
                 }
-                if (sortParam == "wildfireOfNote") {
-                    sortParam = "fireOfNotePublishedInd";
+                if (sortParam == 'wildfireOfNote') {
+                    sortParam = 'fireOfNotePublishedInd';
                 }
-                if (sortParam == "lastPublished") {
-                    sortParam = "discoveryTimestamp";
+                if (sortParam == 'lastPublished') {
+                    sortParam = 'discoveryTimestamp';
                 }
 
 
-                let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
+                const orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
                 let searchText = [];
                 if (pagingInfoRequest.query && pagingInfoRequest.query.length > 0) {
                     searchText[0] = pagingInfoRequest.query;
                 } else {
                     searchText = undefined;
                 }
-                let savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
-                let savedFireOfNotePublishedIndFilter = savedFilters && savedFilters.selectedFireOfNotePublishedInd ? savedFilters.selectedFireOfNotePublishedInd : undefined;
+                const savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
+                const savedFireOfNotePublishedIndFilter = savedFilters && savedFilters.selectedFireOfNotePublishedInd ? savedFilters.selectedFireOfNotePublishedInd : undefined;
 
 
-                let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
-                let fireOfNotePublishedInd = typedaction.payload.filters["selectedFireOfNotePublishedInd"] ? typedaction.payload.filters["selectedFireOfNotePublishedInd"] : savedFireOfNotePublishedIndFilter;
+                const fireCentreFilter = typedaction.payload.filters['selectedFireCentreCode'] ? typedaction.payload.filters['selectedFireCentreCode'] : savedFireCentreFilter;
+                const fireOfNotePublishedInd = typedaction.payload.filters['selectedFireOfNotePublishedInd'] ? typedaction.payload.filters['selectedFireOfNotePublishedInd'] : savedFireOfNotePublishedIndFilter;
 
                 return this.incidentListService.getWildfireIncidentList(
                     searchText,
@@ -109,9 +109,7 @@ export class IncidentsEffect {
                     'response'
                 )
                     .pipe(
-                        map((response: any) => {
-                            return searchIncidentsSuccess(typedaction.componentId, response.body);
-                        }),
+                        map((response: any) => searchIncidentsSuccess(typedaction.componentId, response.body)),
                         catchError(error => of(SearchIncidentsError(typedaction.componentId, error)))
                     );
 

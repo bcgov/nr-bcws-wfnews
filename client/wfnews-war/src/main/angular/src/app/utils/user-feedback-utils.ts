@@ -1,5 +1,5 @@
-import { MatSnackBar, MatSnackBarConfig } from "@angular/material/snack-bar";
-import { WF_SNACKBAR_TYPES } from ".";
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { WF_SNACKBAR_TYPES } from '.';
 
 export interface ErrorHandlingInstructions {
     redirectToRoute?: string;
@@ -8,11 +8,11 @@ export interface ErrorHandlingInstructions {
 }
 
 export function getSnackbarConfig(message, type): MatSnackBarConfig {
-    let config = {
-        panelClass: "snackbar-" + type,
+    const config = {
+        panelClass: 'snackbar-' + type,
         data: {
-            message: message,
-            type: type
+            message,
+            type
         }
     };
     if (type == WF_SNACKBAR_TYPES.SUCCESS) {

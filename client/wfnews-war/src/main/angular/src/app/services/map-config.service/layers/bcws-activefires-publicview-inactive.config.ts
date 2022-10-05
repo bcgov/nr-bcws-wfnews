@@ -55,7 +55,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
                     title: 'Fire Number'
                 },
                 {
-                    name: "IGNITION_DATE",
+                    name: 'IGNITION_DATE',
                     title: 'Date of Discovery'
                 },
                 {

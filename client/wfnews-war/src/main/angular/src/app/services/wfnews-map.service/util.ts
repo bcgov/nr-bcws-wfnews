@@ -17,10 +17,10 @@ export function encodeUrl(url: string, data: { [key: string]: string | number | 
   }
 
   const params = Object.keys(data)
-    .filter(function (k) {
+    .filter(function(k) {
       return data[k];
     })
-    .map(function (k) {
+    .map(function(k) {
       return `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`;
     })
     .join('&');
@@ -46,7 +46,7 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
   let id;
   let cancel;
   const req = encodeUrl(url, data);
-  const promise = new Promise(function (res, rej) {
+  const promise = new Promise(function(res, rej) {
     function cleanup() {
       if (id) {
         clearTimeout(id);
@@ -60,12 +60,12 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
       window[cbfn] = null;
     }
 
-    window[cbfn] = function (payload) {
+    window[cbfn] = function(payload) {
       cleanup();
       res(payload);
     };
 
-    cancel = function () {
+    cancel = function() {
       cleanup();
       rej(new Error('cancelled'));
     };

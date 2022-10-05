@@ -39,14 +39,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     @ViewChild('LocalAuthorities') localAuthoritiesPanel: MatExpansionPanel;
     @ViewChild('RoutesImpacted') routesImpactedPanel: MatExpansionPanel;
 
-    @ViewChildren("locationOptions") locationOptions: QueryList<ElementRef>;
+    @ViewChildren('locationOptions') locationOptions: QueryList<ElementRef>;
 
     incidentsServiceUrl: string;
     mapConfig = null;
     smkApi: SmkApi;
     activeFireCountPromise;
     selectedLayer: SelectedLayer;
-    selectedPanel = 'wildfire-stage-of-control'
+    selectedPanel = 'wildfire-stage-of-control';
     showAccordion: boolean;
     searchText = undefined;
     zone: NgZone;
@@ -69,9 +69,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
         this.markers = new Array();
-        let self = this;
+        const self = this;
 
-        this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
+        this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val: string)=>{
             if(!val) {
                 this.filteredOptions= [];
                 self.searchLayerGroup.clearLayers();
@@ -86,7 +86,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                     if(results) {
 
                         results.forEach((result) => {
-                            let address = self.getFullAddress(result);
+                            const address = self.getFullAddress(result);
                             result.address = address.trim();
                             self.highlight(result);
                         });
@@ -126,46 +126,52 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     getFullAddress(location) {
-        let result = "";
+        let result = '';
 
         if(location.civicNumber) {
-            result += location.civicNumber
+            result += location.civicNumber;
         }
 
         if(location.streetName) {
-            result += " " + location.streetName
+            result += ' ' + location.streetName;
         }
 
         if(location.streetQualifier) {
-            result += " " + location.streetQualifier
+            result += ' ' + location.streetQualifier;
         }
 
         if(location.streetType) {
-            result += " " + location.streetType
+            result += ' ' + location.streetType;
         }
 
         return result;
     }
 
     get leaflet(){
-        if(!this.leafletInstance) this.leafletInstance = window[ 'L' ];
+        if(!this.leafletInstance) {
+this.leafletInstance = window[ 'L' ];
+}
         return this.leafletInstance;
     }
 
     get searchLayerGroup(){
-        if(!this.searchLocationsLayerGroup) this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(this.SMK.MAP[1].$viewer.map);
+        if(!this.searchLocationsLayerGroup) {
+this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(this.SMK.MAP[1].$viewer.map);
+}
         return this.searchLocationsLayerGroup;
     }
 
     onLocationOptionOver(event) {
-        let long = window.jQuery(event.currentTarget).data("loc-long");
-        let lat = window.jQuery(event.currentTarget).data("loc-lat");
+        const long = window.jQuery(event.currentTarget).data('loc-long');
+        const lat = window.jQuery(event.currentTarget).data('loc-lat');
 
         this.removeMarker([lat, long]);
 
-        if(!long || !lat) return;
+        if(!long || !lat) {
+return;
+}
 
-        let largerIcon = {
+        const largerIcon = {
             iconSize: [40, 38],
             shadowAnchor: [4, 62],
             popupAnchor: [1, -34],
@@ -176,12 +182,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     onLocationOptionOut(event) {
-        let long = window.jQuery(event.currentTarget).data("loc-long");
-        let lat = window.jQuery(event.currentTarget).data("loc-lat");
+        const long = window.jQuery(event.currentTarget).data('loc-long');
+        const lat = window.jQuery(event.currentTarget).data('loc-lat');
 
         this.removeMarker([lat, long]);
 
-        if(!long || !lat) return;
+        if(!long || !lat) {
+return;
+}
 
         this.highlight({loc: [lat, long]});
     }
@@ -195,20 +203,20 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                 shadowAnchor: [4, 62],
                 popupAnchor:  [-3, -76],
                 shadowSize: [21, 21]
-            }
+            };
         }
 
         const self = this;
         const geojsonFeature = {
-            "type": "Feature",
-            "geometry": {
-                "type": "Point",
-                "coordinates": place.loc
+            type: 'Feature',
+            geometry: {
+                type: 'Point',
+                coordinates: place.loc
             }
         };
 
         const starIcon = this.leaflet.icon({
-            iconUrl: "data:image/svg+xml,%3Csvg version='1.1' id='Capa_1' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' x='0px' y='0px' viewBox='0 0 55.867 55.867' xml:space='preserve'%3E%3Cpath d='M55.818,21.578c-0.118-0.362-0.431-0.626-0.808-0.681L36.92,18.268L28.83,1.876c-0.168-0.342-0.516-0.558-0.896-0.558 s-0.729,0.216-0.896,0.558l-8.091,16.393l-18.09,2.629c-0.377,0.055-0.689,0.318-0.808,0.681c-0.117,0.361-0.02,0.759,0.253,1.024 l13.091,12.76l-3.091,18.018c-0.064,0.375,0.09,0.754,0.397,0.978c0.309,0.226,0.718,0.255,1.053,0.076l16.182-8.506l16.18,8.506 c0.146,0.077,0.307,0.115,0.466,0.115c0.207,0,0.413-0.064,0.588-0.191c0.308-0.224,0.462-0.603,0.397-0.978l-3.09-18.017 l13.091-12.761C55.838,22.336,55.936,21.939,55.818,21.578z' fill='%23FCBA19'/%3E%3C/svg%3E%0A",
+            iconUrl: 'data:image/svg+xml,%3Csvg version=\'1.1\' id=\'Capa_1\' xmlns=\'http://www.w3.org/2000/svg\' xmlns:xlink=\'http://www.w3.org/1999/xlink\' x=\'0px\' y=\'0px\' viewBox=\'0 0 55.867 55.867\' xml:space=\'preserve\'%3E%3Cpath d=\'M55.818,21.578c-0.118-0.362-0.431-0.626-0.808-0.681L36.92,18.268L28.83,1.876c-0.168-0.342-0.516-0.558-0.896-0.558 s-0.729,0.216-0.896,0.558l-8.091,16.393l-18.09,2.629c-0.377,0.055-0.689,0.318-0.808,0.681c-0.117,0.361-0.02,0.759,0.253,1.024 l13.091,12.76l-3.091,18.018c-0.064,0.375,0.09,0.754,0.397,0.978c0.309,0.226,0.718,0.255,1.053,0.076l16.182-8.506l16.18,8.506 c0.146,0.077,0.307,0.115,0.466,0.115c0.207,0,0.413-0.064,0.588-0.191c0.308-0.224,0.462-0.603,0.397-0.978l-3.09-18.017 l13.091-12.761C55.838,22.336,55.936,21.939,55.818,21.578z\' fill=\'%23FCBA19\'/%3E%3C/svg%3E%0A',
             iconSize:     iconSettings.iconSize,
             iconAnchor:   iconSettings.iconAnchor,
             shadowAnchor: iconSettings.shadowAnchor,
@@ -217,9 +225,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         });
 
         this.leaflet.geoJson(geojsonFeature, {
-            pointToLayer: function (feature, latlng) {
+            pointToLayer(feature, latlng) {
                 // [0] [-123.5082451, 48.4207067]
-                let marker = self.leaflet.marker(latlng, {icon: starIcon});
+                const marker = self.leaflet.marker(latlng, {icon: starIcon});
                 self.markers[self.serializeLatLng(latlng)] = marker;
                 return marker;
             }
@@ -227,10 +235,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     serializeLatLng(latLng) {
-        let latRounded = Math.round((latLng['lat'] + Number.EPSILON) * 100) / 100;
-        let longRounded = Math.round((latLng['lng'] + Number.EPSILON) * 100) / 100;
+        const latRounded = Math.round((latLng['lat'] + Number.EPSILON) * 100) / 100;
+        const longRounded = Math.round((latLng['lng'] + Number.EPSILON) * 100) / 100;
 
-        let latLongRounded = {
+        const latLongRounded = {
             latRounded,longRounded
         };
 
@@ -242,8 +250,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         this.searchLayerGroup.clearLayers();
 
         this.filteredOptions.forEach((result) => {
-            var first =this.serializeLatLng( {lat:latLng[0], lng:latLng[1]});
-            var second =this.serializeLatLng({lat:result.loc[0], lng:result.loc[1]} );
+            const first =this.serializeLatLng( {lat:latLng[0], lng:latLng[1]});
+            const second =this.serializeLatLng({lat:result.loc[0], lng:result.loc[1]} );
             if(first != second) {
                 self.highlight(result);
             }
@@ -253,7 +261,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     onLocationSelected(selectedOption) {
         const self = this;
         self.searchLayerGroup.clearLayers();
-        let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
+        const locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
         this.searchByLocationControl.setValue(locationControlValue.trim(), {onlySelf: true, emitEvent: false});
         this.highlight(selectedOption);
         this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.loc), 8);
@@ -261,7 +269,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
     clearSearchLocationControl() {
         this.searchByLocationControl.reset();
-        this.clearMyLocation()
+        this.clearMyLocation();
     }
 
     get activeFireCount(): Promise<number> {
@@ -269,9 +277,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         return this.activeFireCountPromise;
       }
       this.activeFireCountPromise = this.agolService.getActiveFireCount().toPromise()
-        .then( ( resp: any ) => {
-            return resp?.features[0].attributes.value;
-        }).catch( ( e ) => {
+        .then( ( resp: any ) => resp?.features[0].attributes.value).catch( ( e ) => {
           console.error('COUNTSTATS-FAIL' );
             return 123;
         });
@@ -289,7 +295,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
     onSelectLayer(selectedLayer: SelectedLayer) {
         this.selectedLayer = selectedLayer;
-        this.selectedPanel = selectedLayer
+        this.selectedPanel = selectedLayer;
 
         const layers = [
             /* 00 */ { itemId: 'active-wildfires', visible: true },
@@ -325,7 +331,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                 break;
 
             case 'smoke-forecast':
-                layers[ 14 ].visible = true
+                layers[ 14 ].visible = true;
                 break;
 
             case 'fire-danger':
@@ -348,48 +354,48 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     async useMyCurrentLocation() {
         this.searchText = undefined;
 
-        const location = await this.commonUtilityService.getCurrentLocationPromise()
+        const location = await this.commonUtilityService.getCurrentLocationPromise();
 
         const long = location.coords.longitude;
         const lat = location.coords.latitude;
         if( lat && long ){
-            this.showAreaHighlight([long,lat],50)
+            this.showAreaHighlight([long,lat],50);
             this.showLocationMarker({
                 type: 'Point',
                 coordinates: [long, lat]
             });
         }
-        this.searchByLocationControl.setValue(lat + ',' + long)
+        this.searchByLocationControl.setValue(lat + ',' + long);
     }
 
     showAreaHighlight(center, radius) {
         const circle = window.turf.circle(center, radius, { steps: 40, units: 'kilometers' });
         this.smkApi.showFeature('near-me-highlight3x', circle);
-        this.smkApi.panToFeature(circle,10)
+        this.smkApi.panToFeature(circle,10);
     }
 
     showLocationMarker(point) {
         this.smkApi.showFeature('my-location', point, {
-            pointToLayer: function (geojson, latLong) {
+            pointToLayer(geojson, latLong) {
                 return L.marker(latLong, {
                     icon: L.divIcon({
                         className: 'wfone-my-location',
                         html: '<i class="material-icons">my_location</i>',
                         iconSize: [24, 24]
                     })
-                })
+                });
             }
-        })
+        });
     }
 
     clearMyLocation() {
         this.smkApi.showFeature('near-me-highlight3x');
-        this.smkApi.showFeature('my-location')
+        this.smkApi.showFeature('my-location');
     }
 
     searchTextUpdated(){
         // will need to call News API to fetch the results
-        console.log(this.searchText)
+        console.log(this.searchText);
     }
 }
 

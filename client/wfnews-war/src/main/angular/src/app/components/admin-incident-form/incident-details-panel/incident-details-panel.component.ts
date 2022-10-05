@@ -7,6 +7,6 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./incident-details-panel.component.scss']
 })
 export class IncidentDetailsPanel {
-  @Input() public readonly formGroup: FormGroup
-  @Input() public incident
+  @Input() public readonly formGroup: FormGroup;
+  @Input() public incident;
 }

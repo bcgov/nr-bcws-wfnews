@@ -12,22 +12,22 @@ export class DialogData {
     styleUrls: ['./upload-map-dialog.component.scss']
 })
 export class UploadMapDialogComponent {
-  public title = ''
+  public title = '';
   public file: File;
 
-    constructor (
+    constructor(
       public dialogRef: MatDialogRef<UploadMapDialogComponent>
     ) {}
 
-    pdfInputChange (fileInputEvent: Event) {
-      this.title = (fileInputEvent.target as any).files[0].name
-      this.file = (fileInputEvent.target as any).files[0]
+    pdfInputChange(fileInputEvent: Event) {
+      this.title = (fileInputEvent.target as any).files[0].name;
+      this.file = (fileInputEvent.target as any).files[0];
     }
 
-    returnResult () {
+    returnResult() {
       return {
         title: this.title,
         file: this.file
-      }
+      };
     }
 }

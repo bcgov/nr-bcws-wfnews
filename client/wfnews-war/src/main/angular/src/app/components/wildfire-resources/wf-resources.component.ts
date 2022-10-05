@@ -98,5 +98,5 @@ export class WildfirewResourcesComponent {
         }
       ]
     }
-  ]
+  ];
 }

@@ -1,8 +1,8 @@
-import {Action} from "@ngrx/store";
-import { GET_INCIDENT, GET_INCIDENT_ERROR } from "../incident/incident.action";
-import { SEARCH_INCIDENTS, SEARCH_INCIDENTS_ERROR, SEARCH_INCIDENTS_SUCCESS } from "../incidents/incidents.action";
-import { INCIDENTS_COMPONENT_ID } from "../incidents/incidents.stats";
-import { SEARCH_WILDFIRES, SEARCH_WILDFIRES_ERROR, SEARCH_WILDFIRES_SUCCESS } from "../wildfiresList/wildfiresList.action";
+import {Action} from '@ngrx/store';
+import { GET_INCIDENT, GET_INCIDENT_ERROR } from '../incident/incident.action';
+import { SEARCH_INCIDENTS, SEARCH_INCIDENTS_ERROR, SEARCH_INCIDENTS_SUCCESS } from '../incidents/incidents.action';
+import { INCIDENTS_COMPONENT_ID } from '../incidents/incidents.stats';
+import { SEARCH_WILDFIRES, SEARCH_WILDFIRES_ERROR, SEARCH_WILDFIRES_SUCCESS } from '../wildfiresList/wildfiresList.action';
 import {
     ApplicationState,
     ERROR_TYPE,
@@ -10,7 +10,7 @@ import {
     getDefaultApplicationState,
     getDefaultFormState,
     getDefaultLoadStates
-} from "./application.state";
+} from './application.state';
 
 
 export function applicationReducer(state: ApplicationState = getDefaultApplicationState(), action: Action): ApplicationState {
@@ -33,7 +33,7 @@ export function applicationReducer(state: ApplicationState = getDefaultApplicati
         case GET_INCIDENT_ERROR:
         case SEARCH_WILDFIRES_ERROR:
         {
-            return updateErrorState(state, action, action["payload"]["error"]);
+            return updateErrorState(state, action, action['payload']['error']);
         }
 
         default: {
@@ -43,8 +43,8 @@ export function applicationReducer(state: ApplicationState = getDefaultApplicati
 }
 
 export function getStatePropertyNameForActionName(action: Action): string {
-    let actionType = action.type;
-    let typedaction = null;
+    const actionType = action.type;
+    const typedaction = null;
     switch(actionType){
         case SEARCH_INCIDENTS:
             return INCIDENTS_COMPONENT_ID;
@@ -54,7 +54,7 @@ export function getStatePropertyNameForActionName(action: Action): string {
 }
 
 export function updateLoadState(state: ApplicationState, action: Action, value: boolean): ApplicationState {
-    let component = getStatePropertyNameForActionName(action);
+    const component = getStatePropertyNameForActionName(action);
     let st = state;
     if (value) { // if starting load, reset error state
         st = clearErrorState(state, action);
@@ -73,12 +73,12 @@ export function updateLoadState(state: ApplicationState, action: Action, value: 
 }
 
 export function updateErrorState(state: ApplicationState, action: Action, value: ErrorState): ApplicationState {
-    let component = getStatePropertyNameForActionName(action);
+    const component = getStatePropertyNameForActionName(action);
     if (component) {
         if (value.type == ERROR_TYPE.FATAL) {
-            let ns = {
+            const ns = {
                 ...state,
-                errorStates: {...state.errorStates, ["severe"]: [...state.errorStates["severe"], value]},
+                errorStates: {...state.errorStates, ['severe']: [...state.errorStates['severe'], value]},
                 loadStates: getDefaultLoadStates() // set all load states to false on a fatal error
             };
             return ns;
@@ -101,7 +101,7 @@ export function updateErrorState(state: ApplicationState, action: Action, value:
 }
 
 export function clearErrorState(state: ApplicationState, action: Action): ApplicationState {
-    let component = getStatePropertyNameForActionName(action);
+    const component = getStatePropertyNameForActionName(action);
     if (component) {
         return {
             ...state,
@@ -113,7 +113,7 @@ export function clearErrorState(state: ApplicationState, action: Action): Applic
 }
 
 export function clearFormState(state: ApplicationState, action: Action): ApplicationState {
-    let component = getStatePropertyNameForActionName(action);
+    const component = getStatePropertyNameForActionName(action);
     if (component) {
         return {
             ...state,

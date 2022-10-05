@@ -1,8 +1,8 @@
-import { NumberFormatStyle } from "@angular/common";
-import { Injectable } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { NumberFormatStyle } from '@angular/common';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
-const MAX_CACHE_AGE = 30 * 1000
+const MAX_CACHE_AGE = 30 * 1000;
 
 export interface Coordinates {
     readonly accuracy: number;
@@ -25,22 +25,22 @@ export class CommonUtilityService {
     private locationTime;
     private location;
 
-    constructor (
-        protected snackbarService : MatSnackBar
+    constructor(
+        protected snackbarService: MatSnackBar
      ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
-        const self = this
-        const now = Date.now()
+        const self = this;
+        const now = Date.now();
         if (this.locationTime && (now - this.locationTime) < MAX_CACHE_AGE){
-            return this.location
+            return this.location;
         }
 
-        this.locationTime = now
-        this.location = new Promise<Position>(function (res, rej) {
-            self.getCurrentLocation(res)
-        })
-        return this.location
+        this.locationTime = now;
+        this.location = new Promise<Position>(function(res, rej) {
+            self.getCurrentLocation(res);
+        });
+        return this.location;
     }
 
     getCurrentLocation(callback?: (p: Position) => void) {
@@ -58,8 +58,7 @@ export class CommonUtilityService {
             },
                 { enableHighAccuracy: true }
             );
-        }
-        else {
+        } else {
             console.warn('Unable to access geolocation');
             this.snackbarService.open('Unable to access location services.', '', {
                 duration: 5,
@@ -73,7 +72,7 @@ export class CommonUtilityService {
         }, error => {
             this.snackbarService.open('Unable to retrieve the current location','Cancel', {
                 duration: 5000
-            })
+            });
             },
             { enableHighAccuracy: true }
         );

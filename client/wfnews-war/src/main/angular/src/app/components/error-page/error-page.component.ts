@@ -1,6 +1,6 @@
-import {AfterViewInit, Component} from "@angular/core";
-import { AppConfigService } from "@wf1/core-ui/public_api";
-import {BaseComponent} from "../base/base.component";
+import {AfterViewInit, Component} from '@angular/core';
+import { AppConfigService } from '@wf1/core-ui/public_api';
+import {BaseComponent} from '../base/base.component';
 
 @Component({
   selector: 'wfnews-error-page',
@@ -8,5 +8,5 @@ import {BaseComponent} from "../base/base.component";
   styleUrls: ['./error-page.component.scss']
 })
 export class ErrorPageComponent extends BaseComponent implements AfterViewInit {
-  appConfig: AppConfigService
+  appConfig: AppConfigService;
 }

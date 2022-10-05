@@ -58,14 +58,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     evacOrders: [],
     mapAttachments: [],
     incidentData: null
-  }
+  };
   wildFireYear: string;
   incidentNumberSequnce: string;
   currentAdminIncident: WildfireIncidentResource;
   currentAdminIncidentCause: IncidentCauseResource;
 
 
-  public readonly incidentForm: FormGroup
+  public readonly incidentForm: FormGroup;
 
   constructor(private http: HttpClient,
               private appConfig: AppConfigService,
@@ -105,49 +105,49 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         emailAddress: []
       }),
       evacOrders: this.formBuilder.array([])
-    })
+    });
   }
 
   ngOnInit() {
     this.router.queryParams.subscribe(
-      (params:ParamMap) => {
+      (params: ParamMap) => {
         if (params && params['wildFireYear'] && params['incidentNumberSequence']){
           this.wildFireYear = params['wildFireYear'];
-          this.incidentNumberSequnce = params['incidentNumberSequence']
-          this.store.dispatch(getIncident(this.wildFireYear, this.incidentNumberSequnce))
+          this.incidentNumberSequnce = params['incidentNumberSequence'];
+          this.store.dispatch(getIncident(this.wildFireYear, this.incidentNumberSequnce));
         }
       }
-    )
+    );
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.adminIncident && changes.adminIncident.currentValue){
-      this.currentAdminIncident = changes.adminIncident.currentValue
+      this.currentAdminIncident = changes.adminIncident.currentValue;
       // We need to load the Published Incident from IM as well at this point!
-      this.incidentForm.patchValue(this.currentAdminIncident)
+      this.incidentForm.patchValue(this.currentAdminIncident);
 
       // update the stub, until we wire this properly
-      this.incident.wildfireYear = this.wildFireYear
-      this.incident.incidentNumberSequence = this.currentAdminIncident.incidentNumberSequence
-      this.incident.fireName = this.currentAdminIncident.incidentName
-      this.incident.incidentData = this.currentAdminIncident
+      this.incident.wildfireYear = this.wildFireYear;
+      this.incident.incidentNumberSequence = this.currentAdminIncident.incidentNumberSequence;
+      this.incident.fireName = this.currentAdminIncident.incidentName;
+      this.incident.incidentData = this.currentAdminIncident;
     }
 
     if (changes.adminIncidentCause){
-      this.currentAdminIncidentCause = changes.adminIncidentCause.currentValue
+      this.currentAdminIncidentCause = changes.adminIncidentCause.currentValue;
     }
 
     this.cdr.detectChanges();
   }
 
-  publish () {
+  publish() {
     if (this.incidentForm.invalid) {
         // stop here if it's invalid
         alert('Invalid');
         return;
     }
-    const rawData = this.incidentForm.getRawValue()
-    console.log(rawData)
+    const rawData = this.incidentForm.getRawValue();
+    console.log(rawData);
     //this.service.submitUpdate(this.incidentForm.getRawValue()).subscribe((): void => {...})
   }
 

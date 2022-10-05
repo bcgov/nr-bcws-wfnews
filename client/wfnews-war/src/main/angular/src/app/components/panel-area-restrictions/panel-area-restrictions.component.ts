@@ -10,7 +10,7 @@ import L from 'leaflet';
     styleUrls: ['./panel-area-restrictions.component.scss'],
 })
 export class PanelAreaRestrictionsComponent implements OnInit {
-  areaRestrictions : AreaRestrictionsOption[] = []
+  areaRestrictions: AreaRestrictionsOption[] = [];
 
   constructor(private agolService: AGOLService,
               private mapConfigService: MapConfigService,) {
@@ -20,14 +20,14 @@ export class PanelAreaRestrictionsComponent implements OnInit {
     this.getAreaRestrictions();
   }
 
-  zoomToArea (area) {
+  zoomToArea(area) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       const viewer = SMK.MAP[1].$viewer;
-      viewer.panToFeature(window['turf'].point([area.centroid.x, area.centroid.y]), 10)
+      viewer.panToFeature(window['turf'].point([area.centroid.x, area.centroid.y]), 10);
 
       const map = viewer.map;
-      let latlngPoint = new L.LatLng(area.centroid.y, area.centroid.x);
+      const latlngPoint = new L.LatLng(area.centroid.y, area.centroid.x);
       map.fireEvent('click', {
         latlng: latlngPoint,
         layerPoint: map.latLngToLayerPoint(latlngPoint),
@@ -37,19 +37,19 @@ export class PanelAreaRestrictionsComponent implements OnInit {
       setTimeout(() => {
         for (const set in viewer.identified.featureSet) {
           if (Object.prototype.hasOwnProperty.call(viewer.identified.featureSet, set)) {
-            const feature = viewer.identified.featureSet[set]
+            const feature = viewer.identified.featureSet[set];
             if (feature.type === 'Feature' && feature.layerId === 'area-restrictions') {
-              viewer.identified.pick(feature.id)
+              viewer.identified.pick(feature.id);
               break;
             }
           }
         }
-      }, 1000)
-      viewer.identified.remove('weather-stations')
-    })
+      }, 1000);
+      viewer.identified.remove('weather-stations');
+    });
   }
 
-  getAreaRestrictions () {
+  getAreaRestrictions() {
     this.agolService.getAreaRestrictions(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
@@ -61,9 +61,9 @@ export class PanelAreaRestrictionsComponent implements OnInit {
             fireZone: element.attributes.FIRE_ZONE_NAME,
             bulletinUrl: element.attributes.BULLETIN_URL,
             centroid: element.centroid
-          })
+          });
         }
       }
-    })
+    });
   }
 }

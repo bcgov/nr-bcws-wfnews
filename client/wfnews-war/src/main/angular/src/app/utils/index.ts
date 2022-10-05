@@ -80,8 +80,8 @@ export function isElementTruncated(el: HTMLElement): boolean {
 }
 
 export const CONSTANTS= {
-    NO_RECORDS_MESSAGE: "No records to display.",
-}
+    NO_RECORDS_MESSAGE: 'No records to display.',
+};
 
 export function arrayEquals(a, b) {
     return Array.isArray(a) &&
@@ -92,5 +92,5 @@ export function arrayEquals(a, b) {
 
 export const formatSort = (param: string, direction: SortDirection) => param && direction ? `${param} ${direction}` : undefined;
 
-export const WF_SNACKBAR_TYPES = {SUCCESS: "success", ERROR: "error", WARNING: "warning", INFO: "info", UPDATE: "update"};
+export const WF_SNACKBAR_TYPES = {SUCCESS: 'success', ERROR: 'error', WARNING: 'warning', INFO: 'info', UPDATE: 'update'};
 

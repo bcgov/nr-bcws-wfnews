@@ -16,16 +16,16 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   public currentYearString;
   public currentDateTimeString;
 
-  displayLabel = "Simple Wildfires Search"
-  selectedFireCentreCode = "";
-  fireCentreOptions: fireCentreOption[] = []
+  displayLabel = 'Simple Wildfires Search';
+  selectedFireCentreCode = '';
+  fireCentreOptions: fireCentreOption[] = [];
   fireOfNotePublishedInd = true;
-  selectedRadius = "";
+  selectedRadius = '';
   radiusOptions = [
     '50km',
     '100km',
     '200km',
-  ]
+  ];
 
   initModels() {
     this.model = new WildFiresListComponentModel(this.sanitizer);
@@ -44,7 +44,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
-    console.log(changes)
+    console.log(changes);
   }
 
   doSearch() {
@@ -82,27 +82,27 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   ngOnchanges(changes: SimpleChanges) {
-    super.ngOnChanges(changes)
+    super.ngOnChanges(changes);
   }
 
 
   getFireCentres() {
-    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
-    let headers = new HttpHeaders();
+    const url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
+    const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Accept', '*/*');
     this.http.get<any>(url, { headers }).subscribe(response => {
       if (response.features) {
         response.features.forEach(element => {
-          this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE })
+          this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE });
         });
       }
-    })
+    });
   }
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
+      return moment(value).format('YYYY-MM-DD hh:mm:ss');
     }
   }
 
@@ -121,11 +121,11 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   stagesOfControlChange(event: any) {
     // TODO, filter should update
-    this.doSearch()
+    this.doSearch();
   }
 
   openStageOfControlLink() {
-    let url = "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control"
-    window.open(url, "_blank");
+    const url = 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control';
+    window.open(url, '_blank');
   }
 }

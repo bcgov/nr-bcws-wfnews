@@ -14,30 +14,30 @@ import { EditImageDialogComponent } from '../edit-image-dialog/edit-image-dialog
   styleUrls: ['./image-card-panel.component.scss']
 })
 export class ImageCardPanel implements OnInit, OnChanges {
-  @Input() public incident
-  @Input() public attachment: AttachmentResource
-  @Input() public isPrimary: boolean
+  @Input() public incident;
+  @Input() public attachment: AttachmentResource;
+  @Input() public isPrimary: boolean;
 
   public includeInPublicGallery = false;
 
   public imageSrc = null;
   public loaded = false;
 
-  constructor (private documentManagementService: DocumentManagementService,
+  constructor(private documentManagementService: DocumentManagementService,
                protected incidentAttachmentService: IncidentAttachmentService,
                protected snackbarService: MatSnackBar,
                protected dialog: MatDialog,
                private sanitizer: DomSanitizer,
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
-  changePrimary () {
+  changePrimary() {
     // this will have to set this attachment, but call the parent to
     // remove the current primary.
     // Not 100% if this is meta, News specific, or where the value goes yet...
   }
 
-  edit () {
-    let dialogRef = this.dialog.open(EditImageDialogComponent, {
+  edit() {
+    const dialogRef = this.dialog.open(EditImageDialogComponent, {
       width: '350px',
       data: {
         attachment: this.attachment
@@ -51,13 +51,13 @@ export class ImageCardPanel implements OnInit, OnChanges {
     });
   }
 
-  includeInGallery () {
+  includeInGallery() {
     // not privateIndicator, a new one will be added for this.
     this.attachment.privateIndicator = !this.attachment.privateIndicator;
     this.updateIncidentAttachment();
   }
 
-  updateIncidentAttachment () {
+  updateIncidentAttachment() {
     this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, this.attachment.attachmentGuid, this.attachment)
     .toPromise().then(() => {
       this.snackbarService.open('Image Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
@@ -65,14 +65,14 @@ export class ImageCardPanel implements OnInit, OnChanges {
     }).catch(err => {
       this.snackbarService.open('Failed to Update Image: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
       this.loaded = false;
-    })
+    });
   }
 
-  ngOnChanges (changes: SimpleChanges): void {
+  ngOnChanges(changes: SimpleChanges): void {
     this.loadImage();
   }
 
-  ngOnInit (): void {
+  ngOnInit(): void {
     this.loadImage();
   }
 
@@ -82,21 +82,21 @@ export class ImageCardPanel implements OnInit, OnChanges {
 
   convertToDate(value: string | number | Date): string {
     if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
+      return moment(value).format('YYYY-MM-DD hh:mm:ss');
     }
   }
-  loadImage () {
+  loadImage() {
     if (!this.loaded) {
       this.documentManagementService.downloadDocument(this.attachment.fileIdentifier).toPromise().then(response => {
-        const blob = (response as any).body
+        const blob = (response as any).body;
         if (blob) {
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));
           this.cdr.detectChanges();
           this.loaded = true;
         } else {
-          throw Error('File could not be found')
+          throw Error('File could not be found');
         }
-      })
+      });
     }
   }
 }

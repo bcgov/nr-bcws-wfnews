@@ -1,13 +1,13 @@
-import {AppConfigService, AuthGuard, TokenService} from "@wf1/core-ui";
-import {ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/router";
-import {Injectable} from "@angular/core";
-import {AsyncSubject, Observable, of} from "rxjs";
-import {mergeMap} from "rxjs/operators";
-import {MatSnackBar} from "@angular/material/snack-bar";
-import {ResourcesRoutes} from "../../utils";
+import {AppConfigService, AuthGuard, TokenService} from '@wf1/core-ui';
+import {ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import {Injectable} from '@angular/core';
+import {AsyncSubject, Observable, of} from 'rxjs';
+import {mergeMap} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ResourcesRoutes} from '../../utils';
 
 @Injectable({
-    providedIn: "root",
+    providedIn: 'root',
 })
 export class NewsAuthGuard extends AuthGuard {
     private asyncCheckingToken;
@@ -36,18 +36,18 @@ export class NewsAuthGuard extends AuthGuard {
                 return this.asyncCheckingToken;
             }
             let redirectUri = this.appConfigService.getConfig().application.baseUrl;
-            let path = route.routeConfig.path;
+            const path = route.routeConfig.path;
             let pathWithParamSubs = path;
-            let queryParamStr = "?";
+            let queryParamStr = '?';
             if (route.params) {
                 Object.keys(route.params).forEach(paramKey => {
-                    pathWithParamSubs = pathWithParamSubs.replace(":" + paramKey, route.params[paramKey]);
+                    pathWithParamSubs = pathWithParamSubs.replace(':' + paramKey, route.params[paramKey]);
                 });
             }
             redirectUri = redirectUri.concat(pathWithParamSubs);
             if (route.queryParams) {
                 Object.keys(route.queryParams).forEach(paramKey => {
-                    queryParamStr += paramKey + "=" + route.queryParams[paramKey] + "&";
+                    queryParamStr += paramKey + '=' + route.queryParams[paramKey] + '&';
                 });
                 queryParamStr = queryParamStr.substr(0, queryParamStr.length - 1);
                 redirectUri = redirectUri.concat(queryParamStr);
@@ -72,13 +72,13 @@ export class NewsAuthGuard extends AuthGuard {
 
     canAccessRoute(scopes: string[][], tokenService: TokenService): boolean {
         if (this.tokenService.getOauthToken()) {
-            return true
+            return true;
         }
         return false;
     }
 
     redirectToErrorPage() {
-        this.router.navigate(["/" + ResourcesRoutes.ERROR_PAGE]);
+        this.router.navigate(['/' + ResourcesRoutes.ERROR_PAGE]);
     }
 
     reloadPage() {
