@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable } from 'rxjs';
@@ -7,8 +7,7 @@ import { Observable } from 'rxjs';
     providedIn: 'root'
 })
 export class PublishedIncidentService {
-  constructor(private appConfigService: AppConfigService, private tokenService: TokenService, private httpClient: HttpClient) {
-  }
+  constructor(private appConfigService: AppConfigService, private tokenService: TokenService, private httpClient: HttpClient) {  }
 
   public fetchPublishedIncidents (pageNum: number = 0, rowCount: number = 9999, fireOfNote = false, out = false, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=${out}&orderBy=${orderBy}`;

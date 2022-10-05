@@ -4,7 +4,18 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
+<<<<<<< HEAD
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { RootState } from '../../store';
+import { Store } from '@ngrx/store';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+=======
+import { MatDialog } from '@angular/material/dialog';
+import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
+import { PublishedIncidentService } from '../../services/published-incident-service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+>>>>>>> WFNEWS-436 enable publishing
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
@@ -62,15 +73,18 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   incidentNumberSequnce: string;
   currentAdminIncident: WildfireIncidentResource;
   currentAdminIncidentCause: IncidentCauseResource;
-
+  private loaded = false;
 
   public readonly incidentForm: FormGroup
 
   constructor(private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
               private componentRouter: Router,
+              private store: Store<RootState>,
               protected cdr: ChangeDetectorRef,
-              private publishedIncidentService: PublishedIncidentService) {
+              protected dialog: MatDialog,
+              private publishedIncidentService: PublishedIncidentService,
+              protected snackbarService: MatSnackBar) {
     this.incidentForm = this.formBuilder.group({
       incidentName: [],
       incidentNumberSequence: [],
@@ -158,7 +172,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     this.cdr.detectChanges();
   }
 
-  publish () {
+  publishChanges () {
     if (this.incidentForm.invalid) {
         // stop here if it's invalid
         alert('Invalid');
@@ -166,7 +180,33 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     }
     const rawData = this.incidentForm.getRawValue()
     console.log(rawData)
-    //this.service.submitUpdate(this.incidentForm.getRawValue()).subscribe((): void => {...})
+    
+    const self = this;
+    let dialogRef = this.dialog.open(PublishDialogComponent, {
+      width: '350px',
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      debugger;
+      if (result && result.publish) {
+        self.publishIncident(result.file).then(doc => {
+            debugger;
+            this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
+        }).catch(err => {
+            debugger; 
+            this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+          }).finally(() => {
+            self.loaded = false;
+            this.cdr.detectChanges();
+          }).catch(err => {
+            debugger;
+          this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+        })
+      }
+    });
+  }
+
+  publishIncident( file: File): Promise<any> {
+    return this.publishedIncidentService.publish({});
   }
 
   onShowPreview() {
