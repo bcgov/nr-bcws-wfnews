@@ -45,7 +45,7 @@ export class IncidentsEffect {
                 if (sortParam == "fireCentre") {
                     sortParam = "fireCentreOrgUnitName";
                 }
-                if (sortParam == "wildfireOfNote") {
+                if (sortParam == "wildFireOfNote") {
                     sortParam = "fireOfNotePublishedInd";
                 }
                 if (sortParam == "lastPublished") {
