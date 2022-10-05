@@ -111,7 +111,8 @@
                 [position]="'top'"
                 [selected]="showEntriesSelection"
                 [options]="showEntriesOptions"
-                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)">
+                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)"
+                [(ngModel)]="showEntriesSelection">
             <option *ngFor="let option of showEntriesOptions" value="{{option.value}}">
                 <span>{{option.label}}</span>
             </option>
