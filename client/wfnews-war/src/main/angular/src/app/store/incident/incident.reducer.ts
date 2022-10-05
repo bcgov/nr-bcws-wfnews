@@ -3,17 +3,11 @@ import { GetIncidentCauseSuccessAction, GetIncidentSuccessAction, GET_INCIDENT_C
 import { getDefaultIncidentState, IncidentState } from "./incident.stats";
 
 export function incidentReducer (state: IncidentState = getDefaultIncidentState(), action: Action): IncidentState {
-    switch(action.type) {
-        case GET_INCIDENT_SUCCESS: {
-            const typedaction = <GetIncidentSuccessAction> action;
-            return {...state, currentIncident: typedaction.payload.incident}
-        }
-    }
-
-    switch(action.type) {
-        case GET_INCIDENT_CAUSE_SUCCESS: {
-            const typedaction = <GetIncidentCauseSuccessAction> action;
-            return {...state, currentIncidentCause: typedaction.payload.incidentCause}
-        }
-    }
+  if (action.type === GET_INCIDENT_SUCCESS) {
+    const typedaction = <GetIncidentSuccessAction> action;
+    return {...state, currentIncident: typedaction.payload.incident}
+  } else if (action.type === GET_INCIDENT_CAUSE_SUCCESS) {
+    const typedaction = <GetIncidentCauseSuccessAction> action;
+    return {...state, currentIncidentCause: typedaction.payload.incidentCause}
+  }
 }

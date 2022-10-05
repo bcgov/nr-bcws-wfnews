@@ -46,10 +46,12 @@ export interface ApplicationState {
 
 export interface LoadStates {
     incidents: LoadState;
+    wildfires: LoadState;
 }
 
 export interface ErrorStates {
     incidents: ErrorState[];
+    wildfires: ErrorState[];
 }
 
 export interface FormStates{
@@ -73,7 +75,8 @@ export function getDefaultFormState(): FormState {
 
 export function getDefaultLoadStates(): LoadStates {
     return {
-        incidents: {isLoading: false}
+        incidents: {isLoading: false},
+        wildfires: {isLoading: false}
     };
 }
 
@@ -88,6 +91,8 @@ export function getDefaultApplicationState(): ApplicationState {
 export function getDefaultErrorStates(): ErrorStates {
     return {
         incidents: [],
+        wildfires: []
+
     };
 }
 

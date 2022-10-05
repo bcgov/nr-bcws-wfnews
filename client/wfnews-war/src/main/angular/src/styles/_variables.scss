@@ -5,7 +5,7 @@ $opacity-grey: rgba(0, 0, 0, 0.13);
 $opacity-dark-grey: rgba(0, 0, 0, 0.54);
 $background-color: $opacity-grey;
 $colour-dark-grey: #263238;
-$colour-medium-grey: #7d7d7d;
+$colour-medium-grey: #d7d7d7;
 $colour-light-grey: #a7a9ac;
 $colour-toolbar-grey: #bdbdbd;
 $colour-yellow: #e69f00;
@@ -14,12 +14,12 @@ $colour-lighter-yellow: #f9f9cd;
 $colour-black: #000000;
 $colour-red: #ff4545;
 $colour-green: #009e73;
-$colour-blue: #0600FF;
+$colour-blue: #003366;
 $colour-white: #ffffff;
 $colour-errors: #f44336;
 $colour-warnings: orange;
 $colour-orange: #F59A23;
-$colour-lighter-grey: #f2f2f2;
+$colour-lighter-grey: #f3f5f6;
 $opacity-light-grey: rgba(0, 0, 0, 0.06);
 $colour-light-orange: #FFD3A0;
 
@@ -63,6 +63,8 @@ $colour-sidebar-filter-background: $colour-white;
 $colour-header-background: #003366;
 
 $colour-success: #2E7940;
+$colour-button-primary: $colour-blue;
+
 
 /**
  Spacing Variables
