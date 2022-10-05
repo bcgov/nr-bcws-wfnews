@@ -1,0 +1,152 @@
+div{
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+.header-row{
+    display: flex;
+    margin: 0;
+}
+
+.table-search-header{
+    background-color: white !important;
+    border-top: none !important;
+}
+
+.stage-of-control{
+    margin-left: auto;
+    height: 50%;
+    margin-top: auto;
+}
+
+.my-location-button{
+    padding-right: 10px;
+    border: 1px solid #a7a9ac;
+    border-radius: 5px;
+    width: fit-content;
+
+    .mat-raised-button {
+      box-shadow: none;
+    }
+
+    .mat-icon {
+        padding-right: 5px;
+        color: #a7a9ac;
+    }
+}
+
+
+p.results-count {    
+    text-align: right;
+    margin-right: 2%;
+    font-size: 18px;
+}
+
+p.dashboard-title{
+    font-size: 24px;
+    margin-bottom: .5%;
+}
+
+p.active-incidents, p.datetime{
+    display: inline-block;
+}
+
+p.datetime{
+    float: right;
+    vertical-align:center;
+}
+
+tr{
+    font-weight: normal;
+}
+
+.table-wrapper{
+    border: none;
+}
+
+table{
+    border: 1;
+    width: 96%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
+td {
+    padding-top:.5%;
+    padding-bottom:.5%;
+    padding-right:.5%;
+    padding-left:.5%;
+    width: 25%;
+  }
+
+table tr:nth-child(even) td{
+    background-color: white;
+}
+
+.block{
+    width:15%;
+    display: inline-block;
+}
+
+.input-clear-button{
+    margin-bottom: 8px;
+    margin-left: 278px;
+    position: absolute;
+    line-height: 24px;
+    height: 24px;
+    width: 24px;
+    font-size: 15px;
+    border-radius: 20%;
+    background-color: #f2f2f2;
+}
+
+.stage-of-control-checkbox-group{
+    margin-top: 13px !important;
+    flex-basis: auto !important;
+    width: auto !important;
+
+    .checkbox-group {
+        margin-top: 10px;
+        display: flex;
+
+        .mat-checkbox {
+            border: none;
+        }
+    }
+}
+
+.mat-column-fireName {
+    width: 20%;
+}
+
+.mat-column-fireNumber {
+    width: 10%;
+}
+
+.mat-column-lastUpdated {
+    width: 10%;
+}
+
+.mat-column-stageOfControl {
+    width: 10%;
+}
+
+.mat-column-wildFireOfNote {
+    width: 10%;
+}
+
+.mat-column-fireCentre {
+    width: 10%;
+}
+
+.mat-column-location {
+    width: 10%;
+}
+
+.mat-column-addToWatchlist {
+    width: 10%;
+}
+
+.mat-column-viewMap {
+    width: 10%;
+}

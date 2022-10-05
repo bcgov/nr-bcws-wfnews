@@ -1,10 +1,11 @@
 package ca.bc.gov.nrs.wfnews.spring;
 
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebadeOauth2AuthenticationProvider;
-import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.impl.TokenServiceImpl;
+import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.TokenService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -40,6 +41,8 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySpringConfig.class);
 
+	@Autowired
+	TokenService tokenService;
 
 	public SecuritySpringConfig() {
 		super(true);
@@ -51,19 +54,6 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Bean
 	public AuthenticationProvider authenticationProvider() {
 		WebadeOauth2AuthenticationProvider result;
-
-    // Replace the tokenService here with an autowire to the config tokenServiceImpl
-    TokenServiceImpl tokenService;
-
-		String clientSecret= System.getenv("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET");
-		String tokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_URL");
-		String checkTokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_CLIENT_URL");
-
-		tokenService = new TokenServiceImpl(
-				"WFNEWS-UI",
-				clientSecret,
-				checkTokenUrl,
-				tokenUrl);
         
 		result = new WebadeOauth2AuthenticationProvider(tokenService, "WFIM.*");
 

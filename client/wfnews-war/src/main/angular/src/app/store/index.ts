@@ -11,6 +11,9 @@ import { IncidentsEffect } from './incidents/incidents.effects';
 
 import { incidentsReducer } from './incidents/incidents.reducer';
 import { initialIncidentsSearchState, IncidentsState } from './incidents/incidents.stats';
+import { WildfiresListEffect } from './wildfiresList/wildfiresList.effects';
+import { wildfiresListReducer } from './wildfiresList/wildfiresList.reducer';
+import { initialWildfiresSearchState, WildfiresState } from './wildfiresList/wildfiresList.stats';
 
 export interface BaseRouterStoreState {
     url: string;
@@ -25,24 +28,30 @@ export const rootReducers: ActionReducerMap<any> = {
     router: routerReducer,
     incidents: incidentsReducer,
     searchIncidents: pageSearchReducer,
-    incident: incidentReducer
+    incident: incidentReducer,
+    wildfires: wildfiresListReducer,
+    searchWildfires: pageSearchReducer,
 };
 
 export interface RootState {
     application?: ApplicationState;
     incidents?: IncidentsState;
-    searchIncidents?: PagingSearchState
+    searchIncidents?: PagingSearchState;
     incident?: IncidentState;
+    wildfires?: WildfiresState;
+    searchWildfires?: PagingSearchState;
 };
 
 export const initialRootState: RootState = {
     searchIncidents: initialIncidentsSearchState,
+    searchWildfires: initialWildfiresSearchState,
 };
 
 export const rootEffects: any[] = [
     // PlaceNameSearchEffects,
     IncidentsEffect,
-    IncidentEffect
+    IncidentEffect,
+    WildfiresListEffect,
 
 ];
 

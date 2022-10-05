@@ -8,6 +8,11 @@ export const selectSearchState = (componentId) => (state: RootState): SearchStat
 export const selectIncidentsLoadState = () => (state: RootState): LoadState => ((state.application && state.application.loadStates.incidents) ? state.application.loadStates.incidents : undefined);
 export const selectIncidentsErrorState = () => (state: RootState): ErrorState[] => ((state.application && state.application.errorStates.incidents) ? state.application.errorStates.incidents : undefined);
 
+export const selectWildfiresLoadState = () => (state: RootState): LoadState => ((state.application && state.application.loadStates.wildfires) ? state.application.loadStates.wildfires : undefined);
+export const selectWildfiresErrorState = () => (state: RootState): ErrorState[] => ((state.application && state.application.errorStates.wildfires) ? state.application.errorStates.wildfires : undefined);
+
+
+
 //------ code table cache ----
 export const selectFormStatesUnsaved = (componentIds: string[]) => (state: RootState): boolean => {
     let ret = false;

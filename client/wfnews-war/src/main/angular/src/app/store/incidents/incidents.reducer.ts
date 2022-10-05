@@ -3,10 +3,8 @@ import { SearchIncidentsSuccessAction, SEARCH_INCIDENTS_SUCCESS } from "./incide
 import { getDefaultIncidentsState, IncidentsState } from "./incidents.stats";
 
 export function incidentsReducer (state: IncidentsState = getDefaultIncidentsState(), action: Action): IncidentsState {
-    switch(action.type) {
-        case SEARCH_INCIDENTS_SUCCESS: {
-            const typedaction = <SearchIncidentsSuccessAction> action;
-            return {...state, currentIncidentsSearch: typedaction.payload.value}
-        }
-    }
+  if (action.type === SEARCH_INCIDENTS_SUCCESS) {
+    const typedaction = <SearchIncidentsSuccessAction> action;
+    return {...state, currentIncidentsSearch: typedaction.payload.value}
+  }
 }
