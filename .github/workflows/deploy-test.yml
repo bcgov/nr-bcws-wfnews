@@ -6,9 +6,9 @@ env:
   CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
   SERVER_IMAGE_NAME: nr-bcws-wfnews-server
   LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
+  
 on:
   release:
-    types: [published]
 
 jobs:
 
