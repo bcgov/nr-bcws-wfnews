@@ -1,0 +1,44 @@
+name: Tag images with release
+
+env:
+  SERVER_IMAGE_ID: ${{ github.repository }}-server
+  CLIENT_IMAGE_ID: ${{ github.repository }}-client
+  LIQUIBASE_IMAGE_ID: ${{ github.repository }}-liquibase
+
+on:
+  workflow_call:
+    inputs:
+      REGISTRY:
+        required: true
+        type: string
+
+jobs:
+  tag-images:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ inputs.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag client image
+        run: |
+          docker pull ${{ env.CLIENT_IMAGE_ID }}:${GITHUB_SHA}
+          docker tag ${{ env.CLIENT_IMAGE_ID }}:${GITHUB_SHA} ${{ env.CLIENT_IMAGE_ID }}:${GITHUB_REF#refs/tags/}
+          docker push ${{ env.CLIENT_IMAGE_ID }}:${GITHUB_REF#refs/tags/}
+
+      - name: Tag server image
+        run: |
+          docker pull ${{ env.SERVER_IMAGE_ID }}:${GITHUB_SHA}
+          docker tag ${{ env.SERVER_IMAGE_ID }}:${GITHUB_SHA} ${{ env.SERVER_IMAGE_ID }}:${GITHUB_REF#refs/tags/}
+          docker push ${{ env.SERVER_IMAGE_ID }}:${GITHUB_REF#refs/tags/}
+
+      - name: Tag liquibase image
+        run: |
+          docker pull ${{ env.LIQUIBASE_IMAGE_ID }}:${GITHUB_SHA}
+          docker tag ${{ env.LIQUIBASE_IMAGE_ID }}:${GITHUB_SHA} ${{ env.LIQUIBASE_IMAGE_ID }}:${GITHUB_REF#refs/tags/}
+          docker push ${{ env.LIQUIBASE_IMAGE_ID }}:${GITHUB_REF#refs/tags/}

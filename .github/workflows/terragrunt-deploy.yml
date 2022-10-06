@@ -87,6 +87,9 @@ on:
       WEBADE_OAUTH2_AUTHORIZE_URL:
         required: true
         type: string
+      IMAGE_TAG:
+        required: true
+        type: string
 
     secrets:
       LICENSE_PLATE:
@@ -130,9 +133,9 @@ jobs:
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           TARGET_ENV: ${{ inputs.TARGET_ENV }}
-          CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          CLIENT_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.CLIENT_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          SERVER_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          LIQUIBASE_IMAGE: ${{inputs.registry}}/bcgov/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
