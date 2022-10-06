@@ -17,6 +17,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublicPublishedIncidentEndpoin
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.PagingQueryParameters;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.validation.ParameterValidator;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
@@ -61,6 +62,26 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				response = Response.ok(entity).tag(results.getUnquotedETag()).build();
 			}
 				
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+		
+		logResponse(response);
+
+		return response;
+	}
+	
+	@Override
+	public Response getPublishedIncident(String publishedIncidentDetailGuid) throws NotFoundException, ForbiddenException, ConflictException {
+		Response response = null;
+				
+		try {
+			PublishedIncidentResource results = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, getWebAdeAuthentication(), getFactoryContext());
+			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
+
+			};
+
+			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
