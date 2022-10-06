@@ -16,6 +16,9 @@ jobs:
   tag-images:
     runs-on: ubuntu-22.04
 
+    outputs:
+      tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
+
     steps:
       - uses: actions/checkout@v3
 
@@ -44,17 +47,13 @@ jobs:
           docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
-  get-tag-values:
-    runs-on: ubuntu-22.04
-    outputs:
-      tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
-    steps:
       - run: echo ::set-output name=tag-value::${GITHUB_REF#refs/tags/} 
         id: get-release-tag
+      
 
   terragrunt-deploy-test:
     runs-on: ubuntu-22.04
-    needs: get-tag-values
+    needs: tag-images
     steps:
       - uses: ./.github/workflows/terragrunt-deploy.yml
         with:
@@ -87,8 +86,7 @@ jobs:
           WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
           WFNEWS_USERNAME: wfnewstest
           WFNEWS_MAX_CONNECTIONS: 10
-          IMAGE_TAG: ${{ needs.get-tag-values.outputs.tag-value }}
-
+          IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
         secrets:
           LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.TEST_DB_PASS }}
