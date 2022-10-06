@@ -7,9 +7,8 @@ env:
   SERVER_IMAGE_NAME: nr-bcws-wfnews-server
   LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
 on:
-  push:
-    tags:
-      - "v[0-9].[0-9]+.[0-9]+-rc*"
+  release:
+    types: [published]
 
 jobs:
 
@@ -28,20 +27,20 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{ env.CLIENT_IMAGE_NAME }}
-          docker tag ${{ env.CLIENT_IMAGE_NAME }} ${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{ env.CLIENT_IMAGE_NAME }}:main
+          docker tag ${{ env.CLIENT_IMAGE_NAME }}:main ${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
       - name: Tag server image
         run: |
-          docker pull ${{ env.SERVER_IMAGE_NAME }}
-          docker tag ${{ env.SERVER_IMAGE_NAME }} ${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{ env.SERVER_IMAGE_NAME }}:main
+          docker tag ${{ env.SERVER_IMAGE_NAME }}:main ${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
       - name: Tag liquibase image
         run: |
-          docker pull ${{ env.LIQUIBASE_IMAGE_NAME }}
-          docker tag ${{ env.LIQUIBASE_IMAGE_NAME }} ${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{ env.LIQUIBASE_IMAGE_NAME }}:main
+          docker tag ${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
   terragrunt-deploy-test:
