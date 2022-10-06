@@ -1,10 +1,8 @@
-import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Directive, OnChanges, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { fireCentreOption } from '../../conversion/models';
 import { searchIncidents } from '../../store/incidents/incidents.action';
 import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
-import { ResourcesRoutes } from '../../utils';
+import { FireCentres, ResourcesRoutes } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WfAdminPanelComponentModel } from './wf-admin-panel.component.model';
 
@@ -16,8 +14,8 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 
   displayLabel = "Simple Incidents Search"
   selectedFireCentreCode = "";
-  fireCentreOptions: fireCentreOption[] = []
   fireOfNotePublishedInd = true;
+  fireCentreOptions = FireCentres;
 
   initModels() {
     this.model = new WfAdminPanelComponentModel(this.sanitizer);
@@ -26,7 +24,6 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 
   loadPage() {
     this.componentId = SEARCH_INCIDENTS_COMPONENT_ID;
-    this.getFireCentres();
     this.getCurrentYearString()
     this.updateView();
     this.initSortingAndPaging(initIncidentsPaging);
@@ -84,20 +81,6 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
     const todayString = weekdays[todaysDate.getDay()];
     const liveDateTime: string = (todayString + " " + todaysDate.toLocaleDateString("en-US", options)).replace(" at ", " - ");
     this.currentDateTimeString = liveDateTime
-  }
-
-  getFireCentres() {
-    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Accept', '*/*');
-    this.http.get<any>(url, { headers }).subscribe(response => {
-      if (response.features) {
-        response.features.forEach(element => {
-          this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE })
-        });
-      }
-    })
   }
 
   convertToDate(value: string) {

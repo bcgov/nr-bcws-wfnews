@@ -17,7 +17,7 @@ jobs:
 
   terragrunt-deploy-test:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build]
+    needs: [tag-images]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step

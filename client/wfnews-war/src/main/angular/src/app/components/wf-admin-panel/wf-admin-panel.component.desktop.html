@@ -22,12 +22,13 @@
                     aria-label="Type"
                     [options]="fireCentreOptions"
                     [selected]="selectedFireCentreCode"
-                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)">
+                    (updated)="selectFilterUpdated('selectedFireCentreCode', $event)"
+                    [(ngModel)]="selectedFireCentreCode">
                 <option value="">
                     <span class="placeholder">Select...</span>
                 </option>
                 <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
-                    <span>{{item.fireCentreName}}</span>
+                    <span>{{item.description}}</span>
                 </option>
             </select>
         </div>
@@ -52,14 +53,14 @@
 
 
 <div class="table-wrapper flex-y-grow" *ngIf="collectionData; else loading">
-    <table style = "width: fit-content;" mat-table matSort [dataSource]="collectionData | paginate:config"
+    <table style = "width: -webkit-fill-available" mat-table matSort [dataSource]="collectionData | paginate:config"
             [matSortActive]="this.searchState.sortParam"
             [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
             (matSortChange)="sortData($event)"
             aria-label="Incident Table">
         <ng-container matColumnDef = "fireNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentNumberSequence}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentLabel}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireName">
@@ -78,7 +79,7 @@
         </ng-container>
 
         <ng-container matColumnDef = "lastPublished">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Published</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Published</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
         </ng-container>
 
@@ -110,7 +111,8 @@
                 [position]="'top'"
                 [selected]="showEntriesSelection"
                 [options]="showEntriesOptions"
-                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)">
+                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)"
+                [(ngModel)]="showEntriesSelection">
             <option *ngFor="let option of showEntriesOptions" value="{{option.value}}">
                 <span>{{option.label}}</span>
             </option>
