@@ -1,5 +1,5 @@
 data "aws_route53_zone" "zone" {
-    name = "dev.bcwildfireservices.com"
+    name = "${var.target_env}.bcwildfireservices.com"
 }
 
 resource "aws_route53_record" "wfnews_server" {
