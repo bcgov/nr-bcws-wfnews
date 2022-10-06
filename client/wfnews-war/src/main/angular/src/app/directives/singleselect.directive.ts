@@ -23,6 +23,7 @@ export class SingleSelectDirective implements AfterViewInit, OnChanges {
     @Input() filter: boolean = true;
     selectHtmlElement: HTMLSelectElement;
     multiselect;
+    
 
     constructor(
         private element: ElementRef,

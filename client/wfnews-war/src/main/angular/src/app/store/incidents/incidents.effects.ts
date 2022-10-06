@@ -37,7 +37,7 @@ export class IncidentsEffect {
                 let pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initIncidentsPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
                 if (sortParam == "fireNumber") {
-                    sortParam = "incidentNumberSequence";
+                    sortParam = "incidentLabel";
                 }
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
@@ -45,7 +45,7 @@ export class IncidentsEffect {
                 if (sortParam == "fireCentre") {
                     sortParam = "fireCentreOrgUnitName";
                 }
-                if (sortParam == "wildfireOfNote") {
+                if (sortParam == "wildFireOfNote") {
                     sortParam = "fireOfNotePublishedInd";
                 }
                 if (sortParam == "lastPublished") {

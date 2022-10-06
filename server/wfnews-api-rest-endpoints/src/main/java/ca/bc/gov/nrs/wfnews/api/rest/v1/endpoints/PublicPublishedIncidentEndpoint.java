@@ -3,6 +3,7 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -24,6 +25,12 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentList( @ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
 	        @ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
+	
+	@GET
+	@Path("/{publishedIncidentDetailGuid}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getPublishedIncident( @ApiParam("The page number of the results to be returned.") @PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }
 	
 	
