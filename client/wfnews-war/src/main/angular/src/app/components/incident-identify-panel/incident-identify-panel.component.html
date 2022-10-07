@@ -1,3 +1,59 @@
-<div>
-  Incident Panel!
+<div *ngIf="!loaded">
+  loading...
+</div>
+<div class="incident-details" *ngIf="loaded">
+  <div class="header">
+    <em title="Close Panel" (click)="close()" class="smk-panel-close smk-command smk-icon material-icons button">close</em>
+  </div>
+  <div class="title-bar">
+    <div class="title">{{incident.name}} <span #el class="fire-icon-container"><wf-icon *ngIf="incident.fireOfNote" class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></div>
+    <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" target="_blank">{{incident.fireCentre}}</a></div>
+  </div>
+  <div class="nav-button" *ngIf="incident.status !== 'OUT'">
+    <button style="background: #1a5a96; color: white;" mat-button color="primary" (click)="goToIncidentDetail()">Full Incident Detail</button>
+  </div>
+  <div class="info-panel">
+    <div><span class="label">Fire Number: </span><span>{{incident.fireNumber}}</span></div>
+    <div><span class="label">Last Updated: </span><span>{{incident.lastUpdated}}</span></div>
+    <div><span class="label">Discovered On: </span><span>{{incident.discoveryDate}}</span></div>
+    <div *ngIf="incident.status === 'OUT'"><span class="label">Declared Out: </span><span>{{incident.declaredOut}}</span></div>
+  </div>
+  <div class="divider"></div>
+  <div class="info-panel">
+    <div class="gutter"><span class="label">Size: </span><span>{{incident.size}} Hectares</span></div>
+    <div class="paragraph-format">Fire size is estimated and based on the last known mapped size in hectares. This information could be out-of-date at this time due to rapidly changing conditions</div>
+    <div class="gutter"><span class="label">Location</span></div>
+    <div class="paragraph-format">{{incident.location}}</div>
+    <div class="gutter"><span class="label">Traditional Territory</span></div>
+    <div class="paragraph-format">{{incident.traditionalTerritory}}</div>
+  </div>
+  <!-- Evac Orders-->
+  <div class="divider"></div>
+  <div class="divider"></div>
+  <!-- Response Icons-->
+  <div *ngIf="incident.fireOfNote">
+    <h4>Current Resources on Response</h4>
+    <div class="icon-bar">
+      <div *ngIf="incident.wildfireCrews" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
+        <div class="image-label">Wildfire Crews</div>
+      </div>
+      <div *ngIf="incident.aviation" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
+        <div class="image-label">Aviation</div>
+      </div>
+      <div *ngIf="incident.incidentManagementTeam" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Incident Management Teams" />
+        <div class="image-label">Incident Management Teams</div>
+      </div>
+      <div *ngIf="incident.heavyEquipment" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
+        <div class="image-label">Heavy Equipment</div>
+      </div>
+      <div *ngIf="incident.heavyEquipment" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Structure Protection" />
+        <div class="image-label">Structure Protection</div>
+      </div>
+    </div>
+  </div>
 </div>

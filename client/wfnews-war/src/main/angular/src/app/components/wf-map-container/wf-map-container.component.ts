@@ -115,7 +115,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         feature.properties.createContent = function (el) {
           self.zone.run(function () {
             let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
-            (compRef.instance as any).setIncident(feature.properties);
+            (compRef.instance as any).setIncident(feature.properties, feature);
             const panel = (document.getElementsByClassName('identify-panel').item(0) as HTMLElement);
             panel.appendChild(compRef.location.nativeElement);
             self.cdr.detectChanges();
