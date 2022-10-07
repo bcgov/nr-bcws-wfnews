@@ -95,6 +95,26 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             id: "weather-stations",
             isVisible: true,
             showItem: false
+        },
+        {
+            id: "clab-indian-reserves",
+            isVisible: false,
+            class: 'smk-inline-legend'
+        },
+        {
+            id: "fnt-treaty-land",
+            isVisible: false,
+            class: 'smk-inline-legend'
+        },
+        {
+            id: "abms-municipalities",
+            isVisible: false,
+            class: 'smk-inline-legend'
+        },
+        {
+            id: "abms-regional-districts",
+            isVisible: false,
+            class: 'smk-inline-legend'
         }
     ];
 }
