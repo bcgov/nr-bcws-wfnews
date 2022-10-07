@@ -72,4 +72,10 @@
       }
     }
   }
+  .evac-list {
+    display: flex;
+    flex-direction: row;
+    color: red;
+    text-decoration: underline;
+  }
 }

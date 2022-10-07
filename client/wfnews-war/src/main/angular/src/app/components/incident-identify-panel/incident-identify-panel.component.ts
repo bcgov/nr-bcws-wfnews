@@ -1,4 +1,7 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { EvacOrderOption } from '../../conversion/models';
+import { AGOLService } from '../../services/AGOL-service';
+import { MapConfigService } from '../../services/map-config.service';
 
 @Component({
     selector: 'incident-identify-panel',
@@ -7,9 +10,12 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 })
 export class IncidentIdentifyPanelComponent {
   public incident: any
+  public evacOrders : EvacOrderOption[] = []
   public loaded = false
 
-  constructor (protected cdr: ChangeDetectorRef) { }
+  constructor (protected cdr: ChangeDetectorRef,
+               private agolService: AGOLService,
+               private mapConfigService: MapConfigService) { }
   // if we want the "next" functionality, pass in the identify set
   setIncident (incident, featureInfo) {
     this.incident = incident
@@ -18,6 +24,7 @@ export class IncidentIdentifyPanelComponent {
     // load from DB. Show a spinner while loading
 
     // load Evac orders near this incident
+    this.getEvacOrders();
 
     // test data
     setTimeout(() => {
@@ -37,7 +44,11 @@ export class IncidentIdentifyPanelComponent {
         aviation: true,
         heavyEquipment: false,
         incidentManagementTeam: true,
-        structureProtection: false
+        structureProtection: false,
+        geometry:  {
+          x: -115,
+          y: 50
+        }
       }
 
       this.loaded = true;
@@ -53,5 +64,23 @@ export class IncidentIdentifyPanelComponent {
 
   goToIncidentDetail () {
     // route to the details page
+  }
+
+  getEvacOrders () {
+    this.agolService.getEvacOrders(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.evacOrders.push({
+            eventName: element.attributes.EVENT_NAME,
+            eventType: element.attributes.EVENT_TYPE,
+            orderAlertStatus: element.attributes.ORDER_ALERT_STATUS,
+            issuingAgency: element.attributes.ISSUING_AGENCY,
+            preOcCode: element.attributes.PREOC_CODE,
+            emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+            centroid: element.centroid
+          })
+        }
+      }
+    })
   }
 }

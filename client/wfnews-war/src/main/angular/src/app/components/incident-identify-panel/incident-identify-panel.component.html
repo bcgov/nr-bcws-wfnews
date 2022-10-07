@@ -28,10 +28,17 @@
     <div class="paragraph-format">{{incident.traditionalTerritory}}</div>
   </div>
   <!-- Evac Orders-->
-  <div class="divider"></div>
+  <div *ngIf="evacOrders.length > 0" class="divider"></div>
+  <div *ngIf="evacOrders.length > 0">
+    <div class="evac-list" *ngFor="let evac of evacOrders">
+      <mat-icon>error</mat-icon>
+      <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
+      <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
+    </div>
+  </div>
   <div class="divider"></div>
   <!-- Response Icons-->
-  <div *ngIf="incident.fireOfNote">
+  <div *ngIf="incident.fireOfNote && (incident.wildfireCrews || incident.aviation || incident.incidentManagementTeam || incident.heavyEquipment || incident.structureProtection)">
     <h4>Current Resources on Response</h4>
     <div class="icon-bar">
       <div *ngIf="incident.wildfireCrews" class="resource-icon">
@@ -50,7 +57,7 @@
         <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
         <div class="image-label">Heavy Equipment</div>
       </div>
-      <div *ngIf="incident.heavyEquipment" class="resource-icon">
+      <div *ngIf="incident.structureProtection" class="resource-icon">
         <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Structure Protection" />
         <div class="image-label">Structure Protection</div>
       </div>
