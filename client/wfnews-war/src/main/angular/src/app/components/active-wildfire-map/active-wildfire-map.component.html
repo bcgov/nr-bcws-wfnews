@@ -115,8 +115,8 @@
           <panel-road-conditions *ngIf="selectedPanel === 'routes-impacted' && showAccordion"></panel-road-conditions>
       </div>
       <div class="map">
-          <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
-              (toggleAccordion)="onToggleAccordion()"></wf-map-container>
+        <div class="identify-panel"></div>
+        <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
       </div>
-</div>
+  </div>
 </div>

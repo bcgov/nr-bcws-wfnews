@@ -167,6 +167,22 @@
         flex-grow: 1;
         overflow: hidden;
         height: calc(100% - 180px);
+        position: relative;
+      .map-container {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .identify-panel {
+        position: relative;
+        z-index: 10000;
+        background-color: white;
+        height: 100%;
+        width: 600px;
+        display: none;
+      }
     }
  }
 

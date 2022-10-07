@@ -79,7 +79,8 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
                     title: 'Fire of Note Information'
                 }
             ],
-            titleAttribute: 'FIRE_NUMBER'
+            titleAttribute: 'FIRE_NUMBER',
+            popupTemplate: '@wf-incident-feature'
         }
     ];
 }

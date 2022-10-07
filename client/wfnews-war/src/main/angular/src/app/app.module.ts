@@ -104,6 +104,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
+import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -152,8 +153,8 @@ export const DATE_FORMATS = {
         PanelRoadConditionsComponent,
         ErrorPageComponent,
         WildFiresListComponentDesktop,
-        WildfiresListContainerDesktop
-
+        WildfiresListContainerDesktop,
+        IncidentIdentifyPanelComponent
     ],
     imports: [
         MatSortModule,

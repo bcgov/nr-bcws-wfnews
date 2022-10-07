@@ -204,14 +204,25 @@ export class WFMapService {
                         template: '#wf-weather-station-feature-template',
                         extends: f,
                         computed: {
-                            content() {
-                                // console.log( 'get content', this.feature.properties )
-                                return {
-                                    create: this.feature.properties.createContent
-                                };
-                            }
+                          content() {
+                            return {
+                              create: this.feature.properties.createContent
+                            };
+                          }
                         },
                     } );
+
+                    Vue.component( 'wf-incident-feature', {
+                      template: '#wf-incident-feature-template',
+                      extends: f,
+                      computed: {
+                        content() {
+                          return {
+                            create: this.feature.properties.createContent
+                          };
+                        }
+                      },
+                  } );
 
                 } );
             } )

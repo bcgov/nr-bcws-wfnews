@@ -31,7 +31,8 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
                     format: 'asLink(this.feature.properties.FIRE_OF_NOTE_URL)'
                 }
             ],
-            titleAttribute: 'FIRE_OF_NOTE_NAME'
+            titleAttribute: 'FIRE_OF_NOTE_NAME',
+            popupTemplate: '@wf-incident-feature',
         }
     ];
 }
