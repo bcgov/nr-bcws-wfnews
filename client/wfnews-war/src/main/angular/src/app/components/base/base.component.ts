@@ -30,6 +30,7 @@ import {PaginationInstance} from 'ngx-pagination';
 import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';
 import { CONSTANTS } from "../../../app/utils/index";
+import { CommonUtilityService } from '../../services/common-utility.service';
 
 @Directive()
 @Injectable()
@@ -92,7 +93,8 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected overlay: Overlay,
                 protected cdr: ChangeDetectorRef,
                 protected appConfigService: AppConfigService,
-                protected http: HttpClient) {
+                protected http: HttpClient,
+                protected commonUtilityService?: CommonUtilityService) {
         this.initModels();
     }
 
