@@ -1,14 +1,15 @@
 import { HttpHeaders } from '@angular/common/http';
-import { AfterViewInit, Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
 import { fireCentreOption, PagedCollection } from '../../conversion/models';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
+import { FireCentres } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
 @Directive()
-export class WildFiresListComponent extends CollectionComponent implements OnChanges, AfterViewInit {
+export class WildFiresListComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit {
 
   @Input() collection: PagedCollection;
 
@@ -18,14 +19,24 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
-  fireCentreOptions: fireCentreOption[] = []
-  fireOfNotePublishedInd = true;
-  selectedRadius = "";
+  activeWildfiresInd = true;
+  wildfiresOfNoteInd = false;
+  wildfiresOutInd = false;
+  selectedRadius = "50km";
   radiusOptions = [
     '50km',
+    '10km',
+    '20km',
+    '30km',
+    '40km',
+    '60km',
+    '70km',
+    '80km',
+    '90km',
     '100km',
-    '200km',
   ]
+  fireCentreOptions = FireCentres;
+
 
   initModels() {
     this.model = new WildFiresListComponentModel(this.sanitizer);
@@ -34,7 +45,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   loadPage() {
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
-    this.getFireCentres();
     this.updateView();
     this.initSortingAndPaging(initWildfiresListPaging);
     this.config = this.getPagingConfig();
@@ -44,7 +54,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
-    console.log(changes)
   }
 
   doSearch() {
@@ -55,7 +64,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.fireOfNotePublishedInd, this.displayLabel));
+      this.selectedFireCentreCode, this.activeWildfiresInd, this.displayLabel));
   }
 
   onChangeFilters() {
@@ -66,7 +75,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   clearSearchAndFilters() {
     this.searchText = null;
     this.selectedFireCentreCode = null;
-    this.fireOfNotePublishedInd = true;
+    this.activeWildfiresInd = true;
+    this.wildfiresOfNoteInd = false;
+    this.wildfiresOutInd = false;
+    this.selectedRadius = '50Km'
     super.onChangeFilters();
     this.doSearch();
   }
@@ -83,21 +95,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   ngOnchanges(changes: SimpleChanges) {
     super.ngOnChanges(changes)
-  }
-
-
-  getFireCentres() {
-    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Accept', '*/*');
-    this.http.get<any>(url, { headers }).subscribe(response => {
-      if (response.features) {
-        response.features.forEach(element => {
-          this.fireCentreOptions.push({ code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE })
-        });
-      }
-    })
   }
 
   convertToDate(value: string) {
@@ -127,5 +124,17 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   openStageOfControlLink() {
     let url = "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control"
     window.open(url, "_blank");
+  }
+
+  async useMyCurrentLocation() {
+    this.searchText = undefined;
+
+    const location = await this.commonUtilityService.getCurrentLocationPromise()
+    const lat = location.coords.latitude;
+    const long = location.coords.longitude;
+    this.searchText = lat.toString() + ', ' + long.toString()
+  }
+
+  onlyOneControlSelected() {
   }
 }
