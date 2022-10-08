@@ -23,7 +23,7 @@ CREATE INDEX "pubincdtl_point_geog_idx" ON "wfnews"."published_incident_detail" 
 CREATE OR REPLACE FUNCTION set_incident_geometries()
   RETURNS trigger 
   LANGUAGE PLPGSQL AS
-$$
+'
 BEGIN
   IF ((NEW.latitude IS NOT NULL) AND (NEW.longitude IS NOT NULL)) THEN
     --Set Point Geometery
@@ -31,7 +31,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+';
 
 --Create trigger that will set geometry columns before notification record is inserted or updated.
 DROP TRIGGER IF EXISTS "incident_changes" ON "wfnews"."published_incident_detail";
@@ -43,4 +43,4 @@ CREATE TRIGGER "incident_changes"
   FOR EACH ROW
   EXECUTE PROCEDURE set_incident_geometries();
   
-ANALYZE notification;
+ANALYZE "wfnews"."published_incident_detail";
