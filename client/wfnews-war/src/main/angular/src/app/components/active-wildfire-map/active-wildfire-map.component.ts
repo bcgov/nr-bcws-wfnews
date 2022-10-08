@@ -306,7 +306,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
             /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
             /* 12 */ { itemId: 'bc-fire-centres', visible: true },
             /* 13 */ { itemId: 'prescribed-fire', visible: false },
-            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false }
+            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
+            /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
+            /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
+            /* 17 */ { itemId: 'abms-municipalities', visible: false },
+            /* 18 */ { itemId: 'abms-regional-districts', visible: false }
         ];
 
         switch (selectedLayer) {
@@ -335,6 +339,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
             case 'local-authorities':
                 layers[ 12 ].visible = true;
+                layers[ 15 ].visible = true;
+                layers[ 16 ].visible = true;
+                layers[ 17 ].visible = true;
+                layers[ 18 ].visible = true;
                 break;
 
             case 'routes-impacted':

@@ -14,6 +14,10 @@ import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';
+import { CLABIndianReservesLayerConfig } from './clab-indian-reserves.config';
+import { FntTreatyLandLayerConfig } from './fnt-treaty-land.config';
+import { AbmsMunicipalitiesLayerConfig } from './abms-municipalities.config';
+import { AbmsRegionalDistrictsLayerConfig } from './abms-regional-districts.config';
 import { MapServices, MapServiceStatus } from '..';
 import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 
@@ -48,5 +52,9 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
     ...PrecipitationLayerConfig( ls ),
     ...ForestServiceRoadsLayerConfig( ls ),
     ...ActiveWildfiresHeatmapLayerConfig( ls )
+    ...CLABIndianReservesLayerConfig( ls ),
+    ...FntTreatyLandLayerConfig( ls ),
+    ...AbmsMunicipalitiesLayerConfig( ls ),
+    ...AbmsRegionalDistrictsLayerConfig( ls )
 	];
 }
