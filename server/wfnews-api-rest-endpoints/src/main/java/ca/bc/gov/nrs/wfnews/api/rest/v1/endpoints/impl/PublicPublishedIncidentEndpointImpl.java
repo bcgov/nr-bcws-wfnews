@@ -92,7 +92,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	}
 
 	@Override
-	public Response getPublishedIncidentListAsFeatures() throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentListAsFeatures(String stageOfControl) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -114,42 +114,44 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				StringBuilder sb = new StringBuilder();
 				sb.append("{\"type\":\"FeatureCollection\",\"features\":[");
 				for (PublishedIncidentResource feature : results.getCollection()) {
-					sb.append("{\"type\": \"Feature\",\"geometry\": {\"type\": \"Point\",\"coordinates\": [" + feature.getLongitude() + "," + feature.getLatitude() + "]},");
-					// properties
-					sb.append("\"properties\":{");
-					sb.append("\"contactEmailAddress\": \"" + feature.getContactEmailAddress() + "\",");
-					sb.append("\"contactPhoneNumber\": \"" + feature.getContactPhoneNumber() + "\",");
-					sb.append("\"fireOfNote\": \"" + feature.getFireOfNoteInd() + "\",");
-					sb.append("\"heavyEquipmentDetail\": \"" + feature.getHeavyEquipmentResourcesDetail() + "\",");
-					sb.append("\"heavyEquipmentInd\": \"" + feature.getHeavyEquipmentResourcesInd() + "\",");
-					sb.append("\"causeDetail\": \"" + feature.getIncidentCauseDetail() + "\",");
-					sb.append("\"location\": \"" + feature.getIncidentLocation() + "\",");
-					sb.append("\"incidentManagementCrewDetail\": \"" + feature.getIncidentMgmtCrewRsrcDetail() + "\",");
-					sb.append("\"incidentManagementCrewInd\": \"" + feature.getIncidentMgmtCrewRsrcInd() + "\",");
-					sb.append("\"incidentName\": \"" + feature.getIncidentName() + "\",");
-					sb.append("\"incidentNumberLabel\": \"" + feature.getIncidentNumberLabel() + "\",");
-					sb.append("\"incidentOverview\": \"" + feature.getIncidentOverview() + "\",");
-					sb.append("\"incidentSizeDetail\": \"" + feature.getIncidentSizeDetail() + "\",");
-					sb.append("\"incidentSizeType\": \"" + feature.getIncidentSizeType() + "\",");
-					sb.append("\"guid\": \"" + feature.getPublishedIncidentDetailGuid() + "\",");
-					sb.append("\"resourceDetail\": \"" + feature.getResourceDetail() + "\",");
-					sb.append("\"stageOfControl\": \"" + feature.getStageOfControlCode() + "\",");
-					sb.append("\"structureProtectionDetail\": \"" + feature.getStructureProtectionRsrcDetail() + "\",");
-					sb.append("\"structureProtectionInd\": \"" + feature.getStructureProtectionRsrcInd() + "\",");
-					sb.append("\"traditionalTerritoryDetail\": \"" + feature.getTraditionalTerritoryDetail() + "\",");
-					sb.append("\"aviationDetail\": \"" + feature.getWildfireAviationResourceDetail() + "\",");
-					sb.append("\"aviationInd\": \"" + feature.getWildfireAviationResourceInd() + "\",");
-					sb.append("\"crewResourceDetail\": \"" + feature.getWildfireCrewResourcesDetail() + "\",");
-					sb.append("\"crewResourceInd\": \"" + feature.getWildfireCrewResourcesInd() + "\",");
-					sb.append("\"contactOrgUnit\": \"" + feature.getContactOrgUnitIdentifer() + "\",");
-					sb.append("\"fireZoneOrgUnit\": \"" + feature.getFireZoneUnitIdentifier() + "\",");
-					sb.append("\"generalIncidentCauseId\": \"" + feature.getGeneralIncidentCauseCatId() + "\",");
-					sb.append("\"sizeMappedHa\": \"" + feature.getIncidentSizeMappedHa() + "\",");
-					sb.append("\"sizeEstimatedHa\": \"" + feature.getIncidentSizeEstimatedHa() + "\",");
-					sb.append("\"discoveryData\": \"" + feature.getDiscoveryDate() + "\"");
-					sb.append("}");
-					// fin
-					sb.append("},");
+					if ((stageOfControl == null && !feature.getStageOfControlCode().equals("OUT")) || feature.getStageOfControlCode().equals(stageOfControl)) {
+						sb.append("{\"type\": \"Feature\",\"geometry\": {\"type\": \"Point\",\"coordinates\": [" + feature.getLongitude() + "," + feature.getLatitude() + "]},");
+						// properties
+						sb.append("\"properties\":{");
+						sb.append("\"contactEmailAddress\": \"" + feature.getContactEmailAddress() + "\",");
+						sb.append("\"contactPhoneNumber\": \"" + feature.getContactPhoneNumber() + "\",");
+						sb.append("\"fireOfNote\": \"" + feature.getFireOfNoteInd() + "\",");
+						sb.append("\"heavyEquipmentDetail\": \"" + feature.getHeavyEquipmentResourcesDetail() + "\",");
+						sb.append("\"heavyEquipmentInd\": \"" + feature.getHeavyEquipmentResourcesInd() + "\",");
+						sb.append("\"causeDetail\": \"" + feature.getIncidentCauseDetail() + "\",");
+						sb.append("\"location\": \"" + feature.getIncidentLocation() + "\",");
+						sb.append("\"incidentManagementCrewDetail\": \"" + feature.getIncidentMgmtCrewRsrcDetail() + "\",");
+						sb.append("\"incidentManagementCrewInd\": \"" + feature.getIncidentMgmtCrewRsrcInd() + "\",");
+						sb.append("\"incidentName\": \"" + feature.getIncidentName() + "\",");
+						sb.append("\"incidentNumberLabel\": \"" + feature.getIncidentNumberLabel() + "\",");
+						sb.append("\"incidentOverview\": \"" + feature.getIncidentOverview() + "\",");
+						sb.append("\"incidentSizeDetail\": \"" + feature.getIncidentSizeDetail() + "\",");
+						sb.append("\"incidentSizeType\": \"" + feature.getIncidentSizeType() + "\",");
+						sb.append("\"guid\": \"" + feature.getPublishedIncidentDetailGuid() + "\",");
+						sb.append("\"resourceDetail\": \"" + feature.getResourceDetail() + "\",");
+						sb.append("\"stageOfControl\": \"" + feature.getStageOfControlCode() + "\",");
+						sb.append("\"structureProtectionDetail\": \"" + feature.getStructureProtectionRsrcDetail() + "\",");
+						sb.append("\"structureProtectionInd\": \"" + feature.getStructureProtectionRsrcInd() + "\",");
+						sb.append("\"traditionalTerritoryDetail\": \"" + feature.getTraditionalTerritoryDetail() + "\",");
+						sb.append("\"aviationDetail\": \"" + feature.getWildfireAviationResourceDetail() + "\",");
+						sb.append("\"aviationInd\": \"" + feature.getWildfireAviationResourceInd() + "\",");
+						sb.append("\"crewResourceDetail\": \"" + feature.getWildfireCrewResourcesDetail() + "\",");
+						sb.append("\"crewResourceInd\": \"" + feature.getWildfireCrewResourcesInd() + "\",");
+						sb.append("\"contactOrgUnit\": \"" + feature.getContactOrgUnitIdentifer() + "\",");
+						sb.append("\"fireZoneOrgUnit\": \"" + feature.getFireZoneUnitIdentifier() + "\",");
+						sb.append("\"generalIncidentCauseId\": \"" + feature.getGeneralIncidentCauseCatId() + "\",");
+						sb.append("\"sizeMappedHa\": \"" + feature.getIncidentSizeMappedHa() + "\",");
+						sb.append("\"sizeEstimatedHa\": \"" + feature.getIncidentSizeEstimatedHa() + "\",");
+						sb.append("\"discoveryData\": \"" + feature.getDiscoveryDate() + "\"");
+						sb.append("}");
+						// fin
+						sb.append("},");
+					}
 				}
 
 				// remove any trailing comma and close

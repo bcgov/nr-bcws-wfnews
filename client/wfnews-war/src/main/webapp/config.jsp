@@ -81,10 +81,16 @@
 
     json.append("},");
 
+    String wfnewsUri = EnvironmentVariable.getVariable("WFNEWS_API_URL"); 
+    if (wfnewsUri != null && wfnewsUri.endsWith("/")) {
+      wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     // External Application Section
     json.append("\"mapServices\":{");
       json.append("\"openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.url", "")).append("\"").append(",");
       json.append("\"#openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.internal.url", "")).append("\"").append(",");
+      json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"drivebcBaseUrl\":\"").append(properties.getProperty("drivebc.url", "")).append("\"");
     json.append("},");
 
@@ -100,10 +106,6 @@
     String wfdmUri = EnvironmentVariable.getVariable("WFDM_API_URL"); 
     if (wfdmUri != null && wfdmUri.endsWith("/")) {
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
-    }
-    String wfnewsUri = EnvironmentVariable.getVariable("WFNEWS_API_URL"); 
-    if (wfnewsUri != null && wfnewsUri.endsWith("/")) {
-      wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
     json.append("\"rest\":{");

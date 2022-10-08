@@ -19,12 +19,14 @@ import { MapServices, MapServiceStatus } from '..';
 export interface layerSettings {
     openmapsBaseUrl: string;
     drivebcBaseUrl: string;
+    wfnewsUrl: string;
 
 };
 export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus ) {
     const ls: layerSettings = {
         openmapsBaseUrl: mapServices[ 'openmapsBaseUrl' ],
-        drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ]
+        drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ],
+        wfnewsUrl: mapServices[ 'wfnews' ]
     };
 
 	return [

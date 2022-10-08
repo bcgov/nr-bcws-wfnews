@@ -30,7 +30,7 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Path("/features")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncidentListAsFeatures()throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl)throws NotFoundException, ForbiddenException, ConflictException;
 
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
