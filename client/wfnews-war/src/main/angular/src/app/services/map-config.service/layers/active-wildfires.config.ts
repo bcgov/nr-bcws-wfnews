@@ -19,12 +19,12 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           ],
           style:{
            markerSize:[
-              "16",
-              "16"
+              "24",
+              "24"
            ],
            markerOffset:[
-              "16",
-              "16"
+              "12",
+              "12"
            ],
            markerUrl: "/assets/images/local_fire_department.png"
           }

@@ -7,7 +7,8 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           id: 'bcws-activefires-publicview-inactive',
           title: 'BC Wildfires - Declared Out',
           isQueryable: true,
-          useClustering: false,
+          useClustering: true,
+          useHeatmap: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT",
           titleAttribute: "incidentName",
           attributes: [

@@ -115,6 +115,10 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
+          id: 'active-wildfires-heatmap',
+          isVisible: false
+        },
+        {
             id: "weather-stations",
             isVisible: true,
             showItem: false

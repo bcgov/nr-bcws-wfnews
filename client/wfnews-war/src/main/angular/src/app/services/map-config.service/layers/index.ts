@@ -15,6 +15,7 @@ import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';
 import { MapServices, MapServiceStatus } from '..';
+import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 
 export interface layerSettings {
     openmapsBaseUrl: string;
@@ -45,6 +46,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
 		...WeatherLayerConfig( ls ),
     ...WeatherStationsLayerConfig( ls ),
     ...PrecipitationLayerConfig( ls ),
-    ...ForestServiceRoadsLayerConfig( ls )
+    ...ForestServiceRoadsLayerConfig( ls ),
+    ...ActiveWildfiresHeatmapLayerConfig( ls )
 	];
 }
