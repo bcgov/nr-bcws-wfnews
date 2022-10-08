@@ -102,17 +102,14 @@
 
   <div class="bottom">
       <div [ngClass]="showAccordion ? 'details' : 'details close'">
-          <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion">
-          </panel-wildfire-stage-of-control>
-          <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion">
-          </panel-evacuation-orders-and-alerts>
-          <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion">
-          </panel-area-restrictions>
-          <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion">
-          </panel-bans-prohibitions>
+          <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control>
+          <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
+          <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
+          <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion"></panel-bans-prohibitions>
           <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
           <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
           <panel-road-conditions *ngIf="selectedPanel === 'routes-impacted' && showAccordion"></panel-road-conditions>
+          <panel-local-authority *ngIf="selectedPanel === 'local-authorities' && showAccordion"></panel-local-authority>
       </div>
       <div class="map">
           <wf-map-container [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
