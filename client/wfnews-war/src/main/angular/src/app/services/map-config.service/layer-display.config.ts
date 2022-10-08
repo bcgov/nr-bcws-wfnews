@@ -3,9 +3,32 @@ import { MapServices } from '.';
 export function LayerDisplayConfig(mapServices: MapServices) {
     return [
         {
-            id: 'active-wildfires',
-            isVisible: true,
-            alwaysShowLegend: false
+          id: "fire-group",
+          type: "group",
+          title: "BC Wildfires - Active Fires",
+          isVisible: true,
+          items: [
+            {
+              id: 'active-wildfires-fire-of-note',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'active-wildfires-out-of-control',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'active-wildfires-holding',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'active-wildfires-under-control',
+              isVisible: true,
+              alwaysShowLegend: false
+            }
+          ]
         },
         {
             id: 'evacuation-orders-and-alerts-wms',

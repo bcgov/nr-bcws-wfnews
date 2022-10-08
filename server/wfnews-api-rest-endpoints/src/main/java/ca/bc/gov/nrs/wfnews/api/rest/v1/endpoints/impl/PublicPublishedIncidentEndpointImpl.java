@@ -99,7 +99,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			PagingQueryParameters parameters = new PagingQueryParameters();
 			
 			Integer pageNum = 1;
-			Integer rowCount = 999999; // I don't expect we'll ever have 100000 fires...
+			Integer rowCount = 999999; // I don't expect we'll ever have 100000 fires... May need confifuration
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
@@ -114,7 +114,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				StringBuilder sb = new StringBuilder();
 				sb.append("{\"type\":\"FeatureCollection\",\"features\":[");
 				for (PublishedIncidentResource feature : results.getCollection()) {
-					if ((stageOfControl == null && !feature.getStageOfControlCode().equals("OUT")) || feature.getStageOfControlCode().equals(stageOfControl)) {
+					if ((stageOfControl == null && !feature.getStageOfControlCode().equals("OUT")) || (stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("T")) || feature.getStageOfControlCode().equals(stageOfControl)) {
 						sb.append("{\"type\": \"Feature\",\"geometry\": {\"type\": \"Point\",\"coordinates\": [" + feature.getLongitude() + "," + feature.getLatitude() + "]},");
 						// properties
 						sb.append("\"properties\":{");
