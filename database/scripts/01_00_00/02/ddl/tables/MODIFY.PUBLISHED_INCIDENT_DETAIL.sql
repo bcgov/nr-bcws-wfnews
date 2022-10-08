@@ -7,7 +7,7 @@ ALTER TABLE "wfnews"."published_incident_detail" ADD COLUMN IF NOT EXISTS "longi
 COMMENT ON COLUMN "wfnews"."published_incident_detail"."longitude" IS 'LONGITUDE is the longitude of the incident'
 ;
 
-ALTER TABLE "wfnews"."published_incident_detail" ADD COLUMN IF NOT EXISTS "geometry" geometry(Point,4236);
+ALTER TABLE "wfnews"."published_incident_detail" ADD COLUMN IF NOT EXISTS "geometry" geometry(Point,4326);
 COMMENT ON COLUMN "wfnews"."published_incident_detail"."geometry" IS 'GEOMETRY is the geometry representation of the incidents latitude and longitude, using projection 4326'
 ;
 
