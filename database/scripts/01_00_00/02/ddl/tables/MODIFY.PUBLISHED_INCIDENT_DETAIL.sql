@@ -33,7 +33,7 @@ BEGIN
 END;
 ';
 
---Create trigger that will set geometry columns before notification record is inserted or updated.
+--Create trigger that will set geometry columns before incident record is inserted or updated.
 DROP TRIGGER IF EXISTS "incident_changes" ON "wfnews"."published_incident_detail";
 
 CREATE TRIGGER "incident_changes"
