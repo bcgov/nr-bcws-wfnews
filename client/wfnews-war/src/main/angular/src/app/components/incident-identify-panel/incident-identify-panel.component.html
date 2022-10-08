@@ -1,5 +1,5 @@
-<div *ngIf="!loaded">
-  loading...
+<div *ngIf="!loaded" class="loading-spinner">
+  <mat-spinner [diameter]="40"></mat-spinner>
 </div>
 <div class="incident-details" *ngIf="loaded">
   <div class="header">
@@ -29,9 +29,10 @@
   </div>
   <!-- Evac Orders-->
   <div *ngIf="evacOrders.length > 0" class="divider"></div>
-  <div *ngIf="evacOrders.length > 0">
+  <div style="padding-top: 7px;" *ngIf="evacOrders.length > 0">
+    <h4>Active Evacuation Orders and Alerts</h4>
     <div class="evac-list" *ngFor="let evac of evacOrders">
-      <mat-icon>error</mat-icon>
+      <mat-icon style="text-decoration: none;">error</mat-icon>
       <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
       <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
     </div>

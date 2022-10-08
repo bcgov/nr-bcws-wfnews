@@ -19,6 +19,7 @@
         border-radius: 50%;
         background-color:#AA1D3E ;
         margin-right: 8px;
+        margin-left: 8px;
         .fire-icon{
           width:14.4px;
           height:18px;
@@ -50,9 +51,6 @@
   .gutter {
     padding-top: 7px;
   }
-  h4 {
-    color: #003366;
-  }
   .icon-bar {
     display: flex;
     flex-direction: row;
@@ -75,7 +73,28 @@
   .evac-list {
     display: flex;
     flex-direction: row;
-    color: red;
-    text-decoration: underline;
+    color: #b42e45;
+    padding-top: 7px;
+    .label {
+      text-decoration: underline;
+    }
+    .issued-by {
+      padding: 4px;
+      font-size: 12px;
+      font-style: italic;
+      color: gray;
+      text-decoration: none;
+    }
   }
+  h4 {
+    color: #003366;
+  }
+}
+
+.loading-spinner {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  margin-top: calc(100vh / 4);
 }
