@@ -1,0 +1,43 @@
+section {
+  border: 2px solid #e9eff5;
+
+  h1 {
+      background-color: #e9eff5;
+      font-size: 13px;
+      font-weight: normal;
+      padding: 10px 20px;
+      margin: 0;
+      letter-spacing: 2px;
+  }
+
+  article {
+      font-size: 15px;
+      padding: 10px 20px;
+
+      a:link {
+          color: #1A5A96
+      }
+
+      a:visited{
+          color: #1A5A96
+      }
+
+      a:hover{
+          text-decoration: none;
+      }
+
+      h2 {
+          font-size: 15px;
+          padding: 0;
+          margin: 0;
+          display: flex;
+
+          &::before {
+              content: '';
+              width: 20px;
+              height: 20px;
+              margin-right: 10px
+          }
+      }
+  }
+}
