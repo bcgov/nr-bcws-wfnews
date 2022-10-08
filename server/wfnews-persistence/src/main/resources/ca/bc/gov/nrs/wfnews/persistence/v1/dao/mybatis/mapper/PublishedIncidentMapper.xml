@@ -46,7 +46,9 @@
 		<result property="createUser" column="CREATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="createDate" column="CREATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="updateUser" column="UPDATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" /> 
+		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
+		<result property="latitude" column="LATITUDE" javaType="java.util.String" jdbcType="VARCHAR" />
+		<result property="longitude" column="LONGITUDE" javaType="java.util.String" jdbcType="VARCHAR" /> 
 	</resultMap>
 	
 	<insert id="insert">
@@ -91,6 +93,8 @@
 				PUBLISHED_USER_USERID,
 				PUBLISHED_USER_NAME,
 				LAST_UPDATED_TIMESTAMP,
+				LATITUDE,
+				LONGITUDE,
 				REVISION_COUNT,
 				CREATE_USER,
 				CREATE_DATE,
@@ -137,6 +141,8 @@
 				#{dto.publishedUserUserId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.publishedUserName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.lastUpdatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+				#{dto.latitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.longitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.revisionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
 				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
@@ -185,6 +191,8 @@
 				PUBLISHED_USER_GUID =				#{dto.publishedUserGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_USERID =				#{dto.publishedUserUserId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_NAME =				#{dto.publishedUserName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				LATITUDE =				#{dto.latitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				LONGITUDE =				#{dto.longitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				LAST_UPDATED_TIMESTAMP =				#{dto.lastUpdatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				REVISION_COUNT =				REVISION_COUNT + 1,
 				CREATE_USER =				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},

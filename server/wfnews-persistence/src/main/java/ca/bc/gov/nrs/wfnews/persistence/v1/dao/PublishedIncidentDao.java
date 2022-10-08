@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao;
 
 import java.io.Serializable;
-import java.util.List;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
