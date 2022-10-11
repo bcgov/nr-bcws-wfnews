@@ -77,8 +77,19 @@
       json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
       json.append("\"AGOLevacOrders\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/").append("\",");
       json.append("\"AGOLareaRestrictions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Area_Restrictions_-_View/FeatureServer/13/").append("\",");
-      json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\"");
-
+      json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
+	  
+	  json.append("\"contactInformation\":{");
+      json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");
+      json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
+      json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");
+	   json.append("\"socialMedia\":{");
+			json.append("\"facebook\":\"https://www.facebook.com/BCForestFireInfo/\",");
+			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
+	   json.append("},");
+	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
+	   json.append("}");
+	   
     json.append("},");
 
     // External Application Section
@@ -130,17 +141,6 @@
 
     json.append("}");
 	
-	 json.append("\"contactInformation\":{");
-      json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");
-      json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
-      json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");
-	   json.append("\"socialMedia\":{");
-			json.append("\"facebook\":\"https://www.facebook.com/BCForestFireInfo/\",");
-			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
-	   json.append("},");
-	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
-    json.append("}");
-
     json.append("}");
     out.write(json.toString());
   } else {
