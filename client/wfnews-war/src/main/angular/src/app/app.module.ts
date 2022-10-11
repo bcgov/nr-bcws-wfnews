@@ -106,6 +106,7 @@ import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfi
 import { PublishedIncidentService } from './services/published-incident-service';
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
+import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -156,8 +157,8 @@ export const DATE_FORMATS = {
         PanelRoadConditionsComponent,
         ErrorPageComponent,
         WildFiresListComponentDesktop,
-        WildfiresListContainerDesktop
-
+        WildfiresListContainerDesktop,
+        PanelLocalAuthorityComponent
     ],
     imports: [
         MatSortModule,

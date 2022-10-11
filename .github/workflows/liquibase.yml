@@ -4,9 +4,6 @@ env:
 on:
   workflow_call:
     inputs:
-      TARGET_ENV:
-        required: true
-        type: string
       REGISTRY:
         required: true
         type: string

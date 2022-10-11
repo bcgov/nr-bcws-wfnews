@@ -11,7 +11,7 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
             location: {
                 extent: [ -136.3, 49, -116, 60.2 ],
             },
-            baseMap: 'imagery',
+            baseMap: 'topographic',
             minZoom: 4,
         },
         tools: [
