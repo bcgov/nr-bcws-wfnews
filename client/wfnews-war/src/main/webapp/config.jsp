@@ -131,6 +131,17 @@
       json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
     json.append("}");
+	
+	 json.append("\"contactInformation\":{");
+      json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");
+      json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
+      json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");
+	   json.append("\"socialMedia\":{");
+			json.append("\"facebook\":\"https://www.facebook.com/BCForestFireInfo/\",");
+			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
+	   json.append("},");
+	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
+    json.append("}");
 
     json.append("}");
     out.write(json.toString());

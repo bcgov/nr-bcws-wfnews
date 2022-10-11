@@ -97,5 +97,15 @@
         "rest": {
             "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"
         }
+    },
+    "contactInformation": {
+        "reportAWildfirePhone": "1 800 663-5555 or *5555 on a cell",
+        "wildFireInformationLine": "1 888 336-7378",
+        "burnRegistrationLine": "1 888 797-1717",
+        "socialMedia": {
+            "facebook": "https://www.facebook.com/BCForestFireInfo/",
+            "twitter": "https://twitter.com/bcgovfireinfo"
+        },
+        "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
     }
 }

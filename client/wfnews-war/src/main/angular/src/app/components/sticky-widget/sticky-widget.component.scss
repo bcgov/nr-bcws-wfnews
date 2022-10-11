@@ -1,0 +1,37 @@
+.sticky-widget{
+    position: fixed;
+    bottom: 110px;
+    right: 37px;
+    z-index:1;
+    display: flex;
+}
+
+.btn{
+    height: 36px;
+    font-size: 15px;
+    line-height: 36px;
+    padding: 0 16px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    border: none;
+    cursor: pointer;
+    margin: 0 7.5px;    
+}
+
+.contact-btn{
+    background-color: #1A5A96;
+    border: solid 1px #1A5A96;
+    color: #FFFFFF;
+}
+
+
+.watchlist-btn{
+    color: #1A5A96;
+    background-color: #FFFFFF;
+    border: solid 1px #1A5A96;
+}
+
+.btn mat-icon{
+    margin-right: 15px;
+}
