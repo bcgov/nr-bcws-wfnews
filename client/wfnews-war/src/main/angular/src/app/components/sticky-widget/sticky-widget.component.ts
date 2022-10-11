@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-widget-dialog.component';
 
 @Component({
-    selector: 'contact-widget',
-    templateUrl: 'contact-widget.component.html',
-    styleUrls: ['./contact-widget.component.scss']
+    selector: 'sticky-widget',
+    templateUrl: 'sticky-widget.component.html',
+    styleUrls: ['./sticky-widget.component.scss']
 })
-export class ContactWidgetComponent {
+export class StickyWidgetComponent {
 
     constructor(protected dialog: MatDialog){}
     openContactForm() {

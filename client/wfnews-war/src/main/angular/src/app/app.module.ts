@@ -104,8 +104,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
-import { ContactWidgetComponent } from './components/contact-widget/contact-widget.component';
-import { ContactWidgetDialogComponent } from './components/contact-widget/contact-widget-dialog/contact-widget-dialog.component';
+import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
+import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -146,7 +146,7 @@ export const DATE_FORMATS = {
         ImageGalleryPanel,
         EditImageDialogComponent,
         UploadImageDialogComponent,
-        ContactWidgetComponent,
+        StickyWidgetComponent,
         ContactWidgetDialogComponent,
         ImageCardPanel,
         WFStatsComponent,
