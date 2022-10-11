@@ -56,12 +56,10 @@ export class WildfiresListEffect {
                 if (sortParam == "location") {
                     sortParam = "incidentLocation";
                 }
-
                 let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
-
-                orderBy = encodeURIComponent(orderBy.trim());
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
                 if (orderBy) {
+                    orderBy = encodeURIComponent(orderBy.trim());
                     url = url.concat('&orderBy=')
                     url = url.concat(orderBy)
                 }

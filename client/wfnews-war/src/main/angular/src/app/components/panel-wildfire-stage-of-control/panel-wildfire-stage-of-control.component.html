@@ -66,10 +66,18 @@
     <mat-tab label="Wildfires List">
         <div class="wildfire-list-toggle-title">Choose Wildfires to display</div>
         <div class="wildfire-checkboxs">
-            <mat-checkbox>Active Wildfires</mat-checkbox>
-            <mat-checkbox>Only Wildfires of Note</mat-checkbox>
-            <mat-checkbox>Wildfires that are 'Out'</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Only Wildfires of Note </mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
         </div>
+        {{collectionData}}
+        <div *ngIf="collectionData">
+            <section *ngFor="let number of [0,1,2,3,4]">
+                Akokli Creek Fire {{number}}
+            </section>
+        </div>
+
+
     </mat-tab>
 
 </mat-tab-group>
