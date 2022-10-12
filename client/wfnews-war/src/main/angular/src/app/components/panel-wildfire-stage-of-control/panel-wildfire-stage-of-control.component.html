@@ -71,14 +71,27 @@
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
         </div>
         <div *ngIf="collectionData">
-            <div *ngFor="let incident of collectionData">
-                <div class="panel-header">{{incident.incidentName}}</div>
-                Lst Updated: 
+            <div class = "incident-item" *ngFor="let incident of collectionData">
+                <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
+                <div><span class="item-title">LAST UPDATED:</span> {{convertFromTimestamp(incident.newsCreatedTimestamp)}}</div>
+                <div><span class="item-title">FIRE CENTRE: </span></div>
+                <div><span class="item-title">DISTANCE FROM MY LOCATION: </span></div>
+                <div class="tags">
+                    <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === '1'" class="wildifre-of-note-tag">
+                        <mat-icon class="fire-icon" style="vertical-align:middle">local_fire_department</mat-icon>
+                        Wildfire of Note
+                    </span>
+                    <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">
+                        <span class="circle-icon {{incident.stageOfControlCode}}"></span>
+                        {{convertToDescription(incident.stageOfControlCode)}}
+                    </span>
+                </div>
+
             </div>
         </div>
 
         <div class="bottom-summary flex-y-fixed">
-            <div class="showing-summary">{{summaryString}} search results</div>
+            <div class="showing-summary" style="flex: 75%;">{{summaryString}} search results</div>
             <pagination-controls style = "text-align:center" [id]="config.id"
                                  [maxSize]="5"
                                  [responsive]="false"

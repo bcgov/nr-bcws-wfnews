@@ -1,4 +1,5 @@
 import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
@@ -31,7 +32,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
-        console.log(changes)
     }
 
     ngOnInit() {
@@ -57,6 +57,27 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     stageOfControlChanges(event:any) {
         console.log(event)
         this.doSearch()
+    }
+
+    convertFromTimestamp(date: string) {
+        if (date) {
+            return moment(date).format('Y-MM-DD hh:mm')
+        }
+    }
+
+    convertToDescription(code: string) {
+        switch(code) {
+            case 'OUT_CNTRL':
+                return 'Out Of Control'
+            case 'HOLDING':
+                return 'Being Held'
+            case 'UNDR_CNTRL':
+                return 'Under Control'
+            case 'OUT':
+                return 'Out'
+            default:
+                break;
+          }
     }
 
 }

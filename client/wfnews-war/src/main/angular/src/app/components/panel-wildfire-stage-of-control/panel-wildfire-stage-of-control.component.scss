@@ -191,3 +191,78 @@ section {
         }
     }
 }
+
+.incident-item{
+    border-bottom: 1px solid #dddddd;
+    padding-left: 1rem;
+    .item-header{
+        font-size: 20px;
+        font-weight: 400;
+        padding: 10px 0px;
+        margin-bottom: 10px;
+        background-color: white;
+    }
+    .item-title{
+        color:#6e757d
+    }
+
+    .tags{
+        padding: 1rem 0;
+        .wildifre-of-note-tag{
+            padding: 5px 10px;
+            width: fit-content;
+            border-radius: 40px;
+            color: #FFF;
+            background-color: #AA1D3E;
+            border: 1px solid;
+            margin-right: 0.5rem;
+        }
+        .stage-of-control-status-indicator{
+            padding: 5px 10px;
+            width: fit-content;
+            border-radius: 40px;
+            
+            &.HOLDING{
+                color: #6C4A00;
+                border: 1px solid #EBCB23;
+            }
+            &.OUT_CNTRL{
+                color: #E00000;
+                border: 1px solid #E00000;
+            }
+            &.UNDR_CNTRL{
+                color: #507800;
+                border: 1px solid #689D00
+            }
+            &.OUT{
+                color: #5C6671;
+                border: 1px solid #5C6671;
+            }
+            
+        }
+    }
+}
+
+.circle-icon{
+    display:inline-block;
+    width:16px;
+    height: 16px;
+    vertical-align: middle;
+    &.HOLDING{
+        background-color: #FFFF00;
+        border-radius: 50%;
+    }
+    &.OUT_CNTRL{
+        background-color: #FF0000;
+        border-radius: 50%;
+    }
+    &.UNDR_CNTRL{
+        background-color: #98E600;
+        border-radius: 50%;
+    }
+    &.OUT{
+        background-color: #5C6671;
+        border-radius: 50%;
+    }
+
+}
