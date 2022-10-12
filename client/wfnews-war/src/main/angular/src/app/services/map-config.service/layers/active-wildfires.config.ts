@@ -1,5 +1,15 @@
 import { layerSettings } from '.';
 
+function cacheBustString (length) {
+  let result           = ''
+  const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+ }
+ return result;
+}
+
 export function ActiveWildfiresLayerConfig(ls: layerSettings) {
     return [
         {
@@ -8,7 +18,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           title: 'BC Wildfires - Active Fires - Fire of Note',
           isQueryable: true,
           useClustering: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE&cachBust=" + cacheBustString(7),
           titleAttribute: "incidentName",
           popupTemplate: '@wf-incident-feature',
           attributes: [
@@ -36,7 +46,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           title: 'BC Wildfires - Active Fires - Out of Control',
           isQueryable: true,
           useClustering: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL&cachBust=" + cacheBustString(7),
           titleAttribute: "incidentName",
           popupTemplate: '@wf-incident-feature',
           attributes: [
@@ -62,7 +72,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           title: 'BC Wildfires - Active Fires - Being Held',
           isQueryable: true,
           useClustering: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING&cachBust=" + cacheBustString(7),
           titleAttribute: "incidentName",
           popupTemplate: '@wf-incident-feature',
           attributes: [
@@ -88,7 +98,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           title: 'BC Wildfires - Active Fires - Under Control',
           isQueryable: true,
           useClustering: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=UNDR_CNTRL",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=UNDR_CNTRL&cachBust=" + cacheBustString(7),
           titleAttribute: "incidentName",
           popupTemplate: '@wf-incident-feature',
           attributes: [

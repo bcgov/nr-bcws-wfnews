@@ -1,5 +1,15 @@
 import { layerSettings } from '.';
 
+function cacheBustString (length) {
+  let result           = ''
+  const characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+ }
+ return result;
+}
+
 export function WildfiresInactiveLayerConfig(ls: layerSettings) {
     return [
         {
@@ -9,7 +19,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: true,
           useHeatmap: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT&cachBust=" + cacheBustString(7),
           titleAttribute: "incidentName",
           popupTemplate: '@wf-incident-feature',
           attributes: [
