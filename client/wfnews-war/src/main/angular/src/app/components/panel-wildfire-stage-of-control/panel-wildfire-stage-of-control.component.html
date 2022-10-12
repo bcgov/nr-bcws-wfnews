@@ -73,9 +73,18 @@
         <div *ngIf="collectionData">
             <div class = "incident-item" *ngFor="let incident of collectionData">
                 <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
-                <div><span class="item-title">LAST UPDATED:</span> {{convertFromTimestamp(incident.newsCreatedTimestamp)}}</div>
-                <div><span class="item-title">FIRE CENTRE: </span></div>
-                <div><span class="item-title">DISTANCE FROM MY LOCATION: </span></div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">LAST UPDATED: </span>
+                    <span class="item-content">{{convertFromTimestamp(incident.newsCreatedTimestamp)}}</span>
+                </div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">FIRE CENTRE: </span>
+                    <span class="item-content"></span>
+                </div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">DISTANCE FROM MY LOCATION: </span>
+                    <span class="item-content"></span>
+                </div>
                 <div class="tags">
                     <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === '1'" class="wildifre-of-note-tag">
                         <mat-icon class="fire-icon" style="vertical-align:middle">local_fire_department</mat-icon>

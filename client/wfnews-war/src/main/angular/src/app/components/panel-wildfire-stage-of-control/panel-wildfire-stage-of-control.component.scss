@@ -37,9 +37,11 @@
 .wildfire-list-toggle-title{
     border-top: 1px solid #dddddd;
     padding: 1rem;
+    font-size: 15px;
 }
 
 .wildfire-checkboxs{
+    font-size: 15px;
     padding: 1rem;
     .mat-checkbox {
         margin-right: 1rem;
@@ -199,11 +201,18 @@ section {
         font-size: 20px;
         font-weight: 400;
         padding: 10px 0px;
-        margin-bottom: 10px;
         background-color: white;
     }
     .item-title{
-        color:#6e757d
+        color:#646B72;
+        font-size: 12px;
+        font-weight: 400;
+        letter-spacing: 1.5px;
+    }
+
+    .item-content{
+        font-size:15px;
+        font-weight: 400;
     }
 
     .tags{
@@ -264,5 +273,10 @@ section {
         background-color: #5C6671;
         border-radius: 50%;
     }
+}
 
+.showing-summary{
+    padding-left: 1rem;
+    font-size: 15px;
+    font-weight: 400;
 }
