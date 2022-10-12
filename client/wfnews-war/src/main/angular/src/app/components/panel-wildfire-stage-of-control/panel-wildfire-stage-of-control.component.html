@@ -83,7 +83,7 @@
                 </div>
                 <div style="padding:5px 0px">
                     <span class="item-title">DISTANCE FROM MY LOCATION: </span>
-                    <span class="item-content"></span>
+                    <span class="item-content">{{calculateDistance(incident.latitude, incident.longitude)}} </span>
                 </div>
                 <div class="tags">
                     <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === '1'" class="wildifre-of-note-tag">
