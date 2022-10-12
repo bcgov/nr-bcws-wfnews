@@ -3,6 +3,8 @@
   padding: 24px;
   .header {
     text-align: right;
+    display: flex;
+    flex-flow: row-reverse;
     .button {
       cursor: pointer;
     }

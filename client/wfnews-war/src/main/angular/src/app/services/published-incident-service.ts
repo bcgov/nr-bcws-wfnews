@@ -18,7 +18,6 @@ export class PublishedIncidentService {
   // published incident guid, WF Incident Guid, WF year and incident sequence number?
   fetchPublishedIncident (guid: string): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${guid}`;
-    console.log('QUERY URL ', url)
     return this.httpClient.get(url)
   }
 }
