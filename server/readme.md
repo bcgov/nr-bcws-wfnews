@@ -31,6 +31,7 @@ docker run -p 1338:8080
 --env WFNEWS_USERNAME=
 --env WFNEWS_MAX_CONNECTIONS=100
 --env DB_PASS=***
+-e WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND=false
 wfnews-api
 ```
 

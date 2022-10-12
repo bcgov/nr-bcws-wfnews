@@ -44,9 +44,7 @@ public class AttachmentResource extends BaseResource implements Attachment {
 	private String attachmentTitle;
 	private String imageURL;
 	private String thumbnailURL;
-	
-	
-	
+	private boolean primary;
 
 	@Override
 	public String getSourceObjectUniqueId() {
@@ -289,4 +287,13 @@ public class AttachmentResource extends BaseResource implements Attachment {
 		this.thumbnailURL = thumbnailURL;
 	}
 	
+	@Override
+	public boolean isPrimary() {
+		return this.primary;
+	}
+
+	@Override
+	public void setPrimary(boolean primary) {
+		this.primary = primary;
+	}
 }

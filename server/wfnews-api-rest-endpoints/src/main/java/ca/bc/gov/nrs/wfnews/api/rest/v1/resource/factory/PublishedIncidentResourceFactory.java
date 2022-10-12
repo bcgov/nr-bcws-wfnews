@@ -139,6 +139,8 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setCreateUser(dto.getCreateUser());
 		resource.setUpdateDate(dto.getUpdateDate());
 		resource.setUpdateUser(dto.getUpdateUser());
+		resource.setLatitude(dto.getLatitude());
+		resource.setLongitude(dto.getLongitude());
 	}
 
 	@Override

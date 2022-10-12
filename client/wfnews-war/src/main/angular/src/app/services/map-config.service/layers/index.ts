@@ -14,17 +14,24 @@ import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';
+import { CLABIndianReservesLayerConfig } from './clab-indian-reserves.config';
+import { FntTreatyLandLayerConfig } from './fnt-treaty-land.config';
+import { AbmsMunicipalitiesLayerConfig } from './abms-municipalities.config';
+import { AbmsRegionalDistrictsLayerConfig } from './abms-regional-districts.config';
 import { MapServices, MapServiceStatus } from '..';
+import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 
 export interface layerSettings {
     openmapsBaseUrl: string;
     drivebcBaseUrl: string;
+    wfnewsUrl: string;
 
 };
 export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus ) {
     const ls: layerSettings = {
         openmapsBaseUrl: mapServices[ 'openmapsBaseUrl' ],
-        drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ]
+        drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ],
+        wfnewsUrl: mapServices[ 'wfnews' ]
     };
 
 	return [
@@ -43,6 +50,11 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
 		...WeatherLayerConfig( ls ),
     ...WeatherStationsLayerConfig( ls ),
     ...PrecipitationLayerConfig( ls ),
-    ...ForestServiceRoadsLayerConfig( ls )
+    ...ForestServiceRoadsLayerConfig( ls ),
+    ...ActiveWildfiresHeatmapLayerConfig( ls ),
+    ...CLABIndianReservesLayerConfig( ls ),
+    ...FntTreatyLandLayerConfig( ls ),
+    ...AbmsMunicipalitiesLayerConfig( ls ),
+    ...AbmsRegionalDistrictsLayerConfig( ls )
 	];
 }

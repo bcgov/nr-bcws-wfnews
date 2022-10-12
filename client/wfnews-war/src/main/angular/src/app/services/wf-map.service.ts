@@ -132,11 +132,7 @@ export class WFMapService {
                     const topographicOption = {
                         maxNativeZoom: 20,
                         maxZoom: 30
-                    };
-
-                    // defineEsriBasemap( 'topographic', 'ESRI Topographic', [
-                    //     { id: 'Topographic', option: { ...topographicOption } }
-                    // ] )
+                    }
 
                     defineEsriBasemap( 'topographic', 'Topographic', [
                         { id: 'Topographic', option: { ...topographicOption, ...option2x } }
@@ -543,7 +539,6 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
         title,
         order,
         create() {
-            // console.log('create',title)
             return baseMaps.map( function( bm ) {
                 const L = window[ 'L' ];
 
@@ -563,7 +558,6 @@ function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: 
         title,
         order,
         create() {
-            // console.log('create',title)
             return baseMaps.map( function( bm ) {
                 const L = window[ 'L' ];
 

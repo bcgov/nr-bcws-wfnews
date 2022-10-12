@@ -105,6 +105,9 @@ import { WildFiresListComponentDesktop } from './components/wildfires-list/wildf
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
+import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
+import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
+import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -145,6 +148,8 @@ export const DATE_FORMATS = {
         ImageGalleryPanel,
         EditImageDialogComponent,
         UploadImageDialogComponent,
+        StickyWidgetComponent,
+        ContactWidgetDialogComponent,
         ImageCardPanel,
         WFStatsComponent,
         WeatherPanelComponent,
@@ -154,7 +159,8 @@ export const DATE_FORMATS = {
         ErrorPageComponent,
         WildFiresListComponentDesktop,
         WildfiresListContainerDesktop,
-        IncidentIdentifyPanelComponent
+        IncidentIdentifyPanelComponent,
+        PanelLocalAuthorityComponent
     ],
     imports: [
         MatSortModule,

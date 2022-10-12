@@ -29,10 +29,8 @@
                     aria-label="Type"
                     [options]="radiusOptions"
                     [selected]="selectedRadius"
+                    [(ngModel)]="selectedRadius"
                     (updated)="selectFilterUpdated('selectedRadius', $event)">
-                <option value="">
-                    <span class="placeholder">Select...</span>
-                </option>
                 <option *ngFor = "let item of radiusOptions" value="{{item}}">
                     <span>{{item}}</span>
                 </option>
@@ -41,7 +39,7 @@
 
         <div class="field">
             <div class="my-location-button">
-                <button mat-raised-button >
+                <button mat-raised-button (click)="useMyCurrentLocation()" >
                     <mat-icon>my_location</mat-icon>
                     Find My Location
                 </button>
@@ -54,28 +52,32 @@
                     aria-label="Type"
                     [options]="fireCentreOptions"
                     [selected]="selectedFireCentreCode"
+                    [(ngModel)]="selectedFireCentreCode"
                     (updated)="selectFilterUpdated('selectedFireCentreCode', $event)">
                 <option value="">
                     <span class="placeholder">Select...</span>
                 </option>
                 <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
-                    <span>{{item.fireCentreName}}</span>
+                    <span>{{item.description}}</span>
                 </option>
             </select>
         </div>
         <div class="stage-of-control-checkbox-group">
             <mat-label>Stages of Control</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [checked]="fireOfNotePublishedInd">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="activeWildfiresInd" [disabled] = "!(wildfiresOfNoteInd || wildfiresOutInd)">
                     Active Wildfires
                 </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(activeWildfiresInd || wildfiresOutInd)">
                     Wildfires of Note
                 </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOutInd" [disabled] = "!(activeWildfiresInd || wildfiresOfNoteInd)">
                     Wildfires that are 'Out'
                 </mat-checkbox>
             </section>
+        </div>
+                <div class="field">
+            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
         </div>
 
     </div>
@@ -172,3 +174,5 @@
         <span>entries</span>
     </div>
 </div>
+
+<sticky-widget></sticky-widget>
