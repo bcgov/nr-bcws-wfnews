@@ -62,6 +62,8 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private String createUser;
 	private Date updateDate;
 	private String updateUser;
+	private String latitude;
+	private String longitude;
 
 	public String getPublishedIncidentDetailGuid() {
 		return publishedIncidentDetailGuid;
@@ -417,5 +419,23 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.incidentNumberLabel = incidentNumberLabel;
 	}
 	
-	
+	@Override
+	public String getLatitude() {
+		return this.latitude;
+	}
+
+	@Override
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	@Override
+	public String getLongitude() {
+		return this.longitude;
+	}
+
+	@Override
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 }

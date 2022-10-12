@@ -23,7 +23,7 @@ export class ContactWidgetDialogComponent implements OnInit {
     ngOnInit() {
         this.appConfig.loadAppConfig()
             .then(() => {
-                this.contactInformationConfig = this.appConfig.getConfig().externalAppConfig.contactInformation;
+                this.contactInformationConfig = this.appConfig.getConfig().externalAppConfig['contactInformation'];
             })
             .catch((e) => {
                 console.warn('Failed initializing app', e);
