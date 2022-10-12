@@ -114,7 +114,10 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				StringBuilder sb = new StringBuilder();
 				sb.append("{\"type\":\"FeatureCollection\",\"features\":[");
 				for (PublishedIncidentResource feature : results.getCollection()) {
-					if ((stageOfControl == null && !feature.getStageOfControlCode().equals("OUT")) || (stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("T")) || feature.getStageOfControlCode().equals(stageOfControl)) {
+					if ((stageOfControl == null && !feature.getStageOfControlCode().equalsIgnoreCase("OUT")) || 
+					    (stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("T")) || 
+							(stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("1")) ||
+							feature.getStageOfControlCode().equalsIgnoreCase(stageOfControl)) {
 						sb.append("{\"type\": \"Feature\",\"geometry\": {\"type\": \"Point\",\"coordinates\": [" + feature.getLongitude() + "," + feature.getLatitude() + "]},");
 						// properties
 						sb.append("\"properties\":{");
@@ -156,7 +159,9 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 
 				// remove any trailing comma and close
 				featureJson = sb.toString();
-				featureJson = featureJson.substring(0, featureJson.length() - 1);
+				if (featureJson.endsWith(",")) {
+					featureJson = featureJson.substring(0, featureJson.length() - 1);
+				}
 				featureJson += "]}";
 
 				GenericEntity<String> entity = new GenericEntity<String>(featureJson) {
