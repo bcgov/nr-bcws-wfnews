@@ -51,7 +51,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
     ...WeatherStationsLayerConfig( ls ),
     ...PrecipitationLayerConfig( ls ),
     ...ForestServiceRoadsLayerConfig( ls ),
-    ...ActiveWildfiresHeatmapLayerConfig( ls )
+    ...ActiveWildfiresHeatmapLayerConfig( ls ),
     ...CLABIndianReservesLayerConfig( ls ),
     ...FntTreatyLandLayerConfig( ls ),
     ...AbmsMunicipalitiesLayerConfig( ls ),
