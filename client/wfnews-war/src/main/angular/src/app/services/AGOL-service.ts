@@ -22,8 +22,8 @@ export class AGOLService {
 
     if (location) {
       // Get the incident geometry, buffer the points by x metres
-      // right now, just moving by 10 points of lat/long
-      url += `&geometry=${location.x - 5},${location.y - 5},${location.x + 5},${location.y + 5}`
+      // right now, just moving by 2 points of lat/long
+      url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
     }
 
     let headers = new HttpHeaders();
@@ -40,8 +40,8 @@ export class AGOLService {
 
     if (location) {
       // Get the incident geometry, buffer the points by x metres
-      // right now, just moving by 10 points of lat/long
-      url += `&geometry=${location.x - 5},${location.y - 5},${location.x + 5},${location.y + 5}`
+      // right now, just moving by 2 points of lat/long
+      url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
     }
 
     let headers = new HttpHeaders();

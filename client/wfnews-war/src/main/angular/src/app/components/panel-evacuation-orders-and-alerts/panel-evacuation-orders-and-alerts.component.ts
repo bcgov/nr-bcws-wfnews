@@ -13,7 +13,7 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   public evacOrders : EvacOrderOption[] = []
 
   constructor(private agolService: AGOLService,
-              private mapConfigService: MapConfigService,) {
+              private mapConfigService: MapConfigService) {
   }
 
   ngOnInit() {
@@ -53,8 +53,6 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
     this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
-          console.log(element)
-          console.log(response)
           this.evacOrders.push({
             eventName: element.attributes.EVENT_NAME,
             eventType: element.attributes.EVENT_TYPE,

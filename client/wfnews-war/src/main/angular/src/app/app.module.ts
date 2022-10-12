@@ -104,6 +104,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
+import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
@@ -158,6 +159,7 @@ export const DATE_FORMATS = {
         ErrorPageComponent,
         WildFiresListComponentDesktop,
         WildfiresListContainerDesktop,
+        IncidentIdentifyPanelComponent,
         PanelLocalAuthorityComponent
     ],
     imports: [
