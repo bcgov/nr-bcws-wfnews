@@ -52,6 +52,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String publishedUserUserId;
 	private String publishedUserName;
 	private Date lastUpdatedTimestamp;
+	private String longitude;
+	private String latitude;
 	
 	public PublishedIncidentDto() {
 
@@ -97,6 +99,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.publishedUserUserId = dto.publishedUserUserId;
 		this.publishedUserName = dto.publishedUserName;
 		this.lastUpdatedTimestamp = dto.lastUpdatedTimestamp;
+		this.latitude = dto.latitude;
+		this.longitude = dto.longitude;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -139,7 +143,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.publishedUserUserId = incident.getPublishedUserUserId();
 		this.publishedUserName = incident.getPublishedUserName();
 		this.lastUpdatedTimestamp = incident.getLastUpdatedTimestamp();
-
+		this.latitude = incident.getLatitude();
+		this.longitude = incident.getLongitude();
 	}
 	
 	
@@ -207,7 +212,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result&&equals("publishedUserUserId", publishedUserUserId, other.publishedUserUserId);
 			result = result&&equals("publishedUserName", publishedUserName, other.publishedUserName);
 			result = result&&equals("lastUpdatedTimestamp", lastUpdatedTimestamp, other.lastUpdatedTimestamp);
-		
+			result = result && equals("longitude", longitude, other.longitude);
+			result = result && equals("latitude", latitude, other.latitude);
 		}
 
 		return result;
@@ -531,5 +537,19 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.lastUpdatedTimestamp = lastUpdatedTimestamp;
 	}
 
-	
+	public String getLatitude() {
+		return this.latitude;
+	}
+
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+
+	public String getLongitude() {
+		return this.longitude;
+	}
+
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 }
