@@ -1,208 +1,230 @@
 {
   "databaseChangeLog": [
-     {
-          "changeSet": {
-            "id": "01_00_00_00",
-            "author": "cpreston and hsaldyga",
-            "changes": [
-              { 
-                "sqlFile": {
-                  "dbms": "postgresql",
-                  "endDelimiter": ";",
-                  "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_APP_WF1_NEWS.sql"
-                }
-              },
-              { 
-                "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_PROXY_WF1_NEWS_REST.sql"
-                }
-              },
-              { 
-                "sqlFile": {
-                  "dbms": "postgresql",
-                  "endDelimiter": ";",
-                  "path": "scripts/01_00_00/00/ddl/roles/wfnews.ddl.create_roles.sql"
-                }
-              },
-              {
-                "sqlFile": {
-                  "dbms": "postgresql",
-                  "endDelimiter": ";",
-                  "path": "scripts/01_00_00/00/ddl/schema/wfnews.ddl.create_wfnews_schema.sql"
-                }
-              },
-              {
-                "sqlFile": {
-                  "dbms": "postgresql",
-                  "endDelimiter": ";",
-                  "path": "scripts/01_00_00/00/ddl/extension/wfnews.ddl.add_extensions.sql"
-                }
-              }
-            ]
-          }
-      },
-      {
-          "changeSet": {
-            "id": "01_00_00_01", 
-            "author": "hsaldyga",
-            "changes": [
-            {
-             "tagDatabase":{
-               "tag":"version_1.0.0_01_ddl"
-              },
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_TYPE_CODE.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              } ,
-             "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT_TYPE_CODE cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.SOURCE_OBJECT_NAME_CODE.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.SOURCE_OBJECT_NAME_CODE cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.NEWS_PUBLICATION_STATUS_CODE.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.NEWS_PUBLICATION_STATUS_CODE cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_SEQUENCE.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT_SEQUENCE cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.PUBLISHED_INCIDENT_DETAIL.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.PUBLISHED_INCIDENT_DETAIL cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.EXTERNAL_URI.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.EXTERNAL_URI cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_METADATA.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.FILE_ATTACHMENT_METADATA cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.RELATED_FILE_ATTACH_XREF.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "drop table if exists wfnews.RELATED_FILE_ATTACH_XREF cascade"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/grants/wfnews.ddl.apply_grants.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              }
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/ddl/sequences/wfnews.ddl.create_sequences.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              },
-              "rollback" : "DROP SEQUENCE  IF EXISTS  file_attachment_sequence"
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/dml/app_wf1_news.dml.load_file_attachment_type_code.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              }
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/dml/app_wf1_news.dml.load_news_publication_status_code.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              }
-            },
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path" : "scripts/01_00_00/01/dml/app_wf1_news.dml.load_source_object_name_code.sql",
-                "relativeToChangelogFile" : "true",
-                "splitStatements" : "true",
-                "stripComments" : "true"
-              }
+    {
+      "changeSet": {
+        "id": "01_00_00_00",
+        "author": "cpreston and hsaldyga",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_APP_WF1_NEWS.sql"
             }
-          ]
-        }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_PROXY_WF1_NEWS_REST.sql"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/00/ddl/roles/wfnews.ddl.create_roles.sql"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/00/ddl/schema/wfnews.ddl.create_wfnews_schema.sql"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/00/ddl/extension/wfnews.ddl.add_extensions.sql"
+            }
+          }
+        ]
       }
-    ]
+    },
+    {
+      "changeSet": {
+        "id": "01_00_00_01",
+        "author": "hsaldyga",
+        "changes": [
+          {
+            "tagDatabase": {
+              "tag": "version_1.0.0_01_ddl"
+            },
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_TYPE_CODE.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.FILE_ATTACHMENT_TYPE_CODE cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.SOURCE_OBJECT_NAME_CODE.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.SOURCE_OBJECT_NAME_CODE cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.NEWS_PUBLICATION_STATUS_CODE.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.NEWS_PUBLICATION_STATUS_CODE cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_SEQUENCE.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.FILE_ATTACHMENT_SEQUENCE cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.PUBLISHED_INCIDENT_DETAIL.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.PUBLISHED_INCIDENT_DETAIL cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.EXTERNAL_URI.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.EXTERNAL_URI cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.FILE_ATTACHMENT cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.FILE_ATTACHMENT_METADATA.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.FILE_ATTACHMENT_METADATA cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/tables/APP_WFNEWS.RELATED_FILE_ATTACH_XREF.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "drop table if exists wfnews.RELATED_FILE_ATTACH_XREF cascade"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/grants/wfnews.ddl.apply_grants.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/ddl/sequences/wfnews.ddl.create_sequences.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            },
+            "rollback": "DROP SEQUENCE  IF EXISTS  file_attachment_sequence"
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/dml/app_wf1_news.dml.load_file_attachment_type_code.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/dml/app_wf1_news.dml.load_news_publication_status_code.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/01/dml/app_wf1_news.dml.load_source_object_name_code.sql",
+              "relativeToChangelogFile": "true",
+              "splitStatements": "true",
+              "stripComments": "true"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "changeSet": {
+        "id": "01_00_00_02",
+        "author": "dhemsworth",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/02/ddl/tables/MODIFY.FILE_ATTACHMENT.sql"
+            }
+          },
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/02/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+            }
+          }
+        ]
+      }
+    }
+  ]
 }
