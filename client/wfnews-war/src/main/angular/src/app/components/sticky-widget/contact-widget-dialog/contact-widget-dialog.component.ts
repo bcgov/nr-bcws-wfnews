@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { AppConfigService, ContactInformationConfig } from '@wf1/core-ui';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
     selector: 'contact-widget-dialog',
@@ -12,7 +12,7 @@ import { AppConfigService, ContactInformationConfig } from '@wf1/core-ui';
 export class ContactWidgetDialogComponent implements OnInit {
 
     public contactForm: FormGroup;
-    contactInformationConfig: ContactInformationConfig;
+    contactInformationConfig: any;
 
     constructor (
       private dialogRef: MatDialogRef<ContactWidgetDialogComponent>,
@@ -23,7 +23,7 @@ export class ContactWidgetDialogComponent implements OnInit {
     ngOnInit() {
         this.appConfig.loadAppConfig()
             .then(() => {
-                this.contactInformationConfig = this.appConfig.getConfig().contactInformation;
+                this.contactInformationConfig = this.appConfig.getConfig().externalAppConfig.contactInformation;
             })
             .catch((e) => {
                 console.warn('Failed initializing app', e);

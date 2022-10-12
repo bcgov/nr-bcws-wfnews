@@ -70,14 +70,24 @@
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Only Wildfires of Note </mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
         </div>
-        {{collectionData}}
         <div *ngIf="collectionData">
-            <section *ngFor="let number of [0,1,2,3,4]">
-                Akokli Creek Fire {{number}}
-            </section>
+            <div *ngFor="let incident of collectionData">
+                <div class="panel-header">{{incident.incidentName}}</div>
+                Lst Updated: 
+            </div>
         </div>
 
-
+        <div class="bottom-summary flex-y-fixed">
+            <div class="showing-summary">{{summaryString}} search results</div>
+            <pagination-controls style = "text-align:center" [id]="config.id"
+                                 [maxSize]="5"
+                                 [responsive]="false"
+                                 [directionLinks]="true"
+                                 [previousLabel]="paginatorLabels.previousLabel"
+                                 [nextLabel]="paginatorLabels.nextLabel"
+                                 [autoHide]="false"
+                                 (pageChange)="onPageChange($event)"></pagination-controls>
+        </div>
     </mat-tab>
 
 </mat-tab-group>

@@ -35,6 +35,7 @@ export class WildfiresListEffect {
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
+                console.log(typedaction)
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
                 }
@@ -69,7 +70,12 @@ export class WildfiresListEffect {
                 return this.http.get<any>(url,{headers})
                     .pipe(
                         map((response: any) => {
-                            return searchWildfiresSuccess(typedaction.componentId, response);
+                            if (true) {
+                                return searchWildfiresSuccess(typedaction.componentId, response);
+                            }
+                            else {
+
+                            }
                         }),
                         catchError(error => of(searchWildfiresError(typedaction.componentId, error)))
                     );
