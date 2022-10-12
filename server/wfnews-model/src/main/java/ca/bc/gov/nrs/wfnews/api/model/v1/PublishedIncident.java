@@ -182,4 +182,9 @@ public interface PublishedIncident{
 
 	public void setUpdateUser(String updateUser); 
 	
+	public String getLatitude();
+	public void setLatitude(String latitude);
+
+	public String getLongitude();
+	public void setLongitude(String longitude);
 }

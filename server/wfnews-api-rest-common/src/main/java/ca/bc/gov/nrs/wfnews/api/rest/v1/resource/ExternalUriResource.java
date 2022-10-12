@@ -98,7 +98,7 @@ public class ExternalUriResource extends BaseResource implements ExternalUri {
 		return primaryInd;
 	}
 	public void setPrimaryInd(String primaryInd) {
-		this.primaryInd = publishedInd;
+		this.primaryInd = primaryInd;
 	}
 	public Long getRevisionCount() {
 		return revisionCount;
