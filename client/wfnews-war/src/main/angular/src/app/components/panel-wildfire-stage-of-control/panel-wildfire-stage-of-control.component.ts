@@ -55,7 +55,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     
 
     stageOfControlChanges(event:any) {
-        console.log(event)
         this.doSearch()
     }
 

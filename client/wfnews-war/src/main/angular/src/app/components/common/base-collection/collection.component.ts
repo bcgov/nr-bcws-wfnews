@@ -72,7 +72,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     ngOnChanges(changes: SimpleChanges) {
-        console.log(changes)
         super.ngOnChanges(changes);
         if (changes.collection && changes.collection.currentValue) {
             this.updateCollection(changes.collection.currentValue);
@@ -107,7 +106,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     updateCollection(collection: PagedCollection) {
         this.collection = collection;
         this.collectionData = this.collection.collection;
-        console.log(this.collectionData)
         this.config = this.getPagingConfig();
         this.config.currentPage = this.collection.pageNumber;
         this.summaryString = this.getSummaryString();

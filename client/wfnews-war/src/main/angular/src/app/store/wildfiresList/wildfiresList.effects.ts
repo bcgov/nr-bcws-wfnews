@@ -35,7 +35,6 @@ export class WildfiresListEffect {
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
-                console.log(typedaction)
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
                 }
