@@ -206,6 +206,8 @@
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
+			   OR INCIDENT_NUMBER_LABEL = #{publishedIncidentDetailGuid}
+				 OR INCIDENT_NAME = #{publishedIncidentDetailGuid}
 	</select>
 	
 	<select id="fetchForIncidentGuid" resultMap="PublishedIncidentDtoMap"> 

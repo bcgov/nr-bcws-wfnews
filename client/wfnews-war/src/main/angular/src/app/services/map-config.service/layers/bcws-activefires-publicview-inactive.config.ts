@@ -11,6 +11,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           useHeatmap: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT",
           titleAttribute: "incidentName",
+          popupTemplate: '@wf-incident-feature',
           attributes: [
             {
                 name: "incidentName",
