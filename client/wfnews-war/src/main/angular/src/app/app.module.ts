@@ -48,7 +48,7 @@ import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { ActiveWildfireMapComponent } from './components/active-wildfire-map/active-wildfire-map.component';
 import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evacuation-orders-and-alerts/panel-evacuation-orders-and-alerts.component';
-import { PanelWildfireStageOfControlComponent } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component';
+import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
 import { MapConfigService } from './services/map-config.service';
 import { UpdateService } from './services/update.service';
@@ -108,6 +108,7 @@ import { IncidentIdentifyPanelComponent } from './components/incident-identify-p
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
+import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -124,7 +125,7 @@ export const DATE_FORMATS = {
         AppComponent,
         WFMapContainerComponent,
         ActiveWildfireMapComponent,
-        PanelWildfireStageOfControlComponent,
+        PanelWildfireStageOfControlComponentDesktop,
         PanelEvacuationOrdersAndAlertsComponent,
         PanelBansAndProhibitionsComponent,
         PanelSmokeForecastComponent,
@@ -160,7 +161,8 @@ export const DATE_FORMATS = {
         WildFiresListComponentDesktop,
         WildfiresListContainerDesktop,
         IncidentIdentifyPanelComponent,
-        PanelLocalAuthorityComponent
+        PanelLocalAuthorityComponent,
+        PanelWildfireStageOfControlContainerDesktop
     ],
     imports: [
         MatSortModule,

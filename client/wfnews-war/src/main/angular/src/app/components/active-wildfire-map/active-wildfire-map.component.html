@@ -102,7 +102,7 @@
 
   <div class="bottom">
       <div [ngClass]="showAccordion ? 'details' : 'details close'">
-          <panel-wildfire-stage-of-control *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control>
+          <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>
           <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
           <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
           <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion"></panel-bans-prohibitions>

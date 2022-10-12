@@ -3,6 +3,7 @@ import { getDefaultPagingInfoRequest } from "../application/application.state";
 
 export const SEARCH_WILDFIRES_COMPONENT_ID = "searchWildfires";
 export const WILDFIRESLIST_COMPONENT_ID = "WildfiresList";
+export const LOAD_WILDFIRES_COMPONENT_ID = "loadWildfires";
 
 
 const EMPTY_WILDFIRESLIST: any = {
