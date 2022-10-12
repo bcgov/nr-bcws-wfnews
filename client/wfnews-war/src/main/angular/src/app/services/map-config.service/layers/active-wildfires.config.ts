@@ -10,6 +10,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE",
           titleAttribute: "incidentName",
+          popupTemplate: '@wf-incident-feature',
           attributes: [
             {
                 name: "incidentName",
@@ -37,6 +38,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL",
           titleAttribute: "incidentName",
+          popupTemplate: '@wf-incident-feature',
           attributes: [
             {
                 name: "incidentName",
@@ -62,6 +64,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING",
           titleAttribute: "incidentName",
+          popupTemplate: '@wf-incident-feature',
           attributes: [
             {
                 name: "incidentName",

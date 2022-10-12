@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
+import { PublishedIncidentService } from '../../services/published-incident-service';
 
 @Component({
     selector: 'incident-identify-panel',
@@ -15,46 +16,42 @@ export class IncidentIdentifyPanelComponent {
 
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
-               private mapConfigService: MapConfigService) { }
+               private mapConfigService: MapConfigService,
+               private publishedIncidentService: PublishedIncidentService) { }
   // if we want the "next" functionality, pass in the identify set
-  setIncident (incident, featureInfo) {
-    this.incident = incident
-    console.warn('Incident panel created with', incident, featureInfo);
-
-    // load from DB. Show a spinner while loading
-
+  setIncident (incidentRef, featureInfo) {
+    console.warn('Incident panel created with', incidentRef, featureInfo);
     // load Evac orders near this incident
-    this.getEvacOrders();
+    this.publishedIncidentService.fetchPublishedIncident(incidentRef.guid).toPromise().then(result => {
+      this.incident = result;
 
-    // test data
-    setTimeout(() => {
-      this.incident = {
-        name: 'My Super Cool Fire',
-        fireCentre: 'Test Fire Centre',
-        fireOfNote: true,
-        status: 'ACTIVE',
-        fireNumber: 'V123ABC',
-        lastUpdated: new Date().toISOString(),
-        discoveryDate: new Date().toISOString(),
-        declaredOut: new Date().toISOString(),
-        size: 66,
-        location: 'This is an arbitrarily long set of text. I wrote this to identify if there would be padding or overflow issues, but as you can see, that does not appear to be the case. Nevertheless, this is an unrealistic amount of text for this box, but its always better to be safe than sorry. Wouldnt you agree?',
-        traditionalTerritory: 'blah blah blah',
-        wildfireCrews: true,
-        aviation: true,
-        heavyEquipment: false,
-        incidentManagementTeam: true,
-        structureProtection: false,
-        geometry:  {
-          x: -115,
-          y: 50
-        }
-      }
+      this.incident.geometry = {
+        x: result.longitude,
+        y: result.latitude
+      };
+
+      const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+      this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
+      this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
+      this.incident.fireOfNoteInd = this.incident.fireOfNoteInd.trim().toUpperCase() === 'T';
+
+      this.incident.heavyEquipmentResourcesInd = this.incident.heavyEquipmentResourcesInd.trim().toUpperCase() === 'T';
+      this.incident.incidentMgmtCrewRsrcInd = this.incident.incidentMgmtCrewRsrcInd.trim().toUpperCase() === 'T';
+      this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd.trim().toUpperCase() === 'T';
+      this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd.trim().toUpperCase() === 'T';
+      this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === 'T';
+
+      this.getEvacOrders();
 
       this.loaded = true;
 
       this.cdr.detectChanges();
-    }, 2000);
+    }).catch(err => {
+      console.error('Failed to load Fire Info', err);
+      // Kill the panel?
+      this.loaded = true;
+    });
   }
 
   close () {
