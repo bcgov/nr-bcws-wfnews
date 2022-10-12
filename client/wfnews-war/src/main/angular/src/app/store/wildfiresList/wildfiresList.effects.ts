@@ -70,12 +70,7 @@ export class WildfiresListEffect {
                 return this.http.get<any>(url,{headers})
                     .pipe(
                         map((response: any) => {
-                            if (true) {
-                                return searchWildfiresSuccess(typedaction.componentId, response);
-                            }
-                            else {
-
-                            }
+                            return searchWildfiresSuccess(typedaction.componentId, response);
                         }),
                         catchError(error => of(searchWildfiresError(typedaction.componentId, error)))
                     );

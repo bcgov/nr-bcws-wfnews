@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { selectSearchState,selectWildfiresLoadState, selectWildfiresErrorState } from "../../store/application/application.selector";
 import { ErrorState, LoadState } from "../../store/application/application.state";
 import { selectCurrentWildfiresSearch } from "../../store/wildfiresList/wildfiresList.selector";
-import { LOAD_WILDFIRES_COMPONENT_ID, SEARCH_WILDFIRES_COMPONENT_ID, } from "../../store/wildfiresList/wildfiresList.stats";
+import { SEARCH_WILDFIRES_COMPONENT_ID, } from "../../store/wildfiresList/wildfiresList.stats";
 import { BaseContainer } from "../base/base-container.component";
 
 @Directive()
