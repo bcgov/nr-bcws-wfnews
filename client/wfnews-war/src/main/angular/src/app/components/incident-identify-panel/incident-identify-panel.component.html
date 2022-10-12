@@ -4,9 +4,9 @@
 <div class="incident-details" *ngIf="loaded">
   <div class="header">
     <div class="smk-command-button smk-move smk-icon"><div class="smk-command"><em title="Close Panel" (click)="close()" class="material-icons button">close</em></div></div>
-    <div class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="next()" class="button material-icons">navigate_next</em></div></div>
-    <span class="smk-position" style="margin-top: 6px;">{{identifiedFeatures.length}}</span> <span style="margin-top: 5px;">of</span> <span class="smk-position" style="margin-top: 6px;">{{index}}</span>
-    <div class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="previous()" class="button material-icons">navigate_before</em></div></div>
+    <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="next()" class="button material-icons">navigate_next</em></div></div>
+    <span *ngIf="identifiedFeatures.length > 1" class="smk-position" style="margin-top: 6px;">{{identifiedFeatures.length}}</span> <span style="margin-top: 5px;">of</span> <span class="smk-position" style="margin-top: 6px;">{{index}}</span>
+    <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="previous()" class="button material-icons">navigate_before</em></div></div>
   </div>
   <div class="title-bar">
     <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></div>
