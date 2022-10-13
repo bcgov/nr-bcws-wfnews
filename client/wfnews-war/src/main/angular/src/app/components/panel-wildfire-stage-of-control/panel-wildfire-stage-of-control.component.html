@@ -71,8 +71,9 @@
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
         </div>
         <div *ngIf="collectionData">
-            <div class = "incident-item" *ngFor="let incident of collectionData">
-                <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
+            <div class = "incident-item" *ngFor="let incident of collectionData" (click)="openPreview(incident)" (mouseenter)="onPanelMouseEnter(incident)" (mouseleave)="onPanelMouseExit(incident)">
+              <mat-progress-bar [id]="incident.incidentName" style="display: none;" mode="determinate" [value]="progressValue"></mat-progress-bar>
+              <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
                 <div>
                     <span class="item-title">LAST UPDATED: </span>
                     <span class="item-content">{{convertFromTimestamp(incident.newsCreatedTimestamp)}}</span>
@@ -95,7 +96,6 @@
                         {{convertToDescription(incident.stageOfControlCode)}}
                     </span>
                 </div>
-
             </div>
         </div>
 
@@ -113,3 +113,4 @@
     </mat-tab>
 
 </mat-tab-group>
+<ng-template #listIdentifyContainer></ng-template>
