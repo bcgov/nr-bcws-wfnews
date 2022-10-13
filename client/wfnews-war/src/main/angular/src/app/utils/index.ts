@@ -16,6 +16,51 @@ export enum ResourcesRoutes {
     ADMIN_INCIDENT = 'incident'
 }
 
+export const FireCentres = [
+    {
+        code: "2",
+        description: "Cariboo Fire Centre",
+        displayOrder: 1,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    },
+    {
+        code: "50",
+        description: "Coastal Fire Centre",
+        displayOrder: 2,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    },
+    {
+        code: "25",
+        description: "Kamloops Fire Centre",
+        displayOrder: 3,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    },
+    {
+        code: "42",
+        description: "Northwest Fire Centre",
+        displayOrder: 4,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    },
+    {
+        code: "8",
+        description: "Prince George Fire Centre",
+        displayOrder: 5,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    },
+    {
+        code: "34",
+        description: "Southeast Fire Centre",
+        displayOrder: 6,
+        effectiveDate: "1999-01-01",
+        expiryDate: "9999-12-31"
+    }
+];
+
 export function getPageInfoRequestForSearchState(searchState: any): PagingInfoRequest {
     return {
         pageRowCount: searchState.pageSize,

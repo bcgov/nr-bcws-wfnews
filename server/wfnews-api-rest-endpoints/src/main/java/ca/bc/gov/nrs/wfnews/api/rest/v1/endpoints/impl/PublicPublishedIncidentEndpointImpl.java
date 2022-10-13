@@ -76,12 +76,37 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 		Response response = null;
 				
 		try {
+			// publishedIncidentDetailGuid can also be the fire number or fire name
 			PublishedIncidentResource results = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, getWebAdeAuthentication(), getFactoryContext());
 			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
 
 			};
 
 			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+		
+		logResponse(response);
+
+		return response;
+	}
+
+	@Override
+	public Response getPublishedIncidentListAsFeatures(String stageOfControl) throws NotFoundException, ForbiddenException, ConflictException {
+		Response response = null;
+		
+		try {
+			String json = "";
+			if (stageOfControl == null || stageOfControl.equalsIgnoreCase("FIRE_OF_NOTE")) {
+				json = incidentsService.getFireOfNoteAsJson(getWebAdeAuthentication(), getFactoryContext());
+			} else {
+				json = incidentsService.getPublishedIncidentsAsJson(stageOfControl, getWebAdeAuthentication(), getFactoryContext());
+			}
+			GenericEntity<String> entity = new GenericEntity<String>(json) {
+				/* do nothing */
+			};
+			response = Response.ok(entity).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}

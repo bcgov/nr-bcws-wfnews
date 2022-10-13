@@ -66,9 +66,49 @@
     <mat-tab label="Wildfires List">
         <div class="wildfire-list-toggle-title">Choose Wildfires to display</div>
         <div class="wildfire-checkboxs">
-            <mat-checkbox>Active Wildfires</mat-checkbox>
-            <mat-checkbox>Only Wildfires of Note</mat-checkbox>
-            <mat-checkbox>Wildfires that are 'Out'</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Only Wildfires of Note </mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
+        </div>
+        <div *ngIf="collectionData">
+            <div class = "incident-item" *ngFor="let incident of collectionData">
+                <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">LAST UPDATED: </span>
+                    <span class="item-content">{{convertFromTimestamp(incident.newsCreatedTimestamp)}}</span>
+                </div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">FIRE CENTRE: </span>
+                    <span class="item-content"></span>
+                </div>
+                <div style="padding:5px 0px">
+                    <span class="item-title">DISTANCE FROM MY LOCATION: </span>
+                    <span class="item-content"></span>
+                </div>
+                <div class="tags">
+                    <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === '1'" class="wildifre-of-note-tag">
+                        <mat-icon class="fire-icon" style="vertical-align:middle">local_fire_department</mat-icon>
+                        Wildfire of Note
+                    </span>
+                    <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">
+                        <span class="circle-icon {{incident.stageOfControlCode}}"></span>
+                        {{convertToDescription(incident.stageOfControlCode)}}
+                    </span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="bottom-summary flex-y-fixed">
+            <div class="showing-summary" style="flex: 75%;">{{summaryString}} search results</div>
+            <pagination-controls style = "text-align:center" [id]="config.id"
+                                 [maxSize]="5"
+                                 [responsive]="false"
+                                 [directionLinks]="true"
+                                 [previousLabel]="paginatorLabels.previousLabel"
+                                 [nextLabel]="paginatorLabels.nextLabel"
+                                 [autoHide]="false"
+                                 (pageChange)="onPageChange($event)"></pagination-controls>
         </div>
     </mat-tab>
 

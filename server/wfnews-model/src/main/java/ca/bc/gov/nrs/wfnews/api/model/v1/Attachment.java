@@ -50,6 +50,9 @@ public interface Attachment extends Serializable {
     public boolean isArchived();
     public void setArchived(boolean archived);
 
+    public boolean isPrimary();
+    public void setPrimary(boolean primary);
+
     public Double getAzimuth();
     public void setAzimuth(Double t);
 

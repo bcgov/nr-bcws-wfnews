@@ -35,7 +35,6 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
-    cert_domain = "*.bcwildfireservices.com"
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"

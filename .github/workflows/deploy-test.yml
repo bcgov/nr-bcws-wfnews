@@ -3,21 +3,57 @@ name: Deploy Test
 env:
   REGISTRY: ghcr.io
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
+  SERVER_IMAGE_NAME: nr-bcws-wfnews-server
+  LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
+  
 on:
-  push:
-    tags:
-      - "v[0-9].[0-9]+.[0-9]+-rc*"
-
+  release:
+    types: [published]
+    
 jobs:
 
   tag-images:
-    uses: ./.github/workflows/tag-images.yml
-    with:
-      REGISTRY: ghcr.io
+    runs-on: ubuntu-22.04
+
+    outputs:
+      tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Tag client image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+
+      - name: Tag server image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+
+      - name: Tag liquibase image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+
+      - run: echo ::set-output name=tag-value::${GITHUB_REF#refs/tags/} 
+        id: get-release-tag
+      
 
   terragrunt-deploy-test:
+    needs: tag-images
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
@@ -48,8 +84,7 @@ jobs:
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
       WFNEWS_USERNAME: wfnewstest
       WFNEWS_MAX_CONNECTIONS: 10
-      IMAGE_TAG: ${GITHUB_REF#refs/tags/}
-
+      IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.TEST_DB_PASS }}

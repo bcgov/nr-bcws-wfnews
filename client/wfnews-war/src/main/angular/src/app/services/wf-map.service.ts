@@ -132,11 +132,7 @@ export class WFMapService {
                     const topographicOption = {
                         maxNativeZoom: 20,
                         maxZoom: 30
-                    };
-
-                    // defineEsriBasemap( 'topographic', 'ESRI Topographic', [
-                    //     { id: 'Topographic', option: { ...topographicOption } }
-                    // ] )
+                    }
 
                     defineEsriBasemap( 'topographic', 'Topographic', [
                         { id: 'Topographic', option: { ...topographicOption, ...option2x } }
@@ -204,14 +200,25 @@ export class WFMapService {
                         template: '#wf-weather-station-feature-template',
                         extends: f,
                         computed: {
-                            content() {
-                                // console.log( 'get content', this.feature.properties )
-                                return {
-                                    create: this.feature.properties.createContent
-                                };
-                            }
+                          content() {
+                            return {
+                              create: this.feature.properties.createContent
+                            };
+                          }
                         },
                     } );
+
+                    Vue.component( 'wf-incident-feature', {
+                      template: '#wf-incident-feature-template',
+                      extends: f,
+                      computed: {
+                        content() {
+                          return {
+                            create: this.feature.properties.createContent
+                          };
+                        }
+                      },
+                  } );
 
                 } );
             } )
@@ -532,7 +539,6 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
         title,
         order,
         create() {
-            // console.log('create',title)
             return baseMaps.map( function( bm ) {
                 const L = window[ 'L' ];
 
@@ -552,7 +558,6 @@ function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: 
         title,
         order,
         create() {
-            // console.log('create',title)
             return baseMaps.map( function( bm ) {
                 const L = window[ 'L' ];
 

@@ -23,14 +23,19 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncidentList( @ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
-	        @ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncidentList( 
+		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
+		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
 	
+	@GET
+	@Path("/features")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl)throws NotFoundException, ForbiddenException, ConflictException;
+
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncident( @ApiParam("The page number of the results to be returned.") @PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }
-	
-	

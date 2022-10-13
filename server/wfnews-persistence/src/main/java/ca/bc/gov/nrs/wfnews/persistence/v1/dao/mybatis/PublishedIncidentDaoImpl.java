@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.BaseDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.PublishedIncidentMapper;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
@@ -152,6 +153,32 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		
 	}
 	
+	@Override
+	public String selectAsJson(String stageOfControlCode) throws DaoException {
+		String json = "";
+		try {
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("stageOfControlCode", stageOfControlCode);
+			json = this.publishedIncidentMapper.selectAsJson(parameters);
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		return json;
+	}
+
+	@Override
+	public String selectFireOfNoteAsJson() throws DaoException {
+		String json = "";
+		try {
+			json = this.publishedIncidentMapper.selectFireOfNoteAsJson();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+
+		return json;
+	}
+
 	@Override
 	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException{
 		
