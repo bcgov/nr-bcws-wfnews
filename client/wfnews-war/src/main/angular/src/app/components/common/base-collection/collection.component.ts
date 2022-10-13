@@ -174,7 +174,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             }
             if(configId === 'loadWildfiresPaginator') {
                 return `Showing 10 of ${total ? total : 0} search results`;
-
             }
             return `Showing ${start} to ${end} of ${total ? total : 0}`;
 

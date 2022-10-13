@@ -15,8 +15,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     activeWildfiresInd = true;
     wildfiresOfNoteInd = false;
     wildfiresOutInd = false;
-    currentLat: Number;
-    currentLong: Number;
+    currentLat: number;
+    currentLong: number;
 
     initModels() {
         this.model = new PanelWildfireStageOfControlComponentModel(this.sanitizer);
