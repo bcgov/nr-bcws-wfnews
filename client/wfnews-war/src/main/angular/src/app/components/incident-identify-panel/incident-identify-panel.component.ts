@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
-import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 
 @Component({
@@ -20,7 +19,6 @@ export class IncidentIdentifyPanelComponent {
 
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
-               private mapConfigService: MapConfigService,
                private publishedIncidentService: PublishedIncidentService) { }
 
   // if we want the "next" functionality, pass in the identify set
@@ -37,8 +35,8 @@ export class IncidentIdentifyPanelComponent {
           this.identifiedFeatures.push(feature)
           // if we want to reset the index, we need to compare the input feature ID to the identified feature ID
           if (setIndex) {
-            const sourceId = feature.properties.FIRE_NUMBER ? feature.properties.FIRE_NUMBER : feature.properties.incidentNumberLabel
-            const compareId = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incidentNumberLabel
+            const sourceId = feature.properties.FIRE_NUMBER ? feature.properties.FIRE_NUMBER : feature.properties.incident_number_label
+            const compareId = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incident_number_label
             if (sourceId && compareId && sourceId === compareId) {
               this.index = count;
             }

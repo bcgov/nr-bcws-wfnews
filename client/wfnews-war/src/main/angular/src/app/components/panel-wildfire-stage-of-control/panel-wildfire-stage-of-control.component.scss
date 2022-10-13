@@ -2,12 +2,15 @@
 
     border-top: 1px solid #dddddd;
     padding-top: 1rem;
-
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+    .mat-tab-group {
+      font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+    }
     .mat-tab-labels{
         padding-bottom: 1rem;
     }
     .mat-tab-header{
-     border-bottom: none;   
+     border-bottom: none;
     }
     .mat-tab-label.mat-tab-label-active {
         border-radius: 40px;
@@ -59,7 +62,7 @@
     border-bottom: 1px solid #dddddd;
     padding: 10px 20px;
 
-    
+
     .list-view-button{
         margin-left:10px;
         border: 1px solid grey;
@@ -96,11 +99,11 @@ section {
         a:link {
             color: #1A5A96
           }
-  
+
           a:visited{
               color: #1A5A96
           }
-  
+
           a:hover{
               text-decoration: none;
           }
@@ -131,7 +134,7 @@ section {
                     margin-right: 8px;
 
                     .fire-icon{
-                        width:14.4px; 
+                        width:14.4px;
                         height:18px;
                         color: #FFFFFF;
                     }
@@ -179,7 +182,7 @@ section {
                     border-radius: 50%;
                 }
             }
-            
+
             &::before {
                 content: '';
                 width: 20px;
@@ -230,24 +233,23 @@ section {
             padding: 5px 10px;
             width: fit-content;
             border-radius: 40px;
-            
+
             &.HOLDING{
                 color: #6C4A00;
-                border: 1px solid #EBCB23;
+                border: 1px solid #ffd966;
             }
             &.OUT_CNTRL{
                 color: #E00000;
-                border: 1px solid #E00000;
+                border: 1px solid #aa0d0d;
             }
             &.UNDR_CNTRL{
                 color: #507800;
-                border: 1px solid #689D00
+                border: 1px solid #6aa84f
             }
             &.OUT{
                 color: #5C6671;
-                border: 1px solid #5C6671;
+                border: 1px solid #5c6671;
             }
-            
         }
     }
 }
@@ -258,19 +260,19 @@ section {
     height: 16px;
     vertical-align: middle;
     &.HOLDING{
-        background-color: #FFFF00;
+        background-color: #ffd966;
         border-radius: 50%;
     }
     &.OUT_CNTRL{
-        background-color: #FF0000;
+        background-color: #aa0d0d;
         border-radius: 50%;
     }
     &.UNDR_CNTRL{
-        background-color: #98E600;
+        background-color: #6aa84f;
         border-radius: 50%;
     }
     &.OUT{
-        background-color: #5C6671;
+        background-color: #5c6671;
         border-radius: 50%;
     }
 }
