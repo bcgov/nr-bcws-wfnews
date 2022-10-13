@@ -10,11 +10,11 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           useClustering: true,
           useHeatmap: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT&cachBust=" + Math.floor(new Date().getTime() / 600000),
-          titleAttribute: "incidentName",
+          titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
             {
-                name: "incidentName",
+                name: "incident_name",
                 title: "Fire Name",
                 visible: true
             }
