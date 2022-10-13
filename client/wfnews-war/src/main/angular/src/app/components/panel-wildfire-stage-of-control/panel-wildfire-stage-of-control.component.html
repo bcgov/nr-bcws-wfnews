@@ -100,13 +100,13 @@
         </div>
 
         <div class="bottom-summary flex-y-fixed">
-            <div class="showing-summary" style="flex: 75%;">{{summaryString}} search results</div>
+            <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
             <pagination-controls style = "text-align:center" [id]="config.id"
                                  [maxSize]="5"
                                  [responsive]="false"
                                  [directionLinks]="true"
-                                 [previousLabel]="paginatorLabels.previousLabel"
-                                 [nextLabel]="paginatorLabels.nextLabel"
+                                 [previousLabel]="simplePaginatorLabels.previousLabel"
+                                 [nextLabel]="simplePaginatorLabels.nextLabel"
                                  [autoHide]="false"
                                  (pageChange)="onPageChange($event)"></pagination-controls>
         </div>

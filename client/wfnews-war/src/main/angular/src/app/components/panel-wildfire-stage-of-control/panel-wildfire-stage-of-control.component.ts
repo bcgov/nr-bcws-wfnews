@@ -1,6 +1,7 @@
 import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
+import { distanceHelper } from '../../services/wfnews-map.service/util';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
 import { CollectionComponent } from '../common/base-collection/collection.component';
@@ -14,8 +15,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     activeWildfiresInd = true;
     wildfiresOfNoteInd = false;
     wildfiresOutInd = false;
-    currentLat;
-    currentLong;
+    currentLat: number;
+    currentLong: number;
 
     initModels() {
         this.model = new PanelWildfireStageOfControlComponentModel(this.sanitizer);
@@ -51,15 +52,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const location = await this.commonUtilityService.getCurrentLocationPromise()
         console.log(location)
         if( location ){
-            this.currentLat = location.coords.latitude;
-            this.currentLong = location.coords.longitude;
+            this.currentLat = Number(location.coords.latitude);
+            this.currentLong = Number(location.coords.longitude);
         }
     }
 
     doSearch() {
         this.store.dispatch(searchWildfires(this.componentId, {
           pageNumber: this.config.currentPage,
-          pageRowCount: this.config.itemsPerPage,
+          pageRowCount: 10,
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
