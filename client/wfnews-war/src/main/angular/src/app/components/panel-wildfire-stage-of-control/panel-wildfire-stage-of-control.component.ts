@@ -39,7 +39,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private componentRef: ComponentRef<any>;
     private mapPanTimer;
     private mapPanProgressBar;
-    private progressValue = 0;
+    private progressValues = new Map<string, number>();
     private lastPanned = '';
 
     constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, private mapConfigService: MapConfigService, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
@@ -145,17 +145,23 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const viewer = SMK.MAP[1].$viewer;
         const map = viewer.map;
         viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
-        progressBarElement.style.display = 'none';
-        self.progressValue = 0;
+
+        progressBarElement.style.opacity = '0.0';
+        clearInterval(this.mapPanProgressBar);
+        this.mapPanProgressBar = null;
+        self.progressValues.set(incident.incidentName, 0);
         self.lastPanned = incident.incidentName
       }, 500);
 
       if (this.lastPanned !== incident.incidentName) {
-        progressBarElement.style.display = 'block';
         progressBarElement.style.opacity = '0.0';
+        self.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
           progressBarElement.style.opacity = (Number(progressBarElement.style.opacity) + 0.1).toString()
-          self.progressValue += 5;
+          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 5);
+          if (self.progressValues.get(incident.incidentName) > 100) {
+            self.progressValues.set(incident.incidentName, 100);
+          }
           self.cdr.detectChanges();
         }, 1);
       }
@@ -170,9 +176,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
       }
-      document.getElementById(incident.incidentName).style.display = 'none';
       document.getElementById(incident.incidentName).style.opacity = '0.0';
-      this.progressValue = 0;
+      this.progressValues.set(incident.incidentName, 0);
     }
 
     openPreview (incident: any) {
