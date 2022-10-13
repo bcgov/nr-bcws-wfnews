@@ -247,7 +247,7 @@
 				'features', json_agg(ST_AsGeoJSON(t.*)::json)
 			)
 		FROM
-			published_incident_detail AS t
+			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		  AND fire_of_note_ind != '1'
 			AND fire_of_note_ind != 'T'
@@ -260,7 +260,7 @@
 				'features', json_agg(ST_AsGeoJSON(t.*)::json)
 			)
 		FROM
-			published_incident_detail AS t
+			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code != 'OUT'
 		 AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
 	</select>
