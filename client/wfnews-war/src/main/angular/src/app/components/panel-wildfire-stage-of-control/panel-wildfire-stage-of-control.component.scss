@@ -286,15 +286,22 @@ section {
     font-weight: 400;
 }
 
+::ng-deep .mat-progress-bar-fill {
+  background-color: white;
+}
+
+
 ::ng-deep .mat-progress-bar-fill::after {
-  background-color: #1a5a96;
+  background-color: #1a5a9684;
 }
 
 ::ng-deep .mat-progress-bar-buffer {
-  background: #E4E8EB;
+  background: white;
 }
 
 ::ng-deep .mat-progress-bar {
   border-radius: 2px;
-  height: 5px;
+  height: 2px !important;
+  margin-left: -16px;
+  width: calc(100% + 16px) !important;
 }

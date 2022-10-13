@@ -138,7 +138,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     onPanelMouseEnter (incident: any) {
       // pan to incident location
       const self = this;
-      const progressBarElement = document.getElementById(incident.incidentName);
 
       this.mapPanTimer = setTimeout(() => {
         const SMK = window['SMK'];
@@ -146,7 +145,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const map = viewer.map;
         viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
 
-        progressBarElement.style.opacity = '0.0';
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
         self.progressValues.set(incident.incidentName, 0);
@@ -154,10 +152,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }, 500);
 
       if (this.lastPanned !== incident.incidentName) {
-        progressBarElement.style.opacity = '0.0';
         self.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
-          progressBarElement.style.opacity = (Number(progressBarElement.style.opacity) + 0.1).toString()
           self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 5);
           if (self.progressValues.get(incident.incidentName) > 100) {
             self.progressValues.set(incident.incidentName, 100);
@@ -176,7 +172,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
       }
-      document.getElementById(incident.incidentName).style.opacity = '0.0';
       this.progressValues.set(incident.incidentName, 0);
     }
 
