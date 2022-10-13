@@ -128,4 +128,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
         return (R * c)
     }
+
+    public Number(value: string): number {
+      return Number(value);
+    }
 }
