@@ -108,7 +108,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.collectionData = this.collection.collection;
         this.config = this.getPagingConfig();
         this.config.currentPage = this.collection.pageNumber;
-        this.summaryString = this.getSummaryString();
+        this.summaryString = this.getSummaryString(this.config.id);
     }
 
     onPageChange(number: number) {
@@ -157,7 +157,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.doSearch();
     }
 
-    getSummaryString() {
+    getSummaryString(configId?: string) {
         let showNum = Number(this.showEntriesSelection);
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;
@@ -171,6 +171,10 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             }
             if (end > total) {
                 end = total;
+            }
+            if(configId === 'loadWildfiresPaginator') {
+                return `Showing 10 of ${total ? total : 0} search results`;
+
             }
             return `Showing ${start} to ${end} of ${total ? total : 0}`;
 

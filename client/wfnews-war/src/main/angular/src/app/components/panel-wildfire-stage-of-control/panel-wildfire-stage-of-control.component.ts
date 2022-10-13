@@ -1,6 +1,7 @@
 import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
+import { distanceHelper } from '../../services/wfnews-map.service/util';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
 import { CollectionComponent } from '../common/base-collection/collection.component';
@@ -14,8 +15,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     activeWildfiresInd = true;
     wildfiresOfNoteInd = false;
     wildfiresOutInd = false;
-    currentLat;
-    currentLong;
+    currentLat: Number;
+    currentLong: Number;
 
     initModels() {
         this.model = new PanelWildfireStageOfControlComponentModel(this.sanitizer);
@@ -51,15 +52,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const location = await this.commonUtilityService.getCurrentLocationPromise()
         console.log(location)
         if( location ){
-            this.currentLat = location.coords.latitude;
-            this.currentLong = location.coords.longitude;
+            this.currentLat = Number(location.coords.latitude);
+            this.currentLong = Number(location.coords.longitude);
         }
     }
 
     doSearch() {
         this.store.dispatch(searchWildfires(this.componentId, {
           pageNumber: this.config.currentPage,
-          pageRowCount: this.config.itemsPerPage,
+          pageRowCount: 10,
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
@@ -93,30 +94,11 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           }
     }
 
-    calculateDistance(lat: string, long: string){
-        if ((Number(lat) && Number(long)) && (this.currentLat && this.currentLong)) {
-            let result = (this.distanceHelper(Number(lat), Number(this.currentLat), Number(long), Number(this.currentLong)))
+    calculateDistance(lat: number, long: number){
+        if ((lat && long) && (this.currentLat && this.currentLong)) {
+            let result = ((distanceHelper(lat, this.currentLat, long, this.currentLong)) / 1000).toFixed(2)
             return result.toString() + ' KM'
         }
-    }
-    
-    distanceHelper(lat1, lat2, lon1, lon2) {
-        lon1 =  lon1 * Math.PI / 180;
-        lon2 = lon2 * Math.PI / 180;
-        lat1 = lat1 * Math.PI / 180;
-        lat2 = lat2 * Math.PI / 180;
-   
-        let dlon = lon2 - lon1;
-        let dlat = lat2 - lat1;
-        let a = Math.pow(Math.sin(dlat / 2), 2)
-                 + Math.cos(lat1) * Math.cos(lat2)
-                 * Math.pow(Math.sin(dlon / 2),2);
-               
-        let c = 2 * Math.asin(Math.sqrt(a));
-        let r = 6371;
-   
-        // calculate the result
-        return((c * r).toFixed(2));
     }
 
 }
