@@ -25,7 +25,7 @@ export class IncidentsEffect {
     getIncidentList: Observable<Action> = this.actions.pipe(
         ofType(SEARCH_INCIDENTS),
         withLatestFrom(this.store),
-        debounceTime(500),
+        debounceTime(1000),
         switchMap(
             ([action, store]) => {
 
