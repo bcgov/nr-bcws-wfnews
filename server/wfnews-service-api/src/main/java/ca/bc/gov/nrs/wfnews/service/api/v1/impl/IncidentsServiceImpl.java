@@ -349,6 +349,16 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
+	public String getPublishedIncidentsAsJson(String stageOfControl, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectAsJson(stageOfControl);
+	}
+
+	@Override
+	public String getFireOfNoteAsJson(WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectFireOfNoteAsJson();
+	}
+
+	@Override
 	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
 
 		PublishedIncidentResource result = null;
