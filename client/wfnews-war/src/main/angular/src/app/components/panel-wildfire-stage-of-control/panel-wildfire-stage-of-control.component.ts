@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,7 +12,6 @@ import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
-import { MapConfigService } from '../../services/map-config.service';
 import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
@@ -25,7 +24,7 @@ import L from 'leaflet';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
-export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit  {
+export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy  {
     @ViewChild('listIdentifyContainer', { read: ViewContainerRef }) listIdentifyContainer: ViewContainerRef;
     @Input() collection: PagedCollection
 
@@ -42,9 +41,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private progressValues = new Map<string, number>();
     private lastPanned = '';
 
-    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, private mapConfigService: MapConfigService, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
+    private highlightLayer
+
+    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
       super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, commonUtilityService);
       this.zone = this.injector.get(NgZone)
+    }
+
+    ngOnDestroy(): void {
+      window['SMK'].MAP[1].$viewer.map.removeLayer(this.highlightLayer);
     }
 
     initModels() {
@@ -136,13 +141,19 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onPanelMouseEnter (incident: any) {
+      if (!this.highlightLayer) {
+        this.highlightLayer = window[ 'L' ].layerGroup().addTo(window['SMK'].MAP[1].$viewer.map);
+      }
+
       // pan to incident location
       const self = this;
+      const SMK = window['SMK'];
+      const leaflet = window[ 'L' ];
+      const viewer = SMK.MAP[1].$viewer;
+      const map = viewer.map;
+
 
       this.mapPanTimer = setTimeout(() => {
-        const SMK = window['SMK'];
-        const viewer = SMK.MAP[1].$viewer;
-        const map = viewer.map;
         viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
 
         clearInterval(this.mapPanProgressBar);
@@ -161,6 +172,26 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           self.cdr.detectChanges();
         }, 1);
       }
+
+      const pointerIcon = leaflet.icon({
+        iconUrl: "/assets/smk/assets/src/smk/mixin/tool-feature-list/config/marker-icon-white.png",
+        iconSize: [25, 35],
+        shadowAnchor: [4, 62],
+        popupAnchor: [1, -34],
+        shadowSize: [41, 41]
+      });
+
+      leaflet.geoJson({
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [Number(incident.longitude), Number(incident.latitude)]
+        }}, {
+        pointToLayer: function (feature, latlng) {
+            let marker = leaflet.marker(latlng, {icon: pointerIcon});
+            return marker;
+        }
+      }).addTo(this.highlightLayer);
     }
 
     onPanelMouseExit(incident: any) {
@@ -173,6 +204,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.mapPanProgressBar = null;
       }
       this.progressValues.set(incident.incidentName, 0);
+      this.highlightLayer.clearLayers();
     }
 
     openPreview (incident: any) {
@@ -186,15 +218,12 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const panel = (document.getElementsByClassName('identify-panel').item(0) as HTMLElement);
         panel.appendChild(compRef.location.nativeElement);
         self.cdr.detectChanges();
-        // display the panel
         (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'block';
-        // apply a slight debounce to clear the identify and destroy the panel
         setTimeout(() => {
           const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
           if (identifyPanel) {
             identifyPanel.remove();
           }
-          // use smk.$viewer.identified to reset the form?
         }, 200);
       })
     }
@@ -203,13 +232,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       if (this.componentRef) {
           this.componentRef.destroy()
       }
-
       if (this.listIdentifyContainer) {
         this.listIdentifyContainer.clear();
       }
-
       this.componentRef = this.listIdentifyContainer.createComponent(this.componentFactoryResolver.resolveComponentFactory(component))
-
-      return this.componentRef
+      return this.componentRef;
     }
 }
