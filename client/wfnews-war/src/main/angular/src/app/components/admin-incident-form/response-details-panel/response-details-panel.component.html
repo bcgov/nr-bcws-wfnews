@@ -23,8 +23,18 @@
     </mat-card-title>
     <fieldset class="field-set">
       <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Initial Attack Crews</mat-label>
+            <input matInput type="text" #initialAttackCrews>
+          </mat-form-field>
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Unit Crews</mat-label>
+            <input matInput type="text" #unitCrews>
+          </mat-form-field>
+        </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin" (change)="onCheckedOption($event, 'crewsComments')">External Crews</mat-checkbox>
+          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">External Crews</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -46,8 +56,18 @@
     </mat-card-title>
     <fieldset class="field-set">
       <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Helicopters</mat-label>
+            <input matInput type="text" #helicopters>
+          </mat-form-field>
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Airtankets</mat-label>
+            <input matInput type="text" #airtankers>
+          </mat-form-field>
+        </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="aviationInd" class="example-margin" (change)="onCheckedOption($event, 'aviationComments')">Wildfire Aviation</mat-checkbox>
+          <mat-checkbox formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Wildfire Aviation</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -70,7 +90,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="incidentManagementInd" class="example-margin" (change)="onCheckedOption($event, 'incidentManagementComments')">Incident Management Teams</mat-checkbox>
+          <mat-checkbox formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Teams</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -92,8 +112,14 @@
     </mat-card-title>
     <fieldset class="field-set">
       <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Heavy Equipment Pieces</mat-label>
+            <input matInput type="text" #pieces>
+          </mat-form-field>
+        </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin" (change)="onCheckedOption($event, 'heavyEquipmentComments')">Heavy Equipment</mat-checkbox>
+          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Heavy Equipment</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -115,8 +141,14 @@
     </mat-card-title>
     <fieldset class="field-set">
       <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field appearance="standard" floatLabel="always">
+            <mat-label class="label">Structure protection</mat-label>
+            <input matInput type="text" #structure>
+          </mat-form-field>
+        </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="structureProtectionInd" class="example-margin"  (change)="onCheckedOption($event, 'structureProtectionComments')">Structure Protection Units</mat-checkbox>
+          <mat-checkbox formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection Units</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
