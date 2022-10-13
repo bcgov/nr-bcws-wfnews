@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.BaseDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.ExternalUriMapper;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;

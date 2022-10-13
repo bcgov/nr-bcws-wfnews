@@ -49,7 +49,7 @@ export class IncidentIdentifyPanelComponent {
     }
 
     // get the fire number, either from a perimeter or active fire feature
-    const id = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incidentNumberLabel
+    const id = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incident_number_label
 
     this.publishedIncidentService.fetchPublishedIncident(id).toPromise().then(result => {
       this.incident = result;
@@ -63,6 +63,7 @@ export class IncidentIdentifyPanelComponent {
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
       this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
+      this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
       this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
       this.incident.fireOfNoteInd = this.incident.fireOfNoteInd.trim().toUpperCase() === 'T' || this.incident.fireOfNoteInd.trim().toUpperCase() === '1';
 
@@ -78,7 +79,7 @@ export class IncidentIdentifyPanelComponent {
 
       // then, set loaded to true and refresh the page
       this.loaded = true;
-      
+
       this.cdr.detectChanges();
     }).catch(err => {
       console.error('Failed to load Fire Info', err);

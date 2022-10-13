@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
+package ca.bc.gov.nrs.wfnews.persistence.v1.dao;
 
 import java.util.List;
 
