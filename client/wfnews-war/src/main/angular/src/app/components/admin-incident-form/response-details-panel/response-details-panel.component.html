@@ -10,7 +10,8 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
-                formControlName="responseComments"></textarea>
+                formControlName="responseComments"
+                ></textarea>
           </mat-form-field>
         </div>
       </div>
@@ -23,7 +24,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin">Wildfire Crews</mat-checkbox>
+          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin" (change)="onCheckedOption($event, 'crewsComments')">External Crews</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -46,7 +47,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="aviationInd" class="example-margin">Wildfire Aviation</mat-checkbox>
+          <mat-checkbox formControlName="aviationInd" class="example-margin" (change)="onCheckedOption($event, 'aviationComments')">Wildfire Aviation</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -69,7 +70,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="incidentManagementInd" class="example-margin">Incident Management Teams</mat-checkbox>
+          <mat-checkbox formControlName="incidentManagementInd" class="example-margin" (change)="onCheckedOption($event, 'incidentManagementComments')">Incident Management Teams</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -92,7 +93,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin">Heavy Equipment</mat-checkbox>
+          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin" (change)="onCheckedOption($event, 'heavyEquipmentComments')">Heavy Equipment</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -115,7 +116,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="structureProtectionInd" class="example-margin">Structure Protection Units</mat-checkbox>
+          <mat-checkbox formControlName="structureProtectionInd" class="example-margin"  (change)="onCheckedOption($event, 'structureProtectionComments')">Structure Protection Units</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">

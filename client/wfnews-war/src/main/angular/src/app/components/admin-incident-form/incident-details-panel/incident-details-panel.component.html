@@ -37,7 +37,18 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Size Type</mat-label>
-            <input matInput class="disabled-input" type="text" formControlName="sizeType" disabled>
+            <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+              aria-label="Size Type"
+              formControlName="sizeType"
+              [options]="sizeTypeOptions"
+              (valueChange)="setSizeTypeDisclaimer($event)">
+                <mat-option value="">
+                  <span class="placeholder">Select...</span>
+                </mat-option>
+                <mat-option *ngFor = "let item of sizeTypeOptions" value="{{item.optionValue}}">
+                  <span>{{item.optionValue}}</span>
+                </mat-option>
+              </mat-select>
           </mat-form-field>
         </div>
         <div class="field size-unset">
@@ -67,6 +78,18 @@
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label required">Cause</mat-label>
             <input matInput class="disabled-input" type="text" formControlName="cause" disabled>
+            <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+              aria-label="Cause"
+              formControlName="cause"
+              [options]="causeOptions"
+              (valueChange)="setCauseDisclaimer($event)">
+                <mat-option value="">
+                  <span class="placeholder">Select...</span>
+                </mat-option>
+                <mat-option *ngFor = "let item of causeOptions" value="{{item.optionValue}}">
+                  <span>{{item.optionValue}}</span>
+                </mat-option>
+              </mat-select>
           </mat-form-field>
         </div>
         <div class="field size-full">
