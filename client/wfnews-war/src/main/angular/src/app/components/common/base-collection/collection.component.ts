@@ -163,6 +163,9 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             let start = (this.collection.pageNumber - 1) * showNum + 1;
             let end = (start + showNum) - 1;
             const total = this.collection.totalRowCount;
+            if(configId === 'loadWildfiresPaginator') {
+                return `Showing 10 of ${total ? total : 0} search results`;
+            }
             if (start < 0) {
                 start = 0;
             }
@@ -171,9 +174,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             }
             if (end > total) {
                 end = total;
-            }
-            if(configId === 'loadWildfiresPaginator') {
-                return `Showing 10 of ${total ? total : 0} search results`;
             }
             return `Showing ${start} to ${end} of ${total ? total : 0}`;
 
