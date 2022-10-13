@@ -21,6 +21,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private Integer generalIncidentCauseCatId;
 	private String newsPublicationStatusCode;
 	private Date discoveryDate;
+	private Date declaredOutDate;
+	private String fireCentre;
 	private Integer fireZoneUnitIdentifier;
 	private String fireOfNoteInd;
 	private String incidentName;
@@ -101,6 +103,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.lastUpdatedTimestamp = dto.lastUpdatedTimestamp;
 		this.latitude = dto.latitude;
 		this.longitude = dto.longitude;
+		this.declaredOutDate = dto.declaredOutDate;
+		this.fireCentre = dto.fireCentre;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -145,6 +149,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.lastUpdatedTimestamp = incident.getLastUpdatedTimestamp();
 		this.latitude = incident.getLatitude();
 		this.longitude = incident.getLongitude();
+		this.declaredOutDate = incident.getDeclaredOutDate();
+		this.fireCentre = incident.getFireCentre();
 	}
 	
 	
@@ -159,7 +165,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 		if(other!=null) {
 			result = true;
-			result = result&&((newsCreatedTimestamp==null&&other.newsCreatedTimestamp==null)||(newsCreatedTimestamp!=null&&newsCreatedTimestamp.equals(other.newsCreatedTimestamp)));
+			result = result && ((newsCreatedTimestamp==null && other.newsCreatedTimestamp==null) || (newsCreatedTimestamp!=null && newsCreatedTimestamp.equals(other.newsCreatedTimestamp)));
 		}	
 		
 		return result;
@@ -174,46 +180,48 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		} else {
 
 			result = true;
-			result = result&&equals("publishedIncidentDetailGuid", publishedIncidentDetailGuid, other.publishedIncidentDetailGuid);
-			result = result&&equals("incidentGuid", incidentGuid, other.incidentGuid);
-			result = result&&equals("incidentNumberLabel", incidentNumberLabel, other.incidentNumberLabel);
-			result = result&&equals("newsCreatedTimestamp", newsCreatedTimestamp, other.newsCreatedTimestamp);
-			result = result&&equals("stageOfControlCode", stageOfControlCode, other.stageOfControlCode);
-			result = result&&equals("generalIncidentCauseCatId", generalIncidentCauseCatId, other.generalIncidentCauseCatId);
-			result = result&&equals("newsPublicationStatusCode", newsPublicationStatusCode, other.newsPublicationStatusCode);
-			result = result&&equals("discoveryDate", discoveryDate, other.discoveryDate);
-			result = result&&equals("fireZoneUnitIdentifier", fireZoneUnitIdentifier, other.fireZoneUnitIdentifier);
-			result = result&&equals("fireOfNoteInd", fireOfNoteInd, other.fireOfNoteInd);
-			result = result&&equals("incidentName", incidentName, other.incidentName);
-			result = result&&equals("incidentLocation", incidentLocation, other.incidentLocation);
-			result = result&&equals("incidentOverview", incidentOverview, other.incidentOverview);
-			result = result&&equals("traditionalTerritoryDetail", traditionalTerritoryDetail, other.traditionalTerritoryDetail);
-			result = result&&equals("incidentSizeType", incidentSizeType, other.incidentSizeType);
-			result = result&&equals("incidentSizeEstimatedHa", incidentSizeEstimatedHa, other.incidentSizeEstimatedHa);
-			result = result&&equals("incidentSizeMappedHa", incidentSizeMappedHa, other.incidentSizeMappedHa);
-			result = result&&equals("incidentSizeDetail", incidentSizeDetail, other.incidentSizeDetail);
-			result = result&&equals("incidentCauseDetail", incidentCauseDetail, other.incidentCauseDetail);
-			result = result&&equals("contactOrgUnitIdentifer", contactOrgUnitIdentifer, other.contactOrgUnitIdentifer);
-			result = result&&equals("contactPhoneNumber", contactPhoneNumber, other.contactPhoneNumber);
-			result = result&&equals("resourceDetail", resourceDetail, other.resourceDetail);
-			result = result&&equals("wildfireCrewResourcesInd", wildfireCrewResourcesInd, other.wildfireCrewResourcesInd);
-			result = result&&equals("wildfireCrewResourcesDetail", wildfireCrewResourcesDetail, other.wildfireCrewResourcesDetail);
-			result = result&&equals("wildfireAviationResourceInd", wildfireAviationResourceInd, other.wildfireAviationResourceInd);
-			result = result&&equals("wildfireAviationResourceDetail", wildfireAviationResourceDetail, other.wildfireAviationResourceDetail);
-			result = result&&equals("heavyEquipmentResourcesInd", heavyEquipmentResourcesInd, other.heavyEquipmentResourcesInd);
-			result = result&&equals("heavyEquipmentResourcesDetail", heavyEquipmentResourcesDetail, other.heavyEquipmentResourcesDetail);
-			result = result&&equals("incidentMgmtCrewRsrcInd", incidentMgmtCrewRsrcInd, other.incidentMgmtCrewRsrcInd);
-			result = result&&equals("incidentMgmtCrewRsrcDetail", incidentMgmtCrewRsrcDetail, other.incidentMgmtCrewRsrcDetail);
-			result = result&&equals("structureProtectionRsrcInd", structureProtectionRsrcInd, other.structureProtectionRsrcInd);
-			result = result&&equals("structureProtectionRsrcDetail", structureProtectionRsrcDetail, other.structureProtectionRsrcDetail);
-			result = result&&equals("publishedTimestamp", publishedTimestamp, other.publishedTimestamp);
-			result = result&&equals("publishedUserTypeCode", publishedUserTypeCode, other.publishedUserTypeCode);
-			result = result&&equals("publishedUserGuid", publishedUserGuid, other.publishedUserGuid);
-			result = result&&equals("publishedUserUserId", publishedUserUserId, other.publishedUserUserId);
-			result = result&&equals("publishedUserName", publishedUserName, other.publishedUserName);
-			result = result&&equals("lastUpdatedTimestamp", lastUpdatedTimestamp, other.lastUpdatedTimestamp);
+			result = result && equals("publishedIncidentDetailGuid", publishedIncidentDetailGuid, other.publishedIncidentDetailGuid);
+			result = result && equals("incidentGuid", incidentGuid, other.incidentGuid);
+			result = result && equals("incidentNumberLabel", incidentNumberLabel, other.incidentNumberLabel);
+			result = result && equals("newsCreatedTimestamp", newsCreatedTimestamp, other.newsCreatedTimestamp);
+			result = result && equals("stageOfControlCode", stageOfControlCode, other.stageOfControlCode);
+			result = result && equals("generalIncidentCauseCatId", generalIncidentCauseCatId, other.generalIncidentCauseCatId);
+			result = result && equals("newsPublicationStatusCode", newsPublicationStatusCode, other.newsPublicationStatusCode);
+			result = result && equals("discoveryDate", discoveryDate, other.discoveryDate);
+			result = result && equals("fireZoneUnitIdentifier", fireZoneUnitIdentifier, other.fireZoneUnitIdentifier);
+			result = result && equals("fireOfNoteInd", fireOfNoteInd, other.fireOfNoteInd);
+			result = result && equals("incidentName", incidentName, other.incidentName);
+			result = result && equals("incidentLocation", incidentLocation, other.incidentLocation);
+			result = result && equals("incidentOverview", incidentOverview, other.incidentOverview);
+			result = result && equals("traditionalTerritoryDetail", traditionalTerritoryDetail, other.traditionalTerritoryDetail);
+			result = result && equals("incidentSizeType", incidentSizeType, other.incidentSizeType);
+			result = result && equals("incidentSizeEstimatedHa", incidentSizeEstimatedHa, other.incidentSizeEstimatedHa);
+			result = result && equals("incidentSizeMappedHa", incidentSizeMappedHa, other.incidentSizeMappedHa);
+			result = result && equals("incidentSizeDetail", incidentSizeDetail, other.incidentSizeDetail);
+			result = result && equals("incidentCauseDetail", incidentCauseDetail, other.incidentCauseDetail);
+			result = result && equals("contactOrgUnitIdentifer", contactOrgUnitIdentifer, other.contactOrgUnitIdentifer);
+			result = result && equals("contactPhoneNumber", contactPhoneNumber, other.contactPhoneNumber);
+			result = result && equals("resourceDetail", resourceDetail, other.resourceDetail);
+			result = result && equals("wildfireCrewResourcesInd", wildfireCrewResourcesInd, other.wildfireCrewResourcesInd);
+			result = result && equals("wildfireCrewResourcesDetail", wildfireCrewResourcesDetail, other.wildfireCrewResourcesDetail);
+			result = result && equals("wildfireAviationResourceInd", wildfireAviationResourceInd, other.wildfireAviationResourceInd);
+			result = result && equals("wildfireAviationResourceDetail", wildfireAviationResourceDetail, other.wildfireAviationResourceDetail);
+			result = result && equals("heavyEquipmentResourcesInd", heavyEquipmentResourcesInd, other.heavyEquipmentResourcesInd);
+			result = result && equals("heavyEquipmentResourcesDetail", heavyEquipmentResourcesDetail, other.heavyEquipmentResourcesDetail);
+			result = result && equals("incidentMgmtCrewRsrcInd", incidentMgmtCrewRsrcInd, other.incidentMgmtCrewRsrcInd);
+			result = result && equals("incidentMgmtCrewRsrcDetail", incidentMgmtCrewRsrcDetail, other.incidentMgmtCrewRsrcDetail);
+			result = result && equals("structureProtectionRsrcInd", structureProtectionRsrcInd, other.structureProtectionRsrcInd);
+			result = result && equals("structureProtectionRsrcDetail", structureProtectionRsrcDetail, other.structureProtectionRsrcDetail);
+			result = result && equals("publishedTimestamp", publishedTimestamp, other.publishedTimestamp);
+			result = result && equals("publishedUserTypeCode", publishedUserTypeCode, other.publishedUserTypeCode);
+			result = result && equals("publishedUserGuid", publishedUserGuid, other.publishedUserGuid);
+			result = result && equals("publishedUserUserId", publishedUserUserId, other.publishedUserUserId);
+			result = result && equals("publishedUserName", publishedUserName, other.publishedUserName);
+			result = result && equals("lastUpdatedTimestamp", lastUpdatedTimestamp, other.lastUpdatedTimestamp);
 			result = result && equals("longitude", longitude, other.longitude);
 			result = result && equals("latitude", latitude, other.latitude);
+			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
+			result = result && equals("fireCentre", fireCentre, other.fireCentre);
 		}
 
 		return result;
@@ -551,5 +559,21 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	public Date getDeclaredOutDate() {
+		return declaredOutDate;
+	}
+
+	public void setDeclaredOutDate(Date declaredOutDate) {
+		this.declaredOutDate = declaredOutDate;
+	}
+
+	public String getFireCentre() {
+		return fireCentre;
+	}
+
+	public void setFireCentre(String fireCentre) {
+		this.fireCentre = fireCentre;
 	}
 }
