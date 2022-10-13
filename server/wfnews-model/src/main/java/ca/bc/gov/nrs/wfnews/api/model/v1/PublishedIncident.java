@@ -187,4 +187,10 @@ public interface PublishedIncident{
 
 	public String getLongitude();
 	public void setLongitude(String longitude);
+
+	public Date getDeclaredOutDate();
+	public void setDeclaredOutDate(Date declaredOutDate);
+
+	public String getFireCentre();
+	public void setFireCentre(String fireCentre);
 }
