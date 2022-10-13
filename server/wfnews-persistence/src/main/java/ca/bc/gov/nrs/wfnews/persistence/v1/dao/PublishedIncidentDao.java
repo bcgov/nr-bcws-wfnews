@@ -9,27 +9,30 @@ import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
 
 public interface PublishedIncidentDao extends Serializable {
-	
-	 void insert(
-		        PublishedIncidentDto dto) 
-		        throws DaoException;
-	 
-	 void update(
-		        PublishedIncidentDto dto) 
-		        throws DaoException;
-	 
-	 PublishedIncidentDto fetch(
-		        String publishedIncidentDetailGuid) 
-		        throws DaoException;
-	 
-	 PublishedIncidentDto fetchForIncidentGuid(
-			 String incidentGuid) 
-				        throws DaoException;
-	 
-	 void setPublishedIncidentMapper(PublishedIncidentMapper publishedIncidentMapper);
-	 
-	 void delete(String publishedIncidentDetailGuid, String userId) throws DaoException, NotFoundDaoException;
+
+	void insert(
+			PublishedIncidentDto dto)
+			throws DaoException;
+
+	void update(
+			PublishedIncidentDto dto)
+			throws DaoException;
+
+	PublishedIncidentDto fetch(
+			String publishedIncidentDetailGuid)
+			throws DaoException;
+
+	PublishedIncidentDto fetchForIncidentGuid(
+			String incidentGuid)
+			throws DaoException;
+
+	void setPublishedIncidentMapper(PublishedIncidentMapper publishedIncidentMapper);
+
+	void delete(String publishedIncidentDetailGuid, String userId) throws DaoException, NotFoundDaoException;
 
 	PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException;
-		    
+
+	String selectAsJson(String stageOfControlCode) throws DaoException;
+	
+	String selectFireOfNoteAsJson() throws DaoException;
 }

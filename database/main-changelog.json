@@ -225,6 +225,21 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "01_00_00_03",
+        "author": "dhemsworth",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/03/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+            }
+          }
+        ]
+      }
     }
   ]
 }
