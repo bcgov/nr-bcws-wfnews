@@ -109,6 +109,7 @@ import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
 import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -167,6 +168,7 @@ export const DATE_FORMATS = {
     imports: [
         MatSortModule,
         MatProgressSpinnerModule,
+        MatProgressBarModule,
         MatTableModule,
         MatSnackBarModule,
         HttpClientModule,

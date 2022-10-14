@@ -349,13 +349,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public String getPublishedIncidentsAsJson(String stageOfControl, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
-		return this.publishedIncidentDao.selectAsJson(stageOfControl);
+	public String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectAsJson(stageOfControl, bbox);
 	}
 
 	@Override
-	public String getFireOfNoteAsJson(WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
-		return this.publishedIncidentDao.selectFireOfNoteAsJson();
+	public String getFireOfNoteAsJson(String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectFireOfNoteAsJson(bbox);
 	}
 
 	@Override
@@ -409,12 +409,41 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, 
-			Integer pageRowCount, FactoryContext factoryContext) {
+	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
-		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<PublishedIncidentDto>();
+		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
-			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount);
+
+			List<String> orderByList = new ArrayList<>();
+			if(orderBy != null && orderBy.split(",").length > 0) {
+				for(String orderbyString : orderBy.split(",")) {
+					String daoDirection = null;
+					String daoOrderByString = "";
+					String[] split = orderbyString.split("\\s+");
+
+					if(split != null && split.length > 0) {
+						daoOrderByString = split[0];
+					}
+
+					if(split != null && daoOrderByString.length() > 0) {
+						if(split.length > 1) {
+							String direction = split[1];
+							if(direction.equalsIgnoreCase("desc") || direction.equalsIgnoreCase("descending")) {
+								daoDirection = "DESC";
+							} else {
+								daoDirection = "ASC";
+							}
+						} else {
+							daoDirection = "ASC";
+						}
+						
+						orderByList.add(daoOrderByString);
+						orderByList.add(daoDirection);
+					}
+				}
+			}
+
+			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount, orderByList, fireOfNote, out, fireCentre, bbox);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
