@@ -154,11 +154,16 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public String selectAsJson(String stageOfControlCode) throws DaoException {
+	public String selectAsJson(String stageOfControlCode, String bbox) throws DaoException {
 		String json = "";
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("stageOfControlCode", stageOfControlCode);
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+
 			json = this.publishedIncidentMapper.selectAsJson(parameters);
 		} catch (RuntimeException e) {
 			handleException(e);
@@ -168,10 +173,16 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public String selectFireOfNoteAsJson() throws DaoException {
+	public String selectFireOfNoteAsJson(String bbox) throws DaoException {
 		String json = "";
 		try {
-			json = this.publishedIncidentMapper.selectFireOfNoteAsJson();
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+
+			json = this.publishedIncidentMapper.selectFireOfNoteAsJson(parameters);
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
@@ -180,22 +191,35 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
-		
 		
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
+			
 			Integer offset = null;
+			
 			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
-			pageNumber = pageNumber==null?Integer.valueOf(0):pageNumber;
-			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
+			pageNumber = pageNumber == null ? 0 : pageNumber;
+
+			if (pageRowCount != null) { 
+				offset = Integer.valueOf((pageNumber.intValue() - 1) * pageRowCount.intValue());
+			}
 			//avoid jdbc exception for offset when pageNumber is 0
 			if (offset != null && offset < 0) offset = 0;
+
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
+			parameters.put("orderBy", orderBy.toArray());
+			parameters.put("fireOfNote", fireOfNote);
+			parameters.put("out", out);
+			parameters.put("fireCentre", fireCentre);
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
