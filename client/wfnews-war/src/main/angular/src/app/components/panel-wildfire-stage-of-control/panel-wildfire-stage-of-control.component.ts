@@ -29,7 +29,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     activeWildfiresInd = true;
     wildfiresOfNoteInd = false;
-    wildfiresOutInd = false;
     currentLat: number;
     currentLong: number;
 
