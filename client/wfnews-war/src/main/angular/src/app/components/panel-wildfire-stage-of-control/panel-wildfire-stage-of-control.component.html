@@ -68,7 +68,7 @@
         <div class="wildfire-checkboxs">
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Only Wildfires of Note </mat-checkbox>
-            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
+            <!-- <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox> -->
         </div>
         <div *ngIf="collectionData">
             <div class = "incident-item" *ngFor="let incident of collectionData" (click)="openPreview(incident)" (mouseenter)="onPanelMouseEnter(incident)" (mouseleave)="onPanelMouseExit(incident)">

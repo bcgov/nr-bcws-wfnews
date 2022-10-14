@@ -97,8 +97,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
-        },
-          undefined, undefined, this.displayLabel));
+        }, undefined, this.wildfiresOfNoteInd, !this.activeWildfiresInd, this.displayLabel));
       }
 
 
