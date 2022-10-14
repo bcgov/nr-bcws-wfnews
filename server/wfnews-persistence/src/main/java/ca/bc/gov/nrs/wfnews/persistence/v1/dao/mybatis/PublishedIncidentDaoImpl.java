@@ -191,10 +191,9 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, String bbox) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
-		
 		
 		try {
 
@@ -205,8 +204,13 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
 			//avoid jdbc exception for offset when pageNumber is 0
 			if (offset != null && offset < 0) offset = 0;
+
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
+			parameters.put("orderBy", orderBy.toArray());
+			parameters.put("fireOfNote", fireOfNote);
+			parameters.put("out", out);
+			parameters.put("fireCentre", fireCentre);
 			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));

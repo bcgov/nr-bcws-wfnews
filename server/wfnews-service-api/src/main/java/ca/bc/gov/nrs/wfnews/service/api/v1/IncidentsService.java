@@ -50,7 +50,7 @@ public interface IncidentsService {
 	void deletePublishedIncident(String publishedIncidentDetailGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String bbox, FactoryContext factoryContext);
+	PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext);
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
