@@ -250,11 +250,11 @@
 				<foreach collection="orderBy" item="order" index="index">
 					<choose>
 						<when test="order == 'incidentNumberLabel'">incident_number_label</when>
-						<when test="order == 'fireOfNote'">fire_of_note_ind</when>
-						<when test="order == 'location'">location</when>
-						<when test="order == 'fireName'">incident_name</when>
+						<when test="order == 'fireOfNoteInd'">fire_of_note_ind</when>
+						<when test="order == 'incidentLocation'">location</when>
+						<when test="order == 'incidentName'">incident_name</when>
 						<when test="order == 'fireCentre'">fire_centre</when>
-						<when test="order == 'stageOfControl'">stage_of_control_code</when>
+						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
 						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
 						<when test="order == 'ASC' &amp;&amp; index &lt; orderBy.length - 1"> ASC,</when>
 						<when test="order == 'ASC' &amp;&amp; index == orderBy.length - 1"> ASC</when>

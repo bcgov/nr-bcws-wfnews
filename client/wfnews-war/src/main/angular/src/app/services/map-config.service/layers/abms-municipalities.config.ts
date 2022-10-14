@@ -8,7 +8,7 @@ export function AbmsMunicipalitiesLayerConfig(ls: layerSettings) {
             title: 'Municipalities',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_MUNICIPALITIES_SP',
-            styleName: '410_5381',
+            styleName: '410',
             titleAttribute: 'ADMIN_AREA_NAME',
             geometryAttribute: 'SHAPE',
             attributes: [

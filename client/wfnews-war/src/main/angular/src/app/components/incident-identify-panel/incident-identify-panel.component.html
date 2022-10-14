@@ -1,7 +1,10 @@
 <div *ngIf="!loaded" class="loading-spinner">
   <mat-spinner [diameter]="40"></mat-spinner>
 </div>
-<div class="incident-details" *ngIf="loaded">
+<div *ngIf="loaded && failedToLoad" class="loading-spinner">
+  <div>The Incident could not be found.</div>
+</div>
+<div class="incident-details" *ngIf="loaded && !failedToLoad">
   <div class="header">
     <div class="smk-command-button smk-move smk-icon"><div class="smk-command"><em title="Close Panel" (click)="close()" class="material-icons button">close</em></div></div>
     <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="next()" class="button material-icons">navigate_next</em></div></div>

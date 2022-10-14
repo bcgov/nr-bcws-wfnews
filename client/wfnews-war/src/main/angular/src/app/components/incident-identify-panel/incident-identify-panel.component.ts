@@ -12,6 +12,7 @@ export class IncidentIdentifyPanelComponent {
   public incident: any
   public evacOrders : EvacOrderOption[] = []
   public loaded = false
+  public failedToLoad = false
 
   public featureSet
   public identifiedFeatures = []
@@ -81,8 +82,8 @@ export class IncidentIdentifyPanelComponent {
       this.cdr.detectChanges();
     }).catch(err => {
       console.error('Failed to load Fire Info', err);
-      // Kill the panel?
       this.loaded = true;
+      this.failedToLoad = true;
     });
   }
 
