@@ -19,7 +19,6 @@ import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfires
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
-import L from 'leaflet';
 
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
