@@ -247,7 +247,7 @@
 			</if>
 			<if test="orderBy!=null and orderBy.length>0">
 				ORDER BY
-				<foreach collection="orderBy" item="order">
+				<foreach collection="orderBy" item="order" index="index">
 					<choose>
 						<when test="order == 'incidentNumberLabel'">incident_number_label</when>
 						<when test="order == 'fireOfNote'">fire_of_note_ind</when>
@@ -256,8 +256,10 @@
 						<when test="order == 'fireCentre'">fire_centre</when>
 						<when test="order == 'stageOfControl'">stage_of_control_code</when>
 						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
-						<when test="order == 'ASC'"> ASC,</when>
-						<when test="order == 'DESC'"> DESC,</when>
+						<when test="order == 'ASC' &amp;&amp; index &lt; orderBy.length - 1"> ASC,</when>
+						<when test="order == 'ASC' &amp;&amp; index == orderBy.length - 1"> ASC</when>
+						<when test="order == 'DESC' &amp;&amp; index &lt; orderBy.length - 1"> DESC,</when>
+						<when test="order == 'DESC' &amp;&amp; index == orderBy.length - 1"> DESC</when>
 					</choose>
 				</foreach>
 			</if>
