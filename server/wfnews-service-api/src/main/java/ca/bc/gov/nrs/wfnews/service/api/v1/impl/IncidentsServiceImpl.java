@@ -349,13 +349,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public String getPublishedIncidentsAsJson(String stageOfControl, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
-		return this.publishedIncidentDao.selectAsJson(stageOfControl);
+	public String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectAsJson(stageOfControl, bbox);
 	}
 
 	@Override
-	public String getFireOfNoteAsJson(WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
-		return this.publishedIncidentDao.selectFireOfNoteAsJson();
+	public String getFireOfNoteAsJson(String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+		return this.publishedIncidentDao.selectFireOfNoteAsJson(bbox);
 	}
 
 	@Override
@@ -409,12 +409,11 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, 
-			Integer pageRowCount, FactoryContext factoryContext) {
+	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String bbox, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<PublishedIncidentDto>();
 		try {
-			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount);
+			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount, bbox);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);

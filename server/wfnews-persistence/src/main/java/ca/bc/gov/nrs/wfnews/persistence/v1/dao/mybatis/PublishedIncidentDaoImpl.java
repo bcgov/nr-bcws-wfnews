@@ -154,11 +154,16 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public String selectAsJson(String stageOfControlCode) throws DaoException {
+	public String selectAsJson(String stageOfControlCode, String bbox) throws DaoException {
 		String json = "";
 		try {
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("stageOfControlCode", stageOfControlCode);
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+
 			json = this.publishedIncidentMapper.selectAsJson(parameters);
 		} catch (RuntimeException e) {
 			handleException(e);
@@ -168,10 +173,16 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public String selectFireOfNoteAsJson() throws DaoException {
+	public String selectFireOfNoteAsJson(String bbox) throws DaoException {
 		String json = "";
 		try {
-			json = this.publishedIncidentMapper.selectFireOfNoteAsJson();
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+
+			json = this.publishedIncidentMapper.selectFireOfNoteAsJson(parameters);
 		} catch (RuntimeException e) {
 			handleException(e);
 		}
@@ -180,7 +191,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, String bbox) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -196,6 +207,10 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			if (offset != null && offset < 0) offset = 0;
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
+			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
+			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
+			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
+			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());

@@ -25,13 +25,14 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentList( 
 		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
-		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
+		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount,
+		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox) throws NotFoundException, ForbiddenException, ConflictException;
 	
 	@GET
 	@Path("/features")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl)throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl, @ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox)throws NotFoundException, ForbiddenException, ConflictException;
 
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
