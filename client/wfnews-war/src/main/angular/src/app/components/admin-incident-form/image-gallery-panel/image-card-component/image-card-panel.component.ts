@@ -3,7 +3,7 @@ import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentReso
 import { DocumentManagementService } from '../../../../services/document-management.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import * as moment from 'moment';
-import { IncidentAttachmentService } from '@wf1/incidents-rest-api';
+import { DefaultService as IncidentAttachmentService } from '@wf1/incidents-rest-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditImageDialogComponent } from '../edit-image-dialog/edit-image-dialog.component';
@@ -58,7 +58,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
 
   updateIncidentAttachment () {
-    this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, this.attachment.attachmentGuid, this.attachment)
+    this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, this.attachment.attachmentGuid, undefined, this.attachment)
     .toPromise().then(() => {
       this.snackbarService.open('Image Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
       this.loaded = false;

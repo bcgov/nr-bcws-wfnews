@@ -433,7 +433,8 @@ return 'Morecast';
                 // if(provZone.dismissedInd) {
                     // console.warn(`Expected a Provisional Zone that has not been dismissed`)
                 // }
-                const status = provZone.dismissedInd ? 'Dismissed' : provZone.expiryTimestamp<new Date() ? 'Expired' : 'Active';
+                Date.parse(provZone.expiryTimestamp)
+                const status = provZone.dismissedInd ? 'Dismissed' : provZone.expiryTimestamp<new Date().toString() ? 'Expired' : 'Active';
                 return {
                     type: 'Feature',
                     properties: {
@@ -442,8 +443,8 @@ return 'Morecast';
                         fireCentreId: provZone.fireCentreOrgUnitIdent,
                         fireCentreName: provZone.fireCentreOrgUnitName,
                         note: provZone.provisionalZoneNote,
-                        effective: TIME_FORMAT.format(provZone.effectiveTimeStamp),
-                        expiry: TIME_FORMAT.format(provZone.expiryTimestamp),
+                        effective: provZone.effectiveTimeStamp,
+                        expiry: provZone.expiryTimestamp,
                         userName: provZone.provisionedByUserName,
                         userId: provZone.provisionedByUserId,
                         dismissed: provZone.dismissedInd,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
+import { DefaultService as IncidentAttachmentsService, DefaultService as IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
 import * as moment from 'moment';
 import { Overlay } from '@angular/cdk/overlay';
@@ -71,6 +71,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     this.incidentAttachmentsService.getIncidentAttachmentList(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
+      undefined,
       'false',
       'false',
       undefined,
@@ -81,7 +82,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       undefined,
       '1000',
       this.searchState.sortParam + ',' + this.searchState.sortDirection,
-      undefined,
       'body'
     ).toPromise().then( ( docs ) => {
       docs.collection.sort((a, b) => {
@@ -187,7 +187,8 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     return this.incidentAttachmentsService.createIncidentAttachment(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
-      attachment, undefined, 'response').toPromise()
+      undefined,
+      attachment, 'response').toPromise()
   }
 
   edit (item: AttachmentResource) {
@@ -199,7 +200,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid, item)
+        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, item.attachmentGuid,undefined, item)
         .toPromise().then(() => {
           this.snackbarService.open('Attachment Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
           this.loaded = false;
