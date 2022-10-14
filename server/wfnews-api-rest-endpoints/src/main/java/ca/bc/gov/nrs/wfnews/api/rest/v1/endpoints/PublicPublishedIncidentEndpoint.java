@@ -25,13 +25,18 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentList( 
 		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
-		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
+		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount,
+		@ApiParam("Order the results by a specific column and sort order, eg. 'incident_name,desc'") @QueryParam("orderBy") String orderBy,
+		@ApiParam("Filter on fire of note") @QueryParam("fireOfNote") Boolean fireOfNote,
+		@ApiParam("Filter on fires that are Out") @QueryParam("out") Boolean out,
+		@ApiParam("Filter on fire centre") @QueryParam("fireCentre") String fireCentre,
+		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox) throws NotFoundException, ForbiddenException, ConflictException;
 	
 	@GET
 	@Path("/features")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl)throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl, @ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox)throws NotFoundException, ForbiddenException, ConflictException;
 
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")

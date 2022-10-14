@@ -23,5 +23,5 @@ public interface PublishedIncidentMapper {
 
 	String selectAsJson(Map<String, Object> parameters);
 
-	String selectFireOfNoteAsJson();
+	String selectFireOfNoteAsJson(Map<String, Object> parameters);
 }
