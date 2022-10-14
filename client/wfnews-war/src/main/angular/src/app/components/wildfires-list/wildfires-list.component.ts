@@ -64,7 +64,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.activeWildfiresInd, undefined, this.displayLabel));
+      this.selectedFireCentreCode, this.activeWildfiresInd, undefined, undefined, this.displayLabel));
   }
 
   onChangeFilters() {

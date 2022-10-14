@@ -40,6 +40,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private lastPanned = '';
 
     private highlightLayer
+    private initInterval
+    private mapEventDebounce
 
     constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
       super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, commonUtilityService);
@@ -59,9 +61,40 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         return <PanelWildfireStageOfControlComponentModel>this.viewModel;
     }
 
+    private mapEventHandler () {
+      if (this.mapEventDebounce) {
+        clearTimeout(this.mapEventDebounce);
+        this.mapEventDebounce = null;
+      }
+      this.mapEventDebounce = setTimeout(() => {
+        this.doSearch();
+      }, 500);
+    }
 
     ngAfterViewInit() {
-        super.ngAfterViewInit();
+      super.ngAfterViewInit();
+
+      this.initInterval = setInterval(() => {
+        try {
+          const SMK = window['SMK'];
+          const viewer = SMK.MAP[1].$viewer;
+          const map = viewer.map;
+          if (!this.highlightLayer) {
+            this.highlightLayer = window[ 'L' ].layerGroup().addTo(window['SMK'].MAP[1].$viewer.map);
+            map.on( 'zoomend', () => {
+              this.mapEventHandler();
+            });
+            map.on( 'moveend', () => {
+              this.mapEventHandler();
+            });
+
+            clearInterval(this.initInterval);
+            this.initInterval = null;
+          }
+        } catch (err) {
+          console.warn('... Waiting on SMK init to hook map events ...')
+        }
+      }, 1000)
     }
 
 
@@ -90,13 +123,26 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     doSearch() {
+
+      let bbox = undefined
+      // Fetch the maps bounding box
+      try {
+        const SMK = window['SMK'];
+        const viewer = SMK.MAP[1].$viewer;
+        const map = viewer.map;
+        const bounds = map.getBounds();
+        bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
+      } catch(err) {
+        console.log('SMK initializing... wait to fetch bounds.')
+      }
+
         this.store.dispatch(searchWildfires(this.componentId, {
           pageNumber: this.config.currentPage,
           pageRowCount: 10,
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
-        }, undefined, this.wildfiresOfNoteInd, !this.activeWildfiresInd, this.displayLabel));
+        }, undefined, this.wildfiresOfNoteInd, !this.activeWildfiresInd, bbox, this.displayLabel));
       }
 
 
@@ -138,17 +184,11 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onPanelMouseEnter (incident: any) {
-      if (!this.highlightLayer) {
-        this.highlightLayer = window[ 'L' ].layerGroup().addTo(window['SMK'].MAP[1].$viewer.map);
-      }
-
-      // pan to incident location
       const self = this;
       const SMK = window['SMK'];
       const leaflet = window[ 'L' ];
       const viewer = SMK.MAP[1].$viewer;
       const map = viewer.map;
-
 
       this.mapPanTimer = setTimeout(() => {
         viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);

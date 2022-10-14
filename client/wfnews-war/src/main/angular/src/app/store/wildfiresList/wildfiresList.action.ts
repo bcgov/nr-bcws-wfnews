@@ -36,11 +36,13 @@ export function searchWildfires(
     selectedFireCentre: string,
     fireOfNoteInd: boolean,
     outFires: boolean,
+    bbox: string,
     displayLabel: string): SearchWildfiresAction {
         let filters = {};
         filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined;
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : false
         filters["out"] = outFires ? outFires : false
+        filters["bbox"] = bbox ? bbox : undefined
 
         return {
             type: SEARCH_WILDFIRES,
