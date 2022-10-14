@@ -58,6 +58,15 @@ export class WildfiresListEffect {
                 }
                 let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
+
+                // add filters
+                const filters = typedaction.payload.filters
+                for (const filter in filters) {
+                  if (Object.prototype.hasOwnProperty.call(filters, filter) && filters[filter] !== undefined) {
+                    url += `&${filter}=${filters[filter]}`;
+                  }
+                }
+
                 if (orderBy) {
                     orderBy = encodeURIComponent(orderBy.trim());
                     url = url.concat('&orderBy=')

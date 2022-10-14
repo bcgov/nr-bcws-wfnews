@@ -205,22 +205,25 @@ section {
       cursor: pointer;
     }
     .item-header{
-        font-size: 20px;
+        font-size: 1.6rem;
         font-weight: 400;
+        color: #003366;
         padding: 10px 0px;
     }
-    .item-title{
-        color:#646B72;
-        font-size: 12px;
-        font-weight: 400;
-        letter-spacing: 1.5px;
-    }
-
-    .item-content{
+    .item-row {
+      display: flex;
+      margin-right: 20px;
+      .item-title{
+        color:#036;
+        font-size: 1rem;
+        width: 100%;
+      }
+      .item-content{
+        width: 100%;
         font-size:15px;
         font-weight: 400;
+      }
     }
-
     .tags{
         padding: 1rem 0;
         .wildifre-of-note-tag{
