@@ -23,7 +23,12 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   zoomToEvac (evac) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
-      const viewer = SMK.MAP[1].$viewer;
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
+      }
       viewer.panToFeature(window['turf'].point([evac.centroid.x, evac.centroid.y]), 10)
 
       const map = viewer.map;
