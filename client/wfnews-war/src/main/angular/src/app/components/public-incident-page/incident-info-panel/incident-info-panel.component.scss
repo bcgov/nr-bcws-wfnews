@@ -1,3 +1,42 @@
 .panel {
   background-color: white;
+  padding: 22px;
+  .header-row {
+    display: flex;
+    flex-direction: row;
+    height: 35px;
+    .header-button-container {
+      margin-left: auto;
+      color: #0e5fa9;
+      font-size: 15px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: row;
+      .button {
+        color: #0e5fa9;
+        margin-top: 5px;
+        padding-right: 7px;
+        font-size: 22px;
+        cursor: pointer;
+      }
+      .icon {
+        position: relative;
+        top: 5px;
+        height: 20px;
+        padding-right: 10px;
+        .facebook {
+          color: #3b5998;
+        }
+        .twitter {
+          color: #1da1f2;
+        }
+      }
+    }
+  }
+  h4 {
+    margin-top: 0px;
+    font-size: 1.87rem;
+    color: black;
+    font-weight: 700;
+  }
 }
