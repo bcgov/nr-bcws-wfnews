@@ -96,9 +96,11 @@ export class IncidentIdentifyPanelComponent {
   }
 
   goToIncidentDetail () {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
-    }, 100);
+    // this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
+    )
+    window.open(url, '_blank')
   }
 
   next () {
