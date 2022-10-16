@@ -3,6 +3,19 @@
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
 
+:host ::ng-deep .mat-tab-group {
+  background: #f3f6f9;
+}
+
+:host ::ng-deep .mat-tab-label {
+  color: #093a6b;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: #093a6b !important;
+  height: 4px !important;
+}
+
 .page-container {
   max-width: 1185px;
   margin: auto;
