@@ -1,0 +1,9 @@
+@import '../../../styles/variables';
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
+.page-container {
+  max-width: 1185px;
+  margin: auto;
+}

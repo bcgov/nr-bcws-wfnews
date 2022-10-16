@@ -13,7 +13,8 @@ export enum ResourcesRoutes {
     SIGN_OUT = 'sign-out-page',
     ERROR_PAGE = 'error-page',
     ADMIN = 'admin',
-    ADMIN_INCIDENT = 'incident'
+    ADMIN_INCIDENT = 'incident',
+    PUBLIC_INCIDENT = 'incidents'
 }
 
 export const FireCentres = [

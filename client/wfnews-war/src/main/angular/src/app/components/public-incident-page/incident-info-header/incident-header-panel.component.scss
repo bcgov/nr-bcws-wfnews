@@ -1,0 +1,113 @@
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
+.header-container {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  padding: 22px;
+}
+.header-container> * {
+  flex: 1 1 28vw;
+}
+
+.map-container {
+  max-width: 533px;
+  min-height: 400px !important;
+}
+
+.incident-details {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  padding: 24px;
+  .header {
+    text-align: right;
+    display: flex;
+    flex-flow: row-reverse;
+    .button {
+      cursor: pointer;
+    }
+  }
+  .title-bar {
+    .title {
+      font-size: 1.6rem;
+      color: #003366;
+      display: flex;
+      flex-direction: row;
+      .fire-icon-container {
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color:#AA1D3E ;
+        margin-right: 8px;
+        margin-left: 8px;
+        .fire-icon{
+          width:14.4px;
+          height:18px;
+          color: #FFFFFF;
+        }
+      }
+    }
+    .subtitle {
+      text-decoration: underline;
+      color: #1a5a96;
+      font-size: 1rem;
+    }
+  }
+  .nav-button {
+    padding-top: 7px;
+  }
+  .info-panel {
+    padding-top: 7px;
+    font-size: 1rem;
+    .label {
+      color: #036;
+    }
+  }
+  .divider {
+    border-bottom: 1px lightgray solid;
+    padding-top: 7px;
+    padding-bottom: 7px;
+  }
+  .gutter {
+    padding-top: 7px;
+  }
+  .icon-bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    .resource-icon {
+      color: #003366;
+      font-size: 1rem;
+      padding-left: 7px;
+      padding-right: 7px;
+      text-align: center;
+      .image-size {
+        width: 50px;
+        height: 50px;
+      }
+      .image-label {
+        max-width: 100px;
+      }
+    }
+  }
+  .evac-list {
+    display: flex;
+    flex-direction: row;
+    color: #b42e45;
+    padding-top: 7px;
+    .label {
+      text-decoration: underline;
+    }
+    .issued-by {
+      padding: 4px;
+      font-size: 12px;
+      font-style: italic;
+      color: gray;
+      text-decoration: none;
+    }
+  }
+  h4 {
+    color: #003366;
+  }
+}

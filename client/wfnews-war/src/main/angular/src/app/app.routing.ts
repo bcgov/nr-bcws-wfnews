@@ -11,6 +11,7 @@ import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-
 import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
+import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 // Components
 // import {ActionsPanelComponent} from './panels';
 
@@ -26,6 +27,7 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
   { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.PUBLIC_INCIDENT, component: PublicIncidentPage, pathMatch: 'full'},
   { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',}
 ];
