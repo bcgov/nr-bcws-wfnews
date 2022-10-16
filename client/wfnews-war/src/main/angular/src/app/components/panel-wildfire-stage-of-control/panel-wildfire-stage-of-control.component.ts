@@ -51,7 +51,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     ngOnDestroy(): void {
-      window['SMK'].MAP[1].$viewer.map.removeLayer(this.highlightLayer);
+      const SMK = window['SMK'];
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
+        }
+      }
     }
 
     initModels() {
@@ -81,10 +87,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       this.initInterval = setInterval(() => {
         try {
           const SMK = window['SMK'];
-          const viewer = SMK.MAP[1].$viewer;
+          let viewer = null;
+          for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
+            }
+          }
           const map = viewer.map;
           if (!this.highlightLayer) {
-            this.highlightLayer = window[ 'L' ].layerGroup().addTo(window['SMK'].MAP[1].$viewer.map);
+            this.highlightLayer = window[ 'L' ].layerGroup().addTo(map);
             map.on( 'zoomend', () => {
               this.mapEventHandler();
             });
@@ -131,7 +142,12 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       // Fetch the maps bounding box
       try {
         const SMK = window['SMK'];
-        const viewer = SMK.MAP[1].$viewer;
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+            viewer = SMK.MAP[smkMap].$viewer;
+          }
+        }
         const map = viewer.map;
         const bounds = map.getBounds();
         bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
@@ -194,8 +210,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
       const self = this;
       const SMK = window['SMK'];
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
+      }
       const leaflet = window[ 'L' ];
-      const viewer = SMK.MAP[1].$viewer;
       const map = viewer.map;
 
       this.mapPanTimer = setTimeout(() => {
