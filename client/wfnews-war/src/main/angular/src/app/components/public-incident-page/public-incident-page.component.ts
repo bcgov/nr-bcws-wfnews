@@ -31,8 +31,12 @@ export class PublicIncidentPage implements OnInit {
         this.incidentNumber = params['incidentNumber']
         // Load the incident from the API
         this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(async result => {
-          console.log(result)
           this.incident = result
+          // set geometry
+          this.incident.geometry = {
+            x: result.longitude,
+            y: result.latitude
+          }
           // format dates, booleans
           // date formatting options
           const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
