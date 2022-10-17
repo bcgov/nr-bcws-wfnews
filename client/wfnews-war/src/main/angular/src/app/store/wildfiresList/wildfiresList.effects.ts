@@ -56,12 +56,19 @@ export class WildfiresListEffect {
                 if (sortParam == "location") {
                     sortParam = "incidentLocation";
                 }
-
                 let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
-
-                orderBy = encodeURIComponent(orderBy.trim());
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
+
+                // add filters
+                const filters = typedaction.payload.filters
+                for (const filter in filters) {
+                  if (Object.prototype.hasOwnProperty.call(filters, filter) && filters[filter] !== undefined) {
+                    url += `&${filter}=${filters[filter]}`;
+                  }
+                }
+
                 if (orderBy) {
+                    orderBy = encodeURIComponent(orderBy.trim());
                     url = url.concat('&orderBy=')
                     url = url.concat(orderBy)
                 }

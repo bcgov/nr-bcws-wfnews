@@ -5,6 +5,6 @@ import { getDefaultWildfiresListState, WildfiresState } from "./wildfiresList.st
 export function wildfiresListReducer (state: WildfiresState = getDefaultWildfiresListState(), action: Action): WildfiresState {
   if (action.type === SEARCH_WILDFIRES_SUCCESS) {
     const typedaction = <SearchWildfiresSuccessAction> action;
-    return {...state, currentWildfiresSearch: typedaction.payload.value}
+      return {...state, currentWildfiresSearch: typedaction.payload.value}
   }
 }

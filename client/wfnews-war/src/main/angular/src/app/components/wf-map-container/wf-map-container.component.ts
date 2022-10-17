@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, EventEmitter, Injector, Input, NgZone, OnChanges, OnDestroy, Output, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
+import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
 
 let mapIndexAuto = 0;
@@ -75,7 +76,12 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
-          self.addNearbyWeatherStation(smk)
+          self.addNearbyWeatherStation(smk);
+          (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
+        })
+
+        self.wfMap.setIdentifyDoneCallback(() => {
+          self.addSelectedIncidentPanels(smk);
         })
 
         return smk;
@@ -98,6 +104,35 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
       smk.destroy();
     });
+  }
+
+  addSelectedIncidentPanels (smk) {
+    const self = this;
+    const identified = smk.$viewer.identified;
+    for (const fid in identified.featureSet) {
+      if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
+        const feature = identified.featureSet[fid];
+        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'bcws-activefires-publicview-inactive', 'fire-perimeters'].includes(feature.layerId)) {
+          feature.properties.createContent = function (el) {
+            self.zone.run(function () {
+              let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
+              (compRef.instance as any).setIncident(feature.properties, identified.featureSet);
+              const panel = (document.getElementsByClassName('identify-panel').item(0) as HTMLElement);
+              panel.appendChild(compRef.location.nativeElement);
+              self.cdr.detectChanges();
+              // display the panel
+              (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'block';
+              // apply a slight debounce to clear the identify and destroy the panel
+              setTimeout(() => {
+                const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
+                identifyPanel.remove();
+                // use smk.$viewer.identified to reset the form?
+              }, 200);
+            })
+          }
+        }
+      }
+    }
   }
 
   addNearbyWeatherStation (smk) {

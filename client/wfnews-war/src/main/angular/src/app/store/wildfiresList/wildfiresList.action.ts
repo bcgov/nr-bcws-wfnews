@@ -30,14 +30,19 @@ export interface SearchWildfiresErrorAction extends Action {
 }
 
 
-export function searchWildfires(componentId: string,
+export function searchWildfires(
+    componentId: string,
     pageInfoRequest: PagingInfoRequest,
     selectedFireCentre: string,
-    fireOfNotePublishedInd: boolean,
+    fireOfNoteInd: boolean,
+    outFires: boolean,
+    bbox: string,
     displayLabel: string): SearchWildfiresAction {
         let filters = {};
-        filters["selectedFireCentreCode"] = selectedFireCentre ? [selectedFireCentre] : [];
-        filters["selectedFireOfNotePublishedInd"] = fireOfNotePublishedInd? [fireOfNotePublishedInd] : []
+        filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined;
+        filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : false
+        filters["out"] = outFires ? outFires : false
+        filters["bbox"] = bbox ? bbox : undefined
 
         return {
             type: SEARCH_WILDFIRES,

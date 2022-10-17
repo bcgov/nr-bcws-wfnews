@@ -1,11 +1,8 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -13,60 +10,52 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.service.api.ServiceException;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
-import ca.bc.gov.nrs.common.service.ValidationFailureException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublishedIncidentEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.PagingQueryParameters;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.validation.ParameterValidator;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
-import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebAdeOAuth2Authentication;
-import ca.bc.gov.webade.oauth2.spring.security.core.WebAdeAuthentication;
 
 public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements PublishedIncidentEndpoint {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(PublishedIncidentEndpointImpl.class);
-		
+
 	@Autowired
 	private IncidentsService incidentsService;
-	
+
 	@Autowired
 	private ParameterValidator parameterValidator;
-	
+
 	@Override
-	public Response createPublishedIncident(PublishedIncidentResource publishedIncidentResource) throws ForbiddenException, ConflictException {
-		
+	public Response createPublishedIncident(PublishedIncidentResource publishedIncidentResource)
+			throws ForbiddenException, ConflictException {
+
 		Response response = null;
-		
+
 		logRequest();
-		
-		if(!hasAuthority(Scopes.CREATE_PUBLISHED_INCIDENT)) {
+
+		if (!hasAuthority(Scopes.CREATE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
-		
+
 		try {
 			PublishedIncident publishedIncident = getPublishedIncidentFromResource(publishedIncidentResource);
-			PublishedIncidentResource result = incidentsService.createPublishedWildfireIncident(publishedIncident, getFactoryContext());
+			PublishedIncidentResource result = incidentsService.createPublishedWildfireIncident(publishedIncident,
+					getFactoryContext());
 
 			URI createdUri = URI.create(result.getSelfLink());
-			
+
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
-			
-		
+
 		} catch (DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
 		} catch (ValidationException e) {
@@ -74,33 +63,33 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
-		
 		return response;
 	}
 
 	@Override
-	public Response updatePublishedIncident(PublishedIncidentResource publishedIncidentResource) throws ForbiddenException, ConflictException {
-		
+	public Response updatePublishedIncident(PublishedIncidentResource publishedIncidentResource, String incidentGuid)
+			throws ForbiddenException, ConflictException {
+
 		Response response = null;
-		
+
 		logRequest();
-		
-		if(!hasAuthority(Scopes.UPDATE_PUBLISHED_INCIDENT)) {
+
+		if (!hasAuthority(Scopes.UPDATE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
-		
+
 		try {
 			PublishedIncident publishedIncident = getPublishedIncidentFromResource(publishedIncidentResource);
-			PublishedIncidentResource result = incidentsService.updatePublishedWildfireIncident(publishedIncident, getFactoryContext());
+			PublishedIncidentResource result = incidentsService.updatePublishedWildfireIncident(publishedIncident,
+					getFactoryContext());
 
 			URI createdUri = URI.create(result.getSelfLink());
-			
+
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
-			
-		
+
 		} catch (DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
 		} catch (ValidationException e) {
@@ -108,38 +97,39 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
-		
 		return response;
 	}
-	
+
 	@Override
-	public Response deletePublishedIncident(String publishedIncidentDetailGuid) throws NotFoundException, ConflictException, DaoException {
+	public Response deletePublishedIncident(String publishedIncidentDetailGuid)
+			throws NotFoundException, ConflictException, DaoException {
 		Response response = null;
-		
+
 		logRequest();
-		
-		if(!hasAuthority(Scopes.DELETE_PUBLISHED_INCIDENT)) {
+
+		if (!hasAuthority(Scopes.DELETE_PUBLISHED_INCIDENT)) {
 			return Response.status(Status.FORBIDDEN).build();
 		}
-		
-		try{
-			PublishedIncidentResource current = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, getWebAdeAuthentication(), getFactoryContext());
-	
+
+		try {
+			PublishedIncidentResource current = incidentsService.getPublishedIncident(publishedIncidentDetailGuid,
+					getWebAdeAuthentication(), getFactoryContext());
+
 			EntityTag currentTag = EntityTag.valueOf(current.getQuotedETag());
-			
+
 			ResponseBuilder responseBuilder = this.evaluatePreconditions(currentTag);
 
 			if (responseBuilder == null) {
-//				 Preconditions Are Met
+				// Preconditions Are Met
 
 				incidentsService.deletePublishedIncident(publishedIncidentDetailGuid, getFactoryContext());
 
 				response = Response.status(204).build();
 			} else {
-//				 Preconditions Are NOT Met
+				// Preconditions Are NOT Met
 
 				response = responseBuilder.tag(currentTag).build();
 			}
@@ -150,16 +140,16 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
-		
+
 		logResponse(response);
 
 		logger.debug(">deletePublishedIncident " + response.getStatus());
-		
+
 		return response;
 	}
-	
+
 	private PublishedIncident getPublishedIncidentFromResource(PublishedIncidentResource publishedIncidentResource) {
-		
+
 		PublishedIncident incident = new PublishedIncidentResource();
 		incident.setPublishedIncidentDetailGuid(publishedIncidentResource.getPublishedIncidentDetailGuid());
 		incident.setIncidentGuid(publishedIncidentResource.getIncidentGuid());
@@ -200,14 +190,15 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setPublishedUserUserId(publishedIncidentResource.getPublishedUserUserId());
 		incident.setPublishedUserName(publishedIncidentResource.getPublishedUserName());
 		incident.setLastUpdatedTimestamp(publishedIncidentResource.getLastUpdatedTimestamp());
-		incident.setPublishedIncidentRevisionCount(publishedIncidentResource.getPublishedIncidentRevisionCount());	
+		incident.setPublishedIncidentRevisionCount(publishedIncidentResource.getPublishedIncidentRevisionCount());
 		incident.setCreateDate(publishedIncidentResource.getCreateDate());
 		incident.setCreateUser(publishedIncidentResource.getCreateUser());
 		incident.setUpdateDate(publishedIncidentResource.getUpdateDate());
 		incident.setUpdateUser(publishedIncidentResource.getUpdateUser());
-		
+		incident.setLatitude(publishedIncidentResource.getLatitude());
+		incident.setLongitude(publishedIncidentResource.getLongitude());
+
 		return incident;
 	}
-		
-	
+
 }

@@ -46,7 +46,9 @@
 		<result property="createUser" column="CREATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="createDate" column="CREATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="updateUser" column="UPDATE_USER" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" /> 
+		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
+		<result property="latitude" column="LATITUDE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="longitude" column="LONGITUDE" javaType="java.lang.String" jdbcType="VARCHAR" /> 
 	</resultMap>
 	
 	<insert id="insert">
@@ -60,6 +62,8 @@
 				GENERAL_INCIDENT_CAUSE_CAT_ID,
 				NEWS_PUBLICATION_STATUS_CODE,
 				DISCOVERY_DATE,
+				DECLARED_OUT_DATE,
+				FIRE_CENTRE,
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER,
 				FIRE_OF_NOTE_IND,
 				INCIDENT_NAME,
@@ -91,6 +95,8 @@
 				PUBLISHED_USER_USERID,
 				PUBLISHED_USER_NAME,
 				LAST_UPDATED_TIMESTAMP,
+				LATITUDE,
+				LONGITUDE,
 				REVISION_COUNT,
 				CREATE_USER,
 				CREATE_DATE,
@@ -106,6 +112,8 @@
 				#{dto.generalIncidentCauseCatId, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.declatedOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -137,6 +145,8 @@
 				#{dto.publishedUserUserId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.publishedUserName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.lastUpdatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+				#{dto.latitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.longitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.revisionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
 				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
@@ -155,6 +165,8 @@
 				GENERAL_INCIDENT_CAUSE_CAT_ID =				#{dto.generalIncidentCauseCatId, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				NEWS_PUBLICATION_STATUS_CODE =				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				DISCOVERY_DATE =				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				DEDLARED_OUT_DATE =				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_NAME =				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -185,6 +197,8 @@
 				PUBLISHED_USER_GUID =				#{dto.publishedUserGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_USERID =				#{dto.publishedUserUserId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_NAME =				#{dto.publishedUserName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				LATITUDE =				#{dto.latitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				LONGITUDE =				#{dto.longitude, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				LAST_UPDATED_TIMESTAMP =				#{dto.lastUpdatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				REVISION_COUNT =				REVISION_COUNT + 1,
 				CREATE_USER =				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -198,6 +212,8 @@
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
+			   OR INCIDENT_NUMBER_LABEL = #{publishedIncidentDetailGuid}
+				 OR INCIDENT_NAME = #{publishedIncidentDetailGuid}
 	</select>
 	
 	<select id="fetchForIncidentGuid" resultMap="PublishedIncidentDtoMap"> 
@@ -216,19 +232,75 @@
 
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		  <if test="offset != null and pageRowCount != null">
-	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
-	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
-		</if> 
+			WHERE geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+		  <if test="out == true">  
+				AND stage_of_control_code = 'OUT'
+			</if>
+			<if test="out == false">  
+				AND stage_of_control_code != 'OUT'
+			</if>
+			<if test="fireOfNote == true">  
+				AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+			</if>
+			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
+				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+			</if>
+			<if test="orderBy!=null and orderBy.length>0">
+				ORDER BY
+				<foreach collection="orderBy" item="order" index="index">
+					<choose>
+						<when test="order == 'incidentNumberLabel'">incident_number_label</when>
+						<when test="order == 'fireOfNoteInd'">fire_of_note_ind</when>
+						<when test="order == 'incidentLocation'">location</when>
+						<when test="order == 'incidentName'">incident_name</when>
+						<when test="order == 'fireCentre'">fire_centre</when>
+						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
+						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
+						<when test="order == 'ASC' &amp;&amp; index &lt; orderBy.length - 1"> ASC,</when>
+						<when test="order == 'ASC' &amp;&amp; index == orderBy.length - 1"> ASC</when>
+						<when test="order == 'DESC' &amp;&amp; index &lt; orderBy.length - 1"> DESC,</when>
+						<when test="order == 'DESC' &amp;&amp; index == orderBy.length - 1"> DESC</when>
+					</choose>
+				</foreach>
+			</if>
+			<if test="offset != null and pageRowCount != null">
+				OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
+				FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
+			</if> 
 		
 	</select>
 	
 	<select id="selectCount" resultType="int">
-
 		SELECT COUNT(*)
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE PUBLISHED_INCIDENT_DETAIL_GUID IS NOT NULL
+	</select>
 
+	<select id="selectAsJson" resultType="string">
+		SELECT
+			json_build_object(
+				'type', 'FeatureCollection',
+				'features', json_agg(ST_AsGeoJSON(t.*)::json)
+			)
+		FROM
+			wfnews.published_incident_detail AS t
+		WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		  AND fire_of_note_ind != '1'
+			AND fire_of_note_ind != 'T'
+			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+	</select>
+
+	<select id="selectFireOfNoteAsJson" resultType="string">
+		SELECT
+			json_build_object(
+				'type', 'FeatureCollection',
+				'features', json_agg(ST_AsGeoJSON(t.*)::json)
+			)
+		FROM
+			wfnews.published_incident_detail AS t
+		WHERE stage_of_control_code != 'OUT'
+		 AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+		 AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 	</select>
 	
 </mapper>

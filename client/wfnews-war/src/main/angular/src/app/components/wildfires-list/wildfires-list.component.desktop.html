@@ -14,7 +14,7 @@
 <div class="table-search-header flex-y-fixed">
     <div class="search-and-filters">
         <div class="field search-input">
-            <mat-label class="label">Search for a Wildfire of Address</mat-label>
+            <mat-label class="label">Search for a Wildfire</mat-label>
             <input class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
             <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
                     aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
@@ -174,3 +174,5 @@
         <span>entries</span>
     </div>
 </div>
+
+<sticky-widget></sticky-widget>
