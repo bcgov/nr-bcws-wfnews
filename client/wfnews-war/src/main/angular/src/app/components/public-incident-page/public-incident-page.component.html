@@ -1,7 +1,7 @@
 <div *ngIf="!isLoading && !loadingFailed" class="page" >
   <div class="page-container">
     <div>
-      <incident-header-panel [incident]="incident" [evacOrders]="evacOrders"></incident-header-panel>
+      <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div>
       <mat-tab-group mat-stretch-tabs>

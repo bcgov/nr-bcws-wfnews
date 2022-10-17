@@ -122,7 +122,7 @@ export class IncidentIdentifyPanelComponent {
   }
 
   getEvacOrders () {
-    this.agolService.getEvacOrders(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+    return this.agolService.getEvacOrdersByEventNumber(this.incident.incidentNumberLabel, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
