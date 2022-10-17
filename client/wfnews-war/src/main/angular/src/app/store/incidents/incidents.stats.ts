@@ -3,6 +3,7 @@ import { getDefaultPagingInfoRequest } from "../application/application.state";
 
 export const SEARCH_INCIDENTS_COMPONENT_ID = "searchIncidents";
 export const INCIDENTS_COMPONENT_ID = "Incidents";
+export const LOAD_INCIDENTS_COMPONENT_ID = "loadIncidents"
 
 
 const EMPTY_INCIDENTS: any = {

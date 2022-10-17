@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { IncidentAttachmentsService, IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
+import { DefaultService as IncidentAttachmentsService, DefaultService as IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -67,6 +67,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
     this.incidentAttachmentsService.getIncidentAttachmentList(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
+      undefined,
       'false',
       'false',
       undefined,
@@ -77,7 +78,6 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       undefined,
       '1000',
       this.searchState.sortParam + ',' + this.searchState.sortDirection,
-      undefined,
       'body'
     ).toPromise().then( ( docs ) => {
       docs.collection.sort((a, b) => {
@@ -177,6 +177,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
     return this.incidentAttachmentsService.createIncidentAttachment(
       '' + this.incident.wildfireYear,
       '' + this.incident.incidentNumberSequence,
-      attachment, undefined, 'response').toPromise()
+      undefined,
+      attachment, 'response').toPromise()
   }
 }

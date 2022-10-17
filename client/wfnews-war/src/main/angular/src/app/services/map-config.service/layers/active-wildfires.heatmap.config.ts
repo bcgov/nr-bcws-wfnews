@@ -9,8 +9,8 @@ export function ActiveWildfiresHeatmapLayerConfig(ls: layerSettings) {
           isQueryable: false,
           useClustering: false,
           useHeatmap: true,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features",
-          titleAttribute: "incidentName",
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?cacheBust=" + Math.floor(new Date().getTime() / 600000),
+          titleAttribute: "incident_name",
           attributes: []
         }
     ];
