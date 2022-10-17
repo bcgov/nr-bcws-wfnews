@@ -23,8 +23,8 @@ export class IncidentInfoPanel {
   public getStageOfControlDescription (code: string) {
     if (code.toUpperCase().trim() === 'OUT') return 'A wildfire that has been extinguished.'
     else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'A wildfire that is continuing to spread, or is not responding to suppression efforts.'
-    else if (code.toUpperCase().trim() === 'HOLDING') return 'A wildfire that is no longer spreading'
-    else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
+    else if (code.toUpperCase().trim() === 'HOLDING') return 'We need a description for holding'
+    else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'We ned a description of under control'
     else return 'Unknown stage of control'
   }
 

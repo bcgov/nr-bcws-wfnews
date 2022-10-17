@@ -10,19 +10,19 @@
   </div>
   <div class="content-panel">
     <div class="content-panel-stack">
-      <div class="content-panel">
+      <div>
         <h1>Stage of Control</h1>
         <div *ngIf="incident.fireOfNoteInd" class="content-panel-subtitle">Wildfire Of Note</div>
         <div *ngIf="incident.fireOfNoteInd" class="content-panel-body">This wildfire is highly visible or poses a potential threat to public safety</div>
         <div class="content-panel-subtitle">{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
         <div class="content-panel-body">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
         <div id="spacer" style="padding: 12px;"></div>
-        <div class="content-panel-subtitle">{{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
+        <div class="content-panel-subtitle">Suspected Cause: {{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
         <div class="content-panel-body">
           <div [innerHTML]="incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)"></div>
         </div>
       </div>
-      <div class="content-panel">
+      <div>
         <!-- Image/video section: fetch from aws cache -->
         <!-- contact section-->
         <div class="content-panel-subtitle">Incident Contact Information</div>
