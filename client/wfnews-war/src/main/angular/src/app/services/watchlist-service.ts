@@ -8,7 +8,9 @@ const WATCHLIST_KEY = 'WFNEWS_WATCHLIST'
   providedIn: 'root'
 })
 export class WatchlistService {
-  constructor(private localStorageService: LocalStorageService, private publishedIncidentService: PublishedIncidentService) {}
+  constructor(private localStorageService: LocalStorageService, private publishedIncidentService: PublishedIncidentService) {
+    this.verifyWatchlist()
+  }
 
   public clearWatchlist () {
     this.localStorageService.removeData(WATCHLIST_KEY)
@@ -32,10 +34,12 @@ export class WatchlistService {
   }
 
   public async verifyWatchlist () {
+    console.warn('Verifying Watchlist')
     for (const incidentNumber of this.getWatchlist()) {
       try {
         const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber).toPromise()
         if (!incident) {
+          console.warn('Removing ' + incidentNumber + ' from Watchlist')
           this.removeFromWatchlist(incidentNumber)
         }
       } catch (err) {

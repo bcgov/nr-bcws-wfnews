@@ -314,8 +314,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onWatchlist (incident: any): boolean {
-      console.log('get watchlist ', this.watchlistService.getWatchlist());
-      console.log('On watchlist?', this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel))
       return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
     }
 

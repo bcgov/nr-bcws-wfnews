@@ -69,8 +69,6 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   onWatchlist (): boolean {
-    console.log('get watchlist ', this.watchlistService.getWatchlist());
-    console.log('On watchlist?', this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel))
     return this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel)
   }
 
