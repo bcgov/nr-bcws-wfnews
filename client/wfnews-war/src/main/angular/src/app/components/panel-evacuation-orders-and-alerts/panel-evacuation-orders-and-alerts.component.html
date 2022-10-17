@@ -26,6 +26,7 @@
       <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
       <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
     </div>
+    <div *ngIf="evacOrders.length === 0" class="paragraph-format">There are no current Evacuation Orders or Alerts</div>
   </article>
 </section>
 <section>
