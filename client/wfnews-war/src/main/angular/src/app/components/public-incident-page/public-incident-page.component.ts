@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core"
 import { ActivatedRoute, ParamMap } from "@angular/router"
-import { EvacOrderOption } from "../../conversion/models"
+import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
 
@@ -16,6 +16,7 @@ export class PublicIncidentPage implements OnInit {
   public incidentNumber: string
   public incident: any
   public evacOrders: EvacOrderOption[] = []
+  public areaRestrictions : AreaRestrictionsOption[] = []
 
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
@@ -29,7 +30,7 @@ export class PublicIncidentPage implements OnInit {
       if (params && params['incidentNumber']) {
         this.incidentNumber = params['incidentNumber']
         // Load the incident from the API
-        this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(result => {
+        this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(async result => {
           console.log(result)
           this.incident = result
           // format dates, booleans
@@ -46,8 +47,9 @@ export class PublicIncidentPage implements OnInit {
           this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd.trim().toUpperCase() === 'T' || this.incident.structureProtectionRsrcInd.trim().toUpperCase() === '1'
           this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd.trim().toUpperCase() === 'T' || this.incident.wildfireAviationResourceInd.trim().toUpperCase() === '1'
           this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === 'T' || this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === '1'
-          // load evac orders nearby
-          this.getEvacOrders()
+          // load evac orders and area restrictions nearby
+          await this.getEvacOrders()
+          await this.getAreaRestrictions()
           // activate page
           this.isLoading = false
           this.cdr.detectChanges()
@@ -63,8 +65,8 @@ export class PublicIncidentPage implements OnInit {
     })
   }
 
-  getEvacOrders () {
-    this.agolService.getEvacOrders(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+  async getEvacOrders () {
+    return this.agolService.getEvacOrders(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
@@ -74,6 +76,24 @@ export class PublicIncidentPage implements OnInit {
             issuingAgency: element.attributes.ISSUING_AGENCY,
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+            centroid: element.centroid
+          })
+        }
+      }
+    })
+  }
+
+  async getAreaRestrictions () {
+    return this.agolService.getAreaRestrictions(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.areaRestrictions.push({
+            protRsSysID: element.attributes.PROT_RA_SYSID,
+            name: element.attributes.NAME,
+            accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            fireCentre: element.attributes.FIRE_CENTRE_NAME,
+            fireZone: element.attributes.FIRE_ZONE_NAME,
+            bulletinUrl: element.attributes.BULLETIN_URL,
             centroid: element.centroid
           })
         }

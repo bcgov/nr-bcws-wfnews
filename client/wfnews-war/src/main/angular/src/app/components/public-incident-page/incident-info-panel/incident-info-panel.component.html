@@ -9,10 +9,60 @@
     </div>
   </div>
   <div class="content-panel">
-    stage of control panel
+    <div class="content-panel-stack">
+      <div class="content-panel">
+        <h1>Stage of Control</h1>
+        <div *ngIf="incident.fireOfNoteInd" class="content-panel-subtitle">Wildfire Of Note</div>
+        <div *ngIf="incident.fireOfNoteInd" class="content-panel-body">This wildfire is highly visible or poses a potential threat to public safety</div>
+        <div class="content-panel-subtitle">{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
+        <div class="content-panel-body">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
+        <div id="spacer" style="padding: 12px;"></div>
+        <div class="content-panel-subtitle">{{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
+        <div class="content-panel-body">
+          <div [innerHTML]="incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)"></div>
+        </div>
+      </div>
+      <div class="content-panel">
+        <!-- Image/video section: fetch from aws cache -->
+        <!-- contact section-->
+        <div class="content-panel-subtitle">Incident Contact Information</div>
+        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{incident.contactOrgUnitIdentifer}}</span></div>
+        <div style="display: flex;"><mat-icon style="padding-right: 10px;">mail</mat-icon><span>{{incident.contactEmailAddress}}</span></div>
+        <div style="display: flex;"><mat-icon style="padding-right: 10px;">phone_in_talk</mat-icon><span>{{incident.contactPhoneNumber}}</span></div>
+      </div>
+    </div>
   </div>
   <div class="content-panel">
-    Evac and restriction panel
+    <div class="content-panel-stack">
+      <div>
+        <h1>Evacuation Orders and Alerts</h1>
+        <div class="content-panel-subtitle">Evacuation Order Information</div>
+        <div *ngFor="let evac of evacOrders">
+          <a [href]="" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
+        </div>
+        <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts near this incident.</div>
+        <div style="padding: 10px;"></div>
+        <div class="content-panel-subtitle">What is an Evacuation Order?</div>
+        <div class="content-panel-body">You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.</div>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages" target="_blank" rel="noopener">Learn More</a>
+        </div>
+      </div>
+      <div>
+        <h1>Area Restrictions</h1>
+        <div class="content-panel-subtitle">Area Restriction Information</div>
+        <div *ngFor="let area of areaRestrictions">
+          <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link">{{area.name}}</a>
+        </div>
+        <div *ngIf="!areaRestrictions || areaRestrictions.length <= 0">There are no current area restrictions near this incident.</div>
+        <div style="padding: 10px;"></div>
+        <div class="content-panel-subtitle">What is an Area Restriction?</div>
+        <div class="content-panel-body">Area restrictions or forest use restrictions refer to area closures or restrictions and activity restrictions necessary or desirable to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.</div>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions" target="_blank" rel="noopener">Learn More</a>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="content-panel">
     <h1>Response</h1>
@@ -23,8 +73,11 @@
       <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
     </div>
   </div>
-  <div class="content-panel">
+  <div class="content-panel" style="border-bottom: none;">
     <h1>Current Resources</h1>
+    <div *ngIf="incident.resourceDetail" class="content-panel-body">
+      <div [innerHTML]="incident.resourceDetail"></div>
+    </div>
     <div *ngIf="!incident.wildfireCrewResourcesInd && !incident.wildfireAviationResourceInd && !incident.incidentMgmtCrewRsrcInd && !incident.heavyEquipmentResourcesInd && !incident.structureProtectionRsrcInd">
       <div class="content-panel-body">
         There are no currently deployed resources for this incident.
