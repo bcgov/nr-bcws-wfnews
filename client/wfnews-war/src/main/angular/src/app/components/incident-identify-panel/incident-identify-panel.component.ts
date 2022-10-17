@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { ResourcesRoutes } from '../../utils';
 
 @Component({
     selector: 'incident-identify-panel',
@@ -20,7 +22,8 @@ export class IncidentIdentifyPanelComponent {
 
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
-               private publishedIncidentService: PublishedIncidentService) { }
+               private publishedIncidentService: PublishedIncidentService,
+               private router: Router) { }
 
   // if we want the "next" functionality, pass in the identify set
   setIncident (incidentRef, identifyList, setIndex = true) {
@@ -93,7 +96,11 @@ export class IncidentIdentifyPanelComponent {
   }
 
   goToIncidentDetail () {
-    // route to the details page
+    // this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
+    )
+    window.open(url, '_blank')
   }
 
   next () {
