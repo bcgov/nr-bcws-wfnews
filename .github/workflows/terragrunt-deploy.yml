@@ -12,6 +12,9 @@ on:
       LIQUIBASE_IMAGE:
         required: true
         type: string
+      APISIX_IMAGE:
+        required: true
+        type: string
       TARGET_ENV:
         required: true
         type: string
