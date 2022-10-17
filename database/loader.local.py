@@ -33,18 +33,45 @@ if agol_response.status_code != 200:
 incidents = agol_response.json()['features']
 del agol_response
 
+# get, then delete publishedIncidentDetailGuid then recreate
+wfnews_fetch_resp = requests.get(wfnews_api + 'publicPublishedIncident/features')
+if wfnews_fetch_resp.status_code != 200:
+  print(wfnews_fetch_resp)
+features = wfnews_fetch_resp.json()
+del wfnews_fetch_resp
+
+for feature in features['features']:
+  wfnews_del_response = requests.delete(wfnews_api + 'publishedIncident/' + feature['properties']['published_incident_detail_guid'], headers={'Authorization': 'Bearer ' + token})
+  if wfnews_del_response.status_code != 204:
+    print(wfnews_del_response)
+    print('Failed to delete ' + feature['properties']['published_incident_detail_guid'])
+  del wfnews_del_response
+
 print('Create Inserts for WFNEWS')
 # iterate incidents, push to WFNEWS API with some random data
 for incident in incidents:
   curr_time = round(time.time()*1000)
+  stage = None
+
+  if incident['attributes']['FIRE_STATUS'] == 'Out Of Control':
+    stage = 'OUT_CNTRL'
+  elif incident['attributes']['FIRE_STATUS'] == 'Being Held':
+    stagre = 'HOLDING' 
+  elif incident['attributes']['FIRE_STATUS'] == 'Under Control':
+    stage = 'UNDR_CNTRL'
+  else:
+    stage = 'OUT'
+
   feature = {
     "publishedIncidentDetailGuid": str(uuid.uuid4()),
     "incidentGuid": "this-is-a-guid?",
     "incidentNumberLabel": incident['attributes']['FIRE_NUMBER'],
     "newsCreatedTimestamp": curr_time,
-	  "stageOfControlCode": 'OUT_CNTRL' if incident['attributes']['FIRE_STATUS'] == 'Out Of Control' else 'HOLDING' if incident['attributes']['FIRE_STATUS'] == 'Being Held' else 'UNDR_CNTRL' if incident['attributes']['FIRE_STATUS'] == 'Under Control' else 'OUT',
+	  "stageOfControlCode": str(stage),
+    "fireCentre": str(incident['attributes']['FIRE_CENTRE']),
     "generalIncidentCauseCatId": 1 if incident['attributes']['FIRE_CAUSE'] == 'Lightning' else 9,
 	  "newsPublicationStatusCode": "PUBLISHED",
+    "declaredOutDate": curr_time,
     "discoveryDate": incident['attributes']['IGNITION_DATE'],
     "fireZoneUnitIdentifier": incident['attributes']['ZONE'],
     "fireOfNoteInd": 'T' if incident['attributes']['FIRE_OF_NOTE_ID'] is not None else 'F',
@@ -55,22 +82,22 @@ for incident in incidents:
     "incidentSizeType": "",
     "incidentSizeEstimatedHa": incident['attributes']['CURRENT_SIZE'],
     "incidentSizeMappedHa": incident['attributes']['CURRENT_SIZE'],
-    "incidentSizeDetail": None,
-    "incidentCauseDetail": None,
+    "incidentSizeDetail": "This is a cool description about the size of this fire. Its custom, and supports html tags",
+    "incidentCauseDetail": "This is a custom description about the cause of this fire. Probably someone being careless or lightning or whatever.",
     "contactOrgUnitIdentifer": None,
     "contactPhoneNumber": "123-456-7890",
     "contactEmailAddress": "noaddress@fake.nope",
-    "resourceDetail": None,
+    "resourceDetail": "This is a custom deascription detailing the resources responding to this incident. It supports html and limited styling.",
     "wildfireCrewResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "wildfireCrewResourcesDetail": None,
+    "wildfireCrewResourcesDetail": "Wildfire crews are on the scene an suppressing the hell out of this fire.",
     "wildfireAviationResourceInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "wildfireAviationResourceDetail": None,
+    "wildfireAviationResourceDetail": "If you are standing in the middle of the fire and look up, you will likely see helicopters about to dump water on you. You should not be standing there.",
     "heavyEquipmentResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "heavyEquipmentResourcesDetail": None,
+    "heavyEquipmentResourcesDetail": "Heavy equipment resources have been assigned to this fire. They're really cool too. Lots of big cranes and monster trucks and stuff, it's awesome.",
     "incidentMgmtCrewRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "incidentMgmtCrewRsrcDetail": None,
+    "incidentMgmtCrewRsrcDetail": "Incident management crews are on the scene and making sure the incident is being appropriately managed.",
     "structureProtectionRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "structureProtectionRsrcDetail": None,
+    "structureProtectionRsrcDetail": "Structure protection crews have been assigned and are busy protecting structures, so please don't get in their way.",
     "publishedTimestamp": curr_time,
     "publishedUserTypeCode": "GOV", 
     "publishedUserGuid": "TEST",
@@ -80,8 +107,10 @@ for incident in incidents:
     "latitude": str(incident['geometry']['y']),
     "longitude": str(incident['geometry']['x'])
   }
+
   wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token})
   # verify 200
   if wfnews_response.status_code != 201:
     print(wfnews_response)
+    print('Failed to insert fire ' + incident['attributes']['FIRE_NUMBER'])
   del wfnews_response

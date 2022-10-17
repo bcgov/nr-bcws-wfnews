@@ -12,6 +12,7 @@ import { AppConfigService } from "@wf1/core-ui"
 export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
+  @Input() public extent: any
 
   private map: any
 
@@ -35,16 +36,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    let databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString() + '?service=WMS&request=GetMap&version=1.1.1&format=image%2Fpng&transparent=true&srs=EPSG%3A3857&layers='
+    let databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
     L.tileLayer.wms(databcUrl, {
-      layers: 'pub%3AWHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
+      layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
       styles: '6885',
       format: 'image/png',
       transparent: true,
       version: '1.1.1'
     }).addTo(this.map);
     L.tileLayer.wms(databcUrl, {
-      layers: 'pub%3AWHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
+      layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
       styles: '1751_1752',
       format: 'image/png',
       transparent: true,
@@ -60,5 +61,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
     });
 
     L.marker(location, {icon: icon}).addTo(this.map);
+
+    if (this.extent) {
+      this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));
+    }
   }
 }

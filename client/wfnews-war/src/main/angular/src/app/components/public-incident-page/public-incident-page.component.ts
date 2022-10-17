@@ -17,6 +17,7 @@ export class PublicIncidentPage implements OnInit {
   public incident: any
   public evacOrders: EvacOrderOption[] = []
   public areaRestrictions : AreaRestrictionsOption[] = []
+  public extent: any = null
 
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
@@ -31,8 +32,12 @@ export class PublicIncidentPage implements OnInit {
         this.incidentNumber = params['incidentNumber']
         // Load the incident from the API
         this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(async result => {
-          console.log(result)
           this.incident = result
+          // set geometry
+          this.incident.geometry = {
+            x: result.longitude,
+            y: result.latitude
+          }
           // format dates, booleans
           // date formatting options
           const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
@@ -47,6 +52,8 @@ export class PublicIncidentPage implements OnInit {
           this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd.trim().toUpperCase() === 'T' || this.incident.structureProtectionRsrcInd.trim().toUpperCase() === '1'
           this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd.trim().toUpperCase() === 'T' || this.incident.wildfireAviationResourceInd.trim().toUpperCase() === '1'
           this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === 'T' || this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === '1'
+          // fetch the fire perimetre
+          await this.getFirePerimetre()
           // load evac orders and area restrictions nearby
           await this.getEvacOrders()
           await this.getAreaRestrictions()
@@ -65,8 +72,16 @@ export class PublicIncidentPage implements OnInit {
     })
   }
 
+  async getFirePerimetre () {
+    return this.agolService.getFirePerimetre(this.incidentNumber, { returnCentroid: true, returnGeometry: true, returnExtent: true}).toPromise().then(response => {
+      if (response.extent) {
+        this.extent = response.extent
+      }
+    })
+  }
+
   async getEvacOrders () {
-    return this.agolService.getEvacOrders(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
+    return this.agolService.getEvacOrdersByEventNumber(this.incidentNumber, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
