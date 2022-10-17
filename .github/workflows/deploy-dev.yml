@@ -62,6 +62,7 @@ jobs:
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
+      APISIX_IMAGE: nr-bcws-wfnews-apisix
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
