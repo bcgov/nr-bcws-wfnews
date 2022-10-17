@@ -12,6 +12,7 @@ import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
+import { WatchlistService } from '../../services/watchlist-service';
 import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
@@ -45,8 +46,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private ignorePan = false
     private ignorePanDebounce
 
-    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
-      super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, commonUtilityService);
+    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
+      super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService, commonUtilityService);
       this.zone = this.injector.get(NgZone)
     }
 
@@ -310,5 +311,19 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
       this.componentRef = this.listIdentifyContainer.createComponent(this.componentFactoryResolver.resolveComponentFactory(component))
       return this.componentRef;
+    }
+
+    onWatchlist (incident: any): boolean {
+      console.log('get watchlist ', this.watchlistService.getWatchlist());
+      console.log('On watchlist?', this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel))
+      return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+    }
+
+    addToWatchlist (incident: any) {
+      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+    }
+
+    removeFromWatchlist (incident: any) {
+      this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
     }
 }

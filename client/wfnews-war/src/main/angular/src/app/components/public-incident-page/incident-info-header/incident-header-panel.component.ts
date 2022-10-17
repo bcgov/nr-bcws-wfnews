@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angul
 import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
+import { WatchlistService } from "../../../services/watchlist-service"
 
 @Component({
   selector: 'incident-header-panel',
@@ -16,7 +17,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   private map: any
 
-  constructor (private appConfigService: AppConfigService) {
+  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService) {
     /* Empty, just here for injection */
   }
 
@@ -65,5 +66,19 @@ export class IncidentHeaderPanel implements AfterViewInit {
     if (this.extent) {
       this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));
     }
+  }
+
+  onWatchlist (): boolean {
+    console.log('get watchlist ', this.watchlistService.getWatchlist());
+    console.log('On watchlist?', this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel))
+    return this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel)
+  }
+
+  addToWatchlist () {
+    this.watchlistService.saveToWatchlist(this.incident.incidentNumberLabel)
+  }
+
+  removeFromWatchlist () {
+    this.watchlistService.removeFromWatchlist(this.incident.incidentNumberLabel)
   }
 }

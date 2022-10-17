@@ -107,8 +107,20 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     //TODO
   }
 
+  onWatchlist (incident: any): boolean {
+    return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+  }
+
   addToWatchlist(incident: any) {
-    //TODO, add to sessionStorage
+    if (this.onWatchlist(incident)) {
+      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+    } else {
+      this.removeFromWatchlist(incident)
+    }
+  }
+
+  removeFromWatchlist (incident: any) {
+    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
   }
 
   viewMap(incident: any) {
