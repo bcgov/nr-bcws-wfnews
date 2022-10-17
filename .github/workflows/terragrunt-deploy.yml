@@ -136,6 +136,7 @@ jobs:
           CLIENT_IMAGE: ${{inputs.registry}}/vivid-cpreston/${{ inputs.CLIENT_IMAGE }}:${{ inputs.IMAGE_TAG }}
           SERVER_IMAGE: ${{inputs.registry}}/vivid-cpreston/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LIQUIBASE_IMAGE: ${{inputs.registry}}/vivid-cpreston/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          APISIX_IMAGE: ${{inputs.registry}}/vivid-cpreston/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
