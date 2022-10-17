@@ -65,14 +65,11 @@
         <div class="stage-of-control-checkbox-group">
             <mat-label>Stages of Control</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="activeWildfiresInd" [disabled] = "!(wildfiresOfNoteInd || wildfiresOutInd)">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="wildfiresOutInd" [disabled] = "!(wildfiresOfNoteInd)">
                     Active Wildfires
                 </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(activeWildfiresInd || wildfiresOutInd)">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(wildfiresOutInd)">
                     Wildfires of Note
-                </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOutInd" [disabled] = "!(activeWildfiresInd || wildfiresOfNoteInd)">
-                    Wildfires that are 'Out'
                 </mat-checkbox>
             </section>
         </div>
@@ -105,12 +102,12 @@
 
         <ng-container matColumnDef = "lastUpdated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.lastUpdatedTimestamp}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "stageOfControl">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.stageOfControlCode}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToStageOfControlDescription(item.stageOfControlCode)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "wildfireOfNote">
@@ -120,7 +117,7 @@
 
         <ng-container matColumnDef = "fireCentre">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.contactOrgUnitIdentifer}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentre}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">

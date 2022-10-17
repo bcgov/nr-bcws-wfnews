@@ -69,7 +69,7 @@
               <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
                 <div class="item-row">
                     <span class="item-title">Last Updated: </span>
-                    <span class="item-content">{{convertFromTimestamp(incident.newsCreatedTimestamp)}}</span>
+                    <span class="item-content">{{convertToDateWithTime(incident.newsCreatedTimestamp)}}</span>
                 </div>
                 <div class="item-row">
                     <span class="item-title">Fire Centre: </span>
@@ -86,7 +86,7 @@
                     </span>
                     <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">
                         <span class="circle-icon {{incident.stageOfControlCode}}"></span>
-                        {{convertToDescription(incident.stageOfControlCode)}}
+                        {{convertToStageOfControlDescription(incident.stageOfControlCode)}}
                     </span>
                 </div>
             </div>
