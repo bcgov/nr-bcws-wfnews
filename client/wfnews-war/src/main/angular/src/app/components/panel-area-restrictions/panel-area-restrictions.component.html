@@ -28,6 +28,7 @@
       <div class="label" (mouseup)="zoomToArea(area)">{{area.name}}</div>
       <div *ngIf="area.bulletinUrl" style="margin-left: auto;"><a [href]="area.bulletinUrl"><mat-icon>link</mat-icon></a></div>
     </div>
+    <div *ngIf="areaRestrictions.length === 0" class="paragraph-format">There are no current Area Restrictions</div>
   </article>
 </section>
 <section>
