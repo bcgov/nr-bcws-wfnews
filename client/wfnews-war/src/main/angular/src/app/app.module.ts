@@ -110,6 +110,12 @@ import { ContactWidgetDialogComponent } from './components/sticky-widget/contact
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
 import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
+import { IncidentGalleryPanel } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel.component';
+import { IncidentHeaderPanel } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
+import { IncidentInfoPanel } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
+import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
+import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -163,7 +169,13 @@ export const DATE_FORMATS = {
         WildfiresListContainerDesktop,
         IncidentIdentifyPanelComponent,
         PanelLocalAuthorityComponent,
-        PanelWildfireStageOfControlContainerDesktop
+        PanelWildfireStageOfControlContainerDesktop,
+        PublicIncidentPage,
+        IncidentGalleryPanel,
+        IncidentHeaderPanel,
+        IncidentInfoPanel,
+        IncidentMapsPanel,
+        IncidentOverviewPanel
     ],
     imports: [
         MatSortModule,
