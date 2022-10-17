@@ -1,3 +1,7 @@
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
 .panel {
   background-color: white;
   padding: 22px;
@@ -38,5 +42,57 @@
     font-size: 1.87rem;
     color: black;
     font-weight: 700;
+  }
+  .content-panel {
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: #003366;
+    }
+    .content-panel-body {
+      font-size: 1rem;
+      font-weight: 400px;
+      padding-bottom: 0.67rem;
+    }
+    .learn-more-button-container {
+      margin-top: 10px;
+    }
+    .learn-more-button {
+      padding: 8px;
+      border: 1px solid #1a5a96;
+      border-radius: 5px;
+      color: #1a5a96;
+      font-size: 14px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+    .learn-more-button:hover {
+      border: 1px solid #1e5d98;
+      background-color: #e0e0e0;
+    }
+    .resource-panel {
+      display: flex;
+      flex-flow: row;
+      flex-direction: row;
+      padding-bottom: 50px;
+      .resource-panel-icon {
+        color: #003366;
+        font-size: 1rem;
+        padding-left: 7px;
+        padding-right: 50px;
+        text-align: center;
+        .image-size {
+          width: 100px;
+          height: 100px;
+        }
+      }
+      .resource-panel-content {
+        h3 {
+          font-size: 1.2rem;
+          font-weight: 700;
+        }
+
+      }
+    }
   }
 }

@@ -30,6 +30,7 @@ export class PublicIncidentPage implements OnInit {
         this.incidentNumber = params['incidentNumber']
         // Load the incident from the API
         this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(result => {
+          console.log(result)
           this.incident = result
           // format dates, booleans
           // date formatting options
