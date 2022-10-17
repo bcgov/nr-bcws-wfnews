@@ -1,0 +1,73 @@
+<div *ngIf="!loaded" class="loading-spinner">
+  <mat-spinner [diameter]="40"></mat-spinner>
+</div>
+<div *ngIf="loaded && failedToLoad" class="loading-spinner">
+  <div>The Incident could not be found.</div>
+</div>
+<div class="incident-details" *ngIf="loaded && !failedToLoad">
+  <div class="header">
+    <div class="smk-command-button smk-move smk-icon"><div class="smk-command"><em title="Close Panel" (click)="close()" class="material-icons button">close</em></div></div>
+    <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="next()" class="button material-icons">navigate_next</em></div></div>
+    <span *ngIf="identifiedFeatures.length > 1" class="smk-position" style="margin-top: 6px;">{{identifiedFeatures.length}}</span> <span *ngIf="identifiedFeatures.length > 1" style="margin-top: 5px;">of</span> <span *ngIf="identifiedFeatures.length > 1" class="smk-position" style="margin-top: 6px;">{{index}}</span>
+    <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="previous()" class="button material-icons">navigate_before</em></div></div>
+  </div>
+  <div class="title-bar">
+    <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></div>
+    <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{incident.fireCentre}}</a></div>
+  </div>
+  <div class="nav-button" *ngIf="incident.stageOfControlCode !== 'OUT'">
+    <button style="background: #1a5a96; color: white;" mat-button color="primary" (click)="goToIncidentDetail()">Full Incident Detail</button>
+  </div>
+  <div class="info-panel">
+    <div><span class="label">Fire Number: </span><span>{{incident.incidentNumberLabel}}</span></div>
+    <div><span class="label">Last Updated: </span><span>{{incident.lastUpdatedTimestamp}}</span></div>
+    <div><span class="label">Discovered On: </span><span>{{incident.discoveryDate}}</span></div>
+    <div *ngIf="incident.stageOfControlCode === 'OUT'"><span class="label">Declared Out: </span><span>{{incident.declaredOutDate}}</span></div>
+  </div>
+  <div class="divider"></div>
+  <div class="info-panel">
+    <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa}} Hectares</span></div>
+    <div class="paragraph-format">Fire size is estimated and based on the last known mapped size in hectares. This information could be out-of-date at this time due to rapidly changing conditions</div>
+    <div class="gutter"><span class="label">Location</span></div>
+    <div class="paragraph-format">{{incident.incidentLocation}}</div>
+    <div class="gutter"><span class="label">Traditional Territory</span></div>
+    <div class="paragraph-format">{{incident.traditionalTerritoryDetail}}</div>
+  </div>
+  <!-- Evac Orders-->
+  <div *ngIf="evacOrders.length > 0" class="divider"></div>
+  <div style="padding-top: 7px;" *ngIf="evacOrders.length > 0">
+    <h4>Active Evacuation Orders and Alerts</h4>
+    <div class="evac-list" *ngFor="let evac of evacOrders">
+      <mat-icon style="text-decoration: none;">error</mat-icon>
+      <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
+      <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <!-- Response Icons-->
+  <div *ngIf="incident.fireOfNoteInd && (incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd)">
+    <h4>Current Resources on Response</h4>
+    <div class="icon-bar">
+      <div *ngIf="incident.wildfireCrewResourcesInd" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
+        <div class="image-label">Wildfire Crews</div>
+      </div>
+      <div *ngIf="incident.wildfireAviationResourceInd" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
+        <div class="image-label">Aviation</div>
+      </div>
+      <div *ngIf="incident.incidentMgmtCrewRsrcInd" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Incident Management Teams" />
+        <div class="image-label">Incident Management Teams</div>
+      </div>
+      <div *ngIf="incident.heavyEquipmentResourcesInd" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
+        <div class="image-label">Heavy Equipment</div>
+      </div>
+      <div *ngIf="incident.structureProtectionRsrcInd" class="resource-icon">
+        <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Structure Protection" />
+        <div class="image-label">Structure Protection</div>
+      </div>
+    </div>
+  </div>
+</div>

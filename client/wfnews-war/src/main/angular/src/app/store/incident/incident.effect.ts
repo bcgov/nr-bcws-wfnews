@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { TokenService} from '@wf1/core-ui';
-import { IncidentCauseService, WildfireIncidentService } from "@wf1/incidents-rest-api";
+import { DefaultService as IncidentService } from "@wf1/incidents-rest-api";
 import { Observable, of } from "rxjs";
 import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
 import { RootState } from "..";
@@ -14,8 +14,7 @@ export class IncidentEffect {
 
     constructor(
         private actions: Actions,
-        private incidentService: WildfireIncidentService,
-        private incidentCauseService: IncidentCauseService,
+        private incidentService: IncidentService,
         private store: Store<RootState>,
         private tokenService: TokenService,
     ) {
@@ -31,7 +30,7 @@ export class IncidentEffect {
         switchMap(
             ([action, store]) => {
                 let typedAction = <GetIncidentAction>action;
-                return this.incidentService.getWildfireIncident(
+                return this.incidentService.getWildfireIncident1(
                     typedAction.payload.fireYear,
                     typedAction.payload.incidentSequenceNumber,
                     1,
@@ -57,7 +56,7 @@ export class IncidentEffect {
         switchMap(
             ([action, store]) => {
                 let typedAction = <GetIncidentCauseAction>action;
-                return this.incidentCauseService.getIncidentCause(
+                return this.incidentService.getIncidentCause(
                     typedAction.payload.fireYear,
                     typedAction.payload.incidentSequenceNumber,
                     1,

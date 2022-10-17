@@ -81,6 +81,11 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         nextLabel: '',
     };
 
+    public simplePaginatorLabels: any = {
+        previousLabel: 'Back',
+        nextLabel: 'Next',
+    };
+
     constructor(protected router: Router,
                 protected route: ActivatedRoute,
                 protected sanitizer: DomSanitizer,

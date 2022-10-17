@@ -20,4 +20,8 @@ public interface PublishedIncidentMapper {
 	int delete(Map<String, Object> parameters);
 	
 	int selectCount(Map<String, Object> parameters);
+
+	String selectAsJson(Map<String, Object> parameters);
+
+	String selectFireOfNoteAsJson(Map<String, Object> parameters);
 }

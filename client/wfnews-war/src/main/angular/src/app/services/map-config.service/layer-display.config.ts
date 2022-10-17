@@ -114,10 +114,10 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false,
             class: 'smk-inline-legend'
         },
-        {
-          id: 'active-wildfires-heatmap',
-          isVisible: false
-        },
+        //{
+        //  id: 'active-wildfires-heatmap',
+        //  isVisible: false
+        //},
         {
             id: "weather-stations",
             isVisible: true,
