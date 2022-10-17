@@ -58,7 +58,6 @@
     .content-panel-stack {
       display: flex;
       flex-direction: row;
-      flex-flow: row;
       flex-wrap: wrap;
     }
     .content-panel-stack> * {
@@ -101,7 +100,6 @@
     }
     .resource-panel {
       display: flex;
-      flex-flow: row;
       flex-direction: row;
       padding-bottom: 50px;
       .resource-panel-icon {
