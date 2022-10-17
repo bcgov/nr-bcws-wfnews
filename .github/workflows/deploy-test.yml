@@ -61,7 +61,7 @@ jobs:
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       TARGET_ENV: test
-      ALB_NAME: Core-Pp93w9Test-2F70A1-alb
+      ALB_NAME: default
       VPC_NAME: test_vpc
       SUBNET_FILTER: App
       WEBADE_OAUTH2_CLIENT_ID: WFNEWS-UI

@@ -4,8 +4,9 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 
 export type AgolOptions = {
-  returnCentroid: boolean,
-  returnGeometry: boolean
+  returnCentroid?: boolean,
+  returnGeometry?: boolean,
+  returnExtent?: boolean
 };
 
 @Injectable({
@@ -14,16 +15,37 @@ export type AgolOptions = {
 export class AGOLService {
   constructor (private appConfigService: AppConfigService, protected http: HttpClient) { /* empty */ }
 
-  // Update to use a defined type, not any
+  getFirePerimetre (fireNumber: string, options: AgolOptions = null) {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLperimetres'].toString()
+    // append query. Only search for Fire events
+    url += `query?where=FIRE_NUMBER='${fireNumber}'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url), {headers})
+  }
+
+  getEvacOrdersByEventNumber (eventNumber: string, options: AgolOptions = null): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
+    // append query. Only search for Fire events
+    url += `query?where=EVENT_NUMBER='${eventNumber}'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url), {headers})
+  }
+
   getEvacOrders (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
     // append query. Only search for Fire events
-    url += `query?where=EVENT_TYPE='fire'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry}&returnCentroid=${options && options.returnCentroid}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+    url += `query?where=EVENT_TYPE='fire'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
     if (location) {
       // Get the incident geometry, buffer the points by x metres
-      // right now, just moving by 10 points of lat/long
-      url += `&geometry=${location.x - 5},${location.y - 5},${location.x + 5},${location.y + 5}`
+      // right now, just moving by 2 points of lat/long
+      url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
     }
 
     let headers = new HttpHeaders();
@@ -36,12 +58,12 @@ export class AGOLService {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
 
     // append query
-    url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry}&returnCentroid=${options && options.returnCentroid}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+    url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
     if (location) {
       // Get the incident geometry, buffer the points by x metres
-      // right now, just moving by 10 points of lat/long
-      url += `&geometry=${location.x - 5},${location.y - 5},${location.x + 5},${location.y + 5}`
+      // right now, just moving by 2 points of lat/long
+      url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
     }
 
     let headers = new HttpHeaders();

@@ -8,7 +8,7 @@ export function AbmsRegionalDistrictsLayerConfig(ls: layerSettings) {
             title: 'Regional Districts',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_LEGAL_ADMIN_BOUNDARIES.ABMS_REGIONAL_DISTRICTS_SP',
-            styleName: '447_5392',
+            styleName: '447',
             titleAttribute: 'ADMIN_AREA_NAME',
             geometryAttribute: 'SHAPE',
             attributes: [

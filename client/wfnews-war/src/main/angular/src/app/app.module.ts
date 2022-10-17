@@ -48,7 +48,7 @@ import { AppComponent } from './app.component';
 import { ROUTING } from './app.routing';
 import { ActiveWildfireMapComponent } from './components/active-wildfire-map/active-wildfire-map.component';
 import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evacuation-orders-and-alerts/panel-evacuation-orders-and-alerts.component';
-import { PanelWildfireStageOfControlComponent } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component';
+import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
 import { MapConfigService } from './services/map-config.service';
 import { UpdateService } from './services/update.service';
@@ -104,9 +104,18 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
+import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
+import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
+import { IncidentGalleryPanel } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel.component';
+import { IncidentHeaderPanel } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
+import { IncidentInfoPanel } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
+import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
+import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -123,7 +132,7 @@ export const DATE_FORMATS = {
         AppComponent,
         WFMapContainerComponent,
         ActiveWildfireMapComponent,
-        PanelWildfireStageOfControlComponent,
+        PanelWildfireStageOfControlComponentDesktop,
         PanelEvacuationOrdersAndAlertsComponent,
         PanelBansAndProhibitionsComponent,
         PanelSmokeForecastComponent,
@@ -158,11 +167,20 @@ export const DATE_FORMATS = {
         ErrorPageComponent,
         WildFiresListComponentDesktop,
         WildfiresListContainerDesktop,
-        PanelLocalAuthorityComponent
+        IncidentIdentifyPanelComponent,
+        PanelLocalAuthorityComponent,
+        PanelWildfireStageOfControlContainerDesktop,
+        PublicIncidentPage,
+        IncidentGalleryPanel,
+        IncidentHeaderPanel,
+        IncidentInfoPanel,
+        IncidentMapsPanel,
+        IncidentOverviewPanel
     ],
     imports: [
         MatSortModule,
         MatProgressSpinnerModule,
+        MatProgressBarModule,
         MatTableModule,
         MatSnackBarModule,
         HttpClientModule,
