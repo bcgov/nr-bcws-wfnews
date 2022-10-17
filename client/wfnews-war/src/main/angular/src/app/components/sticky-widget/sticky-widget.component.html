@@ -1,5 +1,17 @@
 <div class="sticky-widget">
-    <button class="btn watchlist-btn">
+    <div *ngIf="showWatchlist" class="watchlist-container">
+      <div class="watchlist-header">
+        <div>Watchlist</div>
+        <span class="subtitle">Add a fire to your watchlist by clicking the <mat-icon style="color: #003366">bookmark_border</mat-icon> icon.</span>
+        <div style="margin-left: auto; cursor: pointer;" (click)="loadWatchlist()"><mat-icon>close</mat-icon></div>
+      </div>
+      <div class="watchlist-items">
+        <div class="watchlist-item" *ngFor="let item of watchlist">
+          {{item.incidentName}}
+        </div>
+      </div>
+    </div>
+    <button *ngIf="!showWatchlist" class="btn watchlist-btn" (click)="loadWatchlist()">
         <mat-icon>bookmark</mat-icon>Watch List
     </button>
     <button class="btn contact-btn" (click)="openContactForm()">

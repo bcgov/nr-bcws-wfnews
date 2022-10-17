@@ -39,7 +39,7 @@ export class WatchlistService {
       try {
         const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber).toPromise()
         if (!incident) {
-          console.warn('Removing ' + incidentNumber + ' from Watchlist')
+          console.warn('Removing expired incident ' + incidentNumber + ' from Watchlist')
           this.removeFromWatchlist(incidentNumber)
         }
       } catch (err) {
