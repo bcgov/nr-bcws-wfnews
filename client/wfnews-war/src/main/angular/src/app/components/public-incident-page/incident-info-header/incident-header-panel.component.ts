@@ -12,6 +12,7 @@ import { AppConfigService } from "@wf1/core-ui"
 export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
+  @Input() public extent: any
 
   private map: any
 
@@ -60,5 +61,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
     });
 
     L.marker(location, {icon: icon}).addTo(this.map);
+
+    if (this.extent) {
+      this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));
+    }
   }
 }

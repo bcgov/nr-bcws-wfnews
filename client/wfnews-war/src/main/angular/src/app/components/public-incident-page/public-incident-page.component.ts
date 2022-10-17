@@ -17,6 +17,7 @@ export class PublicIncidentPage implements OnInit {
   public incident: any
   public evacOrders: EvacOrderOption[] = []
   public areaRestrictions : AreaRestrictionsOption[] = []
+  public extent: any = null
 
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
@@ -51,6 +52,8 @@ export class PublicIncidentPage implements OnInit {
           this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd.trim().toUpperCase() === 'T' || this.incident.structureProtectionRsrcInd.trim().toUpperCase() === '1'
           this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd.trim().toUpperCase() === 'T' || this.incident.wildfireAviationResourceInd.trim().toUpperCase() === '1'
           this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === 'T' || this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === '1'
+          // fetch the fire perimetre
+          await this.getFirePerimetre()
           // load evac orders and area restrictions nearby
           await this.getEvacOrders()
           await this.getAreaRestrictions()
@@ -65,6 +68,14 @@ export class PublicIncidentPage implements OnInit {
       } else {
         this.isLoading = false
         this.loadingFailed = true
+      }
+    })
+  }
+
+  async getFirePerimetre () {
+    return this.agolService.getFirePerimetre(this.incidentNumber, { returnCentroid: true, returnGeometry: true, returnExtent: true}).toPromise().then(response => {
+      if (response.extent) {
+        this.extent = response.extent
       }
     })
   }
