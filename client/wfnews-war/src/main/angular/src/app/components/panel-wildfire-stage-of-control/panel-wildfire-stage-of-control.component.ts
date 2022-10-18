@@ -11,6 +11,7 @@ import { TokenService, AppConfigService } from '@wf1/core-ui';
 import { PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
+import { WatchlistService } from '../../services/watchlist-service';
 import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
@@ -34,7 +35,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     private zone: NgZone;
     private componentRef: ComponentRef<any>;
-    private mapPanTimer;
     private mapPanProgressBar;
     private progressValues = new Map<string, number>();
     private lastPanned = '';
@@ -48,8 +48,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     convertToDateWithTime = convertToDateWithTime;
     convertToStageOfControlDescription = convertToStageOfControlDescription;
 
-    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
-      super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, commonUtilityService);
+    constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
+      super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService, commonUtilityService);
       this.zone = this.injector.get(NgZone)
     }
 
@@ -60,6 +60,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
         }
       }
+
+      clearInterval(this.initInterval)
+      clearTimeout(this.ignorePanDebounce)
     }
 
     initModels() {
@@ -188,6 +191,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         clearTimeout(this.ignorePanDebounce)
         this.ignorePanDebounce = null
       }
+
       const self = this;
       const SMK = window['SMK'];
       let viewer = null;
@@ -196,29 +200,28 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      const leaflet = window[ 'L' ];
       const map = viewer.map;
-
-      this.mapPanTimer = setTimeout(() => {
-        viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
-
-        clearInterval(this.mapPanProgressBar);
-        self.mapPanProgressBar = null;
-        self.progressValues.set(incident.incidentName, 0);
-        self.lastPanned = incident.incidentName
-      }, 500);
 
       if (this.lastPanned !== incident.incidentName) {
         self.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
-          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 5);
+          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 12);
           if (self.progressValues.get(incident.incidentName) > 100) {
-            self.progressValues.set(incident.incidentName, 100);
+            clearInterval(this.mapPanProgressBar);
+            self.mapPanProgressBar = null;
+            self.lastPanned = incident.incidentName
+            this.addMarker(incident);
+            viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
           }
           self.cdr.detectChanges();
-        }, 1);
+        }, 100);
       }
 
+      this.addMarker(incident);
+    }
+
+    private addMarker(incident: any) {
+      const leaflet = window[ 'L' ];
       const pointerIcon = leaflet.icon({
         iconUrl: "/assets/smk/assets/src/smk/mixin/tool-feature-list/config/marker-icon-white.png",
         iconSize: [25, 35],
@@ -241,10 +244,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onPanelMouseExit(incident: any) {
-      if (this.mapPanTimer) {
-        clearTimeout(this.mapPanTimer);
-        this.mapPanTimer = null;
-      }
       if (this.mapPanProgressBar) {
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
@@ -291,5 +290,17 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
       this.componentRef = this.listIdentifyContainer.createComponent(this.componentFactoryResolver.resolveComponentFactory(component))
       return this.componentRef;
+    }
+
+    onWatchlist (incident: any): boolean {
+      return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+    }
+
+    addToWatchlist (incident: any) {
+      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+    }
+
+    removeFromWatchlist (incident: any) {
+      this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
     }
 }

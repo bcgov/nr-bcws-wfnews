@@ -31,6 +31,7 @@ import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';
 import { CONSTANTS } from "../../../app/utils/index";
 import { CommonUtilityService } from '../../services/common-utility.service';
+import { WatchlistService } from '../../services/watchlist-service';
 
 @Directive()
 @Injectable()
@@ -99,6 +100,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected cdr: ChangeDetectorRef,
                 protected appConfigService: AppConfigService,
                 protected http: HttpClient,
+                protected watchlistService: WatchlistService,
                 protected commonUtilityService?: CommonUtilityService) {
         this.initModels();
     }
