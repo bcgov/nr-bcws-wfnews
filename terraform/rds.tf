@@ -9,6 +9,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     identifier = "wfnews${var.target_env}"
     engine = "postgres"
     engine_version = "13.4"
+    auto_minor_version_upgrade = false
     name = "wfnews${var.target_env}"
     instance_class       = "db.t3.micro"
     allocated_storage = 10

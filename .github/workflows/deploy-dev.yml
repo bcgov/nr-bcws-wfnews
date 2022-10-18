@@ -47,15 +47,22 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
+  apisix-build:
+    uses: ./.github/workflows/apisix.yml
+    with:
+      REGISTRY: ghcr.io
+    secrets: inherit
+
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build]
+    needs: [call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
+      APISIX_IMAGE: nr-bcws-wfnews-apisix
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
