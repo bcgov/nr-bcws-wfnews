@@ -55,21 +55,21 @@ section {
             &.blue {
               color: #5370C2;
               &::before {
-                background-color: #5370C2;
+                background-color: #0000FF;
               }
             }
 
             &.green {
               color: #389341;
               &::before {
-                background-color: #389341;
+                background-color: #00FF00;
               }
             }
 
             &.yellow {
               color: #7D7700;
               &::before {
-                background-color: #7D7700;
+                background-color: #FFFF00;
               }
             }
 
@@ -77,7 +77,7 @@ section {
                 color: #926831;
 
                 &::before {
-                    background-color: #926831
+                    background-color: #FFAA00
                 }
             }
 
@@ -85,7 +85,7 @@ section {
                 color: #cf2a27;
 
                 &::before {
-                    background-color: #cf2a27;
+                    background-color: #FF0000;
                 }
             }
 
