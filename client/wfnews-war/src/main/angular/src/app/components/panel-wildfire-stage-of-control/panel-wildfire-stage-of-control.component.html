@@ -94,14 +94,6 @@
 
         <div class="bottom-summary flex-y-fixed">
             <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
-            <!-- <pagination-controls style = "text-align:center" [id]="config.id"
-                                 [maxSize]="5"
-                                 [responsive]="false"
-                                 [directionLinks]="true"
-                                 [previousLabel]="simplePaginatorLabels.previousLabel"
-                                 [nextLabel]="simplePaginatorLabels.nextLabel"
-                                 [autoHide]="false"
-                                 (pageChange)="onPageChange($event)"></pagination-controls> -->
             <span class="paging-control" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
             <span class="paging-control" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
 
