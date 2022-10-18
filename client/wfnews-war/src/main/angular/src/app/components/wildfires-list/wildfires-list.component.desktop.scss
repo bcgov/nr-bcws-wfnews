@@ -12,7 +12,7 @@ div{
     background-color: white !important;
     border-top: none !important;
     .label{
-        font-size: 18px;
+        font-size: 15px;
     }
 }
 
@@ -107,9 +107,11 @@ table tr:nth-child(even) td{
     margin-top: 13px !important;
     flex-basis: auto !important;
     width: auto !important;
+    .mat-label{
+        font-size: 15px;
+    }
 
     .checkbox-group {
-        margin-top: 10px;
         display: flex;
 
         .mat-checkbox {

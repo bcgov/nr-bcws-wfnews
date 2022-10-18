@@ -8,7 +8,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TokenService, AppConfigService } from '@wf1/core-ui';
-import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
@@ -16,6 +15,7 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
+import { convertToDateWithTime, convertToStageOfControlDescription } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
@@ -44,6 +44,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private mapEventDebounce
     private ignorePan = false
     private ignorePanDebounce
+
+    convertToDateWithTime = convertToDateWithTime;
+    convertToStageOfControlDescription = convertToStageOfControlDescription;
 
     constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, commonUtilityService?: CommonUtilityService) {
       super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, commonUtilityService);
@@ -136,7 +139,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     doSearch() {
-
       let bbox = undefined
       // Fetch the maps bounding box
       try {
@@ -166,27 +168,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     stageOfControlChanges(event:any) {
         this.doSearch()
-    }
-
-    convertFromTimestamp(date: string) {
-        if (date) {
-            return moment(date).format('Y-MM-DD hh:mm')
-        }
-    }
-
-    convertToDescription(code: string) {
-        switch(code) {
-            case 'OUT_CNTRL':
-                return 'Out Of Control'
-            case 'HOLDING':
-                return 'Being Held'
-            case 'UNDR_CNTRL':
-                return 'Under Control'
-            case 'OUT':
-                return 'Out'
-            default:
-                break;
-          }
     }
 
     calculateDistance (lat: number, long: number): string {
