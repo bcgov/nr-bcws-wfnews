@@ -31,7 +31,6 @@ export class WildfiresListEffect {
 
                 const typedaction = <SearchWildfiresAction>action;
                 const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchWildfires);
-
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
@@ -49,9 +48,6 @@ export class WildfiresListEffect {
                 }
                 if (sortParam == "wildfireOfNote") {
                     sortParam = "fireOfNoteInd";
-                }
-                if (sortParam == "fireCentre") {
-                    sortParam = "contactOrgUnitIdentifer";
                 }
                 if (sortParam == "location") {
                     sortParam = "incidentLocation";
