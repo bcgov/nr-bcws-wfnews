@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
@@ -11,13 +11,17 @@ import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-wi
     templateUrl: 'sticky-widget.component.html',
     styleUrls: ['./sticky-widget.component.scss']
 })
-export class StickyWidgetComponent {
+export class StickyWidgetComponent implements OnDestroy {
   public showWatchlist = false
   public watchlist: any[] = []
   private closeProgressInterval: any
   public progressValue = 0
 
-  constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private router: Router, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService){}
+  constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private router: Router, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService) {}
+
+  ngOnDestroy(): void {
+    clearInterval(this.closeProgressInterval)
+  }
 
   openContactForm() {
     this.dialog.open(ContactWidgetDialogComponent, {

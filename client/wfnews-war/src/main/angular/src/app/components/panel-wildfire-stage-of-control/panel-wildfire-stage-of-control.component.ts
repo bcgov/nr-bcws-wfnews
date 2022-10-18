@@ -60,6 +60,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
         }
       }
+
+      clearInterval(this.initInterval)
+      clearTimeout(this.ignorePanDebounce)
     }
 
     initModels() {
