@@ -324,8 +324,18 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       portMappings = [
         {
           protocol      = "tcp"
-          containerPort = var.apisix_port
-          hostPort      = var.apisix_port
+          containerPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
+        },
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[1]
+          hostPort      = var.apisix_ports[1]
+        }
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[2]
+          hostPort      = var.apisix_ports[2]
         }
       ]
       environment = [

@@ -227,10 +227,10 @@ variable apisix_image {
   type = string
 } 
 
-variable apisix_port {
+variable apisix_ports {
   description = "Port apisix listens on"
-  default = 8080
-  type = number
+  default = [8080,9080,9443]
+  type = list(number)
 }
 
 variable db_port {
