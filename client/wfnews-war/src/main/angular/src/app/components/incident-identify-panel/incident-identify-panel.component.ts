@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { WatchlistService } from '../../services/watchlist-service';
 import { ResourcesRoutes } from '../../utils';
 
 @Component({
@@ -23,7 +24,8 @@ export class IncidentIdentifyPanelComponent {
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
                private publishedIncidentService: PublishedIncidentService,
-               private router: Router) { }
+               private router: Router,
+               private watchlistService: WatchlistService) { }
 
   // if we want the "next" functionality, pass in the identify set
   setIncident (incidentRef, identifyList, setIndex = true) {
@@ -119,6 +121,18 @@ export class IncidentIdentifyPanelComponent {
     }
 
     this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false)
+  }
+
+  onWatchlist (): boolean {
+    return this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel)
+  }
+
+  addToWatchlist () {
+    this.watchlistService.saveToWatchlist(this.incident.incidentNumberLabel)
+  }
+
+  removeFromWatchlist () {
+    this.watchlistService.removeFromWatchlist(this.incident.incidentNumberLabel)
   }
 
   getEvacOrders () {

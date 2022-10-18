@@ -116,6 +116,8 @@ import { IncidentHeaderPanel } from './components/public-incident-page/incident-
 import { IncidentInfoPanel } from './components/public-incident-page/incident-info-panel/incident-info-panel.component';
 import { IncidentMapsPanel } from './components/public-incident-page/incident-maps-panel/incident-maps-panel.component';
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
+import { LocalStorageService } from './services/local-storage-service';
+import { WatchlistService } from './services/watchlist-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -305,6 +307,8 @@ export const DATE_FORMATS = {
         CommonUtilityService,
         DocumentManagementService,
         PublishedIncidentService,
+        LocalStorageService,
+        WatchlistService,
         PointIdService,
     ],
     bootstrap: [

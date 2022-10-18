@@ -14,6 +14,7 @@ import { ApplicationStateService } from '../../../services/application-state.ser
 import { RootState } from '../../../store';
 import { UploadImageDialogComponent } from './upload-image-dialog/upload-image-dialog.component';
 import { DocumentManagementService } from '../../../services/document-management.service';
+import { WatchlistService } from '../../../services/watchlist-service';
 
 @Component({
   selector: 'image-gallery-panel',
@@ -48,10 +49,11 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
               protected cdr: ChangeDetectorRef,
               protected appConfigService: AppConfigService,
               protected http: HttpClient,
+              protected watchlistService: WatchlistService,
               protected incidentAttachmentsService: IncidentAttachmentsService,
               protected incidentAttachmentService: IncidentAttachmentService,
               private documentManagementService: DocumentManagementService) {
-    super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http);
+    super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService);
   }
 
   ngOnInit() {

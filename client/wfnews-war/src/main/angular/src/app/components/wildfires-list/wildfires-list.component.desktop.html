@@ -3,7 +3,7 @@
     <div class="header-row">
         <p class="dashboard-title">Wildfires List
         </p>
-        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stage of Control?</button>
+        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stages of Control?</button>
     </div>
     <mat-tab-group>
         <mat-tab label="Wildfires"></mat-tab>
@@ -127,7 +127,7 @@
 
         <ng-container matColumnDef = "addToWatchlist">
             <th mat-header-cell *matHeaderCellDef> Add to Watchlist</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="addToWatchlist(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="addToWatchlist(item)"><span #el ><mat-icon style="color:#1A5A96">{{onWatchlist(item) ? 'bookmark_border' : 'bookmark'}}</mat-icon></span></td>
         </ng-container>
 
         <ng-container matColumnDef = "viewMap">

@@ -12,7 +12,7 @@
     <div *ngIf="identifiedFeatures.length > 1" class="smk-command-button smk-move smk-icon"><div class="smk-command"><em (click)="previous()" class="button material-icons">navigate_before</em></div></div>
   </div>
   <div class="title-bar">
-    <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></div>
+    <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
     <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{incident.fireCentre}}</a></div>
   </div>
   <div class="nav-button" *ngIf="incident.stageOfControlCode !== 'OUT'">

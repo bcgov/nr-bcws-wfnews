@@ -66,7 +66,7 @@
         <div *ngIf="collectionData">
             <div class = "incident-item" *ngFor="let incident of collectionData" (click)="openPreview(incident)" (mouseenter)="onPanelMouseEnter(incident)" (mouseleave)="onPanelMouseExit(incident)">
               <mat-progress-bar [id]="incident.incidentName" mode="determinate" [value]="progressValues.get(incident.incidentName)"></mat-progress-bar>
-              <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
+              <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <span #el style="cursor: pointer;" (click)="onWatchlist(incident) ? removeFromWatchlist(incident) : addToWatchlist(incident)"><mat-icon style="color:#1A5A96; vertical-align: middle;">{{onWatchlist(incident) ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
                 <div class="item-row">
                     <span class="item-title">Last Updated: </span>
                     <span class="item-content">{{convertToDateWithTime(incident.newsCreatedTimestamp)}}</span>
