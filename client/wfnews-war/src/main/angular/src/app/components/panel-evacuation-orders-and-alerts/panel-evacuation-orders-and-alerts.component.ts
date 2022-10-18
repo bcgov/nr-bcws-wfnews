@@ -13,7 +13,7 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   public evacOrders : EvacOrderOption[] = []
 
   constructor(private agolService: AGOLService,
-              private mapConfigService: MapConfigService,) {
+              private mapConfigService: MapConfigService) {
   }
 
   ngOnInit() {
@@ -23,7 +23,12 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   zoomToEvac (evac) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
-      const viewer = SMK.MAP[1].$viewer;
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
+      }
       viewer.panToFeature(window['turf'].point([evac.centroid.x, evac.centroid.y]), 10)
 
       const map = viewer.map;
@@ -53,8 +58,6 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
     this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
-          console.log(element)
-          console.log(response)
           this.evacOrders.push({
             eventName: element.attributes.EVENT_NAME,
             eventType: element.attributes.EVENT_TYPE,

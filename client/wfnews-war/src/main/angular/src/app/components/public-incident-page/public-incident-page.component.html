@@ -1,0 +1,29 @@
+<div *ngIf="!isLoading && !loadingFailed" class="page" >
+  <div class="page-container">
+    <div>
+      <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
+    </div>
+    <div>
+      <mat-tab-group mat-stretch-tabs>
+        <mat-tab label="Information">
+          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
+        </mat-tab>
+        <mat-tab label="Overview">
+          <incident-overview-panel [incident]="incident"></incident-overview-panel>
+        </mat-tab>
+        <mat-tab label="Gallery">
+          <incident-gallery-panel [incident]="incident"></incident-gallery-panel>
+        </mat-tab>
+        <mat-tab label="Maps">
+          <incident-maps-panel [incident]="incident"></incident-maps-panel>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isLoading && loadingFailed" class="page-container">
+  failed to load...
+</div>
+<div *ngIf="isLoading">
+  loading...
+</div>

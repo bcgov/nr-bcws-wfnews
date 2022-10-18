@@ -45,7 +45,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         }
         this.currentPage = this.searchState && this.searchState.pageIndex ? this.searchState.pageIndex : this.initPagingRequest.pageNumber;
         this.showEntriesSelection = Number(this.searchState && this.searchState.pageSize ? this.searchState.pageSize : this.initPagingRequest.pageRowCount);
-        console.log(this.showEntriesSelection )
     }
 
     getPagingConfig(): PaginationInstance {
@@ -82,7 +81,6 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         }
         if (changes.searchState) {
             this.searchState = changes.searchState.currentValue ? changes.searchState.currentValue : this.initPagingRequest;
-            //console.log(this.searchState, this.currentSort);
             this.searchText = this.searchState.query;
             setTimeout(() => {
                 this.cdr.detectChanges();
@@ -110,7 +108,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.collectionData = this.collection.collection;
         this.config = this.getPagingConfig();
         this.config.currentPage = this.collection.pageNumber;
-        this.summaryString = this.getSummaryString();
+        this.summaryString = this.getSummaryString(this.config.id);
     }
 
     onPageChange(number: number) {
@@ -159,12 +157,15 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.doSearch();
     }
 
-    getSummaryString() {
+    getSummaryString(configId?: string) {
         let showNum = Number(this.showEntriesSelection);
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;
             let end = (start + showNum) - 1;
-            const total = this.collection.totalRowCount;
+            const total = this.collection.totalRowCount ? this.collection.totalRowCount : 0;
+            if(configId === 'loadWildfiresPaginator') {
+                return `Showing 10 of ${total} search results`;
+            }
             if (start < 0) {
                 start = 0;
             }
@@ -174,7 +175,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             if (end > total) {
                 end = total;
             }
-            return `Showing ${start} to ${end} of ${total ? total : 0}`;
+            return `Showing ${start} to ${end} of ${total}`;
 
         } else {
             return this.CONSTANTS.NO_RECORDS_MESSAGE;

@@ -30,6 +30,8 @@ import {PaginationInstance} from 'ngx-pagination';
 import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';
 import { CONSTANTS } from "../../../app/utils/index";
+import { CommonUtilityService } from '../../services/common-utility.service';
+import { WatchlistService } from '../../services/watchlist-service';
 
 @Directive()
 @Injectable()
@@ -80,6 +82,11 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         nextLabel: '',
     };
 
+    public simplePaginatorLabels: any = {
+        previousLabel: 'Back',
+        nextLabel: 'Next',
+    };
+
     constructor(protected router: Router,
                 protected route: ActivatedRoute,
                 protected sanitizer: DomSanitizer,
@@ -92,7 +99,9 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected overlay: Overlay,
                 protected cdr: ChangeDetectorRef,
                 protected appConfigService: AppConfigService,
-                protected http: HttpClient) {
+                protected http: HttpClient,
+                protected watchlistService: WatchlistService,
+                protected commonUtilityService?: CommonUtilityService) {
         this.initModels();
     }
 

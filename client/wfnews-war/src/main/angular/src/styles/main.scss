@@ -131,6 +131,35 @@
   }
 }
 
+.snackbar-success-v2 {
+  background-color: $colour-success;
+  color: $colour-white;
+  position: inherit;
+  padding: 18px 16px!important;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 13px;
+  }
+}
+
+
+.snackbar-success-v2:before {
+  content: '';
+  position: absolute;
+  height: 100%;
+  width: 60px;
+  background-color: white;
+  top: 0;
+  left: -55px;
+  color: #2E7940;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3C!-- Font Awesome Free 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) --%3E%3Cpath d='M504 256c0 136.967-111.033 248-248 248S8 392.967 8 256 119.033 8 256 8s248 111.033 248 248zM227.314 387.314l184-184c6.248-6.248 6.248-16.379 0-22.627l-22.627-22.627c-6.248-6.249-16.379-6.249-22.628 0L216 308.118l-70.059-70.059c-6.248-6.248-16.379-6.248-22.628 0l-22.627 22.627c-6.248 6.248-6.248 16.379 0 22.627l104 104c6.249 6.249 16.379 6.249 22.628.001z' fill='%232e7940'/%3E%3C/svg%3E");
+  background-size: 24px;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
 .full-snack-bar-online{
   //width: 100%;
   //background-color: rgba(149, 206, 170, 1);
@@ -428,7 +457,7 @@
 .popup-button {
   padding-left: 6px;
   padding-right: 6px;
-  border: 2px solid #1e5d98;
+  border: 1px solid #1e5d98;
   border-radius: 5px;
   color: #1e5d98;
   font-size: 14px;

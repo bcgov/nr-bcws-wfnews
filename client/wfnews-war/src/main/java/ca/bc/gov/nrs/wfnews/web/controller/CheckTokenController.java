@@ -30,9 +30,9 @@ public class CheckTokenController {
 
 		TokenServiceImpl tokenService;
 
-		String clientSecret= System.getenv("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET");
-		String tokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_URL");
-		String checkTokenUrl= System.getenv("WEBADE-OAUTH2_TOKEN_CLIENT_URL");
+    String clientSecret = System.getenv("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET");
+		String tokenUrl = System.getenv("WEBADE-OAUTH2_TOKEN_URL");
+		String checkTokenUrl = System.getenv("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL");
 
 		tokenService = new TokenServiceImpl(
 				"WFNEWS-UI",

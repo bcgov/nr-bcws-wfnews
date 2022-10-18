@@ -48,13 +48,6 @@ data "aws_lb" "wfnews_main" {
 # }
 
 
-# NOTE: NEED TO USE ARN, AS CERTIFICATE NEEDED IS NOT IN CA-CENTRAL-1 REGION
-# data "aws_acm_certificate" "issued" {
-#   domain   = var.cert_domain
-#   statuses = ["ISSUED"]
-# }
-
-
 # Redirect all traffic from the ALB to the target group
 data "aws_alb_listener" "wfnews_server_front_end" {
   load_balancer_arn = data.aws_lb.wfnews_main.id
