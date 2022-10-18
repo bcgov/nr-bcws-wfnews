@@ -35,7 +35,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     private zone: NgZone;
     private componentRef: ComponentRef<any>;
-    private mapPanTimer;
     private mapPanProgressBar;
     private progressValues = new Map<string, number>();
     private lastPanned = '';
@@ -45,7 +44,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private mapEventDebounce
     private ignorePan = false
     private ignorePanDebounce
-    
+
     convertToDateWithTime = convertToDateWithTime;
     convertToStageOfControlDescription = convertToStageOfControlDescription;
 
@@ -189,6 +188,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         clearTimeout(this.ignorePanDebounce)
         this.ignorePanDebounce = null
       }
+
       const self = this;
       const SMK = window['SMK'];
       let viewer = null;
@@ -197,29 +197,28 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      const leaflet = window[ 'L' ];
       const map = viewer.map;
-
-      this.mapPanTimer = setTimeout(() => {
-        viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
-
-        clearInterval(this.mapPanProgressBar);
-        self.mapPanProgressBar = null;
-        self.progressValues.set(incident.incidentName, 0);
-        self.lastPanned = incident.incidentName
-      }, 500);
 
       if (this.lastPanned !== incident.incidentName) {
         self.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
-          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 5);
+          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 12);
           if (self.progressValues.get(incident.incidentName) > 100) {
-            self.progressValues.set(incident.incidentName, 100);
+            clearInterval(this.mapPanProgressBar);
+            self.mapPanProgressBar = null;
+            self.lastPanned = incident.incidentName
+            this.addMarker(incident);
+            viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
           }
           self.cdr.detectChanges();
-        }, 1);
+        }, 100);
       }
 
+      this.addMarker(incident);
+    }
+
+    private addMarker(incident: any) {
+      const leaflet = window[ 'L' ];
       const pointerIcon = leaflet.icon({
         iconUrl: "/assets/smk/assets/src/smk/mixin/tool-feature-list/config/marker-icon-white.png",
         iconSize: [25, 35],
@@ -242,10 +241,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onPanelMouseExit(incident: any) {
-      if (this.mapPanTimer) {
-        clearTimeout(this.mapPanTimer);
-        this.mapPanTimer = null;
-      }
       if (this.mapPanProgressBar) {
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
