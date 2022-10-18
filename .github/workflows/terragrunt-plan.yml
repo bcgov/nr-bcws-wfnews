@@ -72,6 +72,7 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
+          TARGET_ENV: ${{env.TARGET_ENV}}
           CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}:pr-${{ github.event.pull_request.number }}
           SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}:pr-${{ github.event.pull_request.number }}
           LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
