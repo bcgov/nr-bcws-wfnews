@@ -29,7 +29,6 @@
     color: #FFFFFF;
 }
 
-
 .watchlist-btn{
     color: #1A5A96;
     background-color: #FFFFFF;
@@ -42,15 +41,19 @@
 
 .watchlist-container {
   width: calc(100vw - 300px);
+  max-width: 1020px;
   background: white;
-  padding: 10px;
   border: 1px solid lightgrey;
   border-radius: 5px;
+  margin-top: -100px;
+  box-shadow: 2px 2px #88888838;
   .watchlist-header {
     font-size: 20px;
     font-weight: 700;
     display: flex;
     flex-direction: row;
+    background-color: #e9eff5;
+    padding: 10px;
     .subtitle {
       font-size: 1rem;
       font-weight: 400;
@@ -61,8 +64,42 @@
   .watchlist-items {
     display: flex;
     flex-direction: row;
+    height: 84px;
+    padding: 10px;
+    overflow-x: auto;
     .watchlist-item {
-      
+      margin-right: 10px;
+      border-right: 1px solid lightgrey;
+      padding-right: 10px;
+      min-width: 200px;
+      .item-title {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #003366;
+        cursor: pointer;
+      }
+      .item-body {
+        font-size: 1rem;
+        font-weight: 400;
+        color: black;
+      }
     }
+    .watchlist-item:last-child {
+      border-right: none;
+    }
+  }
+  .watchlist-items::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .watchlist-items::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .watchlist-items::-webkit-scrollbar-thumb {
+    background-color: #e9eff5;
+    border-radius: 16px;
+    border: 1px solid #e9eff5;
   }
 }

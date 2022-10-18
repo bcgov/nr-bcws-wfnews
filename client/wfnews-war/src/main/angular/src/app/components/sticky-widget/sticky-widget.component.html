@@ -7,7 +7,8 @@
       </div>
       <div class="watchlist-items">
         <div class="watchlist-item" *ngFor="let item of watchlist">
-          {{item.incidentName}}
+          <div class="item-title"><span (click)="openIncident(item)">{{item.incidentName}}</span><span #el style="cursor: pointer;" (click)="removeFromWatchlist(item)"><mat-icon style="color:#1A5A96">bookmark</mat-icon></span></div>
+          <div class="item-body">{{item.lastUpdatedTimestamp}}</div>
         </div>
       </div>
     </div>
