@@ -14,10 +14,7 @@ import javax.ws.rs.core.Response.Status;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 
-import ca.bc.gov.nrs.wfone.common.model.Message;
-import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebAdeOAuth2Authentication;
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.common.rest.resource.Messages;
@@ -28,11 +25,7 @@ import ca.bc.gov.nrs.common.service.ValidationFailureException;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.ExternalUriEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.PagingQueryParameters;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.validation.ParameterValidator;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
-import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 
 public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements ExternalUriEndpoint {
 	
@@ -72,7 +65,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 
 
 	@Override
-	public Response updateExternalUri(ExternalUriResource resource)
+	public Response updateExternalUri(ExternalUriResource resource, String externalResourceGuid)
 			throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		

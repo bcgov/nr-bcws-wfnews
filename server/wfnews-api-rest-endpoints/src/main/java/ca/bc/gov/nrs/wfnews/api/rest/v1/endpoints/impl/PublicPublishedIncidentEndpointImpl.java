@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.GenericEntity;
@@ -20,6 +21,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
+import ca.bc.gov.nrs.wfone.common.model.MessageImpl;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
 public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl implements PublicPublishedIncidentEndpoint {
@@ -33,7 +35,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String pageNumber, String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -50,10 +52,37 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
+			if (bbox == null) {
+				bbox = "-139.06,48.30,-114.03,60.00";
+			}
+
+			String[] coords = bbox.split(",");
+			boolean invalidBox = false;
+			if (coords.length != 4) {
+				invalidBox = true;
+			} else {
+				for (String coord : coords) {
+					try {
+						Double.parseDouble(coord);
+					} catch (Exception e) {
+						invalidBox = true;
+						break;
+					}
+				}
+			}
+
+			if (invalidBox) {
+				Message message = new MessageImpl();
+				message.setPath("bbox");
+				message.setMessage("BBox contains invalid coordinate set");
+				validationMessages.add(message);
+			}
+
 			if (!validationMessages.isEmpty()) {
 				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 			}else {
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(pageNum, rowCount, getFactoryContext());
+
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(pageNum, rowCount, orderBy, fireOfNote, out, fireCentre, bbox, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */
@@ -76,6 +105,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 		Response response = null;
 				
 		try {
+			// publishedIncidentDetailGuid can also be the fire number or fire name
 			PublishedIncidentResource results = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, getWebAdeAuthentication(), getFactoryContext());
 			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
 
@@ -92,87 +122,54 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	}
 
 	@Override
-	public Response getPublishedIncidentListAsFeatures(String stageOfControl) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentListAsFeatures(String stageOfControl, String bbox) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
-		
-		try {
-			PagingQueryParameters parameters = new PagingQueryParameters();
-			
-			Integer pageNum = 1;
-			Integer rowCount = 999999; // I don't expect we'll ever have 100000 fires... May need confifuration
-			
-			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
-			if (!validationMessages.isEmpty()) {
-				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
-			}else {
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(pageNum, rowCount, getFactoryContext());
+		if (bbox == null) {
+			bbox = "-139.06,48.30,-114.03,60.00";
+		}
 
-				// convert to a GeoJson feature collection
-				String featureJson = "";
-
-				StringBuilder sb = new StringBuilder();
-				sb.append("{\"type\":\"FeatureCollection\",\"features\":[");
-				for (PublishedIncidentResource feature : results.getCollection()) {
-					if ((stageOfControl == null && !feature.getStageOfControlCode().equalsIgnoreCase("OUT")) || 
-					    (stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("T")) || 
-							(stageOfControl != null && stageOfControl.equals("FIRE_OF_NOTE") && feature.getFireOfNoteInd().equalsIgnoreCase("1")) ||
-							feature.getStageOfControlCode().equalsIgnoreCase(stageOfControl)) {
-						sb.append("{\"type\": \"Feature\",\"geometry\": {\"type\": \"Point\",\"coordinates\": [" + feature.getLongitude() + "," + feature.getLatitude() + "]},");
-						// properties
-						sb.append("\"properties\":{");
-						sb.append("\"contactEmailAddress\": \"" + feature.getContactEmailAddress() + "\",");
-						sb.append("\"contactPhoneNumber\": \"" + feature.getContactPhoneNumber() + "\",");
-						sb.append("\"fireOfNote\": \"" + feature.getFireOfNoteInd() + "\",");
-						sb.append("\"heavyEquipmentDetail\": \"" + feature.getHeavyEquipmentResourcesDetail() + "\",");
-						sb.append("\"heavyEquipmentInd\": \"" + feature.getHeavyEquipmentResourcesInd() + "\",");
-						sb.append("\"causeDetail\": \"" + feature.getIncidentCauseDetail() + "\",");
-						sb.append("\"location\": \"" + feature.getIncidentLocation() + "\",");
-						sb.append("\"incidentManagementCrewDetail\": \"" + feature.getIncidentMgmtCrewRsrcDetail() + "\",");
-						sb.append("\"incidentManagementCrewInd\": \"" + feature.getIncidentMgmtCrewRsrcInd() + "\",");
-						sb.append("\"incidentName\": \"" + feature.getIncidentName() + "\",");
-						sb.append("\"incidentNumberLabel\": \"" + feature.getIncidentNumberLabel() + "\",");
-						sb.append("\"incidentOverview\": \"" + feature.getIncidentOverview() + "\",");
-						sb.append("\"incidentSizeDetail\": \"" + feature.getIncidentSizeDetail() + "\",");
-						sb.append("\"incidentSizeType\": \"" + feature.getIncidentSizeType() + "\",");
-						sb.append("\"guid\": \"" + feature.getPublishedIncidentDetailGuid() + "\",");
-						sb.append("\"resourceDetail\": \"" + feature.getResourceDetail() + "\",");
-						sb.append("\"stageOfControl\": \"" + feature.getStageOfControlCode() + "\",");
-						sb.append("\"structureProtectionDetail\": \"" + feature.getStructureProtectionRsrcDetail() + "\",");
-						sb.append("\"structureProtectionInd\": \"" + feature.getStructureProtectionRsrcInd() + "\",");
-						sb.append("\"traditionalTerritoryDetail\": \"" + feature.getTraditionalTerritoryDetail() + "\",");
-						sb.append("\"aviationDetail\": \"" + feature.getWildfireAviationResourceDetail() + "\",");
-						sb.append("\"aviationInd\": \"" + feature.getWildfireAviationResourceInd() + "\",");
-						sb.append("\"crewResourceDetail\": \"" + feature.getWildfireCrewResourcesDetail() + "\",");
-						sb.append("\"crewResourceInd\": \"" + feature.getWildfireCrewResourcesInd() + "\",");
-						sb.append("\"contactOrgUnit\": \"" + feature.getContactOrgUnitIdentifer() + "\",");
-						sb.append("\"fireZoneOrgUnit\": \"" + feature.getFireZoneUnitIdentifier() + "\",");
-						sb.append("\"generalIncidentCauseId\": \"" + feature.getGeneralIncidentCauseCatId() + "\",");
-						sb.append("\"sizeMappedHa\": \"" + feature.getIncidentSizeMappedHa() + "\",");
-						sb.append("\"sizeEstimatedHa\": \"" + feature.getIncidentSizeEstimatedHa() + "\",");
-						sb.append("\"discoveryData\": \"" + feature.getDiscoveryDate() + "\"");
-						sb.append("}");
-						// fin
-						sb.append("},");
-					}
+		String[] coords = bbox.split(",");
+		boolean invalidBox = false;
+		if (coords.length != 4) {
+			invalidBox = true;
+		} else {
+			for (String coord : coords) {
+				try {
+					Double.parseDouble(coord);
+				} catch (Exception e) {
+					invalidBox = true;
+					break;
 				}
+			}
+		}
 
-				// remove any trailing comma and close
-				featureJson = sb.toString();
-				if (featureJson.endsWith(",")) {
-					featureJson = featureJson.substring(0, featureJson.length() - 1);
+		List<Message> validationMessages = new ArrayList<>();
+
+		if (invalidBox) {
+			Message message = new MessageImpl();
+			message.setPath("bbox");
+			message.setMessage("BBox contains invalid coordinate set");
+			validationMessages.add(message);
+		}
+
+		if (!validationMessages.isEmpty()) {
+			response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
+		} else {
+			try {
+				String json = "";
+				if (stageOfControl == null || stageOfControl.equalsIgnoreCase("FIRE_OF_NOTE")) {
+					json = incidentsService.getFireOfNoteAsJson(bbox, getWebAdeAuthentication(), getFactoryContext());
+				} else {
+					json = incidentsService.getPublishedIncidentsAsJson(stageOfControl, bbox, getWebAdeAuthentication(), getFactoryContext());
 				}
-				featureJson += "]}";
-
-				GenericEntity<String> entity = new GenericEntity<String>(featureJson) {
+				GenericEntity<String> entity = new GenericEntity<String>(json) {
 					/* do nothing */
 				};
-
 				response = Response.ok(entity).build();
+			} catch (Throwable t) {
+				response = getInternalServerErrorResponse(t);
 			}
-				
-		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
 		}
 		
 		logResponse(response);

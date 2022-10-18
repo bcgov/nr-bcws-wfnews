@@ -1,6 +1,7 @@
 import { APP_BOOTSTRAP_LISTENER, Inject, InjectionToken, Type } from '@angular/core';
 import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
+import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
 
 export enum ResourcesRoutes {
@@ -13,7 +14,8 @@ export enum ResourcesRoutes {
     SIGN_OUT = 'sign-out-page',
     ERROR_PAGE = 'error-page',
     ADMIN = 'admin',
-    ADMIN_INCIDENT = 'incident'
+    ADMIN_INCIDENT = 'incident',
+    PUBLIC_INCIDENT = 'incidents'
 }
 
 export const FireCentres = [
@@ -107,6 +109,8 @@ export const DATE_FORMATS = {
     dateA11yLabel: 'Y-MMM-DD',
     monthYearA11yLabel: 'YYYY-MMM',
     simplifiedDate: 'MMM DD',
+    simplifiedDateWithYear: 'MMM DD YYYY',
+    simplifiedDateWithTime: 'MMM DD, YYYY - HH:mm',
     simplifiedMonthDate: 'MM-DD',
     fullPickerInputWithSlash: 'Y-MM-DD/ HH:mm',
     API_DATE: 'Y-MM-DD',
@@ -138,4 +142,32 @@ export function arrayEquals(a, b) {
 export const formatSort = (param: string, direction: SortDirection) => param && direction ? `${param} ${direction}` : undefined;
 
 export const WF_SNACKBAR_TYPES = {SUCCESS: "success", ERROR: "error", WARNING: "warning", INFO: "info", UPDATE: "update"};
+
+
+export function convertFromTimestamp(date: string) {
+    if (date) {
+        return moment(date).format(DATE_FORMATS.simplifiedDateWithYear)
+    }
+}
+
+export function convertToDateWithTime(date: string) {
+    if (date) {
+        return moment(date).format(DATE_FORMATS.simplifiedDateWithTime)
+    }
+}
+
+export function  convertToStageOfControlDescription(code: string) {
+    switch(code) {
+        case 'OUT_CNTRL':
+            return 'Out Of Control'
+        case 'HOLDING':
+            return 'Being Held'
+        case 'UNDR_CNTRL':
+            return 'Under Control'
+        case 'OUT':
+            return 'Out'
+        default:
+            break;
+      }
+}
 

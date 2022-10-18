@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Action, Store } from "@ngrx/store";
 import { SortDirection, TokenService } from "@wf1/core-ui";
-import { WildfireIncidentListService } from "@wf1/incidents-rest-api";
+import { DefaultService as WildfireIncidentListService } from "@wf1/incidents-rest-api";
 import { Observable, of } from "rxjs";
 import { withLatestFrom, debounceTime, switchMap, catchError, map } from "rxjs/operators";
 import { RootState } from "..";
@@ -25,7 +25,7 @@ export class IncidentsEffect {
     getIncidentList: Observable<Action> = this.actions.pipe(
         ofType(SEARCH_INCIDENTS),
         withLatestFrom(this.store),
-        debounceTime(500),
+        debounceTime(1000),
         switchMap(
             ([action, store]) => {
 
@@ -68,6 +68,7 @@ export class IncidentsEffect {
                 let fireOfNotePublishedInd = typedaction.payload.filters["selectedFireOfNotePublishedInd"] ? typedaction.payload.filters["selectedFireOfNotePublishedInd"] : savedFireOfNotePublishedIndFilter;
 
                 return this.incidentListService.getWildfireIncidentList(
+                    undefined,
                     searchText,
                     [`2022`],
                     undefined,
@@ -104,7 +105,6 @@ export class IncidentsEffect {
                     `${pageNumber}`,
                     `${pageSize}`,
                     orderBy,
-                    undefined,
                     undefined,
                     'response'
                 )

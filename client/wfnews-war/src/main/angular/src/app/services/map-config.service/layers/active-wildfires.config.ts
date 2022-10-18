@@ -9,11 +9,11 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE&cachBust=" + Math.floor(new Date().getTime() / 600000),
-          titleAttribute: "incidentName",
+          titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
             {
-                name: "incidentName",
+                name: "incident_name",
                 title: "Fire Name",
                 visible: true
             }
@@ -37,11 +37,11 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL&cachBust=" + Math.floor(new Date().getTime() / 600000),
-          titleAttribute: "incidentName",
+          titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
             {
-                name: "incidentName",
+                name: "incident_name",
                 title: "Fire Name",
                 visible: true
             }
@@ -49,7 +49,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           style:{
             strokeWidth:"7",
             strokeStyle:"1",
-            strokeColor:"#aa0d0d",
+            strokeColor:"#00000069",
             strokeOpacity:"1",
             fillColor:"#aa0d0d",
             fillOpacity:"1",
@@ -63,11 +63,11 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING&cachBust=" + Math.floor(new Date().getTime() / 600000),
-          titleAttribute: "incidentName",
+          titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
             {
-                name: "incidentName",
+                name: "incident_name",
                 title: "Fire Name",
                 visible: true
             }
@@ -75,7 +75,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           style:{
             strokeWidth:"7",
             strokeStyle:"1",
-            strokeColor:"#ffd966",
+            strokeColor:"#00000069",
             strokeOpacity:"1",
             fillColor:"#ffd966",
             fillOpacity:"1",
@@ -89,11 +89,11 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=UNDR_CNTRL&cachBust=" + Math.floor(new Date().getTime() / 600000),
-          titleAttribute: "incidentName",
+          titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
             {
-                name: "incidentName",
+                name: "incident_name",
                 title: "Fire Name",
                 visible: true
             }
@@ -101,7 +101,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           style:{
             strokeWidth:"7",
             strokeStyle:"1",
-            strokeColor:"#207148",
+            strokeColor:"#00000069",
             strokeOpacity:"1",
             fillColor:"#207148",
             fillOpacity:"1",
