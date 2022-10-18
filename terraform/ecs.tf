@@ -331,7 +331,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           protocol      = "tcp"
           containerPort = var.apisix_ports[1]
           hostPort      = var.apisix_ports[1]
-        }
+        },
         {
           protocol      = "tcp"
           containerPort = var.apisix_ports[2]
