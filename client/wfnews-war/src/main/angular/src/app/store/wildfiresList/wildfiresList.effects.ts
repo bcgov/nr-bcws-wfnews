@@ -49,9 +49,6 @@ export class WildfiresListEffect {
                 if (sortParam == "wildfireOfNote") {
                     sortParam = "fireOfNoteInd";
                 }
-                if (sortParam == "fireCentre") {
-                    sortParam = "contactOrgUnitIdentifer";
-                }
                 if (sortParam == "location") {
                     sortParam = "incidentLocation";
                 }
