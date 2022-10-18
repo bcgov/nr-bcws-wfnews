@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
+import { ResourcesRoutes } from '../../utils';
 import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-widget-dialog.component';
 
 @Component({
@@ -13,12 +15,25 @@ export class StickyWidgetComponent {
   public showWatchlist = false
   public watchlist: any[] = []
 
-  constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService){}
+  constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private router: Router, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService){}
 
   openContactForm() {
     this.dialog.open(ContactWidgetDialogComponent, {
       width: '950px',
     });
+  }
+
+  openIncident (incident: any) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+    )
+    window.open(url, '_blank')
+  }
+
+  removeFromWatchlist (incident: any) {
+    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
+    this.showWatchlist = !this.showWatchlist
+    this.loadWatchlist()
   }
 
   async loadWatchlist () {
@@ -29,6 +44,9 @@ export class StickyWidgetComponent {
       for (const item of watchlistItems) {
         const incident = await this.publishedIncidentService.fetchPublishedIncident(item).toPromise()
         if (incident) {
+          const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          incident.lastUpdatedTimestamp = new Date(incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
+          incident.fireOfNoteInd = incident.fireOfNoteInd.trim().toUpperCase() === 'T' || incident.fireOfNoteInd.trim().toUpperCase() === '1';
           this.watchlist.push(incident)
         }
       }
