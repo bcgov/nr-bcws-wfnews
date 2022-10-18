@@ -41,11 +41,11 @@
 
 .watchlist-container {
   width: calc(100vw - 300px);
-  max-width: 1020px;
+  max-width: 682px;
   background: white;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  margin-top: -100px;
+  margin-top: -120px;
   box-shadow: 2px 2px #88888838;
   .watchlist-header {
     font-size: 20px;
@@ -98,8 +98,8 @@
   }
 
   .watchlist-items::-webkit-scrollbar-thumb {
-    background-color: #e9eff5;
+    background-color: #969ca1;
     border-radius: 16px;
-    border: 1px solid #e9eff5;
+    border: 1px solid #969ca1;
   }
 }

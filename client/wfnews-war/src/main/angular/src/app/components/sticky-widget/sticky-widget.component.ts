@@ -14,6 +14,7 @@ import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-wi
 export class StickyWidgetComponent {
   public showWatchlist = false
   public watchlist: any[] = []
+  private closeTimer: any
 
   constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private router: Router, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService){}
 
@@ -34,6 +35,19 @@ export class StickyWidgetComponent {
     this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
     this.showWatchlist = !this.showWatchlist
     this.loadWatchlist()
+  }
+
+  stopDelay () {
+    if (this.closeTimer) {
+      clearTimeout(this.closeTimer)
+      this.closeTimer = null
+    }
+  }
+
+  delayClose () {
+    this.closeTimer = setTimeout(() => {
+      this.loadWatchlist()
+    }, 5000)
   }
 
   async loadWatchlist () {

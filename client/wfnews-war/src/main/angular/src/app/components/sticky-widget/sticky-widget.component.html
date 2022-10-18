@@ -1,5 +1,5 @@
 <div class="sticky-widget">
-    <div *ngIf="showWatchlist" class="watchlist-container">
+    <div id="watchlist" *ngIf="showWatchlist" class="watchlist-container" (mouseleave)="delayClose()" (mouseEnter)="stopDelay" (blur)="loadWatchlist()">
       <div class="watchlist-header">
         <div>Watchlist</div>
         <span class="subtitle">Add a fire to your watchlist by clicking the <mat-icon style="color: #003366">bookmark_border</mat-icon> icon.</span>
