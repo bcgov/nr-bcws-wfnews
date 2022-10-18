@@ -8,7 +8,7 @@ export function CLABIndianReservesLayerConfig(ls: layerSettings) {
             title: 'Indian Reserve',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_ADMIN_BOUNDARIES.CLAB_INDIAN_RESERVES',
-            styleName: '374_375',
+            styleName: '375',
             titleAttribute: 'ENGLISH_NAME',
             geometryAttribute: 'GEOMETRY',
             attributes: [

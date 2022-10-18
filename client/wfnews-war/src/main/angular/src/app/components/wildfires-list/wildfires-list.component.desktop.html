@@ -3,7 +3,7 @@
     <div class="header-row">
         <p class="dashboard-title">Wildfires List
         </p>
-        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stage of Control?</button>
+        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stages of Control?</button>
     </div>
     <mat-tab-group>
         <mat-tab label="Wildfires"></mat-tab>
@@ -65,14 +65,11 @@
         <div class="stage-of-control-checkbox-group">
             <mat-label>Stages of Control</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="activeWildfiresInd" [disabled] = "!(wildfiresOfNoteInd || wildfiresOutInd)">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="wildfiresOutInd" [disabled] = "!(wildfiresOfNoteInd)">
                     Active Wildfires
                 </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(activeWildfiresInd || wildfiresOutInd)">
+                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(wildfiresOutInd)">
                     Wildfires of Note
-                </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOutInd" [disabled] = "!(activeWildfiresInd || wildfiresOfNoteInd)">
-                    Wildfires that are 'Out'
                 </mat-checkbox>
             </section>
         </div>
@@ -105,12 +102,12 @@
 
         <ng-container matColumnDef = "lastUpdated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.lastUpdatedTimestamp}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "stageOfControl">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.stageOfControlCode}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToStageOfControlDescription(item.stageOfControlCode)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "wildfireOfNote">
@@ -120,7 +117,7 @@
 
         <ng-container matColumnDef = "fireCentre">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.contactOrgUnitIdentifer}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentre}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
@@ -130,7 +127,7 @@
 
         <ng-container matColumnDef = "addToWatchlist">
             <th mat-header-cell *matHeaderCellDef> Add to Watchlist</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="addToWatchlist(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="bookmark"></mat-icon></span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="addToWatchlist(item)"><span #el ><mat-icon style="color:#1A5A96">{{onWatchlist(item) ? 'bookmark_border' : 'bookmark'}}</mat-icon></span></td>
         </ng-container>
 
         <ng-container matColumnDef = "viewMap">
@@ -166,7 +163,8 @@
                 [position]="'top'"
                 [selected]="showEntriesSelection"
                 [options]="showEntriesOptions"
-                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)">
+                (updated)="selectShowEntriesUpdated('showEntriesSelection', $event)"
+                [(ngModel)]="showEntriesSelection">
             <option *ngFor="let option of showEntriesOptions" value="{{option.value}}">
                 <span>{{option.label}}</span>
             </option>

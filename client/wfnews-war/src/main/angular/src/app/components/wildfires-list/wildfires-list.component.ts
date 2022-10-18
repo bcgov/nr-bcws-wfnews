@@ -1,10 +1,9 @@
-import { HttpHeaders } from '@angular/common/http';
 import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { fireCentreOption, PagedCollection } from '../../conversion/models';
+import { PagedCollection } from '../../conversion/models';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { FireCentres } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -19,9 +18,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
-  activeWildfiresInd = true;
   wildfiresOfNoteInd = false;
-  wildfiresOutInd = false;
+  wildfiresOutInd = true;
   selectedRadius = "50km";
   radiusOptions = [
     '50km',
@@ -36,6 +34,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     '100km',
   ]
   fireCentreOptions = FireCentres;
+
+  convertFromTimestamp = convertFromTimestamp;
+  convertToStageOfControlDescription = convertToStageOfControlDescription
+
 
 
   initModels() {
@@ -64,7 +66,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.activeWildfiresInd, undefined, undefined, this.displayLabel));
+      this.selectedFireCentreCode, this.wildfiresOfNoteInd, !this.wildfiresOutInd, undefined, this.displayLabel));
   }
 
   onChangeFilters() {
@@ -75,7 +77,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   clearSearchAndFilters() {
     this.searchText = null;
     this.selectedFireCentreCode = null;
-    this.activeWildfiresInd = true;
     this.wildfiresOfNoteInd = false;
     this.wildfiresOutInd = false;
     this.selectedRadius = '50Km'
@@ -107,8 +108,20 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     //TODO
   }
 
+  onWatchlist (incident: any): boolean {
+    return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+  }
+
   addToWatchlist(incident: any) {
-    //TODO, add to sessionStorage
+    if (this.onWatchlist(incident)) {
+      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+    } else {
+      this.removeFromWatchlist(incident)
+    }
+  }
+
+  removeFromWatchlist (incident: any) {
+    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
   }
 
   viewMap(incident: any) {

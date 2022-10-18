@@ -17,6 +17,7 @@ import { MessageDialogComponent } from '../../message-dialog/message-dialog.comp
 import { EditMapDialogComponent } from './edit-map-dialog/edit-map-dialog.component';
 import { UploadMapDialogComponent } from './upload-map-dialog/upload-map-dialog.component';
 import { DocumentManagementService } from '../../../services/document-management.service';
+import { WatchlistService } from '../../../services/watchlist-service';
 
 @Component({
   selector: 'maps-panel',
@@ -54,8 +55,9 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
               protected http: HttpClient,
               protected incidentAttachmentsService: IncidentAttachmentsService,
               protected incidentAttachmentService: IncidentAttachmentService,
-              private documentManagementService: DocumentManagementService,) {
-    super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http);
+              private documentManagementService: DocumentManagementService,
+              protected watchlistService: WatchlistService) {
+    super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService);
   }
 
   ngOnInit() {

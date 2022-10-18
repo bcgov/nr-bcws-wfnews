@@ -1,3 +1,7 @@
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
 .sticky-widget{
     position: fixed;
     bottom: 110px;
@@ -16,7 +20,7 @@
     align-items: center;
     border: none;
     cursor: pointer;
-    margin: 0 7.5px;    
+    margin: 0 7.5px;
 }
 
 .contact-btn{
@@ -24,7 +28,6 @@
     border: solid 1px #1A5A96;
     color: #FFFFFF;
 }
-
 
 .watchlist-btn{
     color: #1A5A96;
@@ -34,4 +37,82 @@
 
 .btn mat-icon{
     margin-right: 15px;
+}
+
+.watchlist-container {
+  width: calc(100vw - 300px);
+  max-width: 682px;
+  background: white;
+  border: 1px solid lightgrey;
+  border-radius: 5px;
+  margin-top: -120px;
+  box-shadow: 2px 2px #88888838;
+  .watchlist-header {
+    font-size: 20px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: row;
+    background-color: #e9eff5;
+    padding: 10px;
+    .subtitle {
+      font-size: 1rem;
+      font-weight: 400;
+      padding-left: 10px;
+      margin-top: -3px;
+    }
+  }
+  .watchlist-items {
+    display: flex;
+    flex-direction: row;
+    height: 84px;
+    padding: 10px;
+    overflow-x: auto;
+    .watchlist-item {
+      margin-right: 10px;
+      border-right: 1px solid lightgrey;
+      padding-right: 10px;
+      min-width: 200px;
+      .item-title {
+        font-size: 1.3rem;
+        font-weight: 400;
+        color: #003366;
+        cursor: pointer;
+      }
+      .item-body {
+        font-size: 1rem;
+        font-weight: 400;
+        color: black;
+      }
+    }
+    .watchlist-item:last-child {
+      border-right: none;
+    }
+  }
+  .watchlist-items::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .watchlist-items::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .watchlist-items::-webkit-scrollbar-thumb {
+    background-color: #969ca1;
+    border-radius: 16px;
+    border: 1px solid #969ca1;
+  }
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+  background-color: #1a5a9684;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+  background: white;
+}
+
+::ng-deep .mat-progress-bar {
+  border-radius: 2px;
+  height: 2px !important;
 }
