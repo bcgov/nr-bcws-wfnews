@@ -292,7 +292,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.liquibase_name}"
+          awslogs-group         = "/ecs/${var.liquibase_container_name}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
@@ -321,9 +321,9 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
+      for_each = var.apisix_ports
       portMappings = [
         {
-          for_each = var.apisix_ports
           protocol = "tcp"
           container_port = each.value
           hostPort = each.value
