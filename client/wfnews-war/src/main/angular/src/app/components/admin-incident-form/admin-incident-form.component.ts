@@ -1,21 +1,18 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
+import { AppConfigService } from '@wf1/core-ui';
+import { IncidentCauseResource, WildfireIncidentResource, PublishedIncidentResource } from '@wf1/incidents-rest-api';
+import { getIncident } from '../../store/incident/incident.action';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-<<<<<<< HEAD
-import { PublishedIncidentService } from '../../services/published-incident-service';
 import { RootState } from '../../store';
 import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-=======
-import { MatDialog } from '@angular/material/dialog';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';
-import { MatSnackBar } from '@angular/material/snack-bar';
->>>>>>> WFNEWS-436 enable publishing
+
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
@@ -73,6 +70,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   incidentNumberSequnce: string;
   currentAdminIncident: WildfireIncidentResource;
   currentAdminIncidentCause: IncidentCauseResource;
+  
   private loaded = false;
 
   public readonly incidentForm: FormGroup
@@ -186,27 +184,51 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      debugger;
       if (result && result.publish) {
-        self.publishIncident(result.file).then(doc => {
-            debugger;
-            this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
-        }).catch(err => {
-            debugger; 
-            this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-          }).finally(() => {
-            self.loaded = false;
-            this.cdr.detectChanges();
-          }).catch(err => {
-            debugger;
+        let publishedIncidentResource = {
+          incidentGuid: this.incident.fireNumber,
+          generalIncidentCauseCatId: Number(this.incidentForm.controls['cause'].value),
+          fireOfNoteInd: this.incident.fireOfNote,
+          incidentName: this.incident.fireName,
+          incidentLocation: this.incident.location,
+          incidentOverview: this.incident.incidentOverview,
+          traditionalTerritoryDetail: this.incident.traditionalTerritory,
+          incidentSizeType: this.incidentForm.controls['sizeType'].value,
+          incidentSizeEstimatedHa: this.incident.sizeHectares,
+          incidentSizeDetail: this.incident.sizeComments,
+          incidentCauseDetail: this.incident.causeComments,
+          contactOrgUnitIdentifer: this.incident.contact.fireCentre,
+          contactPhoneNumber: this.incident.contact.phoneNumber,
+          contactEmailAddress: this.incident.contact.emailAddress,
+          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd.toString(),
+          wildfireCrewResourcesDetail: this.incident.crewsComments,
+          wildfireAviationResourceInd: this.incident.aviationInd.toString(),
+          wildfireAviationResourceDetail: this.incident.aviationComments,
+          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd.toString(),
+          heavyEquipmentResourcesDetail: this.incident.heavyEquipmentComments,
+          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd.toString(),
+          incidentMgmtCrewRsrcDetail: this.incident.incidentManagementComments,
+          structureProtectionRsrcInd: this.incident.structureProtectionInd.toString(),
+          structureProtectionRsrcDetail: this.incident.structureProtectionComments,
+          type: this.incident.incidentData["@type"]
+      };
+
+      self.publishIncident(publishedIncidentResource).then(doc => {
+          this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
+      }).catch(err => {
           this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-        })
+        }).finally(() => {
+          self.loaded = false;
+          this.cdr.detectChanges();
+        }).catch(err => {
+          this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+      })
       }
     });
   }
 
-  publishIncident( file: File): Promise<any> {
-    return this.publishedIncidentService.publish({});
+  publishIncident(incident: PublishedIncidentResource): Promise<any> {
+    return this.publishedIncidentService.publish(incident);
   }
 
   onShowPreview() {
