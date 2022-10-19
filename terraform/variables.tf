@@ -229,7 +229,7 @@ variable apisix_image {
 
 variable apisix_ports {
   description = "Port apisix listens on"
-  default = [8080,9080,9443]
+  default = [2379,8080,9080,9443]
   type = list(number)
 }
 
