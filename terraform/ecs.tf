@@ -321,6 +321,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
+      for_each = var.apisix_ports
       portMappings = [
         {
           protocol = "tcp"
