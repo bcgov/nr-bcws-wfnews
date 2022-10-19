@@ -321,13 +321,28 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
-      for_each = var.apisix_ports
       portMappings = [
         {
           protocol = "tcp"
-          container_port = each.value
-          hostPort = each.value
+          container_port = var.apisix_ports[0]
+          hostPort = var.apisix_ports[0]
+        },
+        {
+          protocol = "tcp"
+          container_port = var.apisix_ports[1]
+          hostPort = var.apisix_ports[1]
+        },
+        {
+          protocol = "tcp"
+          container_port = var.apisix_ports[2]
+          hostPort = var.apisix_ports[2]
+        },
+        {
+          protocol = "tcp"
+          container_port = var.apisix_ports[3]
+          hostPort = var.apisix_ports[3]
         }
+
       ]
       environment = [
 
