@@ -139,6 +139,12 @@ variable "liquibase_names" {
   type        = list(string)
 }
 
+variable "apisix_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api"]
+  type        = list(string)
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
@@ -201,6 +207,30 @@ variable liquibase_image {
   description = "Full name of liquibase image"
   type = string
   default = ""
+}
+
+variable apisix_name {
+  description = "Name of apisix app"
+  type = string
+  default = "wfnews-apisix-app"
+}
+
+variable apisix_container_name {
+  description = "Name of apisix container"
+  default = "wfnews-apisix-app"
+  type = string
+} 
+
+variable apisix_image {
+  description = "Full name of apisix image"
+  default = ""
+  type = string
+} 
+
+variable apisix_ports {
+  description = "Port apisix listens on"
+  default = [8080,9080,9443]
+  type = list(number)
 }
 
 variable db_port {

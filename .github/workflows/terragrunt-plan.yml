@@ -24,6 +24,7 @@ env:
   CLIENT_IMAGE: "wfnews-client"
   SERVER_IMAGE: "wfnews-server"
   LIQUIBASE_IMAGE: "wfnews-liquibase"
+  APISIX_IMAGE: "wfnews-apisix"
   TARGET_ENV: "dev"
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
@@ -71,9 +72,11 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
-          CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
-          SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}-${{ github.event.pull_request.number }}:pr-${{ github.event.pull_request.number }}
+          TARGET_ENV: ${{env.TARGET_ENV}}
+          CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}:pr-${{ github.event.pull_request.number }}
           LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          APISIX_IMAGE: ${{env.registry}}/bcgov/${{ env.APISIX_IMAGE }}:pr-${{ github.event.pull_request.number }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: dbTESTsecretUNUSED
           ALB_NAME: ${{ env.ALB_NAME }}

@@ -1,5 +1,5 @@
 env:
-  IMAGE_NAME: ${{ github.repository }}-liquibase
+  IMAGE_NAME: ${{ github.repository }}-apisix
 
 on:
   workflow_call:
@@ -9,7 +9,7 @@ on:
         type: string
 
 jobs:
-  build_liquibase:
+  build-apisix:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -42,16 +42,7 @@ jobs:
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
-          file: docker/Dockerfile_liquibase
+          file: docker/Dockerfile_apisix
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      
-      # - uses: liquibase/liquibase-github-action@v7
-      #   with:
-      #     operation: 'update'
-      #     classpath: './database'
-      #     changeLogFile: 'main-changelog.json'
-      #     username: wfnews${{ inputs.TARGET_ENV }}
-      #     password: ${{ secrets.DB_PASS }}
-      #     url: jdbc:postgresql://wfnews-db.${{inputs.TARGET_ENV}}.bcwildfireservices.com:443/wfnews${{ inputs.TARGET_ENV }} 

@@ -1,0 +1,17 @@
+routes:
+  -
+    id: httpbin
+    uri: /*
+    upstream:
+      nodes:
+        "httpbin.org": 1
+      type: roundrobin
+    plugin_config_id: 1
+
+plugin_configs:
+  -
+    id: 1
+    plugins:
+      response-rewrite:
+        body: "Hello APISIX\n"
+    desc: "response-rewrite"
