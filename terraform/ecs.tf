@@ -476,7 +476,7 @@ resource "aws_ecs_service" "apisix" {
   count                             = local.create_ecs_service
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_apisix[count.index].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"

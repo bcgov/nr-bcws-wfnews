@@ -112,8 +112,20 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
     }
 
     onPageChange(number: number) {
-        this.config.currentPage = number;
-        this.doSearch();
+        if (number >= 1){
+            this.config.currentPage = number;
+        }
+        else {
+            //special handler for wildfire stage of control panel pagination
+            if (number === -1 && this.config.currentPage > 1) {
+                // previous page 
+                this.config.currentPage = this.config.currentPage - 1;
+            } else if (number === 0) {
+                // next page
+                this.config.currentPage = this.config.currentPage + 1;
+            }
+        }
+         this.doSearch();
     }
 
     onShowEntriesChange() {
