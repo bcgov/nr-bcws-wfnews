@@ -5,6 +5,6 @@ COPY docker/apisix.yaml /usr/local/apisix/conf/apisix.yaml
 USER root
 RUN apt-get update &&\
   apt-get install -y nginx &&\
-  apt-get install etcd &&\
+  apt-get install -y etcd &&\
   sed -i '/#!\/usr\/bin\/env bash/#!\/usr\/bin\/env bash\nnginx&\netcd&/' /docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
