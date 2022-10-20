@@ -206,7 +206,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wfnews-apisix.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-api.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
