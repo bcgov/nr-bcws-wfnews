@@ -195,7 +195,6 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         const config = this.appConfig.getConfig();                
         if (config && config.rest) {
             for (let endpoint in config.rest) {
-                console.log(url)
                 if (url.startsWith(config.rest[endpoint])) {
                     isSecured = true;
                     break;
