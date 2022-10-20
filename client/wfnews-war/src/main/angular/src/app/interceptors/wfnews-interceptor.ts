@@ -3,7 +3,7 @@ import {HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest}
 import {Observable} from "rxjs";
 import {AppConfigService, AuthenticationInterceptor, TokenService} from "@wf1/core-ui";
 import {UUID} from "angular2-uuid";
-import {catchError, mergeMap} from "rxjs/operators";
+import {catchError, filter, mergeMap, switchMap, take} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {RouterExtService} from "../services/router-ext.service";
 import {MatSnackBar} from "@angular/material/snack-bar";
@@ -25,64 +25,76 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         let processedRequest = req;
         let requestId;
+        requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
+
         if (this.isUrlSecured(req.url)) {
-            requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
+           
             if (!this.tokenService) {
                 this.tokenService = this.injector.get(TokenService);
             }
-            if (this.tokenService.getTokenDetails()) {
-                let appStateService = this.injector.get(ApplicationStateService);
-                if (!appStateService.isAdminPageAccessable()){
-                    this.router.navigate([ResourcesRoutes.ERROR_PAGE])
-                }
-
-                if (this.tokenService.isTokenExpired(this.tokenService.getTokenDetails())) {
-                    return this.refreshWindow().pipe(mergeMap((tokenResponse) => {
-                        this.tokenService.updateToken(tokenResponse);
-                        let headers = req.headers.set("Authorization", `Bearer ${tokenResponse["access_token"]}`)
-                            .set("RequestId", requestId);
-
-                        processedRequest = req.clone({headers});
-                        if (this.asyncTokenRefresh.isComplete) {
-                            this.asyncTokenRefresh = undefined;
-                        }
-                        if (this.refreshSnackbar) {
-                            this.refreshSnackbar.dismiss();
-                            this.refreshSnackbar = undefined;
-                        }
-                        return this.handleRequest(requestId, next, processedRequest);
-                    }));
-                } else {
-                    if (requestId) {
-                        //api's other than resources v2 api or schedule api still need to have this manually set
-                        let headers = req.headers.set("RequestId", requestId).set("Accept", "*/*");
-
-                        // Need to explicitly disable caching, as IE11 caches by default
-                        if (req.method === "GET") {
-                            headers = headers.set("Cache-Control", "no-cache")
-                                .set("Pragma", "no-cache");
-                        }
-
-                        if (req.url.indexOf('bytes') !== -1) {
-
-                        }
-                        let authToken = this.tokenService.getOauthToken();
-
-
-                        processedRequest = req.clone({
-                            headers: req.headers.set('Authorization', 'Bearer ' + authToken).set("RequestId", requestId).set("Accept", "*/*")
-                            .set("Cache-Control", "no-cache")
-                                .set("Pragma", "no-cache")
-                        });
-                    }
-                    return this.handleRequest(requestId, next, processedRequest);
-                }
-            } else {
-                return this.handleRequest(requestId, next, processedRequest);
-            }
+            
+            return this.handleLogin(req, next, this.tokenService, requestId);
+            
         } else {
             return this.handleRequest(requestId, next, processedRequest);
         }
+    }
+
+    handleLogin(req: HttpRequest<any>, next: HttpHandler, tokenService: TokenService, requestId: string): Observable<any> {
+        let processedRequest = req;
+        
+        return tokenService.authTokenEmitter.pipe(
+            filter(token => token != null)
+            , take(1)
+            , switchMap(token => {
+                if (this.tokenService.getTokenDetails()) {
+                    let appStateService = this.injector.get(ApplicationStateService);
+                    if (!appStateService.isAdminPageAccessable()){
+                        this.router.navigate([ResourcesRoutes.ERROR_PAGE])
+                    }
+                    if (this.tokenService.isTokenExpired(this.tokenService.getTokenDetails())) {
+                        return this.refreshWindow().pipe(mergeMap((tokenResponse) => {
+                            this.tokenService.updateToken(tokenResponse);
+                            let headers = req.headers.set("Authorization", `Bearer ${tokenResponse["access_token"]}`)
+                                .set("RequestId", requestId);
+        
+                            processedRequest = req.clone({headers});
+                            if (this.asyncTokenRefresh.isComplete) {
+                                this.asyncTokenRefresh = undefined;
+                            }
+                            if (this.refreshSnackbar) {
+                                this.refreshSnackbar.dismiss();
+                                this.refreshSnackbar = undefined;
+                            }
+                            return this.handleRequest(requestId, next, processedRequest);
+                        }));
+                    } else {
+                        if (requestId) {
+                            //api's other than resources v2 api or schedule api still need to have this manually set
+                            let headers = req.headers.set("RequestId", requestId).set("Accept", "*/*");
+        
+                            // Need to explicitly disable caching, as IE11 caches by default
+                            if (req.method === "GET") {
+                                headers = headers.set("Cache-Control", "no-cache")
+                                    .set("Pragma", "no-cache");
+                            }
+        
+                            if (req.url.indexOf('bytes') !== -1) {
+        
+                            }
+                            let authToken = this.tokenService.getOauthToken();
+                            processedRequest = req.clone({
+                                headers: req.headers.set('Authorization', 'Bearer ' + authToken).set("RequestId", requestId).set("Accept", "*/*")
+                                .set("Cache-Control", "no-cache")
+                                    .set("Pragma", "no-cache")
+                            });
+                        }
+                        return this.handleRequest(requestId, next, processedRequest);
+                    }
+                } else {
+                    return this.handleRequest(requestId, next, processedRequest);
+                }
+            }));
     }
 
     handleRequest(requestId, next, processedRequest): Observable<any> {

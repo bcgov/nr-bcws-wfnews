@@ -289,6 +289,19 @@ section {
     font-weight: 400;
 }
 
+.paging-control{
+    text-align: center;
+    .mat-icon{
+        vertical-align: middle;
+    }
+}
+
+.paging-control:hover{
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
 ::ng-deep .mat-progress-bar-fill {
   background-color: white;
 }
