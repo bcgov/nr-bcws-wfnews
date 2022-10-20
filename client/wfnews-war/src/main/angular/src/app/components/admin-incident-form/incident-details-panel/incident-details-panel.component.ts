@@ -35,10 +35,5 @@ export class IncidentDetailsPanel {
 
   setCauseDisclaimer (value) {
     this.formGroup.controls['causeComments'].setValue(this.causeOptions.find(c=>c.optionValue===value).disclaimer);
-
-    if(value == this.causeOptions[0].optionValue)
-      this.showLearnMoreText = true;
-    else
-    this.showLearnMoreText = false;
   }
 }
