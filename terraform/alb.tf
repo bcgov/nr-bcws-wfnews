@@ -191,7 +191,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
+    target_group_arn = aws_alb_target_group.wfnews_apisix.arn
   }
 
   condition {
