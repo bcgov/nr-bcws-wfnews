@@ -108,6 +108,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
               this.mapEventHandler();
             });
 
+            console.warn('... Hooking list to map ...')
             clearInterval(this.initInterval);
             this.initInterval = null;
           }
