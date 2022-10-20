@@ -41,4 +41,8 @@ export class IncidentInfoPanel {
     else if (code === 3) return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
     else return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
   }
+
+  public printPage() {
+    window.print()
+  }
 }
