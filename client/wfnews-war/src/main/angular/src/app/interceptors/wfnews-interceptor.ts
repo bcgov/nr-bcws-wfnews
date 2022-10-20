@@ -27,12 +27,11 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         let requestId;
         requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
 
-        if (this.isUrlSecured(req.url)) {
-           
+        // if the request is from wfnews-server, no need to hanldeLogin
+        if (!(req.url.indexOf('wfnews-server') > -1) && this.isUrlSecured(req.url)) {
             if (!this.tokenService) {
                 this.tokenService = this.injector.get(TokenService);
             }
-            
             return this.handleLogin(req, next, this.tokenService, requestId);
             
         } else {
@@ -193,10 +192,10 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
 
     isUrlSecured(url: string): boolean {
         let isSecured = false;
-        const config = this.appConfig.getConfig();
-
+        const config = this.appConfig.getConfig();                
         if (config && config.rest) {
             for (let endpoint in config.rest) {
+                console.log(url)
                 if (url.startsWith(config.rest[endpoint])) {
                     isSecured = true;
                     break;
