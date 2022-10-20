@@ -229,12 +229,17 @@ variable apisix_image {
 
 variable apisix_ports {
   description = "Port apisix listens on"
-  default = [2379,8080,9080,9443]
+  default = [9080,9443,2379,8080]
   type = list(number)
 }
 
 variable db_port {
   description = "Port used to communicate with database"
+  type = number
+  default = 8080
+}
+
+variable health_check_port {
   type = number
   default = 8080
 }
