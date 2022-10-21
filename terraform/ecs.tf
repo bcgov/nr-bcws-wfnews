@@ -335,13 +335,18 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         },
         {
           protocol = "tcp"
-          containerPort = var.apisix_ports[2]
-          hostPort = var.apisix_ports[2]
+          containerPort = var.apisix_admin_port
+          hostPort = var.apisix_admin_port
         },
         {
           protocol = "tcp"
-          containerPort = var.apisix_ports[3]
-          hostPort = var.apisix_ports[3]
+          containerPort = var.etcd_port
+          hostPort = var.etcd_port
+        },
+        {
+          protocol = "tcp"
+          containerPort = var.health_check_port
+          hostPort = var.health_check_port
         }
 
       ]
@@ -508,10 +513,18 @@ resource "aws_ecs_service" "apisix" {
     assign_public_ip = true
   }
 
+  #Hit http endpoint
   load_balancer {
     target_group_arn = aws_alb_target_group.wfnews_apisix.id
     container_name   = var.apisix_container_name
     container_port   = var.apisix_ports[0]
+  }
+
+  #hit admin api
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_apisix_admin.id
+    container_name   = var.apisix_container_name
+    container_port   = var.apisix_admin_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]

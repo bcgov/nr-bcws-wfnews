@@ -229,8 +229,19 @@ variable apisix_image {
 
 variable apisix_ports {
   description = "Port apisix listens on"
-  default = [9080,9443,2379,8080]
+  default = [9080,9443]
   type = list(number)
+}
+
+variable apisix_admin_port {
+  description = "Port apisix listens on for config updates/changes"
+  default = 9180
+  type = number
+}
+
+variable etcd_port {
+  description = "Port etcd listens on"
+  default = 2379
 }
 
 variable db_port {
