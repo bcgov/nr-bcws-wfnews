@@ -64,6 +64,11 @@ variable "client_port" {
   default     = 8081
 }
 
+variable "api_key" {
+  description = "value for api key"
+  type = string
+}
+
 variable "app_count" {
   description = "Number of docker containers to run"
   default     = 2
