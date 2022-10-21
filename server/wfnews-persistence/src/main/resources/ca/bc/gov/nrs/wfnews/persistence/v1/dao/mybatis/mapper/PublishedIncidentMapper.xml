@@ -245,6 +245,16 @@
 			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
 				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
+			<if test="searchText!=null &amp;&amp; searchText.length>0">
+				AND (
+					<foreach item="item" index="index" collection="searchText" separator="AND" >
+						( UPPER( 	 incident_name||'~^~'|| incident_number_label
+								 ||'~^~'||fire_centre ||'~^~'||incident_location
+								  ) 
+						  LIKE '%'||UPPER(#{item})||'%' )
+					</foreach>
+				)
+			</if>
 			<if test="orderBy!=null and orderBy.length>0">
 				ORDER BY
 				<foreach collection="orderBy" item="order" index="index">

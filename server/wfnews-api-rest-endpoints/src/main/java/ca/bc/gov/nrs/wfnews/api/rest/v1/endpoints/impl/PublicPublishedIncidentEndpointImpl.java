@@ -35,7 +35,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(List<String> searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -82,7 +82,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 			}else {
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(pageNum, rowCount, orderBy, fireOfNote, out, fireCentre, bbox, getFactoryContext());
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(toStringArray(searchText), pageNum, rowCount, orderBy, fireOfNote, out, fireCentre, bbox, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */
