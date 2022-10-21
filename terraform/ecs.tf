@@ -346,13 +346,20 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
 
       ]
       environment = [
-
+        {
+          name: "ETCD_URL",
+          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+        },
+        {
+          name: "API_KEY",
+          value: "${var.api_key}"
+        }
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.apisix_name}"
+          awslogs-group         = "/ecs/${var.etcd_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
