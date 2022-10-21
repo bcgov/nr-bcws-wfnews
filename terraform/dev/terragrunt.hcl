@@ -13,6 +13,8 @@ locals {
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
   apisix_image = get_env("APISIX_IMAGE")
+  etcd_image = get_env("ETCD_IMAGE")
+  api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
@@ -61,6 +63,8 @@ generate "dev_tfvars" {
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
     apisix_image = "${local.apisix_image}"
+    etcd_image = "${local.etcd_image}"
+    api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
     client_port = 8080

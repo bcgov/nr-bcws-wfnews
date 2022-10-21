@@ -340,11 +340,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         },
         {
           protocol = "tcp"
-          containerPort = var.etcd_port
-          hostPort = var.etcd_port
-        },
-        {
-          protocol = "tcp"
           containerPort = var.health_check_port
           hostPort = var.health_check_port
         }
@@ -400,7 +395,14 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
 
       ]
       environment = [
-
+        {
+          name: "ETCD_URL",
+          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+        },
+        {
+          name: "API_KEY",
+          value: "${var.api_key}"
+        }
       ]
       logConfiguration = {
         logDriver = "awslogs"
