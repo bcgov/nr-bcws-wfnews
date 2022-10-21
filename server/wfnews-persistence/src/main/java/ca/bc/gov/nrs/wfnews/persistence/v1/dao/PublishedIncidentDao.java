@@ -28,7 +28,9 @@ public interface PublishedIncidentDao extends Serializable {
 
 	void setPublishedIncidentMapper(PublishedIncidentMapper publishedIncidentMapper);
 
-	void delete(String publishedIncidentDetailGuid, String userId) throws DaoException;
+	void delete(String publishedIncidentDetailGuid) throws DaoException;
+
+	void flush() throws DaoException;
 
 	PagedDtos<PublishedIncidentDto> select(String[] searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException;
 

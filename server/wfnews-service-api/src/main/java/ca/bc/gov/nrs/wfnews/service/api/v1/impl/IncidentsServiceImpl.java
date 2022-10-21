@@ -382,6 +382,15 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
+	public void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException {
+		try {			
+			this.publishedIncidentDao.flush();
+		} catch (Exception e) {
+			throw new ServiceException("DAO threw an exception", e);
+		}
+	}
+
+	@Override
 	public void deletePublishedIncident(String publishedIncidentDetailGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException{
 		logger.debug("<deletePublishedIncident");
 		
@@ -393,7 +402,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				throw new NotFoundException("Did not find the PublishedIncident: "+publishedIncidentDetailGuid);
 			}
 			
-			this.publishedIncidentDao.delete(publishedIncidentDetailGuid, "Sean");
+			this.publishedIncidentDao.delete(publishedIncidentDetailGuid);
 
 		} catch (IntegrityConstraintViolatedDaoException e) {
 			throw new ConflictException(e.getMessage());

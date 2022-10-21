@@ -76,7 +76,7 @@
   <div class="content-panel" style="border-bottom: none;">
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
-      <div [innerHTML]="incident.resourceDetail"></div>
+      <div [innerHTML]="incident.resourceDetail || 'The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.'"></div>
     </div>
     <div *ngIf="!incident.wildfireCrewResourcesInd && !incident.wildfireAviationResourceInd && !incident.incidentMgmtCrewRsrcInd && !incident.heavyEquipmentResourcesInd && !incident.structureProtectionRsrcInd">
       <div class="content-panel-body">
@@ -91,7 +91,7 @@
       <div class="resource-panel-content">
         <h3>Wildfire Crews</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireCrewResourcesDetail"></div>
+          <div [innerHTML]="incident.wildfireCrewResourcesDetail || 'There are currently Initial Attack and Unit Crews responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
@@ -106,7 +106,7 @@
       <div class="resource-panel-content">
         <h3>Wildfire Aviation</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireAviationResourceDetail"></div>
+          <div [innerHTML]="incident.wildfireAviationResourceDetail || 'There are currently helicopters and/or airtankers responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
@@ -121,7 +121,7 @@
       <div class="resource-panel-content">
         <h3>Incident Management Teams</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail"></div>
+          <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail || 'An Incident Management Team has been assigned to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
@@ -136,7 +136,7 @@
       <div class="resource-panel-content">
         <h3>Heavy Equipment</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.heavyEquipmentResourcesDetail"></div>
+          <div [innerHTML]="incident.heavyEquipmentResourcesDetail || 'There is heavy equipment responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
@@ -151,7 +151,7 @@
       <div class="resource-panel-content">
         <h3>Structure Protection</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.structureProtectionRsrcDetail"></div>
+          <div [innerHTML]="incident.structureProtectionRsrcDetail || 'There are currently structure protection units responding to this incident.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>
