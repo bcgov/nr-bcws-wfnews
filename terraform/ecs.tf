@@ -368,6 +368,55 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   ])
 }
 
+resource "aws_ecs_task_definition" "wfnews_etcd" {
+  count                    = local.create_ecs_service
+  family                   = "wfnews-etcd-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.fargate_cpu
+  memory                   = var.fargate_memory
+  tags                     = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential   = true
+      name        = var.etcd_container_name
+      image       = var.etcd_image
+      cpu         = var.fargate_cpu
+      memory      = var.fargate_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol = "tcp"
+          containerPort = var.etcd_port
+          hostPort = var.etcd_port
+        },
+        {
+          protocol = "tcp"
+          containerPort = var.health_check_port
+          hostPort = var.health_check_port
+        }
+
+      ]
+      environment = [
+
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.etcd_names[0]}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = []
+      volumesFrom = []
+    }
+  ])
+}
+
 resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
   name                              = "wfnews-liquibase-service-${var.target_env}"
@@ -525,6 +574,54 @@ resource "aws_ecs_service" "apisix" {
     target_group_arn = aws_alb_target_group.wfnews_apisix_admin.id
     container_name   = var.apisix_container_name
     container_port   = var.apisix_admin_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
+
+resource "aws_ecs_service" "etcd" {
+  count                             = local.create_ecs_service
+  name                              = "wfnews-etcd-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews_etcd[count.index].arn
+  desired_count                     = var.app_count
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight = 20
+    base = 1
+  }
+
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.app.ids
+    assign_public_ip = true
+  }
+
+  #Hit http endpoint
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_etcd.id
+    container_name   = var.apisix_container_name
+    container_port   = var.apisix_ports[0]
+  }
+
+  #hit admin api
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_etcd.id
+    container_name   = var.etcd_container_name
+    container_port   = var.etcd_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
