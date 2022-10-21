@@ -145,6 +145,12 @@ variable "apisix_names" {
   type        = list(string)
 }
 
+variable "apisix_admin_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api-admin"]
+  type        = list(string)
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
