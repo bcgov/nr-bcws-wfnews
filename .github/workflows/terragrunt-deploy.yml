@@ -144,7 +144,7 @@ jobs:
           LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           ETCD_IMAGE: ${{env.registry}}/${{ github.repository_owner }}/${{ env.ETCD_IMAGE }}:pr-${{ github.event.pull_request.number }}
-          API_KEY: ${{ secrets.API_KEY }}
+          API_KEY: ${{ secrets.API_KEY_DEV }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}

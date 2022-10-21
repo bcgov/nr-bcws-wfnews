@@ -340,11 +340,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         },
         {
           protocol = "tcp"
-          containerPort = var.etcd_port
-          hostPort = var.etcd_port
-        },
-        {
-          protocol = "tcp"
           containerPort = var.health_check_port
           hostPort = var.health_check_port
         }
@@ -358,6 +353,62 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         options = {
           awslogs-create-group  = "true"
           awslogs-group         = "/ecs/${var.apisix_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = []
+      volumesFrom = []
+    }
+  ])
+}
+
+resource "aws_ecs_task_definition" "wfnews_etcd" {
+  count                    = local.create_ecs_service
+  family                   = "wfnews-etcd-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.fargate_cpu
+  memory                   = var.fargate_memory
+  tags                     = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential   = true
+      name        = var.etcd_container_name
+      image       = var.etcd_image
+      cpu         = var.fargate_cpu
+      memory      = var.fargate_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol = "tcp"
+          containerPort = var.etcd_port
+          hostPort = var.etcd_port
+        },
+        {
+          protocol = "tcp"
+          containerPort = var.health_check_port
+          hostPort = var.health_check_port
+        }
+
+      ]
+      environment = [
+        {
+          name: "ETCD_URL",
+          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+        },
+        {
+          name: "API_KEY",
+          value: "${var.api_key}"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.etcd_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
