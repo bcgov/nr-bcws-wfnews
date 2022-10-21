@@ -185,8 +185,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.publish) {
+        debugger;
         let publishedIncidentResource = {
-          incidentGuid: this.incident.fireNumber,
+          publishedIncidentDetailGuid: this.incident.incidentData.wildfireIncidentGuid,
+          incidentGuid: this.incident.incidentData.wildfireIncidentGuid,
+          newsCreatedTimestamp: new Date().valueOf().toString(),
+          discoveryDate: new Date().valueOf().toString(),
+          newsPublicationStatusCode: "DRAFT",
           generalIncidentCauseCatId: Number(this.incidentForm.controls['cause'].value),
           fireOfNoteInd: this.incident.fireOfNote,
           incidentName: this.incident.fireName,
@@ -200,20 +205,20 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
           contactPhoneNumber: this.incident.contact.phoneNumber,
           contactEmailAddress: this.incident.contact.emailAddress,
-          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd.toString(),
+          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd ? "Y" : "N",
           wildfireCrewResourcesDetail: this.incident.crewsComments,
-          wildfireAviationResourceInd: this.incident.aviationInd.toString(),
+          wildfireAviationResourceInd: this.incident.aviationInd ? "Y" : "N",
           wildfireAviationResourceDetail: this.incident.aviationComments,
-          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd.toString(),
+          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd ? "Y" : "N",
           heavyEquipmentResourcesDetail: this.incident.heavyEquipmentComments,
-          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd.toString(),
+          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd ? "Y" : "N",
           incidentMgmtCrewRsrcDetail: this.incident.incidentManagementComments,
-          structureProtectionRsrcInd: this.incident.structureProtectionInd.toString(),
+          structureProtectionRsrcInd: this.incident.structureProtectionInd ? "Y" : "N",
           structureProtectionRsrcDetail: this.incident.structureProtectionComments,
           type: this.incident.incidentData["@type"]
       };
 
-      self.publishIncident(publishedIncidentResource).then(doc => {
+      self.publishIncident(publishedIncidentResource, this.incident.incidentData.incidentLabel).then(doc => {
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
       }).catch(err => {
           this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
@@ -227,8 +232,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     });
   }
 
-  publishIncident(incident: PublishedIncidentResource): Promise<any> {
-    return this.publishedIncidentService.publish(incident);
+  publishIncident(incident: PublishedIncidentResource, incidentLabel: string): Promise<any> {
+    return this.publishedIncidentService.publish(incident, incidentLabel);
   }
 
   onShowPreview() {
