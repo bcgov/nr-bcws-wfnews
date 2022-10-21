@@ -104,6 +104,34 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 	}
 
 	@Override
+	public Response flush() throws NotFoundException, ConflictException, DaoException {
+		Response response = null;
+
+		logRequest();
+
+		if (!hasAuthority(Scopes.DELETE_PUBLISHED_INCIDENT)) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
+
+		try {
+			incidentsService.flush(getFactoryContext());
+			response = Response.status(204).build();
+		} catch (ConflictException e) {
+			response = Response.status(Status.CONFLICT).entity(e.getMessage()).build();
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+
+		logResponse(response);
+
+		logger.debug(">flush " + response.getStatus());
+
+		return response;
+	}
+
+	@Override
 	public Response deletePublishedIncident(String publishedIncidentDetailGuid)
 			throws NotFoundException, ConflictException, DaoException {
 		Response response = null;

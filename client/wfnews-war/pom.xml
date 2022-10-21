@@ -112,12 +112,6 @@
 			<artifactId>log4j-core</artifactId>
 		</dependency>
 
-		<!-- apache io for webade pref compress/decompress -->
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-		</dependency>
-
 		</dependencies>
 	<build>
 		<!-- Configure the resources to be filtered for property replacement -->
