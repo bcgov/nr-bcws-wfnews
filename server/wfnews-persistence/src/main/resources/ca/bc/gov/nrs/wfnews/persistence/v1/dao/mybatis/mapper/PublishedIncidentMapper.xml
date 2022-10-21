@@ -222,6 +222,9 @@
 		  WHERE INCIDENT_GUID = #{incidentGuid}
 	</select>
 	
+	<delete id="flush">
+		DELETE FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL 
+	</delete> 
 	
 	<delete id="delete">
 		DELETE FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL 

@@ -131,14 +131,24 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public void delete(String publishedIncidentDetailGuid, String userId) throws DaoException, NotFoundDaoException {
+	public void flush() throws DaoException {
+		logger.debug(">flush");
+		try {
+			this.publishedIncidentMapper.flush();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+		logger.debug("<flush");
+	}
+
+	@Override
+	public void delete(String publishedIncidentDetailGuid) throws DaoException, NotFoundDaoException {
 		logger.debug(">delete");
 		
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("publishedIncidentDetailGuid", publishedIncidentDetailGuid);
-			parameters.put("userId", userId);
 			int count = this.publishedIncidentMapper.delete(parameters);
 
 			if(count==0) {
