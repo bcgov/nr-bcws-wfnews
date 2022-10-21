@@ -40,27 +40,32 @@ if wfnews_fetch_resp.status_code != 200:
 features = wfnews_fetch_resp.json()
 del wfnews_fetch_resp
 
-for feature in features['features']:
-  wfnews_del_response = requests.delete(wfnews_api + 'publishedIncident/' + feature['properties']['published_incident_detail_guid'], headers={'Authorization': 'Bearer ' + token})
-  if wfnews_del_response.status_code != 204:
-    print(wfnews_del_response)
-    print('Failed to delete ' + feature['properties']['published_incident_detail_guid'])
-  del wfnews_del_response
+if features['features'] != None:
+  for feature in features['features']:
+    wfnews_del_response = requests.delete(wfnews_api + 'publishedIncident/' + feature['properties']['published_incident_detail_guid'], headers={'Authorization': 'Bearer ' + token})
+    if wfnews_del_response.status_code != 204:
+      print(wfnews_del_response)
+      print('Failed to delete ' + feature['properties']['published_incident_detail_guid'])
+    del wfnews_del_response
+
+wfnews_del_response = requests.delete(wfnews_api + 'publishedIncident/flush', headers={'Authorization': 'Bearer ' + token})
+if wfnews_del_response.status_code != 204:
+  print(wfnews_del_response)
+  print('Failed to flush')
+del wfnews_del_response
 
 print('Create Inserts for WFNEWS')
 # iterate incidents, push to WFNEWS API with some random data
 for incident in incidents:
   curr_time = round(time.time()*1000)
-  stage = None
+  stage = 'OUT'
 
   if incident['attributes']['FIRE_STATUS'] == 'Out Of Control':
     stage = 'OUT_CNTRL'
   elif incident['attributes']['FIRE_STATUS'] == 'Being Held':
-    stagre = 'HOLDING' 
+    stage = 'HOLDING' 
   elif incident['attributes']['FIRE_STATUS'] == 'Under Control':
     stage = 'UNDR_CNTRL'
-  else:
-    stage = 'OUT'
 
   feature = {
     "publishedIncidentDetailGuid": str(uuid.uuid4()),
@@ -89,15 +94,15 @@ for incident in incidents:
     "contactEmailAddress": "noaddress@fake.nope",
     "resourceDetail": "This is a custom deascription detailing the resources responding to this incident. It supports html and limited styling.",
     "wildfireCrewResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "wildfireCrewResourcesDetail": "Wildfire crews are on the scene an suppressing the hell out of this fire.",
+    "wildfireCrewResourcesDetail": None,
     "wildfireAviationResourceInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "wildfireAviationResourceDetail": "If you are standing in the middle of the fire and look up, you will likely see helicopters about to dump water on you. You should not be standing there.",
+    "wildfireAviationResourceDetail": None,
     "heavyEquipmentResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "heavyEquipmentResourcesDetail": "Heavy equipment resources have been assigned to this fire. They're really cool too. Lots of big cranes and monster trucks and stuff, it's awesome.",
+    "heavyEquipmentResourcesDetail": None,
     "incidentMgmtCrewRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "incidentMgmtCrewRsrcDetail": "Incident management crews are on the scene and making sure the incident is being appropriately managed.",
+    "incidentMgmtCrewRsrcDetail": None,
     "structureProtectionRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
-    "structureProtectionRsrcDetail": "Structure protection crews have been assigned and are busy protecting structures, so please don't get in their way.",
+    "structureProtectionRsrcDetail": None,
     "publishedTimestamp": curr_time,
     "publishedUserTypeCode": "GOV", 
     "publishedUserGuid": "TEST",
