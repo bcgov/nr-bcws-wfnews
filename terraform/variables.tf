@@ -151,6 +151,12 @@ variable "apisix_admin_names" {
   type        = list(string)
 }
 
+variable "etcd_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api-admin"]
+  type        = list(string)
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
@@ -227,7 +233,19 @@ variable apisix_container_name {
   type = string
 } 
 
+variable etcd_container_name {
+  description = "Name of etcd container"
+  default = "wfnews-etcd-app"
+  type = string
+} 
+
 variable apisix_image {
+  description = "Full name of apisix image"
+  default = ""
+  type = string
+} 
+
+variable etcd_image {
   description = "Full name of apisix image"
   default = ""
   type = string
