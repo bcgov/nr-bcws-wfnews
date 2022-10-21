@@ -242,12 +242,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.marker.remove()
         this.marker = null
       }
+
       this.marker = L.marker([Number(incident.latitude), Number(incident.longitude)], {icon: pointerIcon})
       this.marker.on('add', function() {
         const icon: any = document.querySelector('.animated-icon')
 
-        if (incident.fireOfNoteInd === '1' || incident.fireOfNoteInd === 't') {
-          icon.style.backgroundColor = 'red'
+        if (incident.fireOfNoteInd === '1' || incident.fireOfNoteInd === 'T') {
+          icon.style.backgroundColor = '#aa0d0d'
         } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
           icon.style.backgroundColor = '#aa0d0d'
         } else if (incident.stageOfControlCode === 'HOLDING') {
@@ -261,7 +262,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
           icon.style.marginLeft = icon.style.width === "20px" ? '-10px' : '-5px'
           icon.style.marginTop = icon.style.width === "20px" ? '-10px' : '-5px'
-          //icon.style.opacity = icon.style.width === "20px" ? '1.0' : '0.5'
           icon.style.boxShadow = icon.style.width === "20px" ? '4px 4px 4px rgba(0, 0, 0, 0.65)' : '0px 0px 0px transparent'
         }, 1000)
       })
@@ -298,8 +298,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         }
       }
       this.highlightLayer.clearLayers();
-      this.marker.remove()
-      this.marker = null
+      if (this.marker) {
+        this.marker.remove()
+        this.marker = null
+      }
 
       if (this.ignorePanDebounce) {
         clearTimeout(this.ignorePanDebounce)
