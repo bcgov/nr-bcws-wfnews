@@ -112,3 +112,9 @@
     color: #003366;
   }
 }
+
+@media print {
+  :host {
+    display: none;
+  }
+}
