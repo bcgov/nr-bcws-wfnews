@@ -8,7 +8,7 @@ export function FntTreatyLandLayerConfig(ls: layerSettings) {
             title: 'First Nations Treaty Land',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_LEGAL_ADMIN_BOUNDARIES.FNT_TREATY_LAND_SP',
-            styleName: '209_210',
+            styleName: '6214',
             titleAttribute: 'FIRST_NATION_NAME',
             geometryAttribute: 'GEOMETRY',
             attributes: [

@@ -108,12 +108,24 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.collectionData = this.collection.collection;
         this.config = this.getPagingConfig();
         this.config.currentPage = this.collection.pageNumber;
-        this.summaryString = this.getSummaryString();
+        this.summaryString = this.getSummaryString(this.config.id);
     }
 
     onPageChange(number: number) {
-        this.config.currentPage = number;
-        this.doSearch();
+        if (number >= 1){
+            this.config.currentPage = number;
+        }
+        else {
+            //special handler for wildfire stage of control panel pagination
+            if (number === -1 && this.config.currentPage > 1) {
+                // previous page 
+                this.config.currentPage = this.config.currentPage - 1;
+            } else if (number === 0) {
+                // next page
+                this.config.currentPage = this.config.currentPage + 1;
+            }
+        }
+         this.doSearch();
     }
 
     onShowEntriesChange() {
@@ -157,12 +169,15 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
         this.doSearch();
     }
 
-    getSummaryString() {
+    getSummaryString(configId?: string) {
         let showNum = Number(this.showEntriesSelection);
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;
             let end = (start + showNum) - 1;
-            const total = this.collection.totalRowCount;
+            const total = this.collection.totalRowCount ? this.collection.totalRowCount : 0;
+            if(configId === 'loadWildfiresPaginator') {
+                return `Showing 10 of ${total} search results`;
+            }
             if (start < 0) {
                 start = 0;
             }
@@ -172,7 +187,7 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
             if (end > total) {
                 end = total;
             }
-            return `Showing ${start} to ${end} of ${total ? total : 0}`;
+            return `Showing ${start} to ${end} of ${total}`;
 
         } else {
             return this.CONSTANTS.NO_RECORDS_MESSAGE;

@@ -34,7 +34,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
 	private static final Logger logger = LoggerFactory.getLogger(SecuritySpringConfig.class);
 	
-	private static final String DefaultScopes = "WFIM.*";
+	private static final String DefaultScopes = "WFNEWS.*, WFIM.*";
 
 	// Beans provided by TokenServiceSpringConfig
 	// This allows Spring to use the proxied service

@@ -1,7 +1,7 @@
 <mat-tab-group class="wildfires-tabs" mat-align-tabs="center">
         <mat-tab label="Legend">
             <div class="panel-header">Wildfire Stages of Control</div>
-        
+
             <section>
                 <h1>LEGEND & DEFINITIONS</h1>
                 <article>
@@ -18,12 +18,6 @@
                     </h2>
                     <p class="paragraph-format">
                         A wildfire that is highly visible or poses a potential threat to public safety.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="orange">New</h2>
-                    <p class="paragraph-format">
-                        A new wildfire that has been posted within the last 24 hours.
                     </p>
                 </article>
                 <article>
@@ -68,22 +62,22 @@
         <div class="wildfire-checkboxs">
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Only Wildfires of Note </mat-checkbox>
-            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOutInd">Wildfires that are 'Out'</mat-checkbox>
         </div>
         <div *ngIf="collectionData">
-            <div class = "incident-item" *ngFor="let incident of collectionData">
-                <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <mat-icon style="color:#1A5A96; vertical-align: middle;" svgIcon="bookmark"></mat-icon> </div>
-                <div style="padding:5px 0px">
-                    <span class="item-title">LAST UPDATED: </span>
-                    <span class="item-content">{{convertFromTimestamp(incident.newsCreatedTimestamp)}}</span>
+            <div class = "incident-item" *ngFor="let incident of collectionData" (click)="openPreview(incident)" (mouseenter)="onPanelMouseEnter(incident)" (mouseleave)="onPanelMouseExit(incident)">
+              <mat-progress-bar [id]="incident.incidentName" mode="determinate" [value]="progressValues.get(incident.incidentName)"></mat-progress-bar>
+              <div class="item-header" style="color: #1a5a96">{{incident.incidentName}} <span #el style="cursor: pointer;" (click)="onWatchlist(incident) ? removeFromWatchlist(incident) : addToWatchlist(incident)"><mat-icon style="color:#1A5A96; vertical-align: middle;">{{onWatchlist(incident) ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
+                <div class="item-row">
+                    <span class="item-title">Last Updated: </span>
+                    <span class="item-content">{{convertToDateWithTime(incident.newsCreatedTimestamp)}}</span>
                 </div>
-                <div style="padding:5px 0px">
-                    <span class="item-title">FIRE CENTRE: </span>
-                    <span class="item-content"></span>
+                <div class="item-row">
+                    <span class="item-title">Fire Centre: </span>
+                    <span class="item-content">{{incident.fireCentre}}</span>
                 </div>
-                <div style="padding:5px 0px">
-                    <span class="item-title">DISTANCE FROM MY LOCATION: </span>
-                    <span class="item-content"></span>
+                <div class="item-row">
+                    <span class="item-title">Distance from My Location: </span>
+                    <span class="item-content">{{calculateDistance(Number(incident.latitude), Number(incident.longitude))}} km</span>
                 </div>
                 <div class="tags">
                     <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === '1'" class="wildifre-of-note-tag">
@@ -92,24 +86,19 @@
                     </span>
                     <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">
                         <span class="circle-icon {{incident.stageOfControlCode}}"></span>
-                        {{convertToDescription(incident.stageOfControlCode)}}
+                        {{convertToStageOfControlDescription(incident.stageOfControlCode)}}
                     </span>
                 </div>
-
             </div>
         </div>
 
         <div class="bottom-summary flex-y-fixed">
-            <div class="showing-summary" style="flex: 75%;">{{summaryString}} search results</div>
-            <pagination-controls style = "text-align:center" [id]="config.id"
-                                 [maxSize]="5"
-                                 [responsive]="false"
-                                 [directionLinks]="true"
-                                 [previousLabel]="paginatorLabels.previousLabel"
-                                 [nextLabel]="paginatorLabels.nextLabel"
-                                 [autoHide]="false"
-                                 (pageChange)="onPageChange($event)"></pagination-controls>
+            <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
+            <span class="paging-control" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
+            <span class="paging-control" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
+
         </div>
     </mat-tab>
 
 </mat-tab-group>
+<ng-template #listIdentifyContainer></ng-template>

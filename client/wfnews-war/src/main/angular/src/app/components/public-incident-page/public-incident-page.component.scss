@@ -1,0 +1,27 @@
+@import '../../../styles/variables';
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
+:host ::ng-deep .mat-tab-group {
+  background: #f3f6f9;
+}
+
+:host ::ng-deep .mat-tab-label {
+  color: #003366;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: #003366 !important;
+  height: 4px !important;
+}
+
+.page {
+  background-color: #f2f2f2;
+}
+
+.page-container {
+  max-width: 1185px;
+  margin: auto;
+  background-color: white;
+}

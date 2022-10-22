@@ -62,6 +62,8 @@
 				GENERAL_INCIDENT_CAUSE_CAT_ID,
 				NEWS_PUBLICATION_STATUS_CODE,
 				DISCOVERY_DATE,
+				DECLARED_OUT_DATE,
+				FIRE_CENTRE,
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER,
 				FIRE_OF_NOTE_IND,
 				INCIDENT_NAME,
@@ -110,6 +112,8 @@
 				#{dto.generalIncidentCauseCatId, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -161,6 +165,8 @@
 				GENERAL_INCIDENT_CAUSE_CAT_ID =				#{dto.generalIncidentCauseCatId, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				NEWS_PUBLICATION_STATUS_CODE =				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				DISCOVERY_DATE =				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				DECLARED_OUT_DATE =				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_NAME =				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -216,6 +222,9 @@
 		  WHERE INCIDENT_GUID = #{incidentGuid}
 	</select>
 	
+	<delete id="flush">
+		DELETE FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL 
+	</delete> 
 	
 	<delete id="delete">
 		DELETE FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL 
@@ -226,15 +235,45 @@
 
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		  <if test="offset != null and pageRowCount != null">
-	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
-	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
-		</if> 
+			WHERE geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+		  <if test="out == true">  
+				AND stage_of_control_code = 'OUT'
+			</if>
+			<if test="out == false">  
+				AND stage_of_control_code != 'OUT'
+			</if>
+			<if test="fireOfNote == true">  
+				AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+			</if>
+			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
+				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+			</if>
+			<if test="orderBy!=null and orderBy.length>0">
+				ORDER BY
+				<foreach collection="orderBy" item="order" index="index">
+					<choose>
+						<when test="order == 'incidentNumberLabel'">incident_number_label</when>
+						<when test="order == 'fireOfNoteInd'">fire_of_note_ind</when>
+						<when test="order == 'incidentLocation'">location</when>
+						<when test="order == 'incidentName'">incident_name</when>
+						<when test="order == 'fireCentre'">fire_centre</when>
+						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
+						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
+						<when test="order == 'ASC' &amp;&amp; index &lt; orderBy.length - 1"> ASC,</when>
+						<when test="order == 'ASC' &amp;&amp; index == orderBy.length - 1"> ASC</when>
+						<when test="order == 'DESC' &amp;&amp; index &lt; orderBy.length - 1"> DESC,</when>
+						<when test="order == 'DESC' &amp;&amp; index == orderBy.length - 1"> DESC</when>
+					</choose>
+				</foreach>
+			</if>
+			<if test="offset != null and pageRowCount != null">
+				OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
+				FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
+			</if> 
 		
 	</select>
 	
 	<select id="selectCount" resultType="int">
-
 		SELECT COUNT(*)
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE PUBLISHED_INCIDENT_DETAIL_GUID IS NOT NULL
@@ -247,10 +286,11 @@
 				'features', json_agg(ST_AsGeoJSON(t.*)::json)
 			)
 		FROM
-			published_incident_detail AS t
+			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		  AND fire_of_note_ind != '1'
 			AND fire_of_note_ind != 'T'
+			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 	</select>
 
 	<select id="selectFireOfNoteAsJson" resultType="string">
@@ -260,9 +300,10 @@
 				'features', json_agg(ST_AsGeoJSON(t.*)::json)
 			)
 		FROM
-			published_incident_detail AS t
+			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code != 'OUT'
 		 AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+		 AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 	</select>
 	
 </mapper>

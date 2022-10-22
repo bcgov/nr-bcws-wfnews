@@ -26,6 +26,8 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private Integer generalIncidentCauseCatId;
 	private String newsPublicationStatusCode;
 	private Date discoveryDate;
+	private Date declaredOutDate;
+	private String fireCentre;
 	private Integer fireZoneUnitIdentifier;
 	private String fireOfNoteInd;
 	private String incidentName;
@@ -437,5 +439,25 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	@Override
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
+	}
+
+	@Override
+	public Date getDeclaredOutDate() {
+		return declaredOutDate;
+	}
+
+	@Override
+	public void setDeclaredOutDate(Date declaredOutDate) {
+		this.declaredOutDate = declaredOutDate;
+	}
+
+	@Override
+	public String getFireCentre() {
+		return fireCentre;
+	}
+
+	@Override
+	public void setFireCentre(String fireCentre) {
+		this.fireCentre = fireCentre;
 	}
 }

@@ -18,10 +18,12 @@ public interface PublishedIncidentMapper {
 	List<PublishedIncidentDto> select(Map<String, Object> parameters);
 	
 	int delete(Map<String, Object> parameters);
+
+	void flush();
 	
 	int selectCount(Map<String, Object> parameters);
 
 	String selectAsJson(Map<String, Object> parameters);
 
-	String selectFireOfNoteAsJson();
+	String selectFireOfNoteAsJson(Map<String, Object> parameters);
 }

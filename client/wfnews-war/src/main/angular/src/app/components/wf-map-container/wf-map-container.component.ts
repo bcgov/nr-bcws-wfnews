@@ -112,22 +112,24 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
-        feature.properties.createContent = function (el) {
-          self.zone.run(function () {
-            let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
-            (compRef.instance as any).setIncident(feature.properties, identified.featureSet);
-            const panel = (document.getElementsByClassName('identify-panel').item(0) as HTMLElement);
-            panel.appendChild(compRef.location.nativeElement);
-            self.cdr.detectChanges();
-            // display the panel
-            (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'block';
-            // apply a slight debounce to clear the identify and destroy the panel
-            setTimeout(() => {
-              const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
-              identifyPanel.remove();
-              // use smk.$viewer.identified to reset the form?
-            }, 200);
-          })
+        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'bcws-activefires-publicview-inactive', 'fire-perimeters'].includes(feature.layerId)) {
+          feature.properties.createContent = function (el) {
+            self.zone.run(function () {
+              let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
+              (compRef.instance as any).setIncident(feature.properties, identified.featureSet);
+              const panel = (document.getElementsByClassName('identify-panel').item(0) as HTMLElement);
+              panel.appendChild(compRef.location.nativeElement);
+              self.cdr.detectChanges();
+              // display the panel
+              (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'block';
+              // apply a slight debounce to clear the identify and destroy the panel
+              setTimeout(() => {
+                const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
+                identifyPanel.remove();
+                // use smk.$viewer.identified to reset the form?
+              }, 200);
+            })
+          }
         }
       }
     }

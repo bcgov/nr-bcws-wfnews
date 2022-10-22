@@ -31,7 +31,6 @@ export class WildfiresListEffect {
 
                 const typedaction = <SearchWildfiresAction>action;
                 const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchWildfires);
-
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
@@ -50,14 +49,20 @@ export class WildfiresListEffect {
                 if (sortParam == "wildfireOfNote") {
                     sortParam = "fireOfNoteInd";
                 }
-                if (sortParam == "fireCentre") {
-                    sortParam = "contactOrgUnitIdentifer";
-                }
                 if (sortParam == "location") {
                     sortParam = "incidentLocation";
                 }
                 let orderBy = formatSort(sortParam, <SortDirection>pagingInfoRequest.sortDirection);
                 let url = this.appConfigService.getConfig().rest['wfnews'].toString() + '/publicPublishedIncident' + '?pageNumber=' + pageNumber + '&pageRowCount=' + pageSize;
+
+                // add filters
+                const filters = typedaction.payload.filters
+                for (const filter in filters) {
+                  if (Object.prototype.hasOwnProperty.call(filters, filter) && filters[filter] !== undefined) {
+                    url += `&${filter}=${filters[filter]}`;
+                  }
+                }
+
                 if (orderBy) {
                     orderBy = encodeURIComponent(orderBy.trim());
                     url = url.concat('&orderBy=')

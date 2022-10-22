@@ -1,5 +1,22 @@
 <div class="sticky-widget">
-    <button class="btn watchlist-btn">
+    <div id="watchlist" *ngIf="showWatchlist" class="watchlist-container" (mouseleave)="delayClose()" (mouseenter)="stopDelay()" (blur)="loadWatchlist()">
+      <mat-progress-bar style="margin-left: 0px; width: 100% !important;" mode="determinate" [value]="progressValue"></mat-progress-bar>
+      <div class="watchlist-header">
+        <div>Watchlist</div>
+        <span class="subtitle">Add a fire to your watchlist by clicking the <mat-icon style="color: #003366">bookmark_border</mat-icon> icon.</span>
+        <div style="margin-left: auto; cursor: pointer;" (click)="loadWatchlist()"><mat-icon>close</mat-icon></div>
+      </div>
+      <div class="watchlist-items">
+        <div class="watchlist-item" *ngFor="let item of watchlist">
+          <div class="item-title"><span (click)="openIncident(item)">{{item.incidentName}}</span><span #el style="cursor: pointer;" (click)="removeFromWatchlist(item)"><mat-icon style="color:#1A5A96">bookmark</mat-icon></span></div>
+          <div class="item-body">{{item.lastUpdatedTimestamp}}</div>
+        </div>
+        <div *ngIf="!watchlist || watchlist.length === 0" style="margin: auto;">
+          You have no items on your watchlist
+        </div>
+      </div>
+    </div>
+    <button *ngIf="!showWatchlist" class="btn watchlist-btn" (click)="loadWatchlist()">
         <mat-icon>bookmark</mat-icon>Watch List
     </button>
     <button class="btn contact-btn" (click)="openContactForm()">

@@ -41,17 +41,19 @@ public interface IncidentsService {
 	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	String getPublishedIncidentsAsJson(String stageOfControl, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
+	String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	String getFireOfNoteAsJson(WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
+	String getFireOfNoteAsJson(String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
 	
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	void deletePublishedIncident(String publishedIncidentDetailGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException;
 
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException;
+
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, 
-			Integer pageRowCount, FactoryContext factoryContext);
+	PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext);
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;

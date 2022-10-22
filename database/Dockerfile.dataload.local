@@ -1,0 +1,5 @@
+FROM python:alpine
+WORKDIR /usr/app/src
+COPY loader.local.py ./
+RUN pip install requests
+CMD [ "python", "./loader.local.py"]
