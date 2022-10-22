@@ -625,14 +625,7 @@ resource "aws_ecs_service" "etcd" {
     container_name   = var.apisix_container_name
     container_port   = var.apisix_ports[0]
   }
-
-  #hit admin api
-  load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_etcd.id
-    container_name   = var.etcd_container_name
-    container_port   = var.etcd_port
-  }
-
+  
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
