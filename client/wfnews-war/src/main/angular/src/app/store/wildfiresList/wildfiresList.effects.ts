@@ -34,6 +34,12 @@ export class WildfiresListEffect {
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
+                let searchText = '';
+                if (pagingInfoRequest.query && pagingInfoRequest.query.length > 0) {
+                    searchText = pagingInfoRequest.query;
+                } else {
+                    searchText = undefined;
+                }
                 if (sortParam == "fireName") {
                     sortParam = "incidentName";
                 }
@@ -61,6 +67,10 @@ export class WildfiresListEffect {
                   if (Object.prototype.hasOwnProperty.call(filters, filter) && filters[filter] !== undefined) {
                     url += `&${filter}=${filters[filter]}`;
                   }
+                }
+
+                if(searchText) {
+                    url += `&searchText=${searchText}`;
                 }
 
                 if (orderBy) {
