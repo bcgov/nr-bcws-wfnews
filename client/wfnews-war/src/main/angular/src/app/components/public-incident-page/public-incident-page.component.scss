@@ -6,6 +6,8 @@
 @media print{
   :host {
     font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+    width: 100%;
+    height: 100%;
   }
   app-root { display: block; }
   body, html, .forPrint {
@@ -15,6 +17,13 @@
 
   ::ng-deep .qr-code {
     display: block;
+  }
+
+  ::ng-deep .show-print {
+    display: block !important;
+  }
+  ::ng-deep .no-print {
+    display: none !important;
   }
 }
 
