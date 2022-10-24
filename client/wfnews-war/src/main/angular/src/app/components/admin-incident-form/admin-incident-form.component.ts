@@ -203,6 +203,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         this.incidentForm.patchValue(this.incident);
         
         this.incidentForm.patchValue(this.currentAdminIncident);
+      },
+      (error) => {
+        debugger;
       });
       
     }
