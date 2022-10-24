@@ -197,7 +197,7 @@ resource "aws_alb_target_group" "wfnews_apisix_gui" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
-    port = var.health_check_port
+    port = var.apisix_gui_port
     path                = var.health_check_path
     unhealthy_threshold = "2"
   }

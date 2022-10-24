@@ -449,13 +449,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
           protocol = "tcp"
           containerPort = var.apisix_gui_port
           hostPort = var.apisix_gui_port
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.health_check_port
-          hostPort = var.health_check_port
         }
-
       ]
       environment = [
         {
