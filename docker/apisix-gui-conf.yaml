@@ -48,7 +48,7 @@ conf:
     # prefix: /apisix       # apisix config's prefix in etcd, /apisix by default
   log:
     error_log:
-      level: warn       # supports levels, lower to higher: debug, info, warn, error, panic, fatal
+      level: debug       # supports levels, lower to higher: debug, info, warn, error, panic, fatal
       file_path:
         logs/error.log  # supports relative path, absolute path, standard output
                         # such as: logs/error.log, /tmp/logs/error.log, /dev/stdout, /dev/stderr
