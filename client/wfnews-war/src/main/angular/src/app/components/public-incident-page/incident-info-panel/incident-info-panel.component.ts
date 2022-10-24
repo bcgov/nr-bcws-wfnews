@@ -1,5 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
+import { toCanvas } from 'qrcode'
 
 @Component({
   selector: 'incident-info-panel',
@@ -7,10 +8,17 @@ import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/mod
   styleUrls: ['./incident-info-panel.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IncidentInfoPanel {
+export class IncidentInfoPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
+
+  ngAfterViewInit(): void {
+    const canvas = document.getElementById('qr-code')
+    toCanvas(canvas, window.location.href, function (error) {
+      if (error) console.error(error)
+    })
+  }
 
   public getStageOfControlLabel (code: string) {
     if (code.toUpperCase().trim() === 'OUT') return 'Out'
@@ -43,6 +51,16 @@ export class IncidentInfoPanel {
   }
 
   public printPage() {
-    window.print()
+    // window.print()
+    const printContents = document.getElementsByClassName('page-container')[0].innerHTML
+    const originalContents = document.body.innerHTML
+    document.body.innerHTML = printContents
+
+    const canvas = document.getElementById('qr-code')
+    toCanvas(canvas, window.location.href, function (error) {
+      if (error) console.error(error)
+      window.print();
+      document.body.innerHTML = originalContents
+    })
   }
 }
