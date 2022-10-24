@@ -26,7 +26,7 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentList( 
-		@ApiParam("Search Text.") @QueryParam("searchText") List<String> searchText,
+		@ApiParam("Search Text.") @QueryParam("searchText") String searchText,
 		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
 		@ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount,
 		@ApiParam("Order the results by a specific column and sort order, eg. 'incident_name,desc'") @QueryParam("orderBy") String orderBy,

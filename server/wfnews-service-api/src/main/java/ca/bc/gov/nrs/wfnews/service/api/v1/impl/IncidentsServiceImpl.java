@@ -418,7 +418,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public PublishedIncidentListResource getPublishedIncidentList(String[] searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext) {
+	public PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
