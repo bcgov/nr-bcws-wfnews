@@ -3,6 +3,34 @@
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
 
+@media print{
+  :host {
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+    width: 100%;
+    height: 100%;
+  }
+  app-root { display: block; }
+  body, html, .forPrint {
+    width: 100%;
+    height: 100%;
+  }
+
+  ::ng-deep .qr-code {
+    display: block;
+  }
+
+  ::ng-deep .show-print {
+    display: block !important;
+  }
+  ::ng-deep .no-print {
+    display: none !important;
+  }
+}
+
+::ng-deep .qr-code {
+  display: none;
+}
+
 :host ::ng-deep .mat-tab-group {
   background: #f3f6f9;
 }
