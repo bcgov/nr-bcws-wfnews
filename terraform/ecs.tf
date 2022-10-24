@@ -292,7 +292,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.client_name}"
+          awslogs-group         = "/ecs/${var.liquibase_container_name}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
@@ -321,22 +321,29 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
+      for_each = var.apisix_ports
       portMappings = [
         {
-          protocol      = "tcp"
+          protocol = "tcp"
           containerPort = var.apisix_ports[0]
-          hostPort      = var.apisix_ports[0]
+          hostPort = var.apisix_ports[0]
         },
         {
-          protocol      = "tcp"
+          protocol = "tcp"
           containerPort = var.apisix_ports[1]
-          hostPort      = var.apisix_ports[1]
+          hostPort = var.apisix_ports[1]
         },
         {
-          protocol      = "tcp"
+          protocol = "tcp"
           containerPort = var.apisix_ports[2]
-          hostPort      = var.apisix_ports[2]
+          hostPort = var.apisix_ports[2]
+        },
+        {
+          protocol = "tcp"
+          containerPort = var.apisix_ports[3]
+          hostPort = var.apisix_ports[3]
         }
+
       ]
       environment = [
 
@@ -476,7 +483,7 @@ resource "aws_ecs_service" "apisix" {
   count                             = local.create_ecs_service
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_apisix[count.index].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -502,9 +509,9 @@ resource "aws_ecs_service" "apisix" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_client.id
-    container_name   = var.client_container_name
-    container_port   = var.client_port
+    target_group_arn = aws_alb_target_group.wfnews_apisix.id
+    container_name   = var.apisix_container_name
+    container_port   = var.apisix_ports[0]
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]

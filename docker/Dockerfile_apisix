@@ -1,13 +1,17 @@
-FROM bitnami/etcd:latest
-EXPOSE 2379 2380  8080
+FROM apache/apisix
+EXPOSE 2379 8080 9080 9443
 ENV ALLOW_NONE_AUTHENTICATION=yes ETCD_ADVERTISE_CLIENT_URLS=http://127.0.0.1:2379
+COPY docker/apisix.yaml /usr/local/apisix/conf/apisix.yaml
 USER root
 RUN apt-get update &&\
-  apt-get install -y nginx &&\
-  apt-get install -y sed  &&\
-  sed -i '/#!\/usr\/bin\/env bash/#!\/usr\/bin\/env bash\nnginx &/' /docker-entrypoint.sh
+  apt-get install -y nginx etcd curl wget &&\
+  export RELEASE=$(curl -s https://api.github.com/repos/etcd-io/etcd/releases/latest|grep tag_name | cut -d '"' -f 4) &&\
+  wget https://github.com/etcd-io/etcd/releases/download/${RELEASE}/etcd-${RELEASE}-linux-amd64.tar.gz &&\
+  tar xvf etcd-${RELEASE}-linux-amd64.tar.gz &&\
+  cd etcd-${RELEASE}-linux-amd64 &&\
+  mv etcd etcdctl etcdutl /usr/local/bin &&\
+  mkdir -p /var/lib/etcd/ &&\
+  mkdir /etc/etcd &&\
+  ulimit -n 4096 &&\
+  sed -i 's/#!\/usr\/bin\/env bash/&\nnginx\&\netcd\&/' /docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
-
-FROM apache/apisix
-EXPOSE 9080 9443
-COPY docker/apisix.yaml /usr/local/apisix/conf/apisix.yaml

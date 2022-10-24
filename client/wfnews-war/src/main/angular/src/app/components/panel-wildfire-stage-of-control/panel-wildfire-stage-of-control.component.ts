@@ -16,11 +16,11 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertToDateWithTime, convertToStageOfControlDescription } from '../../utils';
+import { convertToDateWithTime as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
-
+import * as L from 'leaflet'
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
@@ -39,14 +39,21 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private progressValues = new Map<string, number>();
     private lastPanned = '';
 
+    private viewer
+    private map
+
+    private handlePanelEnterTimeout
+    private handlePanelExitTImeout
     private highlightLayer
     private initInterval
     private mapEventDebounce
     private ignorePan = false
     private ignorePanDebounce
 
-    convertToDateWithTime = convertToDateWithTime;
-    convertToStageOfControlDescription = convertToStageOfControlDescription;
+    private marker: any
+
+    public convertToDateWithTime = DateTimeConvert;
+    public convertToStageOfControlDescription = StageOfControlConvert;
 
     constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
       super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService, commonUtilityService);
@@ -83,33 +90,35 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.mapEventDebounce = setTimeout(() => {
           this.doSearch();
         }, 500);
+        this.onPanelMouseExit(null)
       }
     }
 
     ngAfterViewInit() {
       super.ngAfterViewInit();
-
+      const self = this
       this.initInterval = setInterval(() => {
         try {
           const SMK = window['SMK'];
-          let viewer = null;
+          this.viewer = null;
           for (const smkMap in SMK.MAP) {
             if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-              viewer = SMK.MAP[smkMap].$viewer;
+              this.viewer = SMK.MAP[smkMap].$viewer;
             }
           }
-          const map = viewer.map;
-          if (!this.highlightLayer) {
-            this.highlightLayer = window[ 'L' ].layerGroup().addTo(map);
-            map.on( 'zoomend', () => {
-              this.mapEventHandler();
+          this.map = this.viewer.map;
+          if (!self.highlightLayer) {
+            self.highlightLayer = window[ 'L' ].layerGroup().addTo(this.map);
+            this.map.on( 'zoomend', () => {
+              self.mapEventHandler();
             });
-            map.on( 'moveend', () => {
-              this.mapEventHandler();
+            this.map.on( 'moveend', () => {
+              self.mapEventHandler();
             });
 
-            clearInterval(this.initInterval);
-            this.initInterval = null;
+            console.warn('... Hooking list to map ...')
+            clearInterval(self.initInterval);
+            self.initInterval = null;
           }
         } catch (err) {
           console.warn('... Waiting on SMK init to hook map events ...')
@@ -185,33 +194,33 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       return Number(value);
     }
 
-    onPanelMouseEnter (incident: any) {
-      this.ignorePan = true;
+    private handlePanelEnter (incident: any) {
       if (this.ignorePanDebounce) {
         clearTimeout(this.ignorePanDebounce)
         this.ignorePanDebounce = null
       }
+      this.ignorePan = true;
 
       const self = this;
+
       const SMK = window['SMK'];
-      let viewer = null;
+      this.viewer = null;
       for (const smkMap in SMK.MAP) {
         if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
+          this.viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      const map = viewer.map;
+      this.map = this.viewer.map;
 
       if (this.lastPanned !== incident.incidentName) {
-        self.progressValues.set(incident.incidentName, 0);
+        this.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
-          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 12);
-          if (self.progressValues.get(incident.incidentName) > 100) {
+          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 10);
+          if (self.progressValues.get(incident.incidentName) >= 100) {
+            self.lastPanned = incident.incidentName
+            this.viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), this.map._zoom);
             clearInterval(this.mapPanProgressBar);
             self.mapPanProgressBar = null;
-            self.lastPanned = incident.incidentName
-            this.addMarker(incident);
-            viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), map._zoom);
           }
           self.cdr.detectChanges();
         }, 100);
@@ -221,35 +230,78 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     private addMarker(incident: any) {
-      const leaflet = window[ 'L' ];
-      const pointerIcon = leaflet.icon({
-        iconUrl: "/assets/smk/assets/src/smk/mixin/tool-feature-list/config/marker-icon-white.png",
-        iconSize: [25, 35],
-        shadowAnchor: [4, 62],
-        popupAnchor: [1, -34],
-        shadowSize: [41, 41]
+      const pointerIcon = L.divIcon({
+        iconSize: [20, 20],
+        iconAnchor: [12, 12],
+        popupAnchor: [10, 0],
+        shadowSize: [0, 0],
+        className: 'animated-icon'
       });
 
-      leaflet.geoJson({
-        "type": "Feature",
-        "geometry": {
-          "type": "Point",
-          "coordinates": [Number(incident.longitude), Number(incident.latitude)]
-        }}, {
-        pointToLayer: function (feature, latlng) {
-            let marker = leaflet.marker(latlng, {icon: pointerIcon});
-            return marker;
+      if (this.marker) {
+        this.marker.remove()
+        this.marker = null
+      }
+
+      this.marker = L.marker([Number(incident.latitude), Number(incident.longitude)], {icon: pointerIcon})
+      this.marker.on('add', function() {
+        const icon: any = document.querySelector('.animated-icon')
+
+        if (incident.fireOfNoteInd === '1' || incident.fireOfNoteInd === 'T') {
+          icon.style.backgroundColor = '#aa0d0d'
+        } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
+          icon.style.backgroundColor = '#aa0d0d'
+        } else if (incident.stageOfControlCode === 'HOLDING') {
+          icon.style.backgroundColor = '#ffd966'
+        } else if (incident.stageOfControlCode === 'UNDR_CNTRL') {
+          icon.style.backgroundColor = '#507800'
         }
-      }).addTo(this.highlightLayer);
+
+        setInterval(() => {
+          icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
+          icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
+          icon.style.marginLeft = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.marginTop = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.boxShadow = icon.style.width === "20px" ? '4px 4px 4px rgba(0, 0, 0, 0.65)' : '0px 0px 0px transparent'
+        }, 1000)
+      })
+      this.marker.addTo(this.map)
+    }
+
+    onPanelMouseEnter (incident: any) {
+      if (this.map) {
+        // clear any existing timer
+        if (this.handlePanelEnterTimeout) {
+          clearTimeout(this.handlePanelEnterTimeout)
+        }
+
+        // debounce on mouse enter
+        this.handlePanelEnterTimeout = setTimeout(() => {
+          this.handlePanelEnter(incident)
+        }, 500)
+      }
     }
 
     onPanelMouseExit(incident: any) {
+      if (this.handlePanelEnterTimeout) {
+        clearTimeout(this.handlePanelEnterTimeout)
+      }
       if (this.mapPanProgressBar) {
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
       }
-      this.progressValues.set(incident.incidentName, 0);
+      if (incident) {
+        this.progressValues.set(incident.incidentName, 0);
+      } else {
+        for (const key of this.progressValues.keys()) {
+          this.progressValues.set(key, 0);
+        }
+      }
       this.highlightLayer.clearLayers();
+      if (this.marker) {
+        this.marker.remove()
+        this.marker = null
+      }
 
       if (this.ignorePanDebounce) {
         clearTimeout(this.ignorePanDebounce)

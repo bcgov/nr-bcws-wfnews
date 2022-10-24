@@ -1,11 +1,13 @@
-<div class="panel">
+<div class="panel" id="toprint">
   <div class="header-row">
     <h4>Wildfire Information</h4>
     <div class="header-button-container">
       <a style="text-decoration: none;" href="https://www.facebook.com/BCForestFireInfo/" target="_blank" rel="noopener"><svg class="icon facebook" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="#3b5998" d="M400 32H48A48 48 0 0 0 0 80v352a48 48 0 0 0 48 48h137.25V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.27c-30.81 0-40.42 19.12-40.42 38.73V256h68.78l-11 71.69h-57.78V480H400a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48z"/></svg></a>
       <a style="text-decoration: none;" href="https://mobile.twitter.com/bcgovfireinfo" target="_blank" rel="noopener"><svg class="icon twitter" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="#1da1f2" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg></a>
       <mat-icon class="button">share</mat-icon>
-      <mat-icon class="button">print</mat-icon>
+      <button class="print-button" (click)="printPage()"><span>print</span>
+        <mat-icon class="button">print</mat-icon>
+      </button>
     </div>
   </div>
   <div class="content-panel">
@@ -76,7 +78,7 @@
   <div class="content-panel" style="border-bottom: none;">
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
-      <div [innerHTML]="incident.resourceDetail"></div>
+      <div [innerHTML]="incident.resourceDetail || 'The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.'"></div>
     </div>
     <div *ngIf="!incident.wildfireCrewResourcesInd && !incident.wildfireAviationResourceInd && !incident.incidentMgmtCrewRsrcInd && !incident.heavyEquipmentResourcesInd && !incident.structureProtectionRsrcInd">
       <div class="content-panel-body">
@@ -91,7 +93,7 @@
       <div class="resource-panel-content">
         <h3>Wildfire Crews</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireCrewResourcesDetail"></div>
+          <div [innerHTML]="incident.wildfireCrewResourcesDetail || 'There are currently Initial Attack and Unit Crews responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
@@ -106,7 +108,7 @@
       <div class="resource-panel-content">
         <h3>Wildfire Aviation</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireAviationResourceDetail"></div>
+          <div [innerHTML]="incident.wildfireAviationResourceDetail || 'There are currently helicopters and/or airtankers responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
@@ -121,7 +123,7 @@
       <div class="resource-panel-content">
         <h3>Incident Management Teams</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail"></div>
+          <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail || 'An Incident Management Team has been assigned to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
@@ -136,7 +138,7 @@
       <div class="resource-panel-content">
         <h3>Heavy Equipment</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.heavyEquipmentResourcesDetail"></div>
+          <div [innerHTML]="incident.heavyEquipmentResourcesDetail || 'There is heavy equipment responding to this wildfire.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
@@ -151,7 +153,7 @@
       <div class="resource-panel-content">
         <h3>Structure Protection</h3>
         <div class="content-panel-body">
-          <div [innerHTML]="incident.structureProtectionRsrcDetail"></div>
+          <div [innerHTML]="incident.structureProtectionRsrcDetail || 'There are currently structure protection units responding to this incident.'"></div>
         </div>
         <div class="learn-more-button-container">
           <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>

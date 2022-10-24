@@ -119,7 +119,7 @@ resource "aws_alb_target_group" "wfnews_liquibase" {
 
 resource "aws_alb_target_group" "wfnews_apisix" {
   name                 = "wfnews-apisix-${var.target_env}"
-  port                 = var.client_port
+  port                 = var.apisix_ports[0]
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
   target_type          = "ip"
@@ -131,6 +131,7 @@ resource "aws_alb_target_group" "wfnews_apisix" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
+    port = var.health_check_port
     path                = var.health_check_path
     unhealthy_threshold = "2"
   }
@@ -191,7 +192,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix" {
 
   action {
     type             = "forward"
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.arn
+    target_group_arn = aws_alb_target_group.wfnews_apisix.arn
   }
 
   condition {

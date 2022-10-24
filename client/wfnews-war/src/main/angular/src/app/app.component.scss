@@ -180,3 +180,12 @@
     }
   }
 }
+
+@media print {
+  wf-menu-bar{
+    display: none !important;
+  }
+  wf-footer{
+    display: none !important;
+  }
+}

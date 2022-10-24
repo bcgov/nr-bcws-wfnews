@@ -131,14 +131,24 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public void delete(String publishedIncidentDetailGuid, String userId) throws DaoException, NotFoundDaoException {
+	public void flush() throws DaoException {
+		logger.debug(">flush");
+		try {
+			this.publishedIncidentMapper.flush();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+		logger.debug("<flush");
+	}
+
+	@Override
+	public void delete(String publishedIncidentDetailGuid) throws DaoException, NotFoundDaoException {
 		logger.debug(">delete");
 		
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("publishedIncidentDetailGuid", publishedIncidentDetailGuid);
-			parameters.put("userId", userId);
 			int count = this.publishedIncidentMapper.delete(parameters);
 
 			if(count==0) {
@@ -191,7 +201,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -220,6 +230,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+			parameters.put("searchText", searchText);
+
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
