@@ -14,6 +14,7 @@ locals {
   liquibase_image = get_env("LIQUIBASE_IMAGE")
   apisix_image = get_env("APISIX_IMAGE")
   etcd_image = get_env("ETCD_IMAGE")
+  apisix_gui_image = get_env("APISIX_GUI_IMAGE")
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
@@ -64,6 +65,7 @@ generate "dev_tfvars" {
     liquibase_image     = "${local.liquibase_image}"
     apisix_image = "${local.apisix_image}"
     etcd_image = "${local.etcd_image}"
+    apisix_gui_image = "${local.apisix_gui_image}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"

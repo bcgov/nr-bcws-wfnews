@@ -158,7 +158,13 @@ variable "apisix_admin_names" {
 
 variable "etcd_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfnews-api-admin"]
+  default     = ["wfnews-etcd"]
+  type        = list(string)
+}
+
+variable "apisix_gui_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api-gui"]
   type        = list(string)
 }
 
@@ -244,6 +250,12 @@ variable etcd_container_name {
   type = string
 } 
 
+variable apisix_gui_container_name {
+  description = "Name of apisix gui container"
+  default = "wfnews-apisix-gui-app"
+  type = string
+} 
+
 variable apisix_image {
   description = "Full name of apisix image"
   default = ""
@@ -251,7 +263,13 @@ variable apisix_image {
 } 
 
 variable etcd_image {
-  description = "Full name of apisix image"
+  description = "Full name of etcd image"
+  default = ""
+  type = string
+} 
+
+variable apisix_gui_image {
+  description = "Full name of apisix gui image"
   default = ""
   type = string
 } 
@@ -271,6 +289,11 @@ variable apisix_admin_port {
 variable etcd_port {
   description = "Port etcd listens on"
   default = 2379
+}
+
+variable apisix_gui_port {
+  description = "Port the apisix gui listens on"
+  default = 9000
 }
 
 variable db_port {
