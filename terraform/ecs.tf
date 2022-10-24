@@ -403,12 +403,24 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
       ]
       environment = [
         {
-          name: "ETCD_URL",
-          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-        },
-        {
           name: "API_KEY",
           value: "${var.api_key}"
+        },
+        {
+          name: "ETCD_ENABLE_V2",
+          value: "true"
+        },
+        {
+          name: "ETCD_ADVERTISE_CLIENT_URLS",
+          value: "http://0.0.0.0:2379"
+        },
+        {
+          name: "ETCD_LISTEN_CLIENT_URLS",
+          value: "http://0.0.0.0:2379"
+        },
+        {
+          name: "ETCD_ROOT_PASSWORD",
+          value: "${var.etcd_password}"
         }
       ]
       logConfiguration = {

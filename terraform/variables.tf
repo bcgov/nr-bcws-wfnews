@@ -162,6 +162,11 @@ variable "etcd_names" {
   type        = list(string)
 }
 
+variable "etcd_password" {
+  description = "Password to use for etcd access"
+  type = string
+}
+
 variable "apisix_gui_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-api-gui"]

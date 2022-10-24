@@ -39,8 +39,8 @@ conf:
       - ${{ETCD_URL}}
                           # yamllint disable rule:comments-indentation
                           # etcd basic auth info
-    # username: "root"    # ignore etcd username if not enable etcd auth
-    # password: "123456"  # ignore etcd password if not enable etcd auth
+    username: "root"    # ignore etcd username if not enable etcd auth
+    password: ${{ETCD_ROOT_PASSWORD}}  # ignore etcd password if not enable etcd auth
     mtls:
       key_file: ""          # Path of your self-signed client side key
       cert_file: ""         # Path of your self-signed client side cert
