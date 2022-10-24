@@ -64,6 +64,7 @@ jobs:
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
       ETCD_IMAGE: nr-bcws-wfnews-etcd
+      APISIX_GUI_IMAGE: nr-bcws-wfnews-apisix-gui
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc

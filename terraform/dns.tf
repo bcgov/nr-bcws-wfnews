@@ -47,3 +47,14 @@ resource "aws_route53_record" "wfnews_server" {
     }
  }
 
+  resource "aws_route53_record" "wfnews_apisix_gui" {
+     zone_id = data.aws_route53_zone.zone.id
+     name = "wfnews-api-gui.${var.target_env}.bcwildfireservices.com"
+     type = "A"
+     alias { 
+        name = aws_cloudfront_distribution.wfnews_geofencing_apisix_gui[0].domain_name
+        zone_id = aws_cloudfront_distribution.wfnews_geofencing_apisix_gui[0].hosted_zone_id
+        evaluate_target_health = true
+    }
+ }
+

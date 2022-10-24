@@ -18,6 +18,8 @@ env:
   SERVER_IMAGE: "wfnews-server"
   LIQUIBASE_IMAGE: "wfnews-liquibase"
   APISIX_IMAGE: "wfnews-apisix"
+  ETCD_IMAGE: "wfnews-etcd"
+  APISIX_GUI_IMAGE: "wfnews-apisix-gui"
   TARGET_ENV: "dev"
   ALB_NAME: "default"
   VPC_NAME: "Dev_vpc"
@@ -71,6 +73,7 @@ jobs:
           LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
           APISIX_IMAGE: ${{env.registry}}/bcgov/${{ env.APISIX_IMAGE }}:pr-${{ github.event.pull_request.number }}
           ETCD_IMAGE: ${{env.registry}}/bcgov/${{ env.ETCD_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          APISIX_GUI_IMAGE: ${{env.registry}}/bcgov/${{ env.APISIX_GUI_IMAGE }}:pr-${{ github.event.pull_request.number }}
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: dbTESTsecretUNUSED
