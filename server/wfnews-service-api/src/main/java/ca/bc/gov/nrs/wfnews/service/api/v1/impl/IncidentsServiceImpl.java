@@ -418,7 +418,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public PublishedIncidentListResource getPublishedIncidentList(Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext) {
+	public PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
@@ -452,7 +452,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				}
 			}
 
-			publishedIncidentList = this.publishedIncidentDao.select(pageNumber, pageRowCount, orderByList, fireOfNote, out, fireCentre, bbox);
+			publishedIncidentList = this.publishedIncidentDao.select(searchText, pageNumber, pageRowCount, orderByList, fireOfNote, out, fireCentre, bbox);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
 			throw new ServiceException("DAO threw an exception", e);
