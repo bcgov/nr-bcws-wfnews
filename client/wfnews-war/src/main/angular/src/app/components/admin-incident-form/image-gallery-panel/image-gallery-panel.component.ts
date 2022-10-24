@@ -73,7 +73,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       'false',
       'false',
       undefined,
-      undefined,
+      ['INFO'],
       undefined,
       undefined,
       undefined,
