@@ -3,7 +3,9 @@
     <div>
       <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentNumberSequence}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus === 'Published', 'unpub-chip': incident.publishedStatus !== 'Published'}">{{incident.publishedStatus}}</span></h1>
       <h2 class="wildfire-count">
+        <div *ngIf="incident.lastPublished">
         Last Published: {{incident.lastPublished.toDateString()}} - {{incident.lastPublished.toLocaleTimeString()}}
+        </div>
       </h2>
     </div>
     <div class="button-holder">
