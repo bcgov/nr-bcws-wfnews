@@ -680,6 +680,7 @@ resource "aws_ecs_service" "etcd" {
     target_group_arn = aws_alb_target_group.wfnews_etcd.id
     container_name   = var.etcd_container_name
     container_port   = var.etcd_port
+
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
@@ -722,6 +723,7 @@ resource "aws_ecs_service" "apisix_gui" {
     container_name   = var.apisix_gui_container_name
     container_port   = var.apisix_gui_port
   }
+
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
