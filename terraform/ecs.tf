@@ -450,7 +450,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
           containerPort = var.apisix_gui_port
           hostPort = var.apisix_gui_port
         }
-
       ]
       environment = [
         {
