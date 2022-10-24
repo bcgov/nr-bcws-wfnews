@@ -55,7 +55,8 @@
         <h1>Area Restrictions</h1>
         <div class="content-panel-subtitle">Area Restriction Information</div>
         <div *ngFor="let area of areaRestrictions">
-          <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link">{{area.name}}</a>
+          <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
+          <p class="show-print">{{area.name}} Link: {{area.bulletinUrl}}</p>
         </div>
         <div *ngIf="!areaRestrictions || areaRestrictions.length <= 0">There are no current area restrictions near this incident.</div>
         <div style="padding: 10px;"></div>
