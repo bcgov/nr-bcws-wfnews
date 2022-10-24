@@ -421,8 +421,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-apisix-gui.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_${var.target_env}"
+    domain_name = "wfnews-api-gui.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_apisix_gui_${var.target_env}"
   }
 
   enabled         = true

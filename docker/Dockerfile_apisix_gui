@@ -1,3 +1,5 @@
 FROM apache/apisix-dashboard
 EXPOSE 9000
 COPY docker/apisix-gui-conf.yaml /usr/local/apisix-dashboard/conf/conf.yaml
+USER root
+RUN ulimit -n 4096
