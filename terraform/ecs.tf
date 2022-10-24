@@ -440,7 +440,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
 
 resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
   count                    = local.create_ecs_service
-  family                   = "wfnews-apisix_gui-task-${var.target_env}"
+  family                   = "wfnews-apisix-gui-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"

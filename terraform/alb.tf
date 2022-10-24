@@ -172,11 +172,10 @@ resource "aws_alb_target_group" "wfnews_etcd" {
   health_check {
     healthy_threshold   = "2"
     interval            = "300"
-    protocol            = "HTTP"
+    protocol            = "HTTPS"
     matcher             = "200"
     timeout             = "3"
-    port = var.health_check_port
-    path                = var.health_check_path
+    path                = "/version"
     unhealthy_threshold = "2"
   }
 
