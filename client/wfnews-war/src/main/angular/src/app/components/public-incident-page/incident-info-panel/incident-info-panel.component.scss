@@ -1,4 +1,4 @@
-@media screen, print {
+@media screen,print{
   :host {
     font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
   }
@@ -23,6 +23,23 @@
           padding-right: 7px;
           font-size: 22px;
           cursor: pointer;
+        }
+        .print-button {
+          cursor: pointer;
+          margin-left: 15px;
+          border-color: #1a5a96;
+          border-width: 1px;
+          background-color: white;
+          border-radius: 5px;
+          text-align: center;
+          display: inline-flex;
+          align-items: center;
+          font-size: 1rem;
+          font-weight: 400;
+          color: #1a5a96;
+          span {
+            padding: 0 5px;
+          }
         }
         .icon {
           position: relative;
