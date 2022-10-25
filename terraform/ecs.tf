@@ -393,13 +393,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
           protocol = "tcp"
           containerPort = var.etcd_port
           hostPort = var.etcd_port
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.health_check_port
-          hostPort = var.health_check_port
         }
-
       ]
       environment = [
         {
@@ -436,6 +430,17 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
       volumesFrom = []
     }
   ])
+  volume {
+    name = "efs-storage"
+    efs_volume_configuration {
+      file_system_id = aws_efs_file_system.wfnews_efs.id
+      transit_encryption      = "ENABLED"
+      transit_encryption_port = 2999
+      authorization_config {
+        iam             = "ENABLED"
+      }
+    }
+  }
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
