@@ -29,14 +29,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     fireNumber: 0,
     wildfireYear: 2022,
     incidentNumberSequence: 0,
-    fireName: 'This is a Test',
-    traditionalTerritory: 'Tsawassen',
-    lastPublished: new Date(),
-    publishedStatus: 'Published',
-    fireOfNote: 'Y',
-    location: 'Some place, some time, who knows',
+    fireName: "",
+    traditionalTerritory: "",
+    lastPublished: undefined,
+    publishedStatus: 'DRAFT',
+    fireOfNote: false,
+    location: "",
     sizeType: 1,
-    sizeHectares: 987,
+    sizeHectares: 0,
     sizeComments: '',
     cause: 'Lightning',
     stageOfControlCode: "",
@@ -67,13 +67,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     mapAttachments: [],
     incidentData: null
   }
-  
 
   wildFireYear: string;
   incidentNumberSequnce: string;
   currentAdminIncident: WildfireIncidentResource;
   currentAdminIncidentCause: IncidentCauseResource;
   publishedIncidentType: string;
+  publishedIncidentDetailGuid: string;
 
   private loaded = false;
 
@@ -175,7 +175,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         self.incident.sizeHectares = publishedIncident.incidentSizeEstimatedHa;
         self.incident.sizeComments = publishedIncident.incidentSizeDetail;
         self.incident.cause = publishedIncident.generalIncidentCauseCatId;
-       // this.incident.causeComments = publishedIncident.incidentLocation;
         self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;
         self.incident.wildifreCrewsInd = publishedIncident.wildfireCrewResourcesInd;
         self.incident.crewsComments = publishedIncident.wildfireCrewResourcesDetail;
@@ -187,7 +186,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         self.incident.heavyEquipmentComments = publishedIncident.heavyEquipmentResourcesDetail;
         self.incident.structureProtectionInd = publishedIncident.structureProtectionRsrcInd;
         self.incident.structureProtectionComments = publishedIncident.structureProtectionRsrcDetail;
-        //this.incident.contact.isPrimary = publishedIncident.incidentLocation;
+        this.incident.contact.isPrimary = true;
         self.incident.contact.fireCentre = publishedIncident.contactOrgUnitIdentifer;
         self.incident.contact.phoneNumber = publishedIncident.contactPhoneNumber;
         self.incident.contact.emailAddress = publishedIncident.contactEmailAddress;
@@ -195,19 +194,18 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         // this.incident.  x: -115,
         // this.incident.  y: 50
         // this.incident.},
-        // this.incident.incidentOverview = publishedIncident.incidentOverview;
-        // this.incident.evacOrders = publishedIncident.incidentLocation;
-        // this.incident.mapAttachments = publishedIncident.incidentLocation;
-        // this.incident.incidentData = publishedIncident.incidentLocation;
-        
+        this.incident.incidentOverview = publishedIncident.incidentOverview;
+        this.incident.evacOrders = publishedIncident.incidentLocation;
+        this.incident.mapAttachments = publishedIncident.incidentLocation;
+        this.incident.incidentData = publishedIncident.incidentLocation;
+        this.publishedIncidentDetailGuid = this.currentAdminIncident["wildfireIncidentGuid"];
         this.incidentForm.patchValue(this.incident);
         
         this.incidentForm.patchValue(this.currentAdminIncident);
       },
       (error) => {
-        debugger;
+        this.publishedIncidentDetailGuid = null;
       });
-      
     }
 
     if (changes.adminIncidentCause){
@@ -233,8 +231,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.publish) {
         let publishedIncidentResource = {
-          publishedIncidentDetailGuid: this.currentAdminIncident["wildfireIncidentGuid"],
-          incidentGuid: this.currentAdminIncident["wildfireIncidentGuid"],
+          publishedIncidentDetailGuid:  this.publishedIncidentDetailGuid,
+          incidentGuid:  this.currentAdminIncident["wildfireIncidentGuid"],
           newsCreatedTimestamp: new Date().valueOf().toString(),
           discoveryDate: new Date().valueOf().toString(),
           newsPublicationStatusCode: "PUBLISHED",
@@ -251,15 +249,15 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
           contactPhoneNumber: this.incident.contact.phoneNumber,
           contactEmailAddress: this.incident.contact.emailAddress,
-          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd ? "Y" : "N",
+          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
           wildfireCrewResourcesDetail: this.incident.crewsComments,
-          wildfireAviationResourceInd: this.incident.aviationInd ? "Y" : "N",
+          wildfireAviationResourceInd: this.incident.aviationInd,
           wildfireAviationResourceDetail: this.incident.aviationComments,
-          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd ? "Y" : "N",
+          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
           heavyEquipmentResourcesDetail: this.incident.heavyEquipmentComments,
-          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd ? "Y" : "N",
+          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
           incidentMgmtCrewRsrcDetail: this.incident.incidentManagementComments,
-          structureProtectionRsrcInd: this.incident.structureProtectionInd ? "Y" : "N",
+          structureProtectionRsrcInd: this.incident.structureProtectionInd,
           structureProtectionRsrcDetail: this.incident.structureProtectionComments,
           type: this.publishedIncidentType
         };
@@ -278,7 +276,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     });
   }
 
-  publishIncident(incident: PublishedIncidentResource, incidentLabel: string): Promise<any> {
+  publishIncident(incident, incidentLabel: string): Promise<any> {
     return this.publishedIncidentService.publish(incident, incidentLabel);
   }
 
