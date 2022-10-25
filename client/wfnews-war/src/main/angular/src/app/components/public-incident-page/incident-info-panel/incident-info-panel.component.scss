@@ -141,6 +141,10 @@
   }
 }
 
+.show-print {
+  display: none !important;
+}
+
 @media print{
   :host {
     font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
