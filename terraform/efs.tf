@@ -1,3 +1,4 @@
+
 resource "aws_efs_file_system" "wfnews_efs" {
   creation_token = "wfnews-efs-${var.target_env}"
   tags = local.common_tags

@@ -406,11 +406,11 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "http://0.0.0.0:2379"
+          value: "http://0.0.0.0:2379, https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
-          value: "http://0.0.0.0:2379"
+          value: "http://0.0.0.0:2379, https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
         },
         {
           name: "ETCD_ROOT_PASSWORD",
@@ -426,10 +426,23 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = []
+      mountPoints = [
+        {
+          sourceVolume: "efs-storage"
+          containerPath: "/bitnami/etcd"
+        }
+      ]
       volumesFrom = []
-    }
+      ulimits = [
+        {
+          "name": "nofile"
+          "softLimit": 2048
+          "hardLimit": 4096
+        }
+      ]
+    } 
   ])
+  
   volume {
     name = "efs-storage"
     efs_volume_configuration {
@@ -441,6 +454,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
       }
     }
   }
+  
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
