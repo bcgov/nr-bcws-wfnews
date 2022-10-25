@@ -46,22 +46,25 @@
         <div style="padding: 10px;"></div>
         <div class="content-panel-subtitle">What is an Evacuation Order?</div>
         <div class="content-panel-body">You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.</div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages">https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance#stages</a></p>
         </div>
       </div>
       <div>
         <h1>Area Restrictions</h1>
         <div class="content-panel-subtitle">Area Restriction Information</div>
         <div *ngFor="let area of areaRestrictions">
-          <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link">{{area.name}}</a>
+          <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
+          <p class="show-print">{{area.name}} Link: <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link show-print">{{area.bulletinUrl}}</a></p>
         </div>
         <div *ngIf="!areaRestrictions || areaRestrictions.length <= 0">There are no current area restrictions near this incident.</div>
         <div style="padding: 10px;"></div>
         <div class="content-panel-subtitle">What is an Area Restriction?</div>
         <div class="content-panel-body">Area restrictions or forest use restrictions refer to area closures or restrictions and activity restrictions necessary or desirable to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.</div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions</a></p>
         </div>
       </div>
     </div>
@@ -71,8 +74,9 @@
     <div class="content-panel-body">
       All resource information is estimated and is updated as frequently as possible, but may not accurately depict the resources deployed on an incident. The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes fire fighters, air crews, equipment operators and support staff.
     </div>
-    <div class="learn-more-button-container no-print">
-      <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
+    <div class="learn-more-button-container">
+      <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
+      <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response</a></p>
     </div>
   </div>
   <div class="content-panel" style="border-bottom: none;">
@@ -95,8 +99,9 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.wildfireCrewResourcesDetail || 'There are currently Initial Attack and Unit Crews responding to this wildfire.'"></div>
         </div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews</a></p>
         </div>
       </div>
     </div>
@@ -110,8 +115,9 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.wildfireAviationResourceDetail || 'There are currently helicopters and/or airtankers responding to this wildfire.'"></div>
         </div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation</a></p>
         </div>
       </div>
     </div>
@@ -125,8 +131,9 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail || 'An Incident Management Team has been assigned to this wildfire.'"></div>
         </div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management</a></p>
         </div>
       </div>
     </div>
@@ -140,8 +147,9 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.heavyEquipmentResourcesDetail || 'There is heavy equipment responding to this wildfire.'"></div>
         </div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment</a></p>
         </div>
       </div>
     </div>
@@ -155,8 +163,9 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.structureProtectionRsrcDetail || 'There are currently structure protection units responding to this incident.'"></div>
         </div>
-        <div class="learn-more-button-container no-print">
-          <a class="learn-more-button" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>
+        <div class="learn-more-button-container">
+          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>
+          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection</a></p>
         </div>
       </div>
     </div>
