@@ -122,12 +122,15 @@
 }
 
 .snackbar-success {
-  background-color: rgba(149, 206, 170, 1);
-  color: $colour-black;
+  background-color: #2e703e;
+  color: $colour-white;
   position: inherit;
   .mat-simple-snackbar{
     font-family: $font-family-main;
     font-size: 13px;
+  }
+  .mat-button-wrapper{
+    color:$colour-white;
   }
 }
 
