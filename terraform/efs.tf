@@ -8,7 +8,7 @@ resource "aws_efs_mount_target" "wfnews_efs_mount" {
   for_each = module.network.aws_subnet_ids.data.ids
   subnet_id = each.value
   file_system_id = aws_efs_file_system.wfnews_efs.id
-  security_groups = [data.aws_security_group.data.id]
+  security_groups = [data.aws_security_group.data.id, aws_security_group.wfnews_efs_access.id]
 }
 
 resource "aws_efs_file_system_policy" "policy" {

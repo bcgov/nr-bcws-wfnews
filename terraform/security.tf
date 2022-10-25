@@ -60,3 +60,16 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
 
   tags = local.common_tags
 }
+
+resource "aws_security_group" "wfnews_efs_access" {
+  name = "wfnews-efs-access-${var.target_env}"
+  description = "allow access for efs"
+  vpc_id      = module.network.aws_vpc.id
+
+  ingress {
+    protocol = -1
+    from_port = 0
+    to_port = 0
+    self = true
+  }
+}

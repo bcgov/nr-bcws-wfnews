@@ -695,7 +695,7 @@ resource "aws_ecs_service" "etcd" {
 
 
   network_configuration {
-    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id, data.aws_security_group.data.id, aws_security_group.wfnews_efs_access.id]
     subnets          = module.network.aws_subnet_ids.app.ids
     assign_public_ip = true
   }
