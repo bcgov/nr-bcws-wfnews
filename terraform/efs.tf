@@ -4,6 +4,12 @@ resource "aws_efs_file_system" "wfnews_efs" {
   tags = local.common_tags
 }
 
+resource "aws_efs_mount_target" "wfnews_efs_mount" {
+  for_each = module.network.aws_subnet_ids.data
+  subnet_id = each.vpc_id
+  file_system_id = aws_efs_file_system.wfnews_efs.id
+}
+
 resource "aws_efs_file_system_policy" "policy" {
   file_system_id = aws_efs_file_system.wfnews_efs.id
 
