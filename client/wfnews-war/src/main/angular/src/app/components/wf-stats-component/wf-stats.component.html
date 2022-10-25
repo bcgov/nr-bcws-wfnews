@@ -15,17 +15,21 @@
         </div>
       </div>
       <div class="resource-panel">
-        <div class="title">Cause Summary</div>
+        <div class="title">Wildfire Cause Summary</div>
         <div class="summary-data">
-          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name}}</div></div>
+          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">Fires Caused By {{data.name}}</div></div>
         </div>
       </div>
       <div class="resource-panel">
-        <div class="title">Status Summary</div>
+        <div class="title">Stages of Control Summary</div>
         <div class="summary-data">
           <div *ngFor="let data of activeFiresByStatus" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name}}</div></div>
         </div>
       </div>
+    </div>
+    <div class="fire-date-box">
+      <h2>Fires this Year</h2>
+      <p style="color: black;">"Fires" this year refers to fires that have burned sometime between <span style="font-weight: 700">April 1st {{getFireYear()}} and March 31st {{getFireYear(1)}}</span></p>
     </div>
     <mat-tab-group [(selectedIndex)]="tabIndex" class="wildfires-tabs" mat-align-tabs="center">
       <mat-tab label="Active Fires">
@@ -38,7 +42,7 @@
       <div class="info-panel">
         <div class="info-text">
           <!-- Traditional table view -->
-          <!-- div class="fire-centre-table">
+          <div class="fire-centre-table">
             <div class="row">
               <div class="cell"><strong>Fire Centre</strong></div>
               <div class="value-cell"><strong>Total Fires</strong></div>
@@ -47,17 +51,13 @@
               <div class="cell">{{row.name}}</div>
               <div class="value-cell">{{row.value}}</div>
             </div>
-          </div -->
-          <!-- number panel view -->
-          <ngx-charts-number-card
-            scheme="cool"
-            cardColor="#232837"
-            [results]="tabIndex === 0 ? activeFiresByCentre : allFiresByCentre">
-          </ngx-charts-number-card>
+          </div>
+          <a class="link" style="padding: 20px;" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
         </div>
         <div class="info-chart">
           <ngx-charts-bar-vertical
             scheme="cool"
+            [customColors]="FIRE_CENTRE_COLOURS"
             [gradient]="false"
             [xAxis]="true"
             [yAxis]="true"
@@ -95,10 +95,12 @@
             <li>Fireworks, sky-lanterns, outdoor flame lighting</li>
             <li>Discarding burning items (cigarettes)</li>
           </ul>
+          <a class="link" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/what-causes-wildfire">Learn More about Wildfire Causes</a>
         </div>
         <div class="info-chart">
           <ngx-charts-bar-vertical
             scheme="cool"
+            [customColors]="CAUSE_COLOURS"
             [gradient]="false"
             [xAxis]="true"
             [yAxis]="true"
@@ -117,10 +119,12 @@
       </div>
     </div>
     <div>
+      <h2>Stages of Control</h2>
       <div class="info-panel">
         <div class="info-chart">
           <ngx-charts-bar-vertical
             scheme="cool"
+            [customColors]="STAGE_OF_CONTROL_COLOURS"
             [gradient]="false"
             [xAxis]="true"
             [yAxis]="true"
@@ -137,7 +141,6 @@
           </ngx-charts-bar-vertical>
         </div>
         <div class="info-text">
-          <h2>Stages of Control</h2>
           <p class="paragraph-format">The following stages of control describe the current status of a fire or incident.</p>
           <h4>Wildfires of Note</h4>
           <p class="paragraph-format">Wildfires of note are wildfires which are highly visible or which pose a potential threat to public safety.</p>
@@ -149,6 +152,7 @@
           <p class="paragraph-format">The fire has received sufficient suppression action to ensure no further spread of the fire.</p>
           <h4>Out</h4>
           <p class="paragraph-format">The fire has been extinguished.</p>
+          <a class="link" target="_blank" rel="noopener" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies">Discover more Wildfire Management Strategies</a>
         </div>
       </div>
     </div>

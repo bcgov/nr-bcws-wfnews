@@ -46,8 +46,9 @@ mat-tab-group {
     font-weight: normal;
     margin-bottom: 0;
     padding-bottom: 0;
-    color: #1c5a97
-}
+    color: #1c5a97;
+    text-align: center;
+  }
 }
 
 .header-row {
@@ -80,6 +81,24 @@ mat-tab-group {
 .summary-container> * {
   flex: 1 1 28vw;
   margin: 8px;
+}
+
+.fire-date-box {
+  border-top: 1px solid #e9eff5;
+  border-bottom: 1px solid #e9eff5;
+  background: white;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #1c5a97;
+}
+
+.link {
+  color: #1c5a97;
 }
 
 .resource-panel {
@@ -121,7 +140,6 @@ mat-tab-group {
 .fire-centre-table {
   display: flex;
   flex-direction: column;
-  width: 40%;
   max-width: 450px;
   font-size: 16px;
   padding: 10px;
@@ -143,16 +161,18 @@ mat-tab-group {
 
 .info-panel {
   display: flex;
-  flex-direction: row;
+  flex-flow: row;
   flex-wrap: wrap;
   .info-text {
     padding: 5px;
     width: 45%;
-    height: 500px;
   }
   .info-chart {
     padding: 5px;
     width: 45%;
     height: 500px;
   }
+}
+.info-panel> * {
+  flex: 1 1 45vw;
 }
