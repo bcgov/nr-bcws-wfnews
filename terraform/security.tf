@@ -9,6 +9,10 @@ data "aws_security_group" "app" {
   name = "App_sg"
 }
 
+data "aws_security_group" "data" {
+  name = "Data_sg"
+}
+
 resource "aws_security_group" "wfnews_ecs_tasks" {
   name        = "wfnews-ecs-tasks-security-group"
   description = "Allow access"
