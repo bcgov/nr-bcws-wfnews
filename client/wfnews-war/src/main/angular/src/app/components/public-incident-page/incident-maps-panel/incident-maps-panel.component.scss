@@ -2,7 +2,7 @@
     :host {
       font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
     }
-  
+
     .panel {
       background-color: white;
       padding: 22px;
@@ -89,6 +89,7 @@
             width: 48px;
             height: 64px;
             margin-right: 3%;
+            cursor: pointer;
         }
         .document-title {
             font-size: 1rem;
@@ -101,4 +102,3 @@
       }
     }
   }
-  

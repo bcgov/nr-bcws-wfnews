@@ -587,7 +587,7 @@ iframe#login-iframe {
 }
 
 .search-location {
-    border: 1px solid #dddddd;
+    border: 1px solid black;
     border-radius: 5px;
     padding-left: 15px;
     padding-right: 15px;
@@ -596,9 +596,10 @@ iframe#login-iframe {
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
+    border-right: none;
 }
 .search-location-close-container{
-    border:1px solid #dddddd;
+    border:1px solid black;
     border-left: none;
     border-radius: 5px;
     border-top-left-radius: 0;
@@ -606,7 +607,7 @@ iframe#login-iframe {
     height: calc(100% + 2px);
     display: flex;
     align-items: center;
-    color: #dddddd;
+    color: black;
 }
 .search-location-close-container mat-icon{
     padding-left: 4px;
