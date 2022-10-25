@@ -27,6 +27,10 @@
   }
 }
 
+::ng-deep .show-print {
+  display: none !important;
+}
+
 ::ng-deep .qr-code {
   display: none;
 }
