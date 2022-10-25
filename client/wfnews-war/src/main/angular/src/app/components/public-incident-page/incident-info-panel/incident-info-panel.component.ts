@@ -51,7 +51,6 @@ export class IncidentInfoPanel implements AfterViewInit {
   }
 
   public printPage() {
-    // window.print()
     const printContents = document.getElementsByClassName('page-container')[0].innerHTML
     const originalContents = document.body.innerHTML
     document.body.innerHTML = printContents
@@ -59,7 +58,7 @@ export class IncidentInfoPanel implements AfterViewInit {
     const canvas = document.getElementById('qr-code')
     toCanvas(canvas, window.location.href, function (error) {
       if (error) console.error(error)
-      window.print();
+      window.print()
       document.body.innerHTML = originalContents
     })
   }
