@@ -41,7 +41,6 @@
       <h2>Fire Centres</h2>
       <div class="info-panel">
         <div class="info-text">
-          <!-- Traditional table view -->
           <div class="fire-centre-table">
             <div class="row">
               <div class="cell"><strong>Fire Centre</strong></div>
@@ -154,6 +153,29 @@
           <p class="paragraph-format">The fire has been extinguished.</p>
           <a class="link" target="_blank" rel="noopener" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies">Discover more Wildfire Management Strategies</a>
         </div>
+      </div>
+    </div>
+    <div>
+      <h2>Current Statistics</h2>
+      <div class="info-text">
+        <!-- Traditional table view -->
+        <div class="fire-centre-table">
+          <div class="row">
+            <div class="cell"><strong>Fire Centre</strong></div>
+            <div class="value-cell"><strong>New Lightning Caused Fires</strong></div>
+            <div class="value-cell"><strong>New Human Caused Fires</strong></div>
+            <div class="value-cell"><strong>Total Fires</strong></div>
+            <div class="value-cell"><strong>Total Area Burned (Ha)</strong></div>
+          </div>
+          <div class="row" *ngFor="let row of fireStats">
+            <div class="cell">{{row.name}}</div>
+            <div class="value-cell">{{row.lightningStarts}}</div>
+            <div class="value-cell">{{row.humanStarts}}</div>
+            <div class="value-cell">{{row.totalFires}}</div>
+            <div class="value-cell">{{row.areaBurned}}</div>
+          </div>
+        </div>
+        <a class="link" style="padding: 20px;" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
       </div>
     </div>
   </div>
