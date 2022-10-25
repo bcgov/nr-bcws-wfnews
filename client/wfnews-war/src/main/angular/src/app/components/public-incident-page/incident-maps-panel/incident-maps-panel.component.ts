@@ -61,14 +61,14 @@ export class IncidentMapsPanel implements OnInit {
     request.subscribe(
       ( ev ) => {
           if ( ev.type == HttpEventType.Sent ) {
-            this.snackbarService.open('Generating PDF. Please wait...', 'Close', { duration: 2000, panelClass: 'snackbar-warning' });
+            this.snackbarService.open('Generating PDF. Please wait...', 'Close', { duration: 10000, panelClass: 'snackbar-info' });
           }
           else if ( ev instanceof HttpResponse ) {
             this.downloadFile(ev as HttpResponse<Blob>);
-            this.snackbarService.open('PDF downloaded successfully.', 'Close', { duration: 500000, panelClass: 'snackbar-success' });
+            this.snackbarService.open('PDF downloaded successfully.', 'Close', { duration: 10000, panelClass: 'snackbar-success-v2' });
           }
       },
-      ( err ) => console.log(err)
+      ( err ) => this.snackbarService.open('PDF downloaded failed.', 'Close', { duration: 10000, panelClass: 'snackbar-error' })
     )
   }
 
