@@ -63,6 +63,8 @@ jobs:
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
+      ETCD_IMAGE: nr-bcws-wfnews-etcd
+      APISIX_GUI_IMAGE: nr-bcws-wfnews-apisix-gui
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
@@ -95,3 +97,5 @@ jobs:
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
       SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD }}
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
+      ETCD_PASSWORD: ${{ secrets.ETCD_PASSWORD_DEV }}
+      API_KEY: ${{ secrets.API_KEY_DEV }}

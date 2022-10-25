@@ -15,6 +15,12 @@ on:
       APISIX_IMAGE:
         required: true
         type: string
+      ETCD_IMAGE:
+        required: true
+        type: string
+      APISIX_GUI_IMAGE:
+        required: true
+        type: string
       TARGET_ENV:
         required: true
         type: string
@@ -105,12 +111,16 @@ on:
         required: true
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
         required: true
+      ETCD_PASSWORD:
+        required: true
+      API_KEY:
+        required: true
 
 env:
   TF_VERSION: 1.2.2
   TG_VERSION: 0.37.1
   TG_SRC_PATH: terraform
-  TFC_WORKSPACE: wfnews-dev
+  TFC_WORKSPACE: wfnews-${{ inputs.TARGET_ENV }}
   REPOSITORY: ghcr.io
 
 jobs:
@@ -140,6 +150,10 @@ jobs:
           SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          ETCD_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.ETCD_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          ETCD_PASSWORD: ${{ secrets.ETCD_PASSWORD }}
+          APISIX_GUI_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_GUI_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
