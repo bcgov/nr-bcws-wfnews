@@ -64,6 +64,11 @@ variable "client_port" {
   default     = 8081
 }
 
+variable "api_key" {
+  description = "value for api key"
+  type = string
+}
+
 variable "app_count" {
   description = "Number of docker containers to run"
   default     = 2
@@ -145,6 +150,29 @@ variable "apisix_names" {
   type        = list(string)
 }
 
+variable "apisix_admin_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api-admin"]
+  type        = list(string)
+}
+
+variable "etcd_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-etcd"]
+  type        = list(string)
+}
+
+variable "etcd_password" {
+  description = "Password to use for etcd access"
+  type = string
+}
+
+variable "apisix_gui_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-api-gui"]
+  type        = list(string)
+}
+
 variable "alb_name" {
   description = "Name of the internal alb"
   default     = "default"
@@ -221,16 +249,56 @@ variable apisix_container_name {
   type = string
 } 
 
+variable etcd_container_name {
+  description = "Name of etcd container"
+  default = "wfnews-etcd-app"
+  type = string
+} 
+
+variable apisix_gui_container_name {
+  description = "Name of apisix gui container"
+  default = "wfnews-apisix-gui-app"
+  type = string
+} 
+
 variable apisix_image {
   description = "Full name of apisix image"
   default = ""
   type = string
 } 
 
+variable etcd_image {
+  description = "Full name of etcd image"
+  default = ""
+  type = string
+} 
+
+variable apisix_gui_image {
+  description = "Full name of apisix gui image"
+  default = ""
+  type = string
+} 
+
 variable apisix_ports {
   description = "Port apisix listens on"
-  default = [9080,9443,2379,8080]
+  default = [9080,9443]
   type = list(number)
+}
+
+variable apisix_admin_port {
+  description = "Port apisix listens on for config updates/changes"
+  default = 9180
+  type = number
+}
+
+variable etcd_port {
+  description = "Port etcd listens on"
+  default = 2379
+}
+
+variable apisix_gui_port {
+  description = "Port the apisix gui listens on"
+  default = 9000
 }
 
 variable db_port {
