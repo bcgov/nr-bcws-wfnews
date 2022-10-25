@@ -429,7 +429,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
       mountPoints = [
         {
           sourceVolume: "efs-storage"
-          containerPath: "/bitnami/etcd/data"
+          containerPath: "/bitnami/etcd"
         }
       ]
       volumesFrom = []
