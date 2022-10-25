@@ -188,6 +188,11 @@
     }
  }
 
+//mat-input focused color
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  border-right: none;
+}
+
  .map-layers::-webkit-scrollbar {
   width: 8px;
   height: 8px;
