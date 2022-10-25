@@ -10,7 +10,6 @@ import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.c
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 // Components

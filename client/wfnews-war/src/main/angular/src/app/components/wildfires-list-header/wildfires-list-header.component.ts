@@ -5,17 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './wildfires-list-header.component.html',
   styleUrls: ['./wildfires-list-header.component.scss']
 })
-export class WildfiresListHeaderComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+export class WildfiresListHeaderComponent {
 
   openStageOfControlLink() {
     let url = "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control"
     window.open(url, "_blank");
   }
-
-
+  
 }
