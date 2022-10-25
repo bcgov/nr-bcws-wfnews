@@ -1,0 +1,18 @@
+<div class="panel">
+    <div class="header-row">
+      <h4>Wildfire Maps</h4>
+    </div>
+    <div class="content-panel">
+        <div class="content-panel-stack">
+            <div *ngFor="let map of downloadableMaps">
+                <div style="display: flex;">
+                    <div class="file-pdf-icon" (click)="downloadMap(map.link)"></div>
+                    <div>
+                        <div class="document-title">{{map.name}}</div>
+                        <div class="document-date">{{map.date}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
