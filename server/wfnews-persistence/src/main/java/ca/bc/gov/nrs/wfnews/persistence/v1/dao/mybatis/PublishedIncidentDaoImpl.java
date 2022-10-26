@@ -201,7 +201,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -230,6 +230,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+			parameters.put("searchText", searchText);
+
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
