@@ -28,7 +28,6 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private Date discoveryDate;
 	private Date declaredOutDate;
 	private String fireCentre;
-	private Integer fireYear;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
@@ -67,6 +66,7 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private String updateUser;
 	private String latitude;
 	private String longitude;
+	private Integer fireYear;
 
 	public String getPublishedIncidentDetailGuid() {
 		return publishedIncidentDetailGuid;

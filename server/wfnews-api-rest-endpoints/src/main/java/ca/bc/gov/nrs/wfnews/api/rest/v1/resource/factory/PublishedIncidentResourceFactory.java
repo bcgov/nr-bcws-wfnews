@@ -143,7 +143,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setLongitude(dto.getLongitude());
 		resource.setFireCentre(dto.getFireCentre());
 		resource.setFireYear(dto.getFireYear());
-		resource.setDeclaredOutDate(dto.getDeclaredOutDate());;
+		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
 	}
 
 	@Override
