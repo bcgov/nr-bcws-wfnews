@@ -355,4 +355,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     removeFromWatchlist (incident: any) {
       this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
     }
+
+    onClickBookmark(event:Event) {
+      console.log(event)
+      event.stopPropagation()
+    }
 }
