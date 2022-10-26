@@ -66,6 +66,7 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private String updateUser;
 	private String latitude;
 	private String longitude;
+	private Integer fireYear;
 
 	public String getPublishedIncidentDetailGuid() {
 		return publishedIncidentDetailGuid;
@@ -459,5 +460,15 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	@Override
 	public void setFireCentre(String fireCentre) {
 		this.fireCentre = fireCentre;
+	}
+
+	@Override
+	public Integer getFireYear() {
+		return fireYear;
+	}
+
+	@Override
+	public void setFireYear(Integer fireYear) {
+		this.fireYear = fireYear;
 	}
 }
