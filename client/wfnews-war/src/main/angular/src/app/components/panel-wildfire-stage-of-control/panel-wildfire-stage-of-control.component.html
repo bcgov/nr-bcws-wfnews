@@ -98,8 +98,8 @@
 
         <div class="bottom-summary flex-y-fixed">
             <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
-            <span class="paging-control" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
-            <span class="paging-control" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
+            <span class="paging-control {{isFirstPage}}" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
+            <span class="paging-control {{isLastPage}}" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
 
         </div>
     </mat-tab>

@@ -51,6 +51,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     private ignorePanDebounce
 
     private marker: any
+    public isFirstPage: string;
+    public isLastPage: string;
 
     public convertToDateWithTime = DateTimeConvert;
     public convertToStageOfControlDescription = StageOfControlConvert;
@@ -129,6 +131,27 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     ngOnChanges(changes: SimpleChanges) {
         super.ngOnChanges(changes);
+        if(changes.collection && changes.collection.currentValue){
+          this.isFirstPage = null;
+          this.isLastPage = null;
+          let collection = changes.collection.currentValue;
+          if (collection.pageNumber === 1 && collection.pageNumber === collection.totalPageCount) {
+            //total results less than pageRowCount:10, no need for pagination
+            this.isFirstPage = 'FIRST';
+            this.isLastPage = 'LAST';
+          }
+          else if (collection.pageNumber === 1) {
+            //first page
+            this.isFirstPage = 'FIRST';
+            this.isLastPage = null;
+
+          }
+          else if (collection.pageNumber === collection.totalPageCount) {
+            //last page
+            this.isFirstPage = null;
+            this.isLastPage = 'LAST'
+          } 
+        }
     }
 
     ngOnInit() {

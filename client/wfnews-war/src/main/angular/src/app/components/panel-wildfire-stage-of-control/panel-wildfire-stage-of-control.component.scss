@@ -294,6 +294,16 @@ section {
     .mat-icon{
         vertical-align: middle;
     }
+
+    &.FIRST {
+        color:grey;
+        pointer-events: none !important
+    }
+
+    &.LAST {
+        color:grey;
+        pointer-events: none !important
+    }
 }
 
 .paging-control:hover{
