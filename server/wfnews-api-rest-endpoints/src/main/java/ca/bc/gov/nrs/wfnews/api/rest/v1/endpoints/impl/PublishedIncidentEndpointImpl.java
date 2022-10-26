@@ -56,10 +56,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
 
-		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
-		} catch (ValidationException e) {
-			throw new ServiceException("FileService threw a validation exception", e);
+		} catch (DaoException | ValidationException e) {
+			throw new ServiceException(e.getMessage(), e);
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
@@ -90,10 +88,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
 
-		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
-		} catch (ValidationException e) {
-			throw new ServiceException("FileService threw a validation exception", e);
+		} catch (DaoException | ValidationException e) {
+			throw new ServiceException(e.getMessage(), e);
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
@@ -187,6 +183,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setGeneralIncidentCauseCatId(publishedIncidentResource.getGeneralIncidentCauseCatId());
 		incident.setNewsPublicationStatusCode(publishedIncidentResource.getNewsPublicationStatusCode());
 		incident.setDiscoveryDate(publishedIncidentResource.getDiscoveryDate());
+		incident.setDeclaredOutDate(publishedIncidentResource.getDeclaredOutDate());
 		incident.setFireZoneUnitIdentifier(publishedIncidentResource.getFireZoneUnitIdentifier());
 		incident.setFireOfNoteInd(publishedIncidentResource.getFireOfNoteInd());
 		incident.setIncidentName(publishedIncidentResource.getIncidentName());
@@ -225,6 +222,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setUpdateUser(publishedIncidentResource.getUpdateUser());
 		incident.setLatitude(publishedIncidentResource.getLatitude());
 		incident.setLongitude(publishedIncidentResource.getLongitude());
+		incident.setFireCentre(publishedIncidentResource.getFireCentre());
+		incident.setFireYear(publishedIncidentResource.getFireYear());
 
 		return incident;
 	}

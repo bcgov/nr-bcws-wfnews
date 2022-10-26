@@ -3,16 +3,19 @@
 
 <mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.PublishedIncidentMapper">
 	<resultMap id="PublishedIncidentDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto">
-	<id property="publishedIncidentDetailGuid" column="PUBLISHED_INCIDENT_DETAIL_GUID" javaType="java.lang.String" jdbcType="VARCHAR" />
+	<id property="publishedIncidentDetailGuid" column="PUBLISHED_INCIDENT_DETAIL_GUID" javaType="java.lang.String" jdbcType="BINARY" />
 		<result property="incidentGuid" column="INCIDENT_GUID" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentNumberLabel" column="INCIDENT_NUMBER_LABEL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="newsCreatedTimestamp" column="NEWS_CREATED_TIMESTAMP" javaType="java.util.Date" jdbcType="TIMESTAMP" />
 		<result property="stageOfControlCode" column="STAGE_OF_CONTROL_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireCentre" column="FIRE_CENTRE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="generalIncidentCauseCatId" column="GENERAL_INCIDENT_CAUSE_CAT_ID" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="newsPublicationStatusCode" column="NEWS_PUBLICATION_STATUS_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="discoveryDate" column="DISCOVERY_DATE" javaType="java.util.Date" jdbcType="DATE" />
+		<result property="declaredOutDate" column="DECLARED_OUT_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="fireZoneUnitIdentifier" column="FIRE_ZONE_ORG_UNIT_IDENTIFIER" javaType="java.lang.Integer" jdbcType="NUMERIC" />
-		<result property="fireOfNoteInd" column="FIRE_OF_NOTE_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireOfNoteInd" column="FIRE_OF_NOTE_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="incidentName" column="INCIDENT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentLocation" column="INCIDENT_LOCATION" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentOverview" column="INCIDENT_OVERVIEW" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -26,15 +29,15 @@
 		<result property="contactPhoneNumber" column="CONTACT_PHONE_NUMBER" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="contactEmailAddress" column="CONTACT_EMAIL_ADDRESS" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="resourceDetail" column="RESOURCE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="wildfireCrewResourcesInd" column="WILDFIRE_CREW_RESOURCES_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="wildfireCrewResourcesInd" column="WILDFIRE_CREW_RESOURCES_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="wildfireCrewResourcesDetail" column="WILDFIRE_CREW_RESOURCES_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="wildfireAviationResourceInd" column="WILDFIRE_AVIATION_RESOURCE_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="wildfireAviationResourceInd" column="WILDFIRE_AVIATION_RESOURCE_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="wildfireAviationResourceDetail" column="WILDFIRE_AVIATION_RSRC_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="heavyEquipmentResourcesInd" column="HEAVY_EQUIPMENT_RESOURCES_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="heavyEquipmentResourcesInd" column="HEAVY_EQUIPMENT_RESOURCES_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="heavyEquipmentResourcesDetail" column="HEAVY_EQUIPMENT_RESOURCES_DTL" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="incidentMgmtCrewRsrcInd" column="INCIDENT_MGMNT_CREW_RSRC_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="incidentMgmtCrewRsrcInd" column="INCIDENT_MGMNT_CREW_RSRC_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="incidentMgmtCrewRsrcDetail" column="INCIDENT_MGMNT_CREW_RSRC_DTL" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="structureProtectionRsrcInd" column="STRUCTURE_PROTECTION_RSRC_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="structureProtectionRsrcInd" column="STRUCTURE_PROTECTION_RSRC_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="structureProtectionRsrcDetail" column="STRUCTURE_PROTECTION_RSRC_DTL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="publishedTimestamp" column="PUBLISHED_TIMESTAMP" javaType="java.util.Date" jdbcType="TIMESTAMP" />
 		<result property="publishedUserTypeCode" column="PUBLISHED_USER_TYPE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -49,9 +52,14 @@
 		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="latitude" column="LATITUDE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="longitude" column="LONGITUDE" javaType="java.lang.String" jdbcType="VARCHAR" /> 
+		<result property="fireCentre" column="FIRE_CENTRE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 	</resultMap>
 	
 	<insert id="insert">
+	<selectKey keyProperty="publishedIncidentDetailGuid" resultType="java.lang.String" order="BEFORE"> 
+			SELECT GEN_RANDOM_UUID();
+		</selectKey>
 		
 		INSERT INTO WFNEWS.PUBLISHED_INCIDENT_DETAIL  
 			( PUBLISHED_INCIDENT_DETAIL_GUID,
@@ -64,6 +72,7 @@
 				DISCOVERY_DATE,
 				DECLARED_OUT_DATE,
 				FIRE_CENTRE,
+				FIRE_YEAR,
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER,
 				FIRE_OF_NOTE_IND,
 				INCIDENT_NAME,
@@ -104,7 +113,7 @@
 				UPDATE_DATE
 				)
 		VALUES
-			  (#{dto.publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+			  (#{publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 			  	#{dto.incidentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 			  	#{dto.incidentNumberLabel, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.newsCreatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
@@ -114,8 +123,9 @@
 				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
-				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.fireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentLocation, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -129,15 +139,15 @@
 				#{dto.contactPhoneNumber, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.contactEmailAddress, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.resourceDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.wildfireCrewResourcesInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.wildfireCrewResourcesInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.wildfireCrewResourcesDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.wildfireAviationResourceInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.wildfireAviationResourceInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.wildfireAviationResourceDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.heavyEquipmentResourcesInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.heavyEquipmentResourcesInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.heavyEquipmentResourcesDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.incidentMgmtCrewRsrcInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.incidentMgmtCrewRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentMgmtCrewRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.structureProtectionRsrcInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.structureProtectionRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.structureProtectionRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.publishedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				#{dto.publishedUserTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -157,7 +167,7 @@
 	<update id="update">
 	
 	UPDATE WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		   SET PUBLISHED_INCIDENT_DETAIL_GUID = #{dto.publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+		   SET PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 				INCIDENT_GUID = 			  	#{dto.incidentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 				INCIDENT_NUMBER_LABEL = 		#{dto.incidentNumberLabel, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
 				NEWS_CREATED_TIMESTAMP =				#{dto.newsCreatedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
@@ -166,9 +176,10 @@
 				NEWS_PUBLICATION_STATUS_CODE =				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				DISCOVERY_DATE =				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				DECLARED_OUT_DATE =				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
-				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
+				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				FIRE_YEAR = #{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
-				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_NAME =				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_LOCATION =				#{dto.incidentLocation, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_OVERVIEW =				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -182,15 +193,15 @@
 				CONTACT_PHONE_NUMBER =				#{dto.contactPhoneNumber, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				CONTACT_EMAIL_ADDRESS =				#{dto.contactEmailAddress, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				RESOURCE_DETAIL =				#{dto.resourceDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				WILDFIRE_CREW_RESOURCES_IND =				#{dto.wildfireCrewResourcesInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				WILDFIRE_CREW_RESOURCES_IND =				#{dto.wildfireCrewResourcesInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				WILDFIRE_CREW_RESOURCES_DETAIL =				#{dto.wildfireCrewResourcesDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				WILDFIRE_AVIATION_RESOURCE_IND =				#{dto.wildfireAviationResourceInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				WILDFIRE_AVIATION_RESOURCE_IND =				#{dto.wildfireAviationResourceInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				WILDFIRE_AVIATION_RSRC_DETAIL =				#{dto.wildfireAviationResourceDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				HEAVY_EQUIPMENT_RESOURCES_IND =				#{dto.heavyEquipmentResourcesInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				HEAVY_EQUIPMENT_RESOURCES_IND =				#{dto.heavyEquipmentResourcesInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				HEAVY_EQUIPMENT_RESOURCES_DTL =				#{dto.heavyEquipmentResourcesDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				INCIDENT_MGMNT_CREW_RSRC_IND =				#{dto.incidentMgmtCrewRsrcInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				INCIDENT_MGMNT_CREW_RSRC_IND =				#{dto.incidentMgmtCrewRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_MGMNT_CREW_RSRC_DTL =				#{dto.incidentMgmtCrewRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				STRUCTURE_PROTECTION_RSRC_IND =				#{dto.structureProtectionRsrcInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				STRUCTURE_PROTECTION_RSRC_IND =				#{dto.structureProtectionRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				STRUCTURE_PROTECTION_RSRC_DTL =				#{dto.structureProtectionRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_TIMESTAMP =				#{dto.publishedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				PUBLISHED_USER_TYPE_CODE =				#{dto.publishedUserTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -205,7 +216,7 @@
 				CREATE_DATE =				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				UPDATE_USER =				#{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				UPDATE_DATE =				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
-		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{dto.publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
 	</update>
 	
 	<select id="fetch" resultMap="PublishedIncidentDtoMap"> 

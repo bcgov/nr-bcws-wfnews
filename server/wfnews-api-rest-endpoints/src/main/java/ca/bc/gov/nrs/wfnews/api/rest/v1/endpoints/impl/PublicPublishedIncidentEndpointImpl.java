@@ -112,6 +112,9 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			};
 
 			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
+		
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();	
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}

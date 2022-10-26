@@ -24,7 +24,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private Date declaredOutDate;
 	private String fireCentre;
 	private Integer fireZoneUnitIdentifier;
-	private String fireOfNoteInd;
+	private Boolean fireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
 	private String incidentOverview;
@@ -38,15 +38,15 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String contactPhoneNumber;
 	private String contactEmailAddress;
 	private String resourceDetail;
-	private String wildfireCrewResourcesInd;
+	private Boolean wildfireCrewResourcesInd;
 	private String wildfireCrewResourcesDetail;
-	private String wildfireAviationResourceInd;
+	private Boolean wildfireAviationResourceInd;
 	private String wildfireAviationResourceDetail;
-	private String heavyEquipmentResourcesInd;
+	private Boolean heavyEquipmentResourcesInd;
 	private String heavyEquipmentResourcesDetail;
-	private String incidentMgmtCrewRsrcInd;
+	private Boolean incidentMgmtCrewRsrcInd;
 	private String incidentMgmtCrewRsrcDetail;
-	private String structureProtectionRsrcInd;
+	private Boolean structureProtectionRsrcInd;
 	private String structureProtectionRsrcDetail;
 	private Date publishedTimestamp;
 	private String publishedUserTypeCode; 
@@ -56,6 +56,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private Date lastUpdatedTimestamp;
 	private String longitude;
 	private String latitude;
+	private Integer fireYear;
 	
 	public PublishedIncidentDto() {
 
@@ -105,6 +106,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = dto.longitude;
 		this.declaredOutDate = dto.declaredOutDate;
 		this.fireCentre = dto.fireCentre;
+		this.fireYear = dto.fireYear;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -151,6 +153,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = incident.getLongitude();
 		this.declaredOutDate = incident.getDeclaredOutDate();
 		this.fireCentre = incident.getFireCentre();
+		this.fireYear = incident.getFireYear();
 	}
 	
 	
@@ -222,6 +225,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("latitude", latitude, other.latitude);
 			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
 			result = result && equals("fireCentre", fireCentre, other.fireCentre);
+			result = result && equals("fireYear", fireYear, other.fireYear);
 		}
 
 		return result;
@@ -305,11 +309,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.fireZoneUnitIdentifier = fireZoneUnitIdentifier;
 	}
 
-	public String getFireOfNoteInd() {
+	public Boolean getFireOfNoteInd() {
 		return fireOfNoteInd;
 	}
 
-	public void setFireOfNoteInd(String fireOfNoteInd) {
+	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
 	}
 
@@ -417,11 +421,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.resourceDetail = resourceDetail;
 	}
 
-	public String getWildfireCrewResourcesInd() {
+	public Boolean getWildfireCrewResourcesInd() {
 		return wildfireCrewResourcesInd;
 	}
 
-	public void setWildfireCrewResourcesInd(String wildfireCrewResourcesInd) {
+	public void setWildfireCrewResourcesInd(Boolean wildfireCrewResourcesInd) {
 		this.wildfireCrewResourcesInd = wildfireCrewResourcesInd;
 	}
 
@@ -433,11 +437,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.wildfireCrewResourcesDetail = wildfireCrewResourcesDetail;
 	}
 
-	public String getWildfireAviationResourceInd() {
+	public Boolean getWildfireAviationResourceInd() {
 		return wildfireAviationResourceInd;
 	}
 
-	public void setWildfireAviationResourceInd(String wildfireAviationResourceInd) {
+	public void setWildfireAviationResourceInd(Boolean wildfireAviationResourceInd) {
 		this.wildfireAviationResourceInd = wildfireAviationResourceInd;
 	}
 
@@ -449,11 +453,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.wildfireAviationResourceDetail = wildfireAviationResourceDetail;
 	}
 
-	public String getHeavyEquipmentResourcesInd() {
+	public Boolean getHeavyEquipmentResourcesInd() {
 		return heavyEquipmentResourcesInd;
 	}
 
-	public void setHeavyEquipmentResourcesInd(String heavyEquipmentResourcesInd) {
+	public void setHeavyEquipmentResourcesInd(Boolean heavyEquipmentResourcesInd) {
 		this.heavyEquipmentResourcesInd = heavyEquipmentResourcesInd;
 	}
 
@@ -465,11 +469,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.heavyEquipmentResourcesDetail = heavyEquipmentResourcesDetail;
 	}
 
-	public String getIncidentMgmtCrewRsrcInd() {
+	public Boolean getIncidentMgmtCrewRsrcInd() {
 		return incidentMgmtCrewRsrcInd;
 	}
 
-	public void setIncidentMgmtCrewRsrcInd(String incidentMgmtCrewRsrcInd) {
+	public void setIncidentMgmtCrewRsrcInd(Boolean incidentMgmtCrewRsrcInd) {
 		this.incidentMgmtCrewRsrcInd = incidentMgmtCrewRsrcInd;
 	}
 
@@ -481,11 +485,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.incidentMgmtCrewRsrcDetail = incidentMgmtCrewRsrcDetail;
 	}
 
-	public String getStructureProtectionRsrcInd() {
+	public Boolean getStructureProtectionRsrcInd() {
 		return structureProtectionRsrcInd;
 	}
 
-	public void setStructureProtectionRsrcInd(String structureProtectionRsrcInd) {
+	public void setStructureProtectionRsrcInd(Boolean structureProtectionRsrcInd) {
 		this.structureProtectionRsrcInd = structureProtectionRsrcInd;
 	}
 
@@ -575,5 +579,13 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setFireCentre(String fireCentre) {
 		this.fireCentre = fireCentre;
+	}
+
+	public Integer getFireYear() {
+		return fireYear;
+	}
+
+	public void setFireYear(Integer fireYear) {
+		this.fireYear = fireYear;
 	}
 }
