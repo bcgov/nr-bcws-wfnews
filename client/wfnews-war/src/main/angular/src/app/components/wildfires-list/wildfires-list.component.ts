@@ -134,11 +134,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.doSearch()
   }
 
-  openStageOfControlLink() {
-    let url = "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control"
-    window.open(url, "_blank");
-  }
-
   async useMyCurrentLocation() {
     this.searchText = undefined;
 
