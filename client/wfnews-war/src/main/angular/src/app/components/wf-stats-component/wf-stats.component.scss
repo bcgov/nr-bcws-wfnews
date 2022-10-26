@@ -1,5 +1,6 @@
 :host {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  background-color: lightgray;
 }
 
 ::ng-deep .wildfires-tabs {
@@ -41,13 +42,16 @@ mat-tab-group {
   overflow: hidden;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
   padding: 20px;
+  margin: auto;
+  background-color: white;
   h2 {
     font-size: 24px;
     font-weight: normal;
     margin-bottom: 0;
     padding-bottom: 0;
-    color: #1c5a97
-}
+    color: #1c5a97;
+    text-align: center;
+  }
 }
 
 .header-row {
@@ -80,6 +84,24 @@ mat-tab-group {
 .summary-container> * {
   flex: 1 1 28vw;
   margin: 8px;
+}
+
+.fire-date-box {
+  border-top: 1px solid #e9eff5;
+  border-bottom: 1px solid #e9eff5;
+  background: white;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #1c5a97;
+}
+
+.link {
+  color: #1c5a97;
 }
 
 .resource-panel {
@@ -121,8 +143,6 @@ mat-tab-group {
 .fire-centre-table {
   display: flex;
   flex-direction: column;
-  width: 40%;
-  max-width: 450px;
   font-size: 16px;
   padding: 10px;
   .row {
@@ -135,24 +155,30 @@ mat-tab-group {
   }
   .cell {
     margin-right: auto;
+    width: 110px;
   }
   .value-cell {
-    margin-left: auto;
+    width: 200px;
+    max-width: 18vw;
+    min-width: 100px;
+    text-align: center;
   }
 }
 
 .info-panel {
   display: flex;
-  flex-direction: row;
+  flex-flow: row;
   flex-wrap: wrap;
   .info-text {
     padding: 5px;
     width: 45%;
-    height: 500px;
   }
   .info-chart {
     padding: 5px;
     width: 45%;
     height: 500px;
   }
+}
+.info-panel> * {
+  flex: 1 1 45vw;
 }
