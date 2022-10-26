@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { EvacOrderOption } from '../../conversion/models';
+import { AreaRestrictionsOption, BansAndProhibitionsOption, EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 
 @Component({
@@ -9,6 +9,8 @@ import { AGOLService } from '../../services/AGOL-service';
 })
 export class CurrentAlertComponentComponent implements OnInit {
   public evacOrders : EvacOrderOption[] = []
+  public areaRestrictions: AreaRestrictionsOption[] = []
+  public bansAndProhibitions: BansAndProhibitionsOption[] = []
   alertTypeOptions = [
     'All',
     'Area Restrictions',
@@ -23,6 +25,8 @@ export class CurrentAlertComponentComponent implements OnInit {
 
   ngOnInit() {
     this.getEvacOrders();
+    this.getBansProhibitions();
+    this.getAreaRestrictions()
   }
   selectAlertUpdated(event:any){
     console.log(event)
@@ -30,7 +34,6 @@ export class CurrentAlertComponentComponent implements OnInit {
 
   getEvacOrders () {
     this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
-      console.log(response)
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
@@ -40,14 +43,50 @@ export class CurrentAlertComponentComponent implements OnInit {
             issuingAgency: element.attributes.ISSUING_AGENCY,
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
-            centroid: element.centroid
+            centroid: element.centroid,
+            dateModified: element.attributes.DATE_MODIFIED,
+            noticeType: 'evac'
           })
         }
       }
-      console.log(this.evacOrders)
     })
   }
 
-  
+  getAreaRestrictions() {
+    this.agolService.getAreaRestrictions(null,{ returnCentroid: true, returnGeometry: false}).subscribe(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.areaRestrictions.push ({
+            protRsSysID: element.attributes.PROT_RA_SYSID,
+            name: element.attributes.NAME,
+            accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            fireCentre: element.attributes.FIRE_CENTRE_NAME,
+            fireZone: element.attributes.FIRE_ZONE_NAME,
+            bulletinUrl: element.attributes.BULLETIN_URL,
+            centroid:element.centroid,
+            noticeType: 'area'
+          })
+        }
+      }
+    })
+  }
 
+  getBansProhibitions() {
+    this.agolService.getBansAndProhibitions(null,{ returnCentroid: true, returnGeometry: false}).subscribe(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.bansAndProhibitions.push({
+            protBsSysID: element.attributes.PROT_BAP_SYSID,
+            type: element.attributes.TYPE,
+            accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            fireZone: element.attributes.FIRE_ZONE_NAME,
+            bulletinUrl: element.attributes.BULLETIN_URL,
+            accessProhibitionDescription: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
+            centroid: element.centroid,
+            noticeType: 'bans'
+          })
+        }
+      }
+    })
+  }
 }

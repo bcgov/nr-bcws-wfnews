@@ -72,6 +72,24 @@ export class AGOLService {
     return this.http.get<any>(encodeURI(url),{headers})
   }
 
+  getBansAndProhibitions (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLBansAndProhibitions'].toString();
+
+    // append query
+    url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+
+    if (location) {
+      // Get the incident geometry, buffer the points by x metres
+      // right now, just moving by 2 points of lat/long
+      url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
+    }
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url),{headers})
+  }
+
   getAreaRestrictionsWfs () {
     const url = 'https://openmaps.gov.bc.ca/geo/pub/WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP/ows?service=wfs&version=1.1.0&request=GetFeature&typename=WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP&outputFormat=application/json&SRSName=urn:x-ogc:def:crs:EPSG:4326'
     let headers = new HttpHeaders();
