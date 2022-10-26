@@ -118,6 +118,8 @@ import { IncidentMapsPanel } from './components/public-incident-page/incident-ma
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { LocalStorageService } from './services/local-storage-service';
 import { WatchlistService } from './services/watchlist-service';
+import { CurrentAlertComponentComponent } from './components/current-alert-component/current-alert-component.component';
+import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -177,7 +179,9 @@ export const DATE_FORMATS = {
         IncidentHeaderPanel,
         IncidentInfoPanel,
         IncidentMapsPanel,
-        IncidentOverviewPanel
+        IncidentOverviewPanel,
+        CurrentAlertComponentComponent,
+        WildfiresListHeaderComponent
     ],
     imports: [
         MatSortModule,
@@ -244,7 +248,7 @@ export const DATE_FORMATS = {
         MatExpansionModule,
         MatPaginatorModule,
         NgxPaginationModule,
-        NgxChartsModule
+        NgxChartsModule,
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

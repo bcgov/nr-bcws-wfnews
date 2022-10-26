@@ -1,0 +1,15 @@
+<div>
+    <div class="header-row">
+        <p class="dashboard-title">Wildfires List
+        </p>
+        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stages of Control?</button>
+    </div>
+    <mat-tab-group>
+        <mat-tab label="Wildfires">
+            <wf-list-container-desktop></wf-list-container-desktop>
+        </mat-tab>
+        <mat-tab label="Current Notices">
+            <current-alert-component></current-alert-component>
+        </mat-tab>
+    </mat-tab-group>
+</div>
