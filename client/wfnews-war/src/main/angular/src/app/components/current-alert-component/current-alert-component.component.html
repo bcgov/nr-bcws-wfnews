@@ -1,0 +1,58 @@
+<div class="headers">
+    <div class="field">
+        <mat-label class="label">Notice Type</mat-label>
+        <select appWFSingleSelect appWFPlaceholder="Select..."
+                aria-label="Type"
+                [options]="alertTypeOptions"
+                [selected]="selectedAlertType"
+                (updated)="selectAlertUpdated($event)">
+            <option *ngFor = "let item of alertTypeOptions" value="{{item}}">
+                <span>{{item}}</span>
+            </option>
+        </select>
+    </div>
+
+    <div class="field"> 
+        <div class="toggle-bar">
+            <span>All Notices</span>
+            <mat-slide-toggle>Notices Near Me</mat-slide-toggle>
+        </div>
+    </div>
+</div>
+
+<div class="contents">
+    <div class="left-panels">
+        <mat-expansion-panel [expanded]="true">
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Evacuation Orders and Alerts
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+            <panel-evacuation-orders-and-alerts></panel-evacuation-orders-and-alerts>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Bans and Prohibitions
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+            <panel-bans-prohibitions></panel-bans-prohibitions>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+            <mat-panel-title>
+                Area Restrictions
+            </mat-panel-title>
+            </mat-expansion-panel-header>
+            <panel-area-restrictions></panel-area-restrictions>
+        </mat-expansion-panel>
+    </div>
+
+    <div class="notice-list">
+        <div *ngFor="let evac of evacOrders" class="notice-item">
+            {{evac.eventName}}
+        </div>
+    </div>
+</div>
