@@ -27,8 +27,6 @@ export class IncidentDetailsPanel {
     {optionValue: "Under Investigation", disclaimer:"Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."}
   ];
 
-  showLearnMoreText:boolean;
-
   setSizeTypeDisclaimer (value) {
     this.formGroup.controls['sizeComments'].setValue(this.sizeTypeOptions.find(c=>c.optionValue===value).disclaimer);
   }
