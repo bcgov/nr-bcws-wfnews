@@ -56,6 +56,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private Date lastUpdatedTimestamp;
 	private String longitude;
 	private String latitude;
+	private Integer fireYear;
 	
 	public PublishedIncidentDto() {
 
@@ -105,6 +106,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = dto.longitude;
 		this.declaredOutDate = dto.declaredOutDate;
 		this.fireCentre = dto.fireCentre;
+		this.fireYear = dto.fireYear;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -151,6 +153,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = incident.getLongitude();
 		this.declaredOutDate = incident.getDeclaredOutDate();
 		this.fireCentre = incident.getFireCentre();
+		this.fireYear = incident.getFireYear();
 	}
 	
 	
@@ -222,6 +225,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("latitude", latitude, other.latitude);
 			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
 			result = result && equals("fireCentre", fireCentre, other.fireCentre);
+			result = result && equals("fireYear", fireYear, other.fireYear);
 		}
 
 		return result;
@@ -575,5 +579,13 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setFireCentre(String fireCentre) {
 		this.fireCentre = fireCentre;
+	}
+
+	public Integer getFireYear() {
+		return fireYear;
+	}
+
+	public void setFireYear(Integer fireYear) {
+		this.fireYear = fireYear;
 	}
 }

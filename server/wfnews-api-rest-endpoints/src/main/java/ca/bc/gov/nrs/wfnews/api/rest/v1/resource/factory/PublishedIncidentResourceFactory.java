@@ -2,7 +2,6 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
@@ -141,6 +140,9 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setUpdateUser(dto.getUpdateUser());
 		resource.setLatitude(dto.getLatitude());
 		resource.setLongitude(dto.getLongitude());
+		resource.setFireCentre(dto.getFireCentre());
+		resource.setFireYear(dto.getFireYear());
+		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
 	}
 
 	@Override
