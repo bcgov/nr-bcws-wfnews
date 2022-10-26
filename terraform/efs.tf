@@ -33,12 +33,7 @@ resource "aws_efs_file_system_policy" "policy" {
             "Resource": "${aws_efs_file_system.wfnews_efs.arn}",
             "Action": [
                 "elasticfilesystem:*"
-            ],
-            "Condition": {
-                "Bool": {
-                    "aws:SecureTransport": "true"
-                }
-            }
+            ]
         }
     ]
 }
