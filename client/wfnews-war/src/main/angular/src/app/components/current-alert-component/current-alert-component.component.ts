@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AreaRestrictionsOption, BansAndProhibitionsOption, EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
+import { CommonUtilityService } from '../../services/common-utility.service';
+import { haversineDistance } from '../../services/wfnews-map.service/util';
+import { convertToDateWithDayOfWeek as DateTimeConvert } from '../../utils';
 
 @Component({
   selector: 'current-alert-component',
@@ -11,6 +14,8 @@ export class CurrentAlertComponentComponent implements OnInit {
   public evacOrders : EvacOrderOption[] = []
   public areaRestrictions: AreaRestrictionsOption[] = []
   public bansAndProhibitions: BansAndProhibitionsOption[] = []
+  currentLat: number;
+  currentLong: number;
   alertTypeOptions = [
     'All',
     'Area Restrictions',
@@ -19,11 +24,14 @@ export class CurrentAlertComponentComponent implements OnInit {
   ]
   selectedAlertType = ''
 
-  constructor(private agolService: AGOLService) {
+  constructor(private agolService: AGOLService, private commonUtilityService: CommonUtilityService) {
 }
+  public convertToDateWithDayOfWeek = DateTimeConvert;
+
 
 
   ngOnInit() {
+    this.useMyCurrentLocation()
     this.getEvacOrders();
     this.getBansProhibitions();
     this.getAreaRestrictions()
@@ -74,11 +82,13 @@ export class CurrentAlertComponentComponent implements OnInit {
   getBansProhibitions() {
     this.agolService.getBansAndProhibitions(null,{ returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
+        // there is no Status column in BanAndProhibitions
         for (const element of response.features) {
           this.bansAndProhibitions.push({
             protBsSysID: element.attributes.PROT_BAP_SYSID,
             type: element.attributes.TYPE,
             accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            fireCentre: element.attributes.FIRE_CENTRE_NAME,
             fireZone: element.attributes.FIRE_ZONE_NAME,
             bulletinUrl: element.attributes.BULLETIN_URL,
             accessProhibitionDescription: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
@@ -88,5 +98,21 @@ export class CurrentAlertComponentComponent implements OnInit {
         }
       }
     })
+  }
+
+  async useMyCurrentLocation() {
+    const location = await this.commonUtilityService.getCurrentLocationPromise()
+    if( location ){
+        this.currentLat = Number(location.coords.latitude);
+        this.currentLong = Number(location.coords.longitude);
+    }
+  }
+
+  calculateDistance (lat: number, long: number): string {
+    let result = '---';
+    if (lat && long && this.currentLat && this.currentLong) {
+      result = (haversineDistance(lat, this.currentLat, long, this.currentLong) / 1000).toFixed(2);
+    }
+    return result;
   }
 }

@@ -52,44 +52,66 @@
 
     <div class="notice-list">
         <div *ngFor="let evac of evacOrders" class="notice-item">
-                    <div class="item-header" style="color: #1a5a96">{{evac.eventName}}</div>
-                    <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Orders and Alerts</span></span>
+            <div class="item-header" style="color: #1a5a96">{{evac.eventName}}</div>
+            <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Evacuation Orders and Alerts</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(evac.dateModified)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Agency: </span>
+                <span class="item-content">{{evac.issuingAgency}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Status: </span>
+                <span class="item-content">{{evac.orderAlertStatus}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km</span>
+            </div>
+        </div>
 
-                    <!-- <span #el style="cursor: pointer;" (click)="onWatchlist(incident) ? removeFromWatchlist(incident) : addToWatchlist(incident)" (click)="onClickBookmark($event)">
-                        <mat-icon style="color:#1A5A96; vertical-align: middle;">{{onWatchlist(incident) ? 'bookmark' : 'bookmark_border'}}</mat-icon>
-                    </span>
-                    </div>
-                    <div class="item-row">
-                        <span class="item-title">Last Updated: </span>
-                        <span class="item-content">{{convertToDateWithTime(incident.newsCreatedTimestamp)}}</span>
-                    </div>
-                    <div class="item-row">
-                        <span class="item-title">Fire Centre: </span>
-                        <span class="item-content">{{incident.fireCentre}}</span>
-                    </div>
-                    <div class="item-row">
-                        <span class="item-title">Distance from My Location: </span>
-                        <span class="item-content">{{calculateDistance(Number(incident.latitude), Number(incident.longitude))}} km</span>
-                    </div>
-                    <div class="tags">
-                        <span *ngIf="incident.fireOfNoteInd.trim().toUpperCase() === 'T'" class="wildifre-of-note-tag">
-                            <mat-icon class="fire-icon" style="vertical-align:middle">local_fire_department</mat-icon>
-                            Wildfire of Note
-                        </span>
-                        <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">
-                            <span class="circle-icon {{incident.stageOfControlCode}}"></span>
-                            {{convertToStageOfControlDescription(incident.stageOfControlCode)}}
-                        </span>
-                    </div> -->
+        <div *ngFor="let ban of bansAndProhibitions" class="notice-item">
+            <div class="item-header" style="color: #1a5a96">{{ban.type}}</div>
+            <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(ban.accessStatusEffectiveDate)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Fire Centre: </span>
+                <span class="item-content">{{ban.fireCentre}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Restrictions: </span>
+                <span class="item-content">{{ban.accessProhibitionDescription}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} km</span>
+            </div>
         </div>
 
         <div *ngFor="let area of areaRestrictions" class="notice-item">
             <div class="item-header" style="color: #1a5a96">{{area.name}} </div>
             <span class="label"><span class="icon signpost mat-icon"></span><span style="padding-left: 10px;">Area Restrictions</span></span>
-        </div>
-        <div *ngFor="let ban of bansAndProhibitions" class="notice-item">
-            <div class="item-header" style="color: #1a5a96">{{ban.type}}</div>
-            <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(area.accessStatusEffectiveDate)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Fire Centre: </span>
+                <span class="item-content">{{area.fireCentre}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Status: </span>
+                <span class="item-content">Active</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km</span>
+            </div>
         </div>
     </div>
 </div>

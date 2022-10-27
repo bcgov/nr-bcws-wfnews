@@ -83,10 +83,15 @@ select{
     .notice-list{
         width: 45%;
         border: 1px solid #dddddd;
+        max-height: 56rem;
+        overflow-y: auto;
+        border-radius: 5px;
         .notice-item{
             border-bottom: 1px solid #dddddd;
             
             .item-header{
+                background: url('../../../assets/images/external-link.svg') center right no-repeat;
+                background-size: 18px;
                 font-size: 18px;
                 font-weight: 700;
                 color: black !important;
@@ -100,6 +105,21 @@ select{
                 font-weight: 400;
                 display: inline-flex;
                 padding-left: 15px;
+            }
+        }
+
+        .item-row {
+            display: flex;
+            font-weight: 700;
+            padding: 5px 20px;
+            .item-title{
+              font-size: 1rem;
+              width: 100%;
+            }
+            .item-content{
+              width: 100%;
+              font-size:15px;
+              font-weight: 400;
             }
         }
     }
