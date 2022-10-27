@@ -16,13 +16,14 @@ export class CurrentAlertComponentComponent implements OnInit {
   public bansAndProhibitions: BansAndProhibitionsOption[] = []
   currentLat: number;
   currentLong: number;
+  nearmeChecked: boolean;
   alertTypeOptions = [
     'All',
     'Area Restrictions',
     'Bans & Prohibitions',
     'Evacuation Orders and Alerts',
   ]
-  selectedAlertType = ''
+  selectedAlertType = 'All'
 
   constructor(private agolService: AGOLService, private commonUtilityService: CommonUtilityService) {
 }
@@ -32,40 +33,52 @@ export class CurrentAlertComponentComponent implements OnInit {
 
   ngOnInit() {
     this.useMyCurrentLocation()
-    this.getEvacOrders();
-    this.getBansProhibitions();
-    this.getAreaRestrictions()
+    this.getEvacOrders(null, null);
+    this.getBansProhibitions(null, null);
+    this.getAreaRestrictions(null, null)
   }
+
   selectAlertUpdated(event:string){
     this.evacOrders = [];
     this.areaRestrictions = [];
     this.bansAndProhibitions = [];
+    let long = null;
+    let lat = null
+    if(this.nearmeChecked){
+      long = this.currentLong 
+      lat = this.currentLat
+    }
     switch(event) { 
       case 'All': { 
-        this.getEvacOrders();
-        this.getBansProhibitions();
-        this.getAreaRestrictions()
+        this.getEvacOrders(long, lat);
+        this.getBansProhibitions(long, lat);
+        this.getAreaRestrictions(long, lat)
         break; 
       } 
       case 'Area Restrictions': { 
-        this.getAreaRestrictions()         
+        this.getAreaRestrictions(long, lat)         
         break; 
       } 
       case 'Bans & Prohibitions': {
-        this.getBansProhibitions();
+        this.getBansProhibitions(long, lat);
         break;
       }
       case 'Evacuation Orders and Alerts': {
-        this.getEvacOrders();
+        this.getEvacOrders(long, lat);
         break;
       }
       default: { 
          break; 
       } 
-   }   }
+   }   
+  }
 
-  getEvacOrders () {
-    this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+  nearmeToggleChanged(){
+    this.selectAlertUpdated(this.selectedAlertType)
+  }
+
+  getEvacOrders (currentLong: number, currentLat: number) {
+    this.agolService.getEvacOrders((currentLong && currentLat) ? {x:currentLong, y:currentLat} : null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
@@ -84,8 +97,8 @@ export class CurrentAlertComponentComponent implements OnInit {
     })
   }
 
-  getAreaRestrictions() {
-    this.agolService.getAreaRestrictions(null,{ returnCentroid: true, returnGeometry: false}).subscribe(response => {
+  getAreaRestrictions(currentLong: number, currentLat: number) {
+    this.agolService.getAreaRestrictions((currentLong && currentLat) ? {x:currentLong, y:currentLat} : null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push ({
@@ -103,8 +116,8 @@ export class CurrentAlertComponentComponent implements OnInit {
     })
   }
 
-  getBansProhibitions() {
-    this.agolService.getBansAndProhibitions(null,{ returnCentroid: true, returnGeometry: false}).subscribe(response => {
+  getBansProhibitions(currentLong: number, currentLat: number) {
+    this.agolService.getBansAndProhibitions((currentLong && currentLat) ? {x:currentLong, y:currentLat} : null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         // there is no Status column in BanAndProhibitions
         for (const element of response.features) {

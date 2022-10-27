@@ -4,7 +4,7 @@
         <select appWFSingleSelect appWFPlaceholder="Select..."
                 aria-label="Type"
                 [options]="alertTypeOptions"
-                [selected]="selectedAlertType"
+                [(ngModel)]="selectedAlertType"
                 (updated)="selectAlertUpdated($event)">
             <option *ngFor = "let item of alertTypeOptions" value="{{item}}">
                 <span>{{item}}</span>
@@ -15,7 +15,7 @@
     <div class="field"> 
         <div class="toggle-bar">
             <span>All Notices</span>
-            <mat-slide-toggle>Notices Near Me</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="nearmeChecked" (change)="nearmeToggleChanged()" [disabled] = "!(currentLat && currentLong)">Notices Near Me</mat-slide-toggle>
         </div>
     </div>
 </div>
