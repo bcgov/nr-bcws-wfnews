@@ -348,7 +348,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "http://${aws_ecs_service.etcd.name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
+          value: "http://${aws_ecs_service.etcd[0].name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
         },
         {
           name: "API_KEY",
@@ -408,7 +408,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "http://0.0.0.0:2379, https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
+          value: "http://0.0.0.0:2379"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
@@ -491,7 +491,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "http://${aws_ecs_service.etcd.name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
+          value: "http://${aws_ecs_service.etcd[0].name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
         },
         {
           name: "API_KEY",
