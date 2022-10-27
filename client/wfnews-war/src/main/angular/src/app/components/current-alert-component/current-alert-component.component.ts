@@ -157,4 +157,14 @@ export class CurrentAlertComponentComponent implements OnInit {
     let url = 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions'
     window.open(url, "_blank");
   }
+
+  convertRestriction(value: string) {
+    let text = value.split(', ')
+    for (let i = 0; i < text.length; i++) {
+      if((text[i] === 'Category 2') || (text[i] === 'Category 3')) {
+        text[i] = text[i] + ' Open Fire'
+      }
+    }
+    return text.toString()
+  }
 }

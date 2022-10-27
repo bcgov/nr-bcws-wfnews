@@ -85,11 +85,11 @@
             </div>
             <div class="item-row">
                 <span class="item-title">Restrictions: </span>
-                <span class="item-content">{{ban.accessProhibitionDescription}}</span>
+                <span class="item-content">{{convertRestriction(ban.accessProhibitionDescription)}}</span>
             </div>
             <div class="item-row">
                 <span class="item-title">Distance from My Location: </span>
-                <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} km</span>
+                <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} KM</span>
             </div>
         </div>
 
