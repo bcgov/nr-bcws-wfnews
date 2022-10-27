@@ -86,6 +86,7 @@ select{
         max-height: 56rem;
         overflow-y: auto;
         border-radius: 5px;
+        height: fit-content;
         .notice-item{
             border-bottom: 1px solid #dddddd;
             
@@ -97,6 +98,7 @@ select{
                 color: black !important;
                 text-decoration: underline;
                 padding: 10px 20px 5px;
+                width: fit-content;
             }
 
             .label {

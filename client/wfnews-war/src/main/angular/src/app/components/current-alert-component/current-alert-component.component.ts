@@ -36,9 +36,33 @@ export class CurrentAlertComponentComponent implements OnInit {
     this.getBansProhibitions();
     this.getAreaRestrictions()
   }
-  selectAlertUpdated(event:any){
-    console.log(event)
-  }
+  selectAlertUpdated(event:string){
+    this.evacOrders = [];
+    this.areaRestrictions = [];
+    this.bansAndProhibitions = [];
+    switch(event) { 
+      case 'All': { 
+        this.getEvacOrders();
+        this.getBansProhibitions();
+        this.getAreaRestrictions()
+        break; 
+      } 
+      case 'Area Restrictions': { 
+        this.getAreaRestrictions()         
+        break; 
+      } 
+      case 'Bans & Prohibitions': {
+        this.getBansProhibitions();
+        break;
+      }
+      case 'Evacuation Orders and Alerts': {
+        this.getEvacOrders();
+        break;
+      }
+      default: { 
+         break; 
+      } 
+   }   }
 
   getEvacOrders () {
     this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
