@@ -17,28 +17,42 @@
                 </mat-option>
             </mat-select>
         </div>
-        <div class="content-panel-stack">
-            <div *ngFor="let item of imagesAndVideosStub">
-                <div class="image-video-container">
-                    <div class="image-video-details">
-                        <div style="padding-bottom: 5px;">{{item.title}}</div>
-                        <div style="font-size:14px">
-                            <div style="padding-bottom: 5px;">
-                                Date Uploaded: <span style="font-weight: 700;">{{item.uploadedDate}}</span>
-                            </div>
-                            <div>
-                                Filename: <span style="font-weight: 700;">{{item.fileName}}</span>
-                            </div>
-                        </div>
+        
+            <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide">
+                <div class="content-panel-stack">
+                    <div *ngFor="let item of imagesAndVideosStub">
+                        <a data-lg-size="376-383" class="gallery-item"
+                            data-src="https://unsplash.com/s/photos/fushimi-inari-taisha-shrine-senbontorii%2C-68%E7%95%AA%E5%9C%B0-fukakusa-yabunouchicho%2C-fushimi-ward%2C-kyoto%2C-japan"
+                            data-responsive="{{item.href}}"
+                            data-sub-html="<h4>Photo by - <a href='https://unsplash.com/@entrycube' >Diego Guzmán </a></h4> <p> Location - <a href='https://unsplash.com/s/photos/fushimi-inari-taisha-shrine-senbontorii%2C-68%E7%95%AA%E5%9C%B0-fukakusa-yabunouchicho%2C-fushimi-ward%2C-kyoto%2C-japan'>Fushimi Ward, Kyoto, Japan</a></p>">
+                                <div class="image-video-container">
+                                    <div class="image-video-details">
+                                        <div style="padding-bottom: 5px;">{{item.title}}</div>
+                                        <div style="font-size:14px">
+                                            <div style="padding-bottom: 5px;">
+                                                Date Uploaded: <span style="font-weight: 700;">{{item.uploadedDate}}</span>
+                                            </div>
+                                            <div>
+                                                Filename: <span style="font-weight: 700;">{{item.fileName}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex;">
+                                        <img *ngIf="item.type=='image'" class="incident-image img-responsive" src="{{item.href}}" />
+                                        <iframe *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="390"
+                                        src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+                                        frameborder="0"></iframe>
+                                    </div>
+                                </div>
+                            </a>        
                     </div>
-                    <div style="display: flex;">
-                        <img class="incident-image" src="{{item.href}}" />
-                    </div>
-                </div>
-            </div>
-            <iframe id="player" type="text/html" width="640" height="390"
-  src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
-  frameborder="0"></iframe>
-        </div>
+                
+                 </div>
+            </lightgallery>
+        
       </div>
 </div>
+ <!-- <iframe id="player" type="text/html" width="640" height="390"
+  src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
+  frameborder="0"></iframe>
+        -->
