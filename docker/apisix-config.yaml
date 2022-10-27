@@ -58,7 +58,7 @@ deployment:
     config_provider: etcd
   etcd:
     host:
-      - https://${{ETCD_URL}}
+      - ${{ETCD_URL}}
   admin:
     admin_key:
       - name: admin
