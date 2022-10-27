@@ -304,7 +304,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix" {
-  count                    = local.create_ecs_service
+  count                    = 1
   family                   = "wfnews-apisix-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
