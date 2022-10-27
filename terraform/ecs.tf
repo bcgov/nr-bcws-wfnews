@@ -348,7 +348,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
         },
         {
           name: "API_KEY",
@@ -368,6 +368,8 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       volumesFrom = []
     }
   ])
+
+  depends_on = [aws_ecs_service.etcd]
 }
 
 resource "aws_ecs_task_definition" "wfnews_etcd" {
