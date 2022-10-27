@@ -348,7 +348,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+          value: "http://${aws_ecs_service.etcd.name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
         },
         {
           name: "API_KEY",
@@ -373,7 +373,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_etcd" {
-  count                    = local.create_ecs_service
+  count                    = 1
   family                   = "wfnews-etcd-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -491,7 +491,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+          value: "http://${aws_ecs_service.etcd.name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
         },
         {
           name: "API_KEY",
@@ -702,17 +702,24 @@ resource "aws_ecs_service" "etcd" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id, data.aws_security_group.data.id, aws_security_group.wfnews_efs_access.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
-    assign_public_ip = true
+    subnets          = module.network.aws_subnet_ids.data.ids
+  }
+
+  service_registries {
+    registry_arn = aws_service_discovery_service.wfnews_service_discovery_service.arn
+    container_port = var.etcd_port
+    container_name = var.etcd_container_name
   }
 
   #Hit http endpoint
+  
   load_balancer {
     target_group_arn = aws_alb_target_group.wfnews_etcd.id
     container_name   = var.etcd_container_name
     container_port   = var.etcd_port
 
   }
+  
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
