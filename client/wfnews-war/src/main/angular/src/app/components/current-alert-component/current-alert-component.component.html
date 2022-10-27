@@ -52,7 +52,7 @@
 
     <div class="notice-list">
         <div *ngFor="let evac of evacOrders" class="notice-item">
-            <div class="item-header" style="color: #1a5a96">{{evac.eventName}}</div>
+            <div class="item-header">{{evac.eventName}}</div>
             <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Evacuation Orders and Alerts</span></span>
             <div class="item-row">
                 <span class="item-title">Last Updated: </span>
@@ -73,7 +73,7 @@
         </div>
 
         <div *ngFor="let ban of bansAndProhibitions" class="notice-item">
-            <div class="item-header" style="color: #1a5a96">{{ban.type}}</div>
+            <div class="item-header" style="background: url('../../../assets/images/external-link.svg') center right no-repeat; background-size: 18px;" (click)="openBcGovGuide()">{{ban.type}}</div>
             <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
             <div class="item-row">
                 <span class="item-title">Last Updated: </span>
@@ -94,7 +94,7 @@
         </div>
 
         <div *ngFor="let area of areaRestrictions" class="notice-item">
-            <div class="item-header" style="color: #1a5a96">{{area.name}} </div>
+            <div class="item-header">{{area.name}} </div>
             <span class="label"><span class="icon signpost mat-icon"></span><span style="padding-left: 10px;">Area Restrictions</span></span>
             <div class="item-row">
                 <span class="item-title">Last Updated: </span>

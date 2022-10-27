@@ -152,4 +152,9 @@ export class CurrentAlertComponentComponent implements OnInit {
     }
     return result;
   }
+
+  openBcGovGuide() {
+    let url = 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions'
+    window.open(url, "_blank");
+  }
 }
