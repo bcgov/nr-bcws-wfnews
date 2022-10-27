@@ -1,17 +1,11 @@
 FROM apache/apisix
-EXPOSE 2379 8080 9080 9443
+EXPOSE 9080 9180 9443
 ENV ALLOW_NONE_AUTHENTICATION=yes ETCD_ADVERTISE_CLIENT_URLS=http://127.0.0.1:2379
-COPY docker/apisix.yaml /usr/local/apisix/conf/apisix.yaml
+COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix.yaml
+COPY docker/apisix-config.yaml /usr/local/apisix/conf/config.yaml
+#COPY docker/AmazonRootCA1.pem  /etc/ca-certificates/AmazonRootCA1.pem
 USER root
 RUN apt-get update &&\
-  apt-get install -y nginx etcd curl wget &&\
-  export RELEASE=$(curl -s https://api.github.com/repos/etcd-io/etcd/releases/latest|grep tag_name | cut -d '"' -f 4) &&\
-  wget https://github.com/etcd-io/etcd/releases/download/${RELEASE}/etcd-${RELEASE}-linux-amd64.tar.gz &&\
-  tar xvf etcd-${RELEASE}-linux-amd64.tar.gz &&\
-  cd etcd-${RELEASE}-linux-amd64 &&\
-  mv etcd etcdctl etcdutl /usr/local/bin &&\
-  mkdir -p /var/lib/etcd/ &&\
-  mkdir /etc/etcd &&\
-  ulimit -n 4096 &&\
-  sed -i 's/#!\/usr\/bin\/env bash/&\nnginx\&\netcd\&/' /docker-entrypoint.sh
+  apt-get install -y nginx &&\
+  sed -i 's/#!\/usr\/bin\/env bash/&\nnginx\&\nulimit -n 4096/' /docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf

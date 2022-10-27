@@ -139,6 +139,73 @@ resource "aws_alb_target_group" "wfnews_apisix" {
   tags = local.common_tags
 }
 
+resource "aws_alb_target_group" "wfnews_apisix_admin" {
+  name                 = "wfnews-apisix-admin-${var.target_env}"
+  port                 = var.apisix_admin_port
+  protocol             = "HTTP"
+  vpc_id               = module.network.aws_vpc.id
+  target_type          = "ip"
+  deregistration_delay = 30
+
+  health_check {
+    healthy_threshold   = "2"
+    interval            = "300"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "3"
+    port = var.health_check_port
+    path                = var.health_check_path
+    unhealthy_threshold = "2"
+  }
+
+  tags = local.common_tags
+}
+
+
+resource "aws_alb_target_group" "wfnews_etcd" {
+  name                 = "wfnews-etcd-${var.target_env}"
+  port                 = var.etcd_port
+  protocol             = "HTTP"
+  vpc_id               = module.network.aws_vpc.id
+  target_type          = "ip"
+  deregistration_delay = 30
+
+  health_check {
+    healthy_threshold   = "2"
+    interval            = "300"
+    protocol            = "HTTPS"
+    matcher             = "200"
+    timeout             = "3"
+    path                = "/version"
+    unhealthy_threshold = "2"
+  }
+
+  tags = local.common_tags
+}
+
+
+resource "aws_alb_target_group" "wfnews_apisix_gui" {
+  name                 = "wfnews-apisix-gui-${var.target_env}"
+  port                 = var.apisix_gui_port
+  protocol             = "HTTP"
+  vpc_id               = module.network.aws_vpc.id
+  target_type          = "ip"
+  deregistration_delay = 30
+
+  health_check {
+    healthy_threshold   = "2"
+    interval            = "300"
+    protocol            = "HTTP"
+    matcher             = "200"
+    timeout             = "3"
+    port = var.apisix_gui_port
+    path                = var.health_check_path
+    unhealthy_threshold = "2"
+  }
+
+  tags = local.common_tags
+}
+
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
 
@@ -198,6 +265,56 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix" {
   condition {
     host_header {
       values = [for sn in var.apisix_names : "${sn}.*"]
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_apisix_admin.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.apisix_admin_names : "${sn}.*"]
+    }
+  }
+}
+
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_etcd" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_etcd.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.etcd_names : "${sn}.*"]
+    }
+  }
+}
+
+
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_gui" {
+
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfnews_apisix_gui.arn
+  }
+
+  condition {
+    host_header {
+      values = [for sn in var.apisix_gui_names : "${sn}.*"]
     }
   }
 }
