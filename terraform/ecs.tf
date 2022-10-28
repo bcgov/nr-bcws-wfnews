@@ -348,7 +348,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "http://${aws_ecs_service.etcd[0].name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
+          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
         },
         {
           name: "API_KEY",
@@ -705,11 +705,13 @@ resource "aws_ecs_service" "etcd" {
     subnets          = module.network.aws_subnet_ids.data.ids
   }
 
+/*
   service_registries {
     registry_arn = aws_service_discovery_service.wfnews_service_discovery_service.arn
     container_port = var.etcd_port
     container_name = var.etcd_container_name
   }
+  */
 
   #Hit http endpoint
   

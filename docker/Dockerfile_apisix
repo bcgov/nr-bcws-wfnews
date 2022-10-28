@@ -3,7 +3,7 @@ EXPOSE 9080 9180 9443
 ENV ALLOW_NONE_AUTHENTICATION=yes ETCD_ADVERTISE_CLIENT_URLS=http://127.0.0.1:2379
 COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix.yaml
 COPY docker/apisix-config.yaml /usr/local/apisix/conf/config.yaml
-#COPY docker/AmazonRootCA1.pem  /etc/ca-certificates/AmazonRootCA1.pem
+COPY docker/AmazonRootCA1.pem  /etc/ca-certificates/AmazonRootCA1.pem
 USER root
 RUN apt-get update &&\
   apt-get install -y nginx &&\

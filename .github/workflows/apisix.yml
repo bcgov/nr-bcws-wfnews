@@ -29,8 +29,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: retrieve Amazon TLS cert
-      #   run: wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O docker/AmazonRootCA1.pem
+      - name: retrieve Amazon TLS cert
+        run: wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O docker/AmazonRootCA1.pem
 
       #Build apisix image
       - name: Extract metadata (tags, labels) for apisix Docker image

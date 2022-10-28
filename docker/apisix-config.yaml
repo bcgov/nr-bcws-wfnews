@@ -65,6 +65,6 @@ deployment:
         key: ${{API_KEY}}
         role: admin
 
-# apisix:
-#   ssl:
-#     ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
+  apisix:
+    ssl:
+      ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
