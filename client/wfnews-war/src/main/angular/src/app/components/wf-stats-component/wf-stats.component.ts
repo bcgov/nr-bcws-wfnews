@@ -174,12 +174,12 @@ export class WFStatsComponent implements OnInit {
 }
 
 const FIRE_CENTRES = [
-  { id: 2, name: 'Coastal', displayOrder: 1 },
-  { id: 3, name: 'Northwest', displayOrder: 2 },
-  { id: 4, name: 'Prince George', displayOrder: 3 },
-  { id: 5, name: 'Kamloops', displayOrder: 4 },
-  { id: 6, name: 'Southeast', displayOrder: 5 },
-  { id: 7, name: 'Cariboo', displayOrder: 6 }
+  { id: '50', name: 'Coastal', displayOrder: 1 },
+  { id: '42', name: 'Northwest', displayOrder: 2 },
+  { id: '34', name: 'Prince George', displayOrder: 3 },
+  { id: '25', name: 'Kamloops', displayOrder: 4 },
+  { id: '8', name: 'Southeast', displayOrder: 5 },
+  { id: '2', name: 'Cariboo', displayOrder: 6 }
 ];
 
 const FIRE_CAUSE = [
