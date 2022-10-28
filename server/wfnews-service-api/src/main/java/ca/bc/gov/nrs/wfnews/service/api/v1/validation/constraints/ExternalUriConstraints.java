@@ -5,9 +5,6 @@ import javax.validation.constraints.NotNull;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.Errors;
 
 public interface ExternalUriConstraints {
-	
-	@NotNull(message=Errors.EXTERNAL_URI_GUID_NOTBLANK, groups=ExternalUriConstraints.class)
-	public String getExternalUriGuid();
 		
 	@NotNull(message=Errors.EXTERNAL_SOURCE_OBJECT_NOTBLANK, groups=ExternalUriConstraints.class)
 	public String getSourceObjectNameCode();
@@ -22,15 +19,15 @@ public interface ExternalUriConstraints {
 	public String getExternalUriDisplayLabel();
 	
 	@NotNull(message=Errors.EXTERNAL_PRIVATE_IND_NOTBLANK, groups=ExternalUriConstraints.class)
-	public String getPrivateInd();
+	public Boolean getPrivateInd();
 	
 	@NotNull(message=Errors.EXTERNAL_ARCHIVED_IND_NOTBLANK, groups=ExternalUriConstraints.class)
-	public String getArchivedInd();
+	public Boolean getArchivedInd();
 	
 	@NotNull(message=Errors.EXTERNAL_PUBLISHED_IND_NOTBLANK, groups=ExternalUriConstraints.class)
-	public String getPublishedInd();
+	public Boolean getPublishedInd();
 	
 	@NotNull(message=Errors.EXTERNAL_PRIMARY_IND_NOTBLANK, groups=ExternalUriConstraints.class)
-	public String getPrimaryInd();
+	public Boolean getPrimaryInd();
 	
 }

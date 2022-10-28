@@ -243,9 +243,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}catch (Exception e) {
-			throw new Exception("Service threw an exception", e);
+			throw new Exception(e.getMessage(), e);
 		}
 
 		logger.debug(">createPublishedWildfireIncident");
@@ -294,9 +294,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}catch (Exception e) {
-			throw new Exception("Service threw an exception", e);
+			throw new Exception(e.getMessage(), e);
 		}
 
 		logger.debug(">updatePublishedWildfireIncident");
@@ -317,7 +317,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			this.publishedIncidentDao.update(dto);
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
@@ -339,7 +339,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			this.publishedIncidentDao.insert(dto);
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
@@ -359,13 +359,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
 		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
-		}
+		}else throw new NotFoundException("Did not find the publishedIncidentDetailGuid: "+publishedIncidentDetailGuid);
 		return result;
 	}
 	
@@ -386,7 +386,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		try {			
 			this.publishedIncidentDao.flush();
 		} catch (Exception e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 	}
 
@@ -411,7 +411,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 
 		logger.debug(">deletePublishedIncident");
@@ -455,7 +455,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			publishedIncidentList = this.publishedIncidentDao.select(searchText, pageNumber, pageRowCount, orderByList, fireOfNote, out, fireCentre, bbox);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		return results;
@@ -484,9 +484,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}catch (Exception e) {
-			throw new Exception("Service threw an exception", e);
+			throw new Exception(e.getMessage(), e);
 		}
 
 		logger.debug(">PublishedWildfireIncident");
@@ -530,9 +530,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}catch (Exception e) {
-			throw new Exception("Service threw an exception", e);
+			throw new Exception(e.getMessage(), e);
 		}
 
 		logger.debug(">PublishedWildfireIncident");
@@ -541,13 +541,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public ExternalUriResource getExternalUri(String externalUriGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+	public ExternalUriResource getExternalUri(String externalUriGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
 		ExternalUriResource result = null;
 		ExternalUriDto fetchedDto = this.externalUriDao.fetch(externalUriGuid);
 		if (fetchedDto != null) {
 			result = this.externalUriFactory.getExternalUri(fetchedDto, factoryContext);
-		}
+		}else throw new NotFoundException("Did not find the externalUriGuid: "+externalUriGuid);
 		return result;
 	}
 	
@@ -565,7 +565,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			this.externalUriDao.insert(dto);
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		ExternalUriDto updatedDto = this.externalUriDao.fetch(dto.getExternalUriGuid());
@@ -587,7 +587,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			this.externalUriDao.update(dto);
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		ExternalUriDto updatedDto = this.externalUriDao.fetch(dto.getExternalUriGuid());
@@ -610,14 +610,12 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			
 			this.externalUriDao.delete(externalUriGuid, getWebAdeAuthentication().getUserId());
 
-		} catch (IntegrityConstraintViolatedDaoException e) {
-			throw new ConflictException(e.getMessage());
-		} catch (OptimisticLockingFailureDaoException e) {
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {
 			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 
 		logger.debug(">deleteExternalUri");
@@ -635,7 +633,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}else externalUriList = this.externalUriDao.select(pageNumber, pageRowCount);
 			results = this.externalUriFactory.getExternalUriList(externalUriList, pageNumber, pageRowCount, factoryContext);
 		}catch(DaoException e) {
-			throw new ServiceException("DAO threw an exception", e);
+			throw new ServiceException(e.getMessage(), e);
 		}
 		
 		return results;

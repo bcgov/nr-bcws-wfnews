@@ -29,7 +29,7 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private Date declaredOutDate;
 	private String fireCentre;
 	private Integer fireZoneUnitIdentifier;
-	private String fireOfNoteInd;
+	private Boolean fireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
 	private String incidentOverview;
@@ -43,15 +43,15 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private String contactPhoneNumber;
 	private String contactEmailAddress;
 	private String resourceDetail;
-	private String wildfireCrewResourcesInd;
+	private Boolean wildfireCrewResourcesInd;
 	private String wildfireCrewResourcesDetail;
-	private String wildfireAviationResourceInd;
+	private Boolean wildfireAviationResourceInd;
 	private String wildfireAviationResourceDetail;
-	private String heavyEquipmentResourcesInd;
+	private Boolean heavyEquipmentResourcesInd;
 	private String heavyEquipmentResourcesDetail;
-	private String incidentMgmtCrewRsrcInd;
+	private Boolean incidentMgmtCrewRsrcInd;
 	private String incidentMgmtCrewRsrcDetail;
-	private String structureProtectionRsrcInd;
+	private Boolean structureProtectionRsrcInd;
 	private String structureProtectionRsrcDetail;
 	private Date publishedTimestamp;
 	private String publishedUserTypeCode; 
@@ -132,11 +132,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.fireZoneUnitIdentifier = fireZoneUnitIdentifier;
 	}
 
-	public String getFireOfNoteInd() {
+	public Boolean getFireOfNoteInd() {
 		return fireOfNoteInd;
 	}
 
-	public void setFireOfNoteInd(String fireOfNoteInd) {
+	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
 	}
 
@@ -236,11 +236,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.resourceDetail = resourceDetail;
 	}
 
-	public String getWildfireCrewResourcesInd() {
+	public Boolean getWildfireCrewResourcesInd() {
 		return wildfireCrewResourcesInd;
 	}
 
-	public void setWildfireCrewResourcesInd(String wildfireCrewResourcesInd) {
+	public void setWildfireCrewResourcesInd(Boolean wildfireCrewResourcesInd) {
 		this.wildfireCrewResourcesInd = wildfireCrewResourcesInd;
 	}
 
@@ -252,11 +252,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.wildfireCrewResourcesDetail = wildfireCrewResourcesDetail;
 	}
 
-	public String getWildfireAviationResourceInd() {
+	public Boolean getWildfireAviationResourceInd() {
 		return wildfireAviationResourceInd;
 	}
 
-	public void setWildfireAviationResourceInd(String wildfireAviationResourceInd) {
+	public void setWildfireAviationResourceInd(Boolean wildfireAviationResourceInd) {
 		this.wildfireAviationResourceInd = wildfireAviationResourceInd;
 	}
 
@@ -268,11 +268,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.wildfireAviationResourceDetail = wildfireAviationResourceDetail;
 	}
 
-	public String getHeavyEquipmentResourcesInd() {
+	public Boolean getHeavyEquipmentResourcesInd() {
 		return heavyEquipmentResourcesInd;
 	}
 
-	public void setHeavyEquipmentResourcesInd(String heavyEquipmentResourcesInd) {
+	public void setHeavyEquipmentResourcesInd(Boolean heavyEquipmentResourcesInd) {
 		this.heavyEquipmentResourcesInd = heavyEquipmentResourcesInd;
 	}
 
@@ -284,11 +284,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.heavyEquipmentResourcesDetail = heavyEquipmentResourcesDetail;
 	}
 
-	public String getIncidentMgmtCrewRsrcInd() {
+	public Boolean getIncidentMgmtCrewRsrcInd() {
 		return incidentMgmtCrewRsrcInd;
 	}
 
-	public void setIncidentMgmtCrewRsrcInd(String incidentMgmtCrewRsrcInd) {
+	public void setIncidentMgmtCrewRsrcInd(Boolean incidentMgmtCrewRsrcInd) {
 		this.incidentMgmtCrewRsrcInd = incidentMgmtCrewRsrcInd;
 	}
 
@@ -300,11 +300,11 @@ public class PublishedIncidentResource extends BaseResource implements Published
 		this.incidentMgmtCrewRsrcDetail = incidentMgmtCrewRsrcDetail;
 	}
 
-	public String getStructureProtectionRsrcInd() {
+	public Boolean getStructureProtectionRsrcInd() {
 		return structureProtectionRsrcInd;
 	}
 
-	public void setStructureProtectionRsrcInd(String structureProtectionRsrcInd) {
+	public void setStructureProtectionRsrcInd(Boolean structureProtectionRsrcInd) {
 		this.structureProtectionRsrcInd = structureProtectionRsrcInd;
 	}
 
