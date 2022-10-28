@@ -269,7 +269,7 @@
 					<choose>
 						<when test="order == 'incidentNumberLabel'">incident_number_label</when>
 						<when test="order == 'fireOfNoteInd'">fire_of_note_ind</when>
-						<when test="order == 'incidentLocation'">location</when>
+						<when test="order == 'incidentLocation'">incident_location</when>
 						<when test="order == 'incidentName'">incident_name</when>
 						<when test="order == 'fireCentre'">fire_centre</when>
 						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
