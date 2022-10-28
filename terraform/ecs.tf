@@ -491,7 +491,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
       environment = [
         {
           name: "ETCD_URL",
-          value: "http://${aws_ecs_service.etcd[0].name}.${aws_service_discovery_private_dns_namespace.wfnews_namespace.name}"
+          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
         },
         {
           name: "API_KEY",
