@@ -3,7 +3,7 @@ import * as moment from 'moment';
 import { PagedCollection } from '../../conversion/models';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -37,7 +37,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
-
+  convertToFireCentreDescription = convertToFireCentreDescription
 
 
   initModels() {
