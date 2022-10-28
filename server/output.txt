@@ -1,1 +1,0 @@
-ca.bc.gov.nrs.wfnews:wfnews-api-parent:pom:1.0.0-SNAPSHOT
