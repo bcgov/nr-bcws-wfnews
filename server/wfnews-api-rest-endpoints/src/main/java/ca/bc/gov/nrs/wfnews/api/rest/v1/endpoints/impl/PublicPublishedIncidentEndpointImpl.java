@@ -123,6 +123,29 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 
 		return response;
 	}
+	
+	@Override
+	public Response getPublishedIncidentByIncidentGuid(String incidentGuid) throws NotFoundException, ForbiddenException, ConflictException {
+		Response response = null;
+				
+		try {
+			PublishedIncidentResource results = incidentsService.getPublishedIncidentByIncidentGuid(incidentGuid, getWebAdeAuthentication(), getFactoryContext());
+			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
+
+			};
+
+			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
+		
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();	
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+		
+		logResponse(response);
+
+		return response;
+	}
 
 	@Override
 	public Response getPublishedIncidentListAsFeatures(String stageOfControl, String bbox) throws NotFoundException, ForbiddenException, ConflictException {

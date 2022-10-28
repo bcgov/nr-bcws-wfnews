@@ -187,3 +187,10 @@ function displayDay(date: string): string{
     }
 }
 
+export function convertToFireCentreDescription(code: string): string {
+    if (code) {
+        let result = FireCentres.find(fireCentre => fireCentre.code === code);
+        return result.description;
+    }
+}
+
