@@ -1,6 +1,4 @@
-package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
-
-import java.util.List;
+ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -46,4 +44,10 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
+	
+	@GET
+	@Path("byIncident/{incidentGuid}")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	public Response getPublishedIncidentByIncidentGuid(@PathParam("incidentGuid") String incidentGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }

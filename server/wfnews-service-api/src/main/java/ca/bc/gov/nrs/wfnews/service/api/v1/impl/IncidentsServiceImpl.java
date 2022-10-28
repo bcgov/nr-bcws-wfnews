@@ -1,54 +1,50 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1.impl;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-
-import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
-import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
-import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
-import ca.bc.gov.nrs.common.service.ConflictException;
-import ca.bc.gov.nrs.common.service.NotFoundException;
-import ca.bc.gov.nrs.common.service.ValidationFailureException;
-import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
-import ca.bc.gov.nrs.wfone.common.webade.authentication.WebAdeAuthentication;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentResource;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentListResource;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.json.JSONObject;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 
-import ca.bc.gov.nrs.wfone.common.model.Message;
-import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebAdeOAuth2Authentication;
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.IntegrityConstraintViolatedDaoException;
 import ca.bc.gov.nrs.common.persistence.dao.NotFoundDaoException;
 import ca.bc.gov.nrs.common.persistence.dao.OptimisticLockingFailureDaoException;
-import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+import ca.bc.gov.nrs.common.service.ConflictException;
+import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.common.service.ServiceException;
+import ca.bc.gov.nrs.common.service.ValidationFailureException;
+import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
-import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
+import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
+import ca.bc.gov.nrs.wfone.common.model.Message;
+import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
+import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
+import ca.bc.gov.nrs.wfone.common.webade.authentication.WebAdeAuthentication;
 
 public class IncidentsServiceImpl extends BaseEndpointsImpl implements IncidentsService{
 
@@ -370,14 +366,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 	
 	@Override
-	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
+	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
-		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(dto.getIncidentGuid());
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetchForIncidentGuid(incidentGuid);
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
-		}
+		}else throw new NotFoundException("Did not find the publishedIncidentDetailGuid: "+incidentGuid);
 		return result;
 	}
 	
