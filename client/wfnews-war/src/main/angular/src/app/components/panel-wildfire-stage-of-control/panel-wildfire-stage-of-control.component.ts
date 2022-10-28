@@ -29,6 +29,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     @Input() collection: PagedCollection
 
     activeWildfiresInd = true;
+    outWildfiresInd = false;
     wildfiresOfNoteInd = false;
     currentLat: number;
     currentLong: number;
@@ -191,14 +192,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       } catch(err) {
         console.log('SMK initializing... wait to fetch bounds.')
       }
-
         this.store.dispatch(searchWildfires(this.componentId, {
           pageNumber: this.config.currentPage,
           pageRowCount: 10,
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
-        }, undefined, this.wildfiresOfNoteInd, !this.activeWildfiresInd, bbox, this.displayLabel));
+        }, undefined, this.wildfiresOfNoteInd,(this.activeWildfiresInd && this.outWildfiresInd)?undefined: !this.activeWildfiresInd, bbox, this.displayLabel));
       }
 
 
@@ -383,5 +383,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     onClickBookmark(event:Event) {
       console.log(event)
       event.stopPropagation()
+    }
+
+    disableWildfiresOfNoteCheckbox () {
     }
 }
