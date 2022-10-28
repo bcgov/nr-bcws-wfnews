@@ -3,6 +3,7 @@ import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
+import { convertToFireCentreDescription } from "../../../utils"
 
 @Component({
   selector: 'incident-header-panel',
@@ -14,6 +15,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public extent: any
+  convertToFireCentreDescription = convertToFireCentreDescription
 
   private map: any
 
