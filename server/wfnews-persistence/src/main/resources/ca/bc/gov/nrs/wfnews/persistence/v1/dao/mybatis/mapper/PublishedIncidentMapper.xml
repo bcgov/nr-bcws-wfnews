@@ -254,7 +254,7 @@
 				AND stage_of_control_code != 'OUT'
 			</if>
 			<if test="fireOfNote == true">  
-				AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+				AND fire_of_note_ind
 			</if>
 			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
 				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
@@ -304,7 +304,7 @@
 			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		  AND fire_of_note_ind != '1'
-			AND fire_of_note_ind != 'T'
+			AND NOT fire_of_note_ind
 			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 	</select>
 
@@ -317,7 +317,7 @@
 		FROM
 			wfnews.published_incident_detail AS t
 		WHERE stage_of_control_code != 'OUT'
-		 AND (fire_of_note_ind = '1' OR fire_of_note_ind = 'T')
+		 AND fire_of_note_ind
 		 AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 	</select>
 	
