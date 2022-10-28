@@ -59,6 +59,7 @@ print('Create Inserts for WFNEWS')
 for incident in incidents:
   curr_time = round(time.time()*1000)
   stage = 'OUT'
+  fireCentre = 'Southeast Fire Centre'
 
   if incident['attributes']['FIRE_STATUS'] == 'Out Of Control':
     stage = 'OUT_CNTRL'
@@ -67,19 +68,30 @@ for incident in incidents:
   elif incident['attributes']['FIRE_STATUS'] == 'Under Control':
     stage = 'UNDR_CNTRL'
 
+  if incident['attributes']['FIRE_CENTRE'] == 2:
+    fireCentre = 'Kamloops Fire Centre'
+  elif incident['attributes']['FIRE_CENTRE'] == 3:
+    fireCentre = 'Cariboo Fire Centre'
+  elif incident['attributes']['FIRE_CENTRE'] == 4:
+    fireCentre = 'Coastal Fire Centre'
+  elif incident['attributes']['FIRE_CENTRE'] == 5:
+    fireCentre = 'Prince George Fire Centre'
+  else:
+    fireCentre = 'Northwest Fire Centre'
+
   feature = {
     "publishedIncidentDetailGuid": str(uuid.uuid4()),
     "incidentGuid": "this-is-a-guid?",
     "incidentNumberLabel": incident['attributes']['FIRE_NUMBER'],
     "newsCreatedTimestamp": curr_time,
 	  "stageOfControlCode": str(stage),
-    "fireCentre": str(incident['attributes']['FIRE_CENTRE']),
-    "generalIncidentCauseCatId": 1 if incident['attributes']['FIRE_CAUSE'] == 'Lightning' else 9,
+    "fireCentre": fireCentre,
+    "generalIncidentCauseCatId": 2 if incident['attributes']['FIRE_CAUSE'] == 'Lightning' else 1,
 	  "newsPublicationStatusCode": "PUBLISHED",
     "declaredOutDate": curr_time,
     "discoveryDate": incident['attributes']['IGNITION_DATE'],
     "fireZoneUnitIdentifier": incident['attributes']['ZONE'],
-    "fireOfNoteInd": True if incident['attributes']['FIRE_OF_NOTE_ID'] is not None else False,
+    "fireOfNoteInd": True if incident['attributes']['CURRENT_SIZE'] > 100 else False,    # True if incident['attributes']['FIRE_OF_NOTE_ID'] is not None else False,
     "incidentName": incident['attributes']['FIRE_OF_NOTE_NAME'] if incident['attributes']['FIRE_OF_NOTE_NAME'] is not None else incident['attributes']['FIRE_NUMBER'],
     "incidentLocation": incident['attributes']['GEOGRAPHIC_DESCRIPTION'],
     "incidentOverview": "This is the incident overview. Not much interesting here as this is just test data, but it can be edited or whatever later",

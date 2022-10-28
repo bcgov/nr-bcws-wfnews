@@ -18,3 +18,13 @@ p.dashboard-title{
     height: 50%;
     margin-top: auto;
 }
+
+:host ::ng-deep .mat-tab-label {
+    color: #003366 !important;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+:host ::ng-deep .mat-ink-bar {
+    background-color: #003366 !important;
+}

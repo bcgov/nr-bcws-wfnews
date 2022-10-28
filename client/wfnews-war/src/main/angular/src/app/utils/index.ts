@@ -2,6 +2,7 @@ import { APP_BOOTSTRAP_LISTENER, Inject, InjectionToken, Type } from '@angular/c
 import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
+import { Moment } from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
 
 export enum ResourcesRoutes {
@@ -156,6 +157,12 @@ export function convertToDateWithTime(date: string) {
     }
 }
 
+export function convertToDateWithDayOfWeek(date: string) {
+    if (date){
+        return displayDay(date) + ' ' + moment(date).format(DATE_FORMATS.simplifiedDateWithYear)
+    }
+}
+
 export function  convertToStageOfControlDescription(code: string) {
     switch(code) {
         case 'OUT_CNTRL':
@@ -169,5 +176,14 @@ export function  convertToStageOfControlDescription(code: string) {
         default:
             break;
       }
+}
+
+function displayDay(date: string): string{
+    if (date) {
+        const result = moment(date).format('dddd');
+        return (result.charAt(0).toUpperCase() + result.slice(1)).slice(0, 3); // abbreviate days of the week
+    } else {
+        return null;
+    }
 }
 
