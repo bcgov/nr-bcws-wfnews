@@ -1,6 +1,5 @@
 :host {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-  background-color: lightgray;
 }
 
 ::ng-deep .wildfires-tabs {
@@ -44,6 +43,7 @@ mat-tab-group {
   padding: 20px;
   margin: auto;
   background-color: white;
+  max-width: 1300px;
   h2 {
     font-size: 24px;
     font-weight: normal;
@@ -82,7 +82,7 @@ mat-tab-group {
   width: 100%;
 }
 .summary-container> * {
-  flex: 1 1 28vw;
+  flex: 1 1 20vw;
   margin: 8px;
 }
 
