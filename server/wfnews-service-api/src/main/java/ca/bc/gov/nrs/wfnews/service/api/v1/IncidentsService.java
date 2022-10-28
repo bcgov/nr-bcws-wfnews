@@ -35,7 +35,7 @@ public interface IncidentsService {
 	PublishedIncidentResource updatePublishedWildfireIncident(PublishedIncident publishedIncident, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentResource getPublishedIncidentByIncidentGuid(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
+	PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
