@@ -54,6 +54,18 @@ export class AGOLService {
     return this.http.get<any>(encodeURI(url), {headers})
   }
 
+  getAreaRestrictionsByID (sysId: string, options: AgolOptions = null): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
+
+    // append query
+    url += `query?where=PROT_RA_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url),{headers})
+  }
+
   getAreaRestrictions (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
 
@@ -65,6 +77,18 @@ export class AGOLService {
       // right now, just moving by 2 points of lat/long
       url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
     }
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url),{headers})
+  }
+
+  getBansAndProhibitionsById (sysId: string, options: AgolOptions = null): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLBansAndProhibitions'].toString();
+
+    // append query
+    url += `query?where=PROT_BAP_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin','*');

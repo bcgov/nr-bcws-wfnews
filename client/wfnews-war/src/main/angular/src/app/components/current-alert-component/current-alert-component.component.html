@@ -1,117 +1,133 @@
-<div class="headers">
-    <div class="field">
-        <mat-label class="label">Notice Type</mat-label>
-        <select appWFSingleSelect appWFPlaceholder="Select..."
-                aria-label="Type"
-                [options]="alertTypeOptions"
-                [(ngModel)]="selectedAlertType"
-                (updated)="selectAlertUpdated($event)">
-            <option *ngFor = "let item of alertTypeOptions" value="{{item}}">
-                <span>{{item}}</span>
-            </option>
-        </select>
-    </div>
+<div class="container">
+  <div class="headers">
+      <div class="field">
+          <mat-label class="label">Notice Type</mat-label>
+          <select appWFSingleSelect appWFPlaceholder="Select..."
+                  aria-label="Type"
+                  [options]="alertTypeOptions"
+                  [(ngModel)]="selectedAlertType"
+                  (updated)="selectAlertUpdated($event)">
+              <option *ngFor = "let item of alertTypeOptions" value="{{item}}">
+                  <span>{{item}}</span>
+              </option>
+          </select>
+      </div>
 
-    <div class="field"> 
-        <div class="toggle-bar">
-            <span>All Notices</span>
-            <mat-slide-toggle [(ngModel)]="nearmeChecked" (change)="nearmeToggleChanged()" [disabled] = "!(currentLat && currentLong)">Notices Near Me</mat-slide-toggle>
-        </div>
-    </div>
-</div>
+      <div class="field">
+          <div class="toggle-bar">
+              <span>All Notices</span>
+              <mat-slide-toggle [(ngModel)]="nearmeChecked" (change)="nearmeToggleChanged()" [disabled] = "!(currentLat && currentLong)">Notices Near Me</mat-slide-toggle>
+          </div>
+      </div>
+  </div>
 
-<div class="contents">
-    <div class="left-panels">
-        <mat-expansion-panel [expanded]="true">
-            <mat-expansion-panel-header>
-            <mat-panel-title>
-                Evacuation Orders and Alerts
-            </mat-panel-title>
-            </mat-expansion-panel-header>
-            <panel-evacuation-orders-and-alerts></panel-evacuation-orders-and-alerts>
+  <div class="contents">
+      <div class="left-panels">
+          <mat-expansion-panel [expanded]="true">
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Evacuation Orders and Alerts
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <panel-evacuation-orders-and-alerts></panel-evacuation-orders-and-alerts>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Bans and Prohibitions
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <panel-bans-prohibitions></panel-bans-prohibitions>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+              <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Area Restrictions
+              </mat-panel-title>
+              </mat-expansion-panel-header>
+              <panel-area-restrictions></panel-area-restrictions>
+          </mat-expansion-panel>
+      </div>
+
+      <div class="notice-list">
+        <mat-expansion-panel (opened)="createMap('evac-' + evac.emrgOAAsysID, evac, 'evac')" [expanded]="false" *ngFor="let evac of evacOrders">
+          <mat-expansion-panel-header class="exp-panel">
+            <div class="notice-item">
+              <div class="item-header">{{evac.eventName}}</div>
+              <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Evacuation Orders and Alerts</span></span>
+              <div class="item-row">
+                  <span class="item-title">Last Updated: </span>
+                  <span class="item-content">{{convertToDateWithDayOfWeek(evac.dateModified)}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Agency: </span>
+                  <span class="item-content">{{evac.issuingAgency}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Status: </span>
+                  <span class="item-content">{{evac.orderAlertStatus}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Distance from My Location: </span>
+                  <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km</span>
+              </div>
+            </div>
+          </mat-expansion-panel-header>
+          <div [id]="'evac-' + evac.emrgOAAsysID" class="mini-map"></div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-            <mat-panel-title>
-                Bans and Prohibitions
-            </mat-panel-title>
-            </mat-expansion-panel-header>
-            <panel-bans-prohibitions></panel-bans-prohibitions>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-            <mat-expansion-panel-header>
-            <mat-panel-title>
-                Area Restrictions
-            </mat-panel-title>
-            </mat-expansion-panel-header>
-            <panel-area-restrictions></panel-area-restrictions>
-        </mat-expansion-panel>
+        <mat-expansion-panel (opened)="createMap('ban-' + ban.protBsSysID, ban, 'ban')" [expanded]="false" *ngFor="let ban of bansAndProhibitions">
+          <mat-expansion-panel-header class="exp-panel">
+            <div class="notice-item">
+              <div class="item-header" style="background: url('../../../assets/images/external-link.svg') center right no-repeat; background-size: 18px;" (click)="openBcGovGuide()">{{ban.type}}</div>
+              <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
+              <div class="item-row">
+                  <span class="item-title">Last Updated: </span>
+                  <span class="item-content">{{convertToDateWithDayOfWeek(ban.accessStatusEffectiveDate)}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Fire Centre: </span>
+                  <span class="item-content">{{ban.fireCentre}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Restrictions: </span>
+                  <span class="item-content">{{convertRestriction(ban.accessProhibitionDescription)}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Distance from My Location: </span>
+                  <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} KM</span>
+              </div>
+          </div>
+        </mat-expansion-panel-header>
+        <div [id]="'ban-' + ban.protBsSysID" class="mini-map"></div>
+      </mat-expansion-panel>
+      <mat-expansion-panel (opened)="createMap('area-' + area.protRsSysID, area, 'area')" [expanded]="false" *ngFor="let area of areaRestrictions">
+        <mat-expansion-panel-header class="exp-panel">
+          <div class="notice-item">
+              <div class="item-header">{{area.name}} </div>
+              <span class="label"><span class="icon signpost mat-icon"></span><span style="padding-left: 10px;">Area Restrictions</span></span>
+              <div class="item-row">
+                  <span class="item-title">Last Updated: </span>
+                  <span class="item-content">{{convertToDateWithDayOfWeek(area.accessStatusEffectiveDate)}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Fire Centre: </span>
+                  <span class="item-content">{{area.fireCentre}}</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Status: </span>
+                  <span class="item-content">Active</span>
+              </div>
+              <div class="item-row">
+                  <span class="item-title">Distance from My Location: </span>
+                  <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km</span>
+              </div>
+          </div>
+        </mat-expansion-panel-header>
+        <div [id]="'area-' + area.protRsSysID" class="mini-map"></div>
+      </mat-expansion-panel>
     </div>
-
-    <div class="notice-list">
-        <div *ngFor="let evac of evacOrders" class="notice-item">
-            <div class="item-header">{{evac.eventName}}</div>
-            <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Evacuation Orders and Alerts</span></span>
-            <div class="item-row">
-                <span class="item-title">Last Updated: </span>
-                <span class="item-content">{{convertToDateWithDayOfWeek(evac.dateModified)}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Agency: </span>
-                <span class="item-content">{{evac.issuingAgency}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Status: </span>
-                <span class="item-content">{{evac.orderAlertStatus}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Distance from My Location: </span>
-                <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km</span>
-            </div>
-        </div>
-
-        <div *ngFor="let ban of bansAndProhibitions" class="notice-item">
-            <div class="item-header" style="background: url('../../../assets/images/external-link.svg') center right no-repeat; background-size: 18px;" (click)="openBcGovGuide()">{{ban.type}}</div>
-            <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
-            <div class="item-row">
-                <span class="item-title">Last Updated: </span>
-                <span class="item-content">{{convertToDateWithDayOfWeek(ban.accessStatusEffectiveDate)}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Fire Centre: </span>
-                <span class="item-content">{{ban.fireCentre}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Restrictions: </span>
-                <span class="item-content">{{convertRestriction(ban.accessProhibitionDescription)}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Distance from My Location: </span>
-                <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} KM</span>
-            </div>
-        </div>
-
-        <div *ngFor="let area of areaRestrictions" class="notice-item">
-            <div class="item-header">{{area.name}} </div>
-            <span class="label"><span class="icon signpost mat-icon"></span><span style="padding-left: 10px;">Area Restrictions</span></span>
-            <div class="item-row">
-                <span class="item-title">Last Updated: </span>
-                <span class="item-content">{{convertToDateWithDayOfWeek(area.accessStatusEffectiveDate)}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Fire Centre: </span>
-                <span class="item-content">{{area.fireCentre}}</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Status: </span>
-                <span class="item-content">Active</span>
-            </div>
-            <div class="item-row">
-                <span class="item-title">Distance from My Location: </span>
-                <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km</span>
-            </div>
-        </div>
-    </div>
+  </div>
 </div>
