@@ -127,7 +127,7 @@ export class WFStatsComponent implements OnInit {
       const statusData = []
       const statusAllData = []
       for (const status of FIRE_STATUS) {
-        const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd === 'T' && status.id ==='NOTE' )).length
+        const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd && status.id ==='NOTE' )).length
         statusData.push({
           name: status.name,
           value: fireCount
