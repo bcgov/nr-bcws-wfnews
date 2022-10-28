@@ -408,7 +408,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "http://0.0.0.0:2379"
+          value: "wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
@@ -630,11 +630,11 @@ resource "aws_ecs_service" "client" {
 }
 
 resource "aws_ecs_service" "apisix" {
-  count                             = local.create_ecs_service
+  count                             = 1
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix[count.index].arn
-  desired_count                     = var.app_count
+  desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
@@ -678,11 +678,11 @@ resource "aws_ecs_service" "apisix" {
 }
 
 resource "aws_ecs_service" "etcd" {
-  count                             = local.create_ecs_service
+  count                             = 1
   name                              = "wfnews-etcd-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_etcd[count.index].arn
-  desired_count                     = var.app_count
+  desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
@@ -729,11 +729,11 @@ resource "aws_ecs_service" "etcd" {
 }
 
 resource "aws_ecs_service" "apisix_gui" {
-  count                             = local.create_ecs_service
+  count                             = 1
   name                              = "wfnews-apisix-gui-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix_gui[count.index].arn
-  desired_count                     = var.app_count
+  desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
