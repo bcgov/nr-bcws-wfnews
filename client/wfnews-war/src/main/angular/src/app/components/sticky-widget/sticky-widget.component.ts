@@ -71,7 +71,6 @@ export class StickyWidgetComponent implements OnDestroy {
         if (incident) {
           const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
           incident.lastUpdatedTimestamp = new Date(incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
-          incident.fireOfNoteInd = incident.fireOfNoteInd;
           this.watchlist.push(incident)
         }
       }
