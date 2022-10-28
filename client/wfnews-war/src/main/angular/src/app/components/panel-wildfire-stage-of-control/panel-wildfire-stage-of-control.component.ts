@@ -150,7 +150,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
             //last page
             this.isFirstPage = null;
             this.isLastPage = 'LAST'
-          } 
+          }
         }
     }
 
@@ -270,7 +270,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       this.marker.on('add', function() {
         const icon: any = document.querySelector('.animated-icon')
 
-        if (incident.fireOfNoteInd === '1' || incident.fireOfNoteInd === 'T') {
+        if (incident.fireOfNoteInd) {
           icon.style.backgroundColor = '#aa0d0d'
         } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
           icon.style.backgroundColor = '#aa0d0d'

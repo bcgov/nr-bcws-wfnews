@@ -38,7 +38,7 @@ public interface IncidentsService {
 	PublishedIncidentResource getPublishedIncidentByIncidentGuid(PublishedIncident publishedIncident, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
+	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
@@ -65,7 +65,7 @@ public interface IncidentsService {
 	void deleteExternalUri(String ExternalUriDetailGuid, FactoryContext factoryContext) throws NotFoundException, ConflictException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	ExternalUriResource getExternalUri(String externalUriGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
+	ExternalUriResource getExternalUri(String externalUriGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber, 

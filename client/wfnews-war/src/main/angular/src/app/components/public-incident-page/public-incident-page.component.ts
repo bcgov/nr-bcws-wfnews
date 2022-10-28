@@ -45,13 +45,6 @@ export class PublicIncidentPage implements OnInit {
           this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
           this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
           this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options)
-          this.incident.fireOfNoteInd = this.incident.fireOfNoteInd.trim().toUpperCase() === 'T' || this.incident.fireOfNoteInd.trim().toUpperCase() === '1'
-          // set T/1 to True, otherwise False
-          this.incident.heavyEquipmentResourcesInd = this.incident.heavyEquipmentResourcesInd.trim().toUpperCase() === 'T' || this.incident.heavyEquipmentResourcesInd.trim().toUpperCase() === '1'
-          this.incident.incidentMgmtCrewRsrcInd = this.incident.incidentMgmtCrewRsrcInd.trim().toUpperCase() === 'T' || this.incident.incidentMgmtCrewRsrcInd.trim().toUpperCase() === '1'
-          this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd.trim().toUpperCase() === 'T' || this.incident.structureProtectionRsrcInd.trim().toUpperCase() === '1'
-          this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd.trim().toUpperCase() === 'T' || this.incident.wildfireAviationResourceInd.trim().toUpperCase() === '1'
-          this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === 'T' || this.incident.wildfireCrewResourcesInd.trim().toUpperCase() === '1'
           // fetch the fire perimetre
           await this.getFirePerimetre()
           // load evac orders and area restrictions nearby

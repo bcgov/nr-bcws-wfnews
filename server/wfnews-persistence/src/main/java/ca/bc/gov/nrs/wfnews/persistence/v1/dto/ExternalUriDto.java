@@ -18,11 +18,11 @@ public class ExternalUriDto extends AuditDto<ExternalUriDto> {
 	private String externalUriCategoryTag;
 	private String externalUriDisplayLabel;
 	private String externalUri;
-	private String publishedInd;
+	private Boolean publishedInd;
 	private Date createdTimestamp;
-	private String privateInd;
-	private String archivedInd;
-	private String primaryInd;
+	private Boolean privateInd;
+	private Boolean archivedInd;
+	private Boolean primaryInd;
 	
 	public ExternalUriDto() {
 
@@ -124,28 +124,28 @@ public class ExternalUriDto extends AuditDto<ExternalUriDto> {
 	public void setCreatedTimestamp(Date createdTimestamp) {
 		this.createdTimestamp = createdTimestamp;
 	}
-	public String getPrivateInd() {
+	public Boolean getPrivateInd() {
 		return privateInd;
 	}
-	public void setPrivateInd(String privateInd) {
+	public void setPrivateInd(Boolean privateInd) {
 		this.privateInd = privateInd;
 	}
-	public String getArchivedInd() {
+	public Boolean getArchivedInd() {
 		return archivedInd;
 	}
-	public void setArchivedInd(String archivedInd) {
+	public void setArchivedInd(Boolean archivedInd) {
 		this.archivedInd = archivedInd;
 	}
-	public String getPublishedInd() {
+	public Boolean getPublishedInd() {
 		return publishedInd;
 	}
-	public void setPublishedInd(String publishedInd) {
+	public void setPublishedInd(Boolean publishedInd) {
 		this.publishedInd = publishedInd;
 	}
-	public String getPrimaryInd() {
+	public Boolean getPrimaryInd() {
 		return primaryInd;
 	}
-	public void setPrimaryInd(String primaryInd) {
+	public void setPrimaryInd(Boolean primaryInd) {
 		this.primaryInd = primaryInd;
 	}
 	

@@ -43,14 +43,14 @@ public class ExternalUriDaoImpl extends BaseDao implements
 			Map<String, Object> parameters = new HashMap<String, Object>();
 
 			parameters.put("dto", dto);
-			parameters.put("externalUriDetailGuid", dto.getExternalUriGuid());
+			parameters.put("externalUriGuid", dto.getExternalUriGuid());
 			int count = this.externalUriMapper.insert(parameters);
 
 			if(count==0) {
 				throw new DaoException("Record not inserted: "+count);
 			}
 			
-			externalUriGuid = (String) parameters.get("externalUriDetailGuid");
+			externalUriGuid = (String) parameters.get("externalUriGuid");
 			
 			dto.setExternalUriGuid(externalUriGuid);
 			
@@ -72,14 +72,14 @@ public class ExternalUriDaoImpl extends BaseDao implements
 			Map<String, Object> parameters = new HashMap<String, Object>();
 
 			parameters.put("dto", dto);
-			parameters.put("externalUriDetailGuid", dto.getExternalUriGuid());
+			parameters.put("externalUriGuid", dto.getExternalUriGuid());
 			int count = this.externalUriMapper.update(parameters);
 
 			if(count==0) {
 				throw new DaoException("Record not inserted: "+count);
 			}
 			
-			externalUriGuid = (String) parameters.get("externalUriDetailGuid");
+			externalUriGuid = (String) parameters.get("externalUriGuid");
 			
 			dto.setExternalUriGuid(externalUriGuid);
 			

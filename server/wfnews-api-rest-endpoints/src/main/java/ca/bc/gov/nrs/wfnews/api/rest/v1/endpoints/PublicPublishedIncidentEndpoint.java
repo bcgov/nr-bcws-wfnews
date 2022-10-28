@@ -47,5 +47,3 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }
-	
-	
