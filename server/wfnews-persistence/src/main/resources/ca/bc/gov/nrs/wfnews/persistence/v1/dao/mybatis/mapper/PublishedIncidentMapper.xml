@@ -8,9 +8,12 @@
 		<result property="incidentNumberLabel" column="INCIDENT_NUMBER_LABEL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="newsCreatedTimestamp" column="NEWS_CREATED_TIMESTAMP" javaType="java.util.Date" jdbcType="TIMESTAMP" />
 		<result property="stageOfControlCode" column="STAGE_OF_CONTROL_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireCentre" column="FIRE_CENTRE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="generalIncidentCauseCatId" column="GENERAL_INCIDENT_CAUSE_CAT_ID" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="newsPublicationStatusCode" column="NEWS_PUBLICATION_STATUS_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="discoveryDate" column="DISCOVERY_DATE" javaType="java.util.Date" jdbcType="DATE" />
+		<result property="declaredOutDate" column="DECLARED_OUT_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="fireZoneUnitIdentifier" column="FIRE_ZONE_ORG_UNIT_IDENTIFIER" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="fireOfNoteInd" column="FIRE_OF_NOTE_IND" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentName" column="INCIDENT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -64,6 +67,7 @@
 				DISCOVERY_DATE,
 				DECLARED_OUT_DATE,
 				FIRE_CENTRE,
+				FIRE_YEAR,
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER,
 				FIRE_OF_NOTE_IND,
 				INCIDENT_NAME,
@@ -114,6 +118,7 @@
 				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -166,7 +171,8 @@
 				NEWS_PUBLICATION_STATUS_CODE =				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				DISCOVERY_DATE =				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				DECLARED_OUT_DATE =				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
-				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},	
+				FIRE_CENTRE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				FIRE_YEAR = #{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_NAME =				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},

@@ -193,4 +193,7 @@ public interface PublishedIncident{
 
 	public String getFireCentre();
 	public void setFireCentre(String fireCentre);
+
+	public Integer getFireYear();
+	public void setFireYear(Integer fireYear);
 }
