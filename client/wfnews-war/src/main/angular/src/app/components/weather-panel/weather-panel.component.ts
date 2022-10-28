@@ -1,5 +1,4 @@
 import { Component, OnDestroy } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'weather-panel',
@@ -14,21 +13,6 @@ export class WeatherPanelComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width')
-  }
-
-  tabChange (event: MatTabChangeEvent) {
-    const panels = document.getElementsByClassName('smk-sidepanel');
-    const hostPanel = document.getElementsByClassName('map');
-
-    if (panels.item(0)) {
-      panels.item(0).setAttribute('style', 'transition: all .5s linear;')
-      if (event.index === 1) {
-        let width = (hostPanel.item(0) as HTMLElement).clientWidth - 80;
-        (panels.item(0) as HTMLElement).style.width = `${width > 640 ? 640 : width}px`;
-      } else {
-        (panels.item(0) as HTMLElement).style.removeProperty('width')
-      }
-    }
   }
 
   setWeatherStation (station) {
