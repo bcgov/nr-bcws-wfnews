@@ -408,7 +408,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
+          value: "http://0.0.0.0:2379, https://0.0.0.0:2379, https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
