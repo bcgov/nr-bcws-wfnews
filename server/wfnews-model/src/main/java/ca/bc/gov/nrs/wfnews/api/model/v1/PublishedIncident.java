@@ -41,9 +41,9 @@ public interface PublishedIncident{
 
 	public void setFireZoneUnitIdentifier(Integer fireZoneUnitIdentifier);
 
-	public String getFireOfNoteInd(); 
+	public Boolean getFireOfNoteInd(); 
 	
-	public void setFireOfNoteInd(String fireOfNoteInd); 
+	public void setFireOfNoteInd(Boolean fireOfNoteInd); 
 
 	public String getIncidentName(); 
 
@@ -94,41 +94,41 @@ public interface PublishedIncident{
 
 	public void setResourceDetail(String resourceDetail);
 	
-	public String getWildfireCrewResourcesInd(); 
+	public Boolean getWildfireCrewResourcesInd(); 
 
-	public void setWildfireCrewResourcesInd(String wildfireCrewResourcesInd); 
+	public void setWildfireCrewResourcesInd(Boolean wildfireCrewResourcesInd); 
 
 	public String getWildfireCrewResourcesDetail(); 
 
 	public void setWildfireCrewResourcesDetail(String wildfireCrewResourcesDetail); 
 
-	public String getWildfireAviationResourceInd(); 
+	public Boolean getWildfireAviationResourceInd(); 
 
-	public void setWildfireAviationResourceInd(String wildfireAviationResourceInd); 
+	public void setWildfireAviationResourceInd(Boolean wildfireAviationResourceInd); 
 
 	public String getWildfireAviationResourceDetail(); 
 
 	public void setWildfireAviationResourceDetail(String wildfireAviationResourceDetail); 
 
-	public String getHeavyEquipmentResourcesInd();
+	public Boolean getHeavyEquipmentResourcesInd();
 
-	public void setHeavyEquipmentResourcesInd(String heavyEquipmentResourcesInd); 
+	public void setHeavyEquipmentResourcesInd(Boolean heavyEquipmentResourcesInd); 
 
 	public String getHeavyEquipmentResourcesDetail(); 
 
 	public void setHeavyEquipmentResourcesDetail(String heavyEquipmentResourcesDetail); 
 
-	public String getIncidentMgmtCrewRsrcInd(); 
+	public Boolean getIncidentMgmtCrewRsrcInd(); 
 	
-	public void setIncidentMgmtCrewRsrcInd(String incidentMgmtCrewRsrcInd); 
+	public void setIncidentMgmtCrewRsrcInd(Boolean incidentMgmtCrewRsrcInd); 
 	
 	public String getIncidentMgmtCrewRsrcDetail();
 
 	public void setIncidentMgmtCrewRsrcDetail(String incidentMgmtCrewRsrcDetail); 
 
-	public String getStructureProtectionRsrcInd(); 
+	public Boolean getStructureProtectionRsrcInd(); 
 
-	public void setStructureProtectionRsrcInd(String structureProtectionRsrcInd);
+	public void setStructureProtectionRsrcInd(Boolean structureProtectionRsrcInd);
 
 	public String getStructureProtectionRsrcDetail(); 
 

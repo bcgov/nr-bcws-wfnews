@@ -102,6 +102,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setGeneralIncidentCauseCatId(dto.getGeneralIncidentCauseCatId());
 		resource.setNewsPublicationStatusCode(dto.getNewsPublicationStatusCode());
 		resource.setDiscoveryDate(dto.getDiscoveryDate());
+		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
 		resource.setFireZoneUnitIdentifier(dto.getFireZoneUnitIdentifier());
 		resource.setFireOfNoteInd(dto.getFireOfNoteInd());
 		resource.setIncidentName(dto.getIncidentName());

@@ -79,7 +79,7 @@ for incident in incidents:
     "declaredOutDate": curr_time,
     "discoveryDate": incident['attributes']['IGNITION_DATE'],
     "fireZoneUnitIdentifier": incident['attributes']['ZONE'],
-    "fireOfNoteInd": 'T' if incident['attributes']['FIRE_OF_NOTE_ID'] is not None else 'F',
+    "fireOfNoteInd": True if incident['attributes']['FIRE_OF_NOTE_ID'] is not None else False,
     "incidentName": incident['attributes']['FIRE_OF_NOTE_NAME'] if incident['attributes']['FIRE_OF_NOTE_NAME'] is not None else incident['attributes']['FIRE_NUMBER'],
     "incidentLocation": incident['attributes']['GEOGRAPHIC_DESCRIPTION'],
     "incidentOverview": "This is the incident overview. Not much interesting here as this is just test data, but it can be edited or whatever later",
@@ -93,15 +93,15 @@ for incident in incidents:
     "contactPhoneNumber": "123-456-7890",
     "contactEmailAddress": "noaddress@fake.nope",
     "resourceDetail": "This is a custom deascription detailing the resources responding to this incident. It supports html and limited styling.",
-    "wildfireCrewResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
+    "wildfireCrewResourcesInd": True if bool(random.getrandbits(1)) else False,
     "wildfireCrewResourcesDetail": None,
-    "wildfireAviationResourceInd": 'T' if bool(random.getrandbits(1)) else 'F',
+    "wildfireAviationResourceInd": True if bool(random.getrandbits(1)) else False,
     "wildfireAviationResourceDetail": None,
-    "heavyEquipmentResourcesInd": 'T' if bool(random.getrandbits(1)) else 'F',
+    "heavyEquipmentResourcesInd": True if bool(random.getrandbits(1)) else False,
     "heavyEquipmentResourcesDetail": None,
-    "incidentMgmtCrewRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
+    "incidentMgmtCrewRsrcInd": True if bool(random.getrandbits(1)) else False,
     "incidentMgmtCrewRsrcDetail": None,
-    "structureProtectionRsrcInd": 'T' if bool(random.getrandbits(1)) else 'F',
+    "structureProtectionRsrcInd": True if bool(random.getrandbits(1)) else False,
     "structureProtectionRsrcDetail": None,
     "publishedTimestamp": curr_time,
     "publishedUserTypeCode": "GOV", 
@@ -110,7 +110,8 @@ for incident in incidents:
     "publishedUserName": "TEST",
     "lastUpdatedTimestamp": curr_time,
     "latitude": str(incident['geometry']['y']),
-    "longitude": str(incident['geometry']['x'])
+    "longitude": str(incident['geometry']['x']),
+    "fireYear": 2022
   }
 
   wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token})
