@@ -83,8 +83,44 @@ select{
     .notice-list{
         width: 45%;
         border: 1px solid #dddddd;
+        max-height: 56rem;
+        overflow-y: auto;
+        border-radius: 5px;
+        height: fit-content;
         .notice-item{
             border-bottom: 1px solid #dddddd;
+            
+            .item-header{
+                font-size: 18px;
+                font-weight: 700;
+                color: black !important;
+                text-decoration: underline;
+                padding: 10px 20px 5px;
+                width: fit-content;
+            }
+
+            .label {
+                color:#D20000;
+                font-size: 0.87rem;
+                font-weight: 400;
+                display: inline-flex;
+                padding-left: 15px;
+            }
+        }
+
+        .item-row {
+            display: flex;
+            font-weight: 700;
+            padding: 5px 20px;
+            .item-title{
+              font-size: 1rem;
+              width: 100%;
+            }
+            .item-content{
+              width: 100%;
+              font-size:15px;
+              font-weight: 400;
+            }
         }
     }
 }

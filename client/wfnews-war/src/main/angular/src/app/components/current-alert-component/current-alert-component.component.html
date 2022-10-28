@@ -4,7 +4,7 @@
         <select appWFSingleSelect appWFPlaceholder="Select..."
                 aria-label="Type"
                 [options]="alertTypeOptions"
-                [selected]="selectedAlertType"
+                [(ngModel)]="selectedAlertType"
                 (updated)="selectAlertUpdated($event)">
             <option *ngFor = "let item of alertTypeOptions" value="{{item}}">
                 <span>{{item}}</span>
@@ -15,7 +15,7 @@
     <div class="field"> 
         <div class="toggle-bar">
             <span>All Notices</span>
-            <mat-slide-toggle>Notices Near Me</mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="nearmeChecked" (change)="nearmeToggleChanged()" [disabled] = "!(currentLat && currentLong)">Notices Near Me</mat-slide-toggle>
         </div>
     </div>
 </div>
@@ -52,7 +52,66 @@
 
     <div class="notice-list">
         <div *ngFor="let evac of evacOrders" class="notice-item">
-            {{evac.eventName}}
+            <div class="item-header">{{evac.eventName}}</div>
+            <span class="label"><wf-icon class="icon" iconName="error" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Evacuation Orders and Alerts</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(evac.dateModified)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Agency: </span>
+                <span class="item-content">{{evac.issuingAgency}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Status: </span>
+                <span class="item-content">{{evac.orderAlertStatus}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km</span>
+            </div>
+        </div>
+
+        <div *ngFor="let ban of bansAndProhibitions" class="notice-item">
+            <div class="item-header" style="background: url('../../../assets/images/external-link.svg') center right no-repeat; background-size: 18px;" (click)="openBcGovGuide()">{{ban.type}}</div>
+            <span class="label"><wf-icon class="icon" iconName="block" iconSize="small"></wf-icon><span style="padding-left: 10px; margin-top: 5px;">Bans and Prohibitions</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(ban.accessStatusEffectiveDate)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Fire Centre: </span>
+                <span class="item-content">{{ban.fireCentre}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Restrictions: </span>
+                <span class="item-content">{{convertRestriction(ban.accessProhibitionDescription)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} KM</span>
+            </div>
+        </div>
+
+        <div *ngFor="let area of areaRestrictions" class="notice-item">
+            <div class="item-header">{{area.name}} </div>
+            <span class="label"><span class="icon signpost mat-icon"></span><span style="padding-left: 10px;">Area Restrictions</span></span>
+            <div class="item-row">
+                <span class="item-title">Last Updated: </span>
+                <span class="item-content">{{convertToDateWithDayOfWeek(area.accessStatusEffectiveDate)}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Fire Centre: </span>
+                <span class="item-content">{{area.fireCentre}}</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Status: </span>
+                <span class="item-content">Active</span>
+            </div>
+            <div class="item-row">
+                <span class="item-title">Distance from My Location: </span>
+                <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km</span>
+            </div>
         </div>
     </div>
 </div>
