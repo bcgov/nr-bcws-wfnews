@@ -353,6 +353,10 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           name: "API_KEY",
           value: "${var.api_key}"
+        },
+        {
+          name: "ETCD_ROOT_PASSWORD",
+          value: "${var.etcd_password}"
         }
       ]
       logConfiguration = {
