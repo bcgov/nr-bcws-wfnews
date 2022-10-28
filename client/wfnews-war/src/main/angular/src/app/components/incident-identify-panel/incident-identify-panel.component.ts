@@ -69,14 +69,6 @@ export class IncidentIdentifyPanelComponent {
       this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
       this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
       this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
-      this.incident.fireOfNoteInd = this.incident.fireOfNoteInd;
-
-      // set T/1 to True, otherwise False
-      this.incident.heavyEquipmentResourcesInd = this.incident.heavyEquipmentResourcesInd;
-      this.incident.incidentMgmtCrewRsrcInd = this.incident.incidentMgmtCrewRsrcInd;
-      this.incident.structureProtectionRsrcInd = this.incident.structureProtectionRsrcInd;
-      this.incident.wildfireAviationResourceInd = this.incident.wildfireAviationResourceInd;
-      this.incident.wildfireCrewResourcesInd = this.incident.wildfireCrewResourcesInd
 
       // load evac orders nearby
       this.getEvacOrders();
