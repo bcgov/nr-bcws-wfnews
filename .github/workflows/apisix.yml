@@ -28,7 +28,7 @@ jobs:
           registry: ${{ inputs.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-
+          
       - name: retrieve Amazon TLS cert
         run: wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O docker/AmazonRootCA1.pem
 
