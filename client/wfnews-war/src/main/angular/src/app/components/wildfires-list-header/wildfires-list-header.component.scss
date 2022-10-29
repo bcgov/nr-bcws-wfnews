@@ -1,3 +1,13 @@
+.container {
+  height: calc(100vh - 180px) !important;
+  overflow: hidden;
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  padding: 20px;
+  background-color: white;
+  max-width: 1300px;
+  margin: auto;
+}
+
 div{
     margin-left: 2%;
     margin-right: 2%;
