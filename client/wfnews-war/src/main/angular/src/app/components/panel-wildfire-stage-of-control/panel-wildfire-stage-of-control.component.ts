@@ -381,7 +381,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onClickBookmark(event:Event) {
-      console.log(event)
       event.stopPropagation()
     }
 }
