@@ -11,13 +11,13 @@
         <div class="summary-data">
           <div class="summary-data-row"><div class="summary-data-cell">{{thisYearCount}}</div><div class="summary-data-label">Fires this Year</div></div>
           <div class="summary-data-row"><div class="summary-data-cell">{{fires.length}}</div><div class="summary-data-label">Active Fires</div></div>
-          <div class="summary-data-row"><div class="summary-data-cell">{{firesLast7Days}}</div><div class="summary-data-label">Fires in the Last 7 Days</div></div>
+          <div class="summary-data-row"><div class="summary-data-cell">{{firesLast24}}</div><div class="summary-data-label">Fires in the Last 24 Hours</div></div>
         </div>
       </div>
       <div class="resource-panel">
         <div class="title">Wildfire Cause Summary</div>
         <div class="summary-data">
-          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">Fires Caused By {{data.name}}</div></div>
+          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name === 'Unknown' ? ('Fires with Unknown Causes') : ('Fires Caused By ' + data.name)}}</div></div>
         </div>
       </div>
       <div class="resource-panel">
@@ -31,7 +31,7 @@
       <h2>Fires this Year</h2>
       <p style="color: black;">"Fires" this year refers to fires that have burned sometime between <span style="font-weight: 700">April 1st {{getFireYear()}} and March 31st {{getFireYear(1)}}</span></p>
     </div>
-    <mat-tab-group [(selectedIndex)]="tabIndex" class="wildfires-tabs" mat-align-tabs="center">
+    <mat-tab-group [(selectedIndex)]="tabIndex">
       <mat-tab label="Active Fires">
       </mat-tab>
       <mat-tab label="Fires This Year">
@@ -50,8 +50,12 @@
               <div class="cell">{{row.name}}</div>
               <div class="value-cell">{{row.value}}</div>
             </div>
+            <div class="row">
+              <div class="cell">All of BC</div>
+              <div class="value-cell">{{getFiresByCentreTotals()}}</div>
+            </div>
           </div>
-          <a class="link" style="padding: 20px;" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
+          <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
         </div>
         <div class="info-chart">
           <ngx-charts-bar-vertical
@@ -94,7 +98,7 @@
             <li>Fireworks, sky-lanterns, outdoor flame lighting</li>
             <li>Discarding burning items (cigarettes)</li>
           </ul>
-          <a class="link" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/what-causes-wildfire">Learn More about Wildfire Causes</a>
+          <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/what-causes-wildfire">Learn More about Wildfire Causes</a>
         </div>
         <div class="info-chart">
           <ngx-charts-bar-vertical
@@ -140,18 +144,18 @@
           </ngx-charts-bar-vertical>
         </div>
         <div class="info-text">
-          <p class="paragraph-format">The following stages of control describe the current status of a fire or incident.</p>
-          <h4>Wildfires of Note</h4>
-          <p class="paragraph-format">Wildfires of note are wildfires which are highly visible or which pose a potential threat to public safety.</p>
+          <p class="paragraph-format">The BC Wildfire Service uses stages of control to report on wildfire progress.</p>
+          <h4>Wildfire of Note</h4>
+          <p class="paragraph-format">A wildfire that is highly visible or poses a potential threat to public safety.</p>
           <h4>Out of Control</h4>
-          <p class="paragraph-format">Describes a wildfire that is not responding (or only responding on a limited basis) to suppression action, such that the perimeter spread is  not being contained.</p>
+          <p class="paragraph-format">A wildfire that is continuing to spread and is not responding to suppression efforts.</p>
           <h4>Being Held</h4>
-          <p class="paragraph-format">Indicates that (with the resources currently committed to the fire) sufficient suppression action has been taken that the fire is not likely  to spread beyond existing or predetermined boundaries under the  prevailing and forecasted conditions.</p>
+          <p class="paragraph-format">A wildfire that is not likely to spread beyond predetermined boundaries under current conditions.</p>
           <h4>Under Control</h4>
-          <p class="paragraph-format">The fire has received sufficient suppression action to ensure no further spread of the fire.</p>
+          <p class="paragraph-format">A wildfire that is extinguished. Suppression efforts are complete.</p>
           <h4>Out</h4>
           <p class="paragraph-format">The fire has been extinguished.</p>
-          <a class="link" target="_blank" rel="noopener" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies">Discover more Wildfire Management Strategies</a>
+          <a class="learn-more-button" target="_blank" rel="noopener" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies">Discover more Wildfire Management Strategies</a>
         </div>
       </div>
     </div>
@@ -175,7 +179,7 @@
             <div class="value-cell">{{row.areaBurned}}</div>
           </div>
         </div>
-        <a class="link" style="padding: 20px;" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
+        <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">Learn More about Statistics &amp; Geospatial Data</a>
       </div>
     </div>
   </div>

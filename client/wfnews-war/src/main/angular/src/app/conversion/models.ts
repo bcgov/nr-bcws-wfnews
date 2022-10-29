@@ -19,6 +19,7 @@ export interface EvacOrderOption {
   preOcCode?: string;
   emrgOAAsysID?: number;
   centroid?: any;
+  geometry?: any;
   dateModified?: Date;
   noticeType?: string;
 }
@@ -31,6 +32,7 @@ export interface AreaRestrictionsOption {
   fireZone?: string;
   bulletinUrl?: string;
   centroid?: any;
+  geometry?: any;
   noticeType?: string;
 }
 
@@ -42,6 +44,7 @@ export interface BansAndProhibitionsOption {
   fireZone?: string;
   bulletinUrl?: string;
   centroid?: any;
+  geometry?: any;
   accessProhibitionDescription?: string;
   noticeType?: string;
 }
