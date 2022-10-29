@@ -1,9 +1,25 @@
 :host {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-  background-color: lightgray;
 }
 
-::ng-deep .wildfires-tabs {
+:host ::ng-deep .mat-tab-label {
+  color: #003366 !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.learn-more-button {
+  padding: 8px;
+  border: 1px solid #1a5a96;
+  border-radius: 5px;
+  color: white;
+  background-color: #1a5a96;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+/*::ng-deep .wildfires-tabs {
   .mat-tab-labels {
       padding-bottom: 5px;
   }
@@ -31,7 +47,8 @@
   .mat-ink-bar{
       background-color: white !important
   }
-}
+}*/
+/* Keeping in case we want the button style again */
 
 mat-tab-group {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
@@ -44,6 +61,7 @@ mat-tab-group {
   padding: 20px;
   margin: auto;
   background-color: white;
+  max-width: 1300px;
   h2 {
     font-size: 24px;
     font-weight: normal;
@@ -82,7 +100,7 @@ mat-tab-group {
   width: 100%;
 }
 .summary-container> * {
-  flex: 1 1 28vw;
+  flex: 1 1 21vw;
   margin: 8px;
 }
 
@@ -169,6 +187,8 @@ mat-tab-group {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
+  border-bottom: 1px solid #e9eff5;
+  padding-bottom: 20px;
   .info-text {
     padding: 5px;
     width: 45%;
@@ -180,5 +200,5 @@ mat-tab-group {
   }
 }
 .info-panel> * {
-  flex: 1 1 45vw;
+  flex: 1 1 40vw;
 }
