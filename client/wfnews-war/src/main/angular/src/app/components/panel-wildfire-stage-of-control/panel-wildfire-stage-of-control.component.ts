@@ -384,7 +384,4 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       console.log(event)
       event.stopPropagation()
     }
-
-    disableWildfiresOfNoteCheckbox () {
-    }
 }
