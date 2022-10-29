@@ -353,6 +353,10 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           name: "API_KEY",
           value: "${var.api_key}"
+        },
+        {
+          name: "ETCD_ROOT_PASSWORD",
+          value: "${var.etcd_password}"
         }
       ]
       logConfiguration = {
@@ -408,7 +412,7 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
+          value: "http://0.0.0.0:2379, https://0.0.0.0:2379, https://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:443"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
@@ -702,7 +706,8 @@ resource "aws_ecs_service" "etcd" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id, data.aws_security_group.data.id, aws_security_group.wfnews_efs_access.id]
-    subnets          = module.network.aws_subnet_ids.data.ids
+    subnets          = module.network.aws_subnet_ids.app.ids
+    assign_public_ip = true
   }
 
 /*
