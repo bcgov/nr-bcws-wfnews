@@ -8,6 +8,7 @@
             <mat-select appWFSingleSelect appWFPlaceholder="Select..."
                         aria-label="Type" [options]="mediaTypeOptions"
                         [value]="currentMediaType"
+                        (valueChange)="onMediaTypeFilterChanged($event)"
                         style="border: 1px solid;border-radius: 4px;width: 10%;border-color: gray;padding-left: 10px; margin: 10px 0 10px 0;">
                 <mat-option value="">
                     <span class="placeholder">Select...</span>

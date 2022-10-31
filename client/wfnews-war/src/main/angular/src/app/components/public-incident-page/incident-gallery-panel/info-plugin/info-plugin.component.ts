@@ -10,47 +10,18 @@ export default class InfoPlugin {
     settings: InfoPluginSettings;
     private $LG!: LgQuery;
     constructor(instance: LightGallery, $LG: LgQuery) {
-        // get lightGallery core plugin instance
         this.core = instance;
         this.$LG = $LG;
-
-        // extend module default settings with lightGallery core settings
         this.settings = { ...infoSettings, ...this.core.settings };
-
         return this;
     }
 
     public init(): void {
         let infoButton = '';
         if (this.settings.info) {
-            infoButton = `<button type="button" class="lg-image-information lg-icon"><span class="material-icons" style="font-size:36px!important">info</span></button>`;
+            infoButton = `<button type="button" class="lg-image-information lg-icon"><span class="material-icons" style="font-size:29px!important">info</span></button>`;
             this.core.$toolbar.append(infoButton);
             this.information();
-        }
-    }
-
-    private requestFullscreen(): void {
-        const el = document.documentElement;
-        if (el.requestFullscreen) {
-            el.requestFullscreen();
-        } else if (el.msRequestFullscreen) {
-            el.msRequestFullscreen();
-        } else if (el.mozRequestFullScreen) {
-            el.mozRequestFullScreen();
-        } else if (el.webkitRequestFullscreen) {
-            el.webkitRequestFullscreen();
-        }
-    }
-
-    private exitFullscreen(): void {
-        if (document.exitFullscreen) {
-            document.exitFullscreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitExitFullscreen) {
-            document.webkitExitFullscreen();
         }
     }
 
@@ -67,8 +38,14 @@ export default class InfoPlugin {
                     <div style="font-weight: 700;">${this.settings.infoData.filename}</div>
                     <h4 style="font-weight: normal;">Date uploaded</h4>
                     <div style="font-weight: 700;">${this.settings.infoData.dateUploaded}</div>
-                </div>`,
+                </div>`
                 );
+
+                this.core.outer.find('.close-button')
+                        .first()
+                        .on('click.lg', () => {
+                            this.closeGallery();
+                        });        
             });
     }
 
@@ -77,11 +54,6 @@ export default class InfoPlugin {
     }
 
     destroy(): void {
-        this.$LG(document).off(
-            `fullscreenchange.lg.global${this.core.lgId} 
-            webkitfullscreenchange.lg.global${this.core.lgId} 
-            mozfullscreenchange.lg.global${this.core.lgId} 
-            MSFullscreenChange.lg.global${this.core.lgId}`,
-        );
+        
     }
 }

@@ -29,23 +29,6 @@
           font-size: 22px;
           cursor: pointer;
         }
-        .print-button {
-          cursor: pointer;
-          margin-left: 15px;
-          border-color: #1a5a96;
-          border-width: 1px;
-          background-color: white;
-          border-radius: 5px;
-          text-align: center;
-          display: inline-flex;
-          align-items: center;
-          font-size: 1rem;
-          font-weight: 400;
-          color: #1a5a96;
-          span {
-            padding: 0 5px;
-          }
-        }
         .icon {
           position: relative;
           top: 5px;
@@ -125,46 +108,6 @@
         padding-bottom: 0.67rem;
         color: #003366;
         text-decoration: underline;
-      }
-      .learn-more-button-container {
-        margin-top: 10px;
-        margin-bottom: 25px;
-      }
-      .learn-more-button {
-        padding: 8px;
-        border: 1px solid #1a5a96;
-        border-radius: 5px;
-        color: #1a5a96;
-        font-size: 14px;
-        text-decoration: none;
-        transition: 0.3s;
-      }
-      .learn-more-button:hover {
-        border: 1px solid #1e5d98;
-        background-color: #e0e0e0;
-      }
-      .resource-panel {
-        display: flex;
-        flex-direction: row;
-        padding-bottom: 50px;
-        .resource-panel-icon {
-          color: #003366;
-          font-size: 1rem;
-          padding-left: 7px;
-          padding-right: 50px;
-          text-align: center;
-          .image-size {
-            width: 100px;
-            height: 100px;
-          }
-        }
-        .resource-panel-content {
-          h3 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-top: 0;
-          }
-        }
       }
     }
   }

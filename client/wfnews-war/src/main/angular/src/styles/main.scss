@@ -574,6 +574,7 @@
 }
 
 .lg-toolbar .lg-icon {
+  color: #fff!important;
   font-size: 36px !important;
 }
 
@@ -589,4 +590,14 @@
 .lg-outer .lg-thumb-item {
   border-radius: 0 !important;
   border: 0 !important;
+}
+
+.property-list h2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.property-list h2 .close-button {
+  cursor: pointer;
 }
