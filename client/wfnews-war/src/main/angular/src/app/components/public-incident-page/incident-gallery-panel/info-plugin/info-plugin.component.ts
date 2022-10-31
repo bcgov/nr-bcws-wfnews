@@ -54,6 +54,13 @@ export default class InfoPlugin {
     }
 
     destroy(): void {
-        
+        this.core.outer
+        .find('.lg-image-information')
+        .first()
+        .off('click.lg');
+
+        this.core.outer.find('.close-button')
+        .first()
+        .off('click.lg');
     }
 }

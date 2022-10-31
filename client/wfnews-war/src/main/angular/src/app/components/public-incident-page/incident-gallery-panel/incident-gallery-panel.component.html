@@ -37,8 +37,8 @@
                             </div>
                         </div>
                         <div style="display: flex;">
-                            <img *ngIf="item.type=='image'" class="incident-image img-responsive" src="{{item.href}}" />
-                            <iframe *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="270" [src]="item.href | safe" frameborder="0"></iframe>
+                            <img *ngIf="item.type=='image'" class="incident-image img-responsive" src="{{item.href}}" alt="{{item.title}}"/>
+                            <iframe title="{{item.title}}" *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="270" [src]="item.href | safe"></iframe>
                         </div>
                     </div>
                 </a>     
