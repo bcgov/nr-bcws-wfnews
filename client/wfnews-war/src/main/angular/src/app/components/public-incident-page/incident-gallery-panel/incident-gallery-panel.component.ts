@@ -1,6 +1,9 @@
 import { Component, ChangeDetectionStrategy, Input, OnInit } from "@angular/core";
 import lgZoom from 'lightgallery/plugins/zoom';
+import lgFullscreen from 'lightgallery/plugins/fullscreen';
+import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
+import InfoPlugin from "./info-plugin/info-plugin.component";
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -17,7 +20,13 @@ export class IncidentGalleryPanel implements OnInit {
 
   settings = {
     counter: false,
-    plugins: [lgZoom]
+    plugins: [lgZoom, lgFullscreen, InfoPlugin, lgThumbnail],
+    download: true,
+    showZoomInOutIcons: true,
+    fullScreen: true,
+    actualSize: false,
+    info: true,
+    infoData: {testdata: "This is info test data"}
   };
 
   onBeforeSlide = (detail: BeforeSlideDetail): void => {
@@ -27,6 +36,7 @@ export class IncidentGalleryPanel implements OnInit {
 
   ngOnInit() {
     this.loadPage();
+    this.currentMediaType = "All";
   }
 
   loadPage() {
