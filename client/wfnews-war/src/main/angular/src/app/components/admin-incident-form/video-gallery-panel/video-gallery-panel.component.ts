@@ -45,7 +45,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
     collection: []
   };
 
-  testVideoLinks = [
+  testVideoLinks = [ //test data
     {
       externalUri: 'https://www.youtube.com/watch?v=qQapCppE2vE',
     videoId: 'qQapCppE2vE',
