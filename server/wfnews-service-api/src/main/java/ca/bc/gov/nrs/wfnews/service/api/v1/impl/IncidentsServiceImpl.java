@@ -826,6 +826,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 			response = result;
 
+			/* Also Call WFDM, and copy the attachment bytes into the AWS bucket! */
+
 		} catch (IntegrityConstraintViolatedDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {
@@ -879,6 +881,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 				AttachmentDto updatedDto = this.attachmentDao.fetch(dto.getAttachmentGuid());
 				result = this.attachmentFactory.getAttachment(updatedDto, factoryContext);
+
+				/* Also Re-upload the attachment from WFDM into the AWS bucket! */
 			}
 
 			response = result;
@@ -913,6 +917,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 			this.attachmentDao.delete(attachmentGuid, getWebAdeAuthentication().getUserId());
 
+			/* Also Delete the attachment from the AWS bucket! */
+
 			return result;
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
@@ -926,8 +932,15 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	@Override
 	public AttachmentResource getIncidentAttachment(String attachmentGuid, FactoryContext factoryContext)
 			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			AttachmentDto dto = this.attachmentDao.fetch(attachmentGuid);
+			return this.attachmentFactory.getAttachment(dto, factoryContext);
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
 	}
-
 }

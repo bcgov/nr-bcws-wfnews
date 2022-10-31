@@ -141,5 +141,16 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		return response;
   }
+
+	@Override
+	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
+		
+		/*
+		 * In this method, we need to return the binary from the AWS bucket
+		 * Rather than the resource object. This is not a call to WFDM!
+		 */
+
+		return null;
+	}
   
 }

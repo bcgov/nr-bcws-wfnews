@@ -49,6 +49,25 @@ public interface AttachmentsEndpoint {
 	);
 
 	@ApiOperation(
+		value = "Get Incident Attachment bytes by ID.", 
+		notes = "Get the Incident Attachment by ID.")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+	})
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+		@ApiResponse(code = 404, message = "Not Found"),
+		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+	})
+	@GET
+	@Path("/bytes")
+	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	Response getIncidentAttachmentBytes(
+			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
+	);
+
+	@ApiOperation(
 		value = "Update Incident Attachment by ID", 
 		notes = "Update Incident Attachment by ID", 
 		authorizations = { 
