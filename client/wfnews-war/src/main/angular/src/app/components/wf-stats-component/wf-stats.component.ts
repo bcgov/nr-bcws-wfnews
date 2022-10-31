@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { interval, Subscription } from 'rxjs';
-import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 
 @Component({
@@ -12,6 +11,7 @@ import { PublishedIncidentService } from '../../services/published-incident-serv
 export class WFStatsComponent implements OnInit {
   public fires = []
   public outFires = []
+  public firesLast24 = 'Unknown'
   public firesLast7Days = 'Unknown'
   public thisYearCount = 'Unknown'
   public loading = true
@@ -50,8 +50,7 @@ export class WFStatsComponent implements OnInit {
     { name: 'Out', value: '#369dc9' }
   ]
 
-  constructor(private agolService: AGOLService,
-              protected snackbarService: MatSnackBar,
+  constructor(protected snackbarService: MatSnackBar,
               private publishedIncidentService: PublishedIncidentService,
               protected cdr: ChangeDetectorRef) {
   }
@@ -82,6 +81,7 @@ export class WFStatsComponent implements OnInit {
     this.outFires = outIncidents.collection
     this.fires = activeIncidents.collection
 
+    this.firesLast24 = activeIncidents.collection.filter(f => f.discoveryDate > Date.now() - 86400000).length + outIncidents.collection.filter(f => f.discoveryDate > Date.now() - 86400000).length
     this.firesLast7Days = activeIncidents.collection.filter(f => f.discoveryDate > Date.now() - 604800000).length + outIncidents.collection.filter(f => f.discoveryDate > Date.now() - 604800000).length
     this.thisYearCount = activeIncidents.collection.length + outIncidents.collection.length
 
@@ -167,20 +167,24 @@ export class WFStatsComponent implements OnInit {
       return new Date().getFullYear() + offset
     }
   }
+
+  getFiresByCentreTotals (): number {
+    return this.activeFiresByCentre.map(r => r.value).reduce((p, n) => p + n)
+  }
 }
 
 const FIRE_CENTRES = [
-  { id: 2, name: 'Coastal', displayOrder: 1 },
-  { id: 3, name: 'Northwest', displayOrder: 2 },
-  { id: 4, name: 'Prince George', displayOrder: 3 },
-  { id: 5, name: 'Kamloops', displayOrder: 4 },
-  { id: 6, name: 'Southeast', displayOrder: 5 },
-  { id: 7, name: 'Cariboo', displayOrder: 6 }
+  { id: '50', name: 'Coastal', displayOrder: 1 },
+  { id: '42', name: 'Northwest', displayOrder: 2 },
+  { id: '34', name: 'Prince George', displayOrder: 3 },
+  { id: '25', name: 'Kamloops', displayOrder: 4 },
+  { id: '8', name: 'Southeast', displayOrder: 5 },
+  { id: '2', name: 'Cariboo', displayOrder: 6 }
 ];
 
 const FIRE_CAUSE = [
   { id: 2, name: 'Lightning', displayOrder: 1 },
-  { id: 1, name: 'Person', displayOrder: 2 },
+  { id: 1, name: 'People', displayOrder: 2 },
   { id: 3, name: 'Unknown', displayOrder: 3 }
 ];
 

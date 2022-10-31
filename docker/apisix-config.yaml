@@ -59,14 +59,18 @@ deployment:
   etcd:
     host:
       - ${{ETCD_URL}}
+    # user: root
+    # password: ${{ETCD_ROOT_PASSWORD}}
   admin:
     admin_key:
       - name: admin
         key: ${{API_KEY}}
         role: admin
+    allow_admin:
 
 
-  apisix:
-    ssl:
-      ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
+apisix:
+  enable_admin: true
+  ssl:
+    ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
 

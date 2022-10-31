@@ -4,7 +4,7 @@
     </div>
     <div class="title-bar">
       <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el class="no-print" style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
-      <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{incident.fireCentre}}</a></div>
+      <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(incident.fireCentre)}}</a></div>
     </div>
     <div class="info-panel">
       <div><span class="label">Fire Number: </span><span>{{incident.incidentNumberLabel}}</span></div>

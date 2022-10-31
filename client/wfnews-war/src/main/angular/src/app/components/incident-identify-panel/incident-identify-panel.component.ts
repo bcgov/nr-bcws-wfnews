@@ -4,7 +4,7 @@ import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { ResourcesRoutes } from '../../utils';
+import { convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
 
 @Component({
     selector: 'incident-identify-panel',
@@ -20,6 +20,7 @@ export class IncidentIdentifyPanelComponent {
   public featureSet
   public identifiedFeatures = []
   public index = 0
+  convertToFireCentreDescription = convertToFireCentreDescription
 
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
