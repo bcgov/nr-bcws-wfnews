@@ -421,10 +421,6 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         {
           name: "ETCD_ROOT_PASSWORD",
           value: "${var.etcd_password}"
-        },
-        {
-          name: "ALLOW_NONE_AUTHENTICATION",
-          value: "true"
         }
       ]
       logConfiguration = {
