@@ -1,0 +1,10 @@
+<ng-container class="wfone-base-container">
+    <div class="header-panel">
+      <span style="font-size: 24px;">Videos</span>
+      <button mat-button color="primary" class="primary-button" (click)="upload()">Add Video</button>
+    </div>
+    <div class="image-gallery">
+      <!-- IsPrimary will be coming from published data? Not sure where this is going to go yet -->
+      <video-card-panel *ngFor="let video of testVideoLinks" [video]="video" [isPrimary]="false" [incident]="incident"></video-card-panel>
+    </div>
+  </ng-container>

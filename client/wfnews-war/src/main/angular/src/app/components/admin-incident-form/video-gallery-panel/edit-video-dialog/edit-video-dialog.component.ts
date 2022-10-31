@@ -1,9 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 
 export class DialogData {
-    public attachment: any;
+    public video: any;
 }
 
 @Component({

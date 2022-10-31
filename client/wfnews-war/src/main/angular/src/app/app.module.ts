@@ -194,9 +194,6 @@ export const DATE_FORMATS = {
         VideoCardPanel,
         EditVideoDialogComponent,
         UploadVideoDialogComponent,
-        YouTubePlayerModule
-
-
     ],
     imports: [
         MatSortModule,
@@ -264,6 +261,7 @@ export const DATE_FORMATS = {
         MatPaginatorModule,
         NgxPaginationModule,
         NgxChartsModule,
+        YouTubePlayerModule
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

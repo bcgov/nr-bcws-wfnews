@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges
 import { DefaultService as ExternalUriService, DefaultService as  IncidentAttachmentService, DefaultService as  AttachmentResource, ExternalUriResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
 import { Overlay } from '@angular/cdk/overlay';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -13,7 +13,6 @@ import { TokenService, AppConfigService } from '@wf1/core-ui';
 import { ApplicationStateService } from '../../../services/application-state.service';
 import { RootState } from '../../../store';
 import { UploadVideoDialogComponent } from './upload-video-dialog/upload-video-dialog.component';
-import { DocumentManagementService } from '../../../services/document-management.service';
 import { WatchlistService } from '../../../services/watchlist-service';
 import { PagedCollection } from '../../../conversion/models';
 
@@ -48,15 +47,18 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
 
   testVideoLinks = [
     {
-    videoUrl: 'https://www.youtube.com/watch?v=xt4HXvrdU4g',
-    videoId: 'xt4HXvrdU4g',
-    videoTitle: "B.C. wildfires prompt evacuation alerts for some communities"
+      externalUri: 'https://www.youtube.com/watch?v=qQapCppE2vE',
+    videoId: 'qQapCppE2vE',
+    externalUriDisplayLabel: "B.C. wildfires prompt evacuation alerts for some communities",
+    createdTimestamp:1665039600000
     },
     {
-      videoUrl: 'https://www.youtube.com/watch?v=WO2b03Zdu4Q',
+      externalUri: 'https://www.youtube.com/watch?v=WO2b03Zdu4Q',
       videoId: 'WO2b03Zdu4Q',
-      videoTitle: "demo video"
+      externalUriDisplayLabel: "demo video",
+      createdTimestamp:1665039600000
       },
+    
   ]
 
   constructor(protected router: Router,
@@ -74,9 +76,8 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
               protected http: HttpClient,
               protected externalUriService: ExternalUriService,
               protected incidentAttachmentService: IncidentAttachmentService,
-              private documentManagementService: DocumentManagementService,
               private watchListServce: WatchlistService,
-              //private ExternalUriListService: upcoming
+              
               ) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchListServce);
   }
@@ -145,45 +146,40 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
 
     });
   }
-  // links?: Array<RelLink>;
-  // externalUriGuid?: string;
-  // sourceObjectNameCode?: string;
-  // sourceObjectUniqueId?: string;
-  // externalUriCategoryTag?: string;
-  // externalUriDisplayLabel?: string;
-  // externalUri?: string;
-  // publishedInd?: string;
-  // revisionCount?: number;
-  // createdTimestamp?: string;
-  // privateInd?: string;
-  // archivedInd?: string;
-  // primaryInd?: string;
-  // createDate?: string;
-  // createUser?: string;
-  // updateDate?: string;
-  // updateUser?: string;
-  // etag?: string;
-  // type: string;
+
   uploadVideoLink( title: string, url: string) {
-    console.log(this.incident.incidentNumberSequence);
+    if(!this.matchYoutubeUrl(url)){
+      this.snackbarService.open('This is not a youtube link', 'OK', { duration: 0, panelClass: 'snackbar-error' });
+    }
+    else{
+      const resource = {
+        externalUriDisplayLabel: title,
+        externalUri: url,
+        publishedInd:false,
+        privateInd:false,
+        archivedInd:false,
+        primaryInd: false,
+        externalUriCategoryTag: 'information',
+        sourceObjectNameCode: 'INCIDENT',
+        sourceObjectUniqueId: ''+this.incident.incidentNumberSequence,
+        '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
+        type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
+      } as ExternalUriResource ;
+  
+      return this.externalUriService.createExternalUri( 
+        resource,
+        'response'
+       ).toPromise()
+    }
+    }
 
-    const resource = {
-      externalUriDisplayLabel: title,
-      externalUri: url,
-      publishedInd:'N',
-      privateInd:"N",
-      archivedInd:'N',
-      primaryInd: 'N',
-      externalUriCategoryTag: 'information',
-      sourceObjectNameCode: 'INCIDENT',
-      sourceObjectUniqueId: ''+this.incident.wildfireIncidentGuid,
-      '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
-      type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
-    } as ExternalUriResource ;
-
-    return this.externalUriService.createExternalUri( 
-      resource,
-      'response'
-     ).toPromise()
-  }
+    matchYoutubeUrl(url) {
+      var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;      
+      if(url.match(p)){
+          return url.match(p)[1];
+      }
+      else{
+        return false;
+      }
+    }
 }

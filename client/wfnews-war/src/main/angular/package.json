@@ -19,6 +19,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular/youtube-player": "^13.3.9",
     "@angular/animations": "13.3.11",
     "@angular/cdk": "13.3.9",
     "@angular/common": "13.3.11",
@@ -30,7 +31,6 @@
     "@angular/platform-browser-dynamic": "13.3.11",
     "@angular/router": "13.3.11",
     "@angular/service-worker": "13.3.11",
-    "@angular/youtube-player": "^13.2.6",
     "@busacca/ng-pick-datetime": "10.0.0",
     "@ckeditor/ckeditor5-angular": "4.0.0",
     "@ckeditor/ckeditor5-build-decoupled-document": "35.0.1",
