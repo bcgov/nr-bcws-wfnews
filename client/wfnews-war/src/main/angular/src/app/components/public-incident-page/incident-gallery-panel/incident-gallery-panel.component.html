@@ -17,7 +17,7 @@
                 </mat-option>
             </mat-select>
         </div>
-            <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide">
+            <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
                 <a *ngFor="let item of imagesAndVideosStub"
                     [attr.data-src]="item.href"
                     [attr.data-responsive]="item.href"
@@ -37,9 +37,7 @@
                         </div>
                         <div style="display: flex;">
                             <img *ngIf="item.type=='image'" class="incident-image img-responsive" src="{{item.href}}" />
-                            <iframe *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="390"
-                            src="http://www.youtube.com/embed/M7lc1UVf-VE?enablejsapi=1&origin=http://example.com"
-                            frameborder="0"></iframe>
+                            <iframe *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="270" [src]="item.href | safe" frameborder="0"></iframe>
                         </div>
                     </div>
                 </a>     

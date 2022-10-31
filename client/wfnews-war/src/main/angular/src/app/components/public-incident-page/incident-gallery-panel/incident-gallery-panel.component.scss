@@ -1,5 +1,6 @@
 @import url('https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lightgallery.css');
 @import url('https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-zoom.css');
+@import url('https://www.lightgalleryjs.com/css/lightgallery-bundle.css');
 
 :host {
     font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
@@ -168,4 +169,8 @@
     }
   }
 
- 
+h3 {
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+}
