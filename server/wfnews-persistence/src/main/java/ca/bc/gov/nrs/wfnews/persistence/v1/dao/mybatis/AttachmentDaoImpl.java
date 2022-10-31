@@ -33,16 +33,20 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 			Map<String, Object> parameters = new HashMap<>();
 
 			parameters.put("dto", dto);
-			parameters.put("attachmentGuid", dto.getAttachmentGuid());
-			int count = this.attachmentMapper.insert(parameters);
+			parameters.put("fileAttachmentGuid", dto.getAttachmentGuid());
+			int count = this.attachmentMapper.insertAttachment(parameters);
 
-			if(count==0) {
+			if (count == 0) {
 				throw new DaoException("Record not inserted: " + count);
 			}
 			
-			attachmentGuid = (String) parameters.get("attachmentGuid");
-			
+			attachmentGuid = (String) parameters.get("fileAttachmentGuid");
 			dto.setAttachmentGuid(attachmentGuid);
+
+			int metaCount = this.attachmentMapper.insertMeta(parameters);
+			if (metaCount == 0) {
+				throw new DaoException("Attachment Persisted, but Meta Record not inserted: " + count);
+			}
 			
 		} catch (RuntimeException e) {
 			handleException(e);

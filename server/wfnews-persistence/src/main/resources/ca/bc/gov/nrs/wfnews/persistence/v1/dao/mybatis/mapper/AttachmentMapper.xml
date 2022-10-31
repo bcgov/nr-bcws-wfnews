@@ -26,11 +26,8 @@
     <result property="imageWidth"            column="image_width"               javaType="java.lang.Integer" jdbcType="NUMERIC" />
   </resultMap>
 
-  <insert id="insert">
+  <insert id="insertAttachment">
     <selectKey keyProperty="fileAttachmentGuid" resultType="java.lang.String" order="BEFORE"> 
-		  SELECT GEN_RANDOM_UUID();
-		</selectKey>
-    <selectKey keyProperty="fileAttachmentMetaGuid" resultType="java.lang.String" order="BEFORE"> 
 		  SELECT GEN_RANDOM_UUID();
 		</selectKey>
     INSERT 
@@ -64,8 +61,13 @@
             #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
             #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
-            #{primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN});
+            #{primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
+  </insert>
 
+  <insert id="insertMeta">
+    <selectKey keyProperty="fileAttachmentMetaGuid" resultType="java.lang.String" order="BEFORE"> 
+		  SELECT GEN_RANDOM_UUID();
+		</selectKey>
     INSERT 
       INTO wfnews.file_attachment_metadata
            (file_attachment_metadata_guid, file_attachment_guid, latitude, longitude, elevation_m,
@@ -85,7 +87,7 @@
             #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
             #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN});
+            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN})
   </insert>
 
   <update id="update">
