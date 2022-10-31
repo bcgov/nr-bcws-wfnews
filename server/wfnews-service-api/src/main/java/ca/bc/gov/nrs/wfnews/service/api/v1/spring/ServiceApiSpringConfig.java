@@ -82,8 +82,6 @@ public class ServiceApiSpringConfig {
 	
 	@Autowired PublishedIncidentFactory publishedIncidentFactory;
 	@Autowired ExternalUriFactory externalUriFactory;
-	
-	@Autowired AttachmentDao attachmentDao;
 	@Autowired AttachmentFactory attachmentFactory;
 	
 	
@@ -175,7 +173,7 @@ public class ServiceApiSpringConfig {
 		result.setExternalUriDao(persistenceSpringConfig.externalUriDao());
 		result.setPublishedIncidentFactory(publishedIncidentFactory);
 		result.setExternalUriFactory(externalUriFactory);
-		result.setAttachmentDao(attachmentDao);
+		result.setAttachmentDao(persistenceSpringConfig.attachmentDao());
 		result.setAttachmentFactory(attachmentFactory);
 		
 		return result;

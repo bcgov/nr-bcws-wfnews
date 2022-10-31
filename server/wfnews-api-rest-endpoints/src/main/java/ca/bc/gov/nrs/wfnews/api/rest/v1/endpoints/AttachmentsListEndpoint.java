@@ -32,7 +32,7 @@ import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.ResponseHeader;
 
 @Path("/publishedIncident/{incidentNumberSequence}/attachments")
-@Api(value = "IncidentAttachments", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
+@Api(value = "IncidentAttachments")
 public interface AttachmentsListEndpoint {
   @ApiOperation(value = "Get Incident Attachments.", notes= "Get list of Incident Attachments.") 
 	@ApiImplicitParams({ @ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header") })
@@ -57,7 +57,8 @@ public interface AttachmentsListEndpoint {
 			value = "Add Incident Attachment", 
 			notes = "Add a Incident attachment resource to the List of Incident attachment resources", 
 			authorizations = { 
-				@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_ATTACHMENT, description = "") })}, 
+				@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
+				@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_ATTACHMENT, description = "") })},
 			extensions = {
 				@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({

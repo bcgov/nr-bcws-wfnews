@@ -28,7 +28,7 @@ import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.ResponseHeader;
 
 @Path("/incidents/{incidentNumberSequence}/attachments/{attachmentGuid}")
-@Api(value = "IncidentAttachment", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
+@Api(value = "IncidentAttachment")
 public interface AttachmentsEndpoint {
   @ApiOperation(
 		value = "Get Incident Attachment by ID.", 
@@ -70,7 +70,8 @@ public interface AttachmentsEndpoint {
 	@ApiOperation(
 		value = "Update Incident Attachment by ID", 
 		notes = "Update Incident Attachment by ID", 
-		authorizations = { 
+		authorizations = {
+			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
 			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_ATTACHMENT, description = "") })}, 
 		extensions = {
 			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
@@ -98,6 +99,7 @@ public interface AttachmentsEndpoint {
 		value = "Delete Incident Attachment by ID", 
 		notes = "Delete Incident Attachment by ID", 
 		authorizations = { 
+			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
 			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") })}, 
 		extensions = {
 			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
