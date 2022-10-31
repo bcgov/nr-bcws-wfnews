@@ -27,8 +27,8 @@ import io.swagger.annotations.Extension;
 import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.ResponseHeader;
 
-@Path("/incidents/{incidentNumberSequence}/attachments/{attachmentGuid}")
 @Api(value = "IncidentAttachment")
+@Path("/")
 public interface AttachmentsEndpoint {
   @ApiOperation(
 		value = "Get Incident Attachment by ID.", 
@@ -42,6 +42,7 @@ public interface AttachmentsEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@GET
+	@Path("/publicPublishedIncident/{incidentNumberSequence}/attachments/{attachmentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	Response getIncidentAttachment(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
@@ -60,7 +61,7 @@ public interface AttachmentsEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@GET
-	@Path("/bytes")
+	@Path("/publicPublishedIncident/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
@@ -88,6 +89,7 @@ public interface AttachmentsEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@PUT
+	@Path("/publishedIncident/{incidentNumberSequence}/attachments/{attachmentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response updateIncidentAttachment(
@@ -115,6 +117,7 @@ public interface AttachmentsEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@DELETE
+	@Path("/publishedIncident/{incidentNumberSequence}/attachments/{attachmentGuid}")
 	public Response deleteIncidentAttachment(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid

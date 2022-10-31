@@ -3,7 +3,7 @@
 
 <mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.ExternalUriMapper">
 	<resultMap id="ExternalUriDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto">
-	<id property="externalUriGuid" column="EXTERNAL_URI_GUID" javaType="java.lang.String" jdbcType="BINARY" />
+	  <id property="externalUriGuid" column="EXTERNAL_URI_GUID" javaType="java.lang.String" jdbcType="BINARY" />
 		<result property="sourceObjectNameCode" column="SOURCE_OBJECT_NAME_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="sourceObjectUniqueId" column="SOURCE_OBJECT_UNIQUE_ID" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="externalUriCategoryTag" column="EXTERNAL_URI_CATEGORY_TAG" javaType="java.lang.String" jdbcType="VARCHAR" />

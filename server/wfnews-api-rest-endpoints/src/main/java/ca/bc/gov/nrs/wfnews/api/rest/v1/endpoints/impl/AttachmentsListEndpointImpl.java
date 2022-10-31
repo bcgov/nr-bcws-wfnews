@@ -51,7 +51,7 @@ public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements At
           if (validationMessages.hasMessages()) {
             response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
           } else {
-            AttachmentListResource results = (AttachmentListResource) incidentsService.getIncidentAttachmentList(
+            AttachmentListResource results = incidentsService.getIncidentAttachmentList(
                 incidentNumberSequence,
                 toBoolean(primaryIndicator),
                 toStringArray(sourceObjectNameCode),
@@ -89,7 +89,7 @@ public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements At
 
 		try {
 
-			AttachmentResource result = (AttachmentResource) incidentsService.createIncidentAttachment(
+			AttachmentResource result = incidentsService.createIncidentAttachment(
 					attachment,
 					getWebAdeAuthentication(),
 					getFactoryContext());
