@@ -2,7 +2,6 @@ import { APP_BOOTSTRAP_LISTENER, Inject, InjectionToken, Type } from '@angular/c
 import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
-import { Moment } from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
 
 export enum ResourcesRoutes {
@@ -184,6 +183,13 @@ function displayDay(date: string): string{
         return (result.charAt(0).toUpperCase() + result.slice(1)).slice(0, 3); // abbreviate days of the week
     } else {
         return null;
+    }
+}
+
+export function convertToFireCentreDescription(code: string): string {
+    if (code) {
+        let result = FireCentres.find(fireCentre => fireCentre.code === code);
+        return result.description;
     }
 }
 

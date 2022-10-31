@@ -60,7 +60,8 @@
     <mat-tab label="Wildfires List">
         <div class="wildfire-list-toggle-title">Choose Wildfires to display</div>
         <div class="wildfire-checkboxs">
-            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd" [disabled]="!outWildfiresInd">Active Wildfires</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="outWildfiresInd" [disabled]="!activeWildfiresInd">Out Fires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Wildfires of Note</mat-checkbox>
         </div>
         <div *ngIf="collectionData">
@@ -77,7 +78,7 @@
                 </div>
                 <div class="item-row">
                     <span class="item-title">Fire Centre: </span>
-                    <span class="item-content">{{incident.fireCentre}}</span>
+                    <span class="item-content">{{convertToFireCentreDescription(incident.fireCentre)}}</span>
                 </div>
                 <div class="item-row">
                     <span class="item-title">Distance from My Location: </span>

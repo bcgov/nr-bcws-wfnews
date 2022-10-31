@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,7 +16,7 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert } from '../../utils';
+import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, convertToFireCentreDescription } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
@@ -24,11 +24,12 @@ import * as L from 'leaflet'
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
-export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy  {
+export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, OnInit, OnDestroy  {
     @ViewChild('listIdentifyContainer', { read: ViewContainerRef }) listIdentifyContainer: ViewContainerRef;
     @Input() collection: PagedCollection
 
     activeWildfiresInd = true;
+    outWildfiresInd = false;
     wildfiresOfNoteInd = false;
     currentLat: number;
     currentLong: number;
@@ -56,6 +57,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     public convertToDateWithDayOfWeek = DateTimeConvert;
     public convertToStageOfControlDescription = StageOfControlConvert;
+    public convertToFireCentreDescription = convertToFireCentreDescription;
 
     constructor (protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
       super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService, commonUtilityService);
@@ -96,8 +98,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
     }
 
-    ngAfterViewInit() {
-      super.ngAfterViewInit();
+    bindMapEvents () {
       const self = this
       this.initInterval = setInterval(() => {
         try {
@@ -161,6 +162,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.componentId = LOAD_WILDFIRES_COMPONENT_ID
         this.doSearch();
         this.useMyCurrentLocation();
+
+        this.bindMapEvents();
     }
 
     async useMyCurrentLocation() {
@@ -190,14 +193,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       } catch(err) {
         console.log('SMK initializing... wait to fetch bounds.')
       }
-
         this.store.dispatch(searchWildfires(this.componentId, {
           pageNumber: this.config.currentPage,
           pageRowCount: 10,
           sortColumn: this.currentSort,
           sortDirection: this.currentSortDirection,
           query: undefined
-        }, undefined, this.wildfiresOfNoteInd, !this.activeWildfiresInd, bbox, this.displayLabel));
+        }, undefined, this.wildfiresOfNoteInd,(this.activeWildfiresInd && this.outWildfiresInd)?undefined: !this.activeWildfiresInd, bbox, this.displayLabel));
       }
 
 
@@ -380,7 +382,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     onClickBookmark(event:Event) {
-      console.log(event)
       event.stopPropagation()
     }
 }
