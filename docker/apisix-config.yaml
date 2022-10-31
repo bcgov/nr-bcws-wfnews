@@ -59,8 +59,8 @@ deployment:
   etcd:
     host:
       - ${{ETCD_URL}}
-    user: root
-    password: ${{ETCD_ROOT_PASSWORD}}
+    # user: root
+    # password: ${{ETCD_ROOT_PASSWORD}}
   admin:
     admin_key:
       - name: admin

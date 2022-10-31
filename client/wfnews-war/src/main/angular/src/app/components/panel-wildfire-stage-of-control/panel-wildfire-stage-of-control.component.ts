@@ -1,6 +1,6 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -24,7 +24,7 @@ import * as L from 'leaflet'
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
-export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit, OnDestroy  {
+export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, OnInit, OnDestroy  {
     @ViewChild('listIdentifyContainer', { read: ViewContainerRef }) listIdentifyContainer: ViewContainerRef;
     @Input() collection: PagedCollection
 
@@ -98,8 +98,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
     }
 
-    ngAfterViewInit() {
-      super.ngAfterViewInit();
+    bindMapEvents () {
       const self = this
       this.initInterval = setInterval(() => {
         try {
@@ -163,6 +162,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.componentId = LOAD_WILDFIRES_COMPONENT_ID
         this.doSearch();
         this.useMyCurrentLocation();
+
+        this.bindMapEvents();
     }
 
     async useMyCurrentLocation() {
