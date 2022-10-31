@@ -1,0 +1,19 @@
+<div class="dialog-container">
+    <h1 mat-dialog-title>Edit Video Details</h1>
+    <div class="dialog-content" mat-dialog-content>
+      <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+        <mat-label class="label">Video Title (150 character limit)</mat-label>
+        <input matInput type="text" placeholder="Title" [(ngModel)]="data.attachment.attachmentTitle" [value]="data.attachment.attachmentTitle" required>
+      </mat-form-field>
+    </div>
+    <div class="dialog-content" mat-dialog-content>
+      <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+        <mat-label class="label">Video URL</mat-label>
+        <input matInput type="text" placeholder="Title" [(ngModel)]="data.attachment.videoUrl" [value]="data.attachment.attachmentTitle" required>
+      </mat-form-field>
+    </div>
+    <div class="dialog-actions" mat-dialog-actions>
+        <button mat-raised-button color="primary" [mat-dialog-close]="true">Save</button>
+        <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
+    </div>
+  </div>
