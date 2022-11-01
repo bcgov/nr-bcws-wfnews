@@ -1,0 +1,26 @@
+<div class="image-panel">
+    <div class="image-container">
+      <div style="width: 650px;">
+        <youtube-player 
+          videoId={{convertToYoutubeId(video.externalUri)}}
+          suggestedQuality="highres" 
+          [startSeconds]="1"
+          [endSeconds]="20"
+          [height]="250"
+          [width]="400">
+        </youtube-player>
+      </div>
+    </div>
+    <div class="info-panel">
+      <div class="row">Video Title: <strong>{{video.externalUriDisplayLabel}}</strong></div>
+      <div class="row">Date Uploaded: <strong>{{convertToDate(video.createdTimestamp)}}</strong></div>
+      <div class="divider action"></div>
+      <div class="action">
+        <mat-icon (click)="edit()">edit</mat-icon> Edit Video Details
+      </div>
+      <div class="action">
+        <mat-icon (click)="remove()">delete</mat-icon> Remove Video
+      </div>
+    </div>
+  
+  </div>

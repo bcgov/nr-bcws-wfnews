@@ -48,6 +48,7 @@ env:
   WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: "default"
   WFNEWS_USERNAME: "default"
   WFNEWS_MAX_CONNECTIONS: 10
+  SNS_EMAIL_TARGETS: "test@test.com, test2@test.com"
 
 jobs:
   plan:
@@ -105,6 +106,7 @@ jobs:
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
           WFNEWS_USERNAME: ${{env.WFNEWS_USERNAME}}
           WFNEWS_MAX_CONNECTIONS: ${{env.WFNEWS_MAX_CONNECTIONS}}
+          SNS_EMAIL_TARGETS: ${{env.SNS_EMAIL_TARGETS}}
 
         run: terragrunt plan --terragrunt-non-interactive
 

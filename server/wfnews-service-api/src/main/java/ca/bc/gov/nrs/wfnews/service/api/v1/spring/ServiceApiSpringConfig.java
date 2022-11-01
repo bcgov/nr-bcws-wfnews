@@ -15,12 +15,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.impl.EmailNotificationServiceImpl;
 import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
@@ -80,6 +82,7 @@ public class ServiceApiSpringConfig {
 	
 	@Autowired PublishedIncidentFactory publishedIncidentFactory;
 	@Autowired ExternalUriFactory externalUriFactory;
+	@Autowired AttachmentFactory attachmentFactory;
 	
 	
 	@Bean
@@ -169,7 +172,9 @@ public class ServiceApiSpringConfig {
 		result.setPublishedIncidentDao(persistenceSpringConfig.publishedIncidentDao());
 		result.setExternalUriDao(persistenceSpringConfig.externalUriDao());
 		result.setPublishedIncidentFactory(publishedIncidentFactory);
-		result.setExternalUriFactory(externalUriFactory);	
+		result.setExternalUriFactory(externalUriFactory);
+		result.setAttachmentDao(persistenceSpringConfig.attachmentDao());
+		result.setAttachmentFactory(attachmentFactory);
 		
 		return result;
 	}

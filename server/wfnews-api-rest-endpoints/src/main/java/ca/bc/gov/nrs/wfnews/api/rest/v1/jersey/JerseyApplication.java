@@ -10,6 +10,8 @@ import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.AttachmentsEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.AttachmentsListEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.ExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicPublishedIncidentEndpointImpl;
@@ -42,6 +44,8 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(PublicPublishedIncidentEndpointImpl.class);
 		register(ExternalUriEndpointImpl.class);
 		register(PublicExternalUriEndpointImpl.class);
+		register(AttachmentsListEndpointImpl.class);
+		register(AttachmentsEndpointImpl.class);
 
 		SwaggerConfiguration oasConfig = new SwaggerConfiguration()
 			.prettyPrint(Boolean.TRUE)

@@ -12,4 +12,7 @@ public class Scopes {
 	public static final String DELETE_EXTERNAL_URI = "WFNEWS.DELETE_EXTERNAL_URI";
 	public static final String CREATE_EXTERNAL_URI = "WFNEWS.CREATE_EXTERNAL_URI";
 
+	public static final String UPDATE_ATTACHMENT = "WFNEWS.UPDATE_ATTACHMENT";
+	public static final String DELETE_ATTACHMENT = "WFNEWS.DELETE_ATTACHMENT";
+	public static final String CREATE_ATTACHMENT = "WFNEWS.CREATE_ATTACHMENT";
 }
