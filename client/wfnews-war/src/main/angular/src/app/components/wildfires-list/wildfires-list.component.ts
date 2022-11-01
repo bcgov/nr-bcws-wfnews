@@ -114,9 +114,9 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   addToWatchlist(incident: any) {
     if (this.onWatchlist(incident)) {
-      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
-    } else {
       this.removeFromWatchlist(incident)
+    } else {
+      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
     }
   }
 
