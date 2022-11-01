@@ -199,5 +199,4 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 	protected static final WebAdeAuthentication getWebAdeAuthentication() {
 		return (WebAdeAuthentication) SecurityContextHolder.getContext().getAuthentication();
 	}
-
 }

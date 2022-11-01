@@ -201,13 +201,13 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
 		try {
 
-			Map<String, Object> parameters = new HashMap<String, Object>();
+			Map<String, Object> parameters = new HashMap<>();
 			
 			Integer offset = null;
 			
@@ -226,10 +226,13 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("fireOfNote", fireOfNote);
 			parameters.put("out", out);
 			parameters.put("fireCentre", fireCentre);
-			parameters.put("xmin", Double.parseDouble(bbox.split(",")[0]));
-			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
-			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
-			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+			parameters.put("xmin", bbox != null ? Double.parseDouble(bbox.split(",")[0]) : null);
+			parameters.put("ymin", bbox != null ? Double.parseDouble(bbox.split(",")[1]) : null);
+			parameters.put("xmax", bbox != null ? Double.parseDouble(bbox.split(",")[2]) : null);
+			parameters.put("ymax", bbox != null ? Double.parseDouble(bbox.split(",")[3]) : null);
+			parameters.put("latitude", latitude);
+			parameters.put("longitude", longitude);
+			parameters.put("radius", radius);
 			parameters.put("searchText", searchText);
 
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
