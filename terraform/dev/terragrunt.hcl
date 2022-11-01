@@ -22,6 +22,7 @@ locals {
   vpc_name = get_env("VPC_NAME")
   subnet_filter = get_env("SUBNET_FILTER")
   license_plate = get_env("TFC_PROJECT")
+  SNS_EMAIL_TARGETS = get_env("SNS_EMAIL_TARGETS")
   #server env vars
   WEBADE-OAUTH2_TOKEN_CLIENT_URL = get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
@@ -99,5 +100,6 @@ generate "dev_tfvars" {
     WFNEWS_MAX_CONNECTIONS ="${local.WFNEWS_MAX_CONNECTIONS}"
     WEBADE_OAUTH2_CLIENT_ID = "${local.WEBADE_OAUTH2_CLIENT_ID}"
     WEBADE_OAUTH2_AUTHORIZE_URL = "${local.WEBADE_OAUTH2_AUTHORIZE_URL}"
+    SNS_EMAIL_TARGETS = ${split("", local.SNS_EMAIL_TARGETS)}
   EOF
 }
