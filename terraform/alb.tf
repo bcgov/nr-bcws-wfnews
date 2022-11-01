@@ -54,22 +54,6 @@ data "aws_alb_listener" "wfnews_server_front_end" {
   port              = 443
 }
 
-resource "aws_alb_listener" "wfnews_backend_listener" {
-  load_balancer_arn = data.aws_lb.wfnews_main.id
-  port              = "80"
-  protocol          = "HTTP"
-
-  default_action {
-    type             = "fixed-response"
-
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Invalid endpoint"
-      status_code = "404"
-    }
-  }
-}
-
 resource "aws_alb_target_group" "wfnews_server" {
   name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
@@ -304,7 +288,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_etcd" {
 
-  listener_arn = aws_alb_listener.wfnews_backend_listener.arn
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
 
   action {
     type             = "forward"
