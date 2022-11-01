@@ -77,7 +77,7 @@ generate "dev_tfvars" {
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
-    sns_email_targets = "${local.sns_email_targets}""
+    sns_email_targets = "${local.sns_email_targets}"
     certificate_arn = "arn:aws:acm:us-east-1:718963518348:certificate/81262c52-5967-48ce-a4ee-dec3cd67a0b4"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
