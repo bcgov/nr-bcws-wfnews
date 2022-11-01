@@ -1,4 +1,4 @@
-/*
+
 resource "aws_service_discovery_private_dns_namespace" "wfnews_namespace" {
     name = "services-${var.target_env}.com"
     vpc = module.network.aws_vpc.id
@@ -22,4 +22,4 @@ resource "aws_service_discovery_service" "wfnews_service_discovery_service" {
     failure_threshold = 2
   }
 }
-*/
+
