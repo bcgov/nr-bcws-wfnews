@@ -35,7 +35,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -52,37 +52,36 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
-			if (bbox == null) {
-				bbox = "-139.06,48.30,-114.03,60.00";
-			}
-
-			String[] coords = bbox.split(",");
-			boolean invalidBox = false;
-			if (coords.length != 4) {
-				invalidBox = true;
-			} else {
-				for (String coord : coords) {
-					try {
-						Double.parseDouble(coord);
-					} catch (Exception e) {
-						invalidBox = true;
-						break;
+			if (bbox != null) {
+				String[] coords = bbox.split(",");
+				boolean invalidBox = false;
+				if (coords.length != 4) {
+					invalidBox = true;
+				} else {
+					for (String coord : coords) {
+						try {
+							Double.parseDouble(coord);
+						} catch (Exception e) {
+							invalidBox = true;
+							break;
+						}
 					}
 				}
-			}
 
-			if (invalidBox) {
-				Message message = new MessageImpl();
-				message.setPath("bbox");
-				message.setMessage("BBox contains invalid coordinate set");
-				validationMessages.add(message);
+				if (invalidBox) {
+					Message message = new MessageImpl();
+					message.setPath("bbox");
+					message.setMessage("BBox contains invalid coordinate set");
+					validationMessages.add(message);
+					bbox = null;
+				}
 			}
 
 			if (!validationMessages.isEmpty()) {
 				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 			}else {
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, out, fireCentre, bbox, getFactoryContext());
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, out, fireCentre, bbox, latitude, longitude, radius, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */
