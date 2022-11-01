@@ -118,7 +118,7 @@
 	    WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
   </update>
 
-  <select id="fetch" resultMap="ExternalUriDtoMap"> 
+  <select id="fetch" resultMap="AttachmentDtoMap"> 
 		SELECT *
       FROM wfnews.file_attachment f
       JOIN wfnews.file_attachment_metadata m
@@ -135,7 +135,7 @@
 		WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 	</delete>
 
-  <select id="select" resultMap="ExternalUriDtoMap">
+  <select id="select" resultMap="AttachmentDtoMap">
   	SELECT *
       FROM wfnews.file_attachment f
       JOIN wfnews.file_attachment_metadata m
