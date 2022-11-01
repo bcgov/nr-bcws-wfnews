@@ -320,8 +320,8 @@ variable "db_names" {
 
 variable "sns_email_targets" {
   description = "Emails to use for SNS"
-  default = []
-  type = list(string)
+  default = ""
+  type = string
 }
 
 //wfnews server property variables
