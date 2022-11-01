@@ -4,7 +4,6 @@
       <button mat-button color="primary" class="primary-button" (click)="upload()">Add Video</button>
     </div>
     <div class="image-gallery">
-      <!-- IsPrimary will be coming from published data? Not sure where this is going to go yet -->
-      <video-card-panel *ngFor="let video of externalUriList.collection" [video]="video" [isPrimary]="false" [incident]="incident"></video-card-panel>
+      <video-card-panel *ngFor="let video of externalUriList.collection" [video]="video" [incident]="incident"></video-card-panel>
     </div>
   </ng-container>

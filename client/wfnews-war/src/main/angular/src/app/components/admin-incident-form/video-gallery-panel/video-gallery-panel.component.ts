@@ -45,22 +45,6 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
     collection: []
   };
 
-  testVideoLinks = [ //test data
-    {
-      externalUri: 'https://www.youtube.com/watch?v=qQapCppE2vE',
-    videoId: 'qQapCppE2vE',
-    externalUriDisplayLabel: "B.C. wildfires prompt evacuation alerts for some communities",
-    createdTimestamp:1665039600000
-    },
-    {
-      externalUri: 'https://www.youtube.com/watch?v=WO2b03Zdu4Q',
-      videoId: 'WO2b03Zdu4Q',
-      externalUriDisplayLabel: "demo video",
-      createdTimestamp:1665039600000
-      },
-    
-  ]
-
   constructor(protected router: Router,
               protected route: ActivatedRoute,
               protected sanitizer: DomSanitizer,
@@ -174,7 +158,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
     }
 
     matchYoutubeUrl(url) {
-      var p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;      
+      const p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;      
       if(url.match(p)){
           return url.match(p)[1];
       }

@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import * as moment from 'moment';
-import { DefaultService as ExternalUriService, ExternalUriResource } from '@wf1/incidents-rest-api';
+import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
@@ -10,10 +10,9 @@ import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog
   templateUrl: './video-card-panel.component.html',
   styleUrls: ['./video-card-panel.component.scss']
 })
-export class VideoCardPanel implements OnInit, OnChanges {
+export class VideoCardPanel{
   @Input() public incident
   @Input() public video: any
-  @Input() public isPrimary: boolean
 
   public includeInPublicGallery = false;
 
@@ -61,15 +60,6 @@ export class VideoCardPanel implements OnInit, OnChanges {
         this.snackbarService.open('Failed to Update Video: ' + JSON.stringify(err.message), 'OK', { duration: 0, panelClass: 'snackbar-error' });
         this.loaded = false;
       })
-  }
-
-  ngOnChanges (changes: SimpleChanges): void {
-  }
-
-  ngOnInit (): void {
-  }
-
-  ngDoCheck() {
   }
 
   convertToDate(value: string | number | Date): string {
