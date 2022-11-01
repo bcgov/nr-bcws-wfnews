@@ -54,6 +54,17 @@ data "aws_alb_listener" "wfnews_server_front_end" {
   port              = 443
 }
 
+resource "aws_alb_listener" "wfnews_backend_listener" {
+  load_balancer_arn = data.aws_lb.wfnews_main.id
+  port              = "80"
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.front_end.arn
+  }
+}
+
 resource "aws_alb_target_group" "wfnews_server" {
   name                 = "wfnews-server-${var.target_env}"
   port                 = var.server_port
@@ -173,7 +184,7 @@ resource "aws_alb_target_group" "wfnews_etcd" {
   health_check {
     healthy_threshold   = "2"
     interval            = "300"
-    protocol            = "HTTPS"
+    protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
     path                = "/version"
@@ -288,7 +299,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_etcd" {
 
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+  listener_arn = aws_alb_listener.wfnews_backend_listener.arn
 
   action {
     type             = "forward"
