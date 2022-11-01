@@ -710,13 +710,13 @@ resource "aws_ecs_service" "etcd" {
     assign_public_ip = true
   }
 
-/*
+
   service_registries {
     registry_arn = aws_service_discovery_service.wfnews_service_discovery_service.arn
     container_port = var.etcd_port
     container_name = var.etcd_container_name
   }
-  */
+  
 
   #Hit http endpoint
   

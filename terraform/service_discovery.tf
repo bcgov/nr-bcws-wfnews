@@ -23,4 +23,4 @@ resource "aws_service_discovery_service" "wfnews_service_discovery_service" {
     failure_threshold = 2
   }
 }
-*/
+
