@@ -60,8 +60,10 @@ resource "aws_alb_listener" "wfnews_backend_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "forward"
-    target_group_arn = aws_lb_target_group.front_end.arn
+    type             = "fixed_response"
+    content_type = "text/plain"
+    message_body = "Invalid endpoint"
+    status_code = "404"
   }
 }
 
