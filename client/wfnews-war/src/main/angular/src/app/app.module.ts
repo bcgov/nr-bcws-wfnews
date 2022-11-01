@@ -120,6 +120,7 @@ import { LocalStorageService } from './services/local-storage-service';
 import { WatchlistService } from './services/watchlist-service';
 import { CurrentAlertComponentComponent } from './components/current-alert-component/current-alert-component.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
+import { SafePipe } from './pipes/safe.pipe';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -181,7 +182,8 @@ export const DATE_FORMATS = {
         IncidentMapsPanel,
         IncidentOverviewPanel,
         CurrentAlertComponentComponent,
-        WildfiresListHeaderComponent
+        WildfiresListHeaderComponent,
+        SafePipe
     ],
     imports: [
         MatSortModule,
