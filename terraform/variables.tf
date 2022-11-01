@@ -318,6 +318,12 @@ variable "db_names" {
   type        = list(string)
 }
 
+variable "sns_email_targets" {
+  description = "Emails to use for SNS"
+  default = []
+  type = list(string)
+}
+
 //wfnews server property variables
 variable "WEBADE-OAUTH2_TOKEN_CLIENT_URL" {
   type = string

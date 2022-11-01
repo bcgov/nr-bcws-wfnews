@@ -79,5 +79,5 @@ resource "aws_security_group_rule" "example" {
   from_port         = 80
   protocol          = "tcp"
   cidr_blocks = ["0.0.0.0/0"]
-  security_group_id =  data.aws_security_group.Web_sg.id
+  security_group_id =  data.aws_security_group.data.id
 }

@@ -1,9 +1,0 @@
-FROM apache/apisix-dashboard
-EXPOSE 9000
-COPY docker/apisix-gui-conf.yaml /usr/local/apisix-dashboard/conf/conf.yaml
-USER root
-RUN apt-get update &&\
-  apt-get install -y nginx &&\
-  sed -i 's/#!\/usr\/bin\/env bash/&\nnginx\&/' /docker-entrypoint.sh &&\
-  wget https://www.amazontrust.com/repository/AmazonRootCA1.pem -O /etc/ca-certificates/AmazonRootCA1.pem
-COPY docker/default.conf /etc/nginx/conf.d/default.conf
