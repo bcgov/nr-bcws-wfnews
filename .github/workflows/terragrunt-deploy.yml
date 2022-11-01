@@ -115,6 +115,8 @@ on:
         required: true
       API_KEY:
         required: true
+      SNS_EMAIL_TARGETS:
+        required: true
 
 env:
   TF_VERSION: 1.2.2
@@ -181,6 +183,7 @@ jobs:
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
           WFNEWS_USERNAME: ${{inputs.WFNEWS_USERNAME}}
           WFNEWS_MAX_CONNECTIONS: ${{inputs.WFNEWS_MAX_CONNECTIONS}}
+          SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
