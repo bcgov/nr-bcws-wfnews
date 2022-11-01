@@ -6,6 +6,8 @@ import com.mashape.unirest.http.JsonNode;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.IncidentListResource;
@@ -70,5 +72,21 @@ public interface IncidentsService {
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	ExternalUriListResource getExternalUriList(String sourceObjectUniqueId, Integer pageNumber, 
 			Integer pageRowCount, FactoryContext factoryContext);
-    
+  
+	@Transactional(readOnly = true, rollbackFor=Exception.class)
+	AttachmentListResource getIncidentAttachmentList(String incidentNumberSequence, boolean primaryIndicator, String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount, String[] orderBy, FactoryContext factoryContext);
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	AttachmentResource createIncidentAttachment(AttachmentResource attachment, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	AttachmentResource updateIncidentAttachment(AttachmentResource attachment, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	AttachmentResource deleteIncidentAttachment(String attachmentGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	AttachmentResource getIncidentAttachment(String attachmentGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	
 }

@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.AttachmentResourceFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.ExternalUriResourceFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.PublishedIncidentResourceFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
 
@@ -22,23 +24,16 @@ public class ResourceFactorySpringConfig {
 	
 	@Bean
 	public PublishedIncidentFactory publishedIncidentFactory() {
-		
-		PublishedIncidentFactory result;
-		result = new PublishedIncidentResourceFactory();
-		
-		return result;
+		return new PublishedIncidentResourceFactory();
 	}
 	
 	@Bean
 	public ExternalUriFactory externalUriFactory() {
-		
-		ExternalUriFactory result;
-		result = new ExternalUriResourceFactory();
-		
-		return result;
+		return new ExternalUriResourceFactory();
 	}
-	
-	
-	
-	
+
+	@Bean
+	public AttachmentFactory attachmentFactory() {
+		return new AttachmentResourceFactory();
+	}
 }

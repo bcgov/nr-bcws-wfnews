@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.AttachmentMapper">
+	<resultMap id="AttachmentDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.AttachmentDto">
+    <id     property="fileAttachmentGuid"    column="file_attachment_guid"      javaType="java.lang.String"  jdbcType="BINARY" />
+    <result property="sourceObjectNameCode"  column="source_object_name_code"   javaType="java.lang.String"  jdbcType="VARCHAR" />
+		<result property="sourceObjectUniqueId"  column="source_object_unique_id"   javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="fileId"                column="file_identifier"           javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="attachmentTypeCode"    column="file_attachment_type_code" javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="attachmentTitle"       column="attachment_title"          javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="attachmentDescription" column="attachment_description"    javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="mimeType"              column="mime_type"                 javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="privateIndicator"      column="private_ind"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+    <result property="archived"              column="artchived_ind"             javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+    <result property="createdTimestamp"      column="created_timestamp"         javaType="java.util.Date"    jdbcType="TIMESTAMP" />
+    <result property="uploadedBy"            column="uploaded_by_userid"        javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="primary"               column="primary_ind"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+    <result property="imageURL"              column="document_path"             javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="latitude"              column="latitude"                  javaType="java.lang.Double"  jdbcType="NUMERIC" />
+    <result property="longitude"             column="longitude"                 javaType="java.lang.Double"  jdbcType="NUMERIC" />
+    <result property="elevation"             column="elevation_m"               javaType="java.lang.Double"  jdbcType="NUMERIC" />
+    <result property="elevationAngle"        column="elevation_angle"           javaType="java.lang.Double"  jdbcType="NUMERIC" />
+    <result property="azimuth"               column="azimuth"                   javaType="java.lang.Double"  jdbcType="NUMERIC" />
+    <result property="imageHeight"           column="image_height"              javaType="java.lang.Integer" jdbcType="NUMERIC" />
+    <result property="imageWidth"            column="image_width"               javaType="java.lang.Integer" jdbcType="NUMERIC" />
+  </resultMap>
+
+  <insert id="insertAttachment">
+    <selectKey keyProperty="fileAttachmentGuid" resultType="java.lang.String" order="BEFORE"> 
+		  SELECT GEN_RANDOM_UUID();
+		</selectKey>
+    INSERT 
+      INTO wfnews.file_attachment
+           (file_attachment_guid, source_object_name_code, source_object_unique_id, document_path, file_identifier,
+            file_attachment_type_code, attachment_title, attachment_description, attachment_read_only_ind, mime_type,
+            private_ind, published_ind, archived_ind, created_timestamp, uploaded_by_user_type, uploaded_by_userid,
+            uploaded_by_user_guid, uploaded_by_timestamp, revision_count, create_user, create_date, update_user,
+            update_date, primary_ind)
+	  VALUES 
+           (#{fileAttachmentGuid,    javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
+            #{sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            'Y',
+            #{mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            'N',
+            'Y',
+            'N',
+            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            null,
+            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            null,
+            null,
+            0,
+            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
+  </insert>
+
+  <insert id="insertMeta">
+    <selectKey keyProperty="fileAttachmentMetaGuid" resultType="java.lang.String" order="BEFORE"> 
+		  SELECT GEN_RANDOM_UUID();
+		</selectKey>
+    INSERT 
+      INTO wfnews.file_attachment_metadata
+           (file_attachment_metadata_guid, file_attachment_guid, latitude, longitude, elevation_m,
+            elevation_angle, azimuth, image_height, image_width, revision_count, create_user, create_date,
+            update_user, update_date)
+	  VALUES 
+           (#{fileAttachmentMetaGuid, javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
+            #{fileAttachmentGuid,     javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
+            #{latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            #{imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            0,
+            #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN})
+  </insert>
+
+  <update id="update">
+    UPDATE wfnews.file_attachment
+	     SET source_object_name_code =   #{sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           source_object_unique_id =   #{sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           document_path =             #{imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           file_identifier =           #{fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           file_attachment_type_code = #{attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           attachment_title =          #{attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           attachment_description =    #{attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           mime_type =                 #{mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           revision_count =            revision_count + 1,
+           update_date =               SYSDATE,
+           primary_ind =               #{primary,               javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
+	   WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+
+     UPDATE wfnews.file_attachment_metadata
+	      SET latitude =        #{latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            longitude =       #{longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            elevation_m =     #{elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            elevation_angle = #{elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            azimuth =         #{azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            image_height =    #{imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            image_width =     #{imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            revision_count =  revision_count + 1,
+            update_date =     SYSDATE
+	    WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+  </update>
+
+  <select id="fetch" resultMap="ExternalUriDtoMap"> 
+		SELECT *
+      FROM wfnews.file_attachment f
+      JOIN wfnews.file_attachment_metadata m
+        ON f.file_attachment_guid = m.file_attachment_guid
+     WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+	</select>
+	
+	<delete id="delete">
+    DELETE
+      FROM wfnews.file_attachment_metadata
+     WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+		DELETE
+      FROM wfnews.file_attachment
+		WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+	</delete>
+
+  <select id="select" resultMap="ExternalUriDtoMap">
+  	SELECT *
+      FROM wfnews.file_attachment f
+      JOIN wfnews.file_attachment_metadata m
+        ON f.file_attachment_guid = m.file_attachment_guid
+  </select>
+
+  <select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM WFNEWS.EXTERNAL_URI
+	</select>
+</mapper>
