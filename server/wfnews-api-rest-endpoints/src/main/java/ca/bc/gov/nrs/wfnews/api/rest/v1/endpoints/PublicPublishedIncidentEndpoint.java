@@ -31,7 +31,10 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 		@ApiParam("Filter on fire of note") @QueryParam("fireOfNote") Boolean fireOfNote,
 		@ApiParam("Filter on fires that are Out") @QueryParam("out") Boolean out,
 		@ApiParam("Filter on fire centre") @QueryParam("fireCentre") String fireCentre,
-		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox) throws NotFoundException, ForbiddenException, ConflictException;
+		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox,
+		@ApiParam("The latitude for a point and radius query") @QueryParam("latitude") Double latitude,
+		@ApiParam("The longitude for a point and radius query") @QueryParam("longitude") Double longitude,
+		@ApiParam("The radius (in metres) for a point and radius query") @QueryParam("radius") Double radius) throws NotFoundException, ForbiddenException, ConflictException;
 	
 	@GET
 	@Path("/features")

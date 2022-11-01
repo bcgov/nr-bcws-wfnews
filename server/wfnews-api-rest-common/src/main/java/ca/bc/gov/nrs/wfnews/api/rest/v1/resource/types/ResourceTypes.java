@@ -10,6 +10,8 @@ public class ResourceTypes extends BaseResourceTypes {
 
 	public static final String ATTACHMENT_NAME = "attachment";
 	public static final String ATTACHMENT = NAMESPACE + ATTACHMENT_NAME;
+	public static final String ATTACHMENT_LIST_NAME = "attachmentList";
+	public static final String ATTACHMENT_LIST = NAMESPACE + ATTACHMENT_LIST_NAME;
 	
 	public static final String INCIDENT_NAME = "incident";
 	public static final String INCIDENT = NAMESPACE + INCIDENT_NAME;
@@ -34,5 +36,9 @@ public class ResourceTypes extends BaseResourceTypes {
 	public static final String CREATE_EXTERNAL_URI = NAMESPACE + "createExternalUri";
 	public static final String UPDATE_EXTERNAL_URI = NAMESPACE + "updateExternalUri";
 	public static final String DELETE_EXTERNAL_URI = NAMESPACE + "deleteExternalUri";
+
+	public static final String CREATE_ATTACHMENT = NAMESPACE + "createAttachment";
+	public static final String UPDATE_ATTACHMENT = NAMESPACE + "updateAttachment";
+	public static final String DELETE_ATTACHMENT = NAMESPACE + "deleteAttachment";
 	
 }
