@@ -61,9 +61,12 @@ resource "aws_alb_listener" "wfnews_backend_listener" {
 
   default_action {
     type             = "fixed_response"
-    content_type = "text/plain"
-    message_body = "Invalid endpoint"
-    status_code = "404"
+
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Invalid endpoint"
+      status_code = "404"
+    }
   }
 }
 
