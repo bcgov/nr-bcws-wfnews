@@ -412,11 +412,11 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
         },
         {
           name: "ETCD_ADVERTISE_CLIENT_URLS",
-          value: "http://0.0.0.0:2379, https://0.0.0.0:2379, http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:80"
+          value: "http://0.0.0.0:2379, http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca:80"
         },
         {
           name: "ETCD_LISTEN_CLIENT_URLS",
-          value: "https://0.0.0.0:2379"
+          value: "http://0.0.0.0:2379"
         },
         {
           name: "ETCD_ROOT_PASSWORD",
