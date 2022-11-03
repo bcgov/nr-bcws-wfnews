@@ -399,5 +399,29 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         // will need to call News API to fetch the results
         console.log(this.searchText)
     }
-}
 
+    private dragging = false
+    startPanelDrag (event: MouseEvent) {
+      if (event && event.isTrusted) {
+        this.dragging = true
+      }
+    }
+
+    panelDrag (event: MouseEvent) {
+      if (event && event.isTrusted && this.dragging) {
+        //console.log(event)
+
+        const elem = document.getElementById('draggable-panel')
+
+        let top = elem.style.top === '' ? 75 : parseInt(elem.style.top.replace('vh', ''))
+        console.log(top, event.movementY)
+        top += event.movementY <= 0 ? -1 : 1
+        console.log(top)
+        elem.style.top = (top < 30 ? 30 : top > 90 ? 90 : top) + 'vh'
+      }
+    }
+
+    stopPanelDrag (event: MouseEvent) {
+      this.dragging = false
+    }
+}

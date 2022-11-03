@@ -16,6 +16,7 @@
 .container {
   height: calc(100vh - 180px) !important;
   overflow: hidden;
+  transition: 0.5s;
 }
 
 .top {
@@ -60,6 +61,11 @@
           .mat-raised-button {
             box-shadow: none;
           }
+          transition: 0.5s;
+        }
+
+        .my-location-button-min {
+          display: none;
         }
 
         .firecentre-filter{
@@ -133,7 +139,7 @@
             border: 2px solid transparent;
             border-radius: 5px;
             cursor: pointer;
-
+            transition: 0.5s;
             &:hover {
                 background-color:#f1f1f3;
             }
@@ -153,14 +159,13 @@
 .bottom {
     flex-shrink: 1;
     height: 100%;
-
     display: flex;
     flex-direction: row;
-
+    transition: 0.5s;
     .details {
         flex-shrink: 0;
-        min-width: 600px;
-        max-width: 600px;
+        min-width: 720px;
+        max-width: 720px;
         overflow: auto;
         height: calc(100% - 196px);
     }
@@ -262,4 +267,167 @@ mat-panel-title {
 
 .location-icon {
   padding-right: 5px;
+}
+
+.mobile-wildfire-count {
+  display: none;
+  transition: 0.5s;
+  opacity: 0;
+}
+
+.draggable-panel {
+  display: none;
+  bottom: 0;
+  transition: 0.5s;
+}
+
+@media screen and (max-width: 600px) {
+  ::ng-deep .footer {
+    display: none !important;
+  }
+
+  ::ng-deep .sticky-widget {
+    position: fixed;
+    bottom: 20px !important;
+    right: 10px !important;
+    z-index: 1;
+    display: flex;
+    transition: 0.5s;
+  }
+
+  .title {
+    display: none !important;
+  }
+
+  .container {
+    height: calc(100vh - 102px) !important;
+    overflow: hidden;
+    transition: 0.5s;
+  }
+
+  .mobile-wildfire-count {
+    display: flex;
+    text-align: center;
+    background-color: rgba(0, 0, 0, 0.381);
+    width: 100%;
+    height: 25px;
+    color: white;
+    z-index: 999999;
+    position: relative;
+    opacity: 1.0;
+    transition: 0.5s;
+    .fire-icon {
+      margin: auto !important;
+    }
+  }
+
+  ::ng-deep .smk-tool-BespokeTool--hide-list {
+    display: none !important;
+  }
+
+  ::ng-deep .smk-toolbar {
+    top: 22px !important;
+  }
+
+  ::ng-deep .smk-actionbar {
+    top: 22px !important;
+  }
+
+  ::ng-deep .smk-sidepanel {
+    top: calc(var(--toolbar-height) + 32px) !important;
+    left: 4px !important;
+    width: calc(100vw - 24px) !important;
+    z-index: 20 !important;
+  }
+
+  .map-layers .item {
+    margin: 0px !important;
+    transition: 0.5s;
+  }
+
+  .search-location {
+    min-width: 10px !important;
+    transition: 0.5s;
+  }
+
+  .search-row {
+    padding-right: 0rem !important;
+  }
+
+  .my-location-button {
+    display: none !important;
+    padding-left: 0px;
+    padding-right: 0px;
+    border: none;
+    border-radius: 100px;
+    transition: 0.5s;
+  }
+
+  .my-location-button-min {
+    display: block !important;
+    margin-left: -22px;
+  }
+
+  .bottom {
+    flex-shrink: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: row;
+    transition: 0.5s;
+    .details {
+        flex-shrink: 0;
+        width: 100%;
+        overflow: auto;
+        height: calc(100% - 196px);
+        display: none;
+    }
+    .map {
+        flex-grow: 1;
+        overflow: hidden;
+        height: calc(100% - 180px);
+        position: relative;
+      .map-container {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .identify-panel {
+        position: relative;
+        z-index: 10000;
+        background-color: white;
+        height: 100%;
+        width: 600px;
+        display: none;
+        overflow-y: auto;
+        border: 1px solid #dddddd;
+      }
+    }
+ }
+
+ .draggable-panel {
+    display: block;
+    position: fixed;
+    top: 75vh;
+    background-color: white;
+    border-radius: 20px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+    transition: 0.5s;
+    z-index: 999999;
+    border: 1px solid gray;
+    box-shadow: 0 0 4px #000000ad;
+    height: 100%;
+    width: 100%;
+    .drag-grabber {
+      height: 4px;
+      width: 100px;
+      background: #00000085;
+      margin: auto;
+      margin-top: 15px;
+      border-radius: 70px;
+      cursor: grab;
+    }
+  }
 }

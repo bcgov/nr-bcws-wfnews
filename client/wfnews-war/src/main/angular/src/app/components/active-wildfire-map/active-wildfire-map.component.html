@@ -42,6 +42,9 @@
                     Find My Location
                 </button>
             </div>
+            <div class="my-location-button-min">
+              <button mat-icon-button (click)="useMyCurrentLocation()"><mat-icon class="location-icon">my_location</mat-icon></button>
+          </div>
         </div>
     </div>
       <div class="divider">
@@ -113,7 +116,24 @@
       </div>
       <div class="map">
         <div class="identify-panel"></div>
+        <div class="mobile-wildfire-count">
+          <span style="margin: auto; display: flex;"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>{{ activeFireCount | async }} Active Wildfires</span>
+        </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
+      </div>
+      <!-- cdkDragLockAxis="y" (cdkDragEnded)="dragDropped($event)" cdkDrag -->
+      <div id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" cdkDrag>
+        <div id="grabber" class="drag-grabber"></div>
+        <div style="padding-top: 10px;">
+          <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>
+          <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
+          <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
+          <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions' && showAccordion"></panel-bans-prohibitions>
+          <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast' && showAccordion"></panel-smoke-forecast>
+          <panel-fire-danger *ngIf="selectedPanel === 'fire-danger' && showAccordion"></panel-fire-danger>
+          <panel-road-conditions *ngIf="selectedPanel === 'routes-impacted' && showAccordion"></panel-road-conditions>
+          <panel-local-authority *ngIf="selectedPanel === 'local-authorities' && showAccordion"></panel-local-authority>
+        </div>
       </div>
   </div>
 </div>
