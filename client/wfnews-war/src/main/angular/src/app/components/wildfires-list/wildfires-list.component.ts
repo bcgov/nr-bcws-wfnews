@@ -158,10 +158,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   selectIncident(incident: any) {
-        const url = this.router.serializeUrl(
-          this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
-        )
-        window.open(url, '_blank')
+      const url = this.router.serializeUrl(
+        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+      )
+      window.open(url, '_blank')
   }
 
   onWatchlist (incident: any): boolean {
