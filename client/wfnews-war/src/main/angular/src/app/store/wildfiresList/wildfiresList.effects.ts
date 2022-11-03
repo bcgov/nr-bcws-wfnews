@@ -35,6 +35,9 @@ export class WildfiresListEffect {
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
                 let sortParam = pagingInfoRequest.sortColumn;
                 let searchText = '';
+                let lat = typedaction.payload.lat;
+                let long = typedaction.payload.long;
+                let radius = typedaction.payload.radius
                 if (pagingInfoRequest.query && pagingInfoRequest.query.length > 0) {
                     searchText = pagingInfoRequest.query;
                 } else {
@@ -69,7 +72,13 @@ export class WildfiresListEffect {
                   }
                 }
 
-                if(searchText) {
+                if (lat && long && radius) {
+                    url = url.concat('&latitude=').concat(lat.toString())
+                    url = url.concat('&longitude=').concat(long.toString())
+                    url = url.concat('&radius=').concat((radius * 1000).toString())
+                }
+
+                else if (searchText) {
                     url += `&searchText=${searchText}`;
                 }
 
@@ -78,6 +87,7 @@ export class WildfiresListEffect {
                     url = url.concat('&orderBy=')
                     url = url.concat(orderBy)
                 }
+
                 let headers = new HttpHeaders();
                 headers.append('Access-Control-Allow-Origin','*');
                 headers.append('Accept','*/*');
