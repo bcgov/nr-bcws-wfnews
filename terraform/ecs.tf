@@ -346,18 +346,26 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
 
       ]
       environment = [
-        {
-          name: "ETCD_URL",
-          value: "http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-        },
+        # {
+        #   name: "ETCD_URL",
+        #   value: "http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+        # },
         {
           name: "API_KEY",
           value: "${var.api_key}"
         },
         {
-          name: "ETCD_ROOT_PASSWORD",
-          value: "${var.etcd_password}"
+          name: "TARGET_ENV",
+          value: "${var.target_env}"
+        },
+        {
+          name: "LICENSE_PLATE",
+          value: "${var.license_plate}"
         }
+        # {
+        #   name: "ETCD_ROOT_PASSWORD",
+        #   value: "${var.etcd_password}"
+        # }
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -735,7 +743,7 @@ resource "aws_ecs_service" "etcd" {
 }
 
 resource "aws_ecs_service" "apisix_gui" {
-  count                             = 1
+  count                             = 0 #TODO: RE-ENABLE WHEN ETCD WORKING
   name                              = "wfnews-apisix-gui-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix_gui[count.index].arn

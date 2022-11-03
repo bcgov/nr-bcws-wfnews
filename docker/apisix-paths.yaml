@@ -1,17 +1,8 @@
 routes:
   -
-    id: httpbin
+    id: api
     uri: /*
     upstream:
       nodes:
-        "httpbin.org": 1
+        "https://wfnews-server.${{LICENSE_PLATE}}-${{TARGET_ENV}}.nimbus.cloud.gov.bc.ca": 1
       type: roundrobin
-    plugin_config_id: 1
-
-plugin_configs:
-  -
-    id: 1
-    plugins:
-      response-rewrite:
-        body: "Hello APISIX\n"
-    desc: "response-rewrite"
