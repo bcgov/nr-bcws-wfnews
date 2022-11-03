@@ -52,25 +52,31 @@
 #
 # This will find environment variable `ETCD_HOST` first, and if it's not exist it will use `localhost` as default value.
 #
+
+#TODO: USE THIS CONFIG WHEN ETCD FUNCTIONAL
+# deployment:
+#   role: traditional
+#   role_traditional:
+#     config_provider: etcd
+#   etcd:
+#     host:
+#       - ${{ETCD_URL}}
+#     # user: root
+#     # password: ${{ETCD_ROOT_PASSWORD}}
+#   admin:
+#     admin_key:
+#       - name: admin
+#         key: ${{API_KEY}}
+#         role: admin
+#     allow_admin:
+
 deployment:
-  role: traditional
-  role_traditional:
-    config_provider: etcd
-  etcd:
-    host:
-      - ${{ETCD_URL}}
-    # user: root
-    # password: ${{ETCD_ROOT_PASSWORD}}
-  admin:
-    admin_key:
-      - name: admin
-        key: ${{API_KEY}}
-        role: admin
-    allow_admin:
+  role: data_plane
+  role_data_plane:
+    config_provider: yaml
 
-
-apisix:
-  enable_admin: true
+#apisix:
+#  enable_admin: true
 #  ssl:
 #    ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
 
