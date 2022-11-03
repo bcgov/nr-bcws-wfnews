@@ -90,8 +90,8 @@
 			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
 	   json.append("},");
 	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
-	   json.append("}");
-	   
+	   json.append("},");
+	  json.append("\"wfdmProxy\":\"wfdmProxy.jsp\""); 
     json.append("},");
 
     String wfnewsUri = EnvironmentVariable.getVariable("WFNEWS_API_URL"); 
