@@ -127,6 +127,9 @@
 		  FROM WFNEWS.EXTERNAL_URI
 		  WHERE EXTERNAL_URI_GUID IS NOT NULL
 		  AND EXTERNAL_URI_GUID != ''
+		  <if test="sourceObjectUniqueId != null &amp;&amp; sourceObjectUniqueId != ''">
+				AND source_object_unique_id = #{sourceObjectUniqueId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		  </if>
 
 	</select>
 	

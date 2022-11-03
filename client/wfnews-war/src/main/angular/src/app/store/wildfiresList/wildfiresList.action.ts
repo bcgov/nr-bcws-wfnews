@@ -12,6 +12,9 @@ export interface SearchWildfiresAction extends LabeledAction {
         filters: {
             [param: string]: any[];
         }
+        lat: number;
+        long: number;
+        radius: number
     };
 }
 
@@ -37,7 +40,10 @@ export function searchWildfires(
     fireOfNoteInd: boolean,
     outFires: boolean,
     bbox: string,
-    displayLabel: string): SearchWildfiresAction {
+    displayLabel: string,
+    lat: number,
+    long: number,
+    radius: number): SearchWildfiresAction {
         let filters = {};
         filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined;
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : false
@@ -52,7 +58,10 @@ export function searchWildfires(
             displayLabel: displayLabel,
             payload: {
                 pageInfoRequest,
-                filters: filters
+                filters: filters,
+                lat:lat,
+                long:long,
+                radius:radius
             }
         };
 }
