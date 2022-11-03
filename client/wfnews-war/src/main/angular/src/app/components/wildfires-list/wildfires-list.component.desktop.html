@@ -31,7 +31,7 @@
 
         <div class="field">
             <mat-label class="label">Search Radius (km)</mat-label>
-            <select appWFSingleSelect appWFPlaceholder="Select..."
+            <select appWFSingleSelect appWFPlaceholder="Select..." [disabled]="!searchText"
                     aria-label="Type"
                     [options]="radiusOptions"
                     [selected]="selectedRadius"
@@ -69,7 +69,7 @@
             </select>
         </div>
         <div class="stage-of-control-checkbox-group">
-            <mat-label>Stages of Control</mat-label>
+            <mat-label>Choose Wildfires to display</mat-label>
             <section class="checkbox-group">
                 <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="wildfiresOutInd" [disabled] = "!(wildfiresOfNoteInd)">
                     Active Wildfires
