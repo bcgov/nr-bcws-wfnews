@@ -76,8 +76,8 @@
       json.append("\"bcWildFireSupportPage\":\"").append(properties.getProperty("bcWildFireSupportPage", "")).append("\",");
       json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
       json.append("\"AGOLevacOrders\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/").append("\",");
-      json.append("\"AGOLareaRestrictions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Area_Restrictions_-_View/FeatureServer/13/").append("\",");
-      json.append("\"AGOLBansAndProhibitions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Bans_and_Prohibition_Areas_-_View/FeatureServer/14/").append("\",");
+      json.append("\"AGOLareaRestrictions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/").append("\",");
+      json.append("\"AGOLBansAndProhibitions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/").append("\",");
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
 	  
@@ -90,8 +90,8 @@
 			json.append("\"twitter\":\"https://twitter.com/bcgovfireinfo/\"");
 	   json.append("},");
 	   json.append("\"moreInformationLink\":\"https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia.\"");
-	   json.append("}");
-	   
+	   json.append("},");
+	  json.append("\"wfdmProxy\":\"wfdmProxy.jsp\""); 
     json.append("},");
 
     String wfnewsUri = EnvironmentVariable.getVariable("WFNEWS_API_URL"); 
