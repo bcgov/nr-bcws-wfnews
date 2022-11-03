@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -9,6 +10,8 @@ import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
+import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
@@ -83,6 +86,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected tokenService: TokenService,
         protected store: Store<RootState>,
         private commonUtilityService: CommonUtilityService,
+        protected dialog: MatDialog,
 
         ) {
     }
@@ -119,7 +123,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.initAppMenu();
         this.initFooterMenu();
 
-        window['SPLASH_SCREEN'].remove();
+        window['SPLASH_SCREEN'].remove();    
+            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+                console.log('This is not desktop')
+                let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
+                    width: '350px',
+                    data: {
+                        title: 'Are you sure you want to continue?',
+                        message: 'This will permenantly delete this attachment. This action cannot be undone.',
+                    }
+                  });
+            }
+    
     }
 
     initAppMenu() {
