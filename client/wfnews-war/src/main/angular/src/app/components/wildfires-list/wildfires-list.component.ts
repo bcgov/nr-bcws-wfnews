@@ -225,7 +225,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   onLocationSelected(selectedOption) {
-    const self = this;
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
     this.searchText = locationControlValue
     this.selectedLat=selectedOption.loc[1];
