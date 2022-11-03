@@ -72,7 +72,8 @@
                 "twitter": "https://twitter.com/bcgovfireinfo"
             },
             "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
-        }
+        },
+        "wfdmProxy": "wfdmProxy.jsp"
     },
 
     "rest": {
