@@ -1,6 +1,21 @@
-import { AfterViewInit, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Overlay } from '@angular/cdk/overlay';
+import { HttpClient } from '@angular/common/http';
+import { AfterViewInit, ChangeDetectorRef, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DomSanitizer } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
 import * as moment from 'moment';
+import { debounceTime } from 'rxjs/operators';
 import { PagedCollection } from '../../conversion/models';
+import { ApplicationStateService } from '../../services/application-state.service';
+import { CommonUtilityService } from '../../services/common-utility.service';
+import { WatchlistService } from '../../services/watchlist-service';
+import { PlaceData } from '../../services/wfnews-map.service/place-data';
+import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
 import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription } from '../../utils';
@@ -15,29 +30,64 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   public currentYearString;
   public currentDateTimeString;
+  filteredOptions: any[];
+  placeData: PlaceData;
+  searchByLocationControl=new FormControl
+  selectedLat:number;
+  selectedLong:number;
+
+
 
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
   wildfiresOfNoteInd = false;
   wildfiresOutInd = true;
-  selectedRadius = "50km";
+  selectedRadius = 50;
   radiusOptions = [
-    '50km',
-    '10km',
-    '20km',
-    '30km',
-    '40km',
-    '60km',
-    '70km',
-    '80km',
-    '90km',
-    '100km',
+    50,
+    10,
+    20,
+    30,
+    40,
+    60,
+    70,
+    80,
+    90,
+    100,
   ]
   fireCentreOptions = FireCentres;
 
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToFireCentreDescription = convertToFireCentreDescription
+
+  constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService) 
+  {
+    super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService,commonUtilityService);
+    this.placeData = new PlaceData();
+    let self = this;
+    this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
+      if(!val) {
+          this.filteredOptions= [];
+          return;
+      }
+
+      if(val.length > 4) {
+          this.filteredOptions= [];
+
+          this.placeData.searchAddresses(val).then(function(results){
+              if(results) {
+
+                  results.forEach((result) => {
+                      let address = self.getFullAddress(result);
+                      result.address = address.trim();
+                  });
+
+                  self.filteredOptions = results;
+              }
+          });
+      }
+  });  }
 
 
   initModels() {
@@ -46,6 +96,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   loadPage() {
+    this.placeData = new PlaceData();
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
     this.updateView();
     this.initSortingAndPaging(initWildfiresListPaging);
@@ -66,7 +117,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.wildfiresOfNoteInd, !this.wildfiresOutInd, undefined, this.displayLabel));
+      this.selectedFireCentreCode, this.wildfiresOfNoteInd, !this.wildfiresOutInd, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
   }
 
   onChangeFilters() {
@@ -78,8 +129,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.searchText = null;
     this.selectedFireCentreCode = null;
     this.wildfiresOfNoteInd = false;
-    this.wildfiresOutInd = false;
-    this.selectedRadius = '50Km'
+    this.wildfiresOutInd = true;
+    this.selectedRadius = 50
+    this.selectedLat = null;
+    this.selectedLong = null;
     super.onChangeFilters();
     this.doSearch();
   }
@@ -141,8 +194,43 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     const lat = location.coords.latitude;
     const long = location.coords.longitude;
     this.searchText = lat.toString() + ', ' + long.toString()
+    this.selectedLat = lat;
+    this.selectedLong = long;
+    this.doSearch()
   }
 
   onlyOneControlSelected() {
   }
+
+  getFullAddress(location) {
+    let result = "";
+
+    if(location.civicNumber) {
+        result += location.civicNumber
+    }
+
+    if(location.streetName) {
+        result += " " + location.streetName
+    }
+
+    if(location.streetQualifier) {
+        result += " " + location.streetQualifier
+    }
+
+    if(location.streetType) {
+        result += " " + location.streetType
+    }
+
+    return result;
+  }
+
+  onLocationSelected(selectedOption) {
+    const self = this;
+    let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
+    this.searchText = locationControlValue
+    this.selectedLat=selectedOption.loc[1];
+    this.selectedLong=selectedOption.loc[0]
+    this.doSearch()
+  }
+
 }
