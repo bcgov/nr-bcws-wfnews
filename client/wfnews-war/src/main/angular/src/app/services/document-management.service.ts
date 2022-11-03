@@ -117,8 +117,9 @@ export class DocumentManagementService {
     makeDocumentUrl( fileId: string ): string {
         if ( environment[ 'document_management_proxy_auth_url' ] )
             return `${ this.wfdmBaseUrl }/documents/${ fileId }/bytes`
-
-        return `wfdmProxy.jsp?documentId=${ fileId }`
+        
+        let proxy = this.appConfigService.getConfig().externalAppConfig['wfdmProxy'];
+        return `${proxy}?documentId=${ fileId }`;
     }
 }
 

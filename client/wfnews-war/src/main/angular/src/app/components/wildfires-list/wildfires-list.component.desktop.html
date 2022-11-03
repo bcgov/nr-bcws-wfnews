@@ -3,7 +3,25 @@
     <div class="search-and-filters">
         <div class="field search-input">
             <mat-label class="label">Search for a Wildfire</mat-label>
-            <input class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+            <input matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()" [formControl]="searchByLocationControl">
+            <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
+                <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
+                    [value]="option">
+                    <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
+                        <div *ngIf="option.address !== ''">
+                            <div>
+                                <span class="address">{{option.address}}</span>
+                            </div>
+                            <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
+                        </div>
+                        <div *ngIf="option.address === ''">
+                            <div>
+                                <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
+                            </div>
+                        </div>
+                    </div>
+                </mat-option>
+            </mat-autocomplete>
             <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
                     aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
                     matTooltip="Clear">
@@ -12,8 +30,8 @@
         </div>
 
         <div class="field">
-            <mat-label class="label">Search Radius</mat-label>
-            <select appWFSingleSelect appWFPlaceholder="Select..."
+            <mat-label class="label">Search Radius (km)</mat-label>
+            <select appWFSingleSelect appWFPlaceholder="Select..." [disabled]="!searchText"
                     aria-label="Type"
                     [options]="radiusOptions"
                     [selected]="selectedRadius"
@@ -51,7 +69,7 @@
             </select>
         </div>
         <div class="stage-of-control-checkbox-group">
-            <mat-label>Stages of Control</mat-label>
+            <mat-label>Choose Wildfires to display</mat-label>
             <section class="checkbox-group">
                 <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="wildfiresOutInd" [disabled] = "!(wildfiresOfNoteInd)">
                     Active Wildfires
