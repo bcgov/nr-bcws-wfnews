@@ -18,7 +18,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -158,7 +158,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   selectIncident(incident: any) {
-    //TODO
+        const url = this.router.serializeUrl(
+          this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+        )
+        window.open(url, '_blank')
   }
 
   onWatchlist (incident: any): boolean {
