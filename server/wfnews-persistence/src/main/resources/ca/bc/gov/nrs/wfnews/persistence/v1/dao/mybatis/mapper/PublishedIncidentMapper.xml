@@ -251,7 +251,7 @@
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>
 			<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
-				AND ST_DWithin(geometry, ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+				AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
 			</if>
 		  <if test="out == true">  
 				AND stage_of_control_code = 'OUT'
