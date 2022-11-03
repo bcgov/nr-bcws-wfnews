@@ -6,3 +6,5 @@ routes:
       nodes:
         "https://wfnews-server.${{LICENSE_PLATE}}-${{TARGET_ENV}}.nimbus.cloud.gov.bc.ca": 1
       type: roundrobin
+
+#END
