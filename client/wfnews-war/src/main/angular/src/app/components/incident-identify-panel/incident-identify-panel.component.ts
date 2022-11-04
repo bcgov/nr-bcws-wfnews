@@ -2,9 +2,12 @@ import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
+import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
 import { convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
+import L from 'leaflet';
+
 
 @Component({
     selector: 'incident-identify-panel',
@@ -26,7 +29,9 @@ export class IncidentIdentifyPanelComponent {
                private agolService: AGOLService,
                private publishedIncidentService: PublishedIncidentService,
                private router: Router,
-               private watchlistService: WatchlistService) { }
+               private watchlistService: WatchlistService,
+               private mapConfigService: MapConfigService,
+               ) {}
 
   // if we want the "next" functionality, pass in the identify set
   setIncident (incidentRef, identifyList, setIndex = true) {
@@ -144,5 +149,30 @@ export class IncidentIdentifyPanelComponent {
         }
       }
     })
+  }
+
+  ZoomIn() {
+    const long = Number(this.incident.longitude);
+    const lat = Number(this.incident.latitude);
+
+    this.mapConfigService.getMapConfig().then(() => {
+      const SMK = window['SMK'];
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
+      }
+      viewer.panToFeature(window['turf'].point([long, lat]), 10)
+
+      const map = viewer.map;
+      let latlngPoint = new L.LatLng(lat, long);
+      map.fireEvent('click', {
+        latlng: latlngPoint,
+        layerPoint: map.latLngToLayerPoint(latlngPoint),
+        containerPoint: map.latLngToContainerPoint(latlngPoint)
+      });
+    })
+
   }
 }

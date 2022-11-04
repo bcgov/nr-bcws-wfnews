@@ -171,13 +171,14 @@ export class CollectionComponent extends BaseComponent implements OnChanges, Aft
 
     getSummaryString(configId?: string) {
         let showNum = Number(this.showEntriesSelection);
+        if(configId === 'loadWildfiresPaginator'){
+            showNum = 10;
+        }
         if (this.collection && this.collection.totalRowCount && this.collection.totalRowCount > 0) {
             let start = (this.collection.pageNumber - 1) * showNum + 1;
             let end = (start + showNum) - 1;
             const total = this.collection.totalRowCount ? this.collection.totalRowCount : 0;
-            if(configId === 'loadWildfiresPaginator') {
-                return `Showing 10 of ${total} search results`;
-            }
+
             if (start < 0) {
                 start = 0;
             }
