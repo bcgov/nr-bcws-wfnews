@@ -183,7 +183,7 @@
       }
       .identify-panel {
         position: relative;
-        z-index: 10000;
+        z-index: 1000000;
         background-color: white;
         height: 100%;
         width: 600px;
@@ -285,7 +285,10 @@ mat-panel-title {
   }
 
   ::ng-deep .menu-bar {
-    display: none !important;
+    //display: none !important;
+    .body {
+      background: green($color: #000000);
+    }
   }
 
   ::ng-deep .sticky-widget {
@@ -295,6 +298,8 @@ mat-panel-title {
     z-index: 1;
     display: flex;
     transition: 0.5s;
+    z-index: 10000000 !important;
+    flex-direction: column;
   }
 
   .title {
@@ -302,7 +307,7 @@ mat-panel-title {
   }
 
   .container {
-    height: calc(100vh - 102px) !important;
+    height: calc(100vh - 50px) !important;
     overflow: hidden;
   }
 
@@ -373,38 +378,19 @@ mat-panel-title {
     width: 100% !important;
   }
   .bottom {
-    flex-shrink: 1;
     height: 100%;
-    display: flex;
-    flex-direction: row;
     .details {
-        flex-shrink: 0;
         width: 100%;
         overflow: auto;
         height: calc(100% - 196px);
         display: none;
     }
     .map {
-        flex-grow: 1;
-        overflow: hidden;
-        height: calc(100% - 180px);
-        position: relative;
-      .map-container {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        width: 100%;
-        height: 100%;
-      }
+        height: calc(100% - 174px) !important;
       .identify-panel {
-        position: relative;
-        z-index: 10000;
-        background-color: white;
-        height: 100%;
-        width: 600px;
+        height: 100% !important;
+        width: 100% !important;
         display: none;
-        overflow-y: auto;
-        border: 1px solid #dddddd;
       }
     }
  }
@@ -422,15 +408,46 @@ mat-panel-title {
     box-shadow: 0 0 4px #000000ad;
     height: 100%;
     width: 100%;
-    overflow: auto;
-    .drag-grabber {
-      height: 4px;
-      width: 100px;
-      background: #00000085;
-      margin: auto;
-      margin-top: 15px;
-      border-radius: 70px;
-      cursor: grab;
+    .grab-container {
+      position: sticky;
+      top: 0px;
+      background-color: white;
+      height: 15px;
+      width: 100%;
+      z-index: 10;
+      padding-top: 5px;
+      padding-bottom: 15px;
+      border-radius: 20px;
+      .drag-grabber {
+        height: 4px;
+        width: 100px;
+        background: #00000085;
+        margin: auto;
+        margin-top: 15px;
+        border-radius: 70px;
+        cursor: grab;
+      }
     }
+    .panel-container {
+      padding: 10px;
+      overflow: auto;
+      height: 90%;
+      border-radius: 20px;
+    }
+  }
+
+  .panel-container::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  .panel-container::-webkit-scrollbar-track {
+    background: white;
+  }
+
+  .panel-container::-webkit-scrollbar-thumb {
+    background-color: #7d7d7d;
+    border-radius: 16px;
+    border: 1px solid #7d7d7d;
   }
 }

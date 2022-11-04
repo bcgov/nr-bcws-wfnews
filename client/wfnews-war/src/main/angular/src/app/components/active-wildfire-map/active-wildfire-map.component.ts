@@ -414,12 +414,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     dragMove (event) {
-      this.resizeBoxElement.style.height = `${window.innerHeight - event.pointerPosition.y + 32}px`
+      this.resizeBoxElement.style.height = `${window.innerHeight - event.pointerPosition.y + 20}px`
       if (this.lastTranslate) {
         this.resizeBoxElement.style.transform = this.lastTranslate
         this.lastTranslate = undefined
-        this.resizeBoxElement.style.overflow = 'auto'
         this.resizeBoxElement.style.top = '80vh'
+        this.resizeBoxElement.style.borderRadius = '20px'
+        this.resizeBoxElement.style.borderBottomRightRadius = '0px'
+        this.resizeBoxElement.style.borderBottomLeftRadius = '0px'
       }
     }
 
@@ -429,20 +431,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         this.lastTranslate = this.resizeBoxElement.style.transform
         this.resizeBoxElement.style.transform = `none`
         this.resizeBoxElement.style.top = '50px'
-        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 32}px`
+        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 20}px`
         this.resizeBoxElement.style.borderRadius = '0px'
       } else if (event.dropPoint.y > window.innerHeight - 50) {
         this.lastTranslate = this.resizeBoxElement.style.transform
         this.resizeBoxElement.style.height = '50px'
         this.resizeBoxElement.style.transform = `none`
         this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
-        this.resizeBoxElement.style.overflow = 'none'
-      } else {
-        this.resizeBoxElement.style.borderRadius = '20px'
-        this.resizeBoxElement.style.borderBottomRightRadius = '0px'
-        this.resizeBoxElement.style.borderBottomLeftRadius = '0px'
-        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 32}px`
-        this.resizeBoxElement.style.overflow = 'auto'
       }
     }
 }
