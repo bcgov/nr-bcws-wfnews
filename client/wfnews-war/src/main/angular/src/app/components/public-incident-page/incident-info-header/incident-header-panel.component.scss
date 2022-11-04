@@ -29,6 +29,12 @@
   min-height: 400px !important;
 }
 
+@media screen and (max-width: 808px) {
+  .map-container {
+    max-width: 808px !important;
+  }
+}
+
 .incident-details {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
   padding: 24px;
