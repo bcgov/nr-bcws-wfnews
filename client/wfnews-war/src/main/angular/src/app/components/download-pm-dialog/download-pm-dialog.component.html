@@ -1,0 +1,29 @@
+<ng-container>
+    <div class="dialog-container">
+        <div class="dialog-content" mat-dialog-content>
+            <div class="panel">
+                <div class="upper-half">
+                    <div class="pm-logo">
+                        <img src="/assets/icons/pm-logo.png" width="60" height="60" alt="image">
+                    </div>
+                    <div class="app-title">
+                        <h4>BC Wildfire Service</h4>
+                        <div>Province of British Columbia, Canada</div>
+                        <div>Free - On {{data.app}}</div>
+                    </div>
+                    <mat-icon [mat-dialog-close]="false">close</mat-icon>
+                </div>
+                <div class="bottom-half">
+                    For a better experience, download the BC Wildfire Service phone app for free.
+                    <div style="padding-top:20px">
+                        <button class="cancel-button" (click)="cancel()" >Cancel</button>
+                        <button class="download-button" (click)="download()" >Download</button>
+                        <div style="padding-top:20px">
+                            <mat-checkbox [(ngModel)]="dontShowAgain">Do not show this message again</mat-checkbox>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
