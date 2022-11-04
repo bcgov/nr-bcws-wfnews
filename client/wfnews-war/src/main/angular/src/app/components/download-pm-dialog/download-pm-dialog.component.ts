@@ -12,10 +12,21 @@ export class DialogData {
     styleUrls: ['./download-pm-dialog.component.scss']
 })
 export class DownloadPMDialogComponent {
+    dontShowAgain = false;
 
     constructor(
         public dialogRef: MatDialogRef<DownloadPMDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: DialogData
-    ) {}
+        @Inject(MAT_DIALOG_DATA) public data: any
+    ) {
+    }
+
+    cancel() {
+        this.dialogRef.close({dontShowAgain: this.dontShowAgain})
+    }
+
+    download() {
+        window.open(this.data.downloadLink, '_blank');
+        this.dialogRef.close({dontShowAgain: this.dontShowAgain})
+    }
 
 }

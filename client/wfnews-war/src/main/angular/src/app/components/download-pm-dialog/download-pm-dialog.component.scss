@@ -3,130 +3,45 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
-.contact-widget-dialog-container {
-  
-  .mat-dialog-title{
-      margin-bottom: 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 10px;
-  }
-
-  .dialog-content{
-      padding: 0!important;
-      margin: 0!important;
-  }
-}
-
-.contact-widget-dialog-content{
-  display: flex;
-  width: 100%;
-
   .panel{
-      padding: 15px;
+    padding: 15px;
+
+    .upper-half {
+        border-bottom: 1px solid #dddddd;
+        display: flex;
+
+        .pm-log{
+            width: 15% ;
+        }
+
+        .app-title {
+            padding-left: 10px;
+            width: 80%;
+            h4{
+                margin:0 !important;
+            }
+        }
+    }
+
+    .bottom-half{
+        padding-top: 1rem;
+    }
+
+    .cancel-button{
+        color: #1A5A96;
+        background-color: #FFFFFF;
+        border: solid 1px #1A5A96;
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+
+    .download-button{
+        margin-left: 2rem;
+        background-color: #1A5A96;
+        border: solid 1px #1A5A96;
+        color: #FFFFFF;
+        padding: 8px 16px;
+        border-radius: 4px;
+        
+    }
   }
-
-  .left-panel{
-      width: 65%;
-  }
-
-  .right-panel{
-      width: 35%;
-      background-color: #f3f5f6;
-      color: #1A5A96;
-
-      .contact-info{
-          padding-top: 15px;
-          padding-bottom: 15px;
-          border-bottom: solid #dddddd 1px;
-
-          .title{
-              font-weight: bold;
-              color: #000;
-          }
-
-          .detail{
-              padding-top: 5px;
-              display: flex;
-              align-items: flex-end;
-
-              mat-icon{
-                  background: #1A5A96;
-                  border-radius: 5px;
-                  color: #f3f5f6;
-                  margin-right: 5px;
-              }
-
-              svg{
-                  width: 24px;
-                  height: 24px;
-                  margin-right: 5px;
-                  fill: #1A5A96;
-              }
-          }
-      }
-  }
-
-  .form{
-
-      .row{
-          display: flex;
-          padding-top: 15px;
-      }
-
-      .field{
-          flex: 0 0 150px;
-          display: flex;
-          flex-direction: column;
-          min-width: 0;
-          flex-grow: 1;
-          padding-right: 10px;
-          justify-content: start;
-
-          .label{
-              font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
-              font-weight: 400;
-              padding: 5px 1.5px;
-          }
-
-          input, textarea{
-              border: 1px solid #a7a9ac;
-              padding: 0 5px;
-              border-radius: 5px;
-              height: 35px;
-              line-height: 35px;
-              font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
-              font-size: 15px;
-          }
-          input:focus, textarea:focus{
-              outline: none;
-              box-shadow: 0 0 4px #3e7fff;
-          }
-      }
-
-      .submit-row{
-          justify-content: center;
-      }
-
-      .contact-submit{
-          justify-self: center;
-          background-color: #1A5A96;
-          color: #FFFFFF;
-          height: 36px;
-          font-size: 15px;
-          line-height: 36px;
-          padding: 0 16px;
-          border-radius: 4px;
-          display: flex;
-          align-items: center;
-          border: none;
-          cursor: pointer;
-      }
-  }
-}
-
-.pt-3{
-  padding-top: 1.5rem;
-}

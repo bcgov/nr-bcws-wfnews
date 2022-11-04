@@ -11,7 +11,6 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
-import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
@@ -123,18 +122,36 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.initAppMenu();
         this.initFooterMenu();
 
-        window['SPLASH_SCREEN'].remove();    
+        window['SPLASH_SCREEN'].remove();
+        if(localStorage.getItem('dontShowPublicMobileDownload') !== 'true') {
             if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                console.log('This is not desktop')
+                let downloadLink;
+                let app;;
+                if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)){
+                    downloadLink = 'https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008'
+                    app = 'App Store'
+                } else {
+                    downloadLink = 'https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US'
+                    app = 'Google Play'
+                }
+
                 let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
-                    width: '350px',
+                    width: '600px',
                     data: {
-                        title: 'Are you sure you want to continue?',
-                        message: 'This will permenantly delete this attachment. This action cannot be undone.',
+                        downloadLink: downloadLink,
+                        app:app
                     }
                   });
+                  dialogRef.afterClosed().subscribe(result => {
+                    if (result['dontShowAgain']) {
+                        localStorage.setItem('dontShowPublicMobileDownload', 'true');
+                    } else {
+                        localStorage.removeItem('dontShowPublicMobileDownload');
+                    }
+                });   
+
             }
-    
+        }
     }
 
     initAppMenu() {
