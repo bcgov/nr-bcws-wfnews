@@ -10,6 +10,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
+import { CdkDragMove } from '@angular/cdk/drag-drop';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -64,7 +65,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
         private agolService: AGOLService,
-        private commonUtilityService: CommonUtilityService
+        private commonUtilityService: CommonUtilityService,
+        private ngZone: NgZone
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
@@ -400,28 +402,47 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         console.log(this.searchText)
     }
 
-    private dragging = false
-    startPanelDrag (event: MouseEvent) {
-      if (event && event.isTrusted) {
-        this.dragging = true
+    @ViewChild('grabber') grabber: ElementRef;
+    @ViewChild('resizeBox') resizeBox: ElementRef;
+
+    get grabberElement(): HTMLElement {
+      return this.grabber.nativeElement;
+    }
+
+    get resizeBoxElement(): HTMLElement {
+      return this.resizeBox.nativeElement;
+    }
+
+    dragMove (event) {
+      this.resizeBoxElement.style.height = `${window.innerHeight - event.pointerPosition.y + 32}px`
+      if (this.lastTranslate) {
+        this.resizeBoxElement.style.transform = this.lastTranslate
+        this.lastTranslate = undefined
+        this.resizeBoxElement.style.overflow = 'auto'
+        this.resizeBoxElement.style.top = '80vh'
       }
     }
 
-    panelDrag (event: MouseEvent) {
-      if (event && event.isTrusted && this.dragging) {
-        //console.log(event)
-
-        const elem = document.getElementById('draggable-panel')
-
-        let top = elem.style.top === '' ? 75 : parseInt(elem.style.top.replace('vh', ''))
-        console.log(top, event.movementY)
-        top += event.movementY <= 0 ? -1 : 1
-        console.log(top)
-        elem.style.top = (top < 30 ? 30 : top > 90 ? 90 : top) + 'vh'
+    private lastTranslate = undefined
+    dragDropped (event) {
+      if (event.dropPoint.y < 65) {
+        this.lastTranslate = this.resizeBoxElement.style.transform
+        this.resizeBoxElement.style.transform = `none`
+        this.resizeBoxElement.style.top = '50px'
+        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 32}px`
+        this.resizeBoxElement.style.borderRadius = '0px'
+      } else if (event.dropPoint.y > window.innerHeight - 50) {
+        this.lastTranslate = this.resizeBoxElement.style.transform
+        this.resizeBoxElement.style.height = '50px'
+        this.resizeBoxElement.style.transform = `none`
+        this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
+        this.resizeBoxElement.style.overflow = 'none'
+      } else {
+        this.resizeBoxElement.style.borderRadius = '20px'
+        this.resizeBoxElement.style.borderBottomRightRadius = '0px'
+        this.resizeBoxElement.style.borderBottomLeftRadius = '0px'
+        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 32}px`
+        this.resizeBoxElement.style.overflow = 'auto'
       }
-    }
-
-    stopPanelDrag (event: MouseEvent) {
-      this.dragging = false
     }
 }

@@ -122,7 +122,7 @@
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
       </div>
       <!-- cdkDragLockAxis="y" (cdkDragEnded)="dragDropped($event)" cdkDrag -->
-      <div id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" cdkDrag>
+      <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
         <div id="grabber" class="drag-grabber"></div>
         <div style="padding-top: 10px;">
           <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>

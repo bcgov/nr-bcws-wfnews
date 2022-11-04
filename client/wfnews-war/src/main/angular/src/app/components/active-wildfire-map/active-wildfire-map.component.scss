@@ -16,7 +16,6 @@
 .container {
   height: calc(100vh - 180px) !important;
   overflow: hidden;
-  transition: 0.5s;
 }
 
 .top {
@@ -161,10 +160,10 @@
     height: 100%;
     display: flex;
     flex-direction: row;
-    transition: 0.5s;
     .details {
         flex-shrink: 0;
-        min-width: 720px;
+        min-width: 400px;
+        width: 50vw;
         max-width: 720px;
         overflow: auto;
         height: calc(100% - 196px);
@@ -278,11 +277,14 @@ mat-panel-title {
 .draggable-panel {
   display: none;
   bottom: 0;
-  transition: 0.5s;
 }
 
 @media screen and (max-width: 600px) {
   ::ng-deep .footer {
+    display: none !important;
+  }
+
+  ::ng-deep .menu-bar {
     display: none !important;
   }
 
@@ -302,7 +304,6 @@ mat-panel-title {
   .container {
     height: calc(100vh - 102px) !important;
     overflow: hidden;
-    transition: 0.5s;
   }
 
   .mobile-wildfire-count {
@@ -368,12 +369,14 @@ mat-panel-title {
     margin-left: -22px;
   }
 
+  .identify-panel {
+    width: 100% !important;
+  }
   .bottom {
     flex-shrink: 1;
     height: 100%;
     display: flex;
     flex-direction: row;
-    transition: 0.5s;
     .details {
         flex-shrink: 0;
         width: 100%;
@@ -409,17 +412,17 @@ mat-panel-title {
  .draggable-panel {
     display: block;
     position: fixed;
-    top: 75vh;
+    top: 80vh;
     background-color: white;
     border-radius: 20px;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    transition: 0.5s;
     z-index: 999999;
     border: 1px solid gray;
     box-shadow: 0 0 4px #000000ad;
     height: 100%;
     width: 100%;
+    overflow: auto;
     .drag-grabber {
       height: 4px;
       width: 100px;
