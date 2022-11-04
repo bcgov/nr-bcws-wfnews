@@ -412,8 +412,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
       return this.resizeBox.nativeElement;
     }
 
+    private lastPointerPosition = 0
     dragMove (event) {
       this.resizeBoxElement.style.height = `${window.innerHeight - event.pointerPosition.y + 20}px`
+      this.lastPointerPosition = event.pointerPosition.y
       if (this.lastTranslate) {
         this.resizeBoxElement.style.transform = this.lastTranslate
         this.lastTranslate = undefined
@@ -430,7 +432,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         this.lastTranslate = this.resizeBoxElement.style.transform
         this.resizeBoxElement.style.transform = 'none'
         this.resizeBoxElement.style.top = '50px'
-        this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 20}px`
         this.resizeBoxElement.style.borderRadius = '0px'
       } else if (event.dropPoint.y > window.innerHeight - 50) {
         this.lastTranslate = this.resizeBoxElement.style.transform
@@ -438,5 +439,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         this.resizeBoxElement.style.transform = 'none'
         this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
       }
+      this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
     }
 }

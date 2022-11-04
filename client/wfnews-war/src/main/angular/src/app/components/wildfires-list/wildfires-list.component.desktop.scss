@@ -18,19 +18,17 @@
 }
 
 .my-location-button{
-    padding-right: 10px;
-    border: 1px solid #a7a9ac;
-    border-radius: 5px;
-    width: fit-content;
-
-    .mat-raised-button {
-      box-shadow: none;
-    }
-
-    .mat-icon {
-        padding-right: 5px;
-        color: #a7a9ac;
-    }
+  border: 1px solid #a7a9ac;
+  border-radius: 5px;
+  width: 100%;
+  .mat-raised-button {
+    box-shadow: none;
+    width: 100&;
+  }
+  .mat-icon {
+    padding-right: 5px;
+    color: #a7a9ac;
+  }
 }
 
 
