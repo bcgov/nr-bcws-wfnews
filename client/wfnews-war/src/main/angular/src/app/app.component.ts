@@ -12,7 +12,6 @@ import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
-import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
 import { RootState } from './store';
 import { ResourcesRoutes } from './utils';
@@ -49,7 +48,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     hasAccess = true;
 
     applicationConfig: WfApplicationConfiguration = {
-        title: 'NEWS',
+        title: 'Wildfire News',
         device: this.applicationStateService.getDevice(),
         userName: '',
         version: {
@@ -60,14 +59,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     };
 
     applicationState: WfApplicationState = {
-        menu: 'hidden'
-    };
+      menu: 'hidden'
+    }
 
     appMenu: WfMenuItems;
     footerMenu: WfMenuItems;
     orientation;
-
-    showLeftPanel = true;
 
     lastSuccessPollSub: Subscription;
     lastSyncDate;
@@ -83,10 +80,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected matIconRegistry: MatIconRegistry,
         protected domSanitizer: DomSanitizer,
         protected tokenService: TokenService,
-        protected store: Store<RootState>,
-        private commonUtilityService: CommonUtilityService,
-        protected dialog: MatDialog,
-
+        protected dialog: MatDialog
         ) {
     }
 
@@ -94,15 +88,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.storeViewportSize();
     };
 
-
-
     ngOnInit() {
         this.addCustomMaterialIcons();
         this.updateService.checkForUpdates();
-        // this.registerAuth()
         this.checkUserPermissions();
 
-        // this.messagingService.subscribeToMessageStream(this.receiveWindowMessage.bind(this));
         if (!this.location.path().startsWith('/(root:external')) {
             this.appConfigService.configEmitter.subscribe((config) => {
                 this.applicationConfig.version.short = config.application.version.replace(/-snapshot/i, '');
@@ -152,18 +142,17 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     initAppMenu() {
-        this.appMenu = (this.applicationConfig.device == 'desktop' ?
-            [
-                new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
-                new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'expanded', this.router), //temp route
-                new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'home', 'expanded', this.router),//temp route
-                new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'home', 'expanded', this.router),
-            ]
-            :
-            [
-                new RouterLink('Home', '/', 'home', 'hidden', this.router),
-            ]
-        ) as unknown as WfMenuItems;
+      this.appMenu = (!this.isMobileView() ? [
+        new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'expanded', this.router),
+        new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'collapsed', this.router),
+        new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'home', 'collapsed', this.router),
+        new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'home', 'collapsed', this.router)
+      ] : [
+        new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'hidden', this.router),
+        new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'hidden', this.router),
+        new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'home', 'hidden', this.router),
+        new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'home', 'hidden', this.router)
+      ]) as unknown as WfMenuItems;
     }
 
     initFooterMenu() {
@@ -206,7 +195,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:orientationchange', ['$event'])
     onOrientationChange() {
         setTimeout(() => {
-            console.log('window:orientationchange');
             this.updateMapSize();
         }, 250);
     }
@@ -214,7 +202,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:resize', ['$event'])
     onResize() {
         setTimeout(() => {
-            console.log('window:resize');
             this.updateMapSize();
         }, 250);
     }
@@ -315,12 +302,16 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         );
     }
 
+    isMobileView () {
+      return window.innerWidth <= 768
+    }
+
     isAdminPage() {
-        if (this.router.url === '/admin' || this.router.url.includes("/incident?") || this.router.url === '/error-page') {
-            return true;
-        } else {
-            return false;
-        }
+      if (this.router.url === '/admin' || this.router.url.includes("/incident?") || this.router.url === '/error-page') {
+          return true;
+      } else {
+          return false;
+      }
     }
 
     navigateToBcSupport() {
