@@ -211,7 +211,6 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			
 			Integer offset = null;
 			
-			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
 			pageNumber = pageNumber == null ? 0 : pageNumber;
 
 			if (pageRowCount != null) { 
@@ -234,7 +233,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("longitude", longitude);
 			parameters.put("radius", radius);
 			parameters.put("searchText", searchText);
-
+			
+			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());

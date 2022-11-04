@@ -26,7 +26,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         let processedRequest = req;
         let requestId;
         requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
-
+        
         if (this.isUrlSecured(req.url)) {
             if (!this.tokenService) {
                 this.tokenService = this.injector.get(TokenService);
@@ -193,6 +193,10 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         let isSecured = false;
         const config = this.appConfig.getConfig();                
         if (config && config.rest) {
+            let wfdmProxy = config.externalAppConfig['wfdmProxy'];
+            if(url.startsWith(wfdmProxy.toString())) {
+                return true; // if the request is from Document Service proxy
+            }
             if (url.startsWith(config.rest['wfnews'])) {
                 return false; // if the request is from wfnews-server, no need to hanldeLogin
             }

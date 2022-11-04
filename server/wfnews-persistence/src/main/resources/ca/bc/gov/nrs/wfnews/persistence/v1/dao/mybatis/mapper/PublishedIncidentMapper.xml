@@ -262,6 +262,9 @@
 			<if test="fireOfNote == true">  
 				AND fire_of_note_ind = 'Y'
 			</if>
+			<if test="fireOfNote == false">  
+				AND fire_of_note_ind = 'N'
+			</if>
 			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
 				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
@@ -299,6 +302,31 @@
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE PUBLISHED_INCIDENT_DETAIL_GUID IS NOT NULL
 		  AND PUBLISHED_INCIDENT_DETAIL_GUID != ''
+		  <if test="fireOfNote != null and fireOfNote == true">
+				AND fire_of_note_ind = 'Y'
+		  </if>
+		  <if test="fireOfNote != null and fireOfNote == false">
+				AND fire_of_note_ind = 'N'
+		  </if>
+		  <if test="out == true">  
+				AND stage_of_control_code = 'OUT'
+		  </if>
+		  <if test="out == false">  
+				AND stage_of_control_code != 'OUT'
+		  </if>
+		  <if test="fireCentre != null &amp;&amp; fireCentre != ''">  
+				AND fire_centre = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		  </if>
+		  <if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
+				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+		  </if>
+		  <if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
+				AND ST_DWithin(geometry, ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+		  </if>
+		  <if test="searchText!=null &amp;&amp; searchText.length>0">
+				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre, '', CONCAT(incident_number_label, '', incident_name))))
+				LIKE '%'||UPPER(#{searchText})||'%' 
+		  </if>
 	</select>
 
 	<select id="selectAsJson" resultType="string">
