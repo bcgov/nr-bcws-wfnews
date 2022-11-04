@@ -429,14 +429,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     dragDropped (event) {
       if (event.dropPoint.y < 65) {
         this.lastTranslate = this.resizeBoxElement.style.transform
-        this.resizeBoxElement.style.transform = `none`
+        this.resizeBoxElement.style.transform = 'none'
         this.resizeBoxElement.style.top = '50px'
         this.resizeBoxElement.style.height = `${window.innerHeight - event.dropPoint.y + 20}px`
         this.resizeBoxElement.style.borderRadius = '0px'
       } else if (event.dropPoint.y > window.innerHeight - 50) {
         this.lastTranslate = this.resizeBoxElement.style.transform
         this.resizeBoxElement.style.height = '50px'
-        this.resizeBoxElement.style.transform = `none`
+        this.resizeBoxElement.style.transform = 'none'
         this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
       }
     }

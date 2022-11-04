@@ -285,10 +285,8 @@ mat-panel-title {
   }
 
   ::ng-deep .menu-bar {
-    //display: none !important;
-    .body {
-      background: green($color: #000000);
-    }
+    display: none !important;
+    // hidden until we have a style settled for menu bar
   }
 
   ::ng-deep .sticky-widget {
