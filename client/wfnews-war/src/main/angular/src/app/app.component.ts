@@ -64,8 +64,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     footerMenu: WfMenuItems;
     orientation;
 
-    showLeftPanel = true;
-
     lastSuccessPollSub: Subscription;
     lastSyncDate;
     lastSyncValue = undefined;
@@ -169,7 +167,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:orientationchange', ['$event'])
     onOrientationChange() {
         setTimeout(() => {
-            console.log('window:orientationchange');
             this.updateMapSize();
         }, 250);
     }
@@ -177,7 +174,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     @HostListener('window:resize', ['$event'])
     onResize() {
         setTimeout(() => {
-            console.log('window:resize');
             this.updateMapSize();
         }, 250);
     }
@@ -279,7 +275,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     isMobileView () {
-      return window.innerWidth <= 600
+      return window.innerWidth <= 768
     }
 
     isAdminPage() {

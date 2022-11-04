@@ -279,7 +279,7 @@ mat-panel-title {
   bottom: 0;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 768px) {
   ::ng-deep .footer {
     display: none !important;
   }

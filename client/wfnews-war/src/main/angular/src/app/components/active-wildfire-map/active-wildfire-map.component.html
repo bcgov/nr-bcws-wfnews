@@ -123,7 +123,7 @@
       </div>
       <!-- cdkDragLockAxis="y" (cdkDragEnded)="dragDropped($event)" cdkDrag -->
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
-        <div class="grab-container">
+        <div class="grab-container" cdkDragHandle>
           <div id="grabber" class="drag-grabber"></div>
           <div style="text-align: center; padding: 7px;">{{selectedPanel === 'wildfire-stage-of-control' ? 'Wildfires' :
             selectedPanel === 'evacuation-orders-and-alerts' ? 'Evacuation Orders' :
