@@ -10,7 +10,6 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { CdkDragMove } from '@angular/cdk/drag-drop';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |

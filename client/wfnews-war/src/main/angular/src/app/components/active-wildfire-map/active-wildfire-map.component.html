@@ -125,6 +125,14 @@
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
         <div class="grab-container">
           <div id="grabber" class="drag-grabber"></div>
+          <div style="text-align: center; padding: 7px;">{{selectedPanel === 'wildfire-stage-of-control' ? 'Wildfires' :
+            selectedPanel === 'evacuation-orders-and-alerts' ? 'Evacuation Orders' :
+            selectedPanel === 'area-restrictions' ? 'Area Restrictions' :
+            selectedPanel === 'bans-and-prohibitions' ? 'Bans &amp; Prohibitions' :
+            selectedPanel === 'smoke-forecast' ? 'smoke-forecast' :
+            selectedPanel === 'fire-danger' ? 'Fire Danger' :
+            selectedPanel === 'routes-impacted' ? 'Drive BC' :
+            selectedPanel === 'local-authorities' ? 'Local Authorities' : ''}}</div>
         </div>
         <div class="panel-container" style="padding-top: 10px;">
           <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>
