@@ -321,7 +321,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       cpu         = var.fargate_cpu
       memory      = var.fargate_memory
       networkMode = "awsvpc"
-      for_each = var.apisix_ports
       portMappings = [
         {
           protocol = "tcp"
@@ -674,7 +673,7 @@ resource "aws_ecs_service" "apisix" {
   load_balancer {
     target_group_arn = aws_alb_target_group.wfnews_apisix.id
     container_name   = var.apisix_container_name
-    container_port   = var.apisix_ports[0]
+    container_port   = var.apisix_ports[1]
   }
 
   #hit admin api
