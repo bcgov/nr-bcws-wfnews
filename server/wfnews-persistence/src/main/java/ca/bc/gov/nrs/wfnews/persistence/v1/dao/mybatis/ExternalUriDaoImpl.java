@@ -172,9 +172,10 @@ public class ExternalUriDaoImpl extends BaseDao implements
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
 			List<ExternalUriDto> dtos = this.externalUriMapper.select(parameters);
+			int totalRowCount = this.externalUriMapper.selectCount(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
-			results.setTotalRowCount(dtos.size());
+			results.setTotalRowCount(totalRowCount);
 			results.setPageNumber(pageNumber == null ? 0 : pageNumber.intValue());
 
 		} catch (RuntimeException e) {
@@ -194,7 +195,7 @@ public class ExternalUriDaoImpl extends BaseDao implements
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			Integer offset = null;
-			int totalRowCount = this.externalUriMapper.selectCount(parameters);
+			
 			if(pageRowCount != null) { offset = Integer.valueOf((pageNumber.intValue()-1)*pageRowCount.intValue()); }
 			//avoid jdbc exception for offset when pageNumber is 0
 			if (offset != null && offset < 0) offset = 0;
@@ -202,6 +203,7 @@ public class ExternalUriDaoImpl extends BaseDao implements
 			parameters.put("offset", offset);
 			parameters.put("pageRowCount", pageRowCount);
 			List<ExternalUriDto> dtos = this.externalUriMapper.selectForIncident(parameters);
+			int totalRowCount = this.externalUriMapper.selectCount(parameters);
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
 			results.setTotalRowCount(totalRowCount);
