@@ -126,6 +126,7 @@ import { VideoCardPanel } from './components/admin-incident-form/video-gallery-p
 import { EditVideoDialogComponent } from './components/admin-incident-form/video-gallery-panel/edit-video-dialog/edit-video-dialog.component';
 import { UploadVideoDialogComponent } from './components/admin-incident-form/video-gallery-panel/upload-video-dialog/upload-video-dialog.component';
 import { YouTubePlayerModule } from "@angular/youtube-player"
+import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -194,6 +195,7 @@ export const DATE_FORMATS = {
         VideoCardPanel,
         EditVideoDialogComponent,
         UploadVideoDialogComponent,
+        DownloadPMDialogComponent
     ],
     imports: [
         MatSortModule,
