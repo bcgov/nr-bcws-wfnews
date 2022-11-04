@@ -75,6 +75,11 @@ deployment:
   role_data_plane:
     config_provider: yaml
 
+apisix:
+  dns_resolver:                  # If not set, read from `/etc/resolv.conf`
+    - 1.1.1.1
+    - 8.8.8.8
+
 #apisix:
 #  enable_admin: true
 #  ssl:
