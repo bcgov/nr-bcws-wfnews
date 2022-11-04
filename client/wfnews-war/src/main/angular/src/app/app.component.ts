@@ -127,10 +127,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             let downloadLink;
             let app;;
             if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)){
-                downloadLink = 'https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008'
+                downloadLink = this.appConfigService.getConfig().externalAppConfig['appStoreUrl'].toString();
                 app = 'App Store'
             } else {
-                downloadLink = 'https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US'
+                downloadLink = this.appConfigService.getConfig().externalAppConfig['googlePlayUrl'].toString();
                 app = 'Google Play'
             }
 
