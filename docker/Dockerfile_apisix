@@ -1,10 +1,10 @@
 FROM apache/apisix
 EXPOSE 9080 9180 9443
-COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix.yaml
+COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix-base.yaml
 COPY docker/apisix-config.yaml /usr/local/apisix/conf/config.yaml
 COPY docker/AmazonRootCA1.pem  /etc/ca-certificates/AmazonRootCA1.pem
 USER root
 RUN apt-get update &&\
   apt-get install -y nginx gettext &&\
-  sed -i 's@#!/usr/bin/env bash@&\nnginx\&\nulimit -n 4096\nenvsubst < /usr/local/apisix/conf/apisix.yaml@' /docker-entrypoint.sh
+  sed -i 's@#!/usr/bin/env bash@&\nnginx\&\nulimit -n 4096\nenvsubst < /usr/local/apisix/conf/apisix-base.yaml > /usr/local/apisix/conf/apisix.yaml@' /docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf 
