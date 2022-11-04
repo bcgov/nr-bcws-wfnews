@@ -6,6 +6,5 @@ COPY docker/AmazonRootCA1.pem  /etc/ca-certificates/AmazonRootCA1.pem
 USER root
 RUN apt-get update &&\
   apt-get install -y nginx &&\
-  sed -i "s/#!\/usr\/bin\/env bash/&\nnginx\&\nulimit -n 4096\nsed -i 's\/{DEPLOY_ENVIRONMENT}\/\$LICENSE_PLATE-\$TARGET_ENV\/' \/usr\/local\/apisix\/conf\/apisix.yaml/" /docker-entrypoint.sh &&\
-  sed -i 's/{DEPLOY_ENVIRONMENT}/\$LICENSE_PLATE-\$TARGET_ENV/' /usr/local/apisix/conf/apisix.yaml
+  sed -i "s/#!\/usr\/bin\/env bash/&\nnginx\&\nulimit -n 4096\nsed -i 's\/{DEPLOY_ENVIRONMENT}\/\$LICENSE_PLATE-\$TARGET_ENV\/' \/usr\/local\/apisix\/conf\/apisix.yaml/" /docker-entrypoint.sh
 COPY docker/default.conf /etc/nginx/conf.d/default.conf 
