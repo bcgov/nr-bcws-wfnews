@@ -71,6 +71,6 @@ deployment:
 
 apisix:
   enable_admin: true
-  # ssl:
-  #   ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
+#  ssl:
+#    ssl_trusted_certificate: /etc/ca-certificates/AmazonRootCA1.pem
 
