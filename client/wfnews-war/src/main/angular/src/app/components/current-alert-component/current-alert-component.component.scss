@@ -80,6 +80,7 @@ select{
 .contents{
   display: flex;
   flex-flow: row;
+  flex-wrap: wrap;
   width: 100%;
   .left-panels{
     width: 50%;
@@ -128,7 +129,7 @@ select{
 }
 
 .contents> * {
-  flex: 1 1 30vw;
+  flex: 1 1 42vw;
   margin: 8px;
 }
 
