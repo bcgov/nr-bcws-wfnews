@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -9,6 +10,7 @@ import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { CommonUtilityService } from './services/common-utility.service';
 import { UpdateService } from './services/update.service';
@@ -83,6 +85,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         protected tokenService: TokenService,
         protected store: Store<RootState>,
         private commonUtilityService: CommonUtilityService,
+        protected dialog: MatDialog,
 
         ) {
     }
@@ -120,6 +123,32 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.initFooterMenu();
 
         window['SPLASH_SCREEN'].remove();
+        if( (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ) {
+            let downloadLink;
+            let app;;
+            if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)){
+                downloadLink = this.appConfigService.getConfig().externalAppConfig['appStoreUrl'].toString();
+                app = 'App Store'
+            } else {
+                downloadLink = this.appConfigService.getConfig().externalAppConfig['googlePlayUrl'].toString();
+                app = 'Google Play'
+            }
+
+            let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
+                width: '600px',
+                data: {
+                    downloadLink: downloadLink,
+                    app:app
+                }
+                });
+                dialogRef.afterClosed().subscribe(result => {
+                if (result['dontShowAgain']) {
+                    localStorage.setItem('dontShowPublicMobileDownload', 'true');
+                } else {
+                    localStorage.removeItem('dontShowPublicMobileDownload');
+                }
+            });   
+        }
     }
 
     initAppMenu() {
