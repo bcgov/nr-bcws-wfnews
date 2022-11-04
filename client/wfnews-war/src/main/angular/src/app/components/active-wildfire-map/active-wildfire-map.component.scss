@@ -352,11 +352,13 @@ mat-panel-title {
 
   .map-layers {
     padding: 0px !important;
-  }
-
-  .map-layers .item {
-    margin: 0px !important;
-    transition: 0.5s;
+    .item {
+      margin: 0px !important;
+      transition: 0.5s;
+      .icon {
+        padding: 0px !important;
+      }
+    }
   }
 
   .search-location {
