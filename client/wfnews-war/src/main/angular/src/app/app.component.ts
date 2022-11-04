@@ -123,34 +123,31 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         this.initFooterMenu();
 
         window['SPLASH_SCREEN'].remove();
-        if(localStorage.getItem('dontShowPublicMobileDownload') !== 'true') {
-            if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
-                let downloadLink;
-                let app;;
-                if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)){
-                    downloadLink = 'https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008'
-                    app = 'App Store'
-                } else {
-                    downloadLink = 'https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US'
-                    app = 'Google Play'
-                }
-
-                let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
-                    width: '600px',
-                    data: {
-                        downloadLink: downloadLink,
-                        app:app
-                    }
-                  });
-                  dialogRef.afterClosed().subscribe(result => {
-                    if (result['dontShowAgain']) {
-                        localStorage.setItem('dontShowPublicMobileDownload', 'true');
-                    } else {
-                        localStorage.removeItem('dontShowPublicMobileDownload');
-                    }
-                });   
-
+        if( (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) ) {
+            let downloadLink;
+            let app;;
+            if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)){
+                downloadLink = 'https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008'
+                app = 'App Store'
+            } else {
+                downloadLink = 'https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US'
+                app = 'Google Play'
             }
+
+            let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
+                width: '600px',
+                data: {
+                    downloadLink: downloadLink,
+                    app:app
+                }
+                });
+                dialogRef.afterClosed().subscribe(result => {
+                if (result['dontShowAgain']) {
+                    localStorage.setItem('dontShowPublicMobileDownload', 'true');
+                } else {
+                    localStorage.removeItem('dontShowPublicMobileDownload');
+                }
+            });   
         }
     }
 
