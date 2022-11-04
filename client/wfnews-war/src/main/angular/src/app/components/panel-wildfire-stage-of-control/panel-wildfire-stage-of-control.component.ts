@@ -136,6 +136,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           this.isFirstPage = null;
           this.isLastPage = null;
           let collection = changes.collection.currentValue;
+          console.log(collection)
           if (collection.pageNumber === 1 && collection.pageNumber === collection.totalPageCount) {
             //total results less than pageRowCount:10, no need for pagination
             this.isFirstPage = 'FIRST';
