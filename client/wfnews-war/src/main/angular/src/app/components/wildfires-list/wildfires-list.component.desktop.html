@@ -44,15 +44,14 @@
         </div>
 
         <div class="field">
-            <div class="my-location-button">
-                <button mat-raised-button (click)="useMyCurrentLocation()" >
-                    <mat-icon>my_location</mat-icon>
-                    Find My Location
-                </button>
-            </div>
+          <div class="my-location-button">
+            <button mat-raised-button (click)="useMyCurrentLocation()" style="width: 100%">
+              <mat-icon>my_location</mat-icon><span style="width: 100%;">My Location</span>
+            </button>
+          </div>
         </div>
 
-        <div class="field" style = "padding-left: 4rem;">
+        <div class="field">
             <mat-label class="label">Fire Centre</mat-label>
             <select appWFSingleSelect appWFPlaceholder="Select..."
                     aria-label="Type"
@@ -80,7 +79,7 @@
             </section>
         </div>
                 <div class="field">
-            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
+            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()" style="width: 100px;"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
         </div>
 
     </div>

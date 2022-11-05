@@ -9,21 +9,20 @@
         [useAppLogo]="isAdminPage()"
         [useSystemAndUser]="isAdminPage()"
         [useSupportLink]="isAdminPage()"
-        [useMenu]="isAdminPage()"
+        [useMenu]="isMobileView() || isAdminPage()"
         [useLogoutButton]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
         (logoutClick)="logOutCurrentUser()"
         (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
 
-    <wf-menu-bar *ngIf ="!isAdminPage()"
+    <wf-menu-bar
         [menuItems]="appMenu"
         [config]="applicationConfig"
         [(state)]="applicationState"
     ></wf-menu-bar>
 
     <router-outlet></router-outlet>
-    
 
     <wf-footer
         [footerItems]="footerMenu"

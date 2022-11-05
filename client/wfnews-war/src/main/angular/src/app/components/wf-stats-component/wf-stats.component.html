@@ -1,7 +1,7 @@
 <div class="container">
   <div class="header-row">
     <div class="title">
-        <h1>Wildfires Statistics</h1>
+        <h1>Wildfire Statistics</h1>
     </div>
   </div>
   <div class="stats-container">
@@ -46,7 +46,7 @@
               <div class="cell"><strong>Fire Centre</strong></div>
               <div class="value-cell"><strong>Total Fires</strong></div>
             </div>
-            <div class="row" *ngFor="let row of activeFiresByCentre">
+            <div class="row" *ngFor="let row of tabIndex === 0 ? activeFiresByCentre: allFiresByCentre">
               <div class="cell">{{row.name}}</div>
               <div class="value-cell">{{row.value}}</div>
             </div>
@@ -152,9 +152,9 @@
           <h4>Being Held</h4>
           <p class="paragraph-format">A wildfire that is not likely to spread beyond predetermined boundaries under current conditions.</p>
           <h4>Under Control</h4>
-          <p class="paragraph-format">A wildfire that is extinguished. Suppression efforts are complete.</p>
+          <p class="paragraph-format">A wildfire that will not spread any further due to suppression efforts.</p>
           <h4>Out</h4>
-          <p class="paragraph-format">The fire has been extinguished.</p>
+          <p class="paragraph-format">A wildfire that is extinguished. Suppression efforts are complete.</p>
           <a class="learn-more-button" target="_blank" rel="noopener" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies">Discover more Wildfire Management Strategies</a>
         </div>
       </div>

@@ -64,7 +64,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
         private agolService: AGOLService,
-        private commonUtilityService: CommonUtilityService
+        private commonUtilityService: CommonUtilityService,
+        private ngZone: NgZone
     ) {
         this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
         this.placeData = new PlaceData();
@@ -399,5 +400,45 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
         // will need to call News API to fetch the results
         console.log(this.searchText)
     }
-}
 
+    @ViewChild('grabber') grabber: ElementRef;
+    @ViewChild('resizeBox') resizeBox: ElementRef;
+
+    get grabberElement(): HTMLElement {
+      return this.grabber.nativeElement;
+    }
+
+    get resizeBoxElement(): HTMLElement {
+      return this.resizeBox.nativeElement;
+    }
+
+    private lastPointerPosition = 0
+    dragMove (event) {
+      this.resizeBoxElement.style.height = `${window.innerHeight - event.pointerPosition.y + 20}px`
+      this.lastPointerPosition = event.pointerPosition.y
+      if (this.lastTranslate) {
+        this.resizeBoxElement.style.transform = this.lastTranslate
+        this.lastTranslate = undefined
+        this.resizeBoxElement.style.top = '80vh'
+        this.resizeBoxElement.style.borderRadius = '20px'
+        this.resizeBoxElement.style.borderBottomRightRadius = '0px'
+        this.resizeBoxElement.style.borderBottomLeftRadius = '0px'
+      }
+    }
+
+    private lastTranslate = undefined
+    dragDropped (event) {
+      if (event.dropPoint.y < 65) {
+        this.lastTranslate = this.resizeBoxElement.style.transform
+        this.resizeBoxElement.style.transform = 'none'
+        this.resizeBoxElement.style.top = '50px'
+        this.resizeBoxElement.style.borderRadius = '0px'
+      } else if (event.dropPoint.y > window.innerHeight - 50) {
+        this.lastTranslate = this.resizeBoxElement.style.transform
+        this.resizeBoxElement.style.height = '50px'
+        this.resizeBoxElement.style.transform = 'none'
+        this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
+      }
+      this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
+    }
+}
