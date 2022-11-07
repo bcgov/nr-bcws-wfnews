@@ -5,6 +5,7 @@ import { PublishedIncidentService } from '../../services/published-incident-serv
 import { WatchlistService } from '../../services/watchlist-service';
 import { ResourcesRoutes } from '../../utils';
 import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-widget-dialog.component';
+import { isMobileView as mobileView  } from '../../utils';
 
 @Component({
     selector: 'sticky-widget',
@@ -16,6 +17,8 @@ export class StickyWidgetComponent implements OnDestroy {
   public watchlist: any[] = []
   private closeProgressInterval: any
   public progressValue = 0
+
+  public isMobileView = mobileView
 
   constructor(protected dialog: MatDialog, protected cdr: ChangeDetectorRef, private router: Router, private watchlistService: WatchlistService, private publishedIncidentService: PublishedIncidentService) {}
 
@@ -76,9 +79,5 @@ export class StickyWidgetComponent implements OnDestroy {
       }
     }
     this.cdr.detectChanges()
-  }
-
-  public isMobileView () {
-    return window.innerWidth <= 768
   }
 }
