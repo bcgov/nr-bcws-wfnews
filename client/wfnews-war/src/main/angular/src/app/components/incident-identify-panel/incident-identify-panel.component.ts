@@ -163,15 +163,15 @@ export class IncidentIdentifyPanelComponent {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), 10)
+      viewer.panToFeature(window['turf'].point([long, lat]), 15)
 
-      const map = viewer.map;
-      let latlngPoint = new L.LatLng(lat, long);
-      map.fireEvent('click', {
-        latlng: latlngPoint,
-        layerPoint: map.latLngToLayerPoint(latlngPoint),
-        containerPoint: map.latLngToContainerPoint(latlngPoint)
-      });
+      // const map = viewer.map;
+      // let latlngPoint = new L.LatLng(lat, long);
+      // map.fireEvent('click', {
+      //   latlng: latlngPoint,
+      //   layerPoint: map.latLngToLayerPoint(latlngPoint),
+      //   containerPoint: map.latLngToContainerPoint(latlngPoint)
+      // });
     })
 
   }
