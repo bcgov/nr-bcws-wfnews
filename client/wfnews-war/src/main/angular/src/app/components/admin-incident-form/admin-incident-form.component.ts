@@ -8,6 +8,7 @@ import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-
 import { RootState } from '../../store';
 import { getIncident } from '../../store/incident/incident.action';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { CustomImageUploader } from './incident-details-panel/custom-uploader';
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
@@ -208,5 +209,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         editor.ui.view.toolbar.element,
         editor.ui.getEditableElement()
     );
+
+    editor.plugins.get( 'FileRepository' ).createUploadAdapter = (loader) => {
+      return new CustomImageUploader( loader )
+    }
   }
 }
