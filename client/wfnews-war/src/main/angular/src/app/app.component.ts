@@ -307,7 +307,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     isAdminPage() {
-      if (this.router.url === '/admin' || this.router.url.includes("/incident?") || this.router.url === '/error-page') {
+      if (this.router.url === '/admin' || this.router.url.includes("/incident?") || this.router.url.includes("?preview=true") || this.router.url === '/error-page') {
           return true;
       } else {
           return false;
