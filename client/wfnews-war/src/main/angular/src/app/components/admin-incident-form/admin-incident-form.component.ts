@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppConfigService } from '@wf1/core-ui';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
@@ -32,6 +32,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     sizeHectares: 987,
     sizeComments: '',
     cause: 'Lightning',
+    stageOfControlCode: "",
     causeComments: '',
     responseComments: '',
     wildifreCrewsInd: true,
@@ -71,6 +72,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               private appConfig: AppConfigService,
               private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
+              private componentRouter: Router,
               private store: Store<RootState>,
               protected cdr: ChangeDetectorRef) {
     this.incidentForm = this.formBuilder.group({
@@ -149,6 +151,55 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     const rawData = this.incidentForm.getRawValue()
     console.log(rawData)
     //this.service.submitUpdate(this.incidentForm.getRawValue()).subscribe((): void => {...})
+  }
+
+  onShowPreview() {
+    let mappedIncident = {
+      incidentGuid:  this.currentAdminIncident["wildfireIncidentGuid"],
+      incidentNumberLabel:this.incident.fireName,
+      stageOfControlCode:this.incident.incidentData.incidentStatusCode,
+      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == "Human" ? 1 : this.incidentForm.controls['cause'].value == "Lightning" ? 2 : 3,
+      discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
+      fireCentre: (this.incidentForm.controls['contact'] as FormGroup).controls['fireCentre'].value,
+      fireOfNoteInd: this.incidentForm.controls['fireOfNotePublishedInd'].value,
+      incidentName: this.incidentForm.controls['incidentNumberSequence'].value,
+      incidentLocation: this.incidentForm.controls['geographicDescription'].value,
+      incidentOverview: this.incident.incidentOverview,
+      traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
+      incidentSizeType: this.incidentForm.controls['sizeType'].value,
+      incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
+      incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
+      incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
+      contactOrgUnitIdentifer:null,
+      contactPhoneNumber:  (this.incidentForm.controls['contact'] as FormGroup).controls['phoneNumber'].value,
+      contactEmailAddress:  (this.incidentForm.controls['contact'] as FormGroup).controls['emailAddress'].value,
+      wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
+      wildfireCrewResourcesDetail: this.incidentForm.controls['crewsComments'].value,
+      wildfireAviationResourceInd: this.incidentForm.controls['aviationInd'].value,
+      wildfireAviationResourceDetail: this.incidentForm.controls['aviationComments'].value,
+      heavyEquipmentResourcesInd: this.incidentForm.controls['heavyEquipmentInd'].value,
+      heavyEquipmentResourcesDetail: this.incidentForm.controls['heavyEquipmentComments'].value,
+      incidentMgmtCrewRsrcInd: this.incidentForm.controls['incidentManagementInd'].value,
+      incidentMgmtCrewRsrcDetail: this.incidentForm.controls['incidentManagementComments'].value,
+      structureProtectionRsrcInd: this.incidentForm.controls['structureProtectionInd'].value,
+      structureProtectionRsrcDetail: this.incidentForm.controls['structureProtectionComments'].value,
+      lastUpdatedTimestamp: new Date(this.incident.incidentData.lastUpdatedTimestamp).toString(),
+      latitude: this.incident.incidentData.incidentLocation.latitude,
+      longitude: this.incident.incidentData.incidentLocation.longitude,
+      fireYear: this.incident.wildfireYear
+    }
+
+    if (localStorage.getItem("preview_incident") != null) {
+      localStorage.removeItem("preview_incident");
+    }
+
+    localStorage.setItem("preview_incident", JSON.stringify(mappedIncident));
+
+    const url = this.componentRouter.serializeUrl(
+      this.componentRouter.createUrlTree(['incidents'], { queryParams: { preview: true } })
+    );
+
+    window.open(url, '_blank');
   }
 
   // for decoupled editor
