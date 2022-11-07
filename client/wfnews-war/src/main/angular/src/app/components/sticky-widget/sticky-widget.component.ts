@@ -77,4 +77,8 @@ export class StickyWidgetComponent implements OnDestroy {
     }
     this.cdr.detectChanges()
   }
+
+  public isMobileView () {
+    return window.innerWidth <= 768
+  }
 }
