@@ -130,17 +130,13 @@ export class WFStatsComponent implements OnInit {
         const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd && status.id ==='NOTE' )).length
         statusData.push({
           name: status.name,
-          value: fireCount
+          value: status.id === 'OUT' ? this.outFires.length :  fireCount
         })
         statusAllData.push({
           name: status.name,
-          value: fireCount
+          value: status.id === 'OUT' ? this.outFires.length :  fireCount
         })
       }
-      statusAllData.push({
-        name: 'Out',
-        value: this.outFires.length
-      })
 
       // work around to get change detection on the data
       this.activeFiresByCentre = [...fcData]
@@ -154,10 +150,6 @@ export class WFStatsComponent implements OnInit {
     }
 
     this.cdr.detectChanges()
-  }
-
-  ngDoCheck() {
-    this.loading = false
   }
 
   getFireYear (offset: number = 0) {
