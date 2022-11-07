@@ -270,3 +270,16 @@ mat-card h3 {
         margin-right: 5px;
     }
 }
+
+.publish-btn{
+    background-color: var(--wf-header-background-color);
+    border: solid 1px #1A5A96;
+    color: #FFFFFF;
+}
+
+.preview-btn{
+    color: var(--wf-header-background-color);
+    background-color: #FFFFFF;
+    border: solid 1px #1A5A96;
+	margin-right: 10px;
+}
