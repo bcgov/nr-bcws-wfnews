@@ -121,7 +121,6 @@
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
       </div>
-      <!-- cdkDragLockAxis="y" (cdkDragEnded)="dragDropped($event)" cdkDrag -->
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
         <div class="grab-container" cdkDragHandle>
           <div id="grabber" class="drag-grabber"></div>
