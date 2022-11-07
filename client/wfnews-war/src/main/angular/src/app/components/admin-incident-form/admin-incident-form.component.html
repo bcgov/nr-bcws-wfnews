@@ -59,7 +59,7 @@
     </mat-accordion>
   </mat-tab>
   <mat-tab label="Incident Overview">
-    <ckeditor [editor]="Editor" [data]="incident.incidentOverview" (ready)="onReady($event)"></ckeditor>
+    <ckeditor [editor]="Editor" [(ngModel)]="incident.incidentOverview" (ready)="onReady($event)"></ckeditor>
   </mat-tab>
   <mat-tab label="Image Gallery">
     <image-gallery-panel [incident]="currentAdminIncident"></image-gallery-panel>
