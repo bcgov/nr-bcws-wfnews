@@ -4,7 +4,7 @@ routes:
     uri: /*
     upstream:
       nodes:
-        "wfnews-server.$LICENSE_PLATE-$TARGET_ENV.nimbus.cloud.gov.bc.ca": 1
+        "wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca": 1
       type: roundrobin
 
 #END
