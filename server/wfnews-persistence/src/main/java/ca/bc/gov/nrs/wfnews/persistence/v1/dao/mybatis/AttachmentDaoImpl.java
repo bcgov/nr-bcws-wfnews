@@ -66,14 +66,14 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 			Map<String, Object> parameters = new HashMap<>();
 
 			parameters.put("dto", dto);
-			parameters.put("attachmentGuid", dto.getAttachmentGuid());
+			parameters.put("fileAttachmentGuid", dto.getAttachmentGuid());
 			int count = this.attachmentMapper.update(parameters);
 
 			if(count==0) {
 				throw new DaoException("Record not inserted: "+count);
 			}
 			
-			attachmentGuid = (String) parameters.get("attachmentGuid");
+			attachmentGuid = (String) parameters.get("fileAttachmentGuid");
 			
 			dto.setAttachmentGuid(attachmentGuid);
 			
@@ -93,7 +93,7 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 		try {
 
 			Map<String, Object> parameters = new HashMap<>();
-			parameters.put("attachmentGuid", attachmentGuid);
+			parameters.put("fileAttachmentGuid", attachmentGuid);
 			result = this.attachmentMapper.fetch(parameters);
 
 		} catch (RuntimeException e) {

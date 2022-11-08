@@ -673,7 +673,7 @@ resource "aws_ecs_service" "apisix" {
   load_balancer {
     target_group_arn = aws_alb_target_group.wfnews_apisix.id
     container_name   = var.apisix_container_name
-    container_port   = var.apisix_ports[1]
+    container_port   = var.apisix_ports[0]
   }
 
   #hit admin api
