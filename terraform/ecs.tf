@@ -689,11 +689,11 @@ resource "aws_ecs_service" "apisix" {
 }
 
 resource "aws_ecs_service" "etcd" {
-  count                             = 1
+  count                             = 0
   name                              = "wfnews-etcd-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_etcd[count.index].arn
-  desired_count                     = 1
+  desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
@@ -746,7 +746,7 @@ resource "aws_ecs_service" "apisix_gui" {
   name                              = "wfnews-apisix-gui-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix_gui[count.index].arn
-  desired_count                     = 1
+  desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
