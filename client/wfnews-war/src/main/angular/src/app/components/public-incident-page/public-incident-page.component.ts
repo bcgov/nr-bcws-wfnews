@@ -59,8 +59,15 @@ export class PublicIncidentPage implements OnInit {
           this.loadingFailed = true
         })
       } else {
-        this.isLoading = false
-        this.loadingFailed = true
+        if(params && params['preview']) {
+          this.incident = JSON.parse(localStorage.getItem("preview_incident"));
+          // activate page
+          this.isLoading = false
+          this.cdr.detectChanges()
+        } else {
+          this.isLoading = false
+          this.loadingFailed = true
+        }
       }
     })
   }

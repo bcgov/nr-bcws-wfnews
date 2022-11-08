@@ -193,3 +193,6 @@ export function convertToFireCentreDescription(code: string): string {
     }
 }
 
+export function isMobileView () {
+  return window.innerWidth <= 768
+}
