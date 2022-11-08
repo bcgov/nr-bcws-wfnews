@@ -42,7 +42,7 @@ public interface AttachmentsListEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@GET
-	@Path("/publicPublishedIncident/{incidentNumberSequence}/attachments")
+	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	Response getIncidentAttachmentList(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
@@ -73,7 +73,7 @@ public interface AttachmentsListEndpoint {
 			@ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 500, message = "Internal Server Error",  response = MessageListRsrc.class) })
 	@POST
-	@Path("/publishedIncident/{incidentNumberSequence}/attachments")
+	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response createIncidentAttachment(

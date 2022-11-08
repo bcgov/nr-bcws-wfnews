@@ -3,7 +3,7 @@
 
 <mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.AttachmentMapper">
 	<resultMap id="AttachmentDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.AttachmentDto">
-    <id     property="fileAttachmentGuid"    column="file_attachment_guid"      javaType="java.lang.String"  jdbcType="BINARY" />
+    <id     property="attachmentGuid"    column="file_attachment_guid"      javaType="java.lang.String"  jdbcType="BINARY" />
     <result property="sourceObjectNameCode"  column="source_object_name_code"   javaType="java.lang.String"  jdbcType="VARCHAR" />
 		<result property="sourceObjectUniqueId"  column="source_object_unique_id"   javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="fileId"                column="file_identifier"           javaType="java.lang.String"  jdbcType="VARCHAR" />
@@ -12,7 +12,7 @@
     <result property="attachmentDescription" column="attachment_description"    javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="mimeType"              column="mime_type"                 javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="privateIndicator"      column="private_ind"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
-    <result property="archived"              column="artchived_ind"             javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+    <result property="archived"              column="archived_ind"             javaType="java.lang.Boolean" jdbcType="VARCHAR" />
     <result property="createdTimestamp"      column="created_timestamp"         javaType="java.util.Date"    jdbcType="TIMESTAMP" />
     <result property="uploadedBy"            column="uploaded_by_userid"        javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="primary"               column="primary_ind"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
@@ -39,29 +39,29 @@
             update_date, primary_ind)
 	  VALUES 
            (#{fileAttachmentGuid,    javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
-            #{sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             'Y',
             #{mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             'N',
             'Y',
             'N',
-            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
             null,
-            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             null,
             null,
             0,
-            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
-            #{uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
-            #{primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
+            #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
   </insert>
 
   <insert id="insertMeta">
@@ -76,46 +76,46 @@
 	  VALUES 
            (#{fileAttachmentMetaGuid, javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
             #{fileAttachmentGuid,     javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
-            #{latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            #{longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            #{elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            #{elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            #{azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            #{imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
-            #{imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            #{dto.latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{dto.longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{dto.elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{dto.elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{dto.azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            #{dto.imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            #{dto.imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
             0,
-            #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
-            #{uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN})
+            #{dto.uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN})
   </insert>
 
   <update id="update">
     UPDATE wfnews.file_attachment
-	     SET source_object_name_code =   #{sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           source_object_unique_id =   #{sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           document_path =             #{imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           file_identifier =           #{fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           file_attachment_type_code = #{attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           attachment_title =          #{attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           attachment_description =    #{attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           mime_type =                 #{mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+	     SET source_object_name_code =   #{dto.sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           source_object_unique_id =   #{dto.sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           document_path =             #{dto.imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           file_identifier =           #{dto.fileId,                javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           file_attachment_type_code = #{dto.attachmentTypeCode,    javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           attachment_title =          #{dto.attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           attachment_description =    #{dto.attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           mime_type =                 #{dto.mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
            revision_count =            revision_count + 1,
-           update_date =               SYSDATE,
-           primary_ind =               #{primary,               javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
-	   WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+           update_date =               CURRENT_TIMESTAMP,
+           primary_ind =               #{dto.primary,               javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
+	   WHERE file_attachment_guid = #{fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 
      UPDATE wfnews.file_attachment_metadata
-	      SET latitude =        #{latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            longitude =       #{longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            elevation_m =     #{elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            elevation_angle = #{elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            azimuth =         #{azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
-            image_height =    #{imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
-            image_width =     #{imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+	      SET latitude =        #{dto.latitude,               javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            longitude =       #{dto.longitude,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            elevation_m =     #{dto.elevation,              javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            elevation_angle = #{dto.elevationAngle,         javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            azimuth =         #{dto.azimuth,                javaType=java.lang.Double,  jdbcType=NUMERIC, mode=IN},
+            image_height =    #{dto.imageHeight,            javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+            image_width =     #{dto.imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
             revision_count =  revision_count + 1,
-            update_date =     SYSDATE
-	    WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+            update_date =     CURRENT_TIMESTAMP
+	    WHERE file_attachment_guid = #{fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
   </update>
 
   <select id="fetch" resultMap="AttachmentDtoMap"> 
@@ -123,16 +123,17 @@
       FROM wfnews.file_attachment f
       JOIN wfnews.file_attachment_metadata m
         ON f.file_attachment_guid = m.file_attachment_guid
-     WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+     WHERE f.file_attachment_guid = #{fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+     AND m.file_attachment_guid = #{fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 	</select>
 	
 	<delete id="delete">
     DELETE
       FROM wfnews.file_attachment_metadata
-     WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+     WHERE file_attachment_guid = #{attachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 		DELETE
       FROM wfnews.file_attachment
-		WHERE file_attachment_guid = {fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
+		WHERE file_attachment_guid = #{attachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 	</delete>
 
   <select id="select" resultMap="AttachmentDtoMap">
