@@ -7,6 +7,7 @@ export const SEARCH_WILDFIRES_SUCCESS = "SEARCH_WILDFIRES_SUCCESS";
 export const SEARCH_WILDFIRES_ERROR = "SEARCH_WILDFIRES_ERROR";
 export interface SearchWildfiresAction extends LabeledAction {
     componentId: string;
+    callback: Function;
     payload: {
         pageInfoRequest: PagingInfoRequest,
         filters: {
@@ -43,7 +44,8 @@ export function searchWildfires(
     displayLabel: string,
     lat: number,
     long: number,
-    radius: number): SearchWildfiresAction {
+    radius: number,
+    callback: Function | null = null): SearchWildfiresAction {
         let filters = {};
         filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined;
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : false
@@ -56,12 +58,13 @@ export function searchWildfires(
             type: SEARCH_WILDFIRES,
             componentId: componentId,
             displayLabel: displayLabel,
+            callback: callback ? callback : () => {},
             payload: {
                 pageInfoRequest,
                 filters: filters,
-                lat:lat,
-                long:long,
-                radius:radius
+                lat: lat,
+                long: long,
+                radius: radius
             }
         };
 }

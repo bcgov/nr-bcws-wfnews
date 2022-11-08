@@ -4,7 +4,7 @@
 
 .sticky-widget{
     position: fixed;
-    bottom: 110px;
+    bottom: 55px;
     right: 37px;
     z-index:1;
     display: flex;
@@ -22,6 +22,18 @@
     border: none;
     cursor: pointer;
     margin: 0 7.5px;
+}
+
+.btn-fab {
+  background-color: white;
+  margin-bottom: 10px;
+  color: #1A5A96;
+}
+
+.btn-fab-primary {
+  background-color: #1A5A96;
+  margin-bottom: 10px;
+  color: white;
 }
 
 .contact-btn{

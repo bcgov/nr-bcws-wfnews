@@ -10,6 +10,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
+import { isMobileView as mobileView  } from '../../utils';
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -58,6 +59,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     leafletInstance: any;
     searchLocationsLayerGroup: any;
     markers: any[];
+
+    public isMobileView = mobileView
 
     constructor(
         private http: HttpClient,

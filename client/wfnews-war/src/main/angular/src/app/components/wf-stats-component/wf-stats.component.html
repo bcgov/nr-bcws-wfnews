@@ -1,4 +1,7 @@
-<div class="container">
+<div *ngIf="loading" class="container">
+  <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
+</div>
+<div *ngIf="!loading" class="container">
   <div class="header-row">
     <div class="title">
         <h1>Wildfire Statistics</h1>
@@ -46,13 +49,13 @@
               <div class="cell"><strong>Fire Centre</strong></div>
               <div class="value-cell"><strong>Total Fires</strong></div>
             </div>
-            <div class="row" *ngFor="let row of tabIndex === 0 ? activeFiresByCentre: allFiresByCentre">
+            <div class="row" *ngFor="let row of tabIndex === 0 ? activeFiresByCentre : allFiresByCentre">
               <div class="cell">{{row.name}}</div>
               <div class="value-cell">{{row.value}}</div>
             </div>
             <div class="row">
               <div class="cell">All of BC</div>
-              <div class="value-cell">{{getFiresByCentreTotals()}}</div>
+              <div class="value-cell">{{getFiresByCentreTotals(tabIndex === 1)}}</div>
             </div>
           </div>
           <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">What is a Fire Centre?</a>
@@ -73,7 +76,7 @@
             [animations]="true"
             [showGridLines]="true"
             [showDataLabel]="true"
-            [results]="tabIndex === 0 ? activeFiresByCentre: allFiresByCentre">
+            [results]="tabIndex === 0 ? activeFiresByCentre : allFiresByCentre">
           </ngx-charts-bar-vertical>
         </div>
       </div>

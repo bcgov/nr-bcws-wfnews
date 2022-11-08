@@ -104,7 +104,7 @@
   </div>
 
   <div class="bottom">
-      <div [ngClass]="showAccordion ? 'details' : 'details close'">
+      <div *ngIf="!isMobileView()" [ngClass]="showAccordion ? 'details' : 'details close'">
           <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>
           <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
           <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
@@ -121,7 +121,6 @@
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
       </div>
-      <!-- cdkDragLockAxis="y" (cdkDragEnded)="dragDropped($event)" cdkDrag -->
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
         <div class="grab-container" cdkDragHandle>
           <div id="grabber" class="drag-grabber"></div>
@@ -134,7 +133,7 @@
             selectedPanel === 'routes-impacted' ? 'Drive BC' :
             selectedPanel === 'local-authorities' ? 'Local Authorities' : ''}}</div>
         </div>
-        <div class="panel-container" style="padding-top: 10px;">
+        <div *ngIf="isMobileView()" class="panel-container" style="padding-top: 10px;">
           <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control' && showAccordion"></panel-wildfire-stage-of-control-container-desktop>
           <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && showAccordion"></panel-evacuation-orders-and-alerts>
           <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions' && showAccordion"></panel-area-restrictions>
