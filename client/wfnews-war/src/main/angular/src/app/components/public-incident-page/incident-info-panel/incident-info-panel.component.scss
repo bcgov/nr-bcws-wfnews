@@ -166,3 +166,24 @@
     display: none !important;
   }
 }
+
+
+@media (min-width: 768px)and (max-width: 1023px) {
+  
+  .panel {
+    padding: 15px;
+  }
+}
+
+.panel {
+  .content-panel {
+    .content-panel-stack {
+      margin-left: -8px;
+      margin-right: -8px;
+    }
+    .content-panel-stack> * {
+      padding-left: 8px;
+      padding-right: 8px;
+    }
+  }
+}

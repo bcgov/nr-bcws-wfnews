@@ -23,6 +23,7 @@
 
   <div class="contents">
       <div class="left-panels">
+          <div class="panel-title">Definitions and Details</div>
           <mat-expansion-panel [expanded]="true">
               <mat-expansion-panel-header>
               <mat-panel-title>
@@ -52,6 +53,7 @@
       </div>
 
       <div class="notice-list">
+        <div class="panel-title">Current Notices</div>
         <mat-expansion-panel (opened)="createMap('evac-' + evac.emrgOAAsysID, evac, 'evac')" [expanded]="false" *ngFor="let evac of evacOrders">
           <mat-expansion-panel-header class="exp-panel">
             <div class="notice-item">

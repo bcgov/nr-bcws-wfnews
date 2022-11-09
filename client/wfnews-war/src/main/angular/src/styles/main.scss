@@ -601,3 +601,21 @@
 .property-list h2 .close-button {
   cursor: pointer;
 }
+
+
+
+@media (min-width: 768px)and (max-width: 1023px) {
+  wf-menu-bar{
+    .nav-items .nav-item{
+      border: none!important;
+    }
+
+    .nav-items .nav-item span{
+      min-width: calc(25vw - 1px)!important
+    }
+    .nav-items .nav-item:not(:last-child){
+
+      border-right: 1px solid var(--wf-menu-bar-divider-color)!important;
+    }
+  }
+}

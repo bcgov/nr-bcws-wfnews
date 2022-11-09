@@ -1,6 +1,8 @@
 .panel {
   background-color: white;
   padding: 22px;
+  line-height: 2rem;
+  --ck-spacing-standard:0;
   // min-height: calc(100vh - 700.6px);
   .header-row {
     display: flex;
@@ -60,4 +62,13 @@
   .content-panel {
     padding-top: 10px;
   }
+}
+
+
+@media (min-width: 768px)and (max-width: 1023px) {
+  
+  .panel {
+    padding: 15px;
+  }
+  
 }

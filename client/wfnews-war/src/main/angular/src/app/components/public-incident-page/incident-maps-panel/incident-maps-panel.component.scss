@@ -90,6 +90,7 @@
             height: 64px;
             margin-right: 3%;
             cursor: pointer;
+            background-repeat: no-repeat;
         }
         .document-title {
             font-size: 1rem;
@@ -102,3 +103,18 @@
       }
     }
   }
+
+  
+
+@media (min-width: 768px)and (max-width: 1023px) {
+  
+    .panel {
+      padding: 15px;
+      .content-panel {
+        .content-panel-stack {
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px 16px;
+        }
+     }
+    }
+}

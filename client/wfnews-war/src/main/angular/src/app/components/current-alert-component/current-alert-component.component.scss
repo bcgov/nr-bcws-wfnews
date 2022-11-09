@@ -82,6 +82,11 @@ select{
   flex-flow: row;
   flex-wrap: wrap;
   width: 100%;
+  .panel-title{
+    font-size: 25px;
+    font-weight: 400;
+    padding: 10px 0;
+  }
   .left-panels{
     width: 50%;
     margin-left: 20px;
@@ -89,9 +94,11 @@ select{
   }
   .notice-list{
       width: 45%;
-      border: 1px solid #dddddd;
       border-radius: 5px;
       height: auto;
+      mat-expansion-panel{
+        border: 1px solid #dddddd;
+      }
       .notice-item{
           .item-header{
               font-size: 18px;
@@ -141,6 +148,17 @@ select{
   height: 200px;
   padding: 7px 7px;
   background: white;
-  border-bottom: 1px solid lightgray;
   border-radius: 0px;
+}
+
+
+
+
+@media (min-width: 768px) {
+  
+  
+  .contents> * {
+    flex: 1 1 100%;
+    margin: 8px;
+  }
 }
