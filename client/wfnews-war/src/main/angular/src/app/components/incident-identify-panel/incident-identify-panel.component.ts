@@ -6,7 +6,6 @@ import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
 import { convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
-import L from 'leaflet';
 
 
 @Component({

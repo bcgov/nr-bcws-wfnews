@@ -10,9 +10,8 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { isMobileView as mobileView} from '../../utils';
+import { isMobileView as mobileView, snowPlowHelper} from '../../utils';
 import { Router } from '@angular/router';
-import { snowPlowHelper} from '../../utils';
 
 
 export type SelectedLayer =
