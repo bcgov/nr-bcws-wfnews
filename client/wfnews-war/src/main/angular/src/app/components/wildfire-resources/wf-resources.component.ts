@@ -1,12 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AppConfigService } from '@wf1/core-ui';
 import { ResourcePanel } from '../../models/ResourcePanel';
+import { snowPlowHelper } from '../../utils';
 
 @Component({
   selector: 'wf-resources',
   templateUrl: './wf-resources.component.html',
   styleUrls: [ './wf-resources.component.scss' ]
 })
-export class WildfirewResourcesComponent {
+export class WildfirewResourcesComponent implements OnInit{
+  public url;
+  public snowPlowHelper = snowPlowHelper
+  
+  constructor(protected appConfigService: AppConfigService,
+    protected router: Router) {
+}
+ngOnInit(): void {
+  this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+  this.snowPlowHelper(this.url)
+}
+
   // This can be moved into a config, for easier changes later
   public resourcePanels: ResourcePanel[] = [
     {

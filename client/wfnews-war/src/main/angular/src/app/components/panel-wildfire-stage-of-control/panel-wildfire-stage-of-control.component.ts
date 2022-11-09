@@ -217,7 +217,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     stageOfControlChanges(event:any) {
-        this.doSearch()
+      this.onChangeFilters()
+      this.doSearch()
     }
 
     calculateDistance (lat: number, long: number): string {

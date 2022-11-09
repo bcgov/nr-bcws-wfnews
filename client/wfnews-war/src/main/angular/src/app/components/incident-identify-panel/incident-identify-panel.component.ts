@@ -6,7 +6,6 @@ import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
 import { convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
-import L from 'leaflet';
 
 
 @Component({
@@ -163,15 +162,7 @@ export class IncidentIdentifyPanelComponent {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), 10)
-
-      const map = viewer.map;
-      let latlngPoint = new L.LatLng(lat, long);
-      map.fireEvent('click', {
-        latlng: latlngPoint,
-        layerPoint: map.latLngToLayerPoint(latlngPoint),
-        containerPoint: map.latLngToContainerPoint(latlngPoint)
-      });
+      viewer.panToFeature(window['turf'].point([long, lat]), 15)
     })
 
   }
