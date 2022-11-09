@@ -665,7 +665,7 @@ resource "aws_ecs_service" "apisix" {
 
   network_configuration {
     security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
-    subnets          = module.network.aws_subnet_ids.app.ids
+    subnets          = module.network.aws_subnet_ids.web.ids
     assign_public_ip = true
   }
 
@@ -673,7 +673,7 @@ resource "aws_ecs_service" "apisix" {
   load_balancer {
     target_group_arn = aws_alb_target_group.wfnews_apisix.id
     container_name   = var.apisix_container_name
-    container_port   = var.apisix_ports[1]
+    container_port   = var.apisix_ports[0]
   }
 
   #hit admin api
@@ -689,11 +689,11 @@ resource "aws_ecs_service" "apisix" {
 }
 
 resource "aws_ecs_service" "etcd" {
-  count                             = 1
+  count                             = 0
   name                              = "wfnews-etcd-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_etcd[count.index].arn
-  desired_count                     = 1
+  desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
@@ -746,7 +746,7 @@ resource "aws_ecs_service" "apisix_gui" {
   name                              = "wfnews-apisix-gui-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix_gui[count.index].arn
-  desired_count                     = 1
+  desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60
