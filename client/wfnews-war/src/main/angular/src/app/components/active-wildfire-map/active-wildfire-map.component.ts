@@ -11,7 +11,7 @@ import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
 import { isMobileView as mobileView, snowPlowHelper} from '../../utils';
-import { Router } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 
 export type SelectedLayer =
@@ -69,6 +69,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     constructor(
         protected appConfigService: AppConfigService,
         protected router: Router,
+        protected activedRouter: ActivatedRoute,
         private http: HttpClient,
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
@@ -135,6 +136,24 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
                     this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
                 });
         });
+        this.activedRouter.queryParams.subscribe(
+            (params:ParamMap) => {
+              if (params && params['longitude'] && params['latitude']){
+                const long = Number(params['longitude']);
+                const lat = Number(params['latitude']);
+                this.mapConfigService.getMapConfig().then(() => {
+                  const SMK = window['SMK'];
+                  let viewer = null;
+                  for (const smkMap in SMK.MAP) {
+                    if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+                      viewer = SMK.MAP[smkMap].$viewer;
+                    }
+                  }
+                  viewer.panToFeature(window['turf'].point([long, lat]), 15)
+                })
+              }
+            }
+          )
     }
 
     getFullAddress(location) {
