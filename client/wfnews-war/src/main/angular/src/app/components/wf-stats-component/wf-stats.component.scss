@@ -202,3 +202,19 @@ mat-tab-group {
 .info-panel> * {
   flex: 1 1 315px;
 }
+
+
+
+
+@media (min-width: 768px)and (max-width: 1023px) {
+.stages-of-control{
+  .info-text {
+    width: 100%;
+  }
+  .info-chart {
+    width: 100%;
+    padding-top: 15px;
+    order: 1;
+  }
+}
+}
