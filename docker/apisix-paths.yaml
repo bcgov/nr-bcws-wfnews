@@ -10,7 +10,7 @@ routes:
           - X-Api-useless:
     upstream:
       nodes:
-        "httpbin.org": 1
+        "wfnews-api.pp93w9-dev.nimbus.cloud.gov.bc.ca": 1
       type: roundrobin
 
 plugins:
