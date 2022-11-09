@@ -67,7 +67,11 @@
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="outWildfiresInd" [disabled]="!activeWildfiresInd">Out Wildfires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Wildfires of Note</mat-checkbox>
         </div>
-        <div *ngIf="collectionData">
+        <div *ngIf="loading">
+          <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
+        </div>
+        <div *ngIf="!loading">
+          <div *ngIf="collectionData">
             <div class = "incident-item" *ngFor="let incident of collectionData" (click)="openPreview(incident)" (mouseenter)="onPanelMouseEnter(incident)" (mouseleave)="onPanelMouseExit(incident)">
               <mat-progress-bar [id]="incident.incidentName" mode="determinate" [value]="progressValues.get(incident.incidentName)"></mat-progress-bar>
               <div class="item-header" style="color: #1a5a96">{{incident.incidentName}}
@@ -99,13 +103,12 @@
                 </div>
             </div>
         </div>
-
         <div class="bottom-summary flex-y-fixed">
-            <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
-            <span class="paging-control {{isFirstPage}}" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
-            <span class="paging-control {{isLastPage}}" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
-
+          <div class="showing-summary" style="flex: 75%;">{{summaryString}}</div>
+          <span class="paging-control {{isFirstPage}}" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
+          <span class="paging-control {{isLastPage}}" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
         </div>
+      </div>
     </mat-tab>
 
 </mat-tab-group>

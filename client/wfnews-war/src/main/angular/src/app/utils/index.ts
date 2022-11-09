@@ -4,6 +4,7 @@ import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
 
+declare const window: any;
 export enum ResourcesRoutes {
     LANDING = '',
     ACTIVEWILDFIREMAP = 'activeWildfireMap',
@@ -191,5 +192,17 @@ export function convertToFireCentreDescription(code: string): string {
         let result = FireCentres.find(fireCentre => fireCentre.code === code);
         return result.description;
     }
+}
+
+export function isMobileView () {
+  return window.innerWidth <= 768
+}
+
+export function snowPlowHelper(page: string, action?:string) {
+    let pageInfo = page;
+    if(action) {
+       pageInfo =  pageInfo + '#' + action;
+    }
+    window.snowplow('trackPageView', pageInfo);
 }
 

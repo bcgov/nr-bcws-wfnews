@@ -94,9 +94,13 @@ export class WildfiresListEffect {
                 return this.http.get<any>(url,{headers})
                     .pipe(
                         map((response: any) => {
+                            typedaction.callback()
                             return searchWildfiresSuccess(typedaction.componentId, response);
                         }),
-                        catchError(error => of(searchWildfiresError(typedaction.componentId, error)))
+                        catchError(error => {
+                          typedaction.callback()
+                          return of(searchWildfiresError(typedaction.componentId, error))
+                        }),
                     );
             }
         )

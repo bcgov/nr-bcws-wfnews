@@ -25,5 +25,5 @@
   failed to load...
 </div>
 <div *ngIf="isLoading">
-  loading...
+  <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
 </div>

@@ -18,7 +18,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -35,9 +35,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   searchByLocationControl=new FormControl
   selectedLat:number;
   selectedLong:number;
-
-
-
+  url;
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
   wildfiresOfNoteInd = false;
@@ -60,6 +58,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToFireCentreDescription = convertToFireCentreDescription
+  snowPlowHelper = snowPlowHelper
+
 
   constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService) 
   {
@@ -96,6 +96,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   loadPage() {
+    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(this.url)
     this.placeData = new PlaceData();
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
     this.updateView();

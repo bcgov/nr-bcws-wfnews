@@ -1,7 +1,10 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { AppConfigService } from '@wf1/core-ui';
 import { interval, Subscription } from 'rxjs';
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { snowPlowHelper } from '../../utils';
 
 @Component({
   selector: 'wf-stats',
@@ -24,6 +27,9 @@ export class WFStatsComponent implements OnInit {
   public allFiresByCentre = []
   public allFiresByCause = []
   public allFiresByStatus = []
+  public url;
+  public snowPlowHelper = snowPlowHelper
+
 
   private updateSubscription: Subscription;
 
@@ -50,12 +56,16 @@ export class WFStatsComponent implements OnInit {
     { name: 'Out', value: '#369dc9' }
   ]
 
-  constructor(protected snackbarService: MatSnackBar,
+  constructor(protected appConfigService: AppConfigService,
+              protected router: Router,
+              protected snackbarService: MatSnackBar,
               private publishedIncidentService: PublishedIncidentService,
               protected cdr: ChangeDetectorRef) {
   }
 
   ngOnInit(): void {
+    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(this.url)
     this.loadData().then(() => {
       this.loading = false;
       // 600000 is 10 minutes in milliseconds
@@ -130,17 +140,13 @@ export class WFStatsComponent implements OnInit {
         const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd && status.id ==='NOTE' )).length
         statusData.push({
           name: status.name,
-          value: fireCount
+          value: status.id === 'OUT' ? this.outFires.length :  fireCount
         })
         statusAllData.push({
           name: status.name,
-          value: fireCount
+          value: status.id === 'OUT' ? this.outFires.length :  fireCount
         })
       }
-      statusAllData.push({
-        name: 'Out',
-        value: this.outFires.length
-      })
 
       // work around to get change detection on the data
       this.activeFiresByCentre = [...fcData]
@@ -154,10 +160,6 @@ export class WFStatsComponent implements OnInit {
     }
 
     this.cdr.detectChanges()
-  }
-
-  ngDoCheck() {
-    this.loading = false
   }
 
   getFireYear (offset: number = 0) {

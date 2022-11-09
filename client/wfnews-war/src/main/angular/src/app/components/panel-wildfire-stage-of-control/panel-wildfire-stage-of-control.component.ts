@@ -45,15 +45,18 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
     private handlePanelEnterTimeout
     private handlePanelExitTImeout
+    private markerAnimation
     private highlightLayer
     private initInterval
     private mapEventDebounce
-    private ignorePan = false
+    private ignorePan = true
     private ignorePanDebounce
 
     private marker: any
     public isFirstPage: string;
     public isLastPage: string;
+
+    public loading = true
 
     public convertToDateWithDayOfWeek = DateTimeConvert;
     public convertToStageOfControlDescription = StageOfControlConvert;
@@ -72,7 +75,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         }
       }
 
+      console.warn('Clearing intervals on destroy')
       clearInterval(this.initInterval)
+      clearInterval(this.mapPanProgressBar)
+      clearInterval(this.markerAnimation)
       clearTimeout(this.ignorePanDebounce)
     }
 
@@ -85,8 +91,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         return <PanelWildfireStageOfControlComponentModel>this.viewModel;
     }
 
-    private mapEventHandler () {
-      if (!this.ignorePan) {
+    private mapEventHandler (ignorePan) {
+      if (!ignorePan) {
         if (this.mapEventDebounce) {
           clearTimeout(this.mapEventDebounce);
           this.mapEventDebounce = null;
@@ -94,12 +100,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.mapEventDebounce = setTimeout(() => {
           this.doSearch();
         }, 500);
-        this.onPanelMouseExit(null)
       }
     }
 
     bindMapEvents () {
-      const self = this
       this.initInterval = setInterval(() => {
         try {
           const SMK = window['SMK'];
@@ -110,18 +114,18 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
             }
           }
           this.map = this.viewer.map;
-          if (!self.highlightLayer) {
-            self.highlightLayer = window[ 'L' ].layerGroup().addTo(this.map);
+          if (!this.highlightLayer) {
+            this.highlightLayer = window[ 'L' ].layerGroup().addTo(this.map);
             this.map.on( 'zoomend', () => {
-              self.mapEventHandler();
+              this.mapEventHandler(false);
             });
             this.map.on( 'moveend', () => {
-              self.mapEventHandler();
+              this.mapEventHandler(this.ignorePan);
             });
 
             console.warn('... Hooking list to map ...')
-            clearInterval(self.initInterval);
-            self.initInterval = null;
+            clearInterval(this.initInterval);
+            this.initInterval = null;
           }
         } catch (err) {
           console.warn('... Waiting on SMK init to hook map events ...')
@@ -136,7 +140,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           this.isFirstPage = null;
           this.isLastPage = null;
           let collection = changes.collection.currentValue;
-          console.log(collection)
           if (collection.pageNumber === 1 && collection.pageNumber === collection.totalPageCount) {
             //total results less than pageRowCount:10, no need for pagination
             this.isFirstPage = 'FIRST';
@@ -163,8 +166,12 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.componentId = LOAD_WILDFIRES_COMPONENT_ID
         this.doSearch();
         this.useMyCurrentLocation();
-
-        this.bindMapEvents();
+        // trigger the bind events after a slight delay
+        // otherwise the interval for syncing with SMK
+        // won't always fire
+        setTimeout(() => {
+          this.bindMapEvents()
+        }, 3000)
     }
 
     async useMyCurrentLocation() {
@@ -180,6 +187,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     doSearch() {
       let bbox = undefined
       // Fetch the maps bounding box
+      this.loading = true
       try {
         const SMK = window['SMK'];
         let viewer = null;
@@ -194,18 +202,23 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       } catch(err) {
         console.log('SMK initializing... wait to fetch bounds.')
       }
-        this.store.dispatch(searchWildfires(this.componentId, {
-          pageNumber: this.config.currentPage,
-          pageRowCount: 10,
-          sortColumn: this.currentSort,
-          sortDirection: this.currentSortDirection,
-          query: undefined
-        }, undefined, this.wildfiresOfNoteInd,(this.activeWildfiresInd && this.outWildfiresInd)?undefined: !this.activeWildfiresInd, bbox, this.displayLabel,undefined,undefined,undefined));
-      }
 
+      this.store.dispatch(searchWildfires(this.componentId, {
+        pageNumber: this.config.currentPage,
+        pageRowCount: 10,
+        sortColumn: this.currentSort,
+        sortDirection: this.currentSortDirection,
+        query: undefined
+      }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, bbox, this.displayLabel, undefined, undefined, undefined,
+      () => {
+        this.loading = false
+        this.cdr.detectChanges()
+      }));
+    }
 
     stageOfControlChanges(event:any) {
-        this.doSearch()
+      this.onChangeFilters()
+      this.doSearch()
     }
 
     calculateDistance (lat: number, long: number): string {
@@ -221,13 +234,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     private handlePanelEnter (incident: any) {
+      // force an exit cleanup
+      this.onPanelMouseExit(null)
+      this.ignorePan = true
       if (this.ignorePanDebounce) {
         clearTimeout(this.ignorePanDebounce)
         this.ignorePanDebounce = null
       }
-      this.ignorePan = true;
-
-      const self = this;
 
       const SMK = window['SMK'];
       this.viewer = null;
@@ -241,14 +254,14 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       if (this.lastPanned !== incident.incidentName) {
         this.progressValues.set(incident.incidentName, 0);
         this.mapPanProgressBar = setInterval(() => {
-          self.progressValues.set(incident.incidentName, self.progressValues.get(incident.incidentName) + 10);
-          if (self.progressValues.get(incident.incidentName) >= 100) {
-            self.lastPanned = incident.incidentName
+          this.progressValues.set(incident.incidentName, this.progressValues.get(incident.incidentName) + 10);
+          if (this.progressValues.get(incident.incidentName) >= 100) {
+            this.lastPanned = incident.incidentName
             this.viewer.panToFeature(window['turf'].point([incident.longitude + 1, incident.latitude]), this.map._zoom);
             clearInterval(this.mapPanProgressBar);
-            self.mapPanProgressBar = null;
+            this.mapPanProgressBar = null;
           }
-          self.cdr.detectChanges();
+          this.cdr.detectChanges();
         }, 100);
       }
 
@@ -283,7 +296,11 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           icon.style.backgroundColor = '#507800'
         }
 
-        setInterval(() => {
+        if (this.markerAnimation) {
+          clearInterval(this.markerAnimation)
+        }
+
+        this.markerAnimation = setInterval(() => {
           icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
           icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
           icon.style.marginLeft = icon.style.width === "20px" ? '-10px' : '-5px'
@@ -316,6 +333,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         clearInterval(this.mapPanProgressBar);
         this.mapPanProgressBar = null;
       }
+      if (this.markerAnimation) {
+        clearInterval(this.markerAnimation)
+      }
       if (incident) {
         this.progressValues.set(incident.incidentName, 0);
       } else {
@@ -335,7 +355,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       this.ignorePanDebounce = setTimeout(() => {
         this.ignorePan = false;
         this.ignorePanDebounce = null;
-      }, 500);
+      }, 1000);
     }
 
     openPreview (incident: any) {

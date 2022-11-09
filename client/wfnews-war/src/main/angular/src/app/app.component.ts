@@ -4,7 +4,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1/wfcc-application-ui';
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
@@ -13,9 +12,8 @@ import { Subscription } from 'rxjs';
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
-import { RootState } from './store';
-import { ResourcesRoutes } from './utils';
-
+import { ResourcesRoutes, snowPlowHelper } from './utils';
+import { isMobileView as mobileView } from './utils';
 
 export const ICON = {
     TWITTER: 'twitter',
@@ -39,7 +37,9 @@ export const ICON = {
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
-
+    public url;
+    public snowPlowHelper = snowPlowHelper
+    public isMobileView = mobileView
     public TOOLTIP_DELAY = 500;
 
     title = 'News';
@@ -137,7 +137,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
                 } else {
                     localStorage.removeItem('dontShowPublicMobileDownload');
                 }
-            });   
+            });
         }
     }
 
@@ -228,7 +228,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     navigateToBcWebsite() {
         window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status', '_blank');
-
+        this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+        this.snowPlowHelper(this.url,'BCGovLogo')
     }
 
     navigateToFooterPage(event: any) {
@@ -300,10 +301,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
             ICON.MAP,
             this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/map.svg')
         );
-    }
-
-    isMobileView () {
-      return window.innerWidth <= 768
     }
 
     isAdminPage() {
