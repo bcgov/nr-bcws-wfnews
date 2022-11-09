@@ -10,7 +10,10 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { isMobileView as mobileView  } from '../../utils';
+import { isMobileView as mobileView} from '../../utils';
+import { Router } from '@angular/router';
+import { snowPlowHelper} from '../../utils';
+
 
 export type SelectedLayer =
     'evacuation-orders-and-alerts' |
@@ -59,10 +62,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     leafletInstance: any;
     searchLocationsLayerGroup: any;
     markers: any[];
+    url;
 
     public isMobileView = mobileView
+    public snowPlowHelper = snowPlowHelper
 
     constructor(
+        protected appConfigService: AppConfigService,
+        protected router: Router,
         private http: HttpClient,
         private appConfig: AppConfigService,
         private mapConfigService: MapConfigService,
@@ -88,11 +95,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
 
                 this.placeData.searchAddresses(val).then(function(results){
                     if(results) {
-
                         results.forEach((result) => {
                             let address = self.getFullAddress(result);
                             result.address = address.trim();
                             self.highlight(result);
+                            console.log('saw')
                         });
 
                         self.filteredOptions = results;
@@ -112,6 +119,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     ngOnInit() {
+        this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+        this.snowPlowHelper(this.url)
         this.showAccordion = true;
         this.appConfig.configEmitter.subscribe((config) => {
             const mapConfig = [];
@@ -255,6 +264,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     onLocationSelected(selectedOption) {
+        this.snowPlowHelper(this.url,'WILDFIRESMAP-SEARCHBAR')
         const self = this;
         self.searchLayerGroup.clearLayers();
         let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
@@ -294,7 +304,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     onSelectLayer(selectedLayer: SelectedLayer) {
         this.selectedLayer = selectedLayer;
         this.selectedPanel = selectedLayer
-
+        this.snowPlowHelper(this.url,selectedLayer)
         const layers = [
             /* 00 */ { itemId: 'active-wildfires', visible: true },
             /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
@@ -358,6 +368,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit  {
     }
 
     async useMyCurrentLocation() {
+        this.snowPlowHelper(this.url,'WILDFIRESMAP-FINDMYLOCATION')
+
         this.searchText = undefined;
 
         const location = await this.commonUtilityService.getCurrentLocationPromise()

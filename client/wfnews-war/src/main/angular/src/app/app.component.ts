@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
-import { ResourcesRoutes } from './utils';
+import { ResourcesRoutes, snowPlowHelper } from './utils';
 import { isMobileView as mobileView } from './utils';
 
 export const ICON = {
@@ -37,6 +37,8 @@ export const ICON = {
     styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
+    public url;
+    public snowPlowHelper = snowPlowHelper
     public isMobileView = mobileView
     public TOOLTIP_DELAY = 500;
 
@@ -226,7 +228,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     navigateToBcWebsite() {
         window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status', '_blank');
-
+        this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+        this.snowPlowHelper(this.url,'BCGovLogo')
     }
 
     navigateToFooterPage(event: any) {
