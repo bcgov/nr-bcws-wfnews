@@ -135,7 +135,7 @@ resource "aws_alb_target_group" "wfnews_liquibase" {
 
 resource "aws_alb_target_group" "wfnews_apisix" {
   name                 = "wfnews-apisix-${var.target_env}"
-  port                 = var.apisix_ports[1]
+  port                 = var.apisix_ports[0]
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
   target_type          = "ip"
