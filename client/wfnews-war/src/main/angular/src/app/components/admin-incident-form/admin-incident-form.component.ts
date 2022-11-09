@@ -158,8 +158,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     if (changes.adminIncident && changes.adminIncident.currentValue){
       this.currentAdminIncident = changes.adminIncident.currentValue
       var self = this;
-
-      this.publishedIncidentService.getPublishedIncident(this.currentAdminIncident["wildfireIncidentGuid"]).subscribe( (response) => {
+      debugger;
+      this.publishedIncidentService.fetchIMIncident(this.currentAdminIncident.wildfireYear.toString(), this.currentAdminIncident.incidentNumberSequence.toString()).then( (response) => {
+        debugger;
         let publishedIncident = response;
         this.publishedIncidentType = publishedIncident.type;
         self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
@@ -277,7 +278,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   publishIncident(incident, incidentLabel: string): Promise<any> {
-    return this.publishedIncidentService.publish(incident, incidentLabel);
+    return Promise.resolve();// this.publishedIncidentService.publish(incident, incidentLabel);
   }
 
   onShowPreview() {
