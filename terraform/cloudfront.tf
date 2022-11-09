@@ -304,6 +304,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
   }
 }
 
+/*
 resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
 
   count = var.cloudfront ? 1 : 0
@@ -507,6 +508,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
     ssl_support_method = "sni-only"
   }
 }
+*/
 
 output "wfnews_cloudfront_client_url" {
   value = "https://${aws_cloudfront_distribution.wfnews_geofencing_client[0].domain_name}"
