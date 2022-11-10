@@ -379,10 +379,9 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       volumesFrom = []
     }
   ])
-
-  depends_on = [aws_ecs_service.etcd]
 }
 
+/*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
   family                   = "wfnews-etcd-task-${var.target_env}"
@@ -523,6 +522,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
     }
   ])
 }
+*/
 
 resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
@@ -676,18 +676,12 @@ resource "aws_ecs_service" "apisix" {
     container_port   = var.apisix_ports[0]
   }
 
-  #hit admin api
-  load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_apisix_admin.id
-    container_name   = var.apisix_container_name
-    container_port   = var.apisix_admin_port
-  }
-
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }
 
+/*
 resource "aws_ecs_service" "etcd" {
   count                             = 0
   name                              = "wfnews-etcd-service-${var.target_env}"
@@ -718,13 +712,13 @@ resource "aws_ecs_service" "etcd" {
   }
 
 
-/*
+
   service_registries {
     registry_arn = aws_service_discovery_service.wfnews_service_discovery_service.arn
     container_port = var.etcd_port
     container_name = var.etcd_container_name
   }
-  */
+  
 
   #Hit http endpoint
   
@@ -782,3 +776,4 @@ resource "aws_ecs_service" "apisix_gui" {
 
   tags = local.common_tags
 }
+*/
