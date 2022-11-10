@@ -144,8 +144,20 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFNEWS_MAX_CONNECTIONS
         },
         {
-          name = "DB_PASS"
+          name = "DB_PASS",
           value = "${var.db_pass}"
+        },
+        {
+          name = "WFNEWS_SNS_ACCESS_KEY",
+          value = "${aws_iam_access_key.wfnews_access_key.id}"
+        },
+        {
+          name = "WFNEWS_SNS_SECRET",
+          value = "${aws_iam_access_key.wfnews_access_key.secret}"
+        },
+        {
+          name = "WFNEWS_SNS_TOPIC_ARN"
+          value = "${aws_sns_topic.wfnews_sns_topic.arn}"
         }
 
       ]
