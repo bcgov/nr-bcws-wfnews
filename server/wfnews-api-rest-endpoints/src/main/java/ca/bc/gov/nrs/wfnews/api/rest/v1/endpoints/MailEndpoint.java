@@ -15,6 +15,11 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.MailResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
+/**
+ * Mail Endpoint for sending information requests to SNS
+ * This is a public resource, so no security check is needed
+ * Mail resource will support XML or JSON
+ */
 @Api(value = "mail")
 @Path("/mail")
 public interface MailEndpoint extends BaseEndpoints {

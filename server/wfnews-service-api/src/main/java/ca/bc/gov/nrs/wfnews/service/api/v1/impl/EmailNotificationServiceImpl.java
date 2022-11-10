@@ -56,6 +56,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		logger.info("EmailNotificationServiceEnabledInd: {}", emailConfig.getEmailNotificationsEnabledInd());
 		
 		logger.debug("Configure SNS Client");
+		// On instantiation, create the AWS Basic credential client for the SNS service.
+		// This will just sit idle for the lifetime of the service.
 		AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
 		this.snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(StaticCredentialsProvider.create(creds)).build();
 		logger.debug("EmailNotificationServiceImpl>");
@@ -218,17 +220,24 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 	}
 
+	/**
+	 * Send Message implementation for SNS messages.
+	 */
 	public boolean sendMessage(MailResource mail) {
 		logger.debug(" >> sendMessage");
 		try {
+			// First, put the email information on a message attribute map
 			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
 			messageAttributes.put("name", MessageAttributeValue.builder().stringValue(mail.getName()).dataType("String").build());
 			messageAttributes.put("subject", MessageAttributeValue.builder().stringValue(mail.getSubject()).dataType("String").build());
 			messageAttributes.put("address", MessageAttributeValue.builder().stringValue(mail.getEmailAddress()).dataType("String").build());
 			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
 
+			// Then, publish a message to SNS using the client established on startup
 			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
 			PublishResponse result = snsClient.publish(request);
+			// If we dont have a result, or the ID is null, we can assume a failure
+			// If we do have a result, check for an OK response.
 			if (result != null && result.messageId() != null) {
 				logger.info("SNS Message response ID: {}", result.messageId());
 				logger.info("SNS Message Status: {}", result.sdkHttpResponse().statusCode());
@@ -237,7 +246,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				return false;
 			}
 		} catch (SnsException e) {
-				System.err.println(e.awsErrorDetails().errorMessage());
+				// on a failure, log the error and return false
 				logger.error("Failed to send message to SNS: " + e.awsErrorDetails().errorMessage(), e);
 				return false;
 		} finally {
