@@ -67,6 +67,8 @@ export class ContactWidgetDialogComponent implements OnInit {
           message: this.contactForm.get('message')
         }).toPromise().then(() => {
           this.snackbarService.open('Thank you! Our Team will contact you as soon as possible.', null, { duration: 10000, panelClass: 'snackbar-success-v2' });
+        }).catch(err => {
+          this.snackbarService.open('Your request could not be processed at this time. Please try again later.', null, { duration: 10000, panelClass: 'snackbar-error' });
         })
     }
 }
