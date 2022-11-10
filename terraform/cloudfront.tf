@@ -214,10 +214,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
       https_port             = 443
       origin_protocol_policy = "https-only"
       origin_ssl_protocols = [
-      "TLSv1.2"]
+      "TLSv1.2"
+      ]
     }
 
-    domain_name = "wfnews-apisix.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "${var.apisix_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_apisix_${var.target_env}"
   }
 
