@@ -53,44 +53,44 @@ jobs:
           tags: ${{ steps.meta-apisix.outputs.tags }}
           labels: ${{ steps.meta-apisix.outputs.labels }}
 
-      #Build etcd image
-      - name: Extract metadata (tags, labels) for etcd Docker image
-        id: meta-etcd
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ inputs.REGISTRY}}/${{ env.ETCD_IMAGE_NAME }}
-          tags: |
-            type=schedule
-            type=raw,value=${{ github.base_ref }}
-            type=ref,event=tag
-            type=raw,value=pr-${{ github.event.pull_request.number}}
+      # #Build etcd image
+      # - name: Extract metadata (tags, labels) for etcd Docker image
+      #   id: meta-etcd
+      #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      #   with:
+      #     images: ${{ inputs.REGISTRY}}/${{ env.ETCD_IMAGE_NAME }}
+      #     tags: |
+      #       type=schedule
+      #       type=raw,value=${{ github.base_ref }}
+      #       type=ref,event=tag
+      #       type=raw,value=pr-${{ github.event.pull_request.number}}
 
-      - name: Build and push etcd Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          file: docker/Dockerfile_etcd
-          push: true
-          tags: ${{ steps.meta-etcd.outputs.tags }}
-          labels: ${{ steps.meta-etcd.outputs.labels }}
+      # - name: Build and push etcd Docker image
+      #   uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      #   with:
+      #     context: .
+      #     file: docker/Dockerfile_etcd
+      #     push: true
+      #     tags: ${{ steps.meta-etcd.outputs.tags }}
+      #     labels: ${{ steps.meta-etcd.outputs.labels }}
 
-      #Build apisix-gui
-      - name: Extract metadata (tags, labels) for apisix gui Docker image
-        id: meta-gui
-        uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
-        with:
-          images: ${{ inputs.REGISTRY}}/${{ env.APISIX_GUI_IMAGE_NAME }}
-          tags: |
-            type=schedule
-            type=raw,value=${{ github.base_ref }}
-            type=ref,event=tag
-            type=raw,value=pr-${{ github.event.pull_request.number}}
+      # #Build apisix-gui
+      # - name: Extract metadata (tags, labels) for apisix gui Docker image
+      #   id: meta-gui
+      #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+      #   with:
+      #     images: ${{ inputs.REGISTRY}}/${{ env.APISIX_GUI_IMAGE_NAME }}
+      #     tags: |
+      #       type=schedule
+      #       type=raw,value=${{ github.base_ref }}
+      #       type=ref,event=tag
+      #       type=raw,value=pr-${{ github.event.pull_request.number}}
 
-      - name: Build and push apisix gui Docker image
-        uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-        with:
-          context: .
-          file: docker/Dockerfile_apisix_gui
-          push: true
-          tags: ${{ steps.meta-gui.outputs.tags }}
-          labels: ${{ steps.meta-gui.outputs.labels }}
+      # - name: Build and push apisix gui Docker image
+      #   uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
+      #   with:
+      #     context: .
+      #     file: docker/Dockerfile_apisix_gui
+      #     push: true
+      #     tags: ${{ steps.meta-gui.outputs.tags }}
+      #     labels: ${{ steps.meta-gui.outputs.labels }}
