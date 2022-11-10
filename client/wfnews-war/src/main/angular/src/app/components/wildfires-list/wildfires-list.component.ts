@@ -183,7 +183,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   viewMap(incident: any) {
-    //TODO, navigate to map page
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: incident.longitude, latitude: incident.latitude} });
+    }, 100);
+  
   }
 
 
