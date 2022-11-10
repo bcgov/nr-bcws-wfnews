@@ -7,7 +7,7 @@ import ca.bc.gov.nrs.common.wfone.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
-@JsonTypeName(ResourceTypes.INCIDENT)
+@JsonTypeName(ResourceTypes.MAIL)
 public class MailResource extends BaseResource {
   private static final long serialVersionUID = 1L;
 
