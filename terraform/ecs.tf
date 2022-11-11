@@ -149,11 +149,11 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name = "WFNEWS_SNS_ACCESS_KEY",
-          value = "${aws_iam_access_key.wfnews_access_key.id}"
+          value = "${aws_iam_access_key.wfnews_iam_access_key.id}"
         },
         {
           name = "WFNEWS_SNS_SECRET",
-          value = "${aws_iam_access_key.wfnews_access_key.secret}"
+          value = "${aws_iam_access_key.wfnews_iam_access_key.secret}"
         },
         {
           name = "WFNEWS_SNS_TOPIC_ARN"
