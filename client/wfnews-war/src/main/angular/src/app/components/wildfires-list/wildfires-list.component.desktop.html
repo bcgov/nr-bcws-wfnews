@@ -70,10 +70,13 @@
         <div class="stage-of-control-checkbox-group">
             <mat-label>Choose Wildfires to display</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="note" [(ngModel)]="wildfiresOutInd" [disabled] = "!(wildfiresOfNoteInd)">
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="activeWildfiresInd" [disabled] = "!(outWildfiresInd)">
                     Active Wildfires
                 </mat-checkbox>
-                <mat-checkbox (change)="stagesOfControlChange($event)" value="all" [(ngModel)]="wildfiresOfNoteInd" [disabled] = "!(wildfiresOutInd)">
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd" [disabled]="!(activeWildfiresInd)">
+                    Out Wildfires
+                </mat-checkbox>
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="wildfiresOfNoteInd">
                     Wildfires of Note
                 </mat-checkbox>
             </section>
@@ -131,7 +134,7 @@
         </ng-container>
 
         <ng-container matColumnDef = "addToWatchlist">
-            <th mat-header-cell *matHeaderCellDef> Add to Watchlist</th>
+            <th mat-header-cell *matHeaderCellDef mat-non-sort-header> Add to Watchlist</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="onWatchlist(item) ? removeFromWatchlist(item) : addToWatchlist(item)">
                 <span #el ><mat-icon style="color:#1A5A96">{{onWatchlist(item) ? 'bookmark' : 'bookmark_border'}}</mat-icon></span>
             </td>

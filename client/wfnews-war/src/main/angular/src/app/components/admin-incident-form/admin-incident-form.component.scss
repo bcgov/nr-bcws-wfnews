@@ -283,3 +283,18 @@ mat-card h3 {
     border: solid 1px #1A5A96;
 	margin-right: 10px;
 }
+
+.mat-expansion-panel{
+	box-shadow: none !important;
+}
+
+::ng-deep .mat-tab-body-wrapper{
+	background-color: white !important;
+	padding-left: 1rem;
+	padding-right: 1rem;
+	padding-bottom: 5rem;
+}
+
+.mat-tab-group{
+	background-color: white !important;
+}
