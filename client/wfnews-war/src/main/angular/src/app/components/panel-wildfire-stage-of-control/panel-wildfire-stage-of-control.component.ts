@@ -199,6 +199,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         const map = viewer.map;
         const bounds = map.getBounds();
         bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
+        this.onChangeFilters()
       } catch(err) {
         console.log('SMK initializing... wait to fetch bounds.')
       }
