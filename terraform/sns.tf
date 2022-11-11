@@ -37,4 +37,5 @@ data "aws_iam_policy_document" "wfnews_topic_policy_document" {
     ]
 
     sid = "__default_statement_ID"
+  }
 }
