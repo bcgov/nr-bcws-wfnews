@@ -1,5 +1,4 @@
 # security.tf
-data "aws_caller_identity" "current" {}
 
 # ALB Security Group: Edit to restrict access to the application
 data "aws_security_group" "web" {
