@@ -29,7 +29,7 @@ data "aws_iam_policy_document" "wfnews_topic_policy_document" {
 
     principals {
       type = "AWS"
-      identifiers = [aws_iam_user.wfnews_sns_user.arn]
+      identifiers = [data.aws_iam_user.current.arn]
     }
 
     resources = [

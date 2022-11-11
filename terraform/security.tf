@@ -1,4 +1,5 @@
 # security.tf
+data "aws_caller_identity" "current" {}
 
 # ALB Security Group: Edit to restrict access to the application
 data "aws_security_group" "web" {
@@ -83,27 +84,6 @@ resource "aws_security_group" "wfnews_efs_access" {
 #   security_group_id =  data.aws_security_group.data.id
 # }
 
-resource "aws_iam_user" "wfnews_sns_user" {
-  name = "wfnews-sns-user-${var.target_env}"
-}
-
-resource "aws_iam_user_policy" "wfnews_sns_policy" {
-  name = "wfnews-sns-policy-${var.target_env}"
-  user = aws_iam_user.wfnews_sns_user.name
-  policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": ["sns:*"],
-      "Effect": "Allow",
-      "Resource": "*"
-    }
-  ]
-}
-  EOF
-}
-
 resource "aws_iam_access_key" "wfnews_iam_access_key" {
-  user = aws_iam_user.wfnews_sns_user.name
+  user = data.aws_iam_user.current.name
 }
