@@ -87,7 +87,7 @@ resource "aws_iam_user" "wfnews_sns_user" {
   name = "wfnews-sns-user-${var.target_env}"
 }
 
-resource "aws_user_policy" "wfnews_sns_policy" {
+resource "aws_iam_user_policy" "wfnews_sns_policy" {
   name = "wfnews-sns-policy-${var.target_env}"
   user = aws_iam_user.wfnews_sns_user.name
   policy = <<EOF
