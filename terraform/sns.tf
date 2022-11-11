@@ -10,7 +10,7 @@ resource "aws_sns_topic_subscription" "wfnews_sns_topic_subscription" {
 }
 
 resource "aws_sns_topic_policy" "wfnews_topic_policy" {
-  arn = aws_sns_topic.wfnews_sns_topic
+  arn = aws_sns_topic.wfnews_sns_topic.arn
   policy = data.aws_iam_policy_document.wfnews_topic_policy_document.json
 }
 
