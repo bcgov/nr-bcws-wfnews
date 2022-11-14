@@ -8,3 +8,34 @@ resource "aws_sns_topic_subscription" "wfnews_sns_topic_subscription" {
     protocol = "email"
     endpoint = each.key
 }
+
+resource "aws_sns_topic_policy" "wfnews_topic_policy" {
+  arn = aws_sns_topic.wfnews_sns_topic.arn
+  policy = data.aws_iam_policy_document.wfnews_topic_policy_document.json
+}
+
+data "aws_iam_policy_document" "wfnews_topic_policy_document" {
+  policy_id = "__default_policy_ID"
+  statement {
+    actions = [
+      "SNS:Subscribe",
+      "SNS:Receive",
+      "SNS:Publish",
+      "SNS:ListSubscriptionsByTopic",
+      "SNS:GetTopicAttributes"
+    ]
+
+    effect = "Allow"
+
+    principals {
+      type = "AWS"
+      identifiers = [data.aws_caller_identity.current.account_id]
+    }
+
+    resources = [
+      aws_sns_topic.wfnews_sns_topic.arn
+    ]
+
+    sid = "__default_statement_ID"
+  }
+}
