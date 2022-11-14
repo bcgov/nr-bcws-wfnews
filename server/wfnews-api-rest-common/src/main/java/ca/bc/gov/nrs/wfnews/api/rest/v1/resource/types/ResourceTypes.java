@@ -13,6 +13,9 @@ public class ResourceTypes extends BaseResourceTypes {
 	public static final String ATTACHMENT_LIST_NAME = "attachmentList";
 	public static final String ATTACHMENT_LIST = NAMESPACE + ATTACHMENT_LIST_NAME;
 	
+	public static final String MAIL_NAME = "mail";
+	public static final String MAIL = NAMESPACE + MAIL_NAME;
+
 	public static final String INCIDENT_NAME = "incident";
 	public static final String INCIDENT = NAMESPACE + INCIDENT_NAME;
 	
