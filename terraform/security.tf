@@ -84,5 +84,5 @@ resource "aws_security_group" "wfnews_efs_access" {
 # }
 
 resource "aws_iam_access_key" "wfnews_iam_access_key" {
-  user = data.aws_iam_user.current.name
+  user = data.aws_caller_identity.current.name
 }
