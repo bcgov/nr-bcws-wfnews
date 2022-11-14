@@ -60,12 +60,12 @@ resource "aws_alb_listener" "wfnews_backend_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "fixed-response"
+    type = "redirect"
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Invalid endpoint"
-      status_code = "404"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }
