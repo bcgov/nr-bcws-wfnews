@@ -39,7 +39,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
   wildfiresOfNoteInd = false;
-  wildfiresOutInd = true;
+  activeWildfiresInd = true;
+  outWildfiresInd = false;
   selectedRadius = 50;
   radiusOptions = [
     50,
@@ -119,7 +120,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.wildfiresOfNoteInd, !this.wildfiresOutInd, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+      this.selectedFireCentreCode, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
   }
 
   onChangeFilters() {
@@ -131,7 +132,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.searchText = null;
     this.selectedFireCentreCode = null;
     this.wildfiresOfNoteInd = false;
-    this.wildfiresOutInd = true;
+    this.activeWildfiresInd = true;
+    this.outWildfiresInd = false;
     this.selectedRadius = 50
     this.selectedLat = null;
     this.selectedLong = null;
@@ -190,8 +192,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
 
-  stagesOfControlChange(event: any) {
-    // TODO, filter should update
+  stageOfControlChanges(event: any) {
+    this.onChangeFilters();
     this.doSearch()
   }
 
