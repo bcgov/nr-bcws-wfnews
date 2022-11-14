@@ -81,4 +81,3 @@ resource "aws_security_group" "wfnews_efs_access" {
 #   protocol          = "tcp"
 #   cidr_blocks = ["0.0.0.0/0"]
 #   security_group_id =  data.aws_security_group.data.id
-# }
