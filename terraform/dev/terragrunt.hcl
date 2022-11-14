@@ -7,6 +7,8 @@ include {
 }
 
 locals {
+  aws_access_key_id = get_env("AWS_ACCOUNT_ID")
+  aws_secret_access_key = get_env("AWS_SECRET_ACCESS_KEY")
   sec_group = "Web_sg"
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
@@ -53,6 +55,8 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
+    aws_access_key_id = "${local.aws_access_key_id}"
+    aws_secret_access_key = "${local.aws_secret_access_key}"
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"
