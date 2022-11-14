@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,12 @@ public class EndpointsSpringConfig {
 	@Value("${WFNEWS_MAX_CONNECTIONS}")
 	private String wfoneDataSourceMaxConnections;
 
+	@Value("${WFNEWS_ATTACHMENTS_S3_BUCKET_NAME}")
+	private String attachmentsBucketName;
+
+	@Value("${WFNEWS_ATTACHMENTS_S3_REGION_NAME}")
+	private String attachmentsRegionName;
+
 	@Bean
 	public DataSource wfoneDataSource() {
 		logger.debug(   "Creating datasource for " + wfoneDataSourceUrl );
@@ -76,7 +83,11 @@ public class EndpointsSpringConfig {
 
 		return result;
 	}
-	
+
+	@Bean
+	public AttachmentsAwsConfig getAttachmentsAwsConfig(){
+		return new AttachmentsAwsConfig(attachmentsBucketName, attachmentsRegionName);
+	}
 	
 	@Bean 
 	public DataSource codeTableDataSource() {

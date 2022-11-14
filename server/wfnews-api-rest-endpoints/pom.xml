@@ -12,6 +12,7 @@
 	</parent>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<aws.java.sdk.version>2.16.1</aws.java.sdk.version>
 	</properties>
 	
 	<dependencies>
@@ -203,7 +204,38 @@
 			<artifactId>easymock</artifactId>
 			<version>3.2</version>
 		</dependency>
-<!-- Thanks for using https://jar-download.com -->
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>bom</artifactId>
+			<version>2.18.14</version>
+			<type>pom</type>
+			<scope>import</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>2.18.14</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>auth</artifactId>
+			<version>2.18.14</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>s3</artifactId>
+			<version>2.18.14</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>software.amazon.awssdk</groupId>
+			<artifactId>utils</artifactId>
+			<version>2.18.14</version>
+		</dependency>
+
+		<!-- Thanks for using https://jar-download.com -->
 
 		
 	</dependencies>
