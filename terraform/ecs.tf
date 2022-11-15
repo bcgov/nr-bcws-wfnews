@@ -164,7 +164,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = "${var.aws_secret_access_key}"
         },
         {
-          name = "WFNEWS_S3_TOPIC_ARN",
+          name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
         },
         {
