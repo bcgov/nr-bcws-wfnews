@@ -45,7 +45,7 @@
     "@wf1/core-ui": "^2.4.5",
     "@wf1/incidents-rest-api": "^1.7.0-SNAPSHOT",
     "@wf1/orgunit-rest-api": "^2.0.2",
-    "@wf1/wfcc-application-ui": "^1.1.0-SNAPSHOT.100",
+    "@wf1/wfcc-application-ui": "^1.1.0-SNAPSHOT",
     "@wf1/wfdm-document-management-api": "^1.2.0-SNAPSHOT",
     "angular-oauth2-oidc": "4.0.2",
     "angular2-uuid": "1.1.1",
