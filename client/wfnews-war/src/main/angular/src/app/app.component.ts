@@ -143,7 +143,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     document.getElementById('main-app').classList.remove('menu-collapsed');
     document.getElementById('main-app').classList.add('menu-hidden');
-    (document.getElementsByTagName('wf-menu')[0] as HTMLElement).removeAttribute('style');
+    if (document.getElementsByTagName('wf-menu')[0]) {
+      (document.getElementsByTagName('wf-menu')[0] as HTMLElement).removeAttribute('style');
+    }
   }
 
   initAppMenu() {
