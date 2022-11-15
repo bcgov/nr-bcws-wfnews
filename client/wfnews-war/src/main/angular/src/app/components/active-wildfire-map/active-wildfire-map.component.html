@@ -52,53 +52,53 @@
       </div>
 
       <div class="map-layers">
-          <div class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
+          <div matTooltip="Wildfires" class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
               (click)="onSelectLayer( 'wildfire-stage-of-control' )">
               <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
-              <span class="hide">Wildfires</span>
+              <span class="hide shrink">Wildfires</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
+          <div matTooltip="Evacuation Orders and Alerts" class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
               (click)="onSelectLayer( 'evacuation-orders-and-alerts' )">
               <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
-              <span class="hide">Evacuation Orders and Alerts</span>
+              <span class="hide shrink">Evacuation Orders and Alerts</span>
           </div>
 
-          <div class="item"
+          <div matTooltip="Area Restrictions" class="item"
               [class.active]="selectedLayer === 'area-restrictions'"
               (click)="onSelectLayer( 'area-restrictions' )"
           >
               <span class="icon signpost mat-icon"></span>
-              <span class="hide">Area Restrictions</span>
+              <span class="hide shrink">Area Restrictions</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'bans-and-prohibitions'"
+          <div matTooltip="Bans and Prohibitions" class="item" [class.active]="selectedLayer === 'bans-and-prohibitions'"
               (click)="onSelectLayer( 'bans-and-prohibitions' )">
               <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
-              <span class="hide">Bans and Prohibitions</span>
+              <span class="hide shrink">Bans and Prohibitions</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'smoke-forecast'"
+          <div matTooltip="Smoke Forecast" class="item" [class.active]="selectedLayer === 'smoke-forecast'"
               (click)="onSelectLayer( 'smoke-forecast' )">
               <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
-              <span class="hide">Smoke Forecast</span>
+              <span class="hide shrink">Smoke Forecast</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'fire-danger'" (click)="onSelectLayer( 'fire-danger' )">
+          <div matTooltip="Danger Rating" class="item" [class.active]="selectedLayer === 'fire-danger'" (click)="onSelectLayer( 'fire-danger' )">
               <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
-              <span class="hide">Danger Rating</span>
+              <span class="hide shrink">Danger Rating</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'local-authorities'"
+          <div matTooltip="Local Authorities" class="item" [class.active]="selectedLayer === 'local-authorities'"
               (click)="onSelectLayer( 'local-authorities' )">
               <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
-              <span class="hide">Local Authorities</span>
+              <span class="hide shrink">Local Authorities</span>
           </div>
 
-          <div class="item" [class.active]="selectedLayer === 'routes-impacted'"
+          <div matTooltip="Road Conditions" class="item" [class.active]="selectedLayer === 'routes-impacted'"
               (click)="onSelectLayer( 'routes-impacted' )">
               <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
-              <span class="hide">Road Conditions</span>
+              <span class="hide shrink">Road Conditions</span>
           </div>
       </div>
   </div>
