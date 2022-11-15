@@ -99,7 +99,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
               let address = self.getFullAddress(result);
               result.address = address.trim();
               self.highlight(result);
-              console.log('saw')
             });
 
             self.filteredOptions = results;
@@ -116,12 +115,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         option.nativeElement.addEventListener('mouseout', this.onLocationOptionOut.bind(this));
       });
     });
-  }
 
-  ngOnInit() {
-    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url)
-    this.showAccordion = true;
     this.appConfig.configEmitter.subscribe((config) => {
       const mapConfig = [];
 
@@ -136,24 +130,28 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
         });
     });
-    this.activedRouter.queryParams.subscribe(
-      (params: ParamMap) => {
-        if (params && params['longitude'] && params['latitude']) {
-          const long = Number(params['longitude']);
-          const lat = Number(params['latitude']);
-          this.mapConfigService.getMapConfig().then(() => {
-            const SMK = window['SMK'];
-            let viewer = null;
-            for (const smkMap in SMK.MAP) {
-              if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-                viewer = SMK.MAP[smkMap].$viewer;
-              }
+    this.activedRouter.queryParams.subscribe((params: ParamMap) => {
+      if (params && params['longitude'] && params['latitude']) {
+        const long = Number(params['longitude']);
+        const lat = Number(params['latitude']);
+        this.mapConfigService.getMapConfig().then(() => {
+          const SMK = window['SMK'];
+          let viewer = null;
+          for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
             }
-            viewer.panToFeature(window['turf'].point([long, lat]), 15)
-          })
-        }
+          }
+          viewer.panToFeature(window['turf'].point([long, lat]), 15)
+        })
       }
-    )
+    })
+  }
+
+  ngOnInit() {
+    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(this.url)
+    this.showAccordion = true;
   }
 
   getFullAddress(location) {
