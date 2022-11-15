@@ -9,7 +9,7 @@
         [useAppLogo]="isAdminPage()"
         [useSystemAndUser]="isAdminPage()"
         [useSupportLink]="isAdminPage()"
-        [useMenu]="isMobileView() || isAdminPage()"
+        [useMenu]="true"
         [useLogoutButton]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
         (logoutClick)="logOutCurrentUser()"
