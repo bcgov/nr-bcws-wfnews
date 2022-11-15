@@ -38,8 +38,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	private InternetAddress[] toAddresses;
 	private Instant lastGeneralEmailSent;
 	private Map<String, Instant> errorExceptionMap = new HashMap<>();
-	// AWS
-	private SnsClient snsClient;
+
 
 	@Value("${WFNEWS_SNS_TOPIC_ARN}")
 	private String topicArn;
@@ -55,11 +54,6 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		this.init();
 		logger.info("EmailNotificationServiceEnabledInd: {}", emailConfig.getEmailNotificationsEnabledInd());
 		
-		logger.debug("Configure SNS Client");
-		// On instantiation, create the AWS Basic credential client for the SNS service.
-		// This will just sit idle for the lifetime of the service.
-		AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-		this.snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(StaticCredentialsProvider.create(creds)).build();
 		logger.debug("EmailNotificationServiceImpl>");
 	}
 
@@ -225,6 +219,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	 */
 	public boolean sendMessage(MailResource mail) {
 		logger.debug(" >> sendMessage");
+		SnsClient snsClient = null;
 		try {
 			// First, put the email information on a message attribute map
 			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
@@ -232,6 +227,10 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 			messageAttributes.put("subject", MessageAttributeValue.builder().stringValue(mail.getSubject()).dataType("String").build());
 			messageAttributes.put("address", MessageAttributeValue.builder().stringValue(mail.getEmailAddress()).dataType("String").build());
 			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
+
+			logger.debug("Configure SNS Client");
+			AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
+			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(StaticCredentialsProvider.create(creds)).build();
 
 			// Then, publish a message to SNS using the client established on startup
 			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
@@ -251,6 +250,10 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				return false;
 		} finally {
 			logger.debug(" << sendMessage");
+			if (snsClient != null) {
+				snsClient.close();
+				snsClient = null;
+			}
 		}
 	}
 }
