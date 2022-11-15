@@ -156,8 +156,20 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = "${var.aws_secret_access_key}"
         },
         {
-          name = "WFNEWS_SNS_TOPIC_ARN"
+          name = "WFNEWS_S3_ACCESS_KEY",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_S3_SECRET",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
+          name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
+        },
+        {
+          name = "WFNEWS_S3_BUCKET_NAME",
+          value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
         }
 
       ]
