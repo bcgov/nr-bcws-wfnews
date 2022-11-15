@@ -140,14 +140,17 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       });
     }
+
+    document.getElementById('main-app').classList.remove('menu-collapsed')
+    document.getElementById('main-app').classList.add('menu-hidden')
   }
 
   initAppMenu() {
     this.appMenu = [
-      new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'home', 'collapsed', this.router),
-      new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'home', 'collapsed', this.router),
-      new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'home', 'collapsed', this.router),
-      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'home', 'collapsed', this.router)
+      new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
+      new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
+      new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'bar_chart', 'collapsed', this.router),
+      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }
 
@@ -204,6 +207,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.initAppMenu();
       this.initFooterMenu();
       this.cdr.detectChanges();
+
+      // on resize, ensure the right main panel css is applied
+      // Basically, we want mobile all the time on public and
+      // desktop all the time on admin
+      const classList = document.getElementById('main-app').classList
+      if (this.isAdminPage() && classList.contains('device-mobile')) {
+        classList.remove('device-mobile')
+        classList.add('device-desktop')
+      } else if(classList.contains('device-desktop')) {
+        classList.remove('device-desktop')
+        classList.add('device-mobile')
+      }
     }, 250);
   }
 
