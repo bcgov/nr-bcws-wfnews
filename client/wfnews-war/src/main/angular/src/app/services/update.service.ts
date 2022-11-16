@@ -6,7 +6,7 @@ import { interval } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class UpdateService {
     constructor(public swUpdate: SwUpdate, public snackbar: MatSnackBar) {
-        console.log('wfim swUpdate, enabled:', swUpdate.isEnabled);
+        console.log('wfnews swUpdate, enabled:', swUpdate.isEnabled);
         if (swUpdate.isEnabled) {
             swUpdate.checkForUpdate();
             interval(5 * 60 * 1000).subscribe(() => swUpdate.checkForUpdate());

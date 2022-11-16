@@ -62,7 +62,6 @@ public interface AttachmentsEndpoint {
 	})
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
