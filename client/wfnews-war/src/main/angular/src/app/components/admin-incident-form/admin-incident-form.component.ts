@@ -1,14 +1,10 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppConfigService } from '@wf1/core-ui';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
-import { RootState } from '../../store';
-import { getIncident } from '../../store/incident/incident.action';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
+import { PublishedIncidentService } from '../../services/published-incident-service';
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
   // This is a stub used for testing purposes only
@@ -19,6 +15,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public Editor = Editor;
 
+  // TODO: Remove the default values here.
   public incident = {
     fireNumber: 'V245512',
     wildfireYear: '2022',
@@ -69,13 +66,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public readonly incidentForm: FormGroup
 
-  constructor(private http: HttpClient,
-              private appConfig: AppConfigService,
-              private readonly formBuilder: FormBuilder,
+  constructor(private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
               private componentRouter: Router,
-              private store: Store<RootState>,
-              protected cdr: ChangeDetectorRef) {
+              protected cdr: ChangeDetectorRef,
+              private publishedIncidentService: PublishedIncidentService) {
     this.incidentForm = this.formBuilder.group({
       incidentName: [],
       incidentNumberSequence: [],
@@ -117,13 +112,33 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         if (params && params['wildFireYear'] && params['incidentNumberSequence']){
           this.wildFireYear = params['wildFireYear'];
           this.incidentNumberSequnce = params['incidentNumberSequence']
-          this.store.dispatch(getIncident(this.wildFireYear, this.incidentNumberSequnce))
+          // TODO: using teh publishedIncidentService means we can get rid of the store dispatch and not use ngrx at all
+          // this.store.dispatch(getIncident(this.wildFireYear, this.incidentNumberSequnce))
+
+          this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).then((result) => {
+            // TODO: The result object contains two things:
+            // result.incident is the source wildfire incident from IM
+            // result.published is the published incident information. If there is no published incident
+            // this will be undefined.
+            // So, in this function here, we should be determining what data to push to the form by using the published
+            // incident if available, or "creating" one from the wildfire incident if one doesn't exist.
+            console.log(result)
+            // create the published incident if its undefined.
+            this.currentAdminIncident = result.incident // should be the published incident (not needed?)
+            this.incident = result.incident // should be the published incident
+            this.incidentForm.patchValue(this.incident) // populate the form
+
+            this.cdr.detectChanges();
+          }).catch((err) => {
+            console.error(err)
+          })
         }
       }
     )
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    // TODO: This can be removed once the onInit is updated to map the form correctly
     if (changes.adminIncident && changes.adminIncident.currentValue){
       this.currentAdminIncident = changes.adminIncident.currentValue
       // We need to load the Published Incident from IM as well at this point!
