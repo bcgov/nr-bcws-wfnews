@@ -1,4 +1,4 @@
-<wf-application class="wfnews-application"
+<wf-application id="main-app" class="wfnews-application"
     [ngClass]="'orientation-' + orientation"
     [config]="applicationConfig"
     [(state)]="applicationState"
@@ -9,12 +9,18 @@
         [useAppLogo]="isAdminPage()"
         [useSystemAndUser]="isAdminPage()"
         [useSupportLink]="isAdminPage()"
-        [useMenu]="isMobileView() || isAdminPage()"
+        [useMenu]="true"
         [useLogoutButton]="isAdminPage()"
         (bcLogoClick)="navigateToBcWebsite()"
         (logoutClick)="logOutCurrentUser()"
         (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
+
+    <wf-menu
+        [menuItems]="appMenu"
+        [config]="applicationConfig"
+        [(state)]="applicationState"
+    ></wf-menu>
 
     <wf-menu-bar
         [menuItems]="appMenu"
