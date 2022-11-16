@@ -60,12 +60,12 @@ resource "aws_alb_listener" "wfnews_backend_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type             = "fixed-response"
+    type = "redirect"
 
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Invalid endpoint"
-      status_code = "404"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
     }
   }
 }
@@ -135,7 +135,7 @@ resource "aws_alb_target_group" "wfnews_liquibase" {
 
 resource "aws_alb_target_group" "wfnews_apisix" {
   name                 = "wfnews-apisix-${var.target_env}"
-  port                 = var.apisix_ports[1]
+  port                 = var.apisix_ports[0]
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
   target_type          = "ip"
@@ -155,6 +155,7 @@ resource "aws_alb_target_group" "wfnews_apisix" {
   tags = local.common_tags
 }
 
+/*
 resource "aws_alb_target_group" "wfnews_apisix_admin" {
   name                 = "wfnews-apisix-admin-${var.target_env}"
   port                 = var.apisix_admin_port
@@ -221,6 +222,7 @@ resource "aws_alb_target_group" "wfnews_apisix_gui" {
 
   tags = local.common_tags
 }
+*/
 
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
@@ -285,6 +287,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix" {
   }
 }
 
+/*
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin" {
 
   listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
@@ -334,3 +337,4 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_gui" 
     }
   }
 }
+*/

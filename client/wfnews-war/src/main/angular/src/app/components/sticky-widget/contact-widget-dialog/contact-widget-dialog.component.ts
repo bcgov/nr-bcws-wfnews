@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -17,7 +18,8 @@ export class ContactWidgetDialogComponent implements OnInit {
     constructor (
       private dialogRef: MatDialogRef<ContactWidgetDialogComponent>,
       private snackbarService: MatSnackBar,
-      private appConfig: AppConfigService
+      private appConfig: AppConfigService,
+      private httpClient: HttpClient
     ) {}
 
     ngOnInit() {
@@ -49,13 +51,26 @@ export class ContactWidgetDialogComponent implements OnInit {
             error += "Email is required";
         if(emailControl.hasError('email'))
             error += "A valid email is required";
-        
+
         return error;
      }
 
     onSubmit() {
         //TODO: send to email API
         this.dialogRef.close();
-        this.snackbarService.open('Thank you! Our Team will contact you as soon as possible.', null, { duration: 10000, panelClass: 'snackbar-success-v2' });
+        const url = `${this.appConfig.getConfig().rest['wfnews']}/mail`;
+
+        this.httpClient.post(url, {
+          "@type": 'MailResource',
+          "type": 'http://wfnews.nrs.gov.bc.ca/v1/mail',
+          name: this.contactForm.get('name').value,
+          subject: this.contactForm.get('subject').value,
+          emailAddress: this.contactForm.get('email').value,
+          message: this.contactForm.get('message').value
+        }).toPromise().then(() => {
+          this.snackbarService.open('Thank you! Our Team will contact you as soon as possible.', null, { duration: 10000, panelClass: 'snackbar-success-v2' });
+        }).catch(err => {
+          this.snackbarService.open('Your request could not be processed at this time. Please try again later.', null, { duration: 10000, panelClass: 'snackbar-error' });
+        })
     }
 }
