@@ -59,11 +59,17 @@ public class EndpointsSpringConfig {
 	@Value("${WFNEWS_MAX_CONNECTIONS}")
 	private String wfoneDataSourceMaxConnections;
 
-	@Value("${WFNEWS_ATTACHMENTS_S3_BUCKET_NAME}")
+	@Value("${WFNEWS_S3_BUCKET_NAME}")
 	private String attachmentsBucketName;
 
-	@Value("${WFNEWS_ATTACHMENTS_S3_REGION_NAME}")
-	private String attachmentsRegionName;
+	@Value("${AWS_REGION}")
+	private String regionName;
+
+	@Value("${WFNEWS_ACCESS_KEY_ID}")
+	private String awsAccessKeyId;
+
+	@Value("${WFNEWS_SECRET_ACCESS_KEY}")
+	private String awsSecretAccessKey;
 
 	@Bean
 	public DataSource wfoneDataSource() {
@@ -86,7 +92,7 @@ public class EndpointsSpringConfig {
 
 	@Bean
 	public AttachmentsAwsConfig getAttachmentsAwsConfig(){
-		return new AttachmentsAwsConfig(attachmentsBucketName, attachmentsRegionName);
+		return new AttachmentsAwsConfig(attachmentsBucketName, regionName, awsAccessKeyId, awsSecretAccessKey);
 	}
 	
 	@Bean 

@@ -23,7 +23,9 @@ import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
@@ -169,8 +171,12 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		logRequest();
 
 	  	Region region =  Region.of(attachmentsAwsConfig.getRegionName());
+		AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
+				attachmentsAwsConfig.getAccessKeyId(),
+				attachmentsAwsConfig.getSecretAccessKey());
 
 		S3Client s3Client = S3Client.builder()
+				.credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
 				.region(region)
 				.build();
 
