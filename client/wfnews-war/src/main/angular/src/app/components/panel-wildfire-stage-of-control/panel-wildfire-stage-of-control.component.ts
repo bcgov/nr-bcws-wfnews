@@ -57,6 +57,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   public isLastPage: string;
 
   public loading = true
+  public tabIndex = 0
 
   public convertToDateWithDayOfWeek = DateTimeConvert;
   public convertToStageOfControlDescription = StageOfControlConvert;
@@ -126,6 +127,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           console.warn('... Hooking list to map ...')
           clearInterval(this.initInterval);
           this.initInterval = null;
+          this.onChangeFilters();
+          this.doSearch();
         }
       } catch (err) {
         console.warn('... Waiting on SMK init to hook map events ...')
@@ -133,6 +136,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }, 1000)
   }
 
+  onTabChanged (event) {
+    this.onChangeFilters();
+    this.doSearch();
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
@@ -164,7 +171,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.config = this.getPagingConfig();
     this.baseRoute = this.router.url;
     this.componentId = LOAD_WILDFIRES_COMPONENT_ID
-    this.doSearch();
     this.useMyCurrentLocation();
     // trigger the bind events after a slight delay
     // otherwise the interval for syncing with SMK
@@ -187,6 +193,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   doSearch() {
     let bbox = undefined
     // Fetch the maps bounding box
+    console.log('Loading true')
     this.loading = true
     try {
       const SMK = window['SMK'];
@@ -212,6 +219,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       query: undefined
     }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, bbox, this.displayLabel, undefined, undefined, undefined,
       () => {
+        console.log('Loading false')
         this.loading = false
         this.cdr.detectChanges()
       }));
