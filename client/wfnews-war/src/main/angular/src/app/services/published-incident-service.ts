@@ -23,9 +23,15 @@ export class PublishedIncidentService {
 
   public async fetchIMIncident (fireYear: string, incidentNumber: string): Promise<any> {
     const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
-    const incident = await this.httpClient.get(url).toPromise() as any
+    const headers = {
+      headers: {
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`
+      }
+    }
+
+    const incident = await this.httpClient.get(url, headers).toPromise().catch(err => console.error(err)) as any
     const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${incident.externalIdentifier}`
-    const publishedIncident = await this.httpClient.get(publishedUrl).toPromise()
+    const publishedIncident = await this.httpClient.get(publishedUrl, headers).toPromise().catch(err => console.error(err)) as any
     return {
       incident,
       publishedIncident
