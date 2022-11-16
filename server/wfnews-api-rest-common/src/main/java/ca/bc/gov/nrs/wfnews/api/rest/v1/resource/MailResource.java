@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.resource;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
 
@@ -10,6 +12,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
  * Information Request Mail Resource
  * This resource should only be used for the Mail to SNS handler
  */
+@XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.MAIL_NAME)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.MAIL)
 public class MailResource extends BaseResource {
