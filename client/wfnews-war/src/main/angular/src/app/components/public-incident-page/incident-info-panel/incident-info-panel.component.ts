@@ -53,7 +53,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public printPage() {
     const printContents = document.getElementsByClassName('page-container')[0].innerHTML
     
-    var appRoot = document.body.removeChild(document.getElementById("app-root"));
+    const appRoot = document.body.removeChild(document.getElementById("app-root"));
 
     document.body.innerHTML = printContents
 
