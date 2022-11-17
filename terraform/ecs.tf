@@ -355,24 +355,20 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           protocol = "tcp"
           containerPort = var.apisix_ports[1]
           hostPort = var.apisix_ports[1]
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.apisix_admin_port
-          hostPort = var.apisix_admin_port
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.health_check_port
-          hostPort = var.health_check_port
         }
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.apisix_admin_port
+        #   hostPort = var.apisix_admin_port
+        # },
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.health_check_port
+        #   hostPort = var.health_check_port
+        # }
 
       ]
       environment = [
-        # {
-        #   name: "ETCD_URL",
-        #   value: "http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-        # },
         {
           name: "API_KEY",
           value: "${var.api_key}"
