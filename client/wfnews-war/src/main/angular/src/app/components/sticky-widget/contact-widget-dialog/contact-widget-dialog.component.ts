@@ -61,7 +61,8 @@ export class ContactWidgetDialogComponent implements OnInit {
         const url = `${this.appConfig.getConfig().rest['wfnews']}/mail`;
 
         this.httpClient.post(url, {
-          "@type": 'http://wfnews.nrs.gov.bc.ca/v1/mail',
+          "@type": 'MailResource',
+          "type": 'http://wfnews.nrs.gov.bc.ca/v1/mail',
           name: this.contactForm.get('name').value,
           subject: this.contactForm.get('subject').value,
           emailAddress: this.contactForm.get('email').value,
