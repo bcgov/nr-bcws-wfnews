@@ -250,7 +250,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
     forwarded_values {
       query_string = true
-      headers = ["Origin", "Authorization", "X-API-KEY"]
+      headers = ["Origin", "Authorization", "X-API-KEY", "apikey"]
 
       cookies {
         forward = "all"
