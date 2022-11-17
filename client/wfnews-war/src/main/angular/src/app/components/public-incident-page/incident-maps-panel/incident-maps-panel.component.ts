@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from "@angular/common/http";
+import { PublishedIncidentService } from "../../../services/published-incident-service";
 
 export class DownloadableMap {
   name :string;
@@ -17,41 +18,41 @@ export class DownloadableMap {
 export class IncidentMapsPanel implements OnInit {
   @Input() public incident;
 
-  downloadableMaps: DownloadableMap[];
-
+  maps: DownloadableMap[];
+  
   constructor(private snackbarService: MatSnackBar,
-              private httpClient: HttpClient) {
-    
+              private httpClient: HttpClient,
+              private publishedIncidentService: PublishedIncidentService,
+              protected cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    this.downloadableMaps = [
-      {
-        name: "Akokli Creek Active Evacuation Areas", link: "https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK", date: "June 24, 2022"
-      },
-      {
-        name: "Akokli Creek Active Evacuation Areas", link: "https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK", date: "June 24, 2022"
-      },
-      {
-        name: "Akokli Creek Active Evacuation Areas", link: "https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK", date: "June 24, 2022"
-      },
-      {
-        name: "Akokli Creek Active Evacuation Areas", link: "https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK", date: "June 24, 2022"
-      },
-      {
-        name: "Akokli Creek Active Evacuation Areas", link: "https://cdn.filestackcontent.com/wcrjf9qPTCKXV3hMXDwK", date: "June 24, 2022"
-      }
-    ];
-
-    this.loadMaps();
+    var self = this;
+    this.loadMaps().then(docs => {
+      self.maps = docs.map(doc => {
+        return { name:doc.attachmentTitle, link:`/publicPublishedIncidentAttachment/${self.incident.incidentNumberSequence}/attachments/${doc.attachmentGuid}/bytes`, date:new Date(doc.createdTimestamp).toDateString()};
+      });
+      this.cdr.detectChanges();
+    });
   }
 
-  loadMaps() {
-   
+  loadMaps(): Promise<any> {
+    return this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise()
+      .then( ( docs ) => {
+        // remove any non-image types
+        for (const doc of docs.collection) {
+          const idx = docs.collection.indexOf(doc)
+          if (idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
+            docs.collection.splice(idx, 1)
+          }
+        }
+        return docs.collection;
+      }).catch(err => {
+        this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+    })
   }
 
   downloadMap(mapLink) {
-    // Need to replace this code with real call to API to get valid attachments/maps
     const url = mapLink;
     let request = this.httpClient.request( new HttpRequest( 'GET', url, {
         reportProgress: true,
