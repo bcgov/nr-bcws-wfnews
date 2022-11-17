@@ -158,55 +158,66 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     if (changes.adminIncident && changes.adminIncident.currentValue){
       this.currentAdminIncident = changes.adminIncident.currentValue
       var self = this;
-      debugger;
-      this.publishedIncidentService.fetchIMIncident(this.currentAdminIncident.wildfireYear.toString(), this.currentAdminIncident.incidentNumberSequence.toString()).then( (response) => {
-        debugger;
-        let publishedIncident = response;
-        this.publishedIncidentType = publishedIncident.type;
-        self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
-        self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
-        self.incident.incidentNumberSequence= self.currentAdminIncident.incidentNumberSequence;
-        self.incident.fireName = publishedIncident.incidentName;
-        self.incident.traditionalTerritory = publishedIncident.traditionalTerritoryDetail;
-        self.incident.lastPublished = publishedIncident.publishedTimestamp,
-        self.incident.publishedStatus = publishedIncident.newsPublicationStatusCode,
-        self.incident.fireOfNote = publishedIncident.fireOfNoteInd;
-        self.incident.location = publishedIncident.incidentLocation;
-        self.incident.sizeType = publishedIncident.incidentSizeType == "null" ? 1 : Number(publishedIncident.incidentSizeType);
-        self.incident.sizeHectares = publishedIncident.incidentSizeEstimatedHa;
-        self.incident.sizeComments = publishedIncident.incidentSizeDetail;
-        self.incident.cause = publishedIncident.generalIncidentCauseCatId;
-        self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;
-        self.incident.wildifreCrewsInd = publishedIncident.wildfireCrewResourcesInd;
-        self.incident.crewsComments = publishedIncident.wildfireCrewResourcesDetail;
-        self.incident.aviationInd = publishedIncident.wildfireAviationResourceInd;
-        self.incident.aviationComments = publishedIncident.wildfireAviationResourceDetail;
-        self.incident.incidentManagementInd = publishedIncident.incidentMgmtCrewRsrcInd;
-        self.incident.incidentManagementComments = publishedIncident.incidentMgmtCrewRsrcDetail;
-        self.incident.heavyEquipmentInd = publishedIncident.heavyEquipmentResourcesInd;
-        self.incident.heavyEquipmentComments = publishedIncident.heavyEquipmentResourcesDetail;
-        self.incident.structureProtectionInd = publishedIncident.structureProtectionRsrcInd;
-        self.incident.structureProtectionComments = publishedIncident.structureProtectionRsrcDetail;
-        this.incident.contact.isPrimary = true;
-        self.incident.contact.fireCentre = publishedIncident.contactOrgUnitIdentifer;
-        self.incident.contact.phoneNumber = publishedIncident.contactPhoneNumber;
-        self.incident.contact.emailAddress = publishedIncident.contactEmailAddress;
-        // this.incident.geometry: {
-        // this.incident.  x: -115,
-        // this.incident.  y: 50
-        // this.incident.},
-        this.incident.incidentOverview = publishedIncident.incidentOverview;
-        this.incident.evacOrders = publishedIncident.incidentLocation;
-        this.incident.mapAttachments = publishedIncident.incidentLocation;
-        this.incident.incidentData = publishedIncident.incidentLocation;
-        this.publishedIncidentDetailGuid = this.currentAdminIncident["wildfireIncidentGuid"];
-        this.incidentForm.patchValue(this.incident);
-        
-        this.incidentForm.patchValue(this.currentAdminIncident);
-      },
-      (error) => {
-        this.publishedIncidentDetailGuid = null;
-      });
+      
+      this.publishedIncidentService.fetchIMIncident(this.currentAdminIncident.wildfireYear.toString(), this.currentAdminIncident.incidentNumberSequence.toString())
+          .subscribe(incidentResponse => {
+                debugger;
+                let publishedIncident = incidentResponse.response;
+                this.publishedIncidentType = publishedIncident.type;
+                self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
+                self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
+                self.incident.incidentNumberSequence= self.currentAdminIncident.incidentNumberSequence;
+                self.incident.fireName = publishedIncident.incidentName;
+                self.incident.publishedStatus = "DRAFT",
+                self.incident.fireOfNote = publishedIncident.fireOfNotePublishedInd;
+                self.incident.location = publishedIncident.incidentLocation.geographicDescription;
+                
+                this.publishedIncidentDetailGuid = this.currentAdminIncident["wildfireIncidentGuid"];
+                this.incidentForm.patchValue(this.incident);
+                this.incidentForm.patchValue(this.currentAdminIncident);
+
+                incidentResponse.getPublishedIncident.subscribe( 
+                  (response)=> {
+                    debugger;
+                    self.publishedIncidentDetailGuid = response.publishedIncidentDetailGuid;
+                    self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
+                    self.incident.lastPublished = publishedIncident.publishedTimestamp,
+                    self.incident.sizeType = publishedIncident.incidentSizeType == "null" ? 1 : Number(publishedIncident.incidentSizeType);
+                    self.incident.sizeHectares = publishedIncident.incidentSizeEstimatedHa;
+                    self.incident.sizeComments = publishedIncident.incidentSizeDetail;
+                    self.incident.cause = publishedIncident.generalIncidentCauseCatId;
+                    self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;
+                    self.incident.wildifreCrewsInd = publishedIncident.wildfireCrewResourcesInd;
+                    self.incident.crewsComments = publishedIncident.wildfireCrewResourcesDetail;
+                    self.incident.aviationInd = publishedIncident.wildfireAviationResourceInd;
+                    self.incident.aviationComments = publishedIncident.wildfireAviationResourceDetail;
+                    self.incident.incidentManagementInd = publishedIncident.incidentMgmtCrewRsrcInd;
+                    self.incident.incidentManagementComments = publishedIncident.incidentMgmtCrewRsrcDetail;
+                    self.incident.heavyEquipmentInd = publishedIncident.heavyEquipmentResourcesInd;
+                    self.incident.heavyEquipmentComments = publishedIncident.heavyEquipmentResourcesDetail;
+                    self.incident.structureProtectionInd = publishedIncident.structureProtectionRsrcInd;
+                    self.incident.structureProtectionComments = publishedIncident.structureProtectionRsrcDetail;
+                    this.incident.contact.isPrimary = true;
+                    self.incident.contact.fireCentre = publishedIncident.contactOrgUnitIdentifer;
+                    self.incident.contact.phoneNumber = publishedIncident.contactPhoneNumber;
+                    self.incident.contact.emailAddress = publishedIncident.contactEmailAddress;
+                    // this.incident.geometry: {
+                    // this.incident.  x: -115,
+                    // this.incident.  y: 50
+                    // this.incident.},
+                    this.incident.incidentOverview = publishedIncident.incidentOverview;
+                    this.incident.evacOrders = publishedIncident.incidentLocation;
+                    this.incident.mapAttachments = publishedIncident.incidentLocation;
+                    this.incident.incidentData = publishedIncident.incidentLocation;
+                  },
+                  (error)=> {
+                    self.publishedIncidentDetailGuid = null;
+                  }
+                )
+              }, 
+              (incidentResponseError)=>{
+                debugger;
+              });
     }
 
     if (changes.adminIncidentCause){
@@ -260,12 +271,15 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           incidentMgmtCrewRsrcDetail: this.incident.incidentManagementComments,
           structureProtectionRsrcInd: this.incident.structureProtectionInd,
           structureProtectionRsrcDetail: this.incident.structureProtectionComments,
-          type: this.publishedIncidentType
+          type: this.publishedIncidentType,
+          "@type" : "http://wfim.nrs.gov.bc.ca/v1/publishedIncident"
         };
 
         self.publishIncident(publishedIncidentResource, this.currentAdminIncident["wildfireIncidentGuid"]).then(doc => {
+          debugger;
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
         }).catch(err => {
+          debugger;
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {
             self.loaded = false;
@@ -278,7 +292,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   publishIncident(incident, incidentLabel: string): Promise<any> {
-    return Promise.resolve();// this.publishedIncidentService.publish(incident, incidentLabel);
+    debugger;
+    return this.publishedIncidentService.saveIMPublishedIncident(incident).toPromise();
   }
 
   onShowPreview() {
