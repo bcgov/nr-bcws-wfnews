@@ -170,6 +170,7 @@
     max-width: 720px;
     overflow: auto;
     height: calc(100% - 196px);
+    transition: 0.5s;
   }
 
   .map {
@@ -192,7 +193,7 @@
       background-color: white;
       height: 100%;
       width: 50vw;
-      max-wdith: 600px;
+      max-width: 600px;
       display: none;
       overflow-y: auto;
       border: 1px solid #dddddd;
