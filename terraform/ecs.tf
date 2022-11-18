@@ -164,6 +164,14 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = "${var.aws_secret_access_key}"
         },
         {
+          name = "WFNEWS_ACCESS_KEY_ID",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_SECRET_ACCESS_KEY",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
           name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
         },
@@ -355,24 +363,20 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           protocol = "tcp"
           containerPort = var.apisix_ports[1]
           hostPort = var.apisix_ports[1]
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.apisix_admin_port
-          hostPort = var.apisix_admin_port
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.health_check_port
-          hostPort = var.health_check_port
         }
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.apisix_admin_port
+        #   hostPort = var.apisix_admin_port
+        # },
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.health_check_port
+        #   hostPort = var.health_check_port
+        # }
 
       ]
       environment = [
-        # {
-        #   name: "ETCD_URL",
-        #   value: "http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-        # },
         {
           name: "API_KEY",
           value: "${var.api_key}"
