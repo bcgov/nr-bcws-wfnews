@@ -23,6 +23,7 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
@@ -231,6 +232,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 			logger.debug("Configure SNS Client");
 			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
+
 			InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = new InstanceProfileCredentialsProvider(false);
 
 			snsClient = SnsClient.builder()
