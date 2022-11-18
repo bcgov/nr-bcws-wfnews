@@ -1,20 +1,31 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import sys
+import json
+import os
 import time
-import random
 import uuid
 import datetime
+import botocore 
+import botocore.session 
+from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
+
+# load configurations from aws secrets manager
+client = botocore.session.get_session().create_client('secretsmanager')
+cache_config = SecretCacheConfig()
+cache = SecretCache( config = cache_config, client = client)
+
+secret = json.loads(cache.get_secret_string(os.environ.get('SECRET_NAME')))
 
 # Token service, for fetching a token
-token_service = 'https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true&response_type=token&grant_type=client_credentials'
+token_service = secret['token-service']
 # Client, use Basic Auth
-client_name = '***'
-client_secret = '***'
+client_name = secret['client-name']
+client_secret = secret['client-secret']
 # WFIM API
-wfim_api = 'https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api/'
+wfim_api = secret['wfim-api']
 # WFNEWS API
-wfnews_api = 'https://wfnews-server.dev.bcwildfireservices.com/'
+wfnews_api = secret['wfnews-api']
 
 print('Fetching a token from OAUTH...')
 token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
