@@ -45,7 +45,7 @@ print('Using fire year: ' + str(fire_year))
 
 print('... Loading incident details')
 wfim_incidents = []
-page_number = -1
+page_number = 0
 total_pages = 0
 page_size = 100
 exit_while = False
