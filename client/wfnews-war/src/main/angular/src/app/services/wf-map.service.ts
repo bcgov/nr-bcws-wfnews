@@ -37,8 +37,8 @@ export class WFMapService {
             const hideDetailsPanel = document.getElementById('panel-details');
             if (display === 'none') {
               hideDetailsPanel.style.width = '0px'
-              hideDetailsPanel.style.visibility = 'hidden'
-              hideDetailsPanel.style.display = 'none'
+              //hideDetailsPanel.style.visibility = 'hidden'
+              //hideDetailsPanel.style.display = 'none'
             }
         }
 
@@ -48,8 +48,8 @@ export class WFMapService {
             const hideDetailsPanel = document.getElementById('panel-details');
             if (display === 'none') {
               hideDetailsPanel.style.width = '50vw'
-              hideDetailsPanel.style.visibility = 'visible'
-              hideDetailsPanel.style.display = 'block'
+              //hideDetailsPanel.style.visibility = 'visible'
+              //hideDetailsPanel.style.display = 'block'
             }
         }
 
