@@ -107,14 +107,14 @@ for incident in wfim_incidents:
     "incidentSizeEstimatedHa": incident['incidentSituation']['fireSizeHectares'],
     "incidentSizeMappedHa": incident['incidentSituation']['fireSizeHectares'],
     "newsPublicationStatusCode": published_incident['newsPublicationStatusCode'] if published_incident is not None else 'DRAFT',
-    "incidentOverview": published_incident['incidentOverview'] if published_incident is not None else None,
+    "incidentOverview": published_incident['incidentOverview'] if published_incident is not None else '',
     "traditionalTerritoryDetail": published_incident['traditionalTerritoryDetail'] if published_incident is not None else None,
-    "incidentSizeType": published_incident['incidentSizeType'] if published_incident is not None else None,
+    "incidentSizeType": published_incident['incidentSizeType'] if published_incident is not None else '',
     "incidentSizeDetail": published_incident['incidentSizeDetail'] if published_incident is not None else None,
     "incidentCauseDetail": published_incident['incidentCauseDetail'] if published_incident is not None else None,
-    "contactOrgUnitIdentifer": published_incident['contactOrgUnitIdentifer'] if published_incident is not None else None,
-    "contactPhoneNumber": published_incident['contactPhoneNumber'] if published_incident is not None else None,
-    "contactEmailAddress": published_incident['contactEmailAddress'] if published_incident is not None else None,
+    "contactOrgUnitIdentifer": published_incident['contactOrgUnitIdentifer'] if published_incident is not None else '',
+    "contactPhoneNumber": published_incident['contactPhoneNumber'] if published_incident is not None else '',
+    "contactEmailAddress": published_incident['contactEmailAddress'] if published_incident is not None else '',
     "resourceDetail": published_incident['resourceDetail'] if published_incident is not None else None,
     "wildfireCrewResourcesInd": True if published_incident is not None and published_incident['wildfireCrewResourcesInd'] == 'true' else False,
     "wildfireCrewResourcesDetail": published_incident['wildfireCrewResourcesDetail'] if published_incident is not None else None,
@@ -127,17 +127,17 @@ for incident in wfim_incidents:
     "structureProtectionRsrcInd": True if published_incident is not None and published_incident['structureProtectionRsrcInd'] == 'true' else False,
     "structureProtectionRsrcDetail": published_incident['structureProtectionRsrcDetail'] if published_incident is not None else None,
     "publishedTimestamp": published_incident['publishedTimestamp'] if published_incident is not None else curr_time,
-    "publishedUserTypeCode": published_incident['publishedUserTypeCode'] if published_incident is not None else None, 
-    "publishedUserGuid": published_incident['publishedUserGuid'] if published_incident is not None else None,
-    "publishedUserUserId": published_incident['publishedUserUserId'] if published_incident is not None else None,
-    "publishedUserName": published_incident['publishedUserName'] if published_incident is not None else None,
-    "lastUpdatedTimestamp": incident['lastUpdatedTimestamp'],
+    "publishedUserTypeCode": published_incident['publishedUserTypeCode'] if published_incident is not None else 'GOV', 
+    "publishedUserGuid": published_incident['publishedUserGuid'] if published_incident is not None else 'LOADER',
+    "publishedUserUserId": published_incident['publishedUserUserId'] if published_incident is not None else 'LOADER',
+    "publishedUserName": published_incident['publishedUserName'] if published_incident is not None else 'LOADER',
+    "lastUpdatedTimestamp": incident['lastUpdatedTimestamp'] if incident['lastUpdatedTimestamp'] is not None else curr_time ,
     "latitude": str(incident['incidentLocation']['latitude']),
     "longitude": str(incident['incidentLocation']['longitude']),
     "fireYear": fire_year
   }
 
-  wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token})
+  wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
   # verify 200
   if wfnews_response.status_code != 201:
     print(wfnews_response)
