@@ -24,6 +24,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
@@ -180,6 +181,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+    		.credentialsProvider(new InstanceProfileCredentialsProvider(false))
 				.bucket(attachmentsAwsConfig.getBucketName())
 				.key(attachmentGuid)
 				.build();
