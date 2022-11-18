@@ -46,7 +46,7 @@ print('Using fire year: ' + str(fire_year))
 print('... Loading incident details')
 wfim_incidents = []
 page_number = 0
-total_pages = 0
+total_pages = 1
 page_size = 100
 exit_while = False
 while page_number < total_pages and exit_while == False:
@@ -57,11 +57,12 @@ while page_number < total_pages and exit_while == False:
     sys.exit("Failed to fetch a data from WFIM. Response code was: " + str(wfim_response.status_code)) 
 
   wfim_data = wfim_response.json()
-  if wfim_data['pageRowCount'] == 0:
+
+  total_pages = wfim_data['totalPageCount']
+  wfim_incidents = wfim_incidents + wfim_data['collection']
+
+  if wfim_data['pageRowCount'] == 0 or wfim_data['pageRowCount'] < page_size:
     exit_while = True
-  else:
-    total_pages = wfim_data['totalPageCount']
-    wfim_incidents = wfim_incidents + wfim_data['collection']
 
   del wfim_response
 
