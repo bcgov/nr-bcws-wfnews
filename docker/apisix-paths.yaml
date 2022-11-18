@@ -3,7 +3,6 @@ routes:
     plugins:
       proxy-rewrite:
         host: "wfnews-server.pp93w9-dev.nimbus.cloud.gov.bc.ca"
-        uri: "/"
     upstream:
       nodes:
         "wfnews-api.dev.bcwildfireservices.com": 1
