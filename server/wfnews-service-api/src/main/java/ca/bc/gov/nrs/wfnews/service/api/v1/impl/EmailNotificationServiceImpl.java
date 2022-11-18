@@ -22,6 +22,7 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.auth.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
@@ -229,8 +230,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
 
 			logger.debug("Configure SNS Client");
-			AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(StaticCredentialsProvider.create(creds)).build();
+			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
+			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(new InstanceProfileCredentialsProvider(false)).build();
 
 			// Then, publish a message to SNS using the client established on startup
 			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
