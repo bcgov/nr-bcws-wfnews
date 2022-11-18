@@ -21,8 +21,8 @@ import ca.bc.gov.nrs.wfnews.service.api.model.EmailNotificationType;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
 import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
@@ -231,7 +231,12 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 			logger.debug("Configure SNS Client");
 			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(new InstanceProfileCredentialsProvider(false)).build();
+			InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = new InstanceProfileCredentialsProvider(false);
+
+			snsClient = SnsClient.builder()
+				.region(Region.CA_CENTRAL_1)
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.getCredentials()))
+				.build();
 
 			// Then, publish a message to SNS using the client established on startup
 			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
