@@ -14,7 +14,7 @@
 }
 
 .container {
-  height: calc(100vh - 152px) !important;
+  height: calc(100vh - 142px) !important;
   overflow: hidden;
 }
 
@@ -76,8 +76,9 @@
   }
 
   .title {
-    padding: 10px;
+    padding: 0px;
     margin-left: 10px;
+    margin-top: -5px;
     box-sizing: border-box;
     min-width: 175px;
     h1 {
@@ -110,19 +111,19 @@
     border-bottom: 1px solid #dddddd;
     display: flex;
     justify-content: center;
-
+    margin-top: -16px;
     span {
       font-size: 13px;
       letter-spacing: 2px;
       background: white;
       padding: 0 10px;
       position: relative;
-      bottom: -5px;
+      bottom: -11px;
     }
   }
 
   .map-layers {
-    padding: 20px 16px 8px 20px;
+    padding: 6px 6px 6px 6px;
     display: flex;
     justify-content: center;
     overflow-x: auto;
@@ -169,14 +170,14 @@
     width: 50vw;
     max-width: 720px;
     overflow: auto;
-    height: calc(100% - 196px);
+    height: calc(100% - 142px);
     transition: 0.5s;
   }
 
   .map {
     flex-grow: 1;
     overflow: hidden;
-    height: calc(100% - 174px);
+    height: calc(100% - 142px);
     position: relative;
 
     .map-container {
