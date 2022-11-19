@@ -34,11 +34,23 @@ export class WFMapService {
         const toggleHideListButton = (display) => {
             const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--hide-list');
             hideListButtonElement[0]["style"]["display"] = display;
+            const hideDetailsPanel = document.getElementById('panel-details');
+            if (display === 'none') {
+              hideDetailsPanel.style.width = '0px'
+              //hideDetailsPanel.style.visibility = 'hidden'
+              //hideDetailsPanel.style.display = 'none'
+            }
         }
 
         const toggleShowListButton = (display) => {
             const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
             hideListButtonElement[0]["style"]["display"] = display;
+            const hideDetailsPanel = document.getElementById('panel-details');
+            if (display === 'none') {
+              hideDetailsPanel.style.width = '50vw'
+              //hideDetailsPanel.style.visibility = 'visible'
+              //hideDetailsPanel.style.display = 'block'
+            }
         }
 
         return this.patch()
