@@ -24,7 +24,7 @@
                   <span class="panel-title">Incident Details</span>
               </mat-panel-title>
           </mat-expansion-panel-header>
-          <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
+          <incident-details-panel #detailsPanelComponent [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
       </mat-expansion-panel>
       <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel" expanded>
         <mat-expansion-panel-header>

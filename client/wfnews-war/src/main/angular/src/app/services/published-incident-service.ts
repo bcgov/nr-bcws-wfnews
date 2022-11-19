@@ -21,7 +21,6 @@ export class PublishedIncidentService {
     return this.httpClient.get(url)
   }
 
-  
   // public async fetchIMIncident (fireYear: string, incidentNumber: string): Promise<any> {
     
   //   const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
@@ -36,52 +35,33 @@ export class PublishedIncidentService {
   //   }
   // }
 
-  // public fetchIMIncident2 (fireYear: string, incidentNumber: string) {
-    
-  //   const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
-  //   this.httpClient.get(url, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`} }).subscribe( (response) => {
-  //     const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${(response as any).externalIdentifier}`;
-  //     this.httpClient.get(publishedUrl, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`}}).subscribe( 
-  //       (response) => {
-  //         debugger;
-  //       },
-  //       (error) => {
-  //         debugger;
-  //       },
-  //     )
-  //   })
-  // }
-
   public fetchIMIncident(fireYear: string, incidentNumber: string): Observable<any> {
-    
     const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
     
     return this.httpClient.get(url, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`} })
     .pipe(
       map((response:any) => {
-        return {response: response, externalIdentifier: response.externalIdentifier};
+        return {response: response, wildfireIncidentGuid: response.wildfireIncidentGuid};
       })
     )
     .pipe(
       concatMap((data) => {
-        debugger;
-        const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${data.response.wildfireIncidentGuid}`;
+        const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${data.wildfireIncidentGuid}`;
         return of({response: data.response, getPublishedIncident: this.httpClient.get(publishedUrl, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`}})});
       })
     );
   }
 
   public saveIMPublishedIncident (publishedIncident: any): Observable<any> {
-    debugger;
     let publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents`
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`
       }
     }
-
-    if (publishedIncident.publishedIncidentGuid) {
-      return this.httpClient.put(publishedUrl + `/${publishedIncident.publishedIncidentGuid}`, publishedIncident, headers)
+    
+    if (publishedIncident.publishedIncidentDetailGuid) {
+      return this.httpClient.put(publishedUrl + `/${publishedIncident.publishedIncidentDetailGuid}`, publishedIncident, headers)
     } else {
       return this.httpClient.post(publishedUrl, publishedIncident, headers)
     }

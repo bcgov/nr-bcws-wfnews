@@ -34,7 +34,7 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">External Crews</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">External Crews</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -44,6 +44,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.crewsComments"
                 formControlName="crewsComments"></textarea>
           </mat-form-field>
         </div>
@@ -67,7 +68,7 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Wildfire Aviation</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Wildfire Aviation</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -77,6 +78,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.aviationComments"
                 formControlName="aviationComments"></textarea>
           </mat-form-field>
         </div>
@@ -90,7 +92,7 @@
     <fieldset class="field-set">
       <div class="news-form">
         <div class="field size-third">
-          <mat-checkbox formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Teams</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Teams</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -100,6 +102,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.incidentManagementComments"
                 formControlName="incidentManagementComments"></textarea>
           </mat-form-field>
         </div>
@@ -119,7 +122,7 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Heavy Equipment</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.heavyEquipmentInd"  formControlName="heavyEquipmentInd" class="example-margin" (change)="onHeavyEquipmentChecked($event)">Heavy Equipment</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -129,6 +132,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.heavyEquipmentComments"
                 formControlName="heavyEquipmentComments"></textarea>
           </mat-form-field>
         </div>
@@ -148,7 +152,7 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-checkbox formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection Units</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection Units</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -158,6 +162,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.structureProtectionComments"
                 formControlName="structureProtectionComments"></textarea>
           </mat-form-field>
         </div>
