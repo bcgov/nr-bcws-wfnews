@@ -1,3 +1,17 @@
+mat-tab-group {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+}
+
+:host ::ng-deep .mat-tab-label {
+  color: #003366 !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: #003366 !important;
+}
+
 ::ng-deep .wildfires-tabs{
 
     padding-top: 1rem;
