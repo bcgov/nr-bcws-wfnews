@@ -1,7 +1,7 @@
 <div class="top">
   <div class="title">
     <div>
-      <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentNumberSequence}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus.toLowerCase() === 'published', 'unpub-chip': incident.publishedStatus.toLowerCase() !== 'published'}">{{incident.publishedStatus}}</span></h1>
+      <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentLabel}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus.toLowerCase() === 'published', 'unpub-chip': incident.publishedStatus.toLowerCase() !== 'published'}">{{incident.publishedStatus}}</span></h1>
       <h2 class="wildfire-count">
         <div *ngIf="incident.lastPublished">
         Last Published: {{incident.lastPublished.toDateString()}} - {{incident.lastPublished.toLocaleTimeString()}}

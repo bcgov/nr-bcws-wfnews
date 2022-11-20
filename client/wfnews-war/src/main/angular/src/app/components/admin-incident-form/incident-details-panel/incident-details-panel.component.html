@@ -42,7 +42,8 @@
               formControlName="sizeType"
               [options]="sizeTypeOptions"
               [(ngModel)]="incident.sizeType"
-              (valueChange)="setSizeTypeDisclaimer($event)">
+              (valueChange)="setSizeTypeDisclaimer($event)"
+              disabled>
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>
@@ -55,7 +56,7 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Size</mat-label>
-            <input matInput class="disabled-input" type="text" [(ngModel)]="incident.sizeHectares" formControlName="sizeHectares" disabled>
+            <input matInput class="disabled-input mat-form-field-disabled" type="text" [(ngModel)]="incident.sizeHectares" formControlName="sizeHectares" readonly>
           </mat-form-field>
         </div>
         <div class="field size-full">
@@ -84,7 +85,8 @@
               formControlName="cause"
               [(ngModel)]="incident.cause"
               [options]="causeOptions"
-              (valueChange)="setCauseDisclaimer($event)">
+              (valueChange)="setCauseDisclaimer($event)"
+              disabled>
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>
@@ -104,7 +106,6 @@
                 cdkAutosizeMaxRows="5"
                 formControlName="causeComments"></textarea>
           </mat-form-field>
-          <span>Learn more about what causes wildfires <a target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/what-causes-wildfire">here</a></span>
         </div>
       </div>
     </fieldset>
