@@ -5,27 +5,27 @@
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
             <mat-label class="label">Fire Name</mat-label>
-            <input matInput class="disabled-input" type="text" formControlName="incidentNumberSequence" disabled>
+            <input matInput class="disabled-input" type="text" [(ngModel)]="incident.fireName" formControlName="fireName" disabled>
           </mat-form-field>
         </div>
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
             <mat-label class="label">Traditional Territory</mat-label>
-            <input matInput type="text" formControlName="traditionalTerritory">
+            <input matInput class="disabled-input" type="text" [(ngModel)]="incident.traditionalTerritory" formControlName="traditionalTerritory" disabled>
           </mat-form-field>
         </div>
         <div class="field size-third radio-checkbox-group">
             <mat-label id="fireOfNote">Wildfire Of Note</mat-label>
             <mat-icon class="fire-icon">local_fire_department</mat-icon>
-            <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNotePublishedInd">
-              <mat-radio-button value="fireOfNotePublishedInd">No</mat-radio-button>
-              <mat-radio-button value="fireOfNotePublishedInd">Yes</mat-radio-button>
+            <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNote" [(ngModel)]="incident.fireOfNote">
+              <mat-radio-button [value]="false">No</mat-radio-button>
+              <mat-radio-button [value]="true">Yes</mat-radio-button>
             </mat-radio-group>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">Location</mat-label>
-            <input matInput type="text" formControlName="geographicDescription">
+            <input matInput type="text" formControlName="location" [(ngModel)]="incident.location">
           </mat-form-field>
         </div>
       </div>
@@ -41,11 +41,12 @@
               aria-label="Size Type"
               formControlName="sizeType"
               [options]="sizeTypeOptions"
+              [(ngModel)]="incident.sizeType"
               (valueChange)="setSizeTypeDisclaimer($event)">
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>
-                <mat-option *ngFor = "let item of sizeTypeOptions" value="{{item.optionValue}}">
+                <mat-option *ngFor = "let item of sizeTypeOptions" [value]="item.id">
                   <span>{{item.optionValue}}</span>
                 </mat-option>
               </mat-select>
@@ -54,7 +55,7 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Size</mat-label>
-            <input matInput class="disabled-input" type="text" formControlName="sizeHectares" disabled>
+            <input matInput class="disabled-input" type="text" [(ngModel)]="incident.sizeHectares" formControlName="sizeHectares" disabled>
           </mat-form-field>
         </div>
         <div class="field size-full">
@@ -65,6 +66,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.sizeComments"
                 formControlName="sizeComments"></textarea>
           </mat-form-field>
         </div>
@@ -77,16 +79,16 @@
         <div class="field size-third">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label required">Cause</mat-label>
-            <input matInput class="disabled-input" type="text" formControlName="cause" disabled>
             <mat-select appWFSingleSelect appWFPlaceholder="Select..."
               aria-label="Cause"
               formControlName="cause"
+              [(ngModel)]="incident.cause"
               [options]="causeOptions"
               (valueChange)="setCauseDisclaimer($event)">
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>
-                <mat-option *ngFor = "let item of causeOptions" value="{{item.optionValue}}">
+                <mat-option *ngFor = "let item of causeOptions" [value]="item.id">
                   <span>{{item.optionValue}}</span>
                 </mat-option>
               </mat-select>
