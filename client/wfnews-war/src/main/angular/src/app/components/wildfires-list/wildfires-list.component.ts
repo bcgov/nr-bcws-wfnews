@@ -242,4 +242,19 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.doSearch()
   }
 
+  convertFireNumber(incident) {
+    let result = '';
+    this.fireCentreOptions.forEach(element => {
+      if (element.code === incident.fireCentre) {
+        result += element.characterAlias
+      }
+    })
+    result += incident.fireZoneUnitIdentifier
+    if (result.length + incident.incidentNumberLabel.length < 6) {
+      result = String(result).padEnd(6-incident.incidentNumberLabel.length,'0')
+    }
+    result += incident.incidentNumberLabel
+    return result
+  }
+
 }

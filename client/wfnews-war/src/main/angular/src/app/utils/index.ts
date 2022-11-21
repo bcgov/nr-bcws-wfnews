@@ -25,42 +25,54 @@ export const FireCentres = [
         description: "Cariboo Fire Centre",
         displayOrder: 1,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 7,
+        characterAlias: "C"
     },
     {
         code: "50",
         description: "Coastal Fire Centre",
         displayOrder: 2,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 2,
+        characterAlias: "V"
     },
     {
         code: "25",
         description: "Kamloops Fire Centre",
         displayOrder: 3,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 5,
+        characterAlias: "K"
     },
     {
         code: "42",
         description: "Northwest Fire Centre",
         displayOrder: 4,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 3,
+        characterAlias: "R"
     },
     {
         code: "8",
         description: "Prince George Fire Centre",
         displayOrder: 5,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 4,
+        characterAlias: "G"
     },
     {
         code: "34",
         description: "Southeast Fire Centre",
         displayOrder: 6,
         effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31"
+        expiryDate: "9999-12-31",
+        integerAlias: 6,
+        characterAlias: "N"
     }
 ];
 
