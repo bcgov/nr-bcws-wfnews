@@ -235,7 +235,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 			snsClient = SnsClient.builder()
 				.region(Region.CA_CENTRAL_1)
-				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.getCredentials()))
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 			// Then, publish a message to SNS using the client established on startup

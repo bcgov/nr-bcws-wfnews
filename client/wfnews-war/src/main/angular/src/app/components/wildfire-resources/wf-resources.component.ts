@@ -12,7 +12,7 @@ import { snowPlowHelper } from '../../utils';
 export class WildfirewResourcesComponent implements OnInit{
   public url;
   public snowPlowHelper = snowPlowHelper
-  
+
   constructor(protected appConfigService: AppConfigService,
     protected router: Router) {
 }
@@ -24,34 +24,6 @@ ngOnInit(): void {
   // This can be moved into a config, for easier changes later
   public resourcePanels: ResourcePanel[] = [
     {
-      title: 'Preparedness and Prevention',
-      resources: [
-        {
-          title: 'Wildfire Prevention', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
-          description: 'Wildfire prevention can happen at home, in the backcountry, and through larger-scale fire and fuel management planning. Learn what you can do to help.'
-        },
-        {
-          title: 'Get Prepared for a Wildfire', subtitle: 'Prepared BC', url: 'https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/know-your-hazards/wildfires',
-          description: 'If you live in an area at risk of a wildfire, it’s important that you take time to get ready. Understand what to do before, during and after a wildfire here.'
-        },
-        {
-          title: 'FireSmart BC', subtitle: 'FireSmart BC', url: 'https://firesmartbc.ca/',
-          description: 'FireSmart is a shared responsibility. Find out what you can do to decrease the wildfire risk at home and in your community.'
-        },
-        {
-          title: 'Plan, Prepare, Stay Informed', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed',
-          description: 'B.C. experiences 1,600 wildfires per year, on average. While most of these fires are put out before they threaten people and communities, it is important to be prepared especially if you live in an area prone to wildfire.'
-        },
-        {
-          title: 'Fire Danger Rating', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger',
-          description: 'Find out the current fire danger rating (i.e. the risk of a wildfire starting) in your area and other information about fire weather.'
-        },
-        {
-          title: 'Fire Bans and Restrictions', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions',
-          description: 'Decisions on when and where to implement fire bans and restrictions are made by B.C.’s six regional fire centres. Learn about fire bans and restrictions in your area.'
-        }
-      ]
-    }, {
       title: 'Emergencies and Alerts',
       resources: [
         {
@@ -77,6 +49,34 @@ ngOnInit(): void {
         {
           title: 'Local Government Maps', subtitle: 'gov.bc.ca', url: 'https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/local-government-maps',
           description: 'Keep up to date on evacuation orders and alerts by following your local government, First Nation and emergency services. Find the boundaries for regional districts, electoral areas and municipalities here.'
+        }
+      ]
+    }, {
+      title: 'Preparedness and Prevention',
+      resources: [
+        {
+          title: 'Wildfire Prevention', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
+          description: 'Wildfire prevention can happen at home, in the backcountry, and through larger-scale fire and fuel management planning. Learn what you can do to help.'
+        },
+        {
+          title: 'Get Prepared for a Wildfire', subtitle: 'Prepared BC', url: 'https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/know-your-hazards/wildfires',
+          description: 'If you live in an area at risk of a wildfire, it’s important that you take time to get ready. Understand what to do before, during and after a wildfire here.'
+        },
+        {
+          title: 'FireSmart BC', subtitle: 'FireSmart BC', url: 'https://firesmartbc.ca/',
+          description: 'FireSmart is a shared responsibility. Find out what you can do to decrease the wildfire risk at home and in your community.'
+        },
+        {
+          title: 'Plan, Prepare, Stay Informed', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed',
+          description: 'B.C. experiences 1,600 wildfires per year, on average. While most of these fires are put out before they threaten people and communities, it is important to be prepared especially if you live in an area prone to wildfire.'
+        },
+        {
+          title: 'Fire Danger Rating', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger',
+          description: 'Find out the current fire danger rating (i.e. the risk of a wildfire starting) in your area and other information about fire weather.'
+        },
+        {
+          title: 'Fire Bans and Restrictions', subtitle: 'BC Wildfire Service', url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions',
+          description: 'Decisions on when and where to implement fire bans and restrictions are made by B.C.’s six regional fire centres. Learn about fire bans and restrictions in your area.'
         }
       ]
     }, {

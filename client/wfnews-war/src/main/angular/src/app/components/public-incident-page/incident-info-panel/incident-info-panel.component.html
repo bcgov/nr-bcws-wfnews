@@ -29,7 +29,7 @@
         <!-- Image/video section: fetch from aws cache -->
         <!-- contact section-->
         <div class="content-panel-subtitle">Incident Contact Information</div>
-        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{incident.contactOrgUnitIdentifer}}</span></div>
+        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentre)}}</span></div>
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">mail</mat-icon><span>{{incident.contactEmailAddress}}</span></div>
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">phone_in_talk</mat-icon><span>{{incident.contactPhoneNumber}}</span></div>
       </div>
