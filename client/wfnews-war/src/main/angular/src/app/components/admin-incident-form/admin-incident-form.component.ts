@@ -268,6 +268,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
         self.publishIncident(publishedIncidentResource).then(doc => {
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
+          this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid
         }).catch(err => {
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {
