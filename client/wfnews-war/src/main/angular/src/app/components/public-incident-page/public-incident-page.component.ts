@@ -1,3 +1,4 @@
+import { HttpClient } from "@angular/common/http"
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core"
 import { ActivatedRoute, ParamMap } from "@angular/router"
 import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
@@ -22,7 +23,8 @@ export class PublicIncidentPage implements OnInit {
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
               private agolService: AGOLService,
-              private publishedIncidentService: PublishedIncidentService) {
+              private publishedIncidentService: PublishedIncidentService,
+              protected http: HttpClient) {
 
   }
 
@@ -45,6 +47,14 @@ export class PublicIncidentPage implements OnInit {
           this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
           this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
           this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options)
+          // check the contact info
+          if (!this.incident.contactOrgUnitIdentifer) {
+            this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
+              this.incident.contactPhoneNumber = data[this.incident.fireCentre].phone
+              this.incident.contactEmailAddress = data[this.incident.fireCentre].url
+              this.cdr.detectChanges();
+            });
+          }
           // fetch the fire perimetre
           await this.getFirePerimetre()
           // load evac orders and area restrictions nearby
