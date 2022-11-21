@@ -8,6 +8,14 @@
   height: 100%;
 }
 
+.link {
+  margin-top: 10px;
+  margin-left: 20px;
+  padding: 4px;
+  color: #355992;
+  font-size: 0.9rem;
+}
+
 .top {
   flex-shrink: 0;
   display: flex;
@@ -29,6 +37,7 @@
       font-weight: normal;
       margin-bottom: 0;
       padding: 4px;
+      margin-top: -15px;
     }
 
     h2 {

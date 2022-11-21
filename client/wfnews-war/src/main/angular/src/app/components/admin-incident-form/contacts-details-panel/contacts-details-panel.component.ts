@@ -15,8 +15,8 @@ export class ContactsDetailsPanel implements OnInit {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
-  private contacts: any
-  fireCentreOptions : fireCentreOption[] = []
+  public contacts: any
+  public fireCentreOptions : fireCentreOption[] = []
 
   constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
   }

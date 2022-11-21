@@ -203,18 +203,25 @@ mat-tab-group {
   flex: 1 1 315px;
 }
 
+:host ::ng-deep .mat-tab-label {
+  color: #003366 !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
 
-
+:host ::ng-deep .mat-ink-bar {
+  background-color: #003366 !important;
+}
 
 @media (min-width: 768px)and (max-width: 1023px) {
-.stages-of-control{
-  .info-text {
-    width: 100%;
+  .stages-of-control{
+    .info-text {
+      width: 100%;
+    }
+    .info-chart {
+      width: 100%;
+      padding-top: 15px;
+      order: 1;
+    }
   }
-  .info-chart {
-    width: 100%;
-    padding-top: 15px;
-    order: 1;
-  }
-}
 }
