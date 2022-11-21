@@ -287,13 +287,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   onShowPreview() {
     let mappedIncident = {
       incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
-      incidentNumberLabel: this.incident.fireName,
+      incidentNumberLabel: this.currentAdminIncident.incidentLabel,
       stageOfControlCode: this.incident.incidentData.incidentStatusCode,
       generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == 'Human' ? 1 : this.incidentForm.controls['cause'].value == 'Lightning' ? 2 : 3,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
-      incidentName: this.incidentForm.controls['incidentNumberSequence'].value,
+      incidentName: this.incidentForm.controls['fireName'].value,
       incidentLocation: this.incidentForm.controls['location'].value,
       incidentOverview: this.incident.incidentOverview,
       traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
