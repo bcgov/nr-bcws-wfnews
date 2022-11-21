@@ -184,6 +184,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.getCredentials()))
 				.bucket(attachmentsAwsConfig.getBucketName())
 				.key(attachmentGuid)
 				.build();
