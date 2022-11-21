@@ -22,8 +22,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   // and load from the store/api
   @Input() adminIncident: any;
   @Input() adminIncidentCause: any;
-  @ViewChild("detailsPanelComponent") detailsPanelComponent: IncidentDetailsPanel;
-  @ViewChild("ContactDetailsPanel") contactDetailsPanelComponent: ContactsDetailsPanel;
+  @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
+  @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
 
   public Editor = Editor;
 
@@ -140,11 +140,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             console.log('Loading incicent...', incidentResponse)
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
+            self.incident.incidentData = self.currentAdminIncident
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
+            self.incident.fireOfNote = self.currentAdminIncident.fireOfNotePublishedInd;
             self.incident.incidentNumberSequence= self.currentAdminIncident.incidentNumberSequence;
             self.incident.fireName = self.currentAdminIncident.incidentName || self.currentAdminIncident.incidentLabel;
-            self.incident.publishedStatus = "DRAFT";
+            self.incident.publishedStatus = 'DRAFT';
             self.incident.location = self.currentAdminIncident.incidentLocation.geographicDescription;
 
             self.incident.sizeType = 0
@@ -156,6 +158,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.causeComments = self.detailsPanelComponent.causeOptions.find(c => c.id === causeCode).disclaimer
 
             self.incident.contact.isPrimary = true;
+
+            self.incident.contact.fireCentre = self.currentAdminIncident.fireCentreOrgUnitIdentifier
 
             let mappedCentre = 6
             if (self.incident.contact.fireCentre == 50) mappedCentre = 2
@@ -232,20 +236,17 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result && result.publish) {
-        let publishedIncidentResource = {
-          publishedIncidentDetailGuid:  this.publishedIncidentDetailGuid,
-          incidentGuid:  this.currentAdminIncident["wildfireIncidentGuid"],
+        const publishedIncidentResource = {
+          publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
+          incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
           newsCreatedTimestamp: new Date().valueOf().toString(),
           discoveryDate: new Date().valueOf().toString(),
-          newsPublicationStatusCode: "PUBLISHED",
-          generalIncidentCauseCatId: Number(this.incidentForm.controls['cause'].value),
+          newsPublicationStatusCode: 'PUBLISHED',
           fireOfNoteInd: this.incident.fireOfNote,
           incidentName: this.incident.fireName,
           incidentLocation: this.incident.location,
           incidentOverview: this.incident.incidentOverview,
           traditionalTerritoryDetail: this.incident.traditionalTerritory,
-          incidentSizeType: this.incident.sizeType.toString(),
-          incidentSizeEstimatedHa: this.incident.sizeHectares,
           incidentSizeDetail: this.incident.sizeComments,
           incidentCauseDetail: this.incident.causeComments,
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
@@ -262,7 +263,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           structureProtectionRsrcInd: this.incident.structureProtectionInd,
           structureProtectionRsrcDetail: this.incident.structureProtectionComments,
           type: this.publishedIncidentType,
-          "@type" : "http://wfim.nrs.gov.bc.ca/v1/publishedIncident"
+          '@type' : 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
         };
 
         self.publishIncident(publishedIncidentResource).then(doc => {
@@ -285,22 +286,22 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   onShowPreview() {
     let mappedIncident = {
-      incidentGuid:  this.currentAdminIncident["wildfireIncidentGuid"],
-      incidentNumberLabel:this.incident.fireName,
-      stageOfControlCode:this.incident.incidentData.incidentStatusCode,
-      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == "Human" ? 1 : this.incidentForm.controls['cause'].value == "Lightning" ? 2 : 3,
+      incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
+      incidentNumberLabel: this.incident.fireName,
+      stageOfControlCode: this.incident.incidentData.incidentStatusCode,
+      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == 'Human' ? 1 : this.incidentForm.controls['cause'].value == 'Lightning' ? 2 : 3,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
-      fireCentre: (this.incidentForm.controls['contact'] as FormGroup).controls['fireCentre'].value,
-      fireOfNoteInd: this.incidentForm.controls['fireOfNotePublishedInd'].value,
+      fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
+      fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
       incidentName: this.incidentForm.controls['incidentNumberSequence'].value,
-      incidentLocation: this.incidentForm.controls['geographicDescription'].value,
+      incidentLocation: this.incidentForm.controls['location'].value,
       incidentOverview: this.incident.incidentOverview,
       traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
       incidentSizeType: this.incidentForm.controls['sizeType'].value,
       incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
       incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
       incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
-      contactOrgUnitIdentifer:null,
+      contactOrgUnitIdentifer: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       contactPhoneNumber:  (this.incidentForm.controls['contact'] as FormGroup).controls['phoneNumber'].value,
       contactEmailAddress:  (this.incidentForm.controls['contact'] as FormGroup).controls['emailAddress'].value,
       wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
@@ -319,11 +320,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       fireYear: this.incident.wildfireYear
     }
 
-    if (localStorage.getItem("preview_incident") != null) {
-      localStorage.removeItem("preview_incident");
+    if (localStorage.getItem('preview_incident') != null) {
+      localStorage.removeItem('preview_incident');
     }
 
-    localStorage.setItem("preview_incident", JSON.stringify(mappedIncident));
+    localStorage.setItem('preview_incident', JSON.stringify(mappedIncident));
 
     const url = this.componentRouter.serializeUrl(
       this.componentRouter.createUrlTree(['incidents'], { queryParams: { preview: true } })

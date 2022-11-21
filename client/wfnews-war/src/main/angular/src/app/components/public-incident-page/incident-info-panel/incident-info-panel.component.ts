@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
+import { convertToFireCentreDescription } from '../../../utils'
 
 @Component({
   selector: 'incident-info-panel',
@@ -12,6 +13,8 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
+
+  public convertToFireCentreDescription = convertToFireCentreDescription
 
   ngAfterViewInit(): void {
     const canvas = document.getElementById('qr-code')
@@ -52,7 +55,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
   public printPage() {
     const printContents = document.getElementsByClassName('page-container')[0].innerHTML
-    
+
     const appRoot = document.body.removeChild(document.getElementById("app-root"));
 
     document.body.innerHTML = printContents

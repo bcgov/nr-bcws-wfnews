@@ -189,8 +189,9 @@ function displayDay(date: string): string{
 
 export function convertToFireCentreDescription(code: string): string {
     if (code) {
+      console.log(FireCentres)
         let result = FireCentres.find(fireCentre => fireCentre.code === code);
-        return result.description;
+        return result ? result.description : code;
     }
 }
 
