@@ -26,7 +26,6 @@ export const FireCentres = [
         displayOrder: 1,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 7,
         characterAlias: "C"
     },
     {
@@ -35,7 +34,6 @@ export const FireCentres = [
         displayOrder: 2,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 2,
         characterAlias: "V"
     },
     {
@@ -44,7 +42,6 @@ export const FireCentres = [
         displayOrder: 3,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 5,
         characterAlias: "K"
     },
     {
@@ -53,7 +50,6 @@ export const FireCentres = [
         displayOrder: 4,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 3,
         characterAlias: "R"
     },
     {
@@ -62,7 +58,6 @@ export const FireCentres = [
         displayOrder: 5,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 4,
         characterAlias: "G"
     },
     {
@@ -71,7 +66,6 @@ export const FireCentres = [
         displayOrder: 6,
         effectiveDate: "1999-01-01",
         expiryDate: "9999-12-31",
-        integerAlias: 6,
         characterAlias: "N"
     }
 ];
