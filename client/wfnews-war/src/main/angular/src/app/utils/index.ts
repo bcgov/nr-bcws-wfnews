@@ -212,3 +212,19 @@ export function snowPlowHelper(page: string, action?:string) {
     window.snowplow('trackPageView', pageInfo);
 }
 
+export function convertFireNumber(incident) {
+    let result = '';
+    FireCentres.forEach(element => {
+      if (element.code === incident.fireCentre) {
+        result += element.characterAlias
+      }
+    })
+    result += incident.fireZoneUnitIdentifier
+    if (result.length + incident.incidentNumberLabel.length < 6) {
+      result = String(result).padEnd(6-incident.incidentNumberLabel.length,'0')
+    }
+    result += incident.incidentNumberLabel
+    return result
+  }
+
+

@@ -18,7 +18,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper, convertFireNumber } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -60,6 +60,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToFireCentreDescription = convertToFireCentreDescription
   snowPlowHelper = snowPlowHelper
+  convertFireNumber = convertFireNumber;
 
 
   constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService) 
@@ -240,21 +241,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.selectedLat=selectedOption.loc[1];
     this.selectedLong=selectedOption.loc[0]
     this.doSearch()
-  }
-
-  convertFireNumber(incident) {
-    let result = '';
-    this.fireCentreOptions.forEach(element => {
-      if (element.code === incident.fireCentre) {
-        result += element.characterAlias
-      }
-    })
-    result += incident.fireZoneUnitIdentifier
-    if (result.length + incident.incidentNumberLabel.length < 6) {
-      result = String(result).padEnd(6-incident.incidentNumberLabel.length,'0')
-    }
-    result += incident.incidentNumberLabel
-    return result
   }
 
 }
