@@ -30,6 +30,10 @@ def lambda_handler(event, context):
     wfnews_api = secret['wfnews-api']
     # WFDM API
     wfdm_api = 'https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api/'
+    # S3 bucket
+    bucket_name = 'wfnews-dev-uploads'
+    aws_key = ''
+    aws_secret = ''
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
@@ -189,18 +193,25 @@ def lambda_handler(event, context):
         for attachment in attachments['collection']:
           print(attachment)
           attachment['@type'] = 'AttachmentResource'
-          attachment['imageURL'] = '/' + attachment['fileName']
+          attachment['imageURL'] = '/' + str(incident['incidentNumberSequence']) + '/' + attachment['fileName']
           attachment['attachmentTypeCode'] = 'DOCUMENT'
           attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
+
           wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
           if wfnews_response.status_code != 201:
             print('Failed to upload attachment')
           else:
             print('... Attachment ref created. Fetching from WFDM and writing to bucket...')
             # Fetch attachment from WFDM
-            wfdm_response = requests.get(wfdm_api + 'documents/' + attachment['fileIdentifier'] + '/bytes', headers={'Authorization': 'Bearer ' + token })
-            bytes = wfdm_response.content
+            wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['fileIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
+            doc_bytes = wfdm_response.content
             # write bytes to s3 bucket
+            client = boto3.client('s3',
+              region_name='ca-central-1',
+              aws_access_key_id=aws_key,
+              aws_secret_access_key=aws_secret)
+            client.put_object(Body=doc_bytes, Bucket=bucket_name, Key=attachment['imageURL'])
+
             del wfdm_response
           del wfnews_response
 
