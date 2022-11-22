@@ -57,4 +57,19 @@ export class PublishedIncidentService {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentName}/attachments`;
     return this.httpClient.get(url);
   }
+
+  public fetchExternalUri (incidentNumber): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
+    return this.httpClient.get(url);
+  }
+
+  public fetchAttachments (incidentNumber): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments`;
+    return this.httpClient.get(url);
+  }
+
+  public fetchAttachmentBytes (incidentNumber, attachmentGuid): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
+    return this.httpClient.get(url);
+  }
 }

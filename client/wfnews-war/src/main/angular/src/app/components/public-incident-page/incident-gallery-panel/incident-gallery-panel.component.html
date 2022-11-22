@@ -18,27 +18,36 @@
                 </mat-option>
             </mat-select>
         </div>
-            <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
-                <a *ngFor="let item of imagesAndVideosStub"
-                    [attr.data-src]="item.href"
-                    [attr.data-responsive]="item.href"
-                    data-lg-size="376-383"
-                    class="gallery-item">
-                    <div class="image-video-container">
-                        <div class="image-video-details">
-                            <div style="padding-bottom: 5px;">{{item.title}}</div>
-                            <div style="font-size:14px">
-                                <div style="padding-bottom: 5px;">
-                                    Date Uploaded: <span style="font-weight: 700;">{{item.uploadedDate}}</span>
-                                </div>
+        <div *ngFor="let item of imagesAndVideosStub">
+          <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
+            <a *ngFor="let item of imagesAndVideosStub"
+                [attr.data-src]="item.href"
+                [attr.data-responsive]="item.href"
+                data-lg-size="376-383"
+                class="gallery-item">
+                <div class="image-video-container">
+                    <div class="image-video-details">
+                        <div style="padding-bottom: 5px;">{{item.title}}</div>
+                        <div style="font-size:14px">
+                            <div style="padding-bottom: 5px;">
+                                Date Uploaded: <span style="font-weight: 700;">{{item.uploadedDate}}</span>
                             </div>
                         </div>
-                        <div style="display: flex;">
-                            <img *ngIf="item.type=='image'" class="incident-image img-responsive" src="{{item.href}}" alt="{{item.title}}"/>
-                            <iframe title="{{item.title}}" *ngIf="item.type=='video'" id="player" type="text/html" width="640" height="270" [src]="item.href | safe"></iframe>
-                        </div>
                     </div>
-                </a>     
-            </lightgallery>
+                    <div style="display: flex;">
+                      <img *ngIf="item.type === 'image'" class="incident-image img-responsive" src="{{item.href}}" alt="{{item.title}}"/>
+                      <youtube-player *ngIf="item.type === 'video'"
+                        videoId={{convertToYoutubeId(item.href)}}
+                        suggestedQuality="highres"
+                        [startSeconds]="1"
+                        [endSeconds]="20"
+                        [height]="250"
+                        [width]="400">
+                      </youtube-player>
+                    </div>
+                </div>
+            </a>
+        </lightgallery>
+        </div>
       </div>
 </div>

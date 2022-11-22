@@ -28,6 +28,8 @@ def lambda_handler(event, context):
     wfim_api = secret['wfim-api']
     # WFNEWS API
     wfnews_api = secret['wfnews-api']
+    # WFDM API
+    wfdm_api = 'https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api/'
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
@@ -152,9 +154,57 @@ def lambda_handler(event, context):
       wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
       # verify 200
       if wfnews_response.status_code != 201:
-        print(wfnews_response)
+        print(wfnews_response.status_code)
         print('Failed to insert fire ' + incident['incidentLabel'])
       del wfnews_response
+
+      print('... Check for Attachments and External URIs for ' + incident['incidentLabel'])
+      print('... Loading External URI')
+      wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
+      if wfim_response.status_code != 200:
+        print(wfim_response.status_code)
+        print('Failed to fetch external URI: ' + incident['incidentLabel'])
+      else:
+        external_uris = wfim_response.json()
+        for uri in external_uris['collection']:
+          del uri['@type'] 
+          del uri['links']
+          uri['sourceObjectNameCode'] = 'PUB_INC_DT'
+          wfnews_response = requests.post(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+          if wfnews_response.status_code != 201:
+            print('Failed to upload external URI')
+            del wfnews_response
+            wfnews_response = requests.put(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+          del wfnews_response
+
+      del wfim_response
+
+      print('... Loading Attachments')
+      wfim_response = requests.get(wfim_api + 'incidents/' + str(fire_year) + '/' + str(incident['incidentNumberSequence']) + '/attachments?pageNumber=1&pageRowCount=100&attachmentTypeCode=INFO&archived=false&privateIndicator=false&orderBy=attachmentTitle%2CDESC',  headers={'Authorization': 'Bearer ' + token})
+      if wfim_response.status_code != 200:
+        print(wfim_response.status_code)
+        print('Failed to fetch attachments for: ' + incident['incidentLabel'])
+      else:
+        attachments = wfim_response.json()
+        for attachment in attachments['collection']:
+          print(attachment)
+          attachment['@type'] = 'AttachmentResource'
+          attachment['imageURL'] = '/' + attachment['fileName']
+          attachment['attachmentTypeCode'] = 'DOCUMENT'
+          attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
+          wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+          if wfnews_response.status_code != 201:
+            print('Failed to upload attachment')
+          else:
+            print('... Attachment ref created. Fetching from WFDM and writing to bucket...')
+            # Fetch attachment from WFDM
+            wfdm_response = requests.get(wfdm_api + 'documents/' + attachment['fileIdentifier'] + '/bytes', headers={'Authorization': 'Bearer ' + token })
+            bytes = wfdm_response.content
+            # write bytes to s3 bucket
+            del wfdm_response
+          del wfnews_response
+
+      del wfim_response
 
     return {
       'statusCode': 200,

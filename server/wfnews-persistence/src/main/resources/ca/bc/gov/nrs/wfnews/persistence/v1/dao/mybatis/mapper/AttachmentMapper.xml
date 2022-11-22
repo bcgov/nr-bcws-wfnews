@@ -124,6 +124,11 @@
      AND m.file_attachment_guid = #{fileAttachmentGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
 	</select>
 	
+  <delete id="flush">
+		DELETE FROM wfnews.file_attachment_metadata;
+		DELETE FROM wfnews.file_attachment;
+	</delete> 
+
 	<delete id="delete">
     DELETE
       FROM wfnews.file_attachment_metadata
