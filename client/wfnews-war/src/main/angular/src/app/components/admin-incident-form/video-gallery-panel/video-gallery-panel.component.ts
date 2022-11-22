@@ -140,16 +140,16 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       const resource = {
         externalUriDisplayLabel: title,
         externalUri: url,
-        publishedInd:false,
-        privateInd:false,
-        archivedInd:false,
+        publishedInd: false,
+        privateInd: false,
+        archivedInd: false,
         primaryInd: false,
         externalUriCategoryTag: 'information',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: ''+this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
-      } as ExternalUriResource ;
+      } as ExternalUriResource;
 
       return this.externalUriService.createExternalUri(
         resource,

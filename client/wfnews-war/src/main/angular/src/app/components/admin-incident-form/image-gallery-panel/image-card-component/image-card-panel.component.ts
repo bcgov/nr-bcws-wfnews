@@ -17,8 +17,6 @@ export class ImageCardPanel implements OnInit, OnChanges {
   @Input() public incident
   @Input() public attachment: AttachmentResource
 
-  public includeInPublicGallery = false;
-
   public imageSrc = null;
   public loaded = false;
 
@@ -42,6 +40,18 @@ export class ImageCardPanel implements OnInit, OnChanges {
     return (this.attachment as any).primaryInd
   }
 
+  set isPrimary (primary) {
+    (this.attachment as any).primaryInd = primary
+  }
+
+  get commsSuitable () {
+    return this.attachment.commsSuitable
+  }
+
+  set commsSuitable (commsSuitable) {
+    this.attachment.commsSuitable = commsSuitable
+  }
+
   edit () {
     let dialogRef = this.dialog.open(EditImageDialogComponent, {
       width: '350px',
@@ -58,7 +68,6 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
 
   includeInGallery () {
-    // not privateIndicator, a new one will be added for this.
     this.attachment.commsSuitable = !this.attachment.commsSuitable;
     this.updateIncidentAttachment();
   }
