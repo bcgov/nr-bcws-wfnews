@@ -20,6 +20,6 @@ public interface ExternalUriMapper {
 	List<ExternalUriDto> selectForIncident(Map<String, Object> parameters);
 	
 	int delete(Map<String, Object> parameters);
-	
+	void flush();
 	int selectCount(Map<String, Object> parameters);
 }
