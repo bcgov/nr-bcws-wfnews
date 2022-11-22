@@ -143,6 +143,7 @@
       FROM wfnews.file_attachment f
       JOIN wfnews.file_attachment_metadata m
         ON f.file_attachment_guid = m.file_attachment_guid
+      WHERE source_object_unique_id = #{incidentNumberSequence, javaType=java.lang.String, jdbcType=BINARY, mode=IN};
   </select>
 
   <select id="selectCount" resultType="int">
