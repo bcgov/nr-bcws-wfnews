@@ -42,13 +42,13 @@ export class IncidentMapsPanel implements OnInit {
   }
 
   loadMaps(): Promise<any> {
-    return this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise()
+    return this.publishedIncidentService.fetchAttachments(this.incident.incidentNumberLabel).toPromise()
       .then( ( docs ) => {
         // remove any non-image types
         const data = []
         for (const doc of docs.collection) {
           const idx = docs.collection.indexOf(doc)
-          if (!doc.imageURL.toLowerCase().endsWith('.pdf')) { //|| (doc.mimeType && idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase()))) {
+          if (!doc.imageURL.toLowerCase().endsWith('.pdf') || (doc.mimeType && idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase()))) {
             docs.collection.splice(idx, 1);
           } else {
             data.push(doc)

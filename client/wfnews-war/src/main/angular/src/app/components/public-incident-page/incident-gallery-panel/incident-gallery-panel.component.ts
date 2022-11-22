@@ -87,7 +87,7 @@ export class IncidentGalleryPanel implements OnInit {
         if (results && results.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
             // do a mime type check here
-            if (!attachment.imageURL.toLowerCase().endsWith('.pdf')) {
+            if (!attachment.imageURL.toLowerCase().endsWith('.pdf') || (attachment.mimeType && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase()))) {
               this.allImagesAndVideosStub.push({
                 title: attachment.attachmentTitle,
                 uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
