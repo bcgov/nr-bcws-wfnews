@@ -64,6 +64,7 @@ export class IncidentGalleryPanel implements OnInit {
   }
 
   loadPage() {
+    this.imagesAndVideosStub = []
     this.allImagesAndVideosStub = []
     // fetch the Videos
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
@@ -82,7 +83,6 @@ export class IncidentGalleryPanel implements OnInit {
 
       // fetch image attachments
       this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise().then(results => {
-        console.log(results)
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
         if (results && results.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
@@ -98,6 +98,7 @@ export class IncidentGalleryPanel implements OnInit {
             }
           }
         }
+        this.cdr.detectChanges()
       })
     })
   }

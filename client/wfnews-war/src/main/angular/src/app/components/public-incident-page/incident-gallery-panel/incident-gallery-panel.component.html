@@ -18,7 +18,7 @@
                 </mat-option>
             </mat-select>
         </div>
-        <div *ngFor="let item of imagesAndVideosStub">
+        <div>
           <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
             <a *ngFor="let item of imagesAndVideosStub"
                 [attr.data-src]="item.href"
