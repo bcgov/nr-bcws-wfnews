@@ -16,7 +16,6 @@ import { EditImageDialogComponent } from '../edit-image-dialog/edit-image-dialog
 export class ImageCardPanel implements OnInit, OnChanges {
   @Input() public incident
   @Input() public attachment: AttachmentResource
-  @Input() public isPrimary: boolean
 
   public includeInPublicGallery = false;
 
@@ -31,9 +30,16 @@ export class ImageCardPanel implements OnInit, OnChanges {
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    // this will have to set this attachment, but call the parent to
-    // remove the current primary.
-    // Not 100% if this is meta, News specific, or where the value goes yet...
+    (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
+    this.updateIncidentAttachment();
+  }
+
+  get isPrimary () {
+    if (!Object.prototype.hasOwnProperty.call(this.attachment, 'primaryInd')) {
+      (this.attachment as any).primaryInd = false
+    }
+
+    return (this.attachment as any).primaryInd
   }
 
   edit () {
@@ -53,7 +59,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
 
   includeInGallery () {
     // not privateIndicator, a new one will be added for this.
-    this.attachment.privateIndicator = !this.attachment.privateIndicator;
+    this.attachment.commsSuitable = !this.attachment.commsSuitable;
     this.updateIncidentAttachment();
   }
 
