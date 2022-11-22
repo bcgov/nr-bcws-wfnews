@@ -13,10 +13,9 @@
             <div class="search-bar">
                 <input type="text" placeholder="Search by Location" aria-label="Search" matInput
                     [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
-                <div class="search-location-close-container">
-                    <mat-icon class="search-location-search">search</mat-icon>
-                    <mat-icon class="search-location-close" (click)="clearSearchLocationControl()">close</mat-icon>
-                </div>
+                <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()">
+                    <mat-icon>close</mat-icon>
+                </button>
                 <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
                     <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
                         [value]="option">
