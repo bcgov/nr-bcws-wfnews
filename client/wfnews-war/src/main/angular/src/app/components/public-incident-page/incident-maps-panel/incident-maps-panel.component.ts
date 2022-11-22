@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef } 
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from "@angular/common/http";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
+import { AppConfigService } from "@wf1/core-ui";
 
 export class DownloadableMap {
   name :string;
@@ -19,18 +20,22 @@ export class IncidentMapsPanel implements OnInit {
   @Input() public incident;
 
   maps: DownloadableMap[];
-  
+
   constructor(private snackbarService: MatSnackBar,
               private httpClient: HttpClient,
               private publishedIncidentService: PublishedIncidentService,
+              private appConfigService: AppConfigService,
               protected cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
-    var self = this;
+    const self = this;
     this.loadMaps().then(docs => {
       self.maps = docs.map(doc => {
-        return { name:doc.attachmentTitle, link:`/publicPublishedIncidentAttachment/${self.incident.incidentNumberSequence}/attachments/${doc.attachmentGuid}/bytes`, date:new Date(doc.createdTimestamp).toDateString()};
+        return { name: doc.attachmentTitle,
+          link: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${self.incident.incidentNumberLabel}/attachments/${doc.attachmentGuid}/bytes`,
+          date: new Date(doc.createdTimestamp).toDateString()
+        };
       });
       this.cdr.detectChanges();
     });
@@ -40,13 +45,16 @@ export class IncidentMapsPanel implements OnInit {
     return this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise()
       .then( ( docs ) => {
         // remove any non-image types
+        const data = []
         for (const doc of docs.collection) {
           const idx = docs.collection.indexOf(doc)
-          if (idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
-            docs.collection.splice(idx, 1)
+          if (!doc.imageURL.toLowerCase().endsWith('.pdf')) { //|| (doc.mimeType && idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase()))) {
+            docs.collection.splice(idx, 1);
+          } else {
+            data.push(doc)
           }
         }
-        return docs.collection;
+        return data;
       }).catch(err => {
         this.snackbarService.open('Failed to load Map Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
     })

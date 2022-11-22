@@ -5,6 +5,7 @@ import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import InfoPlugin from "./info-plugin/info-plugin.component";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
+import { AppConfigService } from "@wf1/core-ui";
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -15,7 +16,7 @@ import { PublishedIncidentService } from "../../../services/published-incident-s
 export class IncidentGalleryPanel implements OnInit {
   @Input() public incident;
 
-  public constructor(private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef) { }
+  public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) { }
 
   currentMediaType: string;
   mediaTypeOptions: string[] = ["All","Images","Videos"];
@@ -35,7 +36,6 @@ export class IncidentGalleryPanel implements OnInit {
 
   onBeforeSlide = (detail: BeforeSlideDetail): void => {
     const { index, prevIndex } = detail;
-    console.log(index, prevIndex);
   };
 
   onMediaTypeFilterChanged(event) {
@@ -81,25 +81,21 @@ export class IncidentGalleryPanel implements OnInit {
       }
 
       // fetch image attachments
-      this.publishedIncidentService.fetchAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
+      this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise().then(results => {
         console.log(results)
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
         if (results && results.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
-            this.publishedIncidentService.fetchAttachmentBytes(this.incident.incidentNumberLabel, attachment.attachmentGuid).toPromise().then(result => {
-              if (result) {
-                // result here will be the bytes. Need to convert to datauri and replace the href
-                this.allImagesAndVideosStub.push({
-                  title: attachment.attachmentTitle,
-                  uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
-                  fileName: attachment.attachmentFileName,
-                  type: 'image',
-                  href: result
-                })
-                // {title:"Lorem Ipsum dolor sit amet", uploadedDate:"June 23, 2022", fileName: "Incident-V25425-image.jpg", type:"image", href: "https://media.wired.com/photos/5bf44a635fec3834b559a814/master/pass/Helicopter-WoolseyFire-1059708308.jpg" },
-                this.cdr.detectChanges()
-              }
-            })
+            // do a mime type check here
+            if (!attachment.imageURL.toLowerCase().endsWith('.pdf')) {
+              this.allImagesAndVideosStub.push({
+                title: attachment.attachmentTitle,
+                uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
+                fileName: attachment.attachmentFileName,
+                type: 'image',
+                href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`
+              })
+            }
           }
         }
       })
