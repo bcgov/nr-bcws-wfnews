@@ -4,7 +4,6 @@
     <button mat-button color="primary" class="primary-button" (click)="upload()">Upload Image</button>
   </div>
   <div class="image-gallery">
-    <!-- IsPrimary will be coming from published data? Not sure where this is going to go yet -->
-    <image-card-panel *ngFor="let image of attachments" [attachment]="image" [isPrimary]="false" [incident]="incident"></image-card-panel>
+    <image-card-panel *ngFor="let image of attachments" [attachment]="image" [incident]="incident"></image-card-panel>
   </div>
 </ng-container>

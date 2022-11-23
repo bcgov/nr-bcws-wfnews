@@ -104,6 +104,17 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 		return result;
   }
 
+	@Override
+	public void flush() throws DaoException {
+		logger.debug(">flush");
+		try {
+			this.attachmentMapper.flush();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+		logger.debug("<flush");
+	}
+
   @Override
   public void delete(String attachmentGuid, String userId) throws DaoException {
     logger.debug(">delete");

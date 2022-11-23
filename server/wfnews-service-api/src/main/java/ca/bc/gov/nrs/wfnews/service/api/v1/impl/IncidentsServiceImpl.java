@@ -437,6 +437,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	public void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException {
 		try {
 			this.publishedIncidentDao.flush();
+			this.externalUriDao.flush();
+			this.attachmentDao.flush();
 		} catch (Exception e) {
 			throw new ServiceException(e.getMessage(), e);
 		}

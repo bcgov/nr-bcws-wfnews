@@ -105,7 +105,7 @@
 
         <ng-container matColumnDef = "fireNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentNumberLabel}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFireNumber(item)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "lastUpdated">

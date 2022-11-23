@@ -8,6 +8,8 @@ import javax.ws.rs.core.Response.Status;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.spring.PropertiesSpringConfig;
 import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
+
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
@@ -28,14 +30,18 @@ import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvide
 import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.utils.IoUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
@@ -164,6 +170,47 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		return response;
   }
+
+	@Override
+	public Response createIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, FormDataBodyPart file) {
+		Response response = null;
+		
+		logRequest();
+
+		InputStream inputStream = null;
+
+		try {
+			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+
+			if (result != null) {
+				InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+
+		    S3Client s3Client = S3Client.builder()
+				.region(Region.CA_CENTRAL_1)
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				.build();
+        
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(attachmentGuid).build();
+
+				inputStream = file.getEntityAs(InputStream.class);
+
+				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
+				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
+			} else {
+				response = Response.status(Status.NOT_FOUND).build();
+			}
+		} catch (ForbiddenException e) {
+			response = Response.status(Status.FORBIDDEN).build();
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+		
+		logResponse(response);
+
+		return response;
+	}
 
 	@Override
 	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {

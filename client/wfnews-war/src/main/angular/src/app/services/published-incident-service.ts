@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpRequest, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable, of } from 'rxjs';
@@ -21,23 +21,9 @@ export class PublishedIncidentService {
     return this.httpClient.get(url)
   }
 
-  // public async fetchIMIncident (fireYear: string, incidentNumber: string): Promise<any> {
-    
-  //   const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
-  //   const incident = await this.httpClient.get(url, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`}, observe: "response" }).toPromise() as any
-    
-  //   const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${incident.externalIdentifier}`
-  //   const publishedIncident = await this.httpClient.get(publishedUrl, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`}, observe: "response" }).toPromise()
-    
-  //   return {
-  //     incident,
-  //     publishedIncident
-  //   }
-  // }
-
   public fetchIMIncident(fireYear: string, incidentNumber: string): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
-    
+
     return this.httpClient.get(url, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`} })
     .pipe(
       map((response:any) => {
@@ -47,7 +33,7 @@ export class PublishedIncidentService {
     .pipe(
       concatMap((data) => {
         const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents/byIncident/${data.wildfireIncidentGuid}`;
-        return of({response: data.response, getPublishedIncident: this.httpClient.get(publishedUrl, { headers: { Authorization: `bearer ${this.tokenService.getOauthToken()}`}})});
+        return of({response: data.response, getPublishedIncident: this.httpClient.get(publishedUrl, { headers: { 'Content-Type': 'application/json', Authorization: `bearer ${this.tokenService.getOauthToken()}`}})});
       })
     );
   }
@@ -59,7 +45,7 @@ export class PublishedIncidentService {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`
       }
     }
-    
+
     if (publishedIncident.publishedIncidentDetailGuid) {
       return this.httpClient.put(publishedUrl + `/${publishedIncident.publishedIncidentDetailGuid}`, publishedIncident, headers)
     } else {
@@ -69,6 +55,21 @@ export class PublishedIncidentService {
 
   public fetchPublishedIncidentAttachments (incidentName): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentName}/attachments`;
+    return this.httpClient.get(url);
+  }
+
+  public fetchExternalUri (incidentNumber): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
+    return this.httpClient.get(url);
+  }
+
+  public fetchAttachments (incidentNumber): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments`;
+    return this.httpClient.get(url);
+  }
+
+  public fetchAttachmentBytes (incidentNumber, attachmentGuid): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
     return this.httpClient.get(url);
   }
 }
