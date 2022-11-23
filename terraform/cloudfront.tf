@@ -55,7 +55,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
@@ -76,7 +76,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
@@ -156,7 +156,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
@@ -178,7 +178,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
@@ -259,7 +259,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
@@ -281,7 +281,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 3600
+    default_ttl            = 180
     max_ttl                = 86400
   }
 
