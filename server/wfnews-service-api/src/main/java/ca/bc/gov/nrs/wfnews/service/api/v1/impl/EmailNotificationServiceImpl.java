@@ -231,11 +231,11 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 			logger.debug("Configure SNS Client");
 			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+			//InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
 
 			snsClient = SnsClient.builder()
 				.region(Region.CA_CENTRAL_1)
-				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 			// Then, publish a message to SNS using the client established on startup
