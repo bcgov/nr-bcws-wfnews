@@ -176,11 +176,11 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		// 		attachmentsAwsConfig.getAccessKeyId(),
 		// 		attachmentsAwsConfig.getSecretAccessKey());
 		
-		InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+		// InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
 
 		S3Client s3Client = S3Client.builder()
 				.region(Region.CA_CENTRAL_1)
-				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
