@@ -12,5 +12,6 @@ public interface AttachmentMapper {
 	AttachmentDto fetch(Map<String, Object> parameters);
 	List<AttachmentDto> select(Map<String, Object> parameters);
 	int delete(Map<String, Object> parameters);
+	void flush();
 	int selectCount(Map<String, Object> parameters);
 }

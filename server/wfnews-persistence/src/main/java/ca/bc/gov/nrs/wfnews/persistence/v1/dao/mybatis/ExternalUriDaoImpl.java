@@ -131,7 +131,16 @@ public class ExternalUriDaoImpl extends BaseDao implements
 		return results;
 	}
 	
-	
+	@Override
+	public void flush() throws DaoException {
+		logger.debug(">flush");
+		try {
+			this.externalUriMapper.flush();
+		} catch (RuntimeException e) {
+			handleException(e);
+		}
+		logger.debug("<flush");
+	}
 	
 	@Override
 	public void delete(String externalUriGuid, String userId) throws DaoException, NotFoundDaoException {

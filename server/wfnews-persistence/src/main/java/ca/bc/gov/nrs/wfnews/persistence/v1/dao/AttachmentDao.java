@@ -9,5 +9,6 @@ public interface AttachmentDao {
   void update(AttachmentDto dto) throws DaoException;
   AttachmentDto fetch(String attachmentGuid) throws DaoException;
   void delete(String attachmentGuid, String userId) throws DaoException;
+  void flush() throws DaoException;
   PagedDtos<AttachmentDto> select(String incidentNumberSequence, boolean primaryIndicator, String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount, String[] orderBy) throws DaoException;
 }
