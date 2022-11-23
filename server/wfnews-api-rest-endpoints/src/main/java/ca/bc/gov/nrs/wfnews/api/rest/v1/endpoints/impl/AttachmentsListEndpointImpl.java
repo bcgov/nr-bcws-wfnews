@@ -88,7 +88,7 @@ public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements At
 		}
 
 		try {
-
+      attachment.setSourceObjectUniqueId(incidentNumberSequence);
 			AttachmentResource result = incidentsService.createIncidentAttachment(
 					attachment,
 					getWebAdeAuthentication(),
