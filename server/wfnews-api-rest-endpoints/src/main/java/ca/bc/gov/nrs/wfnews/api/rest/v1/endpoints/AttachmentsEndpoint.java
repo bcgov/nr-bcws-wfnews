@@ -84,7 +84,7 @@ public interface AttachmentsEndpoint {
 		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
 	})
 	@POST
-	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
+	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
 	Response createIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
