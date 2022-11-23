@@ -5,7 +5,7 @@ import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { convertToFireCentreDescription, ResourcesRoutes } from '../../utils';
+import { convertToFireCentreDescription, ResourcesRoutes, convertFireNumber } from '../../utils';
 
 
 @Component({
@@ -23,6 +23,7 @@ export class IncidentIdentifyPanelComponent {
   public identifiedFeatures = []
   public index = 0
   convertToFireCentreDescription = convertToFireCentreDescription
+  convertFireNumber = convertFireNumber
 
   constructor (protected cdr: ChangeDetectorRef,
                private agolService: AGOLService,
