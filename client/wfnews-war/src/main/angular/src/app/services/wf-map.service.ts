@@ -1,4 +1,8 @@
 import { Injectable } from '@angular/core';
+import { SmkApi } from '../utils/smk';
+
+export type Smk = any
+export type SmkPromise = Promise< Smk >
 
 @Injectable( {
     providedIn: 'root',
@@ -6,7 +10,6 @@ import { Injectable } from '@angular/core';
 export class WFMapService {
     private patchPromise: Promise<any>;
     private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
-
     identifyCallback;
     identifyDoneCallback;
 
@@ -81,7 +84,18 @@ export class WFMapService {
                             enabled: true,
                             order: 1,
                             icon: "arrow_back"
-                        }
+                        },
+                        {
+                            type: "bespoke",
+                            instance: "full-extent",
+                            title: "Zoom to Full Extent",
+                            enabled: true,
+                            position: "actionbar",
+                            showTitle: false,
+                            showPanel: false,
+                            icon: "zoom_out_map",
+                            order: 3
+                        },
                     ]
                 } );
 
@@ -97,6 +111,10 @@ export class WFMapService {
                     toggleShowListButton("flex");
                     option.toggleAccordion.emit();
                     SMK.MAP[1].$viewer.mapResized();
+                });
+
+                SMK.HANDLER.set('BespokeTool--full-extent', 'triggered', (smk, tool) => {
+                    zoomToProvince()
                 });
 
                 return SMK.INIT({
@@ -602,4 +620,19 @@ function encodeUrl( url, data ) {
     }
 
     return `${ url }?${ params }`;
+}
+
+function zoomToProvince() {
+    zoomToGeometry( window[ 'turf' ].bboxPolygon( [-136.3, 49, -116, 60.2] ))
+}
+
+function zoomToGeometry( geom: any, zoomLevel: number|boolean = 12 ) {
+    const SMK = window['SMK'];
+    let viewer = null;
+    for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
+    }
+    viewer.panToFeature(geom, zoomLevel)
 }
