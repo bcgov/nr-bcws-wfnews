@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { SmkApi } from '../utils/smk';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
