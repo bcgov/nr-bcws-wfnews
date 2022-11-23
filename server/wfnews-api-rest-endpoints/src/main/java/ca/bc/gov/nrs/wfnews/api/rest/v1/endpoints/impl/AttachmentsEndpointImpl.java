@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ByteArrayResource;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -181,9 +183,13 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
 
 			if (result != null) {
-				Region region =  Region.of(attachmentsAwsConfig.getRegionName());
-				AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(attachmentsAwsConfig.getAccessKeyId(), attachmentsAwsConfig.getSecretAccessKey());
-				S3Client s3Client = S3Client.builder().credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials)).region(region).build();
+				InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+
+		    S3Client s3Client = S3Client.builder()
+				.region(Region.CA_CENTRAL_1)
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				.build();
+        
 				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(attachmentGuid).build();
 
 				inputStream = file.getEntityAs(InputStream.class);
@@ -213,13 +219,15 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		logRequest();
 
 	  Region region =  Region.of(attachmentsAwsConfig.getRegionName());
-		AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
-				attachmentsAwsConfig.getAccessKeyId(),
-				attachmentsAwsConfig.getSecretAccessKey());
+		// AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
+		// 		attachmentsAwsConfig.getAccessKeyId(),
+		// 		attachmentsAwsConfig.getSecretAccessKey());
+		
+		InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
 
 		S3Client s3Client = S3Client.builder()
-				.credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
-				.region(region)
+				.region(Region.CA_CENTRAL_1)
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
