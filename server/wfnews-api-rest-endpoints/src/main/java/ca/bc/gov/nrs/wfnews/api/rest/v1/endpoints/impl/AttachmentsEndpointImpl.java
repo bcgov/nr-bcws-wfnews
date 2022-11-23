@@ -218,16 +218,16 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		logRequest();
 
-	  Region region =  Region.of(attachmentsAwsConfig.getRegionName());
+	  	Region region =  Region.of(attachmentsAwsConfig.getRegionName());
 		// AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
 		// 		attachmentsAwsConfig.getAccessKeyId(),
 		// 		attachmentsAwsConfig.getSecretAccessKey());
 		
-		InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+		// InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
 
 		S3Client s3Client = S3Client.builder()
 				.region(Region.CA_CENTRAL_1)
-				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
