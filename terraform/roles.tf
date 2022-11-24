@@ -137,9 +137,66 @@ resource "aws_iam_role_policy" "wfnews_ssp_bucket_policy" {
   EOF
 }
 
+resource "aws_iam_role_policy" "wfnews_task_execution_bucket_policy" {
+  name   = "wfnews_task_execution_bucket_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_ecs_task_execution_role.id
+  policy = <<-EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "s3:GetObject",
+                "s3:DeleteObject",
+                "kms:Decrypt",
+                "kms:Encrypt",
+                "s3:PutBucketCORS"
+            ],
+            "Resource": [
+                "${aws_s3_bucket.wfnews_upload_bucket.arn}",
+                "${aws_s3_bucket.wfnews_upload_bucket.arn}/*",
+                "${aws_s3_bucket.wfnews_log_bucket.arn}",
+                "${aws_s3_bucket.wfnews_log_bucket.arn}/*",
+                "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"
+            ]
+        }
+        
+    ]
+  }
+  EOF
+}
+
 resource "aws_iam_role_policy" "wfnews_sns_policy" {
   name = "wfnews_sns_policy_${var.target_env}"
   role   = aws_iam_role.wfnews_app_container_role.id
+  policy = <<-EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+            "Effect": "Allow",
+            "Action": [
+              "SNS:Subscribe",
+              "SNS:Receive",
+              "SNS:Publish",
+              "SNS:ListSubscriptionsByTopic",
+              "SNS:GetTopicAttributes"
+            ],
+            "Resource": [
+                "${aws_sns_topic.wfnews_sns_topic.arn}"
+            ]
+        }
+        
+    ]
+  }
+  EOF
+}
+
+resource "aws_iam_role_policy" "wfnews_task_execution_sns_policy" {
+  name = "wfnews_task_execution_sns_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_ecs_task_execution_role.id
   policy = <<-EOF
   {
     "Version": "2012-10-17",
