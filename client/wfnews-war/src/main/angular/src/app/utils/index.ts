@@ -261,7 +261,7 @@ export function convertFireNumber(incident) {
   try {
     const fcAlias = FireCentres.find(c => c.code === incident.fireCentre).characterAlias
     const zoneAlias = FireZones.find(z => z.code === incident.fireZoneUnitIdentifier).alias
-    const incidentNumber = String(incident.incidentNumberLabel).padStart(4 - incident.incidentNumberLabel.length, '0')
+    const incidentNumber = String(incident.incidentNumberLabel).padStart(4, '0')
 
     return fcAlias + zoneAlias + incidentNumber
   } catch (err) {
