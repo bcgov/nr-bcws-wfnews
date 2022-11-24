@@ -154,6 +154,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
         }).then(doc => {
           self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Perimeter Map', 'INCID_MAP').then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
+            this.loadPage()
           }).catch(err => {
             this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {

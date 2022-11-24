@@ -1,14 +1,17 @@
 <div class="top">
+  <a class="link" routerLink="../admin" ><< Go Back</a>
   <div class="title">
     <div>
-      <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentNumberSequence}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus === 'Published', 'unpub-chip': incident.publishedStatus !== 'Published'}">{{incident.publishedStatus}}</span></h1>
+      <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentLabel}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus.toLowerCase() === 'published', 'unpub-chip': incident.publishedStatus.toLowerCase() !== 'published'}">{{incident.publishedStatus}}</span></h1>
       <h2 class="wildfire-count">
+        <div *ngIf="incident.lastPublished">
         Last Published: {{incident.lastPublished.toDateString()}} - {{incident.lastPublished.toLocaleTimeString()}}
+        </div>
       </h2>
     </div>
     <div class="button-holder">
       <button class="preview-btn" mat-button (click)="onShowPreview()">Show Preview</button>
-      <button class="publish-btn" mat-button color="primary">Publish Changes</button>
+      <button class="publish-btn" mat-button color="primary" (click)="publishChanges()">Publish Changes</button>
     </div>
   </div>
 </div>
@@ -22,7 +25,7 @@
                   <span class="panel-title">Incident Details</span>
               </mat-panel-title>
           </mat-expansion-panel-header>
-          <incident-details-panel [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
+          <incident-details-panel #detailsPanelComponent [incident]="incident" [formGroup]="incidentForm"></incident-details-panel>
       </mat-expansion-panel>
       <mat-expansion-panel #ContactDetailsPanel class="contact-details-panel" expanded>
         <mat-expansion-panel-header>

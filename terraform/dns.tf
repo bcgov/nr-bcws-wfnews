@@ -36,6 +36,7 @@ resource "aws_route53_record" "wfnews_server" {
     }
  }
 
+/*
  resource "aws_route53_record" "wfnews_apisix_admin" {
      zone_id = data.aws_route53_zone.zone.id
      name = "wfnews-api-admin.${var.target_env}.bcwildfireservices.com"
@@ -57,4 +58,5 @@ resource "aws_route53_record" "wfnews_server" {
         evaluate_target_health = true
     }
  }
+*/
 

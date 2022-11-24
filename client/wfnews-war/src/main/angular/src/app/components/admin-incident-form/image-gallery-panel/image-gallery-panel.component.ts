@@ -144,6 +144,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
         }).then(doc => {
           self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Incident Photo', 'INFO').then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
+            this.loadPage();
           }).catch(err => {
             this.snackbarService.open('Failed to Upload Attachment: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {

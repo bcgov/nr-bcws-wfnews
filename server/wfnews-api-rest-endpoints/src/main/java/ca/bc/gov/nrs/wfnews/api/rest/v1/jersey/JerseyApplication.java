@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.AttachmentsEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.AttachmentsListEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.ExternalUriEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.MailEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicPublishedIncidentEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublishedIncidentEndpointImpl;
@@ -46,6 +47,7 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(PublicExternalUriEndpointImpl.class);
 		register(AttachmentsListEndpointImpl.class);
 		register(AttachmentsEndpointImpl.class);
+		register(MailEndpointImpl.class);
 
 		SwaggerConfiguration oasConfig = new SwaggerConfiguration()
 			.prettyPrint(Boolean.TRUE)

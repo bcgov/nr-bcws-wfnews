@@ -14,7 +14,7 @@
 }
 
 .container {
-  height: calc(100vh - 180px) !important;
+  height: calc(100vh - 142px) !important;
   overflow: hidden;
 }
 
@@ -44,7 +44,7 @@
 
         .input-clear-button {
           position: absolute;
-          margin-left: 140px;
+          margin-left: 250px;
           line-height: 20px;
           font-size: 10px;
           color: #999999
@@ -76,10 +76,11 @@
   }
 
   .title {
-    padding: 10px;
+    padding: 0px;
     margin-left: 10px;
+    margin-top: -5px;
     box-sizing: border-box;
-
+    min-width: 175px;
     h1 {
       font-size: 24px;
       font-weight: normal;
@@ -110,19 +111,19 @@
     border-bottom: 1px solid #dddddd;
     display: flex;
     justify-content: center;
-
+    margin-top: -16px;
     span {
       font-size: 13px;
       letter-spacing: 2px;
       background: white;
       padding: 0 10px;
       position: relative;
-      bottom: -5px;
+      bottom: -11px;
     }
   }
 
   .map-layers {
-    padding: 20px 16px 8px 20px;
+    padding: 10px 6px 6px 6px;
     display: flex;
     justify-content: center;
     overflow-x: auto;
@@ -169,13 +170,14 @@
     width: 50vw;
     max-width: 720px;
     overflow: auto;
-    height: calc(100% - 196px);
+    height: calc(100% - 142px);
+    transition: 0.5s;
   }
 
   .map {
     flex-grow: 1;
     overflow: hidden;
-    height: calc(100% - 180px);
+    height: calc(100% - 142px);
     position: relative;
 
     .map-container {
@@ -191,7 +193,8 @@
       z-index: 1000000;
       background-color: white;
       height: 100%;
-      width: 600px;
+      width: 50vw;
+      max-width: 600px;
       display: none;
       overflow-y: auto;
       border: 1px solid #dddddd;
@@ -264,7 +267,13 @@ mat-panel-title {
   background-color: white
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1300px) {
+  .shrink {
+    font-size: 0.6rem !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
   .hide {
     display: none !important;
   }

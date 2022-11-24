@@ -266,6 +266,12 @@
 			    <scope>test</scope>
 			</dependency>
 
+			<!-- AWS -->
+			<dependency>
+				<groupId>software.amazon.awssdk</groupId>
+				<artifactId>sns</artifactId>
+				<version>2.18.9</version>
+			</dependency>
 
 		</dependencies>
 	</dependencyManagement>

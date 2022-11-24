@@ -1,4 +1,4 @@
-<mat-tab-group class="wildfires-tabs" mat-align-tabs="center">
+<mat-tab-group mat-align-tabs="center" [(selectedIndex)]="tabIndex" (selectedTabChange)="onTabChanged($event);">
         <mat-tab label="Legend">
             <div class="panel-header">Wildfire Stages of Control</div>
 

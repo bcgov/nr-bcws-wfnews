@@ -18,7 +18,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper } from '../../utils';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper, convertFireNumber } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
@@ -39,7 +39,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
   wildfiresOfNoteInd = false;
-  wildfiresOutInd = true;
+  activeWildfiresInd = true;
+  outWildfiresInd = false;
   selectedRadius = 50;
   radiusOptions = [
     50,
@@ -59,6 +60,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToFireCentreDescription = convertToFireCentreDescription
   snowPlowHelper = snowPlowHelper
+  convertFireNumber = convertFireNumber;
 
 
   constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: FormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService) 
@@ -119,7 +121,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       sortDirection: this.currentSortDirection,
       query: this.searchText
     },
-      this.selectedFireCentreCode, this.wildfiresOfNoteInd, !this.wildfiresOutInd, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+      this.selectedFireCentreCode, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
   }
 
   onChangeFilters() {
@@ -131,7 +133,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.searchText = null;
     this.selectedFireCentreCode = null;
     this.wildfiresOfNoteInd = false;
-    this.wildfiresOutInd = true;
+    this.activeWildfiresInd = true;
+    this.outWildfiresInd = false;
     this.selectedRadius = 50
     this.selectedLat = null;
     this.selectedLong = null;
@@ -183,12 +186,15 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   viewMap(incident: any) {
-    //TODO, navigate to map page
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: incident.longitude, latitude: incident.latitude} });
+    }, 100);
+  
   }
 
 
-  stagesOfControlChange(event: any) {
-    // TODO, filter should update
+  stageOfControlChanges(event: any) {
+    this.onChangeFilters();
     this.doSearch()
   }
 

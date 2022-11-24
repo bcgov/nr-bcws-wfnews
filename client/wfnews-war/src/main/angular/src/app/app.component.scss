@@ -182,6 +182,21 @@
   }
 }
 
+::ng-deep .menu {
+  display: none !important;
+}
+
+::ng-deep .system-and-user-info {
+  display: flex !important;
+}
+
+@media screen and (max-width: 768px) {
+  ::ng-deep .menu {
+    display: flex !important;
+    margin-left: auto;
+  }
+}
+
 @media print {
   wf-menu-bar{
     display: none !important;

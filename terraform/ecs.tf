@@ -144,8 +144,40 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFNEWS_MAX_CONNECTIONS
         },
         {
-          name = "DB_PASS"
+          name = "DB_PASS",
           value = "${var.db_pass}"
+        },
+        {
+          name = "WFNEWS_SNS_ACCESS_KEY",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_SNS_SECRET",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
+          name = "WFNEWS_S3_ACCESS_KEY",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_S3_SECRET",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
+          name = "WFNEWS_ACCESS_KEY_ID",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_SECRET_ACCESS_KEY",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
+          name = "WFNEWS_SNS_TOPIC_ARN",
+          value = "${aws_sns_topic.wfnews_sns_topic.arn}"
+        },
+        {
+          name = "WFNEWS_S3_BUCKET_NAME",
+          value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
         }
 
       ]
@@ -331,24 +363,20 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           protocol = "tcp"
           containerPort = var.apisix_ports[1]
           hostPort = var.apisix_ports[1]
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.apisix_admin_port
-          hostPort = var.apisix_admin_port
-        },
-        {
-          protocol = "tcp"
-          containerPort = var.health_check_port
-          hostPort = var.health_check_port
         }
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.apisix_admin_port
+        #   hostPort = var.apisix_admin_port
+        # },
+        # {
+        #   protocol = "tcp"
+        #   containerPort = var.health_check_port
+        #   hostPort = var.health_check_port
+        # }
 
       ]
       environment = [
-        # {
-        #   name: "ETCD_URL",
-        #   value: "http://wfnews-etcd.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-        # },
         {
           name: "API_KEY",
           value: "${var.api_key}"
@@ -379,10 +407,9 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       volumesFrom = []
     }
   ])
-
-  depends_on = [aws_ecs_service.etcd]
 }
 
+/*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
   family                   = "wfnews-etcd-task-${var.target_env}"
@@ -523,6 +550,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
     }
   ])
 }
+*/
 
 resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
@@ -676,18 +704,12 @@ resource "aws_ecs_service" "apisix" {
     container_port   = var.apisix_ports[0]
   }
 
-  #hit admin api
-  load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_apisix_admin.id
-    container_name   = var.apisix_container_name
-    container_port   = var.apisix_admin_port
-  }
-
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
 
   tags = local.common_tags
 }
 
+/*
 resource "aws_ecs_service" "etcd" {
   count                             = 0
   name                              = "wfnews-etcd-service-${var.target_env}"
@@ -718,13 +740,13 @@ resource "aws_ecs_service" "etcd" {
   }
 
 
-/*
+
   service_registries {
     registry_arn = aws_service_discovery_service.wfnews_service_discovery_service.arn
     container_port = var.etcd_port
     container_name = var.etcd_container_name
   }
-  */
+  
 
   #Hit http endpoint
   
@@ -782,3 +804,4 @@ resource "aws_ecs_service" "apisix_gui" {
 
   tags = local.common_tags
 }
+*/

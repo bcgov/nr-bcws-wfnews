@@ -27,7 +27,7 @@ public interface ExternalUriDao extends Serializable {
 		        throws DaoException;
 	 	 	 
 	 void delete(String publishedIncidentDetailGuid, String userId) throws DaoException, NotFoundDaoException;
-	 
+	 void flush() throws DaoException;
 	 PagedDtos<ExternalUriDto> select(Integer pageNumber, Integer pageRowCount) throws DaoException;
 
 	PagedDtos<ExternalUriDto> selectForIncident(String sourceObjectUniqueId, Integer pageNumber, Integer pageRowCount) throws DaoException;

@@ -1,11 +1,9 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1.impl;
 
-import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
-import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
-import ca.bc.gov.nrs.wfnews.service.api.model.EmailNotificationType;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.io.UnsupportedEncodingException;
+import java.time.Instant;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -13,12 +11,24 @@ import javax.mail.Transport;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.UnsupportedEncodingException;
-import java.time.Instant;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.MailResource;
+import ca.bc.gov.nrs.wfnews.service.api.model.EmailNotificationType;
+import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
+import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
+import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
+import software.amazon.awssdk.services.sns.model.PublishRequest;
+import software.amazon.awssdk.services.sns.model.PublishResponse;
+import software.amazon.awssdk.services.sns.model.SnsException;
 
 public class EmailNotificationServiceImpl implements EmailNotificationService {
 
@@ -28,7 +38,15 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	private Session emailSession;
 	private InternetAddress[] toAddresses;
 	private Instant lastGeneralEmailSent;
-	private Map errorExceptionMap = new HashMap<String, Instant>();
+	private Map<String, Instant> errorExceptionMap = new HashMap<>();
+
+
+	@Value("${WFNEWS_SNS_TOPIC_ARN}")
+	private String topicArn;
+	@Value("${WFNEWS_SNS_ACCESS_KEY}")
+	private String accessKey;
+	@Value("${WFNEWS_SNS_SECRET}")
+	private String secret;
 
 	public EmailNotificationServiceImpl(EmailNotificationConfig emailConfig, Session emailSession) {
 		logger.debug("<EmailNotificationServiceImpl");
@@ -36,6 +54,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		this.emailSession = emailSession;
 		this.init();
 		logger.info("EmailNotificationServiceEnabledInd: {}", emailConfig.getEmailNotificationsEnabledInd());
+		
 		logger.debug("EmailNotificationServiceImpl>");
 	}
 
@@ -196,4 +215,51 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 	}
 
+	/**
+	 * Send Message implementation for SNS messages.
+	 */
+	public boolean sendMessage(MailResource mail) {
+		logger.debug(" >> sendMessage");
+		SnsClient snsClient = null;
+		try {
+			// First, put the email information on a message attribute map
+			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
+			messageAttributes.put("name", MessageAttributeValue.builder().stringValue(mail.getName()).dataType("String").build());
+			messageAttributes.put("subject", MessageAttributeValue.builder().stringValue(mail.getSubject()).dataType("String").build());
+			messageAttributes.put("address", MessageAttributeValue.builder().stringValue(mail.getEmailAddress()).dataType("String").build());
+			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
+
+			logger.debug("Configure SNS Client");
+			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
+			//InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+
+			snsClient = SnsClient.builder()
+				.region(Region.CA_CENTRAL_1)
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				.build();
+
+			// Then, publish a message to SNS using the client established on startup
+			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
+			PublishResponse result = snsClient.publish(request);
+			// If we dont have a result, or the ID is null, we can assume a failure
+			// If we do have a result, check for an OK response.
+			if (result != null && result.messageId() != null) {
+				logger.info("SNS Message response ID: {}", result.messageId());
+				logger.info("SNS Message Status: {}", result.sdkHttpResponse().statusCode());
+				return result.sdkHttpResponse().statusCode() == 200;
+			} else {
+				return false;
+			}
+		} catch (SnsException e) {
+				// on a failure, log the error and return false
+				logger.error("Failed to send message to SNS: " + e.awsErrorDetails().errorMessage(), e);
+				return false;
+		} finally {
+			logger.debug(" << sendMessage");
+			if (snsClient != null) {
+				snsClient.close();
+				snsClient = null;
+			}
+		}
+	}
 }

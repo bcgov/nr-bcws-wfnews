@@ -91,6 +91,10 @@
 		  WHERE EXTERNAL_URI_GUID = #{externalUriGuid}
 	</select>
 	
+	<delete id="flush">
+		DELETE FROM WFNEWS.EXTERNAL_URI 
+	</delete> 
+
 	<delete id="delete">
 		DELETE FROM WFNEWS.EXTERNAL_URI 
 		WHERE EXTERNAL_URI_GUID = #{externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}

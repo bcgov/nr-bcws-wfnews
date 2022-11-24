@@ -61,7 +61,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
               protected externalUriService: ExternalUriService,
               protected incidentAttachmentService: IncidentAttachmentService,
               private watchListServce: WatchlistService,
-              
+
               ) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchListServce);
   }
@@ -74,7 +74,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
 
   loadPage() {
     this.externalUriService.getExternalUriList(
-      undefined,//'' + this.incident.incidentNumberSequence,
+      '' + this.incident.incidentNumberSequence,
       '' + this.pageNumber,
       '' + this.pageRowCount,
       'response',
@@ -120,6 +120,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       if (result.title && result.url) {
         self.uploadVideoLink (result.title, result.url).then(() => {
           this.snackbarService.open('Video Added Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
+          this.loadPage()
         }).catch(err => {
           this.snackbarService.open('Failed to Added Video: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
         }).finally(() => {
@@ -139,18 +140,18 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       const resource = {
         externalUriDisplayLabel: title,
         externalUri: url,
-        publishedInd:false,
-        privateInd:false,
-        archivedInd:false,
+        publishedInd: false,
+        privateInd: false,
+        archivedInd: false,
         primaryInd: false,
         externalUriCategoryTag: 'information',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: ''+this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
-      } as ExternalUriResource ;
-  
-      return this.externalUriService.createExternalUri( 
+      } as ExternalUriResource;
+
+      return this.externalUriService.createExternalUri(
         resource,
         'response'
        ).toPromise()
@@ -158,7 +159,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
     }
 
     matchYoutubeUrl(url) {
-      const p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;      
+      const p = /^(?:https?:\/\/)?(?:m\.|www\.)?(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))((\w|-){11})(?:\S+)?$/;
       if(url.match(p)){
           return url.match(p)[1];
       }

@@ -9,13 +9,13 @@
     <div class="row">Uploaded On: <strong>{{convertToDate(attachment.uploadedTimestamp)}}</strong></div>
     <div class="divider action"></div>
     <div class="action">
-      <mat-radio-button [value]="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
+      <mat-radio-button (value)="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
     </div>
     <div class="action">
       <mat-icon (click)="edit()">edit</mat-icon> Edit Image Title
     </div>
     <div class="action">
-      <mat-checkbox [value]="includeInPublicGallery" (change)="includeInGallery()"><span class="checkbox-label">Include in Public Gallery</span></mat-checkbox>
+      <mat-checkbox [checked]="commsSuitable" (change)="includeInGallery()"><span class="checkbox-label">Include in Public Gallery</span></mat-checkbox>
     </div>
   </div>
 </div>
