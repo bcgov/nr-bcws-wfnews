@@ -68,6 +68,10 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 			parameters.put("dto", dto);
 			parameters.put("fileAttachmentGuid", dto.getAttachmentGuid());
 			int count = this.attachmentMapper.update(parameters);
+			
+			if (Boolean.TRUE.equals(dto.isPrimary())) {
+				updateForPrimaryInd(dto.getAttachmentGuid(), dto.getSourceObjectUniqueId());
+			}
 
 			if(count==0) {
 				throw new DaoException("Record not inserted: "+count);
@@ -176,4 +180,21 @@ public class AttachmentDaoImpl extends BaseDao implements AttachmentDao {
 		logger.debug(">select " + results);
 		return results;
   }
+  
+  private void updateForPrimaryInd(String attachmentGuid, String sourceObjectUniqueId) throws DaoException {
+		logger.debug("<updateForPrimaryInd");
+		
+		try {
+	
+			Map<String, Object> parameters = new HashMap<String, Object>();
+			parameters.put("attachmentGuid", attachmentGuid);
+			parameters.put("sourceObjectUniqueId", sourceObjectUniqueId);
+			this.attachmentMapper.updateForPrimaryInd(parameters);
+				
+			} catch (RuntimeException e) {
+				handleException(e);
+			}
+			
+		logger.debug(">updateForPrimaryInd");
+	}
 }
