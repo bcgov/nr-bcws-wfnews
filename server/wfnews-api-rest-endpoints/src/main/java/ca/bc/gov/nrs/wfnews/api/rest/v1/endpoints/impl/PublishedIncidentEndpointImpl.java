@@ -47,7 +47,39 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 			return Response.status(Status.FORBIDDEN).build();
 		}
 
+		// if we dont have an incident guid, reject the create
+		if (publishedIncidentResource.getIncidentGuid() == null) {
+			return Response.status(Status.BAD_GATEWAY).build();
+		}
+
 		try {
+			// If the resource has a GUID, check if it exists. If so, this should have been a PUT/update
+			if (publishedIncidentResource.getPublishedIncidentDetailGuid() != null) {
+				try {
+					PublishedIncidentResource existingIncident = incidentsService.getPublishedIncidentByIncidentGuid(publishedIncidentResource.getIncidentGuid(), getWebAdeAuthentication(), getFactoryContext());
+					if (existingIncident != null) {
+						if (!existingIncident.getPublishedIncidentDetailGuid().equalsIgnoreCase(publishedIncidentResource.getPublishedIncidentDetailGuid())) {
+							// We have an existing incident, however the existing record has a different
+							// guid than the new one getting passed in. Use the existing guid
+							publishedIncidentResource.setPublishedIncidentDetailGuid(existingIncident.getPublishedIncidentDetailGuid());
+						}
+						// Update
+						PublishedIncidentResource savedResource = incidentsService.updatePublishedWildfireIncident(publishedIncidentResource, getFactoryContext());
+						URI createdUri = URI.create(savedResource.getSelfLink());
+						return Response.created(createdUri).entity(savedResource).tag(savedResource.getUnquotedETag()).build();
+					}
+					// no need to handle the else. If the existing incident is null, fall out of this
+					// try and move on to the create
+				} catch(Exception e) {
+					// we can ignore the error case and continue
+					// In this situation, getting a NotFound just means the feature doesn't exist so
+					// we dont need to handle it as an update, and can just carry on with the create
+					// Other exceptions may occur, like DAO issues. If so, the create will also
+					// fail, and we can handle the error at that point
+				}
+			}
+
+			// there is no existing incident, so this is definitely a post. Carry on.
 			PublishedIncident publishedIncident = getPublishedIncidentFromResource(publishedIncidentResource);
 			PublishedIncidentResource result = incidentsService.createPublishedWildfireIncident(publishedIncident,
 					getFactoryContext());

@@ -70,6 +70,51 @@ export const FireCentres = [
     }
 ];
 
+export const FireZones = [
+  { code: 3, alias: 1, description: "Quesnel Zone", fireCentreOrgUnit: 2},
+  { code: 4, alias: 2, description: "Central Cariboo Zone (Williams Lake)", fireCentreOrgUnit: 2},
+  { code: 5, alias: 3, description: "Central Cariboo Zone (Horsefly)", fireCentreOrgUnit: 2},
+  { code: 6, alias: 4, description: "100 Mile House Zone", fireCentreOrgUnit: 2},
+  { code: 7, alias: 5, description: "Chilcotin Zone", fireCentreOrgUnit: 2},
+  { code: 9, alias: 1, description: "Prince George Zone", fireCentreOrgUnit: 8},
+  { code: 10, alias: 3, description: "Robson Valley Zone", fireCentreOrgUnit: 8},
+  { code: 11, alias: 4, description: "VanJam Zone (Vanderhoof)", fireCentreOrgUnit: 8},
+  { code: 12, alias: 5, description: "VanJam Zone (Fort St. James)", fireCentreOrgUnit: 8},
+  { code: 13, alias: 6, description: "Mackenzie Zone", fireCentreOrgUnit: 8},
+  { code: 14, alias: 7, description: "Dawson Creek Zone", fireCentreOrgUnit: 8},
+  { code: 15, alias: 8, description: "Fort St. John Zone", fireCentreOrgUnit: 8},
+  { code: 16, alias: 9, description: "Fort Nelson Zone", fireCentreOrgUnit: 8},
+  { code: 26, alias: 1, description: "Kamloops Zone (Clearwater)", fireCentreOrgUnit: 25},
+  { code: 27, alias: 2, description: "Kamloops Zone (Kamloops)", fireCentreOrgUnit: 25},
+  { code: 28, alias: 3, description: "Vernon Zone (Salmon Arm)", fireCentreOrgUnit: 25},
+  { code: 29, alias: 4, description: "Vernon Zone (Vernon)", fireCentreOrgUnit: 25},
+  { code: 30, alias: 5, description: "Penticton Zone", fireCentreOrgUnit: 25},
+  { code: 31, alias: 6, description: "Merritt Zone", fireCentreOrgUnit: 25},
+  { code: 32, alias: 7, description: "Lillooet Zone", fireCentreOrgUnit: 25},
+  { code: 35, alias: 1, description: "Cranbrook Zone", fireCentreOrgUnit: 34},
+  { code: 36, alias: 2, description: "Invermere Zone", fireCentreOrgUnit: 34},
+  { code: 37, alias: 4, description: "Columbia Zone", fireCentreOrgUnit: 34},
+  { code: 38, alias: 5, description: "Arrow Zone", fireCentreOrgUnit: 34},
+  { code: 39, alias: 6, description: "Boundary Zone", fireCentreOrgUnit: 34},
+  { code: 40, alias: 7, description: "Kootenay Lake Zone", fireCentreOrgUnit: 34},
+  { code: 43, alias: 1, description: "Nadina Zone (Lakes)", fireCentreOrgUnit: 42},
+  { code: 44, alias: 2, description: "Nadina Zone (Morice)", fireCentreOrgUnit: 42},
+  { code: 45, alias: 3, description: "Bulkley Zone", fireCentreOrgUnit: 42},
+  { code: 46, alias: 4, description: "Bulkley Zone (Kispiox)", fireCentreOrgUnit: 42},
+  { code: 47, alias: 5, description: "Skeena Zone (Kalum)", fireCentreOrgUnit: 42},
+  { code: 48, alias: 8, description: "Skeena Zone (North Coast)", fireCentreOrgUnit: 42},
+  { code: 49, alias: 9, description: "Cassiar Zone", fireCentreOrgUnit: 42},
+  { code: 51, alias: 1, description: "Fraser Zone", fireCentreOrgUnit: 50},
+  { code: 52, alias: 3, description: "Pemberton Zone", fireCentreOrgUnit: 50},
+  { code: 53, alias: 5, description: "Sunshine Coast Zone", fireCentreOrgUnit: 50},
+  { code: 54, alias: 6, description: "South Island Zone", fireCentreOrgUnit: 50},
+  { code: 55, alias: 7, description: "Mid Island Zone", fireCentreOrgUnit: 50},
+  { code: 56, alias: 8, description: "North Island Mid Coast Zone (Campbell River)", fireCentreOrgUnit: 50},
+  { code: 57, alias: 9, description: "North Island Mid Coast Zone (Port McNeill)", fireCentreOrgUnit: 50},
+  { code: 58, alias: 10, description: "North Island Mid Coast Zone (Mid Coast)", fireCentreOrgUnit: 50},
+  { code: 59, alias: 11, description: "Fraser Zone (Haida Gwaii)", fireCentreOrgUnit: 50}
+]
+
 export function getPageInfoRequestForSearchState(searchState: any): PagingInfoRequest {
     return {
         pageRowCount: searchState.pageSize,
@@ -213,18 +258,14 @@ export function snowPlowHelper(page: string, action?:string) {
 }
 
 export function convertFireNumber(incident) {
-    let result = '';
-    FireCentres.forEach(element => {
-      if (element.code === incident.fireCentre) {
-        result += element.characterAlias
-      }
-    })
-    result += incident.fireZoneUnitIdentifier
-    if (result.length + incident.incidentNumberLabel.length < 6) {
-      result = String(result).padEnd(6-incident.incidentNumberLabel.length,'0')
-    }
-    result += incident.incidentNumberLabel
-    return result
+  try {
+    const fcAlias = FireCentres.find(c => c.code === incident.fireCentre).characterAlias
+    const zoneAlias = FireZones.find(z => z.code === incident.fireZoneUnitIdentifier).alias
+    const incidentNumber = String(incident.incidentNumberLabel).padStart(4 - incident.incidentNumberLabel.length, '0')
+
+    return fcAlias + zoneAlias + incidentNumber
+  } catch (err) {
+    console.error(err)
+    return 'Unknown Incident Label'
   }
-
-
+}
