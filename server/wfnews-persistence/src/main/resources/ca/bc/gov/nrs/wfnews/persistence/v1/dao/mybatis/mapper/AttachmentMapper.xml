@@ -27,6 +27,9 @@
   </resultMap>
 
   <insert id="insertAttachment">
+  <selectKey keyProperty="fileAttachmentGuid" resultType="java.lang.String" order="BEFORE"> 
+		  SELECT GEN_RANDOM_UUID();
+		</selectKey>
     INSERT 
       INTO wfnews.file_attachment
            (file_attachment_guid, source_object_name_code, source_object_unique_id, document_path, file_identifier,
@@ -35,7 +38,7 @@
             uploaded_by_user_guid, uploaded_by_timestamp, revision_count, create_user, create_date, update_user,
             update_date, primary_ind)
 	  VALUES 
-           (#{dto.attachmentGuid,    javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
+           (#{fileAttachmentGuid,    javaType=java.lang.String,  jdbcType=BINARY,  mode=IN},
             #{dto.sourceObjectNameCode,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{dto.sourceObjectUniqueId,  javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{dto.imageURL,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
@@ -44,7 +47,7 @@
             #{dto.attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{dto.attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             'Y',
-            #{mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+            #{dto.mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             'N',
             'Y',
             'N',
@@ -150,4 +153,11 @@
 		SELECT COUNT(*)
 		  FROM WFNEWS.EXTERNAL_URI
 	</select>
+	
+	<update id="updateForPrimaryInd">	
+	    UPDATE WFNEWS.FILE_ATTACHMENT
+	        SET PRIMARY_IND				    = 'N'
+	    WHERE SOURCE_OBJECT_UNIQUE_ID       =  #{sourceObjectUniqueId}
+	    AND FILE_ATTACHMENT_GUID       			!= #{attachmentGuid}
+   </update> 
 </mapper>
