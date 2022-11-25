@@ -29,6 +29,7 @@ export const ICON = {
   FILTER_CANCEL: "filter-cancel",
   BOOKMARK: 'bookmark',
   MAP: 'map',
+  BACK_ICON: 'back-icon',
 };
 
 @Component({
@@ -319,6 +320,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.MAP,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/map.svg')
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      ICON.BACK_ICON,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/back-icon.svg')
     );
   }
 

@@ -298,11 +298,11 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       if (incident.fireOfNoteInd) {
         icon.style.backgroundColor = '#aa0d0d'
       } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
-        icon.style.backgroundColor = '#aa0d0d'
+        icon.style.backgroundColor = '#FF0000'
       } else if (incident.stageOfControlCode === 'HOLDING') {
-        icon.style.backgroundColor = '#ffd966'
+        icon.style.backgroundColor = '#FFFF00'
       } else if (incident.stageOfControlCode === 'UNDR_CNTRL') {
-        icon.style.backgroundColor = '#507800'
+        icon.style.backgroundColor = '#98E600'
       }
 
       if (this.markerAnimation) {
