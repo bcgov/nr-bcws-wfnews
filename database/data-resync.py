@@ -37,7 +37,7 @@ def lambda_handler(event, context):
     aws_key = ''
     aws_secret = ''
     # Flush all data first?
-    data_flush = False
+    data_flush = True if datetime.datetime.now().hour == 1 and datetime.datetime.now().minute < 15 else False
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
