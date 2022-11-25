@@ -14,6 +14,7 @@ import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.AttachmentsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
@@ -35,6 +36,7 @@ import software.amazon.awssdk.utils.IoUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
+import java.util.Date;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 
@@ -185,6 +187,11 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
 
 				// Now we should also update the Incident
+				// This will ensure we fetch this on update checks
+				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, getWebAdeAuthentication(), getFactoryContext());
+				incident.setUpdateDate(new Date());
+				incident.setLastUpdatedTimestamp(new Date());
+				incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
 			} else {
 				response = Response.status(Status.NOT_FOUND).build();
 			}
