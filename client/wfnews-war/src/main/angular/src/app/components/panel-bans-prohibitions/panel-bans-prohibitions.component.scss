@@ -56,7 +56,8 @@ section {
             &.yellow {
               color: #7D7700;
               &::before {
-                background-color: #7D7700;
+                background-color: #FFFF78;
+                border: 1px solid black;
               }
             }
 
