@@ -2,12 +2,14 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
@@ -69,7 +71,8 @@ public interface AttachmentsEndpoint {
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
-			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
+			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail
 	);
 
 	@ApiOperation(
@@ -88,6 +91,7 @@ public interface AttachmentsEndpoint {
 	Response createIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
+			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail,
 			@ApiParam("The file.") @Parameter(name = "file") @FormDataParam("file") FormDataBodyPart file
 	);
 

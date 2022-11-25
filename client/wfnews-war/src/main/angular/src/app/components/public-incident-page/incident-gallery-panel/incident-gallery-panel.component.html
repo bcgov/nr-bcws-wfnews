@@ -21,8 +21,8 @@
         <div>
           <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
             <a *ngFor="let item of imagesAndVideosStub"
-                [attr.data-src]="item.href"
-                [attr.data-responsive]="item.href"
+                [attr.data-src]="item.thumbnail"
+                [attr.data-responsive]="item.thumbnail"
                 data-lg-size="376-383"
                 class="gallery-item">
                 <div class="image-video-container">

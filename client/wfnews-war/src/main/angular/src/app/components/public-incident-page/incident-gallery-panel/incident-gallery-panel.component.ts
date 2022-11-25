@@ -93,7 +93,8 @@ export class IncidentGalleryPanel implements OnInit {
                 uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
                 fileName: attachment.attachmentFileName,
                 type: 'image',
-                href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`
+                href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
+                thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
               })
             }
           }
