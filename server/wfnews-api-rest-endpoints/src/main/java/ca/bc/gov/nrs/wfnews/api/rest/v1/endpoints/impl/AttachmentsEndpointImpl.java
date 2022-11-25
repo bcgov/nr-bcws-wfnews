@@ -177,6 +177,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			if (result != null) {
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
         
+				// Use a key that includes the incident number and file name. Set mime type. s3 Default is octet stream
 				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName()).contentType(result.getMimeType()).build();
 				inputStream = file.getEntityAs(InputStream.class);
 				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
