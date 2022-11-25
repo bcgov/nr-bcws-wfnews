@@ -14,6 +14,7 @@ import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.AttachmentsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
@@ -35,6 +36,7 @@ import software.amazon.awssdk.utils.IoUtils;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
+import java.util.Date;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 
@@ -178,11 +180,18 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
         
 				// Use a key that includes the incident number and file name. Set mime type. s3 Default is octet stream
-				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName()).contentType(result.getMimeType()).build();
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid()).contentType(result.getMimeType()).build();
 				inputStream = file.getEntityAs(InputStream.class);
 				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
 
 				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
+
+				// Now we should also update the Incident
+				// This will ensure we fetch this on update checks
+				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, getWebAdeAuthentication(), getFactoryContext());
+				incident.setUpdateDate(new Date());
+				incident.setLastUpdatedTimestamp(new Date());
+				incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
 			} else {
 				response = Response.status(Status.NOT_FOUND).build();
 			}
@@ -213,7 +222,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 				GetObjectRequest getObjectRequest = GetObjectRequest.builder()
 						.bucket(attachmentsAwsConfig.getBucketName())
-						.key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName())
+						.key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid())
 						.build();
 
 				byte[] content;
@@ -223,7 +232,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				s3Object.close();
 				response = Response.status(200)
 						.header("Content-type", "application/octet-stream")
-						.header("Content-disposition", "attachment; filename=\"" + result.getFileName() + "\"")
+						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + "\"")
 						.header("Cache-Control", "no-cache")
 						.header("Content-Length", content.length)
 						.entity(content)

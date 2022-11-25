@@ -42,6 +42,8 @@ def lambda_handler(event, context):
     aws_secret = ''
     # Flush all data first?
     data_flush = True if datetime.datetime.now().hour == 1 and datetime.datetime.now().minute < 15 else False
+    # update threshold. If we're not flushing, only process records where the update age is less than the limit
+    update_limit = 600000 # 10 minutes in milliseconds
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
@@ -70,6 +72,8 @@ def lambda_handler(event, context):
     exit_while = False
     while page_number < total_pages and exit_while == False:
       page_number = page_number + 1
+      # there is currently no way to filter by update timestamp. Otherwise we would just fetch
+      # data from the last 10 mins
       wfim_response = requests.get(wfim_api + 'incidents?wildfireYear=' + str(fire_year) + '&pageNumber=' + str(page_number)+ '&pageRowCount=' + str(page_size),  headers={'Authorization': 'Bearer ' + token})
 
       if wfim_response.status_code != 200:
@@ -106,6 +110,13 @@ def lambda_handler(event, context):
     print('... Create Inserts for WFNEWS')
     # iterate incidents, push to WFNEWS API with some random data
     for incident in wfim_incidents:
+      modified_incident = True
+      modified_published_incident = True
+      if not data_flush:
+        # check update timestamp, ignore if older than 10 mins
+        if incident['lastUpdatedTimestamp'] is not None and round(time.time() * 1000) - incident['lastUpdatedTimestamp'] > update_limit:
+          modified_incident = False
+
       curr_time = round(time.time()*1000)
       published_incident = None
 
@@ -115,10 +126,19 @@ def lambda_handler(event, context):
       wfim_response = requests.get(wfim_api + 'publishedIncidents/byIncident/' + incident['wildfireIncidentGuid'],  headers={'Authorization': 'Bearer ' + token})
       if wfim_response.status_code != 200:
         print('Failed to load published info. Response code was: ' + str(wfim_response.status_code))
+        modified_published_incident = False
       else:
         published_incident = wfim_response.json()
+        if not data_flush:
+          # check update timestamp, ignore if older than 10 mins
+          if round(time.time() * 1000) - published_incident['updateDate'] > update_limit:
+            modified_published_incident = False
 
       del wfim_response
+
+      if not modified_incident and not modified_published_incident:
+        print('... No Changes, Skipping ' + incident['incidentLabel'])
+        continue
 
       # This will contain the final feature attributes
       feature = {
