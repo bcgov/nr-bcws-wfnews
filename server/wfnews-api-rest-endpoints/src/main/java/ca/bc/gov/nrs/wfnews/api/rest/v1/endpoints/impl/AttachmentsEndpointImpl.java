@@ -20,8 +20,6 @@ import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
 import ca.bc.gov.nrs.wfone.common.service.api.ForbiddenException;
 import ca.bc.gov.nrs.wfone.common.service.api.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
-import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -175,12 +173,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
 
 			if (result != null) {
-				InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
-
-		    S3Client s3Client = S3Client.builder()
-				.region(Region.CA_CENTRAL_1)
-				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
-				.build();
+				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
         
 				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(attachmentGuid).build();
 
@@ -210,17 +203,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		logRequest();
 
-	  	Region region =  Region.of(attachmentsAwsConfig.getRegionName());
-		// AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
-		// 		attachmentsAwsConfig.getAccessKeyId(),
-		// 		attachmentsAwsConfig.getSecretAccessKey());
-		
-		// InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
-
-		S3Client s3Client = S3Client.builder()
-				.region(Region.CA_CENTRAL_1)
-				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
-				.build();
+		S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
 				.bucket(attachmentsAwsConfig.getBucketName())
