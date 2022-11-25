@@ -12,6 +12,10 @@ from aws_secretsmanager_caching import SecretCache, SecretCacheConfig
 import boto3
 import io
 
+# Lambda definition, required by AWS Lambda setup
+# Currently the trigger event and context are
+# ignored, but we could use them for passing in
+# request information
 def lambda_handler(event, context):
   try:
     # load configurations from aws secrets manager
@@ -41,7 +45,7 @@ def lambda_handler(event, context):
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
-    # verify 200
+    # verify 200 or fail out
     if token_response.status_code != 200:
       return {
           'statusCode': 401,
@@ -52,12 +56,12 @@ def lambda_handler(event, context):
     del token_response
 
     print('Load data from WFIM')
-
+    # Determine the fire year
     fire_year = datetime.date.today().year
     if datetime.date.today().month <= 3:
       fire_year = fire_year - 1 
     print('... Using fire year: ' + str(fire_year))
-
+    # And off we go, start by loading incidents from WFIM
     print('... Loading incident details')
     wfim_incidents = []
     page_number = 0
@@ -67,7 +71,7 @@ def lambda_handler(event, context):
     while page_number < total_pages and exit_while == False:
       page_number = page_number + 1
       wfim_response = requests.get(wfim_api + 'incidents?wildfireYear=' + str(fire_year) + '&pageNumber=' + str(page_number)+ '&pageRowCount=' + str(page_size),  headers={'Authorization': 'Bearer ' + token})
-      # agol_response 200
+
       if wfim_response.status_code != 200:
         return {
           'statusCode': wfim_response.status_code,
@@ -85,6 +89,8 @@ def lambda_handler(event, context):
       del wfim_response
 
     # Flush the existing cache, if desired
+    # This will delete incidents, externalURI and attachment data from
+    # The AWS Cache
     if data_flush:
       print('Flushing the WFNEWS AWS cache')
       wfnews_del_response = requests.delete(wfnews_api + 'publishedIncident/flush', headers={'Authorization': 'Bearer ' + token})
@@ -104,6 +110,8 @@ def lambda_handler(event, context):
       published_incident = None
 
       # check for existing published data and fetch that
+      # We need to create all incidents, but we want to ensure we
+      # supply published details where available
       wfim_response = requests.get(wfim_api + 'publishedIncidents/byIncident/' + incident['wildfireIncidentGuid'],  headers={'Authorization': 'Bearer ' + token})
       if wfim_response.status_code != 200:
         print('Failed to load published info. Response code was: ' + str(wfim_response.status_code))
@@ -112,6 +120,7 @@ def lambda_handler(event, context):
 
       del wfim_response
 
+      # This will contain the final feature attributes
       feature = {
         "publishedIncidentDetailGuid": published_incident['publishedIncidentDetailGuid'] if published_incident is not None else incident['wildfireIncidentGuid'], #str(uuid.uuid4()),
         "incidentGuid": incident['wildfireIncidentGuid'],
@@ -160,6 +169,7 @@ def lambda_handler(event, context):
       }
 
       # The API will update if the posted resource exists
+      # so this event can handle updates and inserts
       wfnews_response = requests.post(wfnews_api + 'publishedIncident', json=feature, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
       # verify 200
       if wfnews_response.status_code != 201:
@@ -167,13 +177,17 @@ def lambda_handler(event, context):
         print('Failed to insert fire ' + incident['incidentLabel'])
       del wfnews_response
 
+      # this will only add/update but it won't delete
+      # This means only a flush will currently remove documents
       print('... Check for Attachments and External URIs for ' + incident['incidentLabel'])
       print('... Loading External URI')
+      # Load the URIs from WFIM
       wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
       if wfim_response.status_code != 200:
         print(wfim_response.status_code)
         print('Failed to fetch external URI: ' + incident['incidentLabel'])
       else:
+        # and if there are any to store, push them up into WFNEWS
         external_uris = wfim_response.json()
         for uri in external_uris['collection']:
           del uri['@type'] 
@@ -187,7 +201,9 @@ def lambda_handler(event, context):
           del wfnews_response
 
       del wfim_response
-
+      # Similar to external URI's above, load attachments and push
+      # them to WFNEWS. Difference here is that we might have
+      # binary data to pull from WFDM
       print('... Loading Attachments')
       wfim_response = requests.get(wfim_api + 'incidents/' + str(fire_year) + '/' + str(incident['incidentNumberSequence']) + '/attachments?pageNumber=1&pageRowCount=100&attachmentTypeCode=INFO&archived=false&privateIndicator=false&orderBy=attachmentTitle%2CDESC',  headers={'Authorization': 'Bearer ' + token})
       if wfim_response.status_code != 200:
@@ -201,7 +217,6 @@ def lambda_handler(event, context):
           attachment['attachmentTypeCode'] = 'DOCUMENT'
           attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
           attachment['sourceObjectUniqueId'] = incident['incidentNumberSequence']
-          # apply the mime type correctly - not coming accross
 
           wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
           if wfnews_response.status_code != 201:

@@ -222,21 +222,8 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		logger.debug(" >> sendMessage");
 		SnsClient snsClient = null;
 		try {
-			// First, put the email information on a message attribute map
-			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
-			messageAttributes.put("name", MessageAttributeValue.builder().stringValue(mail.getName()).dataType("String").build());
-			messageAttributes.put("subject", MessageAttributeValue.builder().stringValue(mail.getSubject()).dataType("String").build());
-			messageAttributes.put("address", MessageAttributeValue.builder().stringValue(mail.getEmailAddress()).dataType("String").build());
-			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
-
 			logger.debug("Configure SNS Client");
-			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			//InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
-
-			snsClient = SnsClient.builder()
-				.region(Region.CA_CENTRAL_1)
-				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
-				.build();
+			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).build();
 
 			// Then, publish a message to SNS using the client established on startup
 			PublishRequest request = PublishRequest.builder().message("Name: " + mail.getName() + "\nSubject: " + mail.getSubject() + "\nAddress: " + mail.getEmailAddress() + "\n Message:\n" + mail.getMessageBody()).topicArn(topicArn).build();
