@@ -82,12 +82,12 @@ export class IncidentGalleryPanel implements OnInit {
       }
 
       // fetch image attachments
-      this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentName).toPromise().then(results => {
+      this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
         if (results && results.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
             // do a mime type check here
-            if (!attachment.imageURL.toLowerCase().endsWith('.pdf') || (attachment.mimeType && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase()))) {
+            if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
               this.allImagesAndVideosStub.push({
                 title: attachment.attachmentTitle,
                 uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
