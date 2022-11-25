@@ -6,8 +6,8 @@ import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
 import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.spring.PropertiesSpringConfig;
-import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
+
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
@@ -20,22 +20,21 @@ import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
 import ca.bc.gov.nrs.wfone.common.service.api.ForbiddenException;
 import ca.bc.gov.nrs.wfone.common.service.api.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ByteArrayResource;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.EnvironmentVariableCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.PutObjectRequest;
+import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.utils.IoUtils;
 
 import java.io.IOException;
-import java.util.Properties;
+import java.io.InputStream;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 
@@ -165,19 +164,62 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
   }
 
 	@Override
+	public Response createIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, FormDataBodyPart file) {
+		Response response = null;
+		
+		logRequest();
+
+		InputStream inputStream = null;
+
+		try {
+			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+
+			if (result != null) {
+				InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+
+		    S3Client s3Client = S3Client.builder()
+				.region(Region.CA_CENTRAL_1)
+				.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				.build();
+        
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(attachmentGuid).build();
+
+				inputStream = file.getEntityAs(InputStream.class);
+
+				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
+				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
+			} else {
+				response = Response.status(Status.NOT_FOUND).build();
+			}
+		} catch (ForbiddenException e) {
+			response = Response.status(Status.FORBIDDEN).build();
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+		
+		logResponse(response);
+
+		return response;
+	}
+
+	@Override
 	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
 		Response response = null;
 
 		logRequest();
 
 	  	Region region =  Region.of(attachmentsAwsConfig.getRegionName());
-		AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
-				attachmentsAwsConfig.getAccessKeyId(),
-				attachmentsAwsConfig.getSecretAccessKey());
+		// AwsBasicCredentials awsBasicCredentials = AwsBasicCredentials.create(
+		// 		attachmentsAwsConfig.getAccessKeyId(),
+		// 		attachmentsAwsConfig.getSecretAccessKey());
+		
+		// InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
 
 		S3Client s3Client = S3Client.builder()
-				.credentialsProvider(StaticCredentialsProvider.create(awsBasicCredentials))
-				.region(region)
+				.region(Region.CA_CENTRAL_1)
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
 				.build();
 
 		GetObjectRequest getObjectRequest = GetObjectRequest.builder()

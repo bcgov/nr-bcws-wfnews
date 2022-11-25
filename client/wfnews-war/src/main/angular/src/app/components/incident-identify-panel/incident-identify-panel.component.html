@@ -20,7 +20,7 @@
     <button style="background: #1a5a96; color: white;" mat-button color="primary" (click)="goToIncidentDetail()">Full Incident Detail</button>
   </div>
   <div class="info-panel">
-    <div><span class="label">Fire Number: </span><span>{{incident.incidentNumberLabel}}</span></div>
+    <div><span class="label">Fire Number: </span><span>{{convertFireNumber(incident)}}</span></div>
     <div><span class="label">Last Updated: </span><span>{{incident.lastUpdatedTimestamp}}</span></div>
     <div><span class="label">Discovered On: </span><span>{{incident.discoveryDate}}</span></div>
     <div *ngIf="incident.stageOfControlCode === 'OUT'"><span class="label">Declared Out: </span><span>{{incident.declaredOutDate}}</span></div>

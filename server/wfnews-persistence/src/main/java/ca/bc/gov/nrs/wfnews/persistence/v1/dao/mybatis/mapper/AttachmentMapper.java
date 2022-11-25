@@ -14,4 +14,5 @@ public interface AttachmentMapper {
 	int delete(Map<String, Object> parameters);
 	void flush();
 	int selectCount(Map<String, Object> parameters);
+	void updateForPrimaryInd(Map<String, Object> parameters);
 }

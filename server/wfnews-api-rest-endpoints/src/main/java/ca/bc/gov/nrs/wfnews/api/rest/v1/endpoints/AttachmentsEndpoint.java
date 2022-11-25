@@ -3,12 +3,16 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
+import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.glassfish.jersey.media.multipart.FormDataParam;
 
 import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
@@ -26,6 +30,7 @@ import io.swagger.annotations.AuthorizationScope;
 import io.swagger.annotations.Extension;
 import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.ResponseHeader;
+import io.swagger.v3.oas.annotations.Parameter;
 
 @Api(value = "IncidentAttachment")
 @Path("/")
@@ -65,6 +70,25 @@ public interface AttachmentsEndpoint {
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
+	);
+
+	@ApiOperation(
+		value = "Get Incident Attachment bytes by ID.", 
+		notes = "Get the Incident Attachment by ID.")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
+	})
+	@ApiResponses(value = {
+		@ApiResponse(code = 200, message = "OK", response = AttachmentResource.class, responseHeaders = @ResponseHeader(name = HeaderConstants.ETAG_HEADER, response = String.class, description = HeaderConstants.ETAG_DESCRIPTION)),
+		@ApiResponse(code = 404, message = "Not Found"),
+		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+	})
+	@POST
+	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
+	Response createIncidentAttachmentBytes(
+			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
+			@ApiParam("The file.") @Parameter(name = "file") @FormDataParam("file") FormDataBodyPart file
 	);
 
 	@ApiOperation(

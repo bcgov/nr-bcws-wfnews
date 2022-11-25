@@ -21,6 +21,7 @@ import ca.bc.gov.nrs.wfnews.service.api.model.EmailNotificationType;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
 import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
+import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
 import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
@@ -229,11 +230,16 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
 
 			logger.debug("Configure SNS Client");
-			AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).credentialsProvider(StaticCredentialsProvider.create(creds)).build();
+			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
+			//InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
+
+			snsClient = SnsClient.builder()
+				.region(Region.CA_CENTRAL_1)
+				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
+				.build();
 
 			// Then, publish a message to SNS using the client established on startup
-			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
+			PublishRequest request = PublishRequest.builder().message("Name: " + mail.getName() + "\nSubject: " + mail.getSubject() + "\nAddress: " + mail.getEmailAddress() + "\n Message:\n" + mail.getMessageBody()).topicArn(topicArn).build();
 			PublishResponse result = snsClient.publish(request);
 			// If we dont have a result, or the ID is null, we can assume a failure
 			// If we do have a result, check for an OK response.
