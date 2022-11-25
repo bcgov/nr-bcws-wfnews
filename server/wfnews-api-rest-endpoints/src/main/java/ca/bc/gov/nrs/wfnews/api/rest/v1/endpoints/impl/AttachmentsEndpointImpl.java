@@ -231,7 +231,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				content = IoUtils.toByteArray(s3Object);
 				s3Object.close();
 				response = Response.status(200)
-						.header("Content-type", "application/octet-stream")
+						.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + "\"")
 						.header("Cache-Control", "no-cache")
 						.header("Content-Length", content.length)
