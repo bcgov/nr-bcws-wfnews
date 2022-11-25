@@ -29,10 +29,12 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
+import software.amazon.awssdk.services.s3.model.ObjectCannedACL;
 import software.amazon.awssdk.utils.IoUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.FileSystems;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 
@@ -175,11 +177,10 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			if (result != null) {
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
         
-				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(attachmentGuid).build();
-
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName()).acl(ObjectCannedACL.PUBLIC_READ).contentType(result.getMimeType()).build();
 				inputStream = file.getEntityAs(InputStream.class);
-
 				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
+
 				response = Response.status(s3Object.sdkHttpResponse().statusCode()).build();
 			} else {
 				response = Response.status(Status.NOT_FOUND).build();
@@ -203,26 +204,32 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 		logRequest();
 
-		S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-
-		GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-				.bucket(attachmentsAwsConfig.getBucketName())
-				.key(attachmentGuid)
-				.build();
-
 		try {
-			byte[] content;
+			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
 
-			final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
-			content = IoUtils.toByteArray(s3Object);
-			s3Object.close();
-			response = Response.status(200)
-					.header("Content-type", "application/octet-stream")
-					.header("Content-disposition", "attachment; filename=\"" + attachmentGuid + "\"")
-					.header("Cache-Control", "no-cache")
-					.header("Content-Length", content.length)
-					.entity(content)
-					.build();
+			if (result != null) {
+				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+
+				GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+						.bucket(attachmentsAwsConfig.getBucketName())
+						.key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName())
+						.build();
+
+				byte[] content;
+
+				final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
+				content = IoUtils.toByteArray(s3Object);
+				s3Object.close();
+				response = Response.status(200)
+						.header("Content-type", "application/octet-stream")
+						.header("Content-disposition", "attachment; filename=\"" + result.getFileName() + "\"")
+						.header("Cache-Control", "no-cache")
+						.header("Content-Length", content.length)
+						.entity(content)
+						.build();
+			} else {
+				response = Response.status(404).build();
+			}
 		} catch (NoSuchKeyException e) {
 			response = Response.status(404).build();
 		} catch (IOException e) {
