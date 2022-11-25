@@ -177,7 +177,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			if (result != null) {
 				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
         
-				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName()).acl(ObjectCannedACL.PUBLIC_READ).contentType(result.getMimeType()).build();
+				PutObjectRequest putObjectRequest = PutObjectRequest.builder().bucket(attachmentsAwsConfig.getBucketName()).key(incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getFileName()).contentType(result.getMimeType()).build();
 				inputStream = file.getEntityAs(InputStream.class);
 				final PutObjectResponse s3Object = s3Client.putObject(putObjectRequest, RequestBody.fromBytes(inputStream.readAllBytes()));
 
