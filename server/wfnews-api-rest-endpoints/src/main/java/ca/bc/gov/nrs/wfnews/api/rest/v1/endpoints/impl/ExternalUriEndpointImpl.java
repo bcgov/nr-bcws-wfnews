@@ -1,12 +1,8 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
 import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;

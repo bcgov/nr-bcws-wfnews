@@ -88,6 +88,28 @@ public class AttachmentsListEndpointImpl extends BaseEndpointsImpl implements At
 		}
 
 		try {
+      // If the resource has a GUID, check if it exists. If so, this should have been a PUT/update
+			if (attachment.getAttachmentGuid() != null) {
+				try {
+					AttachmentResource existing = incidentsService.getIncidentAttachment(attachment.getAttachmentGuid(), getFactoryContext());
+					if (existing != null) {
+						// Update
+						AttachmentResource savedResource = incidentsService.updateIncidentAttachment(attachment, getWebAdeAuthentication(), getFactoryContext());
+						URI createdUri = URI.create(savedResource.getSelfLink());
+						return Response.created(createdUri).entity(savedResource).tag(savedResource.getUnquotedETag()).build();
+					}
+					// no need to handle the else. If the existing attachment is null, fall out of this
+					// try and move on to the create
+				} catch(Exception e) {
+					// we can ignore the error case and continue
+					// In this situation, getting a NotFound just means the feature doesn't exist so
+					// we dont need to handle it as an update, and can just carry on with the create
+					// Other exceptions may occur, like DAO issues. If so, the create will also
+					// fail, and we can handle the error at that point
+				}
+			}
+
+			// there is no existing attachment, so this is definitely a post. Carry on.
       attachment.setSourceObjectUniqueId(incidentNumberSequence);
 			AttachmentResource result = incidentsService.createIncidentAttachment(
 					attachment,

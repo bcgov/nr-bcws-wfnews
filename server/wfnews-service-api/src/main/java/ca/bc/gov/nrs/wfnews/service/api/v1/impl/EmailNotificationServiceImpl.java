@@ -239,7 +239,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 				.build();
 
 			// Then, publish a message to SNS using the client established on startup
-			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
+			PublishRequest request = PublishRequest.builder().message("Name: " + mail.getName() + "\nSubject: " + mail.getSubject() + "\nAddress: " + mail.getEmailAddress() + "\n Message:\n" + mail.getMessageBody()).topicArn(topicArn).build();
 			PublishResponse result = snsClient.publish(request);
 			// If we dont have a result, or the ID is null, we can assume a failure
 			// If we do have a result, check for an OK response.
