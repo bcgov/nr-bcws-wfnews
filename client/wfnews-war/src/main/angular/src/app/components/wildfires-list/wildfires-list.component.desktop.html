@@ -93,7 +93,7 @@
 
 
 <div class="table-wrapper flex-y-grow" *ngIf="collectionData; else loading">
-    <table style = "width: fit-content;" mat-table matSort [dataSource]="collectionData | paginate:config"
+    <table  mat-table matSort [dataSource]="collectionData | paginate:config"
             [matSortActive]="this.searchState.sortParam"
             [matSortDirection]="this.searchState.sortDirection.toLowerCase()"
             (matSortChange)="sortData($event)"
