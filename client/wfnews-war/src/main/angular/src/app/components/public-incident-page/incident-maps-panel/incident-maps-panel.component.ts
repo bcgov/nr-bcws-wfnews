@@ -48,7 +48,7 @@ export class IncidentMapsPanel implements OnInit {
         const data = []
         for (const doc of docs.collection) {
           const idx = docs.collection.indexOf(doc)
-          if (doc.mimeType && idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
+          if (doc.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
             docs.collection.splice(idx, 1);
           } else {
             data.push(doc)
