@@ -86,7 +86,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   constructor(private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
               private componentRouter: Router,
-              private store: Store<RootState>,
               protected cdr: ChangeDetectorRef,
               protected dialog: MatDialog,
               private publishedIncidentService: PublishedIncidentService,
@@ -185,7 +184,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.location = response.incidentLocation;
 
               self.incident.sizeComments = response.incidentSizeDetail;
-              self.incident.causeComments = response.causeComments;
+              self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
               self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;

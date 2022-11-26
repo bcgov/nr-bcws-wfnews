@@ -269,3 +269,13 @@ export function convertFireNumber(incident) {
     return 'Unknown Incident Label'
   }
 }
+
+export function convertToYoutubeId (externalUri: string) {
+  if (externalUri) {
+    const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+    let match = externalUri.match(regExp);
+    if( match && match[7].length == 11) {
+      return match[7]
+    }
+  }
+}

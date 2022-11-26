@@ -6,6 +6,7 @@ import { BeforeSlideDetail } from 'lightgallery/lg-events';
 import InfoPlugin from "./info-plugin/info-plugin.component";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
+import { convertToYoutubeId } from "../../../utils";
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -15,7 +16,7 @@ import { AppConfigService } from "@wf1/core-ui";
 })
 export class IncidentGalleryPanel implements OnInit {
   @Input() public incident;
-
+  public convertToYoutubeId = convertToYoutubeId
   public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) { }
 
   currentMediaType: string;
@@ -51,16 +52,6 @@ export class IncidentGalleryPanel implements OnInit {
     this.loadPage();
     this.currentMediaType = "All";
     this.onMediaTypeFilterChanged("All");
-  }
-
-  convertToYoutubeId (externalUri: string) {
-    if (externalUri) {
-      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-      let match = externalUri.match(regExp);
-      if( match && match[7].length == 11) {
-        return match[7]
-      }
-    }
   }
 
   loadPage() {
