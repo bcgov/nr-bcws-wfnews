@@ -4,6 +4,7 @@ import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
+import { convertToYoutubeId } from '../../../../utils';
 
 @Component({
   selector: 'video-card-panel',
@@ -13,6 +14,8 @@ import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog
 export class VideoCardPanel{
   @Input() public incident
   @Input() public video: any
+
+  public convertToYoutubeId = convertToYoutubeId
 
   public includeInPublicGallery = false;
 
@@ -65,16 +68,6 @@ export class VideoCardPanel{
   convertToDate(value: string | number | Date): string {
     if (value) {
       return moment(value).format('YYYY-MM-DD hh:mm:ss')
-    }
-  }
-
-  convertToYoutubeId (externalUri: string) {
-    if (externalUri) {
-      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-      let match = externalUri.match(regExp);
-      if( match && match[7].length == 11) {
-        return match[7]
-      }
     }
   }
 

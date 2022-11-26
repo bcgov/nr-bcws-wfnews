@@ -139,7 +139,7 @@ def lambda_handler(event, context):
       if not modified_incident and not modified_published_incident:
         print('... No Changes, Skipping ' + incident['incidentLabel'])
         continue
-
+      print('... Processesing ' + incident['incidentLabel'])
       # This will contain the final feature attributes
       feature = {
         "publishedIncidentDetailGuid": published_incident['publishedIncidentDetailGuid'] if published_incident is not None else incident['wildfireIncidentGuid'], #str(uuid.uuid4()),
