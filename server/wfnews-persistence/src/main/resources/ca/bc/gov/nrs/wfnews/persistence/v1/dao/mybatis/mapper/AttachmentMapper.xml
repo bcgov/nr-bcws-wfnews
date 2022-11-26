@@ -58,7 +58,7 @@
             #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
             #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
-            #{dto.primary,              javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
+            #{dto.primary,               javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
   </insert>
 
   <insert id="insertMeta">
@@ -153,7 +153,7 @@
 	
 	<update id="updateForPrimaryInd">	
 	    UPDATE WFNEWS.FILE_ATTACHMENT
-	        SET PRIMARY_IND				    = 'N'
+	        SET PRIMARY_IND	= 'N'
 	    WHERE SOURCE_OBJECT_UNIQUE_ID       =  #{sourceObjectUniqueId}
 	    AND FILE_ATTACHMENT_GUID       			!= #{attachmentGuid}
    </update> 

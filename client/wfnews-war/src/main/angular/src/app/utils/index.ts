@@ -21,98 +21,104 @@ export enum ResourcesRoutes {
 
 export const FireCentres = [
     {
-        code: "2",
-        description: "Cariboo Fire Centre",
+        code: '2',
+        agol: '7',
+        description: 'Cariboo Fire Centre',
         displayOrder: 1,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "C"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'C'
     },
     {
-        code: "50",
-        description: "Coastal Fire Centre",
+        code: '50',
+        agol: '2',
+        description: 'Coastal Fire Centre',
         displayOrder: 2,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "V"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'V'
     },
     {
-        code: "25",
-        description: "Kamloops Fire Centre",
+        code: '25',
+        agol: '5',
+        description: 'Kamloops Fire Centre',
         displayOrder: 3,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "K"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'K'
     },
     {
-        code: "42",
-        description: "Northwest Fire Centre",
+        code: '42',
+        agol: '3',
+        description: 'Northwest Fire Centre',
         displayOrder: 4,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "R"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'R'
     },
     {
-        code: "8",
-        description: "Prince George Fire Centre",
+        code: '8',
+        agol: '4',
+        description: 'Prince George Fire Centre',
         displayOrder: 5,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "G"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'G'
     },
     {
-        code: "34",
-        description: "Southeast Fire Centre",
+        code: '34',
+        agol: 6,
+        description: 'Southeast Fire Centre',
         displayOrder: 6,
-        effectiveDate: "1999-01-01",
-        expiryDate: "9999-12-31",
-        characterAlias: "N"
+        effectiveDate: '1999-01-01',
+        expiryDate: '9999-12-31',
+        characterAlias: 'N'
     }
 ];
 
 export const FireZones = [
-  { code: 3, alias: 1, description: "Quesnel Zone", fireCentreOrgUnit: 2},
-  { code: 4, alias: 2, description: "Central Cariboo Zone (Williams Lake)", fireCentreOrgUnit: 2},
-  { code: 5, alias: 3, description: "Central Cariboo Zone (Horsefly)", fireCentreOrgUnit: 2},
-  { code: 6, alias: 4, description: "100 Mile House Zone", fireCentreOrgUnit: 2},
-  { code: 7, alias: 5, description: "Chilcotin Zone", fireCentreOrgUnit: 2},
-  { code: 9, alias: 1, description: "Prince George Zone", fireCentreOrgUnit: 8},
-  { code: 10, alias: 3, description: "Robson Valley Zone", fireCentreOrgUnit: 8},
-  { code: 11, alias: 4, description: "VanJam Zone (Vanderhoof)", fireCentreOrgUnit: 8},
-  { code: 12, alias: 5, description: "VanJam Zone (Fort St. James)", fireCentreOrgUnit: 8},
-  { code: 13, alias: 6, description: "Mackenzie Zone", fireCentreOrgUnit: 8},
-  { code: 14, alias: 7, description: "Dawson Creek Zone", fireCentreOrgUnit: 8},
-  { code: 15, alias: 8, description: "Fort St. John Zone", fireCentreOrgUnit: 8},
-  { code: 16, alias: 9, description: "Fort Nelson Zone", fireCentreOrgUnit: 8},
-  { code: 26, alias: 1, description: "Kamloops Zone (Clearwater)", fireCentreOrgUnit: 25},
-  { code: 27, alias: 2, description: "Kamloops Zone (Kamloops)", fireCentreOrgUnit: 25},
-  { code: 28, alias: 3, description: "Vernon Zone (Salmon Arm)", fireCentreOrgUnit: 25},
-  { code: 29, alias: 4, description: "Vernon Zone (Vernon)", fireCentreOrgUnit: 25},
-  { code: 30, alias: 5, description: "Penticton Zone", fireCentreOrgUnit: 25},
-  { code: 31, alias: 6, description: "Merritt Zone", fireCentreOrgUnit: 25},
-  { code: 32, alias: 7, description: "Lillooet Zone", fireCentreOrgUnit: 25},
-  { code: 35, alias: 1, description: "Cranbrook Zone", fireCentreOrgUnit: 34},
-  { code: 36, alias: 2, description: "Invermere Zone", fireCentreOrgUnit: 34},
-  { code: 37, alias: 4, description: "Columbia Zone", fireCentreOrgUnit: 34},
-  { code: 38, alias: 5, description: "Arrow Zone", fireCentreOrgUnit: 34},
-  { code: 39, alias: 6, description: "Boundary Zone", fireCentreOrgUnit: 34},
-  { code: 40, alias: 7, description: "Kootenay Lake Zone", fireCentreOrgUnit: 34},
-  { code: 43, alias: 1, description: "Nadina Zone (Lakes)", fireCentreOrgUnit: 42},
-  { code: 44, alias: 2, description: "Nadina Zone (Morice)", fireCentreOrgUnit: 42},
-  { code: 45, alias: 3, description: "Bulkley Zone", fireCentreOrgUnit: 42},
-  { code: 46, alias: 4, description: "Bulkley Zone (Kispiox)", fireCentreOrgUnit: 42},
-  { code: 47, alias: 5, description: "Skeena Zone (Kalum)", fireCentreOrgUnit: 42},
-  { code: 48, alias: 8, description: "Skeena Zone (North Coast)", fireCentreOrgUnit: 42},
-  { code: 49, alias: 9, description: "Cassiar Zone", fireCentreOrgUnit: 42},
-  { code: 51, alias: 1, description: "Fraser Zone", fireCentreOrgUnit: 50},
-  { code: 52, alias: 3, description: "Pemberton Zone", fireCentreOrgUnit: 50},
-  { code: 53, alias: 5, description: "Sunshine Coast Zone", fireCentreOrgUnit: 50},
-  { code: 54, alias: 6, description: "South Island Zone", fireCentreOrgUnit: 50},
-  { code: 55, alias: 7, description: "Mid Island Zone", fireCentreOrgUnit: 50},
-  { code: 56, alias: 8, description: "North Island Mid Coast Zone (Campbell River)", fireCentreOrgUnit: 50},
-  { code: 57, alias: 9, description: "North Island Mid Coast Zone (Port McNeill)", fireCentreOrgUnit: 50},
-  { code: 58, alias: 10, description: "North Island Mid Coast Zone (Mid Coast)", fireCentreOrgUnit: 50},
-  { code: 59, alias: 11, description: "Fraser Zone (Haida Gwaii)", fireCentreOrgUnit: 50}
+  { code: 3, alias: 1, description: 'Quesnel Zone', fireCentreOrgUnit: 2},
+  { code: 4, alias: 2, description: 'Central Cariboo Zone (Williams Lake)', fireCentreOrgUnit: 2},
+  { code: 5, alias: 3, description: 'Central Cariboo Zone (Horsefly)', fireCentreOrgUnit: 2},
+  { code: 6, alias: 4, description: '100 Mile House Zone', fireCentreOrgUnit: 2},
+  { code: 7, alias: 5, description: 'Chilcotin Zone', fireCentreOrgUnit: 2},
+  { code: 9, alias: 1, description: 'Prince George Zone', fireCentreOrgUnit: 8},
+  { code: 10, alias: 3, description: 'Robson Valley Zone', fireCentreOrgUnit: 8},
+  { code: 11, alias: 4, description: 'VanJam Zone (Vanderhoof)', fireCentreOrgUnit: 8},
+  { code: 12, alias: 5, description: 'VanJam Zone (Fort St. James)', fireCentreOrgUnit: 8},
+  { code: 13, alias: 6, description: 'Mackenzie Zone', fireCentreOrgUnit: 8},
+  { code: 14, alias: 7, description: 'Dawson Creek Zone', fireCentreOrgUnit: 8},
+  { code: 15, alias: 8, description: 'Fort St. John Zone', fireCentreOrgUnit: 8},
+  { code: 16, alias: 9, description: 'Fort Nelson Zone', fireCentreOrgUnit: 8},
+  { code: 26, alias: 1, description: 'Kamloops Zone (Clearwater)', fireCentreOrgUnit: 25},
+  { code: 27, alias: 2, description: 'Kamloops Zone (Kamloops)', fireCentreOrgUnit: 25},
+  { code: 28, alias: 3, description: 'Vernon Zone (Salmon Arm)', fireCentreOrgUnit: 25},
+  { code: 29, alias: 4, description: 'Vernon Zone (Vernon)', fireCentreOrgUnit: 25},
+  { code: 30, alias: 5, description: 'Penticton Zone', fireCentreOrgUnit: 25},
+  { code: 31, alias: 6, description: 'Merritt Zone', fireCentreOrgUnit: 25},
+  { code: 32, alias: 7, description: 'Lillooet Zone', fireCentreOrgUnit: 25},
+  { code: 35, alias: 1, description: 'Cranbrook Zone', fireCentreOrgUnit: 34},
+  { code: 36, alias: 2, description: 'Invermere Zone', fireCentreOrgUnit: 34},
+  { code: 37, alias: 4, description: 'Columbia Zone', fireCentreOrgUnit: 34},
+  { code: 38, alias: 5, description: 'Arrow Zone', fireCentreOrgUnit: 34},
+  { code: 39, alias: 6, description: 'Boundary Zone', fireCentreOrgUnit: 34},
+  { code: 40, alias: 7, description: 'Kootenay Lake Zone', fireCentreOrgUnit: 34},
+  { code: 43, alias: 1, description: 'Nadina Zone (Lakes)', fireCentreOrgUnit: 42},
+  { code: 44, alias: 2, description: 'Nadina Zone (Morice)', fireCentreOrgUnit: 42},
+  { code: 45, alias: 3, description: 'Bulkley Zone', fireCentreOrgUnit: 42},
+  { code: 46, alias: 4, description: 'Bulkley Zone (Kispiox)', fireCentreOrgUnit: 42},
+  { code: 47, alias: 5, description: 'Skeena Zone (Kalum)', fireCentreOrgUnit: 42},
+  { code: 48, alias: 8, description: 'Skeena Zone (North Coast)', fireCentreOrgUnit: 42},
+  { code: 49, alias: 9, description: 'Cassiar Zone', fireCentreOrgUnit: 42},
+  { code: 51, alias: 1, description: 'Fraser Zone', fireCentreOrgUnit: 50},
+  { code: 52, alias: 3, description: 'Pemberton Zone', fireCentreOrgUnit: 50},
+  { code: 53, alias: 5, description: 'Sunshine Coast Zone', fireCentreOrgUnit: 50},
+  { code: 54, alias: 6, description: 'South Island Zone', fireCentreOrgUnit: 50},
+  { code: 55, alias: 7, description: 'Mid Island Zone', fireCentreOrgUnit: 50},
+  { code: 56, alias: 8, description: 'North Island Mid Coast Zone (Campbell River)', fireCentreOrgUnit: 50},
+  { code: 57, alias: 9, description: 'North Island Mid Coast Zone (Port McNeill)', fireCentreOrgUnit: 50},
+  { code: 58, alias: 10, description: 'North Island Mid Coast Zone (Mid Coast)', fireCentreOrgUnit: 50},
+  { code: 59, alias: 11, description: 'Fraser Zone (Haida Gwaii)', fireCentreOrgUnit: 50}
 ]
 
 export function getPageInfoRequestForSearchState(searchState: any): PagingInfoRequest {
@@ -181,7 +187,7 @@ export function isElementTruncated(el: HTMLElement): boolean {
 }
 
 export const CONSTANTS= {
-    NO_RECORDS_MESSAGE: "No records to display.",
+    NO_RECORDS_MESSAGE: 'No records to display.',
 }
 
 export function arrayEquals(a, b) {
@@ -193,7 +199,7 @@ export function arrayEquals(a, b) {
 
 export const formatSort = (param: string, direction: SortDirection) => param && direction ? `${param} ${direction}` : undefined;
 
-export const WF_SNACKBAR_TYPES = {SUCCESS: "success", ERROR: "error", WARNING: "warning", INFO: "info", UPDATE: "update"};
+export const WF_SNACKBAR_TYPES = {SUCCESS: 'success', ERROR: 'error', WARNING: 'warning', INFO: 'info', UPDATE: 'update'};
 
 
 export function convertFromTimestamp(date: string) {
@@ -240,8 +246,10 @@ function displayDay(date: string): string{
 
 export function convertToFireCentreDescription(code: string): string {
     if (code) {
-        let result = FireCentres.find(fireCentre => fireCentre.code === code);
-        return result ? result.description : code;
+        let result = FireCentres.find(fireCentre => fireCentre.code === code)
+        // Some have the code from AGOL, which appears to be an objectid?
+        let agolResult = FireCentres.find(fireCentre => fireCentre.agol === code);
+        return result ? result.description : agolResult ? agolResult.description : code;
     }
 }
 

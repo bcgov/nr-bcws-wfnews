@@ -264,6 +264,7 @@ def lambda_handler(event, context):
             attachment['attachmentTypeCode'] = 'DOCUMENT'
             attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
             attachment['sourceObjectUniqueId'] = incident['incidentNumberSequence']
+            attachment['primary'] = attachment['primaryInd']
 
             wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
             if wfnews_response.status_code != 201 and wfnews_response.status_code != 200:

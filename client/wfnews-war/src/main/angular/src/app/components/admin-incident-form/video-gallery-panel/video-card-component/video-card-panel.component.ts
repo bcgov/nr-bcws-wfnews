@@ -27,6 +27,24 @@ export class VideoCardPanel{
                protected dialog: MatDialog,
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
+  changePrimary () {
+    console.log(this.video);
+    (this.video as any).primaryInd = !(this.video as any).primaryInd;
+    this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
+  }
+
+  get isPrimary () {
+    if (!Object.prototype.hasOwnProperty.call(this.video, 'primaryInd')) {
+      (this.video as any).primaryInd = false
+    }
+
+    return (this.video as any).primaryInd
+  }
+
+  set isPrimary (primary) {
+    (this.video as any).primaryInd = primary
+  }
+
   edit () {
     let dialogRef = this.dialog.open(EditVideoDialogComponent, {
       width: '600px',
