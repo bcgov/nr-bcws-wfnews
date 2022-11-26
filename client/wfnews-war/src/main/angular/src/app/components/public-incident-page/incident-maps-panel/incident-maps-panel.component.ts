@@ -86,7 +86,7 @@ export class IncidentMapsPanel implements OnInit {
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
-    a.download = "test.pdf";
+    a.download = "data.pdf";
     a.href = URL.createObjectURL(downloadedFile);
     a.target = '_blank';
     a.click();

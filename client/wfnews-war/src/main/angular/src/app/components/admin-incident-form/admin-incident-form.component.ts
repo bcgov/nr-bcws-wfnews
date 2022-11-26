@@ -252,6 +252,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
           contactPhoneNumber: this.incident.contact.phoneNumber,
           contactEmailAddress: this.incident.contact.emailAddress,
+          resourceDetail: this.incident.responseComments,
           wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
           wildfireCrewResourcesDetail: this.incident.crewsComments,
           wildfireAviationResourceInd: this.incident.aviationInd,
@@ -318,7 +319,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       lastUpdatedTimestamp: new Date(this.incident.incidentData.lastUpdatedTimestamp).toString(),
       latitude: this.incident.incidentData.incidentLocation.latitude,
       longitude: this.incident.incidentData.incidentLocation.longitude,
-      fireYear: this.incident.wildfireYear
+      fireYear: this.incident.wildfireYear,
+      resourceDetail: this.incidentForm.controls['responseComments'].value,
     }
 
     if (localStorage.getItem('preview_incident') != null) {

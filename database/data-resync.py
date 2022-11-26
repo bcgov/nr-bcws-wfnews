@@ -146,7 +146,7 @@ def lambda_handler(event, context):
         "incidentGuid": incident['wildfireIncidentGuid'],
         "incidentNumberLabel": incident['incidentNumberSequence'], # number sequence or incidentLabel?
         "newsCreatedTimestamp": curr_time,
-        "stageOfControlCode": incident['incidentSituation']['stageOfControlCode'] ,
+        "stageOfControlCode": incident['incidentSituation']['stageOfControlCode'],
         "fireCentre": incident['fireCentreOrgUnitIdentifier'],
         "generalIncidentCauseCatId": 2 if incident['suspectedCauseCategoryCode'] == 'Lightning' else 3 if incident['suspectedCauseCategoryCode'] == 'Undetermined' else 1,
         "declaredOutDate": incident['incidentSituation']['fireOutDate'],
@@ -154,7 +154,7 @@ def lambda_handler(event, context):
         "fireZoneUnitIdentifier": incident['zoneOrgUnitIdentifier'],
         "fireOfNoteInd": incident['fireOfNotePublishedInd'],
         "incidentName": incident['incidentName'] if incident['incidentName'] is not None else incident['incidentLabel'],
-        "incidentLocation": incident['incidentLocation']['geographicDescription'],
+        "incidentLocation": published_incident['incidentLocation'] if published_incident is not None else incident['incidentLocation']['geographicDescription'],
         "incidentSizeEstimatedHa": incident['incidentSituation']['fireSizeHectares'],
         "incidentSizeMappedHa": incident['incidentSituation']['fireSizeHectares'],
         "newsPublicationStatusCode": published_incident['newsPublicationStatusCode'] if published_incident is not None else 'DRAFT',
@@ -197,61 +197,89 @@ def lambda_handler(event, context):
         print('Failed to insert fire ' + incident['incidentLabel'])
       del wfnews_response
 
-      # this will only add/update but it won't delete
-      # This means only a flush will currently remove documents
-      print('... Check for Attachments and External URIs for ' + incident['incidentLabel'])
-      print('... Loading External URI')
-      # Load the URIs from WFIM
-      wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
-      if wfim_response.status_code != 200:
-        print(wfim_response.status_code)
-        print('Failed to fetch external URI: ' + incident['incidentLabel'])
-      else:
-        # and if there are any to store, push them up into WFNEWS
-        external_uris = wfim_response.json()
-        for uri in external_uris['collection']:
-          del uri['@type'] 
-          del uri['links']
-          uri['sourceObjectNameCode'] = 'PUB_INC_DT'
-          wfnews_response = requests.post(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
-          if wfnews_response.status_code != 201:
-            print('Failed to upload external URI')
+      # if the fire is "out", ignore the attachment stuff, we wont display it anyway
+      if incident['incidentSituation']['stageOfControlCode'] != 'OUT':
+
+        # fetch WFNEWS uris, fetch wfim uris
+        # loop through wfnews URIS, delete any that dont exist in wfim
+        # loop through wfim, add all
+
+        # this will only add/update but it won't delete
+        # This means only a flush will currently remove documents
+        print('... Check for Attachments and External URIs for ' + incident['incidentLabel'])
+        print('... Loading External URI')
+        # Load the URIs from WFIM
+        wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
+        if wfim_response.status_code != 200:
+          print(wfim_response.status_code)
+          print('Failed to fetch external URI: ' + incident['incidentLabel'])
+        else:
+          # and if there are any to store, push them up into WFNEWS
+          external_uris = wfim_response.json()
+          for uri in external_uris['collection']:
+            del uri['@type'] 
+            del uri['links']
+            uri['sourceObjectNameCode'] = 'PUB_INC_DT'
+            wfnews_response = requests.post(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+            if wfnews_response.status_code != 201:
+              print('Failed to upload external URI')
+              del wfnews_response
+              wfnews_response = requests.put(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
             del wfnews_response
-            wfnews_response = requests.put(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
-          del wfnews_response
 
-      del wfim_response
-      # Similar to external URI's above, load attachments and push
-      # them to WFNEWS. Difference here is that we might have
-      # binary data to pull from WFDM
-      print('... Loading Attachments')
-      wfim_response = requests.get(wfim_api + 'incidents/' + str(fire_year) + '/' + str(incident['incidentNumberSequence']) + '/attachments?pageNumber=1&pageRowCount=100&attachmentTypeCode=INFO&archived=false&privateIndicator=false&orderBy=attachmentTitle%2CDESC',  headers={'Authorization': 'Bearer ' + token})
-      if wfim_response.status_code != 200:
-        print(wfim_response.status_code)
-        print('Failed to fetch attachments for: ' + incident['incidentLabel'])
+        del wfim_response
+        # Similar to external URI's above, load attachments and push
+        # them to WFNEWS. Difference here is that we might have
+        # binary data to pull from WFDM
+        print('... Loading Attachments')
+        wfim_response = requests.get(wfim_api + 'incidents/' + str(fire_year) + '/' + str(incident['incidentNumberSequence']) + '/attachments?pageNumber=1&pageRowCount=100&archived=false&privateIndicator=false&orderBy=attachmentTitle%2CDESC',  headers={'Authorization': 'Bearer ' + token})
+        if wfim_response.status_code != 200:
+          print(wfim_response.status_code)
+          print('Failed to fetch attachments for: ' + incident['incidentLabel'])
+        else:
+          attachments = wfim_response.json()
+          for attachment in attachments['collection']:
+            # ignore any attachment that isn't flagged as commsSuitable
+            if attachment['commsSuitable'] == None or attachment['commsSuitable'] == False:
+              continue
+
+            attachment['@type'] = 'AttachmentResource'
+            attachment['imageURL'] = '/' + str(incident['incidentNumberSequence']) + '/' + attachment['fileName']
+            attachment['attachmentTypeCode'] = 'DOCUMENT'
+            attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
+            attachment['sourceObjectUniqueId'] = incident['incidentNumberSequence']
+
+            wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+            if wfnews_response.status_code != 201 and wfnews_response.status_code != 200:
+              print('Failed to upload attachment')
+            else:
+              print('... Attachment ref created. Fetching from WFDM and writing to bucket...')
+              new_attachment = wfnews_response.json()
+              # Fetch attachment from WFDM
+              wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['fileIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
+              doc_bytes = wfdm_response.content
+              del wfdm_response
+              wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
+              if wfnews_response.status_code != 200:
+                print('Write to bucket failed: ' + str(wfnews_response.status_code))
+              else:
+                print('... File pushed to bucket.')
+              # Handle thumbnails
+              if attachment['thumbnailIdentifier'] != None:
+                # the same as above, but for the thumbnail
+                # Fetch attachment from WFDM
+                wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['thumbnailIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
+                doc_bytes = wfdm_response.content
+                del wfdm_response
+                wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes?thumbnail=true', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
+                if wfnews_response.status_code != 200:
+                  print('Write to bucket failed: ' + str(wfnews_response.status_code))
+                else:
+                  print('... Thumbail created')
+            del wfnews_response
+        del wfim_response
       else:
-        attachments = wfim_response.json()
-        for attachment in attachments['collection']:
-          attachment['@type'] = 'AttachmentResource'
-          attachment['imageURL'] = '/' + str(incident['incidentNumberSequence']) + '/' + attachment['fileName']
-          attachment['attachmentTypeCode'] = 'DOCUMENT'
-          attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
-          attachment['sourceObjectUniqueId'] = incident['incidentNumberSequence']
-
-          wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
-          if wfnews_response.status_code != 201:
-            print('Failed to upload attachment')
-          else:
-            print('... Attachment ref created. Fetching from WFDM and writing to bucket...')
-            new_attachment = wfnews_response.json()
-            # Fetch attachment from WFDM
-            wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['fileIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
-            doc_bytes = wfdm_response.content
-            del wfdm_response
-            wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
-          del wfnews_response
-
-      del wfim_response
+        print('... Ignoring attachments for fire that is OUT')
 
     # Once the Inserts and updates are complete, see if anything needs to be removed
     # note, this is only needed if we did not flush data
