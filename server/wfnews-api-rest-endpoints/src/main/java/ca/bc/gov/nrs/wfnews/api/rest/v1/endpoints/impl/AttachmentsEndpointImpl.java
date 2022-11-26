@@ -36,8 +36,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.FileSystems;
 import java.util.Date;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
+	private static final Logger logger = LoggerFactory.getLogger(AttachmentsEndpointImpl.class);
 
   @Autowired
   private IncidentsService incidentsService;
@@ -204,6 +207,15 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			response = Response.status(Status.NOT_FOUND).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
+		} finally {
+			if (inputStream != null) {
+				try {
+					inputStream.close();
+					file.cleanup();
+				} catch (IOException e) {
+					logger.error("Failed to cleanup file upload", e);
+				}
+			}
 		}
 		
 		logResponse(response);
