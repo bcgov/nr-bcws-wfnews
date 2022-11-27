@@ -187,7 +187,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
-              self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;
+              self.incident.responseComments = response.resourceDetail;
 
               self.incident.wildifreCrewsInd = response.wildfireCrewResourcesInd;
               self.incident.crewsComments = response.wildfireCrewResourcesDetail;

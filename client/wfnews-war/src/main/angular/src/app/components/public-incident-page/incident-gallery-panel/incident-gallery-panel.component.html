@@ -19,35 +19,29 @@
             </mat-select>
         </div>
         <div>
-          <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" class="content-panel-stack">
-            <a *ngFor="let item of imagesAndVideosStub"
-                [attr.data-src]="item.thumbnail"
-                [attr.data-responsive]="item.thumbnail"
-                data-lg-size="376-383"
-                class="gallery-item">
-                <div class="image-video-container">
-                    <div class="image-video-details">
-                        <div style="padding-bottom: 5px;">{{item.title}}</div>
-                        <div style="font-size:14px">
-                            <div style="padding-bottom: 5px;">
-                                Date Uploaded: <span style="font-weight: 700;">{{item.uploadedDate}}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="display: flex;">
-                      <img *ngIf="item.type === 'image'" class="incident-image img-responsive" src="{{item.href}}" alt="{{item.title}}"/>
-                      <youtube-player *ngIf="item.type === 'video'"
-                        videoId={{convertToYoutubeId(item.href)}}
-                        suggestedQuality="highres"
-                        [startSeconds]="1"
-                        [endSeconds]="20"
-                        [height]="250"
-                        [width]="400">
-                      </youtube-player>
-                    </div>
-                </div>
+          <lightgallery *ngIf="showImages" [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" class="gallery-container">
+            <a *ngFor="let item of images"
+                data-lg-size="480-475-480, 800-791-800, 1406-1390"
+                class="gallery-item"
+                [href]="item.href"
+                [data-src]="item.href"
+                [data-responsive]="item.href + ' 800'"
+                style="padding: 5px;">
+                <img class="img-responsive" [src]="item.thumbnail" />
             </a>
-        </lightgallery>
+          </lightgallery>
+
+          <div *ngIf="showVideos">
+              <youtube-player *ngFor="let item of videos"
+                  style="padding: 5px;"
+                  videoId={{convertToYoutubeId(item.href)}}
+                  suggestedQuality="highres"
+                  [startSeconds]="1"
+                  [endSeconds]="20"
+                  [height]="250"
+                  [width]="400">
+              </youtube-player>
+          </div>
         </div>
       </div>
 </div>
