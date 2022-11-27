@@ -2,11 +2,12 @@ import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef } 
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgFullscreen from 'lightgallery/plugins/fullscreen';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import { BeforeSlideDetail } from 'lightgallery/lg-events';
+import { BeforeSlideDetail, InitDetail } from 'lightgallery/lg-events';
 import InfoPlugin from "./info-plugin/info-plugin.component";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { convertToYoutubeId } from "../../../utils";
+import { LightGallery } from "lightgallery/lightgallery";
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -24,28 +25,55 @@ export class IncidentGalleryPanel implements OnInit {
   imagesAndVideosStub: any[];
   allImagesAndVideosStub: any[];
 
+  private lightGallery!: LightGallery
+  private refreshGallery = false
+  public showVideos = true
+  public showImages = true
+
   settings = {
-    counter: false,
-    plugins: [lgZoom, lgFullscreen, InfoPlugin, lgThumbnail],
+    counter: true,
+    plugins: [lgZoom, lgFullscreen, lgThumbnail],
     download: true,
     showZoomInOutIcons: true,
     fullScreen: true,
-    actualSize: false,
-    info: true,
-    infoData: {testdata: "This is info test data"}
+    actualSize: true,
+    thumbnail: true
   };
+
+  ngAfterViewChecked(): void {
+    if (this.refreshGallery && this.lightGallery) {
+        this.lightGallery.refresh()
+        this.refreshGallery = false
+    }
+  }
+
+  onInit = (detail: InitDetail): void => {
+    this.lightGallery = detail.instance
+  }
 
   onBeforeSlide = (detail: BeforeSlideDetail): void => {
     const { index, prevIndex } = detail;
   };
 
   onMediaTypeFilterChanged(event) {
-    if(event === "Images")
-      this.imagesAndVideosStub = this.allImagesAndVideosStub.filter(item => item.type === "image");
-    if(event === "Videos")
-      this.imagesAndVideosStub = this.allImagesAndVideosStub.filter(item => item.type === "video");
-    if(event === "All")
-      this.imagesAndVideosStub = this.allImagesAndVideosStub;
+    if(event === "Images") {
+      this.showImages = true
+      this.showVideos = false
+    } else if(event === "Videos") {
+      this.showImages = false
+      this.showVideos = true
+    } else {
+      this.showImages = true
+      this.showVideos = true
+    }
+  }
+
+  get videos () {
+    return this.allImagesAndVideosStub.filter(item => item.type === "video")
+  }
+
+  get images () {
+    return this.allImagesAndVideosStub.filter(item => item.type === "image")
   }
 
   ngOnInit() {
@@ -61,7 +89,7 @@ export class IncidentGalleryPanel implements OnInit {
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
       if (results && results.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
-          this.allImagesAndVideosStub.push({
+         this.allImagesAndVideosStub.push({
             title: uri.externalUriDisplayLabel,
             uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
             fileName: '',
@@ -91,6 +119,10 @@ export class IncidentGalleryPanel implements OnInit {
           }
         }
         this.cdr.detectChanges()
+        this.lightGallery.refresh()
+        setTimeout(() => {
+          this.refreshGallery = true
+        }, 5000)
       })
     })
   }

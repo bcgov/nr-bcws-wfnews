@@ -43,7 +43,7 @@ def lambda_handler(event, context):
     # Flush all data first?
     data_flush = True if datetime.datetime.now().hour == 1 and datetime.datetime.now().minute < 15 else False
     # update threshold. If we're not flushing, only process records where the update age is less than the limit
-    update_limit = 600000 # 10 minutes in milliseconds
+    update_limit = 1200000 # 20 minutes in milliseconds
 
     print('Fetching a token from OAUTH...')
     token_response = requests.get(token_service, auth=HTTPBasicAuth(client_name, client_secret))
