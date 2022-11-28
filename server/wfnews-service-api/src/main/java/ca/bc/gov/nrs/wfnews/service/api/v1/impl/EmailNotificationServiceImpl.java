@@ -43,10 +43,11 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 	@Value("${WFNEWS_SNS_TOPIC_ARN}")
 	private String topicArn;
-	@Value("${WFNEWS_SNS_ACCESS_KEY}")
-	private String accessKey;
-	@Value("${WFNEWS_SNS_SECRET}")
-	private String secret;
+	// We do not need access key id / secret access key when using container-based credentials
+	// @Value("${WFNEWS_SNS_ACCESS_KEY}")
+	// private String accessKey;
+	// @Value("${WFNEWS_SNS_SECRET}")
+	// private String secret;
 
 	public EmailNotificationServiceImpl(EmailNotificationConfig emailConfig, Session emailSession) {
 		logger.debug("<EmailNotificationServiceImpl");

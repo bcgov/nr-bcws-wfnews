@@ -147,30 +147,31 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           name = "DB_PASS",
           value = "${var.db_pass}"
         },
-        {
-          name = "WFNEWS_SNS_ACCESS_KEY",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_SNS_SECRET",
-          value = "${var.aws_secret_access_key}"
-        },
-        {
-          name = "WFNEWS_S3_ACCESS_KEY",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_S3_SECRET",
-          value = "${var.aws_secret_access_key}"
-        },
-        {
-          name = "WFNEWS_ACCESS_KEY_ID",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_SECRET_ACCESS_KEY",
-          value = "${var.aws_secret_access_key}"
-        },
+        # Access keys and secret keys are not needed when using container-based authentication
+        # {
+        #   name = "WFNEWS_SNS_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_SNS_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        # {
+        #   name = "WFNEWS_ACCESS_KEY_ID",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_SECRET_ACCESS_KEY",
+        #   value = "${var.aws_secret_access_key}"
+        # },
         {
           name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
@@ -178,6 +179,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "WFNEWS_S3_BUCKET_NAME",
           value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
+        },
+        {
+          name: "API_KEY",
+          value: "${var.api_key}"
         }
 
       ]

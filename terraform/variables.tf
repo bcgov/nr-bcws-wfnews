@@ -5,13 +5,14 @@ variable "target_env" {
   type = string
 }
 
-variable "aws_access_key_id" {
-  type = string
-}
+#Access key ID and secret access key are not used with container-based authentication
+# variable "aws_access_key_id" {
+#   type = string
+# }
 
-variable "aws_secret_access_key" {
-  type = string
-}
+# variable "aws_secret_access_key" {
+#   type = string
+# }
 
 variable "target_aws_account_id" {
   description = "AWS workload account id"
