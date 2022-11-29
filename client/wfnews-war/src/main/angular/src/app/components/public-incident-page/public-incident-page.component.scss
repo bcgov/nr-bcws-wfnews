@@ -48,6 +48,11 @@
   height: 4px !important;
 }
 
+:host ::ng-deep .mat-tab-label-active {
+  font-weight: 700 !important
+}
+
+
 .page {
   background-color: #f2f2f2;
 }

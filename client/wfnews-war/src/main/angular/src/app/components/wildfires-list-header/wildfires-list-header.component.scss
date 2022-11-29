@@ -37,3 +37,7 @@ p.dashboard-title{
 :host ::ng-deep .mat-ink-bar {
     background-color: #003366 !important;
 }
+
+:host ::ng-deep .mat-tab-label-active {
+    font-weight: 700 !important
+}
