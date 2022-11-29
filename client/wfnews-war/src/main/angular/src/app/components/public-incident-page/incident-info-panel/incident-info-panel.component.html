@@ -54,7 +54,7 @@
         <div *ngFor="let evac of evacOrders">
           <a [href]="" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
         </div>
-        <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts near this incident.</div>
+        <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts associated with this incident.</div>
         <div style="padding: 10px;"></div>
         <div class="content-panel-subtitle">What is an Evacuation Order?</div>
         <div class="content-panel-body">You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.</div>
