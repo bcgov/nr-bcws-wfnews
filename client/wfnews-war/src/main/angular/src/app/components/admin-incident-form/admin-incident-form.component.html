@@ -19,6 +19,14 @@
 <mat-tab-group>
   <mat-tab label="Incident Information">
     <mat-accordion class="details" multi>
+      <mat-expansion-panel #IncidentSummaryPanel class="incident-details-panel" expanded>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <span class="panel-title">Incident Summary</span>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <summary-panel #summaryPanelComponent [incident]="incident"></summary-panel>
+    </mat-expansion-panel>
       <mat-expansion-panel #IncidentDetailsPanel class="incident-details-panel" expanded>
           <mat-expansion-panel-header>
               <mat-panel-title>
