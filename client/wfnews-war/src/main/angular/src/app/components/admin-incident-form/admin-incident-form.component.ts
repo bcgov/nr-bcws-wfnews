@@ -246,6 +246,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           newsCreatedTimestamp: new Date().valueOf().toString(),
           discoveryDate: new Date().valueOf().toString(),
           newsPublicationStatusCode: 'PUBLISHED',
+          publishedTimestamp: new Date(),
           fireOfNoteInd: this.incident.fireOfNote,
           incidentName: this.incident.fireName,
           incidentLocation: this.incident.location,
