@@ -266,16 +266,20 @@ export function snowPlowHelper(page: string, action?:string) {
 }
 
 export function convertFireNumber(incident) {
-  try {
-    const fcAlias = FireCentres.find(c => c.code === incident.fireCentre).characterAlias
-    const zoneAlias = FireZones.find(z => z.code === incident.fireZoneUnitIdentifier).alias
-    const incidentNumber = String(incident.incidentNumberLabel).padStart(4, '0')
-
-    return fcAlias + zoneAlias + incidentNumber
-  } catch (err) {
-    console.error(err)
-    return 'Unknown Incident Label'
-  }
+    if(incident.incidentNumberLabelFull) {
+        return incident.incidentNumberLabelFull
+    }
+    else{
+        try {
+        const fcAlias = FireCentres.find(c => c.code === incident.fireCentre).characterAlias
+        const zoneAlias = FireZones.find(z => z.code === incident.fireZoneUnitIdentifier).alias
+        const incidentNumber = String(incident.incidentNumberLabel).padStart(4, '0')
+        return fcAlias + zoneAlias + incidentNumber
+        } catch (err) {
+        console.error(err)
+        return 'Unknown Incident Label'
+        }
+    }
 }
 
 export function convertToYoutubeId (externalUri: string) {
