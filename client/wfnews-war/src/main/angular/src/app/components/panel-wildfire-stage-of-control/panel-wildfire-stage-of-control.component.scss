@@ -12,6 +12,11 @@ mat-tab-group {
   background-color: #003366 !important;
 }
 
+:host ::ng-deep .mat-tab-label-active {
+    font-weight: 700 !important
+}
+
+
 ::ng-deep .wildfires-tabs{
 
     padding-top: 1rem;
