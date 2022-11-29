@@ -15,6 +15,7 @@ import { getIncident } from '../../store/incident/incident.action';
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
 import { SummaryPanel } from './summary-panel/summary-panel.component';
+import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -25,6 +26,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @Input() adminIncidentCause: any;
   @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
   @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
+  @ViewChild('EvacOrderPanel') evacOrdersDetailsPanel: EvacOrdersDetailsPanel;
 
   public Editor = Editor;
 
@@ -127,6 +129,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     })
   }
 
+  getPublishedDate () {
+    return this.incident.lastPublished ? new Date(this.incident.lastPublished) : new Date(0)
+  }
+
   ngOnInit() {
     this.router.queryParams.subscribe(
       (params:ParamMap) => {
@@ -138,7 +144,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
           this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).subscribe(incidentResponse => {
             console.log('Loading incicent...', incidentResponse)
-            
+
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
             (self.incident as any).discoveryDate = new Date(self.currentAdminIncident.discoveryTimestamp).toLocaleString();
@@ -211,6 +217,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.contact.phoneNumber = response.contactPhoneNumber;
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
+
+              this.evacOrdersDetailsPanel.getEvacOrders()
             }, (error) => {
               console.log('No published data found...')
               console.error(error)
@@ -275,6 +283,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         self.publishIncident(publishedIncidentResource).then(doc => {
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
           this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid
+          // Handle evac orders
+          this.evacOrdersDetailsPanel.persistEvacOrders()
         }).catch(err => {
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {

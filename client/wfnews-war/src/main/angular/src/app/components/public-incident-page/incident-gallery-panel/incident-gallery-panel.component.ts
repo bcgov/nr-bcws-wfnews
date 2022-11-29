@@ -89,13 +89,15 @@ export class IncidentGalleryPanel implements OnInit {
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
       if (results && results.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
-         this.allImagesAndVideosStub.push({
-            title: uri.externalUriDisplayLabel,
-            uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
-            fileName: '',
-            type: 'video',
-            href: uri.externalUri
-          })
+          if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+            this.allImagesAndVideosStub.push({
+              title: uri.externalUriDisplayLabel,
+              uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
+              fileName: '',
+              type: 'video',
+              href: uri.externalUri
+            })
+          }
           this.cdr.detectChanges()
         }
       }
