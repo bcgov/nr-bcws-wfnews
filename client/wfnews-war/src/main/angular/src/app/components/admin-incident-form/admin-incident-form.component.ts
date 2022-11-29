@@ -14,6 +14,7 @@ import { IncidentDetailsPanel } from './incident-details-panel/incident-details-
 import { getIncident } from '../../store/incident/incident.action';
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
+import { SummaryPanel } from './summary-panel/summary-panel.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -137,8 +138,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
           this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).subscribe(incidentResponse => {
             console.log('Loading incicent...', incidentResponse)
+            
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
+            (self.incident as any).discoveryDate = new Date(self.currentAdminIncident.discoveryTimestamp).toLocaleString();
+            (self.incident as any).fireCentreOrgUnitName = self.currentAdminIncident.fireCentreOrgUnitName;
+            (self.incident as any).incidentStatusCode = self.currentAdminIncident.incidentStatusCode;
             self.incident.incidentData = self.currentAdminIncident
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
