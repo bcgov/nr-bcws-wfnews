@@ -202,7 +202,7 @@ jobs:
           openmapsBaseUrl: ${{inputs.OPENMAPS_BASE_URL}}
           siteMinderURLPrefix: ${{inputs.SITEMINDER_URL_PREFIX}}
           agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
-          agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS)}}
+          agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS}}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
