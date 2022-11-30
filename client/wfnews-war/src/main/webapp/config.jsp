@@ -20,7 +20,7 @@
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
     String baseUrl = EnvironmentVariable.getVariable("BASE_URL");
-
+    String env = EnvironmentVariable.getVariable("target_env");
     StringBuilder json = new StringBuilder("{");
 
     // General Application Section
@@ -29,30 +29,7 @@
       json.append("\"acronym\":\"").append(properties.getProperty("project.acronym", "")).append("\"").append(",");
       json.append("\"version\":\"").append(properties.getProperty("application.version", "")).append("\"").append(",");
       json.append("\"buildNumber\":\"").append(properties.getProperty("build.number", "")).append("\"").append(",");
-      json.append("\"environment\":\"").append(properties.getProperty("default.application.environment", "")).append("\"").append(",");
-      json.append("\"polling\":{");
-          json.append("\"audibleAlert\":{");
-            json.append("\"unacknowledgedRofPolling\":\"").append(properties.getProperty("audible.alert.rof.polling", "")).append("\"").append(",");
-            json.append("\"alertFrequency\":\"").append(properties.getProperty("audible.alert.frequency", "")).append("\"");
-          json.append("},");
-        json.append("\"mapTool\":{");
-          json.append("\"incidentsPolling\":\"").append(properties.getProperty("maptool.incidents.polling", "")).append("\"").append(",");
-          json.append("\"rofPolling\":\"").append(properties.getProperty("maptool.rof.polling", "")).append("\"").append(",");
-          json.append("\"layerRefreshPolling\":\"").append(properties.getProperty("maptool.layer.refresh.polling", "")).append("\"");
-        json.append("},");
-        json.append("\"rof\":{");
-          json.append("\"refresh\":\"").append(properties.getProperty("rof.refresh.polling", "")).append("\"");
-        json.append("},");
-      json.append("\"nrof\":{");
-      json.append("\"refresh\":\"").append(properties.getProperty("nrof.refresh.polling", "")).append("\"");
-      json.append("}");
-      json.append("},");
-      json.append("\"maxListPageSize\":{");
-        json.append("\"incidents\":\"").append(properties.getProperty("wildfire.incidents.maximum.results", "")).append("\"").append(",");
-        json.append("\"incidents-table\":\"").append(properties.getProperty("wildfire.incidents.table.maximum.results", "")).append("\"").append(",");
-        json.append("\"rofs-table\":\"").append(properties.getProperty("wildfire.incidents.table.maximum.results", "")).append("\"").append(",");
-        json.append("\"rofs\":\"").append(properties.getProperty("report.of.fires.maximum.results", "")).append("\"");
-      json.append("},");
+      json.append("\"environment\":\"").append(env).append("\"").append(",");
       json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");;
       json.append("\"siteminderUrlPrefix\":\"").append(properties.getProperty("siteminder.url.prefix", "")).append("\"");
     json.append("},");
@@ -136,13 +113,17 @@
     if (webadeOauth2AuthorizeUrl != null && webadeOauth2AuthorizeUrl.endsWith("/")) {
       webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
     }
+    String checktokenUrl = EnvironmentVariable.getVariable("WEBADE-OAUTH2_CHECK_TOKEN_URL"); 
+    if (checktokenUrl != null && checktokenUrl.endsWith("/")) {
+      checktokenUrl = checktokenUrl.substring(0, checktokenUrl.length() - 1); //Strip off trailing slash, if it exists.
+    }
 
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append(",");
       json.append("\"clientId\":\"WFNEWS-UI\",");
-      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.*\",");
+      json.append("\"authScopes\":\"WFNEWS.* WFIM.* WFORG.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
+      json.append("\"checkTokenUrl\":\"").append(checktokenUrl).append("\"");
 
     json.append("}");
 	

@@ -27,7 +27,7 @@
       <h4>Active Evacuation Orders and Alerts</h4>
       <div class="evac-list" *ngFor="let evac of evacOrders">
         <mat-icon style="text-decoration: none;">error</mat-icon>
-        <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
+        <a class="label" [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener">{{evac.eventName}}</a>
         <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
       </div>
     </div>

@@ -148,7 +148,7 @@ def lambda_handler(event, context):
         "newsCreatedTimestamp": curr_time,
         "stageOfControlCode": incident['incidentSituation']['stageOfControlCode'],
         "fireCentre": incident['fireCentreOrgUnitIdentifier'],
-        "generalIncidentCauseCatId": 2 if incident['suspectedCauseCategoryCode'] == 'Lightning' else 3 if incident['suspectedCauseCategoryCode'] == 'Undetermined' else 1,
+        "generalIncidentCauseCatId": 2 if incident['suspectedCauseCategoryCode'] == 'Natural' else 3 if incident['suspectedCauseCategoryCode'] == 'Undetermined' else 1,
         "declaredOutDate": incident['incidentSituation']['fireOutDate'],
         "discoveryDate": incident['discoveryTimestamp'],
         "fireZoneUnitIdentifier": incident['zoneOrgUnitIdentifier'],
