@@ -1,0 +1,20 @@
+<ng-container class="incident-form">
+  <mat-card class="info-card news-form-card">
+    <fieldset class="field-set">
+      <div class="news-form">
+        <div class="field size-quarter">
+          <div class="label">Discovery Date</div>
+          <div><strong>{{incident.discoveryDate}}</strong></div>
+        </div>
+        <div class="field size-quarter">
+          <div class="label">Fire Centre</div>
+          <div><strong>{{incident.fireCentreOrgUnitName}}</strong></div>
+        </div>
+        <div class="field size-quarter">
+          <div class="label">Stage of Control</div>
+          <div><strong>{{incident.incidentStatusCode}}</strong></div>
+        </div>
+      </div>
+    </fieldset>
+  </mat-card>
+</ng-container>

@@ -10,6 +10,7 @@
                 #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="1"
                 cdkAutosizeMaxRows="5"
+                [(ngModel)]="incident.responseComments"
                 formControlName="responseComments"
                 ></textarea>
           </mat-form-field>
@@ -63,7 +64,7 @@
             <input matInput type="text" #helicopters>
           </mat-form-field>
           <mat-form-field appearance="standard" floatLabel="always">
-            <mat-label class="label">Airtankets</mat-label>
+            <mat-label class="label">Airtankers</mat-label>
             <input matInput type="text" #airtankers>
           </mat-form-field>
         </div>

@@ -1,12 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.Date;
 
 import javax.ws.rs.core.EntityTag;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
@@ -26,6 +23,7 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.ExternalUriEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 
 public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements ExternalUriEndpoint {
 	
@@ -52,6 +50,12 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 			
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
 			
+			// Now we should also update the Incident
+			// This will ensure we fetch this on update checks
+			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), getWebAdeAuthentication(), getFactoryContext());
+			incident.setUpdateDate(new Date());
+			incident.setLastUpdatedTimestamp(new Date());
+			incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
 		} catch(ValidationFailureException e) {
 			response = Response.status(Status.BAD_REQUEST).entity(new Messages(e.getValidationErrors())).build();
 		} catch (Throwable t) {
@@ -82,6 +86,12 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 			
 			response = Response.created(createdUri).entity(result).tag(result.getUnquotedETag()).build();
 			
+			// Now we should also update the Incident
+			// This will ensure we fetch this on update checks
+			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), getWebAdeAuthentication(), getFactoryContext());
+			incident.setUpdateDate(new Date());
+			incident.setLastUpdatedTimestamp(new Date());
+			incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
 		} catch(ValidationFailureException e) {
 			response = Response.status(Status.BAD_REQUEST).entity(new Messages(e.getValidationErrors())).build();
 		} catch (Throwable t) {

@@ -12,6 +12,7 @@
 @import 'component/sort';
 @import 'component/unauthorized-page';
 @import 'smk';
+@import '~lightgallery/scss/lightgallery';
 
 
 .snackbar-error{
@@ -618,4 +619,10 @@
       border-right: 1px solid var(--wf-menu-bar-divider-color)!important;
     }
   }
+}
+
+
+
+wf-admin-incident-desktop{
+  height: auto!important;
 }

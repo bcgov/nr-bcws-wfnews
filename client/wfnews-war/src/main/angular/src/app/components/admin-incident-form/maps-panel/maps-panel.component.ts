@@ -184,7 +184,8 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       attachmentDescription: description,
       attachmentTypeCode: category,
       fileIdentifier: fileId,
-      mimeType: mimeType
+      mimeType: mimeType,
+      commsSuitable: true
     } as AttachmentResource;
 
     return this.incidentAttachmentsService.createIncidentAttachment(

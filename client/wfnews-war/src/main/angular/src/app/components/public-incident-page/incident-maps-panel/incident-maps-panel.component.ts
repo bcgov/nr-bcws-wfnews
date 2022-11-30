@@ -48,7 +48,7 @@ export class IncidentMapsPanel implements OnInit {
         const data = []
         for (const doc of docs.collection) {
           const idx = docs.collection.indexOf(doc)
-          if (!doc.imageURL.toLowerCase().endsWith('.pdf') || (doc.mimeType && idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase()))) {
+          if (doc.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
             docs.collection.splice(idx, 1);
           } else {
             data.push(doc)
@@ -86,7 +86,7 @@ export class IncidentMapsPanel implements OnInit {
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
-    a.download = "test.pdf";
+    a.download = "data.pdf";
     a.href = URL.createObjectURL(downloadedFile);
     a.target = '_blank';
     a.click();

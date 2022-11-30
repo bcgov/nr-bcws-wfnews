@@ -4,6 +4,7 @@ import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
+import { convertToYoutubeId } from '../../../../utils';
 
 @Component({
   selector: 'video-card-panel',
@@ -14,6 +15,8 @@ export class VideoCardPanel{
   @Input() public incident
   @Input() public video: any
 
+  public convertToYoutubeId = convertToYoutubeId
+
   public includeInPublicGallery = false;
 
   public imageSrc = null;
@@ -23,6 +26,24 @@ export class VideoCardPanel{
                protected snackbarService: MatSnackBar,
                protected dialog: MatDialog,
                protected cdr: ChangeDetectorRef) { /* Empty */}
+
+  changePrimary () {
+    console.log(this.video);
+    (this.video as any).primaryInd = !(this.video as any).primaryInd;
+    this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
+  }
+
+  get isPrimary () {
+    if (!Object.prototype.hasOwnProperty.call(this.video, 'primaryInd')) {
+      (this.video as any).primaryInd = false
+    }
+
+    return (this.video as any).primaryInd
+  }
+
+  set isPrimary (primary) {
+    (this.video as any).primaryInd = primary
+  }
 
   edit () {
     let dialogRef = this.dialog.open(EditVideoDialogComponent, {
@@ -65,16 +86,6 @@ export class VideoCardPanel{
   convertToDate(value: string | number | Date): string {
     if (value) {
       return moment(value).format('YYYY-MM-DD hh:mm:ss')
-    }
-  }
-
-  convertToYoutubeId (externalUri: string) {
-    if (externalUri) {
-      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
-      let match = externalUri.match(regExp);
-      if( match && match[7].length == 11) {
-        return match[7]
-      }
     }
   }
 

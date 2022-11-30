@@ -20,12 +20,10 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.MailResource;
 import ca.bc.gov.nrs.wfnews.service.api.model.EmailNotificationType;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.config.EmailNotificationConfig;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.InstanceProfileCredentialsProvider;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.sns.SnsClient;
-import software.amazon.awssdk.services.sns.model.MessageAttributeValue;
+
 import software.amazon.awssdk.services.sns.model.PublishRequest;
 import software.amazon.awssdk.services.sns.model.PublishResponse;
 import software.amazon.awssdk.services.sns.model.SnsException;
@@ -223,24 +221,11 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 		logger.debug(" >> sendMessage");
 		SnsClient snsClient = null;
 		try {
-			// First, put the email information on a message attribute map
-			Map<String, MessageAttributeValue> messageAttributes = new HashMap<>();
-			messageAttributes.put("name", MessageAttributeValue.builder().stringValue(mail.getName()).dataType("String").build());
-			messageAttributes.put("subject", MessageAttributeValue.builder().stringValue(mail.getSubject()).dataType("String").build());
-			messageAttributes.put("address", MessageAttributeValue.builder().stringValue(mail.getEmailAddress()).dataType("String").build());
-			messageAttributes.put("message", MessageAttributeValue.builder().stringValue(mail.getMessageBody()).dataType("String").build());
-
 			logger.debug("Configure SNS Client");
-			// AwsBasicCredentials creds = AwsBasicCredentials.create(accessKey, secret);
-			//InstanceProfileCredentialsProvider instanceProfileCredentialsProvider = InstanceProfileCredentialsProvider.builder().build();
-
-			snsClient = SnsClient.builder()
-				.region(Region.CA_CENTRAL_1)
-				//.credentialsProvider(StaticCredentialsProvider.create(instanceProfileCredentialsProvider.resolveCredentials()))
-				.build();
+			snsClient = SnsClient.builder().region(Region.CA_CENTRAL_1).build();
 
 			// Then, publish a message to SNS using the client established on startup
-			PublishRequest request = PublishRequest.builder().message("Request for Information. Details available in attribution.").messageAttributes(messageAttributes).topicArn(topicArn).build();
+			PublishRequest request = PublishRequest.builder().message("Name: " + mail.getName() + "\nSubject: " + mail.getSubject() + "\nAddress: " + mail.getEmailAddress() + "\n Message:\n" + mail.getMessageBody()).topicArn(topicArn).build();
 			PublishResponse result = snsClient.publish(request);
 			// If we dont have a result, or the ID is null, we can assume a failure
 			// If we do have a result, check for an OK response.

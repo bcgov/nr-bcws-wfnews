@@ -54,6 +54,9 @@
 
       <div class="notice-list">
         <div class="panel-title">Current Notices</div>
+        <div *ngIf="!(evacOrders.length || bansAndProhibitions.length || areaRestrictions.length)">
+            There is currently no notice available in your area.
+        </div>
         <mat-expansion-panel (opened)="createMap('evac-' + evac.emrgOAAsysID, evac, 'evac')" [expanded]="false" *ngFor="let evac of evacOrders">
           <mat-expansion-panel-header class="exp-panel">
             <div class="notice-item">

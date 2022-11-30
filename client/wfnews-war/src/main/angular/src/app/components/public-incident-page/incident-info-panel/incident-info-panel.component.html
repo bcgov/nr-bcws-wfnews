@@ -27,6 +27,17 @@
       </div>
       <div>
         <!-- Image/video section: fetch from aws cache -->
+        <div style="text-align: center;" *ngIf="primaryMedia !== null">
+          <img *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400"/>
+          <youtube-player *ngIf="primaryMedia.type === 'video'"
+            videoId={{convertToYoutubeId(primaryMedia.href)}}
+            suggestedQuality="highres"
+            [startSeconds]="1"
+            [endSeconds]="20"
+            [height]="250"
+            [width]="400">
+          </youtube-player>
+        </div>
         <!-- contact section-->
         <div class="content-panel-subtitle">Incident Contact Information</div>
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentre)}}</span></div>
@@ -41,9 +52,9 @@
         <h1>Evacuation Orders and Alerts</h1>
         <div class="content-panel-subtitle">Evacuation Order Information</div>
         <div *ngFor="let evac of evacOrders">
-          <a [href]="" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
+          <a [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
         </div>
-        <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts near this incident.</div>
+        <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts associated with this incident.</div>
         <div style="padding: 10px;"></div>
         <div class="content-panel-subtitle">What is an Evacuation Order?</div>
         <div class="content-panel-body">You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.</div>
@@ -73,7 +84,7 @@
   <div class="content-panel">
     <h1>Response</h1>
     <div class="content-panel-body">
-      All resource information is estimated and is updated as frequently as possible, but may not accurately depict the resources deployed on an incident. The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes fire fighters, air crews, equipment operators and support staff.
+      {{incident.resourceDetail || 'All resource information is estimated and is updated as frequently as possible, but may not accurately depict the resources deployed on an incident. The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes fire fighters, air crews, equipment operators and support staff.'}}
     </div>
     <div class="learn-more-button-container">
       <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
@@ -83,7 +94,7 @@
   <div class="content-panel" style="border-bottom: none;">
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
-      <div [innerHTML]="incident.resourceDetail || 'The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.'"></div>
+      <div>The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.</div>
     </div>
     <div *ngIf="!incident.wildfireCrewResourcesInd && !incident.wildfireAviationResourceInd && !incident.incidentMgmtCrewRsrcInd && !incident.heavyEquipmentResourcesInd && !incident.structureProtectionRsrcInd">
       <div class="content-panel-body">

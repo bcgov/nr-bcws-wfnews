@@ -1,7 +1,9 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
-import { convertToFireCentreDescription } from '../../../utils'
+import { convertToFireCentreDescription, convertToYoutubeId } from '../../../utils'
+import { PublishedIncidentService } from "../../../services/published-incident-service";
+import { AppConfigService } from "@wf1/core-ui";
 
 @Component({
   selector: 'incident-info-panel',
@@ -15,12 +17,18 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
 
   public convertToFireCentreDescription = convertToFireCentreDescription
+  public convertToYoutubeId = convertToYoutubeId
+
+  public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) {}
+  public primaryMedia = null
 
   ngAfterViewInit(): void {
     const canvas = document.getElementById('qr-code')
     toCanvas(canvas, window.location.href, function (error) {
       if (error) console.error(error)
     })
+
+    this.fetchPrimaryImage()
   }
 
   public getStageOfControlLabel (code: string) {
@@ -66,6 +74,58 @@ export class IncidentInfoPanel implements AfterViewInit {
       window.print()
       document.body.innerHTML = "";
       document.body.appendChild(appRoot);
+    })
+  }
+
+  public fetchPrimaryImage () {
+    // By default, check if we have a Video as a primary image first
+    // if we dont have a video, check images
+    // otherwise, dont show the media box.
+    // fetch videos
+    this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
+      let setMedia = false
+      if (results && results.collection && results.collection.length > 0) {
+        for (const uri of results.collection) {
+          if (uri.primaryInd && !uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+            this.primaryMedia = {
+              title: uri.externalUriDisplayLabel,
+              uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
+              fileName: '',
+              type: 'video',
+              href: uri.externalUri
+            }
+            setMedia = true;
+            this.cdr.detectChanges()
+            break
+          }
+        }
+      }
+
+      if (!setMedia) {
+        // fetch image attachments
+        this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
+          // Loop through the attachments, for each one, create a ref, and set href to the bytes
+          if (results && results.collection && results.collection.length > 0) {
+            for (const attachment of results.collection) {
+              // do a mime type check here
+              if (attachment.primary) {
+                this.primaryMedia = {
+                  title: attachment.attachmentTitle,
+                  uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
+                  fileName: attachment.attachmentFileName,
+                  type: 'image',
+                  href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
+                  thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
+                }
+                break;
+              }
+            }
+          }
+          this.cdr.detectChanges()
+        })
+      }
+    }).catch(err => {
+      console.error(err)
     })
   }
 }

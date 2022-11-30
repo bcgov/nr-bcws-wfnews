@@ -213,6 +213,11 @@ mat-tab-group {
   background-color: #003366 !important;
 }
 
+:host ::ng-deep .mat-tab-label-active {
+  font-weight: 700 !important
+}
+
+
 @media (min-width: 768px)and (max-width: 1023px) {
   .stages-of-control{
     .info-text {

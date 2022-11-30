@@ -9,7 +9,7 @@
     <div class="row">Uploaded On: <strong>{{convertToDate(attachment.uploadedTimestamp)}}</strong></div>
     <div class="divider action"></div>
     <div class="action">
-      <mat-radio-button (value)="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
+      <mat-radio-button [checked]="isPrimary" (change)="changePrimary()">Set as Primary Image</mat-radio-button>
     </div>
     <div class="action">
       <mat-icon (click)="edit()">edit</mat-icon> Edit Image Title

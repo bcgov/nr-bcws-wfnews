@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
+import java.util.Date;
 
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Response;
@@ -64,6 +65,9 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 							publishedIncidentResource.setPublishedIncidentDetailGuid(existingIncident.getPublishedIncidentDetailGuid());
 						}
 						// Update
+						// Now we should also update the Incident
+						publishedIncidentResource.setUpdateDate(new Date());
+						publishedIncidentResource.setLastUpdatedTimestamp(new Date());
 						PublishedIncidentResource savedResource = incidentsService.updatePublishedWildfireIncident(publishedIncidentResource, getFactoryContext());
 						URI createdUri = URI.create(savedResource.getSelfLink());
 						return Response.created(createdUri).entity(savedResource).tag(savedResource.getUnquotedETag()).build();
@@ -112,6 +116,9 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		}
 
 		try {
+			publishedIncidentResource.setUpdateDate(new Date());
+			publishedIncidentResource.setLastUpdatedTimestamp(new Date());
+
 			PublishedIncident publishedIncident = getPublishedIncidentFromResource(publishedIncidentResource);
 			PublishedIncidentResource result = incidentsService.updatePublishedWildfireIncident(publishedIncident,
 					getFactoryContext());

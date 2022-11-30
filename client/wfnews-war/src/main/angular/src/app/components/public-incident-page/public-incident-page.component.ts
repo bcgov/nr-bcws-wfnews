@@ -59,6 +59,7 @@ export class PublicIncidentPage implements OnInit {
           await this.getFirePerimetre()
           // load evac orders and area restrictions nearby
           await this.getEvacOrders()
+          await this.getExternalUriEvacOrders()
           await this.getAreaRestrictions()
           // activate page
           this.isLoading = false
@@ -101,10 +102,34 @@ export class PublicIncidentPage implements OnInit {
             issuingAgency: element.attributes.ISSUING_AGENCY,
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+            uri: null,
             centroid: element.centroid
           })
         }
       }
+    })
+  }
+
+  async getExternalUriEvacOrders () {
+    return this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
+      if (results && results.collection && results.collection.length > 0) {
+        for (const uri of results.collection) {
+          if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+            this.evacOrders.push({
+              eventName: uri.externalUriDisplayLabel,
+              eventType: uri.externalUriCategoryTag.split(':')[1],
+              orderAlertStatus: uri.externalUriCategoryTag.split(':')[1],
+              issuingAgency: 'Pending',
+              preOcCode: 'NA',
+              emrgOAAsysID: 0,
+              uri: uri.externalUri,
+              centroid: [0, 0]
+            })
+          }
+        }
+      }
+    }).catch(err => {
+      console.error(err)
     })
   }
 

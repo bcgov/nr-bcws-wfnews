@@ -12,6 +12,11 @@ mat-tab-group {
   background-color: #003366 !important;
 }
 
+:host ::ng-deep .mat-tab-label-active {
+    font-weight: 700 !important
+}
+
+
 ::ng-deep .wildfires-tabs{
 
     padding-top: 1rem;
@@ -164,8 +169,9 @@ section {
                 color: #aa0d0d;
 
                 &::before {
-                    background-color: #aa0d0d;
+                    background-color: #FF0000;
                     border-radius: 50%;
+                    border: 1px solid black;
                 }
             }
 
@@ -173,17 +179,19 @@ section {
                 color: #6c4a00;
 
                 &::before {
-                    background-color: #ffd966;
+                    background-color: #ffff00;
                     border-radius: 50%;
+                    border: 1px solid black;
                 }
             }
 
             &.green {
-                color: #6aa84f;
+                color: #207148 ;
 
                 &::before {
-                    background-color: #207148;
+                    background-color: #98E600;
                     border-radius: 50%;
+                    border: 1px solid black;
                 }
             }
 
@@ -191,8 +199,9 @@ section {
                 color: #5c6671;
 
                 &::before {
-                    background-color: #5c6671;
+                    background-color: #999999;
                     border-radius: 50%;
+                    border: 1px solid black;
                 }
             }
 

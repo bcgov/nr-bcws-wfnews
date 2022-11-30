@@ -1,9 +1,9 @@
 <div class="image-panel">
     <div class="image-container">
       <div style="width: 650px;">
-        <youtube-player 
+        <youtube-player
           videoId={{convertToYoutubeId(video.externalUri)}}
-          suggestedQuality="highres" 
+          suggestedQuality="highres"
           [startSeconds]="1"
           [endSeconds]="20"
           [height]="250"
@@ -21,6 +21,9 @@
       <div class="action">
         <mat-icon (click)="remove()">delete</mat-icon> Remove Video
       </div>
+      <div class="action">
+        <mat-radio-button [checked]="isPrimary" (change)="changePrimary()">Set as Primary Video</mat-radio-button>
+      </div>
     </div>
-  
+
   </div>

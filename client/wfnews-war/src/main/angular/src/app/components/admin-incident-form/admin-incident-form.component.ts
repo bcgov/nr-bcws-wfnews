@@ -14,6 +14,8 @@ import { IncidentDetailsPanel } from './incident-details-panel/incident-details-
 import { getIncident } from '../../store/incident/incident.action';
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
+import { SummaryPanel } from './summary-panel/summary-panel.component';
+import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -24,6 +26,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @Input() adminIncidentCause: any;
   @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
   @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
+  @ViewChild('EvacOrderPanel') evacOrdersDetailsPanel: EvacOrdersDetailsPanel;
 
   public Editor = Editor;
 
@@ -86,7 +89,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   constructor(private readonly formBuilder: FormBuilder,
               private router: ActivatedRoute,
               private componentRouter: Router,
-              private store: Store<RootState>,
               protected cdr: ChangeDetectorRef,
               protected dialog: MatDialog,
               private publishedIncidentService: PublishedIncidentService,
@@ -127,6 +129,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     })
   }
 
+  getPublishedDate () {
+    return this.incident.lastPublished ? new Date(this.incident.lastPublished) : new Date(0)
+  }
+
   ngOnInit() {
     this.router.queryParams.subscribe(
       (params:ParamMap) => {
@@ -138,8 +144,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
           this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).subscribe(incidentResponse => {
             console.log('Loading incicent...', incidentResponse)
+
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
+            (self.incident as any).discoveryDate = new Date(self.currentAdminIncident.discoveryTimestamp).toLocaleString();
+            (self.incident as any).fireCentreOrgUnitName = self.currentAdminIncident.fireCentreOrgUnitName;
+            (self.incident as any).incidentStatusCode = self.currentAdminIncident.incidentStatusCode;
             self.incident.incidentData = self.currentAdminIncident
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
@@ -185,10 +195,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.location = response.incidentLocation;
 
               self.incident.sizeComments = response.incidentSizeDetail;
-              self.incident.causeComments = response.causeComments;
+              self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
-              self.incident.responseComments = self.currentAdminIncident.responseObjectiveDescription;
+              self.incident.responseComments = response.resourceDetail;
 
               self.incident.wildifreCrewsInd = response.wildfireCrewResourcesInd;
               self.incident.crewsComments = response.wildfireCrewResourcesDetail;
@@ -207,6 +217,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.contact.phoneNumber = response.contactPhoneNumber;
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
+
+              this.evacOrdersDetailsPanel.getEvacOrders()
             }, (error) => {
               console.log('No published data found...')
               console.error(error)
@@ -242,6 +254,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           newsCreatedTimestamp: new Date().valueOf().toString(),
           discoveryDate: new Date().valueOf().toString(),
           newsPublicationStatusCode: 'PUBLISHED',
+          publishedTimestamp: new Date(),
           fireOfNoteInd: this.incident.fireOfNote,
           incidentName: this.incident.fireName,
           incidentLocation: this.incident.location,
@@ -252,6 +265,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
           contactPhoneNumber: this.incident.contact.phoneNumber,
           contactEmailAddress: this.incident.contact.emailAddress,
+          resourceDetail: this.incident.responseComments,
           wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
           wildfireCrewResourcesDetail: this.incident.crewsComments,
           wildfireAviationResourceInd: this.incident.aviationInd,
@@ -269,6 +283,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         self.publishIncident(publishedIncidentResource).then(doc => {
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
           this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid
+          // Handle evac orders
+          this.evacOrdersDetailsPanel.persistEvacOrders()
         }).catch(err => {
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {
@@ -288,7 +304,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   onShowPreview() {
     let mappedIncident = {
       incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
-      incidentNumberLabel: this.currentAdminIncident.incidentLabel,
+      incidentNumberLabelFull: this.currentAdminIncident.incidentLabel,
       stageOfControlCode: this.incident.incidentData.incidentStatusCode,
       generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == 'Human' ? 1 : this.incidentForm.controls['cause'].value == 'Lightning' ? 2 : 3,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
@@ -318,7 +334,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       lastUpdatedTimestamp: new Date(this.incident.incidentData.lastUpdatedTimestamp).toString(),
       latitude: this.incident.incidentData.incidentLocation.latitude,
       longitude: this.incident.incidentData.incidentLocation.longitude,
-      fireYear: this.incident.wildfireYear
+      fireYear: this.incident.wildfireYear,
+      resourceDetail: this.incidentForm.controls['responseComments'].value,
     }
 
     if (localStorage.getItem('preview_incident') != null) {

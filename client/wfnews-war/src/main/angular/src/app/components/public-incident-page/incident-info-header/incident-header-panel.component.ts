@@ -64,7 +64,29 @@ export class IncidentHeaderPanel implements AfterViewInit {
       shadowSize: [41, 41]
     });
 
-    L.marker(location, {icon: icon}).addTo(this.map);
+    if(this.incident.fireOfNoteInd) {
+      L.marker(location, {icon: icon}).addTo(this.map);
+    }
+    else{
+      let colorToDisplay;
+      switch(this.incident.stageOfControlCode) {
+        case 'OUT_CNTRL':
+          colorToDisplay = '#FF0000'
+          break;
+        case 'HOLDING':
+          colorToDisplay = '#ffff00'
+          break;
+        case 'UNDR_CNTRL':
+          colorToDisplay = '#98E600'
+          break;
+        case 'OUT':
+          colorToDisplay = '#999999'
+          break;
+        default:
+          colorToDisplay = 'white';
+      }
+      L.circleMarker(location,{radius:15,fillOpacity:1,color:'black', fillColor:colorToDisplay}).addTo(this.map)
+    }
 
     if (this.extent) {
       this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));

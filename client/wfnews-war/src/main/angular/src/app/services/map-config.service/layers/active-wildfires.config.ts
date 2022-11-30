@@ -51,7 +51,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
             strokeStyle:"1",
             strokeColor:"#00000069",
             strokeOpacity:"1",
-            fillColor:"#aa0d0d",
+            fillColor:"#FF0000",
             fillOpacity:"1",
             fill: true
           }
@@ -77,7 +77,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
             strokeStyle:"1",
             strokeColor:"#00000069",
             strokeOpacity:"1",
-            fillColor:"#ffd966",
+            fillColor:"#FFFF00",
             fillOpacity:"1",
             fill: true
           }
@@ -103,7 +103,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
             strokeStyle:"1",
             strokeColor:"#00000069",
             strokeOpacity:"1",
-            fillColor:"#207148",
+            fillColor:"#98E600",
             fillOpacity:"1",
             fill: true
           }

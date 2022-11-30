@@ -130,3 +130,8 @@
 .pt-3{
     padding-top: 1.5rem;
 }
+
+button:disabled {
+    background-color: gray !important;
+    cursor: not-allowed !important
+}

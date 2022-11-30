@@ -1,6 +1,6 @@
 <div>
     <p class="dashboard-title">Dashboard: {{currentYearString}}</p>
-    <p class ="active-incidents" ><strong> {{collectionData? collectionData.length : null}} ACTIVE</strong> Fire Incidents</p>
+    <p class ="active-incidents" ><strong> {{collection? collection.totalRowCount : null}} ACTIVE</strong> Fire Incidents</p>
     <p class="datetime"> {{currentDateTimeString}}</p>
 </div>
 
@@ -65,22 +65,22 @@
 
         <ng-container matColumnDef = "fireName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.incidentName}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireCentre">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fireCentreOrgUnitName}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentreOrgUnitName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "wildFireOfNote">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire of Note</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item"><span #el >{{item.fireOfNotePublishedInd ? 'Yes' : 'No'}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNotePublishedInd ? 'Yes' : 'No'}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "lastPublished">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Published</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Updated</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.lastUpdatedTimestamp)" (click)="selectIncident(item)"><span #el >{{convertToDate(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
