@@ -1,0 +1,8 @@
+@import 'src/styles/variables';
+::ng-deep #core-interface-container {
+  .mobile .incident-detail {
+    .info-card {
+      width: calc(100% - var(--wf1-gutter-space) * 2) !important;
+    }
+  }
+}
