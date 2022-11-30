@@ -79,8 +79,8 @@
         </ng-container>
 
         <ng-container matColumnDef = "lastPublished">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Published</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.discoveryTimestamp)" (click)="selectIncident(item)"><span #el >{{convertToDate(item.discoveryTimestamp)}}</span></td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Updated</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.lastUpdatedTimestamp)" (click)="selectIncident(item)"><span #el >{{convertToDate(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>
