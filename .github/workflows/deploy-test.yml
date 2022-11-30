@@ -86,7 +86,7 @@ jobs:
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
       AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
       DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
-      OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub
+      OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub/ows
       SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
       AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
