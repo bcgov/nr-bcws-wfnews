@@ -102,6 +102,7 @@ export class PublicIncidentPage implements OnInit {
             issuingAgency: element.attributes.ISSUING_AGENCY,
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+            uri: null,
             centroid: element.centroid
           })
         }
@@ -111,7 +112,6 @@ export class PublicIncidentPage implements OnInit {
 
   async getExternalUriEvacOrders () {
     return this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
-      let setMedia = false
       if (results && results.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
           if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
@@ -122,6 +122,7 @@ export class PublicIncidentPage implements OnInit {
               issuingAgency: 'Pending',
               preOcCode: 'NA',
               emrgOAAsysID: 0,
+              uri: uri.externalUri,
               centroid: [0, 0]
             })
           }

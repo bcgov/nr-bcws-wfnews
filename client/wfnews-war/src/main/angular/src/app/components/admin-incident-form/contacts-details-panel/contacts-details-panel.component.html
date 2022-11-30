@@ -8,13 +8,14 @@
               <mat-select appWFSingleSelect appWFPlaceholder="Select..."
               aria-label="Type"
               formControlName="fireCentre"
+              [(ngModel)]="incident.contact.fireCentre"
               [options]="fireCentreOptions"
               (valueChange)="setDefaultContactInfo($event)">
                 <mat-option value="">
                   <span class="placeholder">Select...</span>
                 </mat-option>
                 <mat-option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
-                  <span>{{item.fireCentreName}}</span>
+                  <span>{{item.description}}</span>
                 </mat-option>
               </mat-select>
             </mat-form-field>
@@ -22,13 +23,13 @@
           <div class="field size-third">
             <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
               <mat-label class="label required">Phone Number</mat-label>
-              <input matInput type="text" formControlName="phoneNumber">
+              <input matInput type="text" [(ngModel)]="incident.contact.phoneNumber" formControlName="phoneNumber">
             </mat-form-field>
           </div>
           <div class="field size-third" >
             <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
               <mat-label class="label required">Email Address</mat-label>
-              <input matInput type="text" formControlName="emailAddress">
+              <input matInput type="text" [(ngModel)]="incident.contact.emailAddress" formControlName="emailAddress">
             </mat-form-field>
           </div>
         </div>
