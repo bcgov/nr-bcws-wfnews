@@ -278,7 +278,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "AGOL_URL",
           value = var.agolUrl
-        }
+        },
         {
           name = "DRIVEBC_BASE_URL",
           value = var.drivebcBaseUrl
