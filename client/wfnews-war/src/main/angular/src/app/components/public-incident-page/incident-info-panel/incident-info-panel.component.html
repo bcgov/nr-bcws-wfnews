@@ -20,7 +20,8 @@
         <div class="content-panel-subtitle">{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
         <div class="content-panel-body">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
         <div id="spacer" style="padding: 12px;"></div>
-        <div class="content-panel-subtitle">Suspected Cause: {{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
+        <h1>Suspected Cause</h1>
+        <div class="content-panel-subtitle">{{getCauseLabel(incident.generalIncidentCauseCatId)}}</div>
         <div class="content-panel-body">
           <div [innerHTML]="incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)"></div>
         </div>
