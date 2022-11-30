@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { EvacOrderOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
+import { DefaultService as ExternalUriService, ExternalUriResource } from '@wf1/incidents-rest-api';
 
 @Component({
   selector: 'evac-orders-details-panel',
@@ -14,7 +15,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
 
   evacOrders : EvacOrderOption[] = []
 
-  constructor(private agolService: AGOLService, private readonly formBuilder: FormBuilder) {
+  constructor(private agolService: AGOLService, protected cdr: ChangeDetectorRef, private readonly formBuilder: FormBuilder, private externalUriService: ExternalUriService) {
   }
 
   ngOnInit() {
@@ -25,7 +26,20 @@ export class EvacOrdersDetailsPanel implements OnInit {
     this.incident.evacOrders.push({
       orderAlertStatus: null,
       eventName: '',
-      url: ''
+      url: '',
+      externalUri:  {
+        externalUriDisplayLabel: null,
+        externalUri: null,
+        publishedInd: false,
+        privateInd: false,
+        archivedInd: false,
+        primaryInd: false,
+        externalUriCategoryTag: 'EVAC-ORDER',
+        sourceObjectNameCode: 'INCIDENT',
+        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+        '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
+        type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
+      } as ExternalUriResource
     })
     this.evacOrderForm.push(this.formBuilder.group({
       orderAlertStatus: [],
@@ -34,16 +48,47 @@ export class EvacOrdersDetailsPanel implements OnInit {
     }))
   }
 
-  deleteEvacOrder (evacOrder) {
-    const index = this.incident.evacOrders.indexOf(evacOrder)
-    if (index) {
-      this.incident.evacOrders.splice(index, 1)
-      this.evacOrderForm.removeAt(index)
+  deleteEvacOrder (index) {
+    const evac = this.incident.evacOrders[index]
+    // remove from arrays and form builder
+    this.incident.evacOrders.splice(index, 1)
+    this.evacOrderForm.removeAt(index)
+    // delete from externalUri, if this uri already exists
+    if (evac.externalUri && evac.externalUri.externalUriGuid) {
+      this.externalUriService.deleteExternalUri(evac.externalUri.externalUriGuid).toPromise().catch(err => {
+        console.error(err)
+      })
     }
+    this.cdr.detectChanges()
   }
 
   get evacOrderForm() : FormArray {
     return this.formGroup.get("evacOrders") as FormArray
+  }
+
+  persistEvacOrders () {
+    for (let i = 0; i < this.incident.evacOrders.length; i++) {
+      const evac = this.incident.evacOrders[i]
+      const evacForm = this.evacOrderForm.at(i)
+      console.log(evac, evacForm)
+
+
+      evac.externalUri.externalUriCategoryTag = 'EVAC-ORDER:' + evacForm.value.orderAlertStatus
+      evac.externalUri.externalUriDisplayLabel = evacForm.value.eventName
+      evac.externalUri.externalUri = evacForm.value.url
+      evac.externalUri.publishedInd = true
+      evac.externalUri.sourceObjectUniqueId = '' + this.incident.incidentNumberSequence
+
+      if (evac.externalUri && evac.externalUri.externalUriGuid) {
+        this.externalUriService.updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri).toPromise().then(result => {
+          console.log('Update URI', result)
+        })
+      } else {
+        this.externalUriService.createExternalUri(evac.externalUri).toPromise().then(result => {
+          console.log('Create URI', result)
+        })
+      }
+    }
   }
 
   getEvacOrders () {
@@ -60,6 +105,41 @@ export class EvacOrdersDetailsPanel implements OnInit {
           })
         }
       }
+    })
+
+    this.externalUriService.getExternalUriList(
+      '' + this.incident.incidentNumberSequence,
+      '' + 1,
+      '' + 100,
+      'response',
+      undefined,
+      undefined
+    ).toPromise().then( (response) => {
+      const externalUriList = response.body
+      for (const uri of externalUriList.collection) {
+        if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+          const evac = {
+            orderAlertStatus: uri.externalUriCategoryTag.split(':')[1],
+            eventName: uri.externalUriDisplayLabel,
+            url: uri.externalUri,
+            externalUri: uri as ExternalUriResource
+          }
+
+          this.incident.evacOrders.push(evac)
+
+          const form = this.formBuilder.group({
+            orderAlertStatus: [],
+            eventName: [],
+            url: []
+          })
+          form.patchValue(evac)
+          this.evacOrderForm.push(form)
+        }
+      }
+
+      this.cdr.detectChanges()
+    }).catch(err => {
+      console.error(err)
     })
   }
 }
