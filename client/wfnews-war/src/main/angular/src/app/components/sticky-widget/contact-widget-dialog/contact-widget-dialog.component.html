@@ -38,7 +38,7 @@
                             </div>
                         </div>
                         <div class="row submit-row">
-                            <button class="contact-submit" (click)="onSubmit()">Submit Message</button>
+                            <button class="contact-submit" (click)="onSubmit()" [disabled]="!contactForm.valid">Submit Message</button>
                         </div>
                     </div>
                 </div>

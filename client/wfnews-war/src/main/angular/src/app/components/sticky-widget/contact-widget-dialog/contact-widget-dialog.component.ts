@@ -56,7 +56,6 @@ export class ContactWidgetDialogComponent implements OnInit {
      }
 
     onSubmit() {
-        //TODO: send to email API
         this.dialogRef.close();
         const url = `${this.appConfig.getConfig().rest['wfnews']}/mail`;
 
