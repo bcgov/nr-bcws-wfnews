@@ -22,6 +22,7 @@ export interface EvacOrderOption {
   geometry?: any;
   dateModified?: Date;
   noticeType?: string;
+  uri?: string;
 }
 
 export interface AreaRestrictionsOption {

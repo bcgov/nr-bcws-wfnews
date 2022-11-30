@@ -67,7 +67,7 @@ export const FireCentres = [
     },
     {
         code: '34',
-        agol: 6,
+        agol: '6',
         description: 'Southeast Fire Centre',
         displayOrder: 6,
         effectiveDate: '1999-01-01',
@@ -246,9 +246,9 @@ function displayDay(date: string): string{
 
 export function convertToFireCentreDescription(code: string): string {
     if (code) {
-        let result = FireCentres.find(fireCentre => fireCentre.code === code)
+        let result = FireCentres.find(fireCentre => fireCentre.code === code + '')
         // Some have the code from AGOL, which appears to be an objectid?
-        let agolResult = FireCentres.find(fireCentre => fireCentre.agol === code);
+        let agolResult = FireCentres.find(fireCentre => fireCentre.agol === code + '');
         return result ? result.description : agolResult ? agolResult.description : code;
     }
 }
