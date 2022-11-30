@@ -433,7 +433,7 @@ variable WFNEWS_MAX_CONNECTIONS {
 
 variable "agolUrl" {
   type = string
-  variable = ""
+  default = ""
 }
 
 variable "drivebcBaseUrl" {
