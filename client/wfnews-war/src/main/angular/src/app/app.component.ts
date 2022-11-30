@@ -219,7 +219,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       if (this.isAdminPage() && classList.contains('device-mobile')) {
         classList.remove('device-mobile')
         classList.add('device-desktop')
-      } else if(classList.contains('device-desktop')) {
+      } else if(!this.isAdminPage() && this.applicationConfig.environment.toLowerCase() === '' && classList.contains('device-desktop')) {
         classList.remove('device-desktop')
         classList.add('device-mobile')
       }
