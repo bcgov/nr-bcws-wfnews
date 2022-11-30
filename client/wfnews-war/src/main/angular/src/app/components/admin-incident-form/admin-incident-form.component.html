@@ -5,7 +5,7 @@
       <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentLabel}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus.toLowerCase() === 'published', 'unpub-chip': incident.publishedStatus.toLowerCase() !== 'published'}">{{incident.publishedStatus}}</span></h1>
       <h2 class="wildfire-count">
         <div *ngIf="incident.lastPublished">
-        Last Published: {{incident.lastPublished.toDateString()}} - {{incident.lastPublished.toLocaleTimeString()}}
+        Last Published: {{getPublishedDate().toDateString()}} - {{getPublishedDate().toLocaleTimeString()}}
         </div>
       </h2>
     </div>
@@ -57,7 +57,7 @@
               <span class="panel-title">Evacuation Orders and Alerts</span>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <evac-orders-details-panel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
+        <evac-orders-details-panel #EvacOrderPanel [incident]="incident" [formGroup]="incidentForm"></evac-orders-details-panel>
       </mat-expansion-panel>
       <mat-expansion-panel #AreaRestrictionsDetailsPanel class="area-restrictions-details-panel" expanded>
         <mat-expansion-panel-header>

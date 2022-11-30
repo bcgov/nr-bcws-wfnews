@@ -86,7 +86,7 @@ export class IncidentInfoPanel implements AfterViewInit {
       let setMedia = false
       if (results && results.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
-          if (uri.primaryInd) {
+          if (uri.primaryInd && !uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
             this.primaryMedia = {
               title: uri.externalUriDisplayLabel,
               uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
@@ -124,6 +124,8 @@ export class IncidentInfoPanel implements AfterViewInit {
           this.cdr.detectChanges()
         })
       }
+    }).catch(err => {
+      console.error(err)
     })
   }
 }

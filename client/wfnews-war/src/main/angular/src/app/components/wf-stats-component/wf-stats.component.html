@@ -30,16 +30,20 @@
         </div>
       </div>
     </div>
-    <div class="fire-date-box">
-      <h2>Fires this Year</h2>
-      <p style="color: black;">"Fires" this year refers to fires that have burned sometime between <span style="font-weight: 700">April 1st {{getFireYear()}} and March 31st {{getFireYear(1)}}</span></p>
-    </div>
     <mat-tab-group [(selectedIndex)]="tabIndex">
       <mat-tab label="Active Fires">
       </mat-tab>
       <mat-tab label="Fires This Year">
       </mat-tab>
     </mat-tab-group>
+    <div *ngIf="tabIndex === 0" class="fire-date-box">
+      <h2>Active Fires</h2>
+      <p style="color: black;">"Active Fires" refers to fires that are actively burning at this time. It does not include fires that have been put out or extinguished</p>
+    </div>
+    <div *ngIf="tabIndex === 1" class="fire-date-box">
+      <h2>Fires this Year</h2>
+      <p style="color: black;">"Fires This Year" refers to fires that have burned sometime between <span style="font-weight: 700">April 1st {{getFireYear()}} and March 31st {{getFireYear(1)}}</span></p>
+    </div>
     <div>
       <h2>Fire Centres</h2>
       <div class="info-panel">
@@ -164,6 +168,7 @@
     </div>
     <div>
       <h2>Current Statistics</h2>
+      <h5 style="text-align: center; margin: 0px;">New fires are those that have been ignited within the last 24 hours</h5>
       <div class="info-text">
         <!-- Traditional table view -->
         <div class="fire-centre-table">

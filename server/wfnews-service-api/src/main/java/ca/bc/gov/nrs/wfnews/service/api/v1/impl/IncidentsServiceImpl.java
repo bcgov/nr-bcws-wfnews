@@ -269,6 +269,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 			PublishedIncidentResource result = new PublishedIncidentResource();
 
+			publishedIncident.setPublishedTimestamp(new Date());
+
 			result = (PublishedIncidentResource) createPublishedWildfireIncident(
 					publishedIncident,
 					getWebAdeAuthentication(),
@@ -309,7 +311,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}
 
 			PublishedIncidentResource result = new PublishedIncidentResource();
-
+			publishedIncident.setPublishedTimestamp(new Date());
 			PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncident(
 					publishedIncident.getPublishedIncidentDetailGuid(),
 					getWebAdeAuthentication(),

@@ -75,13 +75,19 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
   loadPage() {
     this.externalUriService.getExternalUriList(
       '' + this.incident.incidentNumberSequence,
-      '' + this.pageNumber,
-      '' + this.pageRowCount,
+      '' + 1,
+      '' + 100,
       'response',
       undefined,
       undefined
     ).toPromise().then( (response) => {
       this.externalUriList = response.body;
+      for (let i = 0; i < this.externalUriList.collection.length; i++) {
+        const uri = this.externalUriList.collection[i]
+        if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+          this.externalUriList.collection.splice(i, 1)
+        }
+      }
       this.cdr.detectChanges();
     }).catch(err => {
       this.snackbarService.open('Failed to load videos links: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
@@ -144,7 +150,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
         privateInd: false,
         archivedInd: false,
         primaryInd: false,
-        externalUriCategoryTag: 'information',
+        externalUriCategoryTag: 'video',
         sourceObjectNameCode: 'INCIDENT',
         sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
@@ -155,7 +161,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
         resource,
         'response'
        ).toPromise()
-    }
+      }
     }
 
     matchYoutubeUrl(url) {
