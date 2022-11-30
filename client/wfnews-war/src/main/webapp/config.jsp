@@ -20,7 +20,8 @@
     String uri = request.getRequestURI();
     String ctx = request.getContextPath();
     String baseUrl = EnvironmentVariable.getVariable("BASE_URL");
-
+    String env = EnvironmentVariable.getVariable("APPLICATION_ENVIRONMENT");
+    String siteminderPrefix = EnvironmentVariable.getVariable("SITEMINDER_URL_PREFIX");
     StringBuilder json = new StringBuilder("{");
 
     // General Application Section
@@ -29,32 +30,9 @@
       json.append("\"acronym\":\"").append(properties.getProperty("project.acronym", "")).append("\"").append(",");
       json.append("\"version\":\"").append(properties.getProperty("application.version", "")).append("\"").append(",");
       json.append("\"buildNumber\":\"").append(properties.getProperty("build.number", "")).append("\"").append(",");
-      json.append("\"environment\":\"").append(properties.getProperty("default.application.environment", "")).append("\"").append(",");
-      json.append("\"polling\":{");
-          json.append("\"audibleAlert\":{");
-            json.append("\"unacknowledgedRofPolling\":\"").append(properties.getProperty("audible.alert.rof.polling", "")).append("\"").append(",");
-            json.append("\"alertFrequency\":\"").append(properties.getProperty("audible.alert.frequency", "")).append("\"");
-          json.append("},");
-        json.append("\"mapTool\":{");
-          json.append("\"incidentsPolling\":\"").append(properties.getProperty("maptool.incidents.polling", "")).append("\"").append(",");
-          json.append("\"rofPolling\":\"").append(properties.getProperty("maptool.rof.polling", "")).append("\"").append(",");
-          json.append("\"layerRefreshPolling\":\"").append(properties.getProperty("maptool.layer.refresh.polling", "")).append("\"");
-        json.append("},");
-        json.append("\"rof\":{");
-          json.append("\"refresh\":\"").append(properties.getProperty("rof.refresh.polling", "")).append("\"");
-        json.append("},");
-      json.append("\"nrof\":{");
-      json.append("\"refresh\":\"").append(properties.getProperty("nrof.refresh.polling", "")).append("\"");
-      json.append("}");
-      json.append("},");
-      json.append("\"maxListPageSize\":{");
-        json.append("\"incidents\":\"").append(properties.getProperty("wildfire.incidents.maximum.results", "")).append("\"").append(",");
-        json.append("\"incidents-table\":\"").append(properties.getProperty("wildfire.incidents.table.maximum.results", "")).append("\"").append(",");
-        json.append("\"rofs-table\":\"").append(properties.getProperty("wildfire.incidents.table.maximum.results", "")).append("\"").append(",");
-        json.append("\"rofs\":\"").append(properties.getProperty("report.of.fires.maximum.results", "")).append("\"");
-      json.append("},");
+      json.append("\"environment\":\"").append(env).append("\"").append(",");
       json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");;
-      json.append("\"siteminderUrlPrefix\":\"").append(properties.getProperty("siteminder.url.prefix", "")).append("\"");
+      json.append("\"siteminderUrlPrefix\":\"").append(siteminderPrefix).append("\"");
     json.append("},");
 
     // Map Icon Section
@@ -64,6 +42,9 @@
       json.append("\"tooltipOffset\":\"").append(properties.getProperty("map-icons.tooltip.offset", "")).append("\"").append(",");
       json.append("\"shadowSize\":\"").append(properties.getProperty("map-icons.shadow.size", "")).append("\"");
     json.append("},");
+
+    String agolAreaRestrictions = EnvironmentVariable.getVariable("AGOL_AREA_RESTRICTIONS");
+    String agolBansAndProhibitions = EnvironmentVariable.getVariable("AGOL_BANS_AND_PROHIBITIONS");
 
     // External Application Section
     json.append("\"externalAppConfig\":{");
@@ -78,8 +59,8 @@
       json.append("\"googlePlayUrl\":\"").append(properties.getProperty("googlePlayUrl", "")).append("\",");
       json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
       json.append("\"AGOLevacOrders\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/").append("\",");
-      json.append("\"AGOLareaRestrictions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/").append("\",");
-      json.append("\"AGOLBansAndProhibitions\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/").append("\",");
+      json.append("\"AGOLareaRestrictions\":\"").append(agolAreaRestrictions).append("\",");
+      json.append("\"AGOLBansAndProhibitions\":\"").append(agolBansAndProhibitions).append("\",");
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
 	  
@@ -101,12 +82,21 @@
       wfnewsUri = wfnewsUri.substring(0, wfnewsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String driveBc = EnvironmentVariable.getVariable("DRIVEBC_BASE_URL"); 
+    if (driveBc != null && driveBc.endsWith("/")) {
+      driveBc = driveBc.substring(0, driveBc.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
+    String openmaps = EnvironmentVariable.getVariable("OPENMAPS_BASE_URL"); 
+    if (openmaps != null && openmaps.endsWith("/")) {
+      openmaps = openmaps.substring(0, openmaps.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     // External Application Section
     json.append("\"mapServices\":{");
-      json.append("\"openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.url", "")).append("\"").append(",");
-      json.append("\"#openmapsBaseUrl\":\"").append(properties.getProperty("openmaps.internal.url", "")).append("\"").append(",");
+      json.append("\"openmapsBaseUrl\":\"").append(openmaps).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
-      json.append("\"drivebcBaseUrl\":\"").append(properties.getProperty("drivebc.url", "")).append("\"");
+      json.append("\"drivebcBaseUrl\":\"").append(driveBc).append("\"");
     json.append("},");
 
     // REST API Section
@@ -136,13 +126,17 @@
     if (webadeOauth2AuthorizeUrl != null && webadeOauth2AuthorizeUrl.endsWith("/")) {
       webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
     }
+    String checktokenUrl = EnvironmentVariable.getVariable("WEBADE-OAUTH2_CHECK_TOKEN_URL"); 
+    if (checktokenUrl != null && checktokenUrl.endsWith("/")) {
+      checktokenUrl = checktokenUrl.substring(0, checktokenUrl.length() - 1); //Strip off trailing slash, if it exists.
+    }
 
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append(",");
       json.append("\"clientId\":\"WFNEWS-UI\",");
-      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.*\",");
+      json.append("\"authScopes\":\"WFNEWS.* WFIM.* WFORG.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
+      json.append("\"checkTokenUrl\":\"").append(checktokenUrl).append("\"");
 
     json.append("}");
 	

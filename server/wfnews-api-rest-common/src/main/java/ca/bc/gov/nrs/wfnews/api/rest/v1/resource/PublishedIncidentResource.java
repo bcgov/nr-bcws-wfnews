@@ -67,6 +67,8 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	private String latitude;
 	private String longitude;
 	private Integer fireYear;
+	private String responseTypeCode;
+	private String responseTypeDetail;
 
 	public String getPublishedIncidentDetailGuid() {
 		return publishedIncidentDetailGuid;
@@ -470,5 +472,25 @@ public class PublishedIncidentResource extends BaseResource implements Published
 	@Override
 	public void setFireYear(Integer fireYear) {
 		this.fireYear = fireYear;
+	}
+
+	@Override
+	public String getResponseTypeCode() {
+		return this.responseTypeCode;
+	}
+
+	@Override
+	public void setResponseTypeCode(String responseTypeCode) {
+		this.responseTypeCode = responseTypeCode;
+	}
+
+	@Override
+	public String getResponseTypeDetail() {
+		return this.responseTypeDetail;
+	}
+
+	@Override
+	public void setResponseTypeDetail(String responseTypeDetail) {
+		this.responseTypeDetail = responseTypeDetail;
 	}
 }
