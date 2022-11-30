@@ -7,4 +7,4 @@ USER root
 RUN apt-get update &&\
   apt-get install -y nginx &&\
   echo '#!/bin/bash\nnginx\nliquibase update --changelogFile=main-changelog.json --defaultsFile=/liquibase/liquibase.properties --log-file=/liquibase/liquibase.log --url=$DB_URL --username=$DB_USER --password=$DB_PASS\ntail -f /liquibase/liquibase.log' > /liquibase/docker-entrypoint.sh
-COPY docker/default.conf /etc/nginx/conf.d/default.conf
+COPY docker/default_liquibase.conf /etc/nginx/conf.d/default.conf
