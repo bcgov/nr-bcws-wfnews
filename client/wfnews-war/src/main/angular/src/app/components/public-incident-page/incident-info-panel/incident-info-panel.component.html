@@ -52,7 +52,7 @@
         <h1>Evacuation Orders and Alerts</h1>
         <div class="content-panel-subtitle">Evacuation Order Information</div>
         <div *ngFor="let evac of evacOrders">
-          <a [href]="" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
+          <a [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
         </div>
         <div *ngIf="!evacOrders || evacOrders.length <= 0">There are no current evacuation orders or alerts associated with this incident.</div>
         <div style="padding: 10px;"></div>
