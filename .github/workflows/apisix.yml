@@ -1,7 +1,5 @@
 env:
   APISIX_IMAGE_NAME: ${{ github.repository }}-apisix
-  ETCD_IMAGE_NAME: ${{ github.repository }}-etcd
-  APISIX_GUI_IMAGE_NAME: ${{ github.repository }}-apisix-gui
 
 on:
   workflow_call:

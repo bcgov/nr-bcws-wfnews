@@ -5,13 +5,14 @@ variable "target_env" {
   type = string
 }
 
-variable "aws_access_key_id" {
-  type = string
-}
+#Access key ID and secret access key are not used with container-based authentication
+# variable "aws_access_key_id" {
+#   type = string
+# }
 
-variable "aws_secret_access_key" {
-  type = string
-}
+# variable "aws_secret_access_key" {
+#   type = string
+# }
 
 variable "target_aws_account_id" {
   description = "AWS workload account id"
@@ -158,28 +159,28 @@ variable "apisix_names" {
   type        = list(string)
 }
 
-variable "apisix_admin_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-api-admin"]
-  type        = list(string)
-}
+# variable "apisix_admin_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-api-admin"]
+#   type        = list(string)
+# }
 
-variable "etcd_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-etcd"]
-  type        = list(string)
-}
+# variable "etcd_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-etcd"]
+#   type        = list(string)
+# }
 
-variable "etcd_password" {
-  description = "Password to use for etcd access"
-  type = string
-}
+# variable "etcd_password" {
+#   description = "Password to use for etcd access"
+#   type = string
+# }
 
-variable "apisix_gui_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-api-gui"]
-  type        = list(string)
-}
+# variable "apisix_gui_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-api-gui"]
+#   type        = list(string)
+# }
 
 variable "alb_name" {
   description = "Name of the internal alb"
@@ -257,17 +258,17 @@ variable apisix_container_name {
   type = string
 } 
 
-variable etcd_container_name {
-  description = "Name of etcd container"
-  default = "wfnews-etcd-app"
-  type = string
-} 
+# variable etcd_container_name {
+#   description = "Name of etcd container"
+#   default = "wfnews-etcd-app"
+#   type = string
+# } 
 
-variable apisix_gui_container_name {
-  description = "Name of apisix gui container"
-  default = "wfnews-apisix-gui-app"
-  type = string
-} 
+# variable apisix_gui_container_name {
+#   description = "Name of apisix gui container"
+#   default = "wfnews-apisix-gui-app"
+#   type = string
+# } 
 
 variable apisix_image {
   description = "Full name of apisix image"
@@ -426,4 +427,36 @@ variable "WFNEWS_USERNAME" {
 variable WFNEWS_MAX_CONNECTIONS {
   type = string
   default = "10"
+}
+
+//Client-only variables
+
+variable "agolUrl" {
+  type = string
+  default = ""
+}
+
+variable "drivebcBaseUrl" {
+  type = string
+  default = ""
+}
+
+variable "openmapsBaseUrl" {
+  type = string
+  default = ""
+}
+
+variable "siteMinderURLPrefix" {
+  type = string
+  default = ""
+}
+
+variable "agolAreaRestrictions" {
+  type = string
+  default = ""
+}
+
+variable "agolBansAndProhibitions" {
+  type = string
+  default = ""
 }
