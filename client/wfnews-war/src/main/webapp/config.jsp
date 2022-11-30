@@ -126,7 +126,7 @@
     if (webadeOauth2AuthorizeUrl != null && webadeOauth2AuthorizeUrl.endsWith("/")) {
       webadeOauth2AuthorizeUrl = webadeOauth2AuthorizeUrl.substring(0, webadeOauth2AuthorizeUrl.length() - 1); //Strip off trailing slash, if it exists.
     }
-    String checktokenUrl = EnvironmentVariable.getVariable("WEBADE-OAUTH2_CHECK_TOKEN_URL"); 
+    String checktokenUrl = EnvironmentVariable.getVariable("WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"); 
     if (checktokenUrl != null && checktokenUrl.endsWith("/")) {
       checktokenUrl = checktokenUrl.substring(0, checktokenUrl.length() - 1); //Strip off trailing slash, if it exists.
     }
@@ -134,7 +134,7 @@
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append(",");
       json.append("\"clientId\":\"WFNEWS-UI\",");
-      json.append("\"authScopes\":\"WFNEWS.* WFIM.* WFORG.* WFDM.*\",");
+      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"").append(checktokenUrl).append("\"");
 
