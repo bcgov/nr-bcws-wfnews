@@ -289,7 +289,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "SITEMINDER_URL_PREFIX",
-          value = var.siteMinderUrlPrefix
+          value = var.siteMinderURLPrefix
         },
         {
           name = "AGOL_AREA_RESTRICTIONS",
