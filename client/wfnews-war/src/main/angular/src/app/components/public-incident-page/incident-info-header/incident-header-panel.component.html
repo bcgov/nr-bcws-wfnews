@@ -14,7 +14,7 @@
     </div>
     <div class="divider"></div>
     <div class="info-panel">
-      <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa}} Hectares</span></div>
+      <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</span></div>
       <div class="paragraph-format">{{incident.incidentSizeDetail || 'Fire size is estimated and based on the last known mapped size in hectares. This information could be out-of-date at this time due to rapidly changing conditions'}}</div>
       <div class="gutter" *ngIf="incident.incidentLocation"><span class="label">Location</span></div>
       <div class="paragraph-format">{{incident.incidentLocation}}</div>
@@ -27,7 +27,7 @@
       <h4>Active Evacuation Orders and Alerts</h4>
       <div class="evac-list" *ngFor="let evac of evacOrders">
         <mat-icon style="text-decoration: none;">error</mat-icon>
-        <div class="label" (mouseup)="zoomToEvac(evac)">{{evac.eventName}}</div>
+        <a class="label" [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener">{{evac.eventName}}</a>
         <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
       </div>
     </div>

@@ -57,6 +57,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String longitude;
 	private String latitude;
 	private Integer fireYear;
+	private String responseTypeCode;
+	private String responseTypeDetail;
 	
 	public PublishedIncidentDto() {
 
@@ -107,6 +109,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.declaredOutDate = dto.declaredOutDate;
 		this.fireCentre = dto.fireCentre;
 		this.fireYear = dto.fireYear;
+		this.responseTypeCode = dto.responseTypeCode;
+		this.responseTypeDetail = dto.responseTypeDetail;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -154,6 +158,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.declaredOutDate = incident.getDeclaredOutDate();
 		this.fireCentre = incident.getFireCentre();
 		this.fireYear = incident.getFireYear();
+		this.responseTypeCode = incident.getResponseTypeCode();
+		this.responseTypeDetail = incident.getResponseTypeDetail();
 	}
 	
 	
@@ -226,6 +232,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
 			result = result && equals("fireCentre", fireCentre, other.fireCentre);
 			result = result && equals("fireYear", fireYear, other.fireYear);
+			result = result && equals("responseTypeCode", responseTypeCode, other.responseTypeCode);
+			result = result && equals("responseTypeDetail", responseTypeDetail, other.responseTypeDetail);
 		}
 
 		return result;
@@ -587,5 +595,21 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setFireYear(Integer fireYear) {
 		this.fireYear = fireYear;
+	}
+
+	public String getResponseTypeCode() {
+		return this.responseTypeCode;
+	}
+
+	public void setResponseTypeCode(String responseTypeCode) {
+		this.responseTypeCode = responseTypeCode;
+	}
+
+	public String getResponseTypeDetail() {
+		return this.responseTypeDetail;
+	}
+
+	public void setResponseTypeDetail(String responseTypeDetail) {
+		this.responseTypeDetail = responseTypeDetail;
 	}
 }

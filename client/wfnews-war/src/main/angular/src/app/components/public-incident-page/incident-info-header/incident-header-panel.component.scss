@@ -116,6 +116,7 @@
     padding-top: 7px;
     .label {
       text-decoration: underline;
+      cursor: pointer;
     }
     .issued-by {
       padding: 4px;
@@ -131,11 +132,11 @@
 }
 
 @media (min-width: 768px)and (max-width: 1023px) {
-  
+
   .header-container {
     padding: 15px;
   }
-  
+
   .header-container> * {
     flex: 1 1 100%;
   }
@@ -147,7 +148,7 @@
       .title{
         padding-bottom: 5px;
       }
-      
+
     }
     .info-panel {
       line-height: 1.5;
@@ -160,5 +161,5 @@
   .map-container {
     padding-top: 10px;
     min-height: 320px !important;
-  } 
+  }
 }

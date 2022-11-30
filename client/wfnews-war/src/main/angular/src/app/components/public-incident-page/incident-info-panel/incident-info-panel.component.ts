@@ -4,6 +4,7 @@ import { toCanvas } from 'qrcode'
 import { convertToFireCentreDescription, convertToYoutubeId } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'incident-info-panel',
@@ -19,7 +20,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public convertToFireCentreDescription = convertToFireCentreDescription
   public convertToYoutubeId = convertToYoutubeId
 
-  public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) {}
+  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) {}
   public primaryMedia = null
 
   ngAfterViewInit(): void {
@@ -75,6 +76,11 @@ export class IncidentInfoPanel implements AfterViewInit {
       document.body.innerHTML = "";
       document.body.appendChild(appRoot);
     })
+  }
+
+  public copyToClipboard () {
+    navigator.clipboard.writeText(window.location.href);
+    this.snackbarService.open('URL Copied to Clipboard!', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
   }
 
   public fetchPrimaryImage () {
