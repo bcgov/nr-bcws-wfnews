@@ -54,6 +54,8 @@
 		<result property="longitude" column="LONGITUDE" javaType="java.lang.String" jdbcType="VARCHAR" /> 
 		<result property="fireCentre" column="FIRE_CENTRE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
+		<result property="responseTypeCode" column="RESPONSE_TYPE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="responseTypeDetail" column="RESPONSE_TYPE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
 	</resultMap>
 	
 	<insert id="insert">
@@ -98,6 +100,8 @@
 				INCIDENT_MGMNT_CREW_RSRC_DTL,
 				STRUCTURE_PROTECTION_RSRC_IND,
 				STRUCTURE_PROTECTION_RSRC_DTL,
+				RESPONSE_TYPE_CODE,
+				RESPONSE_TYPE_DETAIL,
 				PUBLISHED_TIMESTAMP,
 				PUBLISHED_USER_TYPE_CODE,
 				PUBLISHED_USER_GUID,
@@ -149,6 +153,8 @@
 				#{dto.incidentMgmtCrewRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.structureProtectionRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.structureProtectionRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.responseTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.responseTypeDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.publishedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				#{dto.publishedUserTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.publishedUserGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -203,8 +209,10 @@
 				INCIDENT_MGMNT_CREW_RSRC_DTL =				#{dto.incidentMgmtCrewRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				STRUCTURE_PROTECTION_RSRC_IND =				#{dto.structureProtectionRsrcInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				STRUCTURE_PROTECTION_RSRC_DTL =				#{dto.structureProtectionRsrcDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				PUBLISHED_TIMESTAMP =				#{dto.publishedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
-				PUBLISHED_USER_TYPE_CODE =				#{dto.publishedUserTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				RESPONSE_TYPE_CODE =                  #{dto.responseTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				RESPONSE_TYPE_DETAIL =                #{dto.responseTypeDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				PUBLISHED_TIMESTAMP =				          #{dto.publishedTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+				PUBLISHED_USER_TYPE_CODE =			    	#{dto.publishedUserTypeCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_GUID =				#{dto.publishedUserGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_USERID =				#{dto.publishedUserUserId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				PUBLISHED_USER_NAME =				#{dto.publishedUserName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},

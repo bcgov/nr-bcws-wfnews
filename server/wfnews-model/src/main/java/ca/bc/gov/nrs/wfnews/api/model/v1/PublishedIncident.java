@@ -196,4 +196,10 @@ public interface PublishedIncident{
 
 	public Integer getFireYear();
 	public void setFireYear(Integer fireYear);
+
+	public String getResponseTypeCode();
+	public void setResponseTypeCode(String responseTypeCode);
+
+	public String getResponseTypeDetail();
+	public void setResponseTypeDetail(String responseTypeDetail);
 }

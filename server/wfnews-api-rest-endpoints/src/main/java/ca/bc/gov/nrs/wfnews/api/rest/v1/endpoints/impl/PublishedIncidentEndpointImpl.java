@@ -263,6 +263,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setLongitude(publishedIncidentResource.getLongitude());
 		incident.setFireCentre(publishedIncidentResource.getFireCentre());
 		incident.setFireYear(publishedIncidentResource.getFireYear());
+		incident.setResponseTypeCode(publishedIncidentResource.getResponseTypeCode());
+		incident.setResponseTypeDetail(publishedIncidentResource.getResponseTypeDetail());
 
 		return incident;
 	}
