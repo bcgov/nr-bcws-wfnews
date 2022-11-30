@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { fireCentreOption } from '../../../conversion/models';
+import { FireCentres } from '../../../utils';
 
 @Component({
   selector: 'contacts-details-panel',
@@ -18,7 +18,7 @@ export class ContactsDetailsPanel implements OnInit {
   public contacts: any
   public fireCentreOptions : fireCentreOption[] = []
 
-  constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
+  constructor(protected http: HttpClient) {
   }
 
   ngOnInit() {
@@ -40,20 +40,10 @@ export class ContactsDetailsPanel implements OnInit {
   }
 
   public getFireCentreContacts (): Observable<any> {
-    return this.http.get('../../../../assets/data/fire-center-contacts.json')
+    return this.http.get('../../../../assets/data/fire-center-contacts-agol.json')
   }
 
   getFireCentres(){
-    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireCentres'].toString();
-    let headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin','*');
-    headers.append('Accept','*/*');
-    this.http.get<any>(url,{headers}).subscribe(response => {
-      if(response.features){
-        response.features.forEach(element => {
-          this.fireCentreOptions.push({code: element.attributes.FIRE_CENTRE_CODE, fireCentreName: element.attributes.FIRE_CENTRE})
-        });
-      }
-    })
+    this.fireCentreOptions = FireCentres
   }
 }
