@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { fireCentreOption } from '../../../conversion/models';
 import { FireCentres } from '../../../utils';
@@ -19,7 +18,7 @@ export class ContactsDetailsPanel implements OnInit {
   public contacts: any
   public fireCentreOptions : fireCentreOption[] = []
 
-  constructor(private appConfigService: AppConfigService, protected http: HttpClient) {
+  constructor(protected http: HttpClient) {
   }
 
   ngOnInit() {
