@@ -13,9 +13,6 @@ locals {
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
   apisix_image = get_env("APISIX_IMAGE")
-  etcd_image = get_env("ETCD_IMAGE")
-  etcd_password = get_env("ETCD_PASSWORD")
-  apisix_gui_image = get_env("APISIX_GUI_IMAGE")
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
@@ -46,6 +43,14 @@ locals {
   WFNEWS_MAX_CONNECTIONS = get_env("WFNEWS_MAX_CONNECTIONS")
   WEBADE_OAUTH2_CLIENT_ID = get_env("WEBADE_OAUTH2_CLIENT_ID")
   WEBADE_OAUTH2_AUTHORIZE_URL = get_env("WEBADE_OAUTH2_AUTHORIZE_URL")
+  #client-only env vars
+  //Client-only variables
+  agolUrl = get_env("agolUrl")
+  drivebcBaseUrl = get_env("drivebcBaseUrl")
+  openmapsBaseUrl = get_env("openmapsBaseUrl")
+  siteMinderURLPrefix = get_env("siteMinderURLPrefix")
+  agolAreaRestrictions = get_env("agolAreaRestrictions")
+  agolBansAndProhibitions = get_env("agolBansAndProhibitions")
 }
 
 generate "dev_tfvars" {
@@ -66,9 +71,6 @@ generate "dev_tfvars" {
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
     apisix_image = "${local.apisix_image}"
-    etcd_image = "${local.etcd_image}"
-    etcd_password = "${local.etcd_password}"
-    apisix_gui_image = "${local.apisix_gui_image}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
@@ -101,5 +103,11 @@ generate "dev_tfvars" {
     WFNEWS_MAX_CONNECTIONS ="${local.WFNEWS_MAX_CONNECTIONS}"
     WEBADE_OAUTH2_CLIENT_ID = "${local.WEBADE_OAUTH2_CLIENT_ID}"
     WEBADE_OAUTH2_AUTHORIZE_URL = "${local.WEBADE_OAUTH2_AUTHORIZE_URL}"
+    agolUrl = "${local.agolUrl}"
+    drivebcBaseUrl = "${local.drivebcBaseUrl}"
+    openmapsBaseUrl = "${local.openmapsBaseUrl}"
+    siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
+    agolAreaRestrictions = "${local.agolAreaRestrictions}"
+    agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
   EOF
 }

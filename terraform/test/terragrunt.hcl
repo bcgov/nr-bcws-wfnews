@@ -12,11 +12,14 @@ locals {
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
+  apisix_image = get_env("APISIX_IMAGE")
+  api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
   subnet_filter = get_env("SUBNET_FILTER")
   license_plate = get_env("TFC_PROJECT")
+  sns_email_targets = get_env("SNS_EMAIL_TARGETS")
   #server env vars
   WEBADE-OAUTH2_TOKEN_CLIENT_URL = get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
@@ -40,6 +43,14 @@ locals {
   WFNEWS_MAX_CONNECTIONS = get_env("WFNEWS_MAX_CONNECTIONS")
   WEBADE_OAUTH2_CLIENT_ID = get_env("WEBADE_OAUTH2_CLIENT_ID")
   WEBADE_OAUTH2_AUTHORIZE_URL = get_env("WEBADE_OAUTH2_AUTHORIZE_URL")
+  #client-only env vars
+  //Client-only variables
+  agolUrl = get_env("agolUrl")
+  drivebcBaseUrl = get_env("drivebcBaseUrl")
+  openmapsBaseUrl = get_env("openmapsBaseUrl")
+  siteMinderURLPrefix = get_env("siteMinderURLPrefix")
+  agolAreaRestrictions = get_env("agolAreaRestrictions")
+  agolBansAndProhibitions = get_env("agolBansAndProhibitions")
 }
 
 generate "test_tfvars" {
@@ -59,6 +70,8 @@ generate "test_tfvars" {
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
+    apisix_image = "${local.apisix_image}"
+    api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
     client_port = 8080
@@ -66,6 +79,7 @@ generate "test_tfvars" {
     vpc_name = "${local.vpc_name}"
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
+    sns_email_targets = "${local.sns_email_targets}"
     certificate_arn = "arn:aws:acm:us-east-1:636235676406:certificate/5e8f2003-b441-4e2e-b133-962986646882"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
@@ -89,5 +103,11 @@ generate "test_tfvars" {
     WFNEWS_MAX_CONNECTIONS ="${local.WFNEWS_MAX_CONNECTIONS}"
     WEBADE_OAUTH2_CLIENT_ID = "${local.WEBADE_OAUTH2_CLIENT_ID}"
     WEBADE_OAUTH2_AUTHORIZE_URL = "${local.WEBADE_OAUTH2_AUTHORIZE_URL}"
+    agolUrl = "${local.agolUrl}"
+    drivebcBaseUrl = "${local.drivebcBaseUrl}"
+    openmapsBaseUrl = "${local.openmapsBaseUrl}"
+    siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
+    agolAreaRestrictions = "${local.agolAreaRestrictions}"
+    agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
   EOF
 }

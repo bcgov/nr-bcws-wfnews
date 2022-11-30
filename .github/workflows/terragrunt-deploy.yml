@@ -15,12 +15,6 @@ on:
       APISIX_IMAGE:
         required: true
         type: string
-      ETCD_IMAGE:
-        required: true
-        type: string
-      APISIX_GUI_IMAGE:
-        required: true
-        type: string
       TARGET_ENV:
         required: true
         type: string
@@ -99,6 +93,24 @@ on:
       IMAGE_TAG:
         required: true
         type: string
+      AGOL_URL:
+        required: true
+        type: string
+      DRIVEBC_BASE_URL:
+        required: true
+        type: string
+      OPENMAPS_BASE_URL:
+        required: true
+        type: string
+      SITEMINDER_URL_PREFIX:
+        required: true
+        type: string
+      AGOL_AREA_RESTRICTIONS:
+        required: true
+        type: string
+      AGOL_BANS_AND_PROHIBITIONS:
+        required: true
+        type: string
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -114,8 +126,6 @@ on:
       SMTP_PASSWORD:
         required: true
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
-        required: true
-      ETCD_PASSWORD:
         required: true
       API_KEY:
         required: true
@@ -158,9 +168,6 @@ jobs:
           SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          ETCD_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.ETCD_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          ETCD_PASSWORD: ${{ secrets.ETCD_PASSWORD }}
-          APISIX_GUI_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_GUI_IMAGE }}:${{ inputs.IMAGE_TAG }}
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
@@ -190,6 +197,12 @@ jobs:
           WFNEWS_USERNAME: ${{inputs.WFNEWS_USERNAME}}
           WFNEWS_MAX_CONNECTIONS: ${{inputs.WFNEWS_MAX_CONNECTIONS}}
           SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
+          agolUrl: ${{inputs.AGOL_URL}}
+          drivebcBaseUrl: ${{inputs.DRIVEBC_BASE_URL}}
+          openmapsBaseUrl: ${{inputs.OPENMAPS_BASE_URL}}
+          siteMinderURLPrefix: ${{inputs.SITEMINDER_URL_PREFIX}}
+          agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
+          agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS)}}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

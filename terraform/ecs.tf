@@ -268,9 +268,38 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = "https://${aws_route53_record.wfnews_server.name}/"
         },
         {
-          name = "WEBADE_OAUTH2_AUTHORIZE_URL"
+          name = "WEBADE_OAUTH2_AUTHORIZE_URL",
           value = var.WEBADE_OAUTH2_AUTHORIZE_URL
+        },
+        {
+          name = "APPLICATION_ENVIRONMENT",
+          value = var.target_env
+        },
+        {
+          name = "AGOL_URL",
+          value = var.agolUrl
         }
+        {
+          name = "DRIVEBC_BASE_URL",
+          value = var.drivebcBaseUrl
+        },
+        {
+          name = "OPENMAPS_BASE_URL",
+          value = var.openmapsBaseUrl
+        },
+        {
+          name = "SITEMINDER_URL_PREFIX",
+          value = var.siteMinderUrlPrefix
+        },
+        {
+          name = "AGOL_AREA_RESTRICTIONS",
+          value = var.agolAreaRestrictions
+        },
+        {
+          name = "AGOL_BANS_AND_PROHIBITIONS",
+          value = var.agolBansAndProhibitions
+        }
+
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -403,7 +432,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.etcd_names[0]}"
+          awslogs-group         = "/ecs/${var.apisix_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }

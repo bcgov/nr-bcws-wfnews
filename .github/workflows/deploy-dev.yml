@@ -63,8 +63,6 @@ jobs:
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
-      ETCD_IMAGE: nr-bcws-wfnews-etcd
-      APISIX_GUI_IMAGE: nr-bcws-wfnews-apisix-gui
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
@@ -90,15 +88,18 @@ jobs:
       WFNEWS_USERNAME: wfnewsdev
       WFNEWS_MAX_CONNECTIONS: 10
       IMAGE_TAG: pr-${{ github.event.pull_request.number }}
+      AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
+      DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
+      OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub
+      SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
+      AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
+      AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
 
     secrets:
-      # AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      # AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.DEV_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
       SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD }}
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
-      ETCD_PASSWORD: ${{ secrets.ETCD_PASSWORD_DEV }}
       API_KEY: ${{ secrets.API_KEY_DEV }}
       SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}

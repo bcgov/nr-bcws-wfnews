@@ -3,9 +3,7 @@ name: Deploy Test
 env:
   REGISTRY: ghcr.io
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
-  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
-  SERVER_IMAGE_NAME: nr-bcws-wfnews-server
-  LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
+  NPMRC: ${{ secrets.NPMRC }}
   
 on:
   release:
@@ -60,9 +58,10 @@ jobs:
       CLIENT_IMAGE: nr-bcws-wfnews-client
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
+      APISIX_IMAGE: nr-bcws-wfnews-apisix
       TARGET_ENV: test
       ALB_NAME: default
-      VPC_NAME: test_vpc
+      VPC_NAME: Test_vpc
       SUBNET_FILTER: App
       WEBADE_OAUTH2_CLIENT_ID: WFNEWS-UI
       WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
@@ -85,9 +84,18 @@ jobs:
       WFNEWS_USERNAME: wfnewstest
       WFNEWS_MAX_CONNECTIONS: 10
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
+      AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
+      DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
+      OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub
+      SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
+      AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
+      AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
+
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.TEST_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
       SMTP_PASSWORD: ${{ secrets.TEST_SMTP_PASSWORD }}
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.TEST_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
+      API_KEY: ${{ secrets.API_KEY_TEST }}
+      SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_TEST }}

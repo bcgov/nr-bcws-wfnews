@@ -159,28 +159,28 @@ variable "apisix_names" {
   type        = list(string)
 }
 
-variable "apisix_admin_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-api-admin"]
-  type        = list(string)
-}
+# variable "apisix_admin_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-api-admin"]
+#   type        = list(string)
+# }
 
-variable "etcd_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-etcd"]
-  type        = list(string)
-}
+# variable "etcd_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-etcd"]
+#   type        = list(string)
+# }
 
-variable "etcd_password" {
-  description = "Password to use for etcd access"
-  type = string
-}
+# variable "etcd_password" {
+#   description = "Password to use for etcd access"
+#   type = string
+# }
 
-variable "apisix_gui_names" {
-  description = "List of service names to use as subdomains"
-  default     = ["wfnews-api-gui"]
-  type        = list(string)
-}
+# variable "apisix_gui_names" {
+#   description = "List of service names to use as subdomains"
+#   default     = ["wfnews-api-gui"]
+#   type        = list(string)
+# }
 
 variable "alb_name" {
   description = "Name of the internal alb"
@@ -258,17 +258,17 @@ variable apisix_container_name {
   type = string
 } 
 
-variable etcd_container_name {
-  description = "Name of etcd container"
-  default = "wfnews-etcd-app"
-  type = string
-} 
+# variable etcd_container_name {
+#   description = "Name of etcd container"
+#   default = "wfnews-etcd-app"
+#   type = string
+# } 
 
-variable apisix_gui_container_name {
-  description = "Name of apisix gui container"
-  default = "wfnews-apisix-gui-app"
-  type = string
-} 
+# variable apisix_gui_container_name {
+#   description = "Name of apisix gui container"
+#   default = "wfnews-apisix-gui-app"
+#   type = string
+# } 
 
 variable apisix_image {
   description = "Full name of apisix image"
@@ -427,4 +427,36 @@ variable "WFNEWS_USERNAME" {
 variable WFNEWS_MAX_CONNECTIONS {
   type = string
   default = "10"
+}
+
+//Client-only variables
+
+variable "agolUrl" {
+  type = string
+  variable = ""
+}
+
+variable "drivebcBaseUrl" {
+  type = string
+  default = ""
+}
+
+variable "openmapsBaseUrl" {
+  type = string
+  default = ""
+}
+
+variable "siteMinderURLPrefix" {
+  type = string
+  default = ""
+}
+
+variable "agolAreaRestrictions" {
+  type = string
+  default = ""
+}
+
+variable "agolBansAndProhibitions" {
+  type = string
+  default = ""
 }
