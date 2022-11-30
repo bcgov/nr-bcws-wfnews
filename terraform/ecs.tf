@@ -147,30 +147,31 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           name = "DB_PASS",
           value = "${var.db_pass}"
         },
-        {
-          name = "WFNEWS_SNS_ACCESS_KEY",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_SNS_SECRET",
-          value = "${var.aws_secret_access_key}"
-        },
-        {
-          name = "WFNEWS_S3_ACCESS_KEY",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_S3_SECRET",
-          value = "${var.aws_secret_access_key}"
-        },
-        {
-          name = "WFNEWS_ACCESS_KEY_ID",
-          value = "${var.aws_access_key_id}"
-        },
-        {
-          name = "WFNEWS_SECRET_ACCESS_KEY",
-          value = "${var.aws_secret_access_key}"
-        },
+        # Access keys and secret keys are not needed when using container-based authentication
+        # {
+        #   name = "WFNEWS_SNS_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_SNS_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        # {
+        #   name = "WFNEWS_ACCESS_KEY_ID",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_SECRET_ACCESS_KEY",
+        #   value = "${var.aws_secret_access_key}"
+        # },
         {
           name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
@@ -178,6 +179,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "WFNEWS_S3_BUCKET_NAME",
           value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
+        },
+        {
+          name: "API_KEY",
+          value: "${var.api_key}"
         }
 
       ]
@@ -263,9 +268,38 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = "https://${aws_route53_record.wfnews_server.name}/"
         },
         {
-          name = "WEBADE_OAUTH2_AUTHORIZE_URL"
+          name = "WEBADE_OAUTH2_AUTHORIZE_URL",
           value = var.WEBADE_OAUTH2_AUTHORIZE_URL
+        },
+        {
+          name = "APPLICATION_ENVIRONMENT",
+          value = var.target_env
+        },
+        {
+          name = "AGOL_URL",
+          value = var.agolUrl
         }
+        {
+          name = "DRIVEBC_BASE_URL",
+          value = var.drivebcBaseUrl
+        },
+        {
+          name = "OPENMAPS_BASE_URL",
+          value = var.openmapsBaseUrl
+        },
+        {
+          name = "SITEMINDER_URL_PREFIX",
+          value = var.siteMinderUrlPrefix
+        },
+        {
+          name = "AGOL_AREA_RESTRICTIONS",
+          value = var.agolAreaRestrictions
+        },
+        {
+          name = "AGOL_BANS_AND_PROHIBITIONS",
+          value = var.agolBansAndProhibitions
+        }
+
       ]
       logConfiguration = {
         logDriver = "awslogs"
@@ -398,7 +432,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.etcd_names[0]}"
+          awslogs-group         = "/ecs/${var.apisix_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
