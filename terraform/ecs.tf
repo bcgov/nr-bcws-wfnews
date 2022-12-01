@@ -241,7 +241,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
-          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
+          value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
         },
         {
           name = "WEBADE-OAUTH2_TOKEN_URL",
