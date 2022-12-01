@@ -12,7 +12,7 @@
         </div>
         <div class="field size-quarter">
           <div class="label">Stage of Control</div>
-          <div><strong>{{incident.incidentStatusCode}}</strong></div>
+          <div><strong>{{convertToStageOfControlDescription(incident.incidentData.incidentSituation.stageOfControlCode)}}</strong></div>
         </div>
       </div>
     </fieldset>

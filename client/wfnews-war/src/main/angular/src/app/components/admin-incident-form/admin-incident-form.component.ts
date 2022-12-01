@@ -305,7 +305,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     let mappedIncident = {
       incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
       incidentNumberLabelFull: this.currentAdminIncident.incidentLabel,
-      stageOfControlCode: this.incident.incidentData.incidentStatusCode,
+      stageOfControlCode: this.currentAdminIncident.incidentSituation.stageOfControlCode,
       generalIncidentCauseCatId: this.incidentForm.controls['cause'].value,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
