@@ -17,7 +17,7 @@
 </div>
 <!-- Main Body Content -->
 <mat-tab-group>
-  <mat-tab label="Incident Information">
+  <mat-tab label="Incident Overview">
     <mat-accordion class="details" multi>
       <mat-expansion-panel #IncidentSummaryPanel class="incident-details-panel" expanded>
         <mat-expansion-panel-header>
@@ -69,7 +69,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </mat-tab>
-  <mat-tab label="Incident Overview">
+  <mat-tab label="Incident Information">
     <ckeditor [editor]="Editor" [(ngModel)]="incident.incidentOverview" (ready)="onReady($event)"></ckeditor>
   </mat-tab>
   <mat-tab label="Image Gallery">

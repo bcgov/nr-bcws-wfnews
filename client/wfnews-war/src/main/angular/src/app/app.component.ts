@@ -142,10 +142,17 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       });
     }
 
-    document.getElementById('main-app').classList.remove('menu-collapsed');
-    document.getElementById('main-app').classList.add('menu-hidden');
-    if (document.getElementsByTagName('wf-menu')[0]) {
-      (document.getElementsByTagName('wf-menu')[0] as HTMLElement).removeAttribute('style');
+    const mainApp = document.getElementById('main-app')
+    if (mainApp) {
+      setTimeout(() => {
+        mainApp.classList.remove('menu-collapsed');
+        mainApp.classList.add('menu-hidden');
+        const menu = document.getElementsByTagName('wf-menu')
+        console.log(menu, menu[0])
+        if (document.getElementsByTagName('wf-menu')[0]) {
+          (document.getElementsByTagName('wf-menu')[0] as HTMLElement).removeAttribute('style');
+        }
+      }, 200)
     }
   }
 

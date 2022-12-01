@@ -1,6 +1,8 @@
 <ng-container [formGroup]="contactForm">
     <div class="dialog-container contact-widget-dialog-container">
-        <h1 mat-dialog-title>Contact Information <mat-icon [mat-dialog-close]="false">close</mat-icon></h1>
+        <h1 mat-dialog-title>Contact Information <mat-icon [color]="closeColor"
+          (mouseover)="closeColor = 'warn'"
+          (mouseout)="closeColor = null" [mat-dialog-close]="false" style="cursor: pointer;">close</mat-icon></h1>
         <div class="dialog-content" mat-dialog-content>
             <div class="contact-widget-dialog-content">
                 <div class="panel left-panel">
