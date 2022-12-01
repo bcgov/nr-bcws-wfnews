@@ -110,6 +110,6 @@ generate "dev_tfvars" {
     siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
-    WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}""
+    WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
   EOF
 }
