@@ -33,6 +33,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   }
 
   doSearch() {
+    this.getCurrentYearString()
     this.store.dispatch(searchIncidents(this.componentId, {
       pageNumber: this.config.currentPage,
       pageRowCount: this.config.itemsPerPage,
