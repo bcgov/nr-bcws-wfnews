@@ -164,14 +164,14 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         #   name = "WFNEWS_S3_SECRET",
         #   value = "${var.aws_secret_access_key}"
         # },
-        # {
-        #   name = "WFNEWS_ACCESS_KEY_ID",
-        #   value = "${var.aws_access_key_id}"
-        # },
-        # {
-        #   name = "WFNEWS_SECRET_ACCESS_KEY",
-        #   value = "${var.aws_secret_access_key}"
-        # },
+        {
+          name = "WFNEWS_ACCESS_KEY_ID",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name = "WFNEWS_SECRET_ACCESS_KEY",
+          value = "${var.aws_secret_access_key}"
+        },
         {
           name = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
