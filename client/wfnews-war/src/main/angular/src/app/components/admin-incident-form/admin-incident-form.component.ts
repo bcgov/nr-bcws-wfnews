@@ -162,7 +162,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.sizeType = 0
             self.incident.sizeHectares = self.currentAdminIncident.incidentSituation.fireSizeHectares
 
-            const causeCode = self.currentAdminIncident.suspectedCauseCategoryCode === 'Undetermined' ? 3 : self.currentAdminIncident.suspectedCauseCategoryCode === 'Lightning' ? 2 : 1
+            const causeCode = self.currentAdminIncident.suspectedCauseCategoryCode === 'Undetermined' ? 3 : self.currentAdminIncident.suspectedCauseCategoryCode === 'Natural' ? 2 : 1
             self.incident.cause = causeCode
             self.detailsPanelComponent.setCauseDisclaimer(causeCode)
             self.incident.causeComments = self.detailsPanelComponent.causeOptions.find(c => c.id === causeCode).disclaimer
@@ -306,7 +306,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
       incidentNumberLabelFull: this.currentAdminIncident.incidentLabel,
       stageOfControlCode: this.incident.incidentData.incidentStatusCode,
-      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value == 'Human' ? 1 : this.incidentForm.controls['cause'].value == 'Lightning' ? 2 : 3,
+      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value === 'Human' ? 1 : this.incidentForm.controls['cause'].value === 'Lightning' ? 2 : 3,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
