@@ -136,7 +136,7 @@
       json.append("\"clientId\":\"WFNEWS-UI\",");
       json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.*\",");
       json.append("\"enableCheckToken\":true,");
-      json.append("\"checkTokenUrl\":\"").append(checktokenUrl).append("\"");
+      json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
     json.append("}");
 	
