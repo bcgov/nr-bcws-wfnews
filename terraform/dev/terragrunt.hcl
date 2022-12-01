@@ -51,6 +51,7 @@ locals {
   siteMinderURLPrefix = get_env("siteMinderURLPrefix")
   agolAreaRestrictions = get_env("agolAreaRestrictions")
   agolBansAndProhibitions = get_env("agolBansAndProhibitions")
+  WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET")
 }
 
 generate "dev_tfvars" {
@@ -109,5 +110,6 @@ generate "dev_tfvars" {
     siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
+    WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}""
   EOF
 }
