@@ -13,6 +13,7 @@ import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.jersey.Compress;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
@@ -22,7 +23,6 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentList( 
 		@ApiParam("Search Text.") @QueryParam("searchText") String searchText,
 		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
@@ -39,18 +39,16 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@GET
 	@Path("/features")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Compress
 	public Response getPublishedIncidentListAsFeatures(@QueryParam("stageOfControl") String stageOfControl, @ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox)throws NotFoundException, ForbiddenException, ConflictException;
 
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
 	
 	@GET
 	@Path("byIncident/{incidentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getPublishedIncidentByIncidentGuid(@PathParam("incidentGuid") String incidentGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }

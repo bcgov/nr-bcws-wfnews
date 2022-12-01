@@ -7,6 +7,8 @@ import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
+import org.glassfish.jersey.message.GZipEncoder;
+import org.glassfish.jersey.server.filter.EncodingFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,6 +50,8 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(AttachmentsListEndpointImpl.class);
 		register(AttachmentsEndpointImpl.class);
 		register(MailEndpointImpl.class);
+		register(GZIPWriterInterceptor.class);
+		//EncodingFilter.enableFor(this, GZipEncoder.class);
 
 		SwaggerConfiguration oasConfig = new SwaggerConfiguration()
 			.prettyPrint(Boolean.TRUE)
