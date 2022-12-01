@@ -76,7 +76,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       }
     }
 
-    console.warn('Clearing intervals on destroy')
     clearInterval(this.initInterval)
     clearInterval(this.mapPanProgressBar)
     clearInterval(this.markerAnimation)
