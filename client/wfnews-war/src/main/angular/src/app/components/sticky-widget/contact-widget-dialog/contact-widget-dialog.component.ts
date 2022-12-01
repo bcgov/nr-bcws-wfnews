@@ -14,6 +14,7 @@ export class ContactWidgetDialogComponent implements OnInit {
 
     public contactForm: FormGroup;
     contactInformationConfig: any;
+    public closeColor;
 
     constructor (
       private dialogRef: MatDialogRef<ContactWidgetDialogComponent>,
