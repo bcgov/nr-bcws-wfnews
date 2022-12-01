@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { convertToStageOfControlDescription } from '../../../utils';
 
 @Component({
   selector: 'summary-panel',
@@ -7,4 +8,6 @@ import { Component, Input } from '@angular/core';
 })
 export class SummaryPanel {
   @Input() public incident;
+
+  public convertToStageOfControlDescription = convertToStageOfControlDescription
 }
