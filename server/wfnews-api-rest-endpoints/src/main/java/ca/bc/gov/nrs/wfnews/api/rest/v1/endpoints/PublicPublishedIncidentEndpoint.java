@@ -13,6 +13,7 @@ import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.jersey.Compress;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 
@@ -52,5 +53,6 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@Path("byIncident/{incidentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@Compress
 	public Response getPublishedIncidentByIncidentGuid(@PathParam("incidentGuid") String incidentGuid)throws NotFoundException, ForbiddenException, ConflictException;
 }
