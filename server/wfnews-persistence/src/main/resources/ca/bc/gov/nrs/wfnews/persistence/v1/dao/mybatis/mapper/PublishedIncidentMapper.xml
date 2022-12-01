@@ -338,30 +338,30 @@
 	</select>
 
 	<select id="selectAsJson" resultType="string">
-		SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) AS fc
+              SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) AS fc
   		FROM (SELECT JSONB_BUILD_OBJECT(
             'type',       'Feature',
-            'geometry',   ST_AsGeoJSON(geometry, options => 1)::JSONB,
-            'properties', TO_JSONB(t.incident_number_label)
+            'geometry',   ST_AsGeoJSON(t.geometry, options => 1)::JSONB,
+            'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
-		          FROM wfnews.published_incident_detail AS t
-		  			 WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-			         AND fire_of_note_ind = 'N'
-			         AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
-			) features
+		          FROM (SELECT f.incident_number_label, f.incident_name, f.geometry FROM wfnews.published_incident_detail AS f
+		         WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		           AND fire_of_note_ind = 'N'
+		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
+		  ) features
 	</select>
 
 	<select id="selectFireOfNoteAsJson" resultType="string">
               SELECT jsonb_build_object('type', 'FeatureCollection', 'features', jsonb_agg(features.feature)) AS fc
   		FROM (SELECT JSONB_BUILD_OBJECT(
             'type',       'Feature',
-            'geometry',   ST_AsGeoJSON(geometry, options => 1)::JSONB,
-            'properties', TO_JSONB(t.incident_number_label)
+            'geometry',   ST_AsGeoJSON(t.geometry, options => 1)::JSONB,
+            'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
-		          FROM wfnews.published_incident_detail AS t
+		          FROM (SELECT f.incident_number_label, f.incident_name, f.geometry FROM wfnews.published_incident_detail AS f
 		         WHERE stage_of_control_code != 'OUT'
 		           AND fire_of_note_ind = 'Y'
-		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
 		  ) features
 	</select>
 	
