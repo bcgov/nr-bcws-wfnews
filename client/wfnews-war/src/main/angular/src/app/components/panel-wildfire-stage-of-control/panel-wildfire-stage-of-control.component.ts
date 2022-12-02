@@ -192,7 +192,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   doSearch() {
     let bbox = undefined
     // Fetch the maps bounding box
-    console.log('Loading true')
     this.loading = true
     try {
       const SMK = window['SMK'];
@@ -218,10 +217,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       query: undefined
     }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, bbox, this.displayLabel, undefined, undefined, undefined,
       () => {
-        console.log('Loading false')
         this.loading = false
         this.cdr.detectChanges()
       }));
+
+    // set a timeout to turn of the loading indicator
+    setTimeout(() => {
+      this.loading = false
+      this.cdr.detectChanges()
+    }, 5000)
   }
 
   stageOfControlChanges(event: any) {

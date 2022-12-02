@@ -28,8 +28,8 @@ export class WildfiresListEffect {
         debounceTime(500),
         switchMap(
             ([action, store]) => {
-
-                const typedaction = <SearchWildfiresAction>action;
+              const typedaction = <SearchWildfiresAction>action;
+              try {
                 const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState (store.searchWildfires);
                 const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initWildfiresListPaging.pageNumber;
                 const pageSize = pagingInfoRequest.pageRowCount ? pagingInfoRequest.pageRowCount : initWildfiresListPaging.pageRowCount;
@@ -92,16 +92,20 @@ export class WildfiresListEffect {
                 headers.append('Access-Control-Allow-Origin','*');
                 headers.append('Accept','*/*');
                 return this.http.get<any>(url,{headers})
-                    .pipe(
-                        map((response: any) => {
-                            typedaction.callback()
-                            return searchWildfiresSuccess(typedaction.componentId, response);
-                        }),
-                        catchError(error => {
-                          typedaction.callback()
-                          return of(searchWildfiresError(typedaction.componentId, error))
-                        }),
-                    );
+                .pipe(
+                    map((response: any) => {
+                      typedaction.callback()
+                      return searchWildfiresSuccess(typedaction.componentId, response);
+                    }),
+                    catchError(error => {
+                      typedaction.callback()
+                      return of(searchWildfiresError(typedaction.componentId, error))
+                    }),
+                );
+              } catch (err) {
+                typedaction.callback()
+                console.error(err)
+              }
             }
         )
     );

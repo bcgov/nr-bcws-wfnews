@@ -82,10 +82,8 @@ export class DocumentManagementService {
                         onProgress( Math.round( 100 * ev.loaded / ev.total ), ev.loaded, ev.total )
                     }
                     else if ( ev.type == HttpEventType.Sent ) {
-                        // console.log('start')
                     }
                     else if ( ev instanceof HttpResponse ) {
-                        // console.log('done')
                         onProgress( 100, file.size, file.size )
                         res( ev.body as FileDetailsRsrc )
                     }
@@ -117,7 +115,7 @@ export class DocumentManagementService {
     makeDocumentUrl( fileId: string ): string {
         if ( environment[ 'document_management_proxy_auth_url' ] )
             return `${ this.wfdmBaseUrl }/documents/${ fileId }/bytes`
-        
+
         let proxy = this.appConfigService.getConfig().externalAppConfig['wfdmProxy'];
         return `${proxy}?documentId=${ fileId }`;
     }
