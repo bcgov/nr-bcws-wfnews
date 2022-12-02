@@ -81,11 +81,11 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       undefined,
       undefined
     ).toPromise().then( (response) => {
-      this.externalUriList = response.body;
-      for (let i = 0; i < this.externalUriList.collection.length; i++) {
-        const uri = this.externalUriList.collection[i]
-        if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
-          this.externalUriList.collection.splice(i, 1)
+      this.externalUriList.collection = []
+      const uris = response.body;
+      for (const uri of uris.collection) {
+        if (uri.externalUriCategoryTag.includes('video')) {
+          this.externalUriList.collection.push(uri)
         }
       }
       this.cdr.detectChanges();

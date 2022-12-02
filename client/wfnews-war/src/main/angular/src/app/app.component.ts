@@ -185,6 +185,20 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     setInterval(() => {
       this.getLastSync();
     }, 1000);
+
+    setTimeout(() => {
+      // remove header image
+      if (!this.isAdminPage()) {
+        const headerImg = document.getElementsByClassName('bc-logo')
+        if (headerImg && headerImg[0]) {
+          const node = document.createElement("span")
+          node.style.color = '#fcba19'
+          node.style.marginLeft = '20px'
+          node.append(this.applicationConfig.environment)
+          headerImg[0].appendChild(node)
+        }
+      }
+    }, 1000);
   }
 
   getLastSync() {

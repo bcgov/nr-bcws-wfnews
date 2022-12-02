@@ -43,7 +43,7 @@
             "url": "http://localhost:11200/pub/wfnrof"
         },
         "pointId": {
-            "url": "https://d1wfapi.vividsolutions.com/wfss-pointid-api",
+            "url": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
             "#url": "https://testapps.nrs.gov.bc.ca/pub/wfss/v1",
             "#url": "https://wfss-pointid-api-dev-160-secure-c9737f-dev.apps.silver.devops.gov.bc.ca/wfss-pointid-api"
         },
