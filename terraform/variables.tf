@@ -345,7 +345,12 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_ID" {
+variable "WEBADE_OAUTH2_REST_CLIENT_ID" {
+  type = string
+  default = ""
+}
+
+variable "WEBADE_OAUTH2_UI_CLIENT_ID" {
   type = string
   default = ""
 }
