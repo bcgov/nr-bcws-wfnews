@@ -187,8 +187,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }, 1000);
 
     setTimeout(() => {
-      // remove header image
-      if (!this.isAdminPage()) {
         const headerImg = document.getElementsByClassName('bc-logo')
         if (headerImg && headerImg[0]) {
           const node = document.createElement("span")
@@ -196,7 +194,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
           node.style.marginLeft = '20px'
           node.append(this.applicationConfig.environment)
           headerImg[0].appendChild(node)
-        }
       }
     }, 1000);
   }
