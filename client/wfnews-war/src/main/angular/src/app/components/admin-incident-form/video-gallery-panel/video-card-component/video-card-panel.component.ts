@@ -28,7 +28,6 @@ export class VideoCardPanel{
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    console.log(this.video);
     (this.video as any).primaryInd = !(this.video as any).primaryInd;
     this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
   }

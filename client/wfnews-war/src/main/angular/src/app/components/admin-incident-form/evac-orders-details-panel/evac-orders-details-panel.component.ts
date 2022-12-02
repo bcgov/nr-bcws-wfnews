@@ -70,7 +70,6 @@ export class EvacOrdersDetailsPanel implements OnInit {
     for (let i = 0; i < this.incident.evacOrders.length; i++) {
       const evac = this.incident.evacOrders[i]
       const evacForm = this.evacOrderForm.at(i)
-      console.log(evac, evacForm)
 
 
       evac.externalUri.externalUriCategoryTag = 'EVAC-ORDER:' + evacForm.value.orderAlertStatus
@@ -81,11 +80,11 @@ export class EvacOrdersDetailsPanel implements OnInit {
 
       if (evac.externalUri && evac.externalUri.externalUriGuid) {
         this.externalUriService.updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri).toPromise().then(result => {
-          console.log('Update URI', result)
+          // ignore result, should probably just call .subscribe()?
         })
       } else {
         this.externalUriService.createExternalUri(evac.externalUri).toPromise().then(result => {
-          console.log('Create URI', result)
+          // ignore result, should probably just call .subscribe()?
         })
       }
     }

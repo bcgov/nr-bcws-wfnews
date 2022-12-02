@@ -28,19 +28,18 @@ include.module( 'tool-time-dimension', [ 'tool' ], function () {
                 data: this.model,
                 methods: {
                     toggle: function () {
-                        // console.log('toggle')    
                         if ( this.isPlaying ) {
                             self.pause()
                         }
                         else {
                             self.resume()
                         }
-                    },        
+                    },
                 }
             } )
 
             this.changedVisible( function () {
-                self.model.visible = self.visible 
+                self.model.visible = self.visible
             } )
 
             smk.$viewer.changedBaseMap( function ( ev ) {

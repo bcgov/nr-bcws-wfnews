@@ -218,10 +218,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       query: undefined
     }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, bbox, this.displayLabel, undefined, undefined, undefined,
       () => {
-        console.log('Loading false')
         this.loading = false
         this.cdr.detectChanges()
       }));
+
+    // set a timeout to turn of the loading indicator
+    setTimeout(() => {
+      this.loading = false
+      this.cdr.detectChanges()
+    }, 5000)
   }
 
   stageOfControlChanges(event: any) {

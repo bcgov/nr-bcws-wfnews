@@ -29,8 +29,6 @@ export class PointIdService {
 
     Object.keys(this.cache).forEach(function (url) {
       if ((now - self.cache[url].ts) < MAX_CACHE_AGE) return
-
-      console.log('expire', url)
       delete self.cache[url]
     })
 

@@ -432,7 +432,6 @@ export class WFMapService {
                 };
 
                 SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function( area, view, option ) {
-                    // console.log('getFeaturesInArea')
                     const self = this;
 
                     let extraFilter = this.config.where || '';
