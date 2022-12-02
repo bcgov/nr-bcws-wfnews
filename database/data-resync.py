@@ -144,7 +144,7 @@ def lambda_handler(event, context):
       feature = {
         "publishedIncidentDetailGuid": published_incident['publishedIncidentDetailGuid'] if published_incident is not None else incident['wildfireIncidentGuid'], #str(uuid.uuid4()),
         "incidentGuid": incident['wildfireIncidentGuid'],
-        "incidentNumberLabel": incident['incidentNumberSequence'], # number sequence or incidentLabel?
+        "incidentNumberLabel": incident['incidentLabel'], # number sequence or incidentLabel?
         "newsCreatedTimestamp": curr_time,
         "stageOfControlCode": incident['incidentSituation']['stageOfControlCode'],
         "fireCentre": incident['fireCentreOrgUnitIdentifier'],
@@ -185,6 +185,8 @@ def lambda_handler(event, context):
         "lastUpdatedTimestamp": incident['lastUpdatedTimestamp'] if incident['lastUpdatedTimestamp'] is not None else curr_time ,
         "latitude": str(incident['incidentLocation']['latitude']),
         "longitude": str(incident['incidentLocation']['longitude']),
+        "responseTypeCode": incident['responseTypeCode'],
+        #"responseTypeDetail": published_incident['responseTypeDetail'] if published_incident is not None else None,
         "fireYear": fire_year
       }
 
@@ -221,6 +223,7 @@ def lambda_handler(event, context):
             del uri['@type'] 
             del uri['links']
             uri['sourceObjectNameCode'] = 'PUB_INC_DT'
+            uri['sourceObjectUniqueId'] = incident['incidentLabel']
             wfnews_response = requests.post(wfnews_api + 'externalUri', json=uri, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
             if wfnews_response.status_code != 201:
               print('Failed to upload external URI')
@@ -245,7 +248,7 @@ def lambda_handler(event, context):
         # binary data to pull from WFDM
 
         #first, lets get the attachments existing resources, for deletes later
-        wfnews_response = requests.get(wfnews_api + 'publicPublishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments')
+        wfnews_response = requests.get(wfnews_api + 'publicPublishedIncidentAttachment/' + str(incident['incidentLabel']) + '/attachments')
         wfnews_attachments = wfnews_response.json()['collection'] if wfnews_response.status_code == 200 else []
         print('... Loading Attachments')
         wfim_response = requests.get(wfim_api + 'incidents/' + str(fire_year) + '/' + str(incident['incidentNumberSequence']) + '/attachments?pageNumber=1&pageRowCount=100&archived=false&privateIndicator=false&orderBy=attachmentTitle%2CDESC',  headers={'Authorization': 'Bearer ' + token})
@@ -263,10 +266,10 @@ def lambda_handler(event, context):
             attachment['imageURL'] = '/' + str(incident['incidentNumberSequence']) + '/' + attachment['fileName']
             attachment['attachmentTypeCode'] = 'DOCUMENT'
             attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
-            attachment['sourceObjectUniqueId'] = incident['incidentNumberSequence']
+            attachment['sourceObjectUniqueId'] = incident['incidentLabel']
             attachment['primary'] = attachment['primaryInd']
 
-            wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+            wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentLabel']) + '/attachments', json=attachment, headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
             if wfnews_response.status_code != 201 and wfnews_response.status_code != 200:
               print('Failed to upload attachment')
             else:
@@ -276,7 +279,7 @@ def lambda_handler(event, context):
               wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['fileIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
               doc_bytes = wfdm_response.content
               del wfdm_response
-              wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
+              wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentLabel']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
               if wfnews_response.status_code != 200:
                 print('Write to bucket failed: ' + str(wfnews_response.status_code))
               else:
@@ -288,7 +291,7 @@ def lambda_handler(event, context):
                 wfdm_response = requests.get(wfdm_api + 'documents/' + str(attachment['thumbnailIdentifier']) + '/bytes', headers={'Authorization': 'Bearer ' + token })
                 doc_bytes = wfdm_response.content
                 del wfdm_response
-                wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes?thumbnail=true', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
+                wfnews_response = requests.post(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentLabel']) + '/attachments/' + new_attachment['attachmentGuid'] + '/bytes?thumbnail=true', files=dict(file = io.BytesIO(doc_bytes)), headers={'Authorization': 'Bearer ' + token})
                 if wfnews_response.status_code != 200:
                   print('Write to bucket failed: ' + str(wfnews_response.status_code))
                 else:
@@ -307,7 +310,7 @@ def lambda_handler(event, context):
                 for_delete = False
                 break
             if for_delete:
-              wfnews_response = requests.delete(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentNumberSequence']) + '/attachments/' + wfnews_attachment['attachmentGuid'], headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
+              wfnews_response = requests.delete(wfnews_api + 'publishedIncidentAttachment/' + str(incident['incidentLabel']) + '/attachments/' + wfnews_attachment['attachmentGuid'], headers={'Authorization': 'Bearer ' + token, 'content-type': 'application/json'})
               del wfnews_response
           del wfnews_attachments
 
