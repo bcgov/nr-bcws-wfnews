@@ -67,7 +67,8 @@ jobs:
       ALB_NAME: default
       VPC_NAME: Dev_vpc
       SUBNET_FILTER: App
-      WEBADE_OAUTH2_CLIENT_ID: WFNEWS-UI
+      WEBADE_OAUTH2_UI_CLIENT_ID: WFNEWS-UI
+      WEBADE_OAUTH2_REST_CLIENT_ID: WFNEWS-REST
       WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
       WEBADE-OAUTH2_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WEBADE_OAUTH2_AUTHORIZE_URL: https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize
