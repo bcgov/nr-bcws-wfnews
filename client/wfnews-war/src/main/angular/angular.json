@@ -48,7 +48,6 @@
             ],
             "scripts": [
               "node_modules/popper.js/dist/umd/popper.min.js",
-              "src/assets/js/visualize.js/visualize.js",
               "node_modules/@qqnluaq/smk/dist/smk.js"
             ],
             "vendorChunk": true,
