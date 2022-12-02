@@ -192,7 +192,6 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   doSearch() {
     let bbox = undefined
     // Fetch the maps bounding box
-    console.log('Loading true')
     this.loading = true
     try {
       const SMK = window['SMK'];
