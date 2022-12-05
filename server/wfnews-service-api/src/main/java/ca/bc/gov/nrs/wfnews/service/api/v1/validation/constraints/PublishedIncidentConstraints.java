@@ -23,9 +23,6 @@ public interface PublishedIncidentConstraints{
 	@NotNull(message=Errors.PUBLISHED_FIRE_OF_NOTE_IND_NOTBLANK, groups=PublishedIncidentConstraints.class)
 	public Boolean getFireOfNoteInd();
 	
-	@NotNull(message=Errors.PUBLISHED_INCIDENT_SIZE_TYPE_NOTBLANK, groups=PublishedIncidentConstraints.class)
-	public String getIncidentSizeType();
-	
 	@NotNull(message=Errors.PUBLISHED_WILDFIRE_CREW_IND_NOTBLANK, groups=PublishedIncidentConstraints.class)
 	public Boolean getWildfireCrewResourcesInd();
 	
