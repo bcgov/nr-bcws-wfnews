@@ -139,6 +139,7 @@ def lambda_handler(event, context):
       if not modified_incident and not modified_published_incident:
         print('... No Changes, Skipping ' + incident['incidentLabel'])
         continue
+
       print('... Processesing ' + incident['incidentLabel'])
       # This will contain the final feature attributes
       feature = {
@@ -203,7 +204,7 @@ def lambda_handler(event, context):
       if incident['incidentSituation']['stageOfControlCode'] != 'OUT':
 
         # fetch WFNEWS uris, fetch wfim uris
-        wfnews_response = requests.get(wfnews_api + 'publicExternalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100')
+        wfnews_response = requests.get(wfnews_api + 'publicExternalUri?sourceObjectUniqueId=' + str(incident['incidentLabel']) + '&pageNumber=1&pageRowCount=100')
         wfnews_uris = wfnews_response.json()['collection'] if wfnews_response.status_code == 200 else []
         del wfnews_response
 
@@ -212,7 +213,7 @@ def lambda_handler(event, context):
         print('... Check for Attachments and External URIs for ' + incident['incidentLabel'])
         print('... Loading External URI')
         # Load the URIs from WFIM
-        wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['incidentNumberSequence']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
+        wfim_response = requests.get(wfim_api + 'externalUri?sourceObjectUniqueId=' + str(incident['wildfireIncidentGuid']) + '&pageNumber=1&pageRowCount=100',  headers={'Authorization': 'Bearer ' + token})
         if wfim_response.status_code != 200:
           print(wfim_response.status_code)
           print('Failed to fetch external URI: ' + incident['incidentLabel'])
@@ -263,7 +264,7 @@ def lambda_handler(event, context):
               continue
 
             attachment['@type'] = 'AttachmentResource'
-            attachment['imageURL'] = '/' + str(incident['incidentNumberSequence']) + '/' + attachment['fileName']
+            attachment['imageURL'] = '/' + str(incident['incidentLabel']) + '/' + attachment['fileName']
             attachment['attachmentTypeCode'] = 'DOCUMENT'
             attachment['sourceObjectNameCode'] = 'PUB_INC_DT'
             attachment['sourceObjectUniqueId'] = incident['incidentLabel']

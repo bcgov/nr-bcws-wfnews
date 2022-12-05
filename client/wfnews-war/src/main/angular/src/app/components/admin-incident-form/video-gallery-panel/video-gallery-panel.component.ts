@@ -74,7 +74,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
 
   loadPage() {
     this.externalUriService.getExternalUriList(
-      '' + this.incident.incidentNumberSequence,
+      '' + this.incident.wildfireIncidentGuid,
       '' + 1,
       '' + 100,
       'response',
@@ -152,7 +152,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
         primaryInd: false,
         externalUriCategoryTag: 'video',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
       } as ExternalUriResource;

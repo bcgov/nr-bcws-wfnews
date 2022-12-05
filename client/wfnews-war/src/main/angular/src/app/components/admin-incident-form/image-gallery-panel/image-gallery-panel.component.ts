@@ -175,7 +175,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       attachmentTypeCode: category,
       fileIdentifier: fileId,
       mimeType: mimeType,
-      sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+      sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
       archived: false,
       privateIndicator: false,
       commsSuitable: true

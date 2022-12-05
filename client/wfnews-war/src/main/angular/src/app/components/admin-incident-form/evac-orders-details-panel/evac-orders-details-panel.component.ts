@@ -36,7 +36,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
         primaryInd: false,
         externalUriCategoryTag: 'EVAC-ORDER',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
       } as ExternalUriResource
@@ -76,7 +76,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
       evac.externalUri.externalUriDisplayLabel = evacForm.value.eventName
       evac.externalUri.externalUri = evacForm.value.url
       evac.externalUri.publishedInd = true
-      evac.externalUri.sourceObjectUniqueId = '' + this.incident.incidentNumberSequence
+      evac.externalUri.sourceObjectUniqueId = '' + this.incident.wildfireIncidentGuid
 
       if (evac.externalUri && evac.externalUri.externalUriGuid) {
         this.externalUriService.updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri).toPromise().then(result => {
@@ -107,7 +107,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
     })
 
     this.externalUriService.getExternalUriList(
-      '' + this.incident.incidentNumberSequence,
+      '' + this.incident.wildfireIncidentGuid,
       '' + 1,
       '' + 100,
       'response',
