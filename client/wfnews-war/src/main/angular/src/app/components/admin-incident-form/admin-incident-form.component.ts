@@ -35,6 +35,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   public incident = {
     fireNumber: 0,
     wildfireYear: new Date().getFullYear(),
+    wildfireIncidentGuid: '',
     incidentNumberSequence: 0,
     fireName: undefined,
     traditionalTerritory: undefined,
@@ -143,8 +144,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           const self = this;
 
           this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).subscribe(incidentResponse => {
-            console.log('Loading incicent...', incidentResponse)
-
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
             (self.incident as any).discoveryDate = new Date(self.currentAdminIncident.discoveryTimestamp).toLocaleString();
@@ -158,6 +157,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.fireName = self.currentAdminIncident.incidentName || self.currentAdminIncident.incidentLabel;
             self.incident.publishedStatus = 'DRAFT';
             self.incident.location = self.currentAdminIncident.incidentLocation.geographicDescription;
+            self.incident.wildfireIncidentGuid = self.currentAdminIncident.wildfireIncidentGuid;
 
             self.incident.sizeType = 0
             self.incident.sizeHectares = self.currentAdminIncident.incidentSituation.fireSizeHectares
@@ -188,7 +188,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             });
 
             incidentResponse.getPublishedIncident.subscribe((response) => {
-              console.log('Loading Published data...', response)
               self.publishedIncidentDetailGuid = response.publishedIncidentDetailGuid;
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
