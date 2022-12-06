@@ -74,18 +74,18 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
 
   loadPage() {
     this.externalUriService.getExternalUriList(
-      '' + this.incident.incidentNumberSequence,
+      '' + this.incident.wildfireIncidentGuid,
       '' + 1,
       '' + 100,
       'response',
       undefined,
       undefined
     ).toPromise().then( (response) => {
-      this.externalUriList = response.body;
-      for (let i = 0; i < this.externalUriList.collection.length; i++) {
-        const uri = this.externalUriList.collection[i]
-        if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
-          this.externalUriList.collection.splice(i, 1)
+      this.externalUriList.collection = []
+      const uris = response.body;
+      for (const uri of uris.collection) {
+        if (uri.externalUriCategoryTag.includes('video')) {
+          this.externalUriList.collection.push(uri)
         }
       }
       this.cdr.detectChanges();
@@ -152,7 +152,7 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
         primaryInd: false,
         externalUriCategoryTag: 'video',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
       } as ExternalUriResource;

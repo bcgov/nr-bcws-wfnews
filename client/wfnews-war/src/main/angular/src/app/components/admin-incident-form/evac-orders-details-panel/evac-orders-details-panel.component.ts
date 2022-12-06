@@ -36,7 +36,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
         primaryInd: false,
         externalUriCategoryTag: 'EVAC-ORDER',
         sourceObjectNameCode: 'INCIDENT',
-        sourceObjectUniqueId: '' + this.incident.incidentNumberSequence,
+        sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
         '@type': 'http://wfim.nrs.gov.bc.ca/v1/externalUri',
         type: 'http://wfim.nrs.gov.bc.ca/v1/externalUri'
       } as ExternalUriResource
@@ -70,22 +70,21 @@ export class EvacOrdersDetailsPanel implements OnInit {
     for (let i = 0; i < this.incident.evacOrders.length; i++) {
       const evac = this.incident.evacOrders[i]
       const evacForm = this.evacOrderForm.at(i)
-      console.log(evac, evacForm)
 
 
       evac.externalUri.externalUriCategoryTag = 'EVAC-ORDER:' + evacForm.value.orderAlertStatus
       evac.externalUri.externalUriDisplayLabel = evacForm.value.eventName
       evac.externalUri.externalUri = evacForm.value.url
       evac.externalUri.publishedInd = true
-      evac.externalUri.sourceObjectUniqueId = '' + this.incident.incidentNumberSequence
+      evac.externalUri.sourceObjectUniqueId = '' + this.incident.wildfireIncidentGuid
 
       if (evac.externalUri && evac.externalUri.externalUriGuid) {
         this.externalUriService.updateExternalUri(evac.externalUri.externalUriGuid, evac.externalUri).toPromise().then(result => {
-          console.log('Update URI', result)
+          // ignore result, should probably just call .subscribe()?
         })
       } else {
         this.externalUriService.createExternalUri(evac.externalUri).toPromise().then(result => {
-          console.log('Create URI', result)
+          // ignore result, should probably just call .subscribe()?
         })
       }
     }
@@ -108,7 +107,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
     })
 
     this.externalUriService.getExternalUriList(
-      '' + this.incident.incidentNumberSequence,
+      '' + this.incident.wildfireIncidentGuid,
       '' + 1,
       '' + 100,
       'response',

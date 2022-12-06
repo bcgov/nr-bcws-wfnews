@@ -268,8 +268,9 @@ export function snowPlowHelper(page: string, action?:string) {
 export function convertFireNumber(incident) {
     if(incident.incidentNumberLabelFull) {
         return incident.incidentNumberLabelFull
-    }
-    else{
+    } else if(incident.incidentNumberLabel.length > 4) {
+      return incident.incidentNumberLabel
+    } else{
         try {
         const fcAlias = FireCentres.find(c => c.code === incident.fireCentre).characterAlias
         const zoneAlias = FireZones.find(z => z.code === incident.fireZoneUnitIdentifier).alias

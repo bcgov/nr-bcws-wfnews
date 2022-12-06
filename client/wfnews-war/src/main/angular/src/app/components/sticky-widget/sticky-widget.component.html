@@ -1,4 +1,4 @@
-<div class="sticky-widget">
+<div class="sticky-widget no-print">
     <div id="watchlist" *ngIf="showWatchlist" class="watchlist-container" (mouseleave)="delayClose()" (mouseenter)="stopDelay()" (blur)="loadWatchlist()">
       <mat-progress-bar style="margin-left: 0px; width: 100% !important;" mode="determinate" [value]="progressValue"></mat-progress-bar>
       <div class="watchlist-header">
