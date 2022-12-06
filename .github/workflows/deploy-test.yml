@@ -4,6 +4,10 @@ env:
   REGISTRY: ghcr.io
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
+  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
+  SERVER_IMAGE_NAME: nr-bcws-wfnews-server
+  LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
+  APISIX_IMAGE_NAME: nr-bcws-wfnews-apisix
   
 on:
   release:
@@ -44,6 +48,12 @@ jobs:
           docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main
           docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+
+      - name: Tag apisix image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
       - run: echo ::set-output name=tag-value::${GITHUB_REF#refs/tags/} 
         id: get-release-tag
