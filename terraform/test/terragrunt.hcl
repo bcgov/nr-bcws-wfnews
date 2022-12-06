@@ -41,7 +41,8 @@ locals {
   WFNEWS_AGOL_QUERY_URL = get_env("WFNEWS_AGOL_QUERY_URL")
   WFNEWS_USERNAME = get_env("WFNEWS_USERNAME")
   WFNEWS_MAX_CONNECTIONS = get_env("WFNEWS_MAX_CONNECTIONS")
-  WEBADE_OAUTH2_CLIENT_ID = get_env("WEBADE_OAUTH2_CLIENT_ID")
+  WEBADE_OAUTH2_REST_CLIENT_ID = get_env("WEBADE_OAUTH2_REST_CLIENT_ID")
+  WEBADE_OAUTH2_UI_CLIENT_ID = get_env("WEBADE_OAUTH2_UI_CLIENT_ID")
   WEBADE_OAUTH2_AUTHORIZE_URL = get_env("WEBADE_OAUTH2_AUTHORIZE_URL")
   #client-only env vars
   //Client-only variables
@@ -51,6 +52,7 @@ locals {
   siteMinderURLPrefix = get_env("siteMinderURLPrefix")
   agolAreaRestrictions = get_env("agolAreaRestrictions")
   agolBansAndProhibitions = get_env("agolBansAndProhibitions")
+  WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET")
 }
 
 generate "test_tfvars" {
@@ -101,7 +103,8 @@ generate "test_tfvars" {
     WFNEWS_AGOL_QUERY_URL ="${local.WFNEWS_AGOL_QUERY_URL}"
     WFNEWS_USERNAME = "${local.WFNEWS_USERNAME}"
     WFNEWS_MAX_CONNECTIONS ="${local.WFNEWS_MAX_CONNECTIONS}"
-    WEBADE_OAUTH2_CLIENT_ID = "${local.WEBADE_OAUTH2_CLIENT_ID}"
+    WEBADE_OAUTH2_REST_CLIENT_ID = "${local.WEBADE_OAUTH2_REST_CLIENT_ID}"
+    WEBADE_OAUTH2_UI_CLIENT_ID = "${local.WEBADE_OAUTH2_UI_CLIENT_ID}"
     WEBADE_OAUTH2_AUTHORIZE_URL = "${local.WEBADE_OAUTH2_AUTHORIZE_URL}"
     agolUrl = "${local.agolUrl}"
     drivebcBaseUrl = "${local.drivebcBaseUrl}"
@@ -109,5 +112,6 @@ generate "test_tfvars" {
     siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
+    WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
   EOF
 }
