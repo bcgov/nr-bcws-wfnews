@@ -17,7 +17,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     password = var.db_pass
     publicly_accessible = false
     skip_final_snapshot = true
-    storage_encrypted = false
+    storage_encrypted = true
     vpc_security_group_ids = [data.aws_security_group.app.id, aws_security_group.wfnews_ecs_tasks.id]
     tags = local.common_tags
     db_subnet_group_name = aws_db_subnet_group.wfnews_db_subnet_group.name
