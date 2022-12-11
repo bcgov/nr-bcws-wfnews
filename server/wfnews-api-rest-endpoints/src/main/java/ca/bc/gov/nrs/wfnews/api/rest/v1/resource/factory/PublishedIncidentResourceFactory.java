@@ -19,6 +19,7 @@ import ca.bc.gov.nrs.common.service.model.factory.FactoryException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublishedIncidentEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SimplePublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
@@ -48,13 +49,13 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		return result;
 	}
 
-	private static void setSelfLink(PublishedIncidentResource resource, URI baseUri) {
+	private static void setSelfLink(SimplePublishedIncidentResource resource, URI baseUri) {
 		String selfUri = getPublishedIncidentSelfUri(resource.getPublishedIncidentDetailGuid(), baseUri);
 		
 		resource.getLinks().add(new RelLink(ResourceTypes.SELF, selfUri, "GET"));
 	}
 	
-	private void setLinks(String publishedIncidentDetailGuid, PublishedIncidentResource resource, URI baseUri){
+	private void setLinks(String publishedIncidentDetailGuid, SimplePublishedIncidentResource resource, URI baseUri){
 		
 		if (hasAuthority(Scopes.CREATE_PUBLISHED_INCIDENT)) {
 
@@ -147,19 +148,54 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setResponseTypeDetail(dto.getResponseTypeDetail());
 	}
 
+	private void populate(SimplePublishedIncidentResource resource, PublishedIncidentDto dto) {
+		resource.setPublishedIncidentDetailGuid(dto.getPublishedIncidentDetailGuid());
+		resource.setIncidentGuid(dto.getIncidentGuid());
+		resource.setIncidentNumberLabel(dto.getIncidentNumberLabel());
+		resource.setNewsCreatedTimestamp(dto.getNewsCreatedTimestamp());
+		resource.setStageOfControlCode(dto.getStageOfControlCode());
+		resource.setGeneralIncidentCauseCatId(dto.getGeneralIncidentCauseCatId());
+		resource.setNewsPublicationStatusCode(dto.getNewsPublicationStatusCode());
+		resource.setDiscoveryDate(dto.getDiscoveryDate());
+		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
+		resource.setFireOfNoteInd(dto.getFireOfNoteInd());
+		resource.setIncidentName(dto.getIncidentName());
+		resource.setIncidentLocation(dto.getIncidentLocation());
+		resource.setTraditionalTerritoryDetail(dto.getTraditionalTerritoryDetail());
+		resource.setIncidentSizeEstimatedHa(dto.getIncidentSizeEstimatedHa());
+		resource.setIncidentSizeMappedHa(dto.getIncidentSizeMappedHa());
+		resource.setIncidentSizeDetail(dto.getIncidentSizeDetail());
+		resource.setIncidentCauseDetail(dto.getIncidentCauseDetail());
+		resource.setWildfireCrewResourcesInd(dto.getWildfireCrewResourcesInd());
+		resource.setWildfireAviationResourceInd(dto.getWildfireAviationResourceInd());
+		resource.setHeavyEquipmentResourcesInd(dto.getHeavyEquipmentResourcesInd());
+		resource.setIncidentMgmtCrewRsrcInd(dto.getIncidentMgmtCrewRsrcInd());
+		resource.setStructureProtectionRsrcInd(dto.getStructureProtectionRsrcInd());
+		resource.setPublishedTimestamp(dto.getPublishedTimestamp());
+		resource.setLastUpdatedTimestamp(dto.getLastUpdatedTimestamp());
+		resource.setCreateDate(dto.getCreateDate());
+		resource.setUpdateDate(dto.getUpdateDate());
+		resource.setLatitude(dto.getLatitude());
+		resource.setLongitude(dto.getLongitude());
+		resource.setFireCentre(dto.getFireCentre());
+		resource.setFireYear(dto.getFireYear());
+		resource.setResponseTypeCode(dto.getResponseTypeCode());
+		resource.setResponseTypeDetail(dto.getResponseTypeDetail());
+	}
+
 	@Override
 	public PublishedIncidentListResource getPublishedIncidentList(PagedDtos<PublishedIncidentDto> dtos,
 			Integer pageNumber, Integer pageRowCount, FactoryContext context) throws FactoryException {
 		PublishedIncidentListResource result = null;
 		URI baseUri = getBaseURI(context);
 
-		List<PublishedIncidentResource> resources = new ArrayList<PublishedIncidentResource>();
+		List<SimplePublishedIncidentResource> resources = new ArrayList<SimplePublishedIncidentResource>();
 		for (PublishedIncidentDto dto : dtos.getResults()) {
-			PublishedIncidentResource resource = new PublishedIncidentResource();
+			SimplePublishedIncidentResource resource = new SimplePublishedIncidentResource();
 			populate(resource, dto);
 			setLinks(resource.getPublishedIncidentDetailGuid(), resource, baseUri);
 			setSelfLink(resource, baseUri);
-			resources.add(resource);
+			resources.add((SimplePublishedIncidentResource)resource);
 		}
 		
 		result = new PublishedIncidentListResource();

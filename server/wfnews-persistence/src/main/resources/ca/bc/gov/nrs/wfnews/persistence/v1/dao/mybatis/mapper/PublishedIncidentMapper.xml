@@ -226,7 +226,7 @@
 				UPDATE_DATE =				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
 	</update>
-	
+
 	<select id="fetch" resultMap="PublishedIncidentDtoMap"> 
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
@@ -251,10 +251,41 @@
 	</delete> 
 	
 	<select id="select" resultMap="PublishedIncidentDtoMap">
-
-		SELECT *
-		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-			WHERE 1=1
+		SELECT 
+			PUBLISHED_INCIDENT_DETAIL_GUID,
+			INCIDENT_GUID,
+			INCIDENT_NUMBER_LABEL,
+			NEWS_CREATED_TIMESTAMP,
+			STAGE_OF_CONTROL_CODE,
+			FIRE_CENTRE,
+			FIRE_YEAR,
+			GENERAL_INCIDENT_CAUSE_CAT_ID,
+			NEWS_PUBLICATION_STATUS_CODE,
+			DISCOVERY_DATE,
+			DECLARED_OUT_DATE,
+			FIRE_OF_NOTE_IND,
+			INCIDENT_NAME,
+			INCIDENT_LOCATION,
+			TRADITIONAL_TERRITORY_DETAIL,
+			INCIDENT_SIZE_ESTIMATED_HA,
+			INCIDENT_SIZE_MAPPED_HA,
+			INCIDENT_SIZE_DETAIL,
+			INCIDENT_CAUSE_DETAIL,
+			WILDFIRE_CREW_RESOURCES_IND,
+			WILDFIRE_AVIATION_RESOURCE_IND,
+			HEAVY_EQUIPMENT_RESOURCES_IND,
+			INCIDENT_MGMNT_CREW_RSRC_IND,
+			STRUCTURE_PROTECTION_RSRC_IND,
+			PUBLISHED_TIMESTAMP,
+			LAST_UPDATED_TIMESTAMP,
+			CREATE_DATE,
+			UPDATE_DATE,
+			LATITUDE,
+			LONGITUDE,
+			RESPONSE_TYPE_CODE,
+			RESPONSE_TYPE_DETAIL
+		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
+		WHERE 1=1
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>

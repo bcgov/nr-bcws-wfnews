@@ -4,7 +4,6 @@ import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
 import ca.bc.gov.nrs.common.service.model.factory.FactoryException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
-import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
 
