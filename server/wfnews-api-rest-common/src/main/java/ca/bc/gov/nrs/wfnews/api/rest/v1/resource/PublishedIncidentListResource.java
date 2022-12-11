@@ -15,22 +15,22 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncidentList;
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.PUBLISHED_INCIDENT_LIST_NAME)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT_LIST)
-public class PublishedIncidentListResource extends PagedResource implements PublishedIncidentList<PublishedIncidentResource> {
+public class PublishedIncidentListResource extends PagedResource implements PublishedIncidentList<SimplePublishedIncidentResource> {
 	private static final long serialVersionUID = 1L;
 	
-	private List<PublishedIncidentResource> collection = new ArrayList<PublishedIncidentResource>(0);
+	private List<SimplePublishedIncidentResource> collection = new ArrayList<SimplePublishedIncidentResource>(0);
 	
 	public PublishedIncidentListResource() {
-		collection = new ArrayList<PublishedIncidentResource>();
+		collection = new ArrayList<SimplePublishedIncidentResource>();
 	}
 	
 	@Override
-	public List<PublishedIncidentResource> getCollection() {
+	public List<SimplePublishedIncidentResource> getCollection() {
 		return collection;
 	}
 
 	@Override
-	public void setCollection(List<PublishedIncidentResource> collection) {
+	public void setCollection(List<SimplePublishedIncidentResource> collection) {
 		this.collection = collection;
 	}
 }
