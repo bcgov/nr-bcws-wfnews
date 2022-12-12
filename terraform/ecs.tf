@@ -237,7 +237,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "BASE_URL",
-          value = "https://${length(regexall('.*uat.*', var.github_release_name)) == 0 ? aws_route53_record.wfnews_client.name : aws_route53_record.wfnews_client_uat.name}/"
+          value = "https://${length(regexall(".*uat.*", var.github_release_name)) == 0 ? aws_route53_record.wfnews_client.name : aws_route53_record.wfnews_client_uat.name}/"
         },
         {
           name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
