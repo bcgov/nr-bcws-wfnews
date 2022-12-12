@@ -8,13 +8,13 @@ import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
 
 import ca.bc.gov.nrs.common.rest.resource.BaseResource;
-import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
+import ca.bc.gov.nrs.wfnews.api.model.v1.SimplePublishedIncident;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 
 @XmlRootElement(namespace = ResourceTypes.NAMESPACE, name = ResourceTypes.PUBLISHED_INCIDENT_NAME)
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "@type")
 @JsonTypeName(ResourceTypes.PUBLISHED_INCIDENT)
-public class PublishedIncidentResource extends SimplePublishedIncidentResource implements PublishedIncident {
+public class SimplePublishedIncidentResource extends BaseResource implements SimplePublishedIncident {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -28,390 +28,267 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private Date discoveryDate;
 	private Date declaredOutDate;
 	private String fireCentre;
-	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
-	private String incidentOverview;
 	private String traditionalTerritoryDetail;
-	private String incidentSizeType;
 	private Integer incidentSizeEstimatedHa;
 	private Integer incidentSizeMappedHa;
 	private String incidentSizeDetail;
 	private String incidentCauseDetail;
-	private Integer contactOrgUnitIdentifer;
-	private String contactPhoneNumber;
-	private String contactEmailAddress;
-	private String resourceDetail;
 	private Boolean wildfireCrewResourcesInd;
-	private String wildfireCrewResourcesDetail;
 	private Boolean wildfireAviationResourceInd;
-	private String wildfireAviationResourceDetail;
 	private Boolean heavyEquipmentResourcesInd;
-	private String heavyEquipmentResourcesDetail;
 	private Boolean incidentMgmtCrewRsrcInd;
-	private String incidentMgmtCrewRsrcDetail;
 	private Boolean structureProtectionRsrcInd;
-	private String structureProtectionRsrcDetail;
 	private Date publishedTimestamp;
-	private String publishedUserTypeCode; 
-	private String publishedUserGuid;
-	private String publishedUserUserId;
-	private String publishedUserName;
 	private Date lastUpdatedTimestamp;
-	private Long publishedIncidentRevisionCount;	
 	private Date createDate;
-	private String createUser;
 	private Date updateDate;
-	private String updateUser;
 	private String latitude;
 	private String longitude;
 	private Integer fireYear;
 	private String responseTypeCode;
 	private String responseTypeDetail;
 
+	@Override
 	public String getPublishedIncidentDetailGuid() {
 		return publishedIncidentDetailGuid;
 	}
 
+	@Override
 	public void setPublishedIncidentDetailGuid(String publishedIncidentDetailGuid) {
 		this.publishedIncidentDetailGuid = publishedIncidentDetailGuid;
 	}
 
+	@Override
 	public String getIncidentGuid() {
 		return incidentGuid;
 	}
 
+	@Override
 	public void setIncidentGuid(String incidentGuid) {
 		this.incidentGuid = incidentGuid;
 	}
 
+	@Override
 	public Date getNewsCreatedTimestamp() {
 		return newsCreatedTimestamp;
 	}
 
+	@Override
 	public void setNewsCreatedTimestamp(Date newsCreatedTimestamp) {
 		this.newsCreatedTimestamp = newsCreatedTimestamp;
 	}
 
+	@Override
 	public String getStageOfControlCode() {
 		return stageOfControlCode;
 	}
 
+	@Override
 	public void setStageOfControlCode(String stageOfControlCode) {
 		this.stageOfControlCode = stageOfControlCode;
 	}
 
+	@Override
 	public Integer getGeneralIncidentCauseCatId() {
 		return generalIncidentCauseCatId;
 	}
 
+	@Override
 	public void setGeneralIncidentCauseCatId(Integer generalIncidentCauseCatId) {
 		this.generalIncidentCauseCatId = generalIncidentCauseCatId;
 	}
 
+	@Override
 	public String getNewsPublicationStatusCode() {
 		return newsPublicationStatusCode;
 	}
 
+	@Override
 	public void setNewsPublicationStatusCode(String newsPublicationStatusCode) {
 		this.newsPublicationStatusCode = newsPublicationStatusCode;
 	}
 
+	@Override
 	public Date getDiscoveryDate() {
 		return discoveryDate;
 	}
 
+	@Override
 	public void setDiscoveryDate(Date discoveryDate) {
 		this.discoveryDate = discoveryDate;
 	}
 
-	public Integer getFireZoneUnitIdentifier() {
-		return fireZoneUnitIdentifier;
-	}
-
-	public void setFireZoneUnitIdentifier(Integer fireZoneUnitIdentifier) {
-		this.fireZoneUnitIdentifier = fireZoneUnitIdentifier;
-	}
-
+	@Override
 	public Boolean getFireOfNoteInd() {
 		return fireOfNoteInd;
 	}
 
+	@Override
 	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
 	}
 
+	@Override
 	public String getIncidentName() {
 		return incidentName;
 	}
 
+	@Override
 	public void setIncidentName(String incidentName) {
 		this.incidentName = incidentName;
 	}
 
+	@Override
 	public String getIncidentLocation() {
 		return incidentLocation;
 	}
 
+	@Override
 	public void setIncidentLocation(String incidentLocation) {
 		this.incidentLocation = incidentLocation;
 	}
 
-	public String getIncidentOverview() {
-		return incidentOverview;
-	}
-
-	public void setIncidentOverview(String incidentOverview) {
-		this.incidentOverview = incidentOverview;
-	}
-
+	@Override
 	public String getTraditionalTerritoryDetail() {
 		return traditionalTerritoryDetail;
 	}
 
+	@Override
 	public void setTraditionalTerritoryDetail(String traditionalTerritoryDetail) {
 		this.traditionalTerritoryDetail = traditionalTerritoryDetail;
 	}
 
-	public String getIncidentSizeType() {
-		return incidentSizeType;
-	}
-
-	public void setIncidentSizeType(String incidentSizeType) {
-		this.incidentSizeType = incidentSizeType;
-	}
-
+	@Override
 	public Integer getIncidentSizeEstimatedHa() {
 		return incidentSizeEstimatedHa;
 	}
 
+	@Override
 	public void setIncidentSizeEstimatedHa(Integer incidentSizeEstimatedHa) {
 		this.incidentSizeEstimatedHa = incidentSizeEstimatedHa;
 	}
 
+	@Override
 	public Integer getIncidentSizeMappedHa() {
 		return incidentSizeMappedHa;
 	}
 
+	@Override
 	public void setIncidentSizeMappedHa(Integer incidentSizeMappedHa) {
 		this.incidentSizeMappedHa = incidentSizeMappedHa;
 	}
 
+	@Override
 	public String getIncidentSizeDetail() {
 		return incidentSizeDetail;
 	}
 
+	@Override
 	public void setIncidentSizeDetail(String incidentSizeDetail) {
 		this.incidentSizeDetail = incidentSizeDetail;
 	}
 
+	@Override
 	public String getIncidentCauseDetail() {
 		return incidentCauseDetail;
 	}
 
+	@Override
 	public void setIncidentCauseDetail(String incidentCauseDetail) {
 		this.incidentCauseDetail = incidentCauseDetail;
 	}
 
-	public Integer getContactOrgUnitIdentifer() {
-		return contactOrgUnitIdentifer;
-	}
-
-	public void setContactOrgUnitIdentifer(Integer contactOrgUnitIdentifer) {
-		this.contactOrgUnitIdentifer = contactOrgUnitIdentifer;
-	}
-
-	public String getContactPhoneNumber() {
-		return contactPhoneNumber;
-	}
-
-	public void setContactPhoneNumber(String contactPhoneNumber) {
-		this.contactPhoneNumber = contactPhoneNumber;
-	}
-
-	public String getResourceDetail() {
-		return resourceDetail;
-	}
-
-	public void setResourceDetail(String resourceDetail) {
-		this.resourceDetail = resourceDetail;
-	}
-
+	@Override
 	public Boolean getWildfireCrewResourcesInd() {
 		return wildfireCrewResourcesInd;
 	}
 
+	@Override
 	public void setWildfireCrewResourcesInd(Boolean wildfireCrewResourcesInd) {
 		this.wildfireCrewResourcesInd = wildfireCrewResourcesInd;
 	}
 
-	public String getWildfireCrewResourcesDetail() {
-		return wildfireCrewResourcesDetail;
-	}
-
-	public void setWildfireCrewResourcesDetail(String wildfireCrewResourcesDetail) {
-		this.wildfireCrewResourcesDetail = wildfireCrewResourcesDetail;
-	}
-
+	@Override
 	public Boolean getWildfireAviationResourceInd() {
 		return wildfireAviationResourceInd;
 	}
 
+	@Override
 	public void setWildfireAviationResourceInd(Boolean wildfireAviationResourceInd) {
 		this.wildfireAviationResourceInd = wildfireAviationResourceInd;
 	}
 
-	public String getWildfireAviationResourceDetail() {
-		return wildfireAviationResourceDetail;
-	}
-
-	public void setWildfireAviationResourceDetail(String wildfireAviationResourceDetail) {
-		this.wildfireAviationResourceDetail = wildfireAviationResourceDetail;
-	}
-
+	@Override
 	public Boolean getHeavyEquipmentResourcesInd() {
 		return heavyEquipmentResourcesInd;
 	}
 
+	@Override
 	public void setHeavyEquipmentResourcesInd(Boolean heavyEquipmentResourcesInd) {
 		this.heavyEquipmentResourcesInd = heavyEquipmentResourcesInd;
 	}
 
-	public String getHeavyEquipmentResourcesDetail() {
-		return heavyEquipmentResourcesDetail;
-	}
-
-	public void setHeavyEquipmentResourcesDetail(String heavyEquipmentResourcesDetail) {
-		this.heavyEquipmentResourcesDetail = heavyEquipmentResourcesDetail;
-	}
-
+	@Override
 	public Boolean getIncidentMgmtCrewRsrcInd() {
 		return incidentMgmtCrewRsrcInd;
 	}
 
+	@Override
 	public void setIncidentMgmtCrewRsrcInd(Boolean incidentMgmtCrewRsrcInd) {
 		this.incidentMgmtCrewRsrcInd = incidentMgmtCrewRsrcInd;
 	}
 
-	public String getIncidentMgmtCrewRsrcDetail() {
-		return incidentMgmtCrewRsrcDetail;
-	}
-
-	public void setIncidentMgmtCrewRsrcDetail(String incidentMgmtCrewRsrcDetail) {
-		this.incidentMgmtCrewRsrcDetail = incidentMgmtCrewRsrcDetail;
-	}
-
+	@Override
 	public Boolean getStructureProtectionRsrcInd() {
 		return structureProtectionRsrcInd;
 	}
 
+	@Override
 	public void setStructureProtectionRsrcInd(Boolean structureProtectionRsrcInd) {
 		this.structureProtectionRsrcInd = structureProtectionRsrcInd;
 	}
 
-	public String getStructureProtectionRsrcDetail() {
-		return structureProtectionRsrcDetail;
-	}
-
-	public void setStructureProtectionRsrcDetail(String structureProtectionRsrcDetail) {
-		this.structureProtectionRsrcDetail = structureProtectionRsrcDetail;
-	}
-
+	@Override
 	public Date getPublishedTimestamp() {
 		return publishedTimestamp;
 	}
 
+	@Override
 	public void setPublishedTimestamp(Date publishedTimestamp) {
 		this.publishedTimestamp = publishedTimestamp;
 	}
 
-	public String getPublishedUserTypeCode() {
-		return publishedUserTypeCode;
-	}
-
-	public void setPublishedUserTypeCode(String publishedUserTypeCode) {
-		this.publishedUserTypeCode = publishedUserTypeCode;
-	}
-
-	public String getPublishedUserGuid() {
-		return publishedUserGuid;
-	}
-
-	public void setPublishedUserGuid(String publishedUserGuid) {
-		this.publishedUserGuid = publishedUserGuid;
-	}
-
-	public String getPublishedUserUserId() {
-		return publishedUserUserId;
-	}
-
-	public void setPublishedUserUserId(String publishedUserUserId) {
-		this.publishedUserUserId = publishedUserUserId;
-	}
-
-	public String getPublishedUserName() {
-		return publishedUserName;
-	}
-
-	public void setPublishedUserName(String publishedUserName) {
-		this.publishedUserName = publishedUserName;
-	}
-
+	@Override
 	public Date getLastUpdatedTimestamp() {
 		return lastUpdatedTimestamp;
 	}
 
+	@Override
 	public void setLastUpdatedTimestamp(Date lastUpdatedTimestamp) {
 		this.lastUpdatedTimestamp = lastUpdatedTimestamp;
 	}
 
-	public Long getPublishedIncidentRevisionCount() {
-		return publishedIncidentRevisionCount;
-	}
-
-	public void setPublishedIncidentRevisionCount(Long publishedIncidentRevisionCount) {
-		this.publishedIncidentRevisionCount = publishedIncidentRevisionCount;
-	}
-
-	public String getContactEmailAddress() {
-		return contactEmailAddress;
-	}
-
-	public void setContactEmailAddress(String contactEmailAddress) {
-		this.contactEmailAddress = contactEmailAddress;
-	}
-
+	@Override
 	public Date getCreateDate() {
 		return createDate;
 	}
 
+	@Override
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 
-	public String getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(String createUser) {
-		this.createUser = createUser;
-	}
-
+	@Override
 	public Date getUpdateDate() {
 		return updateDate;
 	}
 
+	@Override
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
-	}
-
-	public String getUpdateUser() {
-		return updateUser;
-	}
-
-	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser;
 	}
 
 	@Override
