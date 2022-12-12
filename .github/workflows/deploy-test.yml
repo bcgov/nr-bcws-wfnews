@@ -101,6 +101,7 @@ jobs:
       SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
       AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
+      GITHUB_RELASE_NAME: ${{ github.event.release.name }}
 
     secrets:
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
