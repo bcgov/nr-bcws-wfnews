@@ -5,6 +5,12 @@ variable "target_env" {
   type = string
 }
 
+variable "github_release_name" {
+  description = "Name of github release, if it exists"
+  type = string
+  default = ""
+}
+
 #Access key ID and secret access key are not used with container-based authentication
 variable "aws_access_key_id" {
   type = string

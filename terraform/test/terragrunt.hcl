@@ -8,6 +8,7 @@ include {
 
 locals {
   sec_group = "Web_sg"
+  github_release_name = get_env("GITHUB_RELEASE_NAME")
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
@@ -67,6 +68,7 @@ generate "test_tfvars" {
     fargate_memory = 2048
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
+    github_release_name = "${local.github_release_name}"
     target_env = "${local.target_env}"
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
