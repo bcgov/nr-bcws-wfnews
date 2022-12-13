@@ -68,7 +68,7 @@ generate "test_tfvars" {
     fargate_memory = 2048
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
-    github_release_name = "${github_release_name}"
+    github_release_name = "${local.github_release_name}"
     target_env = "${local.target_env}"
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
