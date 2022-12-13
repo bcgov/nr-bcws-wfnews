@@ -235,7 +235,8 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
-        {
+        { 
+          #Base URL will use the UAT address only if the deploy is triggered by a github release with 'uat' in the name
           name = "BASE_URL",
           value = "https://${length(regexall(".*uat.*", var.github_release_name)) == 0 ? aws_route53_record.wfnews_client.name : aws_route53_record.wfnews_client_uat.name}/"
         },
