@@ -173,7 +173,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_low" {
 }
 
 # CloudWatch alarm that triggers the autoscaling up policy
-resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
+resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
   count               = local.create_ecs_service
   alarm_name          = "wfnews_client_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
