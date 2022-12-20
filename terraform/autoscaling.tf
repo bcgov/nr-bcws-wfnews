@@ -171,3 +171,25 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_low" {
 
   tags = local.common_tags
 }
+
+# CloudWatch alarm that triggers the autoscaling up policy
+resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
+  count               = local.create_ecs_service
+  alarm_name          = "wfnews_client_cpu_utilization_high"
+  comparison_operator = "GreaterThanOrEqualToThreshold"
+  evaluation_periods  = "2"
+  metric_name         = "CPUUtilization"
+  namespace           = "AWS/ECS"
+  period              = "60"
+  statistic           = "Average"
+  threshold           = "85"
+
+  dimensions = {
+    ClusterName = aws_ecs_cluster.wfnews_main.name
+    ServiceName = aws_ecs_service.client[count.index].name
+  }
+
+  alarm_actions = [aws_appautoscaling_policy.wfnews_client_up[count.index].arn]
+
+  tags = local.common_tags
+}
