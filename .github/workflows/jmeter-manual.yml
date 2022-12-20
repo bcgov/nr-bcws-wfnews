@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: wait for new components to start
-        run: cat ./load-testing/WFNEWS_Load_Test.jmx && sleep 30
+        run: ls && cat ../load-testing/WFNEWS_Load_Test.jmx && sleep 30
       
       - name: execute test
         uses: rbhadti94/apache-jmeter-action@v0.6.0
