@@ -107,7 +107,7 @@ jobs:
       SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
 
   jmeter-test-dev:
-    uses: .github/workflows/jmeter.yml
+    uses: ./.github/workflows/jmeter.yml
     needs: [terragrunt-deploy-dev]
     with:
       ENVIRONMENT: dev
