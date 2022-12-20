@@ -3,7 +3,7 @@ name: _Run Jmeter Tests
 env:
   ENVIRONMENT: dev
   NUM_USERS: 1
-  NUM_ITERATIONS: 10
+  NUM_ITERATIONS: 1
 
 on:
   workflow_dispatch:
