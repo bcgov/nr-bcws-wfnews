@@ -12,7 +12,7 @@ resource "aws_appautoscaling_target" "wfnews_target" {
 resource "aws_appautoscaling_target" "wfnews_apisix_target" {
   count              = local.create_ecs_service
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_apisix[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = 1
   max_capacity       = 6
@@ -44,7 +44,7 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_up" {
   count              = local.create_ecs_service
   name               = "wfnews_apisix_scale_up"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_apisix[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -87,7 +87,7 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_down" {
   count              = local.create_ecs_service
   name               = "wfnews_apisix_scale_down"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_apisix[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -139,7 +139,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_high" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.wfnews_apisix[count.index].name
+    ServiceName = aws_ecs_service.apisix[count.index].name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_up[count.index].arn]
@@ -182,7 +182,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_low" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.wfnews_apisix[count.index].name
+    ServiceName = aws_ecs_service.apisix[count.index].name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_down[count.index].arn]
