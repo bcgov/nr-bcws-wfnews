@@ -15,7 +15,7 @@
         <collectionProp name="Arguments.arguments">
           <elementProp name="url_suffix" elementType="Argument">
             <stringProp name="Argument.name">url_suffix</stringProp>
-            <stringProp name="Argument.value">pp93w9-${__P(environment)}.nimbus.cloud.gov.bc.ca</stringProp>
+            <stringProp name="Argument.value">pp93w9-${__P(environment,test)}.nimbus.cloud.gov.bc.ca</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="scheme" elementType="Argument">
@@ -30,12 +30,12 @@
           </elementProp>
           <elementProp name="threads" elementType="Argument">
             <stringProp name="Argument.name">threads</stringProp>
-            <stringProp name="Argument.value">${__P(threads)}</stringProp>
+            <stringProp name="Argument.value">${__P(threads,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
           <elementProp name="iterations" elementType="Argument">
             <stringProp name="Argument.name">iterations</stringProp>
-            <stringProp name="Argument.value">${__P(iterations)}</stringProp>
+            <stringProp name="Argument.value">${__P(iterations,1)}</stringProp>
             <stringProp name="Argument.metadata">=</stringProp>
           </elementProp>
         </collectionProp>
