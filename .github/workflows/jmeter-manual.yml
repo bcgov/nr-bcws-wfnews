@@ -1,0 +1,25 @@
+name: _Run Jmeter Tests
+
+env:
+  ENVIRONMENT: dev
+  NUM_USERS: 1
+  NUM_ITERATIONS: 1
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+    
+      - name: wait for new components to start
+        run: cat load-testing/WFNEWS_Load_Test.jmx && sleep 30
+      
+      - name: execute test
+        uses: rbhadti94/apache-jmeter-action@v0.6.0
+        with:
+          testFilePath: ./load-testing/WFNEWS_Load_Test.jmx
+          args: -Jthreads=${{ env.NUM_USERS }} -Jenvironment=test -Jiterations=${{ env.NUM_ITERATIONS }}
+

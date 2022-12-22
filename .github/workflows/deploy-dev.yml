@@ -105,3 +105,9 @@ jobs:
       WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
       API_KEY: ${{ secrets.API_KEY_DEV }}
       SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
+
+  jmeter-test-dev:
+    uses: ./.github/workflows/jmeter.yml
+    needs: [terragrunt-deploy-dev]
+    with:
+      ENVIRONMENT: dev
