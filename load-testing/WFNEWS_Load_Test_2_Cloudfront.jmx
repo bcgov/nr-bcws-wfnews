@@ -42292,7 +42292,7 @@
                     </elementProp>
                     <elementProp name="Referer" elementType="Header">
                       <stringProp name="Header.name">Referer</stringProp>
-                      <stringProp name="Header.value">${scheme}://wfnews-client.${host}/</stringProp>
+                      <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/</stringProp>
                     </elementProp>
                     <elementProp name="Sec-Fetch-Site" elementType="Header">
                       <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -44888,7 +44888,7 @@
             </hashTree>
           </hashTree>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fire of Note Request" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Fire of Note Request" enabled="false">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments">
               <elementProp name="stageOfControl" elementType="HTTPArgument">
@@ -44973,7 +44973,7 @@
           </RegexExtractor>
           <hashTree/>
         </hashTree>
-        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attachments Request" enabled="true">
+        <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="Attachments Request" enabled="false">
           <elementProp name="HTTPsampler.Arguments" elementType="Arguments" guiclass="HTTPArgumentsPanel" testclass="Arguments" enabled="true">
             <collectionProp name="Arguments.arguments"/>
           </elementProp>
