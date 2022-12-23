@@ -33,7 +33,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
       essential   = true
       name        = var.server_container_name
       image       = var.server_image
-      cpu         = var.fargate_cpu
+      cpu         = 4096
       memory      = var.fargate_memory
       networkMode = "awsvpc"
       portMappings = [
