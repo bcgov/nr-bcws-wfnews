@@ -22,7 +22,19 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     tags = local.common_tags
     db_subnet_group_name = aws_db_subnet_group.wfnews_db_subnet_group.name
     enabled_cloudwatch_logs_exports = ["postgresql"]
+    parameter_group_name = aws_db_parameter_group.wfnews_params.name
 }
+
+resource "aws_db_parameter_group" "wfnews-params" {
+  name   = "wfnews-${var.target_env}"
+  family = "postgres13"
+
+  parameter {
+    name  = "max_connections"
+    value = "LEAST({DBInstanceClassMemory/2382848},5000)"
+  }
+}
+
 /*
 resource "aws_db_proxy" "wfnews_db_proxy" {
   name                   = "wfnews-db-proxy-${var.target_env}"
