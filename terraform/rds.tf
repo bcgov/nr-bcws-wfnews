@@ -22,7 +22,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     tags = local.common_tags
     db_subnet_group_name = aws_db_subnet_group.wfnews_db_subnet_group.name
     enabled_cloudwatch_logs_exports = ["postgresql"]
-    parameter_group_name = aws_db_parameter_group.wfnews_params.name
+    parameter_group_name = aws_db_parameter_group.wfnews-params.name
     depends_on = [aws_db_parameter_group.wfnews-params]
 }
 
