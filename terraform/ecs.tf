@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
+  cpu                      = 4096
   memory                   = var.fargate_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
