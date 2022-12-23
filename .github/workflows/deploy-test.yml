@@ -93,7 +93,7 @@ jobs:
       DEFAULT_APPLICATION_ENVIRONMENT: TEST
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
       WFNEWS_USERNAME: wfnewstest
-      WFNEWS_MAX_CONNECTIONS: 10
+      WFNEWS_MAX_CONNECTIONS: 100
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
       AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
       DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
