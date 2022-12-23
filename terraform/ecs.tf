@@ -26,7 +26,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = 4096
-  memory                   = 4096
+  memory                   = 8192
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
@@ -34,7 +34,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
       name        = var.server_container_name
       image       = var.server_image
       cpu         = 4096
-      memory      = 4096
+      memory      = 8192
       networkMode = "awsvpc"
       portMappings = [
         {
