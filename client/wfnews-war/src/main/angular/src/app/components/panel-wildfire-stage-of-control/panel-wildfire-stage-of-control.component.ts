@@ -72,7 +72,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
+        if (this.highlightLayer && this.highlightLayer._leaflet_id) {
+          SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
+        }
       }
     }
 
