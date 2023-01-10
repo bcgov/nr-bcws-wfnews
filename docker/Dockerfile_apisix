@@ -1,4 +1,4 @@
-FROM apache/apisix
+FROM apache/apisix:2.13.3-alpine
 EXPOSE 8080 9080 9443
 #COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix-base.yaml
 RUN apt-get update &&\
