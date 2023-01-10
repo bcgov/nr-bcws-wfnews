@@ -25,16 +25,16 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.server_cpu_units
+  memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.server_container_name
       image       = var.server_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -208,16 +208,16 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.client_cpu_units
+  memory                   = var.client_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.client_container_name
       image       = var.client_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu         = var.client_cpu_units
+      memory      = var.client_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -323,16 +323,16 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.server_cpu_units
+  memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.liquibase_container_name
       image       = var.liquibase_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -377,16 +377,16 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.server_cpu_units
+  memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.apisix_container_name
       image       = var.apisix_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu                      = var.server_cpu_units
+      memory                   = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -452,16 +452,16 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.server_cpu_units
+  memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.etcd_container_name
       image       = var.etcd_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu                      = var.server_cpu_units
+      memory                   = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
@@ -543,16 +543,16 @@ resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.fargate_cpu
-  memory                   = var.fargate_memory
+  cpu                      = var.server_cpu_units
+  memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
       name        = var.apisix_gui_container_name
       image       = var.apisix_image
-      cpu         = var.fargate_cpu
-      memory      = var.fargate_memory
+      cpu                      = var.server_cpu_units
+      memory                   = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
