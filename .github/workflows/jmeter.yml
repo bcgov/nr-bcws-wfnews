@@ -25,6 +25,6 @@ jobs:
       - name: execute test
         uses: rbhadti94/apache-jmeter-action@v0.6.0
         with:
-          testFilePath: load-testing\WFNEWS_Load_Test.jmx
+          testFilePath: load-testing/WFNEWS_Load_Test.jmx
           args: -Jthreads=${{ env.NUM_USERS }} -Jenvironment=${{ env.ENVIRONMENT }}.bcwildfireservices.com -Jiterations=${{env.NUM_ITERATIONS}}
 
