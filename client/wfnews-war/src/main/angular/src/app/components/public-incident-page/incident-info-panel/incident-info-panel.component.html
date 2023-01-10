@@ -25,6 +25,13 @@
         <div class="content-panel-body">
           <div [innerHTML]="incident.incidentCauseDetail || getCauseDescription(incident.generalIncidentCauseCatId)"></div>
         </div>
+        <div *ngIf="incident.responseTypeCode">
+          <h1>Response Type</h1>
+          <div class="content-panel-subtitle" style="text-transform: capitalize;">{{incident.responseTypeCode.toLowerCase()}}</div>
+          <div class="content-panel-body">
+            <div [innerHTML]="getResponseTypeDescription(incident.responseTypeCode)"></div>
+          </div>
+        </div>
       </div>
       <div>
         <!-- Image/video section: fetch from aws cache -->
