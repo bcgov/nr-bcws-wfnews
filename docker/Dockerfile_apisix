@@ -1,4 +1,4 @@
-FROM apache/apisix
+FROM apache/apisix@sha256:175083b19edcd3091f99b5f47e87f2dcee0c4f21b9edce302625214dc0231810
 EXPOSE 8080 9080 9443
 #COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix-base.yaml
 RUN sleep 10 &&\
