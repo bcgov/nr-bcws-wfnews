@@ -121,7 +121,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         {
             id: "weather-stations",
             isVisible: true,
-            showItem: false
+            showItem: true  // false to hide in layer list
         },
         {
             id: "clab-indian-reserves",
