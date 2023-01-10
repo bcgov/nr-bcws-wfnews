@@ -15,7 +15,7 @@
   color: #355992;
   font-size: 0.9rem;
   font-weight: 600;
-  text-decoration: none; 
+  text-decoration: none;
 }
 
 .top {
@@ -308,4 +308,8 @@ mat-card h3 {
 
 .mat-tab-group{
 	background-color: white !important;
+}
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: calc(100vh - 485px);
 }
