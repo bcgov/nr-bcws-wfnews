@@ -87,22 +87,22 @@ public class AttachmentResource extends BaseResource implements Attachment {
 	}
 
 	@Override
-	public String getFileIdentifier() {
+	public String getFileId() {
 		return fileId;
 	}
 
 	@Override
-	public void setFileIdentifier(String fileId) {
+	public void setFileId(String fileId) {
 		this.fileId = fileId;
 	}
 
 	@Override
-	public String getThumbnailIdentifier() {
+	public String getThumbId() {
 		return thumbId;
 	}
 
 	@Override
-	public void setThumbnailIdentifier(String thumbId) {
+	public void setThumbId(String thumbId) {
 		this.thumbId = thumbId;
 	}
 

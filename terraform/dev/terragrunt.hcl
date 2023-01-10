@@ -13,6 +13,13 @@ locals {
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
   apisix_image = get_env("APISIX_IMAGE")
+
+  client_cpu_units = get_env("CLIENT_CPU_UNITS")
+  client_memory = get_env("CLIENT_MEMORY")
+  server_cpu_units = get_env("SERVER_CPU_UNITS")
+  server_memory = get_env("SERVER_MEMORY")
+  db_instance_type = get_env("DB_INSTANCE_TYPE")
+
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
@@ -72,7 +79,12 @@ generate "dev_tfvars" {
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
-    apisix_image = "${local.apisix_image}"
+    apisix_image = "${local.apisix_image}"    
+    client_cpu_units = "${local.client_cpu_units}"
+    client_memory = "${local.client_memory}"
+    server_cpu_units = "${local.server_cpu_units}"
+    server_memory = "${local.server_memory}"
+    db_instance_type = "${local.db_instance_type}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"

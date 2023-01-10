@@ -310,3 +310,7 @@ mat-card h3 {
 .mat-tab-group{
 	background-color: white !important;
 }
+
+:host ::ng-deep .ck-editor__editable_inline {
+  min-height: calc(100vh - 485px);
+}
