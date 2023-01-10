@@ -11,7 +11,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     engine_version = "13.4"
     auto_minor_version_upgrade = false
     db_name = "wfnews${var.target_env}"
-    instance_class       = "db.t3.micro"
+    instance_class       = "${var.db_instance_type}"
     allocated_storage = 10
     username = var.WFNEWS_USERNAME
     password = var.db_pass

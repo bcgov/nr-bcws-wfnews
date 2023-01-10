@@ -105,14 +105,29 @@ variable "health_check_path" {
   default = "/"
 }
 
-variable "fargate_cpu" {
-  description = "Fargate instance CPU units to provision (1 vCPU = 1024 CPU units)"
-  default     = 1024
+variable "client_cpu_units" {
+  description = "client instance CPU units to provision (1 vCPU = 1024 CPU units)"
+  type = number
 }
 
-variable "fargate_memory" {
-  description = "Fargate instance memory to provision (in MiB)"
-  default     = 2048
+variable "client_memory" {
+  description = "client instance memory to provision (in MiB)"
+  type = number
+}
+
+variable "server_cpu_units" {
+  description = "server CPU units to provision (1 vCPU = 1024 CPU units)"
+  type = number
+}
+
+variable "server_memory" {
+  description = "server memory to provision (in MiB)"
+  type = number
+}
+
+variable "db_instance_type" {
+  description = "Instance type to use for database vm"
+  type = string
 }
 
 # variable "db_name" {

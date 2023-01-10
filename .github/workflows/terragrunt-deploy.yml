@@ -15,6 +15,25 @@ on:
       APISIX_IMAGE:
         required: true
         type: string
+      CLIENT_CPU_UNITS:
+        required: false
+        type: number
+        default: 1024
+      CLIENT_MEMORY:
+        required: false
+        type: number
+        default: 2048
+      SERVER_CPU_UNITS:
+        required: false
+        type: number
+        default: 1024
+      SERVER_MEMORY:
+        required: false
+        type: number
+        default: 2048
+      DB_INSTANCE_TYPE:
+        required: true
+        type: string
       TARGET_ENV:
         required: true
         type: string
@@ -178,6 +197,13 @@ jobs:
           SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
           APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          
+          CLIENT_CPU_UNITS: ${{inputs.CLIENT_CPU_UNITS}}
+          CLIENT_MEMORY: ${{inputs.CLIENT_MEMORY}}
+          SERVER_CPU_UNITS: ${{inputs.SERVER_CPU_UNITS}}
+          SERVER_MEMORY: ${{inputs.SERVER_MEMORY}}
+          DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
+          
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
