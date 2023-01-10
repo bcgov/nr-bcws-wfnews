@@ -152,7 +152,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
-          self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Perimeter Map', 'INCID_MAP').then(() => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Perimeter Map', 'INCID_MAP', result.title).then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
             this.loadPage()
           }).catch(err => {
@@ -175,7 +175,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     } )
   }
 
-  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
+  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string, title: string) {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
@@ -185,7 +185,8 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       attachmentTypeCode: category,
       fileIdentifier: fileId,
       mimeType: mimeType,
-      commsSuitable: true
+      commsSuitable: true,
+      attachmentTitle: title
     } as AttachmentResource;
 
     return this.incidentAttachmentsService.createIncidentAttachment(
