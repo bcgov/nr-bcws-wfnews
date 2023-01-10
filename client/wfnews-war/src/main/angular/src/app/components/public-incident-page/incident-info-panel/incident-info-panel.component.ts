@@ -62,6 +62,12 @@ export class IncidentInfoPanel implements AfterViewInit {
     else return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
   }
 
+  public getResponseTypeDescription (code: string) {
+    if (code === 'MONITOR') return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.'
+    else if (code === 'MODIFIED') return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.'
+    else if (code === 'FULL') return 'The BC Wildfire Service uses a full response when there is threat to public safety and/or property and other values, such as infrastructure or timber. Immediate action is taken. During a full response, a wildfire is suppressed and controlled until it is deemed "out".'
+  }
+
   public printPage() {
     const printContents = document.getElementsByClassName('page-container')[0].innerHTML
 
