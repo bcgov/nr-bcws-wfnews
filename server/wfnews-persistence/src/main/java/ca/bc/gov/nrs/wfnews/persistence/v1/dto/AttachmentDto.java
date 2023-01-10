@@ -71,8 +71,8 @@ public class AttachmentDto extends AuditDto<AttachmentDto> {
     this.sourceObjectUniqueId = resource.getSourceObjectUniqueId();
     this.sourceObjectNameCode = resource.getSourceObjectNameCode();
     this.fileName = resource.getFileName();
-    this.fileId = resource.getFileIdentifier();
-    this.thumbId = resource.getThumbnailIdentifier();
+    this.fileId = resource.getFileId();
+    this.thumbId = resource.getThumbId();
     this.attachmentDescription = resource.getAttachmentDescription();
     this.attachmentTypeCode = resource.getAttachmentTypeCode();
     this.archived = resource.isArchived();

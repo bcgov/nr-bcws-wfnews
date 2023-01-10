@@ -9,7 +9,7 @@
     </mat-form-field>
   </div>
   <div class="dialog-actions" mat-dialog-actions>
-  	<button mat-raised-button color="primary" [mat-dialog-close]="returnResult()" (disabled)="file === null">Save</button>
+  	<button mat-raised-button color="primary" [mat-dialog-close]="returnResult()" [disabled]="file === null || title === null || title === ''">Save</button>
 	  <button mat-raised-button [mat-dialog-close]="false">Cancel</button>
   </div>
 </div>
