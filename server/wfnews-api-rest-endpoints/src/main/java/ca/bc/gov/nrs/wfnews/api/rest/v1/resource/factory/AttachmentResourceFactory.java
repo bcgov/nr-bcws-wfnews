@@ -123,7 +123,7 @@ public class AttachmentResourceFactory extends BaseResourceFactory implements At
     resource.setCreatedTimestamp(dto.getCreatedTimestamp());
     resource.setElevation(dto.getElevation());
     resource.setElevationAngle(dto.getElevationAngle());
-    resource.setFileIdentifier(dto.getFileId());
+    resource.setFileId(dto.getFileId());
     resource.setFileName(dto.getFileName());
     resource.setImageHeight(dto.getImageHeight());
     resource.setImageURL(dto.getImageURL());
@@ -135,7 +135,7 @@ public class AttachmentResourceFactory extends BaseResourceFactory implements At
     resource.setPrivateIndicator(dto.isPrivateIndicator());
     resource.setSourceObjectNameCode(dto.getSourceObjectNameCode());
     resource.setSourceObjectUniqueId(dto.getSourceObjectUniqueId());
-    resource.setThumbnailIdentifier(dto.getThumbId());
+    resource.setThumbId(dto.getThumbId());
     resource.setThumbnailURL(dto.getThumbnailURL());
     resource.setUploadedBy(dto.getUploadedBy());
     resource.setUploadedTimestamp(dto.getUploadedTimestamp());
