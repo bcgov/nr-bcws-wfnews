@@ -14,6 +14,10 @@
           <div class="label">Stage of Control</div>
           <div><strong>{{incident.incidentData ? convertToStageOfControlDescription(incident.incidentData.incidentSituation.stageOfControlCode) : ''}}</strong></div>
         </div>
+        <div class="field size-quarter">
+          <div class="label">Response Type</div>
+          <div><strong style="text-transform: capitalize;">{{incident.incidentData ? incident.incidentData.responseTypeCode.toLowerCase() : ''}}</strong></div>
+        </div>
       </div>
     </fieldset>
   </mat-card>
