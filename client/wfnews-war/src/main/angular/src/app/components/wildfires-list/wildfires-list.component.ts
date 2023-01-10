@@ -55,6 +55,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     100,
   ]
   fireCentreOptions = FireCentres;
+  locationName: string;
 
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
@@ -74,7 +75,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
           return;
       }
 
-      if(val.length > 4) {
+      if(val.length > 2) {
           this.filteredOptions= [];
 
           this.placeData.searchAddresses(val).then(function(results){
@@ -131,6 +132,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   clearSearchAndFilters() {
     this.searchText = null;
+    this.locationName = null;
     this.selectedFireCentreCode = null;
     this.wildfiresOfNoteInd = false;
     this.activeWildfiresInd = true;
@@ -204,7 +206,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     const location = await this.commonUtilityService.getCurrentLocationPromise()
     const lat = location.coords.latitude;
     const long = location.coords.longitude;
-    this.searchText = lat.toString() + ', ' + long.toString()
+    this.locationName = lat.toString() + ', ' + long.toString()
     this.selectedLat = lat;
     this.selectedLong = long;
     this.doSearch()
@@ -237,7 +239,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   onLocationSelected(selectedOption) {
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
-    this.searchText = locationControlValue
+    this.locationName = locationControlValue
     this.selectedLat=selectedOption.loc[1];
     this.selectedLong=selectedOption.loc[0]
     this.doSearch()

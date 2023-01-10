@@ -63,6 +63,14 @@ jobs:
       SERVER_IMAGE: nr-bcws-wfnews-server
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
+
+      #1024 CPU units = 1 vCPU
+      CLIENT_CPU_UNITS: 1024
+      CLIENT_MEMORY: 2048
+      SERVER_CPU_UNITS: 1024
+      SERVER_MEMORY: 2048
+      DB_INSTANCE_TYPE: 'db.t3.micro'
+
       TARGET_ENV: dev
       ALB_NAME: default
       VPC_NAME: Dev_vpc
