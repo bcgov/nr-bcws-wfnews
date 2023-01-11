@@ -16,7 +16,7 @@
         </div>
         <div class="field size-quarter">
           <div class="label">Response Type</div>
-          <div><strong style="text-transform: capitalize;">{{incident.incidentData ? incident.incidentData.responseTypeCode.toLowerCase() : ''}}</strong></div>
+          <div><strong style="text-transform: capitalize;">{{incident.incidentData && incident.incidentData.responseTypeCode ? incident.incidentData.responseTypeCode.toLowerCase() : ''}}</strong></div>
         </div>
       </div>
     </fieldset>
