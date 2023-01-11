@@ -20,11 +20,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: wait for new components to start
-        run: cat load-testing\WFNEWS_Load_Test.jmx && sleep 30
+        run: cat load-testing/WFNEWS_Load_Test.jmx && sleep 30
       
       - name: execute test
         uses: rbhadti94/apache-jmeter-action@v0.6.0
         with:
-          testFilePath: load-testing\WFNEWS_Load_Test.jmx
+          testFilePath: load-testing/WFNEWS_Load_Test.jmx
           args: -Jthreads=${{ env.NUM_USERS }} -Jenvironment=${{ env.ENVIRONMENT }}.bcwildfireservices.com -Jiterations=${{env.NUM_ITERATIONS}}
 
