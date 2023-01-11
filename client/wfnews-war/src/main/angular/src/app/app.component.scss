@@ -182,6 +182,36 @@
   }
 }
 
+
+.pm-panel {
+  padding: 15px;
+  margin-top: calc(50vh - 100px);
+  .upper-half {
+      border-bottom: 1px solid #dddddd;
+      display: flex;
+      .pm-log{
+          width: 15% ;
+      }
+      .app-title {
+          padding-left: 10px;
+          width: 80%;
+          h4{
+              margin:0 !important;
+          }
+      }
+  }
+  .bottom-half {
+      padding-top: 1rem;
+  }
+  .download-button {
+      background-color: #1A5A96;
+      border: solid 1px #1A5A96;
+      color: #FFFFFF;
+      padding: 8px 16px;
+      border-radius: 4px;
+  }
+}
+
 ::ng-deep .app-logo-and-title {
   flex-grow: 1;
   justify-content: initial !important;

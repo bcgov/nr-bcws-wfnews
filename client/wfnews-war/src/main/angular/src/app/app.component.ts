@@ -115,22 +115,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.initFooterMenu();
 
     window['SPLASH_SCREEN'].remove();
-    if ((localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-      let downloadLink;
-      let app;;
-      if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)) {
-        downloadLink = this.appConfigService.getConfig().externalAppConfig['appStoreUrl'].toString();
-        app = 'App Store'
-      } else {
-        downloadLink = this.appConfigService.getConfig().externalAppConfig['googlePlayUrl'].toString();
-        app = 'Google Play'
-      }
 
+    if (!this.redirectToPublicMobile() && (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
       let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
         width: '600px',
         data: {
-          downloadLink: downloadLink,
-          app: app
+          downloadLink: this.getAppStoreLink(),
+          app: this.getAppStoreName()
         }
       });
       dialogRef.afterClosed().subscribe(result => {
@@ -153,6 +144,30 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       }, 200)
     }
+  }
+
+  redirectToPublicMobile () {
+    return window.innerWidth <= 768 && window.innerHeight <= 1024
+  }
+
+  getAppStoreLink () {
+    if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)) {
+      return this.appConfigService.getConfig().externalAppConfig['appStoreUrl'].toString();
+    } else {
+      return this.appConfigService.getConfig().externalAppConfig['googlePlayUrl'].toString();
+    }
+  }
+
+  getAppStoreName () {
+    if ((navigator.userAgent.toLowerCase().indexOf("iphone") > -1) || (navigator.userAgent.toLowerCase().indexOf("ipad") > -1)) {
+      return 'App Store'
+    } else {
+      return 'Google Play'
+    }
+  }
+
+  download () {
+    window.open(this.getAppStoreLink(), '_blank')
   }
 
   initAppMenu() {
