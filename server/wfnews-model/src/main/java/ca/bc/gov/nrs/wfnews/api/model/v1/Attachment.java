@@ -17,8 +17,8 @@ public interface Attachment extends Serializable {
     public String getFileName();
     public void setFileName(String fileName);
     
-    public String getFileIdentifier();
-    public void setFileIdentifier(String fileId);
+    public String getFileId();
+    public void setFileId(String fileId);
 
     public String getAttachmentTypeCode();
     public void setAttachmentTypeCode(String attachmentTypeCode);
@@ -32,8 +32,8 @@ public interface Attachment extends Serializable {
     public Date getUploadedTimestamp();
     public void setUploadedTimestamp(Date uploadedTimestamp);
 
-    public String getThumbnailIdentifier();
-    public void setThumbnailIdentifier(String thumbnailIdentifier);
+    public String getThumbId();
+    public void setThumbId(String thumbId);
 
     public Double getLatitude();
     public void setLatitude(Double t);

@@ -3,7 +3,17 @@
     <div class="search-and-filters">
         <div class="field search-input">
             <mat-label class="label">Search for a Wildfire</mat-label>
-            <input matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()" [formControl]="searchByLocationControl">
+            <input [readonly]="locationName" matInput class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
+                    aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+                    matTooltip="Clear">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
+
+        <div class="field search-input">
+            <mat-label class="label">Search for an address</mat-label>
+            <input [readonly]="searchText" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [(ngModel)]="locationName" [formControl]="searchByLocationControl">
             <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
                 <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
                     [value]="option">
@@ -12,7 +22,7 @@
                             <div>
                                 <span class="address">{{option.address}}</span>
                             </div>
-                            <div class="locality">{{option.localityName}} ({{option.localityType}})</div>vic west rental
+                            <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
                         </div>
                         <div *ngIf="option.address === ''">
                             <div>
@@ -22,8 +32,8 @@
                     </div>
                 </mat-option>
             </mat-autocomplete>
-            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
-                    aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="locationName"
+                    aria-label="Clear" (click)="locationName=undefined;selectedLat=undefined;selectedLong=undefined;searchTextUpdated(); $event.stopPropagation()"
                     matTooltip="Clear">
                 <mat-icon>close</mat-icon>
             </button>
@@ -31,7 +41,7 @@
 
         <div class="field">
             <mat-label class="label">Search Radius (km)</mat-label>
-            <select appWFSingleSelect appWFPlaceholder="Select..." [disabled]="!searchText"
+            <select appWFSingleSelect appWFPlaceholder="Select..." [disabled]="!locationName"
                     aria-label="Type"
                     [options]="radiusOptions"
                     [selected]="selectedRadius"
