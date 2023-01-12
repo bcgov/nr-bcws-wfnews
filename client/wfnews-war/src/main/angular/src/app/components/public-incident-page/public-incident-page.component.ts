@@ -71,16 +71,26 @@ export class PublicIncidentPage implements OnInit {
         })
       } else {
         if(params && params['preview']) {
-          this.incident = JSON.parse(localStorage.getItem("preview_incident"));
-          // activate page
-          this.isLoading = false
-          this.cdr.detectChanges()
+          this.loadPreview()
         } else {
           this.isLoading = false
           this.loadingFailed = true
         }
       }
     })
+  }
+
+  async loadPreview () {
+    this.incident = JSON.parse(localStorage.getItem("preview_incident"))
+    // fetch the fire perimetre
+    await this.getFirePerimetre()
+    // load evac orders and area restrictions nearby
+    await this.getEvacOrders()
+    await this.getExternalUriEvacOrders()
+    await this.getAreaRestrictions()
+    // activate page
+    this.isLoading = false
+    this.cdr.detectChanges()
   }
 
   async getFirePerimetre () {
