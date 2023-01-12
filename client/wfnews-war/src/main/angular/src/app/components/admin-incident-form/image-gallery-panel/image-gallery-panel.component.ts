@@ -142,7 +142,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
             (self.statusBar as MatSnackBarRef<TextOnlySnackBar>).instance.data.message = self.uploadStatus
           }
         }).then(doc => {
-          self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Incident Photo', 'INFO').then(() => {
+          self.attachmentCreator(doc.fileId, doc.filePath, result.file.type, 'Incident Photo', 'INFO', result.title).then(() => {
             this.snackbarService.open('File Uploaded Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
             this.loadPage();
           }).catch(err => {
@@ -165,7 +165,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
     } )
   }
 
-  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string) {
+  attachmentCreator (fileId: string, uploadPath: string, mimeType: string, description: string, category: string, title: string) {
     const attachment = {
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/attachment',
       type: 'http://wfim.nrs.gov.bc.ca/v1/attachment',
@@ -178,7 +178,8 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       sourceObjectUniqueId: '' + this.incident.wildfireIncidentGuid,
       archived: false,
       privateIndicator: false,
-      commsSuitable: true
+      commsSuitable: true,
+      attachmentTitle: title
     } as AttachmentResource;
 
     return this.incidentAttachmentsService.createIncidentAttachment(

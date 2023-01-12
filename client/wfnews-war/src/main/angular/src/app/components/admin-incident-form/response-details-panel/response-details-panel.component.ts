@@ -65,18 +65,50 @@ export class ResponseDetailsPanel implements OnInit {
   }
   
   crewCommentsValue(initialAttack, unityCrews) {
-    return `There are currently ${initialAttack} Initial Attack and ${unityCrews} Unit Crews responding to this wildfire.`;
+    if (initialAttack || unityCrews){
+      return `There are currently ${initialAttack && initialAttack > 0 ? initialAttack : 0} Initial Attack and ${unityCrews && unityCrews > 0 ? unityCrews : 0} Unit Crews responding to this wildfire.`;
+    }
   }
 
   aviationCommentsValue(helicopters, airtankers) {
-    return `There are currently ${helicopters} helicopters and ${airtankers} airtankers responding to this wildfire.`;
+    if (helicopters || airtankers) {
+      return `There are currently ${helicopters && helicopters > 0 ? helicopters : 0} helicopters and ${airtankers && airtankers > 0 ? airtankers : 0} airtankers responding to this wildfire.`;
+    }
   }
 
   heavyEquipmentCommentsValue(pieces) {
-    return `There are currently ${pieces} pieces of heavy equipment responding to this wildfire.`;
+    if (pieces && pieces > 0) {
+      return `There are currently ${pieces} pieces of heavy equipment responding to this wildfire.`;
+    }
   }
 
   structureProtectionCommentsValue(structure) {
-    return `There are currently ${structure} structure protection units responding to this incident.`;
+    if (structure && structure > 0) {
+      return `There are currently ${structure} structure protection units responding to this incident.`;
+    }
+  }
+
+  crewsValueChange() {
+    if(this.incident.wildifreCrewsInd){
+      this.formGroup.controls["crewsComments"].setValue(this.crewCommentsValue(this.initialAttackCrews.nativeElement.value, this.unitCrews.nativeElement.value));
+    }
+  }
+
+  aviationValueChange() {
+    if(this.incident.aviationInd){
+      this.formGroup.controls["aviationComments"].setValue(this.aviationCommentsValue(this.helicopters.nativeElement.value, this.airtankers.nativeElement.value));
+    }
+  }
+
+  heavyEquipmentValueChange() {
+    if(this.incident.heavyEquipmentInd){
+      this.formGroup.controls["heavyEquipmentComments"].setValue(this.heavyEquipmentCommentsValue(this.pieces.nativeElement.value));
+    }
+  }
+
+  structuretValueChange() {
+    if(this.incident.structureProtectionInd){
+      this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue(this.structure.nativeElement.value));
+    }
   }
 }

@@ -27,11 +27,11 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Initial Attack Crews</mat-label>
-            <input matInput type="text" #initialAttackCrews>
+            <input matInput type="number" #initialAttackCrews (change)="crewsValueChange()">
           </mat-form-field>
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Unit Crews</mat-label>
-            <input matInput type="text" #unitCrews>
+            <input matInput type="number" #unitCrews (change)="crewsValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
@@ -61,11 +61,11 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Helicopters</mat-label>
-            <input matInput type="text" #helicopters>
+            <input matInput type="number" #helicopters (change)="aviationValueChange()">
           </mat-form-field>
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Airtankers</mat-label>
-            <input matInput type="text" #airtankers>
+            <input matInput type="number" #airtankers (change)="aviationValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
@@ -119,7 +119,7 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Heavy Equipment Pieces</mat-label>
-            <input matInput type="text" #pieces>
+            <input matInput type="number" #pieces (change)="heavyEquipmentValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
@@ -149,7 +149,7 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
-            <input matInput type="text" #structure>
+            <input matInput type="number" #structure (change)="structuretValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
