@@ -144,7 +144,7 @@ export class PublicIncidentPage implements OnInit {
   }
 
   async getAreaRestrictions () {
-    return this.agolService.getAreaRestrictions(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
+    return this.agolService.getAreaRestrictions({ x: this.incident.longitude, y: this.incident.latitude}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push({
@@ -153,8 +153,7 @@ export class PublicIncidentPage implements OnInit {
             accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
             fireCentre: element.attributes.FIRE_CENTRE_NAME,
             fireZone: element.attributes.FIRE_ZONE_NAME,
-            bulletinUrl: element.attributes.BULLETIN_URL,
-            centroid: element.centroid
+            bulletinUrl: element.attributes.BULLETIN_URL
           })
         }
       }
