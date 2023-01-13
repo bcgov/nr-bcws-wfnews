@@ -91,7 +91,7 @@ export class WildfiresListEffect {
                 let headers = new HttpHeaders();
                 headers.append('Access-Control-Allow-Origin','*');
                 headers.append('Accept','*/*');
-                return this.http.get<any>(url,{headers})
+                return this.http.get<any>(url, {headers})
                 .pipe(
                     map((response: any) => {
                       typedaction.callback()

@@ -31,6 +31,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   activeWildfiresInd = true;
   outWildfiresInd = false;
   wildfiresOfNoteInd = false;
+  newFires = false;
   currentLat: number;
   currentLong: number;
 
@@ -69,6 +70,12 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   }
 
   ngOnDestroy(): void {
+    const panel = document.getElementsByClassName('incident-details')
+    if (panel && panel.length !== 0) {
+      (panel.item(0) as HTMLElement).remove();
+      (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
+    }
+
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
@@ -217,7 +224,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       sortColumn: this.currentSort,
       sortDirection: this.currentSortDirection,
       query: undefined
-    }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, bbox, this.displayLabel, undefined, undefined, undefined,
+    }, undefined, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, this.newFires, bbox, this.displayLabel, undefined, undefined, undefined,
       () => {
         this.loading = false
         this.cdr.detectChanges()
