@@ -65,8 +65,8 @@
         <div class="wildfire-checkboxs">
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="outWildfiresInd">Out Wildfires</mat-checkbox>
+            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="newFires">New Wildfires</mat-checkbox>
             <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Wildfires of Note</mat-checkbox>
-            <mat-checkbox (change)="stageOfControlChanges($event)" [(ngModel)]="newFires">New</mat-checkbox>
         </div>
         <div *ngIf="loading">
           <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
