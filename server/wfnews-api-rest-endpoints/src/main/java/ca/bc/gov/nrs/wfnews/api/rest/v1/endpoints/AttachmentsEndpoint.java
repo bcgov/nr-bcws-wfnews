@@ -151,8 +151,8 @@ public interface AttachmentsEndpoint {
 	);
 	
 	@ApiOperation(
-		value = "Delete Incident Attachment by ID", 
-		notes = "Delete Incident Attachment by ID", 
+		value = "Delete Incident Attachment Bytes by ID", 
+		notes = "Delete Incident Attachment Bytes by ID", 
 		authorizations = { 
 			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
 			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") })}, 
