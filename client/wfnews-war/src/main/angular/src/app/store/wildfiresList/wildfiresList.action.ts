@@ -40,18 +40,20 @@ export function searchWildfires(
     selectedFireCentre: string,
     fireOfNoteInd: boolean,
     outFires: boolean,
+    newFires: boolean,
     bbox: string,
     displayLabel: string,
     lat: number,
     long: number,
     radius: number,
     callback: Function | null = null): SearchWildfiresAction {
-        let filters = {};
-        filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined;
+        let filters = {}
+        filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : undefined
-        if(outFires != undefined){
+        if(outFires != undefined) {
             filters["out"] = outFires ? outFires : false
         }
+        filters["newFires"] = newFires ? newFires : false
         filters["bbox"] = bbox ? bbox : undefined
 
         return {

@@ -80,11 +80,14 @@
         <div class="stage-of-control-checkbox-group">
             <mat-label>Choose Wildfires to display</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="activeWildfiresInd" [disabled] = "!(outWildfiresInd)">
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="activeWildfiresInd">
                     Active Wildfires
                 </mat-checkbox>
-                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd" [disabled]="!(activeWildfiresInd)">
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd">
                     Out Wildfires
+                </mat-checkbox>
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="newFires">
+                    New Wildfires
                 </mat-checkbox>
                 <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="wildfiresOfNoteInd">
                     Wildfires of Note
