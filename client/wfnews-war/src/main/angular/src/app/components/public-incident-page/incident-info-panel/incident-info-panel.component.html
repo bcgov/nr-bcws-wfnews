@@ -99,15 +99,10 @@
       <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response</a></p>
     </div>
   </div>
-  <div class="content-panel" style="border-bottom: none;">
+  <div class="content-panel" style="border-bottom: none;" *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
       <div>The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.</div>
-    </div>
-    <div *ngIf="!incident.wildfireCrewResourcesInd && !incident.wildfireAviationResourceInd && !incident.incidentMgmtCrewRsrcInd && !incident.heavyEquipmentResourcesInd && !incident.structureProtectionRsrcInd">
-      <div class="content-panel-body">
-        There are no currently deployed resources for this incident.
-      </div>
     </div>
     <!-- Wildfire Resources -->
     <div *ngIf="incident.wildfireCrewResourcesInd" class="resource-panel">
