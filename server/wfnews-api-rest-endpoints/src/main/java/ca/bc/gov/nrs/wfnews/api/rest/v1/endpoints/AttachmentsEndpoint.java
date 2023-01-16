@@ -149,4 +149,30 @@ public interface AttachmentsEndpoint {
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
 	);
+	
+	@ApiOperation(
+		value = "Delete Incident Attachment Bytes by ID", 
+		notes = "Delete Incident Attachment Bytes by ID", 
+		authorizations = { 
+			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }),
+			@Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_ATTACHMENT, description = "") })}, 
+		extensions = {
+			@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
+		@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
+	})
+	@ApiResponses(value = { @ApiResponse(code = 204, message = "No Content"),
+		@ApiResponse(code = 403, message = "Forbidden"),
+		@ApiResponse(code = 404, message = "Not Found"),
+		@ApiResponse(code = 409, message = "Conflict"),
+		@ApiResponse(code = 412, message = "Precondition Failed"),
+		@ApiResponse(code = 500, message = "Internal Server Error", response = MessageListRsrc.class)
+	})
+	@DELETE
+	@Path("/publishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
+	public Response deleteIncidentAttachmentBytes(
+			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
+			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
+	);
 }
