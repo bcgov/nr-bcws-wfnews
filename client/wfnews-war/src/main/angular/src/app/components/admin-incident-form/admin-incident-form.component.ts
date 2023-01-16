@@ -150,6 +150,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             (self.incident as any).fireCentreOrgUnitName = self.currentAdminIncident.fireCentreOrgUnitName;
             (self.incident as any).incidentStatusCode = self.currentAdminIncident.incidentStatusCode;
             self.incident.incidentData = self.currentAdminIncident
+            self.incident.geometry.x = self.currentAdminIncident.incidentLocation.longitude
+            self.incident.geometry.y = self.currentAdminIncident.incidentLocation.latitude
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
             self.incident.fireOfNote = self.currentAdminIncident.fireOfNotePublishedInd;

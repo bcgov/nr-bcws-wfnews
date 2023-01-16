@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card news-form-card">
+  <mat-card class="info-card news-form-card" *ngIf="incident.wildfireIncidentGuid? getAreaRestrictions() : null">
     <div *ngIf="areaRestrictions === null || areaRestrictions.length === 0">
       There are no current Area Restrictions
     </div>
