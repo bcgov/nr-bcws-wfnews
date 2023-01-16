@@ -1,20 +1,16 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IncidentCauseResource, WildfireIncidentResource, PublishedIncidentResource } from '@wf1/incidents-rest-api';
+import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-import { RootState } from '../../store';
-import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { IncidentDetailsPanel } from './incident-details-panel/incident-details-panel.component';
-import { getIncident } from '../../store/incident/incident.action';
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
-import { SummaryPanel } from './summary-panel/summary-panel.component';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 
 @Directive()
