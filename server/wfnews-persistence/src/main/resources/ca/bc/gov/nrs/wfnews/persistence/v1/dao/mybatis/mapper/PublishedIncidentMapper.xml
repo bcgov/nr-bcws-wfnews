@@ -298,6 +298,9 @@
 			<if test="out == false">  
 				AND stage_of_control_code != 'OUT'
 			</if>
+			<if test="newFires == true">  
+				AND create_date BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
+			</if>
 			<if test="fireOfNote == true">  
 				AND fire_of_note_ind = 'Y'
 			</if>
