@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AreaRestrictionsOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
