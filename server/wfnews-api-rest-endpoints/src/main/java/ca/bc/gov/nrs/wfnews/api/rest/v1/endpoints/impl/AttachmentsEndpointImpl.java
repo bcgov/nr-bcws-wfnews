@@ -25,6 +25,8 @@ import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
+import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -256,6 +258,42 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 						.header("Content-Length", content.length)
 						.entity(content)
 						.build();
+			} else {
+				response = Response.status(404).build();
+			}
+		} catch (NoSuchKeyException e) {
+			response = Response.status(404).build();
+		} catch (IOException e) {
+			response = getInternalServerErrorResponse(e);
+		} catch (Throwable t) {
+			response = getInternalServerErrorResponse(t);
+		}
+
+		logResponse(response);
+
+		return response;
+	}
+	
+	@Override
+	public Response deleteIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
+		Response response = null;
+
+		logRequest();
+
+		try {
+			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+
+			if (result != null) {
+				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+
+				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
+				DeleteObjectRequest deleteObjectRequest = DeleteObjectRequest.builder()
+						.bucket(attachmentsAwsConfig.getBucketName())
+						.key(key)
+						.build();
+
+				s3Client.deleteObject(deleteObjectRequest);
+				response = Response.status(204).build();
 			} else {
 				response = Response.status(404).build();
 			}

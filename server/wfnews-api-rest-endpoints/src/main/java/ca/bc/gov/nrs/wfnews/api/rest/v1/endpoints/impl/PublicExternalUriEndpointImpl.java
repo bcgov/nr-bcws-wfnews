@@ -18,6 +18,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.PublicExternalUriEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.PagingQueryParameters;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.validation.ParameterValidator;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
@@ -62,6 +63,28 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 
 			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
 		}
+		
+	} catch (Throwable t) {
+		response = getInternalServerErrorResponse(t);
+	}
+	
+	logResponse(response);
+
+	return response;
+	}
+	
+	@Override
+	public Response getSingleExternalUri(String externalUriGuid) throws NotFoundException, ForbiddenException, ConflictException {
+		Response response = null;
+	
+	try {
+		
+			ExternalUriResource result = incidentsService.getExternalUri(externalUriGuid, getWebAdeAuthentication(), getFactoryContext());
+			GenericEntity<ExternalUriResource> entity = new GenericEntity<ExternalUriResource>(result) {
+				/* do nothing */
+			};
+
+			response = Response.ok(entity).tag(result.getUnquotedETag()).build();
 		
 	} catch (Throwable t) {
 		response = getInternalServerErrorResponse(t);

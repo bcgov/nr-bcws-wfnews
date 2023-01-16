@@ -17,6 +17,9 @@ export class AGOLService {
 
   getFirePerimetre (fireNumber: string, options: AgolOptions = null) {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLperimetres'].toString()
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
     // append query. Only search for Fire events
     url += `query?where=FIRE_NUMBER='${fireNumber}'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
@@ -28,6 +31,9 @@ export class AGOLService {
 
   getEvacOrdersByEventNumber (eventNumber: string, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
     // append query. Only search for Fire events
     url += `query?where=EVENT_NUMBER='${eventNumber}'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
@@ -39,6 +45,9 @@ export class AGOLService {
 
   getEvacOrders (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
     // append query. Only search for Fire events
     url += `query?where=EVENT_TYPE='fire'&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
@@ -56,7 +65,9 @@ export class AGOLService {
 
   getAreaRestrictionsByID (sysId: string, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
-
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
     // append query
     url += `query?where=PROT_RA_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
@@ -68,6 +79,10 @@ export class AGOLService {
 
   getAreaRestrictions (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLareaRestrictions'].toString();
+
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
 
     // append query
     url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
@@ -87,6 +102,10 @@ export class AGOLService {
   getBansAndProhibitionsById (sysId: string, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLBansAndProhibitions'].toString();
 
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
+
     // append query
     url += `query?where=PROT_BAP_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
@@ -98,6 +117,10 @@ export class AGOLService {
 
   getBansAndProhibitions (location: { x: number, y: number} | null = null, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLBansAndProhibitions'].toString();
+
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
 
     // append query
     url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
