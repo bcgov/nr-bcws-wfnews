@@ -90,6 +90,9 @@ public interface SimplePublishedIncident {
 	public String getFireCentre();
 	public void setFireCentre(String fireCentre);
 
+	public String getFireCentreName();
+	public void setFireCentreName(String fireCentreName);
+
 	public Integer getFireYear();
 	public void setFireYear(Integer fireYear);
 

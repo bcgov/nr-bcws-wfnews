@@ -28,6 +28,7 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private Date discoveryDate;
 	private Date declaredOutDate;
 	private String fireCentre;
+	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
@@ -462,6 +463,16 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	@Override
 	public void setFireCentre(String fireCentre) {
 		this.fireCentre = fireCentre;
+	}
+
+	@Override
+	public String getFireCentreName() {
+		return fireCentreName;
+	}
+
+	@Override
+	public void setFireCentreName(String fireCentreName) {
+		this.fireCentreName = fireCentreName;
 	}
 
 	@Override

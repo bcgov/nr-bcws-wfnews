@@ -23,6 +23,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private Date discoveryDate;
 	private Date declaredOutDate;
 	private String fireCentre;
+	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
@@ -108,6 +109,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = dto.longitude;
 		this.declaredOutDate = dto.declaredOutDate;
 		this.fireCentre = dto.fireCentre;
+		this.fireCentreName = dto.fireCentreName;
 		this.fireYear = dto.fireYear;
 		this.responseTypeCode = dto.responseTypeCode;
 		this.responseTypeDetail = dto.responseTypeDetail;
@@ -587,6 +589,14 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setFireCentre(String fireCentre) {
 		this.fireCentre = fireCentre;
+	}
+
+	public String getFireCentreName() {
+		return fireCentreName;
+	}
+
+	public void setFireCentreName(String fireCentreName) {
+		this.fireCentreName = fireCentreName;
 	}
 
 	public Integer getFireYear() {
