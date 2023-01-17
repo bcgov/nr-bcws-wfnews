@@ -12,6 +12,7 @@ import { IncidentDetailsPanel } from './incident-details-panel/incident-details-
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
+import { AreaRestrictionsDetailsPanel } from './area-restrictions-details-panel/area-restrictions-details-panel.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -23,6 +24,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
   @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
   @ViewChild('EvacOrderPanel') evacOrdersDetailsPanel: EvacOrdersDetailsPanel;
+  @ViewChild('AreaRestrictionsPanel') areaRestrictionsDetailsPanel: AreaRestrictionsDetailsPanel;
 
   public Editor = Editor;
 
@@ -63,8 +65,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       emailAddress: null
     },
     geometry: {
-      x: -115,
-      y: 50
+      x: null,
+      y: null
     },
     incidentOverview: '',
     evacOrders: [],
@@ -140,6 +142,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           const self = this;
 
           this.publishedIncidentService.fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce).subscribe(incidentResponse => {
+            console.log(incidentResponse)
             self.currentAdminIncident = incidentResponse.response;
             this.publishedIncidentType = self.currentAdminIncident.type;
             (self.incident as any).discoveryDate = new Date(self.currentAdminIncident.discoveryTimestamp).toLocaleString();
@@ -177,6 +180,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             else if (self.incident.contact.fireCentre == 2) mappedCentre = 7
 
             self.incident.contact.fireCentre = '' + mappedCentre
+            this.areaRestrictionsDetailsPanel.getAreaRestrictions()
 
             this.http.get('../../../../assets/data/fire-center-contacts.json').subscribe(data => {
               self.incident.contact.phoneNumber = data[mappedCentre].phone

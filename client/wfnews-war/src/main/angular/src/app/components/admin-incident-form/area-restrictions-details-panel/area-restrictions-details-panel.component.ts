@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input, OnInit} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { AreaRestrictionsOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
@@ -6,9 +6,10 @@ import { AGOLService } from '../../../services/AGOL-service';
 @Component({
   selector: 'area-restrictions-details-panel',
   templateUrl: './area-restrictions-details-panel.component.html',
-  styleUrls: ['./area-restrictions-details-panel.component.scss']
+  styleUrls: ['./area-restrictions-details-panel.component.scss'],
+
 })
-export class AreaRestrictionsDetailsPanel {
+export class AreaRestrictionsDetailsPanel implements OnInit {
   @Input() public readonly formGroup: FormGroup
   @Input() public incident
 
@@ -17,9 +18,13 @@ export class AreaRestrictionsDetailsPanel {
   constructor(private agolService: AGOLService) {
   }
 
+  ngOnInit() {
+    this.getAreaRestrictions()
+  }
+
 
   getAreaRestrictions () {
-    if (this.areaRestrictions.length === 0) {
+    if(this.incident.geometry.x && this.incident.geometry.y){
       this.agolService.getAreaRestrictions({ x: this.incident.geometry.x, y: this.incident.geometry.y}).subscribe(response => {
         if (response.features) {
           for (const element of response.features) {

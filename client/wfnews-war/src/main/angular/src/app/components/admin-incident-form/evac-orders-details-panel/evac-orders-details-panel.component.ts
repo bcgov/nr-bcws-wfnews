@@ -91,20 +91,22 @@ export class EvacOrdersDetailsPanel implements OnInit {
   }
 
   getEvacOrders () {
-    this.agolService.getEvacOrders(this.incident.geometry).subscribe(response => {
-      if (response.features) {
-        for (const element of response.features) {
-          this.evacOrders.push({
-            eventName: element.attributes.EVENT_NAME,
-            eventType: element.attributes.EVENT_TYPE,
-            orderAlertStatus: element.attributes.ORDER_ALERT_STATUS,
-            issuingAgency: element.attributes.ISSUING_AGENCY,
-            preOcCode: element.attributes.PREOC_CODE,
-            emrgOAAsysID: element.attributes.EMRG_OAA_SYSID
-          })
+    if(this.incident.geometry.x && this.incident.geometry.y){
+      this.agolService.getEvacOrders(this.incident.geometry).subscribe(response => {
+        if (response.features) {
+          for (const element of response.features) {
+            this.evacOrders.push({
+              eventName: element.attributes.EVENT_NAME,
+              eventType: element.attributes.EVENT_TYPE,
+              orderAlertStatus: element.attributes.ORDER_ALERT_STATUS,
+              issuingAgency: element.attributes.ISSUING_AGENCY,
+              preOcCode: element.attributes.PREOC_CODE,
+              emrgOAAsysID: element.attributes.EMRG_OAA_SYSID
+            })
+          }
         }
-      }
-    })
+      })
+    }
 
     this.externalUriService.getExternalUriList(
       '' + this.incident.wildfireIncidentGuid,
