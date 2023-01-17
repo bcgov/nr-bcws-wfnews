@@ -52,10 +52,10 @@
   <router-outlet></router-outlet>
 
   <wf-footer
-    [footerItems]="footerMenu"
-    [config]="applicationConfig"
-    [(state)]="applicationState"
-    (activeItemChanged)="navigateToFooterPage($event)"
+  [footerItems]="footerMenu"
+  [config]="applicationConfig"
+  [(state)]="applicationState"
+  (activeItemChanged)="navigateToFooterPage($event)"
   ></wf-footer>
 </div>
 </wf-application>
