@@ -116,14 +116,23 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   doSearch() {
-    this.store.dispatch(searchWildfires(this.componentId, {
-      pageNumber: this.config.currentPage,
-      pageRowCount: this.config.itemsPerPage,
-      sortColumn: this.currentSort,
-      sortDirection: this.currentSortDirection,
-      query: this.searchText
-    },
-      this.selectedFireCentreCode, this.wildfiresOfNoteInd, (this.activeWildfiresInd && this.outWildfiresInd) ? undefined : !this.activeWildfiresInd, this.newFires, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+    if (!this.activeWildfiresInd && !this.outWildfiresInd && !this.newFires && !this.wildfiresOfNoteInd) {
+      this.collectionData = []
+      this.collection = null;
+      this.summaryString = 'No records to display.'
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      });
+    } else {
+      this.store.dispatch(searchWildfires(this.componentId, {
+        pageNumber: this.config.currentPage,
+        pageRowCount: this.config.itemsPerPage,
+        sortColumn: this.currentSort,
+        sortDirection: this.currentSortDirection,
+        query: this.searchText
+      },
+        this.selectedFireCentreCode, this.wildfiresOfNoteInd, this.outWildfiresInd, this.newFires, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+    }
   }
 
   onChangeFilters() {
