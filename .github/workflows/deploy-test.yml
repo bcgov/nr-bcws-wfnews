@@ -76,6 +76,7 @@ jobs:
       SERVER_CPU_UNITS: 1024
       SERVER_MEMORY: 2048
       DB_INSTANCE_TYPE: 'db.t3.micro'
+      INSTANCE_COUNT: 2
 
       LOGGING_LEVEL: INFO
 
