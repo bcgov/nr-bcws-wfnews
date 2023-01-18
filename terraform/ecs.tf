@@ -45,6 +45,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
       ]
       environment = [
         {
+          name = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
+        {
           name  = "DB_NAME"
           value = "${aws_db_instance.wfnews_pgsqlDB.name}"
         },
@@ -227,6 +231,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         }
       ]
       environment = [
+        {
+          name = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
         {
           name  = "AWS_REGION",
           value = var.aws_region
@@ -412,6 +420,10 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
 
       ]
       environment = [
+        {
+          name = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
         {
           name: "API_KEY",
           value: "${var.api_key}"
