@@ -5,7 +5,7 @@ resource "aws_appautoscaling_target" "wfnews_target" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = 1
+  min_capacity       = var.app_count
   max_capacity       = 6
 }
 
@@ -14,7 +14,7 @@ resource "aws_appautoscaling_target" "wfnews_apisix_target" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = 1
+  min_capacity       = var.app_count
   max_capacity       = 6
 }
 
@@ -195,7 +195,7 @@ resource "aws_appautoscaling_target" "wfnews_client_target" {
   service_namespace  = "ecs"
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client[count.index].name}"
   scalable_dimension = "ecs:service:DesiredCount"
-  min_capacity       = 1
+  min_capacity       = var.app_count
   max_capacity       = 6
 }
 

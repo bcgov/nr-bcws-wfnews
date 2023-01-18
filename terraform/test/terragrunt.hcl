@@ -14,6 +14,16 @@ locals {
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
   apisix_image = get_env("APISIX_IMAGE")
+
+  client_cpu_units = get_env("CLIENT_CPU_UNITS")
+  client_memory = get_env("CLIENT_MEMORY")
+  server_cpu_units = get_env("SERVER_CPU_UNITS")
+  server_memory = get_env("SERVER_MEMORY")
+  db_instance_type = get_env("DB_INSTANCE_TYPE")
+
+  logging_level = get_env("LOGGING_LEVEL")
+  app_count = get_env("INSTANCE_COUNT")
+
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
   alb_name = get_env("ALB_NAME")
@@ -64,8 +74,6 @@ generate "test_tfvars" {
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     app_image = "tomcat:jdk8-corretto"
-    fargate_cpu = 1024
-    fargate_memory = 2048
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
     github_release_name = "${local.github_release_name}"
@@ -75,6 +83,13 @@ generate "test_tfvars" {
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
     apisix_image = "${local.apisix_image}"
+    client_cpu_units = "${local.client_cpu_units}"
+    client_memory = "${local.client_memory}"
+    server_cpu_units = "${local.server_cpu_units}"
+    server_memory = "${local.server_memory}"
+    db_instance_type = "${local.db_instance_type}"
+    app_count = "${local.app_count}"
+    logging_level = "${local.logging_level}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
