@@ -224,7 +224,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
       if (blob) {
         const url = window.URL.createObjectURL(blob);
         const anchor = document.createElement("a");
-        anchor.download = item.fileName;
+        anchor.download = item.attachmentTitle || item.fileName;
         anchor.href = url;
         anchor.click();
         anchor.remove();

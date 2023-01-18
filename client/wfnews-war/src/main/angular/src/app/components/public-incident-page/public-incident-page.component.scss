@@ -11,8 +11,19 @@
   }
   app-root { display: block; }
   body, html, .forPrint {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  ::ng-deep .mat-tab-body-content {
+    height: auto !important;
+    overflow: hidden !important;
+  }
+
+  ::ng-deep .mat-tab-body.mat-tab-body-active {
+    overflow-x: hidden !important;
+    overflow-y: hidden !important;
+    height: auto !important;
   }
 
   ::ng-deep .qr-code {

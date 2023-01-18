@@ -1,21 +1,18 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { IncidentCauseResource, WildfireIncidentResource, PublishedIncidentResource } from '@wf1/incidents-rest-api';
+import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-import { RootState } from '../../store';
-import { Store } from '@ngrx/store';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { IncidentDetailsPanel } from './incident-details-panel/incident-details-panel.component';
-import { getIncident } from '../../store/incident/incident.action';
 import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
 import { HttpClient } from '@angular/common/http';
-import { SummaryPanel } from './summary-panel/summary-panel.component';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
+import { AreaRestrictionsDetailsPanel } from './area-restrictions-details-panel/area-restrictions-details-panel.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -27,6 +24,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
   @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
   @ViewChild('EvacOrderPanel') evacOrdersDetailsPanel: EvacOrdersDetailsPanel;
+  @ViewChild('AreaRestrictionsPanel') areaRestrictionsDetailsPanel: AreaRestrictionsDetailsPanel;
 
   public Editor = Editor;
 
@@ -67,8 +65,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       emailAddress: null
     },
     geometry: {
-      x: -115,
-      y: 50
+      x: null,
+      y: null
     },
     incidentOverview: '',
     evacOrders: [],
@@ -150,6 +148,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             (self.incident as any).fireCentreOrgUnitName = self.currentAdminIncident.fireCentreOrgUnitName;
             (self.incident as any).incidentStatusCode = self.currentAdminIncident.incidentStatusCode;
             self.incident.incidentData = self.currentAdminIncident
+            self.incident.geometry.x = self.currentAdminIncident.incidentLocation.longitude
+            self.incident.geometry.y = self.currentAdminIncident.incidentLocation.latitude
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
             self.incident.fireOfNote = self.currentAdminIncident.fireOfNotePublishedInd;
@@ -179,6 +179,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             else if (self.incident.contact.fireCentre == 2) mappedCentre = 7
 
             self.incident.contact.fireCentre = '' + mappedCentre
+            this.areaRestrictionsDetailsPanel.getAreaRestrictions()
 
             this.http.get('../../../../assets/data/fire-center-contacts.json').subscribe(data => {
               self.incident.contact.phoneNumber = data[mappedCentre].phone
@@ -192,8 +193,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
-
               self.incident.sizeComments = response.incidentSizeDetail;
+              self.incident.sizeType = response.incidentSizeDetail.includes('estimated')? 1 : 0;
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;

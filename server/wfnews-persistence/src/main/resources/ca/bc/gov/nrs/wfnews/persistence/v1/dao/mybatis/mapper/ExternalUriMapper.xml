@@ -22,9 +22,6 @@
 	</resultMap>
 	
 	<insert id="insert">
-	<selectKey keyProperty="externalUriGuid" resultType="java.lang.String" order="BEFORE"> 
-			SELECT GEN_RANDOM_UUID();
-		</selectKey>
 		
 		INSERT INTO wfnews.external_uri  
 			( EXTERNAL_URI_GUID,
@@ -45,7 +42,7 @@
 				UPDATE_DATE
 				)
 		VALUES
-			  (#{externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+			  (#{dto.externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
 			  	#{dto.sourceObjectNameCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 			  	#{dto.sourceObjectUniqueId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.externalUriCategoryTag, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
