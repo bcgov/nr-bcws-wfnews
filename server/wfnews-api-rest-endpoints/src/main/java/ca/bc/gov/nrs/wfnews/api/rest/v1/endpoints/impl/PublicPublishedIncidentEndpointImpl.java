@@ -81,13 +81,18 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 			}else {
 
-				if (stageOfControlList == null || stageOfControlList.isEmpty()) {
+				if (stageOfControlList == null) {
 					stageOfControlList = new ArrayList<>();
+					// Should we supply a default set if this is ignored?
+					stageOfControlList.add("OUT_CNTRL");
+          stageOfControlList.add("HOLDING");
+          stageOfControlList.add("UNDR_CNTRL");
 				}
 
-				if (fireOfNote.booleanValue() && !stageOfControlList.contains("FIRE_OF_NOTE")) {
-					stageOfControlList.add("FIRE_OF_NOTE");
-				}
+				// we use the boolean flag attached to the table, so this shouldn't be needed
+				//if (fireOfNote.booleanValue() && !stageOfControlList.contains("FIRE_OF_NOTE")) {
+				//	stageOfControlList.add("FIRE_OF_NOTE");
+				//}
 
 				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentre, bbox, latitude, longitude, radius, getFactoryContext());
 

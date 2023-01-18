@@ -134,9 +134,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
         stageOfControlList.push('HOLDING')
         stageOfControlList.push('UNDR_CNTRL')
       }
-      if(this.wildfiresOfNoteInd) {
-        stageOfControlList.push('FIRE_OF_NOTE')
-      }
+      // We use a boolean in the postgres model so this shouldn't be needed
+      //if(this.wildfiresOfNoteInd) {
+      //  stageOfControlList.push('FIRE_OF_NOTE')
+      //}
 
       this.store.dispatch(searchWildfires(this.componentId, {
         pageNumber: this.config.currentPage,
