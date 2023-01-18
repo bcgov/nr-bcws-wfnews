@@ -71,6 +71,8 @@ jobs:
       SERVER_MEMORY: 2048
       DB_INSTANCE_TYPE: 'db.t3.micro'
 
+      INSTANCE_COUNT: 2
+
       LOGGING_LEVEL: INFO
 
       TARGET_ENV: dev

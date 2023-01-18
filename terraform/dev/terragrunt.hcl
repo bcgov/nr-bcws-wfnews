@@ -19,6 +19,7 @@ locals {
   server_cpu_units = get_env("SERVER_CPU_UNITS")
   server_memory = get_env("SERVER_MEMORY")
   db_instance_type = get_env("DB_INSTANCE_TYPE")
+  app_count = get_env("INSTANCE_COUNT")
 
   logging_level = get_env("LOGGING_LEVEL")
 
@@ -86,6 +87,7 @@ generate "dev_tfvars" {
     server_memory = "${local.server_memory}"
     db_instance_type = "${local.db_instance_type}"
     logging_level = "${local.logging_level}"
+    app_count = "${local.app_count}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
