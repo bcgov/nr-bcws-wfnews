@@ -35,7 +35,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, Boolean newFires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -81,7 +81,15 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 				response = Response.status(Status.BAD_REQUEST).entity(validationMessages).build();
 			}else {
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, out, newFires, fireCentre, bbox, latitude, longitude, radius, getFactoryContext());
+				if (stageOfControlList == null || stageOfControlList.isEmpty()) {
+					stageOfControlList = new ArrayList<>();
+				}
+
+				if (fireOfNote.booleanValue() && !stageOfControlList.contains("FIRE_OF_NOTE")) {
+					stageOfControlList.add("FIRE_OF_NOTE");
+				}
+
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentre, bbox, latitude, longitude, radius, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */
