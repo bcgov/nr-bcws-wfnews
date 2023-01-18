@@ -68,11 +68,12 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.zone = this.injector.get(NgZone)
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy(): void { 
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
+        if(this.highlightLayer)
+          SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
       }
     }
 
