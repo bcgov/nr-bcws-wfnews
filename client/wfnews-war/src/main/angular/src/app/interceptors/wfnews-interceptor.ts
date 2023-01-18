@@ -28,14 +28,12 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
         requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, "");
 
         if (this.isUrlSecured(req.url)) {
-          console.log('secure request ' + req.url)
             if (!this.tokenService) {
                 this.tokenService = this.injector.get(TokenService);
             }
             return this.handleLogin(req, next, this.tokenService, requestId);
 
         } else {
-          console.log('un-secure request ' + req.url)
             return this.handleRequest(requestId, next, processedRequest);
         }
     }

@@ -71,16 +71,26 @@ export class PublicIncidentPage implements OnInit {
         })
       } else {
         if(params && params['preview']) {
-          this.incident = JSON.parse(localStorage.getItem("preview_incident"));
-          // activate page
-          this.isLoading = false
-          this.cdr.detectChanges()
+          this.loadPreview()
         } else {
           this.isLoading = false
           this.loadingFailed = true
         }
       }
     })
+  }
+
+  async loadPreview () {
+    this.incident = JSON.parse(localStorage.getItem("preview_incident"))
+    // fetch the fire perimetre
+    await this.getFirePerimetre()
+    // load evac orders and area restrictions nearby
+    await this.getEvacOrders()
+    await this.getExternalUriEvacOrders()
+    await this.getAreaRestrictions()
+    // activate page
+    this.isLoading = false
+    this.cdr.detectChanges()
   }
 
   async getFirePerimetre () {
@@ -134,7 +144,7 @@ export class PublicIncidentPage implements OnInit {
   }
 
   async getAreaRestrictions () {
-    return this.agolService.getAreaRestrictions(this.incident.geometry, { returnCentroid: true, returnGeometry: false}).toPromise().then(response => {
+    return this.agolService.getAreaRestrictions({ x: this.incident.longitude, y: this.incident.latitude}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push({
@@ -143,8 +153,7 @@ export class PublicIncidentPage implements OnInit {
             accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
             fireCentre: element.attributes.FIRE_CENTRE_NAME,
             fireZone: element.attributes.FIRE_ZONE_NAME,
-            bulletinUrl: element.attributes.BULLETIN_URL,
-            centroid: element.centroid
+            bulletinUrl: element.attributes.BULLETIN_URL
           })
         }
       }

@@ -30,6 +30,7 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 		@ApiParam("Order the results by a specific column and sort order, eg. 'incident_name,desc'") @QueryParam("orderBy") String orderBy,
 		@ApiParam("Filter on fire of note") @QueryParam("fireOfNote") Boolean fireOfNote,
 		@ApiParam("Filter on fires that are Out") @QueryParam("out") Boolean out,
+		@ApiParam("Filter on fires that are new within 24 hours") @QueryParam("newFires") Boolean newFires,
 		@ApiParam("Filter on fire centre") @QueryParam("fireCentre") String fireCentre,
 		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox,
 		@ApiParam("The latitude for a point and radius query") @QueryParam("latitude") Double latitude,
