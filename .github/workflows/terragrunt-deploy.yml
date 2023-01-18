@@ -34,6 +34,10 @@ on:
       DB_INSTANCE_TYPE:
         required: true
         type: string
+      LOGGING_LEVEL:
+        required: false
+        type: string
+        default: INFO
       TARGET_ENV:
         required: true
         type: string
@@ -203,6 +207,7 @@ jobs:
           SERVER_CPU_UNITS: ${{inputs.SERVER_CPU_UNITS}}
           SERVER_MEMORY: ${{inputs.SERVER_MEMORY}}
           DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
+          LOGGING_LEVEL: ${{inputs.LOGGING_LEVEL}}
           
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}

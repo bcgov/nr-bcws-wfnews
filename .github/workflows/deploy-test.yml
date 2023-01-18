@@ -77,6 +77,8 @@ jobs:
       SERVER_MEMORY: 2048
       DB_INSTANCE_TYPE: 'db.t3.micro'
 
+      LOGGING_LEVEL: INFO
+
       TARGET_ENV: test
       ALB_NAME: default
       VPC_NAME: Test_vpc
