@@ -2,7 +2,7 @@
   <div class="title">{{panelInfo.title}}</div>
   <div class="panel-container">
     <div *ngFor="let info of panelInfo.resources" class="resource-info">
-      <div class="info-title">{{info.title}}</div>
+      <div class="info-title"><a [href]="info.url" target="_blank">{{info.title}}</a></div>
       <a class="info-subtitle" [href]="info.url" target="_blank">{{info.subtitle}}</a>
       <div class="info-description">{{info.description}}</div>
     </div>

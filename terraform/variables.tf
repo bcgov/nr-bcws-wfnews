@@ -130,6 +130,11 @@ variable "db_instance_type" {
   type = string
 }
 
+variable "logging_level" {
+  type=string
+  description = "Logging level for components" 
+}
+
 # variable "db_name" {
 #   description = "DynamoDB DB Name"
 #   default     = "ssp-greetings"

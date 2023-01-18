@@ -71,11 +71,14 @@ jobs:
       APISIX_IMAGE: nr-bcws-wfnews-apisix
 
       #1024 CPU units = 1 vCPU
-      CLIENT_CPU_UNITS: 1024
-      CLIENT_MEMORY: 2048
-      SERVER_CPU_UNITS: 1024
-      SERVER_MEMORY: 2048
+      CLIENT_CPU_UNITS: 2048
+      CLIENT_MEMORY: 4096
+      SERVER_CPU_UNITS: 2048 
+      SERVER_MEMORY: 4096
       DB_INSTANCE_TYPE: 'db.t3.micro'
+      INSTANCE_COUNT: 2
+
+      LOGGING_LEVEL: INFO
 
       TARGET_ENV: test
       ALB_NAME: default
