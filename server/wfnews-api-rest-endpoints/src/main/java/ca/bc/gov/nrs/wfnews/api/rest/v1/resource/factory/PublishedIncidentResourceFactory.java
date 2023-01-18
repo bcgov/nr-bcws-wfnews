@@ -143,6 +143,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setLatitude(dto.getLatitude());
 		resource.setLongitude(dto.getLongitude());
 		resource.setFireCentre(dto.getFireCentre());
+		resource.setFireCentreName(dto.getFireCentreName());
 		resource.setFireYear(dto.getFireYear());
 		resource.setResponseTypeCode(dto.getResponseTypeCode());
 		resource.setResponseTypeDetail(dto.getResponseTypeDetail());
@@ -178,6 +179,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setLatitude(dto.getLatitude());
 		resource.setLongitude(dto.getLongitude());
 		resource.setFireCentre(dto.getFireCentre());
+		resource.setFireCentreName(dto.getFireCentreName());
 		resource.setFireYear(dto.getFireYear());
 		resource.setResponseTypeCode(dto.getResponseTypeCode());
 		resource.setResponseTypeDetail(dto.getResponseTypeDetail());

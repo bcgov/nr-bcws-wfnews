@@ -159,6 +159,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.longitude = incident.getLongitude();
 		this.declaredOutDate = incident.getDeclaredOutDate();
 		this.fireCentre = incident.getFireCentre();
+		this.fireCentreName = incident.getFireCentreName();
 		this.fireYear = incident.getFireYear();
 		this.responseTypeCode = incident.getResponseTypeCode();
 		this.responseTypeDetail = incident.getResponseTypeDetail();
@@ -233,6 +234,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("latitude", latitude, other.latitude);
 			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
 			result = result && equals("fireCentre", fireCentre, other.fireCentre);
+			result = result && equals("fireCentreName", fireCentreName, other.fireCentreName);
 			result = result && equals("fireYear", fireYear, other.fireYear);
 			result = result && equals("responseTypeCode", responseTypeCode, other.responseTypeCode);
 			result = result && equals("responseTypeDetail", responseTypeDetail, other.responseTypeDetail);
