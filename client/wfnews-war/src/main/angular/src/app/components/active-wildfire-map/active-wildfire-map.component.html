@@ -42,7 +42,22 @@
             </div>
             <div class="my-location-button-min">
               <button mat-icon-button (click)="useMyCurrentLocation()"><mat-icon class="location-icon">my_location</mat-icon></button>
-          </div>
+            </div>
+        </div>
+
+        <div>
+            <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown">Disclaimer and Legal Links <mat-icon>expand_more</mat-icon></button>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="openLink('Disclaimer')">
+                    Disclaimer
+                </button>
+                <button mat-menu-item (click)="openLink('Privacy')">
+                    Privacy
+                </button>
+                <button mat-menu-item (click)="openLink('Copyright')">
+                    Copyright
+                </button>
+            </mat-menu>
         </div>
     </div>
       <div class="divider">
