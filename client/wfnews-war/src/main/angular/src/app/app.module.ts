@@ -129,6 +129,7 @@ import { YouTubePlayerModule } from "@angular/youtube-player"
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { PublishDialogComponent } from './components/admin-incident-form/publish-dialog/publish-dialog.component';
 import { SummaryPanel } from './components/admin-incident-form/summary-panel/summary-panel.component';
+import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -198,7 +199,8 @@ export const DATE_FORMATS = {
         VideoCardPanel,
         EditVideoDialogComponent,
         UploadVideoDialogComponent,
-        DownloadPMDialogComponent
+        DownloadPMDialogComponent,
+        DisclaimerDialogComponent
     ],
     imports: [
         MatSortModule,
