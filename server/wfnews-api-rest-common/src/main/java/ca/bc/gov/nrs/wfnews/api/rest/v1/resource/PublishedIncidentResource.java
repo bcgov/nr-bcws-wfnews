@@ -27,7 +27,7 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private String newsPublicationStatusCode;
 	private Date discoveryDate;
 	private Date declaredOutDate;
-	private String fireCentre;
+	private String fireCentreCode;
 	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
@@ -456,13 +456,13 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	}
 
 	@Override
-	public String getFireCentre() {
-		return fireCentre;
+	public String getFireCentreCode() {
+		return fireCentreCode;
 	}
 
 	@Override
-	public void setFireCentre(String fireCentre) {
-		this.fireCentre = fireCentre;
+	public void setFireCentreCode(String fireCentreCode) {
+		this.fireCentreCode = fireCentreCode;
 	}
 
 	@Override

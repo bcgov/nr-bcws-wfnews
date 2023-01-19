@@ -87,8 +87,8 @@ public interface SimplePublishedIncident {
 	public Date getDeclaredOutDate();
 	public void setDeclaredOutDate(Date declaredOutDate);
 
-	public String getFireCentre();
-	public void setFireCentre(String fireCentre);
+	public String getFireCentreCode();
+	public void setFireCentreCode(String fireCentreCode);
 
 	public String getFireCentreName();
 	public void setFireCentreName(String fireCentreName);

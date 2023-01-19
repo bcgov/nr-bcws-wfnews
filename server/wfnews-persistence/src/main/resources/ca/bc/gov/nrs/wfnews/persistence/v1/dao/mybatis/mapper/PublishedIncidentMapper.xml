@@ -8,7 +8,7 @@
 		<result property="incidentNumberLabel" column="INCIDENT_NUMBER_LABEL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="newsCreatedTimestamp" column="NEWS_CREATED_TIMESTAMP" javaType="java.util.Date" jdbcType="TIMESTAMP" />
 		<result property="stageOfControlCode" column="STAGE_OF_CONTROL_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="fireCentre" column="FIRE_CENTRE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireCentreCode" column="FIRE_CENTRE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="fireCentreName" column="FIRE_CENTRE_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="generalIncidentCauseCatId" column="GENERAL_INCIDENT_CAUSE_CAT_ID" javaType="java.lang.Integer" jdbcType="NUMERIC" />
@@ -53,7 +53,7 @@
 		<result property="updateDate" column="UPDATE_DATE" javaType="java.util.Date" jdbcType="DATE" />
 		<result property="latitude" column="LATITUDE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="longitude" column="LONGITUDE" javaType="java.lang.String" jdbcType="VARCHAR" /> 
-		<result property="fireCentre" column="FIRE_CENTRE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="fireCentreCode" column="FIRE_CENTRE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="fireYear" column="FIRE_YEAR" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="responseTypeCode" column="RESPONSE_TYPE_CODE" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="responseTypeDetail" column="RESPONSE_TYPE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -128,7 +128,7 @@
 				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
-				#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
@@ -185,7 +185,7 @@
 				NEWS_PUBLICATION_STATUS_CODE =				#{dto.newsPublicationStatusCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				DISCOVERY_DATE =				#{dto.discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
 				DECLARED_OUT_DATE =				#{dto.declaredOutDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
-				FIRE_CENTRE_CODE = 		#{dto.fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				FIRE_CENTRE_CODE = 		#{dto.fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				FIRE_CENTRE_NAME = 		#{dto.fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				FIRE_YEAR = #{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
@@ -312,8 +312,8 @@
 			<if test="fireOfNote == false">  
 				AND fire_of_note_ind = 'N'
 			</if>
-			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
-				AND fire_centre_code = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+			<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">  
+				AND fire_centre_code = #{fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
 			<if test="searchText!=null &amp;&amp; searchText.length>0">
 				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
@@ -327,7 +327,7 @@
 						<when test="order == 'fireOfNoteInd'">fire_of_note_ind</when>
 						<when test="order == 'incidentLocation'">incident_location</when>
 						<when test="order == 'incidentName'">incident_name</when>
-						<when test="order == 'fireCentre'">fire_centre_code</when>
+						<when test="order == 'fireCentreCode'">fire_centre_code</when>
 						<when test="order == 'fireCentreName'">fire_centre_name</when>
 						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
 						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
@@ -370,8 +370,8 @@
 			<if test="fireOfNote == false">  
 				AND fire_of_note_ind = 'N'
 			</if>
-			<if test="fireCentre != null &amp;&amp; fireCentre != ''">  
-				AND fire_centre_code = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+			<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">  
+				AND fire_centre_code = #{fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
 			<if test="searchText!=null &amp;&amp; searchText.length>0">
 				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
