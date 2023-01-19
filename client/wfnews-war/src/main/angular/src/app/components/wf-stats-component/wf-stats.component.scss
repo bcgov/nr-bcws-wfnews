@@ -69,6 +69,7 @@ mat-tab-group {
     padding-bottom: 0;
     color: #1c5a97;
     text-align: center;
+    padding-top: 80px;
   }
 }
 
@@ -189,7 +190,7 @@ mat-tab-group {
   flex-flow: row;
   flex-wrap: wrap;
   border-bottom: 1px solid #e9eff5;
-  padding-bottom: 20px;
+  padding-bottom: 80px;
   .info-text {
     padding: 5px;
     width: 45%;
