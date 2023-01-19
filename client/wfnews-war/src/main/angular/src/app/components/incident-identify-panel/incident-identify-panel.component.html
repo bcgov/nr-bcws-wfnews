@@ -22,7 +22,7 @@
     <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(incident.fireCentre)}}</a></div>
   </div>
   <div class="nav-button" *ngIf="incident.stageOfControlCode !== 'OUT'">
-    <button style="background: #1a5a96; color: white;" mat-button color="primary" (click)="goToIncidentDetail()">Full Incident Detail</button>
+    <button style="background: #1a5a96; color: white;" mat-button color="primary" (click)="goToIncidentDetail()">Full Incident Details</button>
   </div>
   <div class="info-panel">
     <div><span class="label">Fire Number: </span><span>{{convertFireNumber(incident)}}</span></div>
