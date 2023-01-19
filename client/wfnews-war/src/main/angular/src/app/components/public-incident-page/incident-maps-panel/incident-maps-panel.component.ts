@@ -61,7 +61,7 @@ export class IncidentMapsPanel implements OnInit {
     })
   }
 
-  downloadMap(mapLink) {
+  downloadMap(mapLink, fileName) {
     const url = mapLink;
     let request = this.httpClient.request( new HttpRequest( 'GET', url, {
         reportProgress: true,
@@ -74,7 +74,7 @@ export class IncidentMapsPanel implements OnInit {
             this.snackbarService.open('Generating PDF. Please wait...', 'Close', { duration: 10000, panelClass: 'snackbar-info' });
           }
           else if ( ev instanceof HttpResponse ) {
-            this.downloadFile(ev as HttpResponse<Blob>);
+            this.downloadFile(ev as HttpResponse<Blob>, fileName);
             this.snackbarService.open('PDF downloaded successfully.', 'Close', { duration: 10000, panelClass: 'snackbar-success-v2' });
           }
       },
@@ -82,12 +82,16 @@ export class IncidentMapsPanel implements OnInit {
     )
   }
 
-  downloadFile (data: HttpResponse<Blob>) {
+  downloadFile (data: HttpResponse<Blob>, fileName: string) {
+    if (!fileName.endsWith('.pdf')) {
+      fileName += '.pdf'
+    }
+
     const downloadedFile = new Blob([data.body], { type: data.body.type });
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
-    a.download = "data.pdf";
+    a.download = fileName;
     a.href = URL.createObjectURL(downloadedFile);
     a.target = '_blank';
     a.click();
