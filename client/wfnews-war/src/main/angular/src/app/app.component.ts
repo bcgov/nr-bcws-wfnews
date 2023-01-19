@@ -9,6 +9,7 @@ import { RouterLink, WfApplicationConfiguration, WfApplicationState } from '@wf1
 import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-menu/wf-menu.component';
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
+import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
@@ -115,7 +116,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.initFooterMenu();
 
     window['SPLASH_SCREEN'].remove();
-
+    if (localStorage.getItem('dontShowDisclaimer') !== 'true'){
+      let dialogRef = this.dialog.open(DisclaimerDialogComponent, {
+        width: '600px',
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result['dontShowAgain']) {
+          localStorage.setItem('dontShowDisclaimer', 'true');
+        } else {
+          localStorage.removeItem('dontShowDisclaimer');
+        }
+      });
+    }
     if (!this.redirectToPublicMobile() && (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
       let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
         width: '600px',
