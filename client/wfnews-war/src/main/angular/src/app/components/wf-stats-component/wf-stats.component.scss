@@ -58,7 +58,7 @@ mat-tab-group {
   height: auto;
   overflow: hidden;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-  padding: 20px;
+  padding: 40px;
   margin: auto;
   background-color: white;
   max-width: 1300px;
@@ -127,7 +127,8 @@ mat-tab-group {
   border-radius: 3px;
   background: white;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
+  margin-top: 40px;
   width: 300px;
   .title {
     color: black;
