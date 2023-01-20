@@ -232,13 +232,29 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       console.log('SMK initializing... wait to fetch bounds.')
     }
 
+    // set stages of control to return
+    const stageOfControlList = []
+    if (this.outWildfiresInd) {
+      stageOfControlList.push('OUT')
+    }
+    if(this.activeWildfiresInd) {
+      stageOfControlList.push('OUT_CNTRL')
+      stageOfControlList.push('HOLDING')
+      stageOfControlList.push('UNDR_CNTRL')
+    }
+
+    // We use a boolean in the postgres model so this shouldn't be needed
+    //if(this.wildfiresOfNoteInd) {
+    //  stageOfControlList.push('FIRE_OF_NOTE')
+    //}
+
     this.store.dispatch(searchWildfires(this.componentId, {
       pageNumber: this.config.currentPage,
       pageRowCount: 10,
       sortColumn: this.currentSort,
       sortDirection: this.currentSortDirection,
       query: undefined
-    }, undefined, this.wildfiresOfNoteInd, this.outWildfiresInd, this.newFires, bbox, this.displayLabel, undefined, undefined, undefined,
+    }, undefined, this.wildfiresOfNoteInd, stageOfControlList, this.newFires, bbox, this.displayLabel, undefined, undefined, undefined,
       () => {
         this.loading = false
         this.cdr.detectChanges()

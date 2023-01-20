@@ -37,7 +37,7 @@
         <!-- Image/video section: fetch from aws cache -->
         <div style="text-align: center;" *ngIf="primaryMedia !== null">
           <img *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400"/>
-          <youtube-player *ngIf="primaryMedia.type === 'video'"
+          <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
             videoId={{convertToYoutubeId(primaryMedia.href)}}
             suggestedQuality="highres"
             [startSeconds]="1"

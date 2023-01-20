@@ -124,6 +124,21 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
         this.cdr.detectChanges();
       });
     } else {
+      // set stages of control to return
+      const stageOfControlList = []
+      if (this.outWildfiresInd) {
+        stageOfControlList.push('OUT')
+      }
+      if(this.activeWildfiresInd) {
+        stageOfControlList.push('OUT_CNTRL')
+        stageOfControlList.push('HOLDING')
+        stageOfControlList.push('UNDR_CNTRL')
+      }
+      // We use a boolean in the postgres model so this shouldn't be needed
+      //if(this.wildfiresOfNoteInd) {
+      //  stageOfControlList.push('FIRE_OF_NOTE')
+      //}
+
       this.store.dispatch(searchWildfires(this.componentId, {
         pageNumber: this.config.currentPage,
         pageRowCount: this.config.itemsPerPage,
@@ -131,7 +146,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
         sortDirection: this.currentSortDirection,
         query: this.searchText
       },
-        this.selectedFireCentreCode, this.wildfiresOfNoteInd, this.outWildfiresInd, this.newFires, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+        this.selectedFireCentreCode, this.wildfiresOfNoteInd, stageOfControlList, this.newFires, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
     }
   }
 

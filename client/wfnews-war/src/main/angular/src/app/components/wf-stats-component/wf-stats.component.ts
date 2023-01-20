@@ -35,11 +35,11 @@ export class WFStatsComponent implements OnInit {
 
   public FIRE_CENTRE_COLOURS = [
     { name: 'Coastal', value: '#519a97' },
+    { name: 'Cariboo', value: '#ca8321' },
+    { name: 'Kamloops', value: '#e96b56' },
     { name: 'Northwest', value: '#a27ea8' },
     { name: 'Prince George', value: '#799136' },
-    { name: 'Kamloops', value: '#e96b56' },
-    { name: 'Southeast', value: '#369dc9' },
-    { name: 'Cariboo', value: '#ca8321' }
+    { name: 'Southeast', value: '#369dc9' }
   ]
 
   public CAUSE_COLOURS = [
@@ -177,12 +177,12 @@ export class WFStatsComponent implements OnInit {
 }
 
 const FIRE_CENTRES = [
+  { id: '2', name: 'Cariboo', displayOrder: 6 },
   { id: '50', name: 'Coastal', displayOrder: 1 },
+  { id: '25', name: 'Kamloops', displayOrder: 4 },
   { id: '42', name: 'Northwest', displayOrder: 2 },
   { id: '34', name: 'Prince George', displayOrder: 3 },
-  { id: '25', name: 'Kamloops', displayOrder: 4 },
-  { id: '8', name: 'Southeast', displayOrder: 5 },
-  { id: '2', name: 'Cariboo', displayOrder: 6 }
+  { id: '8', name: 'Southeast', displayOrder: 5 }
 ];
 
 const FIRE_CAUSE = [

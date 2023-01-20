@@ -24,10 +24,12 @@
   .mat-raised-button {
     box-shadow: none;
     width: 100%;
+    padding: 0;
   }
   .mat-icon {
     padding-right: 5px;
     color: #a7a9ac;
+    margin-right: 0 !important;
   }
 }
 

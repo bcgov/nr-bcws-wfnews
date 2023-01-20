@@ -68,7 +68,13 @@ export class WildfiresListEffect {
                 const filters = typedaction.payload.filters
                 for (const filter in filters) {
                   if (Object.prototype.hasOwnProperty.call(filters, filter) && filters[filter] !== undefined) {
-                    url += `&${filter}=${filters[filter]}`;
+                    if (filter === 'stageOfControlList') {
+                      for (const soc of filters[filter]) {
+                        url += `&${filter}=${soc}`;
+                      }
+                    } else {
+                      url += `&${filter}=${filters[filter]}`;
+                    }
                   }
                 }
 

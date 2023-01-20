@@ -291,17 +291,17 @@
 			RESPONSE_TYPE_DETAIL
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		WHERE stage_of_control_code IS NOT NULL
+			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
+					AND stage_of_control_code IN
+				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+					#{soc}
+				</foreach>
+			</if>
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>
 			<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
 				AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
-			</if>
-		  <if test="out == true">  
-				AND stage_of_control_code = 'OUT'
-			</if>
-			<if test="out == false">  
-				AND stage_of_control_code != 'OUT'
 			</if>
 			<if test="newFires == true">  
 				AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
@@ -349,17 +349,17 @@
 		SELECT COUNT(*)
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE stage_of_control_code IS NOT NULL
+			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
+					AND stage_of_control_code IN
+				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+					#{soc}
+				</foreach>
+			</if>
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>
 			<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
 				AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
-			</if>
-		  <if test="out == true">  
-				AND stage_of_control_code = 'OUT'
-			</if>
-			<if test="out == false">  
-				AND stage_of_control_code != 'OUT'
 			</if>
 			<if test="newFires == true">  
 				AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
