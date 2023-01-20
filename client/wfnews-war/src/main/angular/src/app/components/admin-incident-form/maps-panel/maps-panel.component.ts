@@ -222,9 +222,14 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     this.documentManagementService.downloadDocument(item.fileIdentifier).toPromise().then(response => {
       const blob = (response as any).body
       if (blob) {
+        let fileName = item.attachmentTitle || item.fileName;
+        if (!fileName.endsWith('.pdf')) {
+          fileName += '.pdf'
+        }
+
         const url = window.URL.createObjectURL(blob);
         const anchor = document.createElement("a");
-        anchor.download = item.attachmentTitle || item.fileName;
+        anchor.download = fileName;
         anchor.href = url;
         anchor.click();
         anchor.remove();

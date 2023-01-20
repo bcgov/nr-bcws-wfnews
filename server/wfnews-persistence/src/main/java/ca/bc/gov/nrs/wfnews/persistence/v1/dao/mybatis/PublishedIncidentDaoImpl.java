@@ -201,7 +201,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, Boolean out, Boolean newFires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -223,7 +223,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("pageRowCount", pageRowCount);
 			parameters.put("orderBy", orderBy.toArray());
 			parameters.put("fireOfNote", fireOfNote);
-			parameters.put("out", out);
+			parameters.put("stageOfControlList", stageOfControlList);
 			parameters.put("newFires", newFires);
 			parameters.put("fireCentre", fireCentre);
 			parameters.put("xmin", bbox != null ? Double.parseDouble(bbox.split(",")[0]) : null);

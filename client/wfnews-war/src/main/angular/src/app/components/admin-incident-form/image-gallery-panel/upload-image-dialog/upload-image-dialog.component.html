@@ -5,7 +5,8 @@
     <button mat-flat-button color="primary" (click)="pdfInput.click()">Browse</button>
     <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
       <mat-label class="label">Title</mat-label>
-      <input matInput type="text" placeholder="Title" [(ngModel)]="title" [value]="title" required>
+      <input matInput #input maxlength="150" type="text" placeholder="Title" [(ngModel)]="title" [value]="title" required>
+      <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
     </mat-form-field>
   </div>
   <div class="dialog-actions" mat-dialog-actions>

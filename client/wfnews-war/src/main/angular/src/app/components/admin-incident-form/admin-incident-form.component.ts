@@ -194,7 +194,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
               self.incident.sizeComments = response.incidentSizeDetail;
-              self.incident.sizeType = response.incidentSizeDetail.includes('estimated')? 1 : 0;
+              self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 0;
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
