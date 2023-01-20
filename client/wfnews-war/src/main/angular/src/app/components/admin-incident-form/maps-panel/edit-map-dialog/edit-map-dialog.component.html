@@ -3,7 +3,8 @@
   <div class="dialog-content" mat-dialog-content>
     <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
       <mat-label class="label">Title</mat-label>
-      <input matInput type="text" placeholder="Title" [(ngModel)]="data.attachment.attachmentTitle" [value]="data.attachment.attachmentTitle" required>
+      <input matInput #input maxlength="150" type="text" placeholder="Title" [(ngModel)]="data.attachment.attachmentTitle" [value]="data.attachment.attachmentTitle" required>
+      <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
     </mat-form-field>
   </div>
   <div class="dialog-actions" mat-dialog-actions>

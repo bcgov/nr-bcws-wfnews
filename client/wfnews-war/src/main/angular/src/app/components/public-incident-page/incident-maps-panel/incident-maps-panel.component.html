@@ -6,7 +6,7 @@
         <div class="content-panel-stack">
             <div *ngFor="let map of maps">
                 <div style="display: flex;">
-                    <div class="file-pdf-icon" (click)="downloadMap(map.link)"></div>
+                    <div class="file-pdf-icon" (click)="downloadMap(map.link, map.name)"></div>
                     <div>
                         <div class="document-title">{{map.name}}</div>
                         <div class="document-date">{{map.date}}</div>

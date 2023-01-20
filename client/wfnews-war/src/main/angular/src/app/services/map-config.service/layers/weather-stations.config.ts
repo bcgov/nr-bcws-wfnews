@@ -67,7 +67,20 @@ export function WeatherStationsLayerConfig(ls: layerSettings) {
             layerName: 'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_WEATHER_STATIONS_SP',
             styleName: '4881',
             geometryAttribute: 'SHAPE',
-            popupTemplate: '@wf-weather-station-feature'
+            popupTemplate: '@wf-weather-station-feature',
+            legend: {
+              title: ' ',
+              url: ''
+            },
+            style:{
+              strokeWidth:"1",
+              strokeStyle:"1",
+              strokeColor:"#FFFFFF00",
+              strokeOpacity:"0",
+              fillColor:"#FFFFFF00",
+              fillOpacity:"0",
+              fill: false
+            }
         }
     ];
 }

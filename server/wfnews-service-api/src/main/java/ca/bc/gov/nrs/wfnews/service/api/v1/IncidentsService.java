@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1;
 
+import java.util.List;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
@@ -42,7 +44,7 @@ public interface IncidentsService {
 	void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, Boolean out, Boolean newfires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius, FactoryContext factoryContext);
+	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newfires, String fireCentre, String bbox, Double latitude, Double longitude, Double radius, FactoryContext factoryContext);
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
