@@ -22,7 +22,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String newsPublicationStatusCode;
 	private Date discoveryDate;
 	private Date declaredOutDate;
-	private String fireCentre;
+	private String fireCentreCode;
+	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
@@ -107,7 +108,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.latitude = dto.latitude;
 		this.longitude = dto.longitude;
 		this.declaredOutDate = dto.declaredOutDate;
-		this.fireCentre = dto.fireCentre;
+		this.fireCentreCode = dto.fireCentreCode;
+		this.fireCentreName = dto.fireCentreName;
 		this.fireYear = dto.fireYear;
 		this.responseTypeCode = dto.responseTypeCode;
 		this.responseTypeDetail = dto.responseTypeDetail;
@@ -156,7 +158,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.latitude = incident.getLatitude();
 		this.longitude = incident.getLongitude();
 		this.declaredOutDate = incident.getDeclaredOutDate();
-		this.fireCentre = incident.getFireCentre();
+		this.fireCentreCode = incident.getFireCentreCode();
+		this.fireCentreName = incident.getFireCentreName();
 		this.fireYear = incident.getFireYear();
 		this.responseTypeCode = incident.getResponseTypeCode();
 		this.responseTypeDetail = incident.getResponseTypeDetail();
@@ -230,7 +233,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("longitude", longitude, other.longitude);
 			result = result && equals("latitude", latitude, other.latitude);
 			result = result && equals("declaredOutDate", declaredOutDate, other.declaredOutDate);
-			result = result && equals("fireCentre", fireCentre, other.fireCentre);
+			result = result && equals("fireCentreCode", fireCentreCode, other.fireCentreCode);
+			result = result && equals("fireCentreName", fireCentreName, other.fireCentreName);
 			result = result && equals("fireYear", fireYear, other.fireYear);
 			result = result && equals("responseTypeCode", responseTypeCode, other.responseTypeCode);
 			result = result && equals("responseTypeDetail", responseTypeDetail, other.responseTypeDetail);
@@ -581,12 +585,20 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.declaredOutDate = declaredOutDate;
 	}
 
-	public String getFireCentre() {
-		return fireCentre;
+	public String getFireCentreCode() {
+		return fireCentreCode;
 	}
 
-	public void setFireCentre(String fireCentre) {
-		this.fireCentre = fireCentre;
+	public void setFireCentreCode(String fireCentreCode) {
+		this.fireCentreCode = fireCentreCode;
+	}
+
+	public String getFireCentreName() {
+		return fireCentreName;
+	}
+
+	public void setFireCentreName(String fireCentreName) {
+		this.fireCentreName = fireCentreName;
 	}
 
 	public Integer getFireYear() {

@@ -48,7 +48,7 @@ export function searchWildfires(
     radius: number,
     callback: Function | null = null): SearchWildfiresAction {
         let filters = {}
-        filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined
+        filters["fireCentreCode"] = selectedFireCentre ? selectedFireCentre : undefined
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : undefined
         filters["stageOfControlList"] = stageOfControlList ? stageOfControlList : []
         filters["newFires"] = newFires ? newFires : false

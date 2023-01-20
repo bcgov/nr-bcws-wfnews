@@ -261,7 +261,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setUpdateUser(publishedIncidentResource.getUpdateUser());
 		incident.setLatitude(publishedIncidentResource.getLatitude());
 		incident.setLongitude(publishedIncidentResource.getLongitude());
-		incident.setFireCentre(publishedIncidentResource.getFireCentre());
+		incident.setFireCentreCode(publishedIncidentResource.getFireCentreCode());
+		incident.setFireCentreName(publishedIncidentResource.getFireCentreName());
 		incident.setFireYear(publishedIncidentResource.getFireYear());
 		incident.setResponseTypeCode(publishedIncidentResource.getResponseTypeCode());
 		incident.setResponseTypeDetail(publishedIncidentResource.getResponseTypeDetail());
