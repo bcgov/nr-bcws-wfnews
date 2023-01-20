@@ -27,7 +27,8 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	private String newsPublicationStatusCode;
 	private Date discoveryDate;
 	private Date declaredOutDate;
-	private String fireCentre;
+	private String fireCentreCode;
+	private String fireCentreName;
 	private Boolean fireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
@@ -332,13 +333,23 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	}
 
 	@Override
-	public String getFireCentre() {
-		return fireCentre;
+	public String getFireCentreCode() {
+		return fireCentreCode;
 	}
 
 	@Override
-	public void setFireCentre(String fireCentre) {
-		this.fireCentre = fireCentre;
+	public void setFireCentreCode(String fireCentreCode) {
+		this.fireCentreCode = fireCentreCode;
+	}
+
+	@Override
+	public String getFireCentreName() {
+		return fireCentreName;
+	}
+
+	@Override
+	public void setFireCentreName(String fireCentreName) {
+		this.fireCentreName = fireCentreName;
 	}
 
 	@Override
