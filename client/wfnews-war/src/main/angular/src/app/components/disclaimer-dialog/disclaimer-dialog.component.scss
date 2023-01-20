@@ -8,6 +8,10 @@
     border-bottom-style: solid;
     border-bottom-width: 2px;
   }
+
+  .dialog-content{
+    margin: 0 !important
+  }
 }
 
   .panel{
@@ -30,7 +34,8 @@
             }
             a{
                 color: #0e5fa9;
-                text-decoration: none;
+                text-decoration: none !important;
+                outline-offset: none !important;
             }
         }
     }

@@ -118,6 +118,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     window['SPLASH_SCREEN'].remove();
     if (localStorage.getItem('dontShowDisclaimer') !== 'true'){
       let dialogRef = this.dialog.open(DisclaimerDialogComponent, {
+        autoFocus: false,
         width: '600px',
       });
       dialogRef.afterClosed().subscribe(result => {
