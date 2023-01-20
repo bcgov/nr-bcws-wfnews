@@ -286,10 +286,12 @@
 			RESPONSE_TYPE_DETAIL
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		WHERE stage_of_control_code IS NOT NULL
-			AND stage_of_control_code IN
-			<foreach item="sId" collection="stageOfControlList" separator="," open="(" close=")">
-				#{sId}
-			</foreach>
+			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
+					AND stage_of_control_code IN
+				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+					#{soc}
+				</foreach>
+			</if>
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>
@@ -341,10 +343,12 @@
 		SELECT COUNT(*)
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		  WHERE stage_of_control_code IS NOT NULL
-				AND stage_of_control_code IN
-			<foreach item="sId" collection="stageOfControlList" separator="," open="(" close=")">
-				#{sId}
-			</foreach>
+			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
+					AND stage_of_control_code IN
+				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+					#{soc}
+				</foreach>
+			</if>
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
 				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
 			</if>

@@ -50,7 +50,7 @@ export function searchWildfires(
         let filters = {}
         filters["fireCentre"] = selectedFireCentre ? selectedFireCentre : undefined
         filters["fireOfNote"] = fireOfNoteInd ? fireOfNoteInd : undefined
-        filters["stageOfControlList"] = stageOfControlList ? stageOfControlList.toString() : []
+        filters["stageOfControlList"] = stageOfControlList ? stageOfControlList : []
         filters["newFires"] = newFires ? newFires : false
         filters["bbox"] = bbox ? bbox : undefined
 
