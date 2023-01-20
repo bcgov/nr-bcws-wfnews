@@ -99,91 +99,96 @@
       <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response</a></p>
     </div>
   </div>
-  <div class="content-panel" style="border-bottom: none;" *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
+  <div class="content-panel" style="border-bottom: none;">
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
       <div>The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.</div>
     </div>
-    <!-- Wildfire Resources -->
-    <div *ngIf="incident.wildfireCrewResourcesInd" class="resource-panel">
-      <div class="resource-panel-icon">
-        <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
-      </div>
-      <div class="resource-panel-content">
-        <h3>Wildfire Crews</h3>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireCrewResourcesDetail || 'There are currently Initial Attack and Unit Crews responding to this wildfire.'"></div>
+    <div *ngIf="(incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd); else defaultResourcesContent">
+      <!-- Wildfire Resources -->
+      <div *ngIf="incident.wildfireCrewResourcesInd && incident.wildfireCrewResourcesDetail" class="resource-panel">
+        <div class="resource-panel-icon">
+          <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
         </div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews</a></p>
+        <div class="resource-panel-content">
+          <h3>Wildfire Crews</h3>
+          <div class="content-panel-body">
+            <div [innerHTML]="incident.wildfireCrewResourcesDetail"></div>
+          </div>
+          <div class="learn-more-button-container">
+            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- Wildfire Aviation -->
+      <div *ngIf="incident.wildfireAviationResourceInd && incident.wildfireAviationResourceDetail"  class="resource-panel">
+        <div class="resource-panel-icon">
+          <img class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
+        </div>
+        <div class="resource-panel-content">
+          <h3>Wildfire Aviation</h3>
+          <div class="content-panel-body">
+            <div [innerHTML]="incident.wildfireAviationResourceDetail"></div>
+          </div>
+          <div class="learn-more-button-container">
+            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- Incident Management Teams -->
+      <div *ngIf="incident.incidentMgmtCrewRsrcInd && incident.incidentMgmtCrewRsrcDetail"  class="resource-panel">
+        <div class="resource-panel-icon">
+          <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Incident Management Teams" />
+        </div>
+        <div class="resource-panel-content">
+          <h3>Incident Management Teams</h3>
+          <div class="content-panel-body">
+            <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail"></div>
+          </div>
+          <div class="learn-more-button-container">
+            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- Heavy Equipment -->
+      <div *ngIf="incident.heavyEquipmentResourcesInd && incident.heavyEquipmentResourcesDetail"  class="resource-panel">
+        <div class="resource-panel-icon">
+          <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
+        </div>
+        <div class="resource-panel-content">
+          <h3>Heavy Equipment</h3>
+          <div class="content-panel-body">
+            <div [innerHTML]="incident.heavyEquipmentResourcesDetail"></div>
+          </div>
+          <div class="learn-more-button-container">
+            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment</a></p>
+          </div>
+        </div>
+      </div>
+      <!-- Structure Protection -->
+      <div *ngIf="incident.structureProtectionRsrcInd && incident.structureProtectionRsrcDetail"  class="resource-panel">
+        <div class="resource-panel-icon">
+          <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Heavy Equipment" />
+        </div>
+        <div class="resource-panel-content">
+          <h3>Structure Protection</h3>
+          <div class="content-panel-body">
+            <div [innerHTML]="incident.structureProtectionRsrcDetail"></div>
+          </div>
+          <div class="learn-more-button-container">
+            <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>
+            <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection</a></p>
+          </div>
         </div>
       </div>
     </div>
-    <!-- Wildfire Aviation -->
-    <div *ngIf="incident.wildfireAviationResourceInd"  class="resource-panel">
-      <div class="resource-panel-icon">
-        <img class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
-      </div>
-      <div class="resource-panel-content">
-        <h3>Wildfire Aviation</h3>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.wildfireAviationResourceDetail || 'There are currently helicopters and/or airtankers responding to this wildfire.'"></div>
-        </div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation</a></p>
-        </div>
-      </div>
-    </div>
-    <!-- Incident Management Teams -->
-    <div *ngIf="incident.incidentMgmtCrewRsrcInd"  class="resource-panel">
-      <div class="resource-panel-icon">
-        <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Incident Management Teams" />
-      </div>
-      <div class="resource-panel-content">
-        <h3>Incident Management Teams</h3>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail || 'An Incident Management Team has been assigned to this wildfire.'"></div>
-        </div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management</a></p>
-        </div>
-      </div>
-    </div>
-    <!-- Heavy Equipment -->
-    <div *ngIf="incident.heavyEquipmentResourcesInd"  class="resource-panel">
-      <div class="resource-panel-icon">
-        <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
-      </div>
-      <div class="resource-panel-content">
-        <h3>Heavy Equipment</h3>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.heavyEquipmentResourcesDetail || 'There is heavy equipment responding to this wildfire.'"></div>
-        </div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment</a></p>
-        </div>
-      </div>
-    </div>
-    <!-- Structure Protection -->
-    <div *ngIf="incident.structureProtectionRsrcInd"  class="resource-panel">
-      <div class="resource-panel-icon">
-        <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Heavy Equipment" />
-      </div>
-      <div class="resource-panel-content">
-        <h3>Structure Protection</h3>
-        <div class="content-panel-body">
-          <div [innerHTML]="incident.structureProtectionRsrcDetail || 'There are currently structure protection units responding to this incident.'"></div>
-        </div>
-        <div class="learn-more-button-container">
-          <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank" rel="noopener">Learn More</a>
-          <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection</a></p>
-        </div>
-      </div>
-    </div>
+    <ng-template #defaultResourcesContent>
+      For more information on resources deployed to this incident, please contact the information officer assigned to this wildfire.
+    </ng-template>
   </div>
   <div id="qr-code-panel" class="qr-code" style="text-align: center;">
     <h5 style="padding: 0px; margin: 0px;">View in your browser</h5>
