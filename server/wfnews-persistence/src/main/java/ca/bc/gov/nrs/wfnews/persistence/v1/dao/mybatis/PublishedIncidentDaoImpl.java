@@ -248,8 +248,5 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		}
 		
 		return results;
-
-	}
-	
-
+	}	
 }
