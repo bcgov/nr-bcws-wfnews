@@ -344,49 +344,44 @@
 			<if test="offset != null and pageRowCount != null">
 				OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
 				FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
-			</if> 
-		
+			</if>
 	</select>
 	
 	<select id="selectCount" resultType="int">
 		SELECT COUNT(*)
-		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		  WHERE stage_of_control_code IS NOT NULL
-			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
-					AND stage_of_control_code IN
-				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
-					#{soc}
-				</foreach>
-			</if>
-			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
-				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
-			</if>
-			<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
-				AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
-			</if>
-			<if test="newFires == true">  
-				AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
-			</if>
-			<if test="fireOfNote == true">  
-				AND fire_of_note_ind = 'Y'
-			</if>
-			<if test="fireOfNote == false">  
-				AND fire_of_note_ind = 'N'
-			</if>
-			<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">  
-				AND fire_centre_code = #{fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-			</if>
-			<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
-				AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
-			</if>
-			<if test="searchText!=null &amp;&amp; searchText.length>0">
-				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
-				LIKE '%'||UPPER(#{searchText})||'%' 
-			</if>
-			<if test="offset != null and pageRowCount != null">
-				OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
-				FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
-			</if> 
+		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
+		WHERE stage_of_control_code IS NOT NULL
+		<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
+				AND stage_of_control_code IN
+			<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
+				#{soc}
+			</foreach>
+		</if>
+		<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
+			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+		</if>
+		<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
+			AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+		</if>
+		<if test="newFires == true">  
+			AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
+		</if>
+		<if test="fireOfNote == true">  
+			AND fire_of_note_ind = 'Y'
+		</if>
+		<if test="fireOfNote == false">  
+			AND fire_of_note_ind = 'N'
+		</if>
+		<if test="fireCentreCode != null &amp;&amp; fireCentreCode != ''">  
+			AND fire_centre_code = #{fireCentreCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		</if>
+		<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
+			AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		</if>
+		<if test="searchText!=null &amp;&amp; searchText.length>0">
+			AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
+			LIKE '%'||UPPER(#{searchText})||'%' 
+		</if>
 	</select>
 
 	<select id="selectAsJson" resultType="string">
