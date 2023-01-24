@@ -227,7 +227,7 @@ section {
       cursor: pointer;
     }
     .item-header{
-        font-size: 1.6rem;
+        font-size: 1.2rem;
         font-weight: 400;
         color: #003366;
         padding: 10px 0px;
@@ -248,7 +248,7 @@ section {
     }
     .tags{
         padding: 1rem 0;
-        .wildifre-of-note-tag{
+        .wildifire-of-note-tag{
             padding: 5px 10px;
             width: fit-content;
             border-radius: 40px;
@@ -256,11 +256,13 @@ section {
             background-color: #AA1D3E;
             border: 1px solid;
             margin-right: 0.5rem;
+            font-size: 15px;
         }
         .stage-of-control-status-indicator{
             padding: 5px 10px;
             width: fit-content;
             border-radius: 40px;
+            font-size: 15px;
 
             &.HOLDING{
                 color: #6C4A00;
