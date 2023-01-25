@@ -366,7 +366,7 @@
   select[readonly="true"],
   input:disabled,
   select:disabled{
-    background-color: $opacity-light-grey !important;
+    background-color: $colour-white !important;
   }
 
   ::ng-deep mat-checkbox .mat-checkbox-frame {
