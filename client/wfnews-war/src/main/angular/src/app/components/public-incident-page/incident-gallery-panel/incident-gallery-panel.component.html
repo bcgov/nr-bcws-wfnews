@@ -1,6 +1,8 @@
 <div class="panel">
     <div class="header-row">
-      <h4>Image/Video Gallery</h4>
+      <h4>Image/Video Gallery
+          <div *ngIf="showImageWarning" class="preview-warning">Warning: Uploaded Images or Videos cannot be previewed</div>
+      </h4>
     </div>
     <div class="content-panel" *ngIf="videos && videos.length || images && images.length; else showDisclaimer" >
         <div class="media-types">

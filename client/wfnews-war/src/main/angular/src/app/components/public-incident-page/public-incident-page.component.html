@@ -13,11 +13,11 @@
         </mat-tab>
         <mat-tab label="Gallery">
           <ng-template matTabContent>
-            <incident-gallery-panel [incident]="incident"></incident-gallery-panel>
+            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
           </ng-template>
         </mat-tab>
         <mat-tab label="Maps">
-          <incident-maps-panel [incident]="incident"></incident-maps-panel>
+          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
         </mat-tab>
       </mat-tab-group>
     </div>
