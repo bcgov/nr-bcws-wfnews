@@ -34,7 +34,8 @@ export class ContactsDetailsPanel implements OnInit {
     if (Object.prototype.hasOwnProperty.call(this.contacts, value)) {
       control.patchValue({
         phoneNumber: this.contacts[value].phone,
-        emailAddress: this.contacts[value].url
+        emailAddress: this.contacts[value].url,
+        fireCentre: value
       })
     }
   }

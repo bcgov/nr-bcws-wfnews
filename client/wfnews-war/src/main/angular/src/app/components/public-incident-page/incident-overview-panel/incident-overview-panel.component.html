@@ -11,6 +11,6 @@
     </div>
   </div>
   <div class="content-panel">
-    <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || '<p>There is currently no overview available for this wildfire.</p>'" (ready)="onReady($event)"></ckeditor>
+    <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || '<p>For more information on this incident, please contact the information officers assigned.</p>'" (ready)="onReady($event)"></ckeditor>
   </div>
 </div>
