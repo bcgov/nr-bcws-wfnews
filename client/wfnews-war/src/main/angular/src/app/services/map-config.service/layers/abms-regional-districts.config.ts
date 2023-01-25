@@ -32,7 +32,13 @@ export function AbmsRegionalDistrictsLayerConfig(ls: layerSettings) {
                 name: 'IMAGE_URL',
                 title: 'Image'
               }
-            ]
+            ],
+            legend: {
+              title: ' ',
+              url: '/assets/images/legend_regional_districts.png',
+              width: 20,
+              height: 20
+            },
         }
     ];
 }
