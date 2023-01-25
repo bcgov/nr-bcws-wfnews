@@ -16,14 +16,13 @@
                     <div class="form">
                         <div class="row">
                             <div class="field">
-                                <mat-label class="label required">Name</mat-label>
+                                <mat-label class="label required">Name<span style="color: red">*</span></mat-label>
                                 <input matInput type="text" formControlName="name" aria-label="Name" />
-                                <mat-error [style.visibility]="error('name', 'required') ? 'visible':'hidden'">Name is required</mat-error>
                             </div>
                             <div class="field">
-                                <mat-label class="label  required">Email</mat-label>
+                                <mat-label class="label required">Email<span style="color: red">*</span></mat-label>
                                 <input  matInput type="text" formControlName="email" aria-label="Email" />
-                                <mat-error>{{ mailErrorMessages }}</mat-error>
+                                <mat-error style="font-size: 15px; padding-top: 7px; ">{{ mailErrorMessages }}</mat-error>
                             </div>
                         </div>
                         <div class="row">
@@ -34,9 +33,8 @@
                         </div>
                         <div class="row">
                             <div class="field">
-                                <mat-label class="label">Message</mat-label>
+                                <mat-label class="label">Message<span style="color: red">*</span></mat-label>
                                 <textarea rows="3" style="height:auto;" matInput formControlName="message" aria-label="Message" maxlength="500"></textarea>
-                                <mat-error [style.visibility]="error('message', 'required') ? 'visible':'hidden'">Message is required</mat-error>
                             </div>
                         </div>
                         <div class="row submit-row">
