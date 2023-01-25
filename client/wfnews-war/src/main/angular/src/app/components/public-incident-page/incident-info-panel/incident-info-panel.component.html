@@ -53,8 +53,10 @@
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">phone_in_talk</mat-icon><span>{{incident.contactPhoneNumber}}</span></div>
       </div>
     </div>
+    <div class="spacer-bottom"></div>
   </div>
   <div class="content-panel">
+    <div class="spacer-top"></div>
     <div class="content-panel-stack">
       <div>
         <h1>Evacuation Orders and Alerts</h1>
@@ -88,8 +90,10 @@
         </div>
       </div>
     </div>
+    <div class="spacer-bottom"></div>
   </div>
   <div class="content-panel">
+    <div class="spacer-top"></div>
     <h1>Response</h1>
     <div class="content-panel-body">
       {{incident.resourceDetail || 'For further information on response, please contact the information officer assigned to this incident.'}}
@@ -98,8 +102,10 @@
       <a class="learn-more-button no-print" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response" target="_blank" rel="noopener">Learn More</a>
       <p class="show-print">Learn More: <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response">https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response</a></p>
     </div>
+    <div class="spacer-bottom"></div>
   </div>
   <div class="content-panel" style="border-bottom: none;">
+    <div class="spacer-top"></div>
     <h1>Current Resources</h1>
     <div *ngIf="incident.resourceDetail" class="content-panel-body">
       <div>The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.</div>
