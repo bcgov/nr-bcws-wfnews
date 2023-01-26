@@ -74,9 +74,9 @@
                   <span class="item-title">Status: </span>
                   <span class="item-content">{{evac.orderAlertStatus}}</span>
               </div>
-              <div class="item-row">
-                  <span class="item-title">Distance from My Location: </span>
-                  <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km</span>
+              <div class="item-row" *ngIf="this.currentLat && this.currentLong">
+                  <span class="item-title">Distance: </span>
+                  <span class="item-content">{{calculateDistance(evac.centroid.y, evac.centroid.x)}} km from My Location</span>
               </div>
             </div>
           </mat-expansion-panel-header>
@@ -100,9 +100,9 @@
                   <span class="item-title">Restrictions: </span>
                   <span class="item-content">{{convertRestriction(ban.accessProhibitionDescription)}}</span>
               </div>
-              <div class="item-row">
-                  <span class="item-title">Distance from My Location: </span>
-                  <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} KM</span>
+              <div class="item-row" *ngIf="this.currentLat && this.currentLong">
+                  <span class="item-title">Distance: </span>
+                  <span class="item-content">{{calculateDistance(ban.centroid.y, ban.centroid.x)}} km from My Location</span>
               </div>
           </div>
         </mat-expansion-panel-header>
@@ -125,9 +125,9 @@
                   <span class="item-title">Status: </span>
                   <span class="item-content">Active</span>
               </div>
-              <div class="item-row">
-                  <span class="item-title">Distance from My Location: </span>
-                  <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km</span>
+              <div class="item-row" *ngIf="this.currentLat && this.currentLong">
+                  <span class="item-title">Distance: </span>
+                  <span class="item-content">{{calculateDistance(area.centroid.y, area.centroid.x)}} km from My Location</span>
               </div>
           </div>
         </mat-expansion-panel-header>
