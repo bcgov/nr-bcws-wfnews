@@ -1,5 +1,5 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -121,8 +121,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       structureProtectionComments: [],
       contact: this.formBuilder.group({
         fireCentre: [],
-        phoneNumber: [],
-        emailAddress: []
+        phoneNumber: new FormControl('', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]),
+        emailAddress: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])
       }),
       evacOrders: this.formBuilder.array([])
     })
@@ -130,6 +130,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   getPublishedDate () {
     return this.incident.lastPublished ? new Date(this.incident.lastPublished) : new Date(0)
+  }
+
+  validFormCheck () {
+    const contactControl = this.incidentForm.get('contact')
+    return (contactControl.get('emailAddress').hasError('required') ||
+           contactControl.get('emailAddress').hasError('pattern') ||
+           contactControl.get('phoneNumber').hasError('required') ||
+           contactControl.get('phoneNumber').hasError('pattern'))
   }
 
   ngOnInit() {
