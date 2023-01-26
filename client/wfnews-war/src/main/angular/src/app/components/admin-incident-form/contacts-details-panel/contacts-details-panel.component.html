@@ -23,13 +23,25 @@
           <div class="field size-third">
             <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
               <mat-label class="label required">Phone Number</mat-label>
-              <input matInput type="text" [(ngModel)]="incident.contact.phoneNumber" formControlName="phoneNumber">
+              <input matInput type="text" [(ngModel)]="incident.contact.phoneNumber" formControlName="phoneNumber" pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$">
+              <mat-error *ngIf="formGroup.get('contact').get('phoneNumber').hasError('required')">
+                Phone number is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="!formGroup.get('contact').get('phoneNumber').hasError('required') && formGroup.get('contact').get('phoneNumber').hasError('pattern')">
+                Please enter a valid Phone Number
+              </mat-error>
             </mat-form-field>
           </div>
           <div class="field size-third" >
             <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
               <mat-label class="label required">Email Address</mat-label>
-              <input matInput type="text" [(ngModel)]="incident.contact.emailAddress" formControlName="emailAddress">
+              <input matInput type="text" [(ngModel)]="incident.contact.emailAddress" formControlName="emailAddress" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
+              <mat-error *ngIf="formGroup.get('contact').get('emailAddress').hasError('required')">
+                EMail Address is <strong>required</strong>
+              </mat-error>
+              <mat-error *ngIf="!formGroup.get('contact').get('emailAddress').hasError('required') && formGroup.get('contact').get('emailAddress').hasError('pattern')">
+                Please enter a valid Email Address
+              </mat-error>
             </mat-form-field>
           </div>
         </div>

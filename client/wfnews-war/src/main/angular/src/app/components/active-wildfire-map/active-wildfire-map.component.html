@@ -4,7 +4,7 @@
           <div class="title">
               <h1>Wildfires Map</h1>
               <h2 class="wildfire-count">
-                  <wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+                  <span class='material-icons-outlined fire-icon'>local_fire_department</span>
                   {{ activeFireCount | async }} Active Wildfires
               </h2>
           </div>
@@ -67,7 +67,7 @@
       <div class="map-layers">
           <div matTooltip="Wildfires" class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
               (click)="onSelectLayer( 'wildfire-stage-of-control' )">
-              <wf-icon class="icon" iconName="local_fire_department" iconSize="small"></wf-icon>
+              <span class='material-icons-outlined icon'>local_fire_department</span>
               <span class="hide shrink">Wildfires</span>
           </div>
 
@@ -130,7 +130,7 @@
       <div class="map">
         <div class="identify-panel"></div>
         <div class="mobile-wildfire-count">
-          <span style="margin: auto; display: flex;"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon>{{ activeFireCount | async }} Active Wildfires</span>
+          <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
       </div>
