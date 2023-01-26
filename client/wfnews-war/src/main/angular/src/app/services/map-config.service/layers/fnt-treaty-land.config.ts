@@ -24,7 +24,13 @@ export function FntTreatyLandLayerConfig(ls: layerSettings) {
                 name: 'COMMENTS',
                 title: 'Comments'
               }
-            ]
+            ],
+            legend: {
+              title: ' ',
+              url: '/assets/images/legend_treaty_land.png',
+              width: 20,
+              height: 20
+            },
         }
     ];
 }
