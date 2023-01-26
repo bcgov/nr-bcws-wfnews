@@ -16,7 +16,7 @@
         </div>
         <div class="field size-third radio-checkbox-group">
             <mat-label id="fireOfNote">Wildfire Of Note</mat-label>
-            <mat-icon class="fire-icon">local_fire_department</mat-icon>
+            <span class='material-icons-outlined fire-icon'>local_fire_department</span>
             <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNote" [(ngModel)]="incident.fireOfNote">
               <mat-radio-button [value]="false">No</mat-radio-button>
               <mat-radio-button [value]="true">Yes</mat-radio-button>
