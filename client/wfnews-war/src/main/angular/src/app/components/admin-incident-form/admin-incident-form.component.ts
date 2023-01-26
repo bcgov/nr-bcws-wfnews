@@ -326,7 +326,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
       incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
       incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
-      contactOrgUnitIdentifer: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
+      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as FormGroup).controls['fireCentre'].value,
       contactPhoneNumber:  (this.incidentForm.controls['contact'] as FormGroup).controls['phoneNumber'].value,
       contactEmailAddress:  (this.incidentForm.controls['contact'] as FormGroup).controls['emailAddress'].value,
       wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
