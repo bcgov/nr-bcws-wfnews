@@ -76,8 +76,11 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
-          self.addNearbyWeatherStation(smk);
-          (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
+          // If the layer is visible only
+          if (smk && smk.$viewer.displayContext.layers.itemId['weather-stations'] && smk.$viewer.displayContext.layers.itemId['weather-stations'][0].isVisible) {
+            self.addNearbyWeatherStation(smk);
+            (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
+          }
         })
 
         self.wfMap.setIdentifyDoneCallback(() => {

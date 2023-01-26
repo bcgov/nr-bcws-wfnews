@@ -3,10 +3,10 @@
       <h4>Wildfire Maps</h4>
     </div>
     <div class="content-panel">
-        <div class="content-panel-stack">
+        <div class="content-panel-stack" *ngIf="maps && maps.length; else showDisclaimer">
             <div *ngFor="let map of maps">
                 <div style="display: flex;">
-                    <div class="file-pdf-icon" (click)="downloadMap(map.link)"></div>
+                    <div class="file-pdf-icon" (click)="downloadMap(map.link, map.name)"></div>
                     <div>
                         <div class="document-title">{{map.name}}</div>
                         <div class="document-date">{{map.date}}</div>
@@ -14,5 +14,8 @@
                 </div>
             </div>
         </div>
+        <ng-template #showDisclaimer>
+            There are currently no maps associated with this incident.
+        </ng-template>
     </div>
 </div>

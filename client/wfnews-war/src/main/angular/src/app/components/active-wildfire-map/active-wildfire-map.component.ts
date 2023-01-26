@@ -472,4 +472,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
     this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
   }
+
+  openLink(link:string) {
+    if (link === 'Disclaimer') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
+    }
+    else if  (link === 'Privacy') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
+    }
+    else if (link === 'Copyright') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
 }

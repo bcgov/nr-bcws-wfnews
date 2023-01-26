@@ -56,7 +56,7 @@
         <div class="field">
           <div class="my-location-button">
             <button mat-raised-button (click)="useMyCurrentLocation()" style="width: 100%">
-              <mat-icon>my_location</mat-icon><span style="width: 100%;">My Location</span>
+              <mat-icon>my_location</mat-icon><span style="width: 100%;">Find My Location</span>
             </button>
           </div>
         </div>
@@ -136,9 +136,9 @@
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNoteInd? 'Yes' : 'No'}}</span></td>
         </ng-container>
 
-        <ng-container matColumnDef = "fireCentre">
+        <ng-container matColumnDef = "fireCentreCode">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToFireCentreDescription(item.fireCentre)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToFireCentreDescription(item.fireCentreCode)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
@@ -147,7 +147,7 @@
         </ng-container>
 
         <ng-container matColumnDef = "addToWatchlist">
-            <th mat-header-cell *matHeaderCellDef mat-non-sort-header> Add to Watchlist</th>
+            <th mat-header-cell *matHeaderCellDef mat-non-sort-header> Add to Watch List</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="onWatchlist(item) ? removeFromWatchlist(item) : addToWatchlist(item)">
                 <span #el ><mat-icon style="color:#1A5A96">{{onWatchlist(item) ? 'bookmark' : 'bookmark_border'}}</mat-icon></span>
             </td>

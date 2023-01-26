@@ -120,7 +120,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         //},
         {
             id: "weather-stations",
-            isVisible: true,
+            isVisible: false,
             showItem: true  // false to hide in layer list
         },
         {

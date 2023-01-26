@@ -3,8 +3,8 @@
     <div class="header">
     </div>
     <div class="title-bar">
-      <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><wf-icon class="fire-icon" iconName="local_fire_department" iconSize="small"></wf-icon></span> <span #el class="no-print" style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
-      <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(incident.fireCentre)}}</a></div>
+      <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><img class="icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department"></span> <span #el class="no-print" style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
+      <div class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(incident.fireCentreCode)}}</a></div>
     </div>
     <div class="info-panel">
       <div><span class="label">Fire Number: </span><span>{{convertFireNumber(incident)}}</span></div>
@@ -14,7 +14,7 @@
     </div>
     <div class="divider"></div>
     <div class="info-panel">
-      <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</span></div>
+      <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span> <span>{{displaySizeType(incident.incidentSizeDetail)}}</span></div>
       <div class="paragraph-format">{{incident.incidentSizeDetail || 'Fire size is estimated and based on the last known mapped size in hectares. This information could be out-of-date at this time due to rapidly changing conditions'}}</div>
       <div class="gutter" *ngIf="incident.incidentLocation"><span class="label">Location</span></div>
       <div class="paragraph-format">{{incident.incidentLocation}}</div>

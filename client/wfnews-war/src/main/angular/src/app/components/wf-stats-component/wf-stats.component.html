@@ -166,7 +166,7 @@
         </div>
       </div>
     </div>
-    <div>
+    <div *ngIf="tabIndex === 1">
       <h2>Current Statistics</h2>
       <h5 style="text-align: center; margin: 0px;">New fires are those that have been ignited within the last 24 hours</h5>
       <div class="info-text">
@@ -177,7 +177,7 @@
             <div class="value-cell"><strong>New Lightning Caused Fires</strong></div>
             <div class="value-cell"><strong>New Human Caused Fires</strong></div>
             <div class="value-cell"><strong>Total Fires</strong></div>
-            <div class="value-cell"><strong>Total Area Burned (Ha)</strong></div>
+            <div class="value-cell"><strong>Total Area Burned (Hectares)</strong></div>
           </div>
           <div class="row" *ngFor="let row of fireStats">
             <div class="cell">{{row.name}}</div>
@@ -187,7 +187,7 @@
             <div class="value-cell">{{row.areaBurned ? row.areaBurned.toLocaleString() : 0}}</div>
           </div>
         </div>
-        <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres?keyword=fire&keyword=centre">Learn More about Statistics &amp; Geospatial Data</a>
+        <a class="learn-more-button" rel="noopener" target="_blank" href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/wildfire-statistics">Learn More about Statistics &amp; Geospatial Data</a>
       </div>
     </div>
   </div>

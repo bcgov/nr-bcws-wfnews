@@ -2,7 +2,7 @@
     <div class="header-row">
       <h4>Image/Video Gallery</h4>
     </div>
-    <div class="content-panel">
+    <div class="content-panel" *ngIf="videos && videos.length || images && images.length; else showDisclaimer" >
         <div class="media-types">
             <div>Media Type</div>
             <mat-select appWFSingleSelect appWFPlaceholder="Select..."
@@ -44,4 +44,7 @@
           </div>
         </div>
       </div>
+      <ng-template #showDisclaimer>
+        <p>There are currently no images or videos associated with this incident</p>
+      </ng-template>
 </div>

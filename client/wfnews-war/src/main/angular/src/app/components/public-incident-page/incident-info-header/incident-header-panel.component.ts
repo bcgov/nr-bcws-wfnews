@@ -104,4 +104,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
   removeFromWatchlist () {
     this.watchlistService.removeFromWatchlist(this.incident.incidentNumberLabel)
   }
+
+  displaySizeType (incidentSizeDetail: string) {
+    if (incidentSizeDetail && incidentSizeDetail.includes('estimated')) {
+      return '(Estimated)'
+    }
+    else if (incidentSizeDetail && incidentSizeDetail.includes('mapped')) {
+      return '(Mapped)'
+    }
+    else {
+      return null;
+    }
+  }
 }

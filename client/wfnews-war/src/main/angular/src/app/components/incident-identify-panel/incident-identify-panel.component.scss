@@ -28,7 +28,6 @@
         width: 24px;
         height: 24px;
         border-radius: 50%;
-        background-color:#AA1D3E ;
         margin-right: 8px;
         margin-left: 8px;
         .fire-icon{
@@ -53,6 +52,9 @@
     .label {
       color: #036;
     }
+    .paragraph-format{
+      font-size: 15px;
+    }
   }
   .divider {
     border-bottom: 1px lightgray solid;
@@ -65,7 +67,7 @@
   .icon-bar {
     display: flex;
     flex-direction: row;
-    justify-content: space-evenly;
+
     .resource-icon {
       color: #003366;
       font-size: 1rem;

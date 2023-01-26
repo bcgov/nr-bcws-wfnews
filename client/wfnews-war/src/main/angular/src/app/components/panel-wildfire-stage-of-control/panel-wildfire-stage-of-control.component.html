@@ -12,7 +12,7 @@
                 <article>
                     <h2 class="black">
                         <div class="fire-icon-container">
-                            <mat-icon class="fire-icon">local_fire_department</mat-icon>
+                          <img class="icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department">
                         </div>
                         Wildfire of Note
                     </h2>
@@ -86,15 +86,15 @@
                 </div>
                 <div class="item-row">
                     <span class="item-title">Fire Centre: </span>
-                    <span class="item-content">{{convertToFireCentreDescription(incident.fireCentre)}}</span>
+                    <span class="item-content">{{convertToFireCentreDescription(incident.fireCentreCode)}}</span>
                 </div>
                 <div class="item-row">
                     <span class="item-title">Distance from My Location: </span>
                     <span class="item-content">{{calculateDistance(Number(incident.latitude), Number(incident.longitude))}} km</span>
                 </div>
                 <div class="tags">
-                    <span *ngIf="incident.fireOfNoteInd" class="wildifre-of-note-tag">
-                        <mat-icon class="fire-icon" style="vertical-align:middle">local_fire_department</mat-icon>
+                    <span *ngIf="incident.fireOfNoteInd" class="wildifire-of-note-tag">
+                        <span class='material-icons-outlined fire-icon' style="vertical-align:middle">local_fire_department</span>
                         Wildfire of Note
                     </span>
                     <span class="stage-of-control-status-indicator {{incident.stageOfControlCode}}">

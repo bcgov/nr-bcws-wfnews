@@ -1,5 +1,5 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
@@ -121,8 +121,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       structureProtectionComments: [],
       contact: this.formBuilder.group({
         fireCentre: [],
-        phoneNumber: [],
-        emailAddress: []
+        phoneNumber: new FormControl('', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]),
+        emailAddress: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])
       }),
       evacOrders: this.formBuilder.array([])
     })
@@ -130,6 +130,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   getPublishedDate () {
     return this.incident.lastPublished ? new Date(this.incident.lastPublished) : new Date(0)
+  }
+
+  validFormCheck () {
+    const contactControl = this.incidentForm.get('contact')
+    return (contactControl.get('emailAddress').hasError('required') ||
+           contactControl.get('emailAddress').hasError('pattern') ||
+           contactControl.get('phoneNumber').hasError('required') ||
+           contactControl.get('phoneNumber').hasError('pattern'))
   }
 
   ngOnInit() {
@@ -194,7 +202,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
               self.incident.sizeComments = response.incidentSizeDetail;
-              self.incident.sizeType = response.incidentSizeDetail.includes('estimated')? 1 : 0;
+              self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 0;
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
@@ -318,7 +326,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
       incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
       incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
-      contactOrgUnitIdentifer: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
+      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as FormGroup).controls['fireCentre'].value,
       contactPhoneNumber:  (this.incidentForm.controls['contact'] as FormGroup).controls['phoneNumber'].value,
       contactEmailAddress:  (this.incidentForm.controls['contact'] as FormGroup).controls['emailAddress'].value,
       wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,

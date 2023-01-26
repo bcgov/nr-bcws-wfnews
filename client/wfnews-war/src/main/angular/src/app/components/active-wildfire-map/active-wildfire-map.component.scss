@@ -39,8 +39,15 @@
         align-items: center;
 
         input {
-          margin-top: 0 !important
+          margin-top: 0 !important;
+
+          &::placeholder {
+            color:#767676;
+            font-size: 1rem;
+          }
         }
+
+        
 
         .input-clear-button {
           margin-right: auto;
@@ -72,6 +79,14 @@
         display: flex;
         padding-left: 10px;
       }
+    }
+
+    .disclaimer-dropdown{
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #EEE;;
+      height: 36px;
     }
   }
 
@@ -254,7 +269,7 @@ mat-panel-title {
 }
 
 ::ng-deep .paragraph-format {
-  font-size: 13px;
+  font-size: 15px;
   line-height: 1.5;
 }
 
