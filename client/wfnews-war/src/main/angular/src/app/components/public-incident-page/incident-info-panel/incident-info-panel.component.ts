@@ -23,6 +23,12 @@ export class IncidentInfoPanel implements AfterViewInit {
   public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) {}
   public primaryMedia = null
 
+  handleImageFallback (href: string) {
+    const imgComponent = document.getElementById('primary-image-container')
+    if (imgComponent) {
+      (imgComponent as any).src = href
+    }
+  }
   ngAfterViewInit(): void {
     const canvas = document.getElementById('qr-code')
     toCanvas(canvas, window.location.href, function (error) {
