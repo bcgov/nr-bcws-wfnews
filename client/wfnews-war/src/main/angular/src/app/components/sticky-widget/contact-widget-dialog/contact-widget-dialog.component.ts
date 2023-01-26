@@ -48,8 +48,8 @@ export class ContactWidgetDialogComponent implements OnInit {
         let error = "";
         const emailControl: FormControl = (this.contactForm.get('email') as FormControl);
 
-        if(emailControl.hasError('required'))
-            error += "Email is required";
+        // if(emailControl.hasError('required'))
+        //     error += "Email is required";
         if(emailControl.hasError('email'))
             error += "A valid email is required";
 
