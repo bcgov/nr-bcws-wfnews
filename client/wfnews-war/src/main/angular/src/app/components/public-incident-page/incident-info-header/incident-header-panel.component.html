@@ -15,7 +15,7 @@
     <div class="divider"></div>
     <div class="info-panel">
       <div class="gutter"><span class="label">Size: </span><span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span> <span>{{displaySizeType(incident.incidentSizeDetail)}}</span></div>
-      <div class="paragraph-format">{{incident.incidentSizeDetail || 'Fire size is estimated and based on the last known mapped size in hectares. This information could be out-of-date at this time due to rapidly changing conditions'}}</div>
+      <div class="paragraph-format">{{incident.incidentSizeDetail || 'Fire size is estimated and based on the most current information available.'}}</div>
       <div class="gutter" *ngIf="incident.incidentLocation"><span class="label">Location</span></div>
       <div class="paragraph-format">{{incident.incidentLocation}}</div>
       <div class="gutter" *ngIf="incident.traditionalTerritoryDetail"><span class="label">Traditional Territory</span></div>
