@@ -73,8 +73,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     const panel = document.getElementsByClassName('incident-details')
     if (panel && panel.length !== 0) {
       (panel.item(0) as HTMLElement).remove();
-      (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
     }
+    
+    (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
 
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
