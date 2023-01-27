@@ -257,7 +257,7 @@ export function isMobileView () {
   return window.innerWidth <= 768
 }
 
-export function snowPlowHelper(page: string, action?:string) {
+export async function snowPlowHelper(page: string, action?:string) {
     let pageInfo = page;
     if(action) {
        pageInfo =  pageInfo + '#' + action;
