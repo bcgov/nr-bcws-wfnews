@@ -75,7 +75,7 @@ jobs:
       CLIENT_MEMORY: 4096
       SERVER_CPU_UNITS: 2048 
       SERVER_MEMORY: 4096
-      DB_INSTANCE_TYPE: 'db.t3.micro'
+      DB_INSTANCE_TYPE: 'db.t3.medium'
       INSTANCE_COUNT: 2
 
       LOGGING_LEVEL: INFO
