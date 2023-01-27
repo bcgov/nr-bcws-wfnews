@@ -82,6 +82,13 @@ export class IncidentGalleryPanel implements OnInit {
     this.onMediaTypeFilterChanged("All");
   }
 
+  handleImageFallback (item: any, index: number) {
+    const imgComponent = document.getElementById(index + '-img-thumb')
+    if (imgComponent) {
+      (imgComponent as any).src = item.href
+    }
+  }
+
   loadPage() {
     this.imagesAndVideosStub = []
     this.allImagesAndVideosStub = []
