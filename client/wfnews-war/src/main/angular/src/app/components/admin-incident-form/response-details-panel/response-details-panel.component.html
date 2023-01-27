@@ -35,7 +35,7 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">External Crews</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">Crews</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -146,14 +146,14 @@
     </mat-card-title>
     <fieldset class="field-set">
       <div class="news-form">
-        <div class="field size-unset">
+        <!-- div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
             <input matInput type="number" #structure (change)="structuretValueChange()">
           </mat-form-field>
-        </div>
+        </div -->
         <div class="field size-third">
-          <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection Units</mat-checkbox>
+          <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection</mat-checkbox>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">

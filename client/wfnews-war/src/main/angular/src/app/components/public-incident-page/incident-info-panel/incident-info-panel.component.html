@@ -16,7 +16,7 @@
       <div>
         <h1>Stage of Control</h1>
         <div *ngIf="incident.fireOfNoteInd" class="content-panel-subtitle">Wildfire Of Note</div>
-        <div *ngIf="incident.fireOfNoteInd" class="content-panel-body">This wildfire is highly visible or poses a potential threat to public safety</div>
+        <div *ngIf="incident.fireOfNoteInd" class="content-panel-body">This wildfire is highly visible or poses a potential threat to public safety.</div>
         <div class="content-panel-subtitle">{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
         <div class="content-panel-body">{{getStageOfControlDescription(incident.stageOfControlCode)}}</div>
         <div id="spacer" style="padding: 12px;"></div>
@@ -36,7 +36,7 @@
       <div>
         <!-- Image/video section: fetch from aws cache -->
         <div style="text-align: center;" *ngIf="primaryMedia !== null">
-          <img *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400"/>
+          <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400" (error)="handleImageFallback(primaryMedia.href)" />
           <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
             videoId={{convertToYoutubeId(primaryMedia.href)}}
             suggestedQuality="highres"
@@ -60,7 +60,7 @@
     <div class="content-panel-stack">
       <div>
         <h1>Evacuation Orders and Alerts</h1>
-        <div class="content-panel-subtitle">Evacuation Order Information</div>
+        <div class="content-panel-subtitle">Evacuation Information</div>
         <div *ngFor="let evac of evacOrders">
           <a [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener" class="content-panel-link">{{evac.eventName}} ({{evac.issuingAgency}})</a>
         </div>
