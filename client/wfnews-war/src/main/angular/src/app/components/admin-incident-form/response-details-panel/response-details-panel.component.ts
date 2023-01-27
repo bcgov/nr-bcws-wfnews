@@ -16,10 +16,10 @@ export class ResponseDetailsPanel implements OnInit {
   @ViewChild("airtankers") airtankers: ElementRef;
   @ViewChild("pieces") pieces: ElementRef;
   @ViewChild("structure") structure: ElementRef;
- 
+
   responseDisclaimer: string = `The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed for this incident.`;
   incidentManagementComments: string = `An Incident Management Team has been assigned to this wildfire.`;
-  
+
   ngOnInit() {
     this.formGroup.controls['responseComments'].setValue(this.responseDisclaimer);
   }
@@ -63,7 +63,7 @@ export class ResponseDetailsPanel implements OnInit {
       this.formGroup.controls["structureProtectionComments"].setValue("");
     }
   }
-  
+
   crewCommentsValue(initialAttack, unityCrews) {
     if (initialAttack || unityCrews){
       return `There are currently ${initialAttack && initialAttack > 0 ? initialAttack : 0} Initial Attack and ${unityCrews && unityCrews > 0 ? unityCrews : 0} Unit Crews responding to this wildfire.`;
@@ -83,9 +83,9 @@ export class ResponseDetailsPanel implements OnInit {
   }
 
   structureProtectionCommentsValue(structure) {
-    if (structure && structure > 0) {
-      return `There are currently ${structure} structure protection units responding to this incident.`;
-    }
+    //if (structure && structure > 0) {
+      return `Structure protection is responding to this incident.`;
+    //}
   }
 
   crewsValueChange() {
