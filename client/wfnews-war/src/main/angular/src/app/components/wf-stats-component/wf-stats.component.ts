@@ -102,8 +102,8 @@ export class WFStatsComponent implements OnInit {
       const fcAllData = []
       const fcStats = []
       for (const centre of FIRE_CENTRES) {
-        const fireCount = this.fires.filter(f => f.fireCentre === centre.id).length
-        const outFireCount = this.outFires.filter(f => f.fireCentre === centre.id).length
+        const fireCount = this.fires.filter(f => f.fireCentreCode === centre.id).length
+        const outFireCount = this.outFires.filter(f => f.fireCentreCode === centre.id).length
         fcData.push({
           name: centre.name,
           value: fireCount
@@ -114,10 +114,10 @@ export class WFStatsComponent implements OnInit {
         })
         fcStats.push({
           name: centre.name,
-          lightningStarts: activeIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
-          humanStarts: activeIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
+          lightningStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
+          humanStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
           totalFires: fireCount + outFireCount,
-          areaBurned: activeIncidents.collection.map(f => f.fireCentre === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n)
+          areaBurned: activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n)
         })
       }
 
