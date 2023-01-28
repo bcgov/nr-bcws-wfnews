@@ -50,8 +50,8 @@ export class PublicIncidentPage implements OnInit {
           // check the contact info
           if (!this.incident.contactOrgUnitIdentifer) {
             this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
-              this.incident.contactPhoneNumber = data[this.incident.fireCentre].phone
-              this.incident.contactEmailAddress = data[this.incident.fireCentre].url
+              this.incident.contactPhoneNumber = data[this.incident.fireCentreCode].phone
+              this.incident.contactEmailAddress = data[this.incident.fireCentreCode].url
               this.cdr.detectChanges();
             });
           }
