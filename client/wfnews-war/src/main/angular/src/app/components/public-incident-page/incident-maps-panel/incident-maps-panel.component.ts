@@ -18,9 +18,10 @@ export class DownloadableMap {
 })
 export class IncidentMapsPanel implements OnInit {
   @Input() public incident;
+  @Input() public showMapsWarning;
 
   maps: DownloadableMap[];
-
+  
   constructor(private snackbarService: MatSnackBar,
               private httpClient: HttpClient,
               private publishedIncidentService: PublishedIncidentService,

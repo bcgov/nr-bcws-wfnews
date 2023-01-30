@@ -86,22 +86,24 @@ export class WFStatsComponent implements OnInit {
     this.outFires = [];
 
     const activeIncidents = await this.publishedIncidentService.fetchPublishedIncidents().toPromise()
+    const activeFoNIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise()
     const outIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, false, true).toPromise()
+    const outFoNIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, true).toPromise()
 
-    this.outFires = outIncidents.collection
-    this.fires = activeIncidents.collection
+    this.outFires = outIncidents.collection.concat(outFoNIncidents.collection)
+    this.fires = activeIncidents.collection.concat(activeFoNIncidents.collection)
 
-    this.firesLast24 = activeIncidents.collection.filter(f => f.discoveryDate > Date.now() - 86400000).length + outIncidents.collection.filter(f => f.discoveryDate > Date.now() - 86400000).length
-    this.firesLast7Days = activeIncidents.collection.filter(f => f.discoveryDate > Date.now() - 604800000).length + outIncidents.collection.filter(f => f.discoveryDate > Date.now() - 604800000).length
-    this.thisYearCount = activeIncidents.collection.length + outIncidents.collection.length
+    this.firesLast24 = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 86400000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 86400000).length)
+    this.firesLast7Days = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 604800000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 604800000).length)
+    this.thisYearCount = '' + (this.fires.length + this.outFires.length)
 
     if (this.fires) {
       const fcData = []
       const fcAllData = []
       const fcStats = []
       for (const centre of FIRE_CENTRES) {
-        const fireCount = this.fires.filter(f => f.fireCentre === centre.id).length
-        const outFireCount = this.outFires.filter(f => f.fireCentre === centre.id).length
+        const fireCount = this.fires.filter(f => f.fireCentreCode === centre.id).length
+        const outFireCount = this.outFires.filter(f => f.fireCentreCode === centre.id).length
         fcData.push({
           name: centre.name,
           value: fireCount
@@ -112,10 +114,10 @@ export class WFStatsComponent implements OnInit {
         })
         fcStats.push({
           name: centre.name,
-          lightningStarts: activeIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
-          humanStarts: activeIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentre === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
+          lightningStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
+          humanStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
           totalFires: fireCount + outFireCount,
-          areaBurned: activeIncidents.collection.map(f => f.fireCentre === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n)
+          areaBurned: activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n)
         })
       }
 
@@ -137,7 +139,7 @@ export class WFStatsComponent implements OnInit {
       const statusData = []
       const statusAllData = []
       for (const status of FIRE_STATUS) {
-        const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd && status.id ==='NOTE' )).length
+        const fireCount = this.fires.filter(f => f.stageOfControlCode === status.id || (f.fireOfNoteInd && status.id === 'NOTE' )).length
         statusData.push({
           name: status.name,
           value: status.id === 'OUT' ? this.outFires.length :  fireCount

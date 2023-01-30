@@ -20,6 +20,9 @@ export class PublicIncidentPage implements OnInit {
   public areaRestrictions : AreaRestrictionsOption[] = []
   public extent: any = null
 
+  showImageWarning: boolean;
+  showMapsWarning: boolean;
+
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
               private agolService: AGOLService,
@@ -50,8 +53,8 @@ export class PublicIncidentPage implements OnInit {
           // check the contact info
           if (!this.incident.contactOrgUnitIdentifer) {
             this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
-              this.incident.contactPhoneNumber = data[this.incident.fireCentre].phone
-              this.incident.contactEmailAddress = data[this.incident.fireCentre].url
+              this.incident.contactPhoneNumber = data[this.incident.fireCentreCode].phone
+              this.incident.contactEmailAddress = data[this.incident.fireCentreCode].url
               this.cdr.detectChanges();
             });
           }
@@ -88,6 +91,34 @@ export class PublicIncidentPage implements OnInit {
     await this.getEvacOrders()
     await this.getExternalUriEvacOrders()
     await this.getAreaRestrictions()
+
+    this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabelFull).toPromise().then(results => {
+      if (results && results.collection && results.collection.length > 0) {
+        this.showImageWarning = true;  
+        this.cdr.detectChanges();
+      }
+    });
+
+    this.publishedIncidentService.fetchAttachments(this.incident.incidentNumberLabelFull).toPromise()
+      .then((docs) => {
+        // remove any non-image types
+        const data = []
+        for (const doc of docs.collection) {
+          const idx = docs.collection.indexOf(doc)
+          if (doc.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
+            // docs.collection.splice(idx, 1);
+            // splice is not longer needed here as we return a new object
+          } else {
+            data.push(doc)
+          }
+        }
+
+        if(data.length > 0) {
+          this.showMapsWarning = true;  
+          this.cdr.detectChanges();
+        }
+      })
+
     // activate page
     this.isLoading = false
     this.cdr.detectChanges()

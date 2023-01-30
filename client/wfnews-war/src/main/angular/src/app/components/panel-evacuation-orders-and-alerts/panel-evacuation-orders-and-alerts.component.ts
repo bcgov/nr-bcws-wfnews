@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { EvacOrderOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
+import { snowPlowHelper } from '../../utils';
 import L from 'leaflet';
+import { AppConfigService } from '@wf1/core-ui';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'panel-evacuation-orders-and-alerts',
@@ -12,15 +15,25 @@ import L from 'leaflet';
 export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   public evacOrders : EvacOrderOption[] = []
 
+  public snowPlowHelper = snowPlowHelper
+
   constructor(private agolService: AGOLService,
-              private mapConfigService: MapConfigService) {
+              private mapConfigService: MapConfigService,
+              private appConfigService: AppConfigService,
+              private router: Router) {
   }
 
   ngOnInit() {
     this.getEvacOrders();
   }
 
+  async snowplow (link: string) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(url, `EVAC-ORDERS-${link}`)
+  }
+
   zoomToEvac (evac) {
+    this.snowplow('ZOOM-TO')
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;

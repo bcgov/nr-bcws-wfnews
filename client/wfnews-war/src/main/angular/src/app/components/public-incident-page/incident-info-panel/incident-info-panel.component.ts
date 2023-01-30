@@ -1,10 +1,11 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
 import { convertToFireCentreDescription, convertToYoutubeId } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 
 @Component({
   selector: 'incident-info-panel',
@@ -16,11 +17,15 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
+  
+  showWarning: boolean;
 
   public convertToFireCentreDescription = convertToFireCentreDescription
   public convertToYoutubeId = convertToYoutubeId
 
-  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) {}
+  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, 
+                     private cdr: ChangeDetectorRef,
+                     private router: ActivatedRoute) {}
   public primaryMedia = null
 
   handleImageFallback (href: string) {
@@ -29,11 +34,17 @@ export class IncidentInfoPanel implements AfterViewInit {
       (imgComponent as any).src = href
     }
   }
+
   ngAfterViewInit(): void {
     const canvas = document.getElementById('qr-code')
     toCanvas(canvas, window.location.href, function (error) {
       if (error) console.error(error)
     })
+
+    this.router.queryParams.subscribe((params: ParamMap) => {
+      if(params['preview'])
+        this.showWarning =  (this.evacOrders.length > 0 || this.areaRestrictions.length > 0);
+    });
 
     this.fetchPrimaryImage()
   }
