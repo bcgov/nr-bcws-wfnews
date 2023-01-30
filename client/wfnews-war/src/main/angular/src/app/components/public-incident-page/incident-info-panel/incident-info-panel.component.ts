@@ -41,7 +41,10 @@ export class IncidentInfoPanel implements AfterViewInit {
       if (error) console.error(error)
     })
 
-    this.showWarning = this.evacOrders.length > 0 || this.areaRestrictions.length > 0;
+    this.router.queryParams.subscribe((params: ParamMap) => {
+      if(params['preview'])
+        this.showWarning =  (this.evacOrders.length > 0 || this.areaRestrictions.length > 0);
+    });
 
     this.fetchPrimaryImage()
   }
