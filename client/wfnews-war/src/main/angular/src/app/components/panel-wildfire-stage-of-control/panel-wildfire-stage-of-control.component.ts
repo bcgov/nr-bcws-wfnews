@@ -20,13 +20,17 @@ import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlD
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
+import { snowPlowHelper } from '../../utils';
 import * as L from 'leaflet'
+import { MatCheckboxChange } from '@angular/material/checkbox';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
 export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('listIdentifyContainer', { read: ViewContainerRef }) listIdentifyContainer: ViewContainerRef;
   @Input() collection: PagedCollection
+
+  public snowPlowHelper = snowPlowHelper
 
   activeWildfiresInd = true;
   outWildfiresInd = false;
@@ -74,7 +78,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     if (panel && panel.length !== 0) {
       (panel.item(0) as HTMLElement).remove();
     }
-    
+
     (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
 
     const SMK = window['SMK'];
@@ -268,7 +272,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }, 5000)
   }
 
-  stageOfControlChanges(event: any) {
+  stageOfControlChanges(event: MatCheckboxChange) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(url, `CHECK-${event.source.ariaLabel.toUpperCase()}-${event.checked}`)
     this.onChangeFilters()
     this.doSearch()
   }
