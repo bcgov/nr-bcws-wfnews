@@ -17,6 +17,8 @@ import { LightGallery } from "lightgallery/lightgallery";
 })
 export class IncidentGalleryPanel implements OnInit {
   @Input() public incident;
+  @Input() public showImageWarning;
+  
   public convertToYoutubeId = convertToYoutubeId
   public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) { }
 
@@ -24,7 +26,7 @@ export class IncidentGalleryPanel implements OnInit {
   mediaTypeOptions: string[] = ["All","Images","Videos"];
   imagesAndVideosStub: any[];
   allImagesAndVideosStub: any[];
-
+  
   private lightGallery!: LightGallery
   private refreshGallery = false
   public showVideos = true
