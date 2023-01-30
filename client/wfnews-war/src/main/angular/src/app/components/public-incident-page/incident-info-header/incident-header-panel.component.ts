@@ -29,7 +29,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
     const location = [Number(this.incident.latitude), Number(this.incident.longitude)]
     this.map = L.map('map', {
       attributionControl: false,
-      zoomControl: true,
+      zoomControl: false,
       dragging: false,
       doubleClickZoom: false,
       boxZoom: false,
