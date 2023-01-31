@@ -200,7 +200,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.publishedIncidentDetailGuid = response.publishedIncidentDetailGuid;
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
-              self.incident.location = response.incidentLocation;
+              self.incident.location = response.incidentLocation
               self.incident.sizeComments = response.incidentSizeDetail;
               self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 0;
               self.incident.causeComments = response.incidentCauseDetail;
@@ -249,6 +249,10 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     // TODO: This can be removed once the onInit is updated to map the form correctly
   }
 
+  nullEmptyStrings(value: string) {
+    return !value ? null : value
+  }
+
   publishChanges () {
     const self = this;
     let dialogRef = this.dialog.open(PublishDialogComponent, {
@@ -265,25 +269,25 @@ export class AdminIncidentForm implements OnInit, OnChanges {
           publishedTimestamp: new Date(),
           fireOfNoteInd: this.incident.fireOfNote,
           incidentName: this.incident.fireName,
-          incidentLocation: this.incident.location,
-          incidentOverview: this.incident.incidentOverview,
-          traditionalTerritoryDetail: this.incident.traditionalTerritory,
-          incidentSizeDetail: this.incident.sizeComments,
-          incidentCauseDetail: this.incident.causeComments,
+          incidentLocation: this.nullEmptyStrings(this.incident.location),
+          incidentOverview: this.nullEmptyStrings(this.incident.incidentOverview),
+          traditionalTerritoryDetail: this.nullEmptyStrings(this.incident.traditionalTerritory),
+          incidentSizeDetail: this.nullEmptyStrings(this.incident.sizeComments),
+          incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
           contactOrgUnitIdentifer: this.incident.contact.fireCentre,
-          contactPhoneNumber: this.incident.contact.phoneNumber,
-          contactEmailAddress: this.incident.contact.emailAddress,
-          resourceDetail: this.incident.responseComments,
+          contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
+          contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
+          resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
           wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
-          wildfireCrewResourcesDetail: this.incident.crewsComments,
+          wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
           wildfireAviationResourceInd: this.incident.aviationInd,
-          wildfireAviationResourceDetail: this.incident.aviationComments,
+          wildfireAviationResourceDetail: this.nullEmptyStrings(this.incident.aviationComments),
           heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
-          heavyEquipmentResourcesDetail: this.incident.heavyEquipmentComments,
+          heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
           incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
-          incidentMgmtCrewRsrcDetail: this.incident.incidentManagementComments,
+          incidentMgmtCrewRsrcDetail: this.nullEmptyStrings(this.incident.incidentManagementComments),
           structureProtectionRsrcInd: this.incident.structureProtectionInd,
-          structureProtectionRsrcDetail: this.incident.structureProtectionComments,
+          structureProtectionRsrcDetail: this.nullEmptyStrings(this.incident.structureProtectionComments),
           type: this.publishedIncidentType,
           '@type' : 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
         };
@@ -319,7 +323,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
       incidentName: this.incidentForm.controls['fireName'].value,
-      incidentLocation: this.incidentForm.controls['location'].value,
+      incidentLocation: this.incidentForm.controls['location'].value || this.currentAdminIncident.incidentLocation.geographicDescription,
       incidentOverview: this.incident.incidentOverview,
       traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
       incidentSizeType: this.incidentForm.controls['sizeType'].value,
