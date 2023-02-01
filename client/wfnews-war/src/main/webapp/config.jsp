@@ -22,6 +22,7 @@
     String baseUrl = EnvironmentVariable.getVariable("BASE_URL");
     String env = EnvironmentVariable.getVariable("APPLICATION_ENVIRONMENT");
     String siteminderPrefix = EnvironmentVariable.getVariable("SITEMINDER_URL_PREFIX");
+    String wfnewsApiKey = EnvironmentVariable.getVariable("WFNEWS_API_KEY");
     StringBuilder json = new StringBuilder("{");
 
     // General Application Section
@@ -31,8 +32,9 @@
       json.append("\"version\":\"").append(properties.getProperty("application.version", "")).append("\"").append(",");
       json.append("\"buildNumber\":\"").append(properties.getProperty("build.number", "")).append("\"").append(",");
       json.append("\"environment\":\"").append(env).append("\"").append(",");
-      json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");;
-      json.append("\"siteminderUrlPrefix\":\"").append(siteminderPrefix).append("\"");
+      json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");
+      json.append("\"siteminderUrlPrefix\":\"").append(siteminderPrefix).append("\"").append(",");
+      json.append("\"wfnewsApiKey\":\"").append(wfnewsApiKey).append("\"");
     json.append("},");
 
     // Map Icon Section

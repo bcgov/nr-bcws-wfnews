@@ -1,5 +1,6 @@
 {
     "application": {
+        "wfnewsApiKey": "fake-api-key",
         "acronym": "WFNEWS",
         "version": "1.0.0-SNAPSHOT",
         "buildNumber": ".0000",
