@@ -17,9 +17,9 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
-import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
-import ca.bc.gov.nrs.wfone.common.service.api.ForbiddenException;
-import ca.bc.gov.nrs.wfone.common.service.api.NotFoundException;
+import ca.bc.gov.nrs.common.service.ConflictException;
+import ca.bc.gov.nrs.common.service.ForbiddenException;
+import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -64,8 +64,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		} catch (ForbiddenException e) {
 			response = Response.status(Status.FORBIDDEN).build();
 		} catch (NotFoundException e) {
-			response = Response.status(Status.NOT_FOUND).build();
-			
+			response = Response.status(Status.NOT_FOUND).build();			
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
