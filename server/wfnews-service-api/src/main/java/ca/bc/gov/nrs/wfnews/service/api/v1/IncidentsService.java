@@ -63,7 +63,7 @@ public interface IncidentsService {
 			Integer pageRowCount, FactoryContext factoryContext);
   
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	AttachmentListResource getIncidentAttachmentList(String incidentNumberSequence, boolean primaryIndicator, String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount, String[] orderBy, FactoryContext factoryContext);
+	AttachmentListResource getIncidentAttachmentList(String incidentNumberSequence, boolean primaryIndicator, String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount, String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException;
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	AttachmentResource createIncidentAttachment(AttachmentResource attachment, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;

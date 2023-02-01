@@ -1,6 +1,8 @@
 <div class="panel">
     <div class="header-row">
-      <h4>Wildfire Maps</h4>
+      <h4>Wildfire Maps
+        <div *ngIf="showMapsWarning" class="preview-warning">Warning: Uploaded Images or Videos cannot be previewed</div>
+      </h4>
     </div>
     <div class="content-panel">
         <div class="content-panel-stack" *ngIf="maps && maps.length; else showDisclaimer">

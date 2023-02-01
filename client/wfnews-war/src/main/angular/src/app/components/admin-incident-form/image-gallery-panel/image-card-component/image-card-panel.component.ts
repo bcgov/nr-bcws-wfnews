@@ -28,7 +28,12 @@ export class ImageCardPanel implements OnInit, OnChanges {
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
+    try {
+      (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
+    } catch (err) {
+      (this.attachment as any).primaryInd = true;
+    }
+
     this.updateIncidentAttachment();
   }
 
