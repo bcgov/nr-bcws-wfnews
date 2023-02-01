@@ -11,6 +11,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
@@ -21,6 +23,7 @@ import io.swagger.annotations.ApiParam;
 
 @Path("/publicPublishedIncident")
 @Api(value = "PublicPublishedIncidentEndpoint")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	
 	@GET
