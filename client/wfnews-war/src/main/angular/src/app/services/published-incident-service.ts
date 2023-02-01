@@ -42,8 +42,7 @@ export class PublishedIncidentService {
     let publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents`
     const headers = {
       headers: {
-        Authorization: `bearer ${this.tokenService.getOauthToken()}`,
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey']
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`
       }
     }
 
