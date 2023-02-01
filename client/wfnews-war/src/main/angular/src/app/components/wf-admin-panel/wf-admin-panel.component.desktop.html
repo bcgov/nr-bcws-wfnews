@@ -78,7 +78,7 @@
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNotePublishedInd ? 'Yes' : 'No'}}</span></td>
         </ng-container>
 
-        <ng-container matColumnDef = "lastPublished">
+        <ng-container matColumnDef = "lastUpdated">
             <th mat-header-cell *matHeaderCellDef mat-sort-header style = "text-align: center;"> Last Updated</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" [matTooltip]="convertToDate(item.lastUpdatedTimestamp)" (click)="selectIncident(item)"><span #el >{{convertToDate(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
