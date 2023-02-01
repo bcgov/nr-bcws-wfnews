@@ -272,13 +272,15 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   isLocationName() {
-    if (this.locationName && this.locationName !== "")
+    if (this.locationName && this.locationName !== ""){
       return true
+    }
   }
 
   isSearchText() {
-    if (this.searchText && this.searchText !== "")
-    return true
+    if (this.searchText && this.searchText !== ""){
+      return true
+    }
   }
 
   locationNameUpdated() {
