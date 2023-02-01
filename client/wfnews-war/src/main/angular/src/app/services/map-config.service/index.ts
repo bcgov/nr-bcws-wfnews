@@ -24,6 +24,6 @@ export class MapConfigService {
             token: null,
         };
 
-		return this.appConfig.loadAppConfig().then( ( config ) => mapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop' ) );
+		return this.appConfig.loadAppConfig().then( ( config ) => mapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop', this.appConfig ) );
 	}
 }
