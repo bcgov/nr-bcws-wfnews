@@ -1,5 +1,10 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
@@ -21,6 +26,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.authentication.WebadeOauth2AuthenticationProvider;
 import ca.bc.gov.nrs.wfone.common.webade.oauth2.token.client.TokenService;
@@ -113,8 +121,8 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http
-		.csrf().disable();
+		http.cors()
+		.configurationSource(corsConfigurationSource()).and().csrf().disable();
 		
 		http
 		.oauth2ResourceServer(oauth2 -> oauth2
@@ -129,4 +137,23 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.exceptionHandling()
 		.authenticationEntryPoint(authenticationEntryPoint());
 	}
+
+
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    final CorsConfiguration configuration = new CorsConfiguration();
+    
+    List<String> origins = new ArrayList<>();
+    origins.add("*");
+
+    configuration.setAllowedOrigins(origins);
+    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
+    configuration.setAllowCredentials(true);
+    configuration.setAllowedHeaders(origins);
+
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
+  }
 }
