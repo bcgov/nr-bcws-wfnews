@@ -86,10 +86,11 @@ public class PublicExternalUriEndpointImpl extends BaseEndpointsImpl implements 
 
 			response = Response.ok(entity).tag(result.getUnquotedETag()).build();
 		
+	} catch (NotFoundException e) {
+		response = Response.status(Status.NOT_FOUND).build();
 	} catch (Throwable t) {
 		response = getInternalServerErrorResponse(t);
 	}
-	
 	logResponse(response);
 
 	return response;
