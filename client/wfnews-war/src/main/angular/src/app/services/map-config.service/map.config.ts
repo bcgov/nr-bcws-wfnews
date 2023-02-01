@@ -1,9 +1,10 @@
+import { AppConfigService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
 import { MapServices, MapServiceStatus } from '.';
 import { LayerDisplayConfig } from './layer-display.config';
 import { LayerConfig } from './layers';
 
-export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceStatus, device: WfDevice ) {
+export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceStatus, device: WfDevice, appConfigService: AppConfigService ) {
     return {
         viewer: {
             type: 'leaflet',
@@ -136,6 +137,6 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
                 enabled: false
             },
         ],
-        layers: LayerConfig(mapServices,serviceStatus)
+        layers: LayerConfig(mapServices, serviceStatus, appConfigService)
     };
 }
