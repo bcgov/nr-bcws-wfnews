@@ -33,7 +33,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
       dragging: false,
       doubleClickZoom: false,
       boxZoom: false,
-      trackResize: false
+      trackResize: false,
+      scrollWheelZoom: false
     }).setView(location, 12)
     // configure map data
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
