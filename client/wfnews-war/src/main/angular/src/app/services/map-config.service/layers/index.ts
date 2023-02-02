@@ -20,6 +20,7 @@ import { AbmsMunicipalitiesLayerConfig } from './abms-municipalities.config';
 import { AbmsRegionalDistrictsLayerConfig } from './abms-regional-districts.config';
 import { MapServices, MapServiceStatus } from '..';
 import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
+import { AppConfigService } from '@wf1/core-ui';
 
 export interface layerSettings {
     openmapsBaseUrl: string;
@@ -27,7 +28,7 @@ export interface layerSettings {
     wfnewsUrl: string;
 
 };
-export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus ) {
+export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus, appConfigService: AppConfigService ) {
     const ls: layerSettings = {
         openmapsBaseUrl: mapServices[ 'openmapsBaseUrl' ],
         drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ],
@@ -35,7 +36,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
     };
 
 	return [
-		...ActiveWildfiresLayerConfig( ls ),
+		...ActiveWildfiresLayerConfig( ls, appConfigService.getConfig().application['wfnewsApiKey'] ),
 		...AreaRestrictionsLayerConfig( ls ),
 		...BansAndProhibitionsLayerConfig( ls ),
 		...FireCentresLayerConfig( ls ),

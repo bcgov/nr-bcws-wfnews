@@ -1,6 +1,6 @@
 import { layerSettings } from '.';
 
-export function ActiveWildfiresLayerConfig(ls: layerSettings) {
+export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
     return [
         {
           type: 'vector',
@@ -11,6 +11,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE&cachBust=" + Math.floor(new Date().getTime() / 600000),
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
+          header: { "apiKey": key },
           attributes: [
             {
                 name: "incident_name",
@@ -39,6 +40,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL&cachBust=" + Math.floor(new Date().getTime() / 600000),
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
+          header: { "apiKey": key },
           attributes: [
             {
                 name: "incident_name",
@@ -65,6 +67,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING&cachBust=" + Math.floor(new Date().getTime() / 600000),
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
+          header: { "apiKey": key },
           attributes: [
             {
                 name: "incident_name",
@@ -91,6 +94,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings) {
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=UNDR_CNTRL&cachBust=" + Math.floor(new Date().getTime() / 600000),
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
+          header: { "apiKey": key },
           attributes: [
             {
                 name: "incident_name",
