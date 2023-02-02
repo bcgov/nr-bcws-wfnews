@@ -280,7 +280,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   onLocationSelected(selectedOption) {
-    this.snowPlowHelper(this.url, 'WILDFIRESMAP-SEARCHBAR')
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_location_search',
+      location: selectedOption
+  })
     const self = this;
     self.searchLayerGroup.clearLayers();
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
@@ -320,7 +323,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
     this.selectedPanel = selectedLayer
-    this.snowPlowHelper(this.url, selectedLayer)
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_map_tab_select',
+      tab: selectedLayer
+  })
     const layers = [
             /* 00 */ { itemId: 'active-wildfires', visible: true },
             /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
@@ -384,7 +390,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   async useMyCurrentLocation() {
-    this.snowPlowHelper(this.url, 'WILDFIRESMAP-FINDMYLOCATION')
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_map_find_my_location'
+    })
 
     this.searchText = undefined;
 
