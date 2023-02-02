@@ -46,7 +46,7 @@
         </div>
 
         <div>
-            <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown"><span>{{disclaimerText()}}</span> <mat-icon>expand_more</mat-icon></button>
+            <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="openLink('Disclaimer')">
                     Disclaimer
