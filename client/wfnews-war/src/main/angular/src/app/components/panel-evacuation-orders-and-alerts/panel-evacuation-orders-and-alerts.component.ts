@@ -29,7 +29,10 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
 
   async snowplow (link: string) {
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, `EVAC-ORDERS-${link}`)
+    this.snowPlowHelper(url, {
+      action: 'wildfire_evac_orders_view_link',
+      link: link
+    })
   }
 
   zoomToEvac (evac) {

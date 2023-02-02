@@ -18,7 +18,9 @@ export class WildfirewResourcesComponent implements OnInit{
 }
 ngOnInit(): void {
   this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-  this.snowPlowHelper(this.url)
+  this.snowPlowHelper(this.url, {
+    action: 'wildfire_view_resources'
+  })
 }
 
   // This can be moved into a config, for easier changes later

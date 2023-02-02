@@ -257,12 +257,16 @@ export function isMobileView () {
   return window.innerWidth <= 768
 }
 
-export async function snowPlowHelper(page: string, action?:string) {
+export async function snowPlowHelper(page: string, data: any = null) {
     let pageInfo = page;
-    if(action) {
-       pageInfo =  pageInfo + '#' + action;
+    if(data) {
+       window.snowplow('trackSelfDescribingEvent', {
+        schema: 'iglu:ca.bc.gov.wfnews/action/jsonschema/1-0-0',
+        data: data
+      });
+    } else {
+      window.snowplow('trackPageView', pageInfo);
     }
-    window.snowplow('trackPageView', pageInfo);
 }
 
 export function convertFireNumber(incident) {
