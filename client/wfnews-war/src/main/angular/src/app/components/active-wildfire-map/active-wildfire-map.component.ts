@@ -62,7 +62,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   searchLocationsLayerGroup: any;
   markers: any[];
   url;
-
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
@@ -490,6 +489,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
     else if (link === 'Copyright') {
       window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
+
+  disclaimerText() {
+    if (screen.width <= 1200) {
+      return 'Links'
+    } else {
+      return 'Disclaimer and Legal Links'
     }
   }
 }
