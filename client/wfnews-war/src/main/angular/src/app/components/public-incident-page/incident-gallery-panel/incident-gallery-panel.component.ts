@@ -8,6 +8,7 @@ import { PublishedIncidentService } from "../../../services/published-incident-s
 import { AppConfigService } from "@wf1/core-ui";
 import { convertToYoutubeId } from "../../../utils";
 import { LightGallery } from "lightgallery/lightgallery";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -20,7 +21,8 @@ export class IncidentGalleryPanel implements OnInit {
   @Input() public showImageWarning;
   
   public convertToYoutubeId = convertToYoutubeId
-  public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef) { }
+  public constructor(private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef,
+                    private router: ActivatedRoute) { }
 
   currentMediaType: string;
   mediaTypeOptions: string[] = ["All","Images","Videos"];
@@ -31,6 +33,7 @@ export class IncidentGalleryPanel implements OnInit {
   private refreshGallery = false
   public showVideos = true
   public showImages = true
+  isPreview: boolean;
 
   settings = {
     counter: true,
@@ -82,6 +85,12 @@ export class IncidentGalleryPanel implements OnInit {
     this.loadPage();
     this.currentMediaType = "All";
     this.onMediaTypeFilterChanged("All");
+
+    this.router.queryParams.subscribe((params: ParamMap) => {
+      if(params && params['preview']) {
+        this.isPreview = true;
+      }
+    });
   }
 
   handleImageFallback (item: any, index: number) {
