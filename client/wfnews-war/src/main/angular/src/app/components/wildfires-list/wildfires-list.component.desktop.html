@@ -136,9 +136,9 @@
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNoteInd? 'Yes' : 'No'}}</span></td>
         </ng-container>
 
-        <ng-container matColumnDef = "fireCentreCode">
+        <ng-container matColumnDef = "fireCentreName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToFireCentreDescription(item.fireCentreCode)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentreName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
