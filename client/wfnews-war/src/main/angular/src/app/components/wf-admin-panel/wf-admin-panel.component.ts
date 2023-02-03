@@ -72,7 +72,11 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   }
 
   getCurrentYearString() {
-    this.currentYearString = new Date().getFullYear().toString() + "/" + (new Date().getFullYear() + 1).toString();
+    let currentYear = new Date().getFullYear()
+    if (new Date().getMonth() < 3) {
+      currentYear -= 1
+    }
+    this.currentYearString = currentYear.toString() + "/" + (currentYear + 1).toString();
     const todaysDate: Date = new Date();
     const options: Intl.DateTimeFormatOptions = {
       day: "numeric", month: "long", year: "numeric",
