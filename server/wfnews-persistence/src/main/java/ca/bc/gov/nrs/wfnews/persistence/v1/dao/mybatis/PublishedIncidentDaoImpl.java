@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +42,9 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
+
+			// Ensure current Fire Year is set on new inserts
+			dto.setFireYear(getCurrentFireYear());
 
 			parameters.put("dto", dto);
 			parameters.put("publishedIncidentDetailGuid", dto.getPublishedIncidentDetailGuid());
@@ -173,6 +177,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+			parameters.put("currentFireYear", getCurrentFireYear());
 
 			json = this.publishedIncidentMapper.selectAsJson(parameters);
 		} catch (RuntimeException e) {
@@ -191,6 +196,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
+			parameters.put("currentFireYear", getCurrentFireYear());
 
 			json = this.publishedIncidentMapper.selectFireOfNoteAsJson(parameters);
 		} catch (RuntimeException e) {
@@ -235,6 +241,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("longitude", longitude);
 			parameters.put("radius", radius);
 			parameters.put("searchText", searchText);
+
+			parameters.put("currentFireYear", getCurrentFireYear());
 			
 			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
@@ -248,5 +256,13 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		}
 		
 		return results;
-	}	
+	}
+
+	private int getCurrentFireYear() {
+		int currentYear = new Date().getYear();
+		if (new Date().getMonth() < 3) {
+			currentYear -= 1;
+		}
+		return currentYear;
+	}
 }
