@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
@@ -70,12 +69,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected appConfigService: AppConfigService,
     protected router: Router,
     protected activedRouter: ActivatedRoute,
-    private http: HttpClient,
     private appConfig: AppConfigService,
     private mapConfigService: MapConfigService,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private ngZone: NgZone
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -490,6 +487,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
     else if (link === 'Copyright') {
       window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
+
+  disclaimerText() {
+    if (screen.width <= 1200) {
+      return 'Legal';
+    } else {
+      return 'Disclaimer and Legal Links';
     }
   }
 }
