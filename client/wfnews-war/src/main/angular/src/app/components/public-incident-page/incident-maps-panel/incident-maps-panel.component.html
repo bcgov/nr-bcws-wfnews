@@ -17,7 +17,7 @@
             </div>
         </div>
         <ng-template #showDisclaimer>
-            There are currently no maps associated with this incident.
+            <div *ngIf="!isPreview">There are currently no maps associated with this incident.</div>
         </ng-template>
     </div>
 </div>

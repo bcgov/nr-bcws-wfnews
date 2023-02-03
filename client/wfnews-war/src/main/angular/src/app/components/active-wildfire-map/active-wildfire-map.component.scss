@@ -297,6 +297,9 @@ mat-panel-title {
   .hide {
     display: none !important;
   }
+  .search-row {
+    padding-right: 0px !important;
+  }
 }
 
 .location-icon {
@@ -397,7 +400,7 @@ mat-panel-title {
   }
 
   .search-bar {
-    width: calc(100vw - 85px);
+    width: calc(100vw - 150px);
   }
 
   .search-row {
