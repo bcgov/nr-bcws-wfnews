@@ -3,6 +3,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient, HttpEventType, HttpRequest, HttpResponse } from "@angular/common/http";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 
 export class DownloadableMap {
   name :string;
@@ -21,12 +22,14 @@ export class IncidentMapsPanel implements OnInit {
   @Input() public showMapsWarning;
 
   maps: DownloadableMap[];
+  isPreview: boolean;
   
   constructor(private snackbarService: MatSnackBar,
               private httpClient: HttpClient,
               private publishedIncidentService: PublishedIncidentService,
               private appConfigService: AppConfigService,
-              protected cdr: ChangeDetectorRef) {
+              protected cdr: ChangeDetectorRef,
+              private router: ActivatedRoute) {
   }
 
   ngOnInit() {
@@ -39,6 +42,12 @@ export class IncidentMapsPanel implements OnInit {
         };
       });
       this.cdr.detectChanges();
+    });
+
+    this.router.queryParams.subscribe((params: ParamMap) => {
+      if(params && params['preview']) {
+        this.isPreview = true;
+      }
     });
   }
 
