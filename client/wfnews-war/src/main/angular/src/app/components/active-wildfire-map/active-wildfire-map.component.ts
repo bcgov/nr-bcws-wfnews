@@ -492,7 +492,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   disclaimerText() {
     if (screen.width <= 1200) {
-      return 'Links';
+      return 'Legal';
     } else {
       return 'Disclaimer and Legal Links';
     }
