@@ -274,7 +274,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   stageOfControlChanges(event: MatCheckboxChange) {
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, `CHECK-${event.source.ariaLabel.toUpperCase()}-${event.checked}`)
+    this.snowPlowHelper(url, {
+      action: 'wildfire_incident_list_options',
+      text: `${event.source.ariaLabel.toUpperCase()}-${event.checked}`
+    })
     this.onChangeFilters()
     this.doSearch()
   }
