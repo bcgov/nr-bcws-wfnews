@@ -48,6 +48,6 @@
         </div>
       </div>
       <ng-template #showDisclaimer>
-        <p>There are currently no images or videos associated with this incident</p>
+        <p *ngIf="!isPreview">There are currently no images or videos associated with this incident</p>
       </ng-template>
 </div>
