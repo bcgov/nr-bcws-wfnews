@@ -30,7 +30,7 @@
                 [data-src]="item.href"
                 [data-responsive]="item.href + ' 800'"
                 style="padding: 5px;">
-                <img [id]="i + '-img-thumb'" alt="Image" class="img-responsive" [src]="item.thumbnail" (error)="handleImageFallback(item, i)"/>
+                <img [id]="i + '-img-thumb'" width="150" alt="Image" class="img-responsive" [src]="item.thumbnail" (error)="handleImageFallback(item, i)"/>
             </a>
           </lightgallery>
 
