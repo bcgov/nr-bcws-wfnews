@@ -3,7 +3,7 @@
     <div class="search-and-filters">
         <div class="field search-input">
             <mat-label class="label">Search for a Wildfire</mat-label>
-            <input [readonly]="locationName" matInput class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+            <input [readonly]="isLocationName()" matInput class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
             <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
                     aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
                     matTooltip="Clear">
@@ -13,7 +13,7 @@
 
         <div class="field search-input">
             <mat-label class="label">Search for an address</mat-label>
-            <input [readonly]="searchText" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [(ngModel)]="locationName" [formControl]="searchByLocationControl">
+            <input [readonly]="isSearchText()" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [(ngModel)]="locationName" [formControl]="searchByLocationControl" (ngModelChange)="locationNameUpdated()">
             <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
                 <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
                     [value]="option">
