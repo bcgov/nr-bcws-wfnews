@@ -107,7 +107,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
   loadImage () {
     if (!this.loaded) {
-      this.documentManagementService.downloadDocument(this.attachment.fileIdentifier).toPromise().then(response => {
+      this.documentManagementService.downloadDocument(this.attachment.thumbnailIdentifier || this.attachment.fileIdentifier).toPromise().then(response => {
         const blob = (response as any).body
         if (blob) {
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));

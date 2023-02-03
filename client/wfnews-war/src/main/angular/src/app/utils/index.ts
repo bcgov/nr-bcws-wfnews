@@ -261,7 +261,7 @@ export async function snowPlowHelper(page: string, data: any = null) {
     let pageInfo = page;
     if(data) {
        window.snowplow('trackSelfDescribingEvent', {
-        schema: 'iglu:ca.bc.gov.wfnews/action/jsonschema/1-0-0',
+        // schema: 'iglu:ca.bc.gov.wfnews/action/jsonschema/1-0-0',
         data: data
       });
     } else {
