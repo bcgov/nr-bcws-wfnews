@@ -291,8 +291,7 @@
 			RESPONSE_TYPE_CODE,
 			RESPONSE_TYPE_DETAIL
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
-		  AND stage_of_control_code IS NOT NULL
+		WHERE stage_of_control_code IS NOT NULL
 			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
 					AND stage_of_control_code IN
 				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
@@ -352,8 +351,7 @@
 	<select id="selectCount" resultType="int">
 		SELECT COUNT(*)
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
-		  AND stage_of_control_code IS NOT NULL
+		WHERE stage_of_control_code IS NOT NULL
 		<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
 				AND stage_of_control_code IN
 			<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
