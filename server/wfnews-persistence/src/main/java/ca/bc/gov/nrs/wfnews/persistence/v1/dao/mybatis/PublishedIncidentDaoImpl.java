@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
-import java.util.Date;
+import java.time.Year;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -259,8 +260,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	private int getCurrentFireYear() {
-		int currentYear = new Date().getYear();
-		if (new Date().getMonth() < 3) {
+		int currentYear = Year.now().getValue();
+		if (Calendar.getInstance().get(Calendar.MONTH) < 3) {
 			currentYear -= 1;
 		}
 		return currentYear;
