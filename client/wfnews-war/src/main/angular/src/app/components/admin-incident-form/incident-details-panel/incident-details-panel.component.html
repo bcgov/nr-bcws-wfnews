@@ -37,16 +37,13 @@
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Size Type</mat-label>
-            <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+            <mat-select appWFSingleSelect
               aria-label="Size Type"
               formControlName="sizeType"
               [options]="sizeTypeOptions"
               [(ngModel)]="incident.sizeType"
               (valueChange)="setSizeTypeDisclaimer($event)"
               >
-                <mat-option value="">
-                  <span class="placeholder">Select...</span>
-                </mat-option>
                 <mat-option *ngFor = "let item of sizeTypeOptions" [value]="item.id">
                   <span>{{item.optionValue}}</span>
                 </mat-option>
