@@ -167,7 +167,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.location = self.currentAdminIncident.incidentLocation.geographicDescription;
             self.incident.wildfireIncidentGuid = self.currentAdminIncident.wildfireIncidentGuid;
 
-            self.incident.sizeType = 0
+            self.incident.sizeType = 2
             self.incident.sizeHectares = self.currentAdminIncident.incidentSituation.fireSizeHectares
 
             const causeCode = self.currentAdminIncident.suspectedCauseCategoryCode === 'Undetermined' ? 3 : self.currentAdminIncident.suspectedCauseCategoryCode === 'Natural' ? 2 : 1
@@ -201,8 +201,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation
-              self.incident.sizeComments = response.incidentSizeDetail;
-              self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 0;
+              self.incident.sizeComments = response.incidentSizeDetail ? response.incidentSizeDetail : 'Fire size is based on most current information available.';
+              self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 2;
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
