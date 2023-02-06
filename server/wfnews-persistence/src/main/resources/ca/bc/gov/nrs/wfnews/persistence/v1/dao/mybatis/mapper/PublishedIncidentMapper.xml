@@ -291,7 +291,8 @@
 			RESPONSE_TYPE_CODE,
 			RESPONSE_TYPE_DETAIL
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		WHERE stage_of_control_code IS NOT NULL
+		WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+		  AND stage_of_control_code IS NOT NULL
 			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
 					AND stage_of_control_code IN
 				<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
@@ -351,7 +352,8 @@
 	<select id="selectCount" resultType="int">
 		SELECT COUNT(*)
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		WHERE stage_of_control_code IS NOT NULL
+		WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+		  AND stage_of_control_code IS NOT NULL
 		<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
 				AND stage_of_control_code IN
 			<foreach item="soc" collection="stageOfControlList" separator="," open="(" close=")">
@@ -393,7 +395,8 @@
             'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
 		          FROM (SELECT f.incident_number_label, f.incident_name, f.geometry FROM wfnews.published_incident_detail AS f
-		         WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		         WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+						   AND stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		           AND fire_of_note_ind = 'N'
 		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
 		  ) features
@@ -407,7 +410,8 @@
             'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
 		          FROM (SELECT f.incident_number_label, f.incident_name, f.geometry FROM wfnews.published_incident_detail AS f
-		         WHERE stage_of_control_code != 'OUT'
+		         WHERE fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+						   AND stage_of_control_code != 'OUT'
 		           AND fire_of_note_ind = 'Y'
 		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
 		  ) features
