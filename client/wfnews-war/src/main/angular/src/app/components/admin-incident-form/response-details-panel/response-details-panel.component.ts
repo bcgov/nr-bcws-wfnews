@@ -58,7 +58,7 @@ export class ResponseDetailsPanel implements OnInit {
 
   onStructureProtectionChecked(event) {
     if(event.checked) {
-      this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue(this.structure.nativeElement.value));
+      this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue());
     } else {
       this.formGroup.controls["structureProtectionComments"].setValue("");
     }
@@ -82,7 +82,7 @@ export class ResponseDetailsPanel implements OnInit {
     }
   }
 
-  structureProtectionCommentsValue(structure) {
+  structureProtectionCommentsValue() {
     //if (structure && structure > 0) {
       return `Structure protection is responding to this incident.`;
     //}
@@ -108,7 +108,7 @@ export class ResponseDetailsPanel implements OnInit {
 
   structuretValueChange() {
     if(this.incident.structureProtectionInd){
-      this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue(this.structure.nativeElement.value));
+      this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue());
     }
   }
 }
