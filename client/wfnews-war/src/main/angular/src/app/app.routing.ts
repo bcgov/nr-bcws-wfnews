@@ -15,7 +15,7 @@ import { WildfiresListHeaderComponent } from './components/wildfires-list-header
 // Components
 // import {ActionsPanelComponent} from './panels';
 
-const PROFILE_SCOPES = [[ROLES_UI.GENERAL_STAFF]];
+const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
 
 const PANEL_ROUTES: Routes = [
 	// { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
