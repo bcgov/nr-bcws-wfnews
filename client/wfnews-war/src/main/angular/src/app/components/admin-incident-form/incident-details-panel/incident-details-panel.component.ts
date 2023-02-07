@@ -19,7 +19,7 @@ export class IncidentDetailsPanel {
   sizeTypeOptions: OptionDisclaimer[] = [
     {id: 0, optionValue: "Mapped", disclaimer: "Fire size is based on the last known mapped size in hectares."},
     {id: 1, optionValue: "Estimated", disclaimer: "Fire size is based on the last known estimated size in hectares."},
-    {id: 2, optionValue: "Select...", disclaimer: "Fire size based most current information available."},
+    {id: 2, optionValue: "Select...", disclaimer: "Fire size is based on most current information available."},
   ]
 
   // IM db only contains "Human", "Natural" and "Undetermined", but in ticket https://apps.nrs.gov.bc.ca/int/jira/browse/WFNEWS-510
