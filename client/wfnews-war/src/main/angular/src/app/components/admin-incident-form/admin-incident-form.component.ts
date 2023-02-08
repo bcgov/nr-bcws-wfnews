@@ -169,6 +169,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
             self.incident.sizeType = 2
             self.incident.sizeHectares = self.currentAdminIncident.incidentSituation.fireSizeHectares
+            self.incident.sizeComments = 'Fire size is based on most current information available.'
 
             const causeCode = self.currentAdminIncident.suspectedCauseCategoryCode === 'Undetermined' ? 3 : self.currentAdminIncident.suspectedCauseCategoryCode === 'Natural' ? 2 : 1
             self.incident.cause = causeCode
