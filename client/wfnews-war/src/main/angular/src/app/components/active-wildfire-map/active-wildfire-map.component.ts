@@ -323,7 +323,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url, {
       action: 'wildfire_map_tab_select',
       tab: selectedLayer
-  })
+    })
     const layers = [
             /* 00 */ { itemId: 'active-wildfires', visible: true },
             /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },

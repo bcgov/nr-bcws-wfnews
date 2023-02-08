@@ -44,7 +44,6 @@ return 'landscape';
     }
 
     public doesUserHaveScopes(scopes: string[]): boolean {
-
         return this.getTokenService().doesUserHaveApplicationPermissions(
             scopes);
     }
@@ -62,7 +61,7 @@ return 'landscape';
     }
 
     public isAdminPageAccessable(): boolean {
-        return this.doesUserHaveScopes([ROLES_UI.ADMIN])
+      return this.doesUserHaveScopes([ROLES_UI.ADMIN]) || this.doesUserHaveScopes([ROLES_UI.IM_ADMIN])
     }
 
 }

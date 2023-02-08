@@ -55,7 +55,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	public AuthenticationProvider authenticationProvider() {
 		WebadeOauth2AuthenticationProvider result;
         
-		result = new WebadeOauth2AuthenticationProvider(tokenService, "WFIM.*");
+		result = new WebadeOauth2AuthenticationProvider(tokenService, "WFNEWS.*, WFIM.*");
 
 		return result;
 	}

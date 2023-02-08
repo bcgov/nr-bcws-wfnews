@@ -136,7 +136,7 @@
     json.append("\"webade\":{");
       json.append("\"oauth2Url\":\"").append(webadeOauth2AuthorizeUrl).append("\"").append(",");
       json.append("\"clientId\":\"WFNEWS-UI\",");
-      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.*\",");
+      json.append("\"authScopes\":\"WFIM.* WFORG.* WFDM.* WFNEWS.*\",");
       json.append("\"enableCheckToken\":true,");
       json.append("\"checkTokenUrl\":\"").append(properties.getProperty("check.token.url", "")).append("\"");
 
