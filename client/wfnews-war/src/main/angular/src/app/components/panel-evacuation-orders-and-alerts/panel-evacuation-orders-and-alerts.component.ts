@@ -27,16 +27,16 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
     this.getEvacOrders();
   }
 
-  async snowplow (link: string) {
+  async snowplow (action: string, link: string) {
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(url, {
-      action: 'wildfire_evac_orders_view_link',
-      link: link
+      action: action,
+      text: link
     })
   }
 
   zoomToEvac (evac) {
-    this.snowplow(`EVAC-ORDER-ZOOM-TO - ${evac.emrgOAAsysID}:${evac.eventName}`)
+    this.snowplow('orders_list_click', `${evac.emrgOAAsysID}:${evac.eventName}`)
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;

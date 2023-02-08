@@ -65,6 +65,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   public loading = true
   public tabIndex = 0
 
+  public readonly url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+
   public convertToDateWithDayOfWeek = DateTimeConvert;
   public convertToStageOfControlDescription = StageOfControlConvert;
   public convertToFireCentreDescription = convertToFireCentreDescription;
@@ -154,9 +156,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.onChangeFilters();
     this.doSearch();
 
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, {
-      action: 'wildfire_incident_tab_change',
+    this.snowPlowHelper(this.url, {
+      action: 'incident_tab_change',
       text: `${event.index}:${event.tab.textLabel}`
     })
   }
@@ -280,9 +281,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   }
 
   stageOfControlChanges(event: MatCheckboxChange) {
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, {
-      action: 'wildfire_incident_list_options',
+    this.snowPlowHelper(this.url, {
+      action: 'incident_list_options',
       text: `${event.source.ariaLabel.toUpperCase()}-${event.checked}`
     })
     this.onChangeFilters()
@@ -428,6 +428,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   openPreview(incident: any) {
     this.onPanelMouseEnter(incident);
+
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_list_click',
+      text: incident.incidentName,
+      id: incident.incidentNumberLabel
+    })
+
 
     incident.incident_number_label = incident.incidentNumberLabel;
     const self = this;
