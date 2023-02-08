@@ -23,6 +23,7 @@ import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stag
 import { snowPlowHelper } from '../../utils';
 import * as L from 'leaflet'
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
@@ -149,9 +150,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }, 1000)
   }
 
-  onTabChanged (event) {
+  onTabChanged (event: MatTabChangeEvent) {
     this.onChangeFilters();
     this.doSearch();
+
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(url, {
+      action: 'wildfire_incident_tab_change',
+      text: `${event.index}:${event.tab.textLabel}`
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {

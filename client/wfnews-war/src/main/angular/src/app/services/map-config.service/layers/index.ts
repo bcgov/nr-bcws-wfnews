@@ -47,7 +47,8 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
 		...EvacuationOrdersLayerConfig( ls ),
 		...FirePerimetersLayerConfig( ls ),
 		...SmokeForecastLayerConfig( ls ),
-		...PrescribedFireLayerConfig( ls ),
+    // Hiding temporarily as the dataset is reconfigured
+    // ...PrescribedFireLayerConfig( ls ),
 		...WeatherLayerConfig( ls ),
     ...WeatherStationsLayerConfig( ls ),
     ...PrecipitationLayerConfig( ls ),
