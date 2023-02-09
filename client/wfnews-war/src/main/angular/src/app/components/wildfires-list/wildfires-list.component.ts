@@ -76,6 +76,13 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
           return;
       }
 
+      if (val === '') {
+        this.selectedLat = undefined
+        this.selectedLong = undefined
+        this.searchTextUpdated()
+      }
+
+
       if(val.length > 2) {
           this.filteredOptions= [];
 
@@ -285,11 +292,4 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }
   }
 
-  locationNameUpdated() {
-    if (this.locationName === '') {
-      this.selectedLat = undefined
-      this.selectedLong = undefined
-      this.searchTextUpdated()
-    }
-  }
 }
