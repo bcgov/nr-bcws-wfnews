@@ -35,6 +35,8 @@
 
       .search-bar {
         padding: 0 30px;
+        padding-right: 16px;
+        position: relative;
         display: flex;
         align-items: center;
 
@@ -54,7 +56,8 @@
           line-height: 20px;
           font-size: 10px;
           color: #999999;
-          right: 38px;
+          right: 15px;
+          position: absolute;
         }
       }
 
@@ -62,7 +65,9 @@
         padding-left: 5px;
         padding-right: 10px;
         border: 1px solid grey;
-        border-radius: 2px;
+        border-radius: 5px;
+        height: 40px;
+        display: flex;
 
         .mat-raised-button {
           box-shadow: none;
@@ -292,6 +297,9 @@ mat-panel-title {
   .hide {
     display: none !important;
   }
+  .search-row {
+    padding-right: 0px !important;
+  }
 }
 
 .location-icon {
@@ -392,7 +400,7 @@ mat-panel-title {
   }
 
   .search-bar {
-    width: calc(100vw - 85px);
+    width: calc(100vw - 150px);
   }
 
   .search-row {

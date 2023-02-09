@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 import { DocumentManagementService } from '../../../../services/document-management.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -16,6 +16,8 @@ import { EditImageDialogComponent } from '../edit-image-dialog/edit-image-dialog
 export class ImageCardPanel implements OnInit, OnChanges {
   @Input() public incident
   @Input() public attachment: AttachmentResource
+  @Output('loadPage') loadPage: EventEmitter<any> = new EventEmitter();
+
 
   public imageSrc = null;
   public loaded = false;
@@ -28,7 +30,12 @@ export class ImageCardPanel implements OnInit, OnChanges {
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
+    try {
+      (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
+    } catch (err) {
+      (this.attachment as any).primaryInd = true;
+    }
+
     this.updateIncidentAttachment();
   }
 
@@ -77,6 +84,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
     .toPromise().then(() => {
       this.snackbarService.open('Image Updated Successfully', 'OK', { duration: 10000, panelClass: 'snackbar-success' });
       this.loaded = false;
+      this.loadPage.emit()
     }).catch(err => {
       this.snackbarService.open('Failed to Update Image: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
       this.loaded = false;
@@ -102,7 +110,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
   loadImage () {
     if (!this.loaded) {
-      this.documentManagementService.downloadDocument(this.attachment.fileIdentifier).toPromise().then(response => {
+      this.documentManagementService.downloadDocument(this.attachment.thumbnailIdentifier || this.attachment.fileIdentifier).toPromise().then(response => {
         const blob = (response as any).body
         if (blob) {
           this.imageSrc = this.sanitizer.bypassSecurityTrustUrl(window.URL.createObjectURL(blob));

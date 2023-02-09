@@ -281,6 +281,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value: "${var.api_key}"
         },
         {
+          name: "WFNEWS_API_KEY",
+          value: "${var.api_key}"
+        },
+        {
           name = "WEBADE_OAUTH2_AUTHORIZE_URL",
           value = var.WEBADE_OAUTH2_AUTHORIZE_URL
         },

@@ -23,6 +23,7 @@ import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stag
 import { snowPlowHelper } from '../../utils';
 import * as L from 'leaflet'
 import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
@@ -63,6 +64,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   public loading = true
   public tabIndex = 0
+
+  public readonly url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
 
   public convertToDateWithDayOfWeek = DateTimeConvert;
   public convertToStageOfControlDescription = StageOfControlConvert;
@@ -149,9 +152,14 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }, 1000)
   }
 
-  onTabChanged (event) {
+  onTabChanged (event: MatTabChangeEvent) {
     this.onChangeFilters();
     this.doSearch();
+
+    this.snowPlowHelper(this.url, {
+      action: 'incident_tab_change',
+      text: `${event.index}:${event.tab.textLabel}`
+    })
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -273,8 +281,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   }
 
   stageOfControlChanges(event: MatCheckboxChange) {
-    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, `CHECK-${event.source.ariaLabel.toUpperCase()}-${event.checked}`)
+    this.snowPlowHelper(this.url, {
+      action: 'incident_list_options',
+      text: `${event.source.ariaLabel.toUpperCase()}-${event.checked}`
+    })
     this.onChangeFilters()
     this.doSearch()
   }
@@ -418,6 +428,13 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   openPreview(incident: any) {
     this.onPanelMouseEnter(incident);
+
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_list_click',
+      text: incident.incidentName,
+      id: incident.incidentNumberLabel
+    })
+
 
     incident.incident_number_label = incident.incidentNumberLabel;
     const self = this;

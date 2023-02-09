@@ -294,7 +294,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   navigateToBcWebsite() {
     window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status', '_blank');
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url, 'BCGovLogo')
+    this.snowPlowHelper(this.url, {
+      action: 'outbound_wildfire_status',
+      text: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status'
+  })
   }
 
   navigateToFooterPage(event: any) {

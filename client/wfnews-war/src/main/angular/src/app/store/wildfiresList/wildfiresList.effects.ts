@@ -95,9 +95,13 @@ export class WildfiresListEffect {
                 }
 
                 let headers = new HttpHeaders();
-                headers.append('Access-Control-Allow-Origin','*');
-                headers.append('Accept','*/*');
-                return this.http.get<any>(url, {headers})
+                headers.append('Accept', '*/*');
+                headers.append('apikey', this.appConfigService.getConfig().application['wfnewsApiKey']);
+
+                return this.http.get<any>(url, { headers: {
+                  'Accept': '*/*',
+                  'apikey': this.appConfigService.getConfig().application['wfnewsApiKey']
+                } })
                 .pipe(
                     map((response: any) => {
                       typedaction.callback()

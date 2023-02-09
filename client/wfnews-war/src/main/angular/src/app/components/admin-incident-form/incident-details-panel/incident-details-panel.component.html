@@ -1,6 +1,7 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
   <mat-card class="info-card news-form-card">
     <fieldset class="field-set">
+      <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-third">
           <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
@@ -25,7 +26,7 @@
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
             <mat-label class="label required">Location</mat-label>
-            <input matInput type="text" formControlName="location" [(ngModel)]="incident.location">
+            <input matInput type="text" formControlName="location" [(ngModel)]="incident.location" [placeholder]="incident.incidentData ? incident.incidentData.incidentLocation.geographicDescription : ''">
           </mat-form-field>
         </div>
       </div>
@@ -33,20 +34,18 @@
   </mat-card>
   <mat-card class="info-card news-form-card">
     <fieldset class="field-set">
+      <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
             <mat-label class="label">Size Type</mat-label>
-            <mat-select appWFSingleSelect appWFPlaceholder="Select..."
+            <mat-select appWFSingleSelect
               aria-label="Size Type"
               formControlName="sizeType"
               [options]="sizeTypeOptions"
               [(ngModel)]="incident.sizeType"
               (valueChange)="setSizeTypeDisclaimer($event)"
               >
-                <mat-option value="">
-                  <span class="placeholder">Select...</span>
-                </mat-option>
                 <mat-option *ngFor = "let item of sizeTypeOptions" [value]="item.id">
                   <span>{{item.optionValue}}</span>
                 </mat-option>
@@ -76,6 +75,7 @@
   </mat-card>
   <mat-card class="info-card news-form-card">
     <fieldset class="field-set">
+      <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-third">
           <mat-form-field appearance="standard" floatLabel="always">

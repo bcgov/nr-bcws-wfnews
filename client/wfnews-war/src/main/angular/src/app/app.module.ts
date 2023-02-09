@@ -259,7 +259,7 @@ export const DATE_FORMATS = {
             logOnly: environment.production, // Restrict extension to log-only mode
         }),
         EffectsModule.forRoot([]),
-        ServiceWorkerModule.register('wfim-service-worker.js', { enabled: environment.production, scope: './' }),
+        ServiceWorkerModule.register('wfnews-service-worker.js', { enabled: environment.production, scope: './' }),
         ScrollingModule,
         WildfireApplicationModule.forRoot(),
         MatToolbarModule,

@@ -556,7 +556,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	@Override
 	public AttachmentListResource getIncidentAttachmentList(String incidentNumberSequence, boolean primaryIndicator,
 			String[] sourceObjectNameCodes, String[] attachmentTypeCodes, Integer pageNumber, Integer pageRowCount,
-			String[] orderBy, FactoryContext factoryContext) {
+			String[] orderBy, FactoryContext factoryContext) throws ConflictException, NotFoundException {
 		AttachmentListResource result = new AttachmentListResource();
 
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
@@ -623,6 +623,10 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			PagedDtos<AttachmentDto> list = this.attachmentDao.select(incidentNumberSequence, primaryIndicator,
 					sourceObjectNameCodes, attachmentTypeCodes, pageNumber, pageRowCount, newOrderBy);
 			result = this.attachmentFactory.getAttachmentList(list, pageNumber, pageRowCount, factoryContext);
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}
@@ -775,7 +779,10 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		try {
 			AttachmentDto dto = this.attachmentDao.fetch(attachmentGuid);
-			return this.attachmentFactory.getAttachment(dto, factoryContext);
+			if (dto != null) {
+				return this.attachmentFactory.getAttachment(dto, factoryContext);
+			}else throw new NotFoundException("Did not find the attachmentGuid: " + attachmentGuid);
+			
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundDaoException e) {

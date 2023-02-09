@@ -48,8 +48,8 @@ export class IncidentsEffect {
                 if (sortParam == "wildFireOfNote") {
                     sortParam = "fireOfNotePublishedInd";
                 }
-                if (sortParam == "lastPublished") {
-                    sortParam = "discoveryTimestamp";
+                if (sortParam == "lastUpdated") {
+                    sortParam = "lastUpdatedTimestamp";
                 }
 
 

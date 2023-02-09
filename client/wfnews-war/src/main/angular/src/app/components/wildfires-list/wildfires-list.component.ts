@@ -101,7 +101,9 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   loadPage() {
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url)
+    this.snowPlowHelper(this.url, {
+      action: 'wildfire_view_list'
+    })
     this.placeData = new PlaceData();
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
     this.updateView();
@@ -271,4 +273,23 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.doSearch()
   }
 
+  isLocationName() {
+    if (this.locationName && this.locationName !== '') {
+      return true
+    }
+  }
+
+  isSearchText() {
+    if (this.searchText && this.searchText !== '') {
+      return true
+    }
+  }
+
+  locationNameUpdated() {
+    if (this.locationName === '') {
+      this.selectedLat = undefined
+      this.selectedLong = undefined
+      this.searchTextUpdated()
+    }
+  }
 }

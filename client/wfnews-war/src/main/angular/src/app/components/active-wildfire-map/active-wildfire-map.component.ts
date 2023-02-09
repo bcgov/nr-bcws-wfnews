@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
@@ -70,12 +69,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected appConfigService: AppConfigService,
     protected router: Router,
     protected activedRouter: ActivatedRoute,
-    private http: HttpClient,
     private appConfig: AppConfigService,
     private mapConfigService: MapConfigService,
     private agolService: AGOLService,
     private commonUtilityService: CommonUtilityService,
-    private ngZone: NgZone
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -280,7 +277,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   onLocationSelected(selectedOption) {
-    this.snowPlowHelper(this.url, 'WILDFIRESMAP-SEARCHBAR')
+    this.snowPlowHelper(this.url, {
+      action: 'location_search',
+      text: selectedOption
+  })
     const self = this;
     self.searchLayerGroup.clearLayers();
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
@@ -320,7 +320,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
     this.selectedPanel = selectedLayer
-    this.snowPlowHelper(this.url, selectedLayer)
+    this.snowPlowHelper(this.url, {
+      action: 'feature_layer_navigation',
+      text: selectedLayer
+    })
     const layers = [
             /* 00 */ { itemId: 'active-wildfires', visible: true },
             /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
@@ -384,7 +387,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   async useMyCurrentLocation() {
-    this.snowPlowHelper(this.url, 'WILDFIRESMAP-FINDMYLOCATION')
+    this.snowPlowHelper(this.url, {
+      action: 'find_my_location'
+    })
 
     this.searchText = undefined;
 
@@ -482,6 +487,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
     else if (link === 'Copyright') {
       window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
+
+  disclaimerText() {
+    if (screen.width <= 1200) {
+      return 'Legal';
+    } else {
+      return 'Disclaimer and Legal Links';
     }
   }
 }

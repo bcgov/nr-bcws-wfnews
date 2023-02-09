@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AreaRestrictionsOption } from '../../conversion/models';
 import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
+import { snowPlowHelper } from '../../utils';
 import L from 'leaflet';
+import { AppConfigService } from '@wf1/core-ui';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'panel-area-restrictions',
@@ -11,9 +14,12 @@ import L from 'leaflet';
 })
 export class PanelAreaRestrictionsComponent implements OnInit {
   areaRestrictions : AreaRestrictionsOption[] = []
+  public snowPlowHelper = snowPlowHelper
 
   constructor(private agolService: AGOLService,
-              private mapConfigService: MapConfigService,) {
+              private mapConfigService: MapConfigService,
+              private appConfigService: AppConfigService,
+              private router: Router) {
   }
 
   ngOnInit() {
@@ -21,6 +27,7 @@ export class PanelAreaRestrictionsComponent implements OnInit {
   }
 
   zoomToArea (area) {
+    this.snowplow('area_restriction_map_click', `${area.protRsSysID}:${area.name}`)
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;
@@ -51,6 +58,14 @@ export class PanelAreaRestrictionsComponent implements OnInit {
         }
       }, 1000)
       viewer.identified.remove('weather-stations')
+    })
+  }
+
+  async snowplow (action: string, link: string) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(url, {
+      action: action,
+      text: link
     })
   }
 

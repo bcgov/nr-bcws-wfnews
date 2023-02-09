@@ -11,5 +11,5 @@ import { WfAdminPanelComponent } from "./wf-admin-panel.component";
   })
 
 export class WfAdminPanelComponentDesktop extends WfAdminPanelComponent {
-    columnsToDisplay = ["fireNumber", "fireName", "fireCentre", "wildFireOfNote", "lastPublished"];
+    columnsToDisplay = ["fireNumber", "fireName", "fireCentre", "wildFireOfNote", "lastUpdated"];
 }

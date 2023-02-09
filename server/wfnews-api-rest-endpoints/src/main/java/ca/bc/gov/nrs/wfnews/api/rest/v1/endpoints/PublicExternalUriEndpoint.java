@@ -9,6 +9,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
@@ -16,6 +18,7 @@ import ca.bc.gov.nrs.common.service.NotFoundException;
 import io.swagger.annotations.ApiParam;
 
 @Path("/publicExternalUri")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public interface PublicExternalUriEndpoint extends BaseEndpoints{
 	@GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

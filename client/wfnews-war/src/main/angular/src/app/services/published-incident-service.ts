@@ -12,13 +12,13 @@ export class PublishedIncidentService {
 
   public fetchPublishedIncidents (pageNum: number = 0, rowCount: number = 9999, fireOfNote = false, out = false, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=${out}&orderBy=${orderBy}`;
-    return this.httpClient.get(url)
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
   // published incident guid, WF Incident Guid, WF year and incident sequence number?
   public fetchPublishedIncident (guid: string): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${guid}`;
-    return this.httpClient.get(url)
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
   public fetchIMIncident(fireYear: string, incidentNumber: string): Observable<any> {
@@ -55,21 +55,21 @@ export class PublishedIncidentService {
 
   public fetchPublishedIncidentAttachments (incidentName): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentName}/attachments`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 
   public fetchExternalUri (incidentNumber): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 
   public fetchAttachments (incidentNumber): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 
   public fetchAttachmentBytes (incidentNumber, attachmentGuid): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
-    return this.httpClient.get(url);
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 }
