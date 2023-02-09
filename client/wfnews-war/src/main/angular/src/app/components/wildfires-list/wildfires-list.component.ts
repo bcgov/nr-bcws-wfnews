@@ -71,8 +71,13 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.placeData = new PlaceData();
     let self = this;
     this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
+      this.locationName = val;
+
       if(!val) {
-          this.filteredOptions= [];
+          this.filteredOptions = [];
+          this.selectedLat = undefined;
+          this.selectedLong = undefined;
+          this.searchTextUpdated();
           return;
       }
 
@@ -268,7 +273,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   onLocationSelected(selectedOption) {
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
-    this.locationName = locationControlValue
+    this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
     this.selectedLat=selectedOption.loc[1];
     this.selectedLong=selectedOption.loc[0]
     this.doSearch()
@@ -286,11 +291,4 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }
   }
 
-  locationNameUpdated() {
-    if (this.locationName === '') {
-      this.selectedLat = undefined
-      this.selectedLong = undefined
-      this.searchTextUpdated()
-    }
-  }
 }
