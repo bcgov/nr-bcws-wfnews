@@ -1,6 +1,7 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
   <mat-card class="info-card news-form-card">
     <fieldset class="field-set">
+      <legend style="display: none">General Disclaimer Card</legend>
       <div class="news-form">
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">
@@ -23,6 +24,7 @@
       Wildfire Crews
     </mat-card-title>
     <fieldset class="field-set">
+      <legend style="display: none">Response card</legend>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
@@ -57,6 +59,7 @@
       Aviation
     </mat-card-title>
     <fieldset class="field-set">
+      <legend style="display: none">Arial Response Card</legend>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
@@ -91,6 +94,7 @@
       Incident Management Team
     </mat-card-title>
     <fieldset class="field-set">
+      <legend style="display: none">Incident Management Response Card</legend>
       <div class="news-form">
         <div class="field size-third">
           <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Team</mat-checkbox>
@@ -115,6 +119,7 @@
       Heavy Equipment
     </mat-card-title>
     <fieldset class="field-set">
+      <legend style="display: none">Equipment Response Card</legend>
       <div class="news-form">
         <div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
@@ -145,6 +150,7 @@
       Structure Protection
     </mat-card-title>
     <fieldset class="field-set">
+      <legend style="display: none">Structure Protection Response Card</legend>
       <div class="news-form">
         <!-- div class="field size-unset">
           <mat-form-field appearance="standard" floatLabel="always">
