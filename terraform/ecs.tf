@@ -274,7 +274,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "WFNEWS_API_URL",
-          value = "https://${aws_route53_record.wfnews_server.name}/"
+          value = "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
           name: "WFNEWS_API_KEY",
