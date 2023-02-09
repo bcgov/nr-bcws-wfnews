@@ -185,8 +185,8 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
         },
         {
-          name: "API_KEY",
-          value: "${var.api_key}"
+          name = "API_KEY",
+          value = "${var.api_key}"
         }
 
       ]
@@ -274,11 +274,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "WFNEWS_API_URL",
-          value = "https://${aws_route53_record.wfnews_server.name}/"
+          value = "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
-          name: "WFNEWS_API_KEY",
-          value: "${var.api_key}"
+          name = "WFNEWS_API_KEY",
+          value = "${var.api_key}"
         },
         {
           name = "WEBADE_OAUTH2_AUTHORIZE_URL",
@@ -429,16 +429,16 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           value = "${var.logging_level}"
         },
         {
-          name: "API_KEY",
-          value: "${var.api_key}"
+          name = "API_KEY",
+          value= "${var.api_key}"
         },
         {
-          name: "TARGET_ENV",
-          value: "${var.target_env}"
+          name= "TARGET_ENV",
+          value= "${var.target_env}"
         },
         {
-          name: "LICENSE_PLATE",
-          value: "${var.license_plate}"
+          name= "LICENSE_PLATE",
+          value= "${var.license_plate}"
         }
         # {
         #   name: "ETCD_ROOT_PASSWORD",
