@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { Component } from "@angular/core";
 import { WildFiresListComponent } from "./wildfires-list.component";
 
 @Component({
@@ -6,8 +6,7 @@ import { WildFiresListComponent } from "./wildfires-list.component";
     templateUrl: './wildfires-list.component.desktop.html',
     styleUrls: [
       '../common/base-collection/collection.component.scss',
-      './wildfires-list.component.desktop.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+      './wildfires-list.component.desktop.scss']
   })
 
 export class WildFiresListComponentDesktop extends WildFiresListComponent {
