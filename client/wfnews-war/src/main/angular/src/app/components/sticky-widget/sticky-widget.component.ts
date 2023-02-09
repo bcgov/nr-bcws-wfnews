@@ -3,9 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { ResourcesRoutes } from '../../utils';
+import { ResourcesRoutes, isMobileView as mobileView } from '../../utils';
 import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-widget-dialog.component';
-import { isMobileView as mobileView  } from '../../utils';
 
 @Component({
     selector: 'sticky-widget',

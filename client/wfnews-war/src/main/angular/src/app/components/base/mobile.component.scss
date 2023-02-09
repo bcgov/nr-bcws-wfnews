@@ -162,7 +162,7 @@ $list-item-width: 100%;
 
       .form-flex {
         flex-wrap: wrap;
-        margin-left: calc(-1 * var(--wf1-gutter-space));;
+        margin-left: calc(-1 * var(--wf1-gutter-space));
 
         .field:not(.field-full) {
           flex-basis: calc(50% - #{var(--wf1-gutter-space)});
@@ -403,7 +403,7 @@ $list-item-width: 100%;
             display: flex;
             flex-direction: row;
             height: 100%;
-            align-items: center;;
+            align-items: center;
 
             mat-radio-button:not(:first-child){
               padding-left: 10px;
