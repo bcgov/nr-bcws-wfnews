@@ -84,8 +84,6 @@ return;
     }
 
     searchAddresses( txt: string ) {
-        var self = this;
-
         const query = {
             ver:            1.2,
             maxResults:     10,

@@ -29,16 +29,16 @@ export class VideoCardPanel{
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    (this.video as any).primaryInd = !(this.video as any).primaryInd;
+    this.video.primaryInd = !this.video.primaryInd;
     this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
   }
 
   get isPrimary () {
     if (!Object.prototype.hasOwnProperty.call(this.video, 'primaryInd')) {
-      (this.video as any).primaryInd = false
+      this.video.primaryInd = false
     }
 
-    return (this.video as any).primaryInd
+    return this.video.primaryInd
   }
 
   set isPrimary (primary) {

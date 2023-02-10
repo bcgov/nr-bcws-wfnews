@@ -13,8 +13,7 @@ import { DisclaimerDialogComponent } from './components/disclaimer-dialog/discla
 import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
-import { ResourcesRoutes, snowPlowHelper } from './utils';
-import { isMobileView as mobileView } from './utils';
+import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
 
 export const ICON = {
   TWITTER: 'twitter',
@@ -151,7 +150,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       setTimeout(() => {
         mainApp.classList.remove('menu-collapsed');
         mainApp.classList.add('menu-hidden');
-        const menu = document.getElementsByTagName('wf-menu')
         if (document.getElementsByTagName('wf-menu')[0]) {
           (document.getElementsByTagName('wf-menu')[0] as HTMLElement).removeAttribute('style');
         }

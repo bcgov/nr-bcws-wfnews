@@ -68,18 +68,6 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
                         }));
                     } else {
                         if (requestId) {
-                            //api's other than resources v2 api or schedule api still need to have this manually set
-                            let headers = req.headers.set("RequestId", requestId).set("Accept", "*/*");
-
-                            // Need to explicitly disable caching, as IE11 caches by default
-                            if (req.method === "GET") {
-                                headers = headers.set("Cache-Control", "no-cache")
-                                    .set("Pragma", "no-cache");
-                            }
-
-                            if (req.url.indexOf('bytes') !== -1) {
-
-                            }
                             let authToken = this.tokenService.getOauthToken();
                             processedRequest = req.clone({
                                 headers: req.headers.set('Authorization', 'Bearer ' + authToken).set("RequestId", requestId).set("Accept", "*/*")
@@ -211,7 +199,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
     }
 
     displayRefreshErrorMessage(message: string) {
-
+      // unused. Why is this empty?
     }
 
     refreshWindow() {

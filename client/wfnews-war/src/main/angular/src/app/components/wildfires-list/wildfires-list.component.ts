@@ -246,6 +246,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   onlyOneControlSelected() {
+    // unused
   }
 
   getFullAddress(location) {
