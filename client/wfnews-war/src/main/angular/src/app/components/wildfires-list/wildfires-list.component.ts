@@ -98,6 +98,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       }
   });  }
 
+  ngOnInit() {
+    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(this.url)
+  }
 
   initModels() {
     this.model = new WildFiresListComponentModel(this.sanitizer);
@@ -106,9 +110,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   loadPage() {
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url, {
-      action: 'wildfire_view_list'
-    })
     this.placeData = new PlaceData();
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
     this.updateView();
