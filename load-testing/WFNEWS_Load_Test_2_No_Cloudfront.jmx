@@ -18165,7 +18165,7 @@
                 </elementProp>
                 <elementProp name="Referer" elementType="Header">
                   <stringProp name="Header.name">Referer</stringProp>
-                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                 </elementProp>
                 <elementProp name="Sec-Fetch-Site" elementType="Header">
                   <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -18230,7 +18230,7 @@
                 </elementProp>
                 <elementProp name="Referer" elementType="Header">
                   <stringProp name="Header.name">Referer</stringProp>
-                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                 </elementProp>
                 <elementProp name="Sec-Fetch-Site" elementType="Header">
                   <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -26594,7 +26594,7 @@
                 </elementProp>
                 <elementProp name="Referer" elementType="Header">
                   <stringProp name="Header.name">Referer</stringProp>
-                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                  <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                 </elementProp>
                 <elementProp name="Sec-Fetch-Site" elementType="Header">
                   <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -29477,7 +29477,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -29534,7 +29534,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -29591,7 +29591,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31046,7 +31046,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31103,7 +31103,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31244,7 +31244,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31301,7 +31301,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31358,7 +31358,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -31415,7 +31415,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -33459,7 +33459,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -33723,7 +33723,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -38792,7 +38792,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -39110,7 +39110,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -39575,7 +39575,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>
@@ -41142,7 +41142,7 @@
                   </elementProp>
                   <elementProp name="Referer" elementType="Header">
                     <stringProp name="Header.name">Referer</stringProp>
-                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfim-service-worker.js</stringProp>
+                    <stringProp name="Header.value">${scheme}://wfnews-client.${url_suffix}/wfnews-service-worker.js</stringProp>
                   </elementProp>
                   <elementProp name="Sec-Fetch-Site" elementType="Header">
                     <stringProp name="Header.name">Sec-Fetch-Site</stringProp>

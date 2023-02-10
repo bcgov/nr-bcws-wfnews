@@ -8,6 +8,7 @@ include {
 
 locals {
   sec_group = "Web_sg"
+  github_release_name = get_env("GITHUB_RELEASE_NAME")
   db_pass = get_env("DB_PASS")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")

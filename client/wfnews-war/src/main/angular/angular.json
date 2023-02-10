@@ -30,7 +30,7 @@
               "src/manifest.json",
               "src/refresh-token.html",
               "src/robots.txt",
-              "src/wfim-service-worker.js",
+              "src/wfnews-service-worker.js",
               {
                 "glob": "**/*",
                 "input": "node_modules/@qqnluaq/smk/dist/assets",
