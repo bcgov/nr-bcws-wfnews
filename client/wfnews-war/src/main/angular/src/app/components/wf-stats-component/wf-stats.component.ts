@@ -65,9 +65,7 @@ export class WFStatsComponent implements OnInit {
 
   ngOnInit(): void {
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url, {
-      action: 'wildfire_view_stats'
-    })
+    this.snowPlowHelper(this.url)
     this.loadData().then(() => {
       this.loading = false;
       // 600000 is 10 minutes in milliseconds

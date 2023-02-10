@@ -279,7 +279,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onLocationSelected(selectedOption) {
     this.snowPlowHelper(this.url, {
       action: 'location_search',
-      text: selectedOption
+      text: selectedOption.address
   })
     const self = this;
     self.searchLayerGroup.clearLayers();
