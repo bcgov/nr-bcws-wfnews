@@ -222,7 +222,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.structureProtectionInd = response.structureProtectionRsrcInd;
               self.incident.structureProtectionComments = response.structureProtectionRsrcDetail;
 
-              self.incident.contact.fireCentre = response.contactOrgUnitIdentifer;
+              self.incident.contact.fireCentre = response.contactOrgUnitIdentifer.toString();
               self.incident.contact.phoneNumber = response.contactPhoneNumber;
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
