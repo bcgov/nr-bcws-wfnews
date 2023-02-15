@@ -16,14 +16,8 @@ export class PublishedIncidentService {
   }
 
   // published incident guid, WF Incident Guid, WF year and incident sequence number?
-  public fetchPublishedIncident (guid: string): Observable<any> {
-    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${guid}`;
-    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
-  }
-
-  // published incident sequence label, fire year
-  public fetchPublishedIncidentByYear (fireNumber: string, fireYear: string): Observable<any> {
-    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${fireYear}/${fireNumber}`;
+  public fetchPublishedIncident (guid: string, fireYear: string = null): Observable<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${guid}${fireYear ? '?fireYear=' + fireYear : ''}`;
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 

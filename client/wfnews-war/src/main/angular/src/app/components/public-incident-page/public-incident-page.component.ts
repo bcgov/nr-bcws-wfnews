@@ -38,7 +38,7 @@ export class PublicIncidentPage implements OnInit {
         this.incidentNumber = params['incidentNumber']
         this.fireYear = params['fireYear']
         // Load the incident from the API
-        this.publishedIncidentService.fetchPublishedIncidentByYear(this.incidentNumber, this.fireYear).toPromise().then(async result => {
+        this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber, this.fireYear).toPromise().then(async result => {
           this.incident = result
           // set geometry
           this.incident.geometry = {

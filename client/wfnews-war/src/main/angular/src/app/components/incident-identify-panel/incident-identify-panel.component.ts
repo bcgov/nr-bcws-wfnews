@@ -62,7 +62,7 @@ export class IncidentIdentifyPanelComponent {
     const id = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incident_number_label
     const year = incidentRef.fire_year
 
-    this.publishedIncidentService.fetchPublishedIncidentByYear(id, year).toPromise().then(result => {
+    this.publishedIncidentService.fetchPublishedIncident(id, year).toPromise().then(result => {
       this.incident = result;
 
       this.incident.geometry = {
@@ -99,7 +99,7 @@ export class IncidentIdentifyPanelComponent {
   goToIncidentDetail () {
     // this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
     const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: this.incident.fireYear, incidentNumber: this.incident.incidentNumberLabel } })
     )
     window.open(url, '_blank')
   }
