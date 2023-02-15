@@ -150,7 +150,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			PublishedIncidentResource result = new PublishedIncidentResource();
 			publishedIncident.setPublishedTimestamp(new Date());
 			PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncident(
-					publishedIncident.getPublishedIncidentDetailGuid(),
+					publishedIncident.getPublishedIncidentDetailGuid(), publishedIncident.getFireYear(),
 					getWebAdeAuthentication(),
 					factoryContext);
 
@@ -202,7 +202,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -228,7 +228,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -247,28 +247,15 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid,
+	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear,
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, fireYear);
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
 		} else
 			throw new NotFoundException("Did not find the publishedIncidentDetailGuid: " + publishedIncidentDetailGuid);
-		return result;
-	}
-
-	@Override
-	public PublishedIncidentResource getPublishedIncident(Integer fireYear, Integer fireNumber,
-			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
-
-		PublishedIncidentResource result = null;
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(fireYear, fireNumber);
-		if (fetchedDto != null) {
-			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
-		} else
-			throw new NotFoundException("Did not find the incident: " + fireYear + " : " + fireNumber);
 		return result;
 	}
 
@@ -303,7 +290,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 		try {
 
-			PublishedIncidentDto dto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+			PublishedIncidentDto dto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, null);
 
 			if (dto == null) {
 				throw new NotFoundException("Did not find the PublishedIncident: " + publishedIncidentDetailGuid);

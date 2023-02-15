@@ -108,12 +108,12 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	}
 	
 	@Override
-	public Response getPublishedIncident(String publishedIncidentDetailGuid) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 				
 		try {
 			// publishedIncidentDetailGuid can also be the fire number or fire name
-			PublishedIncidentResource results = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, getWebAdeAuthentication(), getFactoryContext());
+			PublishedIncidentResource results = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, fireYear, getWebAdeAuthentication(), getFactoryContext());
 			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
 
 			};
@@ -203,31 +203,6 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			} catch (Throwable t) {
 				response = getInternalServerErrorResponse(t);
 			}
-		}
-		
-		logResponse(response);
-
-		return response;
-	}
-
-	@Override
-	public Response getPublishedIncident(Integer fireYear, Integer fireNumber)
-			throws NotFoundException, ForbiddenException, ConflictException {
-				Response response = null;
-				
-		try {
-			// publishedIncidentDetailGuid can also be the fire number or fire name
-			PublishedIncidentResource results = incidentsService.getPublishedIncident(fireYear, fireNumber, getWebAdeAuthentication(), getFactoryContext());
-			GenericEntity<PublishedIncidentResource> entity = new GenericEntity<PublishedIncidentResource>(results) {
-
-			};
-
-			response = Response.ok(entity).tag(results.getUnquotedETag()).build();
-		
-		} catch (NotFoundException e) {
-			response = Response.status(Status.NOT_FOUND).build();	
-		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
 		}
 		
 		logResponse(response);

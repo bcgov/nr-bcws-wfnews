@@ -29,10 +29,7 @@ public interface IncidentsService {
 	PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
-
-	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentResource getPublishedIncident(Integer fireYear, Integer fireNumber, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
+	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;

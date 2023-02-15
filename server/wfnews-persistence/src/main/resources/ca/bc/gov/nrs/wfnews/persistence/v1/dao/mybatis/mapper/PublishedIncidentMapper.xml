@@ -234,14 +234,11 @@
 	<select id="fetch" resultMap="PublishedIncidentDtoMap"> 
 		SELECT *
 		  FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
-		<if test="publishedIncidentDetailGuid != null">
-		 WHERE PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
+		 WHERE (PUBLISHED_INCIDENT_DETAIL_GUID = #{publishedIncidentDetailGuid}
 	  	  OR INCIDENT_NUMBER_LABEL = #{publishedIncidentDetailGuid}
-				OR INCIDENT_NAME = #{publishedIncidentDetailGuid}
-		</if>
+				OR INCIDENT_NAME = #{publishedIncidentDetailGuid})
 		<if test="fireYear != null">
-			WHERE fireYear = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
-			  AND INCIDENT_NUMBER_LABEL = #{fireNumber}
+			 AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
 		</if>
 		 LIMIT 1
 	</select>

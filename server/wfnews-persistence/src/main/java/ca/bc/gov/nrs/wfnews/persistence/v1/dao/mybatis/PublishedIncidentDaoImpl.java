@@ -93,7 +93,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public PublishedIncidentDto fetch(String publishedIncidentDetailGuid) throws DaoException {
+	public PublishedIncidentDto fetch(String publishedIncidentDetailGuid, Integer fireYear) throws DaoException {
 		logger.debug("<fetch");
 
 		PublishedIncidentDto result = null;
@@ -102,6 +102,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("publishedIncidentDetailGuid", publishedIncidentDetailGuid);
+			parameters.put("fireYear", fireYear);
 			result = this.publishedIncidentMapper.fetch(parameters);
 
 		} catch (RuntimeException e) {
@@ -261,26 +262,5 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		}
 		return currentYear;
 	}
-
-	@Override
-	public PublishedIncidentDto fetch(Integer fireYear, Integer fireNumber) throws DaoException {
-		logger.debug("<fetch");
-
-		PublishedIncidentDto result = null;
-
-		try {
-
-			Map<String, Object> parameters = new HashMap<String, Object>();
-			parameters.put("fireYear", fireYear);
-			parameters.put("fireNumber", fireNumber);
-			parameters.put("publishedIncidentDetailGuid", null);
-			result = this.publishedIncidentMapper.fetch(parameters);
-
-		} catch (RuntimeException e) {
-			handleException(e);
-		}
-
-		logger.debug(">fetch " + result);
-		return result;
-	}
 }
+	

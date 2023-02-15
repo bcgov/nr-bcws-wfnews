@@ -52,13 +52,8 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
-	
-	@GET
-	@Path("/{fireYear}/{incidentNumber}")
-	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncident(@PathParam("fireYear") Integer fireYear,
-																			 @PathParam("incidentNumber") Integer fireNumber) throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid,
+																			 @ApiParam("The Fire Year for incidents") @QueryParam("fireYear") Integer fireYear)throws NotFoundException, ForbiddenException, ConflictException;
 
 	@GET
 	@Path("byIncident/{incidentGuid}")
