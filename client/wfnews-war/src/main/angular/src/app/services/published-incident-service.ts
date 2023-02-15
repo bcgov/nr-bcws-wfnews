@@ -21,6 +21,12 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
+  // published incident sequence label, fire year
+  public fetchPublishedIncidentByYear (fireNumber: string, fireYear: string): Observable<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${fireYear}/${fireNumber}`;
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
   public fetchIMIncident(fireYear: string, incidentNumber: string): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['incidents']}/incidents/${fireYear}/${incidentNumber}`
 

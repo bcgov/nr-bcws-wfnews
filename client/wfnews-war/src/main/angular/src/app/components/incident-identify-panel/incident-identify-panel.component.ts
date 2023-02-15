@@ -60,8 +60,9 @@ export class IncidentIdentifyPanelComponent {
 
     // get the fire number, either from a perimeter or active fire feature
     const id = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incident_number_label
+    const year = incidentRef.fire_year
 
-    this.publishedIncidentService.fetchPublishedIncident(id).toPromise().then(result => {
+    this.publishedIncidentService.fetchPublishedIncidentByYear(id, year).toPromise().then(result => {
       this.incident = result;
 
       this.incident.geometry = {

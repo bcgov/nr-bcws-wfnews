@@ -260,6 +260,19 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
+	public PublishedIncidentResource getPublishedIncident(Integer fireYear, Integer fireNumber,
+			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
+
+		PublishedIncidentResource result = null;
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(fireYear, fireNumber);
+		if (fetchedDto != null) {
+			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
+		} else
+			throw new NotFoundException("Did not find the incident: " + fireYear + " : " + fireNumber);
+		return result;
+	}
+
+	@Override
 	public PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid,
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
@@ -314,7 +327,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	@Override
 	public PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber,
 			Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox,
-			Double latitude, Double longitude, Double radius, FactoryContext factoryContext) {
+			Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
@@ -349,7 +362,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}
 
 			publishedIncidentList = this.publishedIncidentDao.select(searchText, pageNumber, pageRowCount, orderByList,
-					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, radius);
+					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, fireYear, radius);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount,
 					factoryContext);
 		} catch (DaoException e) {
