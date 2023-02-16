@@ -158,8 +158,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   redirectToPublicMobile () {
-    localStorage.setItem('dontShowPublicMobileDownload', 'true');
-    return (!this.location.path().includes('/incidents')) && (window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768)
+    return (window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768)
   }
 
   getAppStoreLink () {
