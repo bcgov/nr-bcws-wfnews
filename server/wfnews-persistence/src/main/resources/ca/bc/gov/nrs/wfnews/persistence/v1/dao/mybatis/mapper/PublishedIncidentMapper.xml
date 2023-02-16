@@ -296,7 +296,7 @@
 		FROM WFNEWS.PUBLISHED_INCIDENT_DETAIL
 		WHERE stage_of_control_code IS NOT NULL
 		  <if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty() &amp;&amp; stageOfControlList.contains('OUT')">
-		      AND fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}
+		      AND (stage_of_control_code = 'OUT' AND fire_year = #{currentFireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN})
 		  </if>
 			<if test="stageOfControlList != null &amp;&amp; !stageOfControlList.isEmpty()">
 					AND stage_of_control_code IN
