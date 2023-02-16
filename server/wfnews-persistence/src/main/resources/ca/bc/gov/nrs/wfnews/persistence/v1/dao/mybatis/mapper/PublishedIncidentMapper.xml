@@ -417,7 +417,7 @@
             'geometry',   ST_AsGeoJSON(t.geometry, options => 1)::JSONB,
             'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
-		          FROM (SELECT f.incident_number_label, f.incident_name, f.fire_year, f.geometry FROM wfnews.published_incident_detail AS f
+		          FROM (SELECT f.incident_number_label, f.incident_name,f.incident_location, f.discovery_date, f.general_incident_cause_cat_id, f.incident_size_estimated_ha, f.stage_of_control_code, f.incident_mgmnt_crew_rsrc_ind, f.wildfire_aviation_resource_ind, f.wildfire_crew_resources_ind, f.heavy_equipment_resources_ind, f.structure_protection_rsrc_ind, f.last_updated_timestamp, f.fire_year, f.geometry FROM wfnews.published_incident_detail AS f
 		         WHERE stage_of_control_code = #{stageOfControlCode, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		           AND fire_of_note_ind = 'N'
 		<if test="stageOfControlCode == 'OUT'">
@@ -434,7 +434,7 @@
             'geometry',   ST_AsGeoJSON(t.geometry, options => 1)::JSONB,
             'properties', TO_JSONB(t.*) - 'geometry'
            ) AS feature
-		          FROM (SELECT f.incident_number_label, f.incident_name, f.fire_year, f.geometry FROM wfnews.published_incident_detail AS f
+		          FROM (SELECT f.incident_number_label,f.incident_location, f.incident_name, f.discovery_date, f.general_incident_cause_cat_id, f.incident_size_estimated_ha, f.stage_of_control_code, f.incident_mgmnt_crew_rsrc_ind, f.wildfire_aviation_resource_ind, f.wildfire_crew_resources_ind, f.heavy_equipment_resources_ind, f.structure_protection_rsrc_ind, f.last_updated_timestamp, f.fire_year, f.geometry FROM wfnews.published_incident_detail AS f
 		         WHERE stage_of_control_code != 'OUT'
 		           AND fire_of_note_ind = 'Y'
 		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
