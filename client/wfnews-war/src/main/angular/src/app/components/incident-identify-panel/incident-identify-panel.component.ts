@@ -123,15 +123,15 @@ export class IncidentIdentifyPanelComponent {
   }
 
   onWatchlist (): boolean {
-    return this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel)
+    return this.watchlistService.getWatchlist().includes(this.incident.fireYear + ':' + this.incident.incidentNumberLabel)
   }
 
   addToWatchlist () {
-    this.watchlistService.saveToWatchlist(this.incident.incidentNumberLabel)
+    this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
   removeFromWatchlist () {
-    this.watchlistService.removeFromWatchlist(this.incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
   getEvacOrders () {

@@ -97,7 +97,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
           });
       }
     });
-    
+
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
   }
@@ -199,25 +199,25 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   selectIncident(incident: any) {
       const url = this.router.serializeUrl(
-        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel } })
       )
       window.open(url, '_blank')
   }
 
   onWatchlist (incident: any): boolean {
-    return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
   }
 
   addToWatchlist(incident: any) {
     if (this.onWatchlist(incident)) {
       this.removeFromWatchlist(incident)
     } else {
-      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
     }
   }
 
   removeFromWatchlist (incident: any) {
-    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(incident.fireYear, incident.incidentNumberLabel)
   }
 
   viewMap(incident: any) {
