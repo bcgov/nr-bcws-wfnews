@@ -96,9 +96,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
               }
           });
       }
-  });  }
-
-  ngOnInit() {
+    });
+    
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
   }
