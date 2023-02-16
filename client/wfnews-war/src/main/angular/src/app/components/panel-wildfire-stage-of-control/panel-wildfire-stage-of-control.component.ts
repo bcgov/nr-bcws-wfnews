@@ -465,15 +465,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   }
 
   onWatchlist(incident: any): boolean {
-    return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
   }
 
   addToWatchlist(incident: any) {
-    this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+    this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
   }
 
   removeFromWatchlist(incident: any) {
-    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(incident.fireYear, incident.incidentNumberLabel)
   }
 
   onClickBookmark(event: Event) {

@@ -178,7 +178,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		}
 
 		try {
-			PublishedIncidentResource current = incidentsService.getPublishedIncident(publishedIncidentDetailGuid,
+			PublishedIncidentResource current = incidentsService.getPublishedIncident(publishedIncidentDetailGuid, null,
 					getWebAdeAuthentication(), getFactoryContext());
 
 			EntityTag currentTag = EntityTag.valueOf(current.getQuotedETag());

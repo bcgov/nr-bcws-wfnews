@@ -44,9 +44,6 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 
-			// Ensure current Fire Year is set on new inserts
-			dto.setFireYear(getCurrentFireYear());
-
 			parameters.put("dto", dto);
 			parameters.put("publishedIncidentDetailGuid", dto.getPublishedIncidentDetailGuid());
 			int count = this.publishedIncidentMapper.insert(parameters);
@@ -96,7 +93,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 	
 	@Override
-	public PublishedIncidentDto fetch(String publishedIncidentDetailGuid) throws DaoException {
+	public PublishedIncidentDto fetch(String publishedIncidentDetailGuid, Integer fireYear) throws DaoException {
 		logger.debug("<fetch");
 
 		PublishedIncidentDto result = null;
@@ -105,6 +102,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("publishedIncidentDetailGuid", publishedIncidentDetailGuid);
+			parameters.put("fireYear", fireYear);
 			result = this.publishedIncidentMapper.fetch(parameters);
 
 		} catch (RuntimeException e) {
@@ -197,7 +195,6 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("ymin", Double.parseDouble(bbox.split(",")[1]));
 			parameters.put("xmax", Double.parseDouble(bbox.split(",")[2]));
 			parameters.put("ymax", Double.parseDouble(bbox.split(",")[3]));
-			parameters.put("currentFireYear", getCurrentFireYear());
 
 			json = this.publishedIncidentMapper.selectFireOfNoteAsJson(parameters);
 		} catch (RuntimeException e) {
@@ -208,7 +205,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Double radius) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -242,8 +239,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("longitude", longitude);
 			parameters.put("radius", radius);
 			parameters.put("searchText", searchText);
-
-			parameters.put("currentFireYear", getCurrentFireYear());
+			parameters.put("currentFireYear", fireYear != null ? fireYear.intValue() : getCurrentFireYear());
 			
 			int totalRowCount = this.publishedIncidentMapper.selectCount(parameters);
 			List<PublishedIncidentDto> dtos = this.publishedIncidentMapper.select(parameters);
@@ -267,3 +263,4 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 		return currentYear;
 	}
 }
+	

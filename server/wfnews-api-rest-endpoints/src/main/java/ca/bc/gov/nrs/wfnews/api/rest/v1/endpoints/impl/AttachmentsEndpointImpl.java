@@ -195,7 +195,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 				// Now we should also update the Incident
 				// This will ensure we fetch this on update checks
-				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, getWebAdeAuthentication(), getFactoryContext());
+				PublishedIncidentResource incident = incidentsService.getPublishedIncident(incidentNumberSequence, null, getWebAdeAuthentication(), getFactoryContext());
 				incident.setUpdateDate(new Date());
 				incident.setLastUpdatedTimestamp(new Date());
 				incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
