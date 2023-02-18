@@ -36,7 +36,7 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   }
 
   zoomToEvac (evac) {
-    this.snowplow('orders_list_click', `${evac.emrgOAAsysID}:${evac.eventName}`)
+    this.snowplow(`${evac.orderAlertStatus}_list_click`, `${evac.emrgOAAsysID}:${evac.eventName}:${evac.issuingAgency}`)
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;

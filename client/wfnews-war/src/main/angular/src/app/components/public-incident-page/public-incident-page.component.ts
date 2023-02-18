@@ -15,6 +15,7 @@ export class PublicIncidentPage implements OnInit {
   public loadingFailed = false
 
   public incidentNumber: string
+  public fireYear: string
   public incident: any
   public evacOrders: EvacOrderOption[] = []
   public areaRestrictions : AreaRestrictionsOption[] = []
@@ -33,10 +34,11 @@ export class PublicIncidentPage implements OnInit {
 
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
-      if (params && params['incidentNumber']) {
+      if (params && params['incidentNumber'] && params['fireYear']) {
         this.incidentNumber = params['incidentNumber']
+        this.fireYear = params['fireYear']
         // Load the incident from the API
-        this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber).toPromise().then(async result => {
+        this.publishedIncidentService.fetchPublishedIncident(this.incidentNumber, this.fireYear).toPromise().then(async result => {
           this.incident = result
           // set geometry
           this.incident.geometry = {
@@ -94,7 +96,7 @@ export class PublicIncidentPage implements OnInit {
 
     this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabelFull).toPromise().then(results => {
       if (results && results.collection && results.collection.length > 0) {
-        this.showImageWarning = true;  
+        this.showImageWarning = true;
         this.cdr.detectChanges();
       }
     });
@@ -104,9 +106,7 @@ export class PublicIncidentPage implements OnInit {
         // remove any non-image types
         const data = []
         for (const doc of docs.collection) {
-          const idx = docs.collection.indexOf(doc)
           if (doc.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
-            // docs.collection.splice(idx, 1);
             // splice is not longer needed here as we return a new object
           } else {
             data.push(doc)
@@ -114,7 +114,7 @@ export class PublicIncidentPage implements OnInit {
         }
 
         if(data.length > 0) {
-          this.showMapsWarning = true;  
+          this.showMapsWarning = true;
           this.cdr.detectChanges();
         }
       })

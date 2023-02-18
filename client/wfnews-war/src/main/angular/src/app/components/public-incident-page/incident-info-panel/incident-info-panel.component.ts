@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
 import { convertToFireCentreDescription, convertToYoutubeId } from '../../../utils'
@@ -17,13 +17,13 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
-  
+
   showWarning: boolean;
 
   public convertToFireCentreDescription = convertToFireCentreDescription
   public convertToYoutubeId = convertToYoutubeId
 
-  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, 
+  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,
                      private router: ActivatedRoute) {}
   public primaryMedia = null
@@ -52,7 +52,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public getStageOfControlLabel (code: string) {
     if (code.toUpperCase().trim() === 'OUT') return 'Out'
     else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'Out of Control'
-    else if (code.toUpperCase().trim() === 'HOLDING') return 'Holding'
+    else if (code.toUpperCase().trim() === 'HOLDING') return 'Being Held'
     else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
     else return 'Unknown'
   }
