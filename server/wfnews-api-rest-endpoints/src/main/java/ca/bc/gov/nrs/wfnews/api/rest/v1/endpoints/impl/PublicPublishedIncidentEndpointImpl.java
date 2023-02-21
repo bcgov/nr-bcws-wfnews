@@ -1,6 +1,8 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.GenericEntity;
@@ -35,7 +37,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String discoveryDateString, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -51,6 +53,11 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			parameters.setPageRowCount(pageRowCount);
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
+
+			Date discoveryDate = null;
+			if (discoveryDateString != null && !discoveryDateString.isEmpty()) {
+				discoveryDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(discoveryDateString);
+			}
 
 			if (bbox != null) {
 				String[] coords = bbox.split(",");
@@ -89,7 +96,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
           stageOfControlList.add("UNDR_CNTRL");
 				}
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, discoveryDate, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */

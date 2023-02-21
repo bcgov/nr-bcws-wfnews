@@ -333,6 +333,9 @@
 			<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
 				AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
+			<if test="discoveryDate != null">
+				AND DISCOVERY_DATE > #{discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+			</if>
 			<if test="searchText!=null &amp;&amp; searchText.length>0">
 				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
 				LIKE '%'||UPPER(#{searchText})||'%' 
@@ -349,6 +352,7 @@
 						<when test="order == 'fireCentreName'">fire_centre_name</when>
 						<when test="order == 'stageOfControlCode'">stage_of_control_code</when>
 						<when test="order == 'lastUpdatedTimestamp'">last_updated_timestamp</when>
+						<when test="order == 'discoveryDate'">discovery_date</when>
 						<when test="order == 'ASC' &amp;&amp; index &lt; orderBy.length - 1"> ASC,</when>
 						<when test="order == 'ASC' &amp;&amp; index == orderBy.length - 1"> ASC</when>
 						<when test="order == 'DESC' &amp;&amp; index &lt; orderBy.length - 1"> DESC,</when>
@@ -403,6 +407,9 @@
 		</if>
 		<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
 			AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		</if>
+		<if test="discoveryDate != null">
+			AND DISCOVERY_DATE > #{discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 		</if>
 		<if test="searchText!=null &amp;&amp; searchText.length>0">
 			AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))

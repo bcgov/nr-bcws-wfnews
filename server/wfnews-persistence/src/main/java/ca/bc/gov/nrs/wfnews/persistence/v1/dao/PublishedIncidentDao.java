@@ -1,6 +1,7 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
@@ -30,7 +31,7 @@ public interface PublishedIncidentDao extends Serializable {
 
 	void flush() throws DaoException;
 
-	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException;
+	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException;
 
 	String selectAsJson(String stageOfControlCode, String bbox) throws DaoException;
 	

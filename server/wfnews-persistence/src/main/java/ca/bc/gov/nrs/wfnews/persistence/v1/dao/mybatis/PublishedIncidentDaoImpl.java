@@ -2,6 +2,7 @@ package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
 import java.time.Year;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -205,7 +206,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -231,6 +232,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("newFires", newFires);
 			parameters.put("fireCentreCode", fireCentreCode);
 			parameters.put("fireCentreName", fireCentreName);
+			parameters.put("discoveryDate", discoveryDate);
 			parameters.put("xmin", bbox != null ? Double.parseDouble(bbox.split(",")[0]) : null);
 			parameters.put("ymin", bbox != null ? Double.parseDouble(bbox.split(",")[1]) : null);
 			parameters.put("xmax", bbox != null ? Double.parseDouble(bbox.split(",")[2]) : null);
