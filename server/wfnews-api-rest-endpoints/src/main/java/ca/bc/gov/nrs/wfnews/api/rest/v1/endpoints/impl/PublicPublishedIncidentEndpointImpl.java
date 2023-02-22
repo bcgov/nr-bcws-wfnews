@@ -37,7 +37,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String discoveryDateString, String createDateString, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String discoveryDateGreaterThanString, String createDateGreaterThanString, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -54,14 +54,14 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
-			Date discoveryDate = null;
-			if (discoveryDateString != null && !discoveryDateString.isEmpty()) {
-				discoveryDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(discoveryDateString);
+			Date discoveryDateGreaterThan = null;
+			if (discoveryDateGreaterThanString != null && !discoveryDateGreaterThanString.isEmpty()) {
+				discoveryDateGreaterThan = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(discoveryDateGreaterThanString);
 			}
 			
-			Date createDate = null;
-			if (createDateString != null && !createDateString.isEmpty()) {
-				createDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(createDateString);
+			Date createDateGreaterThan = null;
+			if (createDateGreaterThanString != null && !createDateGreaterThanString.isEmpty()) {
+				createDateGreaterThan = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(createDateGreaterThanString);
 			}
 			
 			if (bbox != null) {
@@ -101,7 +101,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
           stageOfControlList.add("UNDR_CNTRL");
 				}
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, discoveryDate, createDate, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, discoveryDateGreaterThan, createDateGreaterThan, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */

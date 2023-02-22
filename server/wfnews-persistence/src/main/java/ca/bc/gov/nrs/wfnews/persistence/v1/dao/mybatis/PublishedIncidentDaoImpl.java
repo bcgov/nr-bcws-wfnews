@@ -206,7 +206,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 	}
 
 	@Override
-	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDate, Date createDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
+	public PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDateGreaterThan, Date createDateGreaterThan, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException{
 		
 		PagedDtos<PublishedIncidentDto> results = new PagedDtos<>();
 		
@@ -232,8 +232,8 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			parameters.put("newFires", newFires);
 			parameters.put("fireCentreCode", fireCentreCode);
 			parameters.put("fireCentreName", fireCentreName);
-			parameters.put("discoveryDate", discoveryDate);
-			parameters.put("createDate", createDate);
+			parameters.put("discoveryDateGreaterThan", discoveryDateGreaterThan);
+			parameters.put("createDateGreaterThan", createDateGreaterThan);
 			parameters.put("xmin", bbox != null ? Double.parseDouble(bbox.split(",")[0]) : null);
 			parameters.put("ymin", bbox != null ? Double.parseDouble(bbox.split(",")[1]) : null);
 			parameters.put("xmax", bbox != null ? Double.parseDouble(bbox.split(",")[2]) : null);

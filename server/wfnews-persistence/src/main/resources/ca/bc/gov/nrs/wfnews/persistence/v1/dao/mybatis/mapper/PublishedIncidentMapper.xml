@@ -333,11 +333,11 @@
 			<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
 				AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
-			<if test="discoveryDate != null">
-				AND DISCOVERY_DATE > #{discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+			<if test="discoveryDateGreaterThan != null">
+				AND DISCOVERY_DATE > #{discoveryDateGreaterThan, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 			</if>
-			<if test="createDate != null">
-				AND CREATE_DATE > #{createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+			<if test="createDateGreaterThan != null">
+				AND CREATE_DATE > #{createDateGreaterThan, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 			</if>
 			<if test="searchText!=null &amp;&amp; searchText.length>0">
 				AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))
@@ -412,11 +412,11 @@
 		<if test="fireCentreName != null &amp;&amp; fireCentreName != ''">  
 			AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 		</if>
-		<if test="discoveryDate != null">
-			AND DISCOVERY_DATE > #{discoveryDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+		<if test="discoveryDateGreaterThan != null">
+			AND DISCOVERY_DATE > #{discoveryDateGreaterThan, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 		</if>
-		<if test="createDate != null">
-			AND CREATE_DATE > #{createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+		<if test="createDateGreaterThan != null">
+			AND CREATE_DATE > #{createDateGreaterThan, javaType=java.util.Date, jdbcType=DATE, mode=IN}
 		</if>
 		<if test="searchText!=null &amp;&amp; searchText.length>0">
 			AND UPPER(CONCAT(incident_location, '', CONCAT(fire_centre_code, '', CONCAT(incident_number_label, '', incident_name))))

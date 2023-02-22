@@ -31,7 +31,7 @@ public interface PublishedIncidentDao extends Serializable {
 
 	void flush() throws DaoException;
 
-	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDate, Date createDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException;
+	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, Date discoveryDateGreaterThan, Date createDateGreaterThan, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException;
 
 	String selectAsJson(String stageOfControlCode, String bbox) throws DaoException;
 	
