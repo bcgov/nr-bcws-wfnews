@@ -45,7 +45,7 @@ public interface IncidentsService {
 	void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newfires, String fireCentreCode, String fireCentreName, Date discoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext);
+	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newfires, String fireCentreCode, String fireCentreName, Date discoveryDate, Date createDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext);
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;

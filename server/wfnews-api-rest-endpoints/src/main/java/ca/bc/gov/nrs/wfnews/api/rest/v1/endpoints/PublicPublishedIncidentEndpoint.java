@@ -38,6 +38,7 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 		@ApiParam("Filter on fire centre code") @QueryParam("fireCentreCode") String fireCentreCode,
 		@ApiParam("Filter on fire centre name") @QueryParam("fireCentreName") String fireCentreName,
 		@ApiParam("Filter on discovery date") @QueryParam("discoveryDate") String discoveryDate,
+		@ApiParam("Filter on create date") @QueryParam("createDate") String createDate,
 		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox,
 		@ApiParam("The latitude for a point and radius query") @QueryParam("latitude") Double latitude,
 		@ApiParam("The longitude for a point and radius query") @QueryParam("longitude") Double longitude,
