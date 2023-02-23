@@ -3,7 +3,6 @@ import lgZoom from 'lightgallery/plugins/zoom';
 import lgFullscreen from 'lightgallery/plugins/fullscreen';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
 import { BeforeSlideDetail, InitDetail } from 'lightgallery/lg-events';
-import InfoPlugin from "./info-plugin/info-plugin.component";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { convertToYoutubeId } from "../../../utils";
@@ -57,7 +56,7 @@ export class IncidentGalleryPanel implements OnInit {
   }
 
   onBeforeSlide = (detail: BeforeSlideDetail): void => {
-    const { index, prevIndex } = detail;
+    // unused
   };
 
   onMediaTypeFilterChanged(event) {

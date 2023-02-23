@@ -150,7 +150,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			PublishedIncidentResource result = new PublishedIncidentResource();
 			publishedIncident.setPublishedTimestamp(new Date());
 			PublishedIncidentResource currentWildfireIncident = (PublishedIncidentResource) getPublishedIncident(
-					publishedIncident.getPublishedIncidentDetailGuid(),
+					publishedIncident.getPublishedIncidentDetailGuid(), publishedIncident.getFireYear(),
 					getWebAdeAuthentication(),
 					factoryContext);
 
@@ -202,7 +202,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -228,7 +228,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			throw new ServiceException(e.getMessage(), e);
 		}
 
-		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid());
+		PublishedIncidentDto updatedDto = this.publishedIncidentDao.fetch(dto.getPublishedIncidentDetailGuid(), dto.getFireYear());
 
 		result = this.publishedIncidentFactory.getPublishedWildfireIncident(updatedDto, factoryContext);
 		return result;
@@ -247,11 +247,11 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid,
+	public PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear,
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException {
 
 		PublishedIncidentResource result = null;
-		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+		PublishedIncidentDto fetchedDto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, fireYear);
 		if (fetchedDto != null) {
 			result = this.publishedIncidentFactory.getPublishedWildfireIncident(fetchedDto, factoryContext);
 		} else
@@ -290,7 +290,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 		try {
 
-			PublishedIncidentDto dto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid);
+			PublishedIncidentDto dto = this.publishedIncidentDao.fetch(publishedIncidentDetailGuid, null);
 
 			if (dto == null) {
 				throw new NotFoundException("Did not find the PublishedIncident: " + publishedIncidentDetailGuid);
@@ -314,7 +314,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	@Override
 	public PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber,
 			Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox,
-			Double latitude, Double longitude, Double radius, FactoryContext factoryContext) {
+			Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext) {
 		PublishedIncidentListResource results = null;
 		PagedDtos<PublishedIncidentDto> publishedIncidentList = new PagedDtos<>();
 		try {
@@ -349,7 +349,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			}
 
 			publishedIncidentList = this.publishedIncidentDao.select(searchText, pageNumber, pageRowCount, orderByList,
-					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, radius);
+					fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, fireYear, radius);
 			results = this.publishedIncidentFactory.getPublishedIncidentList(publishedIncidentList, pageNumber, pageRowCount,
 					factoryContext);
 		} catch (DaoException e) {

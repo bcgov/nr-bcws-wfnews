@@ -11,7 +11,6 @@ module.exports = (settings)=>{
     if (phases.hasOwnProperty(k)) {
       const phase=phases[k]
       if (k == target_phase ){
-        //console.log(`phase=${phase}`)
         //oc.raw('get', ['bc'], {selector:`app-name=${phase.name},env-id=${phase.changeId},env-name!=prod,!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, namespace:phase.namespace, 'output':'custom-columns=kind:.spec.output.to.kind,name:.spec.output.to.name', 'no-headers':'true'})
         let buildConfigs=oc.get('bc', {selector:`app=${phase.instance},env-id=${phase.changeId},!shared,github-repo=${oc.git.repository},github-owner=${oc.git.owner}`, namespace:phase.namespace})
         buildConfigs.forEach((bc)=>{

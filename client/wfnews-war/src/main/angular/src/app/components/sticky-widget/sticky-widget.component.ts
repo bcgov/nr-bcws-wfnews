@@ -3,9 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { ResourcesRoutes } from '../../utils';
+import { ResourcesRoutes, isMobileView as mobileView } from '../../utils';
 import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-widget-dialog.component';
-import { isMobileView as mobileView  } from '../../utils';
 
 @Component({
     selector: 'sticky-widget',
@@ -34,13 +33,13 @@ export class StickyWidgetComponent implements OnDestroy {
 
   openIncident (incident: any) {
     const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel } })
     )
     window.open(url, '_blank')
   }
 
   removeFromWatchlist (incident: any) {
-    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(incident.fireYear, incident.incidentNumberLabel)
     this.showWatchlist = !this.showWatchlist
     this.loadWatchlist()
   }
@@ -70,7 +69,9 @@ export class StickyWidgetComponent implements OnDestroy {
       this.watchlist = []
       const watchlistItems = this.watchlistService.getWatchlist()
       for (const item of watchlistItems) {
-        const incident = await this.publishedIncidentService.fetchPublishedIncident(item).toPromise()
+        const fireYear = item.split(':')[0]
+        const incidentNumber = item.split(':')[1]
+        const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise()
         if (incident) {
           const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
           incident.lastUpdatedTimestamp = new Date(incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);

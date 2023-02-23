@@ -18,9 +18,7 @@ public interface PublishedIncidentDao extends Serializable {
 			PublishedIncidentDto dto)
 			throws DaoException;
 
-	PublishedIncidentDto fetch(
-			String publishedIncidentDetailGuid)
-			throws DaoException;
+	PublishedIncidentDto fetch(String publishedIncidentDetailGuid, Integer fireYear) throws DaoException;
 
 	PublishedIncidentDto fetchForIncidentGuid(
 			String incidentGuid)
@@ -32,7 +30,7 @@ public interface PublishedIncidentDao extends Serializable {
 
 	void flush() throws DaoException;
 
-	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Double radius) throws DaoException;
+	PagedDtos<PublishedIncidentDto> select(String searchText, Integer pageNumber, Integer pageRowCount, List<String> orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws DaoException;
 
 	String selectAsJson(String stageOfControlCode, String bbox) throws DaoException;
 	

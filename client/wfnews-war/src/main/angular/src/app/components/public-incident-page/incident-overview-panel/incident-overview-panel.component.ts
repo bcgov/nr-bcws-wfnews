@@ -16,7 +16,7 @@ export class IncidentOverviewPanel {
   constructor (private sanitizer: DomSanitizer) { }
 
   formatHtml (html: string) {
-    return this.sanitizer.bypassSecurityTrustHtml(html)
+    return html // We don't want to execute script tags:: this.sanitizer.bypassSecurityTrustHtml(html)
   }
 
   public printPage() {

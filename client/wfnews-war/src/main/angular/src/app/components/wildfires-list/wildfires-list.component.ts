@@ -71,8 +71,13 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.placeData = new PlaceData();
     let self = this;
     this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
+      this.locationName = val;
+
       if(!val) {
-          this.filteredOptions= [];
+          this.filteredOptions = [];
+          this.selectedLat = undefined;
+          this.selectedLong = undefined;
+          this.searchTextUpdated();
           return;
       }
 
@@ -91,8 +96,11 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
               }
           });
       }
-  });  }
+    });
 
+    this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    this.snowPlowHelper(this.url)
+  }
 
   initModels() {
     this.model = new WildFiresListComponentModel(this.sanitizer);
@@ -101,9 +109,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   loadPage() {
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(this.url, {
-      action: 'wildfire_view_list'
-    })
     this.placeData = new PlaceData();
     this.componentId = SEARCH_WILDFIRES_COMPONENT_ID;
     this.updateView();
@@ -194,25 +199,25 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   selectIncident(incident: any) {
       const url = this.router.serializeUrl(
-        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: incident.incidentNumberLabel } })
+        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel } })
       )
       window.open(url, '_blank')
   }
 
   onWatchlist (incident: any): boolean {
-    return this.watchlistService.getWatchlist().includes(incident.incidentNumberLabel)
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
   }
 
   addToWatchlist(incident: any) {
     if (this.onWatchlist(incident)) {
       this.removeFromWatchlist(incident)
     } else {
-      this.watchlistService.saveToWatchlist(incident.incidentNumberLabel)
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
     }
   }
 
   removeFromWatchlist (incident: any) {
-    this.watchlistService.removeFromWatchlist(incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(incident.fireYear, incident.incidentNumberLabel)
   }
 
   viewMap(incident: any) {
@@ -241,6 +246,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   onlyOneControlSelected() {
+    // unused
   }
 
   getFullAddress(location) {
@@ -267,7 +273,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   onLocationSelected(selectedOption) {
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
-    this.locationName = locationControlValue
+    this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
     this.selectedLat=selectedOption.loc[1];
     this.selectedLong=selectedOption.loc[0]
     this.doSearch()
@@ -285,11 +291,4 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }
   }
 
-  locationNameUpdated() {
-    if (this.locationName === '') {
-      this.selectedLat = undefined
-      this.selectedLong = undefined
-      this.searchTextUpdated()
-    }
-  }
 }

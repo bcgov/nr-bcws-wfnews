@@ -10,7 +10,6 @@ import { FirePerimetersLayerConfig } from './fire-perimeters.config';
 import { WeatherLayerConfig } from './weather.config';
 import { EvacuationOrdersLayerConfig } from './evacuation-orders-and-alerts-wms.config';
 import { SmokeForecastLayerConfig } from './hourly-currentforecast-firesmoke.config';
-import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { ForestServiceRoadsLayerConfig } from './fsr-safety.config';

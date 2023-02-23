@@ -52,7 +52,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 			
 			// Now we should also update the Incident
 			// This will ensure we fetch this on update checks
-			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), getWebAdeAuthentication(), getFactoryContext());
+			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), null, getWebAdeAuthentication(), getFactoryContext());
 			incident.setUpdateDate(new Date());
 			incident.setLastUpdatedTimestamp(new Date());
 			incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
@@ -88,7 +88,7 @@ public class ExternalUriEndpointImpl extends BaseEndpointsImpl implements Extern
 			
 			// Now we should also update the Incident
 			// This will ensure we fetch this on update checks
-			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), getWebAdeAuthentication(), getFactoryContext());
+			PublishedIncidentResource incident = incidentsService.getPublishedIncident(result.getSourceObjectUniqueId(), null, getWebAdeAuthentication(), getFactoryContext());
 			incident.setUpdateDate(new Date());
 			incident.setLastUpdatedTimestamp(new Date());
 			incidentsService.updatePublishedWildfireIncident(incident, getFactoryContext());
