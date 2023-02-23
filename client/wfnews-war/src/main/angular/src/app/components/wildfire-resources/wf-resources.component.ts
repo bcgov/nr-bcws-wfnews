@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfigService } from '@wf1/core-ui';
 import { ResourcePanel } from '../../models/ResourcePanel';
@@ -9,7 +9,7 @@ import { snowPlowHelper } from '../../utils';
   templateUrl: './wf-resources.component.html',
   styleUrls: [ './wf-resources.component.scss' ]
 })
-export class WildfirewResourcesComponent implements OnInit{
+export class WildfirewResourcesComponent implements OnInit, AfterViewInit{
   public url;
   public snowPlowHelper = snowPlowHelper
 
@@ -19,6 +19,10 @@ export class WildfirewResourcesComponent implements OnInit{
 ngOnInit(): void {
   this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
   this.snowPlowHelper(this.url)
+}
+
+ngAfterViewInit () {
+  (window as any).snowplow('refreshLinkClickTracking')
 }
 
   // This can be moved into a config, for easier changes later
