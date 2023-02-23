@@ -27,16 +27,22 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
     this.getEvacOrders();
   }
 
-  async snowplow (action: string, link: string) {
+  async snowplow (action: string, link: string, area: string | null = null) {
     const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
-    this.snowPlowHelper(url, {
-      action: action,
+    const snowPlowPackage = {
+      action: action.toLowerCase(),
       text: link
-    })
+    }
+
+    if (area) {
+      snowPlowPackage['area'] = area
+    }
+
+    this.snowPlowHelper(url, snowPlowPackage)
   }
 
   zoomToEvac (evac) {
-    this.snowplow(`${evac.orderAlertStatus}_list_click`, `${evac.emrgOAAsysID}:${evac.eventName}:${evac.issuingAgency}`)
+    this.snowplow(`${evac.orderAlertStatus}_list_click`, `${evac.emrgOAAsysID}:${evac.eventName}`, evac.issuingAgency)
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;
