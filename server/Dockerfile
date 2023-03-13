@@ -11,7 +11,6 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
 
 # TODO: REVERT CHOWN COMMAND TO 770 ONCE DONE TESTING
 RUN apt-get update &&\
-  apt-get install -y telnet &&\
   apt-get install -y sed  &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\
@@ -19,8 +18,7 @@ RUN apt-get update &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
-  chown -h tomcat:0 ${CATALINA_HOME} &&\
-  sed -i "s/maxThreads=\"150\"/maxThreads=\"800\"/g" conf/server.xml
+  chown -h tomcat:0 ${CATALINA_HOME}
 
 # run as tomcat user
 USER tomcat
