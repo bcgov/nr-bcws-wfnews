@@ -36,6 +36,7 @@
       <div>
         <!-- Image/video section: fetch from aws cache -->
         <div style="text-align: center;" *ngIf="primaryMedia !== null">
+          <div *ngIf="showWarning" class="preview-warning">Warning: Primary Video/Image selection cannot be previewd</div>
           <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400" (error)="handleImageFallback(primaryMedia.href)" />
           <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
             videoId={{convertToYoutubeId(primaryMedia.href)}}
@@ -76,7 +77,9 @@
         </div>
       </div>
       <div>
-        <h1>Area Restrictions</h1>
+        <h1>Area Restrictions
+          <div *ngIf="showWarning" class="preview-warning">Warning: Manually entered Area Restrictions cannot be previewed</div>
+        </h1>
         <div class="content-panel-subtitle">Area Restriction Information</div>
         <div *ngFor="let area of areaRestrictions">
           <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
