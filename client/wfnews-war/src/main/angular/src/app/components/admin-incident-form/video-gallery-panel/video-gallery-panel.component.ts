@@ -36,7 +36,8 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
   public pageNumber = 1;
   public pageRowCount = 20;
 
-  public attachments: AttachmentResource[] = [];
+
+  public attachments: any[] = [];
   public externalUriList: PagedCollection = {
     pageNumber: 1,
     pageRowCount: 20,
@@ -92,8 +93,42 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
     }).catch(err => {
       this.snackbarService.open('Failed to load videos links: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
     })
-  }
 
+    this.incidentAttachmentService.getIncidentAttachmentList(
+      '' + this.incident.wildfireYear,
+      '' + this.incident.incidentNumberSequence,
+      undefined,
+      'false',
+      'false',
+      undefined,
+      ['INFO'],
+      undefined,
+      undefined,
+      undefined,
+      undefined,
+      '1000',
+      this.searchState.sortParam + ',' + this.searchState.sortDirection,
+      'body'
+    ).toPromise().then( ( docs ) => {
+      docs.collection.sort((a, b) => {
+        const dir = this.searchState.sortDirection === 'desc' ? -1 : 1
+        if(a[this.searchState.sortParam] < b[this.searchState.sortParam]) return -dir;
+        else if(a[this.searchState.sortParam] > b[this.searchState.sortParam]) return dir;
+        else return 0;
+      })
+      // remove any non-image types
+      for (const doc of docs.collection) {
+        const idx = docs.collection.indexOf(doc)
+        if (idx && !['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(doc.mimeType.toLowerCase())) {
+          docs.collection.splice(idx, 1)
+        }
+      }
+      this.attachments = docs.collection
+      this.cdr.detectChanges();
+    }).catch(err => {
+      this.snackbarService.open('Failed to load Image Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+    })
+  }
 
   ngOnchanges(changes: SimpleChanges) {
     this.updateTable();
@@ -172,5 +207,31 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       else{
         return false;
       }
+    }
+
+    removePrimaryFlags () {
+      for (const attachment of this.attachments) {
+        if ((attachment as any).primaryInd) {
+          (attachment as any).primaryInd = false
+          this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, attachment.attachmentGuid, undefined, attachment)
+          .toPromise().catch(err => {
+            // Ignore this
+            console.error(err)
+          })
+        }
+      }
+
+      for (const videoLink of this.externalUriList.collection) {
+        if (videoLink.primaryInd) {
+          videoLink.primaryInd = false
+          this.externalUriService.updateExternalUri(videoLink.externalUriGuid, videoLink)
+          .toPromise().catch(err => {
+            // Ignore this
+            console.error(err)
+          })
+        }
+      }
+
+      this.loadPage()
     }
 }

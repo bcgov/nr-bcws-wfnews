@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DefaultService as IncidentAttachmentsService, DefaultService as IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
+import { DefaultService as ExternalUriService, DefaultService as IncidentAttachmentsService, DefaultService as IncidentAttachmentService, AttachmentResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -15,6 +15,7 @@ import { RootState } from '../../../store';
 import { UploadImageDialogComponent } from './upload-image-dialog/upload-image-dialog.component';
 import { DocumentManagementService } from '../../../services/document-management.service';
 import { WatchlistService } from '../../../services/watchlist-service';
+import { PagedCollection } from '../../../conversion/models';
 
 @Component({
   selector: 'image-gallery-panel',
@@ -35,6 +36,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
   public statusBar
 
   public attachments: AttachmentResource[] = []
+  public externalUriList: any[] = []
 
   constructor(protected router: Router,
               protected route: ActivatedRoute,
@@ -52,6 +54,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
               protected watchlistService: WatchlistService,
               protected incidentAttachmentsService: IncidentAttachmentsService,
               protected incidentAttachmentService: IncidentAttachmentService,
+              private externalUriService: ExternalUriService,
               private documentManagementService: DocumentManagementService) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService);
   }
@@ -99,6 +102,26 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       this.cdr.detectChanges();
     }).catch(err => {
       this.snackbarService.open('Failed to load Image Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+    })
+
+    this.externalUriService.getExternalUriList(
+      '' + this.incident.wildfireIncidentGuid,
+      '' + 1,
+      '' + 100,
+      'response',
+      undefined,
+      undefined
+    ).toPromise().then( (response) => {
+      this.externalUriList = []
+      const uris = response.body;
+      for (const uri of uris.collection) {
+        if (uri.externalUriCategoryTag.includes('video')) {
+          this.externalUriList.push(uri)
+        }
+      }
+      this.cdr.detectChanges();
+    }).catch(err => {
+      this.snackbarService.open('Failed to load videos links: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
     })
   }
 
@@ -187,5 +210,36 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       '' + this.incident.incidentNumberSequence,
       undefined,
       attachment, 'response').toPromise()
+  }
+
+  /**
+   * This should be moved into the IM API
+   */
+
+
+  removePrimaryFlags () {
+    for (const attachment of this.attachments) {
+      if ((attachment as any).primaryInd) {
+        (attachment as any).primaryInd = false
+        this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, attachment.attachmentGuid, undefined, attachment)
+        .toPromise().catch(err => {
+          // Ignore this
+          console.error(err)
+        })
+      }
+    }
+
+    for (const videoLink of this.externalUriList) {
+      if (videoLink.primaryInd) {
+        videoLink.primaryInd = false
+        this.externalUriService.updateExternalUri(videoLink.externalUriGuid, videoLink)
+        .toPromise().catch(err => {
+          // Ignore this
+          console.error(err)
+        })
+      }
+    }
+
+    this.loadPage()
   }
 }
