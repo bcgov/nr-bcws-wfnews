@@ -1,6 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.core.GenericEntity;
@@ -35,7 +38,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 	private ParameterValidator parameterValidator;
 	
 	@Override
-	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
+	public Response getPublishedIncidentList(String searchText, String pageNumber, String pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newFires, String fireCentreCode, String fireCentreName, String fromCreateDateString, String toCreateDateString, String fromDiscoveryDateString, String toDiscoveryDateString, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 		
 		try {
@@ -52,6 +55,26 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 			
 			List<Message> validationMessages = this.parameterValidator.validatePagingQueryParameters(parameters);
 
+			Date fromCreateDate = null;
+			if (fromCreateDateString != null && !fromCreateDateString.isEmpty()) {
+				fromCreateDate = toSimpleFormatDate(fromCreateDateString);
+			}
+			
+			Date toCreateDate = null;
+			if (toCreateDateString != null && !toCreateDateString.isEmpty()) {
+				toCreateDate = toSimpleFormatDate(toCreateDateString);
+			}
+
+			Date fromDiscoveryDate = null;
+			if (fromDiscoveryDateString != null && !fromDiscoveryDateString.isEmpty()) {
+				fromDiscoveryDate = toSimpleFormatDate(fromDiscoveryDateString);
+			}
+
+			Date toDiscoveryDate = null;
+			if (toDiscoveryDateString != null && !toDiscoveryDateString.isEmpty()) {
+				toDiscoveryDate = toSimpleFormatDate(toDiscoveryDateString);
+			}
+			
 			if (bbox != null) {
 				String[] coords = bbox.split(",");
 				boolean invalidBox = false;
@@ -89,7 +112,7 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
           stageOfControlList.add("UNDR_CNTRL");
 				}
 
-				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
+				PublishedIncidentListResource results = incidentsService.getPublishedIncidentList(searchText, pageNum, rowCount, orderBy, fireOfNote, stageOfControlList, newFires, fireCentreCode, fireCentreName, fromCreateDate, toCreateDate, fromDiscoveryDate, toDiscoveryDate, bbox, latitude, longitude, fireYear, radius, getFactoryContext());
 
 				GenericEntity<PublishedIncidentListResource> entity = new GenericEntity<PublishedIncidentListResource>(results) {
 					/* do nothing */
@@ -208,5 +231,9 @@ public class PublicPublishedIncidentEndpointImpl extends BaseEndpointsImpl imple
 		logResponse(response);
 
 		return response;
+	}
+	
+	private Date toSimpleFormatDate(String dateString) throws ParseException {
+		return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSSSS").parse(dateString);
 	}
 }
