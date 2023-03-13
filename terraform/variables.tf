@@ -227,6 +227,12 @@ variable "cloudfront_origin_domain" {
   type        = string
 }
 
+variable "cloudfront_header" {
+  description = "Header added when passing through cloudfront"
+  default = ""
+  type = string
+}
+
 /*variable "cf_origin_id" {
   description = "id"
   type        = string

@@ -20,9 +20,9 @@ locals {
   server_cpu_units = get_env("SERVER_CPU_UNITS")
   server_memory = get_env("SERVER_MEMORY")
   db_instance_type = get_env("DB_INSTANCE_TYPE")
-  app_count = get_env("INSTANCE_COUNT")
 
   logging_level = get_env("LOGGING_LEVEL")
+  app_count = get_env("INSTANCE_COUNT")
 
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
@@ -67,7 +67,7 @@ locals {
   WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET")
 }
 
-generate "dev_tfvars" {
+generate "test_tfvars" {
   path              = "terragrunt.auto.tfvars"
   if_exists         = "overwrite"
   disable_signature = true
@@ -78,6 +78,7 @@ generate "dev_tfvars" {
     app_image = "tomcat:jdk8-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
+    github_release_name = "${local.github_release_name}"
     target_env = "${local.target_env}"
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
@@ -89,8 +90,8 @@ generate "dev_tfvars" {
     server_cpu_units = "${local.server_cpu_units}"
     server_memory = "${local.server_memory}"
     db_instance_type = "${local.db_instance_type}"
-    logging_level = "${local.logging_level}"
     app_count = "${local.app_count}"
+    logging_level = "${local.logging_level}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
     alb_name = "${local.alb_name}"
@@ -100,7 +101,7 @@ generate "dev_tfvars" {
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
-    certificate_arn = "arn:aws:acm:us-east-1:718963518348:certificate/81262c52-5967-48ce-a4ee-dec3cd67a0b4"
+    certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/cb36048d-70e1-45e9-b2eb-2e0ea7e808cf"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"

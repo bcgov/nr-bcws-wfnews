@@ -109,6 +109,7 @@ jobs:
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
 
     secrets:
+      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.DEV_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}

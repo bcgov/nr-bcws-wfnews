@@ -2,7 +2,6 @@ name: Deploy Prod
 
 env:
   REGISTRY: ghcr.io
-  WEBADE_JCRS_URL: ${{ secrets.PROD_WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
   CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
   SERVER_IMAGE_NAME: nr-bcws-wfnews-server
@@ -23,6 +22,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
+      - uses: GuillaumeFalourd/assert-command-line-output@v2.1
+        with:
+          command_line: cat client/pom.xml && cat server/pom.xml
+          contains: SNAPSHOT
+          expected_result: FAILED
 
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
@@ -95,10 +100,10 @@ jobs:
       WEBADE-OAUTH2_CHECK_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true
       WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: true
       SMTP_HOST_NAME: apps.smtp.gov.bc.ca
-      SMTP_FROM_EMAIL: noreply@gov.bc.ca
-      SMTP_ADMIN_EMAIL: fake@mail.ignoreme
+      SMTP_FROM_EMAIL: no-email@gov.bc.ca
+      SMTP_ADMIN_EMAIL: fake-email@mail.ignoreme
       SMTP_EMAIL_SYNC_ERROR_FREQ: 10
-      SMTP_EMAIL_FREQ: 10 
+      SMTP_EMAIL_FREQ: 10
       SMTP_EMAIL_ERROR_SUBJECT: WFNEWS API Error Subject [PROD]
       SMTP_EMAIL_SUBJECT: WFNEWS API Error [PROD]
       DEFAULT_APPLICATION_ENVIRONMENT: PROD
@@ -115,6 +120,7 @@ jobs:
       GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
 
     secrets:
+      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_PROD }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.PROD_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}

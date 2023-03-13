@@ -24,6 +24,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
@@ -115,6 +116,7 @@ jobs:
       GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
 
     secrets:
+      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_TEST }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       DB_PASS: ${{ secrets.TEST_DB_PASS }}
       TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
