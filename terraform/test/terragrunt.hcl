@@ -31,6 +31,7 @@ locals {
   subnet_filter = get_env("SUBNET_FILTER")
   license_plate = get_env("TFC_PROJECT")
   sns_email_targets = get_env("SNS_EMAIL_TARGETS")
+  cloudfront_header = get_env("CLOUDFRONT_HEADER")
   #server env vars
   WEBADE-OAUTH2_TOKEN_CLIENT_URL = get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
@@ -73,6 +74,7 @@ generate "test_tfvars" {
   contents          = <<-EOF
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
+    cloudfront_header = "${local.cloudfront_header}"
     app_image = "tomcat:jdk8-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"

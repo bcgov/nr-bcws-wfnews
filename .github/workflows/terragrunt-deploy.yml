@@ -167,6 +167,8 @@ on:
         required: true
       SNS_EMAIL_TARGETS:
         required: true
+      CLOUDFRONT_HEADER:
+        required: true
 
 env:
   TF_VERSION: 1.2.2
@@ -213,6 +215,7 @@ jobs:
           DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
           LOGGING_LEVEL: ${{inputs.LOGGING_LEVEL}}
           INSTANCE_COUNT: ${{inputs.INSTANCE_COUNT}}
+          CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
 
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
