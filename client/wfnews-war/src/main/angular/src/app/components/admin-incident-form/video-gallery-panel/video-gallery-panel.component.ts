@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { DefaultService as ExternalUriService, DefaultService as  IncidentAttachmentService, DefaultService as  AttachmentResource, ExternalUriResource } from '@wf1/incidents-rest-api';
+import { DefaultService as ExternalUriService, DefaultService as  IncidentAttachmentService, ExternalUriResource } from '@wf1/incidents-rest-api';
 import { BaseComponent } from "../../base/base.component";
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
@@ -209,6 +209,9 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       }
     }
 
+  /**
+   * This should be moved into the IM API
+   */
     removePrimaryFlags () {
       for (const attachment of this.attachments) {
         if ((attachment as any).primaryInd) {

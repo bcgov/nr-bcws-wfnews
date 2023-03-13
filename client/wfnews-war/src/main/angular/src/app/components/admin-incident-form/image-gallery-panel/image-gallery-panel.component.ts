@@ -15,7 +15,6 @@ import { RootState } from '../../../store';
 import { UploadImageDialogComponent } from './upload-image-dialog/upload-image-dialog.component';
 import { DocumentManagementService } from '../../../services/document-management.service';
 import { WatchlistService } from '../../../services/watchlist-service';
-import { PagedCollection } from '../../../conversion/models';
 
 @Component({
   selector: 'image-gallery-panel',
@@ -215,8 +214,6 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
   /**
    * This should be moved into the IM API
    */
-
-
   removePrimaryFlags () {
     for (const attachment of this.attachments) {
       if ((attachment as any).primaryInd) {
