@@ -19,8 +19,7 @@ RUN apt-get update &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
-  chown -h tomcat:0 ${CATALINA_HOME} &&\
-  sed -i "s/maxThreads=\"150\"/maxThreads=\"800\"/g" conf/server.xml
+  chown -h tomcat:0 ${CATALINA_HOME}
 
 # run as tomcat user
 USER tomcat
