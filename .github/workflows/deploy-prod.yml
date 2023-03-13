@@ -2,7 +2,7 @@ name: Deploy Prod
 
 env:
   REGISTRY: ghcr.io
-  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  WEBADE_JCRS_URL: ${{ secrets.PROD_WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
   CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
   SERVER_IMAGE_NAME: nr-bcws-wfnews-server
