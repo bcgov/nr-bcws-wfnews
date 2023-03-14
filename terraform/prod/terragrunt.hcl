@@ -94,6 +94,7 @@ generate "test_tfvars" {
     logging_level = "${local.logging_level}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
+    db_multi_az = true
     alb_name = "${local.alb_name}"
     client_port = 8080
     server_port=8080
