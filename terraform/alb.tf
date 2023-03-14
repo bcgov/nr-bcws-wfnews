@@ -240,13 +240,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing" {
   condition {
     http_header {
       http_header_name = "X-Cloudfront-Header"
-      http_header_value = "${var.cloudfront_header}"
-    }
-  }
-  condition {
-    http_header {
-      http_header_name: "X-Cloudfront-Header"
-      http_header_value: "${var.cloudfront_header}"
+      values = ["${var.cloudfront_header}"]
     }
   }
 }
@@ -268,13 +262,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_client" {
   condition {
     http_header {
       http_header_name = "X-Cloudfront-Header"
-      http_header_value = "${var.cloudfront_header}"
-    }
-  }
-  condition {
-    http_header {
-      http_header_name: "X-Cloudfront-Header"
-      http_header_value: "${var.cloudfront_header}"
+      values = ["${var.cloudfront_header}"]
     }
   }
 }
@@ -297,13 +285,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
   condition {
     http_header {
       http_header_name = "X-Cloudfront-Header"
-      http_header_value = "${var.cloudfront_header}"
-    }
-  }
-  condition {
-    http_header {
-      http_header_name: "X-Cloudfront-Header"
-      http_header_value: "${var.cloudfront_header}"
+      values = ["${var.cloudfront_header}"]
     }
   }
 }
@@ -325,13 +307,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix" {
   condition {
     http_header {
       http_header_name = "X-Cloudfront-Header"
-      http_header_value = "${var.cloudfront_header}"
-    }
-  }
-  condition {
-    http_header {
-      http_header_name: "X-Cloudfront-Header"
-      http_header_value: "${var.cloudfront_header}"
+      values = ["${var.cloudfront_header}"]
     }
   }
 }
