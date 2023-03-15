@@ -244,12 +244,20 @@ function displayDay(date: string): string{
     }
 }
 
+export function findFireCentreByName(fireCentreName: string): any {
+  if (fireCentreName) {
+      let nameResult = FireCentres.find(fireCentre => fireCentre.description.toLowerCase().trim() === fireCentreName.toLowerCase().trim() + '')
+      return nameResult ? nameResult : null;
+  }
+}
+
 export function convertToFireCentreDescription(code: string): string {
     if (code) {
-        let result = FireCentres.find(fireCentre => fireCentre.code === code + '')
+        const result = FireCentres.find(fireCentre => fireCentre.code === code + '')
         // Some have the code from AGOL, which appears to be an objectid?
-        let agolResult = FireCentres.find(fireCentre => fireCentre.agol === code + '');
-        return result ? result.description : agolResult ? agolResult.description : code;
+        const agolResult = FireCentres.find(fireCentre => fireCentre.agol === code + '');
+        const nameResult = FireCentres.find(fireCentre => fireCentre.description === code + '')
+        return result ? result.description : agolResult ? agolResult.description : nameResult ? nameResult.description: code;
     }
 }
 

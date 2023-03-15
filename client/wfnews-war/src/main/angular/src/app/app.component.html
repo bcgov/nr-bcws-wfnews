@@ -3,7 +3,7 @@
     [config]="applicationConfig"
     [(state)]="applicationState"
 >
-<div *ngIf="redirectToPublicMobile()">
+<div *ngIf="redirectToPublicMobile() && !isIncidentsPage()">
   <div class="pm-panel">
     <div class="upper-half">
         <div class="pm-logo">
@@ -22,6 +22,18 @@
         </div>
     </div>
 </div>
+</div>
+<div *ngIf="redirectToPublicMobile() && isIncidentsPage()">
+  <wf-header
+    [config]="applicationConfig"
+    [(state)]="applicationState"
+    [useAppLogo]="false"
+    [useSystemAndUser]="false"
+    [useSupportLink]="false"
+    [useMenu]="false"
+    [useLogoutButton]="false"
+  ></wf-header>
+  <router-outlet></router-outlet>
 </div>
 <div *ngIf="!redirectToPublicMobile()">
   <wf-header

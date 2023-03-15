@@ -434,7 +434,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   searchTextUpdated() {
     // will need to call News API to fetch the results
-    console.log(this.searchText)
   }
 
   @ViewChild('grabber') grabber: ElementRef;
