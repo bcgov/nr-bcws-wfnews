@@ -40,8 +40,6 @@ export class IncidentInfoPanel implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    console.log(this.incident)
-
     if (!this.incident.contactEmailAddress || !this. incident.contactPhoneNumber) {
       this.getFireCentreContacts().subscribe(data => {
         const fc = findFireCentreByName(convertToFireCentreDescription(this.incident.fireCentreName || this.incident.fireCentre || this.incident.fireCentreCode))
