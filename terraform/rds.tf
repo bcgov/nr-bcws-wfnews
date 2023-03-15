@@ -14,7 +14,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     instance_class       = "${var.db_instance_type}"
     multi_az = var.db_multi_az
     backup_retention_period = 7
-    allocated_storage = 10
+    allocated_storage = var.db_size
     username = var.WFNEWS_USERNAME
     password = var.db_pass
     publicly_accessible = false
