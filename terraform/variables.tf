@@ -361,6 +361,12 @@ variable "db_names" {
   type        = list(string)
 }
 
+variable "db_multi_az" {
+  description = "Whether to make db deployment a multi-AZ deployment"
+  default = false
+  type = bool
+}
+
 variable "sns_email_targets" {
   description = "Emails to use for SNS"
   default = ""
