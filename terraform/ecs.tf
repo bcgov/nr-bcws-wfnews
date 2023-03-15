@@ -286,7 +286,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name = "APPLICATION_ENVIRONMENT",
-          value = var.target_env
+          value = var.target_env != "prod" ? var.target_env : " "
         },
         {
           name = "AGOL_URL",
