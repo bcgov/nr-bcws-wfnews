@@ -103,24 +103,18 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
       this.snackbarService.open('Failed to load Image Attachments: ' + err, 'OK', { duration: 10000, panelClass: 'snackbar-error' });
     })
 
-    this.externalUriService.getExternalUriList(
-      '' + this.incident.wildfireIncidentGuid,
-      '' + 1,
-      '' + 100,
-      'response',
-      undefined,
-      undefined
-    ).toPromise().then( (response) => {
+    this.externalUriService.getExternalUriList('' + this.incident.wildfireIncidentGuid, '' + 1, '' + 100, 'response', undefined, undefined)
+    .toPromise().then((response) => {
       this.externalUriList = []
-      const uris = response.body;
+      const uris = response.body
       for (const uri of uris.collection) {
-        if (uri.externalUriCategoryTag.includes('video')) {
+        if (uri.externalUriCategoryTag.includes('video') && uri.primaryInd === true) {
           this.externalUriList.push(uri)
         }
       }
-      this.cdr.detectChanges();
+      this.cdr.detectChanges()
     }).catch(err => {
-      this.snackbarService.open('Failed to load videos links: ' + err, 'OK', { duration: 0, panelClass: 'snackbar-error' });
+      console.error('Failed to sync video URLs')
     })
   }
 
