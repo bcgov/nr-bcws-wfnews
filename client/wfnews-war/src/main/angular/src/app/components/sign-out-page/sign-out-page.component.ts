@@ -20,7 +20,7 @@ export class SignOutPageComponent extends BaseComponent implements AfterViewInit
   }
 
   ngOnDestroy() {
-
+    // unused
   }
 
 }

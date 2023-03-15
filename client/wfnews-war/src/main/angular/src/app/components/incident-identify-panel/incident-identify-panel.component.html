@@ -33,7 +33,7 @@
   <div class="divider"></div>
   <div class="info-panel">
     <div class="gutter"><span class="label">Size: </span><span class="paragraph-format">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</span></div>
-    <div class="paragraph-format">Fire size is estimated and based on the most current information available.</div>
+    <div class="paragraph-format">{{incident.incidentSizeDetail || 'Fire size is estimated and based on the most current information available.'}}</div>
     <div *ngIf="incident.incidentLocation">
       <div class="gutter"><span class="label">Location</span></div>
       <div class="paragraph-format">{{incident.incidentLocation}}</div>

@@ -205,12 +205,6 @@ mat-tab-group {
   flex: 1 1 315px;
 }
 
-:host ::ng-deep .mat-tab-label {
-  color: #003366 !important;
-  font-weight: 400;
-  font-size: 1rem;
-}
-
 :host ::ng-deep .mat-ink-bar {
   background-color: #003366 !important;
 }

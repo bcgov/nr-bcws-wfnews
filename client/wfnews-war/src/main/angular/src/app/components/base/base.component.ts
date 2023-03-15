@@ -160,9 +160,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
 
     redirectWithOAuth(redirectRoutePath: string) {
         const baseUrl = this.appConfigService.getConfig().application.baseUrl;
-        const clientId = this.appConfigService.getConfig().webade.clientId;
-        const authorizeUrl = this.appConfigService.getConfig().webade.oauth2Url;
-        const authScopes = this.appConfigService.getConfig().webade.authScopes;
         const url = baseUrl;
         window.location.href = url;
     }
@@ -200,7 +197,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     }
 
     unsavedForm(form?: FormGroup, arrayProperty?: string): boolean {
-        //console.log("unsaved", this.componentId);
         const fg = form ? form : this.viewModel.formGroup;
         if (arrayProperty) {
             this.unsavedBatchForm(arrayProperty);
@@ -216,14 +212,11 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         const fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
         const arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
         const hasAddedUnsavedItem = this.hasAddedUnsavedItemNotBlank(fg, arrayProperty);
-        //console.log("arrayHasDirtyFlag", arrayHasDirtyFlag, "fgDirty", fg.dirty, "hasAddedUnsavedItem", hasAddedUnsavedItem);
         this.doUnsavedStateUpdateIfNeeded(this.componentId, arrayHasDirtyFlag || fg.dirty || hasAddedUnsavedItem);
         return this.isUnsaved;
     }
 
     doUnsavedStateUpdateIfNeeded(componentId: string, newUnsavedState: boolean) {
-        const prevUnsaved = this.isUnsaved; //save old value for comparison
-        //console.log(componentId, "prev", prevUnsaved, "new", newUnsavedState);
         this.isUnsaved = newUnsavedState;
     }
 
@@ -232,7 +225,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         const ret = controls.some(ac => {
                 const fg: FormGroup = <FormGroup>ac;
                 if (!fg.get('id').value && controls.length > 1) { //not a default empty entry
-                    //console.log("not default entry");
                     return true;
                 } else if (!fg.get('id').value && controls.length == 1) { //check if empty entry
                     const item = fg.getRawValue();

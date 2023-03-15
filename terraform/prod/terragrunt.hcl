@@ -102,7 +102,7 @@ generate "test_tfvars" {
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
-    certificate_arn = "arn:aws:acm:us-east-1:636235676406:certificate/5e8f2003-b441-4e2e-b133-962986646882"
+    certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/cb36048d-70e1-45e9-b2eb-2e0ea7e808cf"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"

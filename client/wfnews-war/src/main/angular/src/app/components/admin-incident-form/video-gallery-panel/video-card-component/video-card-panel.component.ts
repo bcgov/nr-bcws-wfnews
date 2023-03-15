@@ -15,6 +15,7 @@ export class VideoCardPanel{
   @Input() public incident
   @Input() public video: any
   @Output('loadPage') loadPage: EventEmitter<any> = new EventEmitter();
+  @Output('removePrimaryFlags') removePrimaryFlags: EventEmitter<any> = new EventEmitter();
 
   public convertToYoutubeId = convertToYoutubeId
 
@@ -29,16 +30,21 @@ export class VideoCardPanel{
                protected cdr: ChangeDetectorRef) { /* Empty */}
 
   changePrimary () {
-    (this.video as any).primaryInd = !(this.video as any).primaryInd;
+    this.video.primaryInd = !this.video.primaryInd;
+    if (this.video.primaryInd) {
+      this.removePrimaryFlags.emit()
+      // safety catch
+      this.video.primaryInd = true
+    }
     this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
   }
 
   get isPrimary () {
     if (!Object.prototype.hasOwnProperty.call(this.video, 'primaryInd')) {
-      (this.video as any).primaryInd = false
+      this.video.primaryInd = false
     }
 
-    return (this.video as any).primaryInd
+    return this.video.primaryInd
   }
 
   set isPrimary (primary) {

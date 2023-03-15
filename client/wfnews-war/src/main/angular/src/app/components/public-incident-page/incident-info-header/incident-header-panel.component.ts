@@ -95,15 +95,15 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   onWatchlist (): boolean {
-    return this.watchlistService.getWatchlist().includes(this.incident.incidentNumberLabel)
+    return this.watchlistService.getWatchlist().includes(this.incident.fireYear + ':' + this.incident.incidentNumberLabel)
   }
 
   addToWatchlist () {
-    this.watchlistService.saveToWatchlist(this.incident.incidentNumberLabel)
+    this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
   removeFromWatchlist () {
-    this.watchlistService.removeFromWatchlist(this.incident.incidentNumberLabel)
+    this.watchlistService.removeFromWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
   displaySizeType (incidentSizeDetail: string) {
@@ -116,5 +116,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
     else {
       return null;
     }
+  }
+
+  hideOnMobileView () {
+    return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 }

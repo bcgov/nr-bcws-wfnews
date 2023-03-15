@@ -12,6 +12,8 @@ resource "aws_db_instance" "wfnews_pgsqlDB"{
     auto_minor_version_upgrade = false
     db_name = "wfnews${var.target_env}"
     instance_class       = "${var.db_instance_type}"
+    multi_az = var.db_multi_az
+    backup_retention_period = 7
     allocated_storage = 10
     username = var.WFNEWS_USERNAME
     password = var.db_pass

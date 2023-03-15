@@ -16,17 +16,17 @@ export class WatchlistService {
     this.localStorageService.removeData(WATCHLIST_KEY)
   }
 
-  public removeFromWatchlist (incidentNumber: string): boolean {
+  public removeFromWatchlist (fireYear: string, incidentNumber: string): boolean {
     let result = true
     try {
       const watchlist = this.getWatchlist()
-      if (watchlist.includes(incidentNumber)) {
-        const index = watchlist.indexOf(incidentNumber)
+      if (watchlist.includes(fireYear + ':' + incidentNumber)) {
+        const index = watchlist.indexOf(fireYear + ':' + incidentNumber)
         watchlist.splice(index, 1)
         this.localStorageService.saveData(WATCHLIST_KEY, JSON.stringify(watchlist))
       }
     } catch (err) {
-      console.log(err)
+      console.error(err)
       result = false
     }
 
@@ -35,12 +35,14 @@ export class WatchlistService {
 
   public async verifyWatchlist () {
     console.warn('Verifying Watchlist')
-    for (const incidentNumber of this.getWatchlist()) {
+    for (const watchlistString of this.getWatchlist()) {
+      const fireYear = watchlistString.split(':')[0]
+      const incidentNumber = watchlistString.split(':')[1]
       try {
-        const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber).toPromise()
+        const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise()
         if (!incident) {
           console.warn('Removing expired incident ' + incidentNumber + ' from Watchlist')
-          this.removeFromWatchlist(incidentNumber)
+          this.removeFromWatchlist(fireYear, incidentNumber)
         }
       } catch (err) {
         console.error(err)
@@ -56,14 +58,14 @@ export class WatchlistService {
     return []
   }
 
-  public saveToWatchlist (incidentNumber: string): boolean {
+  public saveToWatchlist (fireYear: string, incidentNumber: string): boolean {
     let result = true
     try {
       const watchlist = this.getWatchlist()
-      watchlist.push(incidentNumber)
+      watchlist.push(`${fireYear}:${incidentNumber}`)
       this.localStorageService.saveData(WATCHLIST_KEY, JSON.stringify(watchlist))
     } catch (err) {
-      console.log(err)
+      console.error(err)
       result = false
     }
 

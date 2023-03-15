@@ -1,11 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
-import { convertToFireCentreDescription, convertToYoutubeId } from '../../../utils'
+import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeId, isMobileView } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: 'incident-info-panel',
@@ -17,15 +19,18 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public areaRestrictions : AreaRestrictionsOption[] = []
-  
+
   showWarning: boolean;
 
   public convertToFireCentreDescription = convertToFireCentreDescription
+  public findFireCentreByName = findFireCentreByName
   public convertToYoutubeId = convertToYoutubeId
+  public isMobileView = isMobileView
 
-  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService, 
+  public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,
-                     private router: ActivatedRoute) {}
+                     private router: ActivatedRoute,
+                     private http: HttpClient) {}
   public primaryMedia = null
 
   handleImageFallback (href: string) {
@@ -36,6 +41,15 @@ export class IncidentInfoPanel implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (!this.incident.contactEmailAddress || !this. incident.contactPhoneNumber) {
+      this.getFireCentreContacts().subscribe(data => {
+        const fc = findFireCentreByName(convertToFireCentreDescription(this.incident.fireCentreName || this.incident.fireCentre || this.incident.fireCentreCode))
+        if (!this.incident.contactEmailAddress) this.incident.contactEmailAddress = data[+fc.code].url
+        if (!this.incident.contactPhoneNumber) this.incident.contactPhoneNumber = data[+fc.code].phone
+        this.cdr.detectChanges()
+      });
+    }
+
     const canvas = document.getElementById('qr-code')
     toCanvas(canvas, window.location.href, function (error) {
       if (error) console.error(error)
@@ -52,7 +66,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public getStageOfControlLabel (code: string) {
     if (code.toUpperCase().trim() === 'OUT') return 'Out'
     else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'Out of Control'
-    else if (code.toUpperCase().trim() === 'HOLDING') return 'Holding'
+    else if (code.toUpperCase().trim() === 'HOLDING') return 'Being Held'
     else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
     else return 'Unknown'
   }
@@ -156,5 +170,9 @@ export class IncidentInfoPanel implements AfterViewInit {
     }).catch(err => {
       console.error(err)
     })
+  }
+
+  public getFireCentreContacts (): Observable<any> {
+    return this.http.get('../../../../assets/data/fire-center-contacts-agol.json')
   }
 }

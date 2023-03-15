@@ -16,6 +16,10 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
     domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_client_${var.target_env}"
+    custom_header {
+      name = "X-Cloudfront-Header"
+      value = "${var.cloudfront_header}"
+    }
   }
 
   enabled         = true
@@ -117,6 +121,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
     domain_name = "wfnews-server.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_server_${var.target_env}"
+
+    custom_header {
+      name = "X-Cloudfront-Header"
+      value = "${var.cloudfront_header}"
+    }
   }
 
   enabled         = true
@@ -220,6 +229,11 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
     domain_name = "${var.apisix_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_apisix_${var.target_env}"
+
+    custom_header {
+      name = "X-Cloudfront-Header"
+      value = "${var.cloudfront_header}"
+    }
   }
 
   enabled         = true

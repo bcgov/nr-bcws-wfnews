@@ -24,9 +24,6 @@
       <div class="action">
         <mat-radio-button [checked]="isPrimary" (change)="changePrimary()">Set as Primary Video</mat-radio-button>
       </div>
-      <div class="action" *ngIf="isPrimary">
-        <mat-radio-button [checked]="!isPrimary" (change)="changePrimary()">Unset as Primary Video</mat-radio-button>
-      </div>
     </div>
 
   </div>

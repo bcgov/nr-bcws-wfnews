@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public interface IncidentsService {
 	PublishedIncidentResource getPublishedIncidentByIncidentGuid(String incidentGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 	
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
+	PublishedIncidentResource getPublishedIncident(String publishedIncidentDetailGuid, Integer fireYear, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException, NotFoundException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
 	String getPublishedIncidentsAsJson(String stageOfControl, String bbox, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException;
@@ -44,7 +45,7 @@ public interface IncidentsService {
 	void flush(FactoryContext factoryContext) throws NotFoundException, ConflictException;
 
 	@Transactional(readOnly = true, rollbackFor=Exception.class)
-	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newfires, String fireCentreCode, String fireCentreName, String bbox, Double latitude, Double longitude, Double radius, FactoryContext factoryContext);
+	PublishedIncidentListResource getPublishedIncidentList(String searchText, Integer pageNumber, Integer pageRowCount, String orderBy, Boolean fireOfNote, List<String> stageOfControlList, Boolean newfires, String fireCentreCode, String fireCentreName, Date fromCreateDate, Date toCreateDate, Date fromDiscoveryDate, Date toDiscoveryDate, String bbox, Double latitude, Double longitude, Integer fireYear, Double radius, FactoryContext factoryContext);
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	ExternalUriResource createExternalUri(ExternalUriResource externalUri, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;

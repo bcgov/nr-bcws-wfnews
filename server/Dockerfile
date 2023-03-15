@@ -6,12 +6,11 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs \
   TOMCAT_MAJOR=8 \
-  JAVA_OPTS="$JAVA_OPTS" 
+  JAVA_OPTS="$JAVA_OPTS -Xss800" 
 
 
 # TODO: REVERT CHOWN COMMAND TO 770 ONCE DONE TESTING
 RUN apt-get update &&\
-  apt-get install -y telnet &&\
   apt-get install -y sed  &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\

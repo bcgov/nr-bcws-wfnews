@@ -268,8 +268,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.searchLayerGroup.clearLayers();
 
     this.filteredOptions.forEach((result) => {
-      var first = this.serializeLatLng({ lat: latLng[0], lng: latLng[1] });
-      var second = this.serializeLatLng({ lat: result.loc[0], lng: result.loc[1] });
+      const first = this.serializeLatLng({ lat: latLng[0], lng: latLng[1] });
+      const second = this.serializeLatLng({ lat: result.loc[0], lng: result.loc[1] });
       if (first != second) {
         self.highlight(result);
       }
@@ -279,7 +279,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onLocationSelected(selectedOption) {
     this.snowPlowHelper(this.url, {
       action: 'location_search',
-      text: selectedOption
+      text: selectedOption.address
   })
     const self = this;
     self.searchLayerGroup.clearLayers();
@@ -434,7 +434,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   searchTextUpdated() {
     // will need to call News API to fetch the results
-    console.log(this.searchText)
   }
 
   @ViewChild('grabber') grabber: ElementRef;

@@ -2,7 +2,6 @@
 
 import java.util.List;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -38,9 +37,14 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 		@ApiParam("Filter on fires that are new within 24 hours") @QueryParam("newFires") Boolean newFires,
 		@ApiParam("Filter on fire centre code") @QueryParam("fireCentreCode") String fireCentreCode,
 		@ApiParam("Filter on fire centre name") @QueryParam("fireCentreName") String fireCentreName,
+		@ApiParam("Filter on fires that have create dates >= this date with date format (yyyy-MM-dd HH:mm:ss.SSSSSS)") @QueryParam("fromCreateDate") String fromCreateDate,
+		@ApiParam("Filter on fires that have create dates <= this date with date format (yyyy-MM-dd HH:mm:ss.SSSSSS)") @QueryParam("toCreateDate") String toCreateDate,
+		@ApiParam("Filter on fires that have discovery dates >= this date with date format (yyyy-MM-dd HH:mm:ss.SSSSSS)") @QueryParam("fromDiscoveryDate") String fromDiscoveryDate,
+		@ApiParam("Filter on fires that have discovery dates <= this date with date format (yyyy-MM-dd HH:mm:ss.SSSSSS)") @QueryParam("toDiscoveryDate") String toDiscoveryDate,
 		@ApiParam("The Bounding box to restrict the query to, comma delimited xmin, ymin, xmax, ymax") @QueryParam("bbox") String bbox,
 		@ApiParam("The latitude for a point and radius query") @QueryParam("latitude") Double latitude,
 		@ApiParam("The longitude for a point and radius query") @QueryParam("longitude") Double longitude,
+		@ApiParam("The Fire Year for incidents") @QueryParam("fireYear") Integer fireYear,
 		@ApiParam("The radius (in metres) for a point and radius query") @QueryParam("radius") Double radius) throws NotFoundException, ForbiddenException, ConflictException;
 	
 	@GET
@@ -52,8 +56,9 @@ public interface PublicPublishedIncidentEndpoint extends BaseEndpoints{
 	@GET
 	@Path("/{publishedIncidentDetailGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid)throws NotFoundException, ForbiddenException, ConflictException;
-	
+	public Response getPublishedIncident(@PathParam("publishedIncidentDetailGuid") String publishedIncidentDetailGuid,
+																			 @ApiParam("The Fire Year for incidents") @QueryParam("fireYear") Integer fireYear)throws NotFoundException, ForbiddenException, ConflictException;
+
 	@GET
 	@Path("byIncident/{incidentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })

@@ -227,6 +227,12 @@ variable "cloudfront_origin_domain" {
   type        = string
 }
 
+variable "cloudfront_header" {
+  description = "Header added when passing through cloudfront"
+  default = ""
+  type = string
+}
+
 /*variable "cf_origin_id" {
   description = "id"
   type        = string
@@ -353,6 +359,12 @@ variable "db_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-db"]
   type        = list(string)
+}
+
+variable "db_multi_az" {
+  description = "Whether to make db deployment a multi-AZ deployment"
+  default = false
+  type = bool
 }
 
 variable "sns_email_targets" {
