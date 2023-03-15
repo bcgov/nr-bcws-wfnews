@@ -80,7 +80,7 @@ generate "test_tfvars" {
     aws_sec_group = "App_sg"
     github_release_name = "${local.github_release_name}"
     target_env = "${local.target_env}"
-    target_aws_account_id = "718963518348"
+    target_aws_account_id = "598317316742"
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
