@@ -176,7 +176,7 @@
 }
 
 
-@media (min-width: 768px)and (max-width: 1023px) {
+@media (min-width: 768px) and (max-width: 1023px) {
 
   .panel {
     padding: 15px;
@@ -192,6 +192,26 @@
     .content-panel-stack> * {
       padding-left: 8px;
       padding-right: 8px;
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .panel {
+    h4 {
+      font-size: 1.3rem !important;
+    }
+    .content-panel {
+      h1 {
+        font-size: 1.3rem !important;
+      }
+    }
+    .header-row {
+      .header-button-container {
+        .print-button {
+          display: none !important;
+        }
+      }
     }
   }
 }

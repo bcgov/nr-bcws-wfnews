@@ -157,8 +157,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
+  isIncidentsPage () {
+    return window.location.pathname === '/incidents'
+  }
+
   redirectToPublicMobile () {
-    return window.location.pathname !== '/incidents' && ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+    return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
   getAppStoreLink () {

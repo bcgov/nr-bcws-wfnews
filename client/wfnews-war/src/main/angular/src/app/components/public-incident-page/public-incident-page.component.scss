@@ -73,3 +73,13 @@
   margin: auto;
   background-color: white;
 }
+
+@media screen and (max-width: 768px) {
+  h1 {
+    font-size: 1.3rem;
+  }
+
+  h4 {
+    font-size: 1.3rem;
+  }
+}
