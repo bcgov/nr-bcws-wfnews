@@ -54,6 +54,14 @@
       border-bottom: 1px lightgray solid;
       .media-types {
         padding-top:15px;
+        .media-selector {
+          border: 1px solid;
+          border-radius: 4px;
+          width: 10%;
+          border-color: gray;
+          padding-left: 10px;
+          margin: 10px 0 10px 0;
+        }
       }
       h1 {
         font-size: 1.6rem;
@@ -133,11 +141,23 @@ h3 {
     }
 }
 @media (min-width: 1024px) {
-    .panel {
-        .content-panel {
-        .content-panel-stack {
-            grid-template-columns: repeat(2, 470px);
+  .panel {
+    .content-panel {
+      .content-panel-stack {
+        grid-template-columns: repeat(2, 470px);
+      }
+    }
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .panel {
+    .content-panel {
+      .media-types {
+        .media-selector {
+          width: 100% !important;
         }
       }
-   }
+    }
+  }
 }

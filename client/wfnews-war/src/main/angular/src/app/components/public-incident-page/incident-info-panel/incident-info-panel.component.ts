@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, AfterViewInit, ChangeDetectorRef } from "@angular/core";
 import { AreaRestrictionsOption, EvacOrderOption } from "../../../conversion/models";
 import { toCanvas } from 'qrcode'
-import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeId } from '../../../utils'
+import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeId, isMobileView } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -25,6 +25,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public convertToFireCentreDescription = convertToFireCentreDescription
   public findFireCentreByName = findFireCentreByName
   public convertToYoutubeId = convertToYoutubeId
+  public isMobileView = isMobileView
 
   public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,
