@@ -15,6 +15,7 @@ export class VideoCardPanel{
   @Input() public incident
   @Input() public video: any
   @Output('loadPage') loadPage: EventEmitter<any> = new EventEmitter();
+  @Output('removePrimaryFlags') removePrimaryFlags: EventEmitter<any> = new EventEmitter();
 
   public convertToYoutubeId = convertToYoutubeId
 
@@ -30,6 +31,11 @@ export class VideoCardPanel{
 
   changePrimary () {
     this.video.primaryInd = !this.video.primaryInd;
+    if (this.video.primaryInd) {
+      this.removePrimaryFlags.emit()
+      // safety catch
+      this.video.primaryInd = true
+    }
     this.updateExternalUri(this.video.externalUri, this.video.externalUriDisplayLabel);
   }
 

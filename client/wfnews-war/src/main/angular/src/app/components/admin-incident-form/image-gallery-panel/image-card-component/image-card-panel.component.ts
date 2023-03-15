@@ -17,6 +17,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   @Input() public incident
   @Input() public attachment: AttachmentResource
   @Output('loadPage') loadPage: EventEmitter<any> = new EventEmitter();
+  @Output('removePrimaryFlags') removePrimaryFlags: EventEmitter<any> = new EventEmitter();
 
 
   public imageSrc = null;
@@ -34,6 +35,12 @@ export class ImageCardPanel implements OnInit, OnChanges {
       (this.attachment as any).primaryInd = !(this.attachment as any).primaryInd;
     } catch (err) {
       (this.attachment as any).primaryInd = true;
+    }
+
+    if ((this.attachment as any).primaryInd) {
+      this.removeFlags();
+      // safety catch
+      (this.attachment as any).primaryInd = true
     }
 
     this.updateIncidentAttachment();
@@ -77,6 +84,10 @@ export class ImageCardPanel implements OnInit, OnChanges {
   includeInGallery () {
     this.attachment.commsSuitable = !this.attachment.commsSuitable;
     this.updateIncidentAttachment();
+  }
+
+  removeFlags () {
+    this.removePrimaryFlags.emit()
   }
 
   updateIncidentAttachment () {

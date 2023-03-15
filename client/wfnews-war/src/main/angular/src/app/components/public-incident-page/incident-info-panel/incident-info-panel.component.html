@@ -36,7 +36,8 @@
       <div>
         <!-- Image/video section: fetch from aws cache -->
         <div style="text-align: center;" *ngIf="primaryMedia !== null">
-          <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="1000" height="400" (error)="handleImageFallback(primaryMedia.href)" />
+          <div *ngIf="showWarning" class="preview-warning">Warning: Primary Video/Image selection cannot be previewd</div>
+          <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
           <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
             videoId={{convertToYoutubeId(primaryMedia.href)}}
             suggestedQuality="highres"
@@ -48,7 +49,7 @@
         </div>
         <!-- contact section-->
         <h1>Incident Contact Information</h1>
-        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreCode)}}</span></div>
+        <div style="display: flex;"><mat-icon style="padding-right: 10px;">contact_mail</mat-icon><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">mail</mat-icon><span>{{incident.contactEmailAddress}}</span></div>
         <div style="display: flex;"><mat-icon style="padding-right: 10px;">phone_in_talk</mat-icon><span>{{incident.contactPhoneNumber}}</span></div>
       </div>
@@ -76,7 +77,9 @@
         </div>
       </div>
       <div>
-        <h1>Area Restrictions</h1>
+        <h1>Area Restrictions
+          <div *ngIf="showWarning" class="preview-warning">Warning: Manually entered Area Restrictions cannot be previewed</div>
+        </h1>
         <div class="content-panel-subtitle">Area Restriction Information</div>
         <div *ngFor="let area of areaRestrictions">
           <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
@@ -115,10 +118,11 @@
     <div *ngIf="(incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd); else defaultResourcesContent">
       <!-- Wildfire Resources -->
       <div *ngIf="incident.wildfireCrewResourcesInd && incident.wildfireCrewResourcesDetail" class="resource-panel">
-        <div class="resource-panel-icon">
+        <div *ngIf="!isMobileView()" class="resource-panel-icon">
           <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
         </div>
         <div class="resource-panel-content">
+          <img *ngIf="isMobileView()" class="image-size" src="../../../assets/images/svg-icons/wildfire-crews.svg" alt="Wildfire Crews" />
           <h3>Wildfire Crews</h3>
           <div class="content-panel-body">
             <div [innerHTML]="incident.wildfireCrewResourcesDetail"></div>
@@ -131,10 +135,11 @@
       </div>
       <!-- Wildfire Aviation -->
       <div *ngIf="incident.wildfireAviationResourceInd && incident.wildfireAviationResourceDetail"  class="resource-panel">
-        <div class="resource-panel-icon">
+        <div *ngIf="!isMobileView()" class="resource-panel-icon">
           <img class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
         </div>
         <div class="resource-panel-content">
+          <img *ngIf="isMobileView()" class="image-size" src="../../../assets/images/svg-icons/aviation.svg" alt="Aviation" />
           <h3>Wildfire Aviation</h3>
           <div class="content-panel-body">
             <div [innerHTML]="incident.wildfireAviationResourceDetail"></div>
@@ -147,10 +152,11 @@
       </div>
       <!-- Incident Management Teams -->
       <div *ngIf="incident.incidentMgmtCrewRsrcInd && incident.incidentMgmtCrewRsrcDetail"  class="resource-panel">
-        <div class="resource-panel-icon">
+        <div *ngIf="!isMobileView()" class="resource-panel-icon">
           <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Incident Management Team" />
         </div>
         <div class="resource-panel-content">
+          <img *ngIf="isMobileView()" class="image-size" src="../../../assets/images/svg-icons/incident-management-teams.svg" alt="Aviation" />
           <h3>Incident Management Team</h3>
           <div class="content-panel-body">
             <div [innerHTML]="incident.incidentMgmtCrewRsrcDetail"></div>
@@ -163,10 +169,11 @@
       </div>
       <!-- Heavy Equipment -->
       <div *ngIf="incident.heavyEquipmentResourcesInd && incident.heavyEquipmentResourcesDetail"  class="resource-panel">
-        <div class="resource-panel-icon">
+        <div *ngIf="!isMobileView()" class="resource-panel-icon">
           <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Heavy Equipment" />
         </div>
         <div class="resource-panel-content">
+          <img *ngIf="isMobileView()" class="image-size" src="../../../assets/images/svg-icons/heavy_equipment.svg" alt="Aviation" />
           <h3>Heavy Equipment</h3>
           <div class="content-panel-body">
             <div [innerHTML]="incident.heavyEquipmentResourcesDetail"></div>
@@ -179,10 +186,11 @@
       </div>
       <!-- Structure Protection -->
       <div *ngIf="incident.structureProtectionRsrcInd && incident.structureProtectionRsrcDetail"  class="resource-panel">
-        <div class="resource-panel-icon">
+        <div *ngIf="!isMobileView()" class="resource-panel-icon">
           <img class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Heavy Equipment" />
         </div>
         <div class="resource-panel-content">
+          <img *ngIf="isMobileView()" class="image-size" src="../../../assets/images/svg-icons/structure-protection.svg" alt="Aviation" />
           <h3>Structure Protection</h3>
           <div class="content-panel-body">
             <div [innerHTML]="incident.structureProtectionRsrcDetail"></div>

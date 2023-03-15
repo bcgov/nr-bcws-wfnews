@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap } from "@angular/router"
 import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
-
+import { findFireCentreByName } from "../../utils"
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -23,6 +23,9 @@ export class PublicIncidentPage implements OnInit {
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
+
+  findFireCentreByName = findFireCentreByName
+
 
   constructor(private router: ActivatedRoute,
               protected cdr: ChangeDetectorRef,
@@ -55,6 +58,10 @@ export class PublicIncidentPage implements OnInit {
           // check the contact info
           if (!this.incident.contactOrgUnitIdentifer) {
             this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
+              if (!this.incident.fireCentreCode) {
+                this.incident.fireCentreCode = findFireCentreByName(this.incident.fireCentreName).code
+              }
+
               this.incident.contactPhoneNumber = data[this.incident.fireCentreCode].phone
               this.incident.contactEmailAddress = data[this.incident.fireCentreCode].url
               this.cdr.detectChanges();

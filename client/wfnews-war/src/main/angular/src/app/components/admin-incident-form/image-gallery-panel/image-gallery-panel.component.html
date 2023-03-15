@@ -4,6 +4,6 @@
     <button mat-button color="primary" class="primary-button" (click)="upload()">Upload Image</button>
   </div>
   <div class="image-gallery">
-    <image-card-panel *ngFor="let image of attachments" [attachment]="image" [incident]="incident" (loadPage)="loadPage()"></image-card-panel>
+    <image-card-panel *ngFor="let image of attachments" [attachment]="image" [incident]="incident" (loadPage)="loadPage()" (removePrimaryFlags)="removePrimaryFlags()"></image-card-panel>
   </div>
 </ng-container>
