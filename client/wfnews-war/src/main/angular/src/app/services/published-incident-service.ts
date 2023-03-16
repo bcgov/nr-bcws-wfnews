@@ -10,6 +10,12 @@ import { concatMap, map } from 'rxjs/operators';
 export class PublishedIncidentService {
   constructor(private appConfigService: AppConfigService, private tokenService: TokenService, private httpClient: HttpClient) {  }
 
+  public async getActiveFireCount () : Promise<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=1&pageRowCount=1&fireOfNote=false&out=false&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
+    const result = await this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise();
+    return (result as any)
+  }
+
   public fetchPublishedIncidents (pageNum: number = 0, rowCount: number = 9999, fireOfNote = false, out = false, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=${out}&orderBy=${orderBy}`;
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })

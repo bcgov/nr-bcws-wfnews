@@ -11,6 +11,7 @@ import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
 import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { PublishedIncidentService } from '../../services/published-incident-service';
 
 
 export type SelectedLayer =
@@ -72,6 +73,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private appConfig: AppConfigService,
     private mapConfigService: MapConfigService,
     private agolService: AGOLService,
+    private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
@@ -298,12 +300,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     if (this.activeFireCountPromise) {
       return this.activeFireCountPromise;
     }
-    this.activeFireCountPromise = this.agolService.getActiveFireCount().toPromise()
+    this.activeFireCountPromise = this.publishedIncidentService.getActiveFireCount()
       .then((resp: any) => {
-        return resp?.features[0].attributes.value;
+        return resp?.totalRowCount;
       }).catch((e) => {
         console.error('COUNTSTATS-FAIL');
-        return 123;
+        return 'loading...';
       });
 
     return this.activeFireCountPromise;
