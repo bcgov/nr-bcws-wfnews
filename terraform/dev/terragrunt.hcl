@@ -10,6 +10,7 @@ locals {
   sec_group = "Web_sg"
   github_release_name = get_env("GITHUB_RELEASE_NAME")
   db_pass = get_env("DB_PASS")
+  db_size = get_env("DB_SIZE")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
@@ -89,6 +90,7 @@ generate "dev_tfvars" {
     server_cpu_units = "${local.server_cpu_units}"
     server_memory = "${local.server_memory}"
     db_instance_type = "${local.db_instance_type}"
+    db_size="${local.db_size}"
     logging_level = "${local.logging_level}"
     app_count = "${local.app_count}"
     api_key = "${local.api_key}"
