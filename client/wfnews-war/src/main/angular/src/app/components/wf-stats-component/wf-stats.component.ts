@@ -117,7 +117,7 @@ export class WFStatsComponent implements OnInit {
           lightningStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
           humanStarts: activeIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
           totalFires: fireCount + outFireCount,
-          areaBurned: activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n)
+          areaBurned: activeIncidents.collection && activeIncidents.collection.length > 0 ? activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n) : 0
         })
       }
 
@@ -174,7 +174,7 @@ export class WFStatsComponent implements OnInit {
 
   getFiresByCentreTotals (includeOut = false): number {
     const arr = includeOut ? this.allFiresByCentre : this.activeFiresByCentre
-    return arr.map(r => r.value).reduce((p, n) => p + n)
+    return arr && arr.length > 0 ? arr.map(r => r.value).reduce((p, n) => p + n) : 0
   }
 }
 
