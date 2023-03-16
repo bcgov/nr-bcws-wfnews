@@ -248,6 +248,12 @@ variable db_pass {
     type=string
 }
 
+variable db_size {
+  description = "size of db, in GB"
+  type = number
+  default=10
+}
+
 variable vpc_name {
   description = "name of VPC to use"
   type=string
