@@ -180,19 +180,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
             self.incident.contact.fireCentre = self.currentAdminIncident.fireCentreOrgUnitIdentifier
 
-            let mappedCentre = 6
-            if (self.incident.contact.fireCentre == 50) mappedCentre = 2
-            else if (self.incident.contact.fireCentre == 42) mappedCentre = 3
-            else if (self.incident.contact.fireCentre == 34) mappedCentre = 4
-            else if (self.incident.contact.fireCentre == 25) mappedCentre = 5
-            else if (self.incident.contact.fireCentre == 2) mappedCentre = 7
-
-            self.incident.contact.fireCentre = '' + mappedCentre
             this.areaRestrictionsDetailsPanel.getAreaRestrictions()
 
-            this.http.get('../../../../assets/data/fire-center-contacts.json').subscribe(data => {
-              self.incident.contact.phoneNumber = data[mappedCentre].phone
-              self.incident.contact.emailAddress = data[mappedCentre].url
+            this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
+              self.incident.contact.phoneNumber = data[self.incident.contact.fireCentre].phone
+              self.incident.contact.emailAddress = data[self.incident.contact.fireCentre].url
               this.incidentForm.patchValue(this.incident);
               this.cdr.detectChanges();
             });

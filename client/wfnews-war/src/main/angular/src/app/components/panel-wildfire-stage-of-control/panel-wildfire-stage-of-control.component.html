@@ -86,7 +86,7 @@
                 </div>
                 <div class="item-row">
                     <span class="item-title">Fire Centre: </span>
-                    <span class="item-content">{{convertToFireCentreDescription(incident.fireCentreCode)}}</span>
+                    <span class="item-content">{{convertToFireCentreDescription(incident.fireCentreName || incident.fireCentre || incident.fireCentreCode)}}</span>
                 </div>
                 <div class="item-row">
                     <span class="item-title">Distance from My Location: </span>
