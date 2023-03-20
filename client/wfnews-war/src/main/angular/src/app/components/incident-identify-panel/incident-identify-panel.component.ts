@@ -72,10 +72,9 @@ export class IncidentIdentifyPanelComponent {
 
       // date formatting
       const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
-      this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
-      this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options);
-      this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
+      this.incident.discoveryDate = this.incident.discoveryDate? new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options) : 'Pending';
+      this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : 'Pending'
+      this.incident.lastUpdatedTimestamp = this.incident.lastUpdatedTimestamp ? new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options) : 'Pending';
 
       // load evac orders nearby
       this.getEvacOrders();
