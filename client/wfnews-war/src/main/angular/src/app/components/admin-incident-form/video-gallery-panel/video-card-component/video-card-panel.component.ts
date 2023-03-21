@@ -32,7 +32,7 @@ export class VideoCardPanel{
   changePrimary () {
     this.video.primaryInd = !this.video.primaryInd;
     if (this.video.primaryInd) {
-      this.removePrimaryFlags.emit()
+      this.removePrimaryFlags.emit({ event: this.video.externalUriGuid })
       // safety catch
       this.video.primaryInd = true
     }
