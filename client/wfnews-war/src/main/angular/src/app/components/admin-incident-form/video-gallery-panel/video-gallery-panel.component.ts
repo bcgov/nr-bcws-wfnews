@@ -198,12 +198,12 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
   /**
    * This should be moved into the IM API
    */
-    removePrimaryFlags (guid: string) {
+    async removePrimaryFlags (guid: string) {
       for (const attachment of this.attachments) {
         const isPrimary = (attachment as any).primaryInd as Boolean
         if (isPrimary) {
           (attachment as any).primaryInd = false
-          this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, attachment.attachmentGuid, undefined, attachment)
+          await this.incidentAttachmentService.updateIncidentAttachment(this.incident.wildfireYear, this.incident.incidentNumberSequence, attachment.attachmentGuid, undefined, attachment)
           .toPromise().catch(err => {
             // Ignore this
             console.error(err)
@@ -212,9 +212,9 @@ export class VideoGalleryPanel extends BaseComponent implements OnInit, OnChange
       }
 
       for (const videoLink of this.externalUriList.collection) {
-        if (videoLink.primaryInd && videoLink.externalUriGuid !== guid) {
+        if (videoLink.primaryInd && videoLink.externalUriGuid !== (guid as any).event) {
           videoLink.primaryInd = false
-          this.externalUriService.updateExternalUri(videoLink.externalUriGuid, videoLink)
+          await this.externalUriService.updateExternalUri(videoLink.externalUriGuid, videoLink)
           .toPromise().catch(err => {
             // Ignore this
             console.error(err)
