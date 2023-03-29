@@ -1,7 +1,7 @@
 # nr-bcws-wfnews
-Primary code repository for WFNEWS 2.0.
+Primary code repository for WFNEWS 2.0.1
 
-The high-level goals of Wildfire News 2.0 are:
+The high-level goals of Wildfire News 2.0.1 are:
 
 * Consolidate the Wildfire Dashboard, Wildfires of Note and Current Wildfire Activity into a single application.
 * Replace Wildfire News Application with richer functionality that requires minimal training.
