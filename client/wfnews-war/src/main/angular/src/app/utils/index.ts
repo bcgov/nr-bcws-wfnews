@@ -7,8 +7,8 @@ import { PagingInfoRequest } from '../store/application/application.state';
 declare const window: any;
 export enum ResourcesRoutes {
     LANDING = '',
-    ACTIVEWILDFIREMAP = 'activeWildfireMap',
-    WILDFIRESLIST = 'wildFiresList',
+    ACTIVEWILDFIREMAP = 'map',
+    WILDFIRESLIST = 'list',
     CURRENTSTATISTICS = 'currentStatistics',
     RESOURCES = 'resources',
     UNAUTHORIZED = 'unauthorized',
