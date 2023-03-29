@@ -52,9 +52,9 @@ export class PublicIncidentPage implements OnInit {
           // date formatting options
           const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
           // set date strings
-          this.incident.discoveryDate = new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
-          this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options)
-          this.incident.lastUpdatedTimestamp = new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options)
+          this.incident.discoveryDate = this.incident.discoveryDate ? new Date(this.incident.discoveryDate).toLocaleTimeString("en-US", options) : 'Pending'
+          this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : 'Pending'
+          this.incident.lastUpdatedTimestamp = this.incident.lastUpdatedTimestamp ? new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options) : 'Pending'
           // check the contact info
           if (!this.incident.contactOrgUnitIdentifer) {
             this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {

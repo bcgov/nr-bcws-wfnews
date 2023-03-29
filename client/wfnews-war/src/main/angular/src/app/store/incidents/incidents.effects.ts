@@ -99,7 +99,7 @@ export class IncidentsEffect {
                     undefined,
                     undefined,
                     undefined,
-                    undefined,
+                    ['FIRE'],
                     fireOfNotePublishedInd[0],
                     undefined,
                     `${pageNumber}`,

@@ -38,7 +38,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
     }
 
     if ((this.attachment as any).primaryInd) {
-      this.removeFlags();
+      this.removeFlags(this.attachment.attachmentGuid);
       // safety catch
       (this.attachment as any).primaryInd = true
     }
@@ -86,8 +86,8 @@ export class ImageCardPanel implements OnInit, OnChanges {
     this.updateIncidentAttachment();
   }
 
-  removeFlags () {
-    this.removePrimaryFlags.emit()
+  removeFlags (guid: string) {
+    this.removePrimaryFlags.emit({ event: guid })
   }
 
   updateIncidentAttachment () {

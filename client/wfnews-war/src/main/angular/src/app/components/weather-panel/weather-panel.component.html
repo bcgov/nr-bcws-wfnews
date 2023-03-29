@@ -1,27 +1,30 @@
 <div class="smk-popup">
   <div class="popup-header">
-    <span>Current Weather ({{convertName(hourly.hour)}} PST)</span>
+    <span>Latest Weather Reading: {{convertName(hourly.hour)}} PST</span>
   </div>
   <div class="popup-title">{{stationData.stationName}}</div>
-  <div class="popup-attributes">
+  <div *ngIf="hourly && hourly.temp" class="popup-attributes">
     <div class="label">Temperature:</div>
     <div class="attribute">{{hourly.temp}}°</div>
   </div>
-  <div class="popup-attributes">
+  <div *ngIf="hourly && hourly.relativeHumidity" class="popup-attributes">
     <div class="label">Relative Humidity:</div>
     <div class="attribute">{{hourly.relativeHumidity}}%</div>
   </div>
-  <div class="popup-attributes">
+  <div *ngIf="hourly && hourly.windSpeed" class="popup-attributes">
     <div class="label">Wind Speed:</div>
     <div class="attribute">{{hourly.windSpeed}} km/h</div>
   </div>
-  <div class="popup-attributes">
+  <div *ngIf="hourly && hourly.windDirection" class="popup-attributes">
     <div class="label">Wind Direction:</div>
     <div class="attribute">{{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
   </div>
-  <div class="popup-attributes">
+  <div *ngIf="hourly && hourly.precipitation" class="popup-attributes">
     <div class="label">Precipitation:</div>
     <div class="attribute">{{hourly.precipitation}}mm</div>
+  </div>
+  <div *ngIf="!hourly || (!hourly.temp && !hourly.relativeHumidity && !hourly.windSpeed && !hourly.windDirection&& !hourly.precipitation)" class="popup-attributes">
+    No Information Available
   </div>
   <div class="popup-button-container">
     <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">Learn More</a>

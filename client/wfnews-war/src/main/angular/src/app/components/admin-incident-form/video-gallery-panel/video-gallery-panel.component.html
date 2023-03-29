@@ -4,6 +4,6 @@
       <button mat-button color="primary" class="primary-button" (click)="upload()">Add Video</button>
     </div>
     <div class="image-gallery">
-      <video-card-panel *ngFor="let video of externalUriList.collection" [video]="video" [incident]="incident" (loadPage)="loadPage()" (removePrimaryFlags)="removePrimaryFlags()"></video-card-panel>
+      <video-card-panel *ngFor="let video of externalUriList.collection" [video]="video" [incident]="incident" (loadPage)="loadPage()" (removePrimaryFlags)="removePrimaryFlags($event)"></video-card-panel>
     </div>
   </ng-container>
