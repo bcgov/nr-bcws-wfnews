@@ -11,7 +11,7 @@ env:
   
 on:
   release:
-    types: [published]
+    types: [prereleased]
     
 jobs:
 
