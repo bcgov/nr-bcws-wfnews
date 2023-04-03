@@ -76,7 +76,7 @@ export class IncidentsEffect {
                 return this.incidentListService.getWildfireIncidentList(
                     undefined,
                     searchText,
-                    [`${currentFireYear}`],
+                    [`${currentFireYear-1}`, `${currentFireYear}`],
                     undefined,
                     undefined,
                     undefined,
