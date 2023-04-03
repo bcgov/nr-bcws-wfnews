@@ -59,6 +59,9 @@
 		<result property="responseTypeDetail" column="RESPONSE_TYPE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
 	</resultMap>
 	
+	<sql id="distanceCalcSrid">3005</sql> <!-- NAD83 / BC Albers -->
+	<sql id="latLonSrid">4326</sql> <!-- WGS84 -->
+	
 	<insert id="insert">
 	<selectKey keyProperty="publishedIncidentDetailGuid" resultType="java.lang.String" order="BEFORE"> 
 			SELECT GEN_RANDOM_UUID();
@@ -313,10 +316,10 @@
 				</foreach>
 			</if>
 			<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
-				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+				AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, <include refid="latLonSrid"/>)
 			</if>
 			<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
-				AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+				AND ST_DWithin(ST_Transform(geometry, <include refid="distanceCalcSrid"/>), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), <include refid="latLonSrid"/>), <include refid="distanceCalcSrid"/>), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
 			</if>
 			<if test="newFires == true">  
 				AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
@@ -398,10 +401,10 @@
 				</foreach>
 			</if>
 		<if test="xmin != null &amp;&amp; ymin != null &amp;&amp; xmax != null &amp;&amp; ymax != null">
-			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)
+			AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, <include refid="latLonSrid"/>)
 		</if>
 		<if test="latitude != null &amp;&amp; longitude != null &amp;&amp; radius != null">
-			AND ST_DWithin(ST_Transform(geometry, 3857), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), 4326), 3857), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
+			AND ST_DWithin(ST_Transform(geometry, <include refid="distanceCalcSrid"/>), ST_Transform(ST_SetSRID(ST_MakePoint(#{longitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{latitude, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}), <include refid="latLonSrid"/>), <include refid="distanceCalcSrid"/>), #{radius, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN})
 		</if>
 		<if test="newFires == true">  
 			AND DISCOVERY_DATE BETWEEN NOW() - INTERVAL '24 HOURS' AND NOW()
@@ -451,7 +454,7 @@
 		<if test="stageOfControlCode != 'OUT'">
 		           AND fire_of_note_ind = 'N'
 		</if>
-		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
+		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, <include refid="latLonSrid"/>)) t
 		  ) features
 	</select>
 
@@ -465,7 +468,7 @@
 		          FROM (SELECT f.incident_number_label, f.incident_name, f.fire_year, f.geometry FROM wfnews.published_incident_detail AS f
 		         WHERE stage_of_control_code != 'OUT'
 		           AND fire_of_note_ind = 'Y'
-		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, 4326)) t
+		           AND geometry &amp;&amp; ST_MakeEnvelope (#{xmin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymin, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{xmax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, #{ymax, javaType=java.lang.Double, jdbcType=DOUBLE, mode=IN}, <include refid="latLonSrid"/>)) t
 		  ) features
 	</select>
 	
