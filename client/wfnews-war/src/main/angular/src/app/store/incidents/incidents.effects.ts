@@ -67,10 +67,16 @@ export class IncidentsEffect {
                 let fireCentreFilter = typedaction.payload.filters["selectedFireCentreCode"] ? typedaction.payload.filters["selectedFireCentreCode"] : savedFireCentreFilter;
                 let fireOfNotePublishedInd = typedaction.payload.filters["selectedFireOfNotePublishedInd"] ? typedaction.payload.filters["selectedFireOfNotePublishedInd"] : savedFireOfNotePublishedIndFilter;
 
+                const now = new Date()
+                let currentFireYear = now.getFullYear()
+                if (now.getMonth() < 3) {
+                  currentFireYear -= 1
+                }
+
                 return this.incidentListService.getWildfireIncidentList(
                     undefined,
                     searchText,
-                    [`2022`],
+                    [`${currentFireYear}`],
                     undefined,
                     undefined,
                     undefined,
