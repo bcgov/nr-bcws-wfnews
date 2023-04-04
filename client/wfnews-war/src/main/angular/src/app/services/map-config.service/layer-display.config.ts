@@ -85,6 +85,11 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
+            id: 'protected-lands-access-restrictions',
+            isVisible: false,
+            class: 'smk-inline-legend'
+        },
+        {
             id: 'drive-bc-active-events',
             isVisible: false
         },

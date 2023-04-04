@@ -73,3 +73,11 @@
   margin: auto;
   background-color: white;
 }
+
+:host ::ng-deep .mat-tab-header {
+  top: -1px;
+  z-index: 1000;
+  position: sticky;
+  position: -webkit-sticky; /* macOS/iOS Safari */
+  background-color: #f3f6f9;
+}
