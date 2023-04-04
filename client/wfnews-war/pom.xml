@@ -124,7 +124,6 @@
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>2.1.1</version>
 				<configuration>
 				  <failOnMissingWebXml>false</failOnMissingWebXml>
 					<packagingExcludes>WEB-INF/web.xml</packagingExcludes>
@@ -147,7 +146,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.9.1</version>
 				<executions>
 					<execution>
 						<id>attach-javadocs</id>
@@ -160,7 +158,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
-				<version>2.2.1</version>
 				<executions>
 					<execution>
 						<id>attach-sources</id>
@@ -173,7 +170,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.1</version>
 				<configuration>
 					<source>${java-source-version}</source>
 					<target>${java-target-version}</target>
@@ -182,7 +178,6 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.5</version>
 				<executions>
 					<execution>
 						<id>create-distribution</id>
@@ -199,7 +194,6 @@
             <plugin>
 				<groupId>com.github.eirslett</groupId>
 				<artifactId>frontend-maven-plugin</artifactId>
-				<version>1.6</version>
 				<configuration>
 					<nodeVersion>${node.version}</nodeVersion>
 					<npmVersion>${npm.version}</npmVersion>
