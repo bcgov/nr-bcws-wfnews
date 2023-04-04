@@ -20,6 +20,7 @@ import { AbmsRegionalDistrictsLayerConfig } from './abms-regional-districts.conf
 import { MapServices, MapServiceStatus } from '..';
 import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 import { AppConfigService } from '@wf1/core-ui';
+import { ProtectedLandsAccessRestrictionsLayerConfig } from './bc-parks-closures.config';
 
 export interface layerSettings {
     openmapsBaseUrl: string;
@@ -56,6 +57,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
     ...CLABIndianReservesLayerConfig( ls ),
     ...FntTreatyLandLayerConfig( ls ),
     ...AbmsMunicipalitiesLayerConfig( ls ),
-    ...AbmsRegionalDistrictsLayerConfig( ls )
+    ...AbmsRegionalDistrictsLayerConfig( ls ),
+    ...ProtectedLandsAccessRestrictionsLayerConfig( ls )
 	];
 }
