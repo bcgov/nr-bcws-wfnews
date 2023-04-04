@@ -75,7 +75,7 @@
 }
 
 :host ::ng-deep .mat-tab-header {
-  top: -1;
+  top: -1px;
   z-index: 1000;
   position: sticky;
   position: -webkit-sticky; /* macOS/iOS Safari */
