@@ -80,12 +80,12 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
-            id: 'closed-recreation-sites',
+            id: 'protected-lands-access-restrictions',
             isVisible: false,
             class: 'smk-inline-legend'
         },
         {
-            id: 'protected-lands-access-restrictions',
+            id: 'closed-recreation-sites',
             isVisible: false,
             class: 'smk-inline-legend'
         },
