@@ -81,8 +81,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         },
         {
             id: 'protected-lands-access-restrictions',
-            isVisible: false,
-            class: 'smk-inline-legend'
+            isVisible: false
         },
         {
             id: 'closed-recreation-sites',
