@@ -114,7 +114,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
     ServiceName = aws_ecs_service.wfnews_main.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_up[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_up.arn]
 
   tags = local.common_tags
 }
@@ -155,7 +155,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
     ServiceName = aws_ecs_service.wfnews_main.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_down[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_down.arn]
 
   tags = local.common_tags
 }
@@ -175,7 +175,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_low" {
     ServiceName = aws_ecs_service.apisix.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_down[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_down.arn]
 
   tags = local.common_tags
 }
@@ -267,7 +267,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
     ServiceName = aws_ecs_service.client[count.index].name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_client_up[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_client_up.arn]
 
   tags = local.common_tags
 }
