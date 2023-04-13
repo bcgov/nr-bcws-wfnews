@@ -169,7 +169,7 @@ resource "aws_iam_role_policy" "wfnews_task_execution_bucket_policy" {
 }
 
 resource "aws_iam_role_policy" "wfnews_sns_policy" {
-  name = "wfnews_sns_policy_${var.target_env}"
+  name   = "wfnews_sns_policy_${var.target_env}"
   role   = aws_iam_role.wfnews_app_container_role.id
   policy = <<-EOF
   {
@@ -195,7 +195,7 @@ resource "aws_iam_role_policy" "wfnews_sns_policy" {
 }
 
 resource "aws_iam_role_policy" "wfnews_task_execution_sns_policy" {
-  name = "wfnews_task_execution_sns_policy_${var.target_env}"
+  name   = "wfnews_task_execution_sns_policy_${var.target_env}"
   role   = aws_iam_role.wfnews_ecs_task_execution_role.id
   policy = <<-EOF
   {

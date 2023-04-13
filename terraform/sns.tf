@@ -3,14 +3,14 @@ resource "aws_sns_topic" "wfnews_sns_topic" {
 }
 
 resource "aws_sns_topic_subscription" "wfnews_sns_topic_subscription" {
-    for_each   = toset(split(",", var.sns_email_targets))
-    topic_arn = aws_sns_topic.wfnews_sns_topic.arn
-    protocol = "email"
-    endpoint = each.key
+  for_each  = toset(split(",", var.sns_email_targets))
+  topic_arn = aws_sns_topic.wfnews_sns_topic.arn
+  protocol  = "email"
+  endpoint  = each.key
 }
 
 resource "aws_sns_topic_policy" "wfnews_topic_policy" {
-  arn = aws_sns_topic.wfnews_sns_topic.arn
+  arn    = aws_sns_topic.wfnews_sns_topic.arn
   policy = data.aws_iam_policy_document.wfnews_topic_policy_document.json
 }
 
@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "wfnews_topic_policy_document" {
     effect = "Allow"
 
     principals {
-      type = "AWS"
+      type        = "AWS"
       identifiers = ["*"]
     }
 
