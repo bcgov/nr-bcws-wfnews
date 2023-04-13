@@ -182,7 +182,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_low" {
 
 resource "aws_appautoscaling_target" "wfnews_client_target" {
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
   max_capacity       = 6
@@ -192,7 +192,7 @@ resource "aws_appautoscaling_target" "wfnews_client_target" {
 resource "aws_appautoscaling_policy" "wfnews_client_up" {
   name               = "wfnews_client_scale_up"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client.name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -213,7 +213,7 @@ resource "aws_appautoscaling_policy" "wfnews_client_up" {
 resource "aws_appautoscaling_policy" "wfnews_client_down" {
   name               = "wfnews_client_scale_down"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client.name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -243,10 +243,10 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_low" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.client[count.index].name
+    ServiceName = aws_ecs_service.client.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_client_down[count.index].arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_client_down.arn]
 
   tags = local.common_tags
 }
@@ -264,7 +264,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.client[count.index].name
+    ServiceName = aws_ecs_service.client.name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_client_up.arn]
