@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "wfnews_main" {
 resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
     cluster_name = aws_ecs_cluster.wfnews_main.name
 
-    capacity_providers = ["FARGATE","FARGATE_SPOT"]
+  capacity_providers = ["FARGATE", "FARGATE_SPOT"]
 
     default_capacity_provider_strategy {
         base              = 1
@@ -19,7 +19,6 @@ resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_server" {
-  count                    = local.create_ecs_service
   family                   = "wfnews-server-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -45,7 +44,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
       ]
       environment = [
         {
-          name = "LOGGING_LEVEL"
+          name  = "LOGGING_LEVEL"
           value = "${var.logging_level}"
         },
         {
@@ -61,43 +60,43 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
         {
-          name = "WEBADE_OAUTH2_CLIENT_ID",
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
           value = var.WEBADE_OAUTH2_REST_CLIENT_ID
         },
         {
-          name = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
+          name  = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
           value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
         },
         {
-          name = "WEBADE-OAUTH2_TOKEN_URL",
+          name  = "WEBADE-OAUTH2_TOKEN_URL",
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
-          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
           value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
         {
-          name = "WFDM_REST_URL",
+          name  = "WFDM_REST_URL",
           value = var.WFDM_REST_URL
         },
         {
-          name = "WFIM_CLIENT_URL",
+          name  = "WFIM_CLIENT_URL",
           value = var.WFIM_CLIENT_URL
         },
         {
-          name = "WFIM_CODE_TABLES_URL",
+          name  = "WFIM_CODE_TABLES_URL",
           value = var.WFIM_CODE_TABLES_URL
         },
         {
-          name = "WEBADE-OAUTH2_CHECK_TOKEN_URL",
+          name  = "WEBADE-OAUTH2_CHECK_TOKEN_URL",
           value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
         },
         {
-          name = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
+          name  = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
           value = var.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED
         },
         {
-          name = "SMTP_HOST_NAME",
+          name  = "SMTP_HOST_NAME",
           value = var.SMTP_HOST_NAME
         },
         {
@@ -206,7 +205,6 @@ resource "aws_ecs_task_definition" "wfnews_server" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_client" {
-  count                    = local.create_ecs_service
   family                   = "wfnews-client-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -246,7 +244,9 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         { 
           #Base URL will use the UAT address only if the deploy is triggered by a github release with 'uat' in the name
           name = "BASE_URL",
-          value = "https://${length(regexall(".*uat.*", var.github_release_name)) == 0 ? aws_route53_record.wfnews_client.name : aws_route53_record.wfnews_client_uat.name}/"
+          value = (
+            var.target_env == "prod" ? "https://${var.gov_client_url}" : aws_route53_record.wfnews_client[0].name
+          )
         },
         {
           name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
@@ -272,9 +272,9 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           name = "ORG_UNIT_URL",
           value = ""
         },
-        {
+        {//Not needed in PROD, as DNS is handled by external service there
           name = "WFNEWS_API_URL",
-          value = "https://${aws_route53_record.wfnews_apisix.name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
           name = "WFNEWS_API_KEY",
@@ -553,7 +553,6 @@ resource "aws_ecs_task_definition" "wfnews_etcd" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix_gui" {
-  count                    = local.create_ecs_service
   family                   = "wfnews-apisix-gui-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -640,7 +639,6 @@ resource "aws_ecs_service" "wfnews_liquibase" {
 
 
 resource "aws_ecs_service" "wfnews_main" {
-  count                             = local.create_ecs_service
   name                              = "wfnews-server-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_server[count.index].arn
@@ -680,7 +678,6 @@ resource "aws_ecs_service" "wfnews_main" {
 }
 
 resource "aws_ecs_service" "client" {
-  count                             = local.create_ecs_service
   name                              = "wfnews-client-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn

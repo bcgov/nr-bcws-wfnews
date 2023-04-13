@@ -27,19 +27,19 @@ resource "aws_security_group" "wfnews_ecs_tasks" {
 
   #necessary to pull image from ghcr
   ingress {
-    protocol = "tcp"
-    from_port = 443
-    to_port = 443
+    protocol        = "tcp"
+    from_port       = 443
+    to_port         = 443
     security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
     #cidr_blocks = ["0.0.0.0/0"]
   }
-    
+
   #necessary for postgres dev work
   #TODO: REMOVE  THIS
   ingress {
-    protocol = "tcp"
-    from_port = 0
-    to_port = 5432
+    protocol        = "tcp"
+    from_port       = 0
+    to_port         = 5432
     security_groups = [data.aws_security_group.web.id, data.aws_security_group.app.id]
   }
 
