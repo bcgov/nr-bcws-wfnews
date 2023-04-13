@@ -274,7 +274,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {//Not needed in PROD, as DNS is handled by external service there
           name = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix[0].name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
           name = "WFNEWS_API_KEY",
@@ -383,7 +383,6 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix" {
-  count                    = 1
   family                   = "wfnews-apisix-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
@@ -680,7 +679,7 @@ resource "aws_ecs_service" "wfnews_main" {
 resource "aws_ecs_service" "client" {
   name                              = "wfnews-client-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_client[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_client.arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -719,7 +718,7 @@ resource "aws_ecs_service" "client" {
 resource "aws_ecs_service" "apisix" {
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_apisix[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_apisix.arn
   desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
