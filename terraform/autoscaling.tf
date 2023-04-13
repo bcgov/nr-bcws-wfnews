@@ -2,7 +2,7 @@
 
 resource "aws_appautoscaling_target" "wfnews_target" {
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
   max_capacity       = 6
@@ -61,7 +61,7 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_up" {
 resource "aws_appautoscaling_policy" "wfnews_down" {
   name               = "wfnews_scale_down"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main[count.index].name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main.name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -111,7 +111,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.wfnews_main[count.index].name
+    ServiceName = aws_ecs_service.wfnews_main.name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_up[count.index].arn]
@@ -152,7 +152,7 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.wfnews_main[count.index].name
+    ServiceName = aws_ecs_service.wfnews_main.name
   }
 
   alarm_actions = [aws_appautoscaling_policy.wfnews_down[count.index].arn]
