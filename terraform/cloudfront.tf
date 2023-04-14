@@ -336,7 +336,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     }
 
     domain_name = "wfnews-client.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_client_${var.target_env}"
+    origin_id   = "wfnews_client_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
