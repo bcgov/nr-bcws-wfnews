@@ -367,7 +367,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_${var.target_env}"
+    target_origin_id = "wfnews_client_gov_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -389,7 +389,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_client_${var.target_env}"
+    target_origin_id = "wfnews_client_gov_${var.target_env}"
 
     forwarded_values {
       query_string = false
@@ -412,6 +412,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       restriction_type = "whitelist"
       locations = [
         "CA",
+        "US",
         "AR"
       ]
     }
@@ -442,7 +443,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     }
 
     domain_name = "${var.apisix_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_${var.target_env}"
+    origin_id   = "wfnews_apisix_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
@@ -473,7 +474,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_apisix_gov_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -495,7 +496,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_apisix_gov_${var.target_env}"
 
     forwarded_values {
       query_string = false
@@ -518,6 +519,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
       restriction_type = "whitelist"
       locations = [
         "CA",
+        "US",
         "AR"
       ]
     }
@@ -526,7 +528,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
   tags = local.common_tags
 
   viewer_certificate {
-    acm_certificate_arn = var.gov_certificate_arn
+    acm_certificate_arn = var.gov_api_certificate_arn
     ssl_support_method  = "sni-only"
   }
 }
