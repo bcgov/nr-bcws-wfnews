@@ -15,8 +15,8 @@ resource "aws_route53_record" "wfnews_server" {
 }
 
 resource "aws_route53_record" "wfnews_client" {
-  //Not needed in PROD, as DNS is handled by external service there
-  count = var.target_env == "prod" ? 0 : 1
+  //We will eventually phase out old URLs, but use them for now
+  //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
   name    = "wfnews-client.${var.target_env}.bcwildfireservices.com"
@@ -29,8 +29,8 @@ resource "aws_route53_record" "wfnews_client" {
 }
 
 resource "aws_route53_record" "wfnews_client_uat" {
-  //Not needed in PROD
-  count = var.target_env == "prod" ? 0 : 1
+  //We will eventually phase out old URLs, but use them for now
+  //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
   name    = "wfnews-client-uat-2022.${var.target_env}.bcwildfireservices.com"
@@ -43,8 +43,8 @@ resource "aws_route53_record" "wfnews_client_uat" {
 }
 
 resource "aws_route53_record" "wfnews_apisix" {
-  //Not needed in PROD, as DNS is handled by external service there
-  count = var.target_env == "prod" ? 0 : 1
+  //We will eventually phase out old URLs, but use them for now
+  //count = var.target_env == "prod" ? 0 : 1
 
   zone_id = data.aws_route53_zone.zone.id
   name    = "wfnews-api.${var.target_env}.bcwildfireservices.com"

@@ -244,9 +244,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         { 
           #Base URL will use the UAT address only if the deploy is triggered by a github release with 'uat' in the name
           name = "BASE_URL",
-          value = (
-            var.target_env == "prod" ? "https://${var.gov_client_url}" : aws_route53_record.wfnews_client[0].name
-          )
+          value = var.target_env == "prod" ? var.gov_client_url : aws_route53_record.wfnews_client.name
         },
         {
           name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
@@ -272,9 +270,9 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           name = "ORG_UNIT_URL",
           value = ""
         },
-        {//Not needed in PROD, as DNS is handled by external service there
+        {//Will be phased out from prod eventually, but not yet
           name = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix[0].name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
           name = "WFNEWS_API_KEY",
