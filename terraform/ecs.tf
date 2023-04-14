@@ -272,7 +272,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {//Will be phased out from prod eventually, but not yet
           name = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}" : "https://${aws_route53_record.wfnews_apisix.name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
           name = "WFNEWS_API_KEY",
