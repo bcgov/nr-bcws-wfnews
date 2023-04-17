@@ -90,8 +90,8 @@ export class WFStatsComponent implements OnInit {
     const outIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, false, true).toPromise()
     const outFoNIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, true).toPromise()
 
-    this.outFires = outIncidents.collection.concat(outFoNIncidents.collection)
-    this.fires = activeIncidents.collection.concat(activeFoNIncidents.collection)
+    this.outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT').concat(outFoNIncidents.collection.filter(f => f.stageOfControlCode === 'OUT'))
+    this.fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
 
     this.firesLast24 = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 86400000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 86400000).length)
     this.firesLast7Days = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 604800000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 604800000).length)
@@ -110,6 +110,9 @@ export class WFStatsComponent implements OnInit {
         this.fireValidator(fire)
       }
 
+      let fireYear = new Date().getFullYear()
+      if (new Date().getMonth() < 3) fireYear -= 1
+
       for (const centre of FIRE_CENTRES) {
         const fireCount = this.fires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name)).length
         const outFireCount = this.outFires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name)).length
@@ -126,7 +129,7 @@ export class WFStatsComponent implements OnInit {
           lightningStarts: activeIncidents.collection.filter(f => (f.fireCentreName && f.fireCentreName.includes(centre.name)) && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 2).length,
           humanStarts: activeIncidents.collection.filter(f => (f.fireCentreName && f.fireCentreName.includes(centre.name)) && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length + outIncidents.collection.filter(f => f.fireCentreCode === centre.id && f.discoveryDate > Date.now() - 86400000 && f.generalIncidentCauseCatId === 1).length,
           totalFires: fireCount + outFireCount,
-          areaBurned: activeIncidents.collection && activeIncidents.collection.length > 0 ? activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa).reduce((p, n) => p + n) : 0
+          areaBurned: activeIncidents.collection && activeIncidents.collection.length > 0 ? activeIncidents.collection.map(f => f.fireCentreCode === centre.id && f.incidentSizeEstimatedHa && f.fireYear === fireYear).reduce((p, n) => p + n) : 0
         })
       }
 
