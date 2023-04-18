@@ -114,7 +114,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         this.mapEventDebounce = null;
       }
       this.mapEventDebounce = setTimeout(() => {
-        this.doSearch();
+        if (this.tabIndex === 1) {
+          this.doSearch();
+        }
       }, 500);
     }
   }
