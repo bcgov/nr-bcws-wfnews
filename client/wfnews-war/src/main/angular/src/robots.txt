@@ -9,6 +9,6 @@ Disallow: /admin
 Disallow: /incident
 
 User-agent: *
-Allow: /activeWildfireMap
+Allow: /map
 Allow: /currentStatistics
 Allow: /resources
