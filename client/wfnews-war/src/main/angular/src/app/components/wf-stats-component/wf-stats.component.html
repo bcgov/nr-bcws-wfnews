@@ -20,7 +20,7 @@
       <div class="resource-panel">
         <div class="title">Wildfire Cause Summary</div>
         <div class="summary-data">
-          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name === 'Unknown' ? ('Fires with Unknown Causes') : ('Fires Caused By ' + data.name)}}</div></div>
+          <div *ngFor="let data of activeFiresByCause" class="summary-data-row"><div class="summary-data-cell">{{data.value}}</div><div class="summary-data-label">{{data.name === 'Unknown' ? ('Fires with Unknown Causes') : ('Fires Caused by ' + data.name)}}</div></div>
         </div>
       </div>
       <div class="resource-panel">
