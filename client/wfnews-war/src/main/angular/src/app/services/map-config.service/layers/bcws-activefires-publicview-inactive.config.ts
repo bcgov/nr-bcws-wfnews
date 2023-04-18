@@ -9,7 +9,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           isQueryable: true,
           useClustering: true,
           useHeatmap: false,
-          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT&cachBust=" + Math.floor(new Date().getTime() / 600000),
+          dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT",
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
           attributes: [
