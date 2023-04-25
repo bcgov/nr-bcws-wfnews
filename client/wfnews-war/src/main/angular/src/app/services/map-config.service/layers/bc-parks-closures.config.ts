@@ -9,6 +9,7 @@ export function ProtectedLandsAccessRestrictionsLayerConfig(res: layerSettings) 
       serviceUrl: res.openmapsBaseUrl,
       layerName: "pub:WHSE_PARKS.PA_PRTCTD_LND_RSTRCTNS_SV",
       styleName: "",
+      opacity: 0.65,
       titleAttribute: "PROTECTED_LANDS_NAME",
       attributes: [
         {

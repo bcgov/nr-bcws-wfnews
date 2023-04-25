@@ -302,6 +302,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
     this.activeFireCountPromise = this.publishedIncidentService.getActiveFireCount()
       .then((resp: any) => {
+        debugger
         return resp || 0
       }).catch((e) => {
         console.error('COUNTSTATS-FAIL');
