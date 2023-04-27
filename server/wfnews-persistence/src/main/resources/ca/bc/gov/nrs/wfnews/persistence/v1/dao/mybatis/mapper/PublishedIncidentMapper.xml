@@ -337,7 +337,7 @@
 				AND fire_centre_name = #{fireCentreName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
 			</if>
 			<if test="fromCreateDate != null">
-				AND CREATE_DATE &gt;= #{fromCreateDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN}
+				AND NEWS_CREATED_TIMESTAMP &gt;= #{fromCreateDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN}
 			</if>
 			<if test="toCreateDate != null">
 				AND CREATE_DATE &lt;= #{toCreateDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN}
