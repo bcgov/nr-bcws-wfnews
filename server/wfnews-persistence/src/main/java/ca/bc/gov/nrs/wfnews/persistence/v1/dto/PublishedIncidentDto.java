@@ -113,6 +113,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.fireYear = dto.fireYear;
 		this.responseTypeCode = dto.responseTypeCode;
 		this.responseTypeDetail = dto.responseTypeDetail;
+		this.createDate = dto.createDate;
+		this.updateDate = dto.updateDate;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -163,6 +165,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.fireYear = incident.getFireYear();
 		this.responseTypeCode = incident.getResponseTypeCode();
 		this.responseTypeDetail = incident.getResponseTypeDetail();
+		this.createDate = incident.getCreateDate();
+		this.updateDate = incident.getUpdateDate();
 	}
 	
 	
@@ -238,6 +242,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("fireYear", fireYear, other.fireYear);
 			result = result && equals("responseTypeCode", responseTypeCode, other.responseTypeCode);
 			result = result && equals("responseTypeDetail", responseTypeDetail, other.responseTypeDetail);
+			result = result && equals("createDate", createDate, other.createDate);
+			result = result && equals("updateDate", updateDate, other.updateDate);
 		}
 
 		return result;
@@ -624,4 +630,5 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	public void setResponseTypeDetail(String responseTypeDetail) {
 		this.responseTypeDetail = responseTypeDetail;
 	}
+	
 }
