@@ -57,6 +57,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   placeData: PlaceData;
   searchByLocationControl = new FormControl();
   filteredOptions: any[];
+  options: string[];
   SMK: any;
   leafletInstance: any;
   searchLocationsLayerGroup: any;
@@ -91,14 +92,45 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2) {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
-
+        let address = null;
         this.placeData.searchAddresses(val).then(function (results) {
+          
+          
           if (results) {
             results.forEach((result) => {
-              let address = self.getFullAddress(result);
+              address = self.getFullAddress(result);
               result.address = address.trim();
               self.highlight(result);
+              if (address === val || address.includes(val)){
+                console.log("---------------------------------------");
+                console.log("Address : " + address)
+                var index = results.indexOf(result);
+                if (index !== -1) {
+                  results.splice(index, 1);
+                }
+
+                  for (var indexy in results){
+                    console.log("Array before shift " + self.getFullAddress(results[indexy]));
+                  
+                  }
+                  console.log("Shifting result: " + self.getFullAddress(result))
+                  let resultToBeUnshifted = result;
+                
+                  results.unshift(resultToBeUnshifted);
+                  for (var indexi in results){
+                    console.log("Array after shift " + self.getFullAddress(results[indexi]));
+                  
+                  }
+
+                  console.log("---------------------------------------");
+             
+
+               }
+              
             });
+
+            
+            
 
             self.filteredOptions = results;
           }
@@ -106,6 +138,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
 
   ngAfterViewInit() {
     this.locationOptions.changes.subscribe(() => {
