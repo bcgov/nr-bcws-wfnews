@@ -151,11 +151,6 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
         order: 5
     },
     {
-        type: "current-location",
-        enabled: true,
-        order: 4
-    },
-    {
         type: 'search',
         enabled: false
     },
