@@ -11,6 +11,10 @@
     }
 }
 
+::ng-deep .smk-map-frame .smk-overlay .smk-status {
+  bottom: 50px !important;
+}
+
 ::ng-deep .smk-map-frame {
     &.smk-theme-wf .smk-actionbar {
         padding: 5px 0;
