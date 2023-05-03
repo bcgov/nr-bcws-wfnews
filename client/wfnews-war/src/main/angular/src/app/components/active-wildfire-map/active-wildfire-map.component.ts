@@ -57,7 +57,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   placeData: PlaceData;
   searchByLocationControl = new FormControl();
   filteredOptions: any[];
-  options: string[];
   SMK: any;
   leafletInstance: any;
   searchLocationsLayerGroup: any;
