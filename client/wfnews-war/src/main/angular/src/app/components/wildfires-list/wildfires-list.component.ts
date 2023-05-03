@@ -81,20 +81,38 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
           return;
       }
 
-      if(val.length > 2) {
-          this.filteredOptions= [];
+      if (val.length > 2) {
+        this.filteredOptions = [];
+        let address = null;
+        let trimmedAddress = null;
+        let valueLength = null;
+        let valueMatch = null;
+        this.placeData.searchAddresses(val).then(function (results) {
 
-          this.placeData.searchAddresses(val).then(function(results){
-              if(results) {
+          if (results) {
+            results.forEach((result) => {
+              address = self.getFullAddress(result);
+              result.address = address.trim();
+              trimmedAddress = result.address;
+              valueLength = val.length;
+              if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
 
-                  results.forEach((result) => {
-                      let address = self.getFullAddress(result);
-                      result.address = address.trim();
-                  });
+              if (address != null && valueLength != null && valueMatch != null &&
+                (val.toUpperCase() === address.toUpperCase() || val.toUpperCase() === valueMatch.toUpperCase())) {
+                  var index = results.indexOf(result);
+                  if (index !== -1) {
+                    results.splice(index, 1);
+                  }
 
-                  self.filteredOptions = results;
+                  let resultToBeUnshifted = result;
+
+                  results.unshift(resultToBeUnshifted);
               }
-          });
+
+            });
+            self.filteredOptions = results;
+          }
+        });
       }
     });
 

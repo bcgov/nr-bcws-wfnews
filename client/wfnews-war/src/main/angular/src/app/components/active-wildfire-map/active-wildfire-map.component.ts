@@ -93,45 +93,33 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
         let address = null;
+        let trimmedAddress = null;
+        let valueLength = null;
+        let valueMatch = null;
         this.placeData.searchAddresses(val).then(function (results) {
-          
-          
+
           if (results) {
             results.forEach((result) => {
               address = self.getFullAddress(result);
               result.address = address.trim();
               self.highlight(result);
-              if (address === val || address.includes(val)){
-                console.log("---------------------------------------");
-                console.log("Address : " + address)
-                var index = results.indexOf(result);
-                if (index !== -1) {
-                  results.splice(index, 1);
-                }
+              trimmedAddress = result.address;
+              valueLength = val.length;
+              if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
 
-                  for (var indexy in results){
-                    console.log("Array before shift " + self.getFullAddress(results[indexy]));
-                  
+              if (address != null && valueLength != null && valueMatch != null &&
+                (val.toUpperCase() === address.toUpperCase() || val.toUpperCase() === valueMatch.toUpperCase())) {
+                  var index = results.indexOf(result);
+                  if (index !== -1) {
+                    results.splice(index, 1);
                   }
-                  console.log("Shifting result: " + self.getFullAddress(result))
+
                   let resultToBeUnshifted = result;
-                
+
                   results.unshift(resultToBeUnshifted);
-                  for (var indexi in results){
-                    console.log("Array after shift " + self.getFullAddress(results[indexi]));
-                  
-                  }
+              }
 
-                  console.log("---------------------------------------");
-             
-
-               }
-              
             });
-
-            
-            
-
             self.filteredOptions = results;
           }
         });
@@ -315,7 +303,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url, {
       action: 'location_search',
       text: selectedOption.address
-  })
+    })
     const self = this;
     self.searchLayerGroup.clearLayers();
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
@@ -512,11 +500,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
   }
 
-  openLink(link:string) {
+  openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
     }
-    else if  (link === 'Privacy') {
+    else if (link === 'Privacy') {
       window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
     }
     else if (link === 'Copyright') {
