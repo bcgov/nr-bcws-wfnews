@@ -57,7 +57,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
     this.router.queryParams.subscribe((params: ParamMap) => {
       if(params['preview'])
-        this.showWarning =  (this.evacOrders.length > 0 || this.areaRestrictions.length > 0);
+        this.showWarning =  true
     });
 
     this.fetchPrimaryImage()
