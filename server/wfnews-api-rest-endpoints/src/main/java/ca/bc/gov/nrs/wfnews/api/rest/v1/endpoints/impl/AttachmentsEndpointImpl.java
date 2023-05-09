@@ -21,6 +21,7 @@ import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
+import kong.unirest.MimeTypes;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
@@ -245,18 +246,21 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 						.key(key)
 						.build();
 
-				byte[] content;
-
 				final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
-				content = IoUtils.toByteArray(s3Object);
-				s3Object.close();
-				response = Response.status(200)
-						.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-						.header("Cache-Control", "no-cache")
-						.header("Content-Length", content.length)
-						.entity(content)
-						.build();
+				try {
+					String extension = result.getMimeType() != null ? "." + result.getMimeType().split("/")[1] : "";
+					response = Response.status(200)
+							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
+							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + extension + "\"")
+							.header("Cache-Control", "no-cache")
+							//.header("Content-Length", content.length)
+							.entity(s3Object)
+							.build();
+				} catch (Exception e) {
+					throw e;
+				} finally {
+					s3Object.close();
+				}
 			} else {
 				response = Response.status(404).build();
 			}
