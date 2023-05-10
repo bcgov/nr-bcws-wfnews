@@ -87,10 +87,9 @@ export class WFStatsComponent implements OnInit {
 
     const activeIncidents = await this.publishedIncidentService.fetchPublishedIncidents().toPromise()
     const activeFoNIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise()
-    const outIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, false, true).toPromise()
-    const outFoNIncidents = await this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, true).toPromise()
+    const outIncidents = await this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise()
 
-    this.outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT').concat(outFoNIncidents.collection.filter(f => f.stageOfControlCode === 'OUT'))
+    this.outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
     this.fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
 
     this.firesLast24 = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 86400000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 86400000).length)
