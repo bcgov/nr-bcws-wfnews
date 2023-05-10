@@ -270,6 +270,21 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "01_00_00_06",
+        "author": "lli",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/06/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+            }
+          }
+        ]
+      }
     }
   ]
 }
