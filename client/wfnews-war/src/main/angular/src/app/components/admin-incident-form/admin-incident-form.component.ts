@@ -28,7 +28,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   public Editor = Editor;
 
-  // TODO: Remove the default values here.
+  public publishDisabled = false;
 
   public incident = {
     fireNumber: 0,
@@ -247,6 +247,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   publishChanges () {
+    this.publishDisabled = true;
+    this.cdr.detectChanges();
     const self = this;
     let dialogRef = this.dialog.open(PublishDialogComponent, {
       width: '350px',
@@ -294,10 +296,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           }).finally(() => {
             self.loaded = false;
+            self.publishDisabled = false;
             this.cdr.detectChanges();
           }).catch(err => {
             this.snackbarService.open('Failed to Publish Incident: ' + JSON.stringify(err.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
           })
+      } else {
+        this.publishDisabled = false;
+        this.cdr.detectChanges();
       }
     });
   }
