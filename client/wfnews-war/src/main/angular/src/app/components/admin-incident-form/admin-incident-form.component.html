@@ -11,7 +11,7 @@
     </div>
     <div class="button-holder">
       <button class="preview-btn" mat-button (click)="onShowPreview()">Show Preview</button>
-      <button [disabled]="validFormCheck()" class="publish-btn" mat-button color="primary" (click)="publishChanges()">Publish Changes</button>
+      <button id="publish-btn" [disabled]="validFormCheck() || publishDisabled" class="publish-btn" mat-button color="primary" (click)="publishChanges()">Publish Changes</button>
     </div>
   </div>
 </div>
