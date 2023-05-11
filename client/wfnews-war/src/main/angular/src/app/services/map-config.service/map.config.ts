@@ -132,11 +132,29 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
 				timeDimensionOptions: {
 				}
 			},
-            {
-                type: 'search',
-                enabled: false
-            },
-        ],
+      {
+        type: "scale",
+        enabled: 'desktop',
+        showZoom: true,
+        order: 2
+    },
+    {
+        type: "coordinate",
+        enabled: 'desktop',
+        order: 3,
+        format: 'DDM'
+    },
+    {
+        type: "measure",
+        enabled: 'desktop',
+        unit: 'kilometers',
+        order: 5
+    },
+    {
+        type: 'search',
+        enabled: false
+    },
+],
         layers: LayerConfig(mapServices, serviceStatus, appConfigService)
     };
 }
