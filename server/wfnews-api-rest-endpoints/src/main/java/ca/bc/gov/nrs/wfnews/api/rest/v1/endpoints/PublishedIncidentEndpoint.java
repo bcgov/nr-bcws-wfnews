@@ -73,6 +73,7 @@ public interface PublishedIncidentEndpoint extends BaseEndpoints {
 					@ResponseHeader(name = "ETag", response = String.class, description = "The ETag response-header field provides the current value of the entity tag for the requested variant."),
 					@ResponseHeader(name = "Location", response = String.class, description = "The Location response-header field is used to redirect the recipient to a location other than the Request-URI for completion of the request or identification of a new resource.") }),
 			@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
+			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class) })
 	@PUT
@@ -98,6 +99,7 @@ public interface PublishedIncidentEndpoint extends BaseEndpoints {
 					@ResponseHeader(name = "ETag", response = String.class, description = "The ETag response-header field provides the current value of the entity tag for the requested variant."),
 					@ResponseHeader(name = "Location", response = String.class, description = "The Location response-header field is used to redirect the recipient to a location other than the Request-URI for completion of the request or identification of a new resource.") }),
 			@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
+			@ApiResponse(code = 404, message = "Not Found"),
 			@ApiResponse(code = 403, message = "Forbidden"),
 			@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class) })
 	@DELETE
@@ -121,6 +123,7 @@ public interface PublishedIncidentEndpoint extends BaseEndpoints {
 						@ResponseHeader(name = "Location", response = String.class, description = "The Location response-header field is used to redirect the recipient to a location other than the Request-URI for completion of the request or identification of a new resource.") }),
 				@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
 				@ApiResponse(code = 403, message = "Forbidden"),
+				@ApiResponse(code = 404, message = "Not Found"),
 				@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class) })
 		@DELETE
 		@Path("/flush")

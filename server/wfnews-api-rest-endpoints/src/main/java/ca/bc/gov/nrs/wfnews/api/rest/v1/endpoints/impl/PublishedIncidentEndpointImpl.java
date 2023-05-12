@@ -94,6 +94,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 
 		} catch (DaoException | ValidationException e) {
 			throw new ServiceException(e.getMessage(), e);
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
@@ -129,6 +131,8 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 
 		} catch (DaoException | ValidationException e) {
 			throw new ServiceException(e.getMessage(), e);
+		} catch (NotFoundException e) {
+			response = Response.status(Status.NOT_FOUND).build();
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
 		}
