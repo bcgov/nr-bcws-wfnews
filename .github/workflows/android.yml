@@ -51,12 +51,13 @@ jobs:
         run: chmod +x ./gradlew
 
       - uses: sparkfabrik/android-build-action@v1.4.0
+        name: Build APK
         if: inputs.PRODUCTION_RELEASE == false
         with:
           build-type: "assemble"
           gradle-task: "assembleDebug"
           increment-build-number: false
-          # package-name: "com.example.app"
+          # package-name: "com.wfnews.app"
           # keystore-content: "keystore file content as base64 encoded string"
           # keystore-password: "keystore password"
           # key-alias: "keystore alias"
@@ -67,15 +68,46 @@ jobs:
           browserstack-upload: false
           # browserstack-username: ""
           # browserstack-access-key: ""
-          fastlane-env: "debug"
-          ruby-version: "head"
-          bundler-version: "2.3"
+          # fastlane-env: ""
+          # ruby-version: "head"
+          # bundler-version: "2.3"
           release-track: "internal"
-          release-status: "draft"
+          # release-status: "draft"
+
+      - uses: sparkfabrik/android-build-action@v1.4.0
+        name: Build AAB and upload to Play Store
+        if: inputs.PRODUCTION_RELEASE == true
+        with:
+          build-type: "bundle"
+          gradle-task: "bundleRelease"
+          increment-build-number: true
+          # package-name: "com.wfnews.app"
+          # keystore-content: "keystore file content as base64 encoded string"
+          # keystore-password: "keystore password"
+          # key-alias: "keystore alias"
+          json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+          upload-to-play-store: true
+          project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
+          output-path: wfnews-release-${{ github.sha }}.aab
+          browserstack-upload: false
+          # browserstack-username: ""
+          # browserstack-access-key: ""
+          # fastlane-env: ""
+          # ruby-version: "head"
+          # bundler-version: "2.3"
+          release-track: "production"
+          # release-status: "draft"
 
       - uses: actions/upload-artifact@v3
+        name: Upload APK to GitHub
         if: inputs.PRODUCTION_RELEASE == false
         with:
           name: wfnews-dev-${{ github.sha }}.apk
           path: '${{ env.ANGULAR_DIRECTORY }}/android/wfnews-dev-${{ github.sha }}.apk'
   
+      - uses: actions/upload-artifact@v3
+        name: Upload AAB to GitHub
+        if: inputs.PRODUCTION_RELEASE == true
+        with:
+          name: wfnews-release-${{ github.sha }}.aab
+          path: '${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ github.sha }}.aab'
