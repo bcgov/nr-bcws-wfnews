@@ -1,5 +1,5 @@
 import { NumberFormatStyle } from "@angular/common";
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CapacitorService, CompassHeading } from "./capacitor-service";
 
@@ -46,40 +46,94 @@ export class CommonUtilityService {
     }
 
     getCurrentLocation(callback?: (p: Position) => void) {
-        
-        if (navigator && navigator.geolocation) {
-            return navigator.geolocation.getCurrentPosition((position) => {
-                this.myLocation = position ? position.coords : undefined;
-                if (callback) {
-                    callback(position);
+        if (this.capacitorService.isMobilePlatform()) {
+            if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
+                if (navigator && navigator.geolocation) {
+                    return navigator.geolocation.getCurrentPosition((position) => {
+                        this.myLocation = position ? position.coords : undefined;
+                        if (callback) {
+                            callback(position);
+                        }
+                        return position ? position.coords : undefined;
+                    }, error => {
+                        this.snackbarService.open('Unable to retrieve the current location.', '', {
+                            duration: 5,
+                            panelClass: 'snack-bar-warning'
+                        });
+                    },
+                        { enableHighAccuracy: true }
+                    );
                 }
-                return position ? position.coords : undefined;
-            }, error => {
-                this.snackbarService.open('Unable to retrieve the current location.', '', {
-                    duration: 5,
-                });
-            },
-                { enableHighAccuracy: true }
-            );
-        }
-        else {
-            console.warn('Unable to access geolocation');
-            this.snackbarService.open('Unable to access location services.', '', {
-                duration: 5,
-            });
-        }
+                else {
+                    console.error('Unable to retrieve the current location.');
+                    this.snackbarService.open('Unable to retrieve the current location.', '', {
+                        duration: 5,
+                        panelClass: 'snack-bar-warning'
+                    });
+                }
+            }
+        } else {       
+                if (navigator && navigator.geolocation) {
+                    return navigator.geolocation.getCurrentPosition((position) => {
+                        this.myLocation = position ? position.coords : undefined;
+                        if (callback) {
+                            callback(position);
+                        }
+                        return position ? position.coords : undefined;
+                    }, error => {
+                        this.snackbarService.open('Unable to retrieve the current location.', '', {
+                            duration: 5,
+                        });
+                    },
+                        { enableHighAccuracy: true }
+                    );
+                }
+                else {
+                    console.warn('Unable to access geolocation');
+                    this.snackbarService.open('Unable to access location services.', '', {
+                        duration: 5,
+                    });
+                }
+            }
     }
 
     preloadGeolocation() {
-        navigator.geolocation.getCurrentPosition((position) => {
-            this.myLocation = position.coords;
-        }, error => {
-            this.snackbarService.open('Unable to retrieve the current location','Cancel', {
-                duration: 5000
-            })
-            },
-            { enableHighAccuracy: true }
-        );
+        if (this.capacitorService.isMobilePlatform()) {
+            //console.log('preloadGeolocation - 2a');
+            if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
+                navigator.geolocation.getCurrentPosition((position) => {
+                    this.myLocation = position.coords;
+                }, error => {
+                    console.error('Failed to preload my location');
+                },
+                    { enableHighAccuracy: true }
+                );
+            }
+            else {
+                this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
+                    .then((position) => {
+                        //console.log('preloadGeolocation - 2b retrieved currPosition: ', position);
+                        this.myLocation = position.coords;
+                    },
+                        (error) => {
+                            console.error('Failed to preload my location');
+                        });
+            }
+
+
+        }
+        else {
+
+            navigator.geolocation.getCurrentPosition((position) => {
+                this.myLocation = position.coords;
+            }, error => {
+                this.snackbarService.open('Unable to retrieve the current location','Cancel', {
+                    duration: 5000
+                })
+                },
+                { enableHighAccuracy: true }
+            );
+        }
     }
 
 }
