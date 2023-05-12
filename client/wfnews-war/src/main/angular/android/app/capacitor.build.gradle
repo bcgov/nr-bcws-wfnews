@@ -9,7 +9,17 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
-
+    implementation project(':capacitor-community-fcm')
+    implementation project(':capacitor-app')
+    implementation project(':capacitor-app-launcher')
+    implementation project(':capacitor-browser')
+    implementation project(':capacitor-camera')
+    implementation project(':capacitor-device')
+    implementation project(':capacitor-dialog')
+    implementation project(':capacitor-geolocation')
+    implementation project(':capacitor-network')
+    implementation project(':capacitor-push-notifications')
+    implementation project(':capacitor-splash-screen')
 
 }
 
