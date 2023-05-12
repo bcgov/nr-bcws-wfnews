@@ -1,6 +1,7 @@
 import { NumberFormatStyle } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { CapacitorService, CompassHeading } from "./capacitor-service";
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -26,7 +27,8 @@ export class CommonUtilityService {
     private location;
 
     constructor (
-        protected snackbarService : MatSnackBar
+        protected snackbarService : MatSnackBar,
+        protected capacitorService: CapacitorService
      ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
@@ -44,6 +46,7 @@ export class CommonUtilityService {
     }
 
     getCurrentLocation(callback?: (p: Position) => void) {
+        
         if (navigator && navigator.geolocation) {
             return navigator.geolocation.getCurrentPosition((position) => {
                 this.myLocation = position ? position.coords : undefined;
