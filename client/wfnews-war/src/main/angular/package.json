@@ -61,6 +61,7 @@
     "@wf1/orgunit-rest-api": "^2.0.2",
     "@wf1/wfcc-application-ui": "^1.1.0-SNAPSHOT",
     "@wf1/wfdm-document-management-api": "^1.2.0-SNAPSHOT",
+    "android-post-notification-permission": "^0.0.7",
     "angular-oauth2-oidc": "4.0.2",
     "angular2-uuid": "1.1.1",
     "assert": "2.0.0",
