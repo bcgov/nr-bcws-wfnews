@@ -1,0 +1,74 @@
+name: Build iOS
+
+env:
+  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  NPMRC: ${{ secrets.NPMRC }}
+
+# Controls when the workflow will run
+on: 
+  workflow_call:
+    inputs:
+      PRODUCTION_RELEASE:
+        required: true
+        type: boolean
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  build:
+    env:
+      ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      
+      - name: Add .npmrc file
+        run: echo -e $NPMRC > ~/.npmrc
+          
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install Ionic
+        run: npm install -g @ionic/cli
+
+      - name: Install app dependencies
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: npm ci
+
+      - name: Prepare app for build
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: ionic capacitor sync ios --prod
+
+      - uses: sparkfabrik/ios-build-action@v2.2.0
+        if: inputs.PRODUCTION_RELEASE == false
+        with:
+          upload-to-testflight: false
+          increment-build-number: false
+          project-path: ${{ env.ANGULAR_DIRECTORY }}/ios
+          team-id: ${{ secrets.TEAM_ID }}
+          team-name: ${{ secrets.TEAM_NAME }}
+          apple-key-id: ${{ secrets.APPLE_KEY_ID }}
+          apple-key-issuer-id: ${{ secrets.APPLE_KEY_ISSUER_ID }}
+          apple-key-content: ${{ secrets.APPLE_KEY_CONTENT }}
+          # workspace-path: "overrides project-path, use with pods"
+          # export-method: app-store
+          configuration: Release
+          output-path: wfnews-dev-${{ github.sha }}.ipa
+          # scheme: ""
+          # update-targets: ""
+          # build-pods: false
+          # pods-path: "ios/Podfile"
+          match-password: ${{ secrets.MATCH_PASSWORD }}
+          match-git-url: ${{ secrets.MATCH_GIT_URL }}
+          match-git-basic-authorization: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
+          match-build-type: "appstore"
+          # fastlane-env: ""
+          # ios-app-id: com.wfnews.app
+  

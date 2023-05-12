@@ -65,9 +65,6 @@ jobs:
           upload-to-play-store: false
           project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
           output-path: wfnews-dev-${{ github.sha }}.apk
-          browserstack-upload: false
-          # browserstack-username: ""
-          # browserstack-access-key: ""
           # fastlane-env: ""
           # ruby-version: "head"
           # bundler-version: "2.3"
@@ -89,9 +86,6 @@ jobs:
           upload-to-play-store: true
           project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
           output-path: wfnews-release-${{ github.sha }}.aab
-          browserstack-upload: false
-          # browserstack-username: ""
-          # browserstack-access-key: ""
           # fastlane-env: ""
           # ruby-version: "head"
           # bundler-version: "2.3"

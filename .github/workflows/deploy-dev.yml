@@ -53,6 +53,20 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
+  android-build:
+    uses: ./.github/workflows/android.yml
+    with:
+      PRODUCTION_RELEASE: false
+    secrets:
+      GOOGLE_PLAY_JSON_KEY: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+
+  ios-build:
+    uses: ./.github/workflows/ios.yml
+    with:
+      PRODUCTION_RELEASE: false
+    secrets: inherit
+
+
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
