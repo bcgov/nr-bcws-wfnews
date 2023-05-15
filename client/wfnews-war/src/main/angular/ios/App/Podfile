@@ -22,7 +22,6 @@ def capacitor_pods
   pod 'CapacitorNetwork', :path => '../../node_modules/@capacitor/network'
   pod 'CapacitorPushNotifications', :path => '../../node_modules/@capacitor/push-notifications'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
-  pod 'AndroidPostNotificationPermission', :path => '../../node_modules/android-post-notification-permission'
 end
 
 target 'App' do
