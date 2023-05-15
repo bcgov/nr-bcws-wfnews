@@ -516,12 +516,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
   restrictions {
     geo_restriction {
-      restriction_type = "whitelist"
-      locations = [
-        "CA",
-        "US",
-        "AR"
-      ]
+      restriction_type = var.target_env = "prod" ? "blacklist" : "whitelist"
+      locations = var.target_env = "prod" ? [] : ["CA","US","AR"]
     }
   }
 
