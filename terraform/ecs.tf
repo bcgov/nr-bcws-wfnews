@@ -436,6 +436,10 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           name= "LICENSE_PLATE",
           value= "${var.license_plate}"
+        },
+        {
+          name = "MAX_SIZE",
+          value="${var.max_upload_size}"
         }
         # {
         #   name: "ETCD_ROOT_PASSWORD",
