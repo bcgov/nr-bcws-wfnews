@@ -12,5 +12,8 @@
     <Logger name="ca.bc.gov.nrs.wfone" level="INFO">
       <AppenderRef ref="Console" />
     </Logger>
+    <Logger name="javax.net.debug" level="ERROR">
+      <AppenderRef ref="Console">
+    </logger>
   </Loggers>
 </Configuration>

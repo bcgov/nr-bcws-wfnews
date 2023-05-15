@@ -6,7 +6,7 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
   CATALINA_HOME=/usr/local/tomcat \
   CATALINA_OUT=/usr/local/tomcat/logs \
   TOMCAT_MAJOR=8 \
-  JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" 
+  JAVA_OPTS="$JAVA_OPTS" 
 
 
 # TODO: REVERT CHOWN COMMAND TO 770 ONCE DONE TESTING
