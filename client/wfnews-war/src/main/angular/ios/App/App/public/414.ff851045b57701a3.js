@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkWFNEWS=self.webpackChunkWFNEWS||[]).push([[414],{6414:(a,n,e)=>{e.r(n),e.d(n,{AppLauncherWeb:()=>u});var _=e(3918),s=e(5099);class u extends s.Uw{canOpenUrl(r){return(0,_.Z)(function*(){return{value:!0}})()}openUrl(r){return(0,_.Z)(function*(){return window.open(r.url,"_blank"),{completed:!0}})()}}}}]);
+//# sourceMappingURL=414.ff851045b57701a3.js.map
