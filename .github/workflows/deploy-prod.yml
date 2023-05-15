@@ -119,6 +119,7 @@ jobs:
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
       GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
       DB_SIZE: 20
+      MAX_UPLOAD_SIZE: 20M
 
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_PROD }}

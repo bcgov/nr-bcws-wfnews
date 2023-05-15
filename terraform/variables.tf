@@ -334,6 +334,12 @@ variable "apisix_container_name" {
   type        = string
 }
 
+variable "max_upload_size" {
+  description = "Maximum upload size permitted"
+  default = "10M"
+  type = string
+}
+
 # variable etcd_container_name {
 #   description = "Name of etcd container"
 #   default = "wfnews-etcd-app"
