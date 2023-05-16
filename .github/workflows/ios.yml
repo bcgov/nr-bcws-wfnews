@@ -70,5 +70,5 @@ jobs:
           match-git-basic-authorization: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
           match-build-type: "appstore"
           # fastlane-env: ""
-          # ios-app-id: com.wfnews.app
+          # ios-app-id: ca.bc.gov.wfnews.app
   

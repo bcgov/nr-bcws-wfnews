@@ -3,6 +3,8 @@ name: Build Android
 env:
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
+  PACKAGE_NAME: ${{ secrets.KEY_ALIAS }}
+
 
 # Controls when the workflow will run
 on: 
@@ -57,11 +59,7 @@ jobs:
           build-type: "assemble"
           gradle-task: "assembleDebug"
           increment-build-number: false
-          # package-name: "com.wfnews.app"
-          # keystore-content: "keystore file content as base64 encoded string"
-          # keystore-password: "keystore password"
-          # key-alias: "keystore alias"
-          # json-key-data: "JSON keystore file content"
+          package-name: ${{ env.PACKAGE_NAME }}
           upload-to-play-store: false
           project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
           output-path: wfnews-dev-${{ github.sha }}.apk
@@ -78,10 +76,10 @@ jobs:
           build-type: "bundle"
           gradle-task: "bundleRelease"
           increment-build-number: true
-          # package-name: "com.wfnews.app"
-          # keystore-content: "keystore file content as base64 encoded string"
-          # keystore-password: "keystore password"
-          # key-alias: "keystore alias"
+          package-name: ${{ env.PACKAGE_NAME }}
+          keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
+          keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
+          keystore-alias: ${{ secrets.KEY_ALIAS }}
           json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
           upload-to-play-store: true
           project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
