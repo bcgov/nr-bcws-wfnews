@@ -87,7 +87,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   restrictions {
     geo_restriction {
-      restriction_type = var.target_env == "prod" ? "blacklist" : "whitelist"
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
@@ -191,7 +191,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
 
   restrictions {
     geo_restriction {
-      restriction_type = var.target_env == "prod" ? "blacklist" : "whitelist"
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
@@ -296,7 +296,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
 
   restrictions {
     geo_restriction {
-      restriction_type = var.target_env == "prod" ? "blacklist" : "whitelist"
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
@@ -400,7 +400,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
 
   restrictions {
     geo_restriction {
-      restriction_type = var.target_env == "prod" ? "blacklist" : "whitelist"
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
@@ -503,7 +503,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
   restrictions {
     geo_restriction {
-      restriction_type = var.target_env == "prod" ? "blacklist" : "whitelist"
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
       locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
     }
   }
