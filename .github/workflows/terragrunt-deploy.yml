@@ -152,7 +152,7 @@ on:
       MAX_UPLOAD_SIZE:
         required: false
         type: string
-        default: ""
+        default: "10M"
         
 
     secrets:
