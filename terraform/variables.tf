@@ -336,8 +336,8 @@ variable "apisix_container_name" {
 
 variable "max_upload_size" {
   description = "Maximum upload size permitted"
-  default = "10M"
-  type = string
+  default     = "10M"
+  type        = string
 }
 
 # variable etcd_container_name {
