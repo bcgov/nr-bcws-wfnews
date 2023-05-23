@@ -34,8 +34,11 @@ jobs:
       - name: Build with Maven
         run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
+      - name: Build public-mobile with Maven
+        run: mvn --settings server/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/wfone-public-mobile-war/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
+        
       - name: Copy files to neccessary folders
-        run: mkdir staging && cp client/wfnews-war/target/*.war staging
+        run: mkdir staging && cp client/wfnews-war/target/*.war staging && cp client/wfone-public-mobile-war/target/*.war staging
       
       - uses: actions/upload-artifact@v3
         with:
