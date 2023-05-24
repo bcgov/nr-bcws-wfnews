@@ -1,7 +1,7 @@
 App/build
 App/Pods
 App/output
-App/App/public
+#App/App/public
 DerivedData
 xcuserdata
 
