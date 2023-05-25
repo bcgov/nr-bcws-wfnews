@@ -1,1 +1,8 @@
-{}
+{
+	"appId": "wfnews.nrs.gov.bc.ca",
+	"appName": "Wildfire News",
+	"webDir": "dist/wfnews",
+	"server": {
+		"androidScheme": "https"
+	}
+}
