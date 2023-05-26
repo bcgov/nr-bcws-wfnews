@@ -12,8 +12,6 @@ export class EventEmitterService {
   invokeGoBackRoute = new EventEmitter();
   subsVar: Subscription;
 
-  constructor() { }
-
   onKeyboardShiftTabPress(name: string) {
     this.invokeKeyboardTabFunction.emit(name);
   }

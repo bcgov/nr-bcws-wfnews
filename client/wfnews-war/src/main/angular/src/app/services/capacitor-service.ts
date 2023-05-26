@@ -13,7 +13,7 @@ import { Network } from '@capacitor/network';
 import { Device } from '@capacitor/device';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Browser } from '@capacitor/browser';
-import { PushNotification, PushNotifications } from '@capacitor/push-notifications';
+import { PushNotification, PushNotificationSchema, PushNotifications } from '@capacitor/push-notifications';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { AndroidPostNotificationPermission } from 'android-post-notification-permission';
 import { NotificationConfig, NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
@@ -99,7 +99,6 @@ export class CapacitorService {
     }
 
     init() {
-        // console.log('init - 1');
         let startRefreshTimer = () => {
             stopRefreshTimer()
 
@@ -215,7 +214,7 @@ export class CapacitorService {
             })
     }
 
-    handleLocationPushNotification( notification: PushNotification ) {
+    handleLocationPushNotification( notification: PushNotificationSchema ) {
 
         this.notificationSnackbarPromise = this.notificationSnackbarPromise.then( () => {
             return new Promise( ( res, rej ) => {
@@ -345,13 +344,6 @@ export class CapacitorService {
     initOfflinePageSettings() {
         App.addListener('appStateChange', (state: AppState) => {
             this.appState = state;
-        });
-
-        let handler = Network.addListener('networkStatusChange', (status) => {
-
-            if (status.connected === true) {
-            } else {
-            }
         });
     }
 

@@ -1,7 +1,7 @@
 import { NumberFormatStyle } from "@angular/common";
-import { EventEmitter, Injectable } from "@angular/core";
+import { Injectable } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { CapacitorService, CompassHeading } from "./capacitor-service";
+import { CapacitorService } from "./capacitor-service";
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -99,7 +99,7 @@ export class CommonUtilityService {
 
     preloadGeolocation() {
         if (this.capacitorService.isMobilePlatform()) {
-            //console.log('preloadGeolocation - 2a');
+           
             if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
                 navigator.geolocation.getCurrentPosition((position) => {
                     this.myLocation = position.coords;
@@ -112,7 +112,6 @@ export class CommonUtilityService {
             else {
                 this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
                     .then((position) => {
-                        //console.log('preloadGeolocation - 2b retrieved currPosition: ', position);
                         this.myLocation = position.coords;
                     },
                         (error) => {
