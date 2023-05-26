@@ -169,7 +169,9 @@ export class CapacitorService {
             } else if (this.isIOSPlatform) {
                 FCM.getToken().then((response) => {
                     this.notificationToken = response.token;
-                });
+                }).catch((error) => {
+                    console.error(error);
+                  });
             }
         } ).catch((error) => {
             console.error(error);
@@ -184,10 +186,8 @@ export class CapacitorService {
 
         // Show us the notification payload if the app is open on our device
         PushNotifications.addListener('pushNotificationReceived', (notification) => {
-            // let data = notification.data
-            console.log('pushNotificationReceived', notification)
 
-            // this.handleTweetPushNotification( notification )
+            console.log('pushNotificationReceived', notification)
             this.handleLocationPushNotification( notification )
         }).catch((error) => {
             console.error(error);
@@ -298,7 +298,7 @@ export class CapacitorService {
     }
 
     async getCurrentPosition(options?: PositionOptions): Promise<Position> {
-        const coordinates = <Position>await Geolocation.getCurrentPosition(options);
+        const coordinates = Geolocation.getCurrentPosition(options);
         return coordinates;
     }
 
@@ -411,8 +411,7 @@ export class CapacitorService {
         let compass = navigator['compass']
         if (!compass) return Promise.reject(Error('navigator.compass not available'))
 
-        if (!this.currentHeadingPromise)
-            this.currentHeadingPromise = new Promise((res, rej) => {
+         const currentHeading = new Promise((res, rej) => {
                 compass.getCurrentHeading(
                     (heading: CompassHeading) => {
                         res(heading)
@@ -424,6 +423,8 @@ export class CapacitorService {
                     }
                 )
             })
+         
+        this.currentHeadingPromise = currentHeading;
 
         return this.currentHeadingPromise
     }
