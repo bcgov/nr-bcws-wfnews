@@ -410,22 +410,23 @@ export class CapacitorService {
     getCurrentHeading(): Promise<CompassHeading> {
         let compass = navigator['compass']
         if (!compass) return Promise.reject(Error('navigator.compass not available'))
+        else{
+            const currentHeading = new Promise((res, rej) => {
+                    compass.getCurrentHeading(
+                        (heading: CompassHeading) => {
+                            res(heading)
+                            this.currentHeadingPromise = null
+                        },
+                        (error) => {
+                            rej(Error('Failed to get heading: ' + JSON.stringify(error)))
+                            this.currentHeadingPromise = null
+                        }
+                    )
+                })
+            
+            this.currentHeadingPromise = currentHeading;
 
-         const currentHeading = new Promise((res, rej) => {
-                compass.getCurrentHeading(
-                    (heading: CompassHeading) => {
-                        res(heading)
-                        this.currentHeadingPromise = null
-                    },
-                    (error) => {
-                        rej(Error('Failed to get heading: ' + JSON.stringify(error)))
-                        this.currentHeadingPromise = null
-                    }
-                )
-            })
-         
-        this.currentHeadingPromise = currentHeading;
-
-        return this.currentHeadingPromise
+            return this.currentHeadingPromise;
+        }
     }
 }
