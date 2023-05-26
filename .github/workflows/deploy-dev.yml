@@ -108,6 +108,40 @@ jobs:
       AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
 
+      #public-mobile-war
+      bans.prohibitions.rss.location: config/bans-prohibitions-rss.xml
+      twitter.feed.profile.name: BCGovFireInfo
+      report.a.fire.phone: 1-800-663-5555
+      report.a.fire.cell: *5555
+      arc.gis.base.url: ${{ secrets.ARC.GIS.BASE.URL }}
+      feedback.email: BCWS.PublicMobileApp@gov.bc.ca
+      fire-info-phone: 1-888-336-7378
+      burn-registration-phone: 1-888-797-1717
+      twitter-profile-url: https://twitter.com/BCGovFireInfo
+      fb-profile-url: https://www.facebook.com/BCForestFireInfo
+      data-catalogue-url: https://catalogue.data.gov.bc.ca/dataset/7efd46d0-b5d3-4dff-af80-d376c42aec33
+      fire-danger-rating-url: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger
+      fire-tracking-url: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/ofts
+      prohibitions-restriction-advisories: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions
+      hazard-assessment-url: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/for-industry-commercial-operators/hazard-assessment-abatement
+      prescribed-burning-url: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/vegetation-and-fuel-management/prescribed-burning
+      fire-weather-url: https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger/fire-weather
+      dataset-drivebc-url: https://catalogue.data.gov.bc.ca/dataset/open511-drivebc-api
+      dataset-firelocations-url: https://catalogue.data.gov.bc.ca/dataset/fire-locations-current
+      dataset-fireperimeter-url: https://catalogue.data.gov.bc.ca/dataset/fire-perimeters-current
+      dataset-firecentres-url: https://catalogue.data.gov.bc.ca/dataset/bc-wildfire-fire-centres
+      dataset-dangerrating-url: https://catalogue.data.gov.bc.ca/dataset/bc-wildfire-danger-rating
+      dataset-arearestrictions-url: https://catalogue.data.gov.bc.ca/dataset/bc-wildfire-area-restrictions
+      dataset-recsites-url: https://catalogue.data.gov.bc.ca/dataset/recreation-sites-reserves-and-interpretive-forests-details-and-closures
+      dataset-protectedlandrestrictions-url: https://catalogue.data.gov.bc.ca/dataset/protected-lands-access-restrictions
+      dataset-evacorders-url: https://catalogue.data.gov.bc.ca/dataset/evacuation-orders-and-alerts
+      dataset-current-conditions-url: https://weather.gc.ca/canada_e.html
+      dataset-radarurpprecipr14-url: https://weather.gc.ca/?layers=radar
+      dataset-firesmoke-url: https://firesmoke.ca/forecasts/current/
+      fire-report-api: https://wfone-notifications-api-int.bcwildfireservices.com/rof
+      announcements-url: /announcements
+      api-key:
+
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
@@ -118,6 +152,14 @@ jobs:
       WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
       API_KEY: ${{ secrets.API_KEY_DEV }}
       SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
+
+      wfss.pointId.url: ${{ secrets.WFSS_POINTID_URL }}
+      wfss.pointId.api.key: ${{ secrets.WFSS_POINTID_API_KEY }}
+      notifications.api.key: ${{ secrets.NOTIFICATIONS_API_KEY}}
+      wfnews-api-url: ${{ secrets.wfnews-api-url }}
+      wfnews-api-key: ${{ secrets.wfnews-api-key }}
+      wfnews-ui-url: ${{ secrets.wfnews-ui-url }}
+      wfss-pointid-api-key: ${{ secrets.wfnews-ui-url }}
 
   jmeter-test-dev:
     uses: ./.github/workflows/jmeter.yml
