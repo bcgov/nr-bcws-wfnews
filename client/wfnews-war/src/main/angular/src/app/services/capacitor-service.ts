@@ -9,11 +9,10 @@ import { environment } from "../../environments/environment";
 import { RootState } from '../store';
 import { ApplicationStateService } from './application-state.service';
 import { App, AppState } from '@capacitor/app';
-import { Network } from '@capacitor/network';
 import { Device } from '@capacitor/device';
 import { Geolocation, Position } from '@capacitor/geolocation';
 import { Browser } from '@capacitor/browser';
-import { PushNotification, PushNotificationSchema, PushNotifications } from '@capacitor/push-notifications';
+import { PushNotificationSchema, PushNotifications } from '@capacitor/push-notifications';
 import { AppLauncher } from '@capacitor/app-launcher';
 import { AndroidPostNotificationPermission } from 'android-post-notification-permission';
 import { NotificationConfig, NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
@@ -135,7 +134,9 @@ export class CapacitorService {
 
                 stopRefreshTimer()
             }
-        } )
+        } ).catch((error) => {
+            console.error(error);
+          });
 
         if (this.isWebPlatform) {
             this.notificationToken = "FakeForWeb";
@@ -147,14 +148,18 @@ export class CapacitorService {
         if (this.isAndroidPlatform) {
             App.addListener('backButton', (state) => {
                 this.eventEmitterService.androidBackButtonPressed();
-            })
+            }).catch((error) => {
+                console.error(error);
+              });
         }
 
         // Request permission to use push notifications
         this.registerForNotifications().then( registered => {
             console.log('registeredForNotifications',registered)
             this.registeredForNotifications = registered
-        } )
+        } ).catch((error) => {
+            console.error(error);
+          });
 
         // On success, we should be able to receive notifications
         PushNotifications.addListener('registration', (token) => {
@@ -166,12 +171,16 @@ export class CapacitorService {
                     this.notificationToken = response.token;
                 });
             }
-        } );
+        } ).catch((error) => {
+            console.error(error);
+          });
 
         // Some issue with our setup and push will not work
         PushNotifications.addListener('registrationError', (error) => {
             console.log('PNN REgister fail ' + error);
-        });
+        }).catch((err) => {
+            console.error(err);
+          });
 
         // Show us the notification payload if the app is open on our device
         PushNotifications.addListener('pushNotificationReceived', (notification) => {
@@ -180,7 +189,9 @@ export class CapacitorService {
 
             // this.handleTweetPushNotification( notification )
             this.handleLocationPushNotification( notification )
-        });
+        }).catch((error) => {
+            console.error(error);
+          });
 
         // Method called when tapping on a notification
         PushNotifications.addListener('pushNotificationActionPerformed', (ev) => {
@@ -188,7 +199,9 @@ export class CapacitorService {
             console.log('pushNotificationActionPerformed', data)
 
                 this.emitLocationNotification( data )
-        });
+        }).catch((error) => {
+            console.error(error);
+          });
     }
 
     registerForNotifications(): Promise<boolean> {
@@ -315,7 +328,9 @@ export class CapacitorService {
         Browser.open({
             url: url,
             toolbarColor: '#f7f7f9'
-        });
+        }).catch((error) => {
+            console.error(error);
+          });;
     }
 
     private async checkTwitterAppInstalled(): Promise<boolean> {
@@ -344,7 +359,9 @@ export class CapacitorService {
     initOfflinePageSettings() {
         App.addListener('appStateChange', (state: AppState) => {
             this.appState = state;
-        });
+        }).catch((error) => {
+            console.error(error);
+          });
     }
 
     public isMobilePlatform(): boolean {
@@ -374,7 +391,10 @@ export class CapacitorService {
         }
 
         if (scheme && schemeUrl) {
-            AppLauncher.openUrl({ url: schemeUrl });
+            AppLauncher.openUrl({ url: schemeUrl })
+            .catch((error) => {
+                console.error(error);
+              });;
         }
 
     }
@@ -386,45 +406,6 @@ export class CapacitorService {
     isIOS() {
         return this.isIOSPlatform;
     }
-
-    // handleNotification(notification: PushNotificationActionPerformed) {
-    //     if (!this.stateService.getIsLoadedUp()) {
-    //         if (notification.notification.data.type === 'tweet') {
-    //             this.pnNav = {
-    //                 tweetId: notification.notification.data.tweetId
-    //             };
-    //         }
-    //         else {
-    //             this.pnNav = {
-    //                 coords: notification.notification.data.coords,
-    //                 radius: notification.notification.data.radius,
-    //                 messageId: notification.notification.data.messageId,
-    //                 topic: notification.notification.data.topic
-    //             };
-    //         }
-    //     }
-    //     else {
-    //         if (notification.notification.data.type === 'tweet') {
-    //             this.router.navigate([WFOnePublicMobileRoutes.LATEST_NEWS_DETAIL], {
-    //                 queryParams: {
-    //                     tweetId: notification.notification.data.tweetId
-    //                 }
-    //             } );
-    //         }
-    //         else {
-    //             let time = Date.now();
-    //             this.router.navigate([WFOnePublicMobileRoutes.LANDING], {
-    //                 queryParams: {
-    //                     coords: notification.notification.data.coords,
-    //                     radius: notification.notification.data.radius,
-    //                     messageId: notification.notification.data.messageId,
-    //                     topic: notification.notification.data.topic,
-    //                     time: time
-    //                 }
-    //             } );
-    //         }
-    //     }
-    // }
 
     getCurrentHeading(): Promise<CompassHeading> {
         let compass = navigator['compass']

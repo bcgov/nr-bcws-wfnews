@@ -48,7 +48,7 @@ export class CommonUtilityService {
     getCurrentLocation(callback?: (p: Position) => void) {
         if (this.capacitorService.isMobilePlatform()) {
             if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
-                if (navigator && navigator.geolocation) {
+                if (navigator?.geolocation) {
                     return navigator.geolocation.getCurrentPosition((position) => {
                         this.myLocation = position ? position.coords : undefined;
                         if (callback) {
@@ -73,7 +73,7 @@ export class CommonUtilityService {
                 }
             }
         } else {       
-                if (navigator && navigator.geolocation) {
+                if (navigator?.geolocation) {
                     return navigator.geolocation.getCurrentPosition((position) => {
                         this.myLocation = position ? position.coords : undefined;
                         if (callback) {
