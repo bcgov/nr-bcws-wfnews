@@ -1,21 +1,21 @@
 # ecs.tf
 
 resource "aws_ecs_cluster" "wfnews_main" {
-  name               = "wfnews-cluster"
+  name = "wfnews-cluster"
 
   tags = local.common_tags
 }
 
 resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
-    cluster_name = aws_ecs_cluster.wfnews_main.name
+  cluster_name = aws_ecs_cluster.wfnews_main.name
 
   capacity_providers = ["FARGATE", "FARGATE_SPOT"]
 
-    default_capacity_provider_strategy {
-        base              = 1
-        weight            = 100
-        capacity_provider = "FARGATE_SPOT"
-    }
+  default_capacity_provider_strategy {
+    base              = 1
+    weight            = 100
+    capacity_provider = "FARGATE_SPOT"
+  }
 }
 
 resource "aws_ecs_task_definition" "wfnews_server" {
@@ -100,38 +100,38 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.SMTP_HOST_NAME
         },
         {
-          name = "SMTP_PASSWORD",
+          name  = "SMTP_PASSWORD",
           value = var.SMTP_PASSWORD
         },
         {
-          name = "SMTP_FROM_EMAIL",
+          name  = "SMTP_FROM_EMAIL",
           value = var.SMTP_FROM_EMAIL
         },
         {
-          name = "SMTP_ADMIN_EMAIL",
+          name  = "SMTP_ADMIN_EMAIL",
           value = var.SMTP_ADMIN_EMAIL
         },
         {
-          name = "SMTP_EMAIL_SYNC_ERROR_FREQ",
+          name  = "SMTP_EMAIL_SYNC_ERROR_FREQ",
           value = var.SMTP_EMAIL_SYNC_ERROR_FREQ
         },
         {
-          name = "SMTP_EMAIL_FREQ",
+          name  = "SMTP_EMAIL_FREQ",
           value = var.SMTP_EMAIL_FREQ
-        },{
-          name = "SMTP_EMAIL_ERROR_SUBJECT",
+          }, {
+          name  = "SMTP_EMAIL_ERROR_SUBJECT",
           value = var.SMTP_EMAIL_ERROR_SUBJECT
         },
         {
-          name = "SMTP_EMAIL_SUBJECT",
+          name  = "SMTP_EMAIL_SUBJECT",
           value = var.SMTP_EMAIL_SUBJECT
         },
         {
-          name = "DEFAULT_APPLICATION_ENVIRONMENT",
+          name  = "DEFAULT_APPLICATION_ENVIRONMENT",
           value = var.DEFAULT_APPLICATION_ENVIRONMENT
         },
         {
-          name = "WFNEWS_AGOL_QUERY_URL",
+          name  = "WFNEWS_AGOL_QUERY_URL",
           value = var.WFNEWS_AGOL_QUERY_URL
         },
         {
@@ -139,15 +139,15 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
-          name = "WFNEWS_USERNAME",
+          name  = "WFNEWS_USERNAME",
           value = var.WFNEWS_USERNAME
         },
         {
-          name = "WFNEWS_MAX_CONNECTIONS",
+          name  = "WFNEWS_MAX_CONNECTIONS",
           value = var.WFNEWS_MAX_CONNECTIONS
         },
         {
-          name = "DB_PASS",
+          name  = "DB_PASS",
           value = "${var.db_pass}"
         },
         # Access keys and secret keys are not needed when using container-based authentication
@@ -168,23 +168,23 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         #   value = "${var.aws_secret_access_key}"
         # },
         {
-          name = "WFNEWS_ACCESS_KEY_ID",
+          name  = "WFNEWS_ACCESS_KEY_ID",
           value = "${var.aws_access_key_id}"
         },
         {
-          name = "WFNEWS_SECRET_ACCESS_KEY",
+          name  = "WFNEWS_SECRET_ACCESS_KEY",
           value = "${var.aws_secret_access_key}"
         },
         {
-          name = "WFNEWS_SNS_TOPIC_ARN",
+          name  = "WFNEWS_SNS_TOPIC_ARN",
           value = "${aws_sns_topic.wfnews_sns_topic.arn}"
         },
         {
-          name = "WFNEWS_S3_BUCKET_NAME",
+          name  = "WFNEWS_S3_BUCKET_NAME",
           value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
         },
         {
-          name = "API_KEY",
+          name  = "API_KEY",
           value = "${var.api_key}"
         }
 
@@ -230,7 +230,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
       ]
       environment = [
         {
-          name = "LOGGING_LEVEL"
+          name  = "LOGGING_LEVEL"
           value = "${var.logging_level}"
         },
         {
@@ -241,73 +241,73 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           name  = "bucketName",
           value = aws_s3_bucket.wfnews_upload_bucket.id
         },
-        { 
+        {
           #Base URL will use the 
-          name = "BASE_URL",
+          name  = "BASE_URL",
           value = var.target_env == "prod" ? "https://${var.gov_client_url}/" : "https://${aws_route53_record.wfnews_client.name}/"
         },
         {
-          name = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
           value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
         },
         {
-          name = "WEBADE-OAUTH2_TOKEN_URL",
+          name  = "WEBADE-OAUTH2_TOKEN_URL",
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
-          name = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
+          name  = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
           value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
         },
         {
-          name = "WFIM_API_URL",
+          name  = "WFIM_API_URL",
           value = var.WFIM_CLIENT_URL
         },
         {
-          name = "WFDM_API_URL",
+          name  = "WFDM_API_URL",
           value = var.WFDM_REST_URL
         },
         {
-          name = "ORG_UNIT_URL",
+          name  = "ORG_UNIT_URL",
           value = ""
         },
-        {//Will be phased out from prod eventually, but not yet
-          name = "WFNEWS_API_URL",
+        { //Will be phased out from prod eventually, but not yet
+          name  = "WFNEWS_API_URL",
           value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_apisix.name}/"
         },
         {
-          name = "WFNEWS_API_KEY",
+          name  = "WFNEWS_API_KEY",
           value = "${var.api_key}"
         },
         {
-          name = "WEBADE_OAUTH2_AUTHORIZE_URL",
+          name  = "WEBADE_OAUTH2_AUTHORIZE_URL",
           value = var.WEBADE_OAUTH2_AUTHORIZE_URL
         },
         {
-          name = "APPLICATION_ENVIRONMENT",
+          name  = "APPLICATION_ENVIRONMENT",
           value = var.target_env != "prod" ? var.target_env : " "
         },
         {
-          name = "AGOL_URL",
+          name  = "AGOL_URL",
           value = var.agolUrl
         },
         {
-          name = "DRIVEBC_BASE_URL",
+          name  = "DRIVEBC_BASE_URL",
           value = var.drivebcBaseUrl
         },
         {
-          name = "OPENMAPS_BASE_URL",
+          name  = "OPENMAPS_BASE_URL",
           value = var.openmapsBaseUrl
         },
         {
-          name = "SITEMINDER_URL_PREFIX",
+          name  = "SITEMINDER_URL_PREFIX",
           value = var.siteMinderURLPrefix
         },
         {
-          name = "AGOL_AREA_RESTRICTIONS",
+          name  = "AGOL_AREA_RESTRICTIONS",
           value = var.agolAreaRestrictions
         },
         {
-          name = "AGOL_BANS_AND_PROHIBITIONS",
+          name  = "AGOL_BANS_AND_PROHIBITIONS",
           value = var.agolBansAndProhibitions
         }
 
@@ -361,7 +361,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
           value = "${aws_db_instance.wfnews_pgsqlDB.username}"
         },
         {
-          name = "DB_PASS"
+          name  = "DB_PASS"
           value = "${var.db_pass}"
         }
       ]
@@ -394,19 +394,19 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       essential   = true
       name        = var.apisix_container_name
       image       = var.apisix_image
-      cpu                      = var.server_cpu_units
-      memory                   = var.server_memory
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
-          protocol = "tcp"
+          protocol      = "tcp"
           containerPort = var.apisix_ports[0]
-          hostPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
         },
         {
-          protocol = "tcp"
+          protocol      = "tcp"
           containerPort = var.apisix_ports[1]
-          hostPort = var.apisix_ports[1]
+          hostPort      = var.apisix_ports[1]
         }
         # {
         #   protocol = "tcp"
@@ -422,20 +422,24 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
       ]
       environment = [
         {
-          name = "LOGGING_LEVEL"
+          name  = "LOGGING_LEVEL"
           value = "${var.logging_level}"
         },
         {
-          name = "API_KEY",
-          value= "${var.api_key}"
+          name  = "API_KEY",
+          value = "${var.api_key}"
         },
         {
-          name= "TARGET_ENV",
-          value= "${var.target_env}"
+          name  = "TARGET_ENV",
+          value = "${var.target_env}"
         },
         {
-          name= "LICENSE_PLATE",
-          value= "${var.license_plate}"
+          name  = "LICENSE_PLATE",
+          value = "${var.license_plate}"
+        },
+        {
+          name  = "MAX_SIZE",
+          value = "${var.max_upload_size}"
         }
         # {
         #   name: "ETCD_ROOT_PASSWORD",
@@ -613,8 +617,8 @@ resource "aws_ecs_service" "wfnews_liquibase" {
 
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight = 100
-    base = 1
+    weight            = 100
+    base              = 1
   }
 
   network_configuration {
@@ -652,8 +656,8 @@ resource "aws_ecs_service" "wfnews_main" {
   }
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight = 20
-    base = 1
+    weight            = 20
+    base              = 1
   }
 
 
@@ -691,8 +695,8 @@ resource "aws_ecs_service" "client" {
   }
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight = 20
-    base = 1
+    weight            = 20
+    base              = 1
   }
 
 
@@ -730,8 +734,8 @@ resource "aws_ecs_service" "apisix" {
   }
   capacity_provider_strategy {
     capacity_provider = "FARGATE"
-    weight = 20
-    base = 1
+    weight            = 20
+    base              = 1
   }
 
 
