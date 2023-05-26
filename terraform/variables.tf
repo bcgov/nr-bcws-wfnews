@@ -558,3 +558,148 @@ variable "WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET" {
   type    = string
   default = ""
 }
+
+//public mobile client 
+
+variable "bans.prohibitions.rss.location" {
+        default = ""
+        type: string
+}
+
+variable "twitter.feed.profile.name" {
+        default = ""
+        type: string
+}
+variable  "report.a.fire.phone" {
+        default = ""
+        type: string
+}
+variable "report.a.fire.cell" {
+        default = ""
+        type: string
+}
+variable "arc.gis .base.url" {
+        default = ""
+        type: string
+}
+      
+variable  "feedback.email" {
+        default = ""
+        type: string
+}
+variable "fire.info.phone" {
+        default = ""
+        type: string
+}
+      
+variable  "burn.registration.phone"{
+        default = ""
+        type: string
+}
+variable "twitter.profile.url" {
+        default = ""
+        type: string
+}
+      
+variable "fb.profile.url" {
+        default = ""
+        type: string
+}  
+
+variable "data.catalogue.url" {
+        default = ""
+        type: string
+}
+      
+variable "fire.danger.rating.url" {
+        default = ""
+        type: string
+}
+variable "fire.tracking.url" {
+        default = ""
+        type: string
+}
+      
+variable "prohibitions.restriction.advisories"{
+        default = ""
+        type: string
+}
+variable "hazard.assessment.url" {
+        default = ""
+        type: string
+}
+      
+variable "prescribed.burning.url" {
+        default = ""
+        type: string
+}
+
+variable "fire.weather.url" {
+        default = ""
+        type: string
+}
+      
+variable "dataset.drivebc.url" {
+        default = ""
+        type: string
+}
+variable "dataset.firelocations.url" {
+        default = ""
+        type: string
+}
+variable "dataset.fireperimeter.url" {
+        default = ""
+        type: string
+}
+variable  "dataset.firecentres.url" {
+        default = ""
+        type: string
+}
+
+variable "dataset.dangerrating.url" {
+        default = ""
+        type: string
+}
+variable "dataset.arearestrictions.url" {
+        default = ""
+        type: string
+}
+
+variable "dataset.recsites.url" {
+        default = ""
+        type: string
+}
+
+variable "dataset.protectedlandrestrictions.url" {
+        default = ""
+        type: string
+}
+
+variable "dataset.evacorders.url" {
+        default = ""
+        type: string
+}
+variable "dataset.current.conditions.url" {
+        default = ""
+        type: string
+}
+
+variable "dataset.radarurpprecipr14.url"{
+        default = ""
+        type: string
+}
+
+variable "fire.report.api" {
+        default = ""
+        type: string
+}
+
+variable "announcements.url" {
+        default = ""
+        type: string
+}
+
+variable "api.key" {
+        default = ""
+        type: string
+}

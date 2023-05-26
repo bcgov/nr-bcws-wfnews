@@ -153,7 +153,112 @@ on:
         required: false
         type: string
         default: "10M"
-        
+
+      bans.prohibitions.rss.location:
+        required: true
+        type: string
+      
+      twitter.feed.profile.name:
+        required: true
+        type: string
+
+      report.a.fire.phone:
+        required: true
+        type: string
+      
+      report.a.fire.cell:
+        required: true
+        type: string
+      arc.gis .base.url:
+        required: true
+        type: string
+      
+      feedback.email:
+        required: true
+        type: string
+      fire.info.phone:
+        required: true
+        type: string
+      
+      burn.registration.phone:
+        required: true
+        type: string
+
+      twitter.profile.url:
+        required: true
+        type: string
+      
+      fb.profile.url:
+        required: true
+        type: string        
+      data.catalogue.url:
+        required: true
+        type: string
+      
+      fire.danger.rating.url:
+        required: true
+        type: string
+      fire.tracking.url:
+        required: true
+        type: string
+      
+      prohibitions.restriction.advisories:
+        required: true
+        type: string
+      hazard.assessment.url:
+        required: true
+        type: string
+      
+      prescribed.burning.url:
+        required: true
+        type: string
+      fire.weather.url:
+        required: true
+        type: string
+      
+      dataset.drivebc.url:
+        required: true
+        type: string
+      dataset.firelocations.url:
+        required: true
+        type: string
+      dataset.fireperimeter.url:
+        required: true
+        type: string
+      dataset.firecentres.url:
+        required: true
+        type: string
+      dataset.dangerrating.url:
+        required: true
+        type: string
+      dataset.arearestrictions.url:
+        required: true
+        type: string
+      dataset.recsites.url:
+        required: true
+        type: string
+      dataset.protectedlandrestrictions.url:
+        required: true
+        type: string
+      dataset.evacorders.url:
+        required: true
+        type: string
+      dataset.current.conditions.url:
+        required: true
+        type: string
+      dataset.radarurpprecipr14.url:
+        required: true
+        type: string
+      fire.report.api:
+        required: true
+        type: string
+      announcements.url:
+        required: true
+        type: string
+      api.key:
+        required: true
+        type: string
+
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -266,5 +371,36 @@ jobs:
           agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS}}
 
+          bans.prohibitions.rss.location: ${{inputs.bans.prohibitions.rss.location}}
+          twitter.feed.profile.name: ${{inputs.twitter.feed.profile.name}}
+          report.a.fire.phone: ${{inputs.report.a.fire.phone}}
+          report.a.fire.cell: ${{inputs.report.a.fire.cell}}
+          arc.gis .base.url: ${{inputs.arc.gis .base.url}}
+          feedback.email: ${{inputs.feedback.email}}
+          fire.info.phone: ${{inputs.fire.info.phone}}
+          burn.registration.phone: ${{inputs.burn.registration.phone}}
+          twitter.profile.url: ${{inputs.twitter.profile.url}}
+          fb.profile.url: ${{inputs.fb.profile.url}}
+          data.catalogue.url: ${{inputs.data.catalogue.url}}
+          fire.danger.rating.url: ${{inputs.fire.danger.rating.url}}
+          fire.tracking.url: ${{inputs.fire.tracking.url}}
+          prohibitions.restriction.advisories: ${{inputs.prohibitions.restriction.advisories}}
+          hazard.assessment.url: ${{inputs.hazard.assessment.url}}
+          prescribed.burning.url: ${{inputs.prescribed.burning.url}}
+          fire.weather.url: ${{inputs.fire.weather.url}}
+          dataset.drivebc.url: ${{inputs.dataset.drivebc.url}}
+          dataset.firelocations.url: ${{inputs.dataset.firelocations.url}}
+          dataset.fireperimeter.url: ${{inputs.dataset.fireperimeter.url}}
+          dataset.firecentres.url: ${{inputs.dataset.firecentres.url}}
+          dataset.dangerrating.url: ${{inputs.dataset.dangerrating.url}}
+          dataset.arearestrictions.url: ${{inputs.dataset.arearestrictions.url}}
+          dataset.recsites.url: ${{inputs.dataset.recsites.url}}
+          dataset.protectedlandrestrictions.url: ${{inputs.dataset.protectedlandrestrictions.url}}
+          dataset.evacorders.url: ${{inputs.dataset.evacorders.url}}
+          dataset.current.conditions.url: ${{inputs.dataset.current.conditions.url}}
+          dataset.radarurpprecipr14.url: ${{inputs.dataset.radarurpprecipr14.url}}
+          fire.report.api: ${{inputs.fire.report.api}}
+          announcements.url: ${{inputs.announcements.url}}
+          api.key: ${{inputs.api.key}}
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
