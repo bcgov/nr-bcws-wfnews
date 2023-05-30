@@ -62,6 +62,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   searchLocationsLayerGroup: any;
   markers: any[];
   url;
+  sortedAddressList: string[];
 
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
@@ -91,35 +92,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2) {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
-        let address = null;
-        let trimmedAddress = null;
-        let valueLength = null;
-        let valueMatch = null;
         this.placeData.searchAddresses(val).then(function (results) {
-
           if (results) {
             results.forEach((result) => {
-              address = self.getFullAddress(result);
-              result.address = address.trim();
-              self.highlight(result);
-              trimmedAddress = result.address;
-              valueLength = val.length;
-              if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
-
-              if (address != null && valueLength != null && valueMatch != null &&
-                (val.toUpperCase() === address.toUpperCase() || val.toUpperCase() === valueMatch.toUpperCase())) {
-                  var index = results.indexOf(result);
-                  if (index !== -1) {
-                    results.splice(index, 1);
-                  }
-
-                  let resultToBeUnshifted = result;
-
-                  results.unshift(resultToBeUnshifted);
-              }
-
+              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
             });
-            self.filteredOptions = results;
+            self.filteredOptions = self.sortedAddressList;
           }
         });
       }

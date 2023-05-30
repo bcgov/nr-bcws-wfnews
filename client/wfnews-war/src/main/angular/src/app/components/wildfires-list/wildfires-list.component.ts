@@ -57,6 +57,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   ]
   fireCentreOptions = FireCentres;
   locationName: string;
+  sortedAddressList: string[];
 
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
@@ -83,34 +84,12 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
       if (val.length > 2) {
         this.filteredOptions = [];
-        let address = null;
-        let trimmedAddress = null;
-        let valueLength = null;
-        let valueMatch = null;
         this.placeData.searchAddresses(val).then(function (results) {
-
           if (results) {
             results.forEach((result) => {
-              address = self.getFullAddress(result);
-              result.address = address.trim();
-              trimmedAddress = result.address;
-              valueLength = val.length;
-              if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
-
-              if (address != null && valueLength != null && valueMatch != null &&
-                (val.toUpperCase() === address.toUpperCase() || val.toUpperCase() === valueMatch.toUpperCase())) {
-                  var index = results.indexOf(result);
-                  if (index !== -1) {
-                    results.splice(index, 1);
-                  }
-
-                  let resultToBeUnshifted = result;
-
-                  results.unshift(resultToBeUnshifted);
-              }
-
+              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
             });
-            self.filteredOptions = results;
+            self.filteredOptions = self.sortedAddressList;
           }
         });
       }
