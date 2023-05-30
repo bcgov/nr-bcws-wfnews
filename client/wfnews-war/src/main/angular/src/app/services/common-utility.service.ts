@@ -79,20 +79,16 @@ export class CommonUtilityService {
         );
     }
 
-    sortAddressList(results: any, value: String) {
-        console.log(5);
+    sortAddressList(results: any, value: string) {
         let address = null;
         let trimmedAddress = null;
         let valueLength = null;
         let valueMatch = null;
         results.forEach((result) => {
-            console.log(6)
             address = this.getFullAddress(result);
-            console.log(7)
             result.address = address.trim();
             trimmedAddress = result.address;
             valueLength = value.length;
-            console.log(8)
             if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
 
             if (address != null && valueLength != null && valueMatch != null &&
@@ -101,19 +97,13 @@ export class CommonUtilityService {
                 if (index !== -1) {
                   results.splice(index, 1);
                 }
-
-                console.log(8)
-
                 let resultToBeUnshifted = result;
 
                 results.unshift(resultToBeUnshifted);
-
-                console.log(9)
             }
 
           });
 
-          console.log(10)
           return results;
           
     } 
