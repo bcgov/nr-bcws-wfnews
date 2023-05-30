@@ -47,92 +47,120 @@ export class CommonUtilityService {
 
     getCurrentLocation(callback?: (p: Position) => void) {
         if (this.capacitorService.isMobilePlatform()) {
-            if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
-                if (navigator?.geolocation) {
-                    return navigator.geolocation.getCurrentPosition((position) => {
-                        this.myLocation = position ? position.coords : undefined;
-                        if (callback) {
-                            callback(position);
-                        }
-                        return position ? position.coords : undefined;
-                    }, error => {
-                        this.snackbarService.open('Unable to retrieve the current location.', '', {
-                            duration: 5,
-                            panelClass: 'snack-bar-warning'
-                        });
-                    },
-                        { enableHighAccuracy: true }
-                    );
-                }
-                else {
-                    console.error('Unable to retrieve the current location.');
-                    this.snackbarService.open('Unable to retrieve the current location.', '', {
-                        duration: 5,
-                        panelClass: 'snack-bar-warning'
-                    });
-                }
-            }
-        } else {       
-                if (navigator?.geolocation) {
-                    return navigator.geolocation.getCurrentPosition((position) => {
-                        this.myLocation = position ? position.coords : undefined;
-                        if (callback) {
-                            callback(position);
-                        }
-                        return position ? position.coords : undefined;
-                    }, error => {
-                        this.snackbarService.open('Unable to retrieve the current location.', '', {
-                            duration: 5,
-                        });
-                    },
-                        { enableHighAccuracy: true }
-                    );
-                }
-                else {
-                    console.warn('Unable to access geolocation');
-                    this.snackbarService.open('Unable to access location services.', '', {
-                        duration: 5,
-                    });
-                }
-            }
+            this.determineCurrentLocation()
+        }
     }
 
     preloadGeolocation() {
         if (this.capacitorService.isMobilePlatform()) {
-           
-            if (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) { //use cordova plugin for ionic capacitor
-                navigator.geolocation.getCurrentPosition((position) => {
-                    this.myLocation = position.coords;
-                }, error => {
-                    console.error('Failed to preload my location');
-                },
-                    { enableHighAccuracy: true }
-                );
-            }
-            else {
-                this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
-                    .then((position) => {
-                        this.myLocation = position.coords;
-                    },
-                        (error) => {
-                            console.error('Failed to preload my location');
-                        });
-            }
-
-
+            this.preloadMobileGeolocation();         
         }
         else {
+           this.preloadDesktopGeolocation();
+        }
+    }
 
-            navigator.geolocation.getCurrentPosition((position) => {
-                this.myLocation = position.coords;
+    checkIfAndroidIOSPlatform(): boolean {
+        return (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) ?  true : false;
+    }
+
+    determineCurrentLocation() {
+        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
+            this.getMobileCurrentLocation();
+        } else {       
+                this.getAlternativeCurrentLocation();
+        }
+    }
+
+    getMobileCurrentLocation(callback?: (p: Position) => void) {
+        if (navigator?.geolocation) {
+            return navigator.geolocation.getCurrentPosition((position) => {
+                this.myLocation = position ? position.coords : undefined;
+                if (callback) {
+                    callback(position);
+                }
+                return position ? position.coords : undefined;
             }, error => {
-                this.snackbarService.open('Unable to retrieve the current location','Cancel', {
-                    duration: 5000
-                })
-                },
+                this.snackbarService.open('Unable to retrieve the current location.', '', {
+                    duration: 5,
+                    panelClass: 'snack-bar-warning'
+                });
+            },
                 { enableHighAccuracy: true }
             );
         }
+        else {
+            console.error('Unable to retrieve the current location.');
+            this.snackbarService.open('Unable to retrieve the current location.', '', {
+                duration: 5,
+                panelClass: 'snack-bar-warning'
+            });
+        }
+    }
+
+    getAlternativeCurrentLocation(callback?: (p: Position) => void) {
+        if (navigator?.geolocation) {
+            return navigator.geolocation.getCurrentPosition((position) => {
+                this.myLocation = position ? position.coords : undefined;
+                if (callback) {
+                    callback(position);
+                }
+                return position ? position.coords : undefined;
+            }, error => {
+                this.snackbarService.open('Unable to retrieve the current location.', '', {
+                    duration: 5,
+                });
+            },
+                { enableHighAccuracy: true }
+            );
+        }
+        else {
+            console.warn('Unable to access geolocation');
+            this.snackbarService.open('Unable to access location services.', '', {
+                duration: 5,
+            });
+        }
+    }
+
+    preloadMobileGeolocation() {
+        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
+            this.preloadMobileGeolocationIOSAndroid();
+        }
+        else {
+            this.preloadMobileGeolocationGoogle();
+        }
+    }
+
+    preloadMobileGeolocationIOSAndroid() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.myLocation = position.coords;
+        }, error => {
+            console.error('Failed to preload my location');
+        },
+            { enableHighAccuracy: true }
+        );
+    }
+
+    preloadMobileGeolocationGoogle() {
+        this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
+                    .then((position) => {
+                        this.myLocation = position.coords;
+                },
+                (error) => {
+                    console.error('Failed to preload my location');
+                });
+    }
+
+    preloadDesktopGeolocation() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.myLocation = position.coords;
+        }, error => {
+            this.snackbarService.open('Unable to retrieve the current location','Cancel', {
+                duration: 5000
+            })
+            },
+            { enableHighAccuracy: true }
+        );
     }
 
 }
