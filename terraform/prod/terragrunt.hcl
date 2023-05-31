@@ -27,6 +27,7 @@ locals {
 
   api_key = get_env("API_KEY")
   target_env = get_env("TARGET_ENV")
+  max_upload_size = get_env("MAX_UPLOAD_SIZE")
   alb_name = get_env("ALB_NAME")
   vpc_name = get_env("VPC_NAME")
   subnet_filter = get_env("SUBNET_FILTER")
@@ -98,6 +99,7 @@ generate "test_tfvars" {
     logging_level = "${local.logging_level}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
+    max_upload_size ="${local.max_upload_size}"
     db_multi_az = true
     alb_name = "${local.alb_name}"
     client_port = 8080

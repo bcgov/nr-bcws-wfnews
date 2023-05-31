@@ -3,7 +3,7 @@ EXPOSE 8080 9080 9443
 #COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix-base.yaml
 RUN apt-get update &&\
   apt-get -y install nginx &&\
-  sed -i 's@#!\/usr\/bin\/env bash@&\nsed -i "s/{API_KEY}/\$API_KEY/" /etc/nginx/conf.d/default.conf\nsed -i "s/{LICENSE_PLATE}/\$LICENSE_PLATE/" /etc/nginx/conf.d/default.conf\nsed -i "s/{TARGET_ENV}/\$TARGET_ENV/" /etc/nginx/conf.d/default.conf\nnginx\&@' /docker-entrypoint.sh
+  sed -i 's@#!\/usr\/bin\/env bash@&\nsed -i "s/{MAX_SIZE}/\$MAX_SIZE/" /etc/nginx/conf.d/default.conf\nsed -i "s/{API_KEY}/\$API_KEY/" /etc/nginx/conf.d/default.conf\nsed -i "s/{LICENSE_PLATE}/\$LICENSE_PLATE/" /etc/nginx/conf.d/default.conf\nsed -i "s/{TARGET_ENV}/\$TARGET_ENV/" /etc/nginx/conf.d/default.conf\nnginx\&@' /docker-entrypoint.sh
 COPY docker/apisix-paths.yaml /usr/local/apisix/conf/apisix.yaml
 COPY docker/apisix-config.yaml /usr/local/apisix/conf/config.yaml
 COPY docker/default.conf /etc/nginx/conf.d/default.conf
