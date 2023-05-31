@@ -72,6 +72,12 @@
   max-width: 1185px;
   margin: auto;
   background-color: white;
+
+  .mobile-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 10px 15px 10px
+  }
 }
 
 :host ::ng-deep .mat-tab-header {

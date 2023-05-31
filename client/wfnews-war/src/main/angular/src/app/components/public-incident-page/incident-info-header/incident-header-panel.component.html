@@ -1,7 +1,7 @@
 <div class="header-container forPrint" id="toprint-header">
   <div id="map" class="map-container" *ngIf="hideOnMobileView()">
   </div>
-  <div class="incident-details">
+  <div class="incident-details" *ngIf="!hideOnMobileView()">
     <div class="header">
     </div>
     <div class="title-bar">

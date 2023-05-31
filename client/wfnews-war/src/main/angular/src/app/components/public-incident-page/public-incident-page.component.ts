@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http"
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core"
-import { ActivatedRoute, ParamMap } from "@angular/router"
+import { ActivatedRoute, ParamMap, Router } from "@angular/router"
 import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
-import { findFireCentreByName } from "../../utils"
+import { ResourcesRoutes, findFireCentreByName } from "../../utils"
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -31,7 +31,9 @@ export class PublicIncidentPage implements OnInit {
               protected cdr: ChangeDetectorRef,
               private agolService: AGOLService,
               private publishedIncidentService: PublishedIncidentService,
-              protected http: HttpClient) {
+              protected http: HttpClient,
+              protected routing: Router,
+              ) {
 
   }
 
@@ -196,5 +198,15 @@ export class PublicIncidentPage implements OnInit {
         }
       }
     })
+  }
+
+  navigateToMap () {
+    setTimeout(() => {
+      this.routing.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
+    }, 100);
+  }
+
+  hideOnMobileView () {
+    return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 }

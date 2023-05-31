@@ -3,6 +3,11 @@
     <div>
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
+    <div class="mobile-header" *ngIf="hideOnMobileView()">
+      <mat-icon (click) = "navigateToMap()">arrow_back</mat-icon>
+      <span>Wildfire</span>
+      <mat-icon>share</mat-icon>
+    </div>
     <div>
       <mat-tab-group mat-stretch-tabs>
         <mat-tab label="Overview">
