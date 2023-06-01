@@ -57,6 +57,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   ]
   fireCentreOptions = FireCentres;
   locationName: string;
+  sortedAddressList: string[];
 
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
@@ -81,20 +82,16 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
           return;
       }
 
-      if(val.length > 2) {
-          this.filteredOptions= [];
-
-          this.placeData.searchAddresses(val).then(function(results){
-              if(results) {
-
-                  results.forEach((result) => {
-                      let address = self.getFullAddress(result);
-                      result.address = address.trim();
-                  });
-
-                  self.filteredOptions = results;
-              }
-          });
+      if (val.length > 2) {
+        this.filteredOptions = [];
+        this.placeData.searchAddresses(val).then(function (results) {
+          if (results) {
+            results.forEach((result) => {
+              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
+            });
+            self.filteredOptions = self.sortedAddressList;
+          }
+        });
       }
     });
 
