@@ -102,12 +102,12 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_down" {
 resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
   alarm_name          = "wfnews_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
   statistic           = "Average"
-  threshold           = "85"
+  threshold           = "50"
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
@@ -122,12 +122,12 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
 resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_high" {
   alarm_name          = "wfnews_apisix_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
   statistic           = "Average"
-  threshold           = "85"
+  threshold           = "50"
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
@@ -255,12 +255,12 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_low" {
 resource "aws_cloudwatch_metric_alarm" "wfnews_client_service_cpu_high" {
   alarm_name          = "wfnews_client_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
-  evaluation_periods  = "2"
+  evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
   namespace           = "AWS/ECS"
   period              = "60"
   statistic           = "Average"
-  threshold           = "85"
+  threshold           = "50"
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name

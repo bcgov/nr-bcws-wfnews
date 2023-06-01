@@ -149,6 +149,11 @@ on:
         required: false
         type: number
         default: 10
+      MAX_UPLOAD_SIZE:
+        required: false
+        type: string
+        default: "10M"
+        
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -225,6 +230,7 @@ jobs:
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           DB_PASS: ${{ secrets.DB_PASS }}
           DB_SIZE: ${{ inputs.DB_SIZE }}
+          MAX_UPLOAD_SIZE: ${{ inputs.MAX_UPLOAD_SIZE }}
           ALB_NAME: ${{ inputs.ALB_NAME }}
           VPC_NAME: ${{ inputs.VPC_NAME }}
           SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
