@@ -86,7 +86,7 @@
   .evac-list {
     display: flex;
     flex-direction: row;
-    color: #b42e45;
+    color: black;
     padding-top: 7px;
     .label {
       text-decoration: underline;
@@ -98,6 +98,12 @@
       color: gray;
       text-decoration: none;
     }
+  }
+  .alert {
+    color: #dfa512 !important;
+  }
+  .order {
+    color: #b42e45 !important;
   }
   h4 {
     color: #003366;

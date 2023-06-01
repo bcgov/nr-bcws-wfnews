@@ -111,8 +111,9 @@
   .evac-list {
     display: flex;
     flex-direction: row;
-    color: #b42e45;
     padding-top: 7px;
+    text-decoration: none;
+    color: black;
     .label {
       text-decoration: underline;
       cursor: pointer;
@@ -124,6 +125,12 @@
       color: gray;
       text-decoration: none;
     }
+  }
+  .alert {
+    color: #dfa512 !important;
+  }
+  .order {
+    color: #b42e45 !important;
   }
   h4 {
     color: #003366;
