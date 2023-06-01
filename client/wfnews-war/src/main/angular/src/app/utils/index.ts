@@ -304,3 +304,7 @@ export function convertToYoutubeId (externalUri: string) {
     }
   }
 }
+
+export function hideOnMobileView () {
+    return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+  }

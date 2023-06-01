@@ -127,6 +127,7 @@ import { DownloadPMDialogComponent } from './components/download-pm-dialog/downl
 import { PublishDialogComponent } from './components/admin-incident-form/publish-dialog/publish-dialog.component';
 import { SummaryPanel } from './components/admin-incident-form/summary-panel/summary-panel.component';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
+import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -197,7 +198,8 @@ export const DATE_FORMATS = {
         EditVideoDialogComponent,
         UploadVideoDialogComponent,
         DownloadPMDialogComponent,
-        DisclaimerDialogComponent
+        DisclaimerDialogComponent,
+        IncidentInfoPanelMobileComponent
     ],
     imports: [
         MatSortModule,

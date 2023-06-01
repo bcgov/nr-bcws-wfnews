@@ -1,0 +1,103 @@
+.panel{
+    background-color: white !important;
+    padding:24px;
+    .content-panel {
+        .content-panel-stack{
+            h1 {
+                font-size: 22px;
+                height: 33px;
+                background-color: rgba(255, 255, 255, 0);
+                box-sizing: border-box;
+                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-weight: 500;
+                color: #252628;
+                text-align: left;
+                line-height: 33px;
+            }
+        
+            h4 {
+                font-size: 16px;
+                height: 24px;
+                background-color: rgba(255, 255, 255, 0);
+                box-sizing: border-box;
+                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-weight: 500;
+                color: #333333;
+                text-align: left;
+                line-height: 24px;
+            }
+    
+            .stage-of-control{
+                display: flex;
+                align-items: baseline;
+                color: #6e6e6e;
+                text-align: left;
+                line-height: 24px;
+                div {
+                    margin-right: 38px;
+                  }
+                div:last-child{
+                    margin-right: 0;
+                }
+                  
+            }
+    
+            .current-resources{
+                color: #6e6e6e;
+                text-align: left;
+                line-height: 24px;
+                div{
+                    display: flex;
+                    align-items: center;
+                }
+                .image-size {
+                    padding-right: 16px;
+                    width: 40px;
+                    height: 40px;
+                }
+                span {
+                    text-decoration: underline;
+                    color:#242424;
+                }
+            }
+    
+            .content-panel-subtitle{
+                font-size: 16px;
+                text-align: left;
+                color: #6e6e6e;
+                line-height: 24px;
+            }
+            .icon{
+                padding-right: 16px;
+            }
+            .resource-panel {
+                padding-bottom: 10px !important;
+                .resource-panel-content {
+                h3 {
+                    margin-left: 50px;
+                    margin-top: 7px;
+                }
+                .image-size {
+                    width: 40px;
+                    height: 40px;
+                    position: absolute;
+                }
+                }
+            }
+            
+            .header-row {
+                .header-button-container {
+                    .print-button {
+                    display: none !important;
+                    }
+                }
+            }
+            
+            .divider {
+                border-bottom: 1px lightgray solid;
+                padding-top: 7px;
+                padding-bottom: 7px;
+            }
+        }
+    }
+}
