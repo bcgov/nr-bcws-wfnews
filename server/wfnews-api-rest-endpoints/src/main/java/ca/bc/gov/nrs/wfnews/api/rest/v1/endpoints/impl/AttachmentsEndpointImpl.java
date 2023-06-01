@@ -260,7 +260,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			} else {
 				response = Response.status(404).build();
 			}
-		} catch (NoSuchKeyException e) {
+		} catch (AwsServiceException | SdkClientException e) {
 			response = Response.status(404).build();
 		} catch (IOException e) {
 			response = getInternalServerErrorResponse(e);
