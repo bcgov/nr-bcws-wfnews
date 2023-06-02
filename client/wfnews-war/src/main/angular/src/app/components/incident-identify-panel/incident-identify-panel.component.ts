@@ -109,7 +109,7 @@ export class IncidentIdentifyPanelComponent {
       this.index = 1;
     }
 
-    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false)
+    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false).catch(e => console.error(e))
   }
 
   previous () {
@@ -118,7 +118,7 @@ export class IncidentIdentifyPanelComponent {
       this.index = this.identifiedFeatures.length;
     }
 
-    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false)
+    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false).catch(e => console.error(e))
   }
 
   onWatchlist (): boolean {
