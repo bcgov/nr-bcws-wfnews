@@ -77,8 +77,8 @@ export class IncidentIdentifyPanelComponent {
       this.incident.lastUpdatedTimestamp = this.incident.lastUpdatedTimestamp ? new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options) : 'Pending';
 
       // load evac orders nearby
-      await this.getEvacOrders();
-      await this.getExternalUriEvacOrders()
+      await this.getEvacOrders().catch(e => console.error(e))
+      await this.getExternalUriEvacOrders().catch(e => console.error(e))
       // then, set loaded to true and refresh the page
       this.loaded = true;
 
