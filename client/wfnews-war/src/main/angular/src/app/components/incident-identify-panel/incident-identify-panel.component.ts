@@ -34,7 +34,7 @@ export class IncidentIdentifyPanelComponent {
                ) {}
 
   // if we want the "next" functionality, pass in the identify set
-  setIncident (incidentRef, identifyList, setIndex = true) {
+  async setIncident (incidentRef, identifyList, setIndex = true) {
     this.loaded = false;
     this.featureSet = identifyList;
     // clear the feature list
@@ -62,7 +62,7 @@ export class IncidentIdentifyPanelComponent {
     const id = incidentRef.FIRE_NUMBER ? incidentRef.FIRE_NUMBER : incidentRef.incident_number_label
     const year = incidentRef.fire_year
 
-    this.publishedIncidentService.fetchPublishedIncident(id, year).toPromise().then(result => {
+    this.publishedIncidentService.fetchPublishedIncident(id, year).toPromise().then(async result => {
       this.incident = result;
 
       this.incident.geometry = {
@@ -77,8 +77,8 @@ export class IncidentIdentifyPanelComponent {
       this.incident.lastUpdatedTimestamp = this.incident.lastUpdatedTimestamp ? new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options) : 'Pending';
 
       // load evac orders nearby
-      this.getEvacOrders();
-
+      await this.getEvacOrders().catch(e => console.error(e))
+      await this.getExternalUriEvacOrders().catch(e => console.error(e))
       // then, set loaded to true and refresh the page
       this.loaded = true;
 
@@ -109,7 +109,7 @@ export class IncidentIdentifyPanelComponent {
       this.index = 1;
     }
 
-    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false)
+    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false).catch(e => console.error(e))
   }
 
   previous () {
@@ -118,7 +118,7 @@ export class IncidentIdentifyPanelComponent {
       this.index = this.identifiedFeatures.length;
     }
 
-    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false)
+    this.setIncident(this.identifiedFeatures[this.index - 1].properties, this.featureSet, false).catch(e => console.error(e))
   }
 
   onWatchlist (): boolean {
@@ -148,6 +148,29 @@ export class IncidentIdentifyPanelComponent {
           })
         }
       }
+    })
+  }
+
+  async getExternalUriEvacOrders () {
+    return this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
+      if (results && results.collection && results.collection.length > 0) {
+        for (const uri of results.collection) {
+          if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+            this.evacOrders.push({
+              eventName: uri.externalUriDisplayLabel,
+              eventType: uri.externalUriCategoryTag.split(':')[1],
+              orderAlertStatus: uri.externalUriCategoryTag.split(':')[1],
+              issuingAgency: 'Pending',
+              preOcCode: 'NA',
+              emrgOAAsysID: 0,
+              uri: uri.externalUri,
+              centroid: [0, 0]
+            })
+          }
+        }
+      }
+    }).catch(err => {
+      console.error(err)
     })
   }
 
