@@ -6,12 +6,12 @@
         <div class="content-panel-stack">
             <h1>Summary</h1>
             <h4>Stage of Control</h4>
-            <div class="stage-of-control">
+            <div class="sub-title">
                 <div *ngIf="incident.fireOfNoteInd"><img class="icon" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</div>
                 <div>{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
             </div>
-            <h4>Current Resources</h4>
             <div class="current-resources" *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
+                <h4>Current Resources</h4>
                 <div *ngIf="incident.wildfireCrewResourcesInd"> 
                     <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews-mobile.svg" alt="Wildfire Crews" />
                     Wildfire Crews
@@ -39,5 +39,195 @@
             </div>
             <div class="divider"></div>
         </div>
+
+        <div class="content-panel-stack">
+            <h1>Stage of Control</h1>
+            <div *ngIf="incident.fireOfNoteInd">
+                <div class="sub-title">
+                    <h4><img class="icon" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</h4>
+                </div>
+                <div class="sub-content">
+                    This wildfire is highly visible or poses a potential threat to public safety.
+                </div>
+            </div>
+            <div>
+                <div class="sub-title">
+                    <h4>{{getStageOfControlLabel(incident.stageOfControlCode)}}</h4>                    
+                </div>
+                <div class="sub-content">
+                    {{getStageOfControlDescription(incident.stageOfControlCode)}}
+                </div>
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Fire Size</h1>
+            <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares 
+                <button mat-icon-button [matTooltip]="getTooltipText()" #tooltip="matTooltip" (click)="tooltip.toggle()"><mat-icon>help_outline</mat-icon></button>
+            </div>
+            <div class="sub-content">
+                {{incident.incidentSizeDetail || 'Fire size is estimated and based on the most current information available.'}}
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Location</h1>
+            <div *ngIf="incident.incidentLocation">
+                <div class="sub-title" style="color:#2c2c2c"> Description</div>
+                <div class="sub-content">
+                    {{incident.incidentLocation}}
+                </div>
+            </div>
+            <div *ngIf="incident.traditionalTerritoryDetail">
+                <div class="sub-title" style="color:#2c2c2c"> Traditional Territory</div>
+                <div class="sub-content">
+                    {{incident.traditionalTerritoryDetail}}
+                </div>
+            </div>
+
+            <button mat-button class="mobile-button" (click)="navigateToMap()">
+                <span class="material-icons-outlined">map</span>
+                View on Wildfire Map
+            </button>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Suspected Cause</h1>
+
+            <div class="sub-title"><h4>{{getCauseLabel(incident.generalIncidentCauseCatId)}}</h4></div>
+            <div class="sub-content">
+                {{getCauseDescription(incident.generalIncidentCauseCatId)}}
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Evacuation Notices</h1>
+            <div class="sub-title" *ngIf="!evacOrders || evacOrders.length <= 0 ; else displayEvacOrders">There are no current evacuation orders or alerts associated with this incident.</div>
+            <ng-template #displayEvacOrders>
+                <div class="sub-title"><h4>What is an Evacuation Order?</h4></div>
+                <div class="sub-content">
+                    You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.
+                </div>
+            </ng-template>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Area Restrictions</h1>
+            <div class="sub-title" *ngIf="!areaRestrictions || areaRestrictions.length <= 0 ; else displayAreaRestrictions">There are no current area restrictions near this incident.</div>
+            <ng-template #displayAreaRestrictions>
+                <div class="sub-title"><h4>What is an Area Restrictions?</h4></div>
+                <div class="sub-content">
+                    Area restrictions or forest use restrictions refer to area closures and activity restrictions necessary to limit the risk of a fire, address a public safety concern or avoid interference with fire control.                </div>
+            </ng-template>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack" *ngIf="incident.responseTypeCode">
+            <h1>Response Type</h1>
+            <div>
+                <div class="sub-title"><h4>{{incident.responseTypeCode.toLowerCase()}}</h4></div>
+                <div class="sub-content">{{getResponseTypeDescription(incident.responseTypeCode)}}</div>
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack" *ngIf="(incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd)">
+            <h1>Current Resources</h1>
+            <div class="sub-content">The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed in the “Contact Us” section.</div>
+            <div class="resource-section" *ngIf="incident.wildfireCrewResourcesInd">
+                <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-crews" target="_blank">
+                    <div class="resource-section-content">
+                        <span>
+                            <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews-mobile.svg" alt="Wildfire Crews" />
+                            <h4>Wildfire Crews</h4>
+                        </span>
+                        <div class="sub-content">
+                        <div>{{incident.wildfireCrewResourcesDetail}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="resource-section" *ngIf="incident.wildfireAviationResourceInd">
+                <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/wildfire-aviation" target="_blank">
+                    <div class="resource-section-content">
+                        <span>
+                            <img class="image-size" src="../../../assets/images/svg-icons/aviation-mobile.svg" alt="Wildfire Crews" />
+                            <h4>Wildfire Aviation</h4>
+                        </span>
+                        <div class="sub-content">
+                        <div>{{incident.wildfireAviationResourceDetail}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="resource-section" *ngIf="incident.incidentMgmtCrewRsrcInd">
+                <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/incident-management" target="_blank">
+                    <div class="resource-section-content">
+                        <span>
+                            <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams-mobile.svg" alt="Wildfire Crews" />
+                            <h4>Incident Management Team</h4>
+                        </span>
+                        <div class="sub-content">
+                        <div>{{incident.incidentMgmtCrewRsrcDetail}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="resource-section" *ngIf="incident.heavyEquipmentResourcesInd">
+                <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/heavy-equipment" target="_blank">
+
+                    <div class="resource-section-content">
+                        <span>
+                            <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment-mobile.svg" alt="Wildfire Crews" />
+                            <h4>Heavy Equipment</h4>
+                        </span>
+                        <div class="sub-content">
+                        <div>{{incident.heavyEquipmentResourcesDetail}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="resource-section" *ngIf="incident.structureProtectionRsrcInd">
+                <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools/structure-protection" target="_blank">
+                    <div class="resource-section-content">
+                        <span>
+                            <img class="image-size" src="../../../assets/images/svg-icons/structure-protection-mobile.svg" alt="Wildfire Crews" />
+                            <h4>Structure Protection</h4>
+                        </span>
+                        <div class="sub-content">
+                        <div>{{incident.structureProtectionRsrcDetail}}</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="divider"></div>
+        </div>
+
+        <div class="content-panel-stack">
+            <h1>Contact Us</h1>
+            <div>
+                <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">badge</span><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
+                <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">email</span><span>{{incident.contactEmailAddress}}</span></div>
+                <div style="display: flex;"><span class="material-icons" style="padding-right: 10px;">call</span><span>{{incident.contactPhoneNumber}}</span></div>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding-top: 24px;">
+                <button mat-button class="mobile-button" (click)="navigateToMap()">
+                    <span class="material-icons">call</span>
+                    Call Us
+                </button>
+                <button mat-button class="mobile-button" (click)="navigateToMap()">
+                    <span class="material-icons-outlined">email</span>
+                    Email Us
+                </button>
+            </div>
+            <div class="divider"></div>
+        </div>
+
     </div>
   </div>
