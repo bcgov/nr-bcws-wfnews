@@ -20,4 +20,29 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   navigateToMap(){
     //to do, need to wait for the mobile map screen ticket
   }
+
+  navigateToEvac(evac){
+    //to do. need to wait for the screen design
+  }
+
+  navigateToAreaRestriction(area){
+    //to do. need to wait for the screen design
+  }
+
+  scrollToSection(event,sectionId) {
+    // event.preventDefault();
+    const section = document.getElementById(sectionId);
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  callFireCentre(phoneNumber:string) {
+    const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ""));
+    window.open(`tel:${parsedPhoneNumber}`, '_system');
+  }
+
+  emailFireCentre(recipientEmail:string) {
+    const mailtoUrl = `mailto:${recipientEmail}`;
+    window.location.href = mailtoUrl;
+  }
+  
 }

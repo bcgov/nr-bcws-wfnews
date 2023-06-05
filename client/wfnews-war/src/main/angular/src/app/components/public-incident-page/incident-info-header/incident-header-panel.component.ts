@@ -4,6 +4,7 @@ import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
+import * as moment from "moment"
 
 @Component({
   selector: 'incident-header-panel',
@@ -35,7 +36,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
       boxZoom: false,
       trackResize: false,
       scrollWheelZoom: false
-    }).setView(location, 12)
+    }).setView(location, 9)
     // configure map data
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -120,5 +121,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   hideOnMobileView () {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+  }
+
+  convertoToMobileFormate (dateString) {
+    const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
+    return formattedDate
+
   }
 }

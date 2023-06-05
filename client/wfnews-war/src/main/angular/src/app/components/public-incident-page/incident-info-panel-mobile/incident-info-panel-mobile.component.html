@@ -1,5 +1,11 @@
 
 <div class="panel">
+    <div class="warning-card" *ngFor="let evac of evacOrders" (click)="navigateToEvac(evac)">
+        <span class="container">
+            <span class="material-icons">error</span>
+            <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
+        </span>
+    </div>
 
   <div class="content-panel">
       <div>
@@ -32,7 +38,7 @@
                     <img class="image-size" src="../../../assets/images/svg-icons/structure-protection-mobile.svg" alt="Structure Protection Units" />
                     Structure Protection Units
                 </div>
-                <div style="padding-top:16px">
+                <div style="padding-top:16px" (click)="scrollToSection(event, 'currentResourcesSection')">
                     <span> Jump to current resources section</span>
                     <mat-icon>chevron_right</mat-icon>
                 </div>
@@ -108,6 +114,12 @@
             <h1>Evacuation Notices</h1>
             <div class="sub-title" *ngIf="!evacOrders || evacOrders.length <= 0 ; else displayEvacOrders">There are no current evacuation orders or alerts associated with this incident.</div>
             <ng-template #displayEvacOrders>
+                <div class="evac-order-card" *ngFor="let evac of evacOrders">
+                    <span class="container">
+                        <span class="material-icons">error</span>
+                        <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
+                    </span>
+                </div>
                 <div class="sub-title"><h4>What is an Evacuation Order?</h4></div>
                 <div class="sub-content">
                     You are at risk. Leave the area immediately. You are encouraged to register all family members at the nearest reception centre so emergency responders know you are safe.
@@ -120,6 +132,16 @@
             <h1>Area Restrictions</h1>
             <div class="sub-title" *ngIf="!areaRestrictions || areaRestrictions.length <= 0 ; else displayAreaRestrictions">There are no current area restrictions near this incident.</div>
             <ng-template #displayAreaRestrictions>
+                <div class="evac-order-card" *ngFor="let area of areaRestrictions" (click)="navigateToAreaRestriction(area)">
+                    <span class="container">
+                        <span class="material-icons">error</span>
+                        <span> Area Restriction: {{area.eventName}}</span>
+                    </span>
+                </div>
+                <!-- <div *ngFor="let area of areaRestrictions">
+                    <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link no-print">{{area.name}}</a>
+                    <p class="show-print">{{area.name}} Link: <a [href]="area.bulletinUrl" target="_blank" rel="noopener" class="content-panel-link show-print">{{area.bulletinUrl}}</a></p>
+                  </div> -->
                 <div class="sub-title"><h4>What is an Area Restrictions?</h4></div>
                 <div class="sub-content">
                     Area restrictions or forest use restrictions refer to area closures and activity restrictions necessary to limit the risk of a fire, address a public safety concern or avoid interference with fire control.                </div>
@@ -136,7 +158,7 @@
             <div class="divider"></div>
         </div>
 
-        <div class="content-panel-stack" *ngIf="(incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd)">
+        <div class="content-panel-stack" id="currentResourcesSection" *ngIf="(incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd)">
             <h1>Current Resources</h1>
             <div class="sub-content">The BC Wildfire Service relies on thousands of people each year to respond to wildfires. This includes firefighters, air crew, equipment operators, and support staff. For more information on resources assigned to this incident, please contact the information officer listed in the “Contact Us” section.</div>
             <div class="resource-section" *ngIf="incident.wildfireCrewResourcesInd">
@@ -217,11 +239,11 @@
                 <div style="display: flex;"><span class="material-icons" style="padding-right: 10px;">call</span><span>{{incident.contactPhoneNumber}}</span></div>
             </div>
             <div style="display: flex; justify-content: space-between; padding-top: 24px;">
-                <button mat-button class="mobile-button" (click)="navigateToMap()">
+                <button mat-button class="mobile-button" (click)="callFireCentre(incident.contactPhoneNumber)">
                     <span class="material-icons">call</span>
                     Call Us
                 </button>
-                <button mat-button class="mobile-button" (click)="navigateToMap()">
+                <button mat-button class="mobile-button" (click)="emailFireCentre(incident.contactEmailAddress)">
                     <span class="material-icons-outlined">email</span>
                     Email Us
                 </button>

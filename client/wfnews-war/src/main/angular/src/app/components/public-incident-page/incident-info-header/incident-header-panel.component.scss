@@ -128,10 +128,36 @@
   h4 {
     color: #003366;
   }
+    .header-content{
+      padding-top: 16px;
+      color:#6e6e6e;
+      font-size: 14px;
+      display: flex;
+      justify-content: flex-start;
+      .item{
+        margin-right: 26px;
+      }
+
+      .item:last-child {
+        margin-right: 0;
+      }
+      .mobile-button{
+        border-radius: 5px;
+        border: 1px solid #6e6e6e;
+        background-color: #fdfdfd;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
 }
 
 @media (max-width: 768px) {
   .header-container {
     padding: 0px !important;
+  }
+  .title{
+    color:black !important
   }
 }
