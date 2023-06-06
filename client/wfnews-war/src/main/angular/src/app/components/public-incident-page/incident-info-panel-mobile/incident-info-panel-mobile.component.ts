@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
 
 @Component({
@@ -6,9 +6,7 @@ import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.co
   templateUrl: './incident-info-panel-mobile.component.html',
   styleUrls: ['./incident-info-panel-mobile.component.scss']
 })
-export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implements OnInit {
-  ngOnInit(): void {
-  }
+export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel {
 
   getTooltipText() {
     return `What is a Hecture?
@@ -30,7 +28,6 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   scrollToSection(event,sectionId) {
-    // event.preventDefault();
     const section = document.getElementById(sectionId);
     section.scrollIntoView({ behavior: 'smooth' });
   }

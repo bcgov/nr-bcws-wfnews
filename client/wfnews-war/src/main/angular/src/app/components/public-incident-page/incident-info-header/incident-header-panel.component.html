@@ -9,7 +9,7 @@
       <div *ngIf="!hideOnMobileView()" class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre || incident.fireCentreCode)}}</a></div>
     </div>
     <div *ngIf="!hideOnMobileView()">
-       <div class="info-panel">
+      <div class="info-panel">
         <div><span class="label">Fire Number: </span><span>{{convertFireNumber(incident)}}</span></div>
         <div><span class="label">Last Updated: </span><span>{{incident.lastUpdatedTimestamp}}</span></div>
         <div *ngIf="incident.discoveryDate"><span class="label">Discovered On: </span><span>{{incident.discoveryDate}}</span></div>
@@ -24,7 +24,7 @@
         <div class="gutter" *ngIf="incident.traditionalTerritoryDetail"><span class="label">Traditional Territory</span></div>
         <div class="paragraph-format">{{incident.traditionalTerritoryDetail}}</div>
       </div>
-      <!-- Evac Orders-->
+     <!-- Evac Orders-->
       <div *ngIf="evacOrders.length > 0" class="divider"></div>
       <div style="padding-top: 7px;" *ngIf="evacOrders.length > 0">
         <h4>Active Evacuation Orders and Alerts</h4>
@@ -37,28 +37,29 @@
       </div>
     </div>
     <div *ngIf="hideOnMobileView()">
-      <div class="header-content">
-        <div class="item"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
-        <div class="item"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
-      </div>
-
-      <div class="header-content">
-        <div class="item"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
-        <div class="item"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
-      </div>
-
-      <div class="header-content">
-        <div class="item">
-          <button mat-button class="mobile-button">
-            <span class="material-icons-outlined">notifications_active</span>
-            Notification On
-          </button>
+        <div class="header-content">
+          <div class="item"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
+          <div class="item"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
         </div>
-        <div class="item">
-          <button mat-button class="mobile-button">
-            Contact Us
-          </button>
+
+        <div class="header-content">
+          <div class="item"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
+          <div class="item"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
         </div>
+
+        <div class="header-content">
+          <div class="item">
+            <button mat-button class="mobile-button">
+              <span class="material-icons-outlined">notifications_active</span>
+              Notification On
+            </button>
+          </div>
+          <div class="item">
+            <button mat-button class="mobile-button">
+              Contact Us
+            </button>
+          </div>
+      </div>
     </div>
   </div>
   <div id="map" class="map-container" *ngIf="!hideOnMobileView()">
