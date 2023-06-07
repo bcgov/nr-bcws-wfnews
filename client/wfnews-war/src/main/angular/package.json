@@ -19,7 +19,6 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/youtube-player": "^13.3.9",
     "@angular/animations": "15.2.9",
     "@angular/cdk": "15.2.9",
     "@angular/common": "15.2.9",
@@ -31,6 +30,7 @@
     "@angular/platform-browser-dynamic": "15.2.9",
     "@angular/router": "15.2.9",
     "@angular/service-worker": "15.2.9",
+    "@angular/youtube-player": "^13.3.9",
     "@busacca/ng-pick-datetime": "10.0.0",
     "@ckeditor/ckeditor5-angular": "4.0.0",
     "@ckeditor/ckeditor5-build-decoupled-document": "35.0.1",
@@ -52,6 +52,7 @@
     "assert": "2.0.0",
     "core-js": "2.5.7",
     "dayjs": "1.11.4",
+    "deep-equal": "^2.2.1",
     "file-size": "1.0.0",
     "font-awesome": "4.7.0",
     "jquery": "3.5.1",
