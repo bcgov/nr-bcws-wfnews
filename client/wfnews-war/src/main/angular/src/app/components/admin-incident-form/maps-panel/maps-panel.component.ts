@@ -4,7 +4,7 @@ import { BaseComponent } from "../../base/base.component";
 import * as moment from 'moment';
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
+import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -44,7 +44,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
               protected route: ActivatedRoute,
               protected sanitizer: DomSanitizer,
               protected store: Store<RootState>,
-              protected fb: FormBuilder,
+              protected fb: UntypedFormBuilder,
               protected dialog: MatDialog,
               protected applicationStateService: ApplicationStateService,
               protected tokenService: TokenService,

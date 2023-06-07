@@ -19,7 +19,7 @@ import {
     isElementTruncated,
     ResourcesRoutes
 } from '../../../app/utils';
-import {AbstractControl, FormBuilder, FormGroup} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup} from '@angular/forms';
 import {Overlay} from '@angular/cdk/overlay';
 import {ApplicationStateService} from '../../services/application-state.service';
 import {AppConfigService, TokenService} from '@wf1/core-ui';
@@ -91,7 +91,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
                 protected route: ActivatedRoute,
                 protected sanitizer: DomSanitizer,
                 protected store: Store<RootState>,
-                protected fb: FormBuilder,
+                protected fb: UntypedFormBuilder,
                 protected dialog: MatDialog,
                 protected applicationStateService: ApplicationStateService,
                 protected tokenService: TokenService,
@@ -164,19 +164,19 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         window.location.href = url;
     }
 
-    getAsFormGroup(ac: AbstractControl): FormGroup {
-        return ac as FormGroup;
+    getAsFormGroup(ac: AbstractControl): UntypedFormGroup {
+        return ac as UntypedFormGroup;
     }
 
-    disableSaveForm(form?: FormGroup): boolean {
+    disableSaveForm(form?: UntypedFormGroup): boolean {
         const fg = form ? form : this.viewModel.formGroup;
         return !fg.dirty || !fg.valid;
     }
 
-    disableBatchSaveForm(arrayProperty: string, form?: FormGroup): boolean {
+    disableBatchSaveForm(arrayProperty: string, form?: UntypedFormGroup): boolean {
         const fg = form ? form : this.viewModel.formGroup;
         //Check form array for dirty flag
-        const fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
+        const fgArray: UntypedFormGroup[] = fg?.controls[arrayProperty]['controls'];
 
         const arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
         const arrayHasInvalidFlag = fgArray.some(contactFg => !contactFg.valid);
@@ -196,7 +196,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         return false;
     }
 
-    unsavedForm(form?: FormGroup, arrayProperty?: string): boolean {
+    unsavedForm(form?: UntypedFormGroup, arrayProperty?: string): boolean {
         const fg = form ? form : this.viewModel.formGroup;
         if (arrayProperty) {
             this.unsavedBatchForm(arrayProperty);
@@ -209,7 +209,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     unsavedBatchForm(arrayProperty: string): boolean {
         const fg = this.viewModel.formGroup;
         //Check form array for dirty flag
-        const fgArray: FormGroup[] = fg?.controls[arrayProperty]['controls'];
+        const fgArray: UntypedFormGroup[] = fg?.controls[arrayProperty]['controls'];
         const arrayHasDirtyFlag = fgArray.some(contactFg => contactFg.dirty);
         const hasAddedUnsavedItem = this.hasAddedUnsavedItemNotBlank(fg, arrayProperty);
         this.doUnsavedStateUpdateIfNeeded(this.componentId, arrayHasDirtyFlag || fg.dirty || hasAddedUnsavedItem);
@@ -220,10 +220,10 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
         this.isUnsaved = newUnsavedState;
     }
 
-    hasAddedUnsavedItemNotBlank(fgMain: FormGroup, arrayProperty: string) {
+    hasAddedUnsavedItemNotBlank(fgMain: UntypedFormGroup, arrayProperty: string) {
         const controls = fgMain?.controls[arrayProperty]['controls'];
         const ret = controls.some(ac => {
-                const fg: FormGroup = <FormGroup>ac;
+                const fg: UntypedFormGroup = <UntypedFormGroup>ac;
                 if (!fg.get('id').value && controls.length > 1) { //not a default empty entry
                     return true;
                 } else if (!fg.get('id').value && controls.length == 1) { //check if empty entry

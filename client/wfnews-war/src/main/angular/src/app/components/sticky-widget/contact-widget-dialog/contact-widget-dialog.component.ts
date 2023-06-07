@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AppConfigService } from '@wf1/core-ui';
@@ -12,7 +12,7 @@ import { AppConfigService } from '@wf1/core-ui';
 })
 export class ContactWidgetDialogComponent implements OnInit {
 
-    public contactForm: FormGroup;
+    public contactForm: UntypedFormGroup;
     contactInformationConfig: any;
     public closeColor;
 
@@ -32,11 +32,11 @@ export class ContactWidgetDialogComponent implements OnInit {
                 console.warn('Failed initializing app', e);
             });
 
-        this.contactForm = new FormGroup({
-            name: new FormControl('', [Validators.required]),
-            email: new FormControl('', [Validators.required, Validators.email]),
-            subject: new FormControl('', [Validators.required]),
-            message: new FormControl('', [Validators.required, Validators.maxLength(500)])
+        this.contactForm = new UntypedFormGroup({
+            name: new UntypedFormControl('', [Validators.required]),
+            email: new UntypedFormControl('', [Validators.required, Validators.email]),
+            subject: new UntypedFormControl('', [Validators.required]),
+            message: new UntypedFormControl('', [Validators.required, Validators.maxLength(500)])
         });
     }
 
@@ -46,7 +46,7 @@ export class ContactWidgetDialogComponent implements OnInit {
 
     get mailErrorMessages(): string {
         let error = "";
-        const emailControl: FormControl = (this.contactForm.get('email') as FormControl);
+        const emailControl: UntypedFormControl = (this.contactForm.get('email') as UntypedFormControl);
 
         if(emailControl.hasError('email'))
             error += "A valid email is required";
