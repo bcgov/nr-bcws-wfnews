@@ -2,6 +2,9 @@
   "name": "wildfire",
   "version": "1.0.0",
   "license": "MIT",
+  "engines": {
+    "node": "^14.20.0 || ^16.13.0 || ^18.10.0"
+  },
   "scripts": {
     "ng": "ng",
     "serve": "ng serve",
