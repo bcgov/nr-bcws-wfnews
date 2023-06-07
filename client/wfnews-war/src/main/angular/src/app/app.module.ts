@@ -29,7 +29,7 @@ import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
 import { EffectsModule } from '@ngrx/effects';
-import { DefaultRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import { FullRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppConfigService, CoreUIModule, TokenService } from '@wf1/core-ui';
@@ -250,7 +250,7 @@ export const DATE_FORMATS = {
                 strictActionImmutability: false,
             }
         }),
-        StoreRouterConnectingModule.forRoot({ serializer: DefaultRouterStateSerializer, stateKey: 'router' }),
+        StoreRouterConnectingModule.forRoot({ serializer: FullRouterStateSerializer, stateKey: 'router' }),
         StoreDevtoolsModule.instrument({
             maxAge: 25,
             logOnly: environment.production, // Restrict extension to log-only mode
