@@ -5,6 +5,9 @@ import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
 import * as moment from "moment"
+import { MatDialog } from "@angular/material/dialog"
+import { PublishDialogComponent } from "../../admin-incident-form/publish-dialog/publish-dialog.component"
+import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
 
 @Component({
   selector: 'incident-header-panel',
@@ -21,7 +24,8 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   private map: any
 
-  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService) {
+  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog,
+    ) {
     /* Empty, just here for injection */
   }
 
@@ -127,5 +131,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
     const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
     return formattedDate
 
+  }
+
+  openContactUsWindow() {
+    let dialogRef = this.dialog.open(ContactUsDialogComponent, {
+      width: '350px',
+      data: {
+        fireCentre: convertToFireCentreDescription(this.incident.contactOrgUnitIdentifer || this.incident.fireCentreName || this.incident.fireCentreCode || this.incident.fireCentre),
+        email: this.incident.contactEmailAddress,
+        phoneNumber: this.incident.contactPhoneNumber
+      }
+    });
   }
 }

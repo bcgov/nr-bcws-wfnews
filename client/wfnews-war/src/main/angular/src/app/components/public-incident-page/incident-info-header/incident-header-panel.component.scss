@@ -133,14 +133,14 @@
     color:#6e6e6e;
     font-size: 14px;
     display: flex;
-    justify-content: flex-start;
-    .item{
-      margin-right: 26px;
-    }
+    justify-content: space-between;
+    // .item{
+    //   margin-right: 26px;
+    // }
 
-    .item:last-child {
-      margin-right: 0;
-    }
+    // .item:last-child {
+    //   margin-right: 0;
+    // }
     .mobile-button{
       border-radius: 5px;
       border: 1px solid #6e6e6e;
