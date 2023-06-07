@@ -9,7 +9,7 @@ import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.co
 export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel {
 
   getTooltipText() {
-    return `What is a Hecture?
+    return `What is a Hectare?
 
     A hectare is a unit of area equal to 10,000 square meters or around 2.5 acres of land.
     `;

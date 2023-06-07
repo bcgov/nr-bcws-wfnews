@@ -6,7 +6,6 @@ import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
 import * as moment from "moment"
 import { MatDialog } from "@angular/material/dialog"
-import { PublishDialogComponent } from "../../admin-incident-form/publish-dialog/publish-dialog.component"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
 
 @Component({
@@ -134,7 +133,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   openContactUsWindow() {
-    let dialogRef = this.dialog.open(ContactUsDialogComponent, {
+    this.dialog.open(ContactUsDialogComponent, {
       width: '350px',
       data: {
         fireCentre: convertToFireCentreDescription(this.incident.contactOrgUnitIdentifer || this.incident.fireCentreName || this.incident.fireCentreCode || this.incident.fireCentre),
