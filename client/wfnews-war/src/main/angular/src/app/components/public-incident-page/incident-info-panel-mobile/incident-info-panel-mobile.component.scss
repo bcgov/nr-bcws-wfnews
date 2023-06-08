@@ -18,6 +18,10 @@
     .content-panel {
         padding:24px;
         .content-panel-stack{
+            .circle-icon{
+                width:16px;
+                height: 16px;
+            }
             h1 {
                 font-size: 22px;
                 height: 33px;
@@ -166,6 +170,41 @@
     border-radius: 10px !important;
     box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25) !important; 
   }
+
+  .circle-icon{
+    &.HOLDING{
+        background-color: #ffff00;
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        margin-right: 16px;
+    }
+    &.OUT_CNTRL{
+        background-color: #FF0000;
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        margin-right: 16px;
+    }
+    &.UNDR_CNTRL{
+        background-color: #98E600;
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        margin-right: 16px;
+    }
+    &.OUT{
+        background-color: #5C6671;
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 18px;
+        height: 18px;
+        margin-right: 16px;
+    }
+}
 // .tooltip {
 //     position: absolute;
 //     top: 100%;

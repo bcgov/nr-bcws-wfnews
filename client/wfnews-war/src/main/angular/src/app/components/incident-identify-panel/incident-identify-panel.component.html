@@ -26,7 +26,6 @@
   </div>
   <div class="info-panel">
     <div><span class="label">Fire Number: </span><span class="paragraph-format">{{convertFireNumber(incident)}}</span></div>
-    <span matTooltip="Evacuation Orders and Alerts">sqw</span>
     <div><span class="label">Last Updated: </span><span class="paragraph-format">{{incident.lastUpdatedTimestamp}}</span></div>
     <div><span class="label">Discovered On: </span><span class="paragraph-format">{{incident.discoveryDate}}</span></div>
     <div *ngIf="incident.stageOfControlCode === 'OUT'"><span class="label">Declared Out: </span><span>{{incident.declaredOutDate}}</span></div>

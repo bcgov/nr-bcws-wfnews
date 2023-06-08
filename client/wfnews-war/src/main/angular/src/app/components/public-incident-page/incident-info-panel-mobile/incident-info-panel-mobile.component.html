@@ -11,10 +11,13 @@
       <div>
         <div class="content-panel-stack">
             <h1>Summary</h1>
-            <h4>Stage of Control</h4>
+            <h4 >Stage of Control</h4>
             <div class="sub-title">
                 <div *ngIf="incident.fireOfNoteInd"><img class="icon" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</div>
-                <div>{{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
+                <div style="display: flex; align-items: baseline;">
+                    <span *ngIf="!incident.fireOfNoteInd" class="circle-icon {{incident.stageOfControlCode}}"></span>
+                    <span>{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
+                </div>
             </div>
             <div class="current-resources" *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
                 <h4>Current Resources</h4>
@@ -58,9 +61,10 @@
             </div>
             <div>
                 <div class="sub-title">
+                    <span *ngIf="!incident.fireOfNoteInd" class="circle-icon {{incident.stageOfControlCode}}"></span>
                     <h4>{{getStageOfControlLabel(incident.stageOfControlCode)}}</h4>                    
                 </div>
-                <div class="sub-content">
+                <div class="sub-content" style="display: flex; align-items: baseline;">
                     {{getStageOfControlDescription(incident.stageOfControlCode)}}
                 </div>
             </div>
