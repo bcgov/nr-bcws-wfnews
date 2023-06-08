@@ -215,7 +215,7 @@
 							<goal>npm</goal>
 						</goals>
 						<configuration>
-							<arguments>install --no-package-lock --registry=${npm.url}</arguments>
+							<arguments>install --legacy-peer-deps --no-package-lock --registry=${npm.url}</arguments>
 						</configuration>
 					</execution>
 					<execution>
