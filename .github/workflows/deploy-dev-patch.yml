@@ -10,8 +10,7 @@ env:
 on: workflow_dispatch
 
 jobs:
-
-  call-mvn-client:
+  call-mvn-client-patch:
     if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-client-patch.yml
     secrets: inherit
@@ -19,7 +18,7 @@ jobs:
       REGISTRY: ghcr.io
       BRANCH: ${{ vars.PATCH_BRANCH }}
 
-  call-mvn-server:
+  call-mvn-server-patch:
     if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-server-patch.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
