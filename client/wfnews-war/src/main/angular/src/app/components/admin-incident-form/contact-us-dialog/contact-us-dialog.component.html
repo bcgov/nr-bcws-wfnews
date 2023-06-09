@@ -1,0 +1,31 @@
+<div class="dialog-container">
+  <div>
+    <h1 mat-dialog-title>Contact Us 
+      <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
+    </h1>
+  </div>
+  <div class="dialog-content publish-dialog-content" mat-dialog-content>
+    <div class="fire-centre">
+      {{data.fireCentre}}
+    </div>
+    <div class="contacts">
+      <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">email</span><span>Email Address</span></div>
+      <span>{{data.email}}</span>
+    </div>
+    <div class="contacts">
+      <div style="display: flex;"><span class="material-icons" style="padding-right: 10px;">call</span><span>Phone Number</span></div>
+      <span>{{data.phoneNumber}}</span>
+    </div>
+
+    <div class="buttons-row">
+      <button mat-button class="mobile-button" (click)="callFireCentre(data.phoneNumber)">
+          <span class="material-icons">call</span>
+          Call Us
+      </button>
+      <button mat-button class="mobile-button" (click)="emailFireCentre(data.email)">
+          <span class="material-icons-outlined">email</span>
+          Email Us
+      </button>
+    </div>
+  </div>
+</div>

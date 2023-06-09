@@ -51,9 +51,11 @@ export class IncidentInfoPanel implements AfterViewInit {
     }
 
     const canvas = document.getElementById('qr-code')
-    toCanvas(canvas, window.location.href, function (error) {
-      if (error) console.error(error)
-    })
+    if (canvas) {
+      toCanvas(canvas, window.location.href, function (error) {
+        if (error) console.error(error)
+      })
+    }
 
     this.router.queryParams.subscribe((params: ParamMap) => {
       this.showWarning = params['preview']
