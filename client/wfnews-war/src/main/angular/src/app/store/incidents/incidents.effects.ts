@@ -21,7 +21,7 @@ export class IncidentsEffect {
         ([action, store]) => {
 
           const typedaction = action as SearchIncidentsAction;
-          const pagingInfoRequest = typedaction.payload.pageInfoRequest ? typedaction.payload.pageInfoRequest : getPageInfoRequestForSearchState(store.searchIncidents);
+          const pagingInfoRequest = typedaction?.payload?.pageInfoRequest || getPageInfoRequestForSearchState(store.searchIncidents);
           const savedFilters = store.searchIncidents.filters;
 
           const pageNumber = pagingInfoRequest.pageNumber ? pagingInfoRequest.pageNumber : initIncidentsPaging.pageNumber;
@@ -51,12 +51,11 @@ export class IncidentsEffect {
           } else {
             searchText = undefined;
           }
-          const savedFireCentreFilter = savedFilters && savedFilters.selectedFireCentreCode ? savedFilters.selectedFireCentreCode : undefined;
-          const savedFireOfNotePublishedIndFilter = savedFilters && savedFilters.selectedFireOfNotePublishedInd ? savedFilters.selectedFireOfNotePublishedInd : undefined;
+          const savedFireCentreFilter = savedFilters?.selectedFireCentreCode;
+          const savedFireOfNotePublishedIndFilter = savedFilters?.selectedFireOfNotePublishedInd;
 
-
-          const fireCentreFilter = typedaction.payload.filters['selectedFireCentreCode'] ? typedaction.payload.filters['selectedFireCentreCode'] : savedFireCentreFilter;
-          const fireOfNotePublishedInd = typedaction.payload.filters['selectedFireOfNotePublishedInd'] ? typedaction.payload.filters['selectedFireOfNotePublishedInd'] : savedFireOfNotePublishedIndFilter;
+          const fireCentreFilter = typedaction.payload.filters['selectedFireCentreCode'] || savedFireCentreFilter;
+          const fireOfNotePublishedInd = typedaction.payload.filters['selectedFireOfNotePublishedInd'] || savedFireOfNotePublishedIndFilter;
 
           const now = new Date();
           let currentFireYear = now.getFullYear();
