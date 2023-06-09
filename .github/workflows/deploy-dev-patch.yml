@@ -17,7 +17,7 @@ jobs:
     secrets: inherit
     with: 
       REGISTRY: ghcr.io
-      BRANCH: ${{ env.PATCH_BRANCH }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
 
   call-mvn-server:
     if: github.event.pull_request.merged == true
@@ -25,7 +25,7 @@ jobs:
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       REGISTRY: ghcr.io
-      BRANCH: ${{ env.PATCH_BRANCH }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
     secrets:
       IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
       IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
