@@ -336,7 +336,7 @@ variable "apisix_container_name" {
 
 variable "max_upload_size" {
   description = "Maximum upload size permitted"
-  default     = "50M"
+  default     = "100M"
   type        = string
 }
 
