@@ -23,6 +23,8 @@ import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import software.amazon.awssdk.core.ResponseInputStream;
 import software.amazon.awssdk.core.sync.RequestBody;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
@@ -227,7 +229,9 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	@Override
 	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) throws IOException {
 		Response response = null;
+
 		ResponseInputStream<GetObjectResponse> s3Object = null;
+		S3Client s3Client = null;
 
 		logRequest();
 
@@ -235,8 +239,6 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
 
 			if (result != null) {
-				S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-
 				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
 				if (thumbnail.booleanValue()) {
 					key += "-thumb";
@@ -246,26 +248,32 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 						.key(key)
 						.build();
 
+				s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 				s3Object = s3Client.getObject(getObjectRequest);
-				
+				s3Client.close();
+
 				response = Response.status(200)
-						.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-						.header("Cache-Control", "no-cache")
-						.entity(s3Object)
-						.build();
+					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
+					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
+					.header("Cache-Control", "no-cache")
+					.entity(s3Object)
+					.build();
+
+				s3Object.close();
+
 			} else {
 				response = Response.status(404).build();
 			}
-		} catch (NoSuchKeyException e) {
-			response = Response.status(404).build();
+		} catch(AwsServiceException | SdkClientException e){
+			response = Response.status(404).build();				
 		} catch (IOException e) {
 			response = getInternalServerErrorResponse(e);
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
-		} finally { 
-			s3Object.close();
-		}
+		} finally {
+			if (s3Object != null) s3Object.close();
+			if (s3Object != null) s3Client.close();
+		} 
 
 		logResponse(response);
 
