@@ -62,8 +62,6 @@ jobs:
   docker:
     needs: build
     runs-on: ubuntu-latest
-    outputs:
-      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     
     steps:
       - uses: actions/checkout@v3
@@ -72,16 +70,9 @@ jobs:
         with:
           name: Package
           path: .
-      
-      - name: Get Pull Request Number
-        id: pr
-        run: echo "::set-output name=pull_request_number::$(gh pr view --json number -q .number || echo "")"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Update image name if PR number present
-        if: ${{'' != steps.pr.outputs.pull_request_number}}
-        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV
+        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-HOTFIX" >> $GITHUB_ENV
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -97,7 +88,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for Docker (with PR)
-        if: ${{ github.event.pull_request.number > 0 }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
@@ -106,10 +96,9 @@ jobs:
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=pr-${{ github.event.pull_request.number}}
+            type=raw,value=pr-HOTFIX
           
       - name: Build and push Docker image (with PR)
-        if: ${{ github.event.pull_request.number > 0 }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
