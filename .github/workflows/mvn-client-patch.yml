@@ -82,7 +82,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for Docker
-        if: ${{ github.event.pull_request.number > 0 }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
@@ -91,10 +90,9 @@ jobs:
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=pr-${{ github.event.pull_request.number}}
+            type=raw,value=pr-HOTFIX
           
       - name: Build and push Docker image (with PR)
-        if: ${{ github.event.pull_request.number > 0 }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
