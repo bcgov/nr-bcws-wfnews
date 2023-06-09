@@ -1,0 +1,42 @@
+.publish-dialog-content {
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+    .fire-centre{
+        font-size: 18px;
+        color:#242424;
+        padding: 0px 16px 0px 16px;
+
+    }
+    .contacts{
+        padding: 24px 16px 0px 16px;
+        color:#333333;
+        font-size: 16px;
+    }
+    .mobile-button{
+        border-radius: 5px;
+        border: 1px solid #6e6e6e;
+        background-color: #fdfdfd;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .buttons-row{
+        padding: 24px 16px 0px 16px;
+        display: flex;
+        justify-content: space-between
+    }
+
+}
+
+h1 {
+    color: #333333;
+    background-color: #f2f2f2;
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 22px;
+}
+
+::ng-deep .mat-dialog-container{
+    border-radius: 20px !important;
+}

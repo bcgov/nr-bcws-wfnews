@@ -6,7 +6,8 @@
     <div>
       <mat-tab-group mat-stretch-tabs>
         <mat-tab label="Overview">
-          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
+          <incident-info-panel *ngIf="!hideOnMobileView()"[incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
+          <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
         </mat-tab>
         <mat-tab label="Details">
           <incident-overview-panel [incident]="incident"></incident-overview-panel>
