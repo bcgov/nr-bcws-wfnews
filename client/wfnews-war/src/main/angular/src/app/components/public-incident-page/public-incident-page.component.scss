@@ -48,15 +48,24 @@
 
 :host ::ng-deep .mat-tab-group {
   background: #f3f6f9;
+  @media (max-width: 768px) {
+      background: white !important;
+  }  
 }
 
 :host ::ng-deep .mat-tab-label {
   color: #003366;
+  @media (max-width: 768px) {
+    color: #242424 !important;
+  }  
 }
 
 :host ::ng-deep .mat-ink-bar {
   background-color: #003366 !important;
   height: 4px !important;
+  @media (max-width: 768px) {
+    background-color: #242424 !important;
+  }  
 }
 
 :host ::ng-deep .mat-tab-label-active {
@@ -80,4 +89,7 @@
   position: sticky;
   position: -webkit-sticky; /* macOS/iOS Safari */
   background-color: #f3f6f9;
+  @media (max-width: 768px) {
+    background-color: white !important;
+  }  
 }
