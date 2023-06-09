@@ -256,6 +256,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
 					.header("Cache-Control", "no-cache")
+					.header("Content-Length", s3Object.available())
 					.entity(s3Object)
 					.build();
 
