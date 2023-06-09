@@ -272,7 +272,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			response = getInternalServerErrorResponse(t);
 		} finally {
 			if (s3Object != null) s3Object.close();
-			if (s3Object != null) s3Client.close();
+			if (s3Client != null) s3Client.close();
 		} 
 
 		logResponse(response);
