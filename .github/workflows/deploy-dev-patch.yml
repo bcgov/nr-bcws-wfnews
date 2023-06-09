@@ -7,8 +7,7 @@ env:
   TRIGGERS: ('client/' 'server/' '.github/workflows')
   PATCH_BRANCH: ${{ vars.PATCH_BRANCH }}
 
-on:
-  workflow_dispatch:
+on: workflow_dispatch
 
 jobs:
 
