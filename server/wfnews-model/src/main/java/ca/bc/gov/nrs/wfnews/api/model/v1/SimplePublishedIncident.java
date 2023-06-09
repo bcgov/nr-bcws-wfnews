@@ -39,11 +39,11 @@ public interface SimplePublishedIncident {
 	public String getTraditionalTerritoryDetail();
 	public void setTraditionalTerritoryDetail(String traditionalTerritoryDetail);
 
-	public Double getIncidentSizeEstimatedHa(); 
-	public void setIncidentSizeEstimatedHa(Double incidentSizeEstimatedHa); 
+	public Integer getIncidentSizeEstimatedHa(); 
+	public void setIncidentSizeEstimatedHa(Integer incidentSizeEstimatedHa); 
 
-	public Double getIncidentSizeMappedHa(); 
-	public void setIncidentSizeMappedHa(Double incidentSizeMappedHa);
+	public Integer getIncidentSizeMappedHa(); 
+	public void setIncidentSizeMappedHa(Integer incidentSizeMappedHa);
 	
 	public String getIncidentSizeDetail(); 
 	public void setIncidentSizeDetail(String incidentSizeDetail); 

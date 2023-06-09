@@ -36,8 +36,8 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private String incidentOverview;
 	private String traditionalTerritoryDetail;
 	private String incidentSizeType;
-	private Double incidentSizeEstimatedHa;
-	private Double incidentSizeMappedHa;
+	private Integer incidentSizeEstimatedHa;
+	private Integer incidentSizeMappedHa;
 	private String incidentSizeDetail;
 	private String incidentCauseDetail;
 	private Integer contactOrgUnitIdentifer;
@@ -183,19 +183,19 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 		this.incidentSizeType = incidentSizeType;
 	}
 
-	public Double getIncidentSizeEstimatedHa() {
+	public Integer getIncidentSizeEstimatedHa() {
 		return incidentSizeEstimatedHa;
 	}
 
-	public void setIncidentSizeEstimatedHa(Double incidentSizeEstimatedHa) {
+	public void setIncidentSizeEstimatedHa(Integer incidentSizeEstimatedHa) {
 		this.incidentSizeEstimatedHa = incidentSizeEstimatedHa;
 	}
 
-	public Double getIncidentSizeMappedHa() {
+	public Integer getIncidentSizeMappedHa() {
 		return incidentSizeMappedHa;
 	}
 
-	public void setIncidentSizeMappedHa(Double incidentSizeMappedHa) {
+	public void setIncidentSizeMappedHa(Integer incidentSizeMappedHa) {
 		this.incidentSizeMappedHa = incidentSizeMappedHa;
 	}
 

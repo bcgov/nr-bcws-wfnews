@@ -31,8 +31,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String incidentOverview;
 	private String traditionalTerritoryDetail;
 	private String incidentSizeType;
-	private Double incidentSizeEstimatedHa;
-	private Double incidentSizeMappedHa;
+	private Integer incidentSizeEstimatedHa;
+	private Integer incidentSizeMappedHa;
 	private String incidentSizeDetail;
 	private String incidentCauseDetail;
 	private Integer contactOrgUnitIdentifer;
@@ -211,8 +211,8 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("incidentOverview", incidentOverview, other.incidentOverview);
 			result = result && equals("traditionalTerritoryDetail", traditionalTerritoryDetail, other.traditionalTerritoryDetail);
 			result = result && equals("incidentSizeType", incidentSizeType, other.incidentSizeType);
-			result = result && incidentSizeEstimatedHa.equals(other.incidentSizeEstimatedHa);
-			result = result && incidentSizeMappedHa.equals(other.incidentSizeMappedHa);
+			result = result && equals("incidentSizeEstimatedHa", incidentSizeEstimatedHa, other.incidentSizeEstimatedHa);
+			result = result && equals("incidentSizeMappedHa", incidentSizeMappedHa, other.incidentSizeMappedHa);
 			result = result && equals("incidentSizeDetail", incidentSizeDetail, other.incidentSizeDetail);
 			result = result && equals("incidentCauseDetail", incidentCauseDetail, other.incidentCauseDetail);
 			result = result && equals("contactOrgUnitIdentifer", contactOrgUnitIdentifer, other.contactOrgUnitIdentifer);
@@ -375,19 +375,19 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.incidentSizeType = incidentSizeType;
 	}
 
-	public Double getIncidentSizeEstimatedHa() {
+	public Integer getIncidentSizeEstimatedHa() {
 		return incidentSizeEstimatedHa;
 	}
 
-	public void setIncidentSizeEstimatedHa(Double incidentSizeEstimatedHa) {
+	public void setIncidentSizeEstimatedHa(Integer incidentSizeEstimatedHa) {
 		this.incidentSizeEstimatedHa = incidentSizeEstimatedHa;
 	}
 
-	public Double getIncidentSizeMappedHa() {
+	public Integer getIncidentSizeMappedHa() {
 		return incidentSizeMappedHa;
 	}
 
-	public void setIncidentSizeMappedHa(Double incidentSizeMappedHa) {
+	public void setIncidentSizeMappedHa(Integer incidentSizeMappedHa) {
 		this.incidentSizeMappedHa = incidentSizeMappedHa;
 	}
 

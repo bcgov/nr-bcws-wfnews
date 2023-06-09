@@ -22,8 +22,8 @@
 		<result property="incidentOverview" column="INCIDENT_OVERVIEW" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="traditionalTerritoryDetail" column="TRADITIONAL_TERRITORY_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentSizeType" column="INCIDENT_SIZE_TYPE" javaType="java.lang.String" jdbcType="VARCHAR" />
-		<result property="incidentSizeEstimatedHa" column="INCIDENT_SIZE_ESTIMATED_HA" javaType="java.lang.Double" jdbcType="NUMERIC" />
-		<result property="incidentSizeMappedHa" column="INCIDENT_SIZE_MAPPED_HA" javaType="java.lang.Double" jdbcType="NUMERIC" />
+		<result property="incidentSizeEstimatedHa" column="INCIDENT_SIZE_ESTIMATED_HA" javaType="java.lang.Integer" jdbcType="NUMERIC" />
+		<result property="incidentSizeMappedHa" column="INCIDENT_SIZE_MAPPED_HA" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="incidentSizeDetail" column="INCIDENT_SIZE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentCauseDetail" column="INCIDENT_CAUSE_DETAIL" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="contactOrgUnitIdentifer" column="CONTACT_ORG_UNIT_IDENTIFIER" javaType="java.lang.Integer" jdbcType="NUMERIC" />
@@ -141,8 +141,8 @@
 				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.traditionalTerritoryDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentSizeType, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				#{dto.incidentSizeEstimatedHa, javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
-				#{dto.incidentSizeMappedHa, javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+				#{dto.incidentSizeEstimatedHa, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+				#{dto.incidentSizeMappedHa, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.incidentSizeDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentCauseDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.contactOrgUnitIdentifer, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
@@ -198,8 +198,8 @@
 				INCIDENT_OVERVIEW =				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				TRADITIONAL_TERRITORY_DETAIL =				#{dto.traditionalTerritoryDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_SIZE_TYPE = 				#{dto.incidentSizeType, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				INCIDENT_SIZE_ESTIMATED_HA =				#{dto.incidentSizeEstimatedHa, javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
-				INCIDENT_SIZE_MAPPED_HA =				#{dto.incidentSizeMappedHa, javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+				INCIDENT_SIZE_ESTIMATED_HA =				#{dto.incidentSizeEstimatedHa, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
+				INCIDENT_SIZE_MAPPED_HA =				#{dto.incidentSizeMappedHa, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				INCIDENT_SIZE_DETAIL =				#{dto.incidentSizeDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_CAUSE_DETAIL =				#{dto.incidentCauseDetail, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				CONTACT_ORG_UNIT_IDENTIFIER =				#{dto.contactOrgUnitIdentifer, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
