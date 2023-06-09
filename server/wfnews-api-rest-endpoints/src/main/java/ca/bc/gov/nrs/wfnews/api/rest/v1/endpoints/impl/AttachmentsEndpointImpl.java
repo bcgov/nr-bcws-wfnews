@@ -227,8 +227,9 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) {
+	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) throws IOException {
 		Response response = null;
+		ResponseInputStream<GetObjectResponse> s3Object = null;
 
 		logRequest();
 
@@ -247,17 +248,13 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 						.key(key)
 						.build();
 
-				byte[] content;
-
-				final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);
-				content = IoUtils.toByteArray(s3Object);
-				s3Object.close();
+				s3Object = s3Client.getObject(getObjectRequest);
+				
 				response = Response.status(200)
 						.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
 						.header("Cache-Control", "no-cache")
-						.header("Content-Length", content.length)
-						.entity(content)
+						.entity(s3Object)
 						.build();
 			} else {
 				response = Response.status(404).build();
@@ -268,6 +265,8 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 			response = getInternalServerErrorResponse(e);
 		} catch (Throwable t) {
 			response = getInternalServerErrorResponse(t);
+		} finally { 
+			s3Object.close();
 		}
 
 		logResponse(response);
