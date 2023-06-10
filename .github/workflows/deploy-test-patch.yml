@@ -4,8 +4,8 @@ env:
   REGISTRY: ghcr.io
   WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
   NPMRC: ${{ secrets.NPMRC }}
-  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client-hotfix
-  SERVER_IMAGE_NAME: nr-bcws-wfnews-server-hotfix
+  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client-HOTFIX
+  SERVER_IMAGE_NAME: nr-bcws-wfnews-server-HOTFIX
   LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
   APISIX_IMAGE_NAME: nr-bcws-wfnews-apisix
   
@@ -33,14 +33,14 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${{ vars.PATCH_BRANCH }}
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${{ vars.PATCH_BRANCH }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:pr-HOTFIX-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:pr-HOTFIX-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
       - name: Tag server image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${{ vars.PATCH_BRANCH }}
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${{ vars.PATCH_BRANCH }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:pr-HOTFIX-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:pr-HOTFIX-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
 
       - name: Tag liquibase image
@@ -65,8 +65,8 @@ jobs:
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
-      CLIENT_IMAGE: nr-bcws-wfnews-client-hotfix
-      SERVER_IMAGE: nr-bcws-wfnews-server-hotfix
+      CLIENT_IMAGE: nr-bcws-wfnews-client-HOTFIX
+      SERVER_IMAGE: nr-bcws-wfnews-server-HOTFIX
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
 
