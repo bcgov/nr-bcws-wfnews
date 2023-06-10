@@ -28,7 +28,6 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
@@ -220,65 +219,68 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				}
 			}
 		}
-
+		
 		logResponse(response);
 
 		return response;
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail)
-			throws IOException {
-
+	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) throws IOException {
 		Response response = null;
+
+		ResponseInputStream<GetObjectResponse> s3Object = null;
+		S3Client s3Client = null;
+		byte[] content = null;
 
 		logRequest();
 
 		try {
 			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
-			if (result == null) {
-				return Response.status(404).build();
-			}
 
-			String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
-			if (thumbnail.booleanValue()) {
-				key += "-thumb";
-			}
-			GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-					.bucket(attachmentsAwsConfig.getBucketName())
-					.key(key)
-					.build();
-
-			try (
-					final S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-					final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);) {
-				response = Response.status(200)
-						.header("Content-type",
-								result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-						.header("Content-disposition",
-								"attachment; filename=\"" + result.getAttachmentGuid()
-										+ (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-						.header("Cache-Control", "no-cache")
-						.entity(s3Object)
+			if (result != null) {
+				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
+				if (thumbnail.booleanValue()) {
+					key += "-thumb";
+				}
+				GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+						.bucket(attachmentsAwsConfig.getBucketName())
+						.key(key)
 						.build();
 
-				logResponse(response);
-				return response;
-			} catch (AwsServiceException | SdkClientException e) {
+				s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+				s3Object = s3Client.getObject(getObjectRequest);
+
+				content = IoUtils.toByteArray(s3Object);
+
+				response = Response.status(200)
+					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
+					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
+					.header("Cache-Control", "no-cache")
+					.header("Content-Length", content.length)
+					.entity(content)
+					.build();
+
+			} else {
 				response = Response.status(404).build();
-			} catch (IOException e) {
-				response = getInternalServerErrorResponse(e);
-			} catch (Throwable t) {
-				response = getInternalServerErrorResponse(t);
 			}
-		} catch (Exception e) {
-			response = getInternalServerErrorResponse(e);
+
+			logResponse(response);
+			return response;
+      
+		} catch (AwsServiceException | SdkClientException e) {
+			return Response.status(404).build();
+		} catch (IOException e) {
+			return getInternalServerErrorResponse(e);
+		} catch (Throwable t) {
+			return getInternalServerErrorResponse(t);
+		} finally {
+			if (s3Object != null) s3Object.close();
+			if (s3Client != null) s3Client.close();
+			if (content != null) content = null;
 		}
-
-		logResponse(response);
-		return response;
 	}
-
+	
 	@Override
 	public Response deleteIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
 		Response response = null;
