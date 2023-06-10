@@ -220,68 +220,64 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				}
 			}
 		}
-		
+
 		logResponse(response);
 
 		return response;
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) throws IOException {
-		Response response = null;
+	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail)
+			throws IOException {
 
-		ResponseInputStream<GetObjectResponse> s3Object = null;
-		S3Client s3Client = null;
+		Response response = null;
 
 		logRequest();
 
 		try {
 			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+			if (result == null) {
+				return Response.status(404).build();
+			}
 
-			if (result != null) {
-				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
-				if (thumbnail.booleanValue()) {
-					key += "-thumb";
-				}
-				GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-						.bucket(attachmentsAwsConfig.getBucketName())
-						.key(key)
-						.build();
-
-				s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-				s3Object = s3Client.getObject(getObjectRequest);
-				s3Client.close();
-
-				response = Response.status(200)
-					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-					.header("Cache-Control", "no-cache")
-					.header("Content-Length", s3Object.available())
-					.entity(s3Object)
+			String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
+			if (thumbnail.booleanValue()) {
+				key += "-thumb";
+			}
+			GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+					.bucket(attachmentsAwsConfig.getBucketName())
+					.key(key)
 					.build();
 
-				s3Object.close();
-
-			} else {
+			try (
+					final S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+					final ResponseInputStream<GetObjectResponse> s3Object = s3Client.getObject(getObjectRequest);) {
+				response = Response.status(200)
+						.header("Content-type",
+								result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
+						.header("Content-disposition",
+								"attachment; filename=\"" + result.getAttachmentGuid()
+										+ (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
+						.header("Cache-Control", "no-cache")
+						.entity(s3Object)
+						.build();
+			} catch (AwsServiceException | SdkClientException e) {
 				response = Response.status(404).build();
+			} catch (IOException e) {
+				response = getInternalServerErrorResponse(e);
+			} catch (Throwable t) {
+				response = getInternalServerErrorResponse(t);
 			}
-      
-		} catch (AwsServiceException | SdkClientException e) {
-			response = Response.status(404).build();
-		} catch (IOException e) {
+
+		} catch (Exception e) {
 			response = getInternalServerErrorResponse(e);
-		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
-		} finally {
-			if (s3Object != null) s3Object.close();
-			if (s3Client != null) s3Client.close();
-		} 
+		}
 
 		logResponse(response);
 
 		return response;
 	}
-	
+
 	@Override
 	public Response deleteIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid) {
 		Response response = null;
