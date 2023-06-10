@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints;
 
+import java.io.IOException;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.DefaultValue;
@@ -76,7 +78,7 @@ public interface AttachmentsEndpoint {
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,
 			@ApiParam("Attachment thumbnail") @QueryParam("thumbnail") @DefaultValue("false") Boolean thumbnail
-	);
+	) throws IOException;
 
 	@ApiOperation(
 		value = "Get Incident Attachment bytes by ID.", 
