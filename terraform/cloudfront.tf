@@ -278,7 +278,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     compress               = true
     query_string           = true
     viewer_protocol_policy = "redirect-to-https"
-    cache_policy_id        = 658327ea-f89d-4fab-a63d-7e88639e58f6
+    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
     min_ttl                = 0
     default_ttl            = 300
     max_ttl                = 864000
