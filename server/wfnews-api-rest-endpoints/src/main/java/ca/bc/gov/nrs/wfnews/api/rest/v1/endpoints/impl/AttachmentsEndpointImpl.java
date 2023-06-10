@@ -254,7 +254,6 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 				response = Response.status(200)
 						.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 						.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-						.header("Cache-Control", "no-cache")
 						.header("Content-Length", content.length)
 						.entity(content)
 						.build();
