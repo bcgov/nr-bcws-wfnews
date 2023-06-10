@@ -45,8 +45,8 @@ jobs:
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
-      CLIENT_IMAGE: nr-bcws-wfnews-client
-      SERVER_IMAGE: nr-bcws-wfnews-server
+      CLIENT_IMAGE: nr-bcws-wfnews-client-hotfix
+      SERVER_IMAGE: nr-bcws-wfnews-server-hotfix
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
 
@@ -86,7 +86,7 @@ jobs:
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
       WFNEWS_USERNAME: wfnewsdev
       WFNEWS_MAX_CONNECTIONS: 10
-      IMAGE_TAG: pr-${{ github.event.pull_request.number }}
+      IMAGE_TAG: pr-HOTFIX
       AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
       DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
       OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub/ows
