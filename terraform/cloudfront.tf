@@ -276,12 +276,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "wfnews_apisix_${var.target_env}"
     compress               = true
-    query_string           = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
-    min_ttl                = 0
-    default_ttl            = 300
-    max_ttl                = 864000
   }
   
   ordered_cache_behavior {
