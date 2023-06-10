@@ -17,6 +17,9 @@ on:
       BRANCH:
         required: true
         type: string
+      TAG:
+        required: true
+        type: string
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -91,7 +94,7 @@ jobs:
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=pr-HOTFIX
+            type=raw,value=pr-HOTFIX-${{ inputs.BRANCH }}-${{ inputs.TAG }}
           
       - name: Build and push Docker image (with PR)
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
