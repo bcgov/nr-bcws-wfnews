@@ -250,8 +250,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
 				s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
 				s3Object = s3Client.getObject(getObjectRequest);
-				s3Client.close();
-
+				
 				response = Response.status(200)
 					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
@@ -261,6 +260,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					.build();
 
 				s3Object.close();
+				s3Client.close();
 
 			} else {
 				response = Response.status(404).build();
