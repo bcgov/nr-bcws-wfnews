@@ -5,7 +5,7 @@ import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
 import * as moment from "moment"
-import { MatDialog } from "@angular/material/dialog"
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
 
 @Component({
