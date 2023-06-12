@@ -1,11 +1,11 @@
 import { ChangeDetectorRef,  Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { IncidentDetailsPanel } from './incident-details-panel/incident-details-panel.component';
@@ -83,9 +83,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   private loaded = false;
 
-  public readonly incidentForm: FormGroup
+  public readonly incidentForm: UntypedFormGroup
 
-  constructor(private readonly formBuilder: FormBuilder,
+  constructor(private readonly formBuilder: UntypedFormBuilder,
               private router: ActivatedRoute,
               private componentRouter: Router,
               protected cdr: ChangeDetectorRef,
@@ -121,8 +121,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       structureProtectionComments: [],
       contact: this.formBuilder.group({
         fireCentre: [],
-        phoneNumber: new FormControl('', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]),
-        emailAddress: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])
+        phoneNumber: new UntypedFormControl('', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]),
+        emailAddress: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])
       }),
       evacOrders: this.formBuilder.array([])
     })
@@ -195,7 +195,15 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation
               self.incident.sizeComments = response.incidentSizeDetail ? response.incidentSizeDetail : 'Fire size is based on most current information available.';
-              self.incident.sizeType = response.incidentSizeDetail ? response.incidentSizeDetail.includes('estimated') ? 1 : 0 : 2;
+              if (response.incidentSizeDetail && response.incidentSizeDetai.includes('estimated')) {
+                self.incident.sizeType = 1;
+              }
+              else if (response.incidentSizeDetail && response.incidentSizeDetai.includes('mapped')) {
+                self.incident.sizeType = 0
+              }
+              else {
+                self.incident.sizeType = 2
+              }
               self.incident.causeComments = response.incidentCauseDetail;
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
@@ -329,9 +337,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
       incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
       incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
-      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as FormGroup).controls['fireCentre'].value,
-      contactPhoneNumber:  (this.incidentForm.controls['contact'] as FormGroup).controls['phoneNumber'].value,
-      contactEmailAddress:  (this.incidentForm.controls['contact'] as FormGroup).controls['emailAddress'].value,
+      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['fireCentre'].value,
+      contactPhoneNumber:  (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['phoneNumber'].value,
+      contactEmailAddress:  (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['emailAddress'].value,
       wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
       wildfireCrewResourcesDetail: this.incidentForm.controls['crewsComments'].value,
       wildfireAviationResourceInd: this.incidentForm.controls['aviationInd'].value,

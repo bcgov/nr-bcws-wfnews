@@ -4,7 +4,7 @@ import { toCanvas } from 'qrcode'
 import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeId, isMobileView } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
@@ -51,13 +51,14 @@ export class IncidentInfoPanel implements AfterViewInit {
     }
 
     const canvas = document.getElementById('qr-code')
-    toCanvas(canvas, window.location.href, function (error) {
-      if (error) console.error(error)
-    })
+    if (canvas) {
+      toCanvas(canvas, window.location.href, function (error) {
+        if (error) console.error(error)
+      })
+    }
 
     this.router.queryParams.subscribe((params: ParamMap) => {
-      if(params['preview'])
-        this.showWarning =  (this.evacOrders.length > 0 || this.areaRestrictions.length > 0);
+      this.showWarning = params['preview']
     });
 
     this.fetchPrimaryImage()

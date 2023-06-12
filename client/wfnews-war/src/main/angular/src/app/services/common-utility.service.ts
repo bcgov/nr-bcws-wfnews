@@ -1,7 +1,7 @@
 import { NumberFormatStyle } from "@angular/common";
 import { Injectable } from "@angular/core";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { CapacitorService } from "./capacitor-service";
+import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -162,5 +162,56 @@ export class CommonUtilityService {
             { enableHighAccuracy: true }
         );
     }
+
+    sortAddressList(results: any, value: string) {
+        let address = null;
+        let trimmedAddress = null;
+        let valueLength = null;
+        let valueMatch = null;
+        results.forEach((result) => {
+            address = this.getFullAddress(result);
+            result.address = address.trim();
+            trimmedAddress = result.address;
+            valueLength = value.length;
+            if (trimmedAddress != null) valueMatch = trimmedAddress.substring(0, valueLength);
+
+            if (address != null && valueLength != null && valueMatch != null &&
+              (value.toUpperCase() === address.toUpperCase() || value.toUpperCase() === valueMatch.toUpperCase())) {
+                const index = results.indexOf(result);
+                if (index !== -1) {
+                  results.splice(index, 1);
+                }
+                let resultToBeUnshifted = result;
+
+                results.unshift(resultToBeUnshifted);
+            }
+
+          });
+
+          return results;
+          
+    } 
+
+    getFullAddress(location) {
+        let result = "";
+    
+        if(location.civicNumber) {
+            result += location.civicNumber
+        }
+    
+        if(location.streetName) {
+            result += " " + location.streetName
+        }
+    
+        if(location.streetQualifier) {
+            result += " " + location.streetQualifier
+        }
+    
+        if(location.streetType) {
+            result += " " + location.streetType
+        }
+    
+        return result;
+      }
 
 }

@@ -5,7 +5,7 @@ resource "aws_appautoscaling_target" "wfnews_target" {
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.wfnews_main.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
-  max_capacity       = 6
+  max_capacity       = 10
 }
 
 resource "aws_appautoscaling_target" "wfnews_apisix_target" {
@@ -13,7 +13,7 @@ resource "aws_appautoscaling_target" "wfnews_apisix_target" {
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
-  max_capacity       = 6
+  max_capacity       = 10
 }
 
 # Automatically scale capacity up by one
@@ -185,7 +185,7 @@ resource "aws_appautoscaling_target" "wfnews_client_target" {
   resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.client.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
-  max_capacity       = 6
+  max_capacity       = 10
 }
 
 # Automatically scale capacity up by one
