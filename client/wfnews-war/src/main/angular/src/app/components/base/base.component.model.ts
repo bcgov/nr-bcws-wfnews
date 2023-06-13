@@ -1,5 +1,5 @@
 import {DomSanitizer} from '@angular/platform-browser';
-import {FormGroup} from '@angular/forms';
+import {UntypedFormGroup} from '@angular/forms';
 import { ErrorState, ValidationError } from '../../store/application/application.state';
 import { getDisplayErrorMessage } from '../../utils/error-messages';
 
@@ -11,7 +11,7 @@ export class BaseComponentModel {
     formControlNameErrors = new Map();
     errorState: ErrorState[];
     validationErrors: ValidationError[];
-    formGroup: FormGroup;
+    formGroup: UntypedFormGroup;
 
     constructor(protected sanitizer: DomSanitizer) {
         this.sanitizer.bypassSecurityTrustResourceUrl('');

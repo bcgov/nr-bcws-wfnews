@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { fireCentreOption } from '../../../conversion/models';
 import { FireCentres } from '../../../utils';
@@ -12,7 +12,7 @@ import { FireCentres } from '../../../utils';
     '../../base/base.component.scss']
 })
 export class ContactsDetailsPanel implements OnInit {
-  @Input() public readonly formGroup: FormGroup
+  @Input() public readonly formGroup: UntypedFormGroup
   @Input() public incident
 
   public contacts: any

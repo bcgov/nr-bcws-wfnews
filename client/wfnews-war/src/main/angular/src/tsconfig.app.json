@@ -7,7 +7,6 @@
   },
   "files": [
     "main.ts",
-    "polyfills.ts",
     "globals.ts"
   ],
   "include": [

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 export class OptionDisclaimer {
   public id: number;
@@ -13,7 +13,7 @@ export class OptionDisclaimer {
   styleUrls: ['./incident-details-panel.component.scss']
 })
 export class IncidentDetailsPanel {
-  @Input() public readonly formGroup: FormGroup
+  @Input() public readonly formGroup: UntypedFormGroup
   @Input() public incident
 
   sizeTypeOptions: OptionDisclaimer[] = [
