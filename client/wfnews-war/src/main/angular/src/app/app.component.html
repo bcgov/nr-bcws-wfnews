@@ -4,15 +4,6 @@
     [(state)]="applicationState"
 >
 <div *ngIf="redirectToPublicMobile() && isIncidentsPage(); else mainPage">
-  <wf-header
-    [config]="applicationConfig"
-    [(state)]="applicationState"
-    [useAppLogo]="false"
-    [useSystemAndUser]="false"
-    [useSupportLink]="false"
-    [useMenu]="false"
-    [useLogoutButton]="false"
-  ></wf-header>
   <router-outlet></router-outlet>
 </div>
 <ng-template #mainPage>
