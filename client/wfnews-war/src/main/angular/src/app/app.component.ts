@@ -10,7 +10,6 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
-import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
