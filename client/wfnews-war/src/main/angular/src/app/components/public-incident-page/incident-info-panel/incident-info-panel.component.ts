@@ -147,7 +147,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
       if (!setMedia) {
         // fetch image attachments
-        this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabelFull).toPromise().then(results => {
+        this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel? this.incident.incidentNumberLabel : this.incident.incidentNumberLabelFull).toPromise().then(results => {
           // Loop through the attachments, for each one, create a ref, and set href to the bytes
           if (results && results.collection && results.collection.length > 0) {
             for (const attachment of results.collection) {

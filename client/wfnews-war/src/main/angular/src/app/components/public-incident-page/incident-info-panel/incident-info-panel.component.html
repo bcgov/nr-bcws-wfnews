@@ -35,18 +35,20 @@
       </div>
       <div>
         <!-- Image/video section: fetch from aws cache -->
-        <div style="text-align: center;" *ngIf="primaryMedia !== null">
+        <div *ngIf="primaryMedia !== null">
           <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewd</div>
           <ng-template #primaryImage>
-            <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
-            <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
-              videoId={{convertToYoutubeId(primaryMedia.href)}}
-              suggestedQuality="highres"
-              [startSeconds]="1"
-              [endSeconds]="20"
-              [height]="250"
-              [width]="400">
-            </youtube-player>
+            <div style="text-align: center;">
+              <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
+              <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
+                videoId={{convertToYoutubeId(primaryMedia.href)}}
+                suggestedQuality="highres"
+                [startSeconds]="1"
+                [endSeconds]="20"
+                [height]="250"
+                [width]="400">
+              </youtube-player>
+            </div>
           </ng-template>
         </div>
         <!-- contact section-->
@@ -81,7 +83,7 @@
       </div>
       <div>
         <h1>Area Restrictions
-          <div *ngIf="showWarning" class="preview-warning">Warning: Manually entered Area Restrictions cannot be previewed</div>
+          <div *ngIf="showWarning" class="preview-warning" style="text-align: left !important;">Warning: Manually entered Area Restrictions cannot be previewed</div>
         </h1>
         <div class="content-panel-subtitle">Area Restriction Information</div>
         <div *ngFor="let area of areaRestrictions">
