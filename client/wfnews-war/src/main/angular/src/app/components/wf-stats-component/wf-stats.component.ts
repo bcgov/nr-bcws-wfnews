@@ -130,7 +130,7 @@ export class WFStatsComponent implements OnInit {
         })
 
         const activeHectares = this.fires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name) && f.fireYear === fireYear ).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
-        const outHectares = this.outFires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name)).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
+        const outHectares = this.outFires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name) && f.fireYear === fireYear ).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
 
         fcStats.push({
           name: centre.name,
