@@ -128,22 +128,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       });
     }
-    if (!this.redirectToPublicMobile() && (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-      let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
-        width: '600px',
-        data: {
-          downloadLink: this.getAppStoreLink(),
-          app: this.getAppStoreName()
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result['dontShowAgain']) {
-          localStorage.setItem('dontShowPublicMobileDownload', 'true');
-        } else {
-          localStorage.removeItem('dontShowPublicMobileDownload');
-        }
-      });
-    }
 
     const mainApp = document.getElementById('main-app')
     if (mainApp) {
