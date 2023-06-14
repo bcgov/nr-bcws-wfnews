@@ -17,11 +17,13 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
+          bundler-cache: true
 
       - name: Check Xcode version
         run: /usr/bin/xcodebuild -version
