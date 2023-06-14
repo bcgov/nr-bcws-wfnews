@@ -1,74 +1,130 @@
 name: Build iOS
 
-env:
-  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
-  NPMRC: ${{ secrets.NPMRC }}
-
 # Controls when the workflow will run
-on: 
-  workflow_call:
-    inputs:
-      PRODUCTION_RELEASE:
-        required: true
-        type: boolean
+on: workflow_call
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   build:
-    env:
-      ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
-      
-      - name: Set up JDK 11
-        uses: actions/setup-java@v3
-        with:
-          java-version: '11'
-          distribution: 'adopt'
-      
+
       - name: Add .npmrc file
         run: echo -e $NPMRC > ~/.npmrc
-          
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
 
+      - name: Configure ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+
+      - name: Check Xcode version
+        run: /usr/bin/xcodebuild -version
+
+      - name: Cache node modules
+        id: cache-npm
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-node-modules
+        with:
+          # npm cache files are stored in `~/.npm` on Linux/macOS
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+  
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list
+
       - name: Install Ionic
         run: npm install -g @ionic/cli
 
       - name: Install app dependencies
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm ci
+        run: npm install
 
       - name: Prepare app for build
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: ionic capacitor sync ios --prod
 
-      - uses: sparkfabrik/ios-build-action@v2.2.0
-        if: inputs.PRODUCTION_RELEASE == false
+      - name: Install the Apple certificate and provisioning profile
+        env:
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
+          P12_PASSWORD: ${{ secrets.P12_PASSWORD }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
+        run: |
+          # create variables
+          CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
+          PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+
+          # import certificate and provisioning profile from secrets
+          echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode -o $CERTIFICATE_PATH
+          echo -n "$BUILD_PROVISION_PROFILE_BASE64" | base64 --decode -o $PP_PATH
+
+          # create temporary keychain
+          security create-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+          security set-keychain-settings -lut 21600 $KEYCHAIN_PATH
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
+
+          # import certificate to keychain
+          security import $CERTIFICATE_PATH -P "$P12_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security list-keychain -d user -s $KEYCHAIN_PATH
+
+          # apply provisioning profile
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
+
+      - name: build archive
+        run: |
+          xcodebuild -scheme "App" \
+          -workspace ./ios/App/App.xcworkspace \
+          -archivePath $RUNNER_TEMP/App.xcarchive \
+          -sdk iphoneos \
+          -configuration Debug \
+          -destination generic/platform=iOS \
+          clean archive
+
+      - name: export ipa
+        env:
+          EXPORT_OPTIONS_PLIST: ${{ secrets.EXPORT_OPTIONS_PLIST }}
+        run: |
+          EXPORT_OPTS_PATH=$RUNNER_TEMP/ExportOptions.plist
+          echo -n "$EXPORT_OPTIONS_PLIST" | base64 --decode -o $EXPORT_OPTS_PATH
+          xcodebuild -exportArchive -archivePath $RUNNER_TEMP/App.xcarchive -exportOptionsPlist $EXPORT_OPTS_PATH -exportPath $RUNNER_TEMP/build
+
+      - name: Upload application
+        uses: actions/upload-artifact@v3
         with:
-          upload-to-testflight: false
-          increment-build-number: false
-          project-path: ${{ env.ANGULAR_DIRECTORY }}/ios
-          team-id: ${{ secrets.TEAM_ID }}
-          team-name: ${{ secrets.TEAM_NAME }}
-          apple-key-id: ${{ secrets.APPLE_KEY_ID }}
-          apple-key-issuer-id: ${{ secrets.APPLE_KEY_ISSUER_ID }}
-          apple-key-content: ${{ secrets.APPLE_KEY_CONTENT }}
-          # workspace-path: "overrides project-path, use with pods"
-          # export-method: app-store
-          configuration: Release
-          output-path: wfnews-dev-${{ github.sha }}.ipa
-          # scheme: ""
-          # update-targets: ""
-          # build-pods: false
-          # pods-path: "ios/Podfile"
-          match-password: ${{ secrets.MATCH_PASSWORD }}
-          match-git-url: ${{ secrets.MATCH_GIT_URL }}
-          match-git-basic-authorization: ${{ secrets.MATCH_GIT_BASIC_AUTHORIZATION }}
-          match-build-type: "appstore"
-          # fastlane-env: ""
-          # ios-app-id: ca.bc.gov.wfnews.app
-  
+          name: app
+          path: ${{ runner.temp }}/build/App.ipa
+          retention-days: 3
+
+      # - name: "Upload app to TestFlight"
+      #   uses: apple-actions/upload-testflight-build@v1
+      #   with:
+      #     app-path: "output.ipa"
+      #     issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+      #     api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
+      #     api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
+
+      - name: Post to a Slack channel
+        id: slack
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: 'wildfire-build-notifier'
+          slack-message: "iOS build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}

@@ -7,12 +7,7 @@ env:
 
 
 # Controls when the workflow will run
-on: 
-  workflow_call:
-    inputs:
-      PRODUCTION_RELEASE:
-        required: true
-        type: boolean
+on: workflow_call
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -53,53 +48,36 @@ jobs:
         run: chmod +x ./gradlew
 
       - uses: sparkfabrik/android-build-action@v1.4.0
-        name: Build APK
-        if: inputs.PRODUCTION_RELEASE == false
-        with:
-          build-type: "assemble"
-          gradle-task: "assembleDebug"
-          increment-build-number: false
-          package-name: ${{ env.PACKAGE_NAME }}
-          upload-to-play-store: false
-          project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
-          output-path: wfnews-dev-${{ github.sha }}.apk
-          # fastlane-env: ""
-          # ruby-version: "head"
-          # bundler-version: "2.3"
-          release-track: "internal"
-          # release-status: "draft"
-
-      - uses: sparkfabrik/android-build-action@v1.4.0
         name: Build AAB and upload to Play Store
-        if: inputs.PRODUCTION_RELEASE == true
         with:
           build-type: "bundle"
           gradle-task: "bundleRelease"
-          increment-build-number: true
-          package-name: ${{ env.PACKAGE_NAME }}
-          keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
-          keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
-          keystore-alias: ${{ secrets.KEY_ALIAS }}
-          json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-          upload-to-play-store: true
+          increment-build-number: false
+          # package-name: ${{ env.PACKAGE_NAME }}
+          # keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
+          # keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
+          # key-alias: ${{ secrets.KEY_ALIAS }}
+          # json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+          # upload-to-play-store: true
           project-path: '${{ env.ANGULAR_DIRECTORY }}/android/'
           output-path: wfnews-release-${{ github.sha }}.aab
-          # fastlane-env: ""
-          # ruby-version: "head"
-          # bundler-version: "2.3"
-          release-track: "production"
-          # release-status: "draft"
-
-      - uses: actions/upload-artifact@v3
-        name: Upload APK to GitHub
-        if: inputs.PRODUCTION_RELEASE == false
-        with:
-          name: wfnews-dev-${{ github.sha }}.apk
-          path: '${{ env.ANGULAR_DIRECTORY }}/android/wfnews-dev-${{ github.sha }}.apk'
   
       - uses: actions/upload-artifact@v3
         name: Upload AAB to GitHub
-        if: inputs.PRODUCTION_RELEASE == true
         with:
           name: wfnews-release-${{ github.sha }}.aab
           path: '${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ github.sha }}.aab'
+          retention-days: 3
+
+      - name: Post to a Slack channel
+        id: slack
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: 'wildfire-build-notifier'
+          slack-message: "Android build result: ${{ job.status }}\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
