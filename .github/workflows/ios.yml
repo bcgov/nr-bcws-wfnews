@@ -54,9 +54,11 @@ jobs:
         run: npm install -g @ionic/cli
 
       - name: Install app dependencies
-        run: npm install
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: npm install --legacy-peer-deps
 
       - name: Prepare app for build
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: ionic capacitor sync ios --prod
 
       - name: Install the Apple certificate and provisioning profile
@@ -89,6 +91,7 @@ jobs:
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
       - name: build archive
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
           xcodebuild -scheme "App" \
           -workspace ./ios/App/App.xcworkspace \
