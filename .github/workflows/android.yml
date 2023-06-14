@@ -25,7 +25,7 @@ jobs:
           distribution: 'adopt'
       
       - name: Add .npmrc file
-        run: echo -e $NPMRC > ~/.npmrc
+        run: echo -e ${{ secrets.NPM_TOKEN }} > ~/.npmrc
           
       - name: Setup Node.js
         uses: actions/setup-node@v3
