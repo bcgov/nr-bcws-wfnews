@@ -10,7 +10,6 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
-import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
@@ -125,22 +124,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
           localStorage.setItem('dontShowDisclaimer', 'true');
         } else {
           localStorage.removeItem('dontShowDisclaimer');
-        }
-      });
-    }
-    if (!this.redirectToPublicMobile() && (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-      let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
-        width: '600px',
-        data: {
-          downloadLink: this.getAppStoreLink(),
-          app: this.getAppStoreName()
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result['dontShowAgain']) {
-          localStorage.setItem('dontShowPublicMobileDownload', 'true');
-        } else {
-          localStorage.removeItem('dontShowPublicMobileDownload');
         }
       });
     }
