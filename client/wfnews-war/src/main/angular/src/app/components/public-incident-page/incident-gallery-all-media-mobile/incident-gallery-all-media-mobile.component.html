@@ -1,0 +1,38 @@
+<div class="media" *ngFor="let item of displayVideosAndImages">
+
+    <div *ngIf="item.type==='image'">
+      <div class="title-row">{{item.title}}</div>
+      <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
+      <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" class="gallery-container">
+        <a
+            [attr.data-index]="i"
+            data-lg-size="480-475-480, 800-791-800, 1406-1390"
+            class="gallery-item"
+            [href]="item.href"
+            [data-src]="item.href"
+            [data-responsive]="item.href + ' 800'"
+            style="padding: 5px;">
+            <img [id]="i + '-img-thumb'" width="150" alt="Image" class="img-responsive" [src]="item.thumbnail" (error)="handleImageFallback(item, i)"/>
+        </a>
+    </lightgallery>
+    </div>
+
+     <div *ngIf="item.type==='video'">
+      <div class="title-row">{{item.title}}</div>
+      <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
+      <youtube-player
+          style="padding: 5px;"
+          videoId={{convertToYoutubeId(item.href)}}
+          suggestedQuality="highres"
+          [startSeconds]="1"
+          [endSeconds]="20"
+          [height]="175"
+          [width]="300">
+      </youtube-player>
+    </div>
+  </div>
+<div class="load-more-but" #loadMoreButton *ngIf="displayLoadMore">
+  <button (click)="loadMore(loadMoreButton)">Load More</button>
+</div>
+
+

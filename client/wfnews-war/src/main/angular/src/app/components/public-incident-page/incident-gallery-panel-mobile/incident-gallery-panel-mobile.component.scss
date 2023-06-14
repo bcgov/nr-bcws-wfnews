@@ -1,0 +1,95 @@
+.panel{
+    
+    .content-panel {
+        padding:24px;
+            h1 {
+                font-size: 22px;
+                width: 256px;
+                height: 33px;
+                background-color: rgba(255, 255, 255, 0);
+                box-sizing: border-box;
+                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-weight: 500;
+                color: #333333;
+                text-align: left;
+                line-height: 33px;
+            }
+
+            h4 {
+                font-size: 16px;
+                height: 24px;
+                background-color: rgba(255, 255, 255, 0);
+                box-sizing: border-box;
+                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-weight: 500;
+                color: #333333;
+                text-align: left;
+                line-height: 24px;
+            }
+
+            .header-row {
+                
+                .h1{
+                        width: 256px;
+                        height: 33px;
+                        background-color: rgba(255, 255, 255, 0);
+                        box-sizing: border-box;
+                        font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                        font-weight: 500;
+                        color: #333333;
+                        text-align: right;
+                        line-height: 33px;
+                }
+                     
+                
+            }
+
+            .divider {
+                border-bottom: 1px lightgray solid;
+                padding-top: 7px;
+                padding-bottom: 7px;
+            }
+        
+    }
+}
+ 
+
+:host ::ng-deep .mat-tab-label {
+    height: 3rem !important;
+    min-width: 8rem !important;
+}
+
+:host ::ng-deep .mat-tab-content {
+    color: #003366 !important;
+}
+
+:host ::ng-deep .mat-tab-label.mat-tab-label-selected {
+    border: 1px solid #003366;
+    box-sizing: border-box;
+    border-radius: 0.8rem;
+    background-color: #003366 !important;
+    color: #fdfdfd !important;
+}
+
+/* Styles for the active tab label */
+:host ::ng-deep .mat-tab-label.mat-tab-label-active {
+    border: 1px solid #003366;
+    box-sizing: border-box;
+    border-radius: 0.8rem;
+    background-color: #003366 !important;
+    color: #fdfdfd !important;
+}
+
+/* Styles for the ink bar */
+:host ::ng-deep .mat-ink-bar {
+    display: none !important;
+}
+
+:host ::ng-deep .mat-tab-header, .mat-tab-nav-bar {
+    border-bottom: 0;
+    border: 1px solid #003366;
+    box-sizing: border-box;
+    border-radius: 0.8rem;
+
+}
+
