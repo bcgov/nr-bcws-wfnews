@@ -129,6 +129,7 @@ import { SummaryPanel } from './components/admin-incident-form/summary-panel/sum
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
 import { ContactUsDialogComponent } from './components/admin-incident-form/contact-us-dialog/contact-us-dialog.component';
+import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -201,6 +202,7 @@ export const DATE_FORMATS = {
         DownloadPMDialogComponent,
         DisclaimerDialogComponent,
         IncidentInfoPanelMobileComponent,
+        IncidentOverviewPanelMobileComponent,
         ContactUsDialogComponent,
     ],
     imports: [
