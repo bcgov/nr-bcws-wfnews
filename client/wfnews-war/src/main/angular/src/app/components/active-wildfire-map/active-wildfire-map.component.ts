@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '../../services/AGOL-service';
@@ -55,7 +55,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   zone: NgZone;
 
   placeData: PlaceData;
-  searchByLocationControl = new FormControl();
+  searchByLocationControl = new UntypedFormControl();
   filteredOptions: any[];
   SMK: any;
   leafletInstance: any;

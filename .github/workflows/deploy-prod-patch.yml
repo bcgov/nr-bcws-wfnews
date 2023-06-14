@@ -1,19 +1,16 @@
-name: Deploy Prod
+name: Deploy Prod Patch
 
 env:
   REGISTRY: ghcr.io
   NPMRC: ${{ secrets.NPMRC }}
-  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
-  SERVER_IMAGE_NAME: nr-bcws-wfnews-server
+  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client-hotfix
+  SERVER_IMAGE_NAME: nr-bcws-wfnews-server-hotfix
   LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
   APISIX_IMAGE_NAME: nr-bcws-wfnews-apisix
   
-on:
-  release:
-    types: [released]
+on: workflow_dispatch
     
 jobs:
-
   tag-images:
     runs-on: ubuntu-22.04
 
@@ -22,6 +19,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+        with:
+          ref: ${{ vars.PATCH_BRANCH }}
 
       - uses: GuillaumeFalourd/assert-command-line-output@v2.1
         with:
@@ -38,27 +37,27 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:pr-hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:pr-hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
 
       - name: Tag server image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:pr-hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:pr-hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }} ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
 
       - name: Tag liquibase image
         run: |
           docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
 
       - name: Tag apisix image
         run: |
           docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
 
       - run: echo ::set-output name=tag-value::${GITHUB_REF#refs/tags/} 
         id: get-release-tag
@@ -70,8 +69,8 @@ jobs:
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
-      CLIENT_IMAGE: nr-bcws-wfnews-client
-      SERVER_IMAGE: nr-bcws-wfnews-server
+      CLIENT_IMAGE: nr-bcws-wfnews-client-hotfix
+      SERVER_IMAGE: nr-bcws-wfnews-server-hotfix
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
 
@@ -110,7 +109,7 @@ jobs:
       WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
       WFNEWS_USERNAME: wfnewsprod
       WFNEWS_MAX_CONNECTIONS: 400
-      IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
+      IMAGE_TAG: hotfix-${{ vars.PATCH_BRANCH }}-${{ vars.HOTFIX_TAG }}
       AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
       DRIVEBC_BASE_URL: https://maps.th.gov.bc.ca/geoV05/ows
       OPENMAPS_BASE_URL: https://openmaps.gov.bc.ca/geo/pub/ows
