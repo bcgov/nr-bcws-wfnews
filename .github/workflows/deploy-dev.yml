@@ -11,6 +11,7 @@ on:
       - closed
     branches:
       - 'main'
+      - 'mobile-build-automation'
     paths:
       - ".github/workflows/**"
       - "client/**"
