@@ -58,7 +58,7 @@ jobs:
 
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
