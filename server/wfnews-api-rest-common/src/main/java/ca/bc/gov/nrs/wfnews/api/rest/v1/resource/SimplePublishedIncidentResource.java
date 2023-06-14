@@ -33,8 +33,8 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	private String incidentName;
 	private String incidentLocation;
 	private String traditionalTerritoryDetail;
-	private Integer incidentSizeEstimatedHa;
-	private Integer incidentSizeMappedHa;
+	private Double incidentSizeEstimatedHa;
+	private Double incidentSizeMappedHa;
 	private String incidentSizeDetail;
 	private String incidentCauseDetail;
 	private Boolean wildfireCrewResourcesInd;
@@ -163,22 +163,22 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	}
 
 	@Override
-	public Integer getIncidentSizeEstimatedHa() {
+	public Double getIncidentSizeEstimatedHa() {
 		return incidentSizeEstimatedHa;
 	}
 
 	@Override
-	public void setIncidentSizeEstimatedHa(Integer incidentSizeEstimatedHa) {
+	public void setIncidentSizeEstimatedHa(Double incidentSizeEstimatedHa) {
 		this.incidentSizeEstimatedHa = incidentSizeEstimatedHa;
 	}
 
 	@Override
-	public Integer getIncidentSizeMappedHa() {
+	public Double getIncidentSizeMappedHa() {
 		return incidentSizeMappedHa;
 	}
 
 	@Override
-	public void setIncidentSizeMappedHa(Integer incidentSizeMappedHa) {
+	public void setIncidentSizeMappedHa(Double incidentSizeMappedHa) {
 		this.incidentSizeMappedHa = incidentSizeMappedHa;
 	}
 
