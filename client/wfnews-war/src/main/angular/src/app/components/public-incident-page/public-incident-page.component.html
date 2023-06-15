@@ -20,7 +20,9 @@
           </ng-template>
         </mat-tab>
         <mat-tab label="Maps">
-          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
+          <incident-maps-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
+          <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
+
         </mat-tab>
       </mat-tab-group>
     </div>
