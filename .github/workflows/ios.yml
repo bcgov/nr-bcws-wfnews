@@ -14,9 +14,10 @@ jobs:
 
       - name: Add .npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        env:
+          NPMRC: ${{ secrets.NPMRC }}
         run: |
           echo -n "$NPMRC" > .npmrc
-          ls -a
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -24,10 +25,6 @@ jobs:
           node-version: 16
           # cache: 'npm'
           # cache-dependency-path: ${{ env.ANGULAR_DIRECTORY }}/package-lock.json
-
-      - name: Check npmrc file
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm get
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
