@@ -26,7 +26,7 @@ jobs:
       
       - name: Add .npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: echo -e "$NPMRC" > .npmrc
+        run: echo "$NPMRC" > .npmrc
           
       - name: Setup Node.js
         uses: actions/setup-node@v3
