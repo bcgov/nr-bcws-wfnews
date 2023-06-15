@@ -13,7 +13,8 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Add .npmrc file
-        run: echo -e "$NPMRC" > ${{ env.ANGULAR_DIRECTORY }}/.npmrc
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: /bin/echo -e "$NPMRC" > .npmrc
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
