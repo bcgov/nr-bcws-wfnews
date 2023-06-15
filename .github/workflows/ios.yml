@@ -14,7 +14,7 @@ jobs:
 
       - name: Add .npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: echo "$NPMRC" > .npmrc
+        run: echo -n "$NPMRC" > .npmrc
 
       - name: Show npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
