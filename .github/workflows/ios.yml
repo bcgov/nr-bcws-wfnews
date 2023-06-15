@@ -15,7 +15,8 @@ jobs:
       - name: Add .npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
-          echo -n "$NPMRC" > .npmrc
+          touch .npmrc
+          echo -n "$NPMRC" >> .npmrc
           ls
           cat .npmrc
 
