@@ -25,6 +25,10 @@ jobs:
           # cache: 'npm'
           # cache-dependency-path: ${{ env.ANGULAR_DIRECTORY }}/package-lock.json
 
+      - name: Check npmrc file
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: npm get
+
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
         with:
