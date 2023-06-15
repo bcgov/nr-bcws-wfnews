@@ -25,7 +25,8 @@ jobs:
           distribution: 'adopt'
       
       - name: Add .npmrc file
-        run: echo -e "$NPMRC" > ${{ env.ANGULAR_DIRECTORY }}/.npmrc
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: echo -e "$NPMRC" > .npmrc
           
       - name: Setup Node.js
         uses: actions/setup-node@v3
