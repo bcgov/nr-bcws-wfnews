@@ -16,6 +16,10 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: /bin/echo -e "$NPMRC" > .npmrc
 
+      - name: Show npmrc file
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: cat .npmrc
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
