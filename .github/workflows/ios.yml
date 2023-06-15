@@ -17,7 +17,7 @@ jobs:
         run: |
           touch .npmrc
           echo -n "$NPMRC" >> .npmrc
-          ls
+          ls -a
           cat .npmrc
 
       - name: Setup Node.js
