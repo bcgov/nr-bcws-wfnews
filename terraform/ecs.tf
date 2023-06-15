@@ -721,7 +721,7 @@ resource "aws_ecs_service" "apisix" {
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
   task_definition                   = aws_ecs_task_definition.wfnews_apisix.arn
-  desired_count                     = 1
+  desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
   health_check_grace_period_seconds = 60

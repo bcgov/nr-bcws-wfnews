@@ -340,6 +340,18 @@ variable "max_upload_size" {
   type        = string
 }
 
+variable "api_health_check_path" {
+  description = "Endpoint to use for health checks on API"
+  default = "/checkHealth?callstack=test"
+  type = string
+}
+
+variable "client_health_check_path" {
+  description = "Endpoint to use for health checks on client"
+  default = "/config.jsp"
+  type = string
+}
+
 # variable etcd_container_name {
 #   description = "Name of etcd container"
 #   default = "wfnews-etcd-app"
