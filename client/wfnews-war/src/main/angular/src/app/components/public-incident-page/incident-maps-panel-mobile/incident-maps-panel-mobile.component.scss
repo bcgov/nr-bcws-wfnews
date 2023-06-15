@@ -42,6 +42,17 @@
                     padding-top: 12px;
                 }
             }
+            .load-more-row{
+                display: flex;
+                justify-content: center;
+                padding-top: 32px;
+                .load-more-button{
+                    border-radius: 8px;
+                    border: 1px solid #6e6e6e;
+                    background-color: #fdfdfd;
+                    width: 100%;
+                }
+            }
         }
     }
 }

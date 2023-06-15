@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IncidentMapsPanel } from '../incident-maps-panel/incident-maps-panel.component';
 
 @Component({
@@ -6,7 +6,9 @@ import { IncidentMapsPanel } from '../incident-maps-panel/incident-maps-panel.co
   templateUrl: './incident-maps-panel-mobile.component.html',
   styleUrls: ['./incident-maps-panel-mobile.component.scss']
 })
-export class IncidentMapsPanelMobileComponent extends IncidentMapsPanel {
+export class IncidentMapsPanelMobileComponent extends IncidentMapsPanel{
+
+  limit:number = 10;
 
   convertDate(dateString) {
     if (dateString) {
@@ -15,6 +17,10 @@ export class IncidentMapsPanelMobileComponent extends IncidentMapsPanel {
       const formattedDate: string = date.toLocaleDateString("en-US", options);
       return formattedDate
     }
+  }
+
+  loadMore() {
+    this.limit += 10;
   }
   
 }
