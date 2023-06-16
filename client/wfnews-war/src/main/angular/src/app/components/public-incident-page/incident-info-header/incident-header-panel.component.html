@@ -43,13 +43,14 @@
     </div>
     <div *ngIf="hideOnMobileView()">
         <div class="header-content">
-          <div class="item"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
-          <div class="item"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
+          <div class="item" style="width: 45%;"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
+          <mat-icon svgIcon="dot" style="width: 10px; height: 10px;" ></mat-icon>
+          <div class="item" style="width: 45%;"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
         </div>
-
         <div class="header-content">
-          <div class="item"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
-          <div class="item"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
+          <div class="item" style="width: 45%;"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
+          <mat-icon svgIcon="dot" style="width: 10px; height: 10px;" ></mat-icon>
+          <div class="item" style="width: 45%;"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
         </div>
 
         <div class="header-content">
