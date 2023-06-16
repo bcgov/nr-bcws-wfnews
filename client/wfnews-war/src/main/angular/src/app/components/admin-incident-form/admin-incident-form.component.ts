@@ -172,10 +172,20 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.sizeComments = 'Fire size is based on most current information available.';
 
             const suspectedCauseCategoryCode = self.currentAdminIncident.suspectedCauseCategoryCode;
-            const causeCode = suspectedCauseCategoryCode === 'Undetermined' ? 3 : suspectedCauseCategoryCode === 'Natural' ? 2 : 1;
-            self.incident.cause = causeCode;
-            self.detailsPanelComponent.setCauseDisclaimer(causeCode);
-            self.incident.causeComments = self.detailsPanelComponent.causeOptions.find(c => c.id === causeCode).disclaimer;
+            switch (suspectedCauseCategoryCode) {
+              case 'Undetermined':
+                self.incident.cause = 3;
+                break;
+              case 'Natural':
+                self.incident.cause = 2;
+                break;
+              default:
+                self.incident.cause = 1;
+                break;
+            }
+
+            self.detailsPanelComponent.setCauseDisclaimer(self.incident.cause);
+            self.incident.causeComments = self.detailsPanelComponent.causeOptions.find(c => c.id === self.incident.cause).disclaimer;
 
             self.incident.contact.isPrimary = true;
 
