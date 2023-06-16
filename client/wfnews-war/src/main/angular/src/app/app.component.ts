@@ -29,6 +29,7 @@ export const ICON = {
   BOOKMARK: 'bookmark',
   MAP: 'map',
   BACK_ICON: 'back-icon',
+  DOT: 'dot',
 };
 
 @Component({
@@ -353,6 +354,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.BACK_ICON,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/back-icon.svg')
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      ICON.DOT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/dot.svg")
     );
   }
 
