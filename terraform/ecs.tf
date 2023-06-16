@@ -26,10 +26,17 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
   memory                   = var.server_memory
+  volume {
+    name = "work"
+  }
+  volume {
+    name = "logging"
+  }
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
+      readonlyRootFilesystem = true
       name        = var.server_container_name
       image       = var.server_image
       cpu         = var.server_cpu_units
@@ -198,7 +205,18 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = []
+      mountPoints = [
+        {
+          sourceVolume = "logging"
+          containerPath = "/usr/local/tomcat/logs"
+          readOnly = false
+        },
+        {
+          sourceVolume = "work"
+          containerPath = "/usr/local/tomcat/work"
+          readOnly = false
+        }
+      ]
       volumesFrom = []
     }
   ])
@@ -212,10 +230,17 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.client_cpu_units
   memory                   = var.client_memory
+  volume {
+    name = "work"
+  }
+  volume {
+    name = "logging"
+  }
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
+      readonlyRootFilesystem = true
       name        = var.client_container_name
       image       = var.client_image
       cpu         = var.client_cpu_units
@@ -321,7 +346,18 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = []
+      mountPoints = [
+        {
+          sourceVolume = "logging"
+          containerPath = "/usr/local/tomcat/logs"
+          readOnly = false
+        },
+        {
+          sourceVolume = "work"
+          containerPath = "/usr/local/tomcat/work"
+          readOnly = false
+        }
+      ]
       volumesFrom = []
     }
   ])
@@ -339,6 +375,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   container_definitions = jsonencode([
     {
       essential   = true
+      readonlyRootFilesystem = true
       name        = var.liquibase_container_name
       image       = var.liquibase_image
       cpu         = var.server_cpu_units
@@ -389,9 +426,19 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   cpu                      = var.server_cpu_units
   memory                   = var.server_memory
   tags                     = local.common_tags
+  volume {
+    name = "cache"
+  }
+  volume {
+    name = "run"
+  }
+  volume {
+    name = "logging"
+  }
   container_definitions = jsonencode([
     {
       essential   = true
+      readonlyRootFilesystem = true
       name        = var.apisix_container_name
       image       = var.apisix_image
       cpu         = var.server_cpu_units
@@ -455,7 +502,23 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = []
+      mountPoints = [
+        {
+          sourceVolume = "logging"
+          containerPath = "/var/log/nginx"
+          readOnly = false
+        },
+        {
+          sourceVolume = "cache"
+          containerPath = "/var/cache/nginx"
+          readOnly = false
+        },
+        {
+          sourceVolume = "run"
+          containerPath = "/var/run"
+          readOnly = false
+        }
+      ]
       volumesFrom = []
     }
   ])
