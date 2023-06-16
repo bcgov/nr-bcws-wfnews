@@ -196,9 +196,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
-              if (response.incidentSizeDetail && response.incidentSizeDetai.includes('estimated')) {
+              if (response?.incidentSizeDetail.includes('estimated')) {
                 self.incident.sizeType = 1;
-              } else if (response.incidentSizeDetail && response.incidentSizeDetai.includes('mapped')) {
+              } else if (response?.incidentSizeDetail.includes('mapped')) {
                 self.incident.sizeType = 0;
               } else {
                 self.incident.sizeType = 2;
@@ -227,7 +227,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.incidentOverview = response.incidentOverview;
 
               this.evacOrdersDetailsPanel.getEvacOrders();
-              this.incidentForm.patchValue(self.incident);
+              this.incidentForm.patchValue(this.incident);
             }, (error) => {
               console.log('No published data found...');
               console.error(error);
