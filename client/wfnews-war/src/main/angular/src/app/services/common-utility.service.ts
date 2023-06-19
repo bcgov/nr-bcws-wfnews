@@ -1,5 +1,6 @@
 import { NumberFormatStyle } from "@angular/common";
 import { Injectable } from "@angular/core";
+import { CapacitorService } from "./capacitor-service";
 import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 
 const MAX_CACHE_AGE = 30 * 1000
@@ -26,7 +27,8 @@ export class CommonUtilityService {
     private location;
 
     constructor (
-        protected snackbarService : MatSnackBar
+        protected snackbarService : MatSnackBar,
+        protected capacitorService: CapacitorService
      ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
@@ -44,7 +46,60 @@ export class CommonUtilityService {
     }
 
     getCurrentLocation(callback?: (p: Position) => void) {
-        if (navigator && navigator.geolocation) {
+        if (this.capacitorService.isMobilePlatform()) {
+            this.determineCurrentLocation()
+        }
+    }
+
+    preloadGeolocation() {
+        if (this.capacitorService.isMobilePlatform()) {
+            this.preloadMobileGeolocation();         
+        }
+        else {
+           this.preloadDesktopGeolocation();
+        }
+    }
+
+    checkIfAndroidIOSPlatform(): boolean {
+        return (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) ?  true : false;
+    }
+
+    determineCurrentLocation() {
+        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
+            this.getMobileCurrentLocation();
+        } else {       
+                this.getAlternativeCurrentLocation();
+        }
+    }
+
+    getMobileCurrentLocation(callback?: (p: Position) => void) {
+        if (navigator?.geolocation) {
+            return navigator.geolocation.getCurrentPosition((position) => {
+                this.myLocation = position ? position.coords : undefined;
+                if (callback) {
+                    callback(position);
+                }
+                return position ? position.coords : undefined;
+            }, error => {
+                this.snackbarService.open('Unable to retrieve the current location.', '', {
+                    duration: 5,
+                    panelClass: 'snack-bar-warning'
+                });
+            },
+                { enableHighAccuracy: true }
+            );
+        }
+        else {
+            console.error('Unable to retrieve the current location.');
+            this.snackbarService.open('Unable to retrieve the current location.', '', {
+                duration: 5,
+                panelClass: 'snack-bar-warning'
+            });
+        }
+    }
+
+    getAlternativeCurrentLocation(callback?: (p: Position) => void) {
+        if (navigator?.geolocation) {
             return navigator.geolocation.getCurrentPosition((position) => {
                 this.myLocation = position ? position.coords : undefined;
                 if (callback) {
@@ -67,7 +122,36 @@ export class CommonUtilityService {
         }
     }
 
-    preloadGeolocation() {
+    preloadMobileGeolocation() {
+        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
+            this.preloadMobileGeolocationIOSAndroid();
+        }
+        else {
+            this.preloadMobileGeolocationGoogle();
+        }
+    }
+
+    preloadMobileGeolocationIOSAndroid() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            this.myLocation = position.coords;
+        }, error => {
+            console.error('Failed to preload my location');
+        },
+            { enableHighAccuracy: true }
+        );
+    }
+
+    preloadMobileGeolocationGoogle() {
+        this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
+                    .then((position) => {
+                        this.myLocation = position.coords;
+                },
+                (error) => {
+                    console.error('Failed to preload my location');
+                });
+    }
+
+    preloadDesktopGeolocation() {
         navigator.geolocation.getCurrentPosition((position) => {
             this.myLocation = position.coords;
         }, error => {

@@ -435,6 +435,9 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   volume {
     name = "logging"
   }
+  volume {
+    name = "nginx"
+  }
   container_definitions = jsonencode([
     {
       essential   = true
@@ -516,6 +519,11 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           sourceVolume = "run"
           containerPath = "/var/run"
+          readOnly = false
+        },
+        {
+          sourceVolume = "nginx"
+          containerPath = "/etc/nginx"
           readOnly = false
         }
       ]
