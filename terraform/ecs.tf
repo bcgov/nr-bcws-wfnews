@@ -28,9 +28,11 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   memory                   = var.server_memory
   volume {
     name = "work"
+    emptyDir = {}
   }
   volume {
     name = "logging"
+    emptyDir = {}
   }
   tags                     = local.common_tags
   container_definitions = jsonencode([
@@ -232,9 +234,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   memory                   = var.client_memory
   volume {
     name = "work"
+    emptyDir = {}
   }
   volume {
     name = "logging"
+    emptyDir = {}
   }
   tags                     = local.common_tags
   container_definitions = jsonencode([
@@ -372,12 +376,15 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   cpu                      = var.server_cpu_units
     volume {
     name = "cache"
+    emptyDir = {}
   }
   volume {
     name = "run"
+    emptyDir = {}
   }
   volume {
     name = "logging"
+    emptyDir = {}
   }
   volume {
     name = "nginx"
@@ -509,12 +516,15 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   tags                     = local.common_tags
   volume {
     name = "cache"
+    emptyDir = {}
   }
   volume {
     name = "run"
+    emptyDir = {}
   }
   volume {
     name = "logging"
+    emptyDir = {}
   }
   volume {
     name = "nginx"
@@ -524,6 +534,10 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   }
   volume {
     name = "local"
+  }
+  volume {
+    name = "tmp"
+    emptyDir = {}
   }
   container_definitions = jsonencode([
     {
@@ -621,6 +635,11 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           sourceVolume = "local"
           containerPath = "/usr/local/apisix"
+          readOnly = false
+        },
+        {
+          sourceVolume = "tmp"
+          containerPath = "/tmp"
           readOnly = false
         }
       ]
