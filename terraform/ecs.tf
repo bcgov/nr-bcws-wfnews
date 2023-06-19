@@ -370,6 +370,24 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
+    volume {
+    name = "cache"
+  }
+  volume {
+    name = "run"
+  }
+  volume {
+    name = "logging"
+  }
+  volume {
+    name = "nginx"
+  }
+  volume {
+    name = "nginx-lib"
+  }
+  volume {
+    name = "local"
+  }
   memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
@@ -415,6 +433,38 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       volumesFrom = []
     }
   ])
+  mountPoints = [
+    {
+      sourceVolume = "logging"
+      containerPath = "/var/log"
+      readOnly = false
+    },
+    {
+      sourceVolume = "cache"
+      containerPath = "/var/cache/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "run"
+      containerPath = "/var/run"
+      readOnly = false
+    },
+    {
+      sourceVolume = "nginx"
+      containerPath = "/etc/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "nginx-lib"
+      containerPath = "/var/lib/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "local"
+      containerPath = "/liquibase"
+      readOnly = false
+    }
+  ]
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix" {
