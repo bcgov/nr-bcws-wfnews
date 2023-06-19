@@ -471,6 +471,38 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       volumesFrom = []
     }
   ])
+  mountPoints = [
+    {
+      sourceVolume = "logging"
+      containerPath = "/var/log"
+      readOnly = false
+    },
+    {
+      sourceVolume = "cache"
+      containerPath = "/var/cache/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "run"
+      containerPath = "/var/run"
+      readOnly = false
+    },
+    {
+      sourceVolume = "nginx"
+      containerPath = "/etc/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "nginx-lib"
+      containerPath = "/var/lib/nginx"
+      readOnly = false
+    },
+    {
+      sourceVolume = "local"
+      containerPath = "/liquibase"
+      readOnly = false
+    }
+  ]
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix" {
