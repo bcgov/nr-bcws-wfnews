@@ -438,6 +438,12 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   volume {
     name = "nginx"
   }
+  volume {
+    name = "nginx-lib"
+  }
+  volume {
+    name = "local"
+  }
   container_definitions = jsonencode([
     {
       essential   = true
@@ -524,6 +530,16 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           sourceVolume = "nginx"
           containerPath = "/etc/nginx"
+          readOnly = false
+        },
+        {
+          sourceVolume = "nginx-lib"
+          containerPath = "/var/lib/nginx"
+          readOnly = false
+        },
+        {
+          sourceVolume = "local"
+          containerPath = "/usr/local/apisix"
           readOnly = false
         }
       ]
