@@ -20,6 +20,7 @@ import { FormControl } from "@angular/forms";
 export class IncidentGalleryPanelMobileComponent implements OnInit {
   @Input() public incident;
   @Input() public showImageWarning;
+  @Input() selectedIndex;
   selected = new FormControl(0)
 
   isMobileView = isMobileView
@@ -41,7 +42,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
   public showImages = true
   public showAll = false
   isPreview: boolean;
-  public selectedIndex = 0;
+
 
   settings = {
     counter: true,
@@ -57,6 +58,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
     if (this.refreshGallery && this.lightGallery) {
         this.lightGallery.refresh()
         this.refreshGallery = false
+        this.selectedIndex = 0;
     }
   }
 
@@ -79,6 +81,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
   ngOnInit() {
     this.loadPage();
     this.currentMediaType = "All Media";
+    this.selectedIndex = 1;
 
     this.router.queryParams.subscribe((params: ParamMap) => {
       if(params && params['preview']) {

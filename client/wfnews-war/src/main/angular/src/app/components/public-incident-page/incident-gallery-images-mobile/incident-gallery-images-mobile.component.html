@@ -15,6 +15,9 @@
         </a>
     </lightgallery>
 </div>
-<div #loadMoreButton class="load-more" *ngIf="displayLoadMore">
-  <button (click)="loadMore(loadMoreButton)">Load More</button>
+<div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
+  <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
 </div>
+<ng-template #showDisclaimer>
+  <div *ngIf="!isPreview">There are currently no images associated with this incident.</div>
+</ng-template>

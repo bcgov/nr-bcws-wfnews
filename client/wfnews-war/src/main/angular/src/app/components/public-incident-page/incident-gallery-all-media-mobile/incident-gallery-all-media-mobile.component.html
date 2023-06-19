@@ -31,8 +31,11 @@
       </youtube-player>
     </div>
   </div>
-<div class="load-more-but" #loadMoreButton *ngIf="displayLoadMore">
-  <button (click)="loadMore(loadMoreButton)">Load More</button>
-</div>
+  <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
+    <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
+  </div>
+  <ng-template #showDisclaimer>
+    <div *ngIf="isPreview">There are currently no images or videos associated with this incident.</div>
+</ng-template>
 
 
