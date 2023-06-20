@@ -1,9 +1,10 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AppConfigService } from "@wf1/core-ui";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { LightGallery } from "lightgallery/lightgallery";
-import { convertToMobileFormat, convertToYoutubeId } from "../../../utils"
+import { convertToMobileFormat } from "../../../utils"
+import { InitDetail } from 'lightgallery/lg-events';
 
 @Component({
   selector: 'incident-gallery-images-mobile',
@@ -28,6 +29,10 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
     this.loadPage();
   }
 
+  onInit = (detail: InitDetail): void => {
+    this.lightGallery = detail.instance
+  }
+
   get images () {
     return this.displayImagesStub
   }
@@ -38,7 +43,7 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
       // fetch image attachments
       this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
             // do a mime type check here
             if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
@@ -63,7 +68,7 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
          } else this.displayImagesStub = this.allImagesStub;
 
         this.cdr.detectChanges()
-        this.lightGallery.refresh()
+        // this.lightGallery.refresh()
         setTimeout(() => {
           this.refreshGallery = true
         }, 5000)

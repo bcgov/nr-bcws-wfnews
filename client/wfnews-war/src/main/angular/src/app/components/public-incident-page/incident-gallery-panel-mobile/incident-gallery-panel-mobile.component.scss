@@ -57,6 +57,8 @@
 :host ::ng-deep .mat-tab-label {
     height: 3rem !important;
     min-width: 8rem !important;
+    flex-basis: 0;
+    flex-grow: 1;
 }
 
 :host ::ng-deep .mat-tab-content {

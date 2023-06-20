@@ -23,6 +23,7 @@
     padding-bottom: 20px;
     padding-top: 20px;
     width: 100%;
+    display: flex;
 }
 
 .load-more-row{
@@ -38,6 +39,11 @@
 }
 
 .disclaimer {
-    margin: 200px;
-  }
+    margin-top: 20px;
+}
+
+content-panel-stack.youtube-player {
+    
+     width: 100px;
+   }
 
