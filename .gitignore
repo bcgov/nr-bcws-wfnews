@@ -42,3 +42,5 @@ override.tf.json
 # Intellij
 .idea
 *.iml
+**/.DS_Store*
+

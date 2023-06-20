@@ -2,7 +2,7 @@
     "index": "index.html",
     "assetGroups": [
         {
-            "name": "app",
+            "name": "wfnews",
             "installMode": "prefetch",
             "resources": {
                 "files": [
