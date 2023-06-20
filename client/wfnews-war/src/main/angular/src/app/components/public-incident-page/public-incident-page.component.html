@@ -16,7 +16,8 @@
         </mat-tab>
         <mat-tab label="Gallery">
           <ng-template matTabContent>
-            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
+            <incident-gallery-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
+            <incident-gallery-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel-mobile>
           </ng-template>
         </mat-tab>
         <mat-tab label="Maps">

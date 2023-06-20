@@ -1,0 +1,25 @@
+<div class="content-panel-stack" *ngIf="images && images.length; else showDisclaimer">
+  <div class="media" *ngFor="let item of images">
+
+        <div class="title-row">{{item.title}}</div>
+        <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
+        <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" class="gallery-container">
+          <a
+              [attr.data-index]="i"
+              data-lg-size="480-475-480, 800-791-800, 1406-1390"
+              class="gallery-item"
+              [href]="item.href"
+              [data-src]="item.href"
+              [data-responsive]="item.href + ' 800'"
+              style="padding: 5px;">
+              <img [id]="i + '-img-thumb'" width="150" alt="Image" class="img-responsive" [src]="item.thumbnail" (error)="handleImageFallback(item, i)"/>
+          </a>
+      </lightgallery>
+  </div>
+  <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
+    <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
+  </div>
+</div>
+<ng-template class="disclaimer" #showDisclaimer>
+  <div class="disclaimer" *ngIf="!isPreview">There are currently no images associated with this incident.</div>
+</ng-template>
