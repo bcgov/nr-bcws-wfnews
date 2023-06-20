@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AppConfigService } from "@wf1/core-ui";
 import { PublishedIncidentService } from "../../../services/published-incident-service";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { convertToMobileFormat, convertToYoutubeId } from "../../../utils"
 
 @Component({
@@ -34,7 +34,7 @@ export class IncidentGalleryVideosMobileComponent implements OnInit {
     this.allVideosStub = []
     // fetch the Videos
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
-      if (results && results.collection && results.collection.length > 0) {
+      if (results?.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
           if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
             this.allVideosStub.push({

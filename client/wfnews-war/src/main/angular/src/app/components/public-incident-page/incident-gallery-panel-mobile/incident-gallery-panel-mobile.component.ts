@@ -1,14 +1,13 @@
-import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef, ViewChild } from "@angular/core";
+import { Component, ChangeDetectionStrategy, Input, OnInit, ChangeDetectorRef } from "@angular/core";
 import lgZoom from 'lightgallery/plugins/zoom';
 import lgFullscreen from 'lightgallery/plugins/fullscreen';
 import lgThumbnail from 'lightgallery/plugins/thumbnail';
-import { BeforeSlideDetail, InitDetail } from 'lightgallery/lg-events';
+import { InitDetail } from 'lightgallery/lg-events';
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
-import { convertToYoutubeId } from "../../../utils";
 import { LightGallery } from "lightgallery/lightgallery";
 import { ActivatedRoute, ParamMap } from "@angular/router";
-import { convertToMobileFormat, convertFireNumber, hideOnMobileView, isMobileView } from "../../../utils"
+import { convertToMobileFormat, convertToYoutubeId, convertFireNumber, hideOnMobileView, isMobileView } from "../../../utils"
 import { FormControl } from "@angular/forms";
 
 @Component({
@@ -36,7 +35,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
   imagesAndVideosStub: any[];
   allImagesAndVideosStub: any[];
   
-  private lightGallery!: LightGallery
+  lightGallery!: LightGallery
   private refreshGallery = false
   public showVideos = true
   public showImages = true
@@ -58,8 +57,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
     if (this.refreshGallery && this.lightGallery) {
         this.lightGallery.refresh()
         this.refreshGallery = false
-        this.selectedIndex = 0;
-    }
+     }
   }
 
   onInit = (detail: InitDetail): void => {
@@ -102,7 +100,7 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
     this.allImagesAndVideosStub = []
     // fetch the Videos
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
-      if (results && results.collection && results.collection.length > 0) {
+      if (results?.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
           if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
             this.allImagesAndVideosStub.push({
@@ -141,7 +139,6 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
         this.allImagesAndVideosStub.sort((a, b) => b.convertedDate - a.convertedDate)
         
         this.cdr.detectChanges()
-        this.lightGallery.refresh()
         setTimeout(() => {
           this.refreshGallery = true
         }, 5000)

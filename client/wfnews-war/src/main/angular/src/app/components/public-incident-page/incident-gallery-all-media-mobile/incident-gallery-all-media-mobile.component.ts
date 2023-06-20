@@ -4,6 +4,7 @@ import { PublishedIncidentService } from "../../../services/published-incident-s
 import { ActivatedRoute } from "@angular/router";
 import { LightGallery } from "lightgallery/lightgallery";
 import { convertToMobileFormat, convertToYoutubeId } from "../../../utils"
+import { InitDetail } from 'lightgallery/lg-events';
  
 
 @Component({
@@ -32,6 +33,10 @@ export class IncidentGalleryAllMediaMobileComponent implements OnInit {
     }
   }
 
+  onInit = (detail: InitDetail): void => {
+    this.lightGallery = detail.instance
+  }
+
   ngOnInit(): void {
     this.loadPage();
   }
@@ -49,7 +54,7 @@ export class IncidentGalleryAllMediaMobileComponent implements OnInit {
     this.allImagesAndVideosStub = []
     // fetch the Videos
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
-      if (results && results.collection && results.collection.length > 0) {
+      if (results?.collection && results.collection.length > 0) {
         for (const uri of results.collection) {
           if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
             this.allImagesAndVideosStub.push({
@@ -68,7 +73,7 @@ export class IncidentGalleryAllMediaMobileComponent implements OnInit {
       // fetch image attachments
       this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
             // do a mime type check here
             if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
