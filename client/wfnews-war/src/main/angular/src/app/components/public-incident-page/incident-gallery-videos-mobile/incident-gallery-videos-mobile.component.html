@@ -1,4 +1,5 @@
-<div class="media "*ngFor="let item of videos">
+<div class="content-panel-stack" *ngIf="videos && videos.length; else showDisclaimer">
+<div class="media"*ngFor="let item of videos">
 
       <div class="title-row">{{item.title}}</div>
       <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
@@ -7,13 +8,13 @@
           videoId={{convertToYoutubeId(item.href)}}
           suggestedQuality="highres"
           [startSeconds]="1"
-          [endSeconds]="20"
           [height]="175"
           [width]="300">
       </youtube-player>
 </div>  
 <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
   <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
+</div>
 </div>
 <ng-template #showDisclaimer>
   <div *ngIf="!isPreview">There are currently no videos associated with this incident.</div>

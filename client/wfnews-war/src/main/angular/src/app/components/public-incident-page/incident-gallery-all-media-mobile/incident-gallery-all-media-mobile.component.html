@@ -1,3 +1,4 @@
+<div class="content-panel-stack" *ngIf="displayVideosAndImages && displayVideosAndImages.length; else showDisclaimer">
 <div class="media" *ngFor="let item of displayVideosAndImages">
 
     <div *ngIf="item.type==='image'">
@@ -25,7 +26,6 @@
           videoId={{convertToYoutubeId(item.href)}}
           suggestedQuality="highres"
           [startSeconds]="1"
-          [endSeconds]="20"
           [height]="175"
           [width]="300">
       </youtube-player>
@@ -34,8 +34,11 @@
   <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
     <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
   </div>
+</div>
+<div class="disclaimer">
   <ng-template #showDisclaimer>
-    <div *ngIf="isPreview">There are currently no images or videos associated with this incident.</div>
+    <div *ngIf="!isPreview">There are currently no images or videos associated with this incident.</div>
 </ng-template>
+</div> 
 
 
