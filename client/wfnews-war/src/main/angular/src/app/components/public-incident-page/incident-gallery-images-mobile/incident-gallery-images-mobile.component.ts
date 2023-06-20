@@ -44,22 +44,9 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
       this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
         if (results?.collection && results.collection.length > 0) {
-          for (const attachment of results.collection) {
-            // do a mime type check here
-            if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
-              this.allImagesStub.push({
-                title: attachment.attachmentTitle,
-                uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
-                convertedDate: new Date(attachment.createdTimestamp),
-                fileName: attachment.attachmentFileName,
-                type: 'image',
-                href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
-                thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
-              })
-            }
-          }
+          this.pushAttachmentsToImagesStub(results.collection)
         }
-
+        
         this.allImagesStub.sort((a, b) => b.convertedDate - a.convertedDate)
 
         if (this.allImagesStub.length > 9) {
@@ -68,7 +55,6 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
          } else this.displayImagesStub = this.allImagesStub;
 
         this.cdr.detectChanges()
-        // this.lightGallery.refresh()
         setTimeout(() => {
           this.refreshGallery = true
         }, 5000)
@@ -84,6 +70,24 @@ export class IncidentGalleryImagesMobileComponent implements OnInit {
     const imgComponent = document.getElementById('primary-image-container')
     if (imgComponent) {
       (imgComponent as any).src = href
+    }
+  }
+
+  pushAttachmentsToImagesStub(collection: any){
+    for (const attachment of collection) {
+      // do a mime type check here
+      if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
+        this.allImagesStub.push({
+          title: attachment.attachmentTitle,
+          uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
+          convertedDate: new Date(attachment.createdTimestamp),
+          fileName: attachment.attachmentFileName,
+          type: 'image',
+          href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
+          thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
+        })
+      }
+  
     }
   }
 

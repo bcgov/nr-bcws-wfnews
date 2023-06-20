@@ -55,39 +55,14 @@ export class IncidentGalleryAllMediaMobileComponent implements OnInit {
     // fetch the Videos
     this.publishedIncidentService.fetchExternalUri(this.incident.incidentNumberLabel).toPromise().then(results => {
       if (results?.collection && results.collection.length > 0) {
-        for (const uri of results.collection) {
-          if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
-            this.allImagesAndVideosStub.push({
-              title: uri.externalUriDisplayLabel,
-              uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
-              convertedDate: new Date(uri.createdTimestamp),
-              fileName: '',
-              type: 'video',
-              href: uri.externalUri
-            })
-          }
-          this.cdr.detectChanges()
-        }
+        this.pushUrisToAllImagesAndVideos(results.collection)
       }
 
       // fetch image attachments
       this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
         // Loop through the attachments, for each one, create a ref, and set href to the bytes
         if (results?.collection && results.collection.length > 0) {
-          for (const attachment of results.collection) {
-            // do a mime type check here
-            if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
-              this.allImagesAndVideosStub.push({
-                title: attachment.attachmentTitle,
-                uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
-                convertedDate: new Date(attachment.createdTimestamp),
-                fileName: attachment.attachmentFileName,
-                type: 'image',
-                href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
-                thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
-              })
-            }
-          }
+          this.pushAttachmentsToAllImagesAndVideos(results.collection)
         }
 
         this.displayMediaStub = [];
@@ -118,6 +93,38 @@ export class IncidentGalleryAllMediaMobileComponent implements OnInit {
     const imgComponent = document.getElementById('primary-image-container')
     if (imgComponent) {
       (imgComponent as any).src = href
+    }
+  }
+
+  pushUrisToAllImagesAndVideos(collection: any){
+    for (const uri of collection) {
+      if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
+        this.allImagesAndVideosStub.push({
+          title: uri.externalUriDisplayLabel,
+          uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
+          convertedDate: new Date(uri.createdTimestamp),
+          fileName: '',
+          type: 'video',
+          href: uri.externalUri
+        })
+      }
+    }
+  }
+
+  pushAttachmentsToAllImagesAndVideos(collection: any){
+    for (const attachment of collection) {
+      // do a mime type check here
+      if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
+        this.allImagesAndVideosStub.push({
+          title: attachment.attachmentTitle,
+          uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
+          convertedDate: new Date(attachment.createdTimestamp),
+          fileName: attachment.attachmentFileName,
+          type: 'image',
+          href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
+          thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
+        })
+      }
     }
   }
 
