@@ -26,17 +26,19 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
   memory                   = var.server_memory
-  volume {
-    name = "work"
-  }
-  volume {
-    name = "logging"
-  }
+  # volume {
+  #   name = "work"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
-      readonlyRootFilesystem = true
+      # readonlyRootFilesystem = true
       name        = var.server_container_name
       image       = var.server_image
       cpu         = var.server_cpu_units
@@ -206,16 +208,16 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         }
       }
       mountPoints = [
-        {
-          sourceVolume = "logging"
-          containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
-        },
-        {
-          sourceVolume = "work"
-          containerPath = "/usr/local/tomcat/work"
-          readOnly = false
-        }
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/usr/local/tomcat/logs"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "work"
+        #   containerPath = "/usr/local/tomcat/work"
+        #   readOnly = false
+        # }
       ]
       volumesFrom = []
     }
@@ -230,17 +232,19 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.client_cpu_units
   memory                   = var.client_memory
-  volume {
-    name = "work"
-  }
-  volume {
-    name = "logging"
-  }
+  # volume {
+  #   name = "work"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
-      readonlyRootFilesystem = true
+      # readonlyRootFilesystem = true
       name        = var.client_container_name
       image       = var.client_image
       cpu         = var.client_cpu_units
@@ -346,7 +350,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = [
+      mountPoints = [/*
         {
           sourceVolume = "logging"
           containerPath = "/usr/local/tomcat/logs"
@@ -356,8 +360,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           sourceVolume = "work"
           containerPath = "/usr/local/tomcat/work"
           readOnly = false
-        }
-      ]
+        }*/]
       volumesFrom = []
     }
   ])
@@ -370,30 +373,33 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.server_cpu_units
-    volume {
-    name = "cache"
-  }
-  volume {
-    name = "run"
-  }
-  volume {
-    name = "logging"
-  }
-  volume {
-    name = "nginx"
-  }
-  volume {
-    name = "nginx-lib"
-  }
-  volume {
-    name = "local"
-  }
+  #   volume {
+  #   name = "cache"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "run"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "nginx"
+  # }
+  # volume {
+  #   name = "nginx-lib"
+  # }
+  # volume {
+  #   name = "local"
+  # }
   memory                   = var.server_memory
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
-      readonlyRootFilesystem = true
+      # readonlyRootFilesystem = true
       name        = var.liquibase_container_name
       image       = var.liquibase_image
       cpu         = var.server_cpu_units
@@ -430,72 +436,40 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
         }
       }
       mountPoints = [
-        {
-          sourceVolume = "logging"
-          containerPath = "/var/log"
-          readOnly = false
-        },
-        {
-          sourceVolume = "cache"
-          containerPath = "/var/cache/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "run"
-          containerPath = "/var/run"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx"
-          containerPath = "/etc/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx-lib"
-          containerPath = "/var/lib/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "local"
-          containerPath = "/liquibase"
-          readOnly = false
-        }
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/var/log"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "cache"
+        #   containerPath = "/var/cache/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "run"
+        #   containerPath = "/var/run"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx"
+        #   containerPath = "/etc/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx-lib"
+        #   containerPath = "/var/lib/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "local"
+        #   containerPath = "/liquibase"
+        #   readOnly = false
+        # }
       ]
       volumesFrom = []
     }
   ])
-  mountPoints = [
-    {
-      sourceVolume = "logging"
-      containerPath = "/var/log"
-      readOnly = false
-    },
-    {
-      sourceVolume = "cache"
-      containerPath = "/var/cache/nginx"
-      readOnly = false
-    },
-    {
-      sourceVolume = "run"
-      containerPath = "/var/run"
-      readOnly = false
-    },
-    {
-      sourceVolume = "nginx"
-      containerPath = "/etc/nginx"
-      readOnly = false
-    },
-    {
-      sourceVolume = "nginx-lib"
-      containerPath = "/var/lib/nginx"
-      readOnly = false
-    },
-    {
-      sourceVolume = "local"
-      containerPath = "/liquibase"
-      readOnly = false
-    }
-  ]
 }
 
 resource "aws_ecs_task_definition" "wfnews_apisix" {
@@ -507,28 +481,35 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   cpu                      = var.server_cpu_units
   memory                   = var.server_memory
   tags                     = local.common_tags
-  volume {
-    name = "cache"
-  }
-  volume {
-    name = "run"
-  }
-  volume {
-    name = "logging"
-  }
-  volume {
-    name = "nginx"
-  }
-  volume {
-    name = "nginx-lib"
-  }
-  volume {
-    name = "local"
-  }
+  # volume {
+  #   name = "cache"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "run"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "nginx"
+  # }
+  # volume {
+  #   name = "nginx-lib"
+  # }
+  # volume {
+  #   name = "local"
+  # }
+  # volume {
+  #   name = "tmp"
+  #   emptyDir = {}
+  # }
   container_definitions = jsonencode([
     {
       essential   = true
-      readonlyRootFilesystem = true
+      # readonlyRootFilesystem = true
       name        = var.apisix_container_name
       image       = var.apisix_image
       cpu         = var.server_cpu_units
@@ -593,36 +574,41 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         }
       }
       mountPoints = [
-        {
-          sourceVolume = "logging"
-          containerPath = "/var/log/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "cache"
-          containerPath = "/var/cache/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "run"
-          containerPath = "/var/run"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx"
-          containerPath = "/etc/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "nginx-lib"
-          containerPath = "/var/lib/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "local"
-          containerPath = "/usr/local/apisix"
-          readOnly = false
-        }
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/var/log/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "cache"
+        #   containerPath = "/var/cache/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "run"
+        #   containerPath = "/var/run"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx"
+        #   containerPath = "/etc/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx-lib"
+        #   containerPath = "/var/lib/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "local"
+        #   containerPath = "/usr/local/apisix"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "tmp"
+        #   containerPath = "/tmp"
+        #   readOnly = false
+        # }
       ]
       volumesFrom = []
     }
