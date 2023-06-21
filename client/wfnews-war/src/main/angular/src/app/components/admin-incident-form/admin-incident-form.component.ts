@@ -237,7 +237,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.incidentOverview = response.incidentOverview;
 
               this.evacOrdersDetailsPanel.getEvacOrders();
-              this.incidentForm.patchValue(this.incident);
+              this.incidentForm.patchValue(self.incident);
             }, (error) => {
               console.log('No published data found...');
               console.error(error);
