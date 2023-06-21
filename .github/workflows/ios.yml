@@ -65,6 +65,13 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: ionic capacitor sync ios --prod
 
+      - name: Add Google Services file
+        working-directory: "${{ env.ANGULAR_DIRECTORY }}/ios/App/App"
+        env:
+          GOOGLE_FILE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST }}
+        run: |
+          echo -n "$GOOGLE_FILE" > GoogleService-Info.plist
+
       - name: Install the Apple certificate and provisioning profile
         env:
           BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}

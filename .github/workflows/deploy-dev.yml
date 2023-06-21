@@ -56,9 +56,9 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
-  android-build:
-    uses: ./.github/workflows/android.yml
-    secrets: inherit
+  # android-build:
+  #   uses: ./.github/workflows/android.yml
+  #   secrets: inherit
 
   ios-build:
     uses: ./.github/workflows/ios.yml
