@@ -1,0 +1,10 @@
+<div class="title-row">{{item.title}}</div>
+<div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
+<youtube-player
+    style="padding: 5px;"
+    videoId={{convertToYoutubeId(item.href)}}
+    suggestedQuality="highres"
+    [startSeconds]="1"
+    [height]="250"
+    [width]="400">
+</youtube-player>
