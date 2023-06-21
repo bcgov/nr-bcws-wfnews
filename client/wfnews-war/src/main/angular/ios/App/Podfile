@@ -25,7 +25,6 @@ def capacitor_pods
   pod 'CapacitorPushNotifications', :path => '../../node_modules/@capacitor/push-notifications'
   pod 'CapacitorSplashScreen', :path => '../../node_modules/@capacitor/splash-screen'
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
-  pod 'AndroidPostNotificationPermission', :path => '../../node_modules/android-post-notification-permission'
 end
 
 target 'App' do

@@ -15,7 +15,7 @@ import { Geolocation, Position } from '@capacitor/geolocation';
 import { Browser } from '@capacitor/browser';
 import { PushNotificationSchema, PushNotifications } from '@capacitor/push-notifications';
 import { AppLauncher } from '@capacitor/app-launcher';
-import { AndroidPostNotificationPermission } from 'android-post-notification-permission';
+
 import { NotificationConfig, NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 
 export interface CompassHeading {
@@ -205,27 +205,18 @@ export class CapacitorService {
           });
     }
 
-    registerForNotifications(): Promise<boolean> {
-        return AndroidPostNotificationPermission.checkPermissions()
-            .then( ( status ) => {
-                console.log('registerForNotifications status 1',status)
-                if ( status.postNotifications == 'prompt' )
-                    return AndroidPostNotificationPermission.requestPermissions()
+    async registerForNotifications(): Promise<boolean> {
+        let status = await PushNotifications.checkPermissions();
+        if ( status.receive === 'prompt' ) {
+            status = await PushNotifications.requestPermissions();
+        }
 
-                return status
-            } )
-            .then( ( status ) => {
-                console.log('registerForNotifications status 2',status)
-                if ( status.postNotifications == 'granted' )
-                    return PushNotifications.register()
-                        .then( () => { return true } )
+        if (status.receive !== 'granted') {
+            return false;
+        }
 
-                return false
-            } )
-            .catch( ( e ) => {
-                console.warn( e )
-                return false
-            })
+        await PushNotifications.register();
+        return true;
     }
 
     handleLocationPushNotification( notification: PushNotificationSchema ) {
