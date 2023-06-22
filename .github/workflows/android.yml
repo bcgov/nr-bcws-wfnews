@@ -29,6 +29,7 @@ on:
   push:
     branches:
       - main
+      - mobile-build-automation
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
