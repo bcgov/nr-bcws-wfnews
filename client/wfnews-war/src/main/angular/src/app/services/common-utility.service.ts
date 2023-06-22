@@ -126,17 +126,3 @@ export class CommonUtilityService {
       }
 
 }
-
-/*
-import { CapacitorService } from "./capacitor-service";
-
-    constructor (
-        protected snackbarService : MatSnackBar,
-        protected capacitorService: CapacitorService
-     ) {}
-
-
-    preloadGeolocation() {
-        if (this.capacitorService.isMobilePlatform()) {
-            this.preloadMobileGeolocation()
- */
