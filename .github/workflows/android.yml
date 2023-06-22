@@ -126,5 +126,5 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: 'wildfire-build-notifier'
-          slack-message: "Android - ${{ steps.vars.outputs.short_sha }} : ${{ job.status }} ${{ env.STATUS_EMOJI }}"
+          slack-message: ":android: Android - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}"
           
