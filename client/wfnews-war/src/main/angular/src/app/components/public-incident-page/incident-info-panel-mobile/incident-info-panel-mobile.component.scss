@@ -48,11 +48,13 @@
             }
 
             .sub-title{
+                font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
                 display: flex;
                 align-items: baseline;
                 color: #6e6e6e;
                 text-align: left;
                 line-height: 24px;
+                padding-bottom: 8px;
                 div {
                     margin-right: 38px;
                   }
@@ -102,7 +104,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 160px;
+                width: 170px;
             }
 
             .current-resources{
