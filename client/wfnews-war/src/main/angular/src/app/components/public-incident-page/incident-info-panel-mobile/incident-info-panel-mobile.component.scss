@@ -33,7 +33,7 @@
                 text-align: left;
                 line-height: 33px;
             }
-        
+
             h4 {
                 font-size: 16px;
                 height: 24px;
@@ -44,8 +44,9 @@
                 color: #333333;
                 text-align: left;
                 line-height: 24px;
+                margin: 0px;
             }
-    
+
             .sub-title{
                 display: flex;
                 align-items: baseline;
@@ -58,7 +59,7 @@
                 div:last-child{
                     margin-right: 0;
                 }
-                  
+
             }
 
             .image-size {
@@ -102,11 +103,13 @@
                 align-items: center;
                 justify-content: center;
             }
-    
+
             .current-resources{
                 color: #6e6e6e;
                 text-align: left;
                 line-height: 24px;
+                margin-top: 16px;
+                margin-bottom: 16px;
                 div{
                     display: flex;
                     align-items: center;
@@ -116,7 +119,7 @@
                     color:#242424;
                 }
             }
-    
+
             .content-panel-subtitle{
                 font-size: 16px;
                 text-align: left;
@@ -145,7 +148,7 @@
             .icon{
                 padding-right: 16px;
             }
-            
+
             .header-row {
                 .header-button-container {
                     .print-button {
@@ -168,7 +171,7 @@
     background-color:#6e6e6e !important;
     color: #fdfdfd !important;
     border-radius: 10px !important;
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25) !important; 
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25) !important;
   }
 
   .circle-icon{
