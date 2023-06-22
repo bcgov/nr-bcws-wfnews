@@ -238,9 +238,9 @@
         <div class="content-panel-stack">
             <h1>Contact Us</h1>
             <div>
-                <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">badge</span><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
-                <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">email</span><span>{{incident.contactEmailAddress}}</span></div>
-                <div style="display: flex;"><span class="material-icons" style="padding-right: 10px;">call</span><span>{{incident.contactPhoneNumber}}</span></div>
+                <div style="display: flex; margin-bottom: 5px;"><span class="material-icons-outlined" style="padding-right: 10px;">badge</span><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
+                <div style="display: flex; margin-bottom: 5px;"><span class="material-icons-outlined" style="padding-right: 10px;">email</span><span>{{incident.contactEmailAddress}}</span></div>
+                <div style="display: flex; margin-bottom: 5px;"><span class="material-icons" style="padding-right: 10px;">call</span><span>{{incident.contactPhoneNumber}}</span></div>
             </div>
             <div style="display: flex; justify-content: space-between; padding-top: 24px;">
                 <button mat-button class="mobile-button" (click)="callFireCentre(incident.contactPhoneNumber)">
