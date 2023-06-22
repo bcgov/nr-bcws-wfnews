@@ -97,7 +97,7 @@ jobs:
         with:
           build-type: "bundle"
           gradle-task: "bundleRelease"
-          increment-build-number: false
+          increment-build-number: true
           package-name: ${{ env.PACKAGE_NAME }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
@@ -128,5 +128,5 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: 'wildfire-build-notifier'
-          slack-message: ":android: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}  \n Environment: ${{ github.event.inputs.build_environment }} \n Upload to Play Store: ${{ github.event.inputs.upload_to_play_store }}"
+          slack-message: ":android: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}  \n Environment: ${{ inputs.build_environment }} \n Upload to Play Store: ${{ inputs.upload_to_play_store }}"
           
