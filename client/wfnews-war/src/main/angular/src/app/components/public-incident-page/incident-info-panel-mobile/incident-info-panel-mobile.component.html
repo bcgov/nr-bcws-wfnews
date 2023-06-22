@@ -57,7 +57,7 @@
             <h1>Stage of Control</h1>
             <div *ngIf="incident.fireOfNoteInd">
                 <div class="sub-title">
-                    <h4><img class="icon" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</h4>
+                    <h4><img class="icon" style="padding-right: 8px !important;" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</h4>
                 </div>
                 <div class="sub-content">
                     This wildfire is highly visible or poses a potential threat to public safety.
@@ -77,7 +77,7 @@
 
         <div class="content-panel-stack">
             <h1>Fire Size</h1>
-            <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares
+            <div class="sub-content" style="color:#252628; display: flex; align-items: baseline;">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares
                 <button mat-icon-button [matTooltip]="getTooltipText()" #tooltip="matTooltip" (click)="tooltip.toggle()"><mat-icon>help_outline</mat-icon></button>
             </div>
             <div class="sub-content">
