@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { Router } from '@angular/router';
 import { AppConfigService } from '@wf1/core-ui';
 import { interval, Subscription } from 'rxjs';
@@ -96,6 +96,11 @@ export class WFStatsComponent implements OnInit {
     this.firesLast7Days = '' + (this.fires.filter(f => f.discoveryDate > Date.now() - 604800000).length + this.outFires.filter(f => f.discoveryDate > Date.now() - 604800000).length)
     this.thisYearCount = '' + (this.fires.length + this.outFires.length)
 
+    let totalFires = 0;
+    let areaBurned = 0;
+    let lightningStart = 0;
+    let humanStart = 0;
+
     if (this.fires) {
       const fcData = []
       const fcAllData = []
@@ -125,7 +130,7 @@ export class WFStatsComponent implements OnInit {
         })
 
         const activeHectares = this.fires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name) && f.fireYear === fireYear ).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
-        const outHectares = this.outFires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name)).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
+        const outHectares = this.outFires.filter(f => f.fireCentreName && f.fireCentreName.includes(centre.name) && f.fireYear === fireYear ).reduce((n, {incidentSizeMappedHa}) => n + incidentSizeMappedHa, 0);
 
         fcStats.push({
           name: centre.name,
@@ -134,7 +139,20 @@ export class WFStatsComponent implements OnInit {
           totalFires: fireCount + outFireCount,
           areaBurned: activeHectares + outHectares
         })
+
+        areaBurned += activeHectares + outHectares
+        totalFires += fireCount + outFireCount
+        lightningStart += fcStats[fcStats.length - 1].lightningStarts
+        humanStart += fcStats[fcStats.length - 1].humanStarts
       }
+
+      fcStats.push({
+        name: 'All of BC',
+        lightningStarts: lightningStart,
+        humanStarts: humanStart,
+        totalFires: totalFires,
+        areaBurned: areaBurned
+      })
 
       const causeData = []
       const causeAllData = []

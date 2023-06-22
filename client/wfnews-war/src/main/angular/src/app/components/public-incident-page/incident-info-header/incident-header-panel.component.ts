@@ -3,10 +3,13 @@ import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
-import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
+import { convertToFireCentreDescription, convertFireNumber, ResourcesRoutes } from "../../../utils"
 import * as moment from "moment"
-import { MatDialog } from "@angular/material/dialog"
+import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
+import { Router } from "@angular/router"
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'incident-header-panel',
@@ -23,7 +26,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   private map: any
 
-  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog,
+  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
     ) {
     /* Empty, just here for injection */
   }
@@ -142,4 +145,22 @@ export class IncidentHeaderPanel implements AfterViewInit {
       }
     });
   }
+
+  backToMap() {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
+    }, 100);
+  }
+
+  shareContent() {
+    const currentUrl = this.location.path();
+    if (navigator.share) {
+      navigator.share({
+        url: currentUrl // The URL user wants to share
+      })
+        .then(() => console.log('Sharing succeeded.'))
+        .catch((error) => console.error('Error sharing:', error));
+    }
+  }
+
 }

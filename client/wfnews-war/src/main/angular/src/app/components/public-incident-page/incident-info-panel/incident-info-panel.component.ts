@@ -4,7 +4,7 @@ import { toCanvas } from 'qrcode'
 import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeId, isMobileView } from '../../../utils'
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
@@ -147,7 +147,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
       if (!setMedia) {
         // fetch image attachments
-        this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel).toPromise().then(results => {
+        this.publishedIncidentService.fetchPublishedIncidentAttachments(this.incident.incidentNumberLabel? this.incident.incidentNumberLabel : this.incident.incidentNumberLabelFull).toPromise().then(results => {
           // Loop through the attachments, for each one, create a ref, and set href to the bytes
           if (results && results.collection && results.collection.length > 0) {
             for (const attachment of results.collection) {

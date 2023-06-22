@@ -3,9 +3,9 @@ import { DefaultService as ExternalUriService, DefaultService as IncidentAttachm
 import { BaseComponent } from "../../base/base.component";
 import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
+import { UntypedFormBuilder } from '@angular/forms';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarRef as MatSnackBarRef, LegacyTextOnlySnackBar as TextOnlySnackBar } from '@angular/material/legacy-snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -41,7 +41,7 @@ export class ImageGalleryPanel extends BaseComponent implements OnInit, OnChange
               protected route: ActivatedRoute,
               protected sanitizer: DomSanitizer,
               protected store: Store<RootState>,
-              protected fb: FormBuilder,
+              protected fb: UntypedFormBuilder,
               protected dialog: MatDialog,
               protected applicationStateService: ApplicationStateService,
               protected tokenService: TokenService,

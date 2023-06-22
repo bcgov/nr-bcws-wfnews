@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { EvacOrderOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
 import { DefaultService as ExternalUriService, ExternalUriResource } from '@wf1/incidents-rest-api';
@@ -10,12 +10,12 @@ import { DefaultService as ExternalUriService, ExternalUriResource } from '@wf1/
   styleUrls: ['./evac-orders-details-panel.component.scss']
 })
 export class EvacOrdersDetailsPanel implements OnInit {
-  @Input() public readonly formGroup: FormGroup
+  @Input() public readonly formGroup: UntypedFormGroup
   @Input() public incident
 
   evacOrders : EvacOrderOption[] = []
 
-  constructor(private agolService: AGOLService, protected cdr: ChangeDetectorRef, private readonly formBuilder: FormBuilder, private externalUriService: ExternalUriService) {
+  constructor(private agolService: AGOLService, protected cdr: ChangeDetectorRef, private readonly formBuilder: UntypedFormBuilder, private externalUriService: ExternalUriService) {
   }
 
   ngOnInit() {
@@ -62,8 +62,8 @@ export class EvacOrdersDetailsPanel implements OnInit {
     this.cdr.detectChanges()
   }
 
-  get evacOrderForm() : FormArray {
-    return this.formGroup.get("evacOrders") as FormArray
+  get evacOrderForm() : UntypedFormArray {
+    return this.formGroup.get("evacOrders") as UntypedFormArray
   }
 
   persistEvacOrders () {

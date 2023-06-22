@@ -8,7 +8,6 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS" 
 
-
 # TODO: REVERT CHOWN COMMAND TO 770 ONCE DONE TESTING
 RUN apt-get update &&\
   apt-get install -y telnet &&\
@@ -20,6 +19,10 @@ RUN apt-get update &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
   chown -h tomcat:0 ${CATALINA_HOME}
+
+VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work
+
+RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work 
 
 # run as tomcat user
 USER tomcat

@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
 import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
@@ -10,7 +10,6 @@ import { WfMenuItems } from '@wf1/wfcc-application-ui/application/components/wf-
 import * as moment from 'moment';
 import { Subscription } from 'rxjs';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
-import { DownloadPMDialogComponent } from './components/download-pm-dialog/download-pm-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
@@ -30,6 +29,7 @@ export const ICON = {
   BOOKMARK: 'bookmark',
   MAP: 'map',
   BACK_ICON: 'back-icon',
+  DOT: 'dot',
 };
 
 @Component({
@@ -125,22 +125,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
           localStorage.setItem('dontShowDisclaimer', 'true');
         } else {
           localStorage.removeItem('dontShowDisclaimer');
-        }
-      });
-    }
-    if (!this.redirectToPublicMobile() && (localStorage.getItem('dontShowPublicMobileDownload') !== 'true') && (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent))) {
-      let dialogRef = this.dialog.open(DownloadPMDialogComponent, {
-        width: '600px',
-        data: {
-          downloadLink: this.getAppStoreLink(),
-          app: this.getAppStoreName()
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result['dontShowAgain']) {
-          localStorage.setItem('dontShowPublicMobileDownload', 'true');
-        } else {
-          localStorage.removeItem('dontShowPublicMobileDownload');
         }
       });
     }
@@ -370,6 +354,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.BACK_ICON,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/back-icon.svg')
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      ICON.DOT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/dot.svg")
     );
   }
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 
 @Component({
   selector: 'response-details-panel',
@@ -7,7 +7,7 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./response-details-panel.component.scss']
 })
 export class ResponseDetailsPanel implements OnInit {
-  @Input() public readonly formGroup: FormGroup;
+  @Input() public readonly formGroup: UntypedFormGroup;
   @Input() public incident;
 
   @ViewChild("initialAttackCrews") initialAttackCrews: ElementRef;

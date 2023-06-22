@@ -84,7 +84,7 @@ resource "aws_alb_target_group" "wfnews_server" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
-    path                = var.health_check_path
+    path                = var.api_health_check_path
     unhealthy_threshold = "2"
   }
 
@@ -105,7 +105,7 @@ resource "aws_alb_target_group" "wfnews_client" {
     protocol            = "HTTP"
     matcher             = "200"
     timeout             = "3"
-    path                = var.health_check_path
+    path                = var.client_health_check_path
     unhealthy_threshold = "2"
   }
 
@@ -148,7 +148,7 @@ resource "aws_alb_target_group" "wfnews_apisix" {
     matcher             = "200"
     timeout             = "3"
     port                = var.health_check_port
-    path                = var.health_check_path
+    path                = var.api_health_check_path
     unhealthy_threshold = "2"
   }
 

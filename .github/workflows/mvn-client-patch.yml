@@ -89,12 +89,12 @@ jobs:
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}-HOTFIX
+          images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}-hotfix
           tags: |
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=pr-HOTFIX-${{ inputs.BRANCH }}-${{ inputs.TAG }}
+            type=raw,value=pr-hotfix-${{ inputs.BRANCH }}-${{ inputs.TAG }}
           
       - name: Build and push Docker image (with PR)
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
