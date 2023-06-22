@@ -25,9 +25,10 @@ on:
         description: 'Upload to Play Store'
         type: boolean
         default: false
+  # Remove this push after first run
   push:
     branches:
-      - 'mobile-build-automation'
+      - main
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
