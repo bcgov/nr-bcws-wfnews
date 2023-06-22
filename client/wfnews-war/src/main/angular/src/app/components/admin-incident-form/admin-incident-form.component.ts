@@ -206,9 +206,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
-              if (response.incidentSizeDetail?.includes('estimated')) {
+              if (response?.incidentSizeDetail?.includes('estimated')) {
                 self.incident.sizeType = 1;
-              } else if (response.incidentSizeDetail?.includes('mapped')) {
+              } else if (response?.incidentSizeDetail?.includes('mapped')) {
                 self.incident.sizeType = 0;
               } else {
                 self.incident.sizeType = 2;
@@ -231,7 +231,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.structureProtectionInd = response.structureProtectionRsrcInd;
               self.incident.structureProtectionComments = response.structureProtectionRsrcDetail;
 
-              self.incident.contact.fireCentre = response.contactOrgUnitIdentifer.toString();
+              self.incident.contact.fireCentre = response.contactOrgUnitIdentifer?.toString();
               self.incident.contact.phoneNumber = response.contactPhoneNumber;
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
@@ -276,7 +276,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       width: '350px',
     });
     dialogRef.afterClosed().subscribe(result => {
-      if (result && result.publish) {
+      if (result?.publish) {
         const publishedIncidentResource = {
           publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
           incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
@@ -313,6 +313,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
         self.publishIncident(publishedIncidentResource).then(doc => {
           this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
           this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+
+          // Update the Draft/Publish status on incident name
+          this.incident.lastPublished = doc.publishedTimestamp;
+          this.incident.publishedStatus = doc.newsPublicationStatusCode;
+          this.incidentForm.patchValue(this.incident);
+
           // Handle evac orders
           this.evacOrdersDetailsPanel.persistEvacOrders();
         }).catch(err => {
