@@ -21,9 +21,6 @@ on:
       - "Dockerfile"
       - "Dockerfile_client"
       - "!**/README.md"
-  push:
-    branches:
-      - 'mobile-build-automation'
 
 jobs:
 
