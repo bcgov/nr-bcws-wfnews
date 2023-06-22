@@ -11,9 +11,9 @@
       <div>
         <div class="content-panel-stack">
             <h1>Summary</h1>
-            <h4 >Stage of Control</h4>
+            <h4>Stage of Control</h4>
             <div class="sub-title">
-                <div *ngIf="incident.fireOfNoteInd"><img class="icon" height="22" width="22" src="/assets/images/local_fire_department.png" alt="local_fire_department">Wildfire Of Note</div>
+                <div *ngIf="incident.fireOfNoteInd">Wildfire Of Note</div>
                 <div style="display: flex; align-items: baseline;">
                     <span *ngIf="!incident.fireOfNoteInd" class="circle-icon {{incident.stageOfControlCode}}"></span>
                     <span>{{getStageOfControlLabel(incident.stageOfControlCode)}}</span>
@@ -21,19 +21,19 @@
             </div>
             <div class="current-resources" *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
                 <h4>Current Resources</h4>
-                <div *ngIf="incident.wildfireCrewResourcesInd"> 
+                <div *ngIf="incident.wildfireCrewResourcesInd">
                     <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews-mobile.svg" alt="Wildfire Crews" />
                     Wildfire Crews
                 </div>
-                <div *ngIf="incident.wildfireAviationResourceInd"> 
+                <div *ngIf="incident.wildfireAviationResourceInd">
                     <img class="image-size" src="../../../assets/images/svg-icons/aviation-mobile.svg" alt="Aviation" />
                     Aviation Crews
                 </div>
-                <div *ngIf="incident.incidentMgmtCrewRsrcInd"> 
+                <div *ngIf="incident.incidentMgmtCrewRsrcInd">
                     <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams-mobile.svg" alt="Incident Management Team" />
                     Incident Management Teams
                 </div>
-                <div *ngIf="incident.heavyEquipmentResourcesInd"> 
+                <div *ngIf="incident.heavyEquipmentResourcesInd">
                     <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment-mobile.svg" alt="Heavy Equipment" />
                     Heavy Equipment
                 </div>
@@ -45,6 +45,10 @@
                     <span> Jump to current resources section</span>
                     <mat-icon>chevron_right</mat-icon>
                 </div>
+            </div>
+            <div class="sub-title">
+              <div>Fire Size</div>
+              <div>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</div>
             </div>
             <div class="divider"></div>
         </div>
@@ -62,7 +66,7 @@
             <div>
                 <div class="sub-title">
                     <span *ngIf="!incident.fireOfNoteInd" class="circle-icon {{incident.stageOfControlCode}}"></span>
-                    <h4>{{getStageOfControlLabel(incident.stageOfControlCode)}}</h4>                    
+                    <h4>{{getStageOfControlLabel(incident.stageOfControlCode)}}</h4>
                 </div>
                 <div class="sub-content" style="display: flex; align-items: baseline;">
                     {{getStageOfControlDescription(incident.stageOfControlCode)}}
@@ -73,7 +77,7 @@
 
         <div class="content-panel-stack">
             <h1>Fire Size</h1>
-            <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares 
+            <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares
                 <button mat-icon-button [matTooltip]="getTooltipText()" #tooltip="matTooltip" (click)="tooltip.toggle()"><mat-icon>help_outline</mat-icon></button>
             </div>
             <div class="sub-content">
