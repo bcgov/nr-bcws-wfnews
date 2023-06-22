@@ -1,7 +1,30 @@
 name: Build iOS
 
 # Controls when the workflow will run
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      build_environment:
+        description: 'Build Environment'
+        type: string
+        required: true
+      upload_to_app_store:
+        description: 'Upload to App Store'
+        type: boolean
+        required: true
+  workflow_dispatch:
+    inputs:
+      build_environment:
+        description: 'Build Environment'
+        type: choice
+        options:
+          - development
+          - production
+        default: 'development'
+      upload_to_app_store:
+        description: 'Upload to App Store'
+        type: boolean
+        default: false
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -11,6 +34,13 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
+
+      - name: Set short git commit SHA
+        id: vars
+        if: always()
+        run: |
+          calculatedSha=$(git rev-parse --short ${{ github.sha }})
+          echo "::set-output name=short_sha::$calculatedSha"
 
       - name: Add .npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
@@ -23,8 +53,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          # cache: 'npm'
-          # cache-dependency-path: ${{ env.ANGULAR_DIRECTORY }}/package-lock.json
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
@@ -35,25 +63,6 @@ jobs:
       - name: Check Xcode version
         run: /usr/bin/xcodebuild -version
 
-      # - name: Cache node modules
-      #   id: cache-npm
-      #   uses: actions/cache@v3
-      #   env:
-      #     cache-name: cache-node-modules
-      #   with:
-      #     # npm cache files are stored in `~/.npm` on Linux/macOS
-      #     path: ~/.npm
-      #     key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-build-${{ env.cache-name }}-
-      #       ${{ runner.os }}-build-
-      #       ${{ runner.os }}-
-  
-      # - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
-      #   name: List the state of node modules
-      #   continue-on-error: true
-      #   run: npm list
-
       - name: Install Ionic
         run: npm install -g @ionic/cli
 
@@ -63,7 +72,9 @@ jobs:
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: ionic capacitor sync ios --prod
+        env:
+          BUILD_FLAG: ${{ inputs.build_environment == 'production' && '--prod' || '' }}
+        run: ionic capacitor sync android $BUILD_FLAG
 
       - name: Add Google Services file
         working-directory: "${{ env.ANGULAR_DIRECTORY }}/ios/App/App"
@@ -127,19 +138,14 @@ jobs:
           path: ${{ runner.temp }}/build/App.ipa
           retention-days: 3
 
-      # - name: "Upload app to TestFlight"
-      #   uses: apple-actions/upload-testflight-build@v1
-      #   with:
-      #     app-path: "output.ipa"
-      #     issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-      #     api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
-      #     api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
-      - name: Set short git commit SHA
-        id: vars
-        if: always()
-        run: |
-          calculatedSha=$(git rev-parse --short ${{ github.sha }})
-          echo "::set-output name=short_sha::$calculatedSha"
+      - name: "Upload app to TestFlight"
+        uses: apple-actions/upload-testflight-build@v1
+        if: ${{ inputs.upload_to_app_store == true }}
+        with:
+          app-path: "output.ipa"
+          issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
+          api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
 
       - name: Post to a Slack channel
         id: slack
