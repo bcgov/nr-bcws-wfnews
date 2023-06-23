@@ -236,8 +236,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
 
-              this.evacOrdersDetailsPanel.getEvacOrders();
               this.incidentForm.patchValue(this.incident);
+              this.evacOrdersDetailsPanel.getEvacOrders();
             }, (error) => {
               console.log('No published data found...');
               console.error(error);
@@ -268,80 +268,73 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     return !value ? null : value;
   }
 
-  publishChanges() {
+  async publishChanges() {
     this.publishDisabled = true;
     this.cdr.detectChanges();
     const self = this;
     const dialogRef = this.dialog.open(PublishDialogComponent, {
       width: '350px',
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.publish) {
-        const publishedIncidentResource = {
-          publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
-          incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
-          newsCreatedTimestamp: new Date().valueOf().toString(),
-          discoveryDate: new Date().valueOf().toString(),
-          newsPublicationStatusCode: 'PUBLISHED',
-          publishedTimestamp: new Date(),
-          fireOfNoteInd: this.incident.fireOfNote,
-          incidentName: this.incident.fireName,
-          incidentLocation: this.nullEmptyStrings(this.incident.location),
-          incidentOverview: this.nullEmptyStrings(this.incident.incidentOverview),
-          traditionalTerritoryDetail: this.nullEmptyStrings(this.incident.traditionalTerritory),
-          incidentSizeDetail: this.nullEmptyStrings(this.incident.sizeComments),
-          incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
-          contactOrgUnitIdentifer: this.incident.contact.fireCentre,
-          contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
-          contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
-          resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
-          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
-          wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
-          wildfireAviationResourceInd: this.incident.aviationInd,
-          wildfireAviationResourceDetail: this.nullEmptyStrings(this.incident.aviationComments),
-          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
-          heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
-          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
-          incidentMgmtCrewRsrcDetail: this.nullEmptyStrings(this.incident.incidentManagementComments),
-          structureProtectionRsrcInd: this.incident.structureProtectionInd,
-          structureProtectionRsrcDetail: this.nullEmptyStrings(this.incident.structureProtectionComments),
-          type: this.publishedIncidentType,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          '@type': 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
-        };
+    const result = await dialogRef.afterClosed().toPromise();
+    if (!result?.publish) {
+      this.publishDisabled = false;
+      this.cdr.detectChanges();
+    }
+    const publishedIncidentResource = {
+      contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
+      contactOrgUnitIdentifer: this.incident.contact.fireCentre,
+      contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
+      discoveryDate: new Date().valueOf().toString(),
+      fireOfNoteInd: this.incident.fireOfNote,
+      heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
+      heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
+      incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
+      incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
+      incidentLocation: this.nullEmptyStrings(this.incident.location),
+      incidentMgmtCrewRsrcDetail: this.nullEmptyStrings(this.incident.incidentManagementComments),
+      incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
+      incidentName: this.incident.fireName,
+      incidentOverview: this.nullEmptyStrings(this.incident.incidentOverview),
+      incidentSizeDetail: this.nullEmptyStrings(this.incident.sizeComments),
+      newsCreatedTimestamp: new Date().valueOf().toString(),
+      newsPublicationStatusCode: 'PUBLISHED',
+      publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
+      publishedTimestamp: new Date(),
+      resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
+      structureProtectionRsrcDetail: this.nullEmptyStrings(this.incident.structureProtectionComments),
+      structureProtectionRsrcInd: this.incident.structureProtectionInd,
+      traditionalTerritoryDetail: this.nullEmptyStrings(this.incident.traditionalTerritory),
+      type: this.publishedIncidentType,
+      wildfireAviationResourceDetail: this.nullEmptyStrings(this.incident.aviationComments),
+      wildfireAviationResourceInd: this.incident.aviationInd,
+      wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
+      wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      '@type': 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
+    };
 
-        self.publishIncident(publishedIncidentResource).then(doc => {
-          this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
-          this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+    try {
+      const doc = await self.publishIncident(publishedIncidentResource);
+      this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
 
-          // Update the Draft/Publish status on incident name
-          this.incident.lastPublished = doc.publishedTimestamp;
-          this.incident.publishedStatus = doc.newsPublicationStatusCode;
-          this.incidentForm.patchValue(this.incident);
+      // Handle evac orders
+      await this.evacOrdersDetailsPanel.persistEvacOrders();
 
-          // Handle evac orders
-          this.evacOrdersDetailsPanel.persistEvacOrders();
-        }).catch(err => {
-          this.snackbarService.open(
-            'Failed to Publish Incident: ' + JSON.stringify(err.message),
-            'OK',
-            { duration: 10000, panelClass: 'snackbar-error' }
-          );
-        }).finally(() => {
-          self.publishDisabled = false;
-          this.cdr.detectChanges();
-        }).catch(err => {
-          this.snackbarService.open(
-            'Failed to Publish Incident: ' + JSON.stringify(err.message),
-            'OK',
-            { duration: 10000, panelClass: 'snackbar-error' }
-          );
-        });
-      } else {
-        this.publishDisabled = false;
-        this.cdr.detectChanges();
-      }
-    });
+      this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
+
+      // Update the Draft/Publish status on incident name
+      this.incident.lastPublished = doc.publishedTimestamp;
+      this.incident.publishedStatus = doc.newsPublicationStatusCode;
+    } catch (err) {
+      this.snackbarService.open(
+        'Failed to Publish Incident: ' + JSON.stringify(err.message),
+        'OK',
+        { duration: 10000, panelClass: 'snackbar-error' }
+      );
+    } finally {
+      self.publishDisabled = false;
+      this.cdr.detectChanges();
+    }
   }
 
   publishIncident(incident): Promise<any> {
