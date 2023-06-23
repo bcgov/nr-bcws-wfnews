@@ -2,15 +2,15 @@
   <div class="mobile-header" *ngIf="hideOnMobileView()">
     <span class="material-icons" (click)="backToMap()">arrow_back</span>
     <span>Wildfire</span>
-    <span class="material-icons" (click)="shareContent()">share</span>  
+    <span class="material-icons" (click)="shareContent()">share</span>
   </div>
-  <div id="map" class="map-container" *ngIf="hideOnMobileView()">
+  <div id="map" class="map-container-mobile" *ngIf="hideOnMobileView()">
   </div>
   <div class="incident-details">
     <div class="header">
     </div>
     <div class="title-bar">
-      <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd" #el class="fire-icon-container"><img class="icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department"></span> <span #el *ngIf="!hideOnMobileView()" class="no-print" style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
+      <div class="title">{{incident.incidentName}} <span *ngIf="incident.fireOfNoteInd && !hideOnMobileView()" #el class="fire-icon-container"><img class="icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department"></span> <span #el *ngIf="!hideOnMobileView()" class="no-print" style="cursor: pointer;" (click)="onWatchlist() ? removeFromWatchlist() : addToWatchlist()"><mat-icon style="color:#1A5A96">{{onWatchlist() ? 'bookmark' : 'bookmark_border'}}</mat-icon></span></div>
       <div *ngIf="!hideOnMobileView()" class="subtitle"><a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">{{convertToFireCentreDescription(this.incident.fireCentreName || incident.fireCentre || incident.fireCentreCode)}}</a></div>
     </div>
     <div *ngIf="!hideOnMobileView()">
@@ -42,22 +42,18 @@
       </div>
     </div>
     <div *ngIf="hideOnMobileView()">
-        <div class="header-content">
-          <div class="item" style="width: 45%;"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
-          <mat-icon svgIcon="dot" style="width: 10px; height: 10px;" ></mat-icon>
-          <div class="item" style="width: 45%;"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
-        </div>
-        <div class="header-content">
-          <div class="item" style="width: 45%;"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
-          <mat-icon svgIcon="dot" style="width: 10px; height: 10px;" ></mat-icon>
-          <div class="item" style="width: 45%;"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
+        <div>
+          <div class="mobile-label"> Fire Number <span>{{convertFireNumber(incident)}}</span></div>
+          <div class="mobile-label"> Discovered on <span>{{convertoToMobileFormate(incident.discoveryDate)}}</span></div>
+          <div class="mobile-label"> Last updated <span>{{convertoToMobileFormate(incident.lastUpdatedTimestamp)}}</span></div>
+          <div class="mobile-label"> Fire Size <span>{{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </span></div>
         </div>
 
         <div class="header-content">
           <div class="item">
             <button mat-button class="mobile-button">
               <span class="material-icons-outlined">notifications_active</span>
-              Notification On
+              Notifications On
             </button>
           </div>
           <div class="item">
@@ -66,6 +62,7 @@
             </button>
           </div>
       </div>
+      <div class="divider"></div>
     </div>
   </div>
   <div id="map" class="map-container" *ngIf="!hideOnMobileView()">
