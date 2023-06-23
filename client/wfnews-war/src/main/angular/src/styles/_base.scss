@@ -24,6 +24,18 @@ button.mat-raised-button.mat-primary {
   }
 }
 
+@mixin mat-fab-($name, $background-colour, $colour) {
+    button.mat-fab.mat-#{$name} {
+        background-color: $background-colour;
+        color: $colour;
+        
+        &:not([disabled]).intermediate-action{
+            background-color: $colour-intermediate-action;
+        }
+    }
+}
+@include mat-fab-('white', $colour-white, $colour-dark-grey);
+
 mat-toolbar.wf1-application-header.mat-primary {
     background-color: $colour-header-background;
     border-bottom: $colour-orange;

@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap } from "@angular/router"
 import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
-import { findFireCentreByName, hideOnMobileView } from "../../utils"
+import { findFireCentreByName, hideOnMobileView, isMobileView } from "../../utils"
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -26,6 +26,7 @@ export class PublicIncidentPage implements OnInit {
 
   findFireCentreByName = findFireCentreByName
   hideOnMobileView = hideOnMobileView
+  isMobileView = isMobileView
 
 
   constructor(private router: ActivatedRoute,
