@@ -11,13 +11,10 @@ export class PublishedIncidentService {
   constructor(private appConfigService: AppConfigService, private tokenService: TokenService, private httpClient: HttpClient) {  }
 
   public async getActiveFireCount () : Promise<any> {
-    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=1&pageRowCount=1&fireOfNote=false&out=false&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=1&pageRowCount=1&out=false&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
     const result = await this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise();
 
-    const urlFoN = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=1&pageRowCount=1&fireOfNote=true&out=false`;
-    const resultFoN = await this.httpClient.get(urlFoN, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise();
-
-    return ((result as any).totalRowCount || 0) + ((resultFoN as any).totalRowCount || 0)
+    return ((result as any).totalRowCount || 0)
   }
 
   public fetchOutIncidents (pageNum: number = 0, rowCount: number = 9999): Observable<any> {
