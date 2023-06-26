@@ -1,6 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { isMobileView } from '../../../utils';
-import { ViewportScroller } from '@angular/common';
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
@@ -13,8 +12,6 @@ export class ScrollToTopComponent implements OnInit, OnDestroy {
 
     isMobileView = isMobileView;
     isButtonVisible = false;
-
-    constructor(private viewportScroller: ViewportScroller) { }
 
     ngOnInit() {
         window.addEventListener('scroll', this.scrollEvent, true);
