@@ -1,9 +1,9 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AppConfigService } from "@wf1/core-ui";
-import { PublishedIncidentService } from "../../../services/published-incident-service";
+import { PublishedIncidentService } from "../../../../services/published-incident-service";
 import { ActivatedRoute } from "@angular/router";
 import { LightGallery } from "lightgallery/lightgallery";
-import { convertToMobileFormat, convertToYoutubeId } from "../../../utils"
+import { convertToMobileFormat, convertToYoutubeId } from "../../../../utils"
 import { InitDetail } from 'lightgallery/lg-events';
  
 

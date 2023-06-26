@@ -2,13 +2,13 @@
     
     .content-panel {
         padding:24px;
+        font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
             h1 {
                 font-size: 22px;
-                width: 256px;
+                width: 90%;
                 height: 33px;
                 background-color: rgba(255, 255, 255, 0);
                 box-sizing: border-box;
-                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
                 font-weight: 500;
                 color: #333333;
                 text-align: left;
@@ -20,7 +20,6 @@
                 height: 24px;
                 background-color: rgba(255, 255, 255, 0);
                 box-sizing: border-box;
-                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
                 font-weight: 500;
                 color: #333333;
                 text-align: left;
@@ -34,7 +33,6 @@
                         height: 33px;
                         background-color: rgba(255, 255, 255, 0);
                         box-sizing: border-box;
-                        font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
                         font-weight: 500;
                         color: #333333;
                         text-align: right;

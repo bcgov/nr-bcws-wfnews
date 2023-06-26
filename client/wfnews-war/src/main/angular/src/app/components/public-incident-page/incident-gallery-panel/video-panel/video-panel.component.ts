@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { convertToMobileFormat, convertToYoutubeId } from '../../../utils';
+import { convertToMobileFormat, convertToYoutubeId } from '../../../../utils';
 
 @Component({
   selector: 'video-panel',

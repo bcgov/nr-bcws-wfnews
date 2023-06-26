@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { convertToMobileFormat } from '../../../utils';
+import { convertToMobileFormat } from '../../../../utils';
 
 @Component({
   selector: 'image-panel',
