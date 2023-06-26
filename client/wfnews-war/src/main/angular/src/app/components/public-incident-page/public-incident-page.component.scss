@@ -50,7 +50,8 @@
   background: #f3f6f9;
   @media (max-width: 768px) {
       background: white !important;
-  }  
+  }
+  padding-bottom: 60px;
 }
 
 :host ::ng-deep .mat-tab-label {
