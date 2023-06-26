@@ -51,6 +51,7 @@
   @media (max-width: 768px) {
       background: white !important;
   }
+
   padding-bottom: 60px;
 }
 
@@ -58,7 +59,7 @@
   color: #003366;
   @media (max-width: 768px) {
     color: #242424 !important;
-  }  
+  }
 }
 
 :host ::ng-deep .mat-ink-bar {
@@ -66,7 +67,7 @@
   height: 4px !important;
   @media (max-width: 768px) {
     background-color: #242424 !important;
-  }  
+  }
 }
 
 :host ::ng-deep .mat-tab-label-active {
@@ -86,11 +87,14 @@
 
 :host ::ng-deep .mat-tab-header {
   top: -1px;
-  z-index: 1000;
+  z-index: 9999999999999;
   position: sticky;
   position: -webkit-sticky; /* macOS/iOS Safari */
   background-color: #f3f6f9;
   @media (max-width: 768px) {
     background-color: white !important;
-  }  
+    //position: fixed !important;
+    width: 100% !important;
+    bottom: 0px !important;
+  }
 }

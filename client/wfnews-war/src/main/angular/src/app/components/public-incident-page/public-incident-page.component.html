@@ -4,7 +4,7 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div>
-      <mat-tab-group mat-stretch-tabs>
+      <mat-tab-group mat-stretch-tabs [headerPosition]="hideOnMobileView() ? 'below' : 'above'">
         <mat-tab label="Overview">
           <incident-info-panel *ngIf="!hideOnMobileView()"[incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
           <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
