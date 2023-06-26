@@ -14,9 +14,6 @@
 }
 
 .header-container {
-  display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
   padding: 22px;
 }
 .header-container> * {
@@ -177,21 +174,22 @@
 @media (max-width: 768px) {
   .header-container {
     padding: 0px !important;
-    .mobile-header{
-      height: 50px;
-      display: flex;
-      justify-content: space-between;
-      padding:0 24px;
-      align-items: center;
-      position: sticky !important;
-      top:0;
-      background-color: white;
-      z-index:9999;
-    }
   }
   .title{
     color:black !important
   }
+}
+
+.mobile-header{
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding:0 24px;
+  align-items: center;
+  position: sticky !important;
+  top:0;
+  background-color: white;
+  z-index:9999;
 }
 
 :host ::ng-deep .mat-tab-header {
