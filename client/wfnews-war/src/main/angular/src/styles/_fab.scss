@@ -1,0 +1,20 @@
+@mixin mat-fab-($name, $background-colour, $colour) {
+    button.mat-fab.mat-#{$name} {
+        background-color: $background-colour;
+        color: $colour;
+
+        &:not([disabled]).intermediate-action {
+            background-color: $colour-intermediate-action;
+        }
+    }
+}
+
+@include mat-fab-('primary', $colour-button-primary, $colour-white);
+@include mat-fab-('white', $colour-white, $colour-dark-grey);
+
+button.mat-fab.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}

@@ -26,9 +26,7 @@
         </mat-tab>
       </mat-tab-group>
     </div>
-    <button *ngIf="isMobileView()" class="mat-white" mat-fab (click)="loadWatchlist()">
-      <mat-icon>expand_less</mat-icon>
-    </button>
+    <scroll-to-top-button></scroll-to-top-button>
   </div>
 </div>
 <div *ngIf="!isLoading && loadingFailed" class="page-container">
