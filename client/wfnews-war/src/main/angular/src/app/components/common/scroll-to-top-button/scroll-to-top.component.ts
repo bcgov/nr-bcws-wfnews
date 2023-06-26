@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { isMobileView } from '../../../utils';
 import { ViewportScroller } from '@angular/common';
-import { style } from '@angular/animations';
-
 
 @Component({
     // eslint-disable-next-line @angular-eslint/component-selector
