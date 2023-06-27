@@ -16,7 +16,7 @@
         }
     }
     .content-panel {
-        padding:24px;
+        padding: 24px;
         .content-panel-stack{
             .circle-icon{
                 width:16px;
@@ -44,17 +44,18 @@
                 color: #333333;
                 text-align: left;
                 line-height: 24px;
-                margin: 0px;
+                margin-top: 0px;
+                margin-bottom: 8px;
             }
 
             .sub-title{
                 font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+                font-size: 16px;
                 display: flex;
-                align-items: baseline;
-                color: #6e6e6e;
+                color: #333333;
                 text-align: left;
                 line-height: 24px;
-                padding-bottom: 8px;
+                margin-bottom: 8px;
                 div {
                     margin-right: 38px;
                   }
@@ -62,6 +63,9 @@
                     margin-right: 0;
                 }
 
+                h4::first-letter {
+                    text-transform: capitalize;
+                }
             }
 
             .image-size {
@@ -75,6 +79,19 @@
                 color: #6e6e6e;
                 text-align: left;
                 line-height: 24px;
+
+                .icon-label {
+                    display: flex;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
+                }
+
+                .icon-title {
+                    color: #333333;
+                    display: flex;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
+                }
             }
 
             .evac-order-card{
@@ -130,12 +147,14 @@
             }
 
             .resource-section{
-                a{
+                a {
                     text-decoration: none;
                 }
-                span{
+                span {
                     display: flex;
                     align-items: center;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
                 }
                 .resource-section-content{
                     padding: 8px 16px 8px 16px;
@@ -161,8 +180,8 @@
 
             .divider {
                 border-bottom: 1px lightgray solid;
-                padding-top: 7px;
-                padding-bottom: 7px;
+                margin-top: 32px;
+                margin-bottom: 32px;
             }
         }
     }

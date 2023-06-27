@@ -134,9 +134,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
-  convertoToMobileFormate (dateString) {
+  convertToMobileFormat (dateString) {
     // Should probably be MMM for month formats to prevent long strings
-    const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
+    const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMM D, YYYY");
     return formattedDate
 
   }
