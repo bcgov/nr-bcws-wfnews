@@ -1,4 +1,4 @@
-<div class="header-container forPrint" id="toprint-header">
+<div class="header-container forPrint" [ngClass]="{mobile: isMobileView()}" id="toprint-header">
   <div class="mobile-header" *ngIf="isMobileView()">
     <span class="material-icons" (click)="backToMap()">arrow_back</span>
     <span>Wildfire</span>

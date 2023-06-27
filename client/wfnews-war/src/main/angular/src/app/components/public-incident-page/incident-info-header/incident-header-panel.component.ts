@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core"
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, HostListener } from "@angular/core"
 import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
@@ -25,6 +25,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
   convertFireNumber = convertFireNumber
 
   private map: any
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.map.invalidateSize();
+  }
 
   constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
     ) {
