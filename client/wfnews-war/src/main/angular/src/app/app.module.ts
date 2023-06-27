@@ -130,6 +130,7 @@ import { IncidentInfoPanelMobileComponent } from './components/public-incident-p
 import { ContactUsDialogComponent } from './components/admin-incident-form/contact-us-dialog/contact-us-dialog.component';
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
+import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -204,6 +205,7 @@ export const DATE_FORMATS = {
         IncidentOverviewPanelMobileComponent,
         IncidentMapsPanelMobileComponent,
         ContactUsDialogComponent,
+        ScrollToTopComponent
     ],
     imports: [
         MatSortModule,
