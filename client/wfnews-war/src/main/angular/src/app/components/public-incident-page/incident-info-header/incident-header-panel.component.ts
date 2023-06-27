@@ -130,7 +130,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
     }
   }
 
-  hideOnMobileView () {
+  isMobileView() {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
