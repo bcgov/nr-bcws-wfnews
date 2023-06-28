@@ -5,13 +5,13 @@
     </div>
           <mat-tab-group>
             <mat-tab id="allMedia" label="All Media">
-              <incident-gallery-all-media-mobile [incident]="incident"></incident-gallery-all-media-mobile>
+              <incident-gallery-all-media-mobile [incident]="incident" [displayMediaStub]="displayMediaStub" [allImagesAndVideosStub]="allImagesAndVideosStub" [displayLoadMore]="displayLoadMore"></incident-gallery-all-media-mobile>
             </mat-tab>
           <mat-tab id="images" label="Images">
-           <incident-gallery-images-mobile [incident]="incident"></incident-gallery-images-mobile>
+           <incident-gallery-images-mobile [incident]="incident" [displayImagesStub]="displayImagesStub" [allImagesStub]="allImagesStub" [displayLoadMoreImages]="displayLoadMoreImages"></incident-gallery-images-mobile>
           </mat-tab>    
           <mat-tab id="videos" label="Videos">
-            <incident-gallery-videos-mobile [incident]="incident"></incident-gallery-videos-mobile>
+            <incident-gallery-videos-mobile [incident]="incident" [displayVideosStub]="displayVideosStub" [allVideosStub]="allVideosStub" [displayLoadMoreVideos]="displayLoadMoreVideos"></incident-gallery-videos-mobile>
           </mat-tab> 
           </mat-tab-group>
     </div>

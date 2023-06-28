@@ -1,9 +1,9 @@
-<div class="content-panel-stack" *ngIf="images && images.length; else showDisclaimer">
-  <div class="media" *ngFor="let item of images">
+<div class="content-panel-stack" *ngIf="displayImages && displayImages.length; else showDisclaimer">
+  <div class="media" *ngFor="let item of displayImages">
     <image-panel [item]="item" [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" [i]="i"></image-panel>
   </div>
-  <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
-    <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
+  <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMoreImages">
+    <button mat-button class="load-more-button"(click)="loadMoreImages(loadMoreButton)">Load More</button>
   </div>
 </div>
 <ng-template class="disclaimer" #showDisclaimer>

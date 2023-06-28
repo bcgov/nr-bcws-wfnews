@@ -1,9 +1,9 @@
-<div class="content-panel-stack" *ngIf="videos && videos.length; else showDisclaimer">
-<div class="media"*ngFor="let item of videos">
+<div class="content-panel-stack" *ngIf="displayVideos && displayVideos.length; else showDisclaimer">
+<div class="media"*ngFor="let item of displayVideos">
   <video-panel [item]="item"></video-panel>
 </div>  
-<div #loadMoreButton class="load-more-row" *ngIf="displayLoadMore">
-  <button mat-button class="load-more-button"(click)="loadMore(loadMoreButton)">Load More</button>
+<div #loadMoreButton class="load-more-row" *ngIf="displayLoadMoreVideos">
+  <button mat-button class="load-more-button"(click)="loadMoreVideos(loadMoreButton)">Load More</button>
 </div>
 </div>
 <ng-template #showDisclaimer>
