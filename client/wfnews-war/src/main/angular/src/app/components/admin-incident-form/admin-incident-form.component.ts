@@ -14,7 +14,6 @@ import { HttpClient } from '@angular/common/http';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 import { AreaRestrictionsDetailsPanel } from './area-restrictions-details-panel/area-restrictions-details-panel.component';
 import { CauseOptionDisclaimer, SizeTypeOptionDisclaimer } from './incident-details-panel/incident-details-panel.constants';
-import { map } from 'rxjs/operators';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -195,14 +194,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
-              Object.entries(SizeTypeOptionDisclaimer).map(([index, disclaimer]) => {
+              Object.entries(SizeTypeOptionDisclaimer).forEach(([index, disclaimer]) => {
                 if (disclaimer === response.incidentSizeDetail) {
                   self.incident.sizeType = Number.parseInt(index, 10);
                 }
               });
 
               self.incident.causeComments = response.incidentCauseDetail;
-              Object.entries(CauseOptionDisclaimer).map(([index, disclaimer]) => {
+              Object.entries(CauseOptionDisclaimer).forEach(([index, disclaimer]) => {
                 if (disclaimer === response.incidentCauseDetail) {
                   self.incident.cause = Number.parseInt(index, 10);
                 }
