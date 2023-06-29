@@ -1,8 +1,12 @@
 <div class="panel">
     <div class="warning-card" *ngFor="let evac of evacOrders" (click)="navigateToEvac(evac)">
-        <span class="container">
+        <span *ngIf="evac.orderAlertStatus === 'Order'" class="container red">
             <span class="material-icons">error</span>
             <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
+        </span>
+        <span *ngIf="evac.orderAlertStatus === 'Alert'" class="container yellow">
+            <span class="material-icons">warning</span>
+            <span>Evacuation Alert: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
         </span>
     </div>
 
