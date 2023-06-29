@@ -181,12 +181,6 @@
   line-height: 21px;
 }
 
-.label-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 7px 1fr;
-  column-gap: 7px;
-}
-
 @media (max-width: 768px) {
   .header-container {
     padding: 0px !important;

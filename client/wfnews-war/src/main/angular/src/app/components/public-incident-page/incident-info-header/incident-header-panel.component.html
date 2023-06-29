@@ -59,16 +59,12 @@
       </div>
     </div>
     <div *ngIf="isMobileView()">
-      <div class="label-grid">
-        <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
-        <div class="mobile-label"> &bullet; </div>
-        <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
-
-        <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
-        <div class="mobile-label"> &bullet; </div>
-        <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
-          incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
-      </div>
+        
+      <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
+      <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
+      <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
+      <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
+        incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
 
       <div class="header-content">
         <div class="item">
