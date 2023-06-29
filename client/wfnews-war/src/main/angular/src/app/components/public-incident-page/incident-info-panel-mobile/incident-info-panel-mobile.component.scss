@@ -1,17 +1,27 @@
 .panel{
     background-color: white !important;
     .warning-card{
-        background-color: #fdf0f3;
-        color: #b42e45;
         margin-top: 16px;
-        .container{
+        
+        .container {
             padding: 10px;
             display: flex;
             align-items: center;
             font-size: 16px;
-            span{
+            
+            span {
                 padding-left: 8px;
                 text-align: left;
+            }
+
+            &.red {
+                background-color: #fdf0f3;
+                color: #b42e45;
+            }
+
+            &.yellow {
+                background-color: #fff9e5;
+                color: #dfa512;
             }
         }
     }
