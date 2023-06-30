@@ -1,22 +1,32 @@
 .panel{
     background-color: white !important;
     .warning-card{
-        background-color: #fdf0f3;
-        color: #b42e45;
         margin-top: 16px;
-        .container{
+        
+        .container {
             padding: 10px;
             display: flex;
             align-items: center;
             font-size: 16px;
-            span{
+            
+            span {
                 padding-left: 8px;
                 text-align: left;
+            }
+
+            &.red {
+                background-color: #fdf0f3;
+                color: #b42e45;
+            }
+
+            &.yellow {
+                background-color: #fff9e5;
+                color: #dfa512;
             }
         }
     }
     .content-panel {
-        padding:24px;
+        padding: 24px;
         .content-panel-stack{
             .circle-icon{
                 width:16px;
@@ -27,38 +37,45 @@
                 height: 33px;
                 background-color: rgba(255, 255, 255, 0);
                 box-sizing: border-box;
-                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
                 font-weight: 500;
                 color: #252628;
                 text-align: left;
                 line-height: 33px;
             }
-        
+
             h4 {
                 font-size: 16px;
                 height: 24px;
                 background-color: rgba(255, 255, 255, 0);
                 box-sizing: border-box;
-                font-family: "HelveticaNeue-Medium", "Helvetica Neue Medium", "Helvetica Neue", sans-serif;
+                font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
                 font-weight: 500;
                 color: #333333;
                 text-align: left;
                 line-height: 24px;
+                margin-top: 0px;
+                margin-bottom: 8px;
             }
-    
+
             .sub-title{
+                font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+                font-size: 16px;
                 display: flex;
-                align-items: baseline;
-                color: #6e6e6e;
+                color: #333333;
                 text-align: left;
                 line-height: 24px;
+                margin-bottom: 8px;
                 div {
                     margin-right: 38px;
                   }
                 div:last-child{
                     margin-right: 0;
                 }
-                  
+
+                h4::first-letter {
+                    text-transform: capitalize;
+                }
             }
 
             .image-size {
@@ -68,11 +85,23 @@
             }
 
             .sub-content {
-                font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
+                font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
                 color: #6e6e6e;
                 text-align: left;
                 line-height: 24px;
-                padding-bottom: 10px;
+
+                .icon-label {
+                    display: flex;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
+                }
+
+                .icon-title {
+                    color: #333333;
+                    display: flex;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
+                }
             }
 
             .evac-order-card{
@@ -98,15 +127,22 @@
                 border: 1px solid #6e6e6e;
                 background-color: #fdfdfd;
                 box-sizing: border-box;
-                display: flex;
                 align-items: center;
                 justify-content: center;
+                min-width: 130px;
+                height: 48px;
+
+                &.fixed-width {
+                    width: 170px;
+                }
             }
-    
+
             .current-resources{
                 color: #6e6e6e;
                 text-align: left;
                 line-height: 24px;
+                margin-top: 16px;
+                margin-bottom: 16px;
                 div{
                     display: flex;
                     align-items: center;
@@ -116,7 +152,7 @@
                     color:#242424;
                 }
             }
-    
+
             .content-panel-subtitle{
                 font-size: 16px;
                 text-align: left;
@@ -125,12 +161,14 @@
             }
 
             .resource-section{
-                a{
+                a {
                     text-decoration: none;
                 }
-                span{
+                span {
                     display: flex;
                     align-items: center;
+                    vertical-align: middle;
+                    margin-bottom: 8px;
                 }
                 .resource-section-content{
                     padding: 8px 16px 8px 16px;
@@ -145,7 +183,7 @@
             .icon{
                 padding-right: 16px;
             }
-            
+
             .header-row {
                 .header-button-container {
                     .print-button {
@@ -156,8 +194,8 @@
 
             .divider {
                 border-bottom: 1px lightgray solid;
-                padding-top: 7px;
-                padding-bottom: 7px;
+                margin-top: 32px;
+                margin-bottom: 32px;
             }
         }
     }
@@ -168,7 +206,7 @@
     background-color:#6e6e6e !important;
     color: #fdfdfd !important;
     border-radius: 10px !important;
-    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25) !important; 
+    box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25) !important;
   }
 
   .circle-icon{

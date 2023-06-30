@@ -4,7 +4,7 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div>
-      <mat-tab-group mat-stretch-tabs>
+      <mat-tab-group mat-stretch-tabs [headerPosition]="above">
         <mat-tab label="Overview">
           <incident-info-panel *ngIf="!hideOnMobileView()"[incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
           <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
@@ -12,7 +12,6 @@
         <mat-tab label="Details">
           <incident-overview-panel *ngIf="!hideOnMobileView()" [incident]="incident"></incident-overview-panel>
           <incident-overview-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" ></incident-overview-panel-mobile>
-
         </mat-tab>
         <mat-tab label="Gallery">
           <ng-template matTabContent>
@@ -22,10 +21,10 @@
         <mat-tab label="Maps">
           <incident-maps-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
           <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
-
         </mat-tab>
       </mat-tab-group>
     </div>
+    <scroll-to-top-button hasTabs="true"></scroll-to-top-button>
   </div>
 </div>
 <div *ngIf="!isLoading && loadingFailed" class="page-container">

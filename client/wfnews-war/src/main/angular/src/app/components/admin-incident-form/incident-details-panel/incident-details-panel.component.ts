@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { UntypedFormGroup } from '@angular/forms';
+import { CauseOptionDisclaimer, SizeTypeOptionDisclaimer } from './incident-details-panel.constants';
 
 export class OptionDisclaimer {
   public id: number;
@@ -17,25 +18,26 @@ export class IncidentDetailsPanel {
   @Input() public incident
 
   sizeTypeOptions: OptionDisclaimer[] = [
-    {id: 2, optionValue: "Select...", disclaimer: "Fire size is based on most current information available."},
-    {id: 0, optionValue: "Mapped", disclaimer: "Fire size is based on the last known mapped size in hectares."},
-    {id: 1, optionValue: "Estimated", disclaimer: "Fire size is based on the last known estimated size in hectares."}
+    {id: 2, optionValue: "Select...", disclaimer: SizeTypeOptionDisclaimer[2]},
+    {id: 0, optionValue: "Mapped", disclaimer: SizeTypeOptionDisclaimer[0]},
+    {id: 1, optionValue: "Estimated", disclaimer: SizeTypeOptionDisclaimer[1]}
   ]
 
   // IM db only contains "Human", "Natural" and "Undetermined", but in ticket https://apps.nrs.gov.bc.ca/int/jira/browse/WFNEWS-510
   // was requested to add "General", "Human", "Lightning" and "Under Investigation"
   // We resolved to keep the IM values in the UI
   causeOptions: OptionDisclaimer[] = [
-    {id: 1, optionValue: "Human", disclaimer: "Humans start wildfires in several ways, either by accident or intentionally."},
-    {id: 2, optionValue: "Lightning", disclaimer: "When lightning strikes an object it can release enough heat to ignite a tree or other fuels."},
-    {id: 3, optionValue: "Under Investigation", disclaimer: "Wildfire investigations often take time and can be very complex. Investigations may be carried out by one or more agencies, including the BC Wildfire Service, the Compliance and Enforcement Branch, the RCMP, or other law enforcement agencies, and may be cross jurisdictional."}
+    {id: 0, optionValue: "Select...", disclaimer: CauseOptionDisclaimer[0]},
+    {id: 1, optionValue: "Human", disclaimer: CauseOptionDisclaimer[1]},
+    {id: 2, optionValue: "Lightning", disclaimer: CauseOptionDisclaimer[2]},
+    {id: 3, optionValue: "Under Investigation", disclaimer: CauseOptionDisclaimer[3]}
   ]
 
   setSizeTypeDisclaimer (value) {
-    this.formGroup.controls['sizeComments'].setValue(this.sizeTypeOptions.find(c => c.id === Number(value)).disclaimer);
+    this.formGroup.controls['sizeComments'].setValue(this.sizeTypeOptions.find(c => c.id === Number(value))?.disclaimer);
   }
 
   setCauseDisclaimer (value) {
-    this.formGroup.controls['causeComments'].setValue(this.causeOptions.find(c => c.id === Number(value)).disclaimer);
+    this.formGroup.controls['causeComments'].setValue(this.causeOptions.find(c => c.id === Number(value))?.disclaimer);
   }
 }
