@@ -15,21 +15,22 @@ import { UpdateService } from './services/update.service';
 import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
 
 export const ICON = {
-  TWITTER: 'twitter',
-  FACEBOOK: 'facebook',
-  FACEBOOK_SQUARE: 'fb-square',
-  FIRE: 'fire',
-  MAP_SIGNS: 'map-signs',
-  INCIDENT: 'incident',
   ADVISORIES: 'advisories',
-  EXT_LINK: 'external-link',
-  EXCLAMATION_CIRCLE: 'exclamation-circle',
-  CLOUD_SUN: 'cloud-sun',
-  FILTER_CANCEL: "filter-cancel",
-  BOOKMARK: 'bookmark',
-  MAP: 'map',
   BACK_ICON: 'back-icon',
+  BOOKMARK: 'bookmark',
+  CLOUD_SUN: 'cloud-sun',
+  CONTACT_US: 'contact-us',
   DOT: 'dot',
+  EXCLAMATION_CIRCLE: 'exclamation-circle',
+  EXT_LINK: 'external-link',
+  FACEBOOK_SQUARE: 'fb-square',
+  FACEBOOK: 'facebook',
+  FILTER_CANCEL: "filter-cancel",
+  FIRE: 'fire',
+  INCIDENT: 'incident',
+  MAP_SIGNS: 'map-signs',
+  MAP: 'map',
+  TWITTER: 'twitter',
 };
 
 @Component({
@@ -359,6 +360,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.DOT,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/dot.svg")
+    );
+
+    this.matIconRegistry.addSvgIcon(
+      ICON.CONTACT_US,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/contact-us.svg")
     );
   }
 
