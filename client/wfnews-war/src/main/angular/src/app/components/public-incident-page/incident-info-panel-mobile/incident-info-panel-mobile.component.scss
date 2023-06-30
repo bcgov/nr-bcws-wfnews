@@ -2,28 +2,6 @@
     background-color: white !important;
     .warning-card{
         margin-top: 16px;
-        
-        .container {
-            padding: 10px;
-            display: flex;
-            align-items: center;
-            font-size: 16px;
-            
-            span {
-                padding-left: 8px;
-                text-align: left;
-            }
-
-            &.red {
-                background-color: #fdf0f3;
-                color: #b42e45;
-            }
-
-            &.yellow {
-                background-color: #fff9e5;
-                color: #dfa512;
-            }
-        }
     }
     .content-panel {
         padding: 24px;
@@ -101,24 +79,6 @@
                     display: flex;
                     vertical-align: middle;
                     margin-bottom: 8px;
-                }
-            }
-
-            .evac-order-card{
-                background-color:#fdf0f3;
-                color: #b42e45;
-                border-radius: 5px;
-                box-sizing: border-box;
-                box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
-                margin-bottom: 16px;
-                .container{
-                    padding: 10px;
-                    display: flex;
-                    align-items: center;
-                }
-                span{
-                    padding-left: 8px;
-                    text-align: left;
                 }
             }
 
