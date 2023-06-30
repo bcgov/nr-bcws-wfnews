@@ -43,6 +43,7 @@ import software.amazon.awssdk.services.s3.model.GetObjectResponse;
 import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
+import software.amazon.awssdk.utils.IoUtils;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentsEndpointImpl.class);
@@ -256,16 +257,16 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 							.key(key)
 							.build();	
 	
+					byte[] content;
+
 					s3Object = s3Client.getObject(getObjectRequest);
-					BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object));
-					String response = reader.readLine();
-					reader.close();
+					content = IoUtils.toByteArray(s3Object);
 					
 					bytesResponse = Response.status(200)
 							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-							.header("Content-Length", response.length())
-							.entity(response)
+							.header("Content-Length", content.length)
+							.entity(content)
 							.build();
 					
 				} else {

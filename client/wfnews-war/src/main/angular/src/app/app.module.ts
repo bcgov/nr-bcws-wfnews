@@ -139,6 +139,7 @@ import { IncidentMapsPanelMobileComponent } from './components/public-incident-p
 import { VideoPanelComponent } from './components/public-incident-page/incident-gallery-panel/video-panel/video-panel.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
+import { AlertBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -220,6 +221,7 @@ export const DATE_FORMATS = {
         VideoPanelComponent,
         ImagePanelComponent,
         ScrollToTopComponent
+        AlertBannerComponent
     ],
     imports: [
         MatSortModule,
