@@ -1,7 +1,9 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.nio.file.FileSystems;
 import java.util.Date;
 import java.util.concurrent.Executors;
@@ -252,16 +254,18 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					GetObjectRequest getObjectRequest = GetObjectRequest.builder()
 							.bucket(attachmentsAwsConfig.getBucketName())
 							.key(key)
-							.build();
-	
+							.build();	
 	
 					s3Object = s3Client.getObject(getObjectRequest);
+					BufferedReader reader = new BufferedReader(new InputStreamReader(s3Object));
+					String response = reader.readLine();
+					reader.close();
 					
 					bytesResponse = Response.status(200)
 							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
 							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-							.header("Content-Length", s3Object.available())
-							.entity(s3Object)
+							.header("Content-Length", response.length())
+							.entity(response)
 							.build();
 					
 				} else {
