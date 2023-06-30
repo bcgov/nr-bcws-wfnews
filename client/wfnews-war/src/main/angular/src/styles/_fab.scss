@@ -1,0 +1,43 @@
+@mixin mat-fab-($name, $background-colour, $colour) {
+    button.mat-fab.mat-#{$name} {
+        background-color: $background-colour;
+        color: $colour;
+
+        &:not([disabled]).intermediate-action {
+            background-color: $colour-intermediate-action;
+        }
+    }
+}
+@include mat-fab-('primary', $colour-button-primary, $colour-white);
+
+@mixin mat-fab-px-($name, $size, $background-colour, $colour) {
+    button.mat-fab.mat-#{$name}-#{$size} {
+        background-color: $background-colour;
+        color: $colour;
+        width: $size + px;
+        height: $size + px;
+
+        .mat-button-wrapper {
+            padding: $size / 6 + px;
+        }
+        
+        &:not([disabled]).intermediate-action {
+            background-color: $colour-intermediate-action;
+        }
+    }
+}
+@include mat-fab-px-('white', 48, $colour-white, $colour-dark-grey);
+
+button.mat-mini-fab.bottom-right {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+}
+
+button.mat-fab.bottom-right {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}

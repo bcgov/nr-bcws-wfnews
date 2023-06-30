@@ -1,6 +1,6 @@
 import { NumberFormatStyle } from "@angular/common";
 import { Injectable } from "@angular/core";
-import { CapacitorService } from "./capacitor-service";
+import { Geolocation } from '@capacitor/geolocation';
 import { MatLegacySnackBar as MatSnackBar } from "@angular/material/legacy-snack-bar";
 
 const MAX_CACHE_AGE = 30 * 1000
@@ -27,8 +27,7 @@ export class CommonUtilityService {
     private location;
 
     constructor (
-        protected snackbarService : MatSnackBar,
-        protected capacitorService: CapacitorService
+        protected snackbarService : MatSnackBar
      ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
@@ -39,42 +38,13 @@ export class CommonUtilityService {
         }
 
         this.locationTime = now
-        this.location = new Promise<Position>(function (res, rej) {
-            self.getCurrentLocation(res)
-        })
+        this.location = Geolocation.getCurrentPosition();
         return this.location
     }
 
     getCurrentLocation(callback?: (p: Position) => void) {
-        if (this.capacitorService.isMobilePlatform()) {
-            this.determineCurrentLocation()
-        }
-    }
-
-    preloadGeolocation() {
-        if (this.capacitorService.isMobilePlatform()) {
-            this.preloadMobileGeolocation();         
-        }
-        else {
-           this.preloadDesktopGeolocation();
-        }
-    }
-
-    checkIfAndroidIOSPlatform(): boolean {
-        return (this.capacitorService.isAndroid() || this.capacitorService.isIOS()) ?  true : false;
-    }
-
-    determineCurrentLocation() {
-        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
-            this.getMobileCurrentLocation();
-        } else {       
-                this.getAlternativeCurrentLocation();
-        }
-    }
-
-    getMobileCurrentLocation(callback?: (p: Position) => void) {
-        if (navigator?.geolocation) {
-            return navigator.geolocation.getCurrentPosition((position) => {
+        if (navigator && navigator.geolocation) {
+            return Geolocation.getCurrentPosition().then((position) => {
                 this.myLocation = position ? position.coords : undefined;
                 if (callback) {
                     callback(position);
@@ -83,36 +53,8 @@ export class CommonUtilityService {
             }, error => {
                 this.snackbarService.open('Unable to retrieve the current location.', '', {
                     duration: 5,
-                    panelClass: 'snack-bar-warning'
                 });
-            },
-                { enableHighAccuracy: true }
-            );
-        }
-        else {
-            console.error('Unable to retrieve the current location.');
-            this.snackbarService.open('Unable to retrieve the current location.', '', {
-                duration: 5,
-                panelClass: 'snack-bar-warning'
             });
-        }
-    }
-
-    getAlternativeCurrentLocation(callback?: (p: Position) => void) {
-        if (navigator?.geolocation) {
-            return navigator.geolocation.getCurrentPosition((position) => {
-                this.myLocation = position ? position.coords : undefined;
-                if (callback) {
-                    callback(position);
-                }
-                return position ? position.coords : undefined;
-            }, error => {
-                this.snackbarService.open('Unable to retrieve the current location.', '', {
-                    duration: 5,
-                });
-            },
-                { enableHighAccuracy: true }
-            );
         }
         else {
             console.warn('Unable to access geolocation');
@@ -122,45 +64,14 @@ export class CommonUtilityService {
         }
     }
 
-    preloadMobileGeolocation() {
-        if (this.checkIfAndroidIOSPlatform()) { //use cordova plugin for ionic capacitor
-            this.preloadMobileGeolocationIOSAndroid();
-        }
-        else {
-            this.preloadMobileGeolocationGoogle();
-        }
-    }
-
-    preloadMobileGeolocationIOSAndroid() {
-        navigator.geolocation.getCurrentPosition((position) => {
-            this.myLocation = position.coords;
-        }, error => {
-            console.error('Failed to preload my location');
-        },
-            { enableHighAccuracy: true }
-        );
-    }
-
-    preloadMobileGeolocationGoogle() {
-        this.capacitorService.getCurrentPosition({ enableHighAccuracy: true })
-                    .then((position) => {
-                        this.myLocation = position.coords;
-                },
-                (error) => {
-                    console.error('Failed to preload my location');
-                });
-    }
-
-    preloadDesktopGeolocation() {
-        navigator.geolocation.getCurrentPosition((position) => {
+    preloadGeolocation() {
+      Geolocation.getCurrentPosition().then((position) => {
             this.myLocation = position.coords;
         }, error => {
             this.snackbarService.open('Unable to retrieve the current location','Cancel', {
                 duration: 5000
             })
-            },
-            { enableHighAccuracy: true }
-        );
+        });
     }
 
     sortAddressList(results: any, value: string) {
@@ -189,28 +100,28 @@ export class CommonUtilityService {
           });
 
           return results;
-          
-    } 
+
+    }
 
     getFullAddress(location) {
         let result = "";
-    
+
         if(location.civicNumber) {
             result += location.civicNumber
         }
-    
+
         if(location.streetName) {
             result += " " + location.streetName
         }
-    
+
         if(location.streetQualifier) {
             result += " " + location.streetQualifier
         }
-    
+
         if(location.streetType) {
             result += " " + location.streetType
         }
-    
+
         return result;
       }
 

@@ -13,6 +13,7 @@ import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-
 import { HttpClient } from '@angular/common/http';
 import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 import { AreaRestrictionsDetailsPanel } from './area-restrictions-details-panel/area-restrictions-details-panel.component';
+import { CauseOptionDisclaimer, SizeTypeOptionDisclaimer } from './incident-details-panel/incident-details-panel.constants';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -32,47 +33,47 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   public publishDisabled = false;
 
   public incident = {
-    fireNumber: 0,
-    wildfireYear: new Date().getFullYear(),
-    wildfireIncidentGuid: '',
-    incidentNumberSequence: 0,
-    fireName: undefined,
-    traditionalTerritory: undefined,
-    lastPublished: undefined,
-    publishedStatus: 'DRAFT',
-    fireOfNote: false,
-    location: undefined,
-    sizeType: 1,
-    sizeHectares: 0,
-    sizeComments: undefined,
-    cause: 0,
-    stageOfControlCode: undefined,
-    causeComments: undefined,
-    responseComments: undefined,
-    wildifreCrewsInd: false,
-    crewsComments: undefined,
-    aviationInd: false,
     aviationComments: undefined,
-    incidentManagementInd: false,
-    incidentManagementComments: undefined,
-    heavyEquipmentInd: false,
-    heavyEquipmentComments: undefined,
-    structureProtectionInd: false,
-    structureProtectionComments: undefined,
+    aviationInd: false,
+    cause: 0,
+    causeComments: undefined,
     contact: {
       isPrimary: true,
       fireCentre: null,
       phoneNumber: null,
       emailAddress: null
     },
+    crewsComments: undefined,
+    evacOrders: [],
+    fireName: undefined,
+    fireNumber: 0,
+    fireOfNote: false,
     geometry: {
       x: null,
       y: null
     },
+    heavyEquipmentComments: undefined,
+    heavyEquipmentInd: false,
+    incidentData: null,
+    incidentManagementComments: undefined,
+    incidentManagementInd: false,
+    incidentNumberSequence: 0,
     incidentOverview: '',
-    evacOrders: [],
+    lastPublished: undefined,
+    location: undefined,
     mapAttachments: [],
-    incidentData: null
+    publishedStatus: 'DRAFT',
+    responseComments: undefined,
+    sizeComments: undefined,
+    sizeHectares: 0,
+    sizeType: 1,
+    stageOfControlCode: undefined,
+    structureProtectionComments: undefined,
+    structureProtectionInd: false,
+    traditionalTerritory: undefined,
+    wildfireIncidentGuid: '',
+    wildfireYear: new Date().getFullYear(),
+    wildifreCrewsInd: false,
   };
 
   public readonly incidentForm: UntypedFormGroup;
@@ -93,38 +94,38 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     protected snackbarService: MatSnackBar,
     protected http: HttpClient) {
     this.incidentForm = this.formBuilder.group({
-      fireName: [],
-      incidentNumberSequence: [],
-      incidentLocation: [],
-      traditionalTerritory: [],
-      lastPublished: [],
-      publishedStatus: [],
-      fireOfNote: [],
-      location: [],
-      sizeType: [],
-      sizeHectares: [],
-      incidentSituation: [],
-      sizeComments: [],
+      aviationComments: [],
+      aviationInd: [],
       cause: [],
       causeComments: [],
-      responseComments: [],
-      wildifreCrewsInd: [],
-      crewsComments: [],
-      aviationInd: [],
-      aviationComments: [],
-      incidentManagementInd: [],
-      incidentManagementComments: [],
-      heavyEquipmentInd: [],
-      heavyEquipmentComments: [],
-      structureProtectionInd: [],
-      structureProtectionComments: [],
       contact: this.formBuilder.group({
         fireCentre: [],
         phoneNumber: new UntypedFormControl('', [Validators.pattern(/^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/)]),
         emailAddress: new UntypedFormControl(
           '', [Validators.pattern(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)])
       }),
-      evacOrders: this.formBuilder.array([])
+      crewsComments: [],
+      evacOrders: this.formBuilder.array([]),
+      fireName: [],
+      fireOfNote: [],
+      heavyEquipmentComments: [],
+      heavyEquipmentInd: [],
+      incidentLocation: [],
+      incidentManagementComments: [],
+      incidentManagementInd: [],
+      incidentNumberSequence: [],
+      incidentSituation: [],
+      lastPublished: [],
+      location: [],
+      publishedStatus: [],
+      responseComments: [],
+      sizeComments: [],
+      sizeHectares: [],
+      sizeType: [],
+      structureProtectionComments: [],
+      structureProtectionInd: [],
+      traditionalTerritory: [],
+      wildifreCrewsInd: [],
     });
   }
 
@@ -171,19 +172,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.sizeHectares = self.currentAdminIncident.incidentSituation.fireSizeHectares;
             self.incident.sizeComments = 'Fire size is based on most current information available.';
 
-            const suspectedCauseCategoryCode = self.currentAdminIncident.suspectedCauseCategoryCode;
-            switch (suspectedCauseCategoryCode) {
-              case 'Undetermined':
-                self.incident.cause = 3;
-                break;
-              case 'Natural':
-                self.incident.cause = 2;
-                break;
-              default:
-                self.incident.cause = 1;
-                break;
-            }
-
             self.detailsPanelComponent.setCauseDisclaimer(self.incident.cause);
             self.incident.causeComments = self.detailsPanelComponent.causeOptions.find(c => c.id === self.incident.cause).disclaimer;
 
@@ -205,15 +193,24 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
+              
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
-              if (response?.incidentSizeDetail?.includes('estimated')) {
-                self.incident.sizeType = 1;
-              } else if (response?.incidentSizeDetail?.includes('mapped')) {
-                self.incident.sizeType = 0;
-              } else {
-                self.incident.sizeType = 2;
-              }
+              Object.entries(SizeTypeOptionDisclaimer).forEach(([index, disclaimer]) => {
+                if (disclaimer === response.incidentSizeDetail) {
+                  self.incident.sizeType = Number.parseInt(index, 10);
+                }
+              });
+
+              self.incident.cause = 0;
               self.incident.causeComments = response.incidentCauseDetail;
+              Object.entries(CauseOptionDisclaimer).forEach(([index, disclaimer]) => {
+                if (disclaimer === response.incidentCauseDetail) {
+                  self.incident.cause = Number.parseInt(index, 10);
+                }
+              });
+              if (!response.incidentCauseDetail) {
+                self.incident.causeComments = CauseOptionDisclaimer[0];
+              }
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
               self.incident.responseComments = response.resourceDetail;
@@ -236,8 +233,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.contact.emailAddress = response.contactEmailAddress;
               self.incident.incidentOverview = response.incidentOverview;
 
-              this.evacOrdersDetailsPanel.getEvacOrders();
               this.incidentForm.patchValue(this.incident);
+              this.evacOrdersDetailsPanel.getEvacOrders();
             }, (error) => {
               console.log('No published data found...');
               console.error(error);
@@ -268,80 +265,73 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     return !value ? null : value;
   }
 
-  publishChanges() {
+  async publishChanges() {
     this.publishDisabled = true;
     this.cdr.detectChanges();
     const self = this;
     const dialogRef = this.dialog.open(PublishDialogComponent, {
       width: '350px',
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result?.publish) {
-        const publishedIncidentResource = {
-          publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
-          incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
-          newsCreatedTimestamp: new Date().valueOf().toString(),
-          discoveryDate: new Date().valueOf().toString(),
-          newsPublicationStatusCode: 'PUBLISHED',
-          publishedTimestamp: new Date(),
-          fireOfNoteInd: this.incident.fireOfNote,
-          incidentName: this.incident.fireName,
-          incidentLocation: this.nullEmptyStrings(this.incident.location),
-          incidentOverview: this.nullEmptyStrings(this.incident.incidentOverview),
-          traditionalTerritoryDetail: this.nullEmptyStrings(this.incident.traditionalTerritory),
-          incidentSizeDetail: this.nullEmptyStrings(this.incident.sizeComments),
-          incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
-          contactOrgUnitIdentifer: this.incident.contact.fireCentre,
-          contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
-          contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
-          resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
-          wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
-          wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
-          wildfireAviationResourceInd: this.incident.aviationInd,
-          wildfireAviationResourceDetail: this.nullEmptyStrings(this.incident.aviationComments),
-          heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
-          heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
-          incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
-          incidentMgmtCrewRsrcDetail: this.nullEmptyStrings(this.incident.incidentManagementComments),
-          structureProtectionRsrcInd: this.incident.structureProtectionInd,
-          structureProtectionRsrcDetail: this.nullEmptyStrings(this.incident.structureProtectionComments),
-          type: this.publishedIncidentType,
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          '@type': 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
-        };
+    const result = await dialogRef.afterClosed().toPromise();
+    if (!result?.publish) {
+      this.publishDisabled = false;
+      this.cdr.detectChanges();
+    }
+    const publishedIncidentResource = {
+      contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
+      contactOrgUnitIdentifer: this.incident.contact.fireCentre,
+      contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
+      discoveryDate: new Date().valueOf().toString(),
+      fireOfNoteInd: this.incident.fireOfNote,
+      heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
+      heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
+      incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
+      incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
+      incidentLocation: this.nullEmptyStrings(this.incident.location),
+      incidentMgmtCrewRsrcDetail: this.nullEmptyStrings(this.incident.incidentManagementComments),
+      incidentMgmtCrewRsrcInd: this.incident.incidentManagementInd,
+      incidentName: this.incident.fireName,
+      incidentOverview: this.nullEmptyStrings(this.incident.incidentOverview),
+      incidentSizeDetail: this.nullEmptyStrings(this.incident.sizeComments),
+      newsCreatedTimestamp: new Date().valueOf().toString(),
+      newsPublicationStatusCode: 'PUBLISHED',
+      publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
+      publishedTimestamp: new Date(),
+      resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
+      structureProtectionRsrcDetail: this.nullEmptyStrings(this.incident.structureProtectionComments),
+      structureProtectionRsrcInd: this.incident.structureProtectionInd,
+      traditionalTerritoryDetail: this.nullEmptyStrings(this.incident.traditionalTerritory),
+      type: this.publishedIncidentType,
+      wildfireAviationResourceDetail: this.nullEmptyStrings(this.incident.aviationComments),
+      wildfireAviationResourceInd: this.incident.aviationInd,
+      wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
+      wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
+      // eslint-disable-next-line @typescript-eslint/naming-convention
+      '@type': 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
+    };
 
-        self.publishIncident(publishedIncidentResource).then(doc => {
-          this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
-          this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+    try {
+      const doc = await self.publishIncident(publishedIncidentResource);
+      this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
 
-          // Update the Draft/Publish status on incident name
-          this.incident.lastPublished = doc.publishedTimestamp;
-          this.incident.publishedStatus = doc.newsPublicationStatusCode;
-          this.incidentForm.patchValue(this.incident);
+      // Handle evac orders
+      await this.evacOrdersDetailsPanel.persistEvacOrders();
 
-          // Handle evac orders
-          this.evacOrdersDetailsPanel.persistEvacOrders();
-        }).catch(err => {
-          this.snackbarService.open(
-            'Failed to Publish Incident: ' + JSON.stringify(err.message),
-            'OK',
-            { duration: 10000, panelClass: 'snackbar-error' }
-          );
-        }).finally(() => {
-          self.publishDisabled = false;
-          this.cdr.detectChanges();
-        }).catch(err => {
-          this.snackbarService.open(
-            'Failed to Publish Incident: ' + JSON.stringify(err.message),
-            'OK',
-            { duration: 10000, panelClass: 'snackbar-error' }
-          );
-        });
-      } else {
-        this.publishDisabled = false;
-        this.cdr.detectChanges();
-      }
-    });
+      this.snackbarService.open('Incident Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
+
+      // Update the Draft/Publish status on incident name
+      this.incident.lastPublished = doc.publishedTimestamp;
+      this.incident.publishedStatus = doc.newsPublicationStatusCode;
+    } catch (err) {
+      this.snackbarService.open(
+        'Failed to Publish Incident: ' + JSON.stringify(err.message),
+        'OK',
+        { duration: 10000, panelClass: 'snackbar-error' }
+      );
+    } finally {
+      self.publishDisabled = false;
+      this.cdr.detectChanges();
+    }
   }
 
   publishIncident(incident): Promise<any> {
@@ -350,39 +340,39 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
   onShowPreview() {
     const mappedIncident = {
-      incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
-      incidentNumberLabelFull: this.currentAdminIncident.incidentLabel,
-      stageOfControlCode: this.currentAdminIncident.incidentSituation.stageOfControlCode,
-      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value,
+      contactEmailAddress: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['emailAddress'].value,
+      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['fireCentre'].value,
+      contactPhoneNumber: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['phoneNumber'].value,
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
-      incidentName: this.incidentForm.controls['fireName'].value,
-      incidentLocation: this.incidentForm.controls['location'].value || this.currentAdminIncident.incidentLocation.geographicDescription,
-      incidentOverview: this.incident.incidentOverview,
-      traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
-      incidentSizeType: this.incidentForm.controls['sizeType'].value,
-      incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
-      incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
-      incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
-      contactOrgUnitIdentifer: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['fireCentre'].value,
-      contactPhoneNumber: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['phoneNumber'].value,
-      contactEmailAddress: (this.incidentForm.controls['contact'] as UntypedFormGroup).controls['emailAddress'].value,
-      wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
-      wildfireCrewResourcesDetail: this.incidentForm.controls['crewsComments'].value,
-      wildfireAviationResourceInd: this.incidentForm.controls['aviationInd'].value,
-      wildfireAviationResourceDetail: this.incidentForm.controls['aviationComments'].value,
-      heavyEquipmentResourcesInd: this.incidentForm.controls['heavyEquipmentInd'].value,
+      fireYear: this.incident.wildfireYear,
+      generalIncidentCauseCatId: this.incidentForm.controls['cause'].value,
       heavyEquipmentResourcesDetail: this.incidentForm.controls['heavyEquipmentComments'].value,
-      incidentMgmtCrewRsrcInd: this.incidentForm.controls['incidentManagementInd'].value,
+      heavyEquipmentResourcesInd: this.incidentForm.controls['heavyEquipmentInd'].value,
+      incidentCauseDetail: this.incidentForm.controls['causeComments'].value,
+      incidentGuid: this.currentAdminIncident['wildfireIncidentGuid'],
+      incidentLocation: this.incidentForm.controls['location'].value || this.currentAdminIncident.incidentLocation.geographicDescription,
       incidentMgmtCrewRsrcDetail: this.incidentForm.controls['incidentManagementComments'].value,
-      structureProtectionRsrcInd: this.incidentForm.controls['structureProtectionInd'].value,
-      structureProtectionRsrcDetail: this.incidentForm.controls['structureProtectionComments'].value,
+      incidentMgmtCrewRsrcInd: this.incidentForm.controls['incidentManagementInd'].value,
+      incidentName: this.incidentForm.controls['fireName'].value,
+      incidentNumberLabelFull: this.currentAdminIncident.incidentLabel,
+      incidentOverview: this.incident.incidentOverview,
+      incidentSizeDetail: this.incidentForm.controls['sizeComments'].value,
+      incidentSizeEstimatedHa: this.incidentForm.controls['sizeHectares'].value,
+      incidentSizeType: this.incidentForm.controls['sizeType'].value,
       lastUpdatedTimestamp: new Date(this.incident.incidentData.lastUpdatedTimestamp).toString(),
       latitude: this.incident.incidentData.incidentLocation.latitude,
       longitude: this.incident.incidentData.incidentLocation.longitude,
-      fireYear: this.incident.wildfireYear,
       resourceDetail: this.incidentForm.controls['responseComments'].value,
+      stageOfControlCode: this.currentAdminIncident.incidentSituation.stageOfControlCode,
+      structureProtectionRsrcDetail: this.incidentForm.controls['structureProtectionComments'].value,
+      structureProtectionRsrcInd: this.incidentForm.controls['structureProtectionInd'].value,
+      traditionalTerritoryDetail: this.incidentForm.controls['traditionalTerritory'].value,
+      wildfireAviationResourceDetail: this.incidentForm.controls['aviationComments'].value,
+      wildfireAviationResourceInd: this.incidentForm.controls['aviationInd'].value,
+      wildfireCrewResourcesDetail: this.incidentForm.controls['crewsComments'].value,
+      wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
     };
 
     if (localStorage.getItem('preview_incident') != null) {

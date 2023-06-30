@@ -1,47 +1,49 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.file.FileSystems;
+import java.util.Date;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
 import javax.ws.rs.core.Response.Status;
 
-import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
-
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import ca.bc.gov.nrs.common.service.ConflictException;
+import ca.bc.gov.nrs.common.service.ForbiddenException;
+import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.AttachmentsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.AttachmentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
-import ca.bc.gov.nrs.common.service.ConflictException;
-import ca.bc.gov.nrs.common.service.ForbiddenException;
-import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
-import software.amazon.awssdk.core.ResponseInputStream;
-import software.amazon.awssdk.core.sync.RequestBody;
-import software.amazon.awssdk.core.exception.SdkClientException;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.ResponseInputStream;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
-import software.amazon.awssdk.services.s3.model.DeleteObjectResponse;
 import software.amazon.awssdk.services.s3.model.GetObjectRequest;
 import software.amazon.awssdk.services.s3.model.GetObjectResponse;
+import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectResponse;
-import software.amazon.awssdk.services.s3.model.NoSuchKeyException;
 import software.amazon.awssdk.utils.IoUtils;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.FileSystems;
-import java.util.Date;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements AttachmentsEndpoint {
 	private static final Logger logger = LoggerFactory.getLogger(AttachmentsEndpointImpl.class);
@@ -51,7 +53,11 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 
   @Autowired
   private AttachmentsAwsConfig attachmentsAwsConfig;
-
+  
+  Response bytesResponse = null;
+  
+  ResponseInputStream<GetObjectResponse> s3Object = null;
+  
   @Override
   public Response getIncidentAttachment(String incidentNumberSequence, String attachmentGuid) {
     Response response = null;
@@ -227,59 +233,66 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 	}
 
 	@Override
-	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) throws IOException {
-		Response response = null;
-
-		ResponseInputStream<GetObjectResponse> s3Object = null;
-		S3Client s3Client = null;
-
+	public Response getIncidentAttachmentBytes(String incidentNumberSequence, String attachmentGuid, Boolean thumbnail) {
+		
+		Future<Response> futureResponse = null;
+		
 		logRequest();
-
+		
 		try {
-			AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+			
+			futureResponse = Executors.newFixedThreadPool(1).submit(() -> {
+	
+				AttachmentResource result = incidentsService.getIncidentAttachment(attachmentGuid, getFactoryContext());
+	
+				if (result != null) {
+					S3Client s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
+	
+					String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
+					if (thumbnail.booleanValue()) {
+						key += "-thumb";
+					}
+					GetObjectRequest getObjectRequest = GetObjectRequest.builder()
+							.bucket(attachmentsAwsConfig.getBucketName())
+							.key(key)
+							.build();	
+	
+					byte[] content;
 
-			if (result != null) {
-				String key = incidentNumberSequence + FileSystems.getDefault().getSeparator() + result.getAttachmentGuid();
-				if (thumbnail.booleanValue()) {
-					key += "-thumb";
+					s3Object = s3Client.getObject(getObjectRequest);
+					content = IoUtils.toByteArray(s3Object);
+					
+					bytesResponse = Response.status(200)
+							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
+							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
+							.header("Content-Length", content.length)
+							.entity(content)
+							.build();
+					
+				} else {
+					bytesResponse = Response.status(404).build();
 				}
-				GetObjectRequest getObjectRequest = GetObjectRequest.builder()
-						.bucket(attachmentsAwsConfig.getBucketName())
-						.key(key)
-						.build();
-
-				s3Client = S3Client.builder().region(Region.CA_CENTRAL_1).build();
-				s3Object = s3Client.getObject(getObjectRequest);
-				s3Client.close();
-
-				response = Response.status(200)
-					.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-					.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
-					.header("Cache-Control", "no-cache")
-					.header("Content-Length", s3Object.available())
-					.entity(s3Object)
-					.build();
-
-				s3Object.close();
-
-			} else {
-				response = Response.status(404).build();
-			}
-      
+				
+				return bytesResponse;
+			});
+			
+			return futureResponse.get();
+		
 		} catch (AwsServiceException | SdkClientException e) {
-			response = Response.status(404).build();
-		} catch (IOException e) {
-			response = getInternalServerErrorResponse(e);
+			return Response.status(404).build();
 		} catch (Throwable t) {
-			response = getInternalServerErrorResponse(t);
+			return getInternalServerErrorResponse(t);
 		} finally {
-			if (s3Object != null) s3Object.close();
-			if (s3Client != null) s3Client.close();
-		} 
+			if (s3Object != null && futureResponse != null && futureResponse.isDone()) {
+				try {
+					s3Object.close();
+				} catch (IOException e) {
+					logger.error("Failed to close s3Object on image download", e);
+				}
+			}
+		}
 
-		logResponse(response);
-
-		return response;
+		
 	}
 	
 	@Override

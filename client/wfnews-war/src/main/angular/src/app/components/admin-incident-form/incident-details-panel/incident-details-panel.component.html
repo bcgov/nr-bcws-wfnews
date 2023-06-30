@@ -87,9 +87,6 @@
               [options]="causeOptions"
               (valueChange)="setCauseDisclaimer($event)"
               disabled>
-                <mat-option value="">
-                  <span class="placeholder">Select...</span>
-                </mat-option>
                 <mat-option *ngFor = "let item of causeOptions" [value]="item.id">
                   <span>{{item.optionValue}}</span>
                 </mat-option>

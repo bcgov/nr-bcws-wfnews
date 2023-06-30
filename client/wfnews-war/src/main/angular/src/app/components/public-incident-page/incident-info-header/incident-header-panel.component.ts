@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core"
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, HostListener } from "@angular/core"
 import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
@@ -25,6 +25,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
   convertFireNumber = convertFireNumber
 
   private map: any
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.map.invalidateSize();
+  }
 
   constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
     ) {
@@ -125,11 +130,12 @@ export class IncidentHeaderPanel implements AfterViewInit {
     }
   }
 
-  hideOnMobileView () {
+  isMobileView() {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
-  convertoToMobileFormate (dateString) {
+  convertToMobileFormat (dateString) {
+    // Should probably be MMM for month formats to prevent long strings
     const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
     return formattedDate
 

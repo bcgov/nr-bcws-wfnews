@@ -19,6 +19,9 @@
   flex-wrap: wrap;
   padding: 22px;
 }
+.header-container.mobile {
+  display: block;
+}
 .header-container> * {
   flex: 1 1 350px;
 }
@@ -27,6 +30,11 @@
   width: 100%;
   max-width: 533px;
   min-height: 400px !important;
+}
+
+.map-container-mobile {
+  width: 100%;
+  min-height: 200px !important;
 }
 
 @media screen and (max-width: 808px) {
@@ -38,6 +46,7 @@
 .incident-details {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
   padding: 24px;
+  padding-bottom: 0px;
   .header {
     text-align: right;
     display: flex;
@@ -49,6 +58,7 @@
   .title-bar {
     .title {
       font-size: 1.6rem;
+      line-height: 39px;
       color: #003366;
       display: flex;
       flex-direction: row;
@@ -111,7 +121,7 @@
   .evac-list {
     display: flex;
     flex-direction: row;
-    color: #b42e45;
+    color: black;
     padding-top: 7px;
     .label {
       text-decoration: underline;
@@ -124,6 +134,12 @@
       color: gray;
       text-decoration: none;
     }
+  }
+  .alert {
+    color: #dfa512 !important;
+  }
+  .order {
+    color: #b42e45 !important;
   }
   h4 {
     color: #003366;
@@ -141,36 +157,54 @@
     // .item:last-child {
     //   margin-right: 0;
     // }
+    .divider {
+      border-bottom: 1px lightgray solid;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
     .mobile-button{
       border-radius: 5px;
       border: 1px solid #6e6e6e;
       background-color: #fdfdfd;
+      color: #333333;
       box-sizing: border-box;
-      display: flex;
       align-items: center;
       justify-content: center;
+      min-width: 130px;
+      height: 48px;
+
+      &.fixed-width {
+        width: 170px;
+      }
     }
   }
+}
+
+.mobile-label {
+  color: #6e6e6e;
+  font-size: 14px;
+  line-height: 21px;
 }
 
 @media (max-width: 768px) {
   .header-container {
     padding: 0px !important;
-    .mobile-header{
-      height: 50px;
-      display: flex;
-      justify-content: space-between;
-      padding:0 24px;
-      align-items: center;
-      position: sticky !important; 
-      top:0;
-      background-color: white;
-      z-index:9999;
-    }
   }
   .title{
     color:black !important
   }
+}
+
+.mobile-header{
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding:0 24px;
+  align-items: center;
+  position: sticky !important;
+  top:0;
+  background-color: white;
+  z-index:9999;
 }
 
 :host ::ng-deep .mat-tab-header {
@@ -182,6 +216,6 @@
   @media (max-width: 768px) {
     background-color: white !important;
     top:50px;
-  }  
+  }
 }
 

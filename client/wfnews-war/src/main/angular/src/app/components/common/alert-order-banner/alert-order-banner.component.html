@@ -1,0 +1,4 @@
+<span [ngClass]="{'red': isOrder(), 'yellow': !isOrder(), 'banner': !card, 'card': card}">
+    <span class="material-icons">{{isOrder() ? 'error' : 'warning'}}</span>
+    <span>Evacuation {{isOrder() ? 'Order' : 'Alert'}}: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
+</span>

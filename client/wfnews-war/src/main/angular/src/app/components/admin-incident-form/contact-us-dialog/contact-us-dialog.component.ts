@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef } from '@angular/material/legacy-dialog';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 
 export class DialogData {
@@ -16,15 +17,15 @@ export class ContactUsDialogComponent {
   public file: File;
 
     constructor (
-      public dialogRef: MatDialogRef<ContactUsDialogComponent>,
+      public dialogRef: MatLegacyDialogRef<ContactUsDialogComponent>,
       @Inject(MAT_DIALOG_DATA) public data: any
       ) {}
-  
+
       callFireCentre(phoneNumber:string) {
         const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ""));
         window.open(`tel:${parsedPhoneNumber}`, '_system');
       }
-    
+
       emailFireCentre(recipientEmail:string) {
         const mailtoUrl = `mailto:${recipientEmail}`;
         window.location.href = mailtoUrl;
