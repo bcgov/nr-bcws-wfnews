@@ -149,6 +149,7 @@
     color:#6e6e6e;
     font-size: 14px;
     display: flex;
+    justify-content: space-between;
     // .item{
     //   margin-right: 26px;
     // }
@@ -165,12 +166,16 @@
       border-radius: 5px;
       border: 1px solid #6e6e6e;
       background-color: #fdfdfd;
+      color: #333333;
       box-sizing: border-box;
       align-items: center;
       justify-content: center;
-      margin-right: 24px;
       min-width: 130px;
       height: 48px;
+
+      &.fixed-width {
+        width: 170px;
+      }
     }
   }
 }
@@ -179,12 +184,6 @@
   color: #6e6e6e;
   font-size: 14px;
   line-height: 21px;
-}
-
-.label-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 7px 1fr;
-  column-gap: 7px;
 }
 
 @media (max-width: 768px) {
