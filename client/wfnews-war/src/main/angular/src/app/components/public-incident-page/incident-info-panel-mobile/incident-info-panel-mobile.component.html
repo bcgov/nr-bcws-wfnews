@@ -1,13 +1,6 @@
 <div class="panel">
     <div class="warning-card" *ngFor="let evac of evacOrders" (click)="navigateToEvac(evac)">
-        <span *ngIf="evac.orderAlertStatus === 'Order'" class="container red">
-            <span class="material-icons">error</span>
-            <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-        </span>
-        <span *ngIf="evac.orderAlertStatus === 'Alert'" class="container yellow">
-            <span class="material-icons">warning</span>
-            <span>Evacuation Alert: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-        </span>
+        <alert-order-banner [evac]="evac" />
     </div>
 
     <div class="content-panel">
@@ -155,11 +148,8 @@
                 <div class="sub-content" *ngIf="!evacOrders || evacOrders.length <= 0 ; else displayEvacOrders">
                     There are no current evacuation orders or alerts associated with this incident.</div>
                 <ng-template #displayEvacOrders>
-                    <div class="evac-order-card" *ngFor="let evac of evacOrders">
-                        <span class="container">
-                            <span class="material-icons">error</span>
-                            <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-                        </span>
+                    <div *ngFor="let evac of evacOrders">
+                        <alert-order-banner [card]="true" [evac]="evac" />
                     </div>
                     <div class="sub-title">
                         <h4>What is an Evacuation Order?</h4>
