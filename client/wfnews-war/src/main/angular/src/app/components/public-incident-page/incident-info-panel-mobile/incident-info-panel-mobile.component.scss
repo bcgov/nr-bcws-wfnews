@@ -127,10 +127,14 @@
                 border: 1px solid #6e6e6e;
                 background-color: #fdfdfd;
                 box-sizing: border-box;
-                display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 170px;
+                min-width: 130px;
+                height: 48px;
+
+                &.fixed-width {
+                    width: 170px;
+                }
             }
 
             .current-resources{
