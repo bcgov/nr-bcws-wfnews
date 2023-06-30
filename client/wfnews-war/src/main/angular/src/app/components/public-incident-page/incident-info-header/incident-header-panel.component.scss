@@ -149,6 +149,7 @@
     color:#6e6e6e;
     font-size: 14px;
     display: flex;
+    justify-content: space-between;
     // .item{
     //   margin-right: 26px;
     // }
@@ -168,7 +169,6 @@
       box-sizing: border-box;
       align-items: center;
       justify-content: center;
-      margin-right: 24px;
       min-width: 130px;
       height: 48px;
 
