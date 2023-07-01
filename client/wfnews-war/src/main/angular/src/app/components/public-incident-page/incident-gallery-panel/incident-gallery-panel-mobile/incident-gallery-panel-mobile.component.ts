@@ -82,13 +82,10 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
          if (this.allImagesAndVideosStub.length > 9) {
           this.displayLoadMore = true
           this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 9);
-          // this.displayMediaStub = this.setPrimaryToTop(this.displayMediaStub)
          }
 
         this.pushToImages(this.allImagesAndVideosStub)
         this.pushToVideos(this.allImagesAndVideosStub)
-
-        // this.setAllPrimaryToTop();
 
         this.cdr.detectChanges()
         setTimeout(() => {
@@ -178,15 +175,6 @@ loadMoreVideos(e: HTMLElement) {
       this.displayVideosStub = this.allVideosStub.slice(0, 9);
     } 
   }
-
-  // setAllPrimaryToTop(){
-  //   // this.allImagesAndVideosStub = this.setPrimaryToTop(this.allImagesAndVideosStub)
-  //   // this.displayMediaStub = this.setPrimaryToTop(this.displayMediaStub)
-  //   this.allImagesStub = this.setPrimaryToTop(this.allImagesStub)
-  //   this.allVideosStub = this.setPrimaryToTop(this.allVideosStub)
-  //   this.displayImagesStub = this.setPrimaryToTop(this.displayImagesStub)
-  //   this.displayVideosStub = this.setPrimaryToTop(this.displayVideosStub)
-  // }
 
   setPrimaryToTop: any = (collection: any) => {
     let itemToBeSpliced = null;
