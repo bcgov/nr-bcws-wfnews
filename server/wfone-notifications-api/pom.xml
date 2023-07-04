@@ -8,9 +8,16 @@
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java-source-version>1.8</java-source-version>
-		<java-target-version>1.8</java-target-version>
+		<java-source-version>11</java-source-version>
+		<java-target-version>11</java-target-version>
 		<dollar>$</dollar>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+		<!-- 
+		The two following properties are displayed on your project
+		at https://sonarcloud.io
+		-->
+		<sonar.organization>bcgov-sonarcloud</sonar.organization>
+		<sonar.projectKey>bcgov_nr-bcws-wfnews</sonar.projectKey>
 	</properties>
 	<modules>
 		<module>wfone-notifications-model</module>
@@ -35,28 +42,28 @@
 			<dependency>
 				<groupId>org.apache.commons</groupId>
 				<artifactId>commons-text</artifactId>
-				<version>1.8</version>
+				<version>1.10.0</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.18</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.18</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.18</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-config</artifactId>
-				<version>5.3.13.RELEASE</version>
+				<version>5.5.7</version>
 			</dependency>
 
 			<dependency>
