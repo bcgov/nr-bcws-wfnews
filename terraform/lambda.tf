@@ -47,7 +47,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
-  timeout = 15
+  timeout = 180
   layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
@@ -66,7 +66,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
-  timeout = 15
+  timeout = 180
   layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {

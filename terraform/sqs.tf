@@ -47,7 +47,7 @@ resource "aws_sqs_queue" "queue" {
       "Condition": {
         "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-notification-api-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-notification-api-queue-${var.target_env}"
     },
     {
       "Effect": "Allow",
@@ -61,9 +61,9 @@ resource "aws_sqs_queue" "queue" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${data.aws_caller_identity.current.account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-notification-api-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-notification-api-queue-${var.target_env}"
     }
   ]
 }
@@ -119,7 +119,7 @@ resource "aws_sqs_queue" "queue_fires" {
       "Condition": {
         "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-active-fires-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-active-fires-queue-${var.target_env}"
     },
     {
       "Effect": "Allow",
@@ -133,9 +133,9 @@ resource "aws_sqs_queue" "queue_fires" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${data.aws_caller_identity.current.account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-active-fires-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-active-fires-queue-${var.target_env}"
     }
   ]
 }
@@ -190,7 +190,7 @@ resource "aws_sqs_queue" "queue_evacs" {
       "Condition": {
         "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-evacuation-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-evacuation-queue-${var.target_env}"
     },
     {
       "Effect": "Allow",
@@ -204,9 +204,9 @@ resource "aws_sqs_queue" "queue_evacs" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${data.aws_caller_identity.current.account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-evacuation-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-evacuation-queue-${var.target_env}"
     }
   ]
 }
@@ -263,7 +263,7 @@ resource "aws_sqs_queue" "queue_bans" {
       "Condition": {
         "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-bans-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-bans-queue-${var.target_env}"
     },
     {
       "Effect": "Allow",
@@ -277,9 +277,9 @@ resource "aws_sqs_queue" "queue_bans" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${data.aws_caller_identity.current.account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-bans-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-bans-queue-${var.target_env}"
     }
   ]
 }
@@ -336,7 +336,7 @@ resource "aws_sqs_queue" "queue_restrictions" {
       "Condition": {
         "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-area-restrictions-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-area-restrictions-queue-${var.target_env}"
     },
     {
       "Effect": "Allow",
@@ -350,9 +350,9 @@ resource "aws_sqs_queue" "queue_restrictions" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${data.aws_caller_identity.current.account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
       },
-      "Resource": "arn:aws:sqs:*:${data.aws_caller_identity.current.account_id}:wfnews-area-restrictions-queue-${var.target_env}"
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-area-restrictions-queue-${var.target_env}"
     }
   ]
 }
