@@ -304,3 +304,13 @@ export function convertToYoutubeId (externalUri: string) {
     }
   }
 }
+
+export function hideOnMobileView () {
+    return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
+  }
+
+  export function convertToMobileFormat (dateString) {
+    const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
+    return formattedDate
+
+  }

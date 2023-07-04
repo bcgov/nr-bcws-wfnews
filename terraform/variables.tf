@@ -336,8 +336,20 @@ variable "apisix_container_name" {
 
 variable "max_upload_size" {
   description = "Maximum upload size permitted"
-  default     = "10M"
+  default     = "100M"
   type        = string
+}
+
+variable "api_health_check_path" {
+  description = "Endpoint to use for health checks on API"
+  default = "/checkHealth?callstack=test"
+  type = string
+}
+
+variable "client_health_check_path" {
+  description = "Endpoint to use for health checks on client"
+  default = "/config.jsp"
+  type = string
 }
 
 # variable etcd_container_name {

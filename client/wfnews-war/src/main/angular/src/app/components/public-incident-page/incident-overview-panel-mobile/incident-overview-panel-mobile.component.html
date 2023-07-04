@@ -1,0 +1,11 @@
+
+<div class="panel">
+  <div class="content-panel">
+        <div class="content-panel-stack">
+            <h1>Wildfire Details</h1>
+            <div class="contents">
+                <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || '<p>For more information on this incident, please contact the information officers assigned.</p>'" (ready)="onReady($event)"></ckeditor>
+            </div>
+        </div>
+    </div>
+</div>

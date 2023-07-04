@@ -1,5 +1,5 @@
 import { Component, Input, OnInit} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { AreaRestrictionsOption } from '../../../conversion/models';
 import { AGOLService } from '../../../services/AGOL-service';
 
@@ -10,7 +10,7 @@ import { AGOLService } from '../../../services/AGOL-service';
 
 })
 export class AreaRestrictionsDetailsPanel implements OnInit {
-  @Input() public readonly formGroup: FormGroup
+  @Input() public readonly formGroup: UntypedFormGroup
   @Input() public incident
 
   areaRestrictions : AreaRestrictionsOption[] = []

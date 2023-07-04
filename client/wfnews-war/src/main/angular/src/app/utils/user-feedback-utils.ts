@@ -1,4 +1,4 @@
-import { MatSnackBarConfig } from "@angular/material/snack-bar";
+import { MatLegacySnackBarConfig as MatSnackBarConfig } from "@angular/material/legacy-snack-bar";
 import { WF_SNACKBAR_TYPES } from ".";
 
 export interface ErrorHandlingInstructions {

@@ -2,6 +2,7 @@
 @import 'material';
 @import 'variables';
 @import 'base';
+@import 'fab';
 @import 'component/landing-page';
 @import 'component/list';
 @import 'component/message-dialog';
@@ -12,7 +13,7 @@
 @import 'component/sort';
 @import 'component/unauthorized-page';
 @import 'smk';
-@import '~lightgallery/scss/lightgallery';
+@import 'lightgallery/scss/lightgallery';
 
 
 .snackbar-error{

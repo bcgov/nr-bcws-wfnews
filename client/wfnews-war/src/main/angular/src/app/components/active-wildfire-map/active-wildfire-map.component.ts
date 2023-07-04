@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
 import { AGOLService } from '../../services/AGOL-service';
@@ -55,13 +55,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   zone: NgZone;
 
   placeData: PlaceData;
-  searchByLocationControl = new FormControl();
+  searchByLocationControl = new UntypedFormControl();
   filteredOptions: any[];
   SMK: any;
   leafletInstance: any;
   searchLocationsLayerGroup: any;
   markers: any[];
   url;
+  sortedAddressList: string[];
 
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
@@ -91,21 +92,18 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2) {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
-
         this.placeData.searchAddresses(val).then(function (results) {
           if (results) {
             results.forEach((result) => {
-              let address = self.getFullAddress(result);
-              result.address = address.trim();
-              self.highlight(result);
+              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
             });
-
-            self.filteredOptions = results;
+            self.filteredOptions = self.sortedAddressList;
           }
         });
       }
     });
   }
+
 
   ngAfterViewInit() {
     this.locationOptions.changes.subscribe(() => {
@@ -282,7 +280,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url, {
       action: 'location_search',
       text: selectedOption.address
-  })
+    })
     const self = this;
     self.searchLayerGroup.clearLayers();
     let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
@@ -479,11 +477,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
   }
 
-  openLink(link:string) {
+  openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
     }
-    else if  (link === 'Privacy') {
+    else if (link === 'Privacy') {
       window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
     }
     else if (link === 'Copyright') {

@@ -19,6 +19,10 @@ RUN apt-get update &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
   chown -h tomcat:0 ${CATALINA_HOME}
 
+VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work
+
+RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work 
+
 # run as tomcat user
 USER tomcat
 

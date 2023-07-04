@@ -1,8 +1,8 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output} from '@angular/core';
 import * as moment from 'moment';
 import { DefaultService as ExternalUriService } from '@wf1/incidents-rest-api';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { EditVideoDialogComponent } from '../edit-video-dialog/edit-video-dialog.component';
 import { convertToYoutubeId } from '../../../../utils';
 
