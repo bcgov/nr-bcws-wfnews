@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.RoFFormMapper">
+
+	<resultMap id="RoFFormMap" type="ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFFormDto">
+		
+		<id 	  property="reportOfFireCacheGuid"    column="REPORT_OF_FIRE_CACHE_GUID" 	    javaType="java.lang.String" 	      jdbcType="VARCHAR" />
+		<result property="reportOfFire"     		    column="REPORT_OF_FIRE" 			          javaType="java.lang.String"       	jdbcType="VARCHAR" />
+		<result property="submittedTimestamp"   		column="SUBMITTED_TIMESTAMP" 			      javaType="java.time.LocalDateTime" 	jdbcType="TIMESTAMP" />
+
+	</resultMap>
+	
+	<insert id="insert">
+		
+		INSERT INTO report_of_fire_cache  
+			( REPORT_OF_FIRE_CACHE_GUID,
+				REPORT_OF_FIRE,
+				SUBMITTED_TIMESTAMP)
+		VALUES
+			  (#{dto.reportOfFireCacheGuid},
+			   #{dto.reportOfFire, 		    javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.submittedTimestamp, 		javaType=java.time.LocalDateTime, jdbcType=TIMESTAMP, mode=IN})
+	</insert> 
+
+  <sql id="selectColumns">
+		SELECT rof.REPORT_OF_FIRE_CACHE_GUID,
+           rof.REPORT_OF_FIRE,
+           rof.SUBMITTED_TIMESTAMP
+	</sql>
+
+  <sql id="selectJoins">
+		FROM report_of_fire_cache rof
+	</sql>
+
+  <select id="select" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.SUBMITTED_TIMESTAMP BETWEEN NOW() - INTERVAL '48 HOURS' AND NOW() FOR UPDATE SKIP LOCKED
+	</select>
+
+  <select id="fetch" resultMap="RoFFormMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.REPORT_OF_FIRE_CACHE_GUID = #{reportOfFireCacheGuid}
+	</select>
+
+  <delete id="delete">
+		DELETE FROM report_of_fire_cache WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
+	</delete>
+
+  <update id="update">
+		UPDATE report_of_fire_cache
+		   SET REPORT_OF_FIRE = #{dto.reportOfFire, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		 WHERE REPORT_OF_FIRE_CACHE_GUID 	= #{reportOfFireCacheGuid}
+	</update> 
+</mapper>

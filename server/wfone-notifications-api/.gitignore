@@ -1,0 +1,25 @@
+# Eclipse 
+.project
+.classpath
+.settings/
+.metadata/
+.externalToolBuilders/
+env.bat
+env.bat - Shortcut.lnk
+nondeliverable/
+replace.bat
+
+RemoteSystemsTempFiles/
+
+# MAC Files
+.DS_Store
+
+# Other
+target/
+nrs-as-api-rest-endpoints/logs/
+nrs-as-api-rest-client/stub_data.xml
+cmsg-messaging-api-rest-client/cmsg-xml-data.xml
+*.versionsBackup
+wfhr-payroll-api-rest-endpoints/derby.log
+.idea/
+.pipeline/node_modules
