@@ -59,26 +59,23 @@
       </div>
     </div>
     <div *ngIf="isMobileView()">
-      <div class="label-grid">
-        <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
-        <div class="mobile-label"> &bullet; </div>
-        <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
-
-        <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
-        <div class="mobile-label"> &bullet; </div>
-        <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
-          incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
-      </div>
+        
+      <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
+      <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
+      <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
+      <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
+        incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
 
       <div class="header-content">
         <div class="item">
-          <button mat-button class="mobile-button">
+          <button mat-button class="mobile-button fixed-width">
             <span class="material-icons-outlined">notifications_active</span>
             Notifications On
           </button>
         </div>
         <div class="item">
-          <button mat-button class="mobile-button" (click)="openContactUsWindow()">
+          <button mat-button class="mobile-button fixed-width" (click)="openContactUsWindow()">
+            <mat-icon svgIcon="contact-us"></mat-icon>
             Contact Us
           </button>
         </div>

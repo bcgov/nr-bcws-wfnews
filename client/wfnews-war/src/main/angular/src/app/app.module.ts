@@ -6,7 +6,8 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyDialogRef, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MAT_DIALOG_DATA, MatDialogModule as MatMdcDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
@@ -128,9 +129,17 @@ import { SummaryPanel } from './components/admin-incident-form/summary-panel/sum
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { IncidentInfoPanelMobileComponent } from './components/public-incident-page/incident-info-panel-mobile/incident-info-panel-mobile.component';
 import { ContactUsDialogComponent } from './components/admin-incident-form/contact-us-dialog/contact-us-dialog.component';
+import { IncidentGalleryPanelMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel-mobile/incident-gallery-panel-mobile.component';
+import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
+import { IncidentGalleryImagesMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-images-mobile/incident-gallery-images-mobile.component';
+import { IncidentGalleryVideosMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-videos-mobile/incident-gallery-videos-mobile.component';
+
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
+import { VideoPanelComponent } from './components/public-incident-page/incident-gallery-panel/video-panel/video-panel.component';
+import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
+import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -205,7 +214,14 @@ export const DATE_FORMATS = {
         IncidentOverviewPanelMobileComponent,
         IncidentMapsPanelMobileComponent,
         ContactUsDialogComponent,
-        ScrollToTopComponent
+        IncidentGalleryPanelMobileComponent,
+        IncidentGalleryAllMediaMobileComponent,
+        IncidentGalleryImagesMobileComponent,
+        IncidentGalleryVideosMobileComponent,
+        VideoPanelComponent,
+        ImagePanelComponent,
+        ScrollToTopComponent,
+        AlertOrderBannerComponent
     ],
     imports: [
         MatSortModule,
@@ -224,6 +240,7 @@ export const DATE_FORMATS = {
         ROUTING,
         MatButtonModule,
         MatDialogModule,
+        MatMdcDialogModule,
         MatDividerModule,
         MatIconModule,
         MatListModule,
@@ -331,6 +348,8 @@ export const DATE_FORMATS = {
             useClass: WfnewsInterceptor,
             multi: true
         },
+        { provide: MAT_DIALOG_DATA, useValue: {} },
+        { provide: MatLegacyDialogRef, useValue: {} },
         WFMapService,
         MapConfigService,
         CommonUtilityService,
