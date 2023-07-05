@@ -1,0 +1,228 @@
+:host {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
+:host ::ng-deep .mat-tab-label {
+  color: #003366 !important;
+  font-weight: 400;
+  font-size: 1rem;
+}
+
+.learn-more-button {
+  padding: 8px;
+  border: 1px solid #1a5a96;
+  border-radius: 5px;
+  color: white;
+  background-color: #1a5a96;
+  font-size: 14px;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+/*::ng-deep .wildfires-tabs {
+  .mat-tab-labels {
+      padding-bottom: 5px;
+  }
+  .mat-tab-header {
+   border-bottom: none;
+  }
+  .mat-tab-label.mat-tab-label-active {
+      border-radius: 40px;
+      background-color:#1a5a96;
+      color:white !important;
+      opacity: 1;
+      font-weight: 700;
+  }
+  .mat-tab-label {
+      opacity: 1;
+      color: #1a5a96;
+      height: 36px;
+      min-width: 100px;
+      font-size: 15px;
+      border-style: solid;
+      border-radius: 40px;
+      border-width: 1px;
+      margin-right: 10px;
+  }
+  .mat-ink-bar{
+      background-color: white !important
+  }
+}*/
+/* Keeping in case we want the button style again */
+
+mat-tab-group {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+}
+
+.container {
+  height: auto;
+  overflow: hidden;
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  padding: 40px;
+  margin: auto;
+  background-color: white;
+  max-width: 1300px;
+  h2 {
+    font-size: 24px;
+    font-weight: normal;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    color: #1c5a97;
+    text-align: center;
+    padding-top: 80px;
+  }
+}
+
+.header-row {
+  display: flex;
+  height: 75px;
+  .title {
+    padding:10px;
+    margin-left: 10px;
+    box-sizing: border-box;
+    min-width: 363px;
+    h1 {
+        font-size: 24px;
+        font-weight: normal;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+  }
+}
+
+.stats-container {
+  padding: 10px;
+}
+
+.summary-container {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.summary-container> * {
+  flex: 1 1 21vw;
+  margin: 8px;
+}
+
+.fire-date-box {
+  border-top: 1px solid #e9eff5;
+  border-bottom: 1px solid #e9eff5;
+  background: white;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  margin-left: 8px;
+  margin-right: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #1c5a97;
+}
+
+.link {
+  color: #1c5a97;
+}
+
+.resource-panel {
+  border: 1px solid #e9eff5;
+  border-radius: 3px;
+  background: white;
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  margin-bottom: 40px;
+  margin-top: 40px;
+  width: 300px;
+  .title {
+    color: black;
+    background: #e9eff5;
+    font-size: 16px;
+    padding: 10px;
+    text-transform: capitalize;
+  }
+  .summary-data {
+    padding: 10px;
+    color: #003366;
+    .summary-data-row {
+      display: flex;
+      flex-direction: row;
+    }
+    .summary-data-cell {
+      margin-right: auto;
+      width: 100px;
+    }
+    .summary-data-label {
+      width: 100%;
+    }
+  }
+}
+
+.paragraph-format {
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.fire-centre-table {
+  display: flex;
+  flex-direction: column;
+  font-size: 16px;
+  padding: 10px;
+  .row {
+    display: flex;
+    flex-direction: row;
+    padding: 10px
+  }
+  .row:nth-child(2n+2) {
+    background: #f2f2f2;
+  }
+  .cell {
+    margin-right: auto;
+    width: 110px;
+  }
+  .value-cell {
+    width: 200px;
+    max-width: 18vw;
+    min-width: 100px;
+    text-align: center;
+  }
+}
+
+.info-panel {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  border-bottom: 1px solid #e9eff5;
+  padding-bottom: 80px;
+  .info-text {
+    padding: 5px;
+    width: 45%;
+  }
+  .info-chart {
+    padding: 5px;
+    width: 45%;
+    height: 500px;
+  }
+}
+.info-panel> * {
+  flex: 1 1 315px;
+}
+
+:host ::ng-deep .mat-ink-bar {
+  background-color: #003366 !important;
+}
+
+:host ::ng-deep .mat-tab-label-active {
+  font-weight: 700 !important
+}
+
+
+@media (min-width: 768px)and (max-width: 1023px) {
+  .stages-of-control{
+    .info-text {
+      width: 100%;
+    }
+    .info-chart {
+      width: 100%;
+      padding-top: 15px;
+      order: 1;
+    }
+  }
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>968898823379-4b37e7o6ssedest3s8georfs2qpbm85u.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.968898823379-4b37e7o6ssedest3s8georfs2qpbm85u</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDNHZxG2TvxK_LpMn4eZt71dKHteqWC8MY</string>
+	<key>GCM_SENDER_ID</key>
+	<string>968898823379</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ca.bc.gov.WildfireInformation</string>
+	<key>PROJECT_ID</key>
+	<string>wildlife-push-test</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wildlife-push-test.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:968898823379:ios:608a8642ebe07529dbc026</string>
+	<key>DATABASE_URL</key>
+	<string>https://wildlife-push-test.firebaseio.com</string>
+</dict>
+</plist>

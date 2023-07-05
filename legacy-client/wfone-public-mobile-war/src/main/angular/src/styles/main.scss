@@ -1,0 +1,209 @@
+@import 'material';
+@import 'variables';
+@import 'base';
+@import 'responsive';
+@import 'component/landing-page';
+@import 'component/list';
+@import 'component/side-panel';
+@import 'component/search-bar';
+@import 'component/filters';
+@import 'component/sort';
+@import 'component/unauthorized-page';
+
+
+#core-interface-container {
+  font-family: $font-family-main;
+  padding-top: env(safe-area-inset-top);
+  //padding-top: 1rem;
+  .mat-paginator-container {
+    justify-content: center;
+    font-size: $font-size;
+  }
+
+}
+
+.owl-dt-popup-container{
+  font-family: $font-family-main;
+}
+
+.mat-snack-bar-container{
+  position: relative;
+  //top: 60px;
+}
+figure.mat-figure {
+    justify-content: left !important;
+}
+.snackbar-error {
+  background-color: rgba(246, 189, 189, 1);
+  color: $colour-black;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 0.8rem;
+  }
+}
+
+.snackbar-warning {
+  background-color: rgba(244, 230, 195, 1);
+  color: $colour-black;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 0.8rem;
+  }
+}
+
+.snackbar-success {
+  background-color: rgba(149, 206, 170, 1);
+  color: $colour-black;
+  .mat-simple-snackbar{
+    font-family: $font-family-main;
+    font-size: 0.8rem;
+  }
+}
+
+.full-snack-bar-online{
+  width: 100%;
+  background-color: $colour-green;
+  color: $colour-black;
+  max-width: 80vw !important;
+  word-break: break-word;
+}
+
+.full-snack-bar-offline{
+  background-color: $colour-errors;
+  color: $colour-white;
+  font-family: $font-family-main;
+  font-size: 0.8rem;
+  max-width: 80vw !important;
+  word-break: break-word;
+}
+
+.snack-bar-warning{
+  background-color: $colour-orange;
+  color: $colour-black;
+  font-family: $font-family-main;
+  font-size: 0.8rem;
+  max-width: 80vw !important;
+  word-break: break-word;
+}
+
+.snack-bar-photo-warning{
+  background-color:#6e6e6e;
+  height:auto;
+  min-height: 62px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+
+  .snack-bar-content{
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding:2px;
+    .icon-panel{
+      height: 100%;
+      align-items: center;
+      color: #fbfbfb;
+      width: 24px;
+      height: 24px;
+      padding-right: 24px;
+    }
+
+    .message-panel{
+      background-color: rgba(255, 255, 255, 0);
+      box-sizing: border-box;
+      font-family: "HelveticaNeue", "Helvetica Neue", sans-serif;
+      color: #fbfbfb;
+      text-align: left;
+      line-height: 24px;;
+    }
+  }
+}
+
+//.mat-tab-body{
+//  position: relative !important;
+//  overflow-x: hidden !important;
+//  overflow-y: auto !important;
+//  z-index: 1 !important;
+//  flex-grow: 1 !important;
+//}
+
+@media print {
+
+  mat-table,
+  tr,
+  mat-sidenav-content{
+    width: 750px !important;
+  }
+  mat-table{
+    display: block;
+  }
+
+  .mat-table .mat-cell,
+  .mat-table .mat-header-cell{
+    padding: 0 !important;
+  }
+
+  .nav-menu-button fa-icon,
+  mat-tab-header,
+  .review-item-header .header-icons,
+  td.select-cell,
+  .bottom-toolbar,
+  wf1-search-bar,
+  wf1-filters,
+  wf1-public-application-header,
+  wf1-application-header{
+    display: none !important;
+  }
+
+  #core-interface-container .mat-header-cell,
+  .review-item .mat-expansion-panel-content .fixed-table-layout td,
+  mat-expansion-panel .review-item-header .review-item-status,
+  mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description{
+    font-size: 10px !important;
+  }
+
+  .cdk-overlay-pane{
+    display: none;
+  }
+
+  //mat-expansion-panel{
+  //  page-break-inside: avoid;
+  //}
+}
+
+button.wildfire-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-color: rgba(0, 0, 0, 0.12);
+    color: #37474f;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    min-height: 30px;
+    min-width: 70px;
+    padding: 0 10px;
+    cursor: pointer;
+    position: relative;
+
+    &:not([disabled]):hover {
+        border: 2px solid black;
+    }
+
+    &[disabled], &[disabled]:hover {
+        background-color: transparent;
+        color: #666;
+        cursor: default;
+    }
+
+    &.primary {
+        background-color: #1A5A96;
+        color: white;
+    }
+}
+
+.smk-feature-list .smk-layer .smk-feature {
+    text-decoration: underline;
+    color: #1a5a96;
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}

@@ -1,0 +1,74 @@
+{
+  "_from": "cordova-plugin-network-information@>=1.0.0",
+  "_id": "cordova-plugin-network-information@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha1-lZXH0qHHqJugGR/64T88a4R4pnA=",
+  "_location": "/cordova-plugin-network-information",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-network-information@>=1.0.0",
+    "name": "cordova-plugin-network-information",
+    "escapedName": "cordova-plugin-network-information",
+    "rawSpec": ">=1.0.0",
+    "saveSpec": null,
+    "fetchSpec": ">=1.0.0"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://apps.vividsolutions.com/artifactory/api/npm/npm-local/cordova-plugin-network-information/-/cordova-plugin-network-information-1.0.0.tgz",
+  "_shasum": "9595c7d2a1c7a89ba0191ffae13f3c6b8478a670",
+  "_spec": "cordova-plugin-network-information@>=1.0.0",
+  "_where": "/Users/argus/h3/git/wf/wfone-pwa-publish-android-vivid-qa/WFONE/Polyfills/cordova",
+  "author": {
+    "name": "Apache Software Foundation"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-network-information",
+    "platforms": [
+      "firefoxos",
+      "android",
+      "amazon-fireos",
+      "ubuntu",
+      "ios",
+      "blackberry10",
+      "wp7",
+      "wp8",
+      "windows8",
+      "windows",
+      "tizen",
+      "browser"
+    ]
+  },
+  "deprecated": false,
+  "description": "Cordova Network Information Plugin",
+  "keywords": [
+    "cordova",
+    "network",
+    "information",
+    "ecosystem:cordova",
+    "cordova-firefoxos",
+    "cordova-android",
+    "cordova-amazon-fireos",
+    "cordova-ubuntu",
+    "cordova-ios",
+    "cordova-blackberry10",
+    "cordova-wp7",
+    "cordova-wp8",
+    "cordova-windows8",
+    "cordova-windows",
+    "cordova-tizen",
+    "cordova-browser"
+  ],
+  "license": "Apache 2.0",
+  "name": "cordova-plugin-network-information",
+  "repository": {
+    "type": "git",
+    "url": "https://git-wip-us.apache.org/repos/asf/cordova-plugin-network-information.git"
+  },
+  "version": "1.0.0"
+}

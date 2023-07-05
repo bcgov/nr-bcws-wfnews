@@ -1,0 +1,32 @@
+[
+    {
+        "id": 140,
+        "title": "Version 1.4 Available",
+        "new": false
+    },
+    {
+        "id": 150,
+        "title": "Version 1.5 Available",
+        "new": false
+    },
+    {
+        "id": 151,
+        "title": "Version 1.5.1 Available",
+        "new": false
+    },
+    {
+        "id": 161,
+        "title": "Version 1.6 Available",
+        "new": false
+    },
+    {
+        "id": 170,
+        "title": "Version 1.7 Available",
+        "current": false
+    },
+    {
+        "id": 171,
+        "title": "Version 1.7.1 Available",
+        "current": true
+    }
+]

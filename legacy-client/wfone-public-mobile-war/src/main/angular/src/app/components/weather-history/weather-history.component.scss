@@ -1,0 +1,75 @@
+.near-me-loader {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    mat-spinner {
+        margin: auto;
+    }
+
+    .loading-message {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.weather-history-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+
+    .station {
+        width: calc( 100% - 10px );
+        padding: 5px;
+        font-size: 13px;
+        border-bottom: 1px solid #a9a9a9;
+
+        .name {
+            font-weight: bold;
+        }
+    }
+
+    .weather-history-chart {
+        flex-grow: 1;
+    }
+
+    .footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+
+        display: flex;
+        align-items: flex-end;
+
+        .left {
+            flex-grow: 1;
+            flex-basis: 50%;
+            align-self: flex-end;
+            line-height: 0;
+        }
+
+        .center {
+            flex-shrink: 1;
+
+            ::ng-deep &.mat-form-field {
+                height: unset !important;
+                width: unset !important;
+
+                .mat-form-field-wrapper {
+                    padding: 0;
+                }
+            }
+        }
+
+        .right {
+            flex-grow: 1;
+            flex-basis: 50%;           
+            align-self: flex-end;
+            text-align: right; 
+            line-height: 0;
+        }
+    }
+}

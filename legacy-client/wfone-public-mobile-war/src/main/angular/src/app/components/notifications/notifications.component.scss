@@ -1,0 +1,340 @@
+@import "../../../styles/variables";
+
+// ::ng-deep .mat-slide-toggle[_ng-notification-toggle].mat-slide-toggle-thumb-container{
+//     top:2px !important;
+// }
+
+// ::ng-deep .mat-slide-toggle[_ng-notification-toggle].mat-slide-toggle-bar{
+//     width:47px !important;
+//     height: 25px !important;
+//     border-radius: 20px !important;
+// }
+
+// ::ng-deep .mat-slide-toggle[_ng-notification-toggle].mat-checked:not(.mat-disabled) .mat-slide-toggle-bar {
+//     background-color: #6AA84F !important;
+// }
+
+// ::ng-deep .mat-slide-toggle[_ng-notification-toggle].mat-primary.mat-checked .mat-slide-toggle-thumb{
+//     background-color: white;
+//     transform: translate(50%, 0%);
+// }
+
+// ::ng-deep .mat-list-base .mat-list-item .mat-list-item-content{
+//     justify-content: space-between;
+// }
+
+::ng-deep .mat-list-item[_ng-matlist-rav] {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    margin-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+::ng-deep .mat-list-base .mat-list-item[_ng-matlist-rav] .mat-list-item-content,
+.mat-list-base .mat-list-option .mat-list-item-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+.color-sidenav-icon[_ng-notify-icon] {
+    color: $colour-dark-grey;
+    width: 35px;
+    font-size: 30px;
+}
+
+::ng-deep .smk-map-frame[_ng-smk-map-notify] {
+    .smk-viewer {
+        height: 125px;
+        position: relative;
+        padding-bottom: 20px;
+        padding-top: 20px;
+    }
+    .smk-overlay {
+        //bottom: calc(var( --overlay-padding) + env(safe-area-inset-top)) !important;
+        display: none;
+        .smk-toolbar {
+            //left:3.25rem;
+            display: none;
+        }
+
+        .smk-sidepanel {
+            //left:3.25rem;
+        }
+        //top: 3.25rem !important;
+
+        .smk-map-frame .smk-overlay .smk-status {
+            display: none;
+        }
+        .smk-shortcut-menu {
+            display: none;
+        }
+    }
+}
+
+::ng-deep .smk-layers-panel .smk-folder .smk-item .smk-layer-title {
+    color: $colour-black;
+}
+.dashboard {
+    padding: 2rem 0 0 0;
+    margin: 0 auto;
+    display: -ms-grid;
+    display: grid;
+    justify-items: center;
+
+    @media screen and (min-width: 770px) {
+        -ms-grid-columns: 1fr 1fr 1fr;
+        grid-template-columns: repeat(3, 1fr);
+        max-width: 40rem;
+
+        .mydiary-card {
+            -ms-grid-row: 1;
+            -ms-grid-column: 1;
+        }
+
+        .approvals-card {
+            -ms-grid-row: 1;
+            -ms-grid-column: 2;
+        }
+
+        .profile-card {
+            -ms-grid-row: 1;
+            -ms-grid-column: 3;
+        }
+    }
+
+    @media screen and (max-width: 769px) {
+        -ms-grid-rows: 1fr 1fr 1fr;
+        width: 12rem;
+
+        .mydiary-card {
+            -ms-grid-row: 1;
+            -ms-grid-column: 1;
+        }
+
+        .approvals-card {
+            -ms-grid-row: 2;
+            -ms-grid-column: 1;
+        }
+
+        .profile-card {
+            -ms-grid-row: 3;
+            -ms-grid-column: 1;
+        }
+    }
+
+    mat-card.dashboard-action {
+        margin: 1rem auto 1.2rem auto;
+        min-height: 7.2rem;
+        height: 7.2rem;
+        max-width: 10rem;
+        border-radius: 1rem;
+
+        .dashboard-action-title {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        mat-card-header {
+            min-height: 5.5rem;
+            height: 5.5rem;
+            &::ng-deep .mat-card-header-text {
+                margin: 0;
+                bottom: 0;
+            }
+        }
+
+        .mat-button {
+            &.profile-button {
+                background: #627d8e;
+            }
+
+            &.mydiary-button {
+                background: #f9ca81;
+            }
+
+            &.approvals-button {
+                background: #446043;
+            }
+
+            width: 100%;
+            min-height: 7rem;
+            height: 7rem;
+            top: -2rem;
+            font-size: 4rem;
+            background: darkgray;
+            border-radius: 1rem;
+        }
+    }
+}
+
+.addButton {
+    text-align: center;
+    width: 120px;
+    height: 30px;
+    border-radius: 17px;
+    background-color: #1a5a96;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+::ng-deep
+    .smk-map-frame[_ng-smk-map-notify]
+    .smk-viewer
+    .leaflet-bottom.leaflet-right
+    .leaflet-control.leaflet-control-attribution {
+    display: none;
+}
+
+::ng-deep .smk-map-frame[_ng-smk-map-notify] .smk-viewer .leaflet-top.leaflet-right .leaflet-control {
+    display: none;
+}
+
+::ng-deep .settingsTitleEnabled {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+::ng-deep .settingsTitleDisabled {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    filter: contrast(0.1);
+}
+
+::ng-deep .addGray {
+    filter: grayscale(1);
+}
+
+//TODO use css and replace in html.
+::ng-deep .notificationBlock {
+    display: flex;
+    justify-content: space-between;
+
+    .blockRows {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .blockHeader {
+        font-size: initial;
+        font-weight: bold;
+    }
+    .blockDesc {
+        color: #657786;
+        font-size: smaller;
+    }
+
+    .blockRowsPadded {
+        display: flex;
+        flex-direction: column;
+        padding: 12px !important;
+    }
+
+    .nearMeTitle {
+        align-self: right;
+        padding: 12px !important;
+        padding-top: 20px !important;
+    }
+}
+
+::ng-deep .nearMeLandmarkBlock {
+    margin-top: 5px;
+    padding-top: 5px;
+    display: flex;
+    flex-direction: column;
+
+    .infoBar {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .infoBlock {
+        display: flex;
+        flex-direction: column;
+
+        .infoName {
+            font-size: initial;
+            font-weight: bold;
+        }
+
+        .infoCoords {
+            color: #657786;
+            font-size: smaller;
+        }
+        .infoRadius {
+            font-size: small;
+        }
+        .infoTypes {
+            font-size: small;
+            color: #657786;
+        }
+    }
+}
+
+::ng-deep .buttonBlock {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+
+    .editButton {
+        font-size: 15px;
+        padding-right: 20px;
+        padding: 8px;
+        color: blue;
+        padding-left: 15px;
+    }
+
+    .deleteButton {
+        font-size: 15px;
+        padding: 8px;
+        color: blue;
+    }
+}
+
+::ng-deep .emptyNoticationContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+
+    .emptyNotificationBlock {
+        margin-top: 5px;
+        padding-top: 5px;
+        display: flex;
+        flex-direction: column;
+
+        .emptyBlockText {
+            color: #657786;
+            font-size: smaller;
+        }
+    }
+}
+
+::ng-deep .addLocationButton {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    padding: 10px;
+}
+
+.map-container {
+    height: 300px;
+    position: relative;
+
+    .mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1;
+    }
+
+    wf-map-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}

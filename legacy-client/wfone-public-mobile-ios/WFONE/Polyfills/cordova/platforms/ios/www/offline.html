@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+
+<html style="background-color: #033660">
+    <head>
+        <!--
+         Customize this policy to fit your own app's needs. For more guidance, see:
+         https://github.com/apache/cordova-plugin-whitelist/blob/master/README.md#content-security-policy
+         Some notes:
+         * gap: is required only on iOS (when using UIWebView) and is needed for JS->native communication
+         * https://ssl.gstatic.com is required only on Android and is needed for TalkBack to function properly
+         * Disables use of inline scripts in order to mitigate risk of XSS vulnerabilities. To change this:
+         * Enable inline JS: add 'unsafe-inline' to default-src
+         -->
+        <meta http-equiv="Content-Security-Policy" content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
+        <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
+        <title>Connectivity issue</title>
+    </head>
+    <body style="background-color: #033660">
+        <div style="background-color: #033660; margin-top: 60% ">
+            <p style=" text-transform: none; color: white; text-align: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: large">
+            Could not detect an internet connection <br/><br/> Please try again when internet connectivity has been re-established.
+            </p>
+            
+            <!--            <p style=" text-transform: none; color: white; text-align: center; font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: large">-->
+<!--                Could not detect an internet connection <br/><br/> Press the button to reload the app-->
+<!--            </p>-->
+<!--            <div style="display:flex; justify-content: center">-->
+<!--                <button type="button" onclick="clickHandler()">Reload</button>-->
+<!--            </div>-->
+        </div>
+        <div style="position: fixed; bottom:10px; background-color: #033660; width: 100%; text-align: center;">
+            <img style="max-width: 90%; max-height: 90%" src="img/bc-wildfire-Logo.png">
+        </div>
+        <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+        <script>
+            
+            document.addEventListener("DOMContentLoaded", function(event) {
+                $.get('manifest.json', function(json) {
+                    //console.log('json: ', json);
+                    window.startUrl = JSON.parse(json).start_url;
+                });
+            });
+
+            function clickHandler() {
+                // console.log('window.location: ' + window.location);
+                console.log('starturl: ' + window.startUrl);
+                window.location = window.startUrl;
+            }
+        </script>
+    </body>
+</html>

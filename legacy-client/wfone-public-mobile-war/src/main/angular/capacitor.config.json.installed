@@ -1,0 +1,25 @@
+{
+  "appId": "ca.bc.gov.WildfireInformation",
+  "appName": "BC Wildfire",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist/wfone-public-mobile",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0,
+      "launchAutoHide": false,
+      "backgroundColor": "#003365",
+      "showSpinner": false
+    }
+  },
+  "android": {
+    "backgroundColor": "#003365",
+    "allowMixedContent": true,
+    "webContentsDebuggingEnabled": true
+  },
+  "ios": {
+    "backgroundColor": "#003365",
+    "cordovaLinkerFlags": ["-ObjC"]
+  }
+}
+
