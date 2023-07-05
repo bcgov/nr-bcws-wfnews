@@ -193,6 +193,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
+              
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
               Object.entries(SizeTypeOptionDisclaimer).forEach(([index, disclaimer]) => {
                 if (disclaimer === response.incidentSizeDetail) {
@@ -200,12 +201,16 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 }
               });
 
+              self.incident.cause = 0;
               self.incident.causeComments = response.incidentCauseDetail;
               Object.entries(CauseOptionDisclaimer).forEach(([index, disclaimer]) => {
                 if (disclaimer === response.incidentCauseDetail) {
                   self.incident.cause = Number.parseInt(index, 10);
                 }
               });
+              if (!response.incidentCauseDetail) {
+                self.incident.causeComments = CauseOptionDisclaimer[0];
+              }
 
               self.incident.publishedStatus = response.newsPublicationStatusCode;
               self.incident.responseComments = response.resourceDetail;
