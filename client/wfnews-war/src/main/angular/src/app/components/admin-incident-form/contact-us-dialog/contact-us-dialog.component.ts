@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatLegacyDialogRef } from '@angular/material/legacy-dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 
 export class DialogData {
@@ -17,8 +17,8 @@ export class ContactUsDialogComponent {
   public file: File;
 
     constructor (
-      public dialogRef: MatLegacyDialogRef<ContactUsDialogComponent>,
-      @Inject(MAT_DIALOG_DATA) public data: any
+      public dialogRef: MatDialogRef<ContactUsDialogComponent>,
+      @Inject(MAT_DIALOG_DATA) public data
       ) {}
 
       callFireCentre(phoneNumber:string) {
