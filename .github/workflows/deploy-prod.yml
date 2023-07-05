@@ -25,7 +25,7 @@ jobs:
 
       - uses: GuillaumeFalourd/assert-command-line-output@v2.1
         with:
-          command_line: cat client/pom.xml && cat server/pom.xml
+          command_line: cat client/pom.xml && cat server/wfnews-api/pom.xml
           contains: SNAPSHOT
           expected_result: FAILED
 
