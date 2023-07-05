@@ -184,14 +184,10 @@ loadMoreVideos(e: HTMLElement) {
           itemToBeSpliced = item
           index = collection.indexOf(item)
        }
-    } console.log("itemToBeSpliced = " + itemToBeSpliced)
-    console.log("indiex = " + index)
-    if (itemToBeSpliced !== null && index !== null) {
-      console.log(collection);
-      console.log('splicing')
+    }
+    if (itemToBeSpliced !== null && index !== null) { 
       collection.unshift(itemToBeSpliced)
       delete collection[index + 1]
-      console.log(collection);
     } 
     return collection;
   } 
