@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.RoFImageMapper">
+
+	<resultMap id="RoFImageMap" type="ca.bc.gov.nrs.wfone.persistence.v1.dto.RoFImageDto">
+		
+		<id 	property="reportOfFireAttachmentCacheGuid"    column="REPORT_OF_FIRE_ATTACHMENT_CACHE_GUID" 	    javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="reportOfFireCacheGuid"    column="REPORT_OF_FIRE_CACHE_GUID" 	    javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="attachment" 		column="ATTACHMENT" 			javaType="Object" 	jdbcType="BLOB" />
+
+	</resultMap>
+	
+	<insert id="insert">
+		
+		INSERT INTO report_of_fire_attachment_cache  
+			( 	REPORT_OF_FIRE_ATTACHMENT_CACHE_GUID,
+				REPORT_OF_FIRE_CACHE_GUID,
+				ATTACHMENT)
+		VALUES
+			  (#{dto.reportOfFireAttachmentCacheGuid},
+			   #{dto.reportOfFireCacheGuid, 		    javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.attachment, 		javaType=_byte[], jdbcType=BLOB, mode=IN})
+	</insert>
+
+  <sql id="selectColumns">
+		SELECT rof.REPORT_OF_FIRE_ATTACHMENT_CACHE_GUID,
+           rof.REPORT_OF_FIRE_CACHE_GUID,
+           rof.ATTACHMENT
+	</sql>
+
+  <sql id="selectJoins">
+		FROM report_of_fire_attachment_cache rof
+	</sql>
+
+  <select id="select" resultMap="RoFImageMap">
+		<include refid="selectColumns"/>
+    <include refid="selectJoins"/>
+    WHERE rof.REPORT_OF_FIRE_CACHE_GUID = #{reportOfFireCacheGuid}
+	</select>
+
+  <delete id="delete">
+		DELETE FROM report_of_fire_attachment_cache WHERE REPORT_OF_FIRE_ATTACHMENT_CACHE_GUID 	= #{reportOfFireAttachmentCacheGuid}
+	</delete>
+</mapper>
