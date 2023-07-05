@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.NotificationMapper">
+
+	<resultMap id="NotificationMap" type="ca.bc.gov.nrs.wfone.persistence.v1.dto.NotificationDto">
+		
+		<id 	property="notificationGuid"    		column="NOTIFICATION_GUID" 			javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="subscriberGuid" 			column="SUBSCRIBER_GUID" 			javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="notificationName" 		column="NOTIFICATION_NAME" 			javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="notificationType" 		column="NOTIFICATION_TYPE" 			javaType="java.lang.String" 	jdbcType="VARCHAR" />
+		<result property="radius" 					column="RADIUS_KMS" 				javaType="java.lang.Double"	 	jdbcType="NUMERIC" />
+	    <result property="latitude" 				column="LATITUDE" 					javaType="java.lang.Double" 	jdbcType="NUMERIC" />
+	    <result property="longitude" 				column="LONGITUDE" 					javaType="java.lang.Double" 	jdbcType="NUMERIC" />
+	    <result property="activeIndicator" 			column="ACTIVE_IND" 				javaType="java.lang.Boolean" 	jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	<sql id="selectJoins">
+	
+		FROM NOTIFICATION N 
+	
+	</sql>
+	
+	
+	<sql id="selectColumns">
+	
+		SELECT 	N.NOTIFICATION_GUID,
+				N.SUBSCRIBER_GUID,
+				N.NOTIFICATION_NAME,
+				N.NOTIFICATION_TYPE,
+			    N.RADIUS_KMS,
+			  	N.LATITUDE,
+			  	N.LONGITUDE,
+			  	N.ACTIVE_IND
+
+	</sql>
+	
+	<!-- List<NotificationDto> select(Map<String, Object> parameters); -->
+	<select id="select" resultMap="NotificationMap">  
+
+		<include refid="selectColumns"/>
+		<include refid="selectJoins"/>
+		 WHERE N.SUBSCRIBER_GUID = #{subscriberGuid}
+
+	</select>
+
+	<select id="fetch" resultMap="NotificationMap">  
+
+		<include refid="selectColumns"/>
+		<include refid="selectJoins"/>
+		 WHERE N.NOTIFICATION_GUID = #{notificationGuid}
+
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="notificationGuid" resultType="java.lang.String" order="BEFORE"> 
+			SELECT uuid_generate_v1();
+		</selectKey>
+		
+		INSERT INTO notification  
+			( 	NOTIFICATION_GUID,
+				SUBSCRIBER_GUID,
+				NOTIFICATION_NAME,
+				NOTIFICATION_TYPE,
+				RADIUS_KMS,
+			  	LATITUDE,
+			  	LONGITUDE,
+			  	ACTIVE_IND,
+			  	REVISION_COUNT,
+			  	CREATE_USER,
+			  	CREATE_TIMESTAMP,
+			  	UPDATE_USER,
+			  	UPDATE_TIMESTAMP)
+		VALUES
+			  (#{notificationGuid},
+			   #{subscriberGuid, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.notificationName, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.notificationType, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.radius, 				javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			   #{dto.latitude, 				javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			   #{dto.longitude, 			javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			   #{dto.activeIndicator, 		javaType=java.lang.Boolean,jdbcType=VARCHAR, mode=IN},
+			   1,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp)
+		   
+	</insert> 
+
+	<update id="update">
+
+		UPDATE notification
+		   SET 	NOTIFICATION_NAME			= #{dto.notificationName, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		   		NOTIFICATION_TYPE 			= #{dto.notificationType, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		   		RADIUS_KMS					= #{dto.radius, 				javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			  	LATITUDE					= #{dto.latitude, 				javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			  	LONGITUDE					= #{dto.longitude, 				javaType=java.lang.Double, jdbcType=NUMERIC, mode=IN},
+			  	ACTIVE_IND					= #{dto.activeIndicator, 		javaType=java.lang.Boolean,jdbcType=VARCHAR, mode=IN},	
+		       	REVISION_COUNT       = REVISION_COUNT + 1,
+		       	UPDATE_USER          = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+		       	UPDATE_TIMESTAMP     = current_timestamp
+		 WHERE NOTIFICATION_GUID 	= #{notificationGuid}
+		
+	</update> 
+
+	<delete id="delete">
+
+		DELETE FROM notification WHERE NOTIFICATION_GUID 	= #{notificationGuid}
+
+	</delete> 
+	
+</mapper>
