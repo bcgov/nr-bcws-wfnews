@@ -1,20 +1,20 @@
-<div class="dialog-container">
-  <div>
-    <h1 mat-dialog-title>Contact Us 
+<div class="contact-us-container">
+  <div class="header">
+    <h1>Contact Us 
       <span class="material-icons-outlined" [mat-dialog-close]="false">clear</span> 
     </h1>
   </div>
-  <div class="dialog-content publish-dialog-content" mat-dialog-content>
+  <div class="content" >
     <div class="fire-centre">
       {{data.fireCentre}}
     </div>
-    <div class="contacts">
-      <div style="display: flex;"><span class="material-icons-outlined" style="padding-right: 10px;">email</span><span>Email Address</span></div>
-      <span>{{data.email}}</span>
+    <div class="contact-method">
+      <div class="icon-label"><span class="material-icons-outlined icon">email</span><span>Email Address</span></div>
+      <span class="value">{{data.email}}</span>
     </div>
-    <div class="contacts">
-      <div style="display: flex;"><span class="material-icons" style="padding-right: 10px;">call</span><span>Phone Number</span></div>
-      <span>{{data.phoneNumber}}</span>
+    <div class="contact-method">
+      <div class="icon-label"><span class="material-icons icon">call</span><span>Phone Number</span></div>
+      <span class="value">{{data.phoneNumber}}</span>
     </div>
 
     <div class="buttons-row">
