@@ -637,11 +637,6 @@ variable "EvacuationMonitorKey" {
   default = ""
 }
 
-variable "TwitterMonitorKey" {
-  type    = string
-  default = ""
-}
-
 variable "LambdaLayerKey" {
   type    = string
   default = ""
