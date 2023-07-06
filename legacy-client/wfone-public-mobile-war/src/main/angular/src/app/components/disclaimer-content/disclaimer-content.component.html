@@ -1,0 +1,102 @@
+<div style="font-weight: bold">Summary</div>
+<ul>
+  <li>This data may not reflect the most current situation. </li>
+
+  <li>Wildfire Perimeter location does not show damage to private land.</li>
+
+  <li>Wildfire locations provided are approximate.</li>
+
+  <li>Evacuation Orders/Alerts received from Local Government and First Nations are displayed for information purposes
+    only.</li>
+
+  <li><a href="" (click)="goToLink(prohibitionsUrl)" class="external-link">Prohibition and Restriction </a>advisories
+    apply to all public and private land.</li>
+
+  <li>More information can be found in the <a href="" (click)="goToLink(dataCatalogueUrl)" class="external-link">data
+      catalogue</a>.</li>
+
+  <li>Refer to the <strong>Full Disclaimer</strong> below for more details.</li>
+</ul>
+
+<div style="font-weight: bold">Full Disclaimer</div>
+<p>
+  The wildfire incident data described below is updated when practicable and the occurrence of individual fire updates
+  will vary. The information is intended for general purposes only and should not be relied on as accurate, because
+  fires
+  are dynamic and circumstances may change quickly.
+<strong class="red-text">This map was designed to keep people in B.C. informed about
+    the current wildfire situation. It is not intended to be
+    used as a risk assessment tool for insurance purposes.</strong></p>
+
+<p>
+  Wildfire perimeters for the current fire season, including both active fires and fires that have been declared out,
+  are
+  obtained from various sources. When data becomes available, it is refreshed from operational systems <strong class="red-text">every
+    five minutes </strong>
+  to the public map. The levels of current fire activity within the mapped fire perimeters can vary widely, so therefore
+  the data may not reflect the current fire situation. This information should only be used for reference purposes. In
+  the
+  event that the fire perimeters overlay areas where private property or infrastructure is present, the perimeters do
+  not
+  indicate what level of damage (if any) may have occurred.
+</p>
+<p>
+  The Province receives Evacuation Orders and Alerts information from local governments and First Nations when it
+  becomes
+  available. The BC Wildfire Service and GeoBC make no warranties or guarantees, either expressed or implied, as to the
+  completeness, accuracy or correctness of the data, nor accept any liability arising from any incorrect, incomplete or
+  misleading information contained therein. Emergency data may not reflect the current emergency situation, and
+  therefore
+  should only be used for reference purposes.<strong>For the latest Evacuation Orders and Alerts information, please
+    consult the appropriate local government. For further
+    information regarding the Evacuation Orders and Alerts data, please contact the individual(s) identified in the <a
+      href="" (click)="goToLink(dataCatalogueUrl)" class="external-link">data catalogue</a>.</strong>
+</p>
+<p>
+  Fire prohibitions and restrictions apply to all public and private land, unless specified otherwise (in a local
+  government bylaw, for example). Please check with local government authorities for any other restrictions before
+  lighting any fire. The "Fire Danger Rating" layer on this map is intended for general information only and should not
+  be
+  relied on as accurate for a specific location due to variability in local site and weather conditions. Information is
+  updated on a daily basis as soon as is practicable. Where discrepancies exist between this layer and the source
+  information located on the <a #backroute href="" (click)="goToLink(fireDangerRatingUrl)" class="external-link">Fire
+    Danger Rating</a> webpage, the source information shall take precedence. For regulated
+  forest operations, the danger class value must be derived from weather data representative of the site on which
+  operations are being conducted. Where discrepancies exist between the colour display on the weather maps and the
+  numerical values posted for the weather stations, the posted numerical values shall take precedence .
+</p>
+
+<p>
+  More information regarding the <a href="" (click)="goToLink('https://governmentofbc.maps.arcgis.com/apps/webappviewer/index.html?id=7c6b5180663f443ba0115114264b0620')" class="external-link">Open Fire Tracking
+    System</a> (OFTS), <a href="" (click)="goToLink(hazardAssessmentUrl)" class="external-link">Fuel Hazard Assessment
+    and Abatement</a>, <a href="" (click)="goToLink(prescribedBurningUrl)" class="external-link">Prescribed Burning</a>,
+  and <a href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prepare/weather-fire-danger/fire-weather')" class="external-link">Weather Stations</a> can be found on the
+  corresponding webpages.
+</p>
+<p>
+  Coordinates provided within the datasets are approximate (based on information provided by outside sources and
+  agencies) and are updated when practicable. The actual extent of wildfires and treatment areas may be different than
+  what is indicated by the provided coordinates.
+</p>
+
+
+<p>– &nbsp; Data Catalogue:</p>
+<p>  &nbsp; &nbsp; &nbsp; <a #backroute href="" (click)="goToLink('https://catalogue.data.gov.bc.ca/dataset/2790e3f7-6395-4230-8545-04efb5a18800')" class="external-link">- Fire Points</a></p>
+<p>  &nbsp; &nbsp; &nbsp; <a #backroute href="" (click)="goToLink('https://catalogue.data.gov.bc.ca/dataset/cdfc2d7b-c046-4bf0-90ac-4897232619e1')" class="external-link">- Fire Perimeters</a></p>
+
+<p>– &nbsp; <a #backroute href="" (click)="goToLink('https://www.drivebc.ca/')" class="external-link"> DriveBC</a></p>
+<p>– &nbsp; <a #backroute href="" (click)="goToLink('https://www.emergencyinfobc.gov.bc.ca/')" class="external-link">EmergencyInfoBC</a></p>
+<p><a #backroute href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status')" class="external-link"><mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Navigate" svgIcon="{{webNavigateIcon}}"></mat-icon>&nbsp; Wildfire Status</a></p>
+<p><a #backroute href="" (click)="goToLink('https://www.facebook.com/BCForestFireInfo/')" class="external-link"><mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Facebook" svgIcon="{{facebookIcon}}"></mat-icon>&nbsp;BC Forest Fire Info</a></p>
+<p><a #backroute href="" (click)="goToLink('https://twitter.com/BCGovFireInfo')" class="external-link"><mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Twitter" svgIcon="{{twitterIcon}}"></mat-icon>&nbsp;BCGov Fire Info</a></p>
+<p><a #backroute href="" (click)="goToLink('https://firesmartbc.ca/')" class="external-link"><img src="{{('assets/images/FireSmart.png')}}" class=iconPNG alt="Fire Smart BC">Fire SmartBC</a></p>
+<p>To report a wildfire, call <a href="tel:1-800-663-5555 "  target="_self">1-800-663-5555 </a>toll-free OR call <a href="tel:1-800-663-5555"  target="_self"> *5555</a> on most cellular networks.</p>
+<p>Please also refer to the following:</p>
+<p><a #backroute href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/home/copyright')" class="external-link">COPYRIGHT</a> |
+<a #backroute href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/home/disclaimer')" class="external-link">DISCLAIMER</a> |
+<a #backroute href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/home/privacy')" class="external-link">PRIVACY</a> |
+<a #backroute href="" (click)="goToLink('https://www2.gov.bc.ca/gov/content/home/accessible-government')" class="external-link">ACCESSIBILITY</a> 
+</p>
+
+
+

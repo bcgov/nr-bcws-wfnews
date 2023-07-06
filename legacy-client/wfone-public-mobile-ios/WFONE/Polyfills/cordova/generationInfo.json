@@ -1,0 +1,10 @@
+{
+    "generationTool": "pwabuilder",
+    "generationToolVersion": "2.0.3-rc.0",
+    "platformId": "cordova",
+    "platformPackage": "pwabuilder-cordova",
+    "platformVersion": "2.0.0-rc.3",
+    "generatedFrom": "CLI",
+    "generationDate": "2019-07-29 14:47:49 Z",
+    "generatedURL": "https://wildfire.vividsolutions.com/manifest.json"
+}

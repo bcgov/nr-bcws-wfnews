@@ -153,7 +153,54 @@ on:
         required: false
         type: string
         default: "100M"
-        
+      MAX_RECEIVED_COUNT:
+        required: false
+        type: number
+        default: 10
+      VISIBILITY_TIMEOUT_SECONDS:
+        required: false
+        type: number
+        default: 10
+      ACCEPTED_IPS:
+        required: false
+        type: string
+        default: ""
+      PUSH_NOTIFICATION_AWS_USER:
+        required: false
+        type: string
+        default: ""
+      EVENT_BRIDGE_ARN:
+        required: false
+        type: string
+        default: ""
+      WFNEWS_URL:
+        required: false
+        type: string
+        default: ""
+      SECRET_NAME:
+        required: false
+        type: string
+        default: ""
+      BAN_PROHIBITION_MONITOR_KEY:
+        required: false
+        type: string
+        default: ""
+      ACTIVE_FIRE_MONITOR_KEY:
+        required: false
+        type: string
+        default: ""
+      AREA_RESTRICTIONS_MONITOR_KEY:
+        required: false
+        type: string
+        default: ""
+      EVACUATION_MONITOR_KEY:
+        required: false
+        type: string
+        default: ""
+      LAMBDA_LAYER_KEY:
+        required: false
+        type: string
+        default: ""
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -265,6 +312,18 @@ jobs:
           siteMinderURLPrefix: ${{inputs.SITEMINDER_URL_PREFIX}}
           agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS}}
+          maxReceivedCount: ${{inputs.MAX_RECEIVED_COUNT }}
+          visibilityTimeoutSeconds: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
+          acceptedIPs: ${{inputs.ACCEPTED_IPS }}
+          PushNotificationAwsUser: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
+          EventBridgeARN: ${{inputs.EVENT_BRIDGE_ARN }}
+          wfnewsUrl: ${{inputs.WFNEWS_URL }}
+          secret_name: ${{inputs.SECRET_NAME }}
+          BanProhibitionMonitorKey: ${{inputs.BAN_PROHIBITION_MONITOR_KEY }}
+          ActiveFireMonitorKey: ${{inputs.ACTIVE_FIRE_MONITOR_KEY }}
+          AreaRestrictionsMonitorKey: ${{inputs.AREA_RESTRICTIONS_MONITOR_KEY }}
+          EvacuationMonitorKey: ${{inputs.EVACUATION_MONITOR_KEY }}
+          LambdaLayerKey: ${{inputs.LAMBDA_LAYER_KEY }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

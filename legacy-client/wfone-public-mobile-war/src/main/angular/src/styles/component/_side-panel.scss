@@ -1,0 +1,122 @@
+@import '../variables';
+
+.side-panel-container {
+  display: flex;
+  flex-direction: column;
+
+  .side-panel-title-section {
+    color: $colour-sidebar-title;
+    background-color: $colour-sidebar-title-background;
+    box-sizing: border-box;
+    height: $wf1-sidebar-title-height;
+    position: relative;
+
+    .side-panel-link-button {
+      position: absolute;
+      top: .25rem;
+      padding-bottom: 0.5rem;
+
+      .mat-button {
+        min-width: 2rem;
+        padding: 0;
+      }
+    }
+
+    .side-panel-link-button-right {
+      right: .25rem;
+    }
+
+    .side-panel-link-button-left {
+      left: .25rem;
+    }
+
+    .side-panel-title {
+      width: 100%;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
+      margin: 0 auto;
+      text-align: center;
+    }
+  }
+
+  .side-panel-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .4rem 1rem;
+    color: $colour-sidebar-toolbar;
+    background-color: $colour-sidebar-toolbar-background;
+    box-sizing: border-box;
+    height: $wf1-toolbar-height;
+  }
+
+  .side-panel-filter {
+    color: $colour-sidebar-filter;
+    background-color: $colour-sidebar-filter-background;
+    box-sizing: border-box;
+    height: $wf1-toolbar-height;
+
+    .mat-tab-group .mat-tab-header {
+      width: 100%;
+    }
+  }
+
+  .side-panel-content,
+  .side-panel-with-toolbar-content,
+  .side-panel-with-toolbar-and-filter-content,
+  .side-panel-with-toolbar-and-filter-and-filter-content {
+    box-sizing: border-box;
+    overflow-y: hidden;
+    position: relative;
+
+    .interior-panel {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+  }
+
+  .side-panel-content {
+    height: $wf1-app-side-panel-height;
+  }
+
+  .side-panel-with-toolbar-content {
+    height: $wf1-app-side-panel-with-toolbar-height;
+  }
+
+  .side-panel-with-toolbar-and-filter-content {
+    height: $wf1-app-side-panel-with-toolbar-and-filter-height;
+  }
+
+  .side-panel-with-toolbar-and-filter-and-filter-content {
+    height: $wf1-app-side-panel-with-toolbar-and-filter-content-height;
+  }
+
+  .location-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: .4rem 1rem;
+    background-color: $colour-toolbar-grey;
+    height: $wf1-toolbar-height;
+    box-sizing: border-box;
+
+    .selected-location {
+      div.mat-form-field-wrapper {
+        padding-bottom: 0;
+
+        div.mat-form-field-underline {
+          bottom: .25rem;
+        }
+      }
+    }
+
+    .location-section-header-button {
+      min-width: 24px;
+    }
+  }
+}

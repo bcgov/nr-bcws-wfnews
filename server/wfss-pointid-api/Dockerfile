@@ -1,0 +1,19 @@
+FROM tomcat:8.5.47-jdk8-openjdk
+ENV TOMCAT_MAJOR=8 \
+ENV JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+ExitOnOutOfMemoryError -XX:+PrintFlagsFinal" \
+TOMCAT_VERSION=8.5.47 \
+TOMCAT_HOME=/usr/local/tomcat \
+CATALINA_HOME=/usr/local/tomcat \
+CATALINA_OUT=/usr/local/tomcat/logs
+COPY /wfss-pointid-api-rest-endpoints/target/wfss-pointid-api-rest-endpoints-1.4.2.war /temp/
+RUN unzip /temp/wfss-pointid-api-rest-endpoints-1.4.2.war -d /usr/local/tomcat/webapps/wfss-pointid-api/
+RUN adduser --system tomcat
+RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
+chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
+chown -h tomcat:0 ${CATALINA_HOME}
+
+# run as tomcat user
+USER tomcat
+
+EXPOSE 8080
+CMD ["catalina.sh", "run"]

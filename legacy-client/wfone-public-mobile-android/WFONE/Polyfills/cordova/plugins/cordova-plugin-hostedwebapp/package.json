@@ -1,0 +1,59 @@
+{
+  "_from": "cordova-plugin-hostedwebapp@0.3.x",
+  "_id": "cordova-plugin-hostedwebapp@0.3.1",
+  "_inBundle": false,
+  "_integrity": "sha1-qsqY0I5+4UON1yhkdx6qmG/9k44=",
+  "_location": "/cordova-plugin-hostedwebapp",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "cordova-plugin-hostedwebapp@0.3.x",
+    "name": "cordova-plugin-hostedwebapp",
+    "escapedName": "cordova-plugin-hostedwebapp",
+    "rawSpec": "0.3.x",
+    "saveSpec": null,
+    "fetchSpec": "0.3.x"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://apps.vividsolutions.com/artifactory/api/npm/npm-local/cordova-plugin-hostedwebapp/-/cordova-plugin-hostedwebapp-0.3.1.tgz",
+  "_shasum": "aaca98d08e7ee1438dd72864771eaa986ffd938e",
+  "_spec": "cordova-plugin-hostedwebapp@0.3.x",
+  "_where": "/Users/argus/h3/git/wf/wfone-pwa-publish-android-vivid-qa/WFONE/Polyfills/cordova",
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/manifoldjs/ManifoldCordova/issues"
+  },
+  "bundleDependencies": false,
+  "cordova": {
+    "id": "cordova-plugin-hostedwebapp",
+    "platforms": [
+      "android",
+      "windows",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "Hosted Web App Plugin",
+  "homepage": "https://github.com/manifoldjs/ManifoldCordova",
+  "keywords": [
+    "cordova",
+    "manifest",
+    "hosted",
+    "web",
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-windows",
+    "cordova-ios"
+  ],
+  "license": "MIT",
+  "name": "cordova-plugin-hostedwebapp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/manifoldjs/ManifoldCordova.git"
+  },
+  "version": "0.3.1"
+}

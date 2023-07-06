@@ -1,0 +1,10 @@
+<ng-template #defaultMainContent>
+    <router-outlet></router-outlet>
+</ng-template>
+
+<div id="core-interface-container">
+    <!-- <button id="fakeAndroidBack" type="button" (click)="onBackClick()" [class.mobile]="isMobile">&lt;-</button> -->
+    <div class="main-content-container" >
+        <ng-container *ngTemplateOutlet="defaultMainContent"></ng-container>
+    </div>
+</div>

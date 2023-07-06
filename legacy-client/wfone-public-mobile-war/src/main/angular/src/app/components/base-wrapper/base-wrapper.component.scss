@@ -1,0 +1,376 @@
+@import '../../../styles/variables';
+@import '~@angular/material/theming';
+
+.app-container{
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: white;
+
+  .environment {
+    color: #fcba19;
+    font-size: 15px;
+    position: absolute;
+    top: 22px;
+    left: 180px;
+    padding-top: calc(10px + env(safe-area-inset-top));
+    z-index: 5;
+
+  }
+}
+
+.application-toolbar-header {
+  //display: flex;
+  @include mat-elevation(2);
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: $colour-toolbar-background;
+  z-index: 500;
+  color: $colour-black;
+  width:100%;
+  //margin-bottom: 15px !important;
+
+  hr {
+    //display:block;
+
+  }
+}
+
+.sticky-header {
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0;
+}
+
+div.title {
+  font-size: large;
+  width: inherit;
+}
+
+div.summary{
+  font-size: small;
+  white-space: pre-line;
+  padding-left: 10px;
+}
+
+::ng-deep .action-items-menu  {
+  height: fit-content;
+
+  button.mat-menu-item{
+    height: auto;
+    line-height: inherit;
+  }
+
+}
+
+span.back-route-label{
+  font-size: small;
+  padding-left: 10px;
+}
+
+.toolbar-panel-footer{
+  display: block;
+  justify-content: space-between;
+  text-align: center;
+  background-color: $colour-toolbar-background;
+  color: $colour-white;
+  padding: 10px 20px;
+}
+
+.width-auto{
+  width: auto !important;
+}
+
+.mat-list-item.nav-item-active{
+    background: #cccccc;
+}
+
+.toolbar-panel-nav {
+  width: 100%;
+  display:flex;
+  justify-content: space-between;
+  text-align: center;
+  color: $colour-white;
+  background-color: $colour-header-background;
+  padding:10px 0;
+  align-items: center;
+  border-bottom: $colour-orange;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+
+  .middle{
+    position: relative;
+    left: -12px;
+  }
+
+  button.nav-menu-button {
+    background: transparent;
+    border: none;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: $colour-white;
+  }
+
+}
+
+
+
+
+.toolbar-panel {
+  width: 100%;
+  justify-content: space-between;
+  text-align: center;
+  background-color: #033660;
+  color: $colour-black;
+  position: absolute;
+
+  button.nav-menu-button {
+    background: transparent;
+    border: none;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    color: $colour-black;
+  }
+
+
+  div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+  }
+
+  .app-logo-and-title-div{
+    height: 30px;
+
+    img{
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .app-logo-and-title-drawer-div{
+    height: 100%;
+    width: 100%;
+    img{
+      height: 100%;
+      width: 100%;
+    }
+  }
+
+  .app-logo-and-title-drawer-div2{
+    //flex: 0%;
+    //height: 65%;
+    // width: 65%;
+    //margin: auto;
+    //margin-top: 10px;
+    //margin-left: 5px;
+    padding-left: 10px;
+    text-align: center;
+    //padding-right: 60px;
+    //padding-top: env(safe-area-inset-top)
+    img{
+      width: 100%;
+      //padding-top: 10px;
+      padding-top: calc(10px + env(safe-area-inset-top));
+      padding-bottom: 12px;
+    }
+    position: relative;
+    .environment {
+        left: 180px;
+        padding-top: calc(10px + env(safe-area-inset-top));
+
+    }
+  }
+
+  .app-logo-and-footer-div{
+    background-color: $colour-toolbar-background;
+  }
+}
+
+.sidenav-subheader{
+  margin: 0;
+  padding-bottom: 0;
+  font-weight: normal;
+}
+
+.sidenav-submenu{
+  padding-left: 10px;
+}
+
+::ng-deep mat-sidenav-container {
+  color: $colour-white;
+
+  .mat-drawer-inner-container {
+    display: flex;
+    flex-direction: column;
+
+    .toolbar-nav-list {
+      flex-grow: 1;
+      overflow: hidden;
+
+      mat-nav-list {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding-top: 90px;
+        overflow-y: auto;
+
+        .navLabel {
+            padding-right: 0 !important;
+        }
+
+        .new-marker {
+            background-color: green;
+            color: white;
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+      }
+    }
+
+    .toolbar-footer {
+      display: inline;
+      align-items: center;
+      flex-direction: column;
+
+      font-size: smaller;
+      font-style: italic;
+      text-align: center;
+
+      .app-version {
+        color: #454545;
+        display: inline-block;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        font-size: 13px;
+        font-style: normal;
+        vertical-align: super;
+        width: 80%;
+      }
+
+      .collapse-button{
+        display: inline-block
+      }
+    }
+
+    .sidenav-header,
+    .sidenav-footer{
+      flex: none;
+    }
+
+    .sidenav-main{
+      overflow-y: scroll;
+      -webkit-overflow-scrolling: touch;
+      flex: auto;
+
+
+      .ng-fa-icon {
+        flex: 0 0 0.5rem;
+        font-size: large;
+        padding-right: 5px;
+
+      }
+    }
+
+  }
+
+}
+mat-sidenav {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden !important;
+  z-index: 1000;
+
+}
+
+.mat-drawer-content {
+  height: 100%;
+}
+
+.sidenav-subheader{
+  margin: 0;
+  padding-bottom: 0;
+  font-weight: normal;
+}
+
+.sidenav-submenu{
+  padding-left: 10px;
+}
+
+//.wf1-sidenav{
+//  mat-icon{
+//    width: 35px;
+//  }
+//}
+
+.color-sidenav-icon{
+  color: $colour-dark-grey;
+  width: 35px;
+  min-width: 35px;
+}
+
+::ng-deep mat-toolbar.mat-primary.wf1-public-application-header {
+  @include mat-elevation(2);
+  z-index: 3;
+  position: relative;
+
+  .app-logo-and-title-div {
+    img {
+      display: none;
+    }
+
+    .title-hyphen {
+      display: none;
+    }
+
+  }
+}
+::ng-deep .smk-theme-wf .smk-toolbar .smk-tool[title="Menu"]{
+  display: none;
+}
+
+.mobile-sidenav{
+  ::ng-deep .mat-nav-list {
+    top: 0 !important;
+  }
+  ::ng-deep .mat-drawer-inner-container {
+    .toolbar-panel {
+      position: relative !important;
+    }
+
+    .toolbar-nav-list {
+      mat-nav-list {
+        padding-top: 0;
+      }
+    }
+  }
+
+  ::ng-deep .smk-theme-wf .smk-toolbar .smk-tool[title="Menu"]{
+    //display: inline-block !important;
+  }
+}
+
+::ng-deep .mobile {
+    .desktop {
+        display: none;
+    }
+}
+
+::ng-deep .desktop {
+    .mobile {
+        display: none;
+    }
+}
+
+.arrow-default {
+  transform: scaleX( -1 );
+}
+
+.arrow-change {
+  transform: scaleX( +1 );
+
+}

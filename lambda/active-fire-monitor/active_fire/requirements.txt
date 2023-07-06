@@ -1,0 +1,4 @@
+requests
+pytz
+psycopg2-binary
+aws-secretsmanager-caching

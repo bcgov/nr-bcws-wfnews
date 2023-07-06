@@ -1,0 +1,19 @@
+<mat-card *ngIf="errorState && errorState.length > 0" class="error-panel">
+    <mat-card-header [ngClass]="{ 'warnings': errorType == 'WARNING' }">
+        <mat-card-title class="form-panel-title validation-error-panel mat-h3">{{ title ? title : 'Errors'}}</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+
+        <ul class="validation-messages">
+            <li [ngClass]="errorType == 'WARNING' ? 'warning-message errorState' : 'error-message error-state'" *ngFor="let error of errorState">
+                <span>{{error.message}}</span>
+                <ul *ngIf="error.type == ERROR_TYPE.VALIDATION">
+                    <li [ngClass]="errorType == 'WARNING' ? 'warning-message validation' : 'error-message validation'" *ngFor="let validationError of error.validationErrors">
+                        {{DISPLAY_ERROR_MESSAGE(validationError)}}
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+    </mat-card-content>
+</mat-card>

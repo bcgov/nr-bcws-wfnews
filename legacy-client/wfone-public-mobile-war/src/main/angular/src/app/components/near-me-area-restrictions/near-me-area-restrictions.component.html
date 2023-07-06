@@ -1,0 +1,40 @@
+<near-me-item [ngClass]="{ 'expanded': expanded }" (click)="viewOnMap(nearMeItem)">
+    <div class="icon">
+        <mat-icon aria-hidden="false" svgIcon="{{ CONSTANTS.MAT_ICON_CUSTOM_MAP_SIGNS }}" style="color: #6b350f"></mat-icon>
+    </div>
+
+    <div class="icon-info">
+        {{ nearMeItem.dateActive }}
+    </div>
+
+    <div class="title">
+        <a *ngIf="nearMeItem.url" (click)="openUrl( nearMeItem.url )" class="external-link">{{ nearMeItem.areaName }}</a>
+        <span *ngIf="!nearMeItem.url">{{ nearMeItem.areaName }}</span>
+        <span class="new-marker" *ngIf="nearMeItem.notified">New</span>
+    </div>
+
+    <div class="details">
+        <div class="detail">
+            <span class="label">Fire Centre: </span>
+            <span class="value">{{ nearMeItem.fireCentre }}</span>
+        </div>
+        <div class="detail">
+            <span class="label">Status: </span>
+            <span class="value">{{ nearMeItem.status }}</span>
+        </div>
+    </div>
+
+    <div class="action-info">
+        <span *ngIf="nearMeItem.distanceKm">{{ nearMeItem.distanceKm }} km</span>
+    </div>
+
+    <div class="action">
+        <mat-icon *ngIf="showMapInline && expanded">expand_less</mat-icon>
+        <mat-icon *ngIf="showMapInline && !expanded">expand_more</mat-icon>
+        <mat-icon *ngIf="!showMapInline" (click)="viewOnMap(nearMeItem)">place</mat-icon>
+    </div>
+</near-me-item>
+
+<div class="map" *ngIf="expanded">
+    <wf-map-container [mapConfig]="getMapConfig() | async" (mapInitialized)="initMap($event)"></wf-map-container>
+</div>
