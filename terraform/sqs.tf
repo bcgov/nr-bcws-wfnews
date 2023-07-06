@@ -19,7 +19,7 @@ resource "aws_sqs_queue" "queue_fires" {
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_fires.arn
-    maxReceiveCount     = "${var.maxReceivedCount}"
+    maxReceiveCount     = "${var.MAX_RECEIVED_COUNT}"
   })
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
@@ -44,7 +44,7 @@ resource "aws_sqs_queue" "queue_fires" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-active-fires-queue-${var.target_env}"
     },
@@ -85,7 +85,7 @@ resource "aws_sqs_queue" "queue_evacs" {
   name = "wfnews-evacuation-queue-${var.target_env}"
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_evacs.arn
-    maxReceiveCount     = "${var.maxReceivedCount}"
+    maxReceiveCount     = "${var.MAX_RECEIVED_COUNT}"
   })
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
@@ -115,7 +115,7 @@ resource "aws_sqs_queue" "queue_evacs" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-evacuation-queue-${var.target_env}"
     },
@@ -157,7 +157,7 @@ resource "aws_sqs_queue" "queue_bans" {
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_bans.arn
-    maxReceiveCount     = "${var.maxReceivedCount}"
+    maxReceiveCount     = "${var.MAX_RECEIVED_COUNT}"
   })
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
@@ -188,7 +188,7 @@ resource "aws_sqs_queue" "queue_bans" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-bans-queue-${var.target_env}"
     },
@@ -230,7 +230,7 @@ resource "aws_sqs_queue" "queue_restrictions" {
 
   redrive_policy = jsonencode({
     deadLetterTargetArn = aws_sqs_queue.deadletter_restrictions.arn
-    maxReceiveCount     = "${var.maxReceivedCount}"
+    maxReceiveCount     = "${var.MAX_RECEIVED_COUNT}"
   })
   redrive_allow_policy = jsonencode({
     redrivePermission = "byQueue",
@@ -261,7 +261,7 @@ resource "aws_sqs_queue" "queue_restrictions" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-area-restrictions-queue-${var.target_env}"
     },
