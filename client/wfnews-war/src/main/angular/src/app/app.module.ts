@@ -221,7 +221,7 @@ export const DATE_FORMATS = {
         VideoPanelComponent,
         ImagePanelComponent,
         ScrollToTopComponent,
-        AlertBannerComponent
+        AlertOrderBannerComponent
     ],
     imports: [
         MatSortModule,
