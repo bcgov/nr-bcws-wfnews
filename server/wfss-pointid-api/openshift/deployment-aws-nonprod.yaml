@@ -1,0 +1,115 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: wfss-pointid-api-service
+  annotations:
+    # Note that the backend talks over HTTP.
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    # TODO: Fill in with the ARN of your certificate.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: 	arn:aws:acm:ca-central-1:460053263286:certificate/fcbb5aed-fa01-434c-a783-ec4596bc02df
+    # Only run SSL on the port named "https" below.
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: "https"
+    external-dns.alpha.kubernetes.io/hostname: pointid-int.bcwildfireservices.com
+  labels:
+    app: wfss-pointid-api
+spec:
+  selector:
+    app: wfss-pointid-api
+  type: LoadBalancer
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+    - name: https
+      port: 443
+      targetPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wfss-pointid-api-deployment
+#  namespace: wfss-pointid-api
+  labels:
+    app: wfss-pointid-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wfss-pointid-api
+  template:
+    metadata:
+      labels:
+        app: wfss-pointid-api
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: beta.kubernetes.io/arch
+                operator: In
+                values:
+                - amd64
+              - key: alpha.eksctl.io/nodegroup-name
+                operator: In
+                values:
+                - bcwildfire-nonprod-nodegroup1
+      tolerations:
+      - key: "bcws-app"
+        operator: "Equal"
+        value: "any"
+        effect: "PreferNoSchedule"
+      containers:
+        - name: wfss-pointid-api-final
+          image: image-registry.apps.silver.devops.gov.bc.ca/c9737f-tools/wfss-pointid-api-final:build-1.7.3-178
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "500m"
+          # imagePullPolicy: Always
+          volumeMounts:
+            - name: application-props-config
+              mountPath: /usr/local/tomcat/webapps/wfss-pointid-api/WEB-INF/classes/application.properties
+              subPath: application.properties
+            - name: application-props-config
+              mountPath: /usr/local/tomcat/webapps/wfss-pointid-api/WEB-INF/classes/application-secrets.properties
+              subPath: application-secrets.properties
+            - name: application-props-config
+              mountPath: /usr/local/tomcat/webapps/wfss-pointid-api/WEB-INF/classes/log4j.xml
+              subPath: log4j.xml
+          ports:
+            - containerPort: 8080
+          # liveness probe verifies that the app is running
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            failureThreshold: 6
+            periodSeconds: 5
+            initialDelaySeconds: 120
+          # readiness probe makes sure that new pods are functioning on launch, and delays disposal of previously running pods
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            failureThreshold: 5
+            periodSeconds: 5
+            initialDelaySeconds: 15            
+          
+      imagePullSecrets:
+        - name: regcred
+      volumes:
+        - name: application-props-config
+          configMap:
+            name: wfss-pointid-api-config
+#---
+#apiVersion: extensions/v1beta1
+#kind: Ingress
+#metadata:
+#  name: wfss-pointid-api-ingress
+#spec:
+#  backend:
+#    serviceName: wfss-pointid-api-service
+#    servicePort: 80
+    

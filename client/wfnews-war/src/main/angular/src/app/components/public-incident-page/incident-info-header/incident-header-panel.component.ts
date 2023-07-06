@@ -5,7 +5,7 @@ import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber, ResourcesRoutes } from "../../../utils"
 import * as moment from "moment"
-import { MatLegacyDialog as MatDialog } from "@angular/material/legacy-dialog"
+import { MatDialog } from "@angular/material/dialog"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
 import { Router } from "@angular/router"
 import { Location } from '@angular/common';
@@ -143,7 +143,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   openContactUsWindow() {
     this.dialog.open(ContactUsDialogComponent, {
-      width: '350px',
+      panelClass: 'contact-us-dialog',
       data: {
         fireCentre: convertToFireCentreDescription(this.incident.contactOrgUnitIdentifer || this.incident.fireCentreName || this.incident.fireCentreCode || this.incident.fireCentre),
         email: this.incident.contactEmailAddress,

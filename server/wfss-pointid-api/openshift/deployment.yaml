@@ -1,0 +1,137 @@
+apiVersion: v1
+kind: Template
+metadata: {}
+parameters:
+  - name: NAME
+    value: wfss-pointid-api
+  - name: SUFFIX
+  - name: TAG
+    value: latest
+    description: The output image tag beig deployed
+  - name: DOCKER_REGISTRY
+    required: true
+  - name: NAMESPACE
+    required: true
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    name: ${NAME}-final
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    labels:
+      app: ${NAME}${SUFFIX}
+    name: ${NAME}${SUFFIX}
+  spec:
+    replicas: 2
+    selector:
+      matchLabels:
+        app: ${NAME}${SUFFIX}
+    template:
+      metadata:
+        labels:
+          app: ${NAME}${SUFFIX}
+      spec:
+        automountServiceAccountToken: false
+        containers:
+        - name: app
+          #image: docker-registry.default.svc:5000/fytirg-dev/wfss-pointid-api-final:latest
+          image: ${DOCKER_REGISTRY}/${NAME}-final:${TAG}
+          imagePullPolicy: Always
+          volumeMounts:
+            - name: application-props-config
+              mountPath: /usr/local/tomcat/webapps/wfss-pointid-api/WEB-INF/classes/application.properties
+              subPath: application.properties
+            - name: application-secrets-config
+              mountPath: /usr/local/tomcat/webapps/wfss-pointid-api/WEB-INF/classes/application-secrets.properties
+              subPath: application-secrets.properties
+          ports:
+            - containerPort: 8080
+          resources:
+            limits:
+              cpu: 500m
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 1Gi
+        volumes:
+          - name: application-props-config
+            configMap:
+              name: "${NAME}${SUFFIX}-props"
+          - name: application-secrets-config
+            secret:
+              secretName: ${NAME}${SUFFIX}-weather-secret
+        restartPolicy: Always
+- apiVersion: v1
+  kind: Service
+  metadata:
+    labels:
+      app: ${NAME}${SUFFIX}
+    name: ${NAME}${SUFFIX}
+  spec:
+    selector:
+      app: ${NAME}${SUFFIX}
+    ports:
+      - name: 8080-tcp
+        protocol: TCP
+        port: 80
+        targetPort: 8080
+      - name: 8443-tcp
+        protocol: TCP
+        port: 443
+        targetPort: 8443
+- apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    labels:
+      app: ${NAME}${SUFFIX}
+    name: ${NAME}${SUFFIX}
+  spec:
+    rules:
+      - host: ${NAME}${SUFFIX}-${NAMESPACE}.apps.silver.devops.gov.bc.ca
+        http:
+          paths:
+            - backend:
+                service:
+                  name: ${NAME}${SUFFIX}
+                  port:
+                    number: 80
+              pathType: ImplementationSpecific
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${NAME}${SUFFIX}
+    name: ${NAME}${SUFFIX}-secure
+  spec:
+    host: ${NAME}${SUFFIX}-secure-${NAMESPACE}.apps.silver.devops.gov.bc.ca
+    port:
+      targetPort: 8080-tcp
+    to:
+      kind: Service
+      name: ${NAME}${SUFFIX}
+    tls:
+      termination: edge
+- kind: Secret
+  apiVersion: v1
+  metadata:
+    name: "${NAME}${SUFFIX}-weather-secret"
+    annotations:
+      as-copy-of: weather-secret
+  data: {}
+- kind: ConfigMap
+  apiVersion: v1
+  metadata:
+    name: "${NAME}${SUFFIX}-props"
+    annotations:
+      as-copy-of: ${NAME}-props
+  data: {}
