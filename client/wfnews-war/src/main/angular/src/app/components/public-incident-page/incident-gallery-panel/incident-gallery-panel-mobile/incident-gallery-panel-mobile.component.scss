@@ -1,5 +1,5 @@
 .panel{
-    
+
     .content-panel {
         padding:24px;
         font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
@@ -27,7 +27,7 @@
             }
 
             .header-row {
-                
+
                 .h1{
                         width: 256px;
                         height: 33px;
@@ -38,8 +38,8 @@
                         text-align: right;
                         line-height: 33px;
                 }
-                     
-                
+
+
             }
 
             .divider {
@@ -47,14 +47,13 @@
                 padding-top: 7px;
                 padding-bottom: 7px;
             }
-        
+
     }
 }
- 
+
 
 :host ::ng-deep .mat-tab-label {
     height: 3rem !important;
-    min-width: 8rem !important;
     flex-basis: 0;
     flex-grow: 1;
 }
@@ -67,7 +66,7 @@
 :host ::ng-deep .mat-tab-label.mat-tab-label-active {
     border: 1px solid #003366;
     box-sizing: border-box;
-    border-radius: 0.8rem;
+    border-radius: 5px;
     background-color: #003366 !important;
     color: #fdfdfd !important;
 }
@@ -81,7 +80,7 @@
     border-bottom: 0;
     border: 1px solid #003366;
     box-sizing: border-box;
-    border-radius: 0.8rem;
+    border-radius: 5px;
 
 }
 
