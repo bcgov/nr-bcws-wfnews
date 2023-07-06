@@ -1,0 +1,23 @@
+locals{
+    TST={
+        env="TST"
+        env_lowercase="tst"
+        functionBucket="wfone-notifications-monitor-functions"
+        BanProhibitionMonitorKey="bans_and_prohibitions.zip"
+        ActiveFireMonitorKey="active_fire.zip"
+        AreaRestrictionsMonitorKey="area_restrictions.zip"
+        EvacuationMonitorKey="evacuation_orders.zip"
+        TwitterMonitorKey="twitter.zip"
+        LambdaLayerKey="python.zip"
+        NotificationsAPIURL=${NotificationsAPIURL}
+        NotificationPushAPIURL=${NotificationPushAPIURL}
+        WFSSPointIDAPIURL=${WFSSPointIDAPIURL}
+        WFONEPublicMobileWarURL=${WFONEPublicMobileWarURL}
+        acceptedIPs="\"3.96.129.30\",\"99.79.159.154\",\"15.222.181.87\""
+        hostedZoneID="Z19DQILCV0OWEC"
+        secret_name=${secret_name}
+        IngressURL=${IngressURL}
+        PushNotificationAwsUser=${PushNotificationAwsUser}
+        wfnewsUrl="https://wfnews-api.test.bcwildfireservices.com"
+    }
+}

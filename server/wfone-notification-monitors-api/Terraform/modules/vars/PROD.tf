@@ -1,0 +1,21 @@
+locals{
+    PROD={
+        env="PROD"
+        env_lowercase="prod"
+        functionBucket="wfone-notifications-monitor-functions"
+        BanProhibitionMonitorKey="bans-and-prohibitions.zip"
+        ActiveFireMonitorKey="active_fire.zip"
+        AreaRestrictionsMonitorKey="area-restrictions.zip"
+        EvacuationMonitorKey="evacuation-orders.zip"
+        TwitterMonitorKey="twitter.zip"
+        NotificationsAPIURL=${NotificationsAPIURL}
+        NotificationPushAPIURL=${NotificationPushAPIURL}
+        WFSSPointIDAPIURL=${WFSSPointIDAPIURL}
+        WFONEPublicMobileWarURL=${WFONEPublicMobileWarURL}
+        acceptedIPs="\"3.97.87.98\",\"52.60.170.45\",\"99.79.90.243\""
+        hostedZoneID="Z19DQILCV0OWEC"
+        secret_name=${secret_name}
+        PushNotificationAwsUser=${PushNotificationAwsUser}
+        wfnewsUrl="https://wildfiresituation-api.nrs.gov.bc.ca"
+    }
+}
