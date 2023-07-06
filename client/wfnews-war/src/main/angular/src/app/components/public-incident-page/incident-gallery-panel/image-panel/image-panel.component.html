@@ -1,6 +1,7 @@
 
 <div class="title-row">{{item.title}}</div>
 <div class="date-row">{{convertToMobileFormat(item.convertedDate)}}</div>
+<div class="gallery-panel">
     <lightgallery [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" class="gallery-container">
         <a
             [attr.data-index]="i"
@@ -11,4 +12,4 @@
             <img [id]="i + '-img-thumb'" width="150" alt="Image" class="img-responsive" [src]="item.thumbnail"/>
         </a>
     </lightgallery>
-
+</div>
