@@ -1,0 +1,36 @@
+table{
+  width: 100%;
+  text-align: center;
+}
+
+thead {
+  font-size: medium;
+
+  th.fire-centre-name{
+    text-align: left;
+  }
+}
+
+tr {
+  //line-height: 1rem;
+}
+
+td.fire-centre-name {
+  font-size:small;
+  font-weight: bold;
+  text-align: left;
+}
+
+td.fire-status {
+  font-size:small;
+}
+
+td div.fire-status-icon {
+  .page-link {
+    cursor: pointer;
+  }
+
+}
+.wfone-public-mobile-bans-and-prohibitions {
+  overflow: hidden;
+}

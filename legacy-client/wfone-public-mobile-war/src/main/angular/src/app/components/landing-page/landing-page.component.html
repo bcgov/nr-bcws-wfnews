@@ -1,0 +1,16 @@
+<!-- [toolbarIsVisible]="nearMeHighlight" [backRoute]="source" -->
+<base-wrapper #baseWrapperComponent [errorState]="errorState">
+    <div class="page-width-container wfone-public-mobile-landing-page" [ngClass]="elevation">
+        <wf-map-container
+            [mapConfig]="mapConfig"
+            (mapInitialized)="initMap($event)"
+            [showRof]="true"
+            [showNearMe]="!getIsMobileRes()"
+            (rofClick)="onRofClick()"
+            (pushNotificationClick)="onPushNotificationClick()"
+            (nearMeClick)="onNearMeClick()"
+        ></wf-map-container>
+    </div>
+</base-wrapper>
+
+<ng-template #nearMeContainer></ng-template>

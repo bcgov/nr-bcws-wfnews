@@ -1,0 +1,98 @@
+<rss version="2.0">
+    <channel>
+        <title>BC Wildfire Service - All Open Fire Bans</title>
+        <link>
+            http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Bans.asp
+        </link>
+        <description>
+            Ministry of Forests, Lands and Natural Resource Operations: BC Wildfire Service
+        </description>
+        <copyright>Copyright 2016, Province of British Columbia</copyright>
+        <language>en-ca</language>
+        <lastBuildDate>Fri, 13 Sep 2019 12:15:00 PST</lastBuildDate>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Cariboo ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=584
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are not currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Fri, 13 Sep 2019 12:00:00 PST</pubDate>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Southeast ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=583
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are not currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Tue, 10 Sep 2019 00:00:00 PST</pubDate>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Northwest ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=591
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are not currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Wed, 19 Jun 2019 14:42:00 PST</pubDate>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Kamloops ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=575
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Wed, 12 Jun 2019 00:00:00 PST</pubDate>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Prince George ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=585
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are not currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Fri, 07 Jun 2019 12:00:00 PST</pubDate>
+        </item>
+        <item>
+            <title>
+                <![CDATA[ Ban and Restriction details at Coastal ]]>
+            </title>
+            <link>
+                http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/DisplayBan.asp?ID=589
+            </link>
+            <description>
+                <![CDATA[
+Open fire bans are currently in effect. A campfire ban is not currently in effect. Forest use restrictions are currently not in effect.
+]]>
+            </description>
+            <pubDate>Thu, 30 May 2019 00:00:00 PST</pubDate>
+        </item>
+    </channel>
+</rss>

@@ -1,0 +1,11 @@
+#fakeAndroidBack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+
+    &.mobile {
+        top: unset;
+        bottom: 0;
+    }
+}
