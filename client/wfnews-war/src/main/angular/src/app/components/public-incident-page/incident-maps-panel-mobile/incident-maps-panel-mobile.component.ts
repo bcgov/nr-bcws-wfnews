@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { IncidentMapsPanel } from '../incident-maps-panel/incident-maps-panel.component';
 
 @Component({
@@ -8,7 +8,7 @@ import { IncidentMapsPanel } from '../incident-maps-panel/incident-maps-panel.co
 })
 export class IncidentMapsPanelMobileComponent extends IncidentMapsPanel{
 
-  limit:number = 10;
+  limit: number = 10;
 
   convertDate(dateString) {
     if (dateString) {
@@ -22,5 +22,5 @@ export class IncidentMapsPanelMobileComponent extends IncidentMapsPanel{
   loadMore() {
     this.limit += 10;
   }
-  
+
 }
