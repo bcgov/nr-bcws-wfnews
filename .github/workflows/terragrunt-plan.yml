@@ -47,6 +47,18 @@ env:
   WFNEWS_USERNAME: "default"
   WFNEWS_MAX_CONNECTIONS: 10
   SNS_EMAIL_TARGETS: "test@test.com, test2@test.com"
+  MAX_RECEIVED_COUNT: 10
+  VISIBILITY_TIMEOUT_SECONDS: 100
+  ACCEPTED_IPS: ""
+  PUSH_NOTIFICATION_AWS_USER: ""
+  EVENT_BRIDGE_ARN: ""
+  WFNEWS_URL: ""
+  SECRET_NAME: ""
+  BAN_PROHIBITION_MONITOR_KEY: ""
+  ACTIVE_FIRE_MONITOR_KEY: ""
+  AREA_RESTRICTIONS_MONITOR_KEY: ""
+  EVACUATION_MONITOR_KEY: ""
+  LAMBDA_LAYER_KEY: ""
 
 jobs:
   plan:
@@ -108,6 +120,18 @@ jobs:
           siteMinderURLPrefix: test.test
           agolAreaRestrictions: test.test
           agolBansAndProhibitions: test.test
+          MAX_RECEIVED_COUNT: ${{env.MAX_RECEIVED_COUNT}}
+          VISIBILITY_TIMEOUT_SECONDS: ${{env.VISIBILITY_TIMEOUT_SECONDS}}
+          ACCEPTED_IPS: ${{env.ACCEPTED_IPS}}
+          PUSH_NOTIFICATION_AWS_USER: ${{env.PUSH_NOTIFICATION_AWS_USER}}
+          EVENT_BRIDGE_ARN: ${{env.EVENT_BRIDGE_ARN}}
+          WFNEWS_URL: ${{env.WFNEWS_URL}}
+          SECRET_NAME: ${{env.SECRET_NAME}}
+          BAN_PROHIBITION_MONITOR_KEY: ${{env.BAN_PROHIBITION_MONITOR_KEY}}
+          ACTIVE_FIRE_MONITOR_KEY: ${{env.ACTIVE_FIRE_MONITOR_KEY}}
+          AREA_RESTRICTIONS_MONITOR_KEY: ${{env.AREA_RESTRICTIONS_MONITOR_KEY}}
+          EVACUATION_MONITOR_KEY: ${{env.EVACUATION_MONITOR_KEY}}
+          LAMBDA_LAYER_KEY: ${{env.LAMBDA_LAYER_KEY}}
 
         run: terragrunt plan --terragrunt-non-interactive
 
