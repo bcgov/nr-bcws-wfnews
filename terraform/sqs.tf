@@ -44,7 +44,7 @@ resource "aws_sqs_queue" "queue_fires" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.acceptedIPs}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-active-fires-queue-${var.target_env}"
     },
@@ -115,7 +115,7 @@ resource "aws_sqs_queue" "queue_evacs" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.acceptedIPs}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-evacuation-queue-${var.target_env}"
     },
@@ -188,7 +188,7 @@ resource "aws_sqs_queue" "queue_bans" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.acceptedIPs}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-bans-queue-${var.target_env}"
     },
@@ -261,7 +261,7 @@ resource "aws_sqs_queue" "queue_restrictions" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${module.vars.env.acceptedIPs}]}
+        "IpAddress": {"aws:SourceIP": [${var.acceptedIPs}]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-area-restrictions-queue-${var.target_env}"
     },
