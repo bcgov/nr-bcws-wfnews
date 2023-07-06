@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { LightGallery } from "lightgallery/lightgallery";
 import { convertToMobileFormat, convertToYoutubeId } from "../../../../utils"
 import { InitDetail } from 'lightgallery/lg-events';
- 
+
 
 @Component({
   selector: 'incident-gallery-panel-mobile',
@@ -14,7 +14,7 @@ import { InitDetail } from 'lightgallery/lg-events';
 })
 export class IncidentGalleryPanelMobileComponent implements OnInit {
   @Input() public incident;
-  incidentName: string  
+  incidentName: string
   allImagesAndVideosStub: any[];
   displayMediaStub: any[];
   allImagesStub: any[]
@@ -81,8 +81,8 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
 
          if (this.allImagesAndVideosStub.length > 9) {
           this.displayLoadMore = true
-          this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 9);
-         } 
+          this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 10);
+         }
 
         this.pushToImages(this.allImagesAndVideosStub)
         this.pushToVideos(this.allImagesAndVideosStub)
@@ -98,12 +98,12 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
 loadMoreImages(e: HTMLElement) {
     this.displayImagesStub = this.allImagesStub;
     e.remove();
- } 
+ }
 
 loadMoreVideos(e: HTMLElement) {
   this.displayVideosStub = this.allVideosStub;
   e.remove();
-} 
+}
 
 
   handleImageFallback (href: string) {
@@ -153,10 +153,12 @@ loadMoreVideos(e: HTMLElement) {
         this.allImagesStub.push(item)
         this.displayImagesStub.push(item)
       }
-    } if (this.allImagesStub.length > 9){
+    }
+
+    if (this.allImagesStub.length > 9){
       this.displayLoadMoreImages = true
-      this.displayImagesStub = this.allImagesStub.slice(0, 9);
-    } 
+      this.displayImagesStub = this.allImagesStub.slice(0, 10);
+    }
   }
 
   pushToVideos(collection: any) {
@@ -167,10 +169,14 @@ loadMoreVideos(e: HTMLElement) {
         this.allVideosStub.push(item)
         this.displayVideosStub.push(item)
       }
-    } if (this.allImagesStub.length > 9) {
+    }
+
+    console.log("ALERT: STUB LENGTH " + this.allImagesStub.length)
+    if (this.allImagesStub.length > 9) {
       this.displayLoadMoreVideos = true
-      this.displayVideosStub = this.allVideosStub.slice(0, 9);
-    } 
+      this.displayVideosStub = this.allVideosStub.slice(0, 10);
+    }
+    console.log(this.displayLoadMoreVideos)
   }
 
 }
