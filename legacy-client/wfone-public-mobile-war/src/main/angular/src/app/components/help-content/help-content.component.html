@@ -1,0 +1,420 @@
+<base-wrapper [errorState]="errorState" [title]="getTitle()" [backRoute]="backRoute" [backRouteLabel]="" [toolbarIsVisible]="true">
+    <div class="page-width-container wfone-public-mobile-help-content standard-content" [ngClass]="elevation">
+        <div class="title-bar-wrapper" *ngIf="!getIsMobileRes()">
+            <div class="title-bar">
+                <div class="left">
+                    <button #backroute *ngIf="backRoute" type="button" name="back button" id="accessFocusPoint"(click)="navigateToBackRoute()" class="nav-menu-button" (keydown)="onKeydownMain($event)">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+                <div class="middle">
+                    <div *ngIf="getTitle()" class="title">{{getTitle()}}</div>
+                    <div *ngIf="summaryString" class="summary">{{summaryString}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="non-map-component-wrapper">
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.OPEN_FIRES_CAT2 || currentHelpContentType == HELP_CONTENT_TYPES.OPEN_FIRES_ALL">
+                <p>
+                    A <span class="fire-category">Category 2</span> open fire is an open fire, excluding a campfire, that
+                    burns piled material no larger than two metres high and three metres wide, or grass over an area less
+                    than 0.2 hectares (2000 square metres) in size.
+                </p>
+                <div class="fire-img">
+                    <img src="assets/images/fire2.png" class="fire-def-type-img" alt=null/>
+                </div>
+
+                <div class="regulations-header">Regulations:</div>
+                <div class="regulations-container">
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/tree-fire.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            A fuel break must be established around any Category 2 burn area.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/fireworks.jpg" class="regulation-item-img" alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            Fireworks may be banned when a Category 2 fire prohibition is in effect.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/burning-barrels.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            Burning barrels may be banned when a Category 2 fire prohibition is in effect.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/equipment.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            At least one person equipped with a fire-fighting hand tool must monitor the fire at all times.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.OPEN_FIRES_CAT3 || currentHelpContentType == HELP_CONTENT_TYPES.OPEN_FIRES_ALL">
+                <p>
+                    A <span class="fire-category">Category 3</span> open fire is a fire that burns material in piles larger
+                    than two metres high and three metres wide, windrows, or grass over an larger than 0.2 hectares (2000
+                    square metres) in size. Anyone lighting a Category 3 fire must first obtain a burn registration number
+                    by calling 1 888 797-1717. These numbers are logged into the Open Fire Tracking System (OFTS) along with
+                    details about the registered burn.
+                </p>
+
+                <div class="fire-img">
+                    <img src="assets/images/fire3.png" class="fire-def-type-img"  alt=null/>
+                </div>
+
+                <div class="regulations-header">Regulations:</div>
+                <div class="regulations-container">
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/tree-fire.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            A fuel break must be established around any Category 3 burn area.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/binoculars.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            Monitor your open burn to ensure that the fire doesn’t spread beyond its intended size.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/phone.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            You must have a burn registration number to light a Category 3 open fire. Call the burn
+                            registration line *1 888 797-1717* to obtain one.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.CAMP_FIRES">
+                <p>
+                    A <span class="fire-category">campfire</span> is an open fire that burns piled material no larger than
+                    0.5 m in height and 0.5 m in width and is used by any person for recreational purpose, or by a First
+                    Nation for a ceremonial purpose.
+                </p>
+                <div class="fire-img">
+                    <img src="assets/images/fire1.png" class="fire-def-type-img"  alt=null/>
+                </div>
+                <div class="regulations-header">Regulations:</div>
+                <div class="regulations-container">
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/bucket-shovel.jpg" class="regulation-item-img-bucket-shovel"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            You must have ready access to 8 litres of water or a shovel for the entire time your campfire is lit.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/snowflake-hand.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            Your campfire must be completely extinguished and the ashes must be cool to the touch before leaving
+                            the area for any length of time. Hot coals can reignite the fire.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/gas-fireplace.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            During campfire prohibitions, only a CSA- or ULC-approved portable campfire apparatus may be used,
+                            and the flame height must not exceed 15 centimetres.
+                        </div>
+                    </div>
+
+                    <div class="regulation-row">
+                        <div class="regulation-item-img-container regulation-item">
+                            <img src="assets/images/rocks.jpg" class="regulation-item-img"  alt=null/>
+                        </div>
+                        <div class="regulation-item-desc regulation-item">
+                            You must build a fire guard around your campfire.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.WF_MAP">
+                <p>
+                    The <span class="fire-category">Wildfire Map</span> reflects the interactive map provided on bcwildfire.ca and includes:
+                </p>
+                <ul>
+                    <li>Active Wildfire Information</li>
+                    <li>Fire Perimeters</li>
+                    <li>Fire Centre Boundaries</li>
+                    <li>Fire Danger Ratings</li>
+                    <li>Bans, Prohibitions & Restrictions</li>
+                    <li>BC Parks and Recreation Site Information (closures)</li>
+                    <li>Evacuation Alert & Order Information</li>
+                    <li>Drive BC Events</li>
+                    <li>Near Me functionality</li>
+                    <li>Search Functionality</li>
+                </ul>
+                <p>
+                    <strong>Basic Functionality:</strong>
+                </p>
+                <p>
+                    <strong>Zoom in</strong> to the area of the map you’d like to see by touching two fingers to the screen then moving them apart or by double tapping the screen. To <strong>zoom out</strong>, touch two fingers to the screen and move them together.
+                </p>
+                <p>
+                    To <strong>move around</strong> the map touch one finger to the screen and drag the screen to where you’d like to go.
+                </p>
+
+                <p>
+                    <mat-icon class="help-icon">layers</mat-icon><strong>Additional Layers:</strong>
+                </p>
+                <p>
+                    The Wildfire Map default layers include Fire Centre Boundaries, Active Wildfire Markers, Evacuation Orders and Alerts, and Active Perimeters.
+                </p>
+                <p>
+                    To add new layers, click the Layers button and place a checkmark in the layer you want to review.  Some of the layers may or may not contain information at the time of the request. (e.g. Bans and Restrictions - there may not be any in place).
+                </p>
+                <p>
+                    Each layer found in the Wildfire Mobile application has additional information and can be found at the links below.
+                </p>
+                <ul>
+                    <li>
+                        <a href="" (click)="goToLink(datasetDriveBCUrl)" class="external-link">Drive BC events</a>: Published by Ministry of Transportation and Infrastructure
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetFireLocationsUrl)" class="external-link">BC Wildfire - Active Fires</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetFireLocationsUrl)" class="external-link">BC Wildfire - Declared Out</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetFirePerimeterUrl)" class="external-link">BC Wildfire Fire Perimeters</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetFireCentresUrl)" class="external-link">BC Wildfire Fire Centre Boundaries</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetDangerRatingUrl)" class="external-link">BC Wildfire Fire Danger Rating</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetAreaRestrictionsUrl)" class="external-link">BC Wildfire Area Restrictions</a>: Published by Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Wildfire Service
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetProtectedLandsUrl)" class="external-link">Protected Lands Access Restrictions</a>:Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - BC Parks and Conservation Officer Service Division
+                     </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetRecSitesUrl)" class="external-link">BC Parks and Recreation Site Information (closures)</a>: Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - Recreation Sites and Trails BC
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetEvacOrdersUrl)" class="external-link">Evacuation Alert & Order Information</a>: Published by Ministry of Forests, Lands, Natural Resource Operations and Rural Development - GEOBC
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetCurrentConditionssUrl)" class="external-link">Current Weather Conditions</a>: Published Environment and Climate Change Canada
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetRadarurpprecipr14Url)" class="external-link">Radar Precipitation Rate</a>: Published Environment and Climate Change Canada
+                    </li>
+                    <li>
+                        <a href="" (click)="goToLink(datasetFiresmokeUrl)" class="external-link">Smoke Forecast, Hourly</a>: FireSmoke Canada
+                    </li>
+                </ul>
+                <p>
+                    <mat-icon class="help-icon" style="color: red">toggle_off</mat-icon><mat-icon class="help-icon" style="color: lightgreen">toggle_on</mat-icon><strong>Turn Legend On and Off:</strong>
+                </p>
+                <p>
+                    Top right corner after entering the layers section, click on the Legend button (the button shows green for on, red for off).
+                </p>
+                <p *ngIf="!getIsMobileRes()">
+                    <mat-icon class="help-icon">my_location</mat-icon><strong>Near Me function:</strong>
+                </p>
+                <p *ngIf="getIsMobileRes()">
+                    <mat-icon class="help-icon near-me-mobile-icon">my_location</mat-icon><strong>Near Me function:</strong>
+                </p>
+                <p>
+                    The near me function will provide a listing of all information available within a 50 KM radius of your location. In order to use this function, location services must be turned on for this application. Click the Near Me tool.
+                </p>
+                <p>
+                    When utilizing this service, depending on fire activity at the time, current prohibitions etc., this may take a couple seconds to process. A list will result, and you can expand or collapse the screen.  Once the “x” is hit, it will clear the list.
+                </p>
+                <p>
+                    <mat-icon class="help-icon">search</mat-icon><strong>Search Location:</strong>
+                </p>
+                <p>
+                    The Search Location control at the top of the map allows you to search for a geo location within the Province of BC.  Simply start entering the character of your search.  The search results will show as you type.  When you find the location you are looking for, simply click on the card and the map will zoom to the given location.  This tool uses the BC Geolocation Service so it typically will not find things in other provinces or countries.
+                </p>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.BANS_PROHIBS">
+                <p>
+                    To access the <span class="fire-category">Bans and Prohibitions</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon class="help-icon">not_interested</mat-icon>Then, select Bans and Prohibitions.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon class="help-icon">not_interested</mat-icon>Select Bans and Prohibitions.</p>
+                </div>
+                <p>
+                    To see more information regarding individual prohibitions, click on the links (Open Fires, Campfires, Forest Use).   When Prohibition is RED, click on the picture of prohibition for more details.
+                </p>
+            </div>
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.LATEST_NEWS">
+                <p>
+                    To access the <span class="fire-category">Latest News</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_TWITTER" class="help-icon"></mat-icon>Then, select Latest News.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_TWITTER" class="help-icon"></mat-icon>Select Latest News.</p>
+                </div>
+                <p>
+                    The Latest News feature for the mobile app links to you BC Wildfire Service’s Twitter feed where you can find their latest informational Tweets.
+                </p>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.ADVISORIES">
+                <p>
+                    To access the <span class="fire-category">Current Notices</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_ADVISORIES" class="help-icon"></mat-icon>Then, select Current Notices.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_ADVISORIES" class="help-icon"></mat-icon>Select Current Notices.</p>
+                </div>
+                <p>The slider control can be toggled between the options:</p>
+                <ul>
+                    <li>All - to show advisories in the whole province.</li>
+                    <li>Near Me - to show advisories within a 50km radius of your current location.</li>
+                </ul>
+                <p>The dropdown control can be used to select the type of current notices. Options are:</p>
+                <ul>
+                    <li>Bans and Prohibitions</li>
+                    <li>Area Restrictions</li>
+                    <li>Evacuation Orders and Alerts</li>
+                </ul>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.CURRENT_STATS">
+                <p>
+                    To access the <span class="fire-category">Current Stats</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon class="help-icon">bar_chart</mat-icon>Then, select Current Stats.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon class="help-icon">bar_chart</mat-icon>Select Current Stats.</p>
+                </div>
+                <p>
+                    Current Stats represent the Number of Fires in the last 2 days, along with a running total of fires for the season.
+                </p>
+                <p>
+                    <strong>Filter by:</strong>
+                </p>
+                <ul>
+                    <li>Fire Centre</li>
+                    <li>Suspected Cause</li>
+                    <li>Stage of Control</li>
+                </ul>
+                <p>
+                    <strong>Filter by:</strong>
+                </p>
+                <ul>
+                    <li>Current Year Fires</li>
+                    <li>Active Fires</li>
+                </ul>
+            </div>
+
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.HELP">
+                <p>
+                    To access the <span class="fire-category">Help</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon class="help-icon">help</mat-icon>Then, select Help.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon class="help-icon">help</mat-icon>Select Help.</p>
+                </div>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.DISCLAIMER">
+                <p>
+                    To access the <span class="fire-category">Disclaimer</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon class="help-icon">info</mat-icon>Then, select Disclaimer.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon class="help-icon">info</mat-icon>Select Disclaimer.</p>
+                </div>
+            </div>
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.REPORT_A_FIRE">
+                <p>
+                    To access the <span class="fire-category">Report a Fire</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_INCIDENT" class="help-icon"></mat-icon>Then, select Report a Fire.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CUSTOM_INCIDENT" class="help-icon"></mat-icon>Select Report a Fire.</p>
+                </div>
+                <p>
+                    Report a fire information describing the location of where you are, along with details required or questions you will get asked.
+                </p>
+            </div>
+
+
+
+
+            <div *ngIf="currentHelpContentType == HELP_CONTENT_TYPES.FEEDBACK">
+                <p>
+                    To access the <span class="fire-category">Feedback</span>:
+                </p>
+                <div *ngIf="getIsMobileRes()">
+                    <p><mat-icon class="help-icon">menu</mat-icon>Click the Menu button (top left - three bars).</p>
+                    <p><mat-icon class="help-icon">comment</mat-icon>Then, select Feedback.</p>
+                </div>
+                <div *ngIf="!getIsMobileRes()">
+                    <p><mat-icon class="help-icon">comment</mat-icon>Select Feedback.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</base-wrapper>

@@ -1,0 +1,112 @@
+@import "../../../styles/variables";
+@import "../../../../node_modules/@angular/material/theming";
+
+.near-me-loader {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    mat-spinner {
+        margin: auto;
+    }
+
+    .loading-message {
+        display: flex;
+        justify-content: center;
+    }
+}
+
+.weather-detail-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .button-bar {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin: 5px 0;
+
+        button {
+            margin-left: 10px;
+        }
+    }
+
+    .station {
+        width: calc( 100% - 10px );
+        padding: 5px;
+        font-size: 13px;
+        border-bottom: 1px solid #a9a9a9;
+
+        .name {
+            font-weight: bold;
+        }
+    }
+
+    .information {
+        padding: 10px;
+        text-align: center;
+        color: $colour-light-grey;
+    }
+
+    .current-time {
+        padding-left: 5px;
+        padding-right: 5px;
+        padding-bottom: 5px;
+        font-size: 11px;
+    }
+
+    .condition-metrics {
+        display: flex;
+        flex-direction: column;
+        padding: 5px 10px;
+
+        .metric {
+            display: flex;
+            padding-top: 10px;
+            justify-content: space-between;
+            align-items: flex-start;
+            word-break: break-word;
+
+            .label {
+                flex-basis: 40%;
+                font-size: 11px;
+                text-align: right;
+            }
+
+            .value {
+                flex-basis: 55%;
+                font-size: 13px;
+                text-align: left;
+
+                .unit {
+                    padding-left: 2px;
+                    color: #666;
+                }
+            }
+        }
+    }
+
+    .footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        padding-left: 5px;
+        padding-right: 10px;
+        padding-bottom: 5px;
+
+        display: flex;
+        align-items: flex-end;
+
+        .right {
+            flex-grow: 1;
+            flex-basis: 50%;           
+            align-self: flex-end;
+            text-align: right; 
+            line-height: 0;
+        }
+    }
+
+    .help-icon {
+        margin-left: 10px;
+    }
+}
