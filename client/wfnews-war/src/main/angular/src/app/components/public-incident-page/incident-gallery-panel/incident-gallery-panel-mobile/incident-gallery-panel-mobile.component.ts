@@ -171,7 +171,6 @@ loadMoreVideos(e: HTMLElement) {
       }
     }
 
-    console.log("ALERT: STUB LENGTH " + this.allImagesStub.length)
     if (this.allImagesStub.length > 9) {
       this.displayLoadMoreVideos = true
       this.displayVideosStub = this.allVideosStub.slice(0, 10);
