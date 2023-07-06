@@ -109,7 +109,6 @@ public class SwaggerTests extends EndpointsTest {
 					Assert.assertNotNull("Missing parameters", parameters);
 
 					boolean foundRestVersion = false;
-					// boolean foundIfMatch = false;
 					for (Map<String, Object> parameter : parameters) {
 
 						String name = (String) parameter.get("name");
@@ -118,8 +117,6 @@ public class SwaggerTests extends EndpointsTest {
 
 						if (HeaderConstants.VERSION_HEADER.equals(name)) {
 							foundRestVersion = true;
-						} else if (HeaderConstants.IF_MATCH_HEADER.equals(name)) {
-							// foundIfMatch = true;
 						}
 					}
 

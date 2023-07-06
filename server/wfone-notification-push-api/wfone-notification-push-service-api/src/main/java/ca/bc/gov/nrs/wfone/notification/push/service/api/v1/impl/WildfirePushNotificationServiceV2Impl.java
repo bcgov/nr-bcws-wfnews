@@ -222,30 +222,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 					}
 
 					try {
-						//String topicKey = messageInformation.getTopic();
-						//boolean ignoreSubscriberInd = false;
-						//boolean topicFound = false;
-
-						// spatial query filters by topic, so this is unecessary
-						/*for (NotificationTopicDto topicDto : notificationDto.getTopics()) {
-							if (topicDto.getNotificationTopicName() != null && topicDto.getNotificationTopicName().equalsIgnoreCase(topicKey)) {
-								topicFound = true;
-								break;
-							}
-						}
-
-						if (!topicFound) {
-							logger.debug("Subscriber " + notificationDto.getSubscriberGuid() + " Not subscribed to topic " + topicKey);
-							logger.debug("Available topic subscriptions: " + notificationDto.getTopics().toString());
-							ignoreSubscriberInd = true;
-						}*/
-
-						//if (!ignoreSubscriberInd) {
-							pushMessageToSubscriber(isTest, context, pushRecordsCount, pushNotifications, transactionDefinition, expirations, currentTimeStamp, messageInformation, notificationDto, notificationSettingsDto);
-							successCount++;
-						//} else {
-						//	ignoreCount++;
-						//}
+						pushMessageToSubscriber(isTest, context, pushRecordsCount, pushNotifications, transactionDefinition, expirations, currentTimeStamp, messageInformation, notificationDto, notificationSettingsDto);
+						successCount++;
 					} catch (Throwable t) {
 						PushNotification pushNotification = this.pushNotificationFactory.getPushNotification(t, context);
 						pushNotifications.add(0, pushNotification);
@@ -411,7 +389,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			logger.error("ErrorCode=" + e.getErrorCode());
 
 			if ("invalid-argument".equals(e.getErrorCode()) || "registration-token-not-registered".equals(e.getErrorCode())) {
-				// TODO: FX, SET NOTIFICATION_TOKEN = ''
 				this.notificationSettingsDao.inactivate(notificationSettingsDto.getSubscriberGuid(), null);
 				logger.error("Subscriber " + notificationSettingsDto.getSubscriberGuid() + " excluded from future notifications");
 			}
@@ -419,195 +396,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 			throw e;
 		}
 	}
-
-//    private PushNotificationList<? extends PushNotification> pushTwitterNotifications(
-//            TwitterInformation twitterInformation, FactoryContext context,  boolean isTest) throws ServiceException {
-//
-//        logger.debug("<pushTwitterNotifications");
-//
-//        Date jobStartedDate = new Date();
-//
-//        PushNotificationList<? extends PushNotification> result;
-//        List<PushNotification> pushNotifications = new ArrayList<>();
-//
-//        try {
-//            Calendar calendar = Calendar.getInstance();
-//            calendar.add(Calendar.DATE, -30);
-//            Date thirtyDaysAgoDate = calendar.getTime();
-//
-//            List<TwitterInformation> tweetsLessThan30DaysOld = new ArrayList<>();
-//
-//            if (twitterInformation.getCreatedAt().after(thirtyDaysAgoDate)) {
-//                tweetsLessThan30DaysOld.add(twitterInformation);
-//            }
-//
-//
-//            if (isTest && tweetsLessThan30DaysOld.size() > 0) {
-//                tweetsLessThan30DaysOld = tweetsLessThan30DaysOld.subList(0, 1);
-//            }
-//
-//            sendTwitterPushNotifications(tweetsLessThan30DaysOld, isTest);
-//        } catch (Throwable t) {
-//
-//            logger.error("Exception caught: " + t);
-//            logger.error("Exception trace: " + t.getStackTrace());
-//
-//            PushNotification pushNotification = this.pushNotificationFactory.getPushNotification(t, context);
-//            pushNotifications.add(0, pushNotification);
-//        }
-//
-//        result = this.pushNotificationFactory.getPushNotificationList(pushNotifications, context);
-//
-//        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date jobFinishedDate = new Date();
-//        String jobFinishedDateString = formatter.format(jobFinishedDate);
-//        String jobStartedDateString = formatter.format(jobStartedDate);
-//
-//        long millsDiff = jobFinishedDate.getTime() - jobStartedDate.getTime();
-//        Duration duration = Duration.ofMillis(millsDiff);
-//        String formattedElapsedTime = String.format("%d:%02d:%02d:%02d", duration.toDays(), duration.toHours() % 24,  duration.toMinutes() % 60, (duration.toMillis()/1000) % 60 );
-//        logger.info(" Push twitter completed.   Started "+ jobStartedDateString+ ".   Finished "+jobFinishedDateString+".  Duration (days:hours:min:seconds): " + formattedElapsedTime);
-//
-//        logger.debug(">pushTwitterNotifications " + result);
-//        return result;
-//    }
-
-//    private void sendTwitterPushNotifications(List<TwitterInformation> tweets, boolean isTest) throws Throwable {
-//
-//        String[] notificationTypes = { NotificationTypes.TYPE_NEWS };
-//
-//        String[] orderBy = null;
-//
-//        Boolean activeInd = Boolean.TRUE;
-//
-//        List<NotificationSettingsDto> notificationSettingsList = notificationSettingsDao.select(notificationTypes,	activeInd, orderBy);
-//
-//        Map<String, NotificationPushItemDto> subGuidToLastPNMap = getLastPNMapForSubscribers(notificationSettingsList,	new String[] { NotificationTopics.TWITTER_NEWS_PNIDENTIFIER });
-//
-//        // Start the transaction before we make any database calls
-//        TransactionDefinition transactionDefinition = new DefaultTransactionDefinition();
-//
-//        for (TwitterInformation twitterInformation : tweets) {
-//
-//            List<Map<String, Object>> regTokensEligibleForDelivery = new ArrayList<>();
-//            //TODO  List<NotificationPushItemDto> notifcationPushItems = new ArrayList<>();
-//
-//            for (NotificationSettingsDto notifSettingDto : notificationSettingsList) {
-//
-//                for (NotificationDto notification : notifSettingDto.getNotifications()) {
-//
-//                    if (notification.getNotificationType() != null	&& notification.getNotificationType().equals(NotificationTypes.TYPE_NEWS)
-//                            && notification.getActiveIndicator() != null && Boolean.TRUE.equals(notification.getActiveIndicator())) {
-//
-//                        NotificationPushItemDto latestNotifPushItem;
-//
-//                        if (subGuidToLastPNMap.containsKey(notifSettingDto.getSubscriberGuid())) {
-//
-//                            latestNotifPushItem = subGuidToLastPNMap.get(notifSettingDto.getSubscriberGuid());
-//
-//                        } else {
-//
-//                            // If user has never received a PN before, we set their pushed date and expiry
-//                            // date to registration date of PNs
-//                            latestNotifPushItem = new NotificationPushItemDto();
-//                            latestNotifPushItem.setPushTimestamp(notifSettingDto.getCreatedDate());
-//                        }
-//
-//                        Map<String, Object> notificationEntry  =  new HashMap<String, Object>();
-//                        notificationEntry.put("token", notifSettingDto.getNotificationToken());
-//
-//                        if (isTest) {
-//
-//                            regTokensEligibleForDelivery.add(notificationEntry);
-//
-//                        } else if (twitterInformation.getCreatedAt().after(latestNotifPushItem.getPushTimestamp())) {
-//
-//                            NotificationPushItemDto notificationPushItemDto = createNotificationPushItemDto( notification.getNotificationGuid(), NotificationTopics.TWITTER_NEWS_PNIDENTIFIER );
-//                            notificationEntry.put("notificationPushItemDto",notificationPushItemDto);
-//                            regTokensEligibleForDelivery.add(notificationEntry);
-//                        }
-//                    }
-//                } // for all notifications in the the setting
-//            } // for all settings
-//
-//            String body = twitterInformation.getText();
-//            String title = "Latest News";
-//            if (isTest) {
-//                body = "TEST: " + body;
-//            }
-//
-//            List<String> regTokensForBatchSend = new ArrayList<>();
-//            List<NotificationPushItemDto> noificationPushItemsForBatchSend = new ArrayList<>();
-//
-//            Iterator<Map<String, Object>> iter = regTokensEligibleForDelivery.iterator();
-//            while (iter.hasNext()) {
-//
-//                Map<String, Object> notificationEntry = iter.next();
-//                regTokensForBatchSend.add(  (String)notificationEntry.get("token") );
-//                Object  notificationPushItemDto = (NotificationPushItemDto) notificationEntry.get("notificationPushItemDto");
-//
-//                if ( notificationPushItemDto!=null) {
-//                    noificationPushItemsForBatchSend.add( (NotificationPushItemDto)  notificationPushItemDto );
-//                }
-//
-//                if (regTokensForBatchSend.size() == batchMessageRecipientLimit.intValue() || !iter.hasNext()) {
-//                    TransactionStatus transactionStatus = transactionManager.getTransaction(transactionDefinition);
-//
-//                    try {
-//
-//                        com.google.firebase.messaging.MulticastMessage pushNotificationMessages = prepareTweetForPushNotification(title, body, regTokensForBatchSend, twitterInformation);
-//                        BatchResponse batchResponse = firebaseMessaging.sendMulticast(pushNotificationMessages);
-//
-//                        if (batchResponse.getFailureCount()==0)
-//                            logger.info(">Twitter push notifications sent. Successfully sent: " + batchResponse.getSuccessCount() );
-//                        else
-//                            logger.info(">Twitter push notifications sent. Successfully sent: " + batchResponse.getSuccessCount() + " Failed to send: " + batchResponse.getFailureCount());
-//
-//                        for (NotificationPushItemDto notificationPushItemDtoToInsert : noificationPushItemsForBatchSend) {
-//                            // Record new PN send history for all recipients
-//                            notificationPushItemDao.insert(notificationPushItemDtoToInsert, null);
-//                        }
-//
-//                        this.transactionManager.commit(transactionStatus);
-//                        regTokensForBatchSend.clear();
-//                        noificationPushItemsForBatchSend.clear();
-//
-//                    } catch (Throwable t) {
-//
-//                        this.transactionManager.rollback(transactionStatus);
-//                        throw t;
-//                    }
-//                } // if for batch process
-//            }  // while all tokens
-//        } // for all twits
-//    }
-
-//    // Constructs a map of subscriber guid ID to their latest
-//    // NotificationPushItemDto object.
-//    private Map<String, NotificationPushItemDto> getLastPNMapForSubscribers(
-//            List<NotificationSettingsDto> notificationSettingsList, String[] itemIdentifiers) throws DaoException {
-//
-//        String[] orderBy = new String[] { "pushTimestamp", "DESC" };
-//
-//        Map<String, NotificationPushItemDto> subGuidToLastPNMap = new HashMap<>();
-//
-//        for (NotificationSettingsDto notifSettingDto : notificationSettingsList) {
-//
-//            for (NotificationDto notification : notifSettingDto.getNotifications()) {
-//
-//                List<NotificationPushItemDto> notificationPushedItemDtos = notificationPushItemDao.select(notification.getNotificationGuid(), itemIdentifiers, null, null, orderBy);
-//
-//                if (notificationPushedItemDtos.size() > 0) {
-//
-//                    NotificationPushItemDto latestNotifPushItem = notificationPushedItemDtos.get(0);
-//                    subGuidToLastPNMap.put(notifSettingDto.getSubscriberGuid(), latestNotifPushItem);
-//
-//                }
-//            }
-//        }
-//
-//        return subGuidToLastPNMap;
-//    }
 
 	private static com.google.firebase.messaging.MulticastMessage prepareTweetForPushNotification(String title,
 			String body, List<String> regTokens, TwitterInformation twitterInformation) {
@@ -631,16 +419,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		return notificationPushItemDto;
 	}
-
-//    private static NotificationPushItemDto createNotificationPushItemDto(String notificationGuid, String resourceId) {
-//        NotificationPushItemDto notificationPushItemDto = new NotificationPushItemDto();
-//        notificationPushItemDto.setNotificationGuid(notificationGuid);
-//
-//        notificationPushItemDto.setPushTimestamp(new Date());
-//        notificationPushItemDto.setItemIdentifier(resourceId);
-//
-//        return notificationPushItemDto;
-//    }
 
 	public void setWfonePushItemExpireHoursBan(String wfonePushItemExpireHoursBan) {
 		this.expirations.put(NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS, Integer.parseInt(wfonePushItemExpireHoursBan));
@@ -666,10 +444,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		this.spatialMonitorHandler = spatialMonitorHandler;
 	}
 
-//    public void setTwitterMonitorHandler(TwitterMonitorHandler twitterMonitorHandler) {
-//        this.twitterMonitorHandler = twitterMonitorHandler;
-//    }
-
 	public void setSpatialQuery(PostgreSqlAreaOfInterestQuery spatialQuery) {
 		this.spatialQuery = spatialQuery;
 	}
@@ -685,10 +459,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 	public void setPushNotificationFactory(PushNotificationFactory pushNotificationFactory) {
 		this.pushNotificationFactory = pushNotificationFactory;
 	}
-
-//    public void setBatchMessageRecipientLimit(Integer batchMessageRecipientLimit) {
-//        this.batchMessageRecipientLimit = batchMessageRecipientLimit;
-//    }
 
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;

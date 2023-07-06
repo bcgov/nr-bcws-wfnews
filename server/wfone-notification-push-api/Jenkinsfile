@@ -62,7 +62,6 @@ pipeline {
                 sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-int"
                 sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-int"
                 sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-int"
-				// sh "curl -X POST -H \"Content-Type: application/json\" https://chat.pathfinder.gov.bc.ca/hooks/3r56YfET4YxQkYDSG/dAKaC4mhTTbGwv4prvf3pQZ9NBasof8nHjodsKeEPkugTXkA -d '{\"text\":\"Completed deploying wfone-notifications-api to INT from ${CHANGE_BRANCH} for PR-${CHANGE_ID}.\"}'"
 			}
 			post {
 				always {
@@ -94,7 +93,6 @@ pipeline {
                 sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-dlv"
                 sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-dlv"
                 sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-dlv"
-				// sh "curl -X POST -H \"Content-Type: application/json\" https://chat.pathfinder.gov.bc.ca/hooks/3r56YfET4YxQkYDSG/dAKaC4mhTTbGwv4prvf3pQZ9NBasof8nHjodsKeEPkugTXkA -d '{\"text\":\"Completed deploying wfone-notifications-api to DLVR from ${CHANGE_BRANCH} for PR-${CHANGE_ID}.\"}'"
 			}
 			post {
 				always {
@@ -126,7 +124,6 @@ pipeline {
                 sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-tst"
                 sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-tst"
                 sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-tst"
-				// sh "curl -X POST -H \"Content-Type: application/json\" https://chat.pathfinder.gov.bc.ca/hooks/3r56YfET4YxQkYDSG/dAKaC4mhTTbGwv4prvf3pQZ9NBasof8nHjodsKeEPkugTXkA -d '{\"text\":\"Completed deploying wfone-notifications-api to TEST from ${CHANGE_BRANCH} for PR-${CHANGE_ID}.\"}'"
 			}
 			post {
 				always {
@@ -158,7 +155,6 @@ pipeline {
                 sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-prod"
                 sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-prod"
                 sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-prod"
-				// sh "curl -X POST -H \"Content-Type: application/json\" https://chat.pathfinder.gov.bc.ca/hooks/3r56YfET4YxQkYDSG/dAKaC4mhTTbGwv4prvf3pQZ9NBasof8nHjodsKeEPkugTXkA -d '{\"text\":\"Completed deploying wfone-notifications-api to PROD from ${CHANGE_BRANCH} for PR-${CHANGE_ID}.\"}'"
 			}
 			post {
 				always {
