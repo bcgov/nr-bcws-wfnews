@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+				namespace="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.mybatis.mapper.NotificationSettingsMapper">
+
+				<resultMap id="NotificationSettingsDtoMap"
+								type="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationSettingsDto">
+								<id property="subscriberGuid" column="SUBSCRIBER_GUID"
+												javaType="java.lang.String" jdbcType="VARCHAR" />
+								<result property="subscriberToken"
+												column="SUBSCRIBER_TOKEN" javaType="java.lang.String"
+												jdbcType="VARCHAR" />
+								<result property="notificationToken"
+												column="NOTIFICATION_TOKEN" javaType="java.lang.String"
+												jdbcType="VARCHAR" />
+								<result property="deviceType" column="DEVICE_TYPE"
+												javaType="java.lang.String" jdbcType="VARCHAR" />
+								<result property="createdDate" column="CREATE_TIMESTAMP"
+												javaType="java.util.Date" jdbcType="TIMESTAMP" />
+
+								<collection property="notifications"
+												ofType="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationDto">
+
+												<id property="notificationGuid"
+																column="NOTIFICATION_GUID" javaType="java.lang.String"
+																jdbcType="VARCHAR" />
+												<result property="subscriberGuid"
+																column="SUBSCRIBER_GUID" javaType="java.lang.String"
+																jdbcType="VARCHAR" />
+												<result property="notificationName"
+																column="NOTIFICATION_NAME" javaType="java.lang.String"
+																jdbcType="VARCHAR" />
+												<result property="notificationType"
+																column="NOTIFICATION_TYPE" javaType="java.lang.String"
+																jdbcType="VARCHAR" />
+												<result property="radius" column="RADIUS_KMS"
+																javaType="java.lang.Double" jdbcType="NUMERIC" />
+												<result property="latitude" column="LATITUDE"
+																javaType="java.lang.Double" jdbcType="NUMERIC" />
+												<result property="longitude" column="LONGITUDE"
+																javaType="java.lang.Double" jdbcType="NUMERIC" />
+												<result property="activeIndicator"
+																column="ACTIVE_IND" javaType="java.lang.Boolean"
+																jdbcType="VARCHAR" />
+
+												<collection property="topics"
+																ofType="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationTopicDto">
+																<id property="notificationTopicGuid"
+																				column="NOTIFICATION_TOPIC_GUID"
+																				javaType="java.lang.String" jdbcType="VARCHAR" />
+																<result property="notificationGuid"
+																				column="NOTIFICATION_GUID"
+																				javaType="java.lang.String" jdbcType="VARCHAR" />
+																<result property="notificationTopicName"
+																				column="NOTIFICATION_TOPIC_NAME"
+																				javaType="java.lang.String" jdbcType="VARCHAR" />
+												</collection>
+
+								</collection>
+
+				</resultMap>
+
+				<sql id="selectJoins">
+
+								FROM NOTIFICATION_SETTINGS NS
+								LEFT JOIN NOTIFICATION N ON N.SUBSCRIBER_GUID
+								= NS.SUBSCRIBER_GUID
+								LEFT JOIN NOTIFICATION_TOPIC NT ON
+								NT.NOTIFICATION_GUID = N.NOTIFICATION_GUID
+
+				</sql>
+
+
+				<sql id="selectColumns">
+
+								SELECT NS.SUBSCRIBER_GUID,
+								NS.SUBSCRIBER_TOKEN,
+								NS.NOTIFICATION_TOKEN,
+								NS.DEVICE_TYPE,
+								NS.CREATE_TIMESTAMP,
+								N.NOTIFICATION_GUID,
+								N.NOTIFICATION_NAME,
+								N.NOTIFICATION_TYPE,
+								N.RADIUS_KMS,
+								N.LATITUDE,
+								N.LONGITUDE,
+								N.ACTIVE_IND,
+								NT.NOTIFICATION_TOPIC_GUID,
+								NT.NOTIFICATION_TOPIC_NAME,
+								row_number() OVER () as ROWNUM
+
+				</sql>
+
+
+				<sql id="whereClause">
+								WHERE NS.NOTIFICATION_TOKEN != ''
+
+								<if
+												test="notificationTypes!=null and notificationTypes.length>0">
+												AND UPPER(N.NOTIFICATION_TYPE) IN
+												<foreach item="item" index="index"
+																collection="notificationTypes" open="(" separator=","
+																close=")">UPPER(#{item})
+												</foreach>
+								</if>
+
+								<if test="activeIndicator!=null">
+												AND N.ACTIVE_IND = #{activeIndicator,
+												javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
+								</if>
+
+
+				</sql>
+
+				<select id="selectCount" resultType="int">
+
+								SELECT COUNT(main.subscriber_guid) FROM (
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								<include refid="whereClause" />
+								) main
+
+				</select>
+
+				<select id="select" resultMap="NotificationSettingsDtoMap">
+
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								<include refid="whereClause" />
+								<if test="orderBys!=null and orderBys.length>0">
+												ORDER BY
+												<foreach collection="orderBys" item="orderby">
+																<choose>
+
+																				<when test="orderby=='subscriberGuid'">NS.SUBSCRIBER_GUID</when>
+
+																				<when test="orderby=='ASC'"> ASC,</when>
+																				<when test="orderby=='DESC'"> DESC,</when>
+																</choose>
+												</foreach>
+												ROWNUM
+								</if>
+
+				</select>
+
+				<select id="fetch" resultMap="NotificationSettingsDtoMap">
+
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								WHERE NS.SUBSCRIBER_GUID = #{subscriberGuid}
+
+				</select>
+
+				<update id="inactivate">
+
+								UPDATE NOTIFICATION_SETTINGS
+								SET NOTIFICATION_TOKEN = '',
+								REVISION_COUNT = REVISION_COUNT + 1,
+								UPDATE_USER = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR,
+								mode=IN} , current_user),
+								UPDATE_TIMESTAMP = current_timestamp
+								WHERE SUBSCRIBER_GUID = #{subscriberGuid}
+
+				</update>
+
+
+</mapper>
