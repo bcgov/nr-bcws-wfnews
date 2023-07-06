@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+				namespace="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dao.mybatis.mapper.NotificationPushItemMapper">
+
+				<resultMap id="NotificationPushItemDtoMap"
+								type="ca.bc.gov.nrs.wfone.notification.push.persistence.v1.dto.NotificationPushItemDto">
+								<id property="notificationPushItemGuid"
+												column="NOTIFICATION_PUSH_ITEM_GUID"
+												javaType="java.lang.String" jdbcType="VARCHAR" />
+								<result property="notificationGuid"
+												column="NOTIFICATION_GUID" javaType="java.lang.String"
+												jdbcType="VARCHAR" />
+								<result property="pushTimestamp" column="PUSH_TIMESTAMP"
+												javaType="java.util.Date" jdbcType="TIMESTAMP" />
+								<result property="itemExpiryTimestamp"
+												column="ITEM_EXPIRY_TIMESTAMP" javaType="java.util.Date"
+												jdbcType="TIMESTAMP" />
+								<result property="itemIdentifier"
+												column="ITEM_IDENTIFIER" javaType="java.lang.String"
+												jdbcType="VARCHAR" />
+				</resultMap>
+
+				<sql id="selectJoins">
+
+								FROM NOTIFICATION_PUSH_ITEM NPI
+
+				</sql>
+
+
+				<sql id="selectColumns">
+
+								SELECT NPI.NOTIFICATION_PUSH_ITEM_GUID,
+								NPI.NOTIFICATION_GUID,
+								NPI.PUSH_TIMESTAMP,
+								NPI.ITEM_EXPIRY_TIMESTAMP,
+								NPI.ITEM_IDENTIFIER,
+								row_number() OVER () as ROWNUM
+				</sql>
+
+
+				<sql id="whereClause">
+								WHERE 1 = 1
+								<if test="notificationGuid!=null">
+												AND NPI.NOTIFICATION_GUID = #{notificationGuid}
+								</if>
+
+								<if test="itemIdentifiers!=null and itemIdentifiers.length>0">
+												AND NPI.ITEM_IDENTIFIER IN
+												<foreach item="item" index="index"
+																collection="itemIdentifiers" open="(" separator=","
+																close=")">#{item}
+												</foreach>
+								</if>
+
+								<if test="afterItemPushTimestamp!=null">
+												AND NPI.PUSH_TIMESTAMP &gt; #{afterItemPushTimestamp}
+								</if>
+
+								<if test="afterItemExpiryTimeStamp!=null">
+												AND NPI.ITEM_EXPIRY_TIMESTAMP &gt;
+												#{afterItemExpiryTimeStamp}
+								</if>
+
+
+				</sql>
+
+				<select id="selectCount" resultType="int">
+
+								SELECT COUNT(main.NOTIFICATION_PUSH_ITEM_GUID) FROM (
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								<include refid="whereClause" />
+								) main
+
+				</select>
+
+				<select id="select" resultMap="NotificationPushItemDtoMap">
+
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								<include refid="whereClause" />
+								<if test="orderBys!=null and orderBys.length>0">
+												ORDER BY
+												<foreach collection="orderBys" item="orderby">
+																<choose>
+																				<when test="orderby=='pushTimestamp'">PUSH_TIMESTAMP</when>
+																				<when test="orderby=='itemIdentifier'">ITEM_IDENTIFIER</when>
+
+																				<when test="orderby=='ASC'"> ASC,</when>
+																				<when test="orderby=='DESC'"> DESC,</when>
+																</choose>
+												</foreach>
+												ROWNUM
+								</if>
+
+				</select>
+
+				<select id="fetch" resultMap="NotificationPushItemDtoMap">
+
+								<include refid="selectColumns" />
+								<include refid="selectJoins" />
+								WHERE NPI.NOTIFICATION_PUSH_ITEM_GUID =
+								#{notificationPushItemGuid}
+
+				</select>
+
+				<insert id="insert">
+
+								<selectKey keyProperty="notificationPushItemGuid"
+												resultType="java.lang.String" order="BEFORE">
+												SELECT uuid_generate_v1();
+								</selectKey>
+
+								INSERT INTO NOTIFICATION_PUSH_ITEM
+								( NOTIFICATION_PUSH_ITEM_GUID,
+								NOTIFICATION_GUID,
+								PUSH_TIMESTAMP,
+								ITEM_EXPIRY_TIMESTAMP,
+								ITEM_IDENTIFIER,
+								REVISION_COUNT,
+								CREATE_USER,
+								CREATE_TIMESTAMP,
+								UPDATE_USER,
+								UPDATE_TIMESTAMP )
+								VALUES
+								(#{notificationPushItemGuid},
+								#{dto.notificationGuid, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+								#{dto.pushTimestamp, javaType=java.util.Date,
+								jdbcType=TIMESTAMP,
+								mode=IN},
+								#{dto.itemExpiryTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
+								#{dto.itemIdentifier, javaType=java.lang.String,
+								jdbcType=VARCHAR,
+								mode=IN},
+								1,
+								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} ,
+								current_user) ,
+								current_timestamp,
+								COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} ,
+								current_user) ,
+								current_timestamp)
+
+				</insert>
+
+				<update id="update">
+
+								UPDATE NOTIFICATION_PUSH_ITEM
+								SET NOTIFICATION_GUI = #{dto.notificationGuid, javaType=java.lang.String,
+								jdbcType=VARCHAR, mode=IN},
+								PUSH_TIMESTAMP = #{dto.pushTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP,
+								mode=IN},
+								ITEM_EXPIRY_TIMESTAMP = #{dto.itemExpiryTimestamp, javaType=java.util.Date,
+								jdbcType=TIMESTAMP, mode=IN},
+								ITEM_IDENTIFIER = #{dto.itemIdentifier, javaType=java.lang.String, jdbcType=VARCHAR,
+								mode=IN},
+								REVISION_COUNT = REVISION_COUNT + 1,
+								UPDATE_USER = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR,
+								mode=IN} , current_user),
+								UPDATE_TIMESTAMP = current_timestamp
+								WHERE NOTIFICATION_PUSH_ITEM_GUID = #{notificationPushItemGuid}
+
+				</update>
+
+				<delete id="delete">
+
+								DELETE FROM NOTIFICATION_PUSH_ITEM WHERE
+								NOTIFICATION_PUSH_ITEM_GUID = #{notificationPushItemGuid}
+
+				</delete>
+
+</mapper>
