@@ -6,9 +6,9 @@ import { AppConfigService } from "@wf1/core-ui";
 import { ActivatedRoute, ParamMap } from "@angular/router";
 
 export class DownloadableMap {
-  name :string;
-  link :string;
-  date :string;
+  name: string;
+  link: string;
+  date: string;
 }
 
 @Component({
@@ -23,7 +23,7 @@ export class IncidentMapsPanel implements OnInit {
 
   maps: DownloadableMap[];
   isPreview: boolean;
-  
+
   constructor(private snackbarService: MatSnackBar,
               private httpClient: HttpClient,
               private publishedIncidentService: PublishedIncidentService,
