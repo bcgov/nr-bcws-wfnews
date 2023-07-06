@@ -1,0 +1,42 @@
+<div class="dialog-header" mat-dialog-title>
+    <div mat-dialog-actions class="left">
+        <button mat-icon-button 
+            *ngIf="showBack" 
+            (click)="back()" 
+            [disabled]="!canGoBack"
+        ><mat-icon>arrow_back</mat-icon></button>
+    </div>
+
+    <div *ngIf="!mobile"
+        class="title info"
+        cdkDrag cdkDragRootElement=".cdk-overlay-pane"
+        cdkDragHandle cdkDragBoundary=".cdk-overlay-container"
+    >{{title}}</div>
+
+    <div *ngIf="mobile"
+        class="title info"
+    >{{title}}</div>
+
+    <div mat-dialog-actions class="right">
+        <button mat-icon-button
+            *ngIf="showClose" 
+            (click)="cancel()"
+        ><mat-icon>close</mat-icon></button>
+    </div>
+</div>
+
+<mat-dialog-content [ngClass]="mobile ? 'mobile dialog-body' : 'desktop dialog-body'">
+    <ng-content></ng-content>
+</mat-dialog-content>
+
+<div class="dialog-footer" *ngIf="showCancel || showOK">
+    <div mat-dialog-actions>
+        <button class="wildfire-button"
+            (click)="cancel()" 
+        >Cancel</button>
+
+        <button class="wildfire-button primary"
+            (click)="ok()" 
+        >OK</button>
+    </div>
+</div>

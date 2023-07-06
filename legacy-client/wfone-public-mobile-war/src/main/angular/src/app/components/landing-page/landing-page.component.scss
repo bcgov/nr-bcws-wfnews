@@ -1,0 +1,148 @@
+@import '../../../styles/variables';
+
+// ::ng-deep .smk-map-frame {
+//   .smk-viewer {
+//     //top: 3rem !important;
+//   }
+//   .smk-overlay {
+//     //bottom: calc(var( --overlay-padding) + env(safe-area-inset-top)) !important;
+//     .smk-toolbar{
+//       //left:3.25rem;
+//     }
+//     .smk-sidepanel{
+//       //left:3.25rem;
+//     }
+//     //top: 3.25rem !important;
+
+//     .smk-map-frame .smk-overlay .smk-status{
+//       bottom: 70px;
+//     }
+//   }
+// }
+
+wf-map-container {
+    // background-color: yellow;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    ::ng-deep .wfim-notified {
+        &.notified-fire {
+            color: green;
+        }
+
+        .material-icons {
+            font-size: 32px;
+        }
+    }
+}
+
+::ng-deep .nearme-badge {
+    width: 20px;
+    height: 20px;
+    border-radius: 7px;
+    background-color: red;
+    color: white;
+    position: absolute;
+    right: -1px;
+    bottom: 27px;
+    text-align: center;
+}
+
+::ng-deep .smk-layers-panel .smk-folder .smk-item .smk-layer-title {
+  color: $colour-black;
+}
+.dashboard {
+  padding: 2rem 0 0 0;
+  margin: 0 auto;
+  display: -ms-grid;
+  display: grid;
+  justify-items: center;
+
+  @media screen and (min-width: 770px) {
+    -ms-grid-columns: 1fr 1fr 1fr;
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 40rem;
+
+    .mydiary-card {
+      -ms-grid-row: 1;
+      -ms-grid-column: 1;
+    }
+
+    .approvals-card {
+      -ms-grid-row: 1;
+      -ms-grid-column: 2;
+    }
+
+    .profile-card {
+      -ms-grid-row: 1;
+      -ms-grid-column: 3;
+    }
+  }
+
+  @media screen and (max-width: 769px) {
+    -ms-grid-rows: 1fr 1fr 1fr;
+    width: 12rem;
+
+    .mydiary-card {
+      -ms-grid-row: 1;
+      -ms-grid-column: 1;
+    }
+
+    .approvals-card {
+      -ms-grid-row: 2;
+      -ms-grid-column: 1;
+    }
+
+    .profile-card {
+      -ms-grid-row: 3;
+      -ms-grid-column: 1;
+    }
+  }
+
+  mat-card.dashboard-action {
+    margin: 1rem auto 1.2rem auto;
+    min-height: 7.2rem;
+    height: 7.2rem;
+    max-width: 10rem;
+    border-radius: 1rem;
+
+    .dashboard-action-title {
+      font-size: 1rem;
+      font-weight: bold;
+    }
+
+    mat-card-header {
+      min-height: 5.5rem;
+      height: 5.5rem;
+      &::ng-deep .mat-card-header-text {
+        margin: 0;
+        bottom: 0;
+      }
+    }
+
+    .mat-button {
+      &.profile-button {
+        background: #627d8e;
+      }
+
+      &.mydiary-button {
+        background: #f9ca81;
+      }
+
+      &.approvals-button {
+        background: #446043;
+      }
+
+      width: 100%;
+      min-height: 7rem;
+      height: 7rem;
+      top: -2rem;
+      font-size: 4rem;
+      background: darkgray;
+      border-radius: 1rem;
+    }
+  }
+}

@@ -1,0 +1,140 @@
+::ng-deep .help-document {
+    font-size: 16px;
+
+    em {
+        white-space: nowrap;
+        font-weight: bold;
+        font-style: normal;
+    }
+        
+    img[alt=the-picture-of-fire-category-1-campfires] { 
+        width: 250px;
+        margin-left: calc( 50% - 125px );
+    }
+
+    img[alt=the-picture-of-fire-category-2-open-fires] { 
+        width: 250px;
+        margin-left: calc( 50% - 125px );
+    }
+
+    img[alt=the-picture-of-fire-category-3-open-fires] { 
+        width: 250px;
+        margin-left: calc( 50% - 125px );
+    }
+
+    img[alt=fire-smart] { 
+        width: 300px;
+        margin-left: calc( 50% - 150px );
+    }
+
+    img[alt=ember-sitting] { 
+        width: 300px;
+        margin-left: calc( 50% - 150px );
+    }
+
+    .regulations {
+        ul {
+            margin: 0;
+            padding: 0 20px;
+
+            li {
+                display: flex;
+                align-items: center;
+                margin: 10px 0;
+                margin-bottom: 30px;
+
+                .image {
+                    width: 90px;
+                    flex-shrink: 0;
+
+                    img {
+                        max-width: 65px;
+                        height: 65px;
+                    }
+                }
+            }
+        }
+    }
+
+    img[alt=svg-icon] {
+        width: 35px;
+        height: 24px;
+    }
+
+    .help-link {
+        display: flex;
+        align-items: center;
+
+        padding: 5px;
+        border: 1px solid #c6c8cb;
+
+        span {
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        i.material-icons {
+            padding-left: 10px;
+        }
+        
+        .new-marker {
+            background-color: green;
+            color: white;
+            font-size: 12px;
+            padding: 3px 6px;
+            border-radius: 10px;
+        }
+
+        .fill {
+            flex-grow: 1;
+        }
+    }
+
+    .table-of-contents {
+        ul {
+            margin: 0;
+            padding-top: 10px;
+            padding-left: 0;
+            padding-right: 0;
+            padding-bottom: 10px;
+
+            li {
+                display: flex;
+
+                .help-link {
+                    flex-grow: 1;
+                    padding: 16px;
+                    border: none;
+                }
+
+                border-top: 1px solid #c6c8cb;
+                border-left: 1px solid #c6c8cb;
+                border-right: 1px solid #c6c8cb;
+
+                &:last-child {
+                    border-bottom: 1px solid #c6c8cb;
+                }
+            }
+        }
+    }
+
+    .announcements {
+        padding-top: 10px;
+        padding-bottom: 10px;
+
+        span.col1 {
+            margin: 0 10px;
+            flex-basis: 3em;
+            flex-grow: 0;
+        }
+
+        .title {
+            font-size: 22px;
+        }
+    }
+
+    p.trademark {
+        font-size: 12px;
+        font-style: italic;
+    }
+}

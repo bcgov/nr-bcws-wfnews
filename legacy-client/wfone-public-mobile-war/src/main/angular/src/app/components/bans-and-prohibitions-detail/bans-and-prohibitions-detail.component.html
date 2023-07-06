@@ -1,0 +1,18 @@
+    <div class="page-width-container wfone-public-mobile-bans-and-prohibitions-detail standard-content" [ngClass]="elevation">
+        <div class="external-page-top-nav" (click)="close()">
+            <p class="url-info">
+                <mat-icon aria-hidden="false" aria-label="close" class="close-button">close</mat-icon>
+                {{externalUrl}}
+            </p>
+        </div>
+
+        <iframe #iframe
+            [src]="externalSafeUrl"
+            height="700"
+            width="100%"
+            frameborder="0">
+        </iframe>
+
+    </div>
+
+

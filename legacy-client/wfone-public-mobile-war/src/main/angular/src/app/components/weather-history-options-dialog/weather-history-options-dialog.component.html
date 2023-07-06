@@ -1,0 +1,59 @@
+<wfone-base-dialog 
+    class="weather-history-options-dialog" 
+    title="Weather History Options" 
+    [showBack]="false"
+    [showCancel]="true"
+    [showOK]="true"
+    (accepted)="onAccept()"
+>
+    <h4>First Weather History Metric</h4>
+    <mat-form-field appearance="outline" class="center">
+        <mat-select 
+            disableOptionCentering
+            panelClass="dropdownPanelClass" 
+            [(value)]="selectedMetric[ 0 ]" 
+            required="true"
+            (selectionChange)="selectedMetricChanged( 0, $event )"
+        >
+            <mat-option *ngFor="let o of availableMetrics" 
+                [value]="o.value"
+                [disabled]="isMetricSelected( 1, o.value )"
+            >{{ o.title }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <h4>Second Weather History Metric</h4>
+    <mat-form-field appearance="outline" class="center">
+        <mat-select 
+            disableOptionCentering
+            panelClass="dropdownPanelClass" 
+            [(value)]="selectedMetric[ 1 ]" 
+            required="true"
+            (selectionChange)="selectedMetricChanged( 1, $event )"
+        >
+            <mat-option *ngFor="let o of availableMetrics" 
+                [value]="o.value"
+                [disabled]="isMetricSelected( 0, o.value )"
+            >{{ o.title }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <h4>Time Period</h4>
+    <mat-form-field appearance="outline" class="center">
+        <mat-select 
+            placeholder="" 
+            aria-label="fire time period" 
+            disableOptionCentering
+            panelClass="dropdownPanelClass" 
+            [(value)]="selectedTimePeriod" 
+            required="true"
+            (selectionChange)="reportTimePeriodChanged()"
+        >
+            <mat-option [value]="24">Last 24 Hours</mat-option>
+            <mat-option [value]="72">Last 3 Days</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+</wfone-base-dialog>
