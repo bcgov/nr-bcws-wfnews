@@ -1,0 +1,17 @@
+{
+  "extends": "../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "wfone",
+      "camelCase"
+    ],
+    "component-selector": [
+      true,
+      "element",
+      "wfone",
+      "kebab-case"
+    ]
+  }
+}

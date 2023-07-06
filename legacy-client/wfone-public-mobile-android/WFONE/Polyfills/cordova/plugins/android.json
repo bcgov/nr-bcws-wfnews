@@ -1,0 +1,31 @@
+{
+  "prepare_queue": {
+    "installed": [],
+    "uninstalled": []
+  },
+  "config_munge": {
+    "files": {}
+  },
+  "installed_plugins": {
+    "cordova-plugin-hostedwebapp": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    },
+    "cordova-plugin-whitelist": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    },
+    "cordova-plugin-inappbrowser": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    },
+    "cordova-plugin-appavailability": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    },
+    "cordova-plugin-device": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    }
+  },
+  "dependent_plugins": {
+    "cordova-plugin-network-information": {
+      "PACKAGE_NAME": "ca.bc.gov.WildfireInformation"
+    }
+  }
+}

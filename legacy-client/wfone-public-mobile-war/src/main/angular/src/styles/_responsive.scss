@@ -1,0 +1,727 @@
+@import 'variables';
+
+
+#core-interface-container {
+  display: flex;
+}
+
+//-------------------------------base-wrapper-----------------------
+//.smk-theme-wf .smk-toolbar .smk-tool[title="Menu"]{
+//  display: none;
+//}
+
+//@media screen and (max-width: 767px){
+//  .smk-tool[title="Menu"]{
+//    display: inline-block !important;
+//  }
+//
+//}
+//@media screen and (min-width:map_get($grid-breakpoints, md)) and (max-height: map_get($grid-breakpoints, xs)) {
+//  .smk-tool[title="Menu"]{
+//    display: inline-block !important;
+//  }
+//}
+
+.smk-tool.smk-tool.smk-tool-enabled.smk-tool-BespokeTool--menu::after {
+  content: "Menu";
+  position: absolute;
+  padding-top: 21px;
+  font-size: 12px;
+}
+
+.smk-tool[title="Menu"] i{
+  padding-bottom: 8px;
+}
+
+.smk-theme-wf .smk-overlay .smk-shortcut-menu .smk-tool-BespokeTool--nearme::after {
+  content: "Near Me";
+    font-size: 15px;
+    padding-top: 6px;
+    padding-left: 4px;
+}
+
+.smk-theme-wf .smk-overlay .smk-shortcut-menu .smk-tool-BespokeTool--nearme {
+  text-align: left;
+  width: 100px;
+  height: 30px;
+  border-radius: 17px;
+  background-color: #1A5A96;
+  color: white;
+}
+
+.smk-theme-wf .smk-overlay .smk-shortcut-menu .smk-tool-BespokeTool--nearme i{
+  padding-left:5px;
+  margin-top: 3px;
+}
+
+
+.smk-theme-wf .smk-overlay .smk-shortcut-menu{
+  align-items: flex-end !important;
+}
+
+
+@media screen and (orientation: portrait) and (max-width: 768px) {
+  .page-width-container {
+    margin: $wf1-outer-margin !important;
+  }
+}
+
+@media screen and (orientation: landscape) {
+  mat-sidenav mat-nav-list {
+    padding-left:calc(1px + env(safe-area-inset-left));
+  }
+}
+
+
+
+@media screen and (orientation: portrait) and (max-width: 768px) {
+  .page-width-container {
+    margin: $wf1-outer-margin !important;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .page-width-container{
+    margin: $wf1-outer-margin !important;
+
+  }
+
+
+  .mat-drawer-inner-container .toolbar-panel{
+
+    button{
+      padding: 0 !important;
+    }
+
+    .nav-menu-button{
+      display: inline-block;
+      position: relative;
+      z-index: 1;
+      padding: 2em !important;
+      margin: -2em;
+    }
+  }
+}
+
+@media screen and (max-width: map_get($grid-breakpoints, xs)) {
+  span.back-route-label{
+    font-size: small !important;
+  }
+
+  div.summary{
+    font-size: x-small !important;
+  }
+}
+
+//-------------------------------initializing app-----------------------
+@media screen and (max-width: map_get($grid-breakpoints, sm))  {
+  .cdk-overlay-container{
+    position: fixed !important;
+  }
+
+  .cdk-overlay-pane{
+    //width: 100vw !important;
+    //height: 100vh !important;
+  }
+}
+
+//@media screen and (min-width: map_get($grid-breakpoints, sm))  {
+//  .cdk-overlay-container{
+//    position: absolute !important;
+//    .cdk-overlay-backdrop.cdk-overlay-backdrop-showing {
+//      opacity: 0;
+//    }
+//  }
+//}
+
+@media screen and (max-width: map_get($grid-breakpoints, sm)) {
+  .wf1-loading-screen {
+  font-size: 50%;
+  }
+
+  .mat-dialog-container {
+  max-width: 100% !important;
+//   height: calc(var(--vh, 1vh) * 100) !important;
+  width: 100vw !important;
+  border-radius: 0 !important;
+  min-width: unset !important;
+
+  h2{
+    height: 20px;
+    padding: 8px;
+  }
+
+  .mat-dialog-actions {
+    // position: fixed;
+    // bottom: 0;
+    // width: 100vw !important;
+    // max-height: 68px;
+  }
+
+  .mat-dialog-content {
+    max-height: 75vh;
+    // max-width: 90vw;
+    // height: calc(calc(var(--vh, 1vh) * 100) - 68px - 36px - env(safe-area-inset-top) - env(safe-area-inset-bottom)) !important; //height is set to total vh minus header and action bars' heights
+  }
+    .mat-dialog-actions{
+      padding-bottom:env(safe-area-inset-bottom);
+    }
+
+}
+
+}
+
+//-------------------------------header-----------------------
+@media screen and (max-width: map_get($grid-breakpoints, md)) {
+mat-toolbar.mat-primary.wf1-public-application-header ,
+mat-toolbar.mat-primary.wf1-application-header {
+height: $wf1-app-header-mobile-height;
+padding-left: 1rem;
+padding-right: 1rem;
+
+
+img[alt="Wildfire ONE"] {
+  width: 8.5rem;
+  padding-bottom: .2rem;
+}
+
+#header-title {
+  font-size: .9rem;
+  margin-left: 0.4rem;
+  margin-bottom: 0.225rem;
+}
+
+.header-caption-label, .header-caption-text {
+  margin-bottom: 0.2rem;
+}
+
+.header-caption-label {
+  margin-right: 0.5rem;
+}
+
+}
+
+#map {
+min-height: $wf1-app-map-mobile-height;
+}
+
+.svg-inline--fa {
+height: 20px !important;
+width: 20px !important;
+}
+}
+
+//-------------------------------sign-up-----------------------
+@media screen and (max-width: map_get($grid-breakpoints, md)) {
+wfone-sign-up .wfone-base-container[_ngcontent-c3] .wfone-base{
+padding-right: 10px !important;
+padding-left: 10px !important;
+}
+}
+//-------------------------------landing page-----------------------
+@media screen and (min-width: map-get($grid-breakpoints, md)) { //desktop display should be fixed width
+wfone-landing-page .page-width-container {
+min-width: 40rem;
+}
+}
+
+@media screen and (min-width: map-get($grid-breakpoints, xs)) { //desktop display should be fixed width
+.dashboard .mat-card.dashboard-card {
+width: 11rem;
+}
+}
+
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+.dashboard {
+padding: 0 !important;
+display: grid;
+grid-row: 1;
+}
+}
+
+//
+//@media screen and (max-width: map_get($grid-breakpoints, sm)) {
+//  wfrm-landing-page .wfrm-public-mobile-landing-page.page-width-container{
+//    width: auto;
+//  }
+//  wfrm-landing-page .wfrm-public-mobile-landing-page{
+//    .mat-button{
+//      font-size: 3rem;
+//    }
+//    .mat-caption{
+//      padding-top: 0.5rem;
+//      font-size: 0.9rem;
+//    }
+//  }
+//}
+//
+//@media screen and (max-width: map_get($grid-breakpoints, xs)) {
+//  wfrm-landing-page .wfrm-public-mobile-landing-page.page-width-container{
+//    width: auto;
+//  }
+//  wfrm-landing-page .wfrm-public-mobile-landing-page{
+//    .mat-button{
+//      font-size: 2rem;
+//    }
+//    .mat-caption{
+//      padding-top: 0rem;
+//      font-size: 0.8rem;
+//    }
+//  }
+//}
+
+@media screen and (max-width: map_get($grid-breakpoints, sm)) {
+
+wfone-landing-page .wfone-public-mobile-landing-page {
+.mat-button {
+  font-size: 3rem;
+}
+
+.mat-caption {
+  padding-top: 0.5rem;
+  font-size: 0.9rem;
+}
+}
+}
+
+@media screen and (max-width: map_get($grid-breakpoints, xs)) {
+
+wfone-landing-page .wfone-public-mobile-landing-page {
+.mat-button {
+  font-size: 2rem;
+}
+
+.mat-caption {
+  padding-top: 0rem;
+  font-size: 0.8rem;
+}
+}
+}
+
+//-------------------------------profile form-----------------------
+@media screen and (min-width: map-get($grid-breakpoints, sm)) and (max-width: map-get($grid-breakpoints, md)) {
+.wfone-base {
+.form-flex {
+  .field {
+    flex: 1 0 50% !important;
+  }
+}
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+.wfone-base {
+.form-flex {
+  .field {
+    flex: 1 0 100% !important;
+  }
+}
+}
+}
+
+//-------------------------------lists (diaries, approvals, payroll, profile search)-----------------------
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+mat-list-option.list-item,
+mat-list-item.list-item {
+.list-item-icon-section {
+  .list-item-icon {
+    font-size: smaller;
+
+    fa-icon {
+      font-size: 24px !important;
+    }
+  }
+}
+
+.list-item-data-section {
+  .list-item-info {
+    font-size: small;
+  }
+}
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, xs)) {
+mat-list-option.list-item,
+mat-list-item.list-item {
+.list-item-data-section {
+  .list-item-info {
+    font-size: x-small;
+  }
+}
+}
+}
+
+
+//-------------------------------review-----------------------
+@media screen and (max-width: map-get($grid-breakpoints, xl)) {
+.wfone-base-container.desktop .wfone-base {
+
+mat-card.mat-card.review-header .mat-card-content {
+  font-size: 12px !important;
+}
+
+mat-expansion-panel .review-item-header .review-item-status,
+mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description{
+  font-size: 14px !important;
+}
+
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, lg)) {
+.wfone-base-container.desktop .wfone-base {
+
+mat-card.mat-card.review-header .mat-card-content {
+  font-size: 10px !important;
+}
+
+mat-expansion-panel .review-item-header .review-item-status,
+mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description{
+  font-size: 12px !important;
+}
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, lg)) {
+.wfone-base {
+
+.form-flex {
+  font-size: 12px !important;
+  .field.field-full-width {
+    flex: 1 0 100% !important;
+
+    .field-display-container {
+      .field-label {
+        width: 19.5%;
+
+      }
+
+      .field-value {
+        width: 80%;
+      }
+    }
+  }
+
+  .field {
+    flex: 1 0 50% !important;
+    .field-display-container{
+      .field-label{
+        width: 40%;
+        color: $colour-light-grey;
+      }
+
+      .field-value{
+        width: 60%;
+      }
+    }
+
+  }
+}
+.mat-expansion-panel-header-title{
+  margin-right: 0px !important;
+  flex-grow:0.2 !important
+}
+.mat-expansion-panel-header-description{
+  margin-right: 0px !important;
+  vertical-align: middle;
+  flex: 1 0 40% !important;
+  padding-top:0.2rem;
+}
+
+.mat-expansion-panel-header{
+  margin-right: 0px !important;
+  padding: 0 12px !important
+}
+
+mat-card.mat-card .mat-card-content {
+  font-size: 12px !important;
+  display:flex;
+  flex-wrap:wrap;
+
+  .flex-item {
+    width: 50%;
+
+    .field {
+      .field-display-container {
+        width:100%;
+        display: flex;
+
+        .field-label {
+          width: 40% !important;
+          font-size: 14px;
+        }
+
+        .field-value {
+          width: 60% !important;
+          font-size: 14px;
+        }
+
+      }
+    }
+
+  }
+}
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, md)) {
+.wfone-base {
+
+.mat-expansion-panel-header-description {
+  justify-content: flex-end;
+}
+
+.mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+.mat-list-base {
+  padding-top: 0;
+}
+
+mat-card.mat-card.info-card .mat-card-content,
+mat-card.mat-card.review-header .mat-card-content {
+  font-size: 12px !important;
+  display:flex;
+  flex-wrap:wrap;
+
+  .flex-item {
+    width: 50%;
+
+    .field {
+      .field-display-container {
+        width:100%;
+        display: flex;
+
+        .field-label {
+          width: 40% !important;
+          font-size: 12px;
+        }
+
+        .field-value {
+          width: 60% !important;
+          font-size: 12px;
+        }
+
+      }
+    }
+
+  }
+}
+
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+.wfone-base {
+.mat-list-base {
+  padding-top: 0;
+}
+
+mat-card.mat-card.review-header .mat-card-content{
+  font-size: 11px !important;
+  display:flex;
+  flex-wrap:wrap;
+
+  .flex-item {
+    width: 50%;
+
+    .field {
+      .field-display-container {
+        width:100%;
+        display: flex;
+
+        .field-label {
+          width: 40% !important;
+          font-size: 12px;
+        }
+
+        .field-value {
+          width: 60% !important;
+          font-size: 12px;
+        }
+
+      }
+    }
+
+  }
+
+}
+
+.form-flex {
+  .field.field-full-width {
+    flex: 1 0 100% !important;
+
+    .field-display-container {
+      .field-label {
+        width: 29%;
+
+      }
+
+      .field-value {
+        width: 70%;
+      }
+    }
+  }
+
+  .field {
+    flex: 1 0 50% !important;
+    .field-display-container {
+      .field-label {
+        width: 60%;
+        color: $colour-light-grey;
+        font-weight: normal;
+        font-size: 12px;
+        //padding-right: 0.1rem;
+      }
+
+      .field-value {
+        width: 40%;
+        color: $colour-black;
+        font-size: 12px;
+      }
+
+      .field-value.comment-text{
+        font-size: 14px;
+      }
+    }
+  }
+}
+.mat-expansion-panel-header-title{
+  margin-right: 0px !important;
+  flex-grow:0.2 !important
+}
+.mat-expansion-panel-header-description{
+  margin-right: 0px !important;
+  vertical-align: middle;
+  flex: 1 0 40% !important;
+  padding-top:0.2rem;
+}
+
+.mat-expansion-panel-header{
+  margin-right: 0px !important;
+  padding: 0 12px !important
+}
+
+}
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, xs)) {
+.wfone-base-container.mobile .wfone-base.wfone-review-mobile {
+
+.mat-expansion-panel-header-title{
+  font-size: small !important;
+}
+
+mat-card.mat-card.review-header .mat-card-content{
+  font-size: 10px !important;
+}
+
+.form-flex {
+  .field.field-full-width {
+    flex: 1 0 100% !important;
+
+    .field-display-container {
+      .field-label {
+        width: 29%;
+
+      }
+
+      .field-value {
+        width: 70%;
+      }
+    }
+  }
+
+  .field {
+    .field-display-container{
+      .field-label{
+        font-size: 10px;
+      }
+
+      .field-value{
+        font-size: 10px;
+      }
+    }
+
+  }
+}
+}
+
+}
+
+//-------------------------------fire definition types-----------------------
+
+@media screen and (max-width: map-get($grid-breakpoints, xl)) {
+
+}
+
+//------------------------------- feedback -----------------------
+
+@media screen and (max-width: map-get($grid-breakpoints, xxs)) {
+  .page-width-container.wfone-public-mobile-feedback .contact-info-container .contact-info-item{
+    font-size: 14px !important;
+  }
+}
+
+//------------------------------- near-me -----------------------
+
+@media screen and (max-width: map-get($grid-breakpoints, sm)) {
+
+.near-me-content {
+.header {
+
+  .sub-title {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    flex: 1 1 auto !important;
+    padding-top:0.4rem !important;
+    font-size: 14px !important;
+  }
+
+  .sub-title-item {
+    width:50% !important;
+  }
+  .sub-title-item-1 {
+    text-align: left !important;
+  }
+  .sub-title-item-2 {
+    text-align: right !important;
+  }
+
+}
+
+.no-results{
+  margin-top: 1.2rem !important;
+}
+
+}
+
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, xs) + 25) {
+
+.near-me-content {
+.header {
+  .sub-title {
+    font-size: 12px !important;
+  }
+}
+}
+
+}
+
+@media screen and (max-width: map-get($grid-breakpoints, xs) - 30) {
+
+.near-me-content {
+.header {
+  .sub-title {
+    font-size: 11px !important;
+  }
+}
+}
+
+}

@@ -1,0 +1,619 @@
+<base-wrapper
+    [errorState]="errorState"
+    [toolbarIsVisible]="true"
+    [title]="stepTitle"
+    [backRoute]="backRoute"
+>
+    <div class="page-width-container wfone-public-mobile-report-of-fire">
+        <div class="title-bar-wrapper" *ngIf="!getIsMobileRes()">
+            <div class="title-bar">
+                <div class="left">
+                    <button *ngIf="getIsMobileRes() && backRoute" type="button" name="back button"
+                        (click)="navigateToBackRoute('cao?')" class="nav-menu-button">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+                <div class="middle">
+                    <div *ngIf="stepTitle" class="title">{{stepTitle}}</div>
+                    <div *ngIf="summaryString" class="summary">{{summaryString}}</div>
+                </div>
+            </div>
+        </div>
+
+        <div [ngClass]="'mat-elevation-z2 body page-' + currentPage">
+
+            <div class="page" *ngIf="currentPage == 'report-selection'">
+                <h1>
+                    Report a Fire
+                </h1>
+                <div class="body-text">
+                    To report a wildfire in British Columbia, please choose one of the following options:
+                </div>
+                <div class="selection">
+                    <button mat-raised-button color="primary"
+                        (click)="onSubmitElectronicReport()"
+                        [disabled]="!hasGPS || !hasNetwork"
+                    >
+                        <div>Submit an Electronic Report</div>
+                    </button>
+                    <sub *ngIf="!hasGPS">
+                        Electronic reporting is not available because location services are turned off on your device.
+                    </sub>
+                    <sub *ngIf="hasGPS && !hasNetwork">
+                        Electronic reporting is not available because your device has no network connection.
+                    </sub>
+                    <button mat-raised-button color="primary"
+                        (click)="onCallToReport()"
+                    >
+                        Call to Report a Fire
+                    </button>
+                </div>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'user-agreement'">
+                <h1>Permission</h1>
+                <div class="body-text">Do you agree to share information with the BC Wildfire Service?</div>
+                <!-- <h3>
+                    Do you agree to share information with BC Wildfire Service?
+                    <div><sub>
+                        Click on the button of your choice and then click Next:
+                    </sub></div>
+                </h3> -->
+                <div class="selection">
+                    <button mat-raised-button color="primary"
+                        [ngClass]="sharingStatus == 'agree' ? '' : 'unselected'"
+                        (click)="onChangeSharingStatus('agree')"
+                    >
+                        <b>I AGREE</b> to share information provided in this report with the BC Wildfire Service.
+                    </button>
+                    <button mat-raised-button color="primary"
+                        [ngClass]="sharingStatus == 'disagree' ? '' : 'unselected'"
+                        (click)="onChangeSharingStatus('disagree')"
+                    >
+                        <b>I DO NOT AGREE</b> to share information provided in this report with the BC Wildfire Service.
+                    </button>
+                </div>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'user-info'">
+                <h1>Contact Details</h1>
+                <div class="body-text">If you are not comfortable sharing your contact details, just press the next button.</div>
+                <mat-form-field appearance="fill">
+                    <mat-label>Name</mat-label>
+                    <input matInput [(ngModel)]="name">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Phone Number</mat-label>
+                    <input matInput type="tel" mask='(000) 000-0000' [(ngModel)]="phone">
+                </mat-form-field>
+
+                <h4>
+                    Are you available for a call-back?
+                </h4>
+                <mat-checkbox class="example-margin"
+                    [disabled]="!canAskCallback"
+                    [(ngModel)]="consentToCall"
+                >
+                    Yes, I am available in the next 20 minutes, for a call back from BCWS to gather more information.
+                </mat-checkbox>
+                <p>
+                    Personal information is collected by the BC Wildfire Service under section 26 (c) of the Freedom of Information and Protection of Privacy Act for the purpose of managing wildfire incidents.
+                    Should you have questions about the collection or use of this information please contact: BC Public Mobile App <a href="mailto:BCWS.PublicMobileApp@gov.bc.ca">BCWS.PublicMobileApp@gov.bc.ca</a>
+                </p>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'photo-gallery'">
+                <h1>Photos</h1>
+                <div class="body-text">
+                    Take a maximum of 3 photos. If you are no longer near the fire or cannot take a photo, just press the next button.
+                </div>
+                <div class="warning-text">
+                    <mat-icon style="font-size: 16px;">priority_high</mat-icon> Please avoid taking photos with people or personal information
+                </div>
+                <div class="gallery">
+                    <div class="photo" [class.missing]="!images[0]">
+                        <img [src]="images[0] && images[0].url">
+                        <div class="add-photo" (click)="onTakePhoto()">
+                            <div *ngIf="!images[0]"><mat-icon style="font-size: 32px;">add</mat-icon></div>
+                            <div *ngIf="!images[0]"> Take a Photo</div>
+                        </div>
+                    </div>
+                    <div class="photo" [class.missing]="!images[1]">
+                        <img [src]="images[1] && images[1].url">
+                        <div class="add-photo" (click)="onTakePhoto()">
+                            <div *ngIf="!images[1]"><mat-icon style="font-size: 32px;">add</mat-icon></div>
+                            <div *ngIf="!images[1]"> Take a Photo</div>
+                        </div>
+                    </div>
+                    <div class="photo" [class.missing]="!images[2]">
+                        <img [src]="images[2] && images[2].url">
+                        <div class="add-photo" (click)="onTakePhoto()">
+                            <div *ngIf="!images[2]"><mat-icon style="font-size: 32px;">add</mat-icon></div>
+                            <div *ngIf="!images[2]"> Take a Photo</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="test-pararmeters">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Width</mat-label>
+                        <input matInput [(ngModel)]="imageWidth">
+                    </mat-form-field>
+
+                    <mat-form-field appearance="fill">
+                        <mat-label>Qaulity</mat-label>
+                        <input matInput [(ngModel)]="imageQuality">
+                    </mat-form-field>
+                </div> -->
+
+                <!-- <div class="expand">
+                    <button color="primary" mat-button class="take-photo"
+                        [disabled]="!canTakePhoto"
+                        (click)="onTakePhoto()"
+                    >Take Photo</button>
+                </div> -->
+
+                <!-- <div class="location" *ngIf="currentLocation.lat">
+                    <div>Location is
+                        <span class="geo">
+                            <span class="ord">Latitude:<span class="val">{{ currentLocation.lat }}</span></span>
+                            <span class="ord">Longitude:<span class="val">{{ currentLocation.long }}</span></span>
+                        </span>
+                    </div>
+                    <div>Bearing is {{ currentHeading }} degrees</div>
+                    <div *ngIf="!hasHeading && heading">{{ heading.error }}</div>
+                </div> -->
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'photo-camera'">
+                <!-- Place crosshairs in the center of the fire and press the "Take Photo" button. -->
+                <camera-snapshot class="camera"
+                    (snapshot)="onSnapshot($event)"
+                    (cancelPhoto)="onCancelPhoto($event)"
+                    [imageWidth]="imageWidth"
+                    [imageQuality]="imageQuality"
+                ></camera-snapshot>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'fire-distance'">
+                <h1>How far away is the wildfire?</h1>
+                <div class="body-text" style="padding-bottom:0">
+                    Estimate the approximate distance between the wildfire and your current location. If you're not sure, just press the next button.
+                </div>
+                <!-- <div class="distance">
+                    <div class="scale">
+                        <span>100 m</span>
+                        <span>200 m</span>
+                        <span>500 m</span>
+                        <span>1 km</span>
+                        <span>2 km</span>
+                        <span>5 km</span>
+                        <span>10+ km</span>
+                    </div>
+                    <mat-slider min="0" max="12" [(ngModel)]="distanceEstimateCode"></mat-slider>
+                    <div class="estimate">Estimated distance to fire is: <b>{{ distanceLabel }}</b></div>
+                </div> -->
+                <div class="distance-buttons-group">
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 100 ? '' : 'unselected'" (click)="selectFireDistance('100')">100 m</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 200 ? '' : 'unselected'" (click)="selectFireDistance('200')">200 m</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 500 ? '' : 'unselected'" (click)="selectFireDistance('500')">500 m</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 1000 ? '' : 'unselected'" (click)="selectFireDistance('1000')">1 km</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 2000 ? '' : 'unselected'" (click)="selectFireDistance('2000')">2 km</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 5000 ? '' : 'unselected'" (click)="selectFireDistance('5000')">5 km</button>
+                        <button mat-raised-button color="primary" [ngClass]="distanceEstimateMeter == 10000 ? '' : 'unselected'" (click)="selectFireDistance('10000')">10+ km</button>
+                </div>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'fire-location'">
+                <h1>Where is the wildfire?</h1>
+                <div class="body-text">
+                    Center the yellow crosshairs on the location of the fire by moving the map with your finger and then click the next button.
+                </div>
+
+                <div class="map-container">
+                    <wf-map-container
+                        *ngIf="mapConfig"
+                        [mapConfig]="mapConfig"
+                        baseMap="imagery-2x"
+                        (mapInitialized)="initMap($event)"
+                    ></wf-map-container>
+                    <i class="photo-location material-icons">location_searching</i>
+                    <div class="compass-rose">N</div>
+                </div>
+            </div>
+
+            <div #fireDetailPage class="page" *ngIf="currentPage == 'fire-details'">
+                <div *ngIf="!hideFade">
+                    <div class="scroll-gradient"></div>
+                </div>
+                <h2>
+                    Fire Size
+                </h2>
+                <mat-form-field appearance="fill">
+                    <mat-label>Select one</mat-label>
+                    <mat-select [(ngModel)]="fireSize">
+                        <mat-option *ngFor="let i of fireSizeCodes" [value]="i.value">
+                            {{ i.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <h2>
+                    Rate of Spread
+                </h2>
+                <mat-form-field appearance="fill">
+                    <mat-label>Select one</mat-label>
+                    <mat-select [(ngModel)]="spreadRate">
+                        <mat-option *ngFor="let i of spreadRateCodes" [value]="i.value">
+                            {{ i.label }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <h2 style="margin-bottom: 0;">
+                    What is the fire burning?
+                </h2>
+                <div class="select-all-text">(select all that apply)</div>
+
+                <div class="grid cols-3">
+                    <mat-checkbox
+                        [(ngModel)]="burning.Trees"
+                        [disabled]="burning.Unknown"
+                    >Trees</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning.Slash"
+                        [disabled]="burning.Unknown"
+                    >Slash</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning.Brush"
+                        [disabled]="burning.Unknown"
+                    >Brush</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning.Grass"
+                        [disabled]="burning.Unknown"
+                    >Grass</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning['Mixed Wood']"
+                        [disabled]="burning.Unknown"
+                    >Mixed Wood</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning.Other"
+                        [disabled]="burning.Unknown"
+                    >Other</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="burning.Unknown"
+                        (ngModelChange)="onBurningUnknown($event)"
+                    >Unknown</mat-checkbox>
+                </div>
+
+                <h2>
+                    Are flames visible?
+                </h2>
+                <div class="grid cols-3">
+                    <mat-checkbox
+                        [(ngModel)]="visibleFlame.no"
+                        [disabled]="visibleFlame.yes"
+                    >No</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="visibleFlame.yes"
+                        [disabled]="visibleFlame.no"
+                    >Yes</mat-checkbox>
+                </div>
+
+                <h2 style="margin-bottom: 0;">
+                    Smoke colour
+                </h2>
+                <div class="select-all-text">(select all that apply)</div>
+
+                <div class="grid cols-3">
+                    <mat-checkbox
+                        [(ngModel)]="smoke.White"
+                        [disabled]="smoke.Unknown || smoke['Not Applicable']"
+                    >White</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke.Grey"
+                        [disabled]="smoke.Unknown || smoke['Not Applicable']"
+                    >Grey</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke.Black"
+                        [disabled]="smoke.Unknown || smoke['Not Applicable']"
+                    >Black</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke.Brown"
+                        [disabled]="smoke.Unknown || smoke['Not Applicable']"
+                    >Brown</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke.Blue"
+                        [disabled]="smoke.Unknown || smoke['Not Applicable']"
+                    >Blue</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke.Unknown"
+                        [disabled]="smoke['Not Applicable']"
+                        (ngModelChange)="onSmokeUnknown(smoke['Not Applicable'],$event)"
+                    >Unknown</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="smoke['Not Applicable']"
+                        [disabled]="smoke.Unknown"
+                        (ngModelChange)="onSmokeUnknown($event,smoke.Unknown)"
+                    >Not Applicable</mat-checkbox>
+                </div>
+
+                <h2 style="margin-bottom: 0;">
+                    Weather
+                </h2>
+                <div class="select-all-text">(select all that apply)</div>
+
+                <div class="grid cols-3" style = "padding-bottom: 70px;">
+                    <mat-checkbox [(ngModel)]="weather['Hot/Dry']">Hot/Dry</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="weather.Rain">Rain</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="weather.Lightning">Lightning</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="weather['Clear/Calm']">Clear/Calm</mat-checkbox>
+                    <mat-checkbox [(ngModel)]="weather.Windy">Windy</mat-checkbox>
+                </div>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'other-info'">
+                <h2 style="margin-bottom: 0;">
+                    Assets at risk within 1 km of fire
+                </h2>
+                <div class="select-all-text">(select all that apply)</div>
+                <div class="grid cols-2">
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk['Homes/Buildings']"
+                        [disabled]="assetsAtRisk.None || assetsAtRisk.Unknown"
+                    >Homes/Buildings</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk.Powerlines"
+                        [disabled]="assetsAtRisk.None || assetsAtRisk.Unknown"
+                    >Powerlines</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk.Railway"
+                        [disabled]="assetsAtRisk.None || assetsAtRisk.Unknown"
+                    >Railway</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk.Bridges"
+                        [disabled]="assetsAtRisk.None || assetsAtRisk.Unknown"
+                    >Bridges</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk.Unknown"
+                        [disabled]="assetsAtRisk.None"
+                        (ngModelChange)="onAssetsAtRiskNone(assetsAtRisk.None,$event)"
+                    >Unknown</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="assetsAtRisk.None"
+                        [disabled]="assetsAtRisk.Unknown"
+                        (ngModelChange)="onAssetsAtRiskNone($event,assetsAtRisk.Unknown)"
+                    >None</mat-checkbox>
+                </div>
+
+                <h2 style="margin-bottom: 0;">
+                    Signs of Response
+                </h2>
+                <div class="select-all-text">(select all that apply)</div>
+                <div class="grid cols-2">
+                    <mat-checkbox
+                        [(ngModel)]="signsOfResponse.Helicopter"
+                        [disabled]="signsOfResponse.None"
+                    >Helicopter</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="signsOfResponse.Sirens"
+                        [disabled]="signsOfResponse.None"
+                    >Sirens</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="signsOfResponse['Truck/Personnel']"
+                        [disabled]="signsOfResponse.None"
+                    >Truck/Personnel</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="signsOfResponse['Heavy Equipment']"
+                        [disabled]="signsOfResponse.None"
+                    >Heavy Equipment</mat-checkbox>
+                    <mat-checkbox
+                        [(ngModel)]="signsOfResponse.None"
+                        (ngModelChange)="onSignsOfResponseNone($event)"
+                    >None</mat-checkbox>
+                </div>
+
+                <h2>
+                    Other Comments
+                </h2>
+                <mat-form-field appearance="fill">
+                    <mat-label> ({{500-otherInfo.length}} characters left)</mat-label>
+                    <textarea matInput rows="5" [(ngModel)]="otherInfo"></textarea>
+                </mat-form-field>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'info-submit'">
+                <div *ngIf="submitStatus == 'pending'">
+                    <h3>
+                        Submitting Report of Fire
+                    </h3>
+                    <div class="spinner">
+                        <mat-spinner [diameter]="100"></mat-spinner>
+                    </div>
+                </div>
+                <div *ngIf="submitStatus == 'success'">
+                    <h1>
+                        Thank You!
+                    </h1>
+                    <div class="text-body">
+                        We have received your report. If you provided your contact details you may receive a follow-up call within the next 20 minutes for more information.
+                    </div>
+                    <div class="wildfire-logo"></div>
+                </div>
+                <div *ngIf="submitStatus == 'failed'">
+                    <h1>
+                        Sorry, submit failed
+                    </h1>
+                    <div class="text-body">
+                        Please try again later.
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" *ngIf="currentPage == 'call-to-report'">
+                <h2>
+                    Call to Report a Fire
+                </h2>
+                <div class="body-text">
+                    If you see a wildfire or irresponsible behavior that could start a wildfire, please call the number below as soon as possible. Information from the public is crucial to the effectiveness of our response.
+                </div>
+                <div class="divider"></div>
+
+                <div class="contact-info-container">
+                    <div class="sub-header-1">Contact us</div>
+                    <div class="vert-contacts">
+                        <p class="contact-info-item">
+                            <mat-icon style="padding-right: 10px;" aria-hidden="false" aria-label="Report a Fire Phone Number">
+                                phone
+                            </mat-icon>
+                            <a [href]="'tel:' + phoneNumber" target="_self">{{phoneNumber}}</a>
+                        </p>
+                        <p class="contact-info-item">
+                            <mat-icon style="padding-right: 10px;" aria-hidden="false"
+                                aria-label="Report a Fire Cell Phone Number">smartphone
+                            </mat-icon>
+                            <a [href]="'tel:' + phoneNumber" target="_self">{{cellNumber}}</a>
+                            <span class="body-text" style="padding-left: 6px"> from a cell phone</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="divider"></div>
+                
+                <div>
+                    <div class="sub-header-1">
+                        Questions We Will Ask:
+                    </div>
+                    <div>
+                        <div class="sub-header-2">
+                            Location
+                        </div>
+                        <div class="body-text">
+                            Where is the fire? How far up the hillside? Closest intersection?
+                        </div>
+                    </div>
+                    <div style="color:#242424">
+                        Your Current Location
+                    </div>
+                    <div *ngIf="currentLocation.lat && currentLocation.long ; else defaulLanguage">
+                        <div class="body-text" style="padding-bottom: 0">Latitude: <span>{{ currentLocation.lat }}</span></div>
+                        <div class="body-text">Longitude: <span>{{ currentLocation.long }}</span></div>
+                    </div>
+                    <ng-template #defaulLanguage>
+                        <div  class="body-text">
+                            Turn on the location services on your device to see your current latitude and longitude.
+                        </div>
+                    </ng-template>
+                    
+                    <div>
+                        <div class="sub-header-2">
+                            Size
+                        </div>
+                        <div class="body-text">
+                            Metres? Hectares? Size of a house? Size of a football field?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Rate of spread
+                        </div>
+                        <div class="body-text">
+                            How quickly is the fire spreading?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Fuel
+                        </div>
+                        <div class="body-text">
+                            What is burning? Grass, bushes, trees?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Smoke/flames
+                        </div>
+                        <div class="body-text">
+                            What color is the smoke? Are flames visible?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Threat
+                        </div>
+                        <div class="body-text">
+                            Are there any people or buildings at risk?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Action
+                        </div>
+                        <div class="body-text">
+                            Is anyone fighting the fire?
+                        </div>
+                    </div>
+
+                    <div>
+                        <div class="sub-header-2">
+                            Campfires
+                        </div>
+                        <div class="body-text">
+                            Can you tell if it is wood burning or is it a propane campfire?
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="navigation" *ngIf="showNavigation">
+
+            <button color="primary" mat-button class="previous left"
+                *ngIf="showNavigateBack"
+                (click)="onNavigateBack()"
+                [disabled]="!navigateBackEnabled"
+            >
+                <i class="material-icons">keyboard_arrow_left</i>
+                Back
+            </button>
+
+            <button color="primary" mat-button class="next right"
+                *ngIf="showNavigateNext"
+                (click)="onNavigateNext()"
+                [disabled]="!navigateNextEnabled"
+            >
+                Next
+                <i class="material-icons">keyboard_arrow_right</i>
+            </button>
+
+            <button color="primary" mat-button class="next right"
+                *ngIf="showNavigateSubmit"
+                (click)="onNavigateSubmit()"
+            >
+                Submit
+            </button>
+
+            <button color="primary" mat-button class="done center"
+                *ngIf="showNavigateDone"
+                (click)="onNavigateDone()"
+            >
+                Return to Map Screen
+            </button>
+
+            <div class="page-number center"
+                *ngIf="stepNumber"
+            >
+                Step {{ stepNumber }} of 7
+            </div>
+
+        </div>
+    </div>
+
+</base-wrapper>

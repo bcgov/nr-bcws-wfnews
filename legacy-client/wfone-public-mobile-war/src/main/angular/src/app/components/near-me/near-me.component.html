@@ -1,0 +1,116 @@
+<ng-container *ngIf="loading">
+    <div class="near-me-loader">
+        <mat-spinner [diameter]="25"></mat-spinner>
+        <div class="loading-message">{{isAllFromAdvisories ? 'Checking All' : 'Checking nearby'}}</div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="!loading">
+    <div class="near-me-content">
+        <div class="results" *ngIf="nearMeTemplate && nearMeTemplate.nearMeItems">
+            <mat-nav-list>
+                <near-me-item (click)="clickNearMe(null,$event)">
+                    <div class="icon">
+                        <mat-icon aria-hidden="false" >my_location</mat-icon>
+                    </div>
+
+                    <div class="icon-info">
+                        You
+                    </div>
+
+                    <div class="title">
+                        {{ this.spatialUtils.formatCoordinates( [nearMeTemplate?.header?.longitude,nearMeTemplate?.header?.latitude]) }}
+                    </div>
+
+                    <div class="details">
+                        <div class="detail">
+                            <span class="label">Fire Centre:</span>
+                            <span class="value">{{ nearMeTemplate?.header?.fireCentre }}</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Danger Rating:</span>
+                            <span class="value">{{ nearMeTemplate?.header?.dangerRating }}</span>
+                        </div>
+                    </div>
+
+                    <div class="action-info">
+                    </div>
+
+                    <div class="action">
+                        <mat-icon class="view-on-map-icon" matTooltip="Copy Location" (click)="copyLocation()">share</mat-icon>
+                    </div>
+                </near-me-item>
+
+                <ng-container *ngFor="let item of nearMeTemplate?.nearMeItems; let i = index">
+                    <near-me-item-container
+                        [nearMeItem]="item"
+                        [expanded]="expandedIndex == i"
+                        [showMapInline]="showMapInline"
+                        (click)="showMapInline && clickNearMe( i, $event )"
+                        *ngIf="!filter || filter == item.type"
+                    ></near-me-item-container>
+                </ng-container>
+
+                <near-me-item *ngIf="showWeather" class="weather" (click)="showWeatherDetails()">
+                    <div class="icon">
+                        <mat-icon [svgIcon]="CONSTANTS.MAT_ICON_CLOUD_SUN"></mat-icon>
+                    </div>
+
+                    <div class="icon-info" *ngIf="hasCurrentCondition">
+                        <div>{{ currentConditionDay }}</div>
+                        <div>at</div>
+                        <div>{{ currentConditionTime }}</div>
+                    </div>
+
+                    <div class="title" *ngIf="nearMeTemplate.weatherConditions">
+                        Weather Station:
+                        <em>{{ nearMeTemplate.weatherConditions.stationName }}</em>
+                    </div>
+
+                    <div *ngIf="!hasCurrentCondition" class="details message">
+                        <div class="detail">
+                            <span class="label">
+                                No conditions available.
+                            </span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="hasCurrentCondition" class="details">
+                        <div class="detail">
+                            <span class="label">Temp.:</span>
+                            <span class="value">{{ currentCondition?.temp }}</span>
+                            <span class="unit">&deg;C</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Humidity:</span>
+                            <span class="value">{{ currentCondition?.relativeHumidity }}</span>
+                            <span class="unit">%</span>
+                        </div>
+                    </div>
+                    <div *ngIf="hasCurrentCondition" class="details">
+                        <div class="detail">
+                            <span class="label">Wind:</span>
+                            <span class="value">{{ currentCondition?.windSpeed }}</span>
+                            <span class="unit">km/h</span>
+                        </div>
+                        <div class="detail">
+                            <span class="label">Precip.:</span>
+                            <span class="value">{{ currentCondition?.precipitation }}</span>
+                            <span class="unit">mm</span>
+                        </div>
+                    </div>
+
+                    <div class="action-info">
+                        <span *ngIf="nearMeTemplate.weatherConditions && nearMeTemplate.weatherConditions.distance">{{ currentConditionsDistance }} km</span>
+                    </div>
+
+                    <div class="action" *ngIf="hasCurrentCondition">
+                        <mat-icon class="view-on-map-icon" matTooltip="Details">arrow_forward</mat-icon>
+                    </div>
+                </near-me-item>
+
+            </mat-nav-list>
+        </div>
+
+    </div>
+</ng-container>

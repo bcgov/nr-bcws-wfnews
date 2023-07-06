@@ -1,0 +1,18 @@
+@import "../../../styles/variables";
+
+::ng-deep .leaflet-marker-icon.wfone-my-location {
+    text-shadow: 1px 0 0 #fff, 0 -1px 0 #fff, 0 1px 0 #fff, -1px 0 0 #fff;
+}
+
+.map {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+wf-map-container {
+    height: 300px;
+    position: relative;
+}
+
+

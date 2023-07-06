@@ -1,0 +1,52 @@
+<base-wrapper [errorState]="errorState" [toolbarIsVisible]="true" [backRoute]="backRoute" [backRouteLabel]="backRouteLabel" [title]="title">
+    <div class="page-width-container wfone-public-mobile-feedback standard-content" [ngClass]="elevation">
+        <div class="title-bar-wrapper" *ngIf="!getIsMobileRes()">
+            <div class="title-bar">
+                <div class="left">
+                    <button *ngIf="getIsMobileRes() && backRoute" type="button" name="back button" (click)="navigateToBackRoute()" class="nav-menu-button">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+                <div class="middle">
+                    <div *ngIf="title" class="title">{{title}}</div>
+                    <div *ngIf="summaryString" class="summary">{{summaryString}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="non-map-component-wrapper">
+            <p>Your feedback is important to the BC Wildfire Service. Email us your comments, questions or concerns and
+                they will be addressed as quickly as possible.</p>
+
+            <div class="contact-info-container">
+                <mat-icon>email</mat-icon><p class="contact-info-item"><a #accessFocusPoint  (keydown)="onKeydownMain($event)" id="accessFocusPoint" href="{{feedbackEmailHref}}"><span>{{feedbackEmail}}</span></a></p>
+            </div>
+
+            <div class="page-sub-header">Other Contacts</div>
+            <hr class="page-sub-header">
+
+            <div class="contact-info-row">
+                <mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Fire Information Line">phone</mat-icon>&nbsp;
+                <span class="contact-info-label">Fire Information Line:&nbsp;&nbsp;</span>
+                <span class="contact-info-value"><a href="{{fireInfoPhoneHref}}" target="_self">{{fireInfoPhone}}</a></span>
+            </div>
+
+            <div class="contact-info-row">
+                <mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Fire Information Line">phone</mat-icon>&nbsp;
+                <div class="contact-info-label">Burn Registration Line:&nbsp;&nbsp;</div>
+                <div class="contact-info-value"><a href="{{burnRegistrationPhoneHref}}" target="_self">{{burnRegistrationPhone}}</a></div>
+            </div>
+
+            <div class="contact-info-row">
+                <mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Twitter" svgIcon="{{twitterIcon}}"></mat-icon>&nbsp;
+                <div class="contact-info-label">Twitter:&nbsp;&nbsp;</div>
+                <div class="contact-info-value"><a href="" class="external-link" (click)="openTwitterPage()">{{twitterFeedProfileName}}</a></div>
+            </div>
+
+            <div class="contact-info-row">
+                <mat-icon class="contact-info-icon" aria-hidden="false" aria-label="Facebook" svgIcon="{{fbIcon}}"></mat-icon>&nbsp;
+                <div class="contact-info-label">Facebook:&nbsp;&nbsp;</div>
+                <div class="contact-info-value"><a href="" class="external-link" (click)="openFBPage()">BC Wildfire Service</a></div>
+            </div>
+        </div>
+    </div>
+</base-wrapper>
