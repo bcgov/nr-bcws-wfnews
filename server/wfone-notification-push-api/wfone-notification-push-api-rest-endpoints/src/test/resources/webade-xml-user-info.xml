@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wde:users
+				xmlns:wde="http://www.webade.org/webade-xml-user-info"
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+				xsi:schemaLocation="http://www.webade.org/webade-xml-user-info webade-xml-user-info.xsd ">
+
+				<individual-user-info sourceDirectory="MYID"
+								guid="6CEB89B419684F788A859167417F2B16" accountName="jsmith"
+								firstName="John" middleName="Alexander" otherMiddleName="Bolton"
+								lastName="Smith" initials="JABS" displayName="John Smith"
+								dateOfBirth="1986-12-31" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Johny"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada">
+				</individual-user-info>
+
+				<verified-individual-user-info
+								sourceDirectory="VFDID" guid="A9C22DC7D81446CAA44A64104C8ED7AE"
+								accountName="jdoe" firstName="Jane" middleName="Gloria"
+								otherMiddleName="Darling" lastName="Doe" initials="JGDD"
+								displayName="Jane Doe" dateOfBirth="1976-12-31"
+								contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Janie"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada">
+				</verified-individual-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="84E3BE56CCB6425187D8EBCB1C8BF03D" accountName="PHOWELLS"
+								firstName="Paul" middleName="Steven" otherMiddleName="Danger"
+								lastName="Howells" initials="PSDH" displayName="Paul Howells"
+								dateOfBirth="1980-12-31" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Paul"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="001">
+				</government-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="B8A100B5480147BD8E59C5CAD5F84CF8" accountName="IKANT"
+								firstName="Immanuel" middleName="" otherMiddleName=""
+								lastName="Kant" initials="IK" displayName="Immanual Kant"
+								dateOfBirth="1824-04-22" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Immanual"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="002">
+				</government-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="E85DABA0763E4F1E8651CE0B7DD08F2B" accountName="MHEIDEGGER"
+								firstName="Heidegger" middleName="" otherMiddleName=""
+								lastName="Martin" initials="MH" displayName="Martin Heidegger"
+								dateOfBirth="1889-09-26" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Martin"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="003">
+				</government-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="C142019F4E3B4E969F148A156F07E8C7" accountName="DHUME"
+								firstName="Hume" middleName="" otherMiddleName=""
+								lastName="David" initials="DH" displayName="David Hume"
+								dateOfBirth="1711-04-07" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="David"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="004">
+				</government-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="6070A5D2D3184D4AA860ECF9637DA456" accountName="JSMILL"
+								firstName="John" middleName="Stuart" otherMiddleName=""
+								lastName="Mill" initials="JSM" displayName="John Stuart Mill"
+								dateOfBirth="1806-05-20" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="John"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="005">
+				</government-user-info>
+
+				<!-- Government Users -->
+				<government-user-info sourceDirectory="IDIR"
+								guid="494F763845BF13EDE053E70A0A0A888A" accountName="NRTSREV"
+								firstName="NRTSREV" middleName="" otherMiddleName=""
+								lastName="NRTSREV" initials="NRTSREV" displayName="NRTSREV"
+								dateOfBirth="1806-05-20" contactPreferenceType="Email"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="John"
+								department="Development" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								title="Senior Developer" company="Vivid Solutions Inc."
+								organizationCode="VSI" governmentDepartment="NGO"
+								office="Government"
+								description="Senior Developer at Vivid Solutions Inc."
+								employeeId="005">
+				</government-user-info>
+
+				<business-partner-user-info
+								sourceDirectory="BCEID" guid="2194F86EDA99466DA9666D1B79B21EC2"
+								accountName="BCEIDBUSINESSUSER1" firstName="Business"
+								middleName="Middle" otherMiddleName="Other" lastName="User1"
+								initials="BMOU" displayName="Business User1"
+								dateOfBirth="1980-12-31" contactPreferenceType="Telephone"
+								emailAddress="appmail@vividsolutions.com"
+								phoneNumber="2503856040" preferredName="Business"
+								department="Sales" contactAddressLine1="SUITE #1A"
+								contactAddressLine2="2328 Government Street"
+								contactAddressCity="Victoria" contactAddressProvince="BC"
+								contactAddressPostalCode="V8T 5G5"
+								contactAddressCountry="Canada"
+								contactAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada"
+
+								residentialAddressLine1="100"
+								residentialAddressLine2="3172 Qu'Appelle Street"
+								residentialAddressCity="Victoria"
+								residentialAddressProvince="BC"
+								residentialAddressPostalCode="V9A 1V4"
+								residentialAddressCountry="Canada"
+								residentialAddressUnstructured="100-3172 Qu'Appelle Street, Victoria BC V9A 1V4 Canada"
+
+								mailingAddressLine1="3472 Alder Street"
+								mailingAddressLine2="C/O Ed Norton"
+								mailingAddressCity="Victoria" mailingAddressProvince="BC"
+								mailingAddressPostalCode="V9A 5H7"
+								mailingAddressCountry="Canada"
+								mailingAddressUnstructured="3472 Alder Street C/O Ed Norton, Victoria BC V9A 5H7 Canada"
+
+								businessGUID="F5F0CC403FE0408D85D7B61964A78A9C"
+								businessType="Other" businessLegalName="Vivid Solutions Inc."
+								businessNumber="FAKE1234" businessNumberVerified="N"
+								statementOfRegistrationNumber="FAKE55667788"
+								incorporationNumber="FAKE99887766"
+								jurisdictionOfIncorporation="British Columbia"
+								doingBusinessAs="Vivid Solutions" suspended="N"
+								bnHubBusinessType="CORP" businessTypeOther="Corporation"
+
+								businessAddressLine1="SUITE #1A"
+								businessAddressLine2="2328 Government Street"
+								businessAddressCity="Victoria" businessAddressProvince="BC"
+								businessAddressPostalCode="V8T 5G5"
+								businessAddressCountry="Canada"
+								businessAddressUnstructured="SUITE #1A 2328 Government Street, Victoria BC V8T 5G5 Canada">
+
+				</business-partner-user-info>
+
+</wde:users>
