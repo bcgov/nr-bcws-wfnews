@@ -89,4 +89,8 @@
   opacity: 1;
 }
 
+::ng-deep.mat-tab-body-content {
+  overflow: hidden !important;
+}
+
 
