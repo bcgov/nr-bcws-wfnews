@@ -12,12 +12,14 @@
  <properties>
   <sonar.organization>bcgov-sonarcloud</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  <sonar.sources>database,docker,terraform</sonar.sources>
+  <sonar.sources>database,docker,lambda,terraform</sonar.sources>
 </properties>
   
   <modules>
     <module>client</module>
-    <module>server</module>
+    <module>server/wfnews-api</module>
+    <module>server/wfone-notifications-api</module>
+    <module>server/wfss-pointid-api</module>
   </modules>
 
 </project>
