@@ -312,18 +312,18 @@ jobs:
           siteMinderURLPrefix: ${{inputs.SITEMINDER_URL_PREFIX}}
           agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS}}
-          maxReceivedCount: ${{inputs.MAX_RECEIVED_COUNT }}
-          visibilityTimeoutSeconds: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
-          acceptedIPs: ${{inputs.ACCEPTED_IPS }}
-          PushNotificationAwsUser: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
-          EventBridgeARN: ${{inputs.EVENT_BRIDGE_ARN }}
-          wfnewsUrl: ${{inputs.WFNEWS_URL }}
-          secret_name: ${{inputs.SECRET_NAME }}
-          BanProhibitionMonitorKey: ${{inputs.BAN_PROHIBITION_MONITOR_KEY }}
-          ActiveFireMonitorKey: ${{inputs.ACTIVE_FIRE_MONITOR_KEY }}
-          AreaRestrictionsMonitorKey: ${{inputs.AREA_RESTRICTIONS_MONITOR_KEY }}
-          EvacuationMonitorKey: ${{inputs.EVACUATION_MONITOR_KEY }}
-          LambdaLayerKey: ${{inputs.LAMBDA_LAYER_KEY }}
+          MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
+          VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
+          ACCEPTED_IPS: ${{inputs.ACCEPTED_IPS }}
+          PUSH_NOTIFICATION_AWS_USER: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
+          EVENT_BRIDGE_ARN: ${{inputs.EVENT_BRIDGE_ARN }}
+          WFNEWS_URL: ${{inputs.WFNEWS_URL }}
+          SECRET_NAME: ${{inputs.SECRET_NAME }}
+          BAN_PROHIBITION_MONITOR_KEY: ${{inputs.BAN_PROHIBITION_MONITOR_KEY }}
+          ACTIVE_FIRE_MONITOR_KEY: ${{inputs.ACTIVE_FIRE_MONITOR_KEY }}
+          AREA_RESTRICTIONS_MONITOR_KEY: ${{inputs.AREA_RESTRICTIONS_MONITOR_KEY }}
+          EVACUATION_MONITOR_KEY: ${{inputs.EVACUATION_MONITOR_KEY }}
+          LAMBDA_LAYER_KEY: ${{inputs.LAMBDA_LAYER_KEY }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 
