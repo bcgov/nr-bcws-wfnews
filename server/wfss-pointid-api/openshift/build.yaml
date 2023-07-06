@@ -1,0 +1,213 @@
+apiVersion: v1
+kind: Template
+metadata: {}
+parameters:
+  - name: SUFFIX
+  - name: TAG
+    value: latest
+    description: The output image tag beig generated
+  - name: GIT_URL
+    value: https://bwa.nrs.gov.bc.ca/int/stash/scm/wfss/wfss-pointid-api.git
+  - name: GIT_REF
+    value: release/1.4.1
+objects:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: openjdk18-openshift
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.7-5
+      from:
+        kind: DockerImage
+        name: registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:1.7-5
+      generation: null
+      importPolicy: {}
+      name: 1.7-5
+      referencePolicy:
+        type: "Local"
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: wfss-pointid-api-war
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: wfss-pointid-api-final
+  spec:
+    lookupPolicy:
+      local: false
+  status:
+    dockerImageRepository: ""
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: wfss-pointid-api-tomcat
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+    - annotations:
+        openshift.io/imported-from: 'tomcat:8.5.47-jdk11-openjdk'
+      from:
+        kind: DockerImage
+        name: 'tomcat:8.5.47-jdk11-openjdk'
+      generation: null
+      importPolicy: {}
+      name: '8.5.47-jdk11-openjdk'
+      referencePolicy:
+        type: Local
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: wfss-pointid-api-war${SUFFIX}
+  spec:
+    nodeSelector: null
+    runPolicy: SerialLatestOnly
+    completionDeadlineSeconds: 480 # 4 minutes
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wfss-pointid-api-war:${TAG}
+    postCommit: {}
+    resources:
+      limits:
+        cpu: '2'
+        memory: 2Gi
+      requests:
+        cpu: '1'
+        memory: 1Gi
+    source:
+      git:
+        uri: ${GIT_URL}
+        ref: ${GIT_REF}
+      sourceSecret:
+        name: bitbucket-account
+      type: Git
+    strategy:
+      sourceStrategy:
+        env:
+          - name: MAVEN_CLEAR_REPO
+            value: 'true'
+          - name: MAVEN_S2I_ARTIFACT_DIRS
+            value: 'wfss-pointid-api-rest-endpoints/target/'
+          - name: S2I_SOURCE_DEPLOYMENTS_FILTER
+            value: '*.war'
+        from:
+          kind: ImageStreamTag
+          name: base-openjdk18-openshift:1.7-5
+      type: Source
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
+- apiVersion: build.openshift.io/v1
+  kind: BuildConfig
+  metadata:
+    annotations:
+      openshift.io/generated-by: OpenShiftNewBuild
+    creationTimestamp: null
+    labels:
+      build: wfss-pointid-api
+    name: wfss-pointid-api-final${SUFFIX}
+  spec:
+    nodeSelector: null
+    completionDeadlineSeconds: 480 # 8 minutes
+    output:
+      to:
+        kind: ImageStreamTag
+        name: wfss-pointid-api-final:${TAG}
+    postCommit: {}
+    resources:
+      limits:
+        cpu: '2'
+        memory: 2Gi
+      requests:
+        cpu: '1'
+        memory: 1Gi
+    source:
+      dockerfile: |-
+        FROM tomcat:8.5.47-jdk11-openjdk
+
+        ENV TOMCAT_MAJOR=8 \
+            TOMCAT_VERSION=8.5.47 \
+            TOMCAT_HOME=/usr/local/tomcat \
+            CATALINA_HOME=/usr/local/tomcat \
+            CATALINA_OUT=/usr/local/tomcat/logs \
+            JAVA_OPTS="$JAVA_OPTS -Xms768M -Xmx1536M"
+
+        ADD deployments/ /temp/
+        RUN unzip /temp/wfss-pointid-api-rest-endpoints-*.war -d /usr/local/tomcat/webapps/wfss-pointid-api/
+        RUN adduser --system tomcat
+        RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
+          chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
+          chown -h tomcat:0 ${CATALINA_HOME}
+
+        # run as tomcat user
+        USER tomcat
+
+        EXPOSE 8080
+        CMD ["catalina.sh", "run"]
+      images:
+      - from:
+          kind: ImageStreamTag
+          name: wfss-pointid-api-war:${TAG}
+        paths:
+        - destinationDir: .
+          sourcePath: /deployments
+      type: Dockerfile
+    strategy:
+      dockerStrategy:
+        imageOptimizationPolicy: SkipLayers
+        from:
+          kind: ImageStreamTag
+          name: 'wfss-pointid-api-tomcat:8.5.47-jdk11-openjdk'
+      type: Docker
+    triggers:
+    - imageChange:
+        from:
+          kind: ImageStreamTag
+          name: wfss-pointid-api-war:${TAG}
+      type: ImageChange
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+  status:
+    lastVersion: 0
