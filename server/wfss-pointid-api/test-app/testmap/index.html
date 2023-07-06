@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Wildfire PointID Testbed</title>
+    <meta charset="utf-8" />
+
+    <link rel="stylesheet" href="wfml/leaflet.css" />
+    <link rel="stylesheet" href="wfml/wfml.css" />
+
+    <link rel="stylesheet" href="testbed.css" />
+</head>
+
+<body>
+    <div style='display: inline-block; vertical-align: top;'>
+    <table width='100%'>
+        <tr><td width='40%''> <h1>WF PointID Testbed</h1> </td>
+        <td>
+    <div>
+        Endpoint: 
+        <select id='sel-host'>
+            <option value="https://intapps.nrs.gov.bc.ca/pub/wfss-pointid-api">INT</option>
+            <option value="https://dlvrapps.nrs.gov.bc.ca/pub/wfss-pointid-api">DLVR</option>
+            <option value="https://testapps.nrs.gov.bc.ca/pub/wfss/v1">TEST - OLD</option>
+            <option value="https://apps.nrs.gov.bc.ca/pub/wfss/v1">PROD - OLD</option>
+            <option value="http://localhost:8080">LOCAL</option>
+        </select>
+        Operation: 
+        <select id='sel-op'>
+            <option value="all">All</option>
+            <option value="geo">Geography</option>
+            <option value="own">Ownership</option>
+            <option value="wea">Weather</option>
+        </select>
+        <div>
+            Lat: <input type='text' class='txt-ordinate' id='txt-lat' value='49'>
+            Lon: <input type='text' class='txt-ordinate' id='txt-lon' value='-124.2'>
+        </div>
+
+        </td>
+        <td><button id='btn-run'>Run</button> (or click map)</td>
+        </tr>
+    </table>     
+    </div>
+
+    <div class='sidebar'>
+
+    <div>
+        <div id='tab-item-geog'     class='tab-item'>Geography <img id='spin-geo' style='display:none;' src='spinner-12.gif'></div>
+        <div id='tab-item-own'      class='tab-item'>Ownership <img id='spin-own' style='display:none;' src='spinner-12.gif'></div>
+        <div id='tab-item-wx'       class='tab-item'>Weather   <img id='spin-wea' style='display:none;' src='spinner-12.gif'></div>
+    </div>   
+    <div id='tab-geog' class='tab-panel'>
+        <h2>Geography</h2>
+        <p>Request:
+        </p> 
+        <code class="request" id='request-geo'></code>
+        <p>Response: (Time: <span id='response-time-geo'></span> ms)</p>
+        <pre class="response-data" id='response-geo'></pre>
+    </div>
+    <div id='tab-own' class='tab-panel'>
+        <h2>Ownership</h2>
+        <p>Request: 
+        <code class="request" id='request-own'></code>
+        </p>
+        <p>Response: (Time: <span id='response-time-own'></span> ms)</p>
+        <pre class="response-data" id='response-own'></pre>
+
+    </div>
+    <div id='tab-wx' class='tab-panel'>
+        <h2>Weather</h2>
+        <p>Request: 
+        <code class="request" id='request-wea'></code>
+        </p>
+        <p>Response: (Time: <span id='response-time-wea'></span> ms)</p>
+        <pre class="response-data" id='response-wea'></pre>
+    </div>
+        </div>
+</div>
+
+    <div id="map"></div>
+
+<!-- WFWML artifacts -->
+<script src="wfml/proj4js-1.1.0.js"></script>
+<script src="wfml/leaflet.js"></script>
+
+<script src="wfml/wfml.js"></script>
+
+<!-- Configuration for Testbed - uses WF resources (VPN required) -->
+<script src="config-map.js"></script>
+<script src="config-layer.js"></script>
+
+<!-- Local config file to override config settings.  Can be omitted if not used -->
+<script src="config-LOCAL.js"></script>
+
+<script src="jquery.min.js"></script>
+<script src="tab.js"></script>
+<script src="test-pointid.js"></script>
+
+
+<script>
+  
+$(document).ready(init);
+
+var tabs = new Tab();
+tabs.show('geog');
+
+function init() {
+    MAPAPI = initMap();
+    initPointId();
+}
+
+function initMap() {
+    WFML.BASE_URL = "../../wfml";
+
+    var mapapi = WFML.createMap('map', MAP_CONFIG, LAYER_CONFIG );
+
+    mapapi.callback.click(onClick);
+
+    return mapapi;
+}
+
+function onClick(lonlat) {
+    clickPt = lonlat;
+    $('#click-loc').text(WFML.Location.format(lonlat));
+
+    run(lonlat);
+}
+
+</script>
+</body>
+
+</html>
