@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Wildfire Point ID Tester</title>
+    <style>
+
+.txt-ordinate {
+    width: 50px;
+    text-align: right;
+}
+.response-error {
+    color: red;
+}
+.request-panel {
+    background-color: #dddddd;
+    margin: 4px;
+    padding: 4px;
+}
+    </style>
+</head>
+
+<body>
+    <h1>Wildfire PointId Service Tester</h1>
+    <div>
+        Endpoint: 
+        <select id='sel-host'>
+            <option value="https://dlvrapps.nrs.gov.bc.ca/pub/wfss">DLVR</option>
+            <option value="https://testapps.nrs.gov.bc.ca/pub/wfss">TEST</option>
+            <option value="https://apps.nrs.gov.bc.ca/pub/wfss">PROD</option>
+            <option value="http://localhost:8080">LOCAL</option>
+        </select>
+        Operation: 
+        <select id='sel-op'>
+            <option value="all">All</option>
+            <option value="geography">Geography</option>
+            <option value="ownership">Ownership</option>
+            <option value="weather">Weather</option>
+        </select>
+        Lat: <input type='text' class='txt-ordinate' id='txt-lat' value='49'>
+        Lon: <input type='text' class='txt-ordinate' id='txt-lon' value='-124.2'>
+    </div>
+    <div>
+    </div>
+    <div><button id='btn-run'>Run</button></div>
+    <div class='request-panel'>
+        <h3>Geography</h3>
+        <p>Request: 
+        <code class="request" id='request-geo'></code>
+        </p>
+        <p>Response: (Time: <span id='response-time-geo'></span> ms)</p>
+        <pre class="response-data" id='response-geo'></pre>
+    </div>
+    <div class='request-panel'>
+        <h3>Ownership</h3>
+        <p>Request: 
+        <code class="request" id='request-own'></code>
+        </p>
+        <p>Response: (Time: <span id='response-time-own'></span> ms)</p>
+        <pre class="response-data" id='response-own'></pre>
+    </div>
+    <div class='request-panel'>
+        <h3>Weather</h3>
+        <p>Request: 
+        <code class="request" id='request-wea'></code>
+        </p>
+        <p>Response: (Time: <span id='response-time-wea'></span> ms)</p>
+        <pre class="response-data" id='response-wea'></pre>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script src="test-pointid.js"></script>
+
+</body>
+
+</html>
