@@ -1,0 +1,16 @@
+<div class="near-me-item">
+    <mat-list-item>
+        <div class="icon-column">
+            <ng-content select=".icon"></ng-content>
+            <ng-content select=".icon-info"></ng-content>
+        </div>
+        <div class="content-column">
+            <ng-content select=".title"></ng-content>
+            <ng-content select=".details"></ng-content>
+        </div>
+        <div class="action-column">
+            <ng-content select=".action-info"></ng-content>
+            <ng-content select=".action"></ng-content>
+        </div>
+    </mat-list-item>
+</div>

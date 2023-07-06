@@ -1,0 +1,27 @@
+{
+  "generator-bcdk": {
+    "promptValues": {
+      "modules": {
+        "main": {
+          "name": "wfone-public-mobile",
+          "version": "1.0.0",
+          "path": ".",
+          "environments": {
+            "build": {
+              "namespace": "fytirg-tools"
+            },
+            "dev": {
+              "namespace": "fytirg-dev"
+            },
+            "test": {
+              "namespace": "fytirg-test"
+            },
+            "prod": {
+              "namespace": "fytirg-prod"
+            }
+          }
+        }
+      }
+    }
+  }
+}

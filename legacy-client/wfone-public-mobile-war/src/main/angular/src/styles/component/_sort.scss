@@ -1,0 +1,63 @@
+@import '../variables';
+
+$header-color: $colour-light-grey;
+
+.sort-popup {
+  display: none;
+  flex-flow: column nowrap;
+  position: absolute;
+  color: $colour-black;
+  min-width: 15rem;
+  border: 0.0625rem solid rgba($colour-black, 0.5);
+  z-index: 15;
+  user-select: none;
+
+  &--visible {
+    display: flex;
+  }
+
+  &__header,
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+
+    &__text {
+      font-weight: 500;
+      line-height: 1.5;
+    }
+  }
+
+  &__header {
+    background-color: $header-color;
+
+    &__text {
+      font-size: 1.25rem;
+    }
+
+    &__icon {
+      cursor: pointer;
+    }
+  }
+
+  &__item {
+    font-size: 0.9rem;
+    background-color: $colour-white;
+    cursor: pointer;
+    transition: all 0.2s;
+
+    &:not(#{&}--active):hover {
+      background-color: $colour-light-grey;
+    }
+
+    &--active {
+      color: $colour-white;
+      background-color: $colour-red;
+    }
+
+    &__text {
+      font-size: 1rem;
+    }
+  }
+}

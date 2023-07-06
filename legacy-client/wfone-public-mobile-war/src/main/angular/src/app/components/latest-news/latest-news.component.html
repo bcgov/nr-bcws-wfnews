@@ -1,0 +1,29 @@
+<base-wrapper [errorState]="errorState" [toolbarIsVisible]="true" [backRoute]="backRoute" [backRouteLabel]="backRouteLabel" [title]="title">
+<div style="  max-height: 95vh !important; overflow-y: auto !important;">
+    <div class="page-width-container standard-content" [ngClass]="elevation">
+        <div class="title-bar-wrapper" *ngIf="!getIsMobileRes()">
+            <div class="title-bar">
+                <div class="left">
+                    <button #backroute *ngIf="getIsMobileRes() && backRoute" type="button" name="back button" (click)="navigateToBackRoute()" class="nav-menu-button" (keydown)="onKeydownMain($event)">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+                <div class="middle">
+                    <div *ngIf="title" class="title">{{title}}</div>
+                    <div *ngIf="summaryString" class="summary">{{summaryString}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="non-map-component-wrapper">
+        <!--<div [ngStyle]="{'background-color':getIsMobileRes()?'white':'grey'}">-->
+            <div #twitterTimelineContainer id="accessFocusPoint" [ngClass]="{'twitter-timeline-container': !getIsMobileRes()}">
+                <a #twitterFeed class="twitter-timeline" href="{{twitterTimelineUrl}}">
+                    Tweets by BCGovFireInfo
+                </a>
+
+            </div>
+        <!--</div>-->
+        </div>
+    </div>
+</div>
+</base-wrapper>

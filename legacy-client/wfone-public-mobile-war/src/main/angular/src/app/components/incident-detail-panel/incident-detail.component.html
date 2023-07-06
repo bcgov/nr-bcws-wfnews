@@ -1,0 +1,83 @@
+<div class="title" *ngIf="errorMessage && !incidentDetail">{{errorMessage}}</div>
+
+<ng-container *ngIf="incidentDetail">
+    <div class="weather-detail-content wf-incident-detail-feature">
+        <div class="button-bar"><button class="zoom-to-button" (click)="zoomIn()">Zoom
+                <mat-icon>center_focus_strong</mat-icon></button></div>
+        <div class="title"><a href="{{incidentNewsLink}}" target="_blank">{{incidentDetail.incidentName}}</a></div>
+
+        <div class="title" *ngIf="errorMessage">{{errorMessage}}</div>
+
+        <ng-container *ngIf="!errorMessage">
+            <div class="feature-attribute" style="font-weight:700">
+                <span class="attribute-title">Fire Number </span>
+                <span class="attribute-value">{{incidentDetail.incidentNumberLabel}}</span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.fireCentreCode">
+                <span class="attribute-title">Fire Centre </span>
+                <span class="attribute-value">
+                    <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/about-bcws/fire-centres" rel="noopener" target="_blank">
+                        {{convertToFireCentreDescription(incidentDetail.fireCentreCode)}}
+                    </a>
+                </span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.lastUpdatedTimestamp">
+                <span class="attribute-title">Last Updated </span>
+                <span class="attribute-value">{{convertTimeStamp(incidentDetail.lastUpdatedTimestamp)}}</span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.discoveryDate">
+                <span class="attribute-title">Discovered On </span>
+                <span class="attribute-value">{{convertTimeStamp(incidentDetail.discoveryDate)}}</span>
+            </div>
+
+            <div class="feature-attribute">
+                <span class="attribute-title">Suspected Cause </span>
+                <span class="attribute-value">{{getCauseLabel(incidentDetail.generalIncidentCauseCatId)}}</span>
+            </div>
+            
+            <div class="feature-attribute">
+                <span class="attribute-title">Size </span>
+                <span class="attribute-value">{{incidentDetail.incidentSizeEstimatedHa ? incidentDetail.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares</span>
+            </div>
+
+            <div class="feature-attribute">
+                <span class="attribute-title"> </span>
+                <span class="attribute-value">{{incidentDetail.incidentSizeDetail || 'Fire size is estimated and based on the most current information available.'}}</span>
+            </div>
+
+            <div class="feature-attribute">
+                <span class="attribute-title">Response Type </span>
+                <span class="attribute-value">{{incidentDetail.responseTypeCode ? getResponseType(incidentDetail.responseTypeCode) : 'N/A'}}</span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.incidentLocation">
+                <span class="attribute-title">Location </span>
+                <span class="attribute-value">{{incidentDetail.incidentLocation}}</span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.traditionalTerritoryDetail">
+                <span class="attribute-title">Traditional Territory </span>
+                <span class="attribute-value">{{incidentDetail.traditionalTerritoryDetail}}</span>
+            </div>
+
+            <div class="feature-attribute" *ngIf="incidentDetail.stageOfControl">
+                <span class="attribute-title">Stage of Control </span>
+                <span class="attribute-value">{{ incidentDetail.stageOfControl }}</span>
+            </div>
+
+            <!-- <div class="feature-attribute">
+        <span class="attribute-title">Distance To Fire </span>
+        <span class="attribute-value">{{calculateDistance(incidentDetail.latitude, incidentDetail.longitude)}}</span>
+      </div> -->
+
+            <div class="feature-attribute"
+                *ngIf="incidentDetail.fireOfNoteInd && (incidentDetail.wildfireCrewResourcesInd || incidentDetail.wildfireAviationResourceInd || incidentDetail.incidentMgmtCrewRsrcInd || incidentDetail.heavyEquipmentResourcesInd || incidentDetail.structureProtectionRsrcInd)">
+                <span class="attribute-title">Current Resources on Response</span>
+                <span class="attribute-value">{{displayCurrentResources(incidentDetail)}}</span>
+            </div>
+        </ng-container>
+    </div>
+</ng-container>

@@ -1,0 +1,48 @@
+<base-wrapper [errorState]="errorState" [toolbarIsVisible]="true" [backRoute]="backRoute" [backRouteLabel]="backRouteLabel" [title]="title">
+    <div class="page-width-container wfone-public-mobile-advisories standard-content" [ngClass]="elevation">
+        <div class="title-bar-wrapper" *ngIf="!getIsMobileRes()">
+            <div class="title-bar">
+                <div class="left">
+                    <button *ngIf="getIsMobileRes() && backRoute" type="button" name="back button" (click)="navigateToBackRoute();" class="nav-menu-button">
+                        <mat-icon>arrow_back</mat-icon>
+                    </button>
+                </div>
+                <div class="middle">
+                    <div *ngIf="title" class="title">{{title}}</div>
+                    <div *ngIf="summaryString" class="summary">{{summaryString}}</div>
+                </div>
+            </div>
+        </div>
+        <div class="non-map-component-wrapper">
+            <div class="advisories-header">
+                <mat-form-field appearance="outline">
+                    <mat-select placeholder="Notice Type..."
+                                disableOptionCentering panelClass="dropdownPanelClass"
+                                [(ngModel)]="type" (ngModelChange)="advisoryTypeChanged()" >
+                        <mat-select-trigger>{{selectedTypeDesc}}</mat-select-trigger>
+                        <mat-option *ngFor="let option of advisoryTypes" [value]="option.value" class="unset-line-height-option">
+                            <div>
+                                <mat-icon *ngIf="option.value == 'BANS_AND_PROHIBITIONS'" mat-list-icon class="near-me-icon" style="color: red; float: right">not_interested</mat-icon>
+                                <mat-icon *ngIf="option.value == 'AREA_RESTRICTIONS'" mat-list-icon class="near-me-icon" svgIcon="{{CONSTANTS.MAT_ICON_CUSTOM_MAP_SIGNS}}" style="color: #6b350f; float: right"></mat-icon>
+                                <mat-icon *ngIf="option.value == 'EVACUATION_ORDERS'" svgIcon="{{CONSTANTS.MAT_ICON_CUSTOM_EXCLAMATION_CIRCLE}}" style="color: red; float: right"></mat-icon>
+                                {{option.desc}}
+                            </div>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div class="toggle-part">
+                    <mat-label>All</mat-label>
+                    <mat-slide-toggle class="toggle" [(ngModel)]="nearMeSelected" (ngModelChange)="nearMeChanged()">
+                    </mat-slide-toggle>
+                    <mat-label>Near Me</mat-label>
+                </div>
+
+            </div>
+
+            <ng-template #nearMeContainerAdvisories></ng-template>
+        </div>
+
+    </div>
+
+
+</base-wrapper>
