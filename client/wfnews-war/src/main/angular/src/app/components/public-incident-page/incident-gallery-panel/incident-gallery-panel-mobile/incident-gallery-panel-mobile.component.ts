@@ -5,7 +5,6 @@ import { ActivatedRoute } from "@angular/router";
 import { LightGallery } from "lightgallery/lightgallery";
 import { convertToMobileFormat, convertToYoutubeId } from "../../../../utils"
 import { InitDetail } from 'lightgallery/lg-events';
- 
 
 @Component({
   selector: 'incident-gallery-panel-mobile',
@@ -14,7 +13,7 @@ import { InitDetail } from 'lightgallery/lg-events';
 })
 export class IncidentGalleryPanelMobileComponent implements OnInit {
   @Input() public incident;
-  incidentName: string  
+  incidentName: string
   allImagesAndVideosStub: any[];
   displayMediaStub: any[];
   allImagesStub: any[]
@@ -78,11 +77,12 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
         this.displayMediaStub = [];
 
         this.allImagesAndVideosStub.sort((a, b) => b.convertedDate - a.convertedDate)
+        this.allImagesAndVideosStub = this.setPrimaryToTop(this.allImagesAndVideosStub)
 
          if (this.allImagesAndVideosStub.length > 9) {
           this.displayLoadMore = true
-          this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 9);
-         } 
+          this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 10);
+         }
 
         this.pushToImages(this.allImagesAndVideosStub)
         this.pushToVideos(this.allImagesAndVideosStub)
@@ -98,12 +98,12 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
 loadMoreImages(e: HTMLElement) {
     this.displayImagesStub = this.allImagesStub;
     e.remove();
- } 
+ }
 
 loadMoreVideos(e: HTMLElement) {
   this.displayVideosStub = this.allVideosStub;
   e.remove();
-} 
+}
 
 
   handleImageFallback (href: string) {
@@ -121,6 +121,7 @@ loadMoreVideos(e: HTMLElement) {
           uploadedDate: new Date(uri.createdTimestamp).toLocaleDateString(),
           convertedDate: new Date(uri.createdTimestamp),
           fileName: '',
+          primary: uri.primaryInd.toString(),
           type: 'video',
           href: uri.externalUri
         })
@@ -137,6 +138,7 @@ loadMoreVideos(e: HTMLElement) {
           uploadedDate: new Date(attachment.createdTimestamp).toLocaleDateString(),
           convertedDate: new Date(attachment.createdTimestamp),
           fileName: attachment.attachmentFileName,
+          primary: attachment.primary.toString(),
           type: 'image',
           href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
           thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
@@ -149,14 +151,16 @@ loadMoreVideos(e: HTMLElement) {
     this.displayImagesStub = []
     this.allImagesStub = []
     for (let item of collection) {
-      if (item?.type === 'image'){
+      if (item?.type === 'image') {
         this.allImagesStub.push(item)
         this.displayImagesStub.push(item)
       }
-    } if (this.allImagesStub.length > 9){
+    }
+
+    if (this.allImagesStub.length > 9) {
       this.displayLoadMoreImages = true
-      this.displayImagesStub = this.allImagesStub.slice(0, 9);
-    } 
+      this.displayImagesStub = this.allImagesStub.slice(0, 10);
+    }
   }
 
   pushToVideos(collection: any) {
@@ -167,11 +171,28 @@ loadMoreVideos(e: HTMLElement) {
         this.allVideosStub.push(item)
         this.displayVideosStub.push(item)
       }
-    } if (this.allImagesStub.length > 9) {
+    }
+
+    if (this.allImagesStub.length > 9) {
       this.displayLoadMoreVideos = true
-      this.displayVideosStub = this.allVideosStub.slice(0, 9);
-    } 
+      this.displayVideosStub = this.allVideosStub.slice(0, 10);
+    }
+    console.log(this.displayLoadMoreVideos)
   }
 
+  setPrimaryToTop: any = (collection: any) => {
+    let itemToBeSpliced = null;
+    let index = null;
+    for (let item of collection){
+      if (item?.primary === 'true'){
+          itemToBeSpliced = item
+          index = collection.indexOf(item)
+       }
+    }
+    if (itemToBeSpliced !== null && index !== null) { 
+      collection.unshift(itemToBeSpliced)
+      delete collection[index + 1]
+    } 
+    return collection;
+  }
 }
-

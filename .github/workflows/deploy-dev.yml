@@ -107,7 +107,18 @@ jobs:
       SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
       AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
       AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
-
+      MAX_RECEIVED_COUNT: 10
+      VISIBILITY_TIMEOUT_SECONDS: 100
+      ACCEPTED_IPS: ""
+      PUSH_NOTIFICATION_AWS_USER: ""
+      EVENT_BRIDGE_ARN: ""
+      WFNEWS_URL: ""
+      SECRET_NAME: ""
+      BAN_PROHIBITION_MONITOR_KEY: ""
+      ACTIVE_FIRE_MONITOR_KEY: ""
+      AREA_RESTRICTIONS_MONITOR_KEY: ""
+      EVACUATION_MONITOR_KEY: ""
+      LAMBDA_LAYER_KEY: ""
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
