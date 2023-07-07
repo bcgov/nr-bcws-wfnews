@@ -18,11 +18,24 @@ jobs:
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
 
-  call-mvn-server-patch:
+  wfnews-api-server-build-patch:
     uses: ./.github/workflows/mvn-server-patch.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       REGISTRY: ghcr.io
+      PROJECT_NAME: wfnews-api
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+    secrets:
+      IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
+      IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
+
+  wfone-notifications-api-server-build-patch:
+    uses: ./.github/workflows/mvn-server-patch.yml
+    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
+    with:
+      REGISTRY: ghcr.io
+      PROJECT_NAME: wfone-notifications-api
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
     secrets:
@@ -41,9 +54,9 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
-  terragrunt-deploy-dev:
-    uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client-patch, call-mvn-server-patch, liquibase-build, apisix-build]
+  wfnews-terragrunt-deploy-dev:
+    uses: ./.github/workflows/wfnews-terragrunt-deploy.yml
+    needs: [call-mvn-client-patch, wfnews-api-server-build-patch, liquibase-build, apisix-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
@@ -109,6 +122,6 @@ jobs:
 
   jmeter-test-dev:
     uses: ./.github/workflows/jmeter.yml
-    needs: [terragrunt-deploy-dev]
+    needs: [wfnews-terragrunt-deploy-dev]
     with:
       ENVIRONMENT: dev

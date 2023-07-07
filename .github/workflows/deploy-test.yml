@@ -60,9 +60,9 @@ jobs:
         id: get-release-tag
       
 
-  terragrunt-deploy-test:
+  wfnews-terragrunt-deploy-test:
     needs: tag-images
-    uses: ./.github/workflows/terragrunt-deploy.yml
+    uses: ./.github/workflows/wfnews-terragrunt-deploy.yml
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
@@ -74,7 +74,7 @@ jobs:
       #1024 CPU units = 1 vCPU
       CLIENT_CPU_UNITS: 2048
       CLIENT_MEMORY: 4096
-      SERVER_CPU_UNITS: 2048 
+      SERVER_CPU_UNITS: 2048
       SERVER_MEMORY: 4096
       DB_INSTANCE_TYPE: 'db.t3.medium'
       INSTANCE_COUNT: 2

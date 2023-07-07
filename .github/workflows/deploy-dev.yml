@@ -31,12 +31,23 @@ jobs:
     with: 
       REGISTRY: ghcr.io
 
-  call-mvn-server:
+  wfnews-api-server-build:
     if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
       REGISTRY: ghcr.io
+      PROJECT_NAME: wfnews-api
+    secrets:
+      IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
+      IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
+
+  wfone-notifications-api-server-build:
+    if: github.event.pull_request.merged == true
+    uses: ./.github/workflows/mvn-server.yml
+    with:
+      REGISTRY: ghcr.io
+      PROJECT_NAME: wfone-notifications-api
     secrets:
       IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
       IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
@@ -53,9 +64,9 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
-  terragrunt-deploy-dev:
-    uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
+  wfnews-terragrunt-deploy-dev:
+    uses: ./.github/workflows/wfnews-terragrunt-deploy.yml
+    needs: [call-mvn-client, wfnews-api-server-build, liquibase-build, apisix-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
@@ -133,6 +144,6 @@ jobs:
 
   jmeter-test-dev:
     uses: ./.github/workflows/jmeter.yml
-    needs: [terragrunt-deploy-dev]
+    needs: [wfnews-terragrunt-deploy-dev]
     with:
       ENVIRONMENT: dev

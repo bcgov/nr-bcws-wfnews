@@ -64,9 +64,9 @@ jobs:
         id: get-release-tag
       
 
-  terragrunt-deploy-prod:
+  wfnews-terragrunt-deploy-prod:
     needs: tag-images
-    uses: ./.github/workflows/terragrunt-deploy.yml
+    uses: ./.github/workflows/wfnews-terragrunt-deploy.yml
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
