@@ -1,4 +1,4 @@
-WFNEWS Client v2.0.21
+WFNEWS Client v2.0.25
 
 To locally test the build:
 
