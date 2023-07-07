@@ -4,7 +4,7 @@ data "aws_lambda_layer_version" "wfnews_lambda_layer" {
 
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
-  s3_bucket     = var.functionBucket
+  s3_bucket     = var.FUNCTION_BUCKET
   s3_key        = var.BAN_PROHIBITION_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
@@ -23,7 +23,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
 
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
-  s3_bucket     = var.functionBucket
+  s3_bucket     = var.FUNCTION_BUCKET
   s3_key        = var.ACTIVE_FIRE_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
@@ -42,7 +42,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
-  s3_bucket     = var.functionBucket
+  s3_bucket     = var.FUNCTION_BUCKET
   s3_key        = var.AREA_RESTRICTIONS_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
@@ -61,7 +61,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
 
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
-  s3_bucket     = var.functionBucket
+  s3_bucket     = var.FUNCTION_BUCKET
   s3_key        = var.EVACUATION_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
