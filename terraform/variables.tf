@@ -641,3 +641,8 @@ variable "LAMBDA_LAYER_KEY" {
   type    = string
   default = ""
 }
+
+variable "FUNCTION_BUCKET" {
+  type    = string
+  default = ""
+}
