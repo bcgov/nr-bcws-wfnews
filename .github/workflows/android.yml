@@ -63,7 +63,7 @@ jobs:
           PROJECT_VERSION: ${{ env.PROJECT_VERSION }}
 
       - name: Print appConfig
-        run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+        run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/data/appConfig.mobile.json
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
