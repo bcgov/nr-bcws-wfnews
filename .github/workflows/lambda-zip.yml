@@ -53,12 +53,12 @@ jobs:
           cp bans-and-prohibitions-monitor-hash.txt staging/bans-and-prohibitions-monitor-hash.txt
           cp evacuation-orders-monitor-hash.txt staging/evacuation-orders-monitor-hash.txt
 
-      - uses: shallwefootball/s3-upload-action@master
-        name: Upload S3
-        id: S3
-        with:
-          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-          aws_bucket: wfnews-lambdas
-          source_dir: staging
-          destination_dir: ''
+      #- uses: shallwefootball/s3-upload-action@master
+      #  name: Upload S3
+      #  id: S3
+      #  with:
+      #    aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #    aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+      #    aws_bucket: wfnews-lambdas
+      #    source_dir: staging
+      #    destination_dir: ''
