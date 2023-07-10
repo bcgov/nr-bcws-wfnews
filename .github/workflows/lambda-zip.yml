@@ -40,3 +40,25 @@ jobs:
           openssl sha256 area-restrictions-monitor.zip > area-restrictions-monitor-hash.txt
           openssl sha256 bans-and-prohibitions-monitor.zip > bans-and-prohibitions-monitor-hash.txt
           openssl sha256 evacuation-orders-monitor.zip > evacuation-orders-monitor-hash.txt
+
+      - name: Make staging directory, copy files
+        run: |
+          mkdir staging
+          cp active-fire-monitor.zip staging/active-fire-monitor.zip
+          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+          cp active-fire-monitor-hash.txt staging/active-fire-monitor-hash.txt
+          cp area-restrictions-monitor-hash.txt staging/area-restrictions-monitor-hash.txt
+          cp bans-and-prohibitions-monitor-hash.txt staging/bans-and-prohibitions-monitor-hash.txt
+          cp evacuation-orders-monitor-hash.txt staging/evacuation-orders-monitor-hash.txt
+
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload S3
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: wfnews-lambdas
+          source_dir: staging
+          destination_dir: ''

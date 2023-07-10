@@ -644,5 +644,5 @@ variable "LAMBDA_LAYER_KEY" {
 
 variable "FUNCTION_BUCKET" {
   type    = string
-  default = ""
+  default = "wfnews-lambdas"
 }

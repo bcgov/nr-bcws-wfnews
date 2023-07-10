@@ -8,13 +8,10 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   compatible_runtimes = ["python3.8"]
 }
 
-/*
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
-  filename      = "../bans-and-prohibitions-monitor.zip"
-  source_code_hash = filebase64sha256("../bans-and-prohibitions-monitor.zip")
-#  s3_bucket     = var.FUNCTION_BUCKET
-#  s3_key        = var.BAN_PROHIBITION_MONITOR_KEY
+  s3_bucket     = var.FUNCTION_BUCKET
+  s3_key        = var.BAN_PROHIBITION_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -32,10 +29,8 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
 
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
-  filename      = "../active-fire-monitor.zip"
-  source_code_hash = filebase64sha256("../active-fire-monitor.zip")
-#  s3_bucket     = var.FUNCTION_BUCKET
-#  s3_key        = var.ACTIVE_FIRE_MONITOR_KEY
+  s3_bucket     = var.FUNCTION_BUCKET
+  s3_key        = var.ACTIVE_FIRE_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -53,10 +48,8 @@ resource "aws_lambda_function" "monitor-active-fires" {
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
-  filename      = "../area-restrictions-monitor.zip"
-  source_code_hash = filebase64sha256("../area-restrictions-monitor.zip")
-#  s3_bucket     = var.FUNCTION_BUCKET
-#  s3_key        = var.AREA_RESTRICTIONS_MONITOR_KEY
+  s3_bucket     = var.FUNCTION_BUCKET
+  s3_key        = var.AREA_RESTRICTIONS_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -74,10 +67,8 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
 
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
-  filename      = "../evacuation-orders-monitor.zip"
-  source_code_hash = filebase64sha256("../evacuation-orders-monitor.zip")
-#  s3_bucket     = var.FUNCTION_BUCKET
-#  s3_key        = var.EVACUATION_MONITOR_KEY
+  s3_bucket     = var.FUNCTION_BUCKET
+  s3_key        = var.EVACUATION_MONITOR_KEY
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -92,4 +83,3 @@ resource "aws_lambda_function" "monitor-evacuation" {
     }
   }
 }
-*/
