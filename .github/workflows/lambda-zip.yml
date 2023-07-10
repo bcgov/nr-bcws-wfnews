@@ -1,0 +1,41 @@
+# Action for compiling and zipping the lambdas
+
+name: Lambda Compile and Zip
+
+on:
+  workflow_call:
+    inputs:
+      REGISTRY:
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r active-fire-monitor.zip lambda/active-fire-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r area-restrictions-monitor.zip lambda/area-restrictions-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r evacuation-orders-monitor.zip /lambda/evacuation-orders-monitor
+        
+      - name: Get source code hash of jar files
+        run: |
+          openssl sha256 active-fire-monitor.zip > active-fire-monitor-hash.txt
+          openssl sha256 area-restrictions-monitor.zip > area-restrictions-monitor-hash.txt
+          openssl sha256 bans-and-prohibitions-monitor.zip > bans-and-prohibitions-monitor-hash.txt
+          openssl sha256 evacuation-orders-monitor.zip > evacuation-orders-monitor-hash.txt

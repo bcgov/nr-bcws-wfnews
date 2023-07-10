@@ -23,6 +23,11 @@ on:
       - "!**/README.md"
 
 jobs:
+  call-lambda-zip:
+    uses: ./.github/workflows/lambda-zip.yml
+    secrets: inherit
+    with:
+      REGISTRY: ghcr.io
 
   call-mvn-client:
     if: github.event.pull_request.merged == true
