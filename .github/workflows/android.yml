@@ -33,7 +33,7 @@ jobs:
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
       APP_CONFIG_FILE: ./client/wfnews-war/src/main/angular/src/assets/data/appConfig.mobile.json
-      POM_DIRECTORY: ./client/wfnews-war
+      POM_DIRECTORY: /client/wfnews-war
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.build_environment }}
