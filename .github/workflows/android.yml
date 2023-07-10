@@ -56,7 +56,7 @@ jobs:
         id: version
         uses: mavrosxristoforos/get-xml-info@1.1.1
         with:
-          xml-file: 'client/wfnews-war/pom.xml'
+          xml-file: 'client/pom.xml'
           xpath: '//version'
         
 
