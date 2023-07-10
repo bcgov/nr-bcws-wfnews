@@ -23,6 +23,11 @@ on:
       - "!**/README.md"
 
 jobs:
+  call-lambda-zip:
+    uses: ./.github/workflows/lambda-zip.yml
+    secrets: inherit
+    with:
+      REGISTRY: ghcr.io
 
   call-mvn-client:
     if: github.event.pull_request.merged == true
@@ -55,7 +60,7 @@ jobs:
 
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
+    needs: [call-lambda-zip, call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
     with:
       REGISTRY: ghcr.io
       #Server and Image name get PR number as appropriate inside deploy step
@@ -119,7 +124,7 @@ jobs:
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
-      FUNCTION_BUCKET: ""
+      FUNCTION_BUCKET: "wfnews-lambdas"
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
       LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
