@@ -66,7 +66,7 @@ jobs:
 
       - name: Extract Maven project version
         working-directory: ${{ env.POM_DIRECTORY }}
-        run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
+        run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
         id: project
       
       - name: Show extracted Maven project version
