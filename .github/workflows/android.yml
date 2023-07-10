@@ -54,7 +54,7 @@ jobs:
       - name: Replace tokens
         uses: cschleiden/replace-tokens@v1.2
         with:
-          files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+          files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/data/appConfig.mobile.json
         env:
           APPLICATION_ACRONYM: ${{ env.APPLICATION_ACRONYM }}
           APPLICATION_ENVIRONMENT: ${{ env.APPLICATION_ENVIRONMENT }}
