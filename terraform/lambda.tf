@@ -1,3 +1,4 @@
+/*
 data "aws_lambda_layer_version" "wfnews_lambda_layer" {
   layer_name = "wfnews-python-lib"
 }
@@ -6,7 +7,7 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   filename   = "../lambda/lambda-layer/python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]
-}
+}*/
 
 /*
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
