@@ -24,6 +24,12 @@ on:
 
 jobs:
 
+  build-android:
+    uses: ./.github/workflows/android.yml
+    with:
+      build_environment: development
+      upload_to_play_store: false
+
   call-mvn-client:
     if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-client.yml
