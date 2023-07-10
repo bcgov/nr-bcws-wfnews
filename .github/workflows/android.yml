@@ -66,11 +66,11 @@ jobs:
 
       - name: Extract Maven project version
         working-directory: ${{ env.POM_DIRECTORY }}
-        run: echo ::set-output name=version::$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)
+        run: echo "PROJECT_VERSION=$(mvn help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_ENV
         id: project
       
       - name: Show extracted Maven project version
-        run: echo ${{ steps.project.outputs.version }}
+        run: echo ${{ env.PROJECT_VERSION }}
 
       - name: Replace tokens
         uses: cschleiden/replace-tokens@v1.2
