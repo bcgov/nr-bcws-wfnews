@@ -33,7 +33,8 @@ jobs:
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
     runs-on: ubuntu-latest
-    environment: development
+    environment:
+      name: ${{ inputs.build_environment }}
     steps:
       - uses: actions/checkout@v3
       
