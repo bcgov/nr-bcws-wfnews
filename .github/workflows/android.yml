@@ -19,6 +19,7 @@ on:
         type: choice
         options:
           - development
+          - integration
           - production
         default: 'development'
       upload_to_play_store:
@@ -32,6 +33,7 @@ jobs:
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - uses: actions/checkout@v3
       
@@ -66,11 +68,23 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: npm install --legacy-peer-deps
 
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+        env:
+          APPLICATION_ACRONYM: ${{ env.APPLICATION_ACRONYM }}
+          APPLICATION_ENVIRONMENT: ${{ env.APPLICATION_ENVIRONMENT }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          LAZY_AUTHENTICATE: ${{ env.LAZY_AUTHENTICATE }}
+          PROJECT_VERSION: ${{ env.PROJECT_VERSION }}
+
+      - name: Print appConfig
+        run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        env:
-          BUILD_FLAG: ${{ inputs.build_environment == 'production' && '--prod' || '' }}
-        run: ionic capacitor sync android $BUILD_FLAG
+        run: ionic capacitor sync android --configuration=mobile
 
       - name: Make gradlew executable
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/android

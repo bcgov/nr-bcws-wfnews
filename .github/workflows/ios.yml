@@ -19,6 +19,7 @@ on:
         type: choice
         options:
           - development
+          - integration
           - production
         default: 'development'
       upload_to_app_store:
@@ -72,9 +73,7 @@ jobs:
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        env:
-          BUILD_FLAG: ${{ inputs.build_environment == 'production' && '--prod' || '' }}
-        run: ionic capacitor sync android $BUILD_FLAG
+        run: ionic capacitor sync ios --configuration=mobile
 
       - name: Add Google Services file
         working-directory: "${{ env.ANGULAR_DIRECTORY }}/ios/App/App"
