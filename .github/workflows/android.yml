@@ -33,6 +33,7 @@ jobs:
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
       APP_CONFIG_FILE: ./client/wfnews-war/src/main/angular/src/assets/data/appConfig.mobile.json
+      POM_DIRECTORY: ./client/wfnews-war
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.build_environment }}
@@ -64,6 +65,7 @@ jobs:
           distribution: 'adopt'
 
       - name: Extract Maven project version
+        working-directory: ${{ env.POM_DIRECTORY }}
         run: echo ::set-output name=version::$(mvn -q -Dexec.executable=echo -Dexec.args='${project.version}' --non-recursive exec:exec)
         id: project
       
