@@ -33,7 +33,6 @@ jobs:
     env:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
       APP_CONFIG_FILE: ./client/wfnews-war/src/main/angular/src/assets/data/appConfig.mobile.json
-      POM_DIRECTORY: /client/wfnews-war
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.build_environment }}
@@ -57,7 +56,7 @@ jobs:
         id: version
         uses: mavrosxristoforos/get-xml-info@1.1.1
         with:
-          xml-file: '${{ env.POM_DIRECTORY }}/pom.xml'
+          xml-file: 'client/wfnews-war/pom.xml'
           xpath: '//version'
         
 
