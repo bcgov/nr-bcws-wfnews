@@ -8,6 +8,7 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   compatible_runtimes = ["python3.8"]
 }
 
+/*
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
   filename      = "../bans-and-prohibitions-monitor.zip"
@@ -91,3 +92,4 @@ resource "aws_lambda_function" "monitor-evacuation" {
     }
   }
 }
+*/
