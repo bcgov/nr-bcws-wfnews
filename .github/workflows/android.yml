@@ -50,6 +50,21 @@ jobs:
           NPMRC: ${{ secrets.NPMRC }}
         run: echo -e "$NPMRC" > .npmrc
           
+
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.2
+        with:
+          files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+        env:
+          APPLICATION_ACRONYM: ${{ env.APPLICATION_ACRONYM }}
+          APPLICATION_ENVIRONMENT: ${{ env.APPLICATION_ENVIRONMENT }}
+          BUILD_NUMBER: ${{ github.run_number }}
+          LAZY_AUTHENTICATE: ${{ env.LAZY_AUTHENTICATE }}
+          PROJECT_VERSION: ${{ env.PROJECT_VERSION }}
+
+      - name: Print appConfig
+        run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
+
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -67,20 +82,6 @@ jobs:
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: npm install --legacy-peer-deps
-
-      - name: Replace tokens
-        uses: cschleiden/replace-tokens@v1.2
-        with:
-          files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
-        env:
-          APPLICATION_ACRONYM: ${{ env.APPLICATION_ACRONYM }}
-          APPLICATION_ENVIRONMENT: ${{ env.APPLICATION_ENVIRONMENT }}
-          BUILD_NUMBER: ${{ github.run_number }}
-          LAZY_AUTHENTICATE: ${{ env.LAZY_AUTHENTICATE }}
-          PROJECT_VERSION: ${{ env.PROJECT_VERSION }}
-
-      - name: Print appConfig
-        run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/appConfig.mobile.json
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
