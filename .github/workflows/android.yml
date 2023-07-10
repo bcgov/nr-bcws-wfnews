@@ -57,11 +57,11 @@ jobs:
         with:
           files: ${{ env.ANGULAR_DIRECTORY }}/src/assets/data/appConfig.mobile.json
         env:
-          APPLICATION_ACRONYM: ${{ env.APPLICATION_ACRONYM }}
-          APPLICATION_ENVIRONMENT: ${{ env.APPLICATION_ENVIRONMENT }}
+          APPLICATION_ACRONYM: '${{ env.APPLICATION_ACRONYM }}'
+          APPLICATION_ENVIRONMENT: '${{ env.APPLICATION_ENVIRONMENT }}'
           BUILD_NUMBER: ${{ github.run_number }}
-          LAZY_AUTHENTICATE: ${{ env.LAZY_AUTHENTICATE }}
-          PROJECT_VERSION: ${{ env.PROJECT_VERSION }}
+          LAZY_AUTHENTICATE: '${{ env.LAZY_AUTHENTICATE }}'
+          PROJECT_VERSION: '${{ env.PROJECT_VERSION }}'
 
       - name: Print appConfig
         run: cat ${{ env.ANGULAR_DIRECTORY }}/src/assets/data/appConfig.mobile.json
