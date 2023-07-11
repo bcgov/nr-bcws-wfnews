@@ -201,6 +201,10 @@ on:
         required: false
         type: string
         default: ""
+      FUNCTION_BUCKET:
+        required: false
+        type: string
+        default: ""
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -324,6 +328,7 @@ jobs:
           AREA_RESTRICTIONS_MONITOR_KEY: ${{inputs.AREA_RESTRICTIONS_MONITOR_KEY }}
           EVACUATION_MONITOR_KEY: ${{inputs.EVACUATION_MONITOR_KEY }}
           LAMBDA_LAYER_KEY: ${{inputs.LAMBDA_LAYER_KEY }}
+          FUNCTION_BUCKET: ${{inputs.FUNCTION_BUCKET}}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

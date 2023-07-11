@@ -19,7 +19,7 @@ data "aws_iam_policy" "lambdaSecrets" {
 }
 
 resource "aws_iam_role" "lambda_iam_role" {
-  name = "wfone-public-mobile-lambda-role-${module.vars.env.env_lowercase}"
+  name = "wfone-public-mobile-lambda-role-${var.target_env}"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [

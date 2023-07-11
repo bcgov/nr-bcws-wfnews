@@ -59,6 +59,7 @@ env:
   AREA_RESTRICTIONS_MONITOR_KEY: ""
   EVACUATION_MONITOR_KEY: ""
   LAMBDA_LAYER_KEY: ""
+  FUNCTION_BUCKET: ""
 
 jobs:
   plan:
@@ -132,6 +133,7 @@ jobs:
           AREA_RESTRICTIONS_MONITOR_KEY: ${{env.AREA_RESTRICTIONS_MONITOR_KEY}}
           EVACUATION_MONITOR_KEY: ${{env.EVACUATION_MONITOR_KEY}}
           LAMBDA_LAYER_KEY: ${{env.LAMBDA_LAYER_KEY}}
+          FUNCTION_BUCKET: ${{env.FUNCTION_BUCKET}}
 
         run: terragrunt plan --terragrunt-non-interactive
 

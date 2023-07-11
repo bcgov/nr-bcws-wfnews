@@ -615,6 +615,133 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   ])
 }
 
+resource "aws_ecs_task_definition" "wfss-pointid-api" {
+  family                   = "wfnews-pointid-api-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  tags                     = local.common_tags
+  
+  container_definitions = jsonencode([
+    {
+      essential   = true
+      # readonlyRootFilesystem = true
+      name        = var.apisix_container_name
+      image       = var.apisix_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
+        }
+       ]
+      environment = [
+        {
+          name  = "DATABASE_WEATHER_URL",
+          value = ""
+        },
+        {
+          name  = "DATABASE_WEATHER_USER",
+          value = ""
+        },
+        {
+          name  = "DATABASE_WEATHER_PWD",
+          value = ""
+        },
+        {
+          name  = "BCGW_URL",
+          value = ""
+        },
+        {
+          name  = "WFGS_URL",
+          value = ""
+        },
+        {
+          name  = "MAX_ALLOWED_RADIUS",
+          value = ""
+        },
+        {
+          name = "ASYNC_JOB_INTERVAL",
+          value = ""
+        },
+        {
+          name = "ASYNC_JOB_REF_LAT",
+          value = ""
+        },
+        {
+          name = "ASYNC_JOB_REF_LONG",
+          value = ""
+        },
+        {
+          name = "ASYNC_JOB_REF_RADIUS",
+          value = ""
+        },
+        { 
+          name = "WEATHER_HOST",
+          value = ""
+        }
+        {
+          name = "WEATHER_USER",
+          value = ""
+        },
+        {
+          name = "WEATHER_PASSWORD",
+          value = "",
+        },
+        {
+          name = "WFARCGIS_URL",
+          value = ""
+        },
+        {
+          name = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
+          value = ""
+        },
+        {
+          name="WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
+          value=""
+        },
+        {
+          name="WFARCGIS_LAYER_DANGER_RATING",
+          value=""
+        },
+        {
+          name="WFARCGIS_LAYER_ACTIVE_FIRES",
+          value=""
+        },
+        {
+          name="WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
+          value=""
+        },
+        {
+          name="WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+          value=""
+        },
+        {
+          name="WFARCGIS_QUEUESIZE",
+          value=""
+        },
+        {
+          name="WEBADE_OAUTH2_CLIENT_ID",
+          value=""
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.apisix_names[0]}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+    }
+  ])
+}
+
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1

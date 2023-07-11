@@ -125,6 +125,24 @@ variable "server_memory" {
   type        = number
 }
 
+variable "pointid_cpu_units" {
+  description = "server CPU units to provision (1 vCPU = 1024 CPU units)"
+  type        = number
+  default     = "512"
+}
+
+variable "pointid_memory" {
+  description = "server memory to provision (in MiB)"
+  type        = number
+  default = 1024
+}
+
+variable "pointid_port" {
+  type = number
+  type = number
+  default = 8080
+}
+
 variable "db_instance_type" {
   description = "Instance type to use for database vm"
   type        = string
@@ -638,6 +656,11 @@ variable "EVACUATION_MONITOR_KEY" {
 }
 
 variable "LAMBDA_LAYER_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "FUNCTION_BUCKET" {
   type    = string
   default = ""
 }

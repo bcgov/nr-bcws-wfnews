@@ -126,6 +126,7 @@ jobs:
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
+      FUNCTION_BUCKET: ""
 
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_TEST }}
