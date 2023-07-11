@@ -60,6 +60,7 @@ jobs:
         uses: mavrosxristoforos/get-xml-info@1.1.1
         with:
           xml-file: 'client/pom.xml'
+          xpath: "/*[local-name()='project']/*[local-name()='version']/text()"
         
 
       - name: Replace tokens
