@@ -52,9 +52,6 @@ jobs:
           NPMRC: ${{ secrets.NPMRC }}
         run: echo -e "$NPMRC" > .npmrc
 
-      - name: Print the pom.xml file
-        run: cat client/pom.xml
-
       - name: Get XML Info
         id: version
         uses: mavrosxristoforos/get-xml-info@1.1.1
