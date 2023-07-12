@@ -1,7 +1,7 @@
 name: Deploy Prod
 
 env:
-  NPMRC: ${{ secrets.NPMRC }}
+  IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
   
 on:
   release:
@@ -18,6 +18,7 @@ jobs:
 
   tag-images:
     runs-on: ubuntu-22.04
+    environment: PROD
 
     outputs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}

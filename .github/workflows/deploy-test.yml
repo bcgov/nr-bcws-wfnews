@@ -1,7 +1,6 @@
 name: Deploy Test
 
 env:
-  NPMRC: ${{ secrets.NPMRC }}
   IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
   
 on:

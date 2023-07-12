@@ -1,13 +1,6 @@
 name: Deploy Dev
 
-env:
-  NPMRC: ${{ secrets.NPMRC }}
-  TRIGGERS: ('client/' 'server/' '.github/workflows')
-  PATCH_BRANCH: ${{ vars.PATCH_BRANCH }}
 on:
-  push:
-    branches:
-      - 'mobile-build-automation'
   pull_request_target:
     types:
       - closed
@@ -32,13 +25,6 @@ on:
         default: false
 
 jobs:
-
-  build-android:
-    uses: ./.github/workflows/android.yml
-    with:
-      build_environment: DEV
-      upload_to_play_store: false
-
   call-mvn-client:
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
