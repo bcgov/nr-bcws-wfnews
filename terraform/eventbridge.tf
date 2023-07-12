@@ -1,5 +1,4 @@
 //EventBridge Resources
-/*
 resource "aws_cloudwatch_event_rule" "wfnews-monitor-schedule" {
   name                = "wfnews-monitor-schedule-${var.target_env}"
   description         = "Run the monitor lambdas on a regular schedule"
@@ -67,4 +66,3 @@ resource "aws_lambda_permission" "allow_extended_eventbridge_to_call_restriction
   principal="events.amazonaws.com"
   source_arn=aws_cloudwatch_event_rule.wfnews-monitor-schedule-extended.arn
 }
-*/
