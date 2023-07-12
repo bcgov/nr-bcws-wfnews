@@ -1,0 +1,16 @@
+<div>
+  {{ title }}
+  {{ message }}
+
+  <div *ngFor="let button of buttons">
+    <mat-button-toggle *ngIf="allowMultiSelect" (change)="onValChange(value)" [value]="button.value"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
+    <button mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value)"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>
+  </div>
+
+  <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip"><mat-icon>question</mat-icon>I don't Know</mat-button-toggle>
+
+  <div>
+    <button mat-raised-button (click)="previous()">Previous</button>
+	  <button mat-raised-button (click)="next()">Next</button>
+  </div>
+</div>

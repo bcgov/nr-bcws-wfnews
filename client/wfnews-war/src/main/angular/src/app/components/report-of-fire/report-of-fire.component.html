@@ -1,0 +1,6 @@
+<div>
+  <div><button *ngIf="allowExit" mat-raised-button (click)="exit()">Exit</button></div>
+  <div><button *ngIf="allowSkip" mat-raised-button (click)="skip()">Skip</button></div>
+  <div #dynamic id="page-container" class="page-container">
+  </div>
+</div>

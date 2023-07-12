@@ -1,0 +1,14 @@
+<div>
+  {{ title }}
+  {{ message }}
+
+  <textarea matInput rows="3" style="height:auto;"
+    [(ngModel)]="reportOfFire.otherInfo"
+    placeholder="Enter additional details here">
+  </textarea>
+
+  <div>
+    <button mat-raised-button (click)="previous()">Previous</button>
+	  <button mat-raised-button (click)="next()">Review</button>
+  </div>
+</div>

@@ -1,0 +1,14 @@
+<div>
+  <div>{{ title }}</div>
+  <div>{{ message }}</div>
+
+  {{ imageUrl }}
+
+  <div *ngIf="!closeButton">
+    <button mat-flat-button (click)="openCallPage()">Call</button>
+	  <button mat-raised-button color="primary" (click)="next()">Start</button>
+  </div>
+  <div *ngIf="closeButton">
+    <button mat-flat-button (click)="close()">Close</button>
+  </div>
+</div>

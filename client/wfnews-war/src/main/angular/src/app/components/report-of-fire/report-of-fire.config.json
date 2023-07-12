@@ -1,0 +1,311 @@
+{
+  "pages": [
+    {
+      "type": "RoFTitlePage",
+      "title": "Report a Fire",
+      "message": "To report a wildfire in British Columbia, you can call the Wildfire Dispatch team or submit a report through the app. This process usually takes 5-10 minutes.",
+      "allowSkip": false,
+      "allowExit": true,
+      "closeButton": false,
+      "imageUrl": ""
+    },
+    {
+      "type": "RoFPermissionsPage",
+      "title": "Permissions",
+      "message": "To report a wildfire in British Columbia, you can call the Wildfire Dispatch team or submit a report through the app. This process usually takes 5-10 minutes.",
+      "allowSkip": false,
+      "allowExit": true
+    },
+    {
+      "type": "RoFSimpleQuestionPage",
+      "title": "Are you available for a call back in the next 20 minutes?",
+      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "skipIndex": 2
+    },
+    {
+      "type": "RoFContactPage",
+      "title": "Are you available for a call back in the next 20 minutes?",
+      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "allowSkip": true,
+      "allowExit": true
+    },
+    {
+      "type": "RoFLocationPage",
+      "title": "Where is the Wildfire?",
+      "message": "Center the yellow crosshairs on the location of the fire by moving the map with your finger. If you can’t locate the fire, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "previousIndex": 2
+    },
+    {
+      "type": "RoFPhotoPage",
+      "title": "Add Photos",
+      "message": "Photos help us identify the type of fire and find it faster. If you are no longer near the fire or can’t take a photo, tap skip.",
+      "allowSkip": true,
+      "allowExit": true
+    },
+    {
+      "type": "RoFComplexQuestionPage",
+      "title": "What colour is the smoke?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "updateAttribute": "",
+      "buttons": [
+        {
+          "label": "White",
+          "value": "white",
+          "icon": ""
+        },
+        {
+          "label": "Grey",
+          "value": "grey",
+          "icon": ""
+        },
+        {
+          "label": "Black",
+          "value": "black",
+          "icon": ""
+        },
+        {
+          "label": "Brown",
+          "value": "brown",
+          "icon": ""
+        },
+        {
+          "label": "Blue",
+          "value": "blue",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "type": "RoFComplexQuestionPage",
+      "title": "How big is the fire?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": false,
+      "buttons": [
+        {
+          "label": "The size of a Campfire",
+          "value": "campfire",
+          "icon": ""
+        },
+        {
+          "label": "The size of a House",
+          "value": "house",
+          "icon": ""
+        },
+        {
+          "label": "Black",
+          "value": "black",
+          "icon": ""
+        },
+        {
+          "label": "The size of a Football Field",
+          "value": "football",
+          "icon": ""
+        },
+        {
+          "label": "Larger than a Football Field",
+          "value": "large",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "type": "RoFSimpleQuestionPage",
+      "title": "Are there any signs of response?",
+      "message": "Do you hear sirens or helicopters? Do you see trucks or personnel near the fire?",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "skipIndex": 2
+    },
+    {
+      "type": "RoFComplexQuestionPage",
+      "title": "Are there any signs of response?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "buttons": [
+        {
+          "label": "Truck(s)",
+          "value": "trucks",
+          "icon": ""
+        },
+        {
+          "label": "Sirens",
+          "value": "sirens",
+          "icon": ""
+        },
+        {
+          "label": "Personnel",
+          "value": "personnel",
+          "icon": ""
+        },
+        {
+          "label": "Helicopter(s)",
+          "value": "helicopters",
+          "icon": ""
+        },
+        {
+          "label": "Heavy Equipment",
+          "value": "equipment",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is there a visible flame?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "previousIndex": 2
+    },
+    {
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is the fire spreading?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true
+    },
+    {
+      "type": "RoFComplexQuestionPage",
+      "title": "What is burning?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "buttons": [
+        {
+          "label": "Trees",
+          "value": "trees",
+          "icon": ""
+        },
+        {
+          "label": "Grass",
+          "value": "grass",
+          "icon": ""
+        },
+        {
+          "label": "Mixed Wood",
+          "value": "wood",
+          "icon": ""
+        },
+        {
+          "label": "Brush",
+          "value": "brush",
+          "icon": ""
+        },
+        {
+          "label": "Slash",
+          "value": "slash",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is there any infrastructure at risk?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "skipIndex": 2
+    },
+    {
+      "type": "RoFComplexQuestionPage",
+      "title": "Is there any infrastructure at risk?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "buttons": [
+        {
+          "label": "Home(s)",
+          "value": "homes",
+          "icon": ""
+        },
+        {
+          "label": "Building(s)",
+          "value": "buildings",
+          "icon": ""
+        },
+        {
+          "label": "Power Line(s)",
+          "value": "powerlines",
+          "icon": ""
+        },
+        {
+          "label": "Railway(s)",
+          "value": "railways",
+          "icon": ""
+        },
+        {
+          "label": "Bridge(s)",
+          "value": "bridges",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "type": "RoFCommentsPage",
+      "title": "Is there anything else you'd like us to know?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "previousIndex": 2
+    },
+    {
+      "type": "RoFReviewPage",
+      "title": "",
+      "message": "",
+      "allowSkip": false,
+      "allowExit": true
+    },
+    {
+      "type": "RoFTitlePage",
+      "title": "Thank You!",
+      "message": "Your report has been successfully submitted to the Provincial Wildfire Reporting Centre. We may call you back within 20 minutes if we have any further questions.\nReports like these help us protect the forests, grasslands and communities of British Columbia, so thank you for taking the time. ",
+      "allowSkip": false,
+      "allowExit": false,
+      "imageUrl": "",
+      "closeButton": true
+    }
+  ]
+}
