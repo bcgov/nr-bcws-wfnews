@@ -18,9 +18,9 @@ on:
         description: 'Build Environment'
         type: choice
         options:
-          - development
-          - integration
-          - production
+          - DEV
+          - TEST
+          - PROD
         default: 'development'
       upload_to_play_store:
         description: 'Upload to Play Store'
@@ -65,11 +65,46 @@ jobs:
         with:
           files: ${{ env.APP_CONFIG_FILE }}
         env:
-          APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
-          APPLICATION_ENVIRONMENT: ${{ vars.APPLICATION_ENVIRONMENT }}
+          # AGOL_ACTIVE_FIRES: ${{ vars.AGOL_ACTIVE_FIRES }}
+          AGOL_AREA_RESTRICTIONS: ${{ vars.AGOL_AREA_RESTRICTIONS }}
+          AGOL_BANS_AND_PROHIBITIONS: ${{ vars.AGOL_BANS_AND_PROHIBITIONS }}
+          # AGOL_EVAC_ORDERS: ${{ vars.AGOL_EVAC_ORDERS }}
+          # AGOL_FIRE_CENTRES: ${{ vars.AGOL_FIRE_CENTRES }}
+          # AGOL_PERIMETRES: ${{ vars.AGOL_PERIMETRES }}
+          # APP_STORE_URL: ${{ vars.APP_STORE_URL }}
+          # APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
+          APPLICATION_ENVIRONMENT: ${{ vars.DEFAULT_APPLICATION_ENVIRONMENT }}
+          # BASE_URL: ${{ vars.BASE_URL }}
+          # BC_WILDFIRE_SUPPORT_PAGE: ${{ vars.BC_WILDFIRE_SUPPORT_PAGE }}
           BUILD_NUMBER: ${{ github.run_number }}
-          LAZY_AUTHENTICATE: ${{ vars.LAZY_AUTHENTICATE }}
+          # BURN_REGISTRATION_LINE: ${{ vars.BURN_REGISTRATION_LINE }}
+          # CONFIG_IM_URL: ${{ vars.CONFIG_IM_URL }}
+          DRIVEBC_BASE_URL: ${{ vars.DRIVEBC_BASE_URL }}
+          # FACEBOOK_URL: ${{ vars.FACEBOOK_URL }}
+          # GOOGLE_PLAY_URL: ${{ vars.GOOGLE_PLAY_URL }}
+          # LAZY_AUTHENTICATE: ${{ vars.LAZY_AUTHENTICATE }}
+          # MAP_ICONS_ICON_ANCHOR: ${{ vars.MAP_ICONS_ICON_ANCHOR }}
+          # MAP_ICONS_ICON_SIZE: ${{ vars.MAP_ICONS_ICON_SIZE }}
+          # MAP_ICONS_SHADOW_SIZE: ${{ vars.MAP_ICONS_SHADOW_SIZE }}
+          # MAP_ICONS_TOOLTIP_OFFSET: ${{ vars.MAP_ICONS_TOOLTIP_OFFSET }}
+          # MORE_INFORMATION_LINK: ${{ vars.MORE_INFORMATION_LINK }}
+          OPENMAPS_BASE_URL: ${{ vars.OPENMAPS_BASE_URL }}
+          # POINT_ID_URL: ${{ vars.POINT_ID_URL }}
           PROJECT_VERSION: ${{ steps.version.outputs.info }}
+          # REPORT_A_WILDFIRE_PHONE_LINE: ${{ vars.REPORT_A_WILDFIRE_PHONE_LINE }}
+          SITEMINDER_URL_PREFIX: ${{ vars.SITEMINDER_URL_PREFIX }}
+          # TWITTER_URL: ${{ vars.TWITTER_URL }}
+          # WEBADE_OAUTH2_AUTH_SCOPES: ${{ vars.WEBADE_OAUTH2_AUTH_SCOPES }}
+          WEBADE_OAUTH2_AUTHORIZE_URL: ${{ vars.WEBADE_OAUTH2_AUTHORIZE_URL }}
+          # WEBADE_OAUTH2_CHECK_TOKEN_V2_URL: ${{ vars.WEBADE_OAUTH2_CHECK_TOKEN_V2_URL }}
+          # WEBADE_OAUTH2_CLIENT_ID: ${{ vars.WEBADE_OAUTH2_CLIENT_ID }}
+          # WEBADE_OAUTH2_ENABLE_CHECK_TOKEN: ${{ vars.WEBADE_OAUTH2_ENABLE_CHECK_TOKEN }}
+          WFDM_API_URL: ${{ vars.WFDM_REST_URL }}
+          # WFDM_PROXY: ${{ vars.WFDM_PROXY }}
+          WFIM_API_URL: ${{ vars.WFIM_CLIENT_URL }}
+          # WFNEWS_API_KEY: ${{ secrets.WFNEWS_API_KEY }}
+          # WFNEWS_API_URL: ${{ vars.WFNEWS_API_URL }}
+          # WILDFIRE_INFORMATION_LINE: ${{ vars.WILDFIRE_INFORMATION_LINE }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
