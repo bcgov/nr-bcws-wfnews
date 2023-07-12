@@ -29,7 +29,7 @@ export class RoFComplexQuestionPage extends RoFPage {
 
       if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
         this.reportOfFire[this.updateAttribute].push(value)
-      } if (Array.isArray(this.reportOfFire[this.updateAttribute]) && this.reportOfFire[this.updateAttribute].includes(value)) {
+      } else if (Array.isArray(this.reportOfFire[this.updateAttribute]) && this.reportOfFire[this.updateAttribute].includes(value)) {
         const index = this.reportOfFire[this.updateAttribute].indexOf(value);
         this.reportOfFire[this.updateAttribute].splice(index, 1)
       } else {

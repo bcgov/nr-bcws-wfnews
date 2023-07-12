@@ -6,6 +6,7 @@ export class ReportOfFire {
   public fireLocation: Array<number> = [0, 0];
   public fireSize: string = '';
   public rateOfSpread: string = '';
+  public visibleFlame: string = '';
   public burning: Array<string> = [];
   public smokeColor: Array<string> = [];
   public weather: Array<string> = [];

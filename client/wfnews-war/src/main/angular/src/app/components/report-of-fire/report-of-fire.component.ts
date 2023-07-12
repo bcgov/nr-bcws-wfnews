@@ -12,6 +12,7 @@ import ConfigJson from './report-of-fire.config.json';
 import { RoFCommentsPage } from "./comment-page/rof-comments-page.component";
 import { RoFReviewPage } from "./review-page/rof-review-page.component";
 import { Router } from "@angular/router";
+import { report } from "process";
 
 @Component({
   selector: 'report-of-fire',
@@ -94,14 +95,34 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
 
   selectPage (index: number) {
     if (this.dynamicContainer.length > 0) {
+      // before detachment, update RoF
+      this.updateReportOfFire(this.pageComponents[index].instance.reportOfFire, this.pageComponents[index].instance.updateAttribute)
       this.dynamicContainer.detach(0)
     }
+
     this.pageIndex = index;
     const component = this.pageComponents[index];
+    component.instance.reportOfFire = this.reportOfFire;
     this.dynamicContainer.insert(component.hostView);
 
     this.allowExit = component.instance.allowExit;
     this.allowSkip = component.instance.allowSkip
+  }
+
+  updateReportOfFire (reportOfFire: ReportOfFire, attribute: string | Array<string>) {
+    if (!attribute) {
+      return;
+    }
+
+    if (Array.isArray(attribute)) {
+      for (const att of attribute) {
+        this.reportOfFire[att] = reportOfFire[att];
+      }
+    } else {
+      this.reportOfFire[attribute] = reportOfFire[attribute];
+    }
+
+    console.log(this.reportOfFire)
   }
 
   exit () {
