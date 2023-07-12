@@ -2,3 +2,25 @@
 :host {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
+
+.mobile-header{
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding:0 24px;
+  align-items: center;
+  position: sticky !important;
+  top:0;
+  background-color: white;
+  z-index:9999;
+}
+
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0px !important;
+  }
+  .title{
+    color:black !important
+  }
+}

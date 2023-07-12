@@ -1,6 +1,9 @@
 <div>
-  <div><button *ngIf="allowExit" mat-raised-button (click)="exit()">Exit</button></div>
-  <div><button *ngIf="allowSkip" mat-raised-button (click)="skip()">Skip</button></div>
+  <div class="mobile-header">
+    <span><span *ngIf="allowExit" (click)="exit()">Exit</span></span>
+    <span>Report A Fire</span>
+    <span><span *ngIf="allowSkip" (click)="skip()">Skip</span></span>
+  </div>
   <div #dynamic id="page-container" class="page-container">
   </div>
 </div>

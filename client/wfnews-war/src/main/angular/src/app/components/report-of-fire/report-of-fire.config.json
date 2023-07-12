@@ -7,7 +7,7 @@
       "allowSkip": false,
       "allowExit": true,
       "closeButton": false,
-      "imageUrl": ""
+      "imageUrl": "../../../assets/images/rofbanner.svg"
     },
     {
       "type": "RoFPermissionsPage",
@@ -313,7 +313,7 @@
       "message": "Your report has been successfully submitted to the Provincial Wildfire Reporting Centre. We may call you back within 20 minutes if we have any further questions.\nReports like these help us protect the forests, grasslands and communities of British Columbia, so thank you for taking the time. ",
       "allowSkip": false,
       "allowExit": false,
-      "imageUrl": "",
+      "imageUrl": "../../../assets/images/rofthankyou.svg",
       "closeButton": true
     }
   ]
