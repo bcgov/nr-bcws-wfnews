@@ -761,7 +761,7 @@ resource "aws_ecs_task_definition" "wfss_pointid_api" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.apisix_names[0]}"
+          awslogs-group         = "/ecs/${var.pointid_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
