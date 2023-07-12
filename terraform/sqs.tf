@@ -26,7 +26,7 @@ resource "aws_sqs_queue" "queue_fires" {
     sourceQueueArns   = ["${aws_sqs_queue.deadletter_fires.arn}"]
   })
 
-    policy = <<POLICY
+  policy = <<POLICY
 {
   "Version": "2012-10-17",
   "Id": "Policy1640124887139",

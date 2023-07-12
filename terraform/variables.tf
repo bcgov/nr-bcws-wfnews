@@ -134,12 +134,11 @@ variable "pointid_cpu_units" {
 variable "pointid_memory" {
   description = "server memory to provision (in MiB)"
   type        = number
-  default = 1024
+  default     = 1024
 }
 
 variable "pointid_port" {
-  type = number
-  type = number
+  type    = number
   default = 8080
 }
 
@@ -205,6 +204,11 @@ variable "apisix_names" {
   type        = list(string)
 }
 
+variable "pointid_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfss-pointid"]
+  type        = list(string)
+}
 # variable "apisix_admin_names" {
 #   description = "List of service names to use as subdomains"
 #   default     = ["wfnews-api-admin"]
@@ -360,14 +364,14 @@ variable "max_upload_size" {
 
 variable "api_health_check_path" {
   description = "Endpoint to use for health checks on API"
-  default = "/checkHealth?callstack=test"
-  type = string
+  default     = "/checkHealth?callstack=test"
+  type        = string
 }
 
 variable "client_health_check_path" {
   description = "Endpoint to use for health checks on client"
-  default = "/config.jsp"
-  type = string
+  default     = "/config.jsp"
+  type        = string
 }
 
 # variable etcd_container_name {
@@ -614,9 +618,9 @@ variable "ACCEPTED_IPS" {
 }
 
 variable "PUSH_NOTIFICATION_AWS_USER" {
-  type = string
+  type        = string
   description = "User used by wfone-notification-push-api"
-  default=""
+  default     = ""
 }
 
 #Lambda-related variables
@@ -663,4 +667,171 @@ variable "LAMBDA_LAYER_KEY" {
 variable "FUNCTION_BUCKET" {
   type    = string
   default = ""
+}
+
+//WFSS-POINTID-API Environment Variables
+
+variable "pointid_container_name" {
+  description = "Name of DB container"
+  default     = "wfss-pointid-api"
+  type        = string
+}
+
+variable "DATABASE_WEATHER_URL" {
+  type    = string
+  default = ""
+}
+
+variable "DATABASE_WEATHER_USER" {
+  type    = string
+  default = ""
+}
+
+variable "DATABASE_WEATHER_PWD" {
+  type    = string
+  default = ""
+}
+
+variable "BCGW_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFGS_URL" {
+  type    = string
+  default = ""
+}
+
+variable "MAX_ALLOWED_RADIUS" {
+  type    = string
+  default = ""
+}
+
+variable "ASYNC_JOB_INTERVAL" {
+  type    = number
+  default = 1000
+}
+
+variable "ASYNC_JOB_REF_LAT" {
+  type    = string
+  default = ""
+}
+
+variable "ASYNC_JOB_REF_LONG" {
+  type    = string
+  default = ""
+}
+
+variable "ASYNC_JOB_REF_RADIUS" {
+  type    = string
+  default = ""
+}
+
+variable "WEATHER_HOST" {
+  type    = string
+  default = ""
+}
+
+variable "WEATHER_USER" {
+  type    = string
+  default = ""
+}
+
+variable "WEATHER_PASSWORD" {
+  type    = string
+  default = ""
+}
+
+variable "WFARCGIS_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFARCGIS_LAYER_AREA_RESTRICTIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFARCGIS_LAYER_DANGER_RATING" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFARCGIS_LAYER_ACTIVE_FIRES" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFARCGIS_QUEUESIZE" {
+  type    = string
+  default = ""
+
+}
+
+variable "WEBADE_OAUTH2_CLIENT_ID" {
+
+  type    = string
+  default = ""
+}
+
+variable "WEBADE_OATH2_TOKEN_URL" {
+  type    = string
+  default = ""
+
+}
+
+variable "WEBADE_OAUTH2_CLIENT_SCOPES" {
+  type    = string
+  default = ""
+
+}
+
+variable "FIREWEATHER_BASEURL" {
+  type    = string
+  default = ""
+
+}
+
+variable "FIREWEATHER_QUEUESIZE" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFNEWS_BASEURL" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFNEWS_QUEUESIZE" {
+  type    = string
+  default = ""
+
+}
+
+variable "WEBADE_OAUTH2_CLIENT_SECRET" {
+  type    = string
+  default = ""
+
 }
