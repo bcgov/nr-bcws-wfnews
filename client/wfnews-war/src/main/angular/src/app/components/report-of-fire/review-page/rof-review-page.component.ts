@@ -15,8 +15,6 @@ export class RoFReviewPage extends RoFPage {
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
-
-    console.log(reportOfFire);
   }
 
   parseJson () {

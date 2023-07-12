@@ -11,6 +11,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 export class RoFComplexQuestionPage extends RoFPage {
   public allowIDontKnowButton: boolean;
   public allowMultiSelect: boolean;
+  public disableNext: boolean = true;
   public buttons: Array<any>;
 
   public constructor() {
@@ -25,8 +26,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
 
   onValChange (value) {
-    if (this.updateAttribute && this.updateAttribute !== '') {
-
+    if (value && this.updateAttribute && this.updateAttribute !== '') {
       if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
         this.reportOfFire[this.updateAttribute].push(value)
       } else if (Array.isArray(this.reportOfFire[this.updateAttribute]) && this.reportOfFire[this.updateAttribute].includes(value)) {
@@ -36,5 +36,7 @@ export class RoFComplexQuestionPage extends RoFPage {
         this.reportOfFire[this.updateAttribute] = value;
       }
     }
+
+    this.disableNext = false;
   }
 }

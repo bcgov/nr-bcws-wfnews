@@ -11,7 +11,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 export class RoFSimpleQuestionPage extends RoFPage {
   public allowIDontKnowButton: boolean
   public localVal: any;
-  
+
   public constructor() {
     super()
   }
@@ -19,5 +19,11 @@ export class RoFSimpleQuestionPage extends RoFPage {
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
     this.allowIDontKnowButton = data.allowIDontKnowButton;
+  }
+
+  onValChange (value) {
+    if (value && this.updateAttribute && this.updateAttribute !== '') {
+      this.reportOfFire[this.updateAttribute] = value;
+    }
   }
 }

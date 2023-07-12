@@ -121,8 +121,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     } else {
       this.reportOfFire[attribute] = reportOfFire[attribute];
     }
-
-    console.log(this.reportOfFire)
   }
 
   exit () {

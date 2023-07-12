@@ -3,14 +3,14 @@
   {{ message }}
 
   <mat-button-toggle-group [(ngModel)]="updateAttribute ? reportOfFire[updateAttribute] : localVal" #questionOptions="matButtonToggleGroup" vertical name="questionButtons" aria-label="Question Options">
-    <mat-button-toggle value="yes"><mat-icon>check</mat-icon>Yes</mat-button-toggle>
-    <mat-button-toggle value="no"><mat-icon>close</mat-icon>No</mat-button-toggle>
+    <mat-button-toggle value="yes" (change)="onValChange('yes')"><mat-icon>check</mat-icon>Yes</mat-button-toggle>
+    <mat-button-toggle value="no" (change)="onValChange('no')"><mat-icon>close</mat-icon>No</mat-button-toggle>
     <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip"><mat-icon>question</mat-icon>I'm not sure</mat-button-toggle>
   </mat-button-toggle-group>
 
   <div>
-    <button mat-raised-button (click)="previous()">Previous</button>
-	  <button mat-raised-button (click)="questionOptions.value === 'yes' ? next() : skip()" color="primary">Next</button>
+    <button mat-flat-button (click)="previous()">Previous</button>
+	  <button [disabled]="!questionOptions.value" mat-flat-button (click)="questionOptions.value === 'yes' ? next() : skip()" color="primary">Next</button>
   </div>
 
 </div>
