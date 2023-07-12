@@ -46,14 +46,6 @@
    <name>plugins-snapshot</name>
    <url>https://bwa.nrs.gov.bc.ca/int/artifactory/plugins-snapshot</url>
  </pluginRepository>
- <pluginRepository>
-   <snapshots>
-     <enabled>false</enabled>
-   </snapshots>
-   <id>remote-repos</id>
-   <name>remote-repos</name>
-   <url>https://bwa.nrs.gov.bc.ca/int/artifactory/remote-repos</url>
- </pluginRepository>
 </pluginRepositories>
 <id>artifactory</id>
 </profile>
