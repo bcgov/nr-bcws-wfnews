@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.NotificationSettingsMapper">
+
+	<resultMap id="NotificationSettingsDtoMap" type="ca.bc.gov.nrs.wfone.persistence.v1.dto.NotificationSettingsDto">
+		<id property="subscriberGuid" 			column="SUBSCRIBER_GUID" 	javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="subscriberToken" 		column="SUBSCRIBER_TOKEN" 	javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="notificationToken" 	column="NOTIFICATION_TOKEN" javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="deviceType" 			column="DEVICE_TYPE" 		javaType="java.lang.String" jdbcType="VARCHAR" />
+		
+	    <collection property="notifications" ofType="ca.bc.gov.nrs.wfone.persistence.v1.dto.NotificationDto">
+
+			<result property="notificationGuid" 		column="NOTIFICATION_GUID" 				javaType="java.lang.String" 	jdbcType="VARCHAR" />
+			<result property="subscriberGuid" 			column="NOTIFICATION_SUBSCRIBER_GUID"	javaType="java.lang.String" 	jdbcType="VARCHAR" />
+			<result property="notificationName" 		column="NOTIFICATION_NAME" 				javaType="java.lang.String" 	jdbcType="VARCHAR" />
+			<result property="notificationType" 		column="NOTIFICATION_TYPE"				javaType="java.lang.String" 	jdbcType="VARCHAR" />
+			<result property="radius" 					column="RADIUS_KMS" 					javaType="java.lang.Double" 	jdbcType="NUMERIC" />
+		    <result property="latitude" 				column="LATITUDE" 						javaType="java.lang.Double" 	jdbcType="NUMERIC" />
+		    <result property="longitude" 				column="LONGITUDE" 						javaType="java.lang.Double" 	jdbcType="NUMERIC" />
+			<result property="activeIndicator" 			column="ACTIVE_IND" 					javaType="java.lang.Boolean"	jdbcType="VARCHAR" />
+
+		    <collection property="topics" ofType="ca.bc.gov.nrs.wfone.persistence.v1.dto.NotificationTopicDto">
+				<result property="notificationTopicGuid" 	column="NOTIFICATION_TOPIC_GUID" 	javaType="java.lang.String" jdbcType="VARCHAR" />
+				<result property="notificationGuid" 		column="TOPIC_NOTIFICATION_GUID" 	javaType="java.lang.String" jdbcType="VARCHAR" />
+				<result property="notificationTopicName" 	column="NOTIFICATION_TOPIC_NAME"	javaType="java.lang.String" jdbcType="VARCHAR" />
+		    </collection>
+
+	    </collection>
+
+	</resultMap>
+	
+	<update id="lock">
+	
+		LOCK TABLE NOTIFICATION_SETTINGS IN EXCLUSIVE MODE;
+	
+	</update>
+	
+	<sql id="selectJoins">
+	
+		FROM NOTIFICATION_SETTINGS NS
+		LEFT JOIN NOTIFICATION N ON N.SUBSCRIBER_GUID = NS.SUBSCRIBER_GUID
+		LEFT JOIN NOTIFICATION_TOPIC NT ON NT.NOTIFICATION_GUID  = N.NOTIFICATION_GUID
+	
+	</sql>
+	
+	
+	<sql id="selectColumns">
+	
+		SELECT NS.SUBSCRIBER_GUID,
+		       NS.SUBSCRIBER_TOKEN,
+		       NS.NOTIFICATION_TOKEN,
+		       NS.DEVICE_TYPE,
+		       N.NOTIFICATION_GUID,
+		       N.SUBSCRIBER_GUID NOTIFICATION_SUBSCRIBER_GUID,
+		       N.NOTIFICATION_NAME,
+		       N.NOTIFICATION_TYPE,
+		       N.RADIUS_KMS,
+		       N.LATITUDE,
+		       N.LONGITUDE,
+		       N.ACTIVE_IND,
+		       NT.NOTIFICATION_TOPIC_GUID,
+		       NT.NOTIFICATION_GUID TOPIC_NOTIFICATION_GUID,
+		       NT.NOTIFICATION_TOPIC_NAME
+
+	</sql>
+
+	<select id="fetch" resultMap="NotificationSettingsDtoMap">  
+
+		<include refid="selectColumns"/>
+		<include refid="selectJoins"/>
+		 WHERE NS.SUBSCRIBER_GUID = #{subscriberGuid}
+
+	</select>
+	
+	<insert id="insert">
+	
+		INSERT INTO NOTIFICATION_SETTINGS  
+			( SUBSCRIBER_GUID,
+			  SUBSCRIBER_TOKEN,
+			  NOTIFICATION_TOKEN,
+			  DEVICE_TYPE,
+			  REVISION_COUNT,
+			  CREATE_USER,
+			  CREATE_TIMESTAMP,
+			  UPDATE_USER,
+			  UPDATE_TIMESTAMP )
+		VALUES
+			  (#{subscriberGuid, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.subscriberToken, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.notificationToken, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.deviceType, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   1,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp)
+		   
+	</insert> 
+
+	<update id="update">
+
+		UPDATE NOTIFICATION_SETTINGS
+		   SET SUBSCRIBER_TOKEN 	= #{dto.subscriberToken, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		   	   NOTIFICATION_TOKEN   = #{dto.notificationToken, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		   	   DEVICE_TYPE			= #{dto.deviceType, 		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		       REVISION_COUNT       = REVISION_COUNT + 1,
+		       UPDATE_USER          = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user),
+		       UPDATE_TIMESTAMP     =  current_timestamp
+		 WHERE SUBSCRIBER_GUID	 = #{subscriberGuid}
+		
+	</update> 
+	
+</mapper>

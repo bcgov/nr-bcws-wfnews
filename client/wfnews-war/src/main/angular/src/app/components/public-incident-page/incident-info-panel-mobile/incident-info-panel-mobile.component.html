@@ -1,13 +1,6 @@
 <div class="panel">
     <div class="warning-card" *ngFor="let evac of evacOrders" (click)="navigateToEvac(evac)">
-        <span *ngIf="evac.orderAlertStatus === 'Order'" class="container red">
-            <span class="material-icons">error</span>
-            <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-        </span>
-        <span *ngIf="evac.orderAlertStatus === 'Alert'" class="container yellow">
-            <span class="material-icons">warning</span>
-            <span>Evacuation Alert: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-        </span>
+        <alert-order-banner [evacuation]="evac" />
     </div>
 
     <div class="content-panel">
@@ -42,7 +35,7 @@
                     <div *ngIf="incident.wildfireAviationResourceInd">
                         <img class="image-size" src="../../../assets/images/svg-icons/aviation-mobile.svg"
                             alt="Aviation" height="36" width="36" />
-                        Aviation Crews
+                        Aviation
                     </div>
                     <div *ngIf="incident.incidentMgmtCrewRsrcInd">
                         <img class="image-size"
@@ -155,11 +148,8 @@
                 <div class="sub-content" *ngIf="!evacOrders || evacOrders.length <= 0 ; else displayEvacOrders">
                     There are no current evacuation orders or alerts associated with this incident.</div>
                 <ng-template #displayEvacOrders>
-                    <div class="evac-order-card" *ngFor="let evac of evacOrders">
-                        <span class="container">
-                            <span class="material-icons">error</span>
-                            <span>Evacuation Order: {{evac.eventName}} issued by {{evac.issuingAgency}}</span>
-                        </span>
+                    <div *ngFor="let evac of evacOrders">
+                        <alert-order-banner [isCard]="true" [evacuation]="evac" />
                     </div>
                     <div class="sub-title">
                         <h4>What is an Evacuation Order?</h4>
@@ -178,12 +168,9 @@
                     *ngIf="!areaRestrictions || areaRestrictions.length <= 0 ; else displayAreaRestrictions">There are
                     no current area restrictions near this incident.</div>
                 <ng-template #displayAreaRestrictions>
-                    <div class="evac-order-card" *ngFor="let area of areaRestrictions"
+                    <div *ngFor="let area of areaRestrictions"
                         (click)="navigateToAreaRestriction(area)">
-                        <span class="container">
-                            <span class="material-icons">error</span>
-                            <span> Area Restriction: {{area.eventName}}</span>
-                        </span>
+                        <alert-order-banner [isCard]="true" [areaRestriction]="area" />
                     </div>
                     <div class="sub-title">
                         <h4>What is an Area Restrictions?</h4>
@@ -237,7 +224,7 @@
                             <span>
                                 <img class="image-size" src="../../../assets/images/svg-icons/aviation-mobile.svg"
                                     alt="Wildfire Crews" />
-                                <h4>Wildfire Aviation</h4>
+                                <h4>Aviation</h4>
                             </span>
                             <div class="sub-content">
                                 <div>{{incident.wildfireAviationResourceDetail}}</div>
@@ -253,7 +240,7 @@
                                 <img class="image-size"
                                     src="../../../assets/images/svg-icons/incident-management-teams-mobile.svg"
                                     alt="Wildfire Crews" />
-                                <h4>Incident Management Team</h4>
+                                <h4>Incident Management Teams</h4>
                             </span>
                             <div class="sub-content">
                                 <div>{{incident.incidentMgmtCrewRsrcDetail}}</div>
@@ -287,7 +274,7 @@
                                 <img class="image-size"
                                     src="../../../assets/images/svg-icons/structure-protection-mobile.svg"
                                     alt="Wildfire Crews" />
-                                <h4>Structure Protection</h4>
+                                <h4>Structure Protection Units</h4>
                             </span>
                             <div class="sub-content">
                                 <div>{{incident.structureProtectionRsrcDetail}}</div>

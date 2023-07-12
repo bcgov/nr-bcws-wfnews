@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfone.persistence.v1.dao.mybatis.mapper.NotificationTopicMapper">
+
+	<resultMap id="NotificationTopicMap" type="ca.bc.gov.nrs.wfone.persistence.v1.dto.NotificationTopicDto">
+		
+		<id 	property="notificationTopicGuid"	column="NOTIFICATION_TOPIC_GUID" 		javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="notificationGuid" 		column="NOTIFICATION_GUID" 				javaType="java.lang.String" jdbcType="VARCHAR" />
+		<result property="notificationTopicName" 	column="NOTIFICATION_TOPIC_NAME" 		javaType="java.lang.String" jdbcType="VARCHAR" />
+		
+	</resultMap>
+	
+	<sql id="selectJoins">
+	
+		FROM NOTIFICATION_TOPIC NT 
+	
+	</sql>
+	
+	
+	<sql id="selectColumns">
+	
+		SELECT 	NT.NOTIFICATION_TOPIC_GUID,
+				NT.NOTIFICATION_GUID,
+				NT.NOTIFICATION_TOPIC_NAME
+	</sql>
+	
+	<!-- List<NotificationTopicDto> select(Map<String, Object> parameters); -->
+	<select id="select" resultMap="NotificationTopicMap">  
+
+		<include refid="selectColumns"/>
+		<include refid="selectJoins"/>
+		 WHERE NT.NOTIFICATION_GUID = #{notificationGuid}
+
+	</select>
+
+	<select id="fetch" resultMap="NotificationTopicMap">  
+
+		<include refid="selectColumns"/>
+		<include refid="selectJoins"/>
+		 WHERE NT.NOTIFICATION_TOPIC_GUID = #{notificationTopicGuid}
+
+	</select>
+	
+	<insert id="insert">
+		<selectKey keyProperty="notificationTopicGuid" resultType="java.lang.String" order="BEFORE"> 
+			SELECT uuid_generate_v1();
+		</selectKey>
+		
+		INSERT INTO notification_topic  
+			( 	NOTIFICATION_TOPIC_GUID,
+				NOTIFICATION_GUID,
+				NOTIFICATION_TOPIC_NAME,
+			  	REVISION_COUNT,
+			  	CREATE_USER,
+			  	CREATE_TIMESTAMP,
+			  	UPDATE_USER,
+			  	UPDATE_TIMESTAMP)
+		VALUES
+			  ( #{notificationTopicGuid},
+			   #{notificationGuid, 			javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   #{dto.notificationTopicName,		javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+			   1,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp,
+			   COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+			   current_timestamp)
+		   
+	</insert> 
+
+	<update id="update">
+
+		UPDATE notification_topic
+		   SET 	NOTIFICATION_TOPIC_NAME = #{dto.notificationTopicName, 	javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+		       	REVISION_COUNT       = REVISION_COUNT + 1,
+		       	UPDATE_USER          = COALESCE ( #{userId, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN} , current_user) ,
+		       	UPDATE_TIMESTAMP     = current_timestamp
+		 WHERE NOTIFICATION_TOPIC_GUID 	= #{notificationTopicGuid}
+		
+	</update> 
+
+	<delete id="delete">
+
+		DELETE FROM notification_topic WHERE NOTIFICATION_TOPIC_GUID 	= #{notificationTopicGuid}
+
+	</delete> 
+	
+</mapper>

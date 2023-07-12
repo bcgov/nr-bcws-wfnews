@@ -76,6 +76,19 @@ jobs:
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: test
 
+      VISIBILITY_TIMEOUT_SECONDS: 100
+      ACCEPTED_IPS: ""
+      PUSH_NOTIFICATION_AWS_USER: ""
+      EVENT_BRIDGE_ARN: ""
+      WFNEWS_URL: ""
+      SECRET_NAME: ""
+      BAN_PROHIBITION_MONITOR_KEY: ""
+      ACTIVE_FIRE_MONITOR_KEY: ""
+      AREA_RESTRICTIONS_MONITOR_KEY: ""
+      EVACUATION_MONITOR_KEY: ""
+      LAMBDA_LAYER_KEY: ""
+      FUNCTION_BUCKET: "wfnews-lambdas"
+
     secrets:
       API_KEY: ${{ secrets.API_KEY_TEST }}
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_TEST }}

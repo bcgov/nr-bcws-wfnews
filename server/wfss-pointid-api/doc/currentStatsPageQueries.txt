@@ -1,0 +1,836 @@
+
+Bans and Prohibitions
+======================================
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/query?f=json&where=Status%20%3D%20%20%271%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=FireCentre%20asc&resultOffset=0&resultRecordCount=100
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/query?f=json&where=Status =  '1'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&orderByFields=FireCentre asc&resultOffset=0&resultRecordCount=100
+
+
+
+  "hasM":true,
+  "curveRings":[
+    [
+      [11,11,1],[10,10,2],[10,11,3],[11,11,4],
+      {"b":[[15,15,2],[10,17],[18,20]]},
+      [11,11,4]
+    ],
+    [
+      [15,15,1],
+      {"c":[[20,16,3],[20,14]]},
+      [15,15,3]
+    ]
+  ],
+  "rings":[
+    [[11,11,1],[10,10,2],[10,11,3],[11,11,4]],
+    [[15,15,1],[11,11,2],[12,15.5],[15.4,17.3],[15,15,3]],
+    [[20,16,1],[20,14],[17.6,12.5],[15,15,2],[20,16,3]]
+  ]
+}
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "OBJECTID",
+      "name" : "OBJECTID",
+      "type" : "esriFieldTypeOID",
+      "sqlType" : "sqlTypeOther"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Name",
+      "length" : 50,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "Name"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "DateActive",
+      "length" : 8,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeDate",
+      "name" : "DateActive"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "DateDeactivated",
+      "length" : 8,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeDate",
+      "name" : "DateDeactivated"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Type",
+      "length" : 50,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "Type"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Status",
+      "length" : 50,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "Status"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Comments",
+      "length" : 50,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "Comments"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "FireCentre",
+      "length" : 60,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "FireCentre"
+    },
+    {
+      "domain" : null,
+      "alias" : "URL",
+      "length" : 90,
+      "name" : "URL",
+      "type" : "esriFieldTypeString",
+      "sqlType" : "sqlTypeOther"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "MOF_FIRE_ZONE_NAME",
+      "length" : 60,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "MOF_FIRE_ZONE_NAME"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "ORG_UNIT_NAME",
+      "length" : 100,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "ORG_UNIT_NAME"
+    },
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "Shape__Area",
+      "name" : "Shape__Area",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeDouble"
+    },
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "Shape__Length",
+      "name" : "Shape__Length",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeDouble"
+    }
+  ],
+  "geometryType" : "esriGeometryPolygon",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3005,
+    "wkid" : 102190
+  },
+  "globalIdFieldName" : "",
+  "features" : [
+    {
+      "attributes" : {
+        "ORG_UNIT_NAME" : null,
+        "DateDeactivated" : null,
+        "FireCentre" : "Cariboo",
+        "Name" : null,
+        "Shape__Area" : 80547703232.972305,
+        "Shape__Length" : 2409919.2762567401,
+        "URL" : "http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Bans.asp",
+        "MOF_FIRE_ZONE_NAME" : null,
+        "OBJECTID" : 3,
+        "Status" : "1",
+        "Comments" : "Category 2, Category 3",
+        "DateActive" : 1564358400000
+      }
+    },
+    {
+      "attributes" : {
+        "ORG_UNIT_NAME" : null,
+        "DateDeactivated" : null,
+        "FireCentre" : "Coastal",
+        "Name" : null,
+        "Shape__Area" : 161548652391.76401,
+        "Shape__Length" : 2921618.2707315502,
+        "URL" : "http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Bans.asp",
+        "MOF_FIRE_ZONE_NAME" : null,
+        "OBJECTID" : 6,
+        "Type" : "Partial Prohibition",
+        "Status" : "1",
+        "Comments" : "Category 2",
+        "DateActive" : 1567036800000
+      }
+    },
+    {
+      "attributes" : {
+        "ORG_UNIT_NAME" : null,
+        "DateDeactivated" : null,
+        "FireCentre" : "Kamloops",
+        "Name" : null,
+        "Shape__Area" : 71578836204.089798,
+        "Shape__Length" : 2496595.2103317999,
+        "URL" : "http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Bans.asp",
+        "MOF_FIRE_ZONE_NAME" : null,
+        "OBJECTID" : 8,
+        "Type" : "Partial Prohibition",
+        "Status" : "1",
+        "Comments" : "Category 2, Category 3",
+        "DateActive" : 1560297600000
+      }
+    },
+    {
+      "attributes" : {
+        "ORG_UNIT_NAME" : null,
+        "DateDeactivated" : null,
+        "FireCentre" : "Southeast",
+        "Name" : null,
+        "Shape__Area" : 82338245231.093704,
+        "Shape__Length" : 1952980.54260651,
+        "URL" : "http://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Bans.asp",
+        "MOF_FIRE_ZONE_NAME" : null,
+        "OBJECTID" : 17,
+        "Type" : "Partial Prohibition",
+        "Status" : "1",
+        "Comments" : "Category 2, Category 3",
+        "DateActive" : 1564358400000
+      }
+    }
+  ]
+}
+
+
+
+ACTIVE FIRE STATS 
+=======================================
+
+Active Fires Count
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS%20%3C%3E%20%27Out%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 35
+      }
+    }
+  ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Active Fires Count in last 3 days
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=(FIRE_STATUS%20%3C%3E%20%27Out%27)%20AND%20(IGNITION_DATE%3C%3Dtimestamp%20%272019-08-28%2015%3A41%3A41%27%20AND%20IGNITION_DATE%3E%3Dtimestamp%20%272019-08-26%2007%3A00%3A00%27)&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=(FIRE_STATUS <> 'Out') AND (IGNITION_DATE<=timestamp '2019-08-28 15:41:41' AND IGNITION_DATE>=timestamp '2019-08-26 07:00:00')&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 3
+      }
+    }
+  ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Active Fires by Fire Centre
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS%20%3C%3E%20%27Out%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CENTRE&orderByFields=FIRE_CENTRE%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CENTRE&orderByFields=FIRE_CENTRE asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "GlobalID",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+    },
+    "fields": [
+        {
+            "name": "value",
+            "type": "esriFieldTypeDouble",
+            "alias": "value",
+            "sqlType": "sqlTypeFloat",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "FIRE_CENTRE",
+            "type": "esriFieldTypeInteger",
+            "alias": "FIRE_CENTRE",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "value": 5,
+                "FIRE_CENTRE": 2
+            }
+        },
+        {
+            "attributes": {
+                "value": 14,
+                "FIRE_CENTRE": 3
+            }
+        },
+        {
+            "attributes": {
+                "value": 3,
+                "FIRE_CENTRE": 4
+            }
+        },
+        {
+            "attributes": {
+                "value": 4,
+                "FIRE_CENTRE": 5
+            }
+        },
+        {
+            "attributes": {
+                "value": 5,
+                "FIRE_CENTRE": 6
+            }
+        },
+        {
+            "attributes": {
+                "value": 1,
+                "FIRE_CENTRE": 7
+            }
+        }
+    ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Active Fires by Stage of Control
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS%20%3C%3E%20%27Out%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_STATUS&orderByFields=FIRE_STATUS%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_STATUS&orderByFields=FIRE_STATUS asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "GlobalID",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+    },
+    "fields": [
+        {
+            "name": "value",
+            "type": "esriFieldTypeDouble",
+            "alias": "value",
+            "sqlType": "sqlTypeFloat",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "FIRE_STATUS",
+            "type": "esriFieldTypeString",
+            "alias": "Stage of Control",
+            "sqlType": "sqlTypeOther",
+            "length": 30,
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "value": 1,
+                "FIRE_STATUS": "Being Held"
+            }
+        },
+        {
+            "attributes": {
+                "value": 4,
+                "FIRE_STATUS": "New"
+            }
+        },
+        {
+            "attributes": {
+                "value": 4,
+                "FIRE_STATUS": "Out of Control"
+            }
+        },
+        {
+            "attributes": {
+                "value": 29,
+                "FIRE_STATUS": "Under Control"
+            }
+        }
+    ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Active Fires by Suspected Cause
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS%20%3C%3E%20%27Out%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CAUSE&orderByFields=FIRE_CAUSE%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=FIRE_STATUS <> 'Out'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CAUSE&orderByFields=FIRE_CAUSE asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Suspected Cause",
+      "length" : 20,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "FIRE_CAUSE"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 21,
+        "FIRE_CAUSE" : "Lightning"
+      }
+    },
+    {
+      "attributes" : {
+        "value" : 9,
+        "FIRE_CAUSE" : "Person"
+      }
+    },
+    {
+      "attributes" : {
+        "value" : 5,
+        "FIRE_CAUSE" : "Unknown"
+      }
+    }
+  ]
+}
+
+
+
+
+CURRENT YEAR FIRE STATS 
+=======================================
+
+Fires this year
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 694
+      }
+    }
+  ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Fires in last 7 days
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=IGNITION_DATE%3C%3Dtimestamp%20%272019-08-28%2015%3A41%3A41%27%20AND%20IGNITION_DATE%3E%3Dtimestamp%20%272019-08-21%2007%3A00%3A00%27&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=IGNITION_DATE<=timestamp '2019-08-28 15:41:41' AND IGNITION_DATE>=timestamp '2019-08-21 07:00:00'&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 14
+      }
+    }
+  ]
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Current Year Fires by Fire Centre
+
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CENTRE&orderByFields=FIRE_CENTRE asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CENTRE&orderByFields=FIRE_CENTRE%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "GlobalID",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+    },
+    "fields": [
+        {
+            "name": "value",
+            "type": "esriFieldTypeDouble",
+            "alias": "value",
+            "sqlType": "sqlTypeFloat",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "FIRE_CENTRE",
+            "type": "esriFieldTypeInteger",
+            "alias": "FIRE_CENTRE",
+            "sqlType": "sqlTypeOther",
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "value": 154,
+                "FIRE_CENTRE": 2
+            }
+        },
+        {
+            "attributes": {
+                "value": 97,
+                "FIRE_CENTRE": 3
+            }
+        },
+        {
+            "attributes": {
+                "value": 136,
+                "FIRE_CENTRE": 4
+            }
+        },
+        {
+            "attributes": {
+                "value": 194,
+                "FIRE_CENTRE": 5
+            }
+        },
+        {
+            "attributes": {
+                "value": 154,
+                "FIRE_CENTRE": 6
+            }
+        },
+        {
+            "attributes": {
+                "value": 49,
+                "FIRE_CENTRE": 7
+            }
+        }
+    ]
+}
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Current Year Fires by Suspected Causes
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CAUSE&orderByFields=FIRE_CAUSE%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_CAUSE&orderByFields=FIRE_CAUSE asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+{
+  "fields" : [
+    {
+      "domain" : null,
+      "defaultValue" : null,
+      "alias" : "value",
+      "name" : "value",
+      "type" : "esriFieldTypeDouble",
+      "sqlType" : "sqlTypeFloat"
+    },
+    {
+      "sqlType" : "sqlTypeOther",
+      "alias" : "Suspected Cause",
+      "length" : 20,
+      "domain" : null,
+      "defaultValue" : null,
+      "type" : "esriFieldTypeString",
+      "name" : "FIRE_CAUSE"
+    }
+  ],
+  "geometryType" : "esriGeometryPoint",
+  "objectIdFieldName" : "OBJECTID",
+  "uniqueIdField" : {
+    "name" : "OBJECTID",
+    "isSystemMaintained" : true
+  },
+  "spatialReference" : {
+    "latestWkid" : 3857,
+    "wkid" : 102100
+  },
+  "globalIdFieldName" : "GlobalID",
+  "features" : [
+    {
+      "attributes" : {
+        "value" : 299,
+        "FIRE_CAUSE" : "Lightning"
+      }
+    },
+    {
+      "attributes" : {
+        "value" : 256,
+        "FIRE_CAUSE" : "Person"
+      }
+    },
+    {
+      "attributes" : {
+        "value" : 139,
+        "FIRE_CAUSE" : "Unknown"
+      }
+    }
+  ]
+}
+
+
+----------------------------------------------------------------------------------------------------------------------------------------
+
+Current Year Fires by Stage of Control
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1%3D1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_STATUS&orderByFields=FIRE_STATUS%20asc&outStatistics=%5B%7B%22statisticType%22%3A%22count%22%2C%22onStatisticField%22%3A%22OBJECTID%22%2C%22outStatisticFieldName%22%3A%22value%22%7D%5D
+
+
+https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?f=json&where=1=1&returnGeometry=false&spatialRel=esriSpatialRelIntersects&outFields=*&groupByFieldsForStatistics=FIRE_STATUS&orderByFields=FIRE_STATUS asc&outStatistics=[{"statisticType":"count","onStatisticField":"OBJECTID","outStatisticFieldName":"value"}]
+
+
+
+{
+    "objectIdFieldName": "OBJECTID",
+    "uniqueIdField": {
+        "name": "OBJECTID",
+        "isSystemMaintained": true
+    },
+    "globalIdFieldName": "GlobalID",
+    "geometryType": "esriGeometryPoint",
+    "spatialReference": {
+        "wkid": 102100,
+        "latestWkid": 3857
+    },
+    "fields": [
+        {
+            "name": "value",
+            "type": "esriFieldTypeDouble",
+            "alias": "value",
+            "sqlType": "sqlTypeFloat",
+            "domain": null,
+            "defaultValue": null
+        },
+        {
+            "name": "FIRE_STATUS",
+            "type": "esriFieldTypeString",
+            "alias": "Stage of Control",
+            "sqlType": "sqlTypeOther",
+            "length": 30,
+            "domain": null,
+            "defaultValue": null
+        }
+    ],
+    "features": [
+        {
+            "attributes": {
+                "value": 2,
+                "FIRE_STATUS": "Being Held"
+            }
+        },
+        {
+            "attributes": {
+                "value": 2,
+                "FIRE_STATUS": "New"
+            }
+        },
+        {
+            "attributes": {
+                "value": 745,
+                "FIRE_STATUS": "Out"
+            }
+        },
+        {
+            "attributes": {
+                "value": 5,
+                "FIRE_STATUS": "Out of Control"
+            }
+        },
+        {
+            "attributes": {
+                "value": 31,
+                "FIRE_STATUS": "Under Control"
+            }
+        }
+    ]
+}
+
+
+
+
+
+
+
+

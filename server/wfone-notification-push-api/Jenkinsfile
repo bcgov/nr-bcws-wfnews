@@ -1,0 +1,166 @@
+pipeline {
+	agent none
+	environment {
+		MODULE_NAME = "<%= name%>"
+		BUILD_TRIGGER_EXCLUDES = "^.jenkins/"
+		KUBE_CONTEXT_NONPROD="Vivid-Infra@bcwildfire-nonprod.ca-central-1.eksctl.io"
+		KUBE_CONTEXT_PROD="i-01c267d31c6f1c19b@bcwildfire.ca-central-1.eksctl.io"
+		PROJECT="wfone-notification-push-api"
+	  	MAVEN_OPTS="-Xms640m -Xmx2048m -XX:MaxMetaspaceSize=200m"
+	}
+	options {
+		disableResume()
+	}
+	stages {
+		stage('Build') {
+			agent { label 'build' }
+			steps {
+				script {
+					// only continue build if changes are relevant to this module.
+					// WARNING: it only checks the last commit!!!
+					def filesInThisCommitAsString = sh(script:"git diff --name-only HEAD~1..HEAD | grep -v '$BUILD_TRIGGER_EXCLUDES' || echo -n ''", returnStatus: false, returnStdout: true).trim()
+					def hasChangesInPath = (filesInThisCommitAsString.length() > 0)
+					echo "${filesInThisCommitAsString}"
+					if (!currentBuild.rawBuild.getCauses()[0].toString().contains('UserIdCause') && !hasChangesInPath){
+						currentBuild.rawBuild.delete()
+						error("No changes detected in the module path for ${MODULE_NAME} (${BUILD_TRIGGER_EXCLUDES})")
+					}
+				}
+				echo "Aborting all running jobs for ${MODULE_NAME}"
+				script {
+					abortAllPreviousBuildInProgress(currentBuild)
+				}
+				echo "Building ..."
+				sh "cd .pipeline && chmod +x npmw && ./npmw ci && ./npmw run build -- --pr=${CHANGE_ID} --git.branch.name=${CHANGE_BRANCH} --git.branch.merge=${CHANGE_BRANCH} --git.branch.remote=${CHANGE_BRANCH} --git.url=${GIT_URL} --git.change.target=${CHANGE_TARGET}"
+			}
+		}
+	  /*
+		stage('Deploy (DEV)') {
+			agent { label 'deploy' }
+			steps {
+				echo "Deploying ..."
+				sh "cd .pipeline && chmod +x npmw && ./npmw ci && ./npmw run deploy -- --pr=${CHANGE_ID} --env=dev --git.branch.name=${CHANGE_BRANCH} --git.branch.merge=${CHANGE_BRANCH} --git.branch.remote=${CHANGE_BRANCH} --git.url=${GIT_URL} --git.change.target=${CHANGE_TARGET}"
+			}
+		}
+		*/
+		stage('Deploy (INT)') {
+			agent { label 'deploy' }
+			when {
+				expression { return env.CHANGE_TARGET == 'master';}
+			}
+			steps {
+				echo "Deploying ..."
+				sh "cp \$JENKINS_REF_HOME/patchFile.yaml ./patchFileInt.yaml"
+				sh "sed -i \"s@BRANCH_NUM@`cat pom.xml | grep -Po -m 1 '(?<=<version>)([0-9]+\\.){1,3}[0-9]+'`@\" patchFileInt.yaml && sed -i 's@PR_NUM@${CHANGE_ID}@' patchFileInt.yaml && sed -i 's@PROJ_NAME@${PROJECT}@g' patchFileInt.yaml"
+				sh "\$JENKINS_REF_HOME/insertConfigCmd.sh"
+				sh "kubectl config use-context ${KUBE_CONTEXT_NONPROD}"
+                sh "kubectl patch deployment ${PROJECT}-active-fires-deployment --patch-file patchFileInt.yaml -n wfone-int"
+                sh "kubectl patch deployment ${PROJECT}-area-restrictions-deployment --patch-file patchFileInt.yaml -n wfone-int"
+                sh "kubectl patch deployment ${PROJECT}-bans-prohibitions-deployment --patch-file patchFileInt.yaml -n wfone-int"
+                sh "kubectl patch deployment ${PROJECT}-evac-orders-deployment --patch-file patchFileInt.yaml -n wfone-int"
+                sh "kubectl rollout restart deployment ${PROJECT}-active-fires-deployment -n wfone-int"
+                sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-int"
+                sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-int"
+                sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-int"
+			}
+			post {
+				always {
+					sh "rm -f patchFileInt.yaml; rm -f $HOME/.kube/config" //cleanup and make sure configfile deleted even on failed deploy
+				}
+			}
+		}
+		stage('Deploy (DLV)') {
+			agent { label 'deploy' }
+			when {
+				expression { return env.CHANGE_TARGET == 'master';}
+				beforeInput true
+			}
+			input {
+				message "Should we continue with deployment to DLVR?"
+				ok "Yes!"
+			}
+			steps {
+				echo "Deploying ..."
+				sh "cp \$JENKINS_REF_HOME/patchFile.yaml ./patchFileDLV.yaml"
+				sh "sed -i \"s@BRANCH_NUM@`cat pom.xml | grep -Po -m 1 '(?<=<version>)([0-9]+\\.){1,3}[0-9]+'`@\" patchFileDLV.yaml && sed -i 's@PR_NUM@${CHANGE_ID}@' patchFileDLV.yaml && sed -i 's@PROJ_NAME@${PROJECT}@g' patchFileDLV.yaml"
+			  	sh "\$JENKINS_REF_HOME/insertConfigCmd.sh"
+				sh "kubectl config use-context ${KUBE_CONTEXT_NONPROD}"
+                sh "kubectl patch deployment ${PROJECT}-active-fires-deployment --patch-file patchFileDLV.yaml -n wfone-dlv"
+                sh "kubectl patch deployment ${PROJECT}-area-restrictions-deployment --patch-file patchFileDLV.yaml -n wfone-dlv"
+                sh "kubectl patch deployment ${PROJECT}-bans-prohibitions-deployment --patch-file patchFileDLV.yaml -n wfone-dlv"
+                sh "kubectl patch deployment ${PROJECT}-evac-orders-deployment --patch-file patchFileDLV.yaml -n wfone-dlv"
+                sh "kubectl rollout restart deployment ${PROJECT}-active-fires-deployment -n wfone-dlv"
+                sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-dlv"
+                sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-dlv"
+                sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-dlv"
+			}
+			post {
+				always {
+					sh "rm -f patchFileDLV.yaml; rm -f $HOME/.kube/config" //cleanup and make sure configfile deleted even on failed deploy
+				}
+			}
+		}
+		stage('Deploy (TEST)') {
+			agent { label 'deploy' }
+			when {
+				expression { return env.CHANGE_TARGET == 'master';}
+				beforeInput true
+			}
+			input {
+				message "Should we continue with deployment to TEST?"
+				ok "Yes!"
+			}
+			steps {
+				echo "Deploying ..."
+				sh "cp \$JENKINS_REF_HOME/patchFile.yaml ./patchFileTST.yaml"
+				sh "sed -i \"s@BRANCH_NUM@`cat pom.xml | grep -Po -m 1 '(?<=<version>)([0-9]+\\.){1,3}[0-9]+'`@\" patchFileTST.yaml && sed -i 's@PR_NUM@${CHANGE_ID}@' patchFileTST.yaml && sed -i 's@PROJ_NAME@${PROJECT}@g' patchFileTST.yaml"
+				sh "\$JENKINS_REF_HOME/insertConfigCmd.sh"
+				sh "kubectl config use-context ${KUBE_CONTEXT_NONPROD}"
+                sh "kubectl patch deployment ${PROJECT}-active-fires-deployment --patch-file patchFileTST.yaml -n wfone-tst"
+                sh "kubectl patch deployment ${PROJECT}-area-restrictions-deployment --patch-file patchFileTST.yaml -n wfone-tst"
+                sh "kubectl patch deployment ${PROJECT}-bans-prohibitions-deployment --patch-file patchFileTST.yaml -n wfone-tst"
+                sh "kubectl patch deployment ${PROJECT}-evac-orders-deployment --patch-file patchFileTST.yaml -n wfone-tst"
+                sh "kubectl rollout restart deployment ${PROJECT}-active-fires-deployment -n wfone-tst"
+                sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-tst"
+                sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-tst"
+                sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-tst"
+			}
+			post {
+				always {
+					sh "rm -f patchFileTST.yaml; rm -f $HOME/.kube/config" //cleanup and make sure configfile deleted even on failed deploy
+				}
+			}
+		}
+		stage('Deploy (PROD)') {
+			agent { label 'deploy' }
+			when {
+				expression { return env.CHANGE_TARGET == 'master';}
+				beforeInput true
+			}
+			input {
+				message "Should we continue with deployment to PROD?"
+				ok "Yes!"
+			}
+			steps {
+				echo "Deploying ..."
+				sh "cp \$JENKINS_REF_HOME/patchFile.yaml ./patchFilePROD.yaml"
+				sh "sed -i \"s@BRANCH_NUM@`cat pom.xml | grep -Po -m 1 '(?<=<version>)([0-9]+\\.){1,3}[0-9]+'`@\" patchFilePROD.yaml && sed -i 's@PR_NUM@${CHANGE_ID}@' patchFilePROD.yaml && sed -i 's@PROJ_NAME@${PROJECT}@g' patchFilePROD.yaml"
+				sh "\$JENKINS_REF_HOME/insertConfigCmd.sh"
+				sh "kubectl config use-context ${KUBE_CONTEXT_PROD}"
+                sh "kubectl patch deployment ${PROJECT}-active-fires-deployment --patch-file patchFilePROD.yaml -n wfone-prod"
+                sh "kubectl patch deployment ${PROJECT}-area-restrictions-deployment --patch-file patchFilePROD.yaml -n wfone-prod"
+                sh "kubectl patch deployment ${PROJECT}-bans-prohibitions-deployment --patch-file patchFilePROD.yaml -n wfone-prod"
+                sh "kubectl patch deployment ${PROJECT}-evac-orders-deployment --patch-file patchFilePROD.yaml -n wfone-prod"
+				sh "kubectl rollout restart deployment ${PROJECT}-active-fires-deployment -n wfone-prod"
+                sh "kubectl rollout restart deployment ${PROJECT}-area-restrictions-deployment -n wfone-prod"
+                sh "kubectl rollout restart deployment ${PROJECT}-bans-prohibitions-deployment -n wfone-prod"
+                sh "kubectl rollout restart deployment ${PROJECT}-evac-orders-deployment -n wfone-prod"
+			}
+			post {
+				always {
+					sh "rm -f patchFilePROD.yaml; rm -f $HOME/.kube/config" //cleanup and make sure configfile deleted even on failed deploy
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,12 @@
+<div class="content-panel-stack" *ngIf="displayVideos && displayVideos.length; else showDisclaimer">
+  <div class="media" *ngFor="let item of displayVideos">
+    <video-panel [item]="item"></video-panel>
+  </div>
+  <div class="divider"></div>
+  <div #loadMoreButton class="load-more-row" *ngIf="displayLoadMoreVideos">
+    <button mat-button class="load-more-button"(click)="loadMoreVideos(loadMoreButton)">Load More</button>
+  </div>
+</div>
+<ng-template #showDisclaimer>
+  <div class="disclaimer" *ngIf="!isPreview">There are currently no videos associated with this incident.</div>
+</ng-template>

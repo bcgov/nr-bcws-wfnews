@@ -570,3 +570,79 @@ variable "WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET" {
   type    = string
   default = ""
 }
+
+
+
+# Added from Public Mobile for Lambda/S3/SQS
+#SQS-specific variables
+
+variable "MAX_RECEIVED_COUNT" {
+  type        = number
+  description = "How many messages can be placed into the deadletter queue"
+  default     = 100
+}
+
+variable "VISIBILITY_TIMEOUT_SECONDS" {
+  type        = number
+  description = "Suffix appended to all managed resource names"
+  default     = 60
+}
+
+variable "ACCEPTED_IPS" {
+  type        = string
+  description = "IPs allowed to send to queue"
+  #TODO: Make wfone-notification-push-api use AWS credentials and remove this
+  default = ""
+}
+
+variable "PUSH_NOTIFICATION_AWS_USER" {
+  type = string
+  description = "User used by wfone-notification-push-api"
+  default=""
+}
+
+#Lambda-related variables
+variable "EVENT_BRIDGE_ARN" {
+  type    = string
+  default = ""
+}
+
+variable "WFNEWS_URL" {
+  type    = string
+  default = ""
+}
+
+variable "SECRET_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "BAN_PROHIBITION_MONITOR_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "ACTIVE_FIRE_MONITOR_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "AREA_RESTRICTIONS_MONITOR_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "EVACUATION_MONITOR_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "LAMBDA_LAYER_KEY" {
+  type    = string
+  default = ""
+}
+
+variable "FUNCTION_BUCKET" {
+  type    = string
+  default = "wfnews-lambdas"
+}
