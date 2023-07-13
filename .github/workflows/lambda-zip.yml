@@ -1,0 +1,65 @@
+# Action for compiling and zipping the lambdas
+
+name: Lambda Compile and Zip
+
+on:
+  workflow_call:
+    inputs:
+      REGISTRY:
+        required: true
+        type: string
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.workflow_run.head_branch }}
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r active-fire-monitor.zip lambda/active-fire-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r area-restrictions-monitor.zip lambda/area-restrictions-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor
+
+      - uses: montudor/action-zip@v1
+        with:
+          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
+        
+      - name: Get source code hash of Zip files
+        run: |
+          openssl sha256 active-fire-monitor.zip > active-fire-monitor-hash.txt
+          openssl sha256 area-restrictions-monitor.zip > area-restrictions-monitor-hash.txt
+          openssl sha256 bans-and-prohibitions-monitor.zip > bans-and-prohibitions-monitor-hash.txt
+          openssl sha256 evacuation-orders-monitor.zip > evacuation-orders-monitor-hash.txt
+
+      - name: Make staging directory, copy files
+        run: |
+          mkdir staging
+          cp active-fire-monitor.zip staging/active-fire-monitor.zip
+          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+          cp active-fire-monitor-hash.txt staging/active-fire-monitor-hash.txt
+          cp area-restrictions-monitor-hash.txt staging/area-restrictions-monitor-hash.txt
+          cp bans-and-prohibitions-monitor-hash.txt staging/bans-and-prohibitions-monitor-hash.txt
+          cp evacuation-orders-monitor-hash.txt staging/evacuation-orders-monitor-hash.txt
+          cp lambda/lambda-layer/python.zip staging/python.zip
+
+      - uses: shallwefootball/s3-upload-action@master
+        name: Upload S3
+        id: S3
+        with:
+          aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
+          aws_bucket: wfnews-lambdas
+          source_dir: staging
+          destination_dir: ''
