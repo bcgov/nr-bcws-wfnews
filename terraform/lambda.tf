@@ -18,13 +18,13 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 900
-  layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL = aws_sqs_queue.queue_bans.url
+      QUEUE_URL   = aws_sqs_queue.queue_bans.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API = var.WFNEWS_URL
+      WFNEWS_API  = var.WFNEWS_URL
     }
   }
 }
@@ -40,10 +40,10 @@ resource "aws_lambda_function" "monitor-active-fires" {
   timeout = 180
   environment {
     variables = {
-      QUEUE_URL = aws_sqs_queue.queue_fires.url
+      QUEUE_URL   = aws_sqs_queue.queue_fires.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API = var.WFNEWS_URL
+      WFNEWS_API  = var.WFNEWS_URL
     }
   }
 }
@@ -56,13 +56,13 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 180
-  layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL = aws_sqs_queue.queue_restrictions.url
+      QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API = var.WFNEWS_URL
+      WFNEWS_API  = var.WFNEWS_URL
     }
   }
 }
@@ -75,13 +75,13 @@ resource "aws_lambda_function" "monitor-evacuation" {
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 180
-  layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL = aws_sqs_queue.queue_evacs.url
+      QUEUE_URL   = aws_sqs_queue.queue_evacs.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API = var.WFNEWS_URL
+      WFNEWS_API  = var.WFNEWS_URL
     }
   }
 }
