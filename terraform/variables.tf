@@ -794,7 +794,7 @@ variable "WEBADE_OAUTH2_CLIENT_ID" {
   default = ""
 }
 
-variable "WEBADE_OATH2_TOKEN_URL" {
+variable "WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
 

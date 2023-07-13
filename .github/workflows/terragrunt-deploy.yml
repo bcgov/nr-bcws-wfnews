@@ -150,7 +150,7 @@ on:
         required: false
         type: string
         default: ""
-      WEBADE_OATH2_TOKEN_URL:
+      WEBADE_OAUTH2_TOKEN_URL:
         required: false
         type: string
         default: ""
@@ -325,7 +325,7 @@ jobs:
           WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{inputs.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
           WFARCGIS_QUEUESIZE: ${{inputs.WFARCGIS_QUEUESIZE }}
           WEBADE_OAUTH2_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_CLIENT_ID }}
-          WEBADE_OATH2_TOKEN_URL: ${{inputs.WEBADE_OATH2_TOKEN_URL }}
+          WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_URL }}
           WEBADE_OAUTH2_CLIENT_SCOPES: ${{inputs.WEBADE_OAUTH2_CLIENT_SCOPES }}
           FIREWEATHER_BASEURL: ${{inputs.FIREWEATHER_BASEURL }}
           FIREWEATHER_QUEUESIZE: ${{inputs.FIREWEATHER_QUEUESIZE }}
