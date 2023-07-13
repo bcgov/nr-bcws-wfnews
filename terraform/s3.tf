@@ -10,6 +10,12 @@ resource "aws_s3_bucket" "wfnews_log_bucket" {
   force_destroy = true
 }
 
+resource "aws_s3_bucket" "wfnews-lambdas" {
+  bucket        = "wfnews-lambdas"
+  acl           = "private"
+  force_destroy = true
+}
+
 resource "aws_s3_bucket" "wfnews-monitor-queue-bucket" {
   bucket = "wfnews-monitor-queue-${var.target_env}"
   server_side_encryption_configuration {

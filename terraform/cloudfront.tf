@@ -301,7 +301,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/publicPublishedIncidentAttachment/*"
+    path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "wfnews_apisix_${var.target_env}"
@@ -518,7 +518,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/publicPublishedIncidentAttachment/*"
+    path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "wfnews_apisix_gov_${var.target_env}"

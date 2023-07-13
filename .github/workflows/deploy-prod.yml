@@ -131,7 +131,7 @@ jobs:
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
-      FUNCTION_BUCKET: ""
+      FUNCTION_BUCKET: "wfnews-lambdas"
 
     secrets:
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_PROD }}
