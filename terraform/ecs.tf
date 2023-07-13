@@ -34,10 +34,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
   #   name = "logging"
   #   emptyDir = {}
   # }
-  tags                     = local.common_tags
+  tags = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential = true
       # readonlyRootFilesystem = true
       name        = var.server_container_name
       image       = var.server_image
@@ -240,10 +240,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   #   name = "logging"
   #   emptyDir = {}
   # }
-  tags                     = local.common_tags
+  tags = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential = true
       # readonlyRootFilesystem = true
       name        = var.client_container_name
       image       = var.client_image
@@ -394,11 +394,11 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   # volume {
   #   name = "local"
   # }
-  memory                   = var.server_memory
-  tags                     = local.common_tags
+  memory = var.server_memory
+  tags   = local.common_tags
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential = true
       # readonlyRootFilesystem = true
       name        = var.liquibase_container_name
       image       = var.liquibase_image
@@ -508,7 +508,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
   # }
   container_definitions = jsonencode([
     {
-      essential   = true
+      essential = true
       # readonlyRootFilesystem = true
       name        = var.apisix_container_name
       image       = var.apisix_image
@@ -611,6 +611,161 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         # }
       ]
       volumesFrom = []
+    }
+  ])
+}
+
+resource "aws_ecs_task_definition" "wfss_pointid_api" {
+  family                   = "wfnews-pointid-api-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  tags                     = local.common_tags
+
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = var.apisix_container_name
+      image       = var.apisix_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
+        }
+      ]
+      environment = [
+        {
+          name  = "DATABASE_WEATHER_URL",
+          value = var.DATABASE_WEATHER_URL
+        },
+        {
+          name  = "DATABASE_WEATHER_USER",
+          value = var.DATABASE_WEATHER_USER
+        },
+        {
+          name  = "DATABASE_WEATHER_PWD",
+          value = var.DATABASE_WEATHER_PWD
+        },
+        {
+          name  = "BCGW_URL",
+          value = var.BCGW_URL
+        },
+        {
+          name  = "WFGS_URL",
+          value = var.WFGS_URL
+        },
+        {
+          name  = "MAX_ALLOWED_RADIUS",
+          value = var.MAX_ALLOWED_RADIUS
+        },
+        {
+          name  = "ASYNC_JOB_INTERVAL",
+          value = var.ASYNC_JOB_INTERVAL
+        },
+        {
+          name  = "ASYNC_JOB_REF_LAT",
+          value = var.ASYNC_JOB_REF_LAT
+        },
+        {
+          name  = "ASYNC_JOB_REF_LONG",
+          value = var.ASYNC_JOB_REF_LONG
+        },
+        {
+          name  = "ASYNC_JOB_REF_RADIUS",
+          value = var.ASYNC_JOB_REF_RADIUS
+        },
+        {
+          name  = "WEATHER_HOST",
+          value = var.WEATHER_HOST
+        },
+        {
+          name  = "WEATHER_USER",
+          value = var.WEATHER_USER
+        },
+        {
+          name  = "WEATHER_PASSWORD",
+          value = var.WEATHER_PASSWORD
+        },
+        {
+          name  = "WFARCGIS_URL",
+          value = var.WFARCGIS_URL
+        },
+        {
+          name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
+          value = var.WFARCGIS_LAYER_AREA_RESTRICTIONS
+        },
+        {
+          name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
+          value = var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS
+        },
+        {
+          name  = "WFARCGIS_LAYER_DANGER_RATING",
+          value = var.WFARCGIS_LAYER_DANGER_RATING
+        },
+        {
+          name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
+          value = var.WFARCGIS_LAYER_ACTIVE_FIRES
+        },
+        {
+          name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
+          value = var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS
+        },
+        {
+          name  = "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+          value = var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES
+        },
+        {
+          name  = "WFARCGIS_QUEUESIZE",
+          value = var.WFARCGIS_QUEUESIZE
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
+          name  = "WEBADE_OATH2_TOKEN_URL",
+          value = var.WEBADE_OATH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
+          value = var.WEBADE_OAUTH2_CLIENT_SCOPES
+        },
+        {
+          name  = "FIREWEATHER_BASEURL",
+          value = var.FIREWEATHER_BASEURL
+        },
+        {
+          name  = "FIREWEATHER_QUEUESIZE",
+          value = var.FIREWEATHER_QUEUESIZE
+        },
+        {
+          name  = "WFNEWS_BASEURL",
+          value = var.WFNEWS_BASEURL
+        },
+        {
+          name  = "WFNEWS_QUEUESIZE",
+          value = var.WFNEWS_QUEUESIZE
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_CLIENT_SECRET
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.pointid_names[0]}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ])
 }
@@ -1007,3 +1162,43 @@ resource "aws_ecs_service" "apisix_gui" {
   tags = local.common_tags
 }
 */
+
+resource "aws_ecs_service" "pointid" {
+  name                              = "wfss-pointid-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfss_pointid_api.arn
+  desired_count                     = var.app_count
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 20
+    base              = 1
+  }
+
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.web.ids
+    assign_public_ip = true
+  }
+
+  #Hit http endpoint
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfss_pointid.id
+    container_name   = var.pointid_container_name
+    container_port   = var.pointid_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
