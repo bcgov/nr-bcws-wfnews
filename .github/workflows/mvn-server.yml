@@ -8,11 +8,11 @@ on:
     inputs:
       ENVIRONMENT:
         required: true
+        type: string
       PROJECT_NAME:
         type: string
         description: 'Name of project, as given to the subfolder of /server to build'
         required: true
-        type: string
       IS_HOTFIX:
         required: false
         type: boolean
