@@ -770,6 +770,112 @@ resource "aws_ecs_task_definition" "wfss_pointid_api" {
   ])
 }
 
+resource "aws_ecs_task_definition" "notifications_liquibase" {
+  family                   = "notifications-liquibase-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.server_cpu_units
+  #   volume {
+  #   name = "cache"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "run"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "nginx"
+  # }
+  # volume {
+  #   name = "nginx-lib"
+  # }
+  # volume {
+  #   name = "local"
+  # }
+  memory = var.server_memory
+  tags   = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = var.notifications_liquibase_container_name
+      image       = var.notifications_liquibase_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }
+      ]
+      environment = [
+        {
+          name  = "DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.notifications_pgsqlDB.endpoint}/${aws_db_instance.notifications_pgsqlDB.name}"
+        },
+        {
+          name  = "DB_USER",
+          value = "${aws_db_instance.notifications_pgsqlDB.username}"
+        },
+        {
+          name  = "DB_PASS"
+          value = "${var.db_pass}"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.notifications_liquibase_container_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = [
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/var/log"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "cache"
+        #   containerPath = "/var/cache/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "run"
+        #   containerPath = "/var/run"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx"
+        #   containerPath = "/etc/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx-lib"
+        #   containerPath = "/var/lib/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "local"
+        #   containerPath = "/liquibase"
+        #   readOnly = false
+        # }
+      ]
+      volumesFrom = []
+    }
+  ])
+}
+
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1

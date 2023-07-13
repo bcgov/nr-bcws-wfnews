@@ -72,6 +72,7 @@ jobs:
       CLIENT_IMAGE: nr-bcws-wfnews-client-hotfix
       SERVER_IMAGE: nr-bcws-wfnews-server-hotfix
       LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
+      NOTIFICATIONS_LIQUIBASE_IMAGE: nr-bcws-wfnews-notifications_liquibase
       APISIX_IMAGE: nr-bcws-wfnews-apisix
 
       #1024 CPU units = 1 vCPU

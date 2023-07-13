@@ -18,6 +18,7 @@ env:
   CLIENT_IMAGE: "wfnews-client"
   SERVER_IMAGE: "wfnews-server"
   LIQUIBASE_IMAGE: "wfnews-liquibase"
+  NOTIFICATIONS_LIQUIBASE_IMAGE: "notifications-liquibase"
   APISIX_IMAGE: "wfnews-apisix"
   API_KEY: "default"
   TARGET_ENV: "dev"
@@ -85,6 +86,7 @@ jobs:
           CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}:pr-${{ github.event.pull_request.number }}
           SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}:pr-${{ github.event.pull_request.number }}
           LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
+          NOTIFICATIONS_LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.NOTIFICATIONS_LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
           APISIX_IMAGE: ${{env.registry}}/bcgov/${{ env.APISIX_IMAGE }}:pr-${{ github.event.pull_request.number }}
           API_KEY: ${{ secrets.API_KEY }}
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
