@@ -2,6 +2,7 @@
   {{ title }}
   {{ message }}
 
+  <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
   <div *ngFor="let button of buttons">
     <mat-button-toggle *ngIf="allowMultiSelect" (change)="onValChange(button.value)" [value]="button.value"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
     <button mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value)"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>

@@ -1,3 +1,7 @@
+/**
+ * Model for the RoF object. This is matched against the model used in Notifications API,
+ * Which we will be submitting to
+ */
 export class ReportOfFire {
   public consentToCall: boolean = false;
   public fullName: string = '';

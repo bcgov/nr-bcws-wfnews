@@ -1,6 +1,13 @@
 import { Component } from "@angular/core"
 import { ReportOfFire } from "./reportOfFireModel"
 
+/**
+ * This is the default page component used for the ROF screens
+ * Made this a component rather than an interface in case we wanted
+ * a "stub" page for injection, but this might not be needed so we
+ * can likely change it to a plain interface in the future
+ */
+
 @Component({
   selector: 'rof-page',
   template: '<div></div>'
