@@ -32,6 +32,19 @@ variable "aws_region" {
   default     = "ca-central-1"
 }
 
+variable "tasks" {
+  description = "Map of the lambda functions"
+  type = map(object({
+    family      = string
+    cpu         = optional(number, 1024)
+    memory      = optional(number, 2048)
+    port        = list(object)
+    environment = list(object)
+    name        = string
+    image       = string
+  }))
+}
+
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
   default     = "wfnewsEcsTaskExecutionRole"
@@ -342,14 +355,14 @@ variable "max_upload_size" {
 
 variable "api_health_check_path" {
   description = "Endpoint to use for health checks on API"
-  default = "/checkHealth?callstack=test"
-  type = string
+  default     = "/checkHealth?callstack=test"
+  type        = string
 }
 
 variable "client_health_check_path" {
   description = "Endpoint to use for health checks on client"
-  default = "/config.jsp"
-  type = string
+  default     = "/config.jsp"
+  type        = string
 }
 
 # variable etcd_container_name {
@@ -596,9 +609,9 @@ variable "ACCEPTED_IPS" {
 }
 
 variable "PUSH_NOTIFICATION_AWS_USER" {
-  type = string
+  type        = string
   description = "User used by wfone-notification-push-api"
-  default=""
+  default     = ""
 }
 
 #Lambda-related variables
