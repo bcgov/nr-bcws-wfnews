@@ -54,8 +54,8 @@ jobs:
       REGISTRY: ghcr.io
     secrets: inherit
 
-  wfnews-terragrunt-deploy-dev:
-    uses: ./.github/workflows/wfnews-terragrunt-deploy.yml
+  terragrunt-deploy-dev:
+    uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-mvn-client-patch, wfnews-api-server-build-patch, liquibase-build, apisix-build]
     with:
       REGISTRY: ghcr.io
@@ -122,6 +122,6 @@ jobs:
 
   jmeter-test-dev:
     uses: ./.github/workflows/jmeter.yml
-    needs: [wfnews-terragrunt-deploy-dev]
+    needs: [terragrunt-deploy-dev]
     with:
       ENVIRONMENT: dev

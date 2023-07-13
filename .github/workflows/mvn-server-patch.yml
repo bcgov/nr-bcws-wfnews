@@ -47,9 +47,9 @@ jobs:
       
       - uses: actions/upload-artifact@v3
         with:
-         name: ${{ inputs.PROJECT_NAME }}-package
-         path: staging
-         
+          name: ${{ inputs.PROJECT_NAME }}-package
+          path: staging
+          
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:

@@ -7,7 +7,7 @@ import java.util.Set;
 public enum StageOfControl {
 	OUT_CNTRL,
 	HOLDING,
-	UNDER_CNTRL,
+	UNDR_CNTRL,
 	OUT
 	;
 	public static Set<StageOfControl> ACTIVE = Collections.unmodifiableSet(EnumSet.complementOf(EnumSet.of(OUT)));

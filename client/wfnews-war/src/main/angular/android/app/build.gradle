@@ -1,10 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "wfnews.nrs.gov.bc.ca"
+    namespace "ca.bc.gov.WildfireInformation"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "wfnews.nrs.gov.bc.ca"
+        applicationId "ca.bc.gov.WildfireInformation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

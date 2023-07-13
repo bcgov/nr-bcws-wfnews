@@ -299,9 +299,9 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     default_ttl            = 300
     max_ttl                = 86400
   }
-  
+
   ordered_cache_behavior {
-    path_pattern           = "/publicPublishedIncidentAttachment/*"
+    path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "wfnews_apisix_${var.target_env}"
@@ -309,7 +309,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
   }
-  
+
   ordered_cache_behavior {
     path_pattern    = "/static/*"
     allowed_methods = ["GET", "HEAD"]
@@ -348,7 +348,6 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     ssl_support_method  = "sni-only"
   }
 }
-
 
 resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
   // only generate in prod environment
@@ -519,7 +518,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/publicPublishedIncidentAttachment/*"
+    path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
     target_origin_id       = "wfnews_apisix_gov_${var.target_env}"
@@ -562,6 +561,109 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
   viewer_certificate {
     acm_certificate_arn = var.gov_api_certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_distribution" "wfss_pointid_api" {
+
+  count = var.cloudfront ? 1 : 0
+
+  aliases = ["wfss-pointid-api.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "wfss-pointid-api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfss_pointid_api_${var.target_env}"
+
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+
+  //	- logging should probably be in a central location (centralized-logging account?) - in an aggregated/shared bucket and perhaps also synced into a bucket within the account where the aws-login app is deployed
+  //	- prefix should follow SEA convention like <account>/<region>/<service name> eg. 12345678/ca-central-1/cloudfront
+  //
+  //  logging_config {
+  //    include_cookies = false
+  //    bucket          = "<mylogs>.s3.amazonaws.com"
+  //    prefix          = "geofencing"
+  //  }
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+    "PUT"]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_server_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  ordered_cache_behavior {
+    path_pattern    = "/static/*"
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_server_${var.target_env}"
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+
+  tags = local.common_tags
+
+  viewer_certificate {
+    acm_certificate_arn = var.certificate_arn
     ssl_support_method  = "sni-only"
   }
 }

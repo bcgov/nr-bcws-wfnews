@@ -1,0 +1,70 @@
+{
+    "application": {
+        "lazyAuthenticate": "#{LAZY_AUTHENTICATE}#",
+        "acronym": "#{APPLICATION_ACRONYM}#", 
+        "version": "#{PROJECT_VERSION}#",
+        "buildNumber": "#{BUILD_NUMBER}#",
+        "environment": "#{APPLICATION_ENVIRONMENT}#",
+        "baseUrl": "#{BASE_URL}#",
+        "siteminderUrlPrefix": "#{SITEMINDER_URL_PREFIX}#",
+        "wfnewsApiKey": "#{WFNEWS_API_KEY}#"
+    },
+
+    "externalAppConfig": {
+        "im": {
+            "url": "#{CONFIG_IM_URL}#"
+        },
+        "pointId": {
+            "url": "#{POINT_ID_URL}#"
+        },
+        "bcWildFireSupportPage": "#{BC_WILDFIRE_SUPPORT_PAGE}#",
+        "appStoreUrl": "#{APP_STORE_URL}#",
+        "googlePlayUrl": "#{GOOGLE_PLAY_URL}#",
+        "AGOLfireCentres": "#{AGOL_FIRE_CENTRES}#",
+        "AGOLevacOrders": "#{AGOL_EVAC_ORDERS}#",
+        "AGOLareaRestrictions": "#{AGOL_AREA_RESTRICTIONS}#",
+        "AGOLBansAndProhibitions": "#{AGOL_BANS_AND_PROHIBITIONS}#",
+        "AGOLperimetres": "#{AGOL_PERIMETRES}#",
+        "AGOLactiveFirest": "#{AGOL_ACTIVE_FIRES}#",
+        "contactInformation": {
+            "reportAWildfirePhone": "#{REPORT_A_WILDFIRE_PHONE_LINE}#",
+            "wildFireInformationLine": "#{WILDFIRE_INFORMATION_LINE}#",
+            "burnRegistrationLine": "#{BURN_REGISTRATION_LINE}#",
+            "socialMedia": {
+                "facebook": "#{FACEBOOK_URL}#",
+                "twitter": "#{TWITTER_URL}#"
+            },
+            "moreInformationLink": "#{MORE_INFORMATION_LINK}#"
+        },
+        "wfdmProxy": "#{WFDM_PROXY}#"
+    },
+
+    "mapIcons": {
+        "iconAnchor": "#{MAP_ICONS_ICON_ANCHOR}#",
+        "iconSize": "#{MAP_ICONS_ICON_SIZE}#",
+        "tooltipOffset": "#{MAP_ICONS_TOOLTIP_OFFSET}#",
+        "shadowSize": "#{MAP_ICONS_SHADOW_SIZE}#"
+    },
+
+    "mapServices": {
+        "openmapsBaseUrl": "#{OPENMAPS_BASE_URL}#",
+        "drivebcBaseUrl": "#{DRIVEBC_BASE_URL}#",
+        "wfnews": "#{WFNEWS_API_URL}#"
+    },
+
+    "rest": {
+        "incidents": "#{WFIM_API_URL}#",
+        "newsLocal": "#{WFNEWS_API_URL}#",
+        "wfnews": "#{WFNEWS_API_URL}#",
+        "wfdm": "#{WFDM_API_URL}#",
+        "pointId": "#{POINT_ID_URL}#"
+    },
+
+    "webade": {
+        "oauth2Url": "#{WEBADE_OAUTH2_AUTHORIZE_URL}#",
+        "clientId": "#{WEBADE_OAUTH2_CLIENT_ID}#",
+        "authScopes": "#{WEBADE_OAUTH2_AUTH_SCOPES}#",
+        "enableCheckToken": "#{WEBADE_OAUTH2_ENABLE_CHECK_TOKEN}#",
+        "checkTokenUrl": "#{WEBADE_OAUTH2_CHECK_TOKEN_V2_URL}#"
+    }
+}
