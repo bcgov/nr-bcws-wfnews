@@ -1,21 +1,21 @@
 data "aws_iam_policy" "lambdaExecute" {
-    name = "AWSLambdaExecute"
+  name = "AWSLambdaExecute"
 }
 
 data "aws_iam_policy" "lambdaSQS" {
-    name = "AWSLambdaSQSQueueExecutionRole"
+  name = "AWSLambdaSQSQueueExecutionRole"
 }
 
 data "aws_iam_policy" "lambdaVPC" {
-    name = "AWSLambdaVPCAccessExecutionRole"
+  name = "AWSLambdaVPCAccessExecutionRole"
 }
 
 data "aws_iam_policy" "lambdaRDS" {
-    name = "AmazonRDSDataFullAccess"
+  name = "AmazonRDSDataFullAccess"
 }
 
 data "aws_iam_policy" "lambdaSecrets" {
-    name = "SecretsManagerReadWrite"
+  name = "SecretsManagerReadWrite"
 }
 
 resource "aws_iam_role" "lambda_iam_role" {
@@ -36,26 +36,26 @@ resource "aws_iam_role" "lambda_iam_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "lambdaAttach" {
-    role = aws_iam_role.lambda_iam_role.name
-    policy_arn = data.aws_iam_policy.lambdaExecute.arn
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = data.aws_iam_policy.lambdaExecute.arn
 }
 
 resource "aws_iam_role_policy_attachment" "sqsAttach" {
-    role = aws_iam_role.lambda_iam_role.name
-    policy_arn = data.aws_iam_policy.lambdaSQS.arn
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = data.aws_iam_policy.lambdaSQS.arn
 }
 
 resource "aws_iam_role_policy_attachment" "vpcAttach" {
-    role = aws_iam_role.lambda_iam_role.name
-    policy_arn = data.aws_iam_policy.lambdaVPC.arn
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = data.aws_iam_policy.lambdaVPC.arn
 }
 
 resource "aws_iam_role_policy_attachment" "rdsAttach" {
-    role = aws_iam_role.lambda_iam_role.name
-    policy_arn = data.aws_iam_policy.lambdaRDS.arn
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = data.aws_iam_policy.lambdaRDS.arn
 }
 
 resource "aws_iam_role_policy_attachment" "secretsAttach" {
-    role = aws_iam_role.lambda_iam_role.name
-    policy_arn = data.aws_iam_policy.lambdaSecrets.arn
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = data.aws_iam_policy.lambdaSecrets.arn
 }

@@ -1,10 +1,5 @@
 name: Deploy Dev
 
-env:
-  REGISTRY: ghcr.io
-  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
-  NPMRC: ${{ secrets.NPMRC }}
-  TRIGGERS: ('client/' 'server/' '.github/workflows')
 on:
   pull_request_target:
     types:
@@ -21,22 +16,38 @@ on:
       - "Dockerfile"
       - "Dockerfile_client"
       - "!**/README.md"
+  workflow_dispatch:
+    inputs:
+      IS_HOTFIX:
+        description: 'Is this a hotfix?'
+        type: boolean
+        required: false
+        default: false
 
 jobs:
+  call-lambda-zip:
+    uses: ./.github/workflows/lambda-zip.yml
+    secrets: inherit
+    with:
+      REGISTRY: ${{ vars.REGISTRY }}
 
   call-mvn-client:
-    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-client.yml
     secrets: inherit
-    with: 
-      REGISTRY: ghcr.io
+    with:
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
 
   call-mvn-server:
-    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/mvn-server.yml
     #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
     with:
-      REGISTRY: ghcr.io
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
     secrets:
       IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
       IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
@@ -44,69 +55,24 @@ jobs:
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
     with:
-      REGISTRY: ghcr.io
+      ENVIRONMENT: DEV
     secrets: inherit
 
   apisix-build:
     uses: ./.github/workflows/apisix.yml
     with:
-      REGISTRY: ghcr.io
+      ENVIRONMENT: DEV
     secrets: inherit
 
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
+    needs: [call-lambda-zip, call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
     with:
-      REGISTRY: ghcr.io
-      #Server and Image name get PR number as appropriate inside deploy step
-      CLIENT_IMAGE: nr-bcws-wfnews-client
-      SERVER_IMAGE: nr-bcws-wfnews-server
-      LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
-      APISIX_IMAGE: nr-bcws-wfnews-apisix
-
-      #1024 CPU units = 1 vCPU
-      CLIENT_CPU_UNITS: 1024
-      CLIENT_MEMORY: 2048
-      SERVER_CPU_UNITS: 1024
-      SERVER_MEMORY: 2048
-      DB_INSTANCE_TYPE: 'db.t3.micro'
-
-      INSTANCE_COUNT: 2
-
-      LOGGING_LEVEL: INFO
-
-      TARGET_ENV: dev
-      ALB_NAME: default
-      VPC_NAME: Dev_vpc
-      SUBNET_FILTER: App
-      WEBADE_OAUTH2_UI_CLIENT_ID: WFNEWS-UI
-      WEBADE_OAUTH2_REST_CLIENT_ID: WFNEWS-REST
-      WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
-      WEBADE-OAUTH2_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
-      WEBADE_OAUTH2_AUTHORIZE_URL: https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize
-      WFDM_REST_URL: https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api/
-      WFIM_CLIENT_URL: https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api/
-      WFIM_CODE_TABLES_URL: https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api/codeTables
-      WEBADE-OAUTH2_CHECK_TOKEN_URL: https://intapps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true
-      WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: true
-      SMTP_HOST_NAME: apps.smtp.gov.bc.ca
-      SMTP_FROM_EMAIL: noreply@gov.bc.ca
-      SMTP_ADMIN_EMAIL: fake@mail.ignoreme
-      SMTP_EMAIL_SYNC_ERROR_FREQ: 10
-      SMTP_EMAIL_FREQ: 10 
-      SMTP_EMAIL_ERROR_SUBJECT: WFNEWS API Error Subject [DEV]
-      SMTP_EMAIL_SUBJECT: WFNEWS API Error [DEV]
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
-      WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
-      WFNEWS_USERNAME: wfnewsdev
-      WFNEWS_MAX_CONNECTIONS: 10
-      IMAGE_TAG: pr-${{ github.event.pull_request.number }}
-      AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
-      DRIVEBC_BASE_URL: https://dev-maps.th.gov.bc.ca/geoV05/ows
-      OPENMAPS_BASE_URL: https://test.openmaps.gov.bc.ca/geo/pub/ows
-      SITEMINDER_URL_PREFIX: https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
-      AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0/
-      AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
+      IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      TARGET_ENV: dev
+
       MAX_RECEIVED_COUNT: 10
       VISIBILITY_TIMEOUT_SECONDS: 100
       ACCEPTED_IPS: ""
@@ -119,17 +85,49 @@ jobs:
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
-      FUNCTION_BUCKET: ""
+      FUNCTION_BUCKET: "wfnews-lambdas"
+
+      #POINTID API VARIABLES
+      DATABASE_WEATHER_URL: "jdbc:oracle:thin:@localhost:1521:dev"
+      DATABASE_WEATHER_USER: "proxy_wf1_weather"
+      BCGW_URL: https://test.openmaps.gov.bc.ca/geo/pub
+      WFGS_URL: https://wf1geop.nrs.gov.bc.ca/geoserver
+      MAX_ALLOWED_RADIUS: 1000
+      ASYNC_JOB_INTERVAL: 900000
+      ASYNC_JOB_REF_LAT: 55.2758
+      ASYNC_JOB_REF_LONG: -124.8509
+      ASYNC_JOB_REF_RADIUS: 999
+      WEATHER_HOST: sechelt.idir.bcgov:1001
+      WEATHER_USER: PROXY_GEOVIEWER
+      WFARCGIS_URL: https://services6.arcgis.com
+      WFARCGIS_LAYER_AREA_RESTRICTIONS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0
+      WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0
+      WFARCGIS_LAYER_DANGER_RATING: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Danger_Rating/FeatureServer/0
+      WFARCGIS_LAYER_ACTIVE_FIRES: ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0
+      WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_Emrg_Orders_and_Alerts/FeatureServer/0
+      WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
+      WFARCGIS_QUEUESIZE: 1500
+      WEBADE_OAUTH2_CLIENT_ID: WFSS_POINTID_REST
+      WEBADE_OATH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
+      WEBADE_OAUTH2_CLIENT_SCOPES: WFSS.* WFWX.*
+      FIREWEATHER_BASEURL: https://bcwsapi.nrs.gov.bc.ca/wfwx-fireweather-api/
+      FIREWEATHER_QUEUESIZE: 1500
+      WFNEWS_BASEURL: https://wfnews-api.dev.bcwildfireservices.com/
+      WFNEWS_QUEUESIZE: 1500
+
     secrets:
+      API_KEY: ${{ secrets.API_KEY_DEV }}
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
-      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
+      DATABASE_WEATHER_PWD: ${{ secrets.DATABASE_WEATHER_PWD_DEV }}
       DB_PASS: ${{ secrets.DEV_DB_PASS }}
-      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
+      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
       SMTP_PASSWORD: ${{ secrets.DEV_SMTP_PASSWORD }}
+      SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
+      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
+      WEATHER_PASSWORD: ${{ secrets.WEATHER_PASSWORD_DEV }}
+      WEBADE_OAUTH2_CLIENT_SECRET: ${{ secrets.WEBADE_OAUTH2_CLIENT_SECRET_DEV }}
       WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
       WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.DEV_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
-      API_KEY: ${{ secrets.API_KEY_DEV }}
-      SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
 
   jmeter-test-dev:
     uses: ./.github/workflows/jmeter.yml

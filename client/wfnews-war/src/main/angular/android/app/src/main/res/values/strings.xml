@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Wildfire News</string>
-    <string name="title_activity_main">Wildfire News</string>
-    <string name="package_name">wfnews.nrs.gov.bc.ca</string>
-    <string name="custom_url_scheme">wfnews.nrs.gov.bc.ca</string>
+    <string name="app_name">WFNEWS</string>
+    <string name="title_activity_main">WFNEWS</string>
+    <string name="package_name">ca.bc.gov.WildfireInformation</string>
+    <string name="custom_url_scheme">ca.bc.gov.WildfireInformation</string>
 </resources>

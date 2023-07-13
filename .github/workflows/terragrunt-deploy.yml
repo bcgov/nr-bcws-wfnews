@@ -3,156 +3,20 @@ name: Deploy using terragrunt
 on:
   workflow_call:
     inputs:
-      CLIENT_IMAGE:
-        required: true
-        type: string
-      SERVER_IMAGE:
-        required: true
-        type: string
-      LIQUIBASE_IMAGE:
-        required: true
-        type: string
-      APISIX_IMAGE:
-        required: true
-        type: string
-      CLIENT_CPU_UNITS:
-        required: false
-        type: number
-        default: 1024
-      CLIENT_MEMORY:
-        required: false
-        type: number
-        default: 2048
-      SERVER_CPU_UNITS:
-        required: false
-        type: number
-        default: 1024
-      SERVER_MEMORY:
-        required: false
-        type: number
-        default: 2048
-      DB_INSTANCE_TYPE:
-        required: true
-        type: string
-      INSTANCE_COUNT:
-        required: false
-        type: number
-        default: 1
-      LOGGING_LEVEL:
-        required: false
-        type: string
-        default: INFO
-      TARGET_ENV:
-        required: true
-        type: string
-      ALB_NAME:
-        required: true
-        type: string
-      VPC_NAME:
-        required: true
-        type: string
-      SUBNET_FILTER:
-        required: true
-        type: string
-      REGISTRY:
-        required: true
-        type: string
-      WEBADE-OAUTH2_TOKEN_CLIENT_URL:
-        required: true
-        type: string
-      WEBADE-OAUTH2_TOKEN_URL:
-        required: true
-        type: string
-      WFDM_REST_URL:
-        required: true
-        type: string
-      WFIM_CLIENT_URL:
-        required: true
-        type: string
-      WFIM_CODE_TABLES_URL:
-        required: true
-        type: string
-      WEBADE-OAUTH2_CHECK_TOKEN_URL:
-        required: true
-        type: string
-      WFNEWS_EMAIL_NOTIFICATIONS_ENABLED:
-        required: true
-        type: string
-      SMTP_HOST_NAME:
-        required: true
-        type: string
-      SMTP_FROM_EMAIL:
-        required: true
-        type: string
-      SMTP_ADMIN_EMAIL:
-        required: true
-        type: string
-      SMTP_EMAIL_SYNC_ERROR_FREQ:
-        required: true
-        type: string
-      SMTP_EMAIL_FREQ:
-        required: true
-        type: string
-      SMTP_EMAIL_ERROR_SUBJECT:
-        required: true
-        type: string
-      SMTP_EMAIL_SUBJECT:
-        required: true
-        type: string
       DEFAULT_APPLICATION_ENVIRONMENT:
         required: true
         type: string
-      WFNEWS_AGOL_QUERY_URL:
-        required: true
-        type: string
-      WFNEWS_USERNAME:
-        required: true
-        type: string
-      WFNEWS_MAX_CONNECTIONS:
-        required: true
-        type: number
-      WEBADE_OAUTH2_REST_CLIENT_ID:
-        required: true
-        type: string
-      WEBADE_OAUTH2_UI_CLIENT_ID:
-        required: true
-        type: string
-      WEBADE_OAUTH2_AUTHORIZE_URL:
+      TARGET_ENV:
         required: true
         type: string
       IMAGE_TAG:
         required: true
         type: string
-      AGOL_URL:
+      IS_HOTFIX:
         required: true
-        type: string
-      DRIVEBC_BASE_URL:
-        required: true
-        type: string
-      OPENMAPS_BASE_URL:
-        required: true
-        type: string
-      SITEMINDER_URL_PREFIX:
-        required: true
-        type: string
-      AGOL_AREA_RESTRICTIONS:
-        required: true
-        type: string
-      AGOL_BANS_AND_PROHIBITIONS:
-        required: true
-        type: string
-      GITHUB_RELEASE_NAME:
-        required: false
-        type: string
-        default: ""
-      DB_SIZE:
-        required: false
-        type: number
-        default: 10
-      MAX_UPLOAD_SIZE:
-        required: false
-        type: string
-        default: "100M"
+        type: boolean
+        default: false
+
       MAX_RECEIVED_COUNT:
         required: false
         type: number
@@ -204,7 +68,112 @@ on:
       FUNCTION_BUCKET:
         required: false
         type: string
+        default: "wfnews-lambdas"
+      #POINTID API VARIABLES
+      DATABASE_WEATHER_URL:
+        required: false
+        type: string
         default: ""
+      DATABASE_WEATHER_USER:
+        required: false
+        type: string
+        default: ""
+      BCGW_URL:
+        required: false
+        type: string
+        default: ""
+      WFGS_URL:
+        required: false
+        type: string
+        default: ""
+      MAX_ALLOWED_RADIUS:
+        required: false
+        type: number
+        default: 1000
+      ASYNC_JOB_INTERVAL:
+        required: false
+        type: number
+        default: 900000
+      ASYNC_JOB_REF_LAT:
+        required: false
+        type: number
+        default: 55.2758
+      ASYNC_JOB_REF_LONG: 
+        required: false
+        type: number
+        default: -124.8509
+      ASYNC_JOB_REF_RADIUS:
+        required: false
+        type: number
+        default: 999
+      WEATHER_HOST:
+        required: false
+        type: string
+        default: ""
+      WEATHER_USER:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_URL:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_AREA_RESTRICTIONS:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_BANS_PROHIBITION_AREAS:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_DANGER_RATING:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_ACTIVE_FIRES:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES:
+        required: false
+        type: string
+        default: ""
+      WFARCGIS_QUEUESIZE:
+        required: false
+        type: number
+        default: 1500
+      WEBADE_OAUTH2_CLIENT_ID:
+        required: false
+        type: string
+        default: ""
+      WEBADE_OATH2_TOKEN_URL:
+        required: false
+        type: string
+        default: ""
+      WEBADE_OAUTH2_CLIENT_SCOPES:
+        required: false
+        type: string
+        default: ""
+      FIREWEATHER_BASEURL:
+        required: false
+        type: string
+        default: ""
+      FIREWEATHER_QUEUESIZE:
+        required: false
+        type: number
+        default: 1500
+      WFNEWS_BASEURL:
+        required: false
+        type: string
+        default: ""
+      WFNEWS_QUEUESIZE:
+        required: false
+        type: number
+        default: 1500
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -229,6 +198,12 @@ on:
         required: true
       CLOUDFRONT_HEADER:
         required: true
+      DATABASE_WEATHER_PWD:
+        required: true
+      WEATHER_PASSWORD:
+        required: true
+      WEBADE_OAUTH2_CLIENT_SECRET:
+        required: true
 
 env:
   TF_VERSION: 1.2.2
@@ -241,8 +216,8 @@ jobs:
   plan:
     name: Deploy
     runs-on: ubuntu-22.04
-    outputs:
-      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
+    environment: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -261,61 +236,60 @@ jobs:
         env:
           # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
           # AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
-          TARGET_ENV: ${{ inputs.TARGET_ENV }}
-          GITHUB_RELEASE_NAME: ${{inputs.GITHUB_RELEASE_NAME}}
-          CLIENT_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.CLIENT_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          
-          CLIENT_CPU_UNITS: ${{inputs.CLIENT_CPU_UNITS}}
-          CLIENT_MEMORY: ${{inputs.CLIENT_MEMORY}}
-          SERVER_CPU_UNITS: ${{inputs.SERVER_CPU_UNITS}}
-          SERVER_MEMORY: ${{inputs.SERVER_MEMORY}}
-          DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
-          LOGGING_LEVEL: ${{inputs.LOGGING_LEVEL}}
-          INSTANCE_COUNT: ${{inputs.INSTANCE_COUNT}}
-          CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
-
+          agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
+          agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
+          agolUrl: ${{vars.AGOL_URL}}
+          ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY }}
-          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
+          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
+          CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
+          DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
           DB_PASS: ${{ secrets.DB_PASS }}
-          DB_SIZE: ${{ inputs.DB_SIZE }}
-          MAX_UPLOAD_SIZE: ${{ inputs.MAX_UPLOAD_SIZE }}
-          ALB_NAME: ${{ inputs.ALB_NAME }}
-          VPC_NAME: ${{ inputs.VPC_NAME }}
-          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
-          WEBADE_OAUTH2_REST_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_REST_CLIENT_ID}}
-          WEBADE_OAUTH2_UI_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_UI_CLIENT_ID}}
-          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
-          WEBADE-OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
-          WEBADE_OAUTH2_AUTHORIZE_URL: ${{inputs.WEBADE_OAUTH2_AUTHORIZE_URL}}
-          WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
-          WFIM_CLIENT_URL: ${{inputs.WFIM_CLIENT_URL}}
-          WFIM_CODE_TABLES_URL: ${{inputs.WFIM_CODE_TABLES_URL}}
-          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_CHECK_TOKEN_URL}}
-          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{inputs.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
-          SMTP_HOST_NAME: ${{inputs.SMTP_HOST_NAME}}
-          SMTP_FROM_EMAIL: ${{inputs.SMTP_FROM_EMAIL}}
-          SMTP_ADMIN_EMAIL: ${{inputs.SMTP_ADMIN_EMAIL}}
-          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{inputs.SMTP_EMAIL_SYNC_ERROR_FREQ}}
-          SMTP_EMAIL_FREQ: ${{inputs.SMTP_EMAIL_FREQ}}
-          SMTP_EMAIL_ERROR_SUBJECT: ${{inputs.SMTP_EMAIL_ERROR_SUBJECT}}
-          SMTP_EMAIL_SUBJECT: ${{inputs.SMTP_EMAIL_SUBJECT}}
+          DB_SIZE: ${{ vars.DB_SIZE }}
           DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
-          WFNEWS_AGOL_QUERY_URL: ${{inputs.WFNEWS_AGOL_QUERY_URL}}
+          drivebcBaseUrl: ${{vars.DRIVEBC_BASE_URL}}
+          GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
+          INSTANCE_COUNT: ${{vars.INSTANCE_COUNT}}
+          LIQUIBASE_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          LOGGING_LEVEL: ${{vars.LOGGING_LEVEL}}
+          MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
+          openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
+          SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
+          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
+          siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
+          SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
+          SMTP_EMAIL_ERROR_SUBJECT: ${{vars.SMTP_EMAIL_ERROR_SUBJECT}}
+          SMTP_EMAIL_FREQ: ${{vars.SMTP_EMAIL_FREQ}}
+          SMTP_EMAIL_SUBJECT: ${{vars.SMTP_EMAIL_SUBJECT}}
+          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{vars.SMTP_EMAIL_SYNC_ERROR_FREQ}}
+          SMTP_FROM_EMAIL: ${{vars.SMTP_FROM_EMAIL}}
+          SMTP_HOST_NAME: ${{vars.SMTP_HOST_NAME}}
           SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
+          SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
+          SUBNET_FILTER: ${{ vars.SUBNET_FILTER }}
+          TARGET_ENV: ${{ inputs.TARGET_ENV }}
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          VPC_NAME: ${{ vars.VPC_NAME }}
+          WEBADE_OAUTH2_AUTHORIZE_URL: ${{vars.WEBADE_OAUTH2_AUTHORIZE_URL}}
+          WEBADE_OAUTH2_REST_CLIENT_ID: ${{vars.WEBADE_OAUTH2_REST_CLIENT_ID}}
+          WEBADE_OAUTH2_UI_CLIENT_ID: ${{vars.WEBADE_OAUTH2_UI_CLIENT_ID}}
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
           WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
-          WFNEWS_USERNAME: ${{inputs.WFNEWS_USERNAME}}
-          WFNEWS_MAX_CONNECTIONS: ${{inputs.WFNEWS_MAX_CONNECTIONS}}
-          SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
-          agolUrl: ${{inputs.AGOL_URL}}
-          drivebcBaseUrl: ${{inputs.DRIVEBC_BASE_URL}}
-          openmapsBaseUrl: ${{inputs.OPENMAPS_BASE_URL}}
-          siteMinderURLPrefix: ${{inputs.SITEMINDER_URL_PREFIX}}
-          agolAreaRestrictions: ${{inputs.AGOL_AREA_RESTRICTIONS}}
-          agolBansAndProhibitions: ${{inputs.AGOL_BANS_AND_PROHIBITIONS}}
+          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{vars.WEBADE_OAUTH2_CHECK_TOKEN_URL}}
+          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{vars.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
+          WEBADE-OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL}}
+          WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
+          WFIM_CLIENT_URL: ${{vars.WFIM_CLIENT_URL}}
+          WFIM_CODE_TABLES_URL: ${{vars.WFIM_CODE_TABLES_URL}}
+          WFNEWS_AGOL_QUERY_URL: ${{vars.WFNEWS_AGOL_QUERY_URL}}
+          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{vars.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
+          WFNEWS_MAX_CONNECTIONS: ${{vars.WFNEWS_MAX_CONNECTIONS}}
+          WFNEWS_USERNAME: ${{vars.WFNEWS_USERNAME}}
+
           MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
           VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
           ACCEPTED_IPS: ${{inputs.ACCEPTED_IPS }}
@@ -329,6 +303,37 @@ jobs:
           EVACUATION_MONITOR_KEY: ${{inputs.EVACUATION_MONITOR_KEY }}
           LAMBDA_LAYER_KEY: ${{inputs.LAMBDA_LAYER_KEY }}
           FUNCTION_BUCKET: ${{inputs.FUNCTION_BUCKET}}
+
+          # POINTID API VARIABLES
+          DATABASE_WEATHER_URL: ${{ inputs.DATABASE_WEATHER_URL }}
+          DATABASE_WEATHER_USER: ${{inputs.DATABASE_WEATHER_USER }}
+          BCGW_URL: ${{inputs.BCGW_URL }}
+          WFGS_URL: ${{inputs.WFGS_URL }}
+          MAX_ALLOWED_RADIUS: ${{inputs.MAX_ALLOWED_RADIUS }}
+          ASYNC_JOB_INTERVAL: ${{inputs.ASYNC_JOB_INTERVAL }}
+          ASYNC_JOB_REF_LAT: ${{inputs.ASYNC_JOB_REF_LAT }}
+          ASYNC_JOB_REF_LONG: ${{inputs.ASYNC_JOB_REF_LONG }}
+          ASYNC_JOB_REF_RADIUS: ${{inputs.ASYNC_JOB_REF_RADIUS }}
+          WEATHER_HOST: ${{inputs.WEATHER_HOST }}
+          WEATHER_USER: ${{inputs.WEATHER_USER }}
+          WFARCGIS_URL: ${{inputs.WFARCGIS_URL }}
+          WFARCGIS_LAYER_AREA_RESTRICTIONS: ${{inputs.WFARCGIS_LAYER_AREA_RESTRICTIONS }}
+          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ${{inputs.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS }}
+          WFARCGIS_LAYER_DANGER_RATING: ${{inputs.WFARCGIS_LAYER_DANGER_RATING }}
+          WFARCGIS_LAYER_ACTIVE_FIRES: ${{inputs.WFARCGIS_LAYER_ACTIVE_FIRES }}
+          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ${{inputs.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS }}
+          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{inputs.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
+          WFARCGIS_QUEUESIZE: ${{inputs.WFARCGIS_QUEUESIZE }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_CLIENT_ID }}
+          WEBADE_OATH2_TOKEN_URL: ${{inputs.WEBADE_OATH2_TOKEN_URL }}
+          WEBADE_OAUTH2_CLIENT_SCOPES: ${{inputs.WEBADE_OAUTH2_CLIENT_SCOPES }}
+          FIREWEATHER_BASEURL: ${{inputs.FIREWEATHER_BASEURL }}
+          FIREWEATHER_QUEUESIZE: ${{inputs.FIREWEATHER_QUEUESIZE }}
+          WFNEWS_BASEURL: ${{inputs.WFNEWS_BASEURL }}
+          WFNEWS_QUEUESIZE: ${{inputs.WFNEWS_QUEUESIZE }}
+          DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
+          WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
+          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

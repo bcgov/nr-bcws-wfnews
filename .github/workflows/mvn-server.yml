@@ -9,9 +9,19 @@ env:
 on:
   workflow_call:
     inputs:
-      REGISTRY:
-        type: string
+      ENVIRONMENT:
         required: true
+        type: string
+      IS_HOTFIX:
+        required: false
+        type: boolean
+        default: false
+      BRANCH:
+        required: false
+        type: string
+      TAG:
+        required: false
+        type: string
     secrets:
       IDIR_AS_EMAIL:
         required: true
@@ -25,9 +35,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.ENVIRONMENT }}
 
     steps:
       - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.IS_HOTFIX == false }}
+      
+      - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.IS_HOTFIX == true }}
+        with:
+          ref: ${{ inputs.BRANCH }}
       
       - name: Set up JDK 11
         uses: actions/setup-java@v3
@@ -43,9 +61,9 @@ jobs:
       
       - uses: actions/upload-artifact@v3
         with:
-         name: Package
-         path: staging
-         
+          name: Package
+          path: staging
+
       - name: Cache local Maven repository
         uses: actions/cache@v2
         with:
@@ -53,15 +71,20 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**war.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-         
+
   docker:
     needs: build
     runs-on: ubuntu-latest
-    outputs:
-      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
     
     steps:
       - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.IS_HOTFIX == false }}
+      
+      - uses: actions/checkout@v3
+        if: ${{ github.event.inputs.IS_HOTFIX == true }}
+        with:
+          ref: ${{ inputs.BRANCH }}
+
       - name: download artifact
         uses: actions/download-artifact@v3
         with:
@@ -75,8 +98,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Update image name if PR number present
-        if: ${{'' != steps.pr.outputs.pull_request_number}}
-        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ steps.pr.outputs.pull_request_number }}" >> $GITHUB_ENV
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
+        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ inputs.IS_HOTFIX && 'hotfix' || github.event.pull_request.number }}" >> $GITHUB_ENV
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -87,28 +110,28 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ inputs.REGISTRY }}
+          registry: ${{ vars.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for Docker (with PR)
-        if: ${{ github.event.pull_request.number > 0 }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ inputs.REGISTRY}}/${{ env.IMAGE_NAME }}
+          images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}
           tags: |
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=pr-${{ github.event.pull_request.number}}
+            type=raw,value=${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
           
       - name: Build and push Docker image (with PR)
-        if: ${{ github.event.pull_request.number > 0 }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
           push: true
           tags: ${{ steps.meta_pr.outputs.tags }}
           labels: ${{ steps.meta_pr.outputs.labels }}
-     
+
