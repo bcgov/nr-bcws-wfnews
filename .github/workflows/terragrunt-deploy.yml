@@ -1,4 +1,4 @@
-name: Deploy WFNEWS API using terragrunt
+name: Deploy using terragrunt
 
 on:
   workflow_call:
