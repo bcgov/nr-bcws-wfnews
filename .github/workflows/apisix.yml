@@ -4,13 +4,15 @@ env:
 on:
   workflow_call:
     inputs:
-      REGISTRY:
+      ENVIRONMENT:
         required: true
         type: string
 
 jobs:
   build-apisix:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v2
 
@@ -23,7 +25,7 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ inputs.REGISTRY }}
+          registry: ${{ vars.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           
@@ -35,7 +37,7 @@ jobs:
         id: meta-apisix
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ inputs.REGISTRY}}/${{ env.APISIX_IMAGE_NAME }}
+          images: ${{ vars.REGISTRY }}/${{ env.APISIX_IMAGE_NAME }}
           tags: |
             type=schedule
             type=raw,value=${{ github.base_ref }}
@@ -56,7 +58,7 @@ jobs:
       #   id: meta-etcd
       #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       #   with:
-      #     images: ${{ inputs.REGISTRY}}/${{ env.ETCD_IMAGE_NAME }}
+      #     images: ${{ vars.REGISTRY}}/${{ env.ETCD_IMAGE_NAME }}
       #     tags: |
       #       type=schedule
       #       type=raw,value=${{ github.base_ref }}
@@ -77,7 +79,7 @@ jobs:
       #   id: meta-gui
       #   uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
       #   with:
-      #     images: ${{ inputs.REGISTRY}}/${{ env.APISIX_GUI_IMAGE_NAME }}
+      #     images: ${{ vars.REGISTRY}}/${{ env.APISIX_GUI_IMAGE_NAME }}
       #     tags: |
       #       type=schedule
       #       type=raw,value=${{ github.base_ref }}
