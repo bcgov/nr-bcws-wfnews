@@ -9,11 +9,17 @@ import { ReportOfFire } from "../reportOfFireModel";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoFPermissionsPage extends RoFPage {
+  public dataShareAccepted = false;
+
   public constructor() {
     super()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
+  }
+
+  dataShareAcceptedToggle (event: boolean) {
+    this.dataShareAccepted = event
   }
 }

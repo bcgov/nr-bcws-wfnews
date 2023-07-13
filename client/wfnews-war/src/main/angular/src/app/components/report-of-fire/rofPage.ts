@@ -45,4 +45,8 @@ export class RoFPage {
   skip () {
     // stub used for instantiation of extended components
   }
+
+  close () {
+    // stub used for instantiation of extended components
+  }
 }

@@ -13,7 +13,7 @@
     {
       "type": "RoFPermissionsPage",
       "title": "Permissions",
-      "message": "To report a wildfire in British Columbia, you can call the Wildfire Dispatch team or submit a report through the app. This process usually takes 5-10 minutes.",
+      "message": "Personal information is collected by the BC Wildfire Service under section 26 (c) of the Freedom of Information and Protection of Privacy Act for the purpose of managing wildfire incidents. Should you have questions about the collection or use of this information please contact BCWS.PublicMobileApp@gov.bc.ca",
       "allowSkip": false,
       "allowExit": true,
       "showProgress": false
