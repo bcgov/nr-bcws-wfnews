@@ -1,4 +1,4 @@
-package wfnews.nrs.gov.bc.ca;
+package ca.bc.gov.WildfireInformation;
 
 import com.getcapacitor.BridgeActivity;
 

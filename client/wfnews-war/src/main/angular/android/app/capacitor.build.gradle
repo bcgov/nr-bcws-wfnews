@@ -17,10 +17,12 @@ dependencies {
     implementation project(':capacitor-device')
     implementation project(':capacitor-dialog')
     implementation project(':capacitor-geolocation')
+    implementation project(':capacitor-haptics')
+    implementation project(':capacitor-keyboard')
     implementation project(':capacitor-network')
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
-    implementation project(':android-post-notification-permission')
+    implementation project(':capacitor-status-bar')
 
 }
 
