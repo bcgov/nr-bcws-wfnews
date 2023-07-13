@@ -14,12 +14,14 @@ export class RoFPage {
   public title: string
   public message: string
   public updateAttribute: string
+  public showProgress: boolean
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     this.allowExit = data.allowExit;
     this.allowSkip = data.allowSkip;
     this.message = data.message;
     this.title = data.title;
+    this.showProgress = data.showProgress;
     this.updateAttribute = data.updateAttribute || '';
     this.index = index;
     this.reportOfFire = reportOfFire;

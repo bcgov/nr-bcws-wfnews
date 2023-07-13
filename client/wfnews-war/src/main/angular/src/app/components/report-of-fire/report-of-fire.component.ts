@@ -22,9 +22,12 @@ import { report } from "process";
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   public reportOfFire: ReportOfFire;
   public pageComponents: Array<ComponentRef<any>> = [];
-  public pageIndex: number = 0;
-  public allowExit: boolean = false;
-  public allowSkip: boolean = false;
+  public pageIndex = 0;
+  public allowExit = false;
+  public allowSkip = false;
+  public showProgress = false;
+  public progressSteps = [];
+  public currentStep = 0;
 
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
@@ -76,6 +79,10 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         if (!page.previousIndex) page.previousIndex = 1
         if (!page.skipIndex) page.skipIndex = 1
 
+        if (page.showProgress && !this.progressSteps.includes(page.title)) {
+          this.progressSteps.push(page.title)
+        }
+
         component.instance.previous = () => { this.selectPage(index - page.previousIndex) }
         component.instance.next = () => { this.selectPage(index + 1) }
         component.instance.skip = () => { this.selectPage(index + page.skipIndex) }
@@ -100,13 +107,22 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.dynamicContainer.detach(0)
     }
 
+    if (this.pageIndex < index && this.pageComponents[index].instance.showProgress && this.pageComponents[index].instance.title !== this.pageComponents[this.pageIndex].instance.title) {
+      this.currentStep++;
+    } else if (this.pageIndex > index && this.pageComponents[this.pageIndex].instance.showProgress && this.pageComponents[index].instance.title !== this.pageComponents[this.pageIndex].instance.title) {
+      this.currentStep--;
+    }
+
     this.pageIndex = index;
     const component = this.pageComponents[index];
     component.instance.reportOfFire = this.reportOfFire;
     this.dynamicContainer.insert(component.hostView);
 
     this.allowExit = component.instance.allowExit;
-    this.allowSkip = component.instance.allowSkip
+    this.allowSkip = component.instance.allowSkip;
+    this.showProgress = component.instance.showProgress;
+
+    this.cdr.detectChanges();
   }
 
   updateReportOfFire (reportOfFire: ReportOfFire, attribute: string | Array<string>) {
