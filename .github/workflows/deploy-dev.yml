@@ -144,7 +144,7 @@ jobs:
       WFARCGIS_LAYER_DANGER_RATING: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Danger_Rating/FeatureServer/0
       WFARCGIS_LAYER_ACTIVE_FIRES: ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0
       WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_Emrg_Orders_and_Alerts/FeatureServer/0
-      WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
+      WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
       WFARCGIS_QUEUESIZE: 1500
       WEBADE_OAUTH2_CLIENT_ID: WFSS_POINTID_REST
       WEBADE_OATH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
