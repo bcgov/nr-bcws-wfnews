@@ -63,14 +63,16 @@ public class SpringGenericRestDAO<T> extends GenericRestDAO<T> {
 			URIBuilder uriBuilder = new URIBuilder(urlString);
 			
 			if(queryParams != null) {
-				
 				for(Entry<String, String> entry:queryParams.entries()) {
 					String key = entry.getKey();
-					String value = entry.getValue();
-					if(value==null) {
-						value = "";
+
+					if (!queryParams.get(key).isEmpty()) {
+						for (String val : queryParams.get(key)) {
+							uriBuilder.addParameter(key, val);
+						}
+					} else {
+						uriBuilder.addParameter(key, "");
 					}
-					uriBuilder.addParameter(key, value);
 				}
 				
 				urlString = uriBuilder.build().toString();

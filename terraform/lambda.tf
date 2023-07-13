@@ -4,12 +4,12 @@ data "aws_lambda_layer_version" "wfnews_lambda_layer" {
 }
 
 resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
-  filename   = "../lambda/lambda-layer/python.zip"
+  s3_bucket     = var.FUNCTION_BUCKET
+  s3_key        = "python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]
 }*/
 
-/*
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
   s3_bucket     = var.FUNCTION_BUCKET
@@ -85,4 +85,3 @@ resource "aws_lambda_function" "monitor-evacuation" {
     }
   }
 }
-*/
