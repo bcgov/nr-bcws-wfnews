@@ -965,7 +965,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
     }
   ])
 }
-<<<<<<< HEAD
 
 resource "aws_ecs_task_definition" "wfss_pointid_api" {
   family                   = "wfnews-pointid-api-${var.target_env}"
@@ -1122,9 +1121,6 @@ resource "aws_ecs_task_definition" "wfss_pointid_api" {
   ])
 }
 
-=======
-*/
->>>>>>> main
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
