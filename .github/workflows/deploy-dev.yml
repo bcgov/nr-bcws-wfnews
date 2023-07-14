@@ -40,33 +40,41 @@ jobs:
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
 
-  call-mvn-server:
+  wfnews-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
-    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
+    secrets: inherit
     with:
+      PROJECT_NAME: wfnews-api
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
-    secrets:
-      IDIR_AS_EMAIL: ${{ secrets.IDIR_AS_EMAIL }}
-      IDIR_PASSWORD: ${{ secrets.IDIR_PASSWORD }}
+
+  wfone-notifications-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfone-notifications-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
 
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
+    secrets: inherit
     with:
       ENVIRONMENT: DEV
-    secrets: inherit
 
   apisix-build:
     uses: ./.github/workflows/apisix.yml
+    secrets: inherit
     with:
       ENVIRONMENT: DEV
-    secrets: inherit
 
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-lambda-zip, call-mvn-client, call-mvn-server, liquibase-build, apisix-build]
+    needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, apisix-build]
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}

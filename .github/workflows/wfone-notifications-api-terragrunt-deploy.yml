@@ -1,0 +1,223 @@
+name: Deploy WFONE Notifications API using terragrunt
+
+on:
+  workflow_call:
+    inputs:
+      CLIENT_IMAGE:
+        required: true
+        type: string
+      SERVER_IMAGE:
+        required: true
+        type: string
+      LIQUIBASE_IMAGE:
+        required: true
+        type: string
+      APISIX_IMAGE:
+        required: true
+        type: string
+      CLIENT_CPU_UNITS:
+        required: false
+        type: number
+        default: 1024
+      CLIENT_MEMORY:
+        required: false
+        type: number
+        default: 2048
+      SERVER_CPU_UNITS:
+        required: false
+        type: number
+        default: 1024
+      SERVER_MEMORY:
+        required: false
+        type: number
+        default: 2048
+      DB_INSTANCE_TYPE:
+        required: true
+        type: string
+      INSTANCE_COUNT:
+        required: false
+        type: number
+        default: 1
+      LOGGING_LEVEL:
+        required: false
+        type: string
+        default: INFO
+      TARGET_ENV:
+        required: true
+        type: string
+      ALB_NAME:
+        required: true
+        type: string
+      VPC_NAME:
+        required: true
+        type: string
+      SUBNET_FILTER:
+        required: true
+        type: string
+      REGISTRY:
+        required: true
+        type: string
+      WEBADE-OAUTH2_TOKEN_CLIENT_URL:
+        required: true
+        type: string
+      WEBADE-OAUTH2_TOKEN_URL:
+        required: true
+        type: string
+      WFDM_REST_URL:
+        required: true
+        type: string
+      WFIM_CODE_TABLES_URL:
+        required: true
+        type: string
+      WEBADE_OAUTH2_CHECK_TOKEN_URL:
+        required: true
+        type: string
+      WEBADE_OAUTH2_TOKEN_CLIENT_URL:
+        required: true
+        type: string
+      EMAIL_NOTIFICATIONS_ENABLED:
+        required: true
+        type: string
+      SMTP_HOST_NAME:
+        required: true
+        type: string
+      SMTP_CREDENTIALS_USER:
+        required: true
+        type: string
+      SMTP_FROM_ADDRESS:
+        required: true
+        type: string
+      SMTP_ADMIN_ADDRESS:
+        required: true
+        type: string
+      SMTP_EMAIL_SYNC_ERROR_FREQ:
+        required: true
+        type: string
+      SMTP_EMAIL_SYNC_SEND_FREQ:
+        required: true
+        type: string
+      SMTP_EMAIL_SYNC_ERROR_SUBJECT:
+        required: true
+        type: string
+      SMTP_EMAIL_SYNC_SUBJECT:
+        required: true
+        type: string
+      DEFAULT_APPLICATION_ENVIRONMENT:
+        required: true
+        type: string
+      IMAGE_TAG:
+        required: true
+        type: string
+      GITHUB_RELEASE_NAME:
+        required: false
+        type: string
+        default: ""
+      DB_SIZE:
+        required: false
+        type: number
+        default: 10
+      MAX_UPLOAD_SIZE:
+        required: false
+        type: string
+        default: "100M"
+        
+
+    secrets:
+      LICENSE_PLATE:
+        required: true
+      DB_PASS:
+        required: true
+      TFC_TEAM_TOKEN:
+        required: true
+      SMTP_PASSWORD:
+        required: true
+      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
+        required: true
+      WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET:
+        required: true
+      API_KEY:
+        required: true
+      SNS_EMAIL_TARGETS:
+        required: true
+      CLOUDFRONT_HEADER:
+        required: true
+
+env:
+  TF_VERSION: 1.2.2
+  TG_VERSION: 0.37.1
+  TG_SRC_PATH: terraform
+  TFC_WORKSPACE: wfnews-${{ inputs.TARGET_ENV }}
+  REPOSITORY: ghcr.io
+
+jobs:
+  plan:
+    name: Deploy
+    runs-on: ubuntu-22.04
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+
+      - uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
+
+      - uses: peter-murray/terragrunt-github-action@v1.0.0
+        with:
+          terragrunt_version: ${{ env.TG_VERSION }}
+      
+      - name: Terragrunt Apply
+        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
+        env:
+          # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
+          # AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+          TARGET_ENV: ${{ inputs.TARGET_ENV }}
+          GITHUB_RELEASE_NAME: ${{inputs.GITHUB_RELEASE_NAME}}
+          CLIENT_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.CLIENT_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          
+          CLIENT_CPU_UNITS: ${{inputs.CLIENT_CPU_UNITS}}
+          CLIENT_MEMORY: ${{inputs.CLIENT_MEMORY}}
+          SERVER_CPU_UNITS: ${{inputs.SERVER_CPU_UNITS}}
+          SERVER_MEMORY: ${{inputs.SERVER_MEMORY}}
+          DB_INSTANCE_TYPE: ${{inputs.DB_INSTANCE_TYPE}}
+          LOGGING_LEVEL: ${{inputs.LOGGING_LEVEL}}
+          INSTANCE_COUNT: ${{inputs.INSTANCE_COUNT}}
+          CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
+
+          API_KEY: ${{ secrets.API_KEY }}
+          TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
+          DB_PASS: ${{ secrets.DB_PASS }}
+          DB_SIZE: ${{ inputs.DB_SIZE }}
+          MAX_UPLOAD_SIZE: ${{ inputs.MAX_UPLOAD_SIZE }}
+          ALB_NAME: ${{ inputs.ALB_NAME }}
+          VPC_NAME: ${{ inputs.VPC_NAME }}
+          SUBNET_FILTER: ${{ inputs.SUBNET_FILTER }}
+
+          DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
+          EMAIL_NOTIFICATIONS_ENABLED: ${{inputs.EMAIL_NOTIFICATIONS_ENABLED}}
+          SMTP_ADMIN_ADDRESS: ${{inputs.SMTP_ADMIN_ADDRESS}}
+          SMTP_EMAIL_SYNC_ERROR_SUBJECT: ${{inputs.SMTP_EMAIL_SYNC_ERROR_SUBJECT}}
+          SMTP_EMAIL_SYNC_SEND_FREQ: ${{inputs.SMTP_EMAIL_SYNC_SEND_FREQ}}
+          SMTP_EMAIL_SYNC_SUBJECT: ${{inputs.SMTP_EMAIL_SYNC_SUBJECT}}
+          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{inputs.SMTP_EMAIL_SYNC_ERROR_FREQ}}
+          SMTP_FROM_ADDRESS: ${{inputs.SMTP_FROM_ADDRESS}}
+          SMTP_HOST_NAME: ${{inputs.SMTP_HOST_NAME}}
+          SMTP_CREDENTIALS_USER: ${{inputs.SMTP_CREDENTIALS_USER}}
+          SMTP_CREDENTIALS_PASSWORD: ${{secrets.SMTP_PASSWORD}}
+          SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
+          
+          WEBADE_OAUTH2_CHECK_TOKEN_URL: ${{inputs.WEBADE_OAUTH2_CHECK_TOKEN_URL}}
+          WEBADE_OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
+          WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
+          WEBADE_OAUTH2_WFONE_NOTIFICATIONS_API_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFONE_NOTIFICATIONS_REST_CLIENT_SECRET}}
+
+          WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
+          WFIM_CODE_TABLES_URL: ${{inputs.WFIM_CODE_TABLES_URL}}
+          
+        run: terragrunt apply --terragrunt-non-interactive -auto-approve
+
