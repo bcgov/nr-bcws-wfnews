@@ -282,6 +282,10 @@ tasks = {
         {
           name  = "DB_PASS"
           value = "${var.db_pass}"
+        },
+        {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
         }
     ]
   },
