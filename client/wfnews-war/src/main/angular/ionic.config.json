@@ -1,5 +1,12 @@
 {
-  "name": "wfnews",
-  "integrations": {},
-  "type": "angular"
+  "defaultProject": "WFNEWS",
+  "projects": {
+    "WFNEWS": {
+      "name": "WFNEWS",
+      "integrations": {
+        "capacitor": {}
+      },
+      "type": "angular"
+    }
+  }
 }

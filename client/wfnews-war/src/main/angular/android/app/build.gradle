@@ -1,10 +1,13 @@
-apply plugin: 'com.android.application'
+plugins {
+  id 'com.android.application'
+  id 'com.google.gms.google-services'
+}
 
 android {
-    namespace "wfnews.nrs.gov.bc.ca"
+    namespace "ca.bc.gov.WildfireInformation"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "wfnews.nrs.gov.bc.ca"
+        applicationId "ca.bc.gov.WildfireInformation"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -40,6 +43,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 apply from: 'capacitor.build.gradle'

@@ -6,6 +6,355 @@ resource "aws_ecs_cluster" "wfnews_main" {
   tags = local.common_tags
 }
 
+tasks = {
+  wfnews_server = {
+    family = "wfnews-server-task-${var.target_env}",
+    cpu = var.server_cpu_units,
+    memory = var.server_memory,
+    port = [{
+          protocol      = "tcp"
+          containerPort = var.server_port
+          hostPort      = var.server_port
+    }],
+    environment = [
+        {
+          name  = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
+        {
+          name  = "DB_NAME"
+          value = "${aws_db_instance.wfnews_pgsqlDB.name}"
+        },
+        {
+          name  = "AWS_REGION",
+          value = var.aws_region
+        },
+        {
+          name  = "bucketName",
+          value = aws_s3_bucket.wfnews_upload_bucket.id
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WEBADE_OAUTH2_REST_CLIENT_ID
+        },
+        {
+          name  = "WEBADE-OAUTH2_TOKEN_CLIENT_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
+        },
+        {
+          name  = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
+        },
+        {
+          name  = "WFDM_REST_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name  = "WFIM_CLIENT_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name  = "WFIM_CODE_TABLES_URL",
+          value = var.WFIM_CODE_TABLES_URL
+        },
+        {
+          name  = "WEBADE-OAUTH2_CHECK_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name  = "WFNEWS_EMAIL_NOTIFICATIONS_ENABLED_IND",
+          value = var.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name  = "SMTP_HOST_NAME",
+          value = var.SMTP_HOST_NAME
+        },
+        {
+          name  = "SMTP_PASSWORD",
+          value = var.SMTP_PASSWORD
+        },
+        {
+          name  = "SMTP_FROM_EMAIL",
+          value = var.SMTP_FROM_EMAIL
+        },
+        {
+          name  = "SMTP_ADMIN_EMAIL",
+          value = var.SMTP_ADMIN_EMAIL
+        },
+        {
+          name  = "SMTP_EMAIL_SYNC_ERROR_FREQ",
+          value = var.SMTP_EMAIL_SYNC_ERROR_FREQ
+        },
+        {
+          name  = "SMTP_EMAIL_FREQ",
+          value = var.SMTP_EMAIL_FREQ
+          }, {
+          name  = "SMTP_EMAIL_ERROR_SUBJECT",
+          value = var.SMTP_EMAIL_ERROR_SUBJECT
+        },
+        {
+          name  = "SMTP_EMAIL_SUBJECT",
+          value = var.SMTP_EMAIL_SUBJECT
+        },
+        {
+          name  = "DEFAULT_APPLICATION_ENVIRONMENT",
+          value = var.DEFAULT_APPLICATION_ENVIRONMENT
+        },
+        {
+          name  = "WFNEWS_AGOL_QUERY_URL",
+          value = var.WFNEWS_AGOL_QUERY_URL
+        },
+        {
+          name  = "WFNEWS_DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+        },
+        {
+          name  = "WFNEWS_USERNAME",
+          value = var.WFNEWS_USERNAME
+        },
+        {
+          name  = "WFNEWS_MAX_CONNECTIONS",
+          value = var.WFNEWS_MAX_CONNECTIONS
+        },
+        {
+          name  = "DB_PASS",
+          value = "${var.db_pass}"
+        },
+        # Access keys and secret keys are not needed when using container-based authentication
+        # {
+        #   name = "WFNEWS_SNS_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_SNS_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_ACCESS_KEY",
+        #   value = "${var.aws_access_key_id}"
+        # },
+        # {
+        #   name = "WFNEWS_S3_SECRET",
+        #   value = "${var.aws_secret_access_key}"
+        # },
+        {
+          name  = "WFNEWS_ACCESS_KEY_ID",
+          value = "${var.aws_access_key_id}"
+        },
+        {
+          name  = "WFNEWS_SECRET_ACCESS_KEY",
+          value = "${var.aws_secret_access_key}"
+        },
+        {
+          name  = "WFNEWS_SNS_TOPIC_ARN",
+          value = "${aws_sns_topic.wfnews_sns_topic.arn}"
+        },
+        {
+          name  = "WFNEWS_S3_BUCKET_NAME",
+          value = "${aws_s3_bucket.wfnews_upload_bucket.bucket}"
+        },
+        {
+          name  = "API_KEY",
+          value = "${var.api_key}"
+        }
+    ],
+    name = var.server_container_name,
+    image = var.server_image
+  },
+  wfnews_client = {
+    family = "wfnews-client-task-${var.target_env}",
+    cpu                      = var.client_cpu_units,
+    memory                   = var.client_memory,
+    port = [{
+          protocol      = "tcp"
+          containerPort = var.client_port
+          hostPort      = var.client_port
+        }],
+    environment = [
+        {
+          name  = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
+        {
+          name  = "AWS_REGION",
+          value = var.aws_region
+        },
+        {
+          name  = "bucketName",
+          value = aws_s3_bucket.wfnews_upload_bucket.id
+        },
+        {
+          #Base URL will use the 
+          name  = "BASE_URL",
+          value = var.target_env == "prod" ? "https://${var.gov_client_url}/" : "https://${aws_route53_record.wfnews_client.name}/"
+        },
+        {
+          name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
+        },
+        {
+          name  = "WEBADE-OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE-OAUTH2_CHECK_TOKEN_V2_URL"
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name  = "WFIM_API_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name  = "WFDM_API_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name  = "ORG_UNIT_URL",
+          value = ""
+        },
+        { //Will be phased out from prod eventually, but not yet
+          name  = "WFNEWS_API_URL",
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_apisix.name}/"
+        },
+        {
+          name  = "WFNEWS_API_KEY",
+          value = "${var.api_key}"
+        },
+        {
+          name  = "WEBADE_OAUTH2_AUTHORIZE_URL",
+          value = var.WEBADE_OAUTH2_AUTHORIZE_URL
+        },
+        {
+          name  = "APPLICATION_ENVIRONMENT",
+          value = var.target_env != "prod" ? var.target_env : " "
+        },
+        {
+          name  = "AGOL_URL",
+          value = var.agolUrl
+        },
+        {
+          name  = "DRIVEBC_BASE_URL",
+          value = var.drivebcBaseUrl
+        },
+        {
+          name  = "OPENMAPS_BASE_URL",
+          value = var.openmapsBaseUrl
+        },
+        {
+          name  = "SITEMINDER_URL_PREFIX",
+          value = var.siteMinderURLPrefix
+        },
+        {
+          name  = "AGOL_AREA_RESTRICTIONS",
+          value = var.agolAreaRestrictions
+        },
+        {
+          name  = "AGOL_BANS_AND_PROHIBITIONS",
+          value = var.agolBansAndProhibitions
+        }
+
+      ]
+  },
+  wfnews_liquibase = {
+    family                   = "wfnews-liquibase-task-${var.target_env}",
+    cpu                      = var.server_cpu_units,
+    memory                   = var.server_memory,
+    port = [{
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }],
+    environment = [
+        {
+          name  = "DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
+        },
+        {
+          name  = "DB_USER",
+          value = "${aws_db_instance.wfnews_pgsqlDB.username}"
+        },
+        {
+          name  = "DB_PASS"
+          value = "${var.db_pass}"
+        }
+    ]
+  },
+  wfnews_apisix = {
+    family                   = "wfnews-apisix-task-${var.target_env}",
+    cpu                      = var.server_cpu_units,
+    memory                   = var.server_memory,
+    port =[{
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
+        },
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[1]
+          hostPort      = var.apisix_ports[1]
+        }],
+    environment = [
+        {
+          name  = "LOGGING_LEVEL"
+          value = "${var.logging_level}"
+        },
+        {
+          name  = "API_KEY",
+          value = "${var.api_key}"
+        },
+        {
+          name  = "TARGET_ENV",
+          value = "${var.target_env}"
+        },
+        {
+          name  = "LICENSE_PLATE",
+          value = "${var.license_plate}"
+        },
+        {
+          name  = "MAX_SIZE",
+          value = "${var.max_upload_size}"
+        }
+      ]
+  }
+}
+
+resource "aws_ecs_task_definition" "wfnews_tasks" {
+  for_each = var.tasks
+  family                   = each.value.family
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = each.value.cpu
+  memory                   = each.value.memory
+  tags                     = local.common_tags
+  container_definitions = jsonencode ([
+    {
+      essential   = true
+      name = each.value.name
+      image = each.value.image
+      cpu                      = each.value.cpu
+      memory                   = each.value.memory
+      networkMode = "awsvpc"
+      portMappings = each.value.port,
+      environment = each.value.environment
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${each.value.name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+    }
+  ])
+}
+
 resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
   cluster_name = aws_ecs_cluster.wfnews_main.name
 
@@ -18,6 +367,8 @@ resource "aws_ecs_cluster_capacity_providers" "wfnews_main_providers" {
   }
 }
 
+
+/*
 resource "aws_ecs_task_definition" "wfnews_server" {
   family                   = "wfnews-server-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
@@ -350,17 +701,17 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           awslogs-stream-prefix = "ecs"
         }
       }
-      mountPoints = [/*
-        {
-          sourceVolume = "logging"
-          containerPath = "/usr/local/tomcat/logs"
-          readOnly = false
-        },
-        {
-          sourceVolume = "work"
-          containerPath = "/usr/local/tomcat/work"
-          readOnly = false
-        }*/]
+      mountPoints = [
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/usr/local/tomcat/logs"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "work"
+        #   containerPath = "/usr/local/tomcat/work"
+        #   readOnly = false
+        # }]
       volumesFrom = []
     }
   ])
@@ -413,6 +764,10 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
         }
       ]
       environment = [
+        {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
+        },   
         {
           name  = "DB_URL",
           value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
@@ -614,7 +969,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
     }
   ])
 }
-
+*/
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
@@ -761,7 +1116,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
   name                              = "wfnews-liquibase-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_liquibase.arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_liquibase].arn
   desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -796,7 +1151,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
 resource "aws_ecs_service" "wfnews_main" {
   name                              = "wfnews-server-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_server.arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_server].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -835,7 +1190,7 @@ resource "aws_ecs_service" "wfnews_main" {
 resource "aws_ecs_service" "client" {
   name                              = "wfnews-client-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_client.arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_client].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -874,7 +1229,7 @@ resource "aws_ecs_service" "client" {
 resource "aws_ecs_service" "apisix" {
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_apisix.arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_apisix].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -911,12 +1266,157 @@ resource "aws_ecs_service" "apisix" {
   tags = local.common_tags
 }
 
+resource "aws_ecs_task_definition" "notifications_liquibase" {
+  family                   = "notifications-liquibase-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.server_cpu_units
+  #   volume {
+  #   name = "cache"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "run"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "nginx"
+  # }
+  # volume {
+  #   name = "nginx-lib"
+  # }
+  # volume {
+  #   name = "local"
+  # }
+  memory = var.server_memory
+  tags   = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = var.notifications_liquibase_container_name
+      image       = var.notifications_liquibase_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }
+      ]
+      environment = [
+        {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
+        },
+        {
+          name  = "DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.notifications_pgsqlDB.endpoint}/${aws_db_instance.notifications_pgsqlDB.name}"
+        },
+        {
+          name  = "DB_USER",
+          value = "${aws_db_instance.notifications_pgsqlDB.username}"
+        },
+        {
+          name  = "DB_PASS"
+          value = "${var.db_pass}"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.notifications_liquibase_container_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = [
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/var/log"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "cache"
+        #   containerPath = "/var/cache/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "run"
+        #   containerPath = "/var/run"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx"
+        #   containerPath = "/etc/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx-lib"
+        #   containerPath = "/var/lib/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "local"
+        #   containerPath = "/liquibase"
+        #   readOnly = false
+        # }
+      ]
+      volumesFrom = []
+    }
+  ])
+}
+
+resource "aws_ecs_service" "notifications_liquibase" {
+  count                             = 1
+  name                              = "notifications-liquibase-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.notifications_liquibase.arn
+  desired_count                     = 1
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 100
+    base              = 1
+  }
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.app.ids
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
+    container_name   = var.liquibase_container_name
+    container_port   = var.db_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
+
 /*
 resource "aws_ecs_service" "etcd" {
   count                             = 0
   name                              = "wfnews-etcd-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_etcd[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_etcd[count.index]].arn
   desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -969,7 +1469,7 @@ resource "aws_ecs_service" "apisix_gui" {
   count                             = 0 #TODO: RE-ENABLE WHEN ETCD WORKING
   name                              = "wfnews-apisix-gui-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_apisix_gui[count.index].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_apisix_gui[count.index]].arn
   desired_count                     = 0
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"

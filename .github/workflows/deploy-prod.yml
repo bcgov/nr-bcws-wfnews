@@ -1,27 +1,36 @@
 name: Deploy Prod
 
 env:
-  REGISTRY: ghcr.io
-  NPMRC: ${{ secrets.NPMRC }}
-  CLIENT_IMAGE_NAME: nr-bcws-wfnews-client
-  SERVER_IMAGE_NAME: nr-bcws-wfnews-server
-  LIQUIBASE_IMAGE_NAME: nr-bcws-wfnews-liquibase
-  APISIX_IMAGE_NAME: nr-bcws-wfnews-apisix
+  IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
   
 on:
   release:
     types: [released]
+  workflow_dispatch:
+    inputs:
+      IS_HOTFIX:
+        description: 'Is this a hotfix?'
+        required: false
+        type: boolean
+        default: false
     
 jobs:
 
   tag-images:
     runs-on: ubuntu-22.04
+    environment: PROD
 
     outputs:
       tag-value: ${{ steps.get-release-tag.outputs.tag-value }}
 
     steps:
       - uses: actions/checkout@v3
+        if: ${{ inputs.IS_HOTFIX == false }}
+    
+      - uses: actions/checkout@v3
+        if: ${{ inputs.IS_HOTFIX == true }}
+        with:
+          ref: ${{ inputs.BRANCH }}
 
       - uses: GuillaumeFalourd/assert-command-line-output@v2.1
         with:
@@ -38,29 +47,29 @@ jobs:
 
       - name: Tag client image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.CLIENT_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.CLIENT_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag server image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.SERVER_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.SERVER_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag liquibase image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.LIQUIBASE_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - name: Tag apisix image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ env.APISIX_IMAGE_NAME }}:${GITHUB_REF#refs/tags/}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:${{ env.IMAGE_TAG }}
 
-      - run: echo ::set-output name=tag-value::${GITHUB_REF#refs/tags/} 
+      - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
         id: get-release-tag
       
 
@@ -68,58 +77,11 @@ jobs:
     needs: tag-images
     uses: ./.github/workflows/terragrunt-deploy.yml
     with:
-      REGISTRY: ghcr.io
-      #Server and Image name get PR number as appropriate inside deploy step
-      CLIENT_IMAGE: nr-bcws-wfnews-client
-      SERVER_IMAGE: nr-bcws-wfnews-server
-      LIQUIBASE_IMAGE: nr-bcws-wfnews-liquibase
-      APISIX_IMAGE: nr-bcws-wfnews-apisix
-
-      #1024 CPU units = 1 vCPU
-      CLIENT_CPU_UNITS: 2048
-      CLIENT_MEMORY: 4096
-      SERVER_CPU_UNITS: 2048 
-      SERVER_MEMORY: 8192
-      DB_INSTANCE_TYPE: 'db.t3.medium'
-      INSTANCE_COUNT: 2
-
-      LOGGING_LEVEL: INFO
-
-      TARGET_ENV: prod
-      ALB_NAME: default
-      VPC_NAME: Prod_vpc
-      SUBNET_FILTER: App
-      WEBADE_OAUTH2_UI_CLIENT_ID: WFNEWS-UI
-      WEBADE_OAUTH2_REST_CLIENT_ID: WFNEWS-REST
-      WEBADE-OAUTH2_TOKEN_CLIENT_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true&grant_type=client_credentials
-      WEBADE-OAUTH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
-      WEBADE_OAUTH2_AUTHORIZE_URL: https://apps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize
-      WFDM_REST_URL: https://bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api/
-      WFIM_CLIENT_URL: https://bcwsapi.nrs.gov.bc.ca/wfim-incidents-api/
-      WFIM_CODE_TABLES_URL: https://bcwsapi.nrs.gov.bc.ca/wfim-incidents-api/codeTables
-      WEBADE-OAUTH2_CHECK_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/check_token?disableDeveloperFilter=true
-      WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: true
-      SMTP_HOST_NAME: apps.smtp.gov.bc.ca
-      SMTP_FROM_EMAIL: no-email@gov.bc.ca
-      SMTP_ADMIN_EMAIL: fake-email@mail.ignoreme
-      SMTP_EMAIL_SYNC_ERROR_FREQ: 10
-      SMTP_EMAIL_FREQ: 10
-      SMTP_EMAIL_ERROR_SUBJECT: WFNEWS API Error Subject [PROD]
-      SMTP_EMAIL_SUBJECT: WFNEWS API Error [PROD]
       DEFAULT_APPLICATION_ENVIRONMENT: PROD
-      WFNEWS_AGOL_QUERY_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/query?where=
-      WFNEWS_USERNAME: wfnewsprod
-      WFNEWS_MAX_CONNECTIONS: 400
       IMAGE_TAG: ${{ needs.tag-images.outputs.tag-value }}
-      AGOL_URL: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services
-      DRIVEBC_BASE_URL: https://maps.th.gov.bc.ca/geoV05/ows
-      OPENMAPS_BASE_URL: https://openmaps.gov.bc.ca/geo/pub/ows
-      SITEMINDER_URL_PREFIX: https://logon7.gov.bc.ca/clp-cgi/logoff.cgi?returl=
-      AGOL_AREA_RESTRICTIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Area_Restrictions_-_View/FeatureServer/13
-      AGOL_BANS_AND_PROHIBITIONS: https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/
-      GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
-      DB_SIZE: 20
-      MAX_UPLOAD_SIZE: 100M
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      TARGET_ENV: prod
+
       VISIBILITY_TIMEOUT_SECONDS: 100
       ACCEPTED_IPS: ""
       PUSH_NOTIFICATION_AWS_USER: ""
@@ -134,12 +96,12 @@ jobs:
       FUNCTION_BUCKET: "wfnews-lambdas"
 
     secrets:
-      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_PROD }}
-      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
-      DB_PASS: ${{ secrets.PROD_DB_PASS }}
-      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
-      SMTP_PASSWORD: ${{ secrets.PROD_SMTP_PASSWORD }}
-      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.PROD_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}    
-      WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.PROD_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
       API_KEY: ${{ secrets.API_KEY_PROD }}
+      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_PROD }}
+      DB_PASS: ${{ secrets.PROD_DB_PASS }}
+      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
+      SMTP_PASSWORD: ${{ secrets.PROD_SMTP_PASSWORD }}
       SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_PROD }}
+      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
+      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.PROD_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
+      WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.PROD_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
