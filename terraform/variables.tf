@@ -369,12 +369,6 @@ variable "liquibase_image" {
   default     = ""
 }
 
-variable "notificatinos_liquibase_image" {
-  description = "Full name of notifications liquibase image"
-  type        = string
-  default     = ""
-}
-
 variable "apisix_name" {
   description = "Name of apisix app"
   type        = string
