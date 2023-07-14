@@ -23,11 +23,6 @@ on:
       TAG:
         required: false
         type: string
-    secrets:
-      IDIR_AS_EMAIL:
-        required: true
-      IDIR_PASSWORD:
-        required: true
 
 jobs:
   build:

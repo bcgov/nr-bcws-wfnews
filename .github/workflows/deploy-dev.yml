@@ -40,15 +40,6 @@ jobs:
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
 
-  call-mvn-server:
-    uses: ./.github/workflows/mvn-server.yml
-    #SMTP_PASSWORD, DV_PASSWORD AND TFC_PROJECT ARE STORED AS SECRET
-    with:
-      ENVIRONMENT: DEV
-      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
-      BRANCH: ${{ vars.PATCH_BRANCH }}
-      TAG: ${{ vars.HOTFIX_TAG }}
-
   wfnews-api-server-build:
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
