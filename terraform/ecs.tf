@@ -765,6 +765,10 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       ]
       environment = [
         {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
+        },   
+        {
           name  = "DB_URL",
           value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
@@ -1529,6 +1533,151 @@ resource "aws_ecs_service" "apisix" {
     target_group_arn = aws_alb_target_group.wfnews_apisix.id
     container_name   = var.apisix_container_name
     container_port   = var.apisix_ports[0]
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
+
+resource "aws_ecs_task_definition" "notifications_liquibase" {
+  family                   = "notifications-liquibase-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.server_cpu_units
+  #   volume {
+  #   name = "cache"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "run"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "logging"
+  #   emptyDir = {}
+  # }
+  # volume {
+  #   name = "nginx"
+  # }
+  # volume {
+  #   name = "nginx-lib"
+  # }
+  # volume {
+  #   name = "local"
+  # }
+  memory = var.server_memory
+  tags   = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = var.notifications_liquibase_container_name
+      image       = var.notifications_liquibase_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.db_port
+          hostPort      = var.db_port
+        }
+      ]
+      environment = [
+        {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
+        },
+        {
+          name  = "DB_URL",
+          value = "jdbc:postgresql://${aws_db_instance.notifications_pgsqlDB.endpoint}/${aws_db_instance.notifications_pgsqlDB.name}"
+        },
+        {
+          name  = "DB_USER",
+          value = "${aws_db_instance.notifications_pgsqlDB.username}"
+        },
+        {
+          name  = "DB_PASS"
+          value = "${var.db_pass}"
+        }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.notifications_liquibase_container_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = [
+        # {
+        #   sourceVolume = "logging"
+        #   containerPath = "/var/log"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "cache"
+        #   containerPath = "/var/cache/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "run"
+        #   containerPath = "/var/run"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx"
+        #   containerPath = "/etc/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "nginx-lib"
+        #   containerPath = "/var/lib/nginx"
+        #   readOnly = false
+        # },
+        # {
+        #   sourceVolume = "local"
+        #   containerPath = "/liquibase"
+        #   readOnly = false
+        # }
+      ]
+      volumesFrom = []
+    }
+  ])
+}
+
+resource "aws_ecs_service" "notifications_liquibase" {
+  count                             = 1
+  name                              = "notifications-liquibase-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.notifications_liquibase.arn
+  desired_count                     = 1
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 100
+    base              = 1
+  }
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.app.ids
+    assign_public_ip = true
+  }
+
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
+    container_name   = var.liquibase_container_name
+    container_port   = var.db_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
