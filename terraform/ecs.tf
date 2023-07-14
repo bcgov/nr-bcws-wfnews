@@ -1121,6 +1121,125 @@ resource "aws_ecs_task_definition" "wfss_pointid_api" {
   ])
 }
 
+resource "aws_ecs_task_definition" "wfone_notifications_api" {
+  family                   = "wfone-notifications-api-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  tags                     = local.common_tags
+
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = var.wfone_notifications_api_container_name
+      image       = var.wfone_notifications_api_image
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [
+        {
+          protocol      = "tcp"
+          containerPort = var.wfone_notifications_api_ports[0]
+          hostPort      = var.wfone_notifications_api_ports[0]
+        }
+      ]
+      environment = [
+        {
+          name  = "DATASOURCE_MAX_CONNECTIONS",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
+        },
+        {
+          name  = "DATASOURCE_PASSWORD",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
+        },
+        {
+          name  = "DATASOURCE_URL",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
+        },
+        {
+          name  = "DATASOURCE_USER",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
+        },
+        {
+          name  = "EMAIL_ADMIN_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL
+        },
+        {
+          name  = "EMAIL_FROM_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL
+        },
+        {
+          name  = "EMAIL_NOTIFICATIONS_ENABLED",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT
+        },
+        {
+          name  = "PUSH_ITEM_EXPIRE_HOURS",
+          value = var.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS
+        },
+        {
+          name  = "QUARTZ_CONSUMER_INTERVAL_SECONDS",
+          value = var.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS
+        },
+        {
+          name  = "SMTP_CREDENTIALS_PASSWORD",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD
+        },
+        {
+          name  = "SMTP_CREDENTIALS_USER",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER
+        },
+        {
+          name  = "SMTP_HOST_NAME",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
+          name  = "WEBADE_OAUTH2_REST_CLIENT_SECRET",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET
+        },
+        {
+          name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID
+        },
+        {
+          name  = "WFSS_POINTID_URL",
+          value = var.WFSS_POINTID_URL
+        },
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.wfone_notifications_api_names[0]}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+    }
+  ])
+}
+
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
