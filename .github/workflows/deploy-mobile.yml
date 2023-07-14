@@ -22,12 +22,14 @@ on:
 jobs:
   build-android:
     uses: ./.github/workflows/android.yml
+    secrets: inherit
     with:
       build_environment: ${{ inputs.build_environment }}
       upload_to_play_store: ${{ inputs.upload_to_store }}
 
   build-ios:
     uses: ./.github/workflows/ios.yml
+    secrets: inherit
     with:
       build_environment: ${{ inputs.build_environment }}
       upload_to_app_store: ${{ inputs.upload_to_store }}

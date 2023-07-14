@@ -27,8 +27,13 @@ def capacitor_pods
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
 end
 
+def firebase_pods
+  pod 'FirebaseAnalytics'
+end
+
 target 'App' do
   capacitor_pods
+  firebase_pods
   # Add your Pods here
 end
 
