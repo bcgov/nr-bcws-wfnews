@@ -174,6 +174,7 @@ on:
         required: false
         type: number
         default: 1500
+     
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -334,6 +335,7 @@ jobs:
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
           WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
+          POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:${{ inputs.IMAGE_TAG }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

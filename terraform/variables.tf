@@ -357,6 +357,12 @@ variable "liquibase_image" {
   default     = ""
 }
 
+variable "pointid-image" {
+  description = "Full name of liquibase image"
+  type        = string
+  default     = ""
+}
+
 variable "apisix_name" {
   description = "Name of apisix app"
   type        = string
