@@ -56,6 +56,13 @@ jobs:
           NPMRC: ${{ secrets.NPMRC }}
         run: echo -e "$NPMRC" > .npmrc
 
+      - name: Add Google Services file
+        working-directory: "${{ env.ANGULAR_DIRECTORY }}/android/app"
+        env:
+          GOOGLE_FILE: ${{ vars.GOOGLE_SERVICES_JSON_BASE64 }}
+        run: |
+          echo -n "$GOOGLE_FILE" > GoogleServices.json
+
       - name: Get XML Info
         id: version
         uses: mavrosxristoforos/get-xml-info@1.1.1
