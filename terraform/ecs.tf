@@ -1112,7 +1112,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
   name                              = "wfnews-liquibase-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_liquibase].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_liquibase"].arn
   desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1147,7 +1147,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
 resource "aws_ecs_service" "wfnews_main" {
   name                              = "wfnews-server-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_server].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_server"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1186,7 +1186,7 @@ resource "aws_ecs_service" "wfnews_main" {
 resource "aws_ecs_service" "client" {
   name                              = "wfnews-client-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_client].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_client"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1225,7 +1225,7 @@ resource "aws_ecs_service" "client" {
 resource "aws_ecs_service" "apisix" {
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_apisix].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_apisix"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
