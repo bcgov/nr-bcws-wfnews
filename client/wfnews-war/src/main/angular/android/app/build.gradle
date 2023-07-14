@@ -1,4 +1,7 @@
-apply plugin: 'com.android.application'
+plugins {
+  id 'com.android.application'
+  id 'com.google.gms.google-services'
+}
 
 android {
     namespace "ca.bc.gov.WildfireInformation"
@@ -40,6 +43,8 @@ dependencies {
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"
     implementation project(':capacitor-cordova-android-plugins')
+    implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
+    implementation 'com.google.firebase:firebase-analytics'
 }
 
 apply from: 'capacitor.build.gradle'
