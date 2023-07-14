@@ -1,3 +1,5 @@
+# Used for validation and not in use in codebase
+
 name: Plan using terragrunt
 
 on:
