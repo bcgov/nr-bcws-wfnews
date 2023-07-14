@@ -434,7 +434,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
 
   condition {
     host_header {
-      values = [for sn in var.pointid_names : "${sn}.*"]
+      values = [for sn in var.wfone_notifications_api_names : "${sn}.*"]
     }
   }
   condition {
