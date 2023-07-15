@@ -727,7 +727,6 @@ variable "pointid_container_name" {
 }
 
 variable "wfone_notifications_api_container_name" {
-  description = "Name of DB container"
   default     = "wfone-notifications-api"
   type        = string
 }
