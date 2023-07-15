@@ -423,12 +423,10 @@ tasks = {
           name  = "WEBADE_OAUTH2_TOKEN_URL",
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
-        
         {
           name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
           value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID
         },
-        
         {
           name  = "WFDM_REST_URL",
           value = var.WFDM_REST_URL
@@ -1096,7 +1094,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
     }
   ])
 }
-
+*/
 /*
 resource "aws_ecs_task_definition" "wfnews_etcd" {
   count                    = 1
