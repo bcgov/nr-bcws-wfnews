@@ -13,6 +13,12 @@ import { RoFCommentsPage } from "./comment-page/rof-comments-page.component";
 import { RoFReviewPage } from "./review-page/rof-review-page.component";
 import { Router } from "@angular/router";
 
+enum PageOperation {
+  Next = 1,
+  Skip,
+  previous
+}
+
 /**
  * Report of Fire parent container. This will hold the reportOfFire data
  * (which may move to local storage with the offline support, so a temp thing for now)
@@ -26,7 +32,7 @@ import { Router } from "@angular/router";
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   public reportOfFire: ReportOfFire;
   public pageComponents: Array<ComponentRef<any>> = [];
-  public pageIndex = 0;
+  public currentPage: ComponentRef<any>;
   public allowExit = false;
   public allowSkip = false;
   public showProgress = false;
@@ -86,20 +92,14 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       if (component) {
         component.instance.initialize(page, index, this.reportOfFire);
 
-        // handle the potentially dynamic skip and previous behaviour
-        // some pages may need to skip multiple indexs or go back
-        // multiple indexes
-        if (!page.previousIndex) page.previousIndex = 1
-        if (!page.skipIndex) page.skipIndex = 1
-
         if (page.showProgress && !this.progressSteps.includes(page.title)) {
           this.progressSteps.push(page.title)
         }
 
         // button definitions for go back, next question, and skip question.
-        component.instance.previous = () => { this.selectPage(index - page.previousIndex) }
-        component.instance.next = () => { this.selectPage(index + 1) }
-        component.instance.skip = () => { this.selectPage(index + page.skipIndex) }
+        component.instance.previous = () => { this.selectPage(component.instance.previousId, PageOperation.previous) }
+        component.instance.next = () => { this.selectPage(component.instance.nextId, PageOperation.Next) }
+        component.instance.skip = () => { this.selectPage(component.instance.skipId || component.instance.nextId, PageOperation.Skip) }
         component.instance.close = () => { this.exit() }
 
         // Keep track of the component so we can easily page
@@ -115,45 +115,51 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
 
   ngAfterContentInit() {
     // Once we're initialized and loaded, select the first page
-    this.selectPage(0)
+    this.currentPage = this.pageComponents.find(c => c.instance.isStartPage) || this.pageComponents[0];
+    this.selectPage(this.currentPage.instance.id, PageOperation.Next);
   }
 
   /**
    * Page selection for navigation of the RoF forms
    * @param index The page index. Zero-based
    */
-  selectPage (index: number) {
+  selectPage (pageId: string, operation: PageOperation) {
+    if (!pageId) {
+      return;
+    }
+
     // If the container is currently displaying a form, we want to
     // detach it before pushing another one in. Detach, do not destroy
     if (this.dynamicContainer.length > 0) {
-      // But, before we detach it, granb the components RoF instance and update to the parent instance
+      // But, before we detach it, grab the components RoF instance and update to the parent instance
       // just in case of missed changes
-      this.updateReportOfFire(this.pageComponents[index].instance.reportOfFire, this.pageComponents[index].instance.updateAttribute)
+      this.updateReportOfFire(this.currentPage.instance.reportOfFire, this.currentPage.instance.updateAttribute)
       this.dynamicContainer.detach(0)
     }
 
+    const nextPage = this.pageComponents.find(c => c.instance.id === pageId);
+
     // For progress bar handling. If the page tracks progress and isn't a sub-page (title match), then incrememnt
     // or decrement the progress bar depending on if we're going to next or previous
-    if (this.pageIndex < index && this.pageComponents[index].instance.showProgress && this.pageComponents[index].instance.title !== this.pageComponents[this.pageIndex].instance.title) {
+    if (operation !== PageOperation.previous && nextPage.instance.showProgress && nextPage.instance.title !== this.currentPage.instance.title) {
       this.currentStep++;
-    } else if (this.pageIndex > index && this.pageComponents[this.pageIndex].instance.showProgress && this.pageComponents[index].instance.title !== this.pageComponents[this.pageIndex].instance.title) {
+    } else if (operation === PageOperation.previous && this.currentPage.instance.showProgress && nextPage.instance.title !== this.currentPage.instance.title) {
       this.currentStep--;
     }
 
     // get the new page index, for progress bar tracking and whatnot
-    this.pageIndex = index;
-    const component = this.pageComponents[index];
+    this.currentPage = nextPage
     // update the component to use the latest parent reportOfFire object, just to be sure
     // all updates are matching on all forms
-    component.instance.reportOfFire = this.reportOfFire;
+    this.currentPage.instance.reportOfFire = this.reportOfFire;
     // and finally insert the component into the container
-    this.dynamicContainer.insert(component.hostView);
+    this.dynamicContainer.insert(this.currentPage.hostView);
 
     // Check if the component allows for the exit, skip buttons, and will display the progress
     // bar at the bottom
-    this.allowExit = component.instance.allowExit;
-    this.allowSkip = component.instance.allowSkip;
-    this.showProgress = component.instance.showProgress;
+    this.allowExit = this.currentPage.instance.allowExit;
+    this.allowSkip = this.currentPage.instance.allowSkip;
+    this.showProgress = this.currentPage.instance.showProgress;
 
     // And finally, just as a safety (but should not be needed), call a detect changes on the form
     this.cdr.detectChanges();
@@ -197,8 +203,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
-    if (this.pageIndex <= this.pageComponents.length - 1) {
-      this.pageComponents[this.pageIndex].instance.skip();
+    if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
+      this.currentPage.instance.skip();
     }
   }
 }

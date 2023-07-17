@@ -1,5 +1,6 @@
 import { Component } from "@angular/core"
 import { ReportOfFire } from "./reportOfFireModel"
+import {v4 as uuidv4} from 'uuid';
 
 /**
  * This is the default page component used for the ROF screens
@@ -13,25 +14,34 @@ import { ReportOfFire } from "./reportOfFireModel"
   template: '<div></div>'
 })
 export class RoFPage {
-  public id: string
-  public index: number
-  public allowSkip: boolean
-  public allowExit: boolean
-  public reportOfFire: ReportOfFire
-  public title: string
-  public message: string
-  public updateAttribute: string
-  public showProgress: boolean
+  public id: string;
+  public previousId: string;
+  public nextId: string;
+  public skipId: string;
+  public isStartPage: boolean;
+  public index: number;
+  public allowSkip: boolean;
+  public allowExit: boolean;
+  public reportOfFire: ReportOfFire;
+  public title: string;
+  public message: string;
+  public updateAttribute: string;
+  public showProgress: boolean;
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     this.allowExit = data.allowExit;
     this.allowSkip = data.allowSkip;
+    this.isStartPage = data.isStartPage || false;
     this.message = data.message;
     this.title = data.title;
     this.showProgress = data.showProgress;
     this.updateAttribute = data.updateAttribute || '';
     this.index = index;
     this.reportOfFire = reportOfFire;
+    this.id = data.id || uuidv4();
+    this.previousId = data.previousId || null;
+    this.nextId = data.nextId || null;
+    this.skipId = data.skipId || null;
   }
 
   previous () {
