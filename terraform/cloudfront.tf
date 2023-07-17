@@ -668,6 +668,100 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
   }
 }
 
+resource "aws_cloudfront_distribution" "wfone_notifications_api" {
+
+  count = var.cloudfront ? 1 : 0
+
+  aliases = ["wfone_notifications_api.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"]
+    }
+
+    domain_name = "wfone_notifications_api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfone_notifications_api_${var.target_env}"
+
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+      "PUT"
+    ]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfone_notifications_api_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  ordered_cache_behavior {
+    path_pattern    = "/static/*"
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+
+    target_origin_id = "wfone_notifications_api_${var.target_env}"
+
+    forwarded_values {
+      query_string = false
+      headers      = ["Origin"]
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+
+  tags = local.common_tags
+
+  viewer_certificate {
+    acm_certificate_arn = var.certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+}
 /*
 resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
 
