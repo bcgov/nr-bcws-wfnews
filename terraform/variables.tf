@@ -211,6 +211,12 @@ variable "liquibase_names" {
   type        = list(string)
 }
 
+variable "notifications_liquibase_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["notifications-liquibase"]
+  type        = list(string)
+}
+
 variable "apisix_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-api"]
@@ -348,6 +354,12 @@ variable "certificate_arn" {
 variable "liquibase_container_name" {
   description = "Name of DB container"
   default     = "wfnews-liquibase-app"
+  type        = string
+}
+
+variable "notifications_liquibase_container_name" {
+  description = "Name of DB container"
+  default     = "notifications-liquibase-app"
   type        = string
 }
 
