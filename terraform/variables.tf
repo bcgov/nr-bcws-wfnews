@@ -155,6 +155,23 @@ variable "pointid_port" {
   default = 8080
 }
 
+variable "wfone_notifications_api_cpu_units" {
+  description = "server CPU units to provision (1 vCPU = 1024 CPU units)"
+  type        = number
+  default     = "512"
+}
+
+variable "wfone_notifications_api_memory" {
+  description = "server memory to provision (in MiB)"
+  type        = number
+  default     = 1024
+}
+
+variable "wfone_notifications_api_port" {
+  type    = number
+  default = 8080
+}
+
 variable "db_instance_type" {
   description = "Instance type to use for database vm"
   type        = string
@@ -211,6 +228,12 @@ variable "liquibase_names" {
   type        = list(string)
 }
 
+variable "notifications_liquibase_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["notifications-liquibase"]
+  type        = list(string)
+}
+
 variable "apisix_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-api"]
@@ -222,6 +245,13 @@ variable "pointid_names" {
   default     = ["wfss-pointid"]
   type        = list(string)
 }
+
+variable "wfone_notifications_api_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfone-notifications-api"]
+  type        = list(string)
+}
+
 # variable "apisix_admin_names" {
 #   description = "List of service names to use as subdomains"
 #   default     = ["wfnews-api-admin"]
@@ -348,6 +378,12 @@ variable "certificate_arn" {
 variable "liquibase_container_name" {
   description = "Name of DB container"
   default     = "wfnews-liquibase-app"
+  type        = string
+}
+
+variable "notifications_liquibase_container_name" {
+  description = "Name of DB container"
+  default     = "notifications-liquibase-app"
   type        = string
 }
 
@@ -690,6 +726,11 @@ variable "pointid_container_name" {
   type        = string
 }
 
+variable "wfone_notifications_api_container_name" {
+  default     = "wfone-notifications-api"
+  type        = string
+}
+
 variable "DATABASE_WEATHER_URL" {
   type    = string
   default = ""
@@ -807,7 +848,7 @@ variable "WEBADE_OAUTH2_CLIENT_ID" {
   default = ""
 }
 
-variable "WEBADE_OATH2_TOKEN_URL" {
+variable "WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
 
