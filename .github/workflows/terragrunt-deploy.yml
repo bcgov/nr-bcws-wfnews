@@ -150,7 +150,7 @@ on:
         required: false
         type: string
         default: ""
-      WEBADE_OATH2_TOKEN_URL:
+      WEBADE_OAUTH2_TOKEN_URL:
         required: false
         type: string
         default: ""
@@ -222,6 +222,12 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
 
+      - name: retrieve lambda artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: lambda-functions
+          path: ${{env.TG_SRC_PATH}}/lambda-functions
+
       - uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: ${{ env.TF_VERSION }}
@@ -243,7 +249,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
           APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
-          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
           CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
           CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
           DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
@@ -258,7 +264,7 @@ jobs:
           MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
           openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
           SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
-          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX == 'true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
           SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
           siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
           SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
@@ -325,7 +331,7 @@ jobs:
           WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{inputs.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
           WFARCGIS_QUEUESIZE: ${{inputs.WFARCGIS_QUEUESIZE }}
           WEBADE_OAUTH2_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_CLIENT_ID }}
-          WEBADE_OATH2_TOKEN_URL: ${{inputs.WEBADE_OATH2_TOKEN_URL }}
+          WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_URL }}
           WEBADE_OAUTH2_CLIENT_SCOPES: ${{inputs.WEBADE_OAUTH2_CLIENT_SCOPES }}
           FIREWEATHER_BASEURL: ${{inputs.FIREWEATHER_BASEURL }}
           FIREWEATHER_QUEUESIZE: ${{inputs.FIREWEATHER_QUEUESIZE }}
@@ -334,6 +340,28 @@ jobs:
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
           WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
+
+          # WFONE NOTIFICATIONS API
+          WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS}}
+          WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD: ${{secrets.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD}}
+          WFONE_NOTIFICATIONS_API_DATASOURCE_URL: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_URL}}
+          WFONE_NOTIFICATIONS_API_DATASOURCE_USER: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_USER}}
+          WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL}}
+          WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL}}
+          WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED}}
+          WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ}}
+          WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT}}
+          WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ}}
+          WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT}}
+          WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS: ${{vars.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS}}
+          WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS: ${{vars.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS}}
+          WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD: ${{secrets.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD}}
+          WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER: ${{vars.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER}}
+          WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME: ${{vars.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME}}
+          WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
+          WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET: ${{secrets.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET}}
+          WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
+          WFSS_POINTID_URL: ${{vars.WFSS_POINTID_URL}}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

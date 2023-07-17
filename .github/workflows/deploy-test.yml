@@ -1,7 +1,7 @@
 name: Deploy Test
 
 env:
-  IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
+  IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}-{1}', vars.PATCH_BRANCH, vars.HOTFIX_TAG) || github.ref_name }}
   
 on:
   release:
@@ -11,8 +11,7 @@ on:
       IS_HOTFIX:
         description: 'Is this a hotfix?'
         required: false
-        type: boolean
-        default: false
+        default: 'false'
     
 jobs:
 
@@ -25,10 +24,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == false }}
+        if: ${{ inputs.IS_HOTFIX != 'true' }}
     
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == true }}
+        if: ${{ inputs.IS_HOTFIX == 'true' }}
         with:
           ref: ${{ inputs.BRANCH }}
 
