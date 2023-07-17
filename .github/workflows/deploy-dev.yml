@@ -116,7 +116,7 @@ jobs:
       WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
       WFARCGIS_QUEUESIZE: 1500
       WEBADE_OAUTH2_CLIENT_ID: WFSS_POINTID_REST
-      WEBADE_OATH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
+      WEBADE_OAUTH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WEBADE_OAUTH2_CLIENT_SCOPES: WFSS.* WFWX.*
       FIREWEATHER_BASEURL: https://bcwsapi.nrs.gov.bc.ca/wfwx-fireweather-api/
       FIREWEATHER_QUEUESIZE: 1500
