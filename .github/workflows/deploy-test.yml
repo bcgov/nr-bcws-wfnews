@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == 'false' }}
+        if: ${{ inputs.IS_HOTFIX != 'true' }}
     
       - uses: actions/checkout@v3
         if: ${{ inputs.IS_HOTFIX == 'true' }}
