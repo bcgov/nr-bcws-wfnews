@@ -264,7 +264,7 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					
 					bytesResponse = Response.status(200)
 							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + "\"")
+							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + getFileExtension(result) + "\"")
 							.header("Content-Length", content.length)
 							.entity(content)
 							.build();
@@ -329,5 +329,10 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		logResponse(response);
 
 		return response;
+	}
+
+
+	private String getFileExtension(AttachmentResource result) {
+		return result.getAttachmentTitle() != null ? result.getAttachmentTitle().substring(result.getAttachmentTitle().lastIndexOf(".")) : "";
 	}
 }
