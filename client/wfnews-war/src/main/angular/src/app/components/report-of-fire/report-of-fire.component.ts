@@ -99,6 +99,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         // button definitions for go back, next question, and skip question.
         component.instance.previous = () => { this.selectPage(component.instance.previousId, PageOperation.previous) }
         component.instance.next = () => { this.selectPage(component.instance.nextId, PageOperation.Next) }
+        // on skip, go to the "skip" id. If unset, go to "next" instead. some pages may use a different
+        // page on skip vs. next.
         component.instance.skip = () => { this.selectPage(component.instance.skipId || component.instance.nextId, PageOperation.Skip) }
         component.instance.close = () => { this.exit() }
 
@@ -114,7 +116,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   }
 
   ngAfterContentInit() {
-    // Once we're initialized and loaded, select the first page
+    // Once we're initialized and loaded, select the startup page or, if unset, the first page
     this.currentPage = this.pageComponents.find(c => c.instance.isStartPage) || this.pageComponents[0];
     this.selectPage(this.currentPage.instance.id, PageOperation.Next);
   }
@@ -137,7 +139,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.dynamicContainer.detach(0)
     }
 
+    // find out what the next page will be
     const nextPage = this.pageComponents.find(c => c.instance.id === pageId);
+
+    if (!nextPage) {
+      console.error('Failed to route to page ' + pageId + ' operation: ' + operation )
+      return;
+    }
 
     // For progress bar handling. If the page tracks progress and isn't a sub-page (title match), then incrememnt
     // or decrement the progress bar depending on if we're going to next or previous
