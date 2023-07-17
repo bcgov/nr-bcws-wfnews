@@ -249,7 +249,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
           APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
-          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
           CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
           CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
           DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
@@ -264,7 +264,7 @@ jobs:
           MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
           openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
           SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
-          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX == 'true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
           SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
           siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
           SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
