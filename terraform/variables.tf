@@ -36,10 +36,17 @@ variable "tasks" {
   description = "Map of the lambda functions"
   type = map(object({
     family      = string
-    cpu         = optional(number, 1024)
-    memory      = optional(number, 2048)
-    port        = list(object)
-    environment = list(object)
+    cpu         = optional(number,1024)
+    memory      = optional(number,2048)
+    port        = list(object({
+      protocol = string
+      containerPort = number
+      hostPort = number
+    }))
+    environment = list(object({
+      name = string
+      value = string
+    }))
     name        = string
     image       = string
   }))
