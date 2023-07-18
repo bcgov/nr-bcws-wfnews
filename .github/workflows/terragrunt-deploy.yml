@@ -14,8 +14,8 @@ on:
         type: string
       IS_HOTFIX:
         required: true
-        type: boolean
-        default: false
+        type: string
+        default: 'false'
 
       MAX_RECEIVED_COUNT:
         required: false
