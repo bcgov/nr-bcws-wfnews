@@ -1580,7 +1580,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
         },
         {
           name  = "DB_URL",
-          value = "jdbc:postgresql://${aws_db_instance.notifications_pgsqlDB.endpoint}/${aws_db_instance.notifications_pgsqlDB.name}"
+          value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
         },
         {
           name  = "DB_USER",
@@ -1802,6 +1802,46 @@ resource "aws_ecs_service" "pointid" {
     target_group_arn = aws_alb_target_group.wfss_pointid.id
     container_name   = var.pointid_container_name
     container_port   = var.pointid_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
+
+resource "aws_ecs_service" "wfone_notifications_api" {
+  name                              = "wfone-notifications-api-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews-tasks["wfone_notifications_api"].arn
+  desired_count                     = var.app_count
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 20
+    base              = 1
+  }
+
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.web.ids
+    assign_public_ip = true
+  }
+
+  #Hit http endpoint
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfss_pointid.id
+    container_name   = var.wfone_notifications_api_container_name
+    container_port   = var.wfone_notifications_api_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
