@@ -143,7 +143,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   isIncidentsPage () {
-    return window.location.pathname === '/incidents'
+    return window.location.pathname === '/incidents' || window.location.pathname === '/reportOfFire'
   }
 
   redirectToPublicMobile () {
