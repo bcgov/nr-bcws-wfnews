@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy } from "@angular/core";
-import { RoFPage } from "../RoFPage";
+import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggleChange } from "@angular/material/button-toggle";
 
