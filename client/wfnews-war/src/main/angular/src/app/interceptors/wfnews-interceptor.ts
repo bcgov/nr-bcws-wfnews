@@ -6,7 +6,7 @@ import {UUID} from "angular2-uuid";
 import {catchError, filter, mergeMap, switchMap, take} from "rxjs/operators";
 import {Router} from "@angular/router";
 import {RouterExtService} from "../services/router-ext.service";
-import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import { ErrorHandlingInstructions } from "../utils/user-feedback-utils";
 import { ApplicationStateService } from "../services/application-state.service";
 import { ResourcesRoutes } from "../utils";

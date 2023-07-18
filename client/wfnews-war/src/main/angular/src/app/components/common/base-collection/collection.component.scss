@@ -7,7 +7,7 @@
   border-bottom: 1px solid $colour-light-grey;
   overflow: auto;
 
-  .mat-table {
+  .mat-mdc-table {
     width: 100%;
     display: table;
 
@@ -146,7 +146,7 @@
     }
 
 
-    select.mat-input-element {
+    select.mat-mdc-input-element {
       background-color: $colour-white;
       width: 60px;
       border: 1px solid $colour-light-grey;
@@ -247,15 +247,16 @@
         flex-basis: auto;
       }
 
-      ::ng-deep .mat-radio-group{
+      ::ng-deep .mat-mdc-radio-group{
         display: flex;
-        .mat-radio-button{
+        .mat-mdc-radio-button{
           height: 35px;
           display: flex;
 
           &:not(:first-of-type) {
             margin-left: 5px;
           }
+          /*TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
           .mat-radio-outer-circle {
             background-color: $colour-white;
           }
@@ -273,7 +274,7 @@
       margin: 6px;
     }
 
-    &>select.mat-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
+    &>select.mat-mdc-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
       max-width: 150px;
     }
 
@@ -287,7 +288,7 @@
     font-family: $font-family-main;
   }
 
-  select.mat-input-element {
+  select.mat-mdc-input-element {
     background-color: $colour-white;
     height: 37.5px;
     top: 0;
@@ -346,7 +347,7 @@
 
   textarea,
   input,
-  mat-checkbox.mat-checkbox,
+  mat-checkbox.mat-mdc-checkbox,
   select {
     border: 1px solid $colour-light-grey;
     padding: 0 5px;
@@ -369,16 +370,16 @@
     background-color: $colour-white !important;
   }
 
-  ::ng-deep mat-checkbox .mat-checkbox-frame {
+  ::ng-deep mat-checkbox .mat-mdc-checkbox-frame {
     background-color: $colour-white;
     border: 1px solid $colour-light-grey;
     border-radius: $wf1-border-radius;
   }
 }
 
-.mat-table {
+.mat-mdc-table {
 
-  .mat-header-cell {
+  .mat-mdc-header-cell {
     color: $colour-black;
     font-weight: $font-weight-emphasis;
     font-size: $font-size;
@@ -386,7 +387,7 @@
 
   }
 
-  .mat-cell {
+  .mat-mdc-cell {
     color: $colour-black;
     font-weight: $font-weight;
     font-size: $font-size;
@@ -409,15 +410,15 @@
     }
   }
 
-  .mat-row:nth-child(even) {
+  .mat-mdc-row:nth-child(even) {
     background-color: $colour-table-background-even;
   }
 
-  .mat-row:nth-child(odd) {
+  .mat-mdc-row:nth-child(odd) {
     background-color: $colour-table-background-odd;
   }
 
-  .mat-row{
+  .mat-mdc-row{
     &:hover{
       background-color: $colour-table-background-hover;
     }
