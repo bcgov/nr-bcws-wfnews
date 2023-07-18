@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Directive, HostListener, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
@@ -276,6 +276,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     if (!result?.publish) {
       this.publishDisabled = false;
       this.cdr.detectChanges();
+      return;
     }
     const publishedIncidentResource = {
       contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
