@@ -20,9 +20,8 @@ on:
     inputs:
       IS_HOTFIX:
         description: 'Is this a hotfix?'
-        type: boolean
         required: false
-        default: false
+        default: 'false'
 
 jobs:
   call-lambda-zip:
@@ -77,7 +76,7 @@ jobs:
     needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, apisix-build]
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
-      IMAGE_TAG: ${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
+      IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: dev
 
@@ -116,7 +115,7 @@ jobs:
       WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
       WFARCGIS_QUEUESIZE: 1500
       WEBADE_OAUTH2_CLIENT_ID: WFSS_POINTID_REST
-      WEBADE_OATH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
+      WEBADE_OAUTH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
       WEBADE_OAUTH2_CLIENT_SCOPES: WFSS.* WFWX.*
       FIREWEATHER_BASEURL: https://bcwsapi.nrs.gov.bc.ca/wfwx-fireweather-api/
       FIREWEATHER_QUEUESIZE: 1500

@@ -169,6 +169,7 @@ tasks = {
     family = "wfnews-client-task-${var.target_env}",
     cpu                      = var.client_cpu_units,
     memory                   = var.client_memory,
+    image                    = var.client_image,
     port = [{
           protocol      = "tcp"
           containerPort = var.client_port
@@ -263,6 +264,7 @@ tasks = {
     family                   = "wfnews-liquibase-task-${var.target_env}",
     cpu                      = var.server_cpu_units,
     memory                   = var.server_memory,
+    image                    = var.liquibase_image,
     port = [{
           protocol      = "tcp"
           containerPort = var.db_port
@@ -280,6 +282,10 @@ tasks = {
         {
           name  = "DB_PASS"
           value = "${var.db_pass}"
+        },
+        {
+          name = "CHANGELOG_FOLDER",
+          value = "wfnews-db"
         }
     ]
   },
@@ -287,6 +293,7 @@ tasks = {
     family                   = "wfnews-apisix-task-${var.target_env}",
     cpu                      = var.server_cpu_units,
     memory                   = var.server_memory,
+    image                    = var.apisix_image,
     port =[{
           protocol      = "tcp"
           containerPort = var.apisix_ports[0]
@@ -317,6 +324,260 @@ tasks = {
         {
           name  = "MAX_SIZE",
           value = "${var.max_upload_size}"
+        }
+      ]
+  },
+  wfss_pointid = {
+    family = "wfss-pointid-api-${var.target_env}",
+    cpu                      = var.server_cpu_units,
+    memory                   = var.server_memory,
+    image                    = var.pointid-image,
+    port = [{
+          protocol      = "tcp"
+          containerPort = var.server_port
+          hostPort      = var.server_port
+    }],
+    environment = [
+        {
+          name  = "DATABASE_WEATHER_URL",
+          value = var.DATABASE_WEATHER_URL
+        },
+        {
+          name  = "DATABASE_WEATHER_USER",
+          value = var.DATABASE_WEATHER_USER
+        },
+        {
+          name  = "DATABASE_WEATHER_PWD",
+          value = var.DATABASE_WEATHER_PWD
+        },
+        {
+          name  = "BCGW_URL",
+          value = var.BCGW_URL
+        },
+        {
+          name  = "WFGS_URL",
+          value = var.WFGS_URL
+        },
+        {
+          name  = "MAX_ALLOWED_RADIUS",
+          value = var.MAX_ALLOWED_RADIUS
+        },
+        {
+          name  = "ASYNC_JOB_INTERVAL",
+          value = var.ASYNC_JOB_INTERVAL
+        },
+        {
+          name  = "ASYNC_JOB_REF_LAT",
+          value = var.ASYNC_JOB_REF_LAT
+        },
+        {
+          name  = "ASYNC_JOB_REF_LONG",
+          value = var.ASYNC_JOB_REF_LONG
+        },
+        {
+          name  = "ASYNC_JOB_REF_RADIUS",
+          value = var.ASYNC_JOB_REF_RADIUS
+        },
+        {
+          name  = "WEATHER_HOST",
+          value = var.WEATHER_HOST
+        },
+        {
+          name  = "WEATHER_USER",
+          value = var.WEATHER_USER
+        },
+        {
+          name  = "WEATHER_PASSWORD",
+          value = var.WEATHER_PASSWORD
+        },
+        {
+          name  = "WFARCGIS_URL",
+          value = var.WFARCGIS_URL
+        },
+        {
+          name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
+          value = var.WFARCGIS_LAYER_AREA_RESTRICTIONS
+        },
+        {
+          name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
+          value = var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS
+        },
+        {
+          name  = "WFARCGIS_LAYER_DANGER_RATING",
+          value = var.WFARCGIS_LAYER_DANGER_RATING
+        },
+        {
+          name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
+          value = var.WFARCGIS_LAYER_ACTIVE_FIRES
+        },
+        {
+          name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
+          value = var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS
+        },
+        {
+          name  = "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+          value = var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES
+        },
+        {
+          name  = "WFARCGIS_QUEUESIZE",
+          value = var.WFARCGIS_QUEUESIZE
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
+          name  = "WEBADE_OATH2_TOKEN_URL",
+          value = var.WEBADE_OATH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
+          value = var.WEBADE_OAUTH2_CLIENT_SCOPES
+        },
+        {
+          name  = "FIREWEATHER_BASEURL",
+          value = var.FIREWEATHER_BASEURL
+        },
+        {
+          name  = "FIREWEATHER_QUEUESIZE",
+          value = var.FIREWEATHER_QUEUESIZE
+        },
+        {
+          name  = "WFNEWS_BASEURL",
+          value = var.WFNEWS_BASEURL
+        },
+        {
+          name  = "WFNEWS_QUEUESIZE",
+          value = var.WFNEWS_QUEUESIZE
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_SECRET",
+          value = var.WEBADE_OAUTH2_CLIENT_SECRET
+        }
+      ]
+  },
+  wfone_notifications_api = {
+    family                   = "wfone_notifications_api-task-${var.target_env}",
+    cpu                      = var.server_cpu_units,
+    memory                   = var.server_memory,
+    port =[{
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[0]
+          hostPort      = var.apisix_ports[0]
+        },
+        {
+          protocol      = "tcp"
+          containerPort = var.apisix_ports[1]
+          hostPort      = var.apisix_ports[1]
+        }],
+    environment = [
+        {
+          name  = "DATASOURCE_MAX_CONNECTIONS",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
+        },
+        {
+          name  = "DATASOURCE_PASSWORD",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
+        },
+        {
+          name  = "DATASOURCE_URL",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
+        },
+        {
+          name  = "DATASOURCE_USER",
+          value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
+        },
+        {
+          name  = "DEFAULT_APPLICATION_ENVIRONMENT",
+          value = var.DEFAULT_APPLICATION_ENVIRONMENT
+        },
+        {
+          name  = "EMAIL_ADMIN_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL
+        },
+        {
+          name  = "EMAIL_FROM_EMAIL",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL
+        },
+        {
+          name  = "EMAIL_NOTIFICATIONS_ENABLED",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_ERROR_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT
+        },
+        {
+          name  = "EMAIL_SYNC_SEND_FREQ",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ
+        },
+        {
+          name  = "EMAIL_SYNC_SUBJECT",
+          value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT
+        },
+        {
+          name  = "PUSH_ITEM_EXPIRE_HOURS",
+          value = var.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS
+        },
+        {
+          name  = "QUARTZ_CONSUMER_INTERVAL_SECONDS",
+          value = var.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS
+        },
+        {
+          name  = "SMTP_CREDENTIALS_PASSWORD",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD
+        },
+        {
+          name  = "SMTP_CREDENTIALS_USER",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER
+        },
+        {
+          name  = "SMTP_HOST_NAME",
+          value = var.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME
+        },
+        {
+          name  = "WEBADE_OAUTH2_CHECK_TOKEN_URL"
+          value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID
+        },
+        {
+          name  = "WEBADE_OAUTH2_REST_CLIENT_SECRET",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET
+        },
+        {
+          name  = "WEBADE_OAUTH2_TOKEN_CLIENT_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_TOKEN_URL",
+          value = var.WEBADE-OAUTH2_TOKEN_URL
+        },
+        {
+          name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
+          value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID
+        },
+        {
+          name  = "WFDM_REST_URL",
+          value = var.WFDM_REST_URL
+        },
+        {
+          name  = "WFIM_CLIENT_URL",
+          value = var.WFIM_CLIENT_URL
+        },
+        {
+          name  = "WFIM_CODE_TABLES_URL",
+          value = var.WFIM_CODE_TABLES_URL
+        },
+        {
+          name  = "WFSS_POINTID_URL",
+          value = var.WFSS_POINTID_URL
         }
       ]
   }
@@ -1116,7 +1377,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
   count                             = 1
   name                              = "wfnews-liquibase-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_liquibase].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_liquibase"].arn
   desired_count                     = 1
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1151,7 +1412,7 @@ resource "aws_ecs_service" "wfnews_liquibase" {
 resource "aws_ecs_service" "wfnews_main" {
   name                              = "wfnews-server-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_server].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_server"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1190,7 +1451,7 @@ resource "aws_ecs_service" "wfnews_main" {
 resource "aws_ecs_service" "client" {
   name                              = "wfnews-client-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_client].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_client"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1229,7 +1490,7 @@ resource "aws_ecs_service" "client" {
 resource "aws_ecs_service" "apisix" {
   name                              = "wfnews-apisix-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_tasks[wfnews_apisix].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfnews_apisix"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1507,3 +1768,43 @@ resource "aws_ecs_service" "apisix_gui" {
   tags = local.common_tags
 }
 */
+
+resource "aws_ecs_service" "pointid" {
+  name                              = "wfss-pointid-service-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfnews-tasks["wfss-pointid"].arn
+  desired_count                     = var.app_count
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 20
+    base              = 1
+  }
+
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.web.ids
+    assign_public_ip = true
+  }
+
+  #Hit http endpoint
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfss_pointid.id
+    container_name   = var.pointid_container_name
+    container_port   = var.pointid_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}

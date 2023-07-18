@@ -15,8 +15,8 @@ on:
         type: string
       IS_HOTFIX:
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: 'false'
       BRANCH:
         required: false
         type: string
@@ -32,10 +32,10 @@ jobs:
       name: ${{ inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == false }}
+        if: ${{ inputs.IS_HOTFIX != 'true' }}
       
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == true }}
+        if: ${{ inputs.IS_HOTFIX == 'true' }}
         with:
           ref: ${{ inputs.BRANCH }}
 
@@ -49,7 +49,7 @@ jobs:
         run: echo -e $NPMRC > ~/.npmrc
           
       - name: Build with Maven
-        run: mvn --settings server/wfnews-api/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
+        run: mvn --settings client/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
       - name: Copy files to neccessary folders
         run: mkdir staging && cp client/wfnews-war/target/*.war staging
@@ -73,10 +73,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == false }}
+        if: ${{ inputs.IS_HOTFIX != 'true' }}
       
       - uses: actions/checkout@v3
-        if: ${{ inputs.IS_HOTFIX == true }}
+        if: ${{ inputs.IS_HOTFIX == 'true' }}
         with:
           ref: ${{ inputs.BRANCH }}
       
@@ -100,19 +100,19 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Extract metadata (tags, labels) for Docker
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
-          images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}${{ inputs.IS_HOTFIX && '-hotfix' || '' }}
+          images: ${{ vars.REGISTRY}}/${{ env.IMAGE_NAME }}${{ inputs.IS_HOTFIX == 'true' && '-hotfix' || '' }}
           tags: |
             type=schedule
             type=raw,value=${{ github.base_ref }}
             type=ref,event=tag
-            type=raw,value=${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
+            type=raw,value=${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
           
       - name: Build and push Docker image (with PR)
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
