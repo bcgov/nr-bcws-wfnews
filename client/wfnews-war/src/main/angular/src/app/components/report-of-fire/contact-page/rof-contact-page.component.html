@@ -1,0 +1,12 @@
+<div>
+  {{ title }}
+  {{ message }}
+
+  <input matInput type="text" [(ngModel)]="reportOfFire.fullName">
+  <input matInput type="text" [(ngModel)]="reportOfFire.phoneNumber">
+
+  <div>
+    <button mat-flat-button (click)="reportOfFire.consentToCall = false; previous();">Previous</button>
+	  <button mat-flat-button color="primary" (click)="reportOfFire.consentToCall = true; next();">Continue</button>
+  </div>
+</div>

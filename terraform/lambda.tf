@@ -1,43 +1,36 @@
 
-data "aws_lambda_layer_version" "wfnews_lambda_layer" {
-  layer_name = "wfnews-python-lib"
-}
+
+# data "aws_lambda_layer_version" "wfnews_lambda_layer" {
+#   layer_name = "wfnews-python-lib"
+# }
 
 /*
 resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
-  filename   = "../lambda/lambda-layer/python.zip"
+  filename   = "lambda-functions/python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]
 }
 
-data "archive_file" "active_fire_zip" {
-  source_dir = "../lambda/active-fire-monitor/active_fire"
-  output_path = "lambda/active-fire-monitor/active_fire.zip"
-  type = "zip"
+resource "local_file" "bans_and_prohibitions_zip" {
+  filename = "lambda-functions/bans_and_prohibitions.zip"
 }
 
-data "archive_file" "area_restrictions_zip" {
-  source_dir = "../lambda/area-restrictions-monitor/area-restrictions"
-  output_path = "lambda/area-restrictions-monitor/area_restrictions.zip"
-  type = "zip"
+resource "local_file" "active_fire_monitor_zip" {
+  filename = "lambda-functions/active-fire-monitor.zip"
 }
 
-data "archive_file" "bans_and_prohibitions_zip" {
-  source_dir = "../lambda/bans-and-prohibitions-monitor/bans-and-prohibitions"
-  output_path = "lambda/bans-and-prohibitions-monitor/bans_and_prohibitions.zip"
-  type = "zip"
+resource "local_file" "area_restrictions_zip" {
+  filename = "lambda-functions/area_restrictions.zip"
 }
 
-data "archive_file" "evacuation_orders_zip" {
-  source_dir = "../lambda/evacuation-orders-monitor/evacuation-orders"
-  output_path = "lambda/evacuation-orders-monitor/evacuation_orders.zip"
-  type = "zip"
+resource "local_file" "evacuation_orders_zip" {
+  filename = "lambda-functions/evacuation_orders.zip"
 }
 
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
-  s3_bucket     = var.FUNCTION_BUCKET
-  s3_key        = var.BAN_PROHIBITION_MONITOR_KEY
+  filename = "lambda-functions/bans_and_prohibitions.zip"
+  source_code_hash = local_file.bans_and_prohibitions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -55,8 +48,8 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
 
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
-  s3_bucket     = var.FUNCTION_BUCKET
-  s3_key        = var.ACTIVE_FIRE_MONITOR_KEY
+  filename      = "lambda-functions/active-fire-monitor.zip"
+  source_code_hash = local_file.active_fire_monitor_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -74,8 +67,8 @@ resource "aws_lambda_function" "monitor-active-fires" {
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
-  s3_bucket     = var.FUNCTION_BUCKET
-  s3_key        = var.AREA_RESTRICTIONS_MONITOR_KEY
+  filename      = "lambda-functions/area_restrictions.zip"
+  source_code_hash = local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -93,8 +86,8 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
 
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
-  s3_bucket     = var.FUNCTION_BUCKET
-  s3_key        = var.EVACUATION_MONITOR_KEY
+  filename =  "lambda-functions/evacuation_orders.zip"
+  source_code_hash = local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
