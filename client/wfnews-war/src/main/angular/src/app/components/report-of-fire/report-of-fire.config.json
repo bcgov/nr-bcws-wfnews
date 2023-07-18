@@ -1,0 +1,382 @@
+{
+  "pages": [
+    {
+      "id": "first-page",
+      "type": "RoFTitlePage",
+      "title": "Report a Fire",
+      "message": "To report a wildfire in British Columbia, you can call the Wildfire Dispatch team or submit a report through the app. This process usually takes 5-10 minutes.",
+      "allowSkip": false,
+      "allowExit": true,
+      "closeButton": false,
+      "showProgress": false,
+      "imageUrl": "../../../assets/images/rofbanner.svg",
+      "nextId": "permissions-page",
+      "isStartPage": true
+    },
+    {
+      "id": "permissions-page",
+      "type": "RoFPermissionsPage",
+      "title": "Permissions",
+      "message": "Personal information is collected by the BC Wildfire Service under section 26 (c) of the Freedom of Information and Protection of Privacy Act for the purpose of managing wildfire incidents. Should you have questions about the collection or use of this information please contact BCWS.PublicMobileApp@gov.bc.ca",
+      "allowSkip": false,
+      "allowExit": true,
+      "showProgress": false,
+      "previousId": "first-page",
+      "nextId": "callback-page"
+    },
+    {
+      "id": "callback-page",
+      "type": "RoFSimpleQuestionPage",
+      "title": "Are you available for a call back in the next 20 minutes?",
+      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "updateAttribute": "consentToCall",
+      "showProgress": true,
+      "previousId": "permissions-page",
+      "nextId": "contact-page",
+      "skipId": "location-page"
+    },
+    {
+      "id": "contact-page",
+      "type": "RoFContactPage",
+      "title": "Are you available for a call back in the next 20 minutes?",
+      "message": "If you’re not comfortable sharing your contact information, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "updateAttribute": ["fullName", "phoneNumber"],
+      "showProgress": true,
+      "previousId": "callback-page",
+      "nextId": "location-page"
+    },
+    {
+      "id": "location-page",
+      "type": "RoFLocationPage",
+      "title": "Where is the Wildfire?",
+      "message": "Center the yellow crosshairs on the location of the fire by moving the map with your finger. If you can’t locate the fire, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "showProgress": true,
+      "previousId": "callback-page",
+      "nextId": "photo-page"
+    },
+    {
+      "id": "photo-page",
+      "type": "RoFPhotoPage",
+      "title": "Add Photos",
+      "message": "Photos help us identify the type of fire and find it faster. If you are no longer near the fire or can’t take a photo, tap skip.",
+      "allowSkip": true,
+      "allowExit": true,
+      "showProgress": true,
+      "previousId": "location-page",
+      "nextId": "smoke-color-page"
+    },
+    {
+      "id": "smoke-color-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "What colour is the smoke?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "updateAttribute": "smokeColor",
+      "showProgress": true,
+      "previousId": "photo-page",
+      "nextId": "fire-size-page",
+      "buttons": [
+        {
+          "label": "White",
+          "value": "white",
+          "icon": ""
+        },
+        {
+          "label": "Grey",
+          "value": "grey",
+          "icon": ""
+        },
+        {
+          "label": "Black",
+          "value": "black",
+          "icon": ""
+        },
+        {
+          "label": "Brown",
+          "value": "brown",
+          "icon": ""
+        },
+        {
+          "label": "Blue",
+          "value": "blue",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "fire-size-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "How big is the fire?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": false,
+      "updateAttribute": "fireSize",
+      "showProgress": true,
+      "previousId": "smoke-color-page",
+      "nextId": "response-page",
+      "buttons": [
+        {
+          "label": "The size of a Campfire",
+          "value": "campfire",
+          "icon": ""
+        },
+        {
+          "label": "The size of a House",
+          "value": "house",
+          "icon": ""
+        },
+        {
+          "label": "The size of a Football Field",
+          "value": "football",
+          "icon": ""
+        },
+        {
+          "label": "Larger than a Football Field",
+          "value": "large",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "response-page",
+      "type": "RoFSimpleQuestionPage",
+      "title": "Are there any signs of response?",
+      "message": "Do you hear sirens or helicopters? Do you see trucks or personnel near the fire?",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "showProgress": true,
+      "previousId": "fire-size-page",
+      "nextId": "response-details-page",
+      "skipId": "visible-flame-page"
+    },
+    {
+      "id": "response-details-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "Are there any signs of response?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "updateAttribute": "signsOfResponse",
+      "showProgress": true,
+      "previousId": "response-page",
+      "nextId": "visible-flame-page",
+      "buttons": [
+        {
+          "label": "Truck(s)",
+          "value": "trucks",
+          "icon": ""
+        },
+        {
+          "label": "Sirens",
+          "value": "sirens",
+          "icon": ""
+        },
+        {
+          "label": "Personnel",
+          "value": "personnel",
+          "icon": ""
+        },
+        {
+          "label": "Helicopter(s)",
+          "value": "helicopters",
+          "icon": ""
+        },
+        {
+          "label": "Heavy Equipment",
+          "value": "equipment",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "visible-flame-page",
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is there a visible flame?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "updateAttribute": "visibleFlame",
+      "showProgress": true,
+      "previousId": "response-page",
+      "nextId": "fire-spread-page"
+    },
+    {
+      "id": "fire-spread-page",
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is the fire spreading?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "updateAttribute": "rateOfSpread",
+      "showProgress": true,
+      "previousId": "visible-flame-page",
+      "nextId": "what-is-burning-page"
+    },
+    {
+      "id": "what-is-burning-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "What is burning?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "updateAttribute": "burning",
+      "showProgress": true,
+      "previousId": "fire-spread-page",
+      "nextId": "infrastructure-page",
+      "buttons": [
+        {
+          "label": "Trees",
+          "value": "trees",
+          "icon": ""
+        },
+        {
+          "label": "Grass",
+          "value": "grass",
+          "icon": ""
+        },
+        {
+          "label": "Mixed Wood",
+          "value": "wood",
+          "icon": ""
+        },
+        {
+          "label": "Brush",
+          "value": "brush",
+          "icon": ""
+        },
+        {
+          "label": "Slash",
+          "value": "slash",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "infrastructure-page",
+      "type": "RoFSimpleQuestionPage",
+      "title": "Is there any infrastructure at risk?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "showProgress": true,
+      "previousId": "what-is-burning-page",
+      "nextId": "infrastructure-details-page",
+      "skipId": "comments-page"
+    },
+    {
+      "id": "infrastructure-details-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "Is there any infrastructure at risk?",
+      "message": "Select all that apply",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": true,
+      "allowMultiSelect": true,
+      "updateAttribute": "assetsAtRisk",
+      "showProgress": true,
+      "previousId": "infrastructure-page",
+      "nextId": "comments-page",
+      "buttons": [
+        {
+          "label": "Home(s)",
+          "value": "homes",
+          "icon": ""
+        },
+        {
+          "label": "Building(s)",
+          "value": "buildings",
+          "icon": ""
+        },
+        {
+          "label": "Power Line(s)",
+          "value": "powerlines",
+          "icon": ""
+        },
+        {
+          "label": "Railway(s)",
+          "value": "railways",
+          "icon": ""
+        },
+        {
+          "label": "Bridge(s)",
+          "value": "bridges",
+          "icon": ""
+        },
+        {
+          "label": "Other",
+          "value": "other",
+          "icon": ""
+        }
+      ]
+    },
+    {
+      "id": "comments-page",
+      "type": "RoFCommentsPage",
+      "title": "Is there anything else you'd like us to know?",
+      "message": "",
+      "allowSkip": true,
+      "allowExit": true,
+      "updateAttribute": "otherInfo",
+      "showProgress": true,
+      "previousId": "infrastructure-page",
+      "nextId": "review-page"
+    },
+    {
+      "id": "review-page",
+      "type": "RoFReviewPage",
+      "title": "",
+      "message": "",
+      "allowSkip": false,
+      "allowExit": true,
+      "showProgress": false,
+      "previousId": "comments-page",
+      "nextId": "final-page"
+    },
+    {
+      "id": "final-page",
+      "type": "RoFTitlePage",
+      "title": "Thank You!",
+      "message": "Your report has been successfully submitted to the Provincial Wildfire Reporting Centre. We may call you back within 20 minutes if we have any further questions.\nReports like these help us protect the forests, grasslands and communities of British Columbia, so thank you for taking the time. ",
+      "allowSkip": false,
+      "allowExit": false,
+      "imageUrl": "../../../assets/images/rofthankyou.svg",
+      "closeButton": true,
+      "showProgress": false
+    }
+  ]
+}
