@@ -12,6 +12,7 @@ import { WFStatsComponent } from './components/wf-stats-component/wf-stats.compo
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
+import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -25,7 +26,7 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.CURRENTSTATISTICS, component: WFStatsComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
-  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard], canDeactivate: [CanDeactivateGuard]},
   { path: ResourcesRoutes.PUBLIC_INCIDENT, component: PublicIncidentPage, pathMatch: 'full'},
   { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',}

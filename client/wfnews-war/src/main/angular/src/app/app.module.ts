@@ -140,6 +140,8 @@ import { VideoPanelComponent } from './components/public-incident-page/incident-
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
+import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
+import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -183,6 +185,7 @@ export const DATE_FORMATS = {
         StickyWidgetComponent,
         ContactWidgetDialogComponent,
         PublishDialogComponent,
+        UnsavedChangesDialog,
         ImageCardPanel,
         WFStatsComponent,
         WeatherPanelComponent,
@@ -358,6 +361,7 @@ export const DATE_FORMATS = {
         LocalStorageService,
         WatchlistService,
         PointIdService,
+        CanDeactivateGuard
     ],
     bootstrap: [
         AppComponent
