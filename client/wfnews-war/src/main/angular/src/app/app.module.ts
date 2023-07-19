@@ -133,7 +133,6 @@ import { IncidentGalleryPanelMobileComponent } from './components/public-inciden
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
 import { IncidentGalleryImagesMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-images-mobile/incident-gallery-images-mobile.component';
 import { IncidentGalleryVideosMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-videos-mobile/incident-gallery-videos-mobile.component';
-
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
 import { VideoPanelComponent } from './components/public-incident-page/incident-gallery-panel/video-panel/video-panel.component';
