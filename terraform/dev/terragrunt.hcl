@@ -80,6 +80,7 @@ locals {
   EVACUATION_MONITOR_KEY = get_env("EVACUATION_MONITOR_KEY")
   LAMBDA_LAYER_KEY = get_env("LAMBDA_LAYER_KEY")
   FUNCTION_BUCKET = get_env("FUNCTION_BUCKET")
+  WFONE_NOTIFICATIONS_API_IMAGE = get_env("WFONE_NOTIFICATIONS_API_IMAGE")
 }
 
 generate "dev_tfvars" {
@@ -161,5 +162,6 @@ generate "dev_tfvars" {
     EVACUATION_MONITOR_KEY = "${local.EVACUATION_MONITOR_KEY}"
     LAMBDA_LAYER_KEY = "${local.LAMBDA_LAYER_KEY}"
     FUNCTION_BUCKET = "${local.FUNCTION_BUCKET}"
+    wfone_notifications_api_image = "${local.WFONE_NOTIFICATIONS_API_IMAGE}"
   EOF
 }
