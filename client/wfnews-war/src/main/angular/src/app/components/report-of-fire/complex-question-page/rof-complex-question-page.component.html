@@ -1,0 +1,17 @@
+<div>
+  {{ title }}
+  {{ message }}
+
+  <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
+  <div *ngFor="let button of buttons">
+    <mat-button-toggle *ngIf="allowMultiSelect" (change)="onValChange(button.value, $event)" [value]="button.value"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
+    <button type="button" [id]="'btn-' + button.value" mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value, $event)"><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>
+  </div>
+
+  <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><mat-icon>question</mat-icon>I don't Know</mat-button-toggle>
+
+  <div>
+    <button mat-flat-button (click)="previous()">Previous</button>
+	  <button [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next</button>
+  </div>
+</div>

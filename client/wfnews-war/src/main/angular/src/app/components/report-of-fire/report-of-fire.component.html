@@ -1,0 +1,16 @@
+<div>
+  <div class="mobile-header">
+    <span><span *ngIf="allowExit" (click)="exit()">Exit</span></span>
+    <span>Report A Fire</span>
+    <span><span *ngIf="allowSkip" (click)="skip()">Skip</span></span>
+  </div>
+  <div #dynamic class="page-container">
+  </div>
+  <div class="wrapper" *ngIf="showProgress">
+    <ol class="ProgressBar">
+      <li class="ProgressBar-step" *ngFor="let step of progressSteps; let i = index;">
+        <svg class="ProgressBar-icon" [style]="i < currentStep ? 'background-color: #123262' : ''"></svg>
+      </li>
+    </ol>
+  </div>
+</div>

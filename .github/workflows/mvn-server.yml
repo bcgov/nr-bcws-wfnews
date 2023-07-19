@@ -15,8 +15,8 @@ on:
         required: true
       IS_HOTFIX:
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: 'false'
       BRANCH:
         required: false
         type: string
@@ -32,10 +32,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == false }}
+        if: ${{ github.event.inputs.IS_HOTFIX != 'true' }}
       
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.inputs.IS_HOTFIX == 'true' }}
         with:
           ref: ${{ inputs.BRANCH }}
       
@@ -70,10 +70,10 @@ jobs:
     
     steps:
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == false }}
+        if: ${{ github.event.inputs.IS_HOTFIX != 'true' }}
       
       - uses: actions/checkout@v3
-        if: ${{ github.event.inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.inputs.IS_HOTFIX == 'true' }}
         with:
           ref: ${{ inputs.BRANCH }}
 
@@ -84,8 +84,8 @@ jobs:
           path: .
           
       - name: Update image name if PR number present
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
-        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ inputs.IS_HOTFIX && 'hotfix' || github.event.pull_request.number }}" >> $GITHUB_ENV
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
+        run: echo "IMAGE_NAME = ${{env.IMAGE_NAME}}-${{ inputs.IS_HOTFIX == 'true' && 'hotfix' || github.event.pull_request.number }}" >> $GITHUB_ENV
       
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -101,7 +101,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
         
       - name: Extract metadata (tags, labels) for Docker (with PR)
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
         id: meta_pr
         uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
         with:
@@ -113,7 +113,7 @@ jobs:
             type=raw,value=${{ inputs.IS_HOTFIX && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
           
       - name: Build and push Docker image (with PR)
-        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == true }}
+        if: ${{ github.event.pull_request.number > 0 || inputs.IS_HOTFIX == 'true' }}
         uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
         with:
           context: .
