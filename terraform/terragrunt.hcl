@@ -17,8 +17,6 @@ terraform {
       name = "${local.project}-${local.environment}"
     }
   }
-
-  required_version = "~> 1.5.3"
 }
 EOF
 }
