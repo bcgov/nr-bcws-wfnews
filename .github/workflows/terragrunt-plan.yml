@@ -154,5 +154,5 @@ jobs:
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
           WFSS_POINTID_URL: ${{vars.WFSS_POINTID_URL}}
 
-        run: terragrunt apply --terragrunt-non-interactive
+        run: terragrunt plan --terragrunt-non-interactive
 
