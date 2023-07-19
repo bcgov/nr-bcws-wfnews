@@ -26,22 +26,23 @@
 }
 
 .wrapper {
-  max-width: 450px;
+  position: fixed;
+  bottom: 0px;
+  margin: 0px 0px 0px 20px;
 }
 
 .ProgressBar {
   margin: 0 auto;
-  padding: 2em 0 3em;
+  padding: 0em 0 1em;
   list-style: none;
-  position: relative;
   display: flex;
   justify-content: space-between;
 }
 
 .ProgressBar-step {
   text-align: center;
-  position: relative;
   width: 100%;
+  margin-left: calc(100vw - 365px);
 
   .ProgressBar-icon {
     width: 0.25em;
@@ -53,5 +54,133 @@
     z-index: 10;
     position: relative;
     transition: all .25s ease-out;
+  }
+}
+
+.rof-image {
+  text-align: center;
+  width: 100%;
+}
+
+.rof-button-container {
+  display: flex;
+  height: 43px;
+  padding: 8px 32px 8px 24px;
+  align-items: center;
+  gap: calc(100vw - 320px);
+  bottom: 45px;
+  position: fixed;
+  .rof-button {
+    width: 138px;
+    height: 43px;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
+
+.rof-complex-group {
+  flex-flow: wrap;
+  display: flex;
+  overflow-y: auto;
+  height: calc(100vh - 310px);
+  gap: 20px;
+  .flex-button {
+    width: calc(100vw - 218px);
+  }
+  .mat-flat-button {
+    border: none;
+    border-radius: 8px;
+    background: white;
+    height: 48px;
+    padding: 0;
+    margin: 0;
+    font: inherit;
+    outline: none;
+    width: calc(100vw - 40px);
+    cursor: pointer;
+    color: #000 !important;
+    text-align: center !important;
+    font-size: 19px !important;
+    font-style: normal !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+    letter-spacing: -0.38px !important;
+  }
+}
+
+.rof-toggle-group {
+  width: calc(100% - 40px);
+  margin: 20px;
+  border: none;
+  .mat-icon {
+    color: #548ADB;
+    margin-right: 8px;
+  }
+  .mat-button-toggle{
+    margin-bottom: 24px;
+    border: none;
+    border-radius: 8px;
+  }
+  .mat-button-toggle-button {
+    border-radius: 8px;
+  }
+}
+
+::ng-deep.mat-button-toggle-label-content {
+  color: #000;
+  text-align: center;
+  font-size: 19px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  letter-spacing: -0.38px;
+}
+
+.rof-text {
+  color: #000000;
+  &-title {
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.64px;
+    margin: 32px;
+  }
+  &-primary-header {
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.56px;
+    margin: 20px;
+  }
+  &-secondary-header {
+    color: #484644;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.32px;
+    margin: 20px;
+  }
+  &-body {
+    font-size: 17px;
+    color: #242424;
+    margin: 20px;
+    .selected {
+      font-weight: 500;
+    }
+  }
+  &-subheader {
+    font-size: 16px;
+    color: #484644;
+    margin: 20px;
+  }
+  &-subheader-black {
+    font-size: 16px;
+    margin: 20px;
   }
 }

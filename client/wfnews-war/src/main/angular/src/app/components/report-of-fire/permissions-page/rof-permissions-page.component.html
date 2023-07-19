@@ -1,12 +1,14 @@
 <div>
-  {{ title }}
-  {{ message }}
+  <div class="rof-text-primary-header">{{ title }}</div>
+  <div class="rof-text-secondary-header">{{ message }}</div>
 
   <div class="divider"></div>
-  <h3>Do you agree to share information with the BC Wildfire Service?</h3>
-  <mat-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">I agree to share information provided in this report with BC Wildfire Service</mat-checkbox>
-  <div>
-    <button mat-flat-button (click)="close()">Cancel</button>
-	  <button mat-flat-button color="primary" (click)="next()" [disabled]="!dataShareAccepted">Continue</button>
+  <div class="rof-text-subheader-black">Do you agree to share information with the BC Wildfire Service?</div>
+  <div class="rof-text-body">
+    <mat-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">I agree to share information provided in this report with BC Wildfire Service</mat-checkbox>
+  </div>
+  <div class="rof-button-container">
+    <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>
+	  <button mat-flat-button class="rof-button" color="primary" (click)="next()" [disabled]="!dataShareAccepted">Continue</button>
   </div>
 </div>

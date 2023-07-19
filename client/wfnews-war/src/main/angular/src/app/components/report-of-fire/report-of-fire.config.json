@@ -135,22 +135,22 @@
         {
           "label": "The size of a Campfire",
           "value": "campfire",
-          "icon": ""
+          "icon": "fireplace"
         },
         {
           "label": "The size of a House",
           "value": "house",
-          "icon": ""
+          "icon": "home"
         },
         {
           "label": "The size of a Football Field",
           "value": "football",
-          "icon": ""
+          "icon": "sports_football"
         },
         {
           "label": "Larger than a Football Field",
           "value": "large",
-          "icon": ""
+          "icon": "pan_zoom"
         }
       ]
     },
