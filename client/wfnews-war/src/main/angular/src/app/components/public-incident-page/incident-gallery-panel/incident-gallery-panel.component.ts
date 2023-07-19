@@ -138,7 +138,9 @@ export class IncidentGalleryPanel implements OnInit {
           }
         }
         this.cdr.detectChanges()
-        this.lightGallery.refresh()
+        if (this.lightGallery) {
+          this.lightGallery.refresh()
+        }
         setTimeout(() => {
           this.refreshGallery = true
         }, 5000)

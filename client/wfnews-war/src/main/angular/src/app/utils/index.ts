@@ -11,6 +11,7 @@ export enum ResourcesRoutes {
     WILDFIRESLIST = 'list',
     CURRENTSTATISTICS = 'currentStatistics',
     RESOURCES = 'resources',
+    ROF = "reportOfFire",
     UNAUTHORIZED = 'unauthorized',
     SIGN_OUT = 'sign-out-page',
     ERROR_PAGE = 'error-page',

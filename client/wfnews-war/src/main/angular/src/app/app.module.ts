@@ -142,6 +142,16 @@ import { ScrollToTopComponent } from './components/common/scroll-to-top-button/s
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
+import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
+import { RoFTitlePage } from './components/report-of-fire/title-page/rof-title-page.component';
+import { RoFPermissionsPage } from './components/report-of-fire/permissions-page/rof-permissions-page.component';
+import { RoFSimpleQuestionPage } from './components/report-of-fire/simple-question-page/rof-simple-question-page.component';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { RoFContactPage } from './components/report-of-fire/contact-page/rof-contact-page.component';
+import { RoFPhotoPage } from './components/report-of-fire/photo-page/rof-photo-page.component';
+import { RoFLocationPage } from './components/report-of-fire/location-page/rof-location-page.component';
+import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
+import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -224,7 +234,16 @@ export const DATE_FORMATS = {
         VideoPanelComponent,
         ImagePanelComponent,
         ScrollToTopComponent,
-        AlertOrderBannerComponent
+        AlertOrderBannerComponent,
+        ReportOfFirePage,
+        RoFTitlePage,
+        RoFPermissionsPage,
+        RoFSimpleQuestionPage,
+        RoFComplexQuestionPage,
+        RoFContactPage,
+        RoFPhotoPage,
+        RoFLocationPage,
+        RoFCommentsPage
     ],
     imports: [
         MatSortModule,
@@ -232,6 +251,7 @@ export const DATE_FORMATS = {
         MatProgressBarModule,
         MatTableModule,
         MatSnackBarModule,
+        MatButtonToggleModule,
         HttpClientModule,
         BrowserModule,
         BrowserAnimationsModule,

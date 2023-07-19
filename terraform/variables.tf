@@ -32,19 +32,6 @@ variable "aws_region" {
   default     = "ca-central-1"
 }
 
-variable "tasks" {
-  description = "Map of the lambda functions"
-  type = map(object({
-    family      = string
-    cpu         = optional(number, 1024)
-    memory      = optional(number, 2048)
-    port        = list(object)
-    environment = list(object)
-    name        = string
-    image       = string
-  }))
-}
-
 variable "ecs_task_execution_role_name" {
   description = "ECS task execution role name"
   default     = "wfnewsEcsTaskExecutionRole"
@@ -388,6 +375,12 @@ variable "notifications_liquibase_container_name" {
 }
 
 variable "liquibase_image" {
+  description = "Full name of liquibase image"
+  type        = string
+  default     = ""
+}
+
+variable "pointid-image" {
   description = "Full name of liquibase image"
   type        = string
   default     = ""

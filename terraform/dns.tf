@@ -88,8 +88,8 @@ resource "aws_route53_record" "wfss_pointid" {
   name    = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
   type    = "A"
   alias {
-    name                   = aws_cloudfront_distribution.wfnews_pointid_api[0].domain_name
-    zone_id                = aws_cloudfront_distribution.wfnews_pointid_api[0].hosted_zone_id
+    name                   = aws_cloudfront_distribution.wfss_pointid_api[0].domain_name
+    zone_id                = aws_cloudfront_distribution.wfss_pointid_api[0].hosted_zone_id
     evaluate_target_health = true
   }
 }
