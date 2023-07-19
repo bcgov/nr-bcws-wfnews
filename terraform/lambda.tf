@@ -11,19 +11,19 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   compatible_runtimes = ["python3.8"]
 }
 
-resource "local_file" "bans_and_prohibitions_zip" {
+data "local_file" "bans_and_prohibitions_zip" {
   filename = "lambda-functions/bans_and_prohibitions.zip"
 }
 
-resource "local_file" "active_fire_monitor_zip" {
+data "local_file" "active_fire_monitor_zip" {
   filename = "lambda-functions/active-fire-monitor.zip"
 }
 
-resource "local_file" "area_restrictions_zip" {
+data "local_file" "area_restrictions_zip" {
   filename = "lambda-functions/area_restrictions.zip"
 }
 
-resource "local_file" "evacuation_orders_zip" {
+data "local_file" "evacuation_orders_zip" {
   filename = "lambda-functions/evacuation_orders.zip"
 }
 
@@ -49,7 +49,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
   filename      = "lambda-functions/active-fire-monitor.zip"
-  source_code_hash = local_file.active_fire_monitor_zip.content_base64sha256
+  source_code_hash = data.local_file.active_fire_monitor_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -68,7 +68,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
   filename      = "lambda-functions/area_restrictions.zip"
-  source_code_hash = local_file.area_restrictions_zip.content_base64sha256
+  source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -87,7 +87,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
   filename =  "lambda-functions/evacuation_orders.zip"
-  source_code_hash = local_file.area_restrictions_zip.content_base64sha256
+  source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
