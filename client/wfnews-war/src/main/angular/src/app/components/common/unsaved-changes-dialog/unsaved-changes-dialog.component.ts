@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'unsaved-changes-dialog',
@@ -12,6 +12,6 @@ export class UnsavedChangesDialog {
   ) { }
 
   returnResult(value: boolean) {
-    this.dialogRef.close(value);
+    return value;
   }
 }
