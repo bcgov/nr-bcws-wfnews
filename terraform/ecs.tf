@@ -2165,7 +2165,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
         },
         {
           name  = "DB_USER",
-          value = "${aws_db_instance.notifications_pgsqlDB.username}"
+          value = "${aws_db_instance.wfnews_pgsqlDB.username}"
         },
         {
           name  = "DB_PASS"
@@ -2393,7 +2393,7 @@ resource "aws_ecs_service" "pointid" {
 resource "aws_ecs_service" "wfone_notifications_api" {
   name                              = "wfone-notifications-api-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews-tasks["wfone_notifications_api"].arn
+  task_definition                   = aws_ecs_task_definition.wfnews_tasks["wfone_notifications_api"].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"

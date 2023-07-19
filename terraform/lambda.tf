@@ -5,7 +5,7 @@
 # }
 
 
-data "aws_lambda_layer_version" "wfnews_lambda_layer" {
+resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   filename   = "lambda-functions/python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]

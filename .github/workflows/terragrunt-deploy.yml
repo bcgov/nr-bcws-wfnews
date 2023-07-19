@@ -229,7 +229,7 @@ jobs:
           name: lambda-functions
           path: ${{env.TG_SRC_PATH}}/lambda-functions
 
-      - uses: hashicorp/setup-terraform@v1
+      - uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
           cli_config_credentials_token: ${{ secrets.TFC_TEAM_TOKEN }}
