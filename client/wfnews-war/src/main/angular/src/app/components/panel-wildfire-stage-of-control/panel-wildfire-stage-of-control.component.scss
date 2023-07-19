@@ -5,8 +5,8 @@ mat-tab-group {
 }
 
 /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-tab-label {
-  color: #003366 !important;
+:host ::ng-deep .mdc-tab__text-label {
+  color: #036 !important;
   font-weight: 400;
   font-size: 1rem;
 }
@@ -29,14 +29,14 @@ mat-tab-group {
       font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-labels{
+    .mdc-tab__text-labels{
         padding-bottom: 1rem;
     }
     .mat-mdc-tab-header{
      border-bottom: none;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-label.mat-tab-label-active {
+    .mdc-tab__text-label.mdc-tab-indicator--active {
         border-radius: 40px;
         background-color:#1a5a96;
         color:white !important;
@@ -44,7 +44,7 @@ mat-tab-group {
         font-weight: 700;
     }
     /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-label{
+    .mdc-tab__text-label{
         opacity: 1;
         color: #1a5a96;
         height: 36px;
