@@ -2143,7 +2143,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       essential = true
       # readonlyRootFilesystem = true
       name        = var.notifications_liquibase_container_name
-      image       = var.notifications_liquibase_image
+      image       = var.liquibase_image
       cpu         = var.server_cpu_units
       memory      = var.server_memory
       networkMode = "awsvpc"
