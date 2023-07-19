@@ -2,13 +2,16 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
 
-  <textarea matInput rows="3" style="height:auto;"
-    [(ngModel)]="reportOfFire[updateAttribute]"
-    placeholder="Enter additional details here">
-  </textarea>
+  <mat-form-field appearance="outline" style="margin: 20px; width: calc(100vw - 40px);">
+    <textarea matInput #commentText rows="3" style="height:auto;"
+      [(ngModel)]="reportOfFire[updateAttribute]"
+      placeholder="Enter additional details here">
+    </textarea>
+    <mat-hint align="end">{{commentText.value.length}}/120</mat-hint>
+  </mat-form-field>
 
-  <div>
-    <button mat-flat-button (click)="previous()">Previous</button>
-	  <button mat-flat-button color="primary" (click)="next()">Review</button>
+  <div class="rof-button-container">
+    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
+	  <button class="rof-button" mat-flat-button color="primary" (click)="next()">Review</button>
   </div>
 </div>

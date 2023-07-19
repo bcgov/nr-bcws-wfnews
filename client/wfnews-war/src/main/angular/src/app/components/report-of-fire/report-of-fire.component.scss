@@ -29,6 +29,7 @@
   position: fixed;
   bottom: 0px;
   margin: 0px 0px 0px 20px;
+  width: calc(100% - 20px);
 }
 
 .ProgressBar {
@@ -40,16 +41,13 @@
 }
 
 .ProgressBar-step {
-  text-align: center;
   width: 100%;
-  margin-left: calc(100vw - 365px);
-
   .ProgressBar-icon {
-    width: 0.25em;
-    height: 0.25em;
+    width: 1px;
+    height: 1px;
     background-color: #737373;
     border-radius: 50%;
-    padding: 0.5em;
+    padding: 12px;
     max-width: 100%;
     z-index: 10;
     position: relative;
@@ -68,7 +66,7 @@
   padding: 8px 32px 8px 24px;
   align-items: center;
   gap: calc(100vw - 320px);
-  bottom: 45px;
+  bottom: 60px;
   position: fixed;
   .rof-button {
     width: 138px;
@@ -85,15 +83,18 @@
   display: flex;
   overflow-y: auto;
   height: calc(100vh - 310px);
+  max-height: 480px;
   gap: 20px;
   .flex-button {
-    width: calc(100vw - 218px);
+    width: calc(50vw - 30px);
+    height: 81px;
+    margin-bottom: 0px !important;
   }
   .mat-flat-button {
     border: none;
     border-radius: 8px;
     background: white;
-    height: 48px;
+    height: 81px;
     padding: 0;
     margin: 0;
     font: inherit;
@@ -122,6 +123,7 @@
     margin-bottom: 24px;
     border: none;
     border-radius: 8px;
+    height: 81px;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
@@ -136,6 +138,7 @@
   font-weight: 600;
   line-height: normal;
   letter-spacing: -0.38px;
+  margin-top: 16px;
 }
 
 .rof-text {

@@ -2,11 +2,17 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
 
-  <input matInput type="text" [(ngModel)]="reportOfFire.fullName">
-  <input matInput type="text" [(ngModel)]="reportOfFire.phoneNumber">
+  <mat-form-field appearance="outline" style="margin: 20px; width: calc(100vw - 40px);">
+    <mat-label>Full Name</mat-label>
+    <input matInput type="text" [(ngModel)]="reportOfFire.fullName">
+  </mat-form-field>
+  <mat-form-field appearance="outline" style="margin: 20px; width: calc(100vw - 40px);">
+    <mat-label>Phone Number</mat-label>
+    <input matInput type="number" [(ngModel)]="reportOfFire.phoneNumber">
+  </mat-form-field>
 
-  <div>
-    <button mat-flat-button (click)="reportOfFire.consentToCall = false; previous();">Previous</button>
-	  <button mat-flat-button color="primary" (click)="reportOfFire.consentToCall = true; next();">Continue</button>
+  <div class="rof-button-container">
+    <button class="rof-button" mat-flat-button (click)="reportOfFire.consentToCall = false; previous();">Previous</button>
+	  <button class="rof-button" mat-flat-button color="primary" (click)="reportOfFire.consentToCall = true; next();">Continue</button>
   </div>
 </div>
