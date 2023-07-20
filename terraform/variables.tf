@@ -971,3 +971,140 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
   type    = string
   default = ""
 }
+
+//WFONE-PUSH-NOTIFICATION-API Environment Variables
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS" {
+  type    = number
+  default = 25
+}
+
+variable "WFONE_PUSH_NOTIFICATION_EXPIRE_HOURS" {
+  type    = number
+  default = 24
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_ACTIVE_FIRES" {
+  type    = number
+  default = 1000
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_BANS_PROHIBITIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_AREA_RESTRICTIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_EVAC_ORDERS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES" {
+  type    = number
+  default = 10
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS" {
+  type    = number
+  default = 20
+}
+
+variable "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS" {
+  type    = number
+  default = 120
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC" {
+  type    = number
+  default = 24
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE" {
+  type    = number
+  default = 48
+
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN" {
+  type    = number
+  default = 8760
+
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA" {
+  type    = number
+  default = 8760
+
+}
+
+variable "WFONE_FIREBASE_DB_URL" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_PREFIX" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_NEAR_ME_INTERVAL_SECONDS" {
+  type    = number
+  default = 300
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_PASSWORD" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_DB_PASS" {
+  type    = string
+  default = ""
+
+}
