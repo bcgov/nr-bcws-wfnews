@@ -146,7 +146,6 @@ jobs:
         run: chmod +x ./gradlew
 
       - uses: sparkfabrik/android-build-action@v1.4.0
-        if: 
         name: Build APK and upload to Play Store
         env:
           PACKAGE_NAME: ${{ secrets.KEY_ALIAS }}
