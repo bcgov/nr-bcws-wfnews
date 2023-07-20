@@ -755,27 +755,27 @@ variable "WFGS_URL" {
   default = ""
 }
 
-variable "MAX_ALLOWED_RADIUS" {
+variable "POINTID_MAX_ALLOWED_RADIUS" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_INTERVAL" {
+variable "POINTID_ASYNC_JOB_INTERVAL" {
   type    = number
   default = 1000
 }
 
-variable "ASYNC_JOB_REF_LAT" {
+variable "POINTID_ASYNC_JOB_REF_LAT" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_REF_LONG" {
+variable "POINTID_ASYNC_JOB_REF_LONG" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_REF_RADIUS" {
+variable "POINTID_ASYNC_JOB_REF_RADIUS" {
   type    = string
   default = ""
 }
