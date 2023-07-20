@@ -17,9 +17,18 @@ jobs:
   plan:
     name: plan
     runs-on: ubuntu-22.04
+    environment: DEV
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+        
+      - name: Make dummy zips
+        run: |
+          touch terraform/active-fire-monitor.zip
+          touch terraform/area-restrictions-monitor.zip
+          touch terraform/bans-and-prohibitions-monitor.zip
+          touch terraform/evacuation-orders-monitor.zip
+          touch terraform/python.zip
 
       - uses: hashicorp/setup-terraform@v2
         with:
