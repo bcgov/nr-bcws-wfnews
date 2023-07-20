@@ -1987,23 +1987,23 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = var.POINTID_MAX_ALLOWED_RADIUS
+            value = "${var.POINTID_MAX_ALLOWED_RADIUS}"
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
-            value = var.POINTID_ASYNC_JOB_INTERVAL
+            value = "${var.POINTID_ASYNC_JOB_INTERVAL}"
           },
           {
             name  = "ASYNC_JOB_REF_LAT",
-            value = var.POINTID_ASYNC_JOB_REF_LAT
+            value = "${var.POINTID_ASYNC_JOB_REF_LAT}"
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
-            value = var.POINTID_ASYNC_JOB_REF_LONG
+            value = "${var.POINTID_ASYNC_JOB_REF_LONG}"
           },
           {
             name  = "ASYNC_JOB_REF_RADIUS",
-            value = var.POINTID_ASYNC_JOB_REF_RADIUS
+            value = "${var.POINTID_ASYNC_JOB_REF_RADIUS}"
           },
           {
             name  = "WEATHER_HOST",
@@ -2075,7 +2075,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_QUEUESIZE",
-            value = var.WFNEWS_QUEUESIZE
+            value = "${var.WFNEWS_QUEUESIZE}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
