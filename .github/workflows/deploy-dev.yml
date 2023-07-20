@@ -93,33 +93,6 @@ jobs:
       LAMBDA_LAYER_KEY: ""
       FUNCTION_BUCKET: "wfnews-lambdas"
 
-      #POINTID API VARIABLES
-      DATABASE_WEATHER_URL: "jdbc:oracle:thin:@localhost:1521:dev"
-      DATABASE_WEATHER_USER: "proxy_wf1_weather"
-      BCGW_URL: https://test.openmaps.gov.bc.ca/geo/pub
-      WFGS_URL: https://wf1geop.nrs.gov.bc.ca/geoserver
-      POINTID_MAX_ALLOWED_RADIUS: 1000
-      POINTID_ASYNC_JOB_INTERVAL: 900000
-      POINTID_ASYNC_JOB_REF_LAT: 55.2758
-      POINTID_ASYNC_JOB_REF_LONG: -124.8509
-      POINTID_ASYNC_JOB_REF_RADIUS: 999
-      WEATHER_HOST: sechelt.idir.bcgov:1001
-      WEATHER_USER: PROXY_GEOVIEWER
-      WFARCGIS_URL: https://services6.arcgis.com
-      WFARCGIS_LAYER_AREA_RESTRICTIONS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0
-      WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0
-      WFARCGIS_LAYER_DANGER_RATING: ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Danger_Rating/FeatureServer/0
-      WFARCGIS_LAYER_ACTIVE_FIRES: ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0
-      WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ubm4tcTYICKBpist/ArcGIS/rest/services/test_Emrg_Orders_and_Alerts/FeatureServer/0
-      WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0
-      WFARCGIS_QUEUESIZE: 1500
-      WEBADE_OAUTH2_CLIENT_ID: WFSS_POINTID_REST
-      WEBADE_OAUTH2_TOKEN_URL: https://apps.nrs.gov.bc.ca/pub/oauth2/v1/oauth/token?disableDeveloperFilter=true
-      WEBADE_OAUTH2_CLIENT_SCOPES: WFSS.* WFWX.*
-      FIREWEATHER_BASEURL: https://bcwsapi.nrs.gov.bc.ca/wfwx-fireweather-api/
-      FIREWEATHER_QUEUESIZE: 1500
-      WFNEWS_QUEUESIZE: 1500
-
     secrets:
       API_KEY: ${{ secrets.API_KEY_DEV }}
       CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_DEV }}
