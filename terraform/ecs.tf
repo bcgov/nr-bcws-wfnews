@@ -2067,7 +2067,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "FIREWEATHER_QUEUESIZE",
-            value = var.FIREWEATHER_QUEUESIZE
+            value = "${var.FIREWEATHER_QUEUESIZE}"
           },
           {
             name  = "WFNEWS_BASEURL",
