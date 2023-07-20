@@ -2063,7 +2063,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OATH2_TOKEN_URL",
-            value = var.WEBADE_OATH2_TOKEN_URL
+            value = var.WEBADE_OAUTH2_TOKEN_URL
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
@@ -2767,7 +2767,7 @@ resource "aws_ecs_service" "apisix_gui" {
 resource "aws_ecs_service" "pointid" {
   name                              = "wfss-pointid-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfss-pointid.arn
+  task_definition                   = aws_ecs_task_definition.wfss_pointid.arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
