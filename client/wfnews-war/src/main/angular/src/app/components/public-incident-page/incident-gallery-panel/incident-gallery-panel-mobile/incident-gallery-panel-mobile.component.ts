@@ -82,6 +82,8 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
          if (this.allImagesAndVideosStub.length > 9) {
           this.displayLoadMore = true
           this.displayMediaStub = this.allImagesAndVideosStub.slice(0, 10);
+         } else {
+          this.displayMediaStub = this.allImagesAndVideosStub
          }
 
         this.pushToImages(this.allImagesAndVideosStub)
