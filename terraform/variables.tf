@@ -389,7 +389,7 @@ variable "pointid_image" {
 variable "wfone_notifications_api_image" {
   description = "Full name of notifications api image"
   type = string
-  default = ""
+  default = "wfone_notifications_api"
 }
 
 variable "apisix_name" {
