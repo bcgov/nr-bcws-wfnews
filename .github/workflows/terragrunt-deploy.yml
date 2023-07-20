@@ -25,10 +25,6 @@ on:
         required: false
         type: number
         default: 10
-      ACCEPTED_IPS:
-        required: false
-        type: string
-        default: ""
       PUSH_NOTIFICATION_AWS_USER:
         required: false
         type: string
