@@ -2062,8 +2062,8 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = var.WEBADE_OAUTH2_CLIENT_ID
           },
           {
-            name  = "WEBADE_OATH2_TOKEN_URL",
-            value = var.WEBADE-OATH2_TOKEN_URL
+            name  = "WEBADE_OAUTH2_TOKEN_URL",
+            value = var.WEBADE_OAUTH2_TOKEN_URL
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
