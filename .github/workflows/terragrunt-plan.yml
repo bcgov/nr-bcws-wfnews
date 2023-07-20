@@ -24,11 +24,11 @@ jobs:
         
       - name: Make dummy zips
         run: |
-          touch terraform/active-fire-monitor.zip
-          touch terraform/area-restrictions-monitor.zip
-          touch terraform/bans-and-prohibitions-monitor.zip
-          touch terraform/evacuation-orders-monitor.zip
-          touch terraform/python.zip
+          touch terraform/lambda-functions/active-fire-monitor.zip
+          touch terraform/lambda-functions/area-restrictions-monitor.zip
+          touch terraform/lambda-functions/bans-and-prohibitions-monitor.zip
+          touch terraform/lambda-functions/evacuation-orders-monitor.zip
+          touch terraform/lambda-functions/python.zip
 
       - uses: hashicorp/setup-terraform@v2
         with:
