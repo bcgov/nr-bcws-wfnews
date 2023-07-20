@@ -90,43 +90,43 @@ jobs:
 
           MAX_RECEIVED_COUNT: 10
           VISIBILITY_TIMEOUT_SECONDS: 10
-          ACCEPTED_IPS: 
-          PUSH_NOTIFICATION_AWS_USER: 
-          EVENT_BRIDGE_ARN: 
-          WFNEWS_URL: 
-          SECRET_NAME: 
-          BAN_PROHIBITION_MONITOR_KEY:
-          ACTIVE_FIRE_MONITOR_KEY: 
-          AREA_RESTRICTIONS_MONITOR_KEY:
-          EVACUATION_MONITOR_KEY:
-          LAMBDA_LAYER_KEY:
+          ACCEPTED_IPS: 127.0.0.1
+          PUSH_NOTIFICATION_AWS_USER: test
+          EVENT_BRIDGE_ARN: arn:aws:events:ca-central-1:account:event-bus/event-bus-name
+          WFNEWS_URL: test.com
+          SECRET_NAME: secret
+          BAN_PROHIBITION_MONITOR_KEY: test
+          ACTIVE_FIRE_MONITOR_KEY: test
+          AREA_RESTRICTIONS_MONITOR_KEY: test
+          EVACUATION_MONITOR_KEY: test
+          LAMBDA_LAYER_KEY: test
           FUNCTION_BUCKET: wfnews-lambdas
 
           # POINTID API VARIABLES
-          DATABASE_WEATHER_URL: 
-          DATABASE_WEATHER_USER: 
-          BCGW_URL: 
-          WFGS_URL: 
+          DATABASE_WEATHER_URL: test.com
+          DATABASE_WEATHER_USER: test
+          BCGW_URL: test.com
+          WFGS_URL: test.com
           MAX_ALLOWED_RADIUS: 999
           ASYNC_JOB_INTERVAL: 99999
           ASYNC_JOB_REF_LAT: 50
           ASYNC_JOB_REF_LONG: -120
           ASYNC_JOB_REF_RADIUS: 1000
-          WEATHER_HOST:
-          WEATHER_USER:
-          WFARCGIS_URL:
-          WFARCGIS_LAYER_AREA_RESTRICTIONS:
-          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS:
-          WFARCGIS_LAYER_DANGER_RATING:
-          WFARCGIS_LAYER_ACTIVE_FIRES: 
-          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS:
-          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES:
-          WEBADE_OAUTH2_CLIENT_ID: 
-          WEBADE_OAUTH2_TOKEN_URL: 
-          WEBADE_OAUTH2_CLIENT_SCOPES: 
-          FIREWEATHER_BASEURL: 
+          WEATHER_HOST: test.com
+          WEATHER_USER: test
+          WFARCGIS_URL: test.com
+          WFARCGIS_LAYER_AREA_RESTRICTIONS: test.com
+          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: test.com
+          WFARCGIS_LAYER_DANGER_RATING: test.com
+          WFARCGIS_LAYER_ACTIVE_FIRES: test.com
+          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: test.com
+          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: test.com
+          WEBADE_OAUTH2_CLIENT_ID: test.com
+          WEBADE_OAUTH2_TOKEN_URL: test
+          WEBADE_OAUTH2_CLIENT_SCOPES: test
+          FIREWEATHER_BASEURL: test.com
           FIREWEATHER_QUEUESIZE: 1500
-          WFNEWS_BASEURL: 
+          WFNEWS_BASEURL: test.com
           WFNEWS_QUEUESIZE: 1500
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD_DEV }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
@@ -154,6 +154,7 @@ jobs:
           # WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET: ${{secrets.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET}}
           # WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
           # WFSS_POINTID_URL: ${{vars.WFSS_POINTID_URL}}
+          WFONE_NOTIFICATIONS_API_IMAGE: 
 
         run: terragrunt plan --terragrunt-non-interactive
 
