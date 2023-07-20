@@ -2,11 +2,11 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
 
-  <mat-form-field style="margin: 20px; width: calc(100vw - 40px);">
+  <mat-form-field appearance="outline" class="input-style">
     <mat-label>Name</mat-label>
     <input matInput type="text" [(ngModel)]="reportOfFire.fullName">
   </mat-form-field>
-  <mat-form-field style="margin: 20px; width: calc(100vw - 40px);">
+  <mat-form-field appearance="outline" class="input-style">
     <mat-label>Phone Number</mat-label>
     <input matInput mask="(000) 000-0000" [(ngModel)]="reportOfFire.phoneNumber">
   </mat-form-field>
