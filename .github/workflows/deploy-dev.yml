@@ -59,6 +59,16 @@ jobs:
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
 
+  wfone-push-notification-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfone-push-notifications-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
     secrets: inherit

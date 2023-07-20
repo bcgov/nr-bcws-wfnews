@@ -286,3 +286,76 @@ resource "aws_sqs_queue" "queue_restrictions" {
 POLICY
 
 }
+
+
+resource "aws_sqs_queue" "deadletter_notifications" {
+  name = "wfnews-notifications-deadletter-queue-${var.target_env}"
+
+  tags = {
+    Application = "wfnews"
+    Customer    = "BCWS"
+    Environment = var.target_env
+  }
+}
+
+resource "aws_sqs_queue" "queue_notifications" {
+  name = "wfnews-notifications-queue-${var.target_env}"
+
+  redrive_policy = jsonencode({
+    deadLetterTargetArn = aws_sqs_queue.deadletter_notifications.arn
+    maxReceiveCount     = "${var.MAX_RECEIVED_COUNT}"
+  })
+  redrive_allow_policy = jsonencode({
+    redrivePermission = "byQueue",
+    sourceQueueArns   = ["${aws_sqs_queue.deadletter_notifications.arn}"]
+  })
+
+  tags = {
+    Application = "wfnews"
+    Customer    = "BCWS"
+    Environment = var.target_env
+  }
+
+  policy = <<POLICY
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1640124887139",
+  "Statement": [
+    {
+      "Sid": "Stmt1640121864964",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "sqs:ListDeadLetterSourceQueues",
+        "sqs:ListQueueTags",
+        "sqs:ListQueues",
+        "sqs:ReceiveMessage",
+        "sqs:SendMessage",
+        "sqs:DeleteMessage"
+      ],
+      "Condition": {
+        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
+      },
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-notifications-queue-${var.target_env}"
+    },
+    {
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": [
+        "sqs:ListDeadLetterSourceQueues",
+        "sqs:ListQueueTags",
+        "sqs:ListQueues",
+        "sqs:ReceiveMessage",
+        "sqs:SendMessage",
+        "sqs:DeleteMessage"
+      ],
+      "Condition": {
+        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
+      },
+      "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-notifications-queue-${var.target_env}"
+    }
+  ]
+}
+POLICY
+
+}

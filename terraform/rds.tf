@@ -26,6 +26,30 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   enabled_cloudwatch_logs_exports = ["postgresql"]
   parameter_group_name            = "wfnews-manual"
 }
+
+/*
+resource "aws_db_instance" "wfone_pgsqlDB" {
+  identifier                      = "wfone${var.target_env}"
+  engine                          = "postgres"
+  engine_version                  = "13.4"
+  auto_minor_version_upgrade      = false
+  db_name                         = "wfone${var.target_env}"
+  instance_class                  = var.db_instance_type
+  multi_az                        = var.db_multi_az
+  backup_retention_period         = 7
+  allocated_storage               = var.db_size
+  username                        = var.WFONE_USERNAME
+  password                        = var.WFONE_DB_PASS
+  publicly_accessible             = false
+  skip_final_snapshot             = true
+  storage_encrypted               = true
+  vpc_security_group_ids          = [data.aws_security_group.app.id, aws_security_group.wfone_ecs_tasks.id]
+  tags                            = local.common_tags
+  db_subnet_group_name            = aws_db_subnet_group.wfone_db_subnet_group.name
+  enabled_cloudwatch_logs_exports = ["postgresql"]
+  parameter_group_name            = "wfone-manual"
+}
+*/
 /*
 resource "aws_db_parameter_group" "wfnews_params" {
   name   = "wfnews-${var.target_env}"
