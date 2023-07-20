@@ -1995,7 +1995,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "ASYNC_JOB_REF_LAT",
-            value = var.ASYNC_JOB_REF_LAT
+            value = var.POINTID_ASYNC_JOB_REF_LAT
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
