@@ -104,7 +104,7 @@
   display: flex;
   overflow-y: auto;
   height: calc(100vh - 310px);
-  max-height: 480px;
+  max-height: 509px;
   gap: 20px;
   .flex-button {
     width: calc(50vw - 30px);
@@ -218,4 +218,8 @@
     font-size: 16px;
     margin: 20px;
   }
+}
+
+.panel-wrapper {
+  height: calc(100vh - 125px);
 }

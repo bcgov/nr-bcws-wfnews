@@ -135,7 +135,7 @@
         {
           "label": "The size of a Campfire",
           "value": "campfire",
-          "icon": "camping"
+          "customIcon": "../../../assets/images/svg-icons/camping.svg"
         },
         {
           "label": "The size of a House",
@@ -150,7 +150,7 @@
         {
           "label": "Larger than a Football Field",
           "value": "large",
-          "icon": "pan_zoom"
+          "customIcon": "../../../assets/images/svg-icons/larger.svg"
         }
       ]
     },
