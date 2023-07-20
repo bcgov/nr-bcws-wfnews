@@ -17,6 +17,7 @@ jobs:
   plan:
     name: plan
     runs-on: ubuntu-22.04
+    environment: DEV
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
