@@ -2071,7 +2071,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_BASEURL",
-            value = aws_cloudfront_distribution.wfnews_geofencing_server[0].aliases[0]
+            value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
           },
           {
             name  = "WFNEWS_QUEUESIZE",
