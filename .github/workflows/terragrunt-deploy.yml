@@ -25,10 +25,6 @@ on:
         required: false
         type: number
         default: 10
-      ACCEPTED_IPS:
-        required: false
-        type: string
-        default: ""
       PUSH_NOTIFICATION_AWS_USER:
         required: false
         type: string
@@ -69,112 +65,7 @@ on:
         required: false
         type: string
         default: "wfnews-lambdas"
-      #POINTID API VARIABLES
-      DATABASE_WEATHER_URL:
-        required: false
-        type: string
-        default: ""
-      DATABASE_WEATHER_USER:
-        required: false
-        type: string
-        default: ""
-      BCGW_URL:
-        required: false
-        type: string
-        default: ""
-      WFGS_URL:
-        required: false
-        type: string
-        default: ""
-      MAX_ALLOWED_RADIUS:
-        required: false
-        type: number
-        default: 1000
-      ASYNC_JOB_INTERVAL:
-        required: false
-        type: number
-        default: 900000
-      ASYNC_JOB_REF_LAT:
-        required: false
-        type: number
-        default: 55.2758
-      ASYNC_JOB_REF_LONG: 
-        required: false
-        type: number
-        default: -124.8509
-      ASYNC_JOB_REF_RADIUS:
-        required: false
-        type: number
-        default: 999
-      WEATHER_HOST:
-        required: false
-        type: string
-        default: ""
-      WEATHER_USER:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_URL:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_AREA_RESTRICTIONS:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_BANS_PROHIBITION_AREAS:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_DANGER_RATING:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_ACTIVE_FIRES:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES:
-        required: false
-        type: string
-        default: ""
-      WFARCGIS_QUEUESIZE:
-        required: false
-        type: number
-        default: 1500
-      WEBADE_OAUTH2_CLIENT_ID:
-        required: false
-        type: string
-        default: ""
-      WEBADE_OAUTH2_TOKEN_URL:
-        required: false
-        type: string
-        default: ""
-      WEBADE_OAUTH2_CLIENT_SCOPES:
-        required: false
-        type: string
-        default: ""
-      FIREWEATHER_BASEURL:
-        required: false
-        type: string
-        default: ""
-      FIREWEATHER_QUEUESIZE:
-        required: false
-        type: number
-        default: 1500
-      WFNEWS_BASEURL:
-        required: false
-        type: string
-        default: ""
-      WFNEWS_QUEUESIZE:
-        required: false
-        type: number
-        default: 1500
-     
+          
 
     secrets:
       # AWS_ACCESS_KEY_ID:
@@ -208,7 +99,7 @@ on:
 
 env:
   TF_VERSION: 1.5.3
-  TG_VERSION: 0.37.1
+  TG_VERSION: 0.48.4
   TG_SRC_PATH: terraform
   TFC_WORKSPACE: wfnews-${{ inputs.TARGET_ENV }}
   REPOSITORY: ghcr.io
@@ -299,7 +190,7 @@ jobs:
 
           MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
           VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
-          ACCEPTED_IPS: ${{inputs.ACCEPTED_IPS }}
+          ACCEPTED_IPS: ${{vars.ACCEPTED_IPS }}
           PUSH_NOTIFICATION_AWS_USER: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
           EVENT_BRIDGE_ARN: ${{inputs.EVENT_BRIDGE_ARN }}
           WFNEWS_URL: ${{inputs.WFNEWS_URL }}
@@ -312,32 +203,31 @@ jobs:
           FUNCTION_BUCKET: ${{inputs.FUNCTION_BUCKET}}
 
           # POINTID API VARIABLES
-          DATABASE_WEATHER_URL: ${{ inputs.DATABASE_WEATHER_URL }}
-          DATABASE_WEATHER_USER: ${{inputs.DATABASE_WEATHER_USER }}
-          BCGW_URL: ${{inputs.BCGW_URL }}
-          WFGS_URL: ${{inputs.WFGS_URL }}
-          MAX_ALLOWED_RADIUS: ${{inputs.MAX_ALLOWED_RADIUS }}
-          ASYNC_JOB_INTERVAL: ${{inputs.ASYNC_JOB_INTERVAL }}
-          ASYNC_JOB_REF_LAT: ${{inputs.ASYNC_JOB_REF_LAT }}
-          ASYNC_JOB_REF_LONG: ${{inputs.ASYNC_JOB_REF_LONG }}
-          ASYNC_JOB_REF_RADIUS: ${{inputs.ASYNC_JOB_REF_RADIUS }}
-          WEATHER_HOST: ${{inputs.WEATHER_HOST }}
-          WEATHER_USER: ${{inputs.WEATHER_USER }}
-          WFARCGIS_URL: ${{inputs.WFARCGIS_URL }}
-          WFARCGIS_LAYER_AREA_RESTRICTIONS: ${{inputs.WFARCGIS_LAYER_AREA_RESTRICTIONS }}
-          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ${{inputs.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS }}
-          WFARCGIS_LAYER_DANGER_RATING: ${{inputs.WFARCGIS_LAYER_DANGER_RATING }}
-          WFARCGIS_LAYER_ACTIVE_FIRES: ${{inputs.WFARCGIS_LAYER_ACTIVE_FIRES }}
-          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ${{inputs.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS }}
-          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{inputs.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
-          WFARCGIS_QUEUESIZE: ${{inputs.WFARCGIS_QUEUESIZE }}
-          WEBADE_OAUTH2_CLIENT_ID: ${{inputs.WEBADE_OAUTH2_CLIENT_ID }}
-          WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_URL }}
-          WEBADE_OAUTH2_CLIENT_SCOPES: ${{inputs.WEBADE_OAUTH2_CLIENT_SCOPES }}
-          FIREWEATHER_BASEURL: ${{inputs.FIREWEATHER_BASEURL }}
-          FIREWEATHER_QUEUESIZE: ${{inputs.FIREWEATHER_QUEUESIZE }}
-          WFNEWS_BASEURL: ${{inputs.WFNEWS_BASEURL }}
-          WFNEWS_QUEUESIZE: ${{inputs.WFNEWS_QUEUESIZE }}
+          DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
+          DATABASE_WEATHER_USER: ${{vars.DATABASE_WEATHER_USER }}
+          BCGW_URL: ${{vars.BCGW_URL }}
+          WFGS_URL: ${{vars.WFGS_URL }}
+          POINTID_MAX_ALLOWED_RADIUS: ${{vars.POINTID_MAX_ALLOWED_RADIUS }}
+          POINTID_ASYNC_JOB_INTERVAL: ${{vars.POINTID_ASYNC_JOB_INTERVAL }}
+          POINTID_ASYNC_JOB_REF_LAT: ${{vars.ASYNC_JOB_REF_LAT }}
+          POINTID_ASYNC_JOB_REF_LONG: ${{vars.POINTID_ASYNC_JOB_REF_LONG }}
+          POINTID_ASYNC_JOB_REF_RADIUS: ${{vars.POINTID_ASYNC_JOB_REF_RADIUS }}
+          WEATHER_HOST: ${{vars.WEATHER_HOST }}
+          WEATHER_USER: ${{vars.WEATHER_USER }}
+          WFARCGIS_URL: ${{vars.WFARCGIS_URL }}
+          WFARCGIS_LAYER_AREA_RESTRICTIONS: ${{vars.WFARCGIS_LAYER_AREA_RESTRICTIONS }}
+          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ${{vars.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS }}
+          WFARCGIS_LAYER_DANGER_RATING: ${{vars.WFARCGIS_LAYER_DANGER_RATING }}
+          WFARCGIS_LAYER_ACTIVE_FIRES: ${{vars.WFARCGIS_LAYER_ACTIVE_FIRES }}
+          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ${{vars.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS }}
+          WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{vars.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
+          WFARCGIS_QUEUESIZE: ${{vars.WFARCGIS_QUEUESIZE }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{vars.WEBADE_OAUTH2_CLIENT_ID }}
+          WEBADE_OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL }}
+          WEBADE_OAUTH2_CLIENT_SCOPES: ${{vars.WEBADE_OAUTH2_CLIENT_SCOPES }}
+          FIREWEATHER_BASEURL: ${{vars.FIREWEATHER_BASEURL }}
+          FIREWEATHER_QUEUESIZE: ${{vars.FIREWEATHER_QUEUESIZE }}
+          WFNEWS_QUEUESIZE: ${{vars.WFNEWS_QUEUESIZE }}
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
           WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
@@ -363,7 +253,7 @@ jobs:
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET: ${{secrets.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET}}
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
-          WFSS_POINTID_URL: ${{vars.WFSS_POINTID_URL}}
+          WFONE_NOTIFICATIONS_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_API_IMAGE }}:${{ inputs.IMAGE_TAG }}
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
 

@@ -4,72 +4,32 @@ name: Plan using terragrunt
 
 on:
   workflow_dispatch:
-#   pull_request_target:
-#     types: 
-#       - opened
-#     branches:
-#       - 'main'
-#     paths:
-#       - "terraform/**"
+
 
 env:
-  TF_VERSION: 1.2.2
-  TG_VERSION: 0.37.1
+  TF_VERSION: 1.5.3
+  TG_VERSION: 0.48.4
   TG_SRC_PATH: terraform
-  REGISTRY: ghcr.io
-  CLIENT_IMAGE: "wfnews-client"
-  SERVER_IMAGE: "wfnews-server"
-  LIQUIBASE_IMAGE: "wfnews-liquibase"
-  APISIX_IMAGE: "wfnews-apisix"
-  API_KEY: "default"
-  TARGET_ENV: "dev"
-  ALB_NAME: "default"
-  VPC_NAME: "Dev_vpc"
-  SUBNET_FILTER: "App"
-  WEBADE_OAUTH2_AUTHORIZE_URL: "default"
-  WEBADE_OAUTH2_CLIENT_ID: "default"
-  WEBADE-OAUTH2_TOKEN_CLIENT_URL: "default"
-  WEBADE-OAUTH2_TOKEN_URL: "default"
-  WFDM_REST_URL: "default"
-  WFIM_CLIENT_URL: "default"
-  WFIM_CODE_TABLES_URL: "default"
-  WEBADE-OAUTH2_CHECK_TOKEN_URL: "default"
-  WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: "default"
-  SMTP_HOST_NAME: "default"
-  SMTP_FROM_EMAIL: "default"
-  SMTP_ADMIN_EMAIL: "default"
-  SMTP_EMAIL_SYNC_ERROR_FREQ: 10
-  SMTP_EMAIL_FREQ: 10
-  SMTP_EMAIL_ERROR_SUBJECT: "default"
-  SMTP_EMAIL_SUBJECT: "default"
-  DEFAULT_APPLICATION_ENVIRONMENT: "default"
-  WFNEWS_AGOL_QUERY_URL: "default"
-  SMTP_PASSWORD: "default"
-  WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: "default"
-  WFNEWS_USERNAME: "default"
-  WFNEWS_MAX_CONNECTIONS: 10
-  SNS_EMAIL_TARGETS: "test@test.com, test2@test.com"
-  MAX_RECEIVED_COUNT: 10
-  VISIBILITY_TIMEOUT_SECONDS: 100
-  ACCEPTED_IPS: ""
-  PUSH_NOTIFICATION_AWS_USER: ""
-  EVENT_BRIDGE_ARN: ""
-  WFNEWS_URL: ""
-  SECRET_NAME: ""
-  BAN_PROHIBITION_MONITOR_KEY: ""
-  ACTIVE_FIRE_MONITOR_KEY: ""
-  AREA_RESTRICTIONS_MONITOR_KEY: ""
-  EVACUATION_MONITOR_KEY: ""
-  LAMBDA_LAYER_KEY: ""
-  FUNCTION_BUCKET: "wfnews-lambdas"
+  TFC_WORKSPACE: wfnews-dev
+  REPOSITORY: ghcr.io
 
 jobs:
   plan:
     name: plan
     runs-on: ubuntu-22.04
+    environment: DEV
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+        
+      - name: Make dummy zips
+        run: |
+          mkdir terraform/lambda-functions
+          touch terraform/lambda-functions/active-fire-monitor.zip
+          touch terraform/lambda-functions/area-restrictions-monitor.zip
+          touch terraform/lambda-functions/bans-and-prohibitions-monitor.zip
+          touch terraform/lambda-functions/evacuation-orders-monitor.zip
+          touch terraform/lambda-functions/python.zip
 
       - uses: hashicorp/setup-terraform@v2
         with:
@@ -83,59 +43,127 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
-          TARGET_ENV: ${{env.TARGET_ENV}}
-          CLIENT_IMAGE: ${{env.registry}}/bcgov/${{ env.CLIENT_IMAGE }}:pr-${{ github.event.pull_request.number }}
-          SERVER_IMAGE: ${{env.registry}}/bcgov/${{ env.SERVER_IMAGE }}:pr-${{ github.event.pull_request.number }}
-          LIQUIBASE_IMAGE: ${{env.registry}}/bcgov/${{ env.LIQUIBASE_IMAGE }}:pr-${{ github.event.pull_request.number }}
-          APISIX_IMAGE: ${{env.registry}}/bcgov/${{ env.APISIX_IMAGE }}:pr-${{ github.event.pull_request.number }}
-          API_KEY: ${{ secrets.API_KEY }}
+          agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
+          agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
+          agolUrl: ${{vars.AGOL_URL}}
+          ALB_NAME: ${{ vars.ALB_NAME }}
+          API_KEY: ${{ secrets.API_KEY_DEV }}
+          APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:pr-877
+          CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
+          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}:pr-877
+          CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
+          CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
+          DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
+          DB_PASS: ${{ secrets.DEV_DB_PASS }}
+          DB_SIZE: ${{ vars.DB_SIZE }}
+          DEFAULT_APPLICATION_ENVIRONMENT: DEV
+          drivebcBaseUrl: ${{vars.DRIVEBC_BASE_URL}}
+          GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
+          INSTANCE_COUNT: ${{vars.INSTANCE_COUNT}}
+          LIQUIBASE_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.LIQUIBASE_IMAGE }}:pr-877
+          
+          LOGGING_LEVEL: ${{vars.LOGGING_LEVEL}}
+          MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
+          openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
+          SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
+          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}:pr-877
+          SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
+          siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
+          SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
+          SMTP_EMAIL_ERROR_SUBJECT: ${{vars.SMTP_EMAIL_ERROR_SUBJECT}}
+          SMTP_EMAIL_FREQ: ${{vars.SMTP_EMAIL_FREQ}}
+          SMTP_EMAIL_SUBJECT: ${{vars.SMTP_EMAIL_SUBJECT}}
+          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{vars.SMTP_EMAIL_SYNC_ERROR_FREQ}}
+          SMTP_FROM_EMAIL: ${{vars.SMTP_FROM_EMAIL}}
+          SMTP_HOST_NAME: ${{vars.SMTP_HOST_NAME}}
+          SMTP_PASSWORD: ${{secrets.DEV_SMTP_PASSWORD}}
+          SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_DEV }}
+          SUBNET_FILTER: ${{ vars.SUBNET_FILTER }}
+          TARGET_ENV: dev
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
-          DB_PASS: dbTESTsecretUNUSED
-          ALB_NAME: ${{ env.ALB_NAME }}
-          VPC_NAME: ${{ env.VPC_NAME }}
-          SUBNET_FILTER: ${{ env.SUBNET_FILTER }}
-          WEBADE_OAUTH2_CLIENT_ID: ${{env.WEBADE_OAUTH2_CLIENT_ID}}
-          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{env.WEBADE-OAUTH2_TOKEN_CLIENT_URL}}
-          WEBADE-OAUTH2_TOKEN_URL: ${{env.WEBADE-OAUTH2_TOKEN_URL}}
-          WEBADE_OAUTH2_AUTHORIZE_URL: ${{env.WEBADE_OAUTH2_AUTHORIZE_URL}}
-          WFDM_REST_URL: ${{env.WFDM_REST_URL}}
-          WFIM_CLIENT_URL: ${{env.WFIM_CLIENT_URL}}
-          WFIM_CODE_TABLES_URL: ${{env.WFIM_CODE_TABLES_URL}}
-          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{env.WEBADE-OAUTH2_CHECK_TOKEN_URL}}
-          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{env.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
-          SMTP_HOST_NAME: ${{env.SMTP_HOST_NAME}}
-          SMTP_FROM_EMAIL: ${{env.SMTP_FROM_EMAIL}}
-          SMTP_ADMIN_EMAIL: ${{env.SMTP_ADMIN_EMAIL}}
-          SMTP_EMAIL_SYNC_ERROR_FREQ: ${{env.SMTP_EMAIL_SYNC_ERROR_FREQ}}
-          SMTP_EMAIL_FREQ: ${{env.SMTP_EMAIL_FREQ}}
-          SMTP_EMAIL_ERROR_SUBJECT: ${{env.SMTP_EMAIL_ERROR_SUBJECT}}
-          SMTP_EMAIL_SUBJECT: ${{env.SMTP_EMAIL_SUBJECT}}
-          DEFAULT_APPLICATION_ENVIRONMENT: ${{env.DEFAULT_APPLICATION_ENVIRONMENT}}
-          WFNEWS_AGOL_QUERY_URL: ${{env.WFNEWS_AGOL_QUERY_URL}}
-          SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
-          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
-          WFNEWS_USERNAME: ${{env.WFNEWS_USERNAME}}
-          WFNEWS_MAX_CONNECTIONS: ${{env.WFNEWS_MAX_CONNECTIONS}}
-          SNS_EMAIL_TARGETS: ${{env.SNS_EMAIL_TARGETS}}
-          agolUrl: test.test
-          drivebcBaseUrl: test.test
-          openmapsBaseUrl: test.test
-          siteMinderURLPrefix: test.test
-          agolAreaRestrictions: test.test
-          agolBansAndProhibitions: test.test
-          MAX_RECEIVED_COUNT: ${{env.MAX_RECEIVED_COUNT}}
-          VISIBILITY_TIMEOUT_SECONDS: ${{env.VISIBILITY_TIMEOUT_SECONDS}}
-          ACCEPTED_IPS: ${{env.ACCEPTED_IPS}}
-          PUSH_NOTIFICATION_AWS_USER: ${{env.PUSH_NOTIFICATION_AWS_USER}}
-          EVENT_BRIDGE_ARN: ${{env.EVENT_BRIDGE_ARN}}
-          WFNEWS_URL: ${{env.WFNEWS_URL}}
-          SECRET_NAME: ${{env.SECRET_NAME}}
-          BAN_PROHIBITION_MONITOR_KEY: ${{env.BAN_PROHIBITION_MONITOR_KEY}}
-          ACTIVE_FIRE_MONITOR_KEY: ${{env.ACTIVE_FIRE_MONITOR_KEY}}
-          AREA_RESTRICTIONS_MONITOR_KEY: ${{env.AREA_RESTRICTIONS_MONITOR_KEY}}
-          EVACUATION_MONITOR_KEY: ${{env.EVACUATION_MONITOR_KEY}}
-          LAMBDA_LAYER_KEY: ${{env.LAMBDA_LAYER_KEY}}
-          FUNCTION_BUCKET: ${{env.FUNCTION_BUCKET}}
+          VPC_NAME: ${{ vars.VPC_NAME }}
+          WEBADE_OAUTH2_AUTHORIZE_URL: ${{vars.WEBADE_OAUTH2_AUTHORIZE_URL}}
+          WEBADE_OAUTH2_REST_CLIENT_ID: ${{vars.WEBADE_OAUTH2_REST_CLIENT_ID}}
+          WEBADE_OAUTH2_UI_CLIENT_ID: ${{vars.WEBADE_OAUTH2_UI_CLIENT_ID}}
+          WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.DEV_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}}
+          WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{secrets.DEV_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
+          WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{vars.WEBADE_OAUTH2_CHECK_TOKEN_URL}}
+          WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{vars.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
+          WEBADE-OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL}}
+          WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
+          WFIM_CLIENT_URL: ${{vars.WFIM_CLIENT_URL}}
+          WFIM_CODE_TABLES_URL: ${{vars.WFIM_CODE_TABLES_URL}}
+          WFNEWS_AGOL_QUERY_URL: ${{vars.WFNEWS_AGOL_QUERY_URL}}
+          WFNEWS_EMAIL_NOTIFICATIONS_ENABLED: ${{vars.WFNEWS_EMAIL_NOTIFICATIONS_ENABLED}}
+          WFNEWS_MAX_CONNECTIONS: ${{vars.WFNEWS_MAX_CONNECTIONS}}
+          WFNEWS_USERNAME: ${{vars.WFNEWS_USERNAME}}
+
+          MAX_RECEIVED_COUNT: 10
+          VISIBILITY_TIMEOUT_SECONDS: 10
+          ACCEPTED_IPS: 127.0.0.1
+          PUSH_NOTIFICATION_AWS_USER: test
+          EVENT_BRIDGE_ARN: arn:aws:events:ca-central-1:account:event-bus/event-bus-name
+          WFNEWS_URL: test.com
+          SECRET_NAME: secret
+          BAN_PROHIBITION_MONITOR_KEY: test
+          ACTIVE_FIRE_MONITOR_KEY: test
+          AREA_RESTRICTIONS_MONITOR_KEY: test
+          EVACUATION_MONITOR_KEY: test
+          LAMBDA_LAYER_KEY: test
+          FUNCTION_BUCKET: wfnews-lambdas
+
+          # POINTID API VARIABLES
+          DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
+          DATABASE_WEATHER_USER: ${{vars.DATABASE_WEATHER_USER }}
+          BCGW_URL: ${{vars.BCGW_URL }}
+          WFGS_URL: ${{vars.WFGS_URL }}
+          POINTID_MAX_ALLOWED_RADIUS: ${{vars.POINTID_MAX_ALLOWED_RADIUS }}
+          POINTID_ASYNC_JOB_INTERVAL: ${{vars.POINTID_ASYNC_JOB_INTERVAL }}
+          POINTID_ASYNC_JOB_REF_LAT: ${{vars.ASYNC_JOB_REF_LAT }}
+          POINTID_ASYNC_JOB_REF_LONG: ${{vars.POINTID_ASYNC_JOB_REF_LONG }}
+          POINTID_ASYNC_JOB_REF_RADIUS: ${{vars.POINTID_ASYNC_JOB_REF_RADIUS }}
+          WEATHER_HOST: ${{vars.WEATHER_HOST }}
+          WEATHER_USER: ${{vars.WEATHER_USER }}
+          WFARCGIS_URL: ${{vars.WFARCGIS_URL }}
+          WFARCGIS_LAYER_AREA_RESTRICTIONS: ${{vars.WFARCGIS_LAYER_AREA_RESTRICTIONS }}
+          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ${{vars.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS }}
+          WFARCGIS_LAYER_DANGER_RATING: ${{vars.WFARCGIS_LAYER_DANGER_RATING }}
+          WFARCGIS_LAYER_ACTIVE_FIRES: ${{vars.WFARCGIS_LAYER_ACTIVE_FIRES }}
+          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ${{vars.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS }}
+          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{vars.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
+          WFARCGIS_QUEUESIZE: ${{vars.WFARCGIS_QUEUESIZE }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{vars.WEBADE_OAUTH2_CLIENT_ID }}
+          WEBADE_OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL }}
+          WEBADE_OAUTH2_CLIENT_SCOPES: ${{vars.WEBADE_OAUTH2_CLIENT_SCOPES }}
+          FIREWEATHER_BASEURL: ${{vars.FIREWEATHER_BASEURL }}
+          FIREWEATHER_QUEUESIZE: ${{vars.FIREWEATHER_QUEUESIZE }}
+          WFNEWS_QUEUESIZE: ${{vars.WFNEWS_QUEUESIZE }}
+          DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
+          WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
+          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
+          POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:pr-877
+
+          # WFONE NOTIFICATIONS API
+          # WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS}}
+          # WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD: ${{secrets.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD}}
+          # WFONE_NOTIFICATIONS_API_DATASOURCE_URL: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_URL}}
+          # WFONE_NOTIFICATIONS_API_DATASOURCE_USER: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_USER}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ}}
+          # WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT: ${{vars.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT}}
+          # WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS: ${{vars.WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS}}
+          # WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS: ${{vars.WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS}}
+          # WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD: ${{secrets.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD}}
+          # WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER: ${{vars.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER}}
+          # WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME: ${{vars.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME}}
+          # WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
+          # WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET: ${{secrets.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET}}
+          # WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
+          WFONE_NOTIFICATIONS_API_IMAGE: 
 
         run: terragrunt plan --terragrunt-non-interactive
 

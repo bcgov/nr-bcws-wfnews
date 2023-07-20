@@ -93,9 +93,12 @@ export class IncidentGalleryPanel implements OnInit {
   }
 
   handleImageFallback (item: any, index: number) {
-    const imgComponent = document.getElementById(index + '-img-thumb')
-    if (imgComponent) {
-      (imgComponent as any).src = item.href
+    if (!item.loaded) {
+      const imgComponent = document.getElementById(index + '-img-thumb')
+      if (imgComponent) {
+        (imgComponent as any).src = item.href
+      }
+      item.loaded = true;
     }
   }
 
@@ -125,6 +128,7 @@ export class IncidentGalleryPanel implements OnInit {
         if (results && results.collection && results.collection.length > 0) {
           for (const attachment of results.collection) {
             // do a mime type check here
+            // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error. 
             if (attachment.mimeType && ['image/jpg', 'image/jpeg', 'image/png', 'image/gif', 'image/bmp', 'image/tiff'].includes(attachment.mimeType.toLowerCase())) {
               this.allImagesAndVideosStub.push({
                 title: attachment.attachmentTitle,
@@ -132,7 +136,8 @@ export class IncidentGalleryPanel implements OnInit {
                 fileName: attachment.attachmentFileName,
                 type: 'image',
                 href: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes`,
-                thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`
+                thumbnail: `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${this.incident.incidentNumberLabel}/attachments/${attachment.attachmentGuid}/bytes?thumbnail=true`,
+                loaded: false
               })
             }
           }
