@@ -380,10 +380,16 @@ variable "liquibase_image" {
   default     = ""
 }
 
-variable "pointid-image" {
+variable "pointid_image" {
   description = "Full name of liquibase image"
   type        = string
   default     = ""
+}
+
+variable "wfone_notifications_api_image" {
+  description = "Full name of notifications api image"
+  type = string
+  default = "wfone_notifications_api"
 }
 
 variable "apisix_name" {

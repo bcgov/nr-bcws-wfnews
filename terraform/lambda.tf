@@ -30,12 +30,12 @@ data "local_file" "evacuation_orders_zip" {
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
   filename = "lambda-functions/bans_and_prohibitions.zip"
-  source_code_hash = local_file.bans_and_prohibitions_zip.content_base64sha256
+  source_code_hash = data.local_file.bans_and_prohibitions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 900
-  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
       QUEUE_URL   = aws_sqs_queue.queue_bans.url
@@ -53,7 +53,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
-  layers        = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers        = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   timeout = 180
   environment {
     variables = {
@@ -73,7 +73,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 180
-  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
       QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
@@ -92,7 +92,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
   timeout = 180
-  layers  = [data.aws_lambda_layer_version.wfnews_lambda_layer.arn]
+  layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
       QUEUE_URL   = aws_sqs_queue.queue_evacs.url

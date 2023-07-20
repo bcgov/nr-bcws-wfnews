@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Directive, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Directive, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
@@ -22,6 +22,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   // and load from the store/api
   @Input() adminIncident: any;
   @Input() adminIncidentCause: any;
+  @Output() changesSavedEvent = new EventEmitter<boolean>();
   @ViewChild('detailsPanelComponent') detailsPanelComponent: IncidentDetailsPanel;
   @ViewChild('ContactDetailsPanel') contactDetailsPanelComponent: ContactsDetailsPanel;
   @ViewChild('EvacOrderPanel') evacOrdersDetailsPanel: EvacOrdersDetailsPanel;
@@ -127,6 +128,14 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       traditionalTerritory: [],
       wildifreCrewsInd: [],
     });
+
+    this.incidentForm.valueChanges.subscribe(() => {
+      this.setIsFormDirty(this.incidentForm.dirty);
+    });
+  }
+
+  setIsFormDirty(isDirty: boolean) {
+    this.changesSavedEvent.emit(!isDirty)
   }
 
   getPublishedDate() {
@@ -234,6 +243,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.incidentOverview = response.incidentOverview;
 
               this.incidentForm.patchValue(this.incident);
+              this.incidentForm.markAsPristine();
               this.evacOrdersDetailsPanel.getEvacOrders();
             }, (error) => {
               console.log('No published data found...');
@@ -242,6 +252,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             });
 
             this.incidentForm.patchValue(this.incident);
+            this.incidentForm.markAsPristine();
             this.cdr.detectChanges();
           },
             (incidentResponseError) => {
@@ -276,6 +287,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     if (!result?.publish) {
       this.publishDisabled = false;
       this.cdr.detectChanges();
+      return;
     }
     const publishedIncidentResource = {
       contactEmailAddress: this.nullEmptyStrings(this.incident.contact.emailAddress),
@@ -322,6 +334,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       // Update the Draft/Publish status on incident name
       this.incident.lastPublished = doc.publishedTimestamp;
       this.incident.publishedStatus = doc.newsPublicationStatusCode;
+      this.incidentForm.markAsPristine();
+      this.setIsFormDirty(false);
     } catch (err) {
       this.snackbarService.open(
         'Failed to Publish Incident: ' + JSON.stringify(err.message),

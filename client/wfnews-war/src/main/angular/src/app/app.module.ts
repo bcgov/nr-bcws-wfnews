@@ -133,13 +133,14 @@ import { IncidentGalleryPanelMobileComponent } from './components/public-inciden
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
 import { IncidentGalleryImagesMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-images-mobile/incident-gallery-images-mobile.component';
 import { IncidentGalleryVideosMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-videos-mobile/incident-gallery-videos-mobile.component';
-
 import { IncidentOverviewPanelMobileComponent } from './components/public-incident-page/incident-overview-panel-mobile/incident-overview-panel-mobile.component';
 import { IncidentMapsPanelMobileComponent } from './components/public-incident-page/incident-maps-panel-mobile/incident-maps-panel-mobile.component';
 import { VideoPanelComponent } from './components/public-incident-page/incident-gallery-panel/video-panel/video-panel.component';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
+import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
+import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
 import { RoFTitlePage } from './components/report-of-fire/title-page/rof-title-page.component';
 import { RoFPermissionsPage } from './components/report-of-fire/permissions-page/rof-permissions-page.component';
@@ -193,6 +194,7 @@ export const DATE_FORMATS = {
         StickyWidgetComponent,
         ContactWidgetDialogComponent,
         PublishDialogComponent,
+        UnsavedChangesDialog,
         ImageCardPanel,
         WFStatsComponent,
         WeatherPanelComponent,
@@ -378,6 +380,7 @@ export const DATE_FORMATS = {
         LocalStorageService,
         WatchlistService,
         PointIdService,
+        CanDeactivateGuard
     ],
     bootstrap: [
         AppComponent
