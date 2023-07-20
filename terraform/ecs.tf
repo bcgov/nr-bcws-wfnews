@@ -576,10 +576,6 @@ resource "terraform_data" "tasks" {
           {
             name  = "WFIM_CODE_TABLES_URL",
             value = var.WFIM_CODE_TABLES_URL
-          },
-          {
-            name  = "WFSS_POINTID_URL",
-            value = var.WFSS_POINTID_URL
           }
         ]
     }
@@ -1157,10 +1153,6 @@ tasks = {
         {
           name  = "WFIM_CODE_TABLES_URL",
           value = var.WFIM_CODE_TABLES_URL
-        },
-        {
-          name  = "WFSS_POINTID_URL",
-          value = var.WFSS_POINTID_URL
         }
       ]
   }
@@ -2284,10 +2276,6 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           # {
           #   name  = "WFIM_CODE_TABLES_URL",
           #   value = var.WFIM_CODE_TABLES_URL
-          # },
-          # {
-          #   name  = "WFSS_POINTID_URL",
-          #   value = var.WFSS_POINTID_URL
           # }
         ]
       logConfiguration = {

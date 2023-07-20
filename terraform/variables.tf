@@ -808,41 +808,34 @@ variable "WFARCGIS_LAYER_AREA_RESTRICTIONS" {
 variable "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_DANGER_RATING" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_ACTIVE_FIRES" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS" {
   type    = string
   default = ""
-
 }
 
 variable "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_ID" {
-
   type    = string
   default = ""
 }
@@ -850,41 +843,131 @@ variable "WEBADE_OAUTH2_CLIENT_ID" {
 variable "WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_SCOPES" {
   type    = string
   default = ""
-
 }
 
 variable "FIREWEATHER_BASEURL" {
   type    = string
   default = ""
-
 }
 
 variable "FIREWEATHER_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WFNEWS_BASEURL" {
   type    = string
   default = ""
-
 }
 
 variable "WFNEWS_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_SECRET" {
   type    = string
   default = ""
+}
 
+# WFONE-NOTIFICATIONS-API Environment Variables
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_USER" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
+  type    = string
+  default = ""
 }
