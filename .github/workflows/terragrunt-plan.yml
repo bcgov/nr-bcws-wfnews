@@ -24,6 +24,7 @@ jobs:
         
       - name: Make dummy zips
         run: |
+          mkdir terraform/lambda-functions
           touch terraform/lambda-functions/active-fire-monitor.zip
           touch terraform/lambda-functions/area-restrictions-monitor.zip
           touch terraform/lambda-functions/bans-and-prohibitions-monitor.zip
