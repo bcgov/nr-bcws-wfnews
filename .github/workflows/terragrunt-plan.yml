@@ -24,11 +24,11 @@ jobs:
         
       - name: Make dummy zips
         run: |
-          touch terraform/active-fire-monitor.zip
-          touch terraform/area-restrictions-monitor.zip
-          touch terraform/bans-and-prohibitions-monitor.zip
-          touch terraform/evacuation-orders-monitor.zip
-          touch terraform/python.zip
+          touch terraform/lambda-functions/active-fire-monitor.zip
+          touch terraform/lambda-functions/area-restrictions-monitor.zip
+          touch terraform/lambda-functions/bans-and-prohibitions-monitor.zip
+          touch terraform/lambda-functions/evacuation-orders-monitor.zip
+          touch terraform/lambda-functions/python.zip
 
       - uses: hashicorp/setup-terraform@v2
         with:
@@ -112,34 +112,34 @@ jobs:
           FUNCTION_BUCKET: wfnews-lambdas
 
           # POINTID API VARIABLES
-          DATABASE_WEATHER_URL: test.com
-          DATABASE_WEATHER_USER: test
-          BCGW_URL: test.com
-          WFGS_URL: test.com
-          MAX_ALLOWED_RADIUS: 999
-          ASYNC_JOB_INTERVAL: 99999
-          ASYNC_JOB_REF_LAT: 50
-          ASYNC_JOB_REF_LONG: -120
-          ASYNC_JOB_REF_RADIUS: 1000
-          WEATHER_HOST: test.com
-          WEATHER_USER: test
-          WFARCGIS_URL: test.com
-          WFARCGIS_LAYER_AREA_RESTRICTIONS: test.com
-          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: test.com
-          WFARCGIS_LAYER_DANGER_RATING: test.com
-          WFARCGIS_LAYER_ACTIVE_FIRES: test.com
-          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: test.com
-          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: test.com
-          WEBADE_OAUTH2_CLIENT_ID: test.com
-          WEBADE_OAUTH2_TOKEN_URL: test
-          WEBADE_OAUTH2_CLIENT_SCOPES: test
-          FIREWEATHER_BASEURL: test.com
-          FIREWEATHER_QUEUESIZE: 1500
-          WFNEWS_BASEURL: test.com
-          WFNEWS_QUEUESIZE: 1500
-          DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD_DEV }}
+          DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
+          DATABASE_WEATHER_USER: ${{vars.DATABASE_WEATHER_USER }}
+          BCGW_URL: ${{vars.BCGW_URL }}
+          WFGS_URL: ${{vars.WFGS_URL }}
+          POINTID_MAX_ALLOWED_RADIUS: ${{vars.POINTID_MAX_ALLOWED_RADIUS }}
+          POINTID_ASYNC_JOB_INTERVAL: ${{vars.POINTID_ASYNC_JOB_INTERVAL }}
+          POINTID_ASYNC_JOB_REF_LAT: ${{vars.ASYNC_JOB_REF_LAT }}
+          POINTID_ASYNC_JOB_REF_LONG: ${{vars.POINTID_ASYNC_JOB_REF_LONG }}
+          POINTID_ASYNC_JOB_REF_RADIUS: ${{vars.POINTID_ASYNC_JOB_REF_RADIUS }}
+          WEATHER_HOST: ${{vars.WEATHER_HOST }}
+          WEATHER_USER: ${{vars.WEATHER_USER }}
+          WFARCGIS_URL: ${{vars.WFARCGIS_URL }}
+          WFARCGIS_LAYER_AREA_RESTRICTIONS: ${{vars.WFARCGIS_LAYER_AREA_RESTRICTIONS }}
+          WFARCGIS_LAYER_BANS_PROHIBITION_AREAS: ${{vars.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS }}
+          WFARCGIS_LAYER_DANGER_RATING: ${{vars.WFARCGIS_LAYER_DANGER_RATING }}
+          WFARCGIS_LAYER_ACTIVE_FIRES: ${{vars.WFARCGIS_LAYER_ACTIVE_FIRES }}
+          WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS: ${{vars.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS }}
+          WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES: ${{vars.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES }}
+          WFARCGIS_QUEUESIZE: ${{vars.WFARCGIS_QUEUESIZE }}
+          WEBADE_OAUTH2_CLIENT_ID: ${{vars.WEBADE_OAUTH2_CLIENT_ID }}
+          WEBADE_OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL }}
+          WEBADE_OAUTH2_CLIENT_SCOPES: ${{vars.WEBADE_OAUTH2_CLIENT_SCOPES }}
+          FIREWEATHER_BASEURL: ${{vars.FIREWEATHER_BASEURL }}
+          FIREWEATHER_QUEUESIZE: ${{vars.FIREWEATHER_QUEUESIZE }}
+          WFNEWS_QUEUESIZE: ${{vars.WFNEWS_QUEUESIZE }}
+          DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
-          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET_DEV }}
+          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
           POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:pr-877
 
           # WFONE NOTIFICATIONS API

@@ -82,7 +82,6 @@ jobs:
 
       MAX_RECEIVED_COUNT: 10
       VISIBILITY_TIMEOUT_SECONDS: 100
-      ACCEPTED_IPS: ""
       PUSH_NOTIFICATION_AWS_USER: ""
       EVENT_BRIDGE_ARN: ""
       WFNEWS_URL: ""
@@ -99,11 +98,11 @@ jobs:
       DATABASE_WEATHER_USER: "proxy_wf1_weather"
       BCGW_URL: https://test.openmaps.gov.bc.ca/geo/pub
       WFGS_URL: https://wf1geop.nrs.gov.bc.ca/geoserver
-      MAX_ALLOWED_RADIUS: 1000
-      ASYNC_JOB_INTERVAL: 900000
-      ASYNC_JOB_REF_LAT: 55.2758
-      ASYNC_JOB_REF_LONG: -124.8509
-      ASYNC_JOB_REF_RADIUS: 999
+      POINTID_MAX_ALLOWED_RADIUS: 1000
+      POINTID_ASYNC_JOB_INTERVAL: 900000
+      POINTID_ASYNC_JOB_REF_LAT: 55.2758
+      POINTID_ASYNC_JOB_REF_LONG: -124.8509
+      POINTID_ASYNC_JOB_REF_RADIUS: 999
       WEATHER_HOST: sechelt.idir.bcgov:1001
       WEATHER_USER: PROXY_GEOVIEWER
       WFARCGIS_URL: https://services6.arcgis.com
@@ -119,7 +118,6 @@ jobs:
       WEBADE_OAUTH2_CLIENT_SCOPES: WFSS.* WFWX.*
       FIREWEATHER_BASEURL: https://bcwsapi.nrs.gov.bc.ca/wfwx-fireweather-api/
       FIREWEATHER_QUEUESIZE: 1500
-      WFNEWS_BASEURL: https://wfnews-api.dev.bcwildfireservices.com/
       WFNEWS_QUEUESIZE: 1500
 
     secrets:

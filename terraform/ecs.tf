@@ -362,7 +362,7 @@ resource "terraform_data" "tasks" {
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = var.MAX_ALLOWED_RADIUS
+            value = var.POINTID_MAX_ALLOWED_RADIUS
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
@@ -374,11 +374,11 @@ resource "terraform_data" "tasks" {
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
-            value = var.ASYNC_JOB_REF_LONG
+            value = var.POINTID_ASYNC_JOB_REF_LONG
           },
           {
             name  = "ASYNC_JOB_REF_RADIUS",
-            value = var.ASYNC_JOB_REF_RADIUS
+            value = var.POINTID_ASYNC_JOB_REF_RADIUS
           },
           {
             name  = "WEATHER_HOST",
@@ -939,7 +939,7 @@ tasks = {
         },
         {
           name  = "MAX_ALLOWED_RADIUS",
-          value = var.MAX_ALLOWED_RADIUS
+          value = var.POINTID_MAX_ALLOWED_RADIUS
         },
         {
           name  = "ASYNC_JOB_INTERVAL",
@@ -951,11 +951,11 @@ tasks = {
         },
         {
           name  = "ASYNC_JOB_REF_LONG",
-          value = var.ASYNC_JOB_REF_LONG
+          value = var.POINTID_ASYNC_JOB_REF_LONG
         },
         {
           name  = "ASYNC_JOB_REF_RADIUS",
-          value = var.ASYNC_JOB_REF_RADIUS
+          value = var.POINTID_ASYNC_JOB_REF_RADIUS
         },
         {
           name  = "WEATHER_HOST",
@@ -1987,11 +1987,11 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = var.MAX_ALLOWED_RADIUS
+            value = var.POINTID_MAX_ALLOWED_RADIUS
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
-            value = var.ASYNC_JOB_INTERVAL
+            value = var.POINTID_ASYNC_JOB_INTERVAL
           },
           {
             name  = "ASYNC_JOB_REF_LAT",
@@ -1999,11 +1999,11 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
-            value = var.ASYNC_JOB_REF_LONG
+            value = var.POINTID_ASYNC_JOB_REF_LONG
           },
           {
             name  = "ASYNC_JOB_REF_RADIUS",
-            value = var.ASYNC_JOB_REF_RADIUS
+            value = var.POINTID_ASYNC_JOB_REF_RADIUS
           },
           {
             name  = "WEATHER_HOST",
@@ -2054,7 +2054,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = var.WEBADE_OAUTH2_CLIENT_ID
           },
           {
-            name  = "WEBADE_OATH2_TOKEN_URL",
+            name  = "WEBADE_OAUTH2_TOKEN_URL",
             value = var.WEBADE_OAUTH2_TOKEN_URL
           },
           {
@@ -2071,7 +2071,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_BASEURL",
-            value = var.WFNEWS_BASEURL
+            value = aws_cloudfront_distribution.wfnews_geofencing_server.aliases[0]
           },
           {
             name  = "WFNEWS_QUEUESIZE",
