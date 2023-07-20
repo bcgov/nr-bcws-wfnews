@@ -75,6 +75,27 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    background-color: #f5f5f5;
+    border: solid 1px #bfbfbf;
+    &-primary {
+      width: 138px;
+      height: 43px;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      color: white;
+      background-color: #123262;
+    }
+    &-disabled {
+      width: 138px;
+      height: 43px;
+      font-size: 20px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      background-color: gray;
+    }
   }
 }
 
@@ -109,6 +130,10 @@
     line-height: normal !important;
     letter-spacing: -0.38px !important;
   }
+}
+
+.left-padding {
+  padding-left: 10px;
 }
 
 .rof-toggle-group {

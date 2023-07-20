@@ -1,1 +1,7 @@
 @import '../report-of-fire.component.scss';
+
+.text-container {
+  margin: 20px;
+  width: calc(100vw - 40px);
+  height: calc(100vh - 400px);
+}
