@@ -146,38 +146,25 @@ jobs:
         run: chmod +x ./gradlew
 
       - uses: sparkfabrik/android-build-action@v1.4.0
-        if: ${{ inputs.upload_to_play_store == 'false' }}
-        name: Build APK
-        with:
-          increment-build-number: false
-          project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
-          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
-
-      - uses: sparkfabrik/android-build-action@v1.4.0
-        if: ${{ inputs.upload_to_play_store == 'true' }}
-        name: Build AAB and upload to Play Store
+        name: Build APK and upload to Play Store
         env:
           PACKAGE_NAME: ${{ secrets.KEY_ALIAS }}
         with:
-          build-type: "bundle"
-          gradle-task: "bundleRelease"
           increment-build-number: true
           package-name: ${{ env.PACKAGE_NAME }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEY_ALIAS }}
           json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-          upload-to-play-store: true
+          upload-to-play-store: ${{ inputs.upload_to_play_store == 'true' }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
-          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
 
       - uses: actions/upload-artifact@v3
-        env:
-          FILE_EXTENSION: ${{ inputs.upload_to_play_store == 'false' && 'apk' || 'aab' }}
         name: Upload Build Artifact to GitHub
         with:
-          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.${{ env.FILE_EXTENSION }}
-          path: "${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ steps.vars.outputs.short_sha }}.${{ env.FILE_EXTENSION }}"
+          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
+          path: "${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
           retention-days: 3
 
       - name: Post to a Slack channel
