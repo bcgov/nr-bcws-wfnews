@@ -971,8 +971,3 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
   type    = string
   default = ""
 }
-
-variable "WFSS_POINTID_URL" {
-  type    = string
-  default = ""
-}
