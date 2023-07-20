@@ -59,6 +59,7 @@ export class RoFComplexQuestionPage extends RoFPage {
       if (this.highlightedButton) {
         this.highlightedButton.classList.remove("btn-highlight");
       }
+      this.reportOfFire[this.updateAttribute] = '';
     }
 
     this.disableNext = false;

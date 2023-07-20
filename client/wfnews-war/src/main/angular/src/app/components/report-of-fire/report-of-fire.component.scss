@@ -114,7 +114,7 @@
   .mat-flat-button {
     border: none;
     border-radius: 8px;
-    background: white;
+    background: #f1f1f1;
     height: 81px;
     padding: 0;
     margin: 0;
@@ -149,6 +149,13 @@
     border: none;
     border-radius: 8px;
     height: 81px;
+  }
+  .mat-button-toggle-appearance-standard {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #f1f1f1;
+  }
+  .mat-button-toggle-checked {
+    background-color: #e0e0e0 !important;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
