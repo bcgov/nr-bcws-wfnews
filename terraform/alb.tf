@@ -177,7 +177,7 @@ resource "aws_alb_target_group" "wfnews_apisix" {
 }
 
 resource "aws_alb_target_group" "wfss_pointid" {
-  name                 = "wfss-pointid-${var.target_env}"
+  name                 = "wfss-pointid-api-${var.target_env}"
   port                 = var.pointid_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
