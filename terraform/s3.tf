@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "wfnews_log_bucket" {
 }
 
 //Need to upload artifacts to bucket before running terraform
-data "aws_s3_bucket" "wfnews-lambda" {
+data "aws_s3_bucket" "wfnews_lambda" {
   bucket        = "wfnews-lambda-${var.target_env}"
 }
 
