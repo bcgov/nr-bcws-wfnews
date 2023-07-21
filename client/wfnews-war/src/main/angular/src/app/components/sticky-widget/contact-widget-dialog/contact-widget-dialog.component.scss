@@ -6,7 +6,8 @@
 
 .contact-widget-dialog-container {
     
-    .mat-dialog-title{
+    .mat-mdc-dialog-title{
+        font-weight: 0 !important;
         margin-bottom: 0;
         display: flex;
         justify-content: space-between;
