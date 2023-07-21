@@ -135,7 +135,7 @@ jobs:
           # AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
 
 
-
+          UNIQUE_DEPLOY_ID: ${{ github.run_id }}
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
