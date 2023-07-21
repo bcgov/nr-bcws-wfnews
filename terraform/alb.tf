@@ -220,7 +220,6 @@ resource "aws_alb_target_group" "wfone-notifications-api" {
   tags = local.common_tags
 }
 
-
 /*
 resource "aws_alb_target_group" "wfnews_apisix_admin" {
   name                 = "wfnews-apisix-admin-${var.target_env}"
