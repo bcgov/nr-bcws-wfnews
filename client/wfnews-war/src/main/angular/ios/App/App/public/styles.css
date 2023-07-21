@@ -21,7 +21,7 @@
 .mat-h2,
 .mat-headline-6,
 .mat-typography .mat-h2,
-.mat-typography .mat-title,
+.mat-typography .mat-headline-6,
 .mat-typography h2 {
   font-size: 20px;
   font-weight: 500;
@@ -34,7 +34,7 @@
 .mat-h3,
 .mat-subtitle-1,
 .mat-typography .mat-h3,
-.mat-typography .mat-subheading-2,
+.mat-typography .mat-subtitle-1,
 .mat-typography h3 {
   font-size: 16px;
   font-weight: 400;
@@ -46,8 +46,9 @@
 
 .mat-h4,
 .mat-body-1,
+.mat-subtitle-2,
 .mat-typography .mat-h4,
-.mat-typography .mat-subheading-1,
+.mat-typography .mat-subtitle-2,
 .mat-typography h4 {
   font-size: 15px;
   font-weight: 400;
@@ -74,7 +75,7 @@
 .mat-body-strong,
 .mat-subtitle-2,
 .mat-typography .mat-body-strong,
-.mat-typography .mat-body-2 {
+.mat-typography .mat-subtitle-2 {
   font-size: 14px;
   font-weight: 500;
   line-height: 24px;
@@ -84,8 +85,9 @@
 
 .mat-body,
 .mat-body-2,
+.mat-subtitle-2,
 .mat-typography .mat-body,
-.mat-typography .mat-body-1,
+.mat-typography .mat-subtitle-2,
 .mat-typography {
   font-size: 14px;
   font-weight: 400;
@@ -95,8 +97,9 @@
 }
 .mat-body p,
 .mat-body-2 p,
+.mat-subtitle-2 p,
 .mat-typography .mat-body p,
-.mat-typography .mat-body-1 p,
+.mat-typography .mat-subtitle-2 p,
 .mat-typography p {
   margin: 0 0 12px;
 }
@@ -532,85 +535,93 @@ input.mat-input-element {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
 .mat-slider-thumb-label-text {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
   font-weight: 500;
 }
 
-.mat-menu-item {
+.mat-mdc-menu-item {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 400;
 }
 
-.mat-list-item {
+.mat-mdc-list-item {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
 .mat-list-option {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-list-base .mat-list-item {
+.mat-mdc-list-base .mat-mdc-list-item {
   font-size: 16px;
 }
-.mat-list-base .mat-list-item .mat-line {
+.mat-mdc-list-base .mat-mdc-list-item .mat-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   box-sizing: border-box;
 }
-.mat-list-base .mat-list-item .mat-line:nth-child(n+2) {
+.mat-mdc-list-base .mat-mdc-list-item .mat-line:nth-child(n+2) {
   font-size: 14px;
 }
-.mat-list-base .mat-list-option {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base .mat-list-option {
   font-size: 16px;
 }
-.mat-list-base .mat-list-option .mat-line {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base .mat-list-option .mat-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   box-sizing: border-box;
 }
-.mat-list-base .mat-list-option .mat-line:nth-child(n+2) {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base .mat-list-option .mat-line:nth-child(n+2) {
   font-size: 14px;
 }
-.mat-list-base .mat-subheader {
+.mat-mdc-list-base .mat-mdc-subheader {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 500;
 }
 
-.mat-list-base[dense] .mat-list-item {
+.mat-mdc-list-base[dense] .mat-mdc-list-item {
   font-size: 12px;
 }
-.mat-list-base[dense] .mat-list-item .mat-line {
+.mat-mdc-list-base[dense] .mat-mdc-list-item .mat-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   box-sizing: border-box;
 }
-.mat-list-base[dense] .mat-list-item .mat-line:nth-child(n+2) {
+.mat-mdc-list-base[dense] .mat-mdc-list-item .mat-line:nth-child(n+2) {
   font-size: 12px;
 }
-.mat-list-base[dense] .mat-list-option {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base[dense] .mat-list-option {
   font-size: 12px;
 }
-.mat-list-base[dense] .mat-list-option .mat-line {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base[dense] .mat-list-option .mat-line {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   display: block;
   box-sizing: border-box;
 }
-.mat-list-base[dense] .mat-list-option .mat-line:nth-child(n+2) {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base[dense] .mat-list-option .mat-line:nth-child(n+2) {
   font-size: 12px;
 }
-.mat-list-base[dense] .mat-subheader {
+.mat-mdc-list-base[dense] .mat-mdc-subheader {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -1391,45 +1402,54 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   color: rgba(0, 0, 0, 0.54);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
 .mat-progress-bar-background {
   fill: #c5c8ca;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
 .mat-progress-bar-buffer {
   background-color: #c5c8ca;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
 .mat-progress-bar-fill::after {
   background-color: #263238;
 }
 
-.mat-progress-bar.mat-accent .mat-progress-bar-background {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-accent .mat-progress-bar-background {
   fill: #ebebeb;
 }
-.mat-progress-bar.mat-accent .mat-progress-bar-buffer {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-accent .mat-progress-bar-buffer {
   background-color: #ebebeb;
 }
-.mat-progress-bar.mat-accent .mat-progress-bar-fill::after {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-accent .mat-progress-bar-fill::after {
   background-color: #bdbdbd;
 }
 
-.mat-progress-bar.mat-warn .mat-progress-bar-background {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-warn .mat-progress-bar-background {
   fill: #edc6c6;
 }
-.mat-progress-bar.mat-warn .mat-progress-bar-buffer {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-warn .mat-progress-bar-buffer {
   background-color: #edc6c6;
 }
-.mat-progress-bar.mat-warn .mat-progress-bar-fill::after {
+/*TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version.*/
+.mat-mdc-progress-bar.mat-warn .mat-progress-bar-fill::after {
   background-color: #c62828;
 }
 
-.mat-progress-spinner circle, .mat-spinner circle {
+.mat-mdc-progress-spinner circle, .mat-mdc-progress-spinner circle {
   stroke: #263238;
 }
-.mat-progress-spinner.mat-accent circle, .mat-spinner.mat-accent circle {
+.mat-mdc-progress-spinner.mat-accent circle, .mat-mdc-progress-spinner.mat-accent circle {
   stroke: #bdbdbd;
 }
-.mat-progress-spinner.mat-warn circle, .mat-spinner.mat-warn circle {
+.mat-mdc-progress-spinner.mat-warn circle, .mat-mdc-progress-spinner.mat-warn circle {
   stroke: #c62828;
 }
 
@@ -1865,144 +1885,161 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   background-color: black;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
 .mat-slider-track-background {
   background-color: rgba(0, 0, 0, 0.26);
 }
 
-.mat-slider.mat-primary .mat-slider-track-fill,
+.mat-mdc-slider.mat-primary .mat-slider-track-fill,
 .mat-slider.mat-primary .mat-slider-thumb,
 .mat-slider.mat-primary .mat-slider-thumb-label {
   background-color: #263238;
 }
-.mat-slider.mat-primary .mat-slider-thumb-label-text {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-primary .mat-slider-thumb-label-text {
   color: white;
 }
-.mat-slider.mat-primary .mat-slider-focus-ring {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-primary .mat-slider-focus-ring {
   background-color: rgba(38, 50, 56, 0.2);
 }
-.mat-slider.mat-accent .mat-slider-track-fill,
+.mat-mdc-slider.mat-accent .mat-slider-track-fill,
 .mat-slider.mat-accent .mat-slider-thumb,
 .mat-slider.mat-accent .mat-slider-thumb-label {
   background-color: #bdbdbd;
 }
-.mat-slider.mat-accent .mat-slider-thumb-label-text {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-accent .mat-slider-thumb-label-text {
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-slider.mat-accent .mat-slider-focus-ring {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-accent .mat-slider-focus-ring {
   background-color: rgba(189, 189, 189, 0.2);
 }
-.mat-slider.mat-warn .mat-slider-track-fill,
+.mat-mdc-slider.mat-warn .mat-slider-track-fill,
 .mat-slider.mat-warn .mat-slider-thumb,
 .mat-slider.mat-warn .mat-slider-thumb-label {
   background-color: #c62828;
 }
-.mat-slider.mat-warn .mat-slider-thumb-label-text {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-warn .mat-slider-thumb-label-text {
   color: white;
 }
-.mat-slider.mat-warn .mat-slider-focus-ring {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-warn .mat-slider-focus-ring {
   background-color: rgba(198, 40, 40, 0.2);
 }
 
-.mat-slider:hover .mat-slider-track-background,
+.mat-mdc-slider:hover .mat-slider-track-background,
 .mat-slider.cdk-focused .mat-slider-track-background {
   background-color: rgba(0, 0, 0, 0.38);
 }
 
-.mat-slider.mat-slider-disabled .mat-slider-track-background,
+.mat-mdc-slider.mat-slider-disabled .mat-slider-track-background,
 .mat-slider.mat-slider-disabled .mat-slider-track-fill,
 .mat-slider.mat-slider-disabled .mat-slider-thumb {
   background-color: rgba(0, 0, 0, 0.26);
 }
-.mat-slider.mat-slider-disabled:hover .mat-slider-track-background {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-slider-disabled:hover .mat-slider-track-background {
   background-color: rgba(0, 0, 0, 0.26);
 }
 
-.mat-slider.mat-slider-min-value .mat-slider-focus-ring {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-slider-min-value .mat-slider-focus-ring {
   background-color: rgba(0, 0, 0, 0.12);
 }
-.mat-slider.mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb,
+.mat-mdc-slider.mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb,
 .mat-slider.mat-slider-min-value.mat-slider-thumb-label-showing .mat-slider-thumb-label {
   background-color: rgba(0, 0, 0, 0.87);
 }
-.mat-slider.mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb,
+.mat-mdc-slider.mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb,
 .mat-slider.mat-slider-min-value.mat-slider-thumb-label-showing.cdk-focused .mat-slider-thumb-label {
   background-color: rgba(0, 0, 0, 0.26);
 }
-.mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
+.mat-mdc-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
   border-color: rgba(0, 0, 0, 0.26);
   background-color: transparent;
 }
-.mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing):hover .mat-slider-thumb, .mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing).cdk-focused .mat-slider-thumb {
+.mat-mdc-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing):hover .mat-slider-thumb, .mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing).cdk-focused .mat-slider-thumb {
   border-color: rgba(0, 0, 0, 0.38);
 }
-.mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing):hover.mat-slider-disabled .mat-slider-thumb, .mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing).cdk-focused.mat-slider-disabled .mat-slider-thumb {
+.mat-mdc-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing):hover.mat-slider-disabled .mat-slider-thumb, .mat-slider.mat-slider-min-value:not(.mat-slider-thumb-label-showing).cdk-focused.mat-slider-disabled .mat-slider-thumb {
   border-color: rgba(0, 0, 0, 0.26);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
 .mat-slider-has-ticks .mat-slider-wrapper::after {
   border-color: rgba(0, 0, 0, 0.7);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
 .mat-slider-horizontal .mat-slider-ticks {
   background-image: repeating-linear-gradient(to right, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) 2px, transparent 0, transparent);
   background-image: -moz-repeating-linear-gradient(0.0001deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) 2px, transparent 0, transparent);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slider that may no longer apply for the MDC version.*/
 .mat-slider-vertical .mat-slider-ticks {
   background-image: repeating-linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7) 2px, transparent 0, transparent);
 }
 
-.mat-menu-panel {
+.mat-mdc-menu-panel {
   background: white;
 }
-.mat-menu-panel:not([class*=mat-elevation-z]) {
+.mat-mdc-menu-panel:not([class*=mat-elevation-z]) {
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
 }
 
-.mat-menu-item {
+.mat-mdc-menu-item {
   background: transparent;
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-menu-item[disabled],
+.mat-mdc-menu-item[disabled],
 .mat-menu-item[disabled] .mat-menu-submenu-icon,
 .mat-menu-item[disabled] .mat-icon-no-color {
   color: rgba(0, 0, 0, 0.38);
 }
 
-.mat-menu-item .mat-icon-no-color,
+/*TODO(mdc-migration): The following rule targets internal classes of menu that may no longer apply for the MDC version.*/
+.mat-mdc-menu-item .mat-icon-no-color,
 .mat-menu-submenu-icon {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.mat-menu-item:hover:not([disabled]),
+.mat-mdc-menu-item:hover:not([disabled]),
 .mat-menu-item.cdk-program-focused:not([disabled]),
 .mat-menu-item.cdk-keyboard-focused:not([disabled]),
 .mat-menu-item-highlighted:not([disabled]) {
   background: rgba(0, 0, 0, 0.04);
 }
 
-.mat-list-base .mat-list-item {
+.mat-mdc-list-base .mat-mdc-list-item {
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-list-base .mat-list-option {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base .mat-list-option {
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-list-base .mat-subheader {
+.mat-mdc-list-base .mat-mdc-subheader {
   color: rgba(0, 0, 0, 0.54);
 }
-.mat-list-base .mat-list-item-disabled {
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+.mat-mdc-list-base .mat-list-item-disabled {
   background-color: #eeeeee;
   color: rgba(0, 0, 0, 0.38);
 }
 
 .mat-list-option:hover, .mat-list-option:focus,
-.mat-nav-list .mat-list-item:hover,
+.mat-nav-list .mat-mdc-list-item:hover,
 .mat-nav-list .mat-list-item:focus,
 .mat-action-list .mat-list-item:hover,
 .mat-action-list .mat-list-item:focus {
   background: rgba(0, 0, 0, 0.04);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
 .mat-list-single-selected-option, .mat-list-single-selected-option:hover, .mat-list-single-selected-option:focus {
   background: rgba(0, 0, 0, 0.12);
 }
@@ -3418,11 +3455,11 @@ mat-toolbar.wf1-application-toolbar .wf1-toolbar-spacer {
   fill: #a7a9ac;
 }
 
-wf1-list-container mat-list.mat-list {
+wf1-list-container mat-list.mat-mdc-list {
   padding-top: 0;
   height: 100%;
 }
-wf1-list-container mat-list.mat-list cdk-virtual-scroll-viewport {
+wf1-list-container mat-list.mat-mdc-list cdk-virtual-scroll-viewport {
   height: 100%;
 }
 
@@ -3433,6 +3470,7 @@ wf1-list-container wf1-spinner {
   align-items: center;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
 mat-list-item.list-item .mat-list-item-content {
   align-items: center;
   padding: 0 !important;

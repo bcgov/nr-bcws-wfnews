@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <fieldset class="field-set">
       <legend style="display: none">General Disclaimer Card</legend>
       <div class="news-form">
@@ -19,7 +19,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Wildfire Crews
     </mat-card-title>
@@ -27,11 +27,11 @@
       <legend style="display: none">Response card</legend>
       <div class="news-form">
         <div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Initial Attack Crews</mat-label>
             <input matInput type="number" #initialAttackCrews (change)="crewsValueChange()">
           </mat-form-field>
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Unit Crews</mat-label>
             <input matInput type="number" #unitCrews (change)="crewsValueChange()">
           </mat-form-field>
@@ -54,7 +54,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Aviation
     </mat-card-title>
@@ -62,11 +62,11 @@
       <legend style="display: none">Arial Response Card</legend>
       <div class="news-form">
         <div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Helicopters</mat-label>
             <input matInput type="number" #helicopters (change)="aviationValueChange()">
           </mat-form-field>
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Airtankers</mat-label>
             <input matInput type="number" #airtankers (change)="aviationValueChange()">
           </mat-form-field>
@@ -89,7 +89,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Incident Management Team
     </mat-card-title>
@@ -114,7 +114,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Heavy Equipment
     </mat-card-title>
@@ -122,7 +122,7 @@
       <legend style="display: none">Equipment Response Card</legend>
       <div class="news-form">
         <div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Heavy Equipment Pieces</mat-label>
             <input matInput type="number" #pieces (change)="heavyEquipmentValueChange()">
           </mat-form-field>
@@ -145,7 +145,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <mat-card-title>
       Structure Protection
     </mat-card-title>

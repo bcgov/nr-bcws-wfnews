@@ -2645,8 +2645,8 @@ resource "aws_ecs_service" "notifications_liquibase" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
-    container_name   = var.liquibase_container_name
+    target_group_arn = aws_alb_target_group.notifications_liquibase.id
+    container_name   = var.notifications_liquibase_container_name
     container_port   = var.db_port
   }
 

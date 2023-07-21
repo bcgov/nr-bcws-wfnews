@@ -4,10 +4,12 @@
         <div class="field search-input">
             <mat-label class="label">Search for a Wildfire</mat-label>
             <input [readonly]="isLocationName()" matInput class="search-input" aria-label="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
-            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="searchText"
+            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
                     aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
                     matTooltip="Clear">
-                <mat-icon>close</mat-icon>
+                    <span class="button-wrapper">
+                        <mat-icon>close</mat-icon>
+                    </span>
             </button>
         </div>
 
@@ -32,7 +34,7 @@
                     </div>
                 </mat-option>
             </mat-autocomplete>
-            <button mat-button matSuffix mat-icon-button class="input-clear-button" *ngIf="locationName"
+            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="locationName"
                     aria-label="Clear" (click)="searchByLocationControl.reset();selectedLat=undefined;selectedLong=undefined;searchTextUpdated(); $event.stopPropagation()"
                     matTooltip="Clear">
                 <mat-icon>close</mat-icon>
