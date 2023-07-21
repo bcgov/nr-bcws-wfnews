@@ -45,6 +45,7 @@ dependencies {
     implementation project(':capacitor-cordova-android-plugins')
     implementation platform("com.google.firebase:firebase-bom:$firebaseVersion")
     implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.gms:google-services:4.3.15'
 }
 
 apply from: 'capacitor.build.gradle'
