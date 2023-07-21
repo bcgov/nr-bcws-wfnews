@@ -131,6 +131,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -145,6 +146,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -181,6 +183,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -414,8 +417,8 @@
       .summary-card{
         margin: var(--wf1-gutter-space) 0 0 0;
       }
-
-      mat-card.mat-card.wf1-vendor-portal-header-bar {
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+      mat-card.mat-mdc-card.wf1-vendor-portal-header-bar {
         padding: 0;
       }
 

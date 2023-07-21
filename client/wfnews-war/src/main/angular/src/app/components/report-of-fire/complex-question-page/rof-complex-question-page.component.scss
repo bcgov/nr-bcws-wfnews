@@ -1,7 +1,9 @@
-:host {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-}
+@import '../report-of-fire.component.scss';
 
 .btn-highlight {
-  background-color: #e0e0e0;
+  background-color: #e0e0e0 !important;
+}
+
+.btn-icon {
+  margin-right: 8px;
 }
