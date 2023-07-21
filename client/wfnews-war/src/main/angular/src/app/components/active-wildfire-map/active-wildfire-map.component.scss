@@ -69,7 +69,7 @@
         height: 40px;
         display: flex;
 
-        .mat-raised-button {
+        .mat-mdc-raised-button {
           box-shadow: none;
         }
 
@@ -223,6 +223,7 @@
 }
 
 //mat-input focused color
+/*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
 ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   border-right: none;
 }

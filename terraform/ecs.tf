@@ -1967,107 +1967,107 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
       environment = [
           {
             name  = "DATABASE_WEATHER_URL",
-            value = var.DATABASE_WEATHER_URL
+            value = "${var.DATABASE_WEATHER_URL}"
           },
           {
             name  = "DATABASE_WEATHER_USER",
-            value = var.DATABASE_WEATHER_USER
+            value = "${var.DATABASE_WEATHER_USER}"
           },
           {
             name  = "DATABASE_WEATHER_PWD",
-            value = var.DATABASE_WEATHER_PWD
+            value = "${var.DATABASE_WEATHER_PWD}"
           },
           {
             name  = "BCGW_URL",
-            value = var.BCGW_URL
+            value = "${var.BCGW_URL}"
           },
           {
             name  = "WFGS_URL",
-            value = var.WFGS_URL
+            value = "${var.WFGS_URL}"
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = "${var.POINTID_MAX_ALLOWED_RADIUS}"
+            value = "${tostring(var.POINTID_MAX_ALLOWED_RADIUS)}"
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
-            value = "${var.POINTID_ASYNC_JOB_INTERVAL}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_INTERVAL)}"
           },
           {
             name  = "ASYNC_JOB_REF_LAT",
-            value = "${var.POINTID_ASYNC_JOB_REF_LAT}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LAT)}"
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
-            value = "${var.POINTID_ASYNC_JOB_REF_LONG}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LONG)}"
           },
           {
             name  = "ASYNC_JOB_REF_RADIUS",
-            value = "${var.POINTID_ASYNC_JOB_REF_RADIUS}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_RADIUS)}"
           },
           {
             name  = "WEATHER_HOST",
-            value = var.WEATHER_HOST
+            value = "${var.WEATHER_HOST}"
           },
           {
             name  = "WEATHER_USER",
-            value = var.WEATHER_USER
+            value = "${var.WEATHER_USER}"
           },
           {
             name  = "WEATHER_PASSWORD",
-            value = var.WEATHER_PASSWORD
+            value = "${var.WEATHER_PASSWORD}"
           },
           {
             name  = "WFARCGIS_URL",
-            value = var.WFARCGIS_URL
+            value = "${var.WFARCGIS_URL}"
           },
           {
             name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
-            value = var.WFARCGIS_LAYER_AREA_RESTRICTIONS
+            value = "${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
           },
           {
             name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
-            value = var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS
+            value = "${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
           },
           {
             name  = "WFARCGIS_LAYER_DANGER_RATING",
-            value = var.WFARCGIS_LAYER_DANGER_RATING
+            value = "${var.WFARCGIS_LAYER_DANGER_RATING}"
           },
           {
             name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
-            value = var.WFARCGIS_LAYER_ACTIVE_FIRES
+            value = "${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
           },
           {
             name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
-            value = var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS
+            value = "${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
           },
           {
             name  = "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
-            value = var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES
+            value = "${var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
           },
           {
             name  = "WFARCGIS_QUEUESIZE",
-            value = var.WFARCGIS_QUEUESIZE
+            value = "${tostring(var.WFARCGIS_QUEUESIZE)}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = var.WEBADE_OAUTH2_CLIENT_ID
+            value = "${var.WEBADE_OAUTH2_CLIENT_ID}"
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = var.WEBADE_OAUTH2_TOKEN_URL
+            value = "${var.WEBADE_OAUTH2_TOKEN_URL}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
-            value = var.WEBADE_OAUTH2_CLIENT_SCOPES
+            value = "${var.WEBADE_OAUTH2_CLIENT_SCOPES}"
           },
           {
             name  = "FIREWEATHER_BASEURL",
-            value = var.FIREWEATHER_BASEURL
+            value = "${var.FIREWEATHER_BASEURL}"
           },
           {
             name  = "FIREWEATHER_QUEUESIZE",
-            value = "${var.FIREWEATHER_QUEUESIZE}"
+            value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
             name  = "WFNEWS_BASEURL",
@@ -2075,11 +2075,11 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_QUEUESIZE",
-            value = "${var.WFNEWS_QUEUESIZE}"
+            value = "${tostring(var.WFNEWS_QUEUESIZE)}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = var.WEBADE_OAUTH2_CLIENT_SECRET
+            value = "${var.WEBADE_OAUTH2_CLIENT_SECRET}"
           }
         ]
       logConfiguration = {
@@ -2645,8 +2645,8 @@ resource "aws_ecs_service" "notifications_liquibase" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
-    container_name   = var.liquibase_container_name
+    target_group_arn = aws_alb_target_group.notifications_liquibase.id
+    container_name   = var.notifications_liquibase_container_name
     container_port   = var.db_port
   }
 

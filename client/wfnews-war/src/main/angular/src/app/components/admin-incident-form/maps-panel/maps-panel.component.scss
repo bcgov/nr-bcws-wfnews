@@ -225,7 +225,7 @@ table tr:nth-child(even) td{
     }
 
 
-    select.mat-input-element {
+    select.mat-mdc-input-element {
       background-color: $colour-white;
       width: 60px;
       border: 1px solid $colour-light-grey;
@@ -353,7 +353,7 @@ table tr:nth-child(even) td{
       margin: 6px;
     }
 
-    &>select.mat-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
+    &>select.mat-mdc-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
       max-width: 150px;
     }
 
@@ -367,7 +367,7 @@ table tr:nth-child(even) td{
     font-family: $font-family-main;
   }
 
-  select.mat-input-element {
+  select.mat-mdc-input-element {
     background-color: $colour-white;
     height: 37.5px;
     top: 0;
@@ -426,7 +426,7 @@ table tr:nth-child(even) td{
 
   textarea,
   input,
-  mat-checkbox.mat-checkbox,
+  mat-checkbox.mat-mdc-checkbox,
   select {
     border: 1px solid $colour-light-grey;
     padding: 0 5px;
@@ -449,7 +449,7 @@ table tr:nth-child(even) td{
     background-color: $opacity-light-grey !important;
   }
 
-  ::ng-deep mat-checkbox .mat-checkbox-frame {
+  ::ng-deep mat-checkbox .mat-mdc-checkbox-frame {
     background-color: $colour-white;
     border: 1px solid $colour-light-grey;
     border-radius: $wf1-border-radius;

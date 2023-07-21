@@ -1,3 +1,5 @@
-:host {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+@import '../report-of-fire.component.scss';
+
+::ng-deep.mat-checkbox-layout {
+  white-space: normal !important;
 }

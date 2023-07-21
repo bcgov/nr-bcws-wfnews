@@ -88,8 +88,8 @@ $list-item-width: 100%;
       .mat-icon {
         margin-right: 10px;
       }
-
-      &.mat-fab .mat-button-wrapper {
+      /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
+      &.mat-mdc-fab .mat-button-wrapper {
         padding: 0;
       }
 
@@ -104,19 +104,19 @@ $list-item-width: 100%;
     text-align: center;
     margin-top: 1rem;
   }
-  ::ng-deep mat-card.mat-card {
+  ::ng-deep mat-card.mat-mdc-card {
     margin-top: var(--wf1-gutter-space);
     box-shadow: none;
     border: 2px solid $colour-card-border;
     padding: 0;
     font-family: $font-family-main;
 
-    ::ng-deep .mat-card-title,
+    ::ng-deep .mat-mdc-card-title,
     .form-flex-wrapper{
       padding: var(--wf1-gutter-space);
     }
 
-    ::ng-deep .mat-card-title{
+    ::ng-deep .mat-mdc-card-title{
       border-bottom: $colour-lighter-grey 1px solid;
       background-color: $colour-lighter-grey;
     }
@@ -203,7 +203,7 @@ $list-item-width: 100%;
       margin-top: 24px;
     }
   }
-  ::ng-deep mat-card.mat-card.wf1-resources-header-bar {
+  ::ng-deep mat-card.mat-mdc-card.wf1-resources-header-bar {
     border: none;
     margin: 0;
     border-radius: 0 !important;
@@ -255,7 +255,7 @@ $list-item-width: 100%;
 
     textarea,
     input,
-    mat-checkbox.mat-checkbox,
+    mat-checkbox.mat-mdc-checkbox,
     select.mat-input-element {
       border: 1px solid $colour-light-grey;
       padding: 0 5px;
@@ -277,7 +277,7 @@ $list-item-width: 100%;
       }
     }
 
-    select.mat-input-element{
+    select.mat-mdc-input-element{
       height: 37.5px !important;
     }
 
@@ -330,7 +330,7 @@ $list-item-width: 100%;
           left: -30px;
           margin-left: 0;
           flex: none;
-
+          /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
           ::ng-deep .mat-button-wrapper{
             display: flex;
             border-radius: 20%;
@@ -418,7 +418,7 @@ $list-item-width: 100%;
       }
     }
 
-    select.mat-input-element{
+    select.mat-mdc-input-element{
       position: static;
       -webkit-appearance: menulist;
       margin-bottom: 0;
@@ -440,15 +440,16 @@ $list-item-width: 100%;
     }
 
 
-    .mat-card-content {
+    .mat-mdc-card-content {
       border-radius: 0 !important;
       width: calc(100% - 20px);
     }
 
   }
-
-
+  /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
   mat-card {
+    /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
     mat-card-title {
       text-align: left;
       font-weight: $font-weight-emphasis;
@@ -461,17 +462,17 @@ $list-item-width: 100%;
       text-overflow: ellipsis;
     }
 
-    .mat-card-content {
+    .mat-mdc-card-content {
       display: flex;
       flex-wrap: wrap;
       flex: 1;
 
       .item-info{
-        .mat-list-item{
+        .mat-mdc-list-item{
           height: auto;
           padding: 10px 0 0 0;
           overflow: hidden;
-
+          /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
           ::ng-deep .mat-list-item-content{
             padding: 0;
           }
@@ -479,11 +480,12 @@ $list-item-width: 100%;
       }
     }
   }
-
-  ::ng-deep .mat-list-base .mat-list-option.mat-list-option .mat-list-item-content-reverse .mat-list-text {
+  /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+  ::ng-deep .mat-mdc-list-base .mat-list-option.mat-list-option .mat-list-item-content-reverse .mat-list-text {
     flex-direction: unset !important;
   }
-
+  /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
+  /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
   mat-list,
   mat-selection-list {
     padding-top: 0;
@@ -505,7 +507,7 @@ $list-item-width: 100%;
       background-color: $colour-white;
       min-height: 64px;
       display: inline-grid;
-
+      /*TODO(mdc-migration): The following rule targets internal classes of list that may no longer apply for the MDC version.*/
       .mat-list-item-content {
         max-width: calc(var(--vw, 1vw) * 100);
 

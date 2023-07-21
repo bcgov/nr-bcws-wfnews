@@ -1,5 +1,5 @@
 @mixin mat-fab-($name, $background-colour, $colour) {
-    button.mat-fab.mat-#{$name} {
+    button.mat-mdc-fab.mat-#{$name} {
         background-color: $background-colour;
         color: $colour;
 
@@ -11,12 +11,12 @@
 @include mat-fab-('primary', $colour-button-primary, $colour-white);
 
 @mixin mat-fab-px-($name, $size, $background-colour, $colour) {
-    button.mat-fab.mat-#{$name}-#{$size} {
+    button.mat-mdc-fab.mat-#{$name}-#{$size} {
         background-color: $background-colour;
         color: $colour;
         width: $size + px;
         height: $size + px;
-
+        /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version. */
         .mat-button-wrapper {
             padding: $size / 6 + px;
         }
@@ -28,14 +28,14 @@
 }
 @include mat-fab-px-('white', 48, $colour-white, $colour-dark-grey);
 
-button.mat-mini-fab.bottom-right {
+button.mat-mdc-mini-fab.bottom-right {
     position: fixed;
     bottom: 24px;
     right: 24px;
     z-index: 1000;
 }
 
-button.mat-fab.bottom-right {
+button.mat-mdc-fab.bottom-right {
     position: fixed;
     bottom: 20px;
     right: 20px;
