@@ -39,6 +39,10 @@ jobs:
         with:
           args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
 
+      - name: Get timestamp
+        run: |
+          echo "{date}={$(date +'%Y-%m-%d-%H-%M')}" >> $GITHUB_STATE
+
       # - name: Make staging directory, copy files
       #   run: |
       #     mkdir staging
@@ -56,7 +60,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
           aws-region: ca-central-1
-          role-session-name: s3-lambda-push
+          role-session-name: s3-lambda-push--${{ env.date }}
 
       - name: Upload S3
         id: S3
