@@ -334,7 +334,7 @@ resource "aws_sqs_queue" "queue_notifications" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "IpAddress": {"aws:SourceIP": [${var.ACCEPTED_IPS}]}
+        "IpAddress": {"aws:SourceIP": ["${var.ACCEPTED_IPS}"]}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-notifications-queue-${var.target_env}"
     },

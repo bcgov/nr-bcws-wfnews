@@ -2047,7 +2047,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFARCGIS_QUEUESIZE",
-            value = var.WFARCGIS_QUEUESIZE
+            value = "${var.WFARCGIS_QUEUESIZE}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
