@@ -6,7 +6,7 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[6].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[6].rules[1].use[1]!./src/styles/main.scss?ngGlobalStyle ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .mat-h1,
-.mat-headline,
+.mat-headline-5,
 .mat-typography .mat-h1,
 .mat-typography .mat-headline,
 .mat-typography h1 {
@@ -19,7 +19,7 @@
 }
 
 .mat-h2,
-.mat-title,
+.mat-headline-6,
 .mat-typography .mat-h2,
 .mat-typography .mat-title,
 .mat-typography h2 {
@@ -32,7 +32,7 @@
 }
 
 .mat-h3,
-.mat-subheading-2,
+.mat-subtitle-1,
 .mat-typography .mat-h3,
 .mat-typography .mat-subheading-2,
 .mat-typography h3 {
@@ -45,7 +45,7 @@
 }
 
 .mat-h4,
-.mat-subheading-1,
+.mat-body-1,
 .mat-typography .mat-h4,
 .mat-typography .mat-subheading-1,
 .mat-typography h4 {
@@ -72,7 +72,7 @@
 }
 
 .mat-body-strong,
-.mat-body-2,
+.mat-subtitle-2,
 .mat-typography .mat-body-strong,
 .mat-typography .mat-body-2 {
   font-size: 14px;
@@ -83,7 +83,7 @@
 }
 
 .mat-body,
-.mat-body-1,
+.mat-body-2,
 .mat-typography .mat-body,
 .mat-typography .mat-body-1,
 .mat-typography {
@@ -94,7 +94,7 @@
   letter-spacing: normal;
 }
 .mat-body p,
-.mat-body-1 p,
+.mat-body-2 p,
 .mat-typography .mat-body p,
 .mat-typography .mat-body-1 p,
 .mat-typography p {
@@ -112,7 +112,7 @@
   letter-spacing: normal;
 }
 
-.mat-display-4,
+.mat-headline-1,
 .mat-typography .mat-display-4 {
   font-size: 112px;
   font-weight: 300;
@@ -122,7 +122,7 @@
   margin: 0 0 56px;
 }
 
-.mat-display-3,
+.mat-headline-2,
 .mat-typography .mat-display-3 {
   font-size: 56px;
   font-weight: 400;
@@ -132,7 +132,7 @@
   margin: 0 0 64px;
 }
 
-.mat-display-2,
+.mat-headline-3,
 .mat-typography .mat-display-2 {
   font-size: 45px;
   font-weight: 400;
@@ -142,7 +142,7 @@
   margin: 0 0 64px;
 }
 
-.mat-display-1,
+.mat-headline-4,
 .mat-typography .mat-display-1 {
   font-size: 34px;
   font-weight: 400;
@@ -513,6 +513,7 @@ input.mat-input-element {
   font-size: 18px;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
 .mat-slide-toggle-content {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -1776,42 +1777,50 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: #bdbdbd;
 }
-.mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-checked .mat-slide-toggle-bar {
   background-color: rgba(189, 189, 189, 0.54);
 }
-.mat-slide-toggle.mat-checked .mat-ripple-element {
+.mat-mdc-slide-toggle.mat-checked .mat-ripple-element {
   background-color: #bdbdbd;
 }
-.mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-thumb {
   background-color: #263238;
 }
-.mat-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-primary.mat-checked .mat-slide-toggle-bar {
   background-color: rgba(38, 50, 56, 0.54);
 }
-.mat-slide-toggle.mat-primary.mat-checked .mat-ripple-element {
+.mat-mdc-slide-toggle.mat-primary.mat-checked .mat-ripple-element {
   background-color: #263238;
 }
-.mat-slide-toggle.mat-warn.mat-checked .mat-slide-toggle-thumb {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-warn.mat-checked .mat-slide-toggle-thumb {
   background-color: #c62828;
 }
-.mat-slide-toggle.mat-warn.mat-checked .mat-slide-toggle-bar {
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
+.mat-mdc-slide-toggle.mat-warn.mat-checked .mat-slide-toggle-bar {
   background-color: rgba(198, 40, 40, 0.54);
 }
-.mat-slide-toggle.mat-warn.mat-checked .mat-ripple-element {
+.mat-mdc-slide-toggle.mat-warn.mat-checked .mat-ripple-element {
   background-color: #c62828;
 }
-.mat-slide-toggle:not(.mat-checked) .mat-ripple-element {
+.mat-mdc-slide-toggle:not(.mat-checked) .mat-ripple-element {
   background-color: black;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
 .mat-slide-toggle-thumb {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   background-color: #fafafa;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version.*/
 .mat-slide-toggle-bar {
   background-color: rgba(0, 0, 0, 0.38);
 }
@@ -3104,7 +3113,7 @@ mat-toolbar.wf1-application-header.mat-primary .app-logo-and-title-div {
   justify-content: center;
   align-items: flex-end;
 }
-mat-toolbar.wf1-application-header.mat-primary .app-logo-and-title-div .mat-title {
+mat-toolbar.wf1-application-header.mat-primary .app-logo-and-title-div .mat-headline-6 {
   font-size: 1.4rem;
   color: #ffffff;
   white-space: nowrap;
@@ -6138,5 +6147,3 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   right: 0;
   left: 0;
 }
-
-/*# sourceMappingURL=styles.css.map*/

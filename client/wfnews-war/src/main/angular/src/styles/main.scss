@@ -641,3 +641,10 @@ wf-admin-incident-desktop{
   border-radius: 20px !important;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
+
+.mat-mdc-slide-toggle {
+  .mdc-form-field{
+    font-family: Roboto,Helvetica Neue,sans-serif !important;
+    font-size: 17px;
+  }
+}
