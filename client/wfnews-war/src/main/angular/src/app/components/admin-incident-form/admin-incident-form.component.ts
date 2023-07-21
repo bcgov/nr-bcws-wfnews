@@ -4,7 +4,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { IncidentCauseResource, WildfireIncidentResource } from '@wf1/incidents-rest-api';
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';

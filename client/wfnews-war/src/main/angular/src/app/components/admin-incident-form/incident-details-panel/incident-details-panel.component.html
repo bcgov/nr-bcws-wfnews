@@ -4,13 +4,13 @@
       <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label">Fire Name</mat-label>
             <input matInput class="disabled-input" type="text" [(ngModel)]="incident.fireName" formControlName="fireName" disabled>
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label">Traditional Territory</mat-label>
             <input matInput class="disabled-input" type="text" [(ngModel)]="incident.traditionalTerritory" formControlName="traditionalTerritory" disabled>
           </mat-form-field>
@@ -37,7 +37,7 @@
       <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Size Type</mat-label>
             <mat-select appWFSingleSelect
               aria-label="Size Type"
@@ -53,7 +53,7 @@
           </mat-form-field>
         </div>
         <div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Size</mat-label>
             <input matInput class="disabled-input mat-form-field-disabled" type="text" [(ngModel)]="incident.sizeHectares" formControlName="sizeHectares" readonly>
           </mat-form-field>
@@ -78,7 +78,7 @@
       <legend style="display: none">Info Card</legend>
       <div class="news-form">
         <div class="field size-third">
-          <mat-form-field appearance="standard" floatLabel="always">
+          <mat-form-field floatLabel="always">
             <mat-label class="label required">Cause</mat-label>
             <mat-select appWFSingleSelect appWFPlaceholder="Select..."
               aria-label="Cause"
