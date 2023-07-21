@@ -22,15 +22,15 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v2
         
-      - name: Make dummy zips
-        run: |
-          pwd
-          touch terraform/active-fire-monitor.zip
-          touch terraform/area-restrictions-monitor.zip
-          touch terraform/bans-and-prohibitions-monitor.zip
-          touch terraform/evacuation-orders-monitor.zip
-          touch terraform/python.zip
-          ls -la terraform
+      # - name: Make dummy zips
+      #   run: |
+      #     pwd
+      #     touch terraform/active-fire-monitor.zip
+      #     touch terraform/area-restrictions-monitor.zip
+      #     touch terraform/bans-and-prohibitions-monitor.zip
+      #     touch terraform/evacuation-orders-monitor.zip
+      #     touch terraform/python.zip
+      #     ls -la terraform
 
       - uses: hashicorp/setup-terraform@v2
         with:

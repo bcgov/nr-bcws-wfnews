@@ -34,28 +34,28 @@ jobs:
         with:
           args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
 
-      - name: Make staging directory, copy files
-        run: |
-          mkdir staging
-          cp active-fire-monitor.zip staging/active-fire-monitor.zip
-          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          cp lambda/lambda-layer/python.zip staging/python.zip
+      # - name: Make staging directory, copy files
+      #   run: |
+      #     mkdir staging
+      #     cp active-fire-monitor.zip staging/active-fire-monitor.zip
+      #     cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+      #     cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+      #     cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+      #     cp lambda/lambda-layer/python.zip staging/python.zip
 
-      - name: Archive lambda functions between jobs
-        uses: actions/upload-artifact@v3
+      #Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
         with:
-          name: lambda-functions
-          path: |
-            staging
+          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+          aws-region: ca-central-1
+          role-session-name: s3-lambda-push
 
-      # - uses: shallwefootball/s3-upload-action@master
-      #   name: Upload S3
-      #   id: S3
-      #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #     aws_bucket: wfnews-lambdas
-      #     source_dir: staging
-      #     destination_dir: ''
+      - name: Upload S3
+        id: S3
+        run: |
+          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key active_fire.zip --body active-fire-monitor.zip
+          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key area-restrictions-monitor.zip --body area-restrictions-monitor.zip
+          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key bans-and-prohibitions-monitor.zip --body bans-and-prohibitions-monitor.zip
+          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key evacuation-orders-monitor.zip --body evacuation-orders-monitor.zip
+          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key python.zip --body lambda/lambda-layer/python.zip
