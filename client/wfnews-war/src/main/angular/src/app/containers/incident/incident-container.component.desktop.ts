@@ -4,7 +4,7 @@ import { Location, LocationStrategy, PathLocationStrategy } from "@angular/commo
 import { Observable } from "rxjs";
 import { CheckUnsavedChanges } from "../../components/common/guards/unsaved-changes.guard";
 import { UnsavedChangesDialog } from "../../components/common/unsaved-changes-dialog/unsaved-changes-dialog.component";
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { RootState } from "../../store";
 import { MatLegacySnackBar } from "@angular/material/legacy-snack-bar";
 import { ApplicationStateService } from "../../services/application-state.service";
