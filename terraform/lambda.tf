@@ -39,12 +39,16 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      UNIQUE_DEPLOY_ID = var.UNIQUE_DEPLOY_ID
       QUEUE_URL   = aws_sqs_queue.queue_bans.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = var.WFNEWS_URL
     }
+  }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
   }
 }
 
@@ -66,6 +70,11 @@ resource "aws_lambda_function" "monitor-active-fires" {
       WFNEWS_API  = var.WFNEWS_URL
     }
   }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
+  }
 }
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
@@ -79,12 +88,16 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      UNIQUE_DEPLOY_ID = var.UNIQUE_DEPLOY_ID
       QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = var.WFNEWS_URL
     }
+  }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
   }
 }
 
@@ -99,11 +112,15 @@ resource "aws_lambda_function" "monitor-evacuation" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      UNIQUE_DEPLOY_ID = var.UNIQUE_DEPLOY_ID
       QUEUE_URL   = aws_sqs_queue.queue_evacs.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = var.WFNEWS_URL
     }
+  }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
   }
 }
