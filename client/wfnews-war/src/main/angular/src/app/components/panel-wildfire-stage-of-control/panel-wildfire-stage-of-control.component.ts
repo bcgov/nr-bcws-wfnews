@@ -22,7 +22,7 @@ import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incid
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
 import * as L from 'leaflet'
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()

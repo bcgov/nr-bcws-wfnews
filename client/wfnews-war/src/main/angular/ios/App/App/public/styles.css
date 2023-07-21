@@ -6,7 +6,7 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[6].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[6].rules[1].use[1]!./src/styles/main.scss?ngGlobalStyle ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .mat-h1,
-.mat-headline-5-5-5-5-5,
+.mat-headline-5-5-5-5-5-5,
 .mat-typography .mat-h1,
 .mat-typography .mat-headline,
 .mat-typography h1 {
@@ -517,11 +517,12 @@ input.mat-input-element {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-tab-group {
+.mat-mdc-tab-group {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-tab-label, .mat-tab-link {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.mat-tab-label, .mat-mdc-tab-link {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
   font-weight: 500;
@@ -641,7 +642,7 @@ input.mat-input-element {
   font-weight: 500;
 }
 
-.mat-table {
+.mat-mdc-table {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
@@ -2063,231 +2064,236 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   min-height: 56px;
 }
 
-.mat-tab-nav-bar,
-.mat-tab-header {
+.mat-mdc-tab-nav-bar,
+.mat-mdc-tab-header {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.mat-tab-group-inverted-header .mat-tab-nav-bar,
-.mat-tab-group-inverted-header .mat-tab-header {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.mat-tab-group-inverted-header .mat-mdc-tab-nav-bar,
+.mat-tab-group-inverted-header .mat-mdc-tab-header {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: none;
 }
 
-.mat-tab-label, .mat-tab-link {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.mat-tab-label, .mat-mdc-tab-link {
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-tab-label.mat-tab-disabled, .mat-tab-link.mat-tab-disabled {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.mat-tab-label.mat-tab-disabled, .mat-mdc-tab-link.mat-tab-disabled {
   color: rgba(0, 0, 0, 0.38);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .mat-tab-header-pagination-chevron {
   border-color: rgba(0, 0, 0, 0.87);
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
   border-color: rgba(0, 0, 0, 0.38);
 }
 
-.mat-tab-group[class*=mat-background-] > .mat-tab-header,
-.mat-tab-nav-bar[class*=mat-background-] {
+.mat-mdc-tab-group[class*=mat-background-] > .mat-mdc-tab-header,
+.mat-mdc-tab-nav-bar[class*=mat-background-] {
   border-bottom: none;
   border-top: none;
 }
 
-.mat-tab-group.mat-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-primary .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-primary .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-primary .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-primary .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-primary .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-primary .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-primary .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-primary .mat-tab-link.cdk-program-focused {
   background-color: rgba(96, 125, 139, 0.3);
 }
-.mat-tab-group.mat-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-primary .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-primary .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-primary .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+.mat-mdc-tab-group.mat-primary .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-primary .mat-ink-bar {
   background-color: #263238;
 }
-.mat-tab-group.mat-primary.mat-background-primary > .mat-tab-header .mat-ink-bar, .mat-tab-group.mat-primary.mat-background-primary > .mat-tab-link-container .mat-ink-bar, .mat-tab-nav-bar.mat-primary.mat-background-primary > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-primary.mat-background-primary > .mat-tab-link-container .mat-ink-bar {
+.mat-mdc-tab-group.mat-primary.mat-background-primary > .mat-mdc-tab-header .mat-ink-bar, .mat-tab-group.mat-primary.mat-background-primary > .mat-tab-link-container .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-primary.mat-background-primary > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-primary.mat-background-primary > .mat-tab-link-container .mat-ink-bar {
   background-color: white;
 }
-.mat-tab-group.mat-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-accent .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-accent .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-accent .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-accent .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-accent .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-accent .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-accent .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-accent .mat-tab-link.cdk-program-focused {
   background-color: rgba(224, 224, 224, 0.3);
 }
-.mat-tab-group.mat-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-accent .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-accent .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-accent .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-accent .mat-ink-bar, .mat-tab-nav-bar.mat-accent .mat-ink-bar {
+.mat-mdc-tab-group.mat-accent .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-accent .mat-ink-bar {
   background-color: #bdbdbd;
 }
-.mat-tab-group.mat-accent.mat-background-accent > .mat-tab-header .mat-ink-bar, .mat-tab-group.mat-accent.mat-background-accent > .mat-tab-link-container .mat-ink-bar, .mat-tab-nav-bar.mat-accent.mat-background-accent > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-accent.mat-background-accent > .mat-tab-link-container .mat-ink-bar {
+.mat-mdc-tab-group.mat-accent.mat-background-accent > .mat-mdc-tab-header .mat-ink-bar, .mat-tab-group.mat-accent.mat-background-accent > .mat-tab-link-container .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-accent.mat-background-accent > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-accent.mat-background-accent > .mat-tab-link-container .mat-ink-bar {
   background-color: rgba(0, 0, 0, 0.87);
 }
-.mat-tab-group.mat-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-warn .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-warn .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-warn .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-warn .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-warn .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-warn .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-warn .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-warn .mat-tab-link.cdk-program-focused {
   background-color: rgba(239, 83, 80, 0.3);
 }
-.mat-tab-group.mat-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-warn .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-warn .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-warn .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-warn .mat-ink-bar, .mat-tab-nav-bar.mat-warn .mat-ink-bar {
+.mat-mdc-tab-group.mat-warn .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-warn .mat-ink-bar {
   background-color: #c62828;
 }
-.mat-tab-group.mat-warn.mat-background-warn > .mat-tab-header .mat-ink-bar, .mat-tab-group.mat-warn.mat-background-warn > .mat-tab-link-container .mat-ink-bar, .mat-tab-nav-bar.mat-warn.mat-background-warn > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-warn.mat-background-warn > .mat-tab-link-container .mat-ink-bar {
+.mat-mdc-tab-group.mat-warn.mat-background-warn > .mat-mdc-tab-header .mat-ink-bar, .mat-tab-group.mat-warn.mat-background-warn > .mat-tab-link-container .mat-ink-bar, .mat-mdc-tab-nav-bar.mat-warn.mat-background-warn > .mat-tab-header .mat-ink-bar, .mat-tab-nav-bar.mat-warn.mat-background-warn > .mat-tab-link-container .mat-ink-bar {
   background-color: white;
 }
-.mat-tab-group.mat-background-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-primary .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-background-primary .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-background-primary .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-background-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-primary .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-background-primary .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-background-primary .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-background-primary .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-background-primary .mat-tab-link.cdk-program-focused {
   background-color: rgba(96, 125, 139, 0.3);
 }
-.mat-tab-group.mat-background-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-primary .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-background-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-primary .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-primary .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-primary .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header, .mat-tab-group.mat-background-primary > .mat-tab-link-container, .mat-tab-group.mat-background-primary > .mat-tab-header-pagination, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header-pagination {
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header, .mat-tab-group.mat-background-primary > .mat-tab-link-container, .mat-tab-group.mat-background-primary > .mat-tab-header-pagination, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header-pagination {
   background-color: #263238;
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-tab-label, .mat-tab-group.mat-background-primary > .mat-tab-link-container .mat-tab-link, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-tab-link {
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header .mat-tab-label, .mat-tab-group.mat-background-primary > .mat-mdc-tab-link-container .mat-tab-link, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-tab-link {
   color: white;
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-primary > .mat-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-primary > .mat-mdc-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
   color: rgba(255, 255, 255, 0.4);
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-primary > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-primary > .mat-tab-link-container .mat-focus-indicator::before,
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-focus-indicator::before, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-primary > .mat-tab-header .mat-focus-indicator::before, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-focus-indicator::before,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-focus-indicator::before {
   border-color: white;
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
-.mat-tab-group.mat-background-primary > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-primary > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
   border-color: white;
   opacity: 0.4;
 }
-.mat-tab-group.mat-background-primary > .mat-tab-header .mat-ripple-element,
+.mat-mdc-tab-group.mat-background-primary > .mat-mdc-tab-header .mat-ripple-element,
 .mat-tab-group.mat-background-primary > .mat-tab-link-container .mat-ripple-element,
-.mat-tab-group.mat-background-primary > .mat-tab-header-pagination .mat-ripple-element, .mat-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-ripple-element,
+.mat-tab-group.mat-background-primary > .mat-tab-header-pagination .mat-ripple-element, .mat-mdc-tab-nav-bar.mat-background-primary > .mat-tab-header .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-link-container .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-primary > .mat-tab-header-pagination .mat-ripple-element {
   background-color: white;
   opacity: 0.12;
 }
-.mat-tab-group.mat-background-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-accent .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-background-accent .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-background-accent .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-background-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-accent .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-background-accent .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-background-accent .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-background-accent .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-background-accent .mat-tab-link.cdk-program-focused {
   background-color: rgba(224, 224, 224, 0.3);
 }
-.mat-tab-group.mat-background-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-accent .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-background-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-accent .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-accent .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-accent .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header, .mat-tab-group.mat-background-accent > .mat-tab-link-container, .mat-tab-group.mat-background-accent > .mat-tab-header-pagination, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header-pagination {
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header, .mat-tab-group.mat-background-accent > .mat-tab-link-container, .mat-tab-group.mat-background-accent > .mat-tab-header-pagination, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header-pagination {
   background-color: #bdbdbd;
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-tab-label, .mat-tab-group.mat-background-accent > .mat-tab-link-container .mat-tab-link, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-tab-link {
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header .mat-tab-label, .mat-tab-group.mat-background-accent > .mat-mdc-tab-link-container .mat-tab-link, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-tab-link {
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-accent > .mat-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-accent > .mat-mdc-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
   color: rgba(0, 0, 0, 0.4);
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-accent > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-accent > .mat-tab-link-container .mat-focus-indicator::before,
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-focus-indicator::before, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-accent > .mat-tab-header .mat-focus-indicator::before, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-focus-indicator::before,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-focus-indicator::before {
   border-color: rgba(0, 0, 0, 0.87);
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
-.mat-tab-group.mat-background-accent > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-accent > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
   border-color: black;
   opacity: 0.4;
 }
-.mat-tab-group.mat-background-accent > .mat-tab-header .mat-ripple-element,
+.mat-mdc-tab-group.mat-background-accent > .mat-mdc-tab-header .mat-ripple-element,
 .mat-tab-group.mat-background-accent > .mat-tab-link-container .mat-ripple-element,
-.mat-tab-group.mat-background-accent > .mat-tab-header-pagination .mat-ripple-element, .mat-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-ripple-element,
+.mat-tab-group.mat-background-accent > .mat-tab-header-pagination .mat-ripple-element, .mat-mdc-tab-nav-bar.mat-background-accent > .mat-tab-header .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-link-container .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-accent > .mat-tab-header-pagination .mat-ripple-element {
   background-color: black;
   opacity: 0.12;
 }
-.mat-tab-group.mat-background-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-warn .mat-tab-label.cdk-program-focused,
-.mat-tab-group.mat-background-warn .mat-tab-link.cdk-keyboard-focused,
-.mat-tab-group.mat-background-warn .mat-tab-link.cdk-program-focused, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-program-focused,
+.mat-mdc-tab-group.mat-background-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-group.mat-background-warn .mat-tab-label.cdk-program-focused,
+.mat-tab-group.mat-background-warn .mat-mdc-tab-link.cdk-keyboard-focused,
+.mat-tab-group.mat-background-warn .mat-tab-link.cdk-program-focused, .mat-mdc-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-keyboard-focused, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-program-focused,
 .mat-tab-nav-bar.mat-background-warn .mat-tab-link.cdk-keyboard-focused,
 .mat-tab-nav-bar.mat-background-warn .mat-tab-link.cdk-program-focused {
   background-color: rgba(239, 83, 80, 0.3);
 }
-.mat-tab-group.mat-background-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-warn .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
-.mat-tab-group.mat-background-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-mdc-tab-group.mat-background-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-group.mat-background-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-warn .mat-mdc-tab-link.cdk-keyboard-focused.mat-tab-disabled,
+.mat-tab-group.mat-background-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-keyboard-focused.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn .mat-tab-label.cdk-program-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-warn .mat-tab-link.cdk-keyboard-focused.mat-tab-disabled,
 .mat-tab-nav-bar.mat-background-warn .mat-tab-link.cdk-program-focused.mat-tab-disabled {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header, .mat-tab-group.mat-background-warn > .mat-tab-link-container, .mat-tab-group.mat-background-warn > .mat-tab-header-pagination, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header-pagination {
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header, .mat-tab-group.mat-background-warn > .mat-tab-link-container, .mat-tab-group.mat-background-warn > .mat-tab-header-pagination, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header-pagination {
   background-color: #c62828;
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-tab-label, .mat-tab-group.mat-background-warn > .mat-tab-link-container .mat-tab-link, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-tab-link {
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header .mat-tab-label, .mat-tab-group.mat-background-warn > .mat-mdc-tab-link-container .mat-tab-link, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-label, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-tab-link {
   color: white;
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-warn > .mat-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-group.mat-background-warn > .mat-mdc-tab-link-container .mat-tab-link.mat-tab-disabled, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-label.mat-tab-disabled, .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-tab-link.mat-tab-disabled {
   color: rgba(255, 255, 255, 0.4);
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-warn > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-group.mat-background-warn > .mat-tab-link-container .mat-focus-indicator::before,
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-focus-indicator::before, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-warn > .mat-tab-header .mat-focus-indicator::before, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-header-pagination .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-focus-indicator::before,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-focus-indicator::before {
   border-color: white;
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
-.mat-tab-group.mat-background-warn > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
+.mat-tab-group.mat-background-warn > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-header-pagination-disabled .mat-tab-header-pagination-chevron {
   border-color: white;
   opacity: 0.4;
 }
-.mat-tab-group.mat-background-warn > .mat-tab-header .mat-ripple-element,
+.mat-mdc-tab-group.mat-background-warn > .mat-mdc-tab-header .mat-ripple-element,
 .mat-tab-group.mat-background-warn > .mat-tab-link-container .mat-ripple-element,
-.mat-tab-group.mat-background-warn > .mat-tab-header-pagination .mat-ripple-element, .mat-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-ripple-element,
+.mat-tab-group.mat-background-warn > .mat-tab-header-pagination .mat-ripple-element, .mat-mdc-tab-nav-bar.mat-background-warn > .mat-tab-header .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-link-container .mat-ripple-element,
 .mat-tab-nav-bar.mat-background-warn > .mat-tab-header-pagination .mat-ripple-element {
   background-color: white;
@@ -2304,11 +2310,11 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   color: #bdbdbd;
 }
 
-.mat-table {
+.mat-mdc-table {
   background: white;
 }
 
-.mat-table thead, .mat-table tbody, .mat-table tfoot,
+.mat-mdc-table thead, .mat-table tbody, .mat-table tfoot,
 mat-header-row, mat-row, mat-footer-row,
 [mat-header-row], [mat-row], [mat-footer-row],
 .mat-table-sticky {
@@ -3709,7 +3715,7 @@ iframe#login-iframe {
   box-sizing: border-box;
   height: 3rem;
 }
-.side-panel-container .side-panel-filter .mat-tab-group .mat-tab-header {
+.side-panel-container .side-panel-filter .mat-mdc-tab-group .mat-mdc-tab-header {
   width: 100%;
 }
 .side-panel-container .side-panel-content,
@@ -3834,10 +3840,11 @@ iframe#login-iframe {
 /**
  Spacing Variables
  */
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .wf1-filters .mat-tab-label.mat-tab-label-active {
   background-color: rgba(0, 0, 0, 0.13);
 }
-.wf1-filters mat-tab-body .mat-tab-body-content.slidedown {
+.wf1-filters mat-tab-body .mat-mdc-tab-body-content.slidedown {
   max-height: unset !important;
   overflow-y: auto !important;
 }
@@ -3873,24 +3880,29 @@ iframe#login-iframe {
 .wf1-filters .filter-tab__body__radiogroup__radiobutton__label {
   line-height: 24px;
 }
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 .wf1-filters .mat-tab-group--hidden .filter-tab__body {
   display: none;
 }
-.wf1-filters .mat-tab-group--hidden .mat-tab-body,
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.wf1-filters .mat-tab-group--hidden .mat-mdc-tab-body,
 .wf1-filters .mat-tab-group--hidden .mat-tab-body-wrapper {
   display: none;
 }
-.wf1-filters .mat-tab-group .mat-tab-label {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.wf1-filters .mat-mdc-tab-group .mat-tab-label {
   box-sizing: border-box;
   padding: 0;
   min-width: 1rem;
   flex: 1 1 auto;
 }
-.wf1-filters .mat-tab-group .mat-tab-label-content {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.wf1-filters .mat-mdc-tab-group .mat-tab-label-content {
   height: 100%;
   width: 100%;
 }
-.wf1-filters .mat-tab-group .mat-tab-label:hover {
+/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+.wf1-filters .mat-mdc-tab-group .mat-tab-label:hover {
   background-color: #bdbdbd;
 }
 
@@ -4689,15 +4701,17 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 
 @media print {
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table,
   tr,
   mat-sidenav-content {
     width: 750px !important;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table {
     display: block;
   }
-  .mat-table .mat-cell,
+  .mat-mdc-table .mat-cell,
   .mat-table .mat-header-cell {
     padding: 0 !important;
   }
@@ -4855,7 +4869,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .wf1-expansion-panel-body .card-wrapper {
   margin: 0;
 }
-.mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-tab-body .table-wrapper,
+.mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-mdc-tab-body .table-wrapper,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .mat-tab-body .table-wrapper {
   margin: var(--wf1-gutter-space);
   width: calc(100% - 2 * var(--wf1-gutter-space));

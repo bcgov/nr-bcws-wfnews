@@ -1,10 +1,11 @@
 @import '../variables';
 
 .wf1-filters {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   .mat-tab-label.mat-tab-label-active {
     background-color: $opacity-grey;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-tab-body .mat-tab-body-content.slidedown {
       max-height: unset!important;
       overflow-y: auto!important;
@@ -56,18 +57,19 @@
   }
 
   // Hide tab content
-  .mat-tab-group {
+  .mat-mdc-tab-group {
     &--hidden .filter-tab__body {
       display: none;
     }
 
     &--hidden {
-      .mat-tab-body,
+      /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
+      .mat-mdc-tab-body,
       .mat-tab-body-wrapper {
         display: none;
       }
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     .mat-tab-label {
       box-sizing: border-box;
       padding: 0;
@@ -79,7 +81,7 @@
         width: 100%;
       }
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
     .mat-tab-label:hover {
       background-color: $colour-toolbar-grey;
     }
