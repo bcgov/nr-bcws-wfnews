@@ -28,6 +28,7 @@ jobs:
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
     with:
+      ENVIRONMENT: DEV
       REGISTRY: ${{ vars.REGISTRY }}
 
   call-mvn-client:
