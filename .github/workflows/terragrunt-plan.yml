@@ -44,6 +44,8 @@ jobs:
       - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ env.TARGET_ENV }}
         env:
+          UNIQUE_DEPLOY_ID: 0
+        
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
           agolUrl: ${{vars.AGOL_URL}}

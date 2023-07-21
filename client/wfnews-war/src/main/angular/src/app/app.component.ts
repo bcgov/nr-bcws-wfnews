@@ -31,6 +31,8 @@ export const ICON = {
   MAP_SIGNS: 'map-signs',
   MAP: 'map',
   TWITTER: 'twitter',
+  CAMPING: 'camping',
+  LARGER: 'larger'
 };
 
 @Component({
@@ -365,6 +367,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.CONTACT_US,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/contact-us.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CAMPING,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/camping.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LARGER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/larger.svg")
     );
   }
 
