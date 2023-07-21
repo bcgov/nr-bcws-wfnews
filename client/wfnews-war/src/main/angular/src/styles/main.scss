@@ -651,6 +651,16 @@ wf-admin-incident-desktop{
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
 
+.mdc-radio {
+  padding: 0 !important;
+}
+
+.mdc-form-field{
+  label{
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    padding-left: 8px !important;
+  }
+}
 
 .mdc-checkbox {
   .mdc-checkbox__checkmark-path {

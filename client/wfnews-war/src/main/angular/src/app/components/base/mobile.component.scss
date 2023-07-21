@@ -404,7 +404,7 @@ $list-item-width: 100%;
             flex-direction: row;
             height: 100%;
             align-items: center;
-
+            /*TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
             mat-radio-button:not(:first-child){
               padding-left: 10px;
             }
