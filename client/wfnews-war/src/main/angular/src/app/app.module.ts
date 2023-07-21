@@ -5,7 +5,7 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatLegacyDialogRef, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MAT_DIALOG_DATA, MatDialogModule as MatMdcDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -151,6 +151,8 @@ import { RoFPhotoPage } from './components/report-of-fire/photo-page/rof-photo-p
 import { RoFLocationPage } from './components/report-of-fire/location-page/rof-location-page.component';
 import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
+
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -312,7 +314,8 @@ export const DATE_FORMATS = {
         MatPaginatorModule,
         NgxPaginationModule,
         NgxChartsModule,
-        YouTubePlayerModule
+        YouTubePlayerModule,
+        NgxMaskModule.forRoot()
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
