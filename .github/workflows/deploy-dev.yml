@@ -28,6 +28,7 @@ jobs:
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
     with:
+      ENVIRONMENT: DEV
       REGISTRY: ${{ vars.REGISTRY }}
 
   call-mvn-client:
@@ -54,6 +55,26 @@ jobs:
     secrets: inherit
     with:
       PROJECT_NAME: wfone-notifications-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  wfone-notification-push-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfone-notification-push-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  wfss-pointid-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfss-pointid-api
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}

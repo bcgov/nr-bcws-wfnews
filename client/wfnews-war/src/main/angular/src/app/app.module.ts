@@ -152,6 +152,8 @@ import { RoFLocationPage } from './components/report-of-fire/location-page/rof-l
 import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 
+import { NgxMaskModule, IConfig } from 'ngx-mask'
+
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
     fullPickerInput: 'YYYY-MM-DD HH:mm:ss',
@@ -312,7 +314,8 @@ export const DATE_FORMATS = {
         MatPaginatorModule,
         NgxPaginationModule,
         NgxChartsModule,
-        YouTubePlayerModule
+        YouTubePlayerModule,
+        NgxMaskModule.forRoot()
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
