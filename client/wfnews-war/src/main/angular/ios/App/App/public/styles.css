@@ -308,21 +308,21 @@
           text-decoration: var(--mdc-typography-button-text-decoration, none);
   text-transform: var(--mdc-typography-button-text-transform, none);
 }
-.mat-card {
+.mat-mdc-card {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.mat-card-title {
+.mat-mdc-card-title {
   font-size: 24px;
   font-weight: 500;
 }
 
-.mat-card-header .mat-card-title {
+.mat-mdc-card-header .mat-mdc-card-title {
   font-size: 20px;
 }
 
-.mat-card-subtitle,
-.mat-card-content {
+.mat-mdc-card-subtitle,
+.mat-mdc-card-content {
   font-size: 14px;
 }
 
@@ -1386,18 +1386,19 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   display: none;
 }
 
-.mat-card {
+.mat-mdc-card {
   background: white;
   color: rgba(0, 0, 0, 0.87);
 }
-.mat-card:not([class*=mat-elevation-z]) {
+.mat-mdc-card:not([class*=mat-elevation-z]) {
   box-shadow: 0px 2px 1px -1px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
 }
-.mat-card.mat-card-flat:not([class*=mat-elevation-z]) {
+/*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+.mat-mdc-card.mat-card-flat:not([class*=mat-elevation-z]) {
   box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2), 0px 0px 0px 0px rgba(0, 0, 0, 0.14), 0px 0px 0px 0px rgba(0, 0, 0, 0.12);
 }
 
-.mat-card-subtitle {
+.mat-mdc-card-subtitle {
   color: rgba(0, 0, 0, 0.54);
 }
 
@@ -4839,7 +4840,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .wf1-expansion-panel-body .summary-card {
   margin: var(--wf1-gutter-space) 0 0 0;
 }
-.mat-accordion mat-expansion-panel:not(.mat-expanded) .wf1-expansion-panel-body mat-card.mat-card.wf1-vendor-portal-header-bar,
+.mat-accordion mat-expansion-panel:not(.mat-expanded) .wf1-expansion-panel-body mat-card.mat-mdc-card.wf1-vendor-portal-header-bar,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .wf1-expansion-panel-body mat-card.mat-card.wf1-vendor-portal-header-bar {
   padding: 0;
 }
