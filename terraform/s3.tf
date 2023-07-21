@@ -10,10 +10,9 @@ resource "aws_s3_bucket" "wfnews_log_bucket" {
   force_destroy = true
 }
 
-resource "aws_s3_bucket" "wfnews-lambdas" {
-  bucket        = "wfnews-lambdas"
-  acl           = "private"
-  force_destroy = true
+//Need to upload artifacts to bucket before running terraform
+data "aws_s3_bucket" "wfnews-lambda" {
+  bucket        = "wfnews-lambda-${var.target_env}"
 }
 
 resource "aws_s3_bucket" "wfnews-monitor-queue-bucket" {
