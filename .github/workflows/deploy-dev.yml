@@ -70,6 +70,16 @@ jobs:
       BRANCH: ${{ vars.PATCH_BRANCH }}
       TAG: ${{ vars.HOTFIX_TAG }}
 
+  wfss-pointid-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfss-pointid-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
   liquibase-build:
     uses: ./.github/workflows/liquibase.yml
     secrets: inherit
