@@ -1,8 +1,8 @@
 <div>
-  {{ title }}
-  {{ message }}
-  <div>
-    <button mat-flat-button (click)="previous()">Previous</button>
-	  <button mat-flat-button color="primary" (click)="next()">Continue</button>
+  <div class="rof-text-primary-header">{{ title }}</div>
+  <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="rof-button-container">
+    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
+	  <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button>
   </div>
 </div>

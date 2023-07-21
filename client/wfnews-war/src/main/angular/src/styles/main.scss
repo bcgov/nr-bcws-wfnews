@@ -131,6 +131,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -145,6 +146,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -181,6 +183,7 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -414,8 +417,8 @@
       .summary-card{
         margin: var(--wf1-gutter-space) 0 0 0;
       }
-
-      mat-card.mat-card.wf1-vendor-portal-header-bar {
+      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
+      mat-card.mat-mdc-card.wf1-vendor-portal-header-bar {
         padding: 0;
       }
 
@@ -640,4 +643,15 @@ wf-admin-incident-desktop{
   overflow: hidden;
   border-radius: 20px !important;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+}
+
+
+.mdc-checkbox {
+  .mdc-checkbox__checkmark-path {
+    color:white
+  }
+  .mdc-checkbox__background{
+    border: 1px solid #a7a9ac !important;
+    border-radius: 5px !important;
+  }
 }

@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <div *ngIf="evacOrders === null || evacOrders.length === 0">
       There are no current Evacuation Orders or Alerts
     </div>
@@ -36,7 +36,7 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
+  <mat-card appearance="outlined" *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
     <fieldset class="field-set" formArrayName="evacOrders" *ngFor = "let item of evacOrderForm.controls; let i=index">
       <legend>Evac Order Fields</legend>
       <div [formGroupName]="i" class="news-form">
