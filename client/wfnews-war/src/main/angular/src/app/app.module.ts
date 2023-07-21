@@ -6,7 +6,7 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
-import { MatLegacyDialogRef, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA, MatDialogModule as MatMdcDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -371,7 +371,7 @@ export const DATE_FORMATS = {
             multi: true
         },
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatLegacyDialogRef, useValue: {} },
+        { provide: MatDialogRef, useValue: {} },
         WFMapService,
         MapConfigService,
         CommonUtilityService,
