@@ -256,7 +256,7 @@ $list-item-width: 100%;
     textarea,
     input,
     mat-checkbox.mat-checkbox,
-    select.mat-input-element {
+    select.mat-mdc-input-element {
       border: 1px solid $colour-light-grey;
       padding: 0 5px;
       border-radius: $wf1-border-radius;
@@ -277,7 +277,7 @@ $list-item-width: 100%;
       }
     }
 
-    select.mat-input-element{
+    select.mat-mdc-input-element{
       height: 37.5px !important;
     }
 
@@ -418,7 +418,7 @@ $list-item-width: 100%;
       }
     }
 
-    select.mat-input-element{
+    select.mat-mdc-input-element{
       position: static;
       -webkit-appearance: menulist;
       margin-bottom: 0;

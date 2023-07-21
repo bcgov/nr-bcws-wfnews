@@ -108,6 +108,7 @@
   width: 100%;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
 ::ng-deep .cdk-overlay-container .cdk-overlay-pane .fire-size-select-content,mat-select-panel-done-animating{
 	min-height: 20rem !important
 }
