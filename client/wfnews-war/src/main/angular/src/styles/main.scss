@@ -529,21 +529,23 @@
   font-size: 14px;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   padding: 0px 0px 24px 0px !important;
   overflow: hidden !important;
 }
 
 .dialog-container {
   h1 {
+    font-weight: 100 !important;
     background-color: #003366;
     color: white;
     padding: 10px;
     font-size: 20px;
     font-weight: 500;
+    margin: 0;
   }
   .dialog-content {
-    color: black;
+    color: black !important;
     background-color: white;
     padding: 0px 32px 0px 32px;
   }
