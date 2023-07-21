@@ -641,3 +641,14 @@ wf-admin-incident-desktop{
   border-radius: 20px !important;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
+
+
+.mdc-checkbox {
+  .mdc-checkbox__checkmark-path {
+    color:white
+  }
+  .mdc-checkbox__background{
+    border: 1px solid #a7a9ac !important;
+    border-radius: 5px !important;
+  }
+}
