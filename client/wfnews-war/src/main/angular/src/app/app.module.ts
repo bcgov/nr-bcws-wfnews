@@ -5,7 +5,7 @@ import { APP_BASE_HREF, CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatLegacyDialogRef, MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MAT_DIALOG_DATA, MatDialogModule as MatMdcDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
@@ -64,9 +64,9 @@ import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
 import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
+import { MatCardModule } from '@angular/material/card';
 import { ResponseDetailsPanel } from './components/admin-incident-form/response-details-panel/response-details-panel.component';
-import { MatLegacyCheckboxModule as MatCheckboxModule } from '@angular/material/legacy-checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ContactsDetailsPanel } from './components/admin-incident-form/contacts-details-panel/contacts-details-panel.component';
 import { EvacOrdersDetailsPanel } from './components/admin-incident-form/evac-orders-details-panel/evac-orders-details-panel.component';
 import { AreaRestrictionsDetailsPanel } from './components/admin-incident-form/area-restrictions-details-panel/area-restrictions-details-panel.component';
@@ -151,6 +151,8 @@ import { RoFPhotoPage } from './components/report-of-fire/photo-page/rof-photo-p
 import { RoFLocationPage } from './components/report-of-fire/location-page/rof-location-page.component';
 import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
+
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -312,7 +314,8 @@ export const DATE_FORMATS = {
         MatPaginatorModule,
         NgxPaginationModule,
         NgxChartsModule,
-        YouTubePlayerModule
+        YouTubePlayerModule,
+        NgxMaskModule.forRoot()
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

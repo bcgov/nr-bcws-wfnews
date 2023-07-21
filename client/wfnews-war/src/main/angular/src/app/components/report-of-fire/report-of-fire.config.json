@@ -4,7 +4,7 @@
       "id": "first-page",
       "type": "RoFTitlePage",
       "title": "Report a Fire",
-      "message": "To report a wildfire in British Columbia, you can call the Wildfire Dispatch team or submit a report through the app. This process usually takes 5-10 minutes.",
+      "message": "Submit reports of wildfire or smoke in British Columbia through the BC Wildfire Service mobile app. This process usually takes 5 to 10 minutes. Reports can also be called into the Provincial Wildfire Reporting Centre toll-free.",
       "allowSkip": false,
       "allowExit": true,
       "closeButton": false,
@@ -135,22 +135,22 @@
         {
           "label": "The size of a Campfire",
           "value": "campfire",
-          "icon": ""
+          "customIcon": "../../../assets/images/svg-icons/camping.svg"
         },
         {
           "label": "The size of a House",
           "value": "house",
-          "icon": ""
+          "icon": "home"
         },
         {
           "label": "The size of a Football Field",
           "value": "football",
-          "icon": ""
+          "icon": "sports_football"
         },
         {
           "label": "Larger than a Football Field",
           "value": "large",
-          "icon": ""
+          "customIcon": "../../../assets/images/svg-icons/larger.svg"
         }
       ]
     },
@@ -371,7 +371,7 @@
       "id": "final-page",
       "type": "RoFTitlePage",
       "title": "Thank You!",
-      "message": "Your report has been successfully submitted to the Provincial Wildfire Reporting Centre. We may call you back within 20 minutes if we have any further questions.\nReports like these help us protect the forests, grasslands and communities of British Columbia, so thank you for taking the time. ",
+      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. The information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
       "allowSkip": false,
       "allowExit": false,
       "imageUrl": "../../../assets/images/rofthankyou.svg",
