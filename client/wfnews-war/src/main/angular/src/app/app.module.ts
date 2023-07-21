@@ -14,8 +14,8 @@ import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/materia
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
-import { MatLegacyListModule as MatListModule } from '@angular/material/legacy-list';
-import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 import { MatLegacyRadioModule as MatRadioModule } from '@angular/material/legacy-radio';
 import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
 import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/material/legacy-slide-toggle';
@@ -62,7 +62,7 @@ import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-adm
 import { AdminContainerDesktop } from './containers/admin/admin-container.component.desktop';
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { IncidentDetailsPanel } from './components/admin-incident-form/incident-details-panel/incident-details-panel.component';
-import { MatLegacyProgressSpinnerModule as MatProgressSpinnerModule } from '@angular/material/legacy-progress-spinner';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule } from '@angular/material/sort';
 import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card';
 import { ResponseDetailsPanel } from './components/admin-incident-form/response-details-panel/response-details-panel.component';
@@ -107,7 +107,7 @@ import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
 import { PanelWildfireStageOfControlContainerDesktop } from './containers/panelWildfireStageOfControl/panelWildfireStageOfControl-container.component.desktop';
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { IncidentGalleryPanel } from './components/public-incident-page/incident-gallery-panel/incident-gallery-panel.component';
 import { IncidentHeaderPanel } from './components/public-incident-page/incident-info-header/incident-header-panel.component';
