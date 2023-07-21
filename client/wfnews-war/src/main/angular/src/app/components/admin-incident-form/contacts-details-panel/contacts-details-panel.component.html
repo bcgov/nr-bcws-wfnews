@@ -4,7 +4,7 @@
       <legend style="display: none">Contact Details Card</legend>
       <div class="news-form">
           <div class="field size-third">
-            <mat-form-field appearance="standard" class="item-full-width">
+            <mat-form-field class="item-full-width">
               <mat-label>Fire Centre</mat-label>
               <mat-select appWFSingleSelect appWFPlaceholder="Select..."
               aria-label="Type"
@@ -22,7 +22,7 @@
             </mat-form-field>
           </div>
           <div class="field size-third">
-            <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-form-field class="item-full-width" floatLabel="always">
               <mat-label class="label required">Phone Number</mat-label>
               <input matInput type="text" [(ngModel)]="incident.contact.phoneNumber" formControlName="phoneNumber" pattern="^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$">
               <mat-error *ngIf="formGroup.get('contact').get('phoneNumber').hasError('required')">
@@ -34,7 +34,7 @@
             </mat-form-field>
           </div>
           <div class="field size-third" >
-            <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+            <mat-form-field class="item-full-width" floatLabel="always">
               <mat-label class="label required">Email Address</mat-label>
               <input matInput type="text" [(ngModel)]="incident.contact.emailAddress" formControlName="emailAddress" pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$">
               <mat-error *ngIf="formGroup.get('contact').get('emailAddress').hasError('required')">

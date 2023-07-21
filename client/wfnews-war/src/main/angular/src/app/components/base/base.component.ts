@@ -24,7 +24,7 @@ import {Overlay} from '@angular/cdk/overlay';
 import {ApplicationStateService} from '../../services/application-state.service';
 import {AppConfigService, TokenService} from '@wf1/core-ui';
 import {HttpClient} from '@angular/common/http';
-import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {MatDialog} from '@angular/material/dialog';
 import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
 import {PaginationInstance} from 'ngx-pagination';
 import { RootState } from '../../store';
