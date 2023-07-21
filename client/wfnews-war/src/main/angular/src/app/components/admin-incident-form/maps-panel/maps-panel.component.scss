@@ -425,7 +425,7 @@ table tr:nth-child(even) td{
 
   textarea,
   input,
-  mat-checkbox.mat-checkbox,
+  mat-checkbox.mat-mdc-checkbox,
   select {
     border: 1px solid $colour-light-grey;
     padding: 0 5px;
@@ -448,7 +448,7 @@ table tr:nth-child(even) td{
     background-color: $opacity-light-grey !important;
   }
 
-  ::ng-deep mat-checkbox .mat-checkbox-frame {
+  ::ng-deep mat-checkbox .mat-mdc-checkbox-frame {
     background-color: $colour-white;
     border: 1px solid $colour-light-grey;
     border-radius: $wf1-border-radius;

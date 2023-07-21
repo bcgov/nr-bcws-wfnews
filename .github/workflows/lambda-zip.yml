@@ -52,21 +52,17 @@ jobs:
       #     cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
       #     cp lambda/lambda-layer/python.zip staging/python.zip
 
-      #Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
-          aws-region: ca-central-1
-          role-session-name: s3-lambda-push--${{ env.date }}
+      # # Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+      #     role-duration-seconds: 900
+      #     aws-region: ca-central-1
 
-      - name: Upload S3
-        id: S3
-        run: |
-          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key active_fire.zip --body active-fire-monitor.zip
-          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key area-restrictions-monitor.zip --body area-restrictions-monitor.zip
-          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key bans-and-prohibitions-monitor.zip --body bans-and-prohibitions-monitor.zip
-          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key evacuation-orders-monitor.zip --body evacuation-orders-monitor.zip
-          aws s3api put-object --bucket ${{ secrets.WFNEWS_LAMBDA_BUCKET }} --key python.zip --body lambda/lambda-layer/python.zip
+      # - name: Upload S3
+      #   id: S3
+      #   run: |
+      #     aws s3 cp ./staging s3://wfnews-lambda-dev --recursive

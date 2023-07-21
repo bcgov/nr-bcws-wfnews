@@ -21,7 +21,7 @@
   border: 1px solid #a7a9ac;
   border-radius: 5px;
   width: 100%;
-  .mat-raised-button {
+  .mat-mdc-raised-button {
     box-shadow: none;
     width: 100%;
     padding: 0;
@@ -94,6 +94,17 @@ table tr:nth-child(even) td{
     font-size: 15px;
     border-radius: 20%;
     background-color: #f2f2f2;
+    border: none;
+    .button-wrapper{
+        padding: 0;
+        min-width: 0;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        line-height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
 }
 
 .stage-of-control-checkbox-group{
@@ -107,7 +118,7 @@ table tr:nth-child(even) td{
     .checkbox-group {
         display: flex;
 
-        .mat-checkbox {
+        .mat-mdc-checkbox {
             border: none;
         }
     }
