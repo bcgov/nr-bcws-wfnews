@@ -98,7 +98,7 @@
 .news-panel {
 	box-sizing: border-box;
 	max-height: $wf1-app-main-panel-tab-panel-height;
-
+    /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
     mat-card {
     	margin-bottom: .5rem;
     }
@@ -274,6 +274,7 @@
 	}
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card h3 {
     display: flex;
     align-items: center;
