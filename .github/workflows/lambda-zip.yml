@@ -43,26 +43,26 @@ jobs:
         run: |
           echo "{date}={$(date +'%Y-%m-%d-%H-%M')}" >> $GITHUB_STATE
 
-      - name: Make staging directory, copy files
-        run: |
-          mkdir staging
-          cp active-fire-monitor.zip staging/active-fire-monitor.zip
-          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          cp lambda/lambda-layer/python.zip staging/python.zip
+      # - name: Make staging directory, copy files
+      #   run: |
+      #     mkdir staging
+      #     cp active-fire-monitor.zip staging/active-fire-monitor.zip
+      #     cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+      #     cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+      #     cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+      #     cp lambda/lambda-layer/python.zip staging/python.zip
 
-      # Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
-      - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
-          role-duration-seconds: 900
-          aws-region: ca-central-1
+      # # Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
+      #   with:
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+      #     role-duration-seconds: 900
+      #     aws-region: ca-central-1
 
-      - name: Upload S3
-        id: S3
-        run: |
-          aws s3 cp ./staging s3://wfnews-lambda-dev --recursive
+      # - name: Upload S3
+      #   id: S3
+      #   run: |
+      #     aws s3 cp ./staging s3://wfnews-lambda-dev --recursive
