@@ -1,5 +1,5 @@
 <div class="dialog-container">
-  <h1 mat-dialog-title>Upload Image</h1>
+  <h1 mat-mdc-dialog-title>Upload Image</h1>
   <div class="dialog-content" mat-dialog-content>
     <input #pdfInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)" accept="image/*"/>
     <button mat-flat-button color="primary" (click)="pdfInput.click()">Browse</button>

@@ -527,7 +527,7 @@ input.mat-mdc-input-element {
   line-height: 24px;
 }
 
-.mat-dialog-title {
+.mat-mdc-dialog-title {
   font-size: 20px;
   font-weight: 500;
   line-height: 32px;
@@ -1822,7 +1822,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
   background: white;
   color: rgba(0, 0, 0, 0.87);
@@ -5052,7 +5052,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   font-size: 14px;
 }
 
-.mat-dialog-container {
+.mat-mdc-dialog-container {
   padding: 0px 0px 24px 0px !important;
   overflow: hidden !important;
 }
