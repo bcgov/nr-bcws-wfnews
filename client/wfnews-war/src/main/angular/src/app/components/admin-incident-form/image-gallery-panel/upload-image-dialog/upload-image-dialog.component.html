@@ -3,7 +3,7 @@
   <div class="dialog-content" mat-dialog-content>
     <input #pdfInput hidden="true" type="file" onclick="this.value=null" (change)="pdfInputChange($event)" accept="image/*"/>
     <button mat-flat-button color="primary" (click)="pdfInput.click()">Browse</button>
-    <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+    <mat-form-field class="item-full-width" floatLabel="always">
       <mat-label class="label">Title</mat-label>
       <input matInput #input maxlength="150" type="text" placeholder="Title" [(ngModel)]="title" [value]="title" required>
       <mat-hint align="end">{{input.value?.length || 0}}/150</mat-hint>
