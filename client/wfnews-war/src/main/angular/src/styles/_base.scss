@@ -14,7 +14,7 @@ body {
     align-items: center;
 }
 
-button.mat-raised-button.mat-primary {
+button.mat-mdc-raised-button.mat-primary {
   background-color: $colour-button-primary;
   color: $colour-white;
 
@@ -122,7 +122,7 @@ mat-toolbar.wf1-application-toolbar {
             outline: none;
         }
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
     mat-button-toggle.mat-button-toggle,
     mat-button-toggle.mat-button-toggle-checked {
         max-height: $wf1-toolbar-height;
