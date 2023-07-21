@@ -45,6 +45,11 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       WFNEWS_API  = var.WFNEWS_URL
     }
   }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
+  }
 }
 
 resource "aws_lambda_function" "monitor-active-fires" {
@@ -65,6 +70,11 @@ resource "aws_lambda_function" "monitor-active-fires" {
       WFNEWS_API  = var.WFNEWS_URL
     }
   }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
+  }
 }
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
@@ -84,6 +94,11 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       WFNEWS_API  = var.WFNEWS_URL
     }
   }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
+  }
 }
 
 resource "aws_lambda_function" "monitor-evacuation" {
@@ -102,5 +117,10 @@ resource "aws_lambda_function" "monitor-evacuation" {
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = var.WFNEWS_URL
     }
+  }
+  lifecycle {
+    replace_triggered_by = [
+      var.UNIQUE_DEPLOY_ID
+    ]
   }
 }
