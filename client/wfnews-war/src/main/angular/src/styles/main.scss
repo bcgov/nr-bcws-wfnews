@@ -641,3 +641,14 @@ wf-admin-incident-desktop{
   border-radius: 20px !important;
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
+
+.mdc-radio {
+  padding: 0 !important;
+}
+
+.mdc-form-field{
+  label{
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    padding-left: 8px !important;
+  }
+}
