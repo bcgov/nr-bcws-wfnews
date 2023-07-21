@@ -259,8 +259,8 @@
     display: block;
   }
 
-  .mat-table .mat-cell,
-  .mat-table .mat-header-cell{
+  .mat-mdc-table .mat-mdc-cell,
+  .mat-table .mat-mdc-header-cell{
     padding: 0 !important;
   }
 
@@ -276,7 +276,7 @@
     display: none !important;
   }
 
-  #core-interface-container .mat-header-cell,
+  #core-interface-container .mat-mdc-header-cell,
   .review-item .mat-expansion-panel-content .fixed-table-layout td,
   mat-expansion-panel .review-item-header .review-item-status,
   mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description{

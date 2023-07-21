@@ -54,7 +54,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
+import { MatTableModule} from "@angular/material/table";
 import { SingleSelectDirective } from './directives/singleselect.directive';
 import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
