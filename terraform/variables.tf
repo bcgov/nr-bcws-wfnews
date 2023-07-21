@@ -380,10 +380,16 @@ variable "liquibase_image" {
   default     = ""
 }
 
-variable "pointid-image" {
+variable "pointid_image" {
   description = "Full name of liquibase image"
   type        = string
   default     = ""
+}
+
+variable "wfone_notifications_api_image" {
+  description = "Full name of notifications api image"
+  type = string
+  default = "wfone_notifications_api"
 }
 
 variable "apisix_name" {
@@ -711,6 +717,11 @@ variable "FUNCTION_BUCKET" {
   default = "wfnews-lambdas"
 }
 
+variable "UNIQUE_DEPLOY_ID" {
+  type = number
+  default = 0
+}
+
 //WFSS-POINTID-API Environment Variables
 
 variable "pointid_container_name" {
@@ -749,27 +760,27 @@ variable "WFGS_URL" {
   default = ""
 }
 
-variable "MAX_ALLOWED_RADIUS" {
+variable "POINTID_MAX_ALLOWED_RADIUS" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_INTERVAL" {
+variable "POINTID_ASYNC_JOB_INTERVAL" {
   type    = number
   default = 1000
 }
 
-variable "ASYNC_JOB_REF_LAT" {
+variable "POINTID_ASYNC_JOB_REF_LAT" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_REF_LONG" {
+variable "POINTID_ASYNC_JOB_REF_LONG" {
   type    = string
   default = ""
 }
 
-variable "ASYNC_JOB_REF_RADIUS" {
+variable "POINTID_ASYNC_JOB_REF_RADIUS" {
   type    = string
   default = ""
 }
@@ -802,41 +813,34 @@ variable "WFARCGIS_LAYER_AREA_RESTRICTIONS" {
 variable "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_DANGER_RATING" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_ACTIVE_FIRES" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS" {
   type    = string
   default = ""
-
 }
 
 variable "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   type    = string
   default = ""
-
 }
 
 variable "WFARCGIS_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_ID" {
-
   type    = string
   default = ""
 }
@@ -844,40 +848,267 @@ variable "WEBADE_OAUTH2_CLIENT_ID" {
 variable "WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_SCOPES" {
   type    = string
   default = ""
-
 }
 
 variable "FIREWEATHER_BASEURL" {
   type    = string
   default = ""
-
 }
 
 variable "FIREWEATHER_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WFNEWS_BASEURL" {
   type    = string
   default = ""
-
 }
 
 variable "WFNEWS_QUEUESIZE" {
   type    = string
   default = ""
-
 }
 
 variable "WEBADE_OAUTH2_CLIENT_SECRET" {
+  type    = string
+  default = ""
+}
+
+# WFONE-NOTIFICATIONS-API Environment Variables
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_DATASOURCE_USER" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_PUSH_ITEM_EXPIRE_HOURS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_QUARTZ_CONSUMER_INTERVAL_SECONDS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
+  type    = string
+  default = ""
+}
+
+//WFONE-PUSH-NOTIFICATION-API Environment Variables
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS" {
+  type    = number
+  default = 25
+}
+
+variable "WFONE_PUSH_NOTIFICATION_EXPIRE_HOURS" {
+  type    = number
+  default = 24
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_ACTIVE_FIRES" {
+  type    = number
+  default = 1000
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_BANS_PROHIBITIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_AREA_RESTRICTIONS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_EVAC_ORDERS" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES" {
+  type    = number
+  default = 10
+}
+
+variable "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS" {
+  type    = number
+  default = 20
+}
+
+variable "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS" {
+  type    = number
+  default = 120
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC" {
+  type    = number
+  default = 24
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE" {
+  type    = number
+  default = 48
+
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN" {
+  type    = number
+  default = 8760
+
+}
+
+variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA" {
+  type    = number
+  default = 8760
+
+}
+
+variable "WFONE_FIREBASE_DB_URL" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_PREFIX" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_NEAR_ME_INTERVAL_SECONDS" {
+  type    = number
+  default = 300
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_PASSWORD" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_DB_PASS" {
   type    = string
   default = ""
 

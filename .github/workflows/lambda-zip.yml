@@ -8,11 +8,16 @@ on:
       REGISTRY:
         required: true
         type: string
+      ENVIRONMENT:
+        required: true
+        type: string
   workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: ${{ inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -34,28 +39,30 @@ jobs:
         with:
           args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
 
-      - name: Make staging directory, copy files
+      - name: Get timestamp
         run: |
-          mkdir staging
-          cp active-fire-monitor.zip staging/active-fire-monitor.zip
-          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          cp lambda/lambda-layer/python.zip staging/python.zip
+          echo "{date}={$(date +'%Y-%m-%d-%H-%M')}" >> $GITHUB_STATE
 
-      - name: Archive lambda functions between jobs
-        uses: actions/upload-artifact@v3
-        with:
-          name: lambda-functions
-          path: |
-            staging
+      # - name: Make staging directory, copy files
+      #   run: |
+      #     mkdir staging
+      #     cp active-fire-monitor.zip staging/active-fire-monitor.zip
+      #     cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+      #     cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+      #     cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+      #     cp lambda/lambda-layer/python.zip staging/python.zip
 
-      # - uses: shallwefootball/s3-upload-action@master
-      #   name: Upload S3
-      #   id: S3
+      # # Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
+      # - name: Configure AWS Credentials
+      #   uses: aws-actions/configure-aws-credentials@v2
       #   with:
-      #     aws_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY}}
-      #     aws_bucket: wfnews-lambdas
-      #     source_dir: staging
-      #     destination_dir: ''
+      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+      #     role-duration-seconds: 900
+      #     aws-region: ca-central-1
+
+      # - name: Upload S3
+      #   id: S3
+      #   run: |
+      #     aws s3 cp ./staging s3://wfnews-lambda-dev --recursive

@@ -1,6 +1,15 @@
 import { Component } from "@angular/core";
 import { IncidentContainer } from "./incident-container.component";
-import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common";
+import { Location, LocationStrategy, PathLocationStrategy } from "@angular/common";
+import { Observable } from "rxjs";
+import { CheckUnsavedChanges } from "../../components/common/guards/unsaved-changes.guard";
+import { UnsavedChangesDialog } from "../../components/common/unsaved-changes-dialog/unsaved-changes-dialog.component";
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { RootState } from "../../store";
+import { MatLegacySnackBar } from "@angular/material/legacy-snack-bar";
+import { ApplicationStateService } from "../../services/application-state.service";
+import { Router } from "@angular/router";
+import { Store } from "@ngrx/store";
 
 
 @Component({
@@ -9,9 +18,32 @@ import {Location, LocationStrategy, PathLocationStrategy} from "@angular/common"
         <wf-admin-incident-desktop
             [adminIncident]="adminIncident$ | async"
             [adminIncidentCause]="adminIncidentCause$ | async"
+            (changesSavedEvent)="updateChangesSaved($event)"
         ></wf-admin-incident-desktop>`,
-    providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
+    providers: [Location, { provide: LocationStrategy, useClass: PathLocationStrategy }]
 })
-export class IncidentContainerDesktop extends IncidentContainer{
+export class IncidentContainerDesktop extends IncidentContainer implements CheckUnsavedChanges {
 
+    constructor(
+        public dialog: MatDialog,
+        store: Store<RootState>,
+        router: Router,
+        snackBar: MatLegacySnackBar,
+        applicationStateService: ApplicationStateService,
+    ) {
+        super(store, router, snackBar, applicationStateService);
+    }
+
+    isFormClean: boolean = true;
+
+    updateChangesSaved(changesSaved: boolean) {
+        this.isFormClean = changesSaved;
+    }
+
+    changesSaved: () => boolean | Observable<boolean> = () => this.isFormClean;
+    confirmDialog: () => boolean | Observable<boolean> = () => {
+        return this.dialog.open(UnsavedChangesDialog, {
+            width: '400px',
+        }).afterClosed();
+    }
 }
