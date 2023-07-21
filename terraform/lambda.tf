@@ -6,7 +6,7 @@
 
 
 resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
-  s3_bucket = aws_s3_bucket.wfnews_lambda.bucket
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key = "python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]
@@ -30,7 +30,7 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
 
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
-  s3_bucket = aws_s3_bucket.wfnews_lambda.bucket
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key = "bans_and_prohibitions.zip"
   source_code_hash = data.local_file.bans_and_prohibitions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
@@ -50,7 +50,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
 
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
-  s3_bucket = aws_s3_bucket.wfnews_lambda.bucket
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key      = "active-fire-monitor.zip"
   source_code_hash = data.local_file.active_fire_monitor_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
@@ -70,7 +70,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
-  s3_bucket = aws_s3_bucket.wfnews_lambda.bucket
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key = "area_restrictions.zip"
   source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
@@ -90,7 +90,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
 
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
-  s3_bucket = aws_s3_bucket.wfnews_lambda.bucket
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key =  "evacuation_orders.zip"
   source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
   role          = aws_iam_role.lambda_iam_role.arn
