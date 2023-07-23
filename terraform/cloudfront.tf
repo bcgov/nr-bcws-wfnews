@@ -634,7 +634,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfss_pointid${var.target_env}"
+    target_origin_id = "wfss_pointid_api_${var.target_env}"
 
     forwarded_values {
       query_string = false
