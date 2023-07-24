@@ -2042,8 +2042,8 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
           },
           {
-            name  = "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
-            value = "${var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
+            name  = "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+            value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
           },
           {
             name  = "WFARCGIS_QUEUESIZE",
@@ -2051,15 +2051,15 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = "${var.WEBADE_OAUTH2_CLIENT_ID}"
+            value = "${var.POINT_WEBADE_OAUTH2_CLIENT_ID}"
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = "${var.WEBADE_OAUTH2_TOKEN_URL}"
+            value = "${var.POINTID_WEBADE_OAUTH2_TOKEN_URL}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
-            value = "${var.WEBADE_OAUTH2_CLIENT_SCOPES}"
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SCOPES}"
           },
           {
             name  = "FIREWEATHER_BASEURL",
