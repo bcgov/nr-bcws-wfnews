@@ -118,11 +118,11 @@
   background-color: rgba(244, 230, 195, 1);
   color: $colour-black;
   position: inherit;
-  .mat-simple-snackbar{
+  .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
   }
-  .mat-simple-snackbar-action{
+  .mat-mdc-snack-bar-action{
     color: #f1780e;
   }
 }
@@ -131,7 +131,7 @@
   background-color: #2e703e;
   color: $colour-white;
   position: inherit;
-  .mat-simple-snackbar{
+  .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
   }
@@ -146,7 +146,7 @@
   color: $colour-white;
   position: inherit;
   padding: 18px 16px!important;
-  .mat-simple-snackbar{
+  .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
   }
@@ -154,7 +154,7 @@
   .mat-button-wrapper{
     color:$colour-white;
   }
-  .mat-simple-snackbar-action{
+  .mat-mdc-snack-bar-action{
     border: 1px solid white;
     border-radius: 5px;
   }
@@ -183,7 +183,7 @@
   color: $colour-white;
   position: inherit;
   padding: 18px 16px!important;
-  .mat-simple-snackbar{
+  .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
   }
@@ -191,7 +191,7 @@
   .mat-button-wrapper{
     color:$colour-white;
   }
-  .mat-simple-snackbar-action{
+  .mat-mdc-snack-bar-action{
     border: 1px solid white;
     border-radius: 5px;
   }
@@ -226,7 +226,7 @@
   //  font-family: $font-family-main;
   //  font-size: 13px;
   //}
-  .mat-simple-snackbar-action{
+  .mat-mdc-snack-bar-action{
     color: #acdbac;
   }
 }
@@ -249,17 +249,18 @@
 //}
 
 @media print {
-
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table,
   tr,
   mat-sidenav-content{
     width: 750px !important;
   }
+  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table{
     display: block;
   }
 
-  .mat-table .mat-cell,
+  .mat-mdc-table .mat-cell,
   .mat-table .mat-header-cell{
     padding: 0 !important;
   }
@@ -435,7 +436,7 @@
       }
     }
 
-    .mat-tab-body{
+    .mat-mdc-tab-body{
       .table-wrapper{
         margin: var(--wf1-gutter-space);
         width: calc(100% - 2*var(--wf1-gutter-space));
@@ -653,7 +654,7 @@ wf-admin-incident-desktop{
 
 .mat-mdc-slide-toggle {
   .mdc-form-field{
-    font-family: Roboto,Helvetica Neue,sans-serif !important;
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
     font-size: 17px;
   }
 }
@@ -677,3 +678,19 @@ wf-admin-incident-desktop{
     border-radius: 5px !important;
   }
 }
+
+mat-snack-bar-container{
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+    background-color: inherit !important;
+    .mat-mdc-snack-bar-label{
+      font-size: 13px !important;
+      font-family: BCSans,Noto Sans,Verdana,Arial,"sans-serif" !important;
+      color: white !important;
+    }
+    .mdc-button__label {
+      color: white !important;
+    }
+  }
+}
+  // class="mat-mdc-snack-bar-label mdc-snackbar__label"
