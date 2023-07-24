@@ -22,7 +22,6 @@ import { MatLegacySlideToggleModule as MatSlideToggleModule } from '@angular/mat
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -277,7 +276,6 @@ export const DATE_FORMATS = {
         MatSelectModule,
         MatGridListModule,
         MatCardModule,
-        MatChipsModule,
         MatTableModule,
         MatTabsModule,
         MatProgressSpinnerModule,
