@@ -74,7 +74,7 @@ jobs:
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
-      PROJECT_NAME: wfss-pointid-api
+      PROJECT_NAME: ${{ vars.POINTID_IMAGE }}
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
