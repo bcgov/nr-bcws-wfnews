@@ -164,7 +164,7 @@ jobs:
         name: Upload Build Artifact to GitHub
         with:
           name: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
-          path: "${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
+          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
           retention-days: 3
 
       - name: Post to a Slack channel
