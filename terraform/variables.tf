@@ -835,7 +835,7 @@ variable "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS" {
   default = ""
 }
 
-variable "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
+variable "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   type    = string
   default = ""
 }
@@ -845,17 +845,17 @@ variable "WFARCGIS_QUEUESIZE" {
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_ID" {
+variable "POINTID_WEBADE_OAUTH2_CLIENT_ID" {
   type    = string
   default = ""
 }
 
-variable "WEBADE_OAUTH2_TOKEN_URL" {
+variable "POINTID_WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_SCOPES" {
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SCOPES" {
   type    = string
   default = ""
 }
