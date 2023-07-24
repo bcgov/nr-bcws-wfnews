@@ -982,16 +982,14 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
   default = ""
 }
 
+
+
 //WFONE-PUSH-NOTIFICATION-API Environment Variables
 
-variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME" {
-  type    = string
-  default = ""
+variable "WFONE_MONITORS_NAME_MAP" {
+  type = map(object({
+    EXPIRE_HOURS = number
+  }))
 }
 
 variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
@@ -999,57 +997,32 @@ variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
   default = ""
 }
 
-variable "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS" {
+variable "WFONE_NOTIFICATIONS_PUSH_MAX_CONNECTIONS" {
   type    = number
   default = 25
 }
 
-variable "WFONE_PUSH_NOTIFICATION_EXPIRE_HOURS" {
+variable "WFONE_NOTIFICATIONS_PUSH_EXPIRE_HOURS" {
   type    = number
   default = 24
 }
 
-variable "WFONE_SQS_QUEUE_NOTIFICATION_URL" {
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE" {
   type    = string
   default = ""
 }
 
-variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_ACTIVE_FIRES" {
-  type    = number
-  default = 1000
-}
-
-variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_BANS_PROHIBITIONS" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_AREA_RESTRICTIONS" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_SQS_QUEUE_NOTIFICATION_URL_EVAC_ORDERS" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES" {
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES" {
   type    = number
   default = 10
 }
 
-variable "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS" {
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS" {
   type    = number
   default = 20
 }
 
-variable "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS" {
+variable "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS" {
   type    = number
   default = 120
 }
@@ -1083,31 +1056,25 @@ variable "WFONE_FIREBASE_DB_URL" {
 
 }
 
-variable "WFONE_PUSH_NOTIFICATION_PREFIX" {
+variable "WFONE_NOTIFICATIONS_PUSH_PREFIX" {
   type    = string
   default = ""
 
 }
 
-variable "WFONE_PUSH_NOTIFICATION_NEAR_ME_INTERVAL_SECONDS" {
+variable "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS" {
   type    = number
   default = 300
 
 }
 
-variable "WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY" {
+variable "WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY" {
   type    = string
   default = ""
 
 }
 
-variable "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY" {
-  type    = string
-  default = ""
-
-}
-
-variable "WFONE_PUSH_NOTIFICATION_DATASOURCE_PASSWORD" {
+variable "WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY" {
   type    = string
   default = ""
 
@@ -1117,4 +1084,9 @@ variable "WFONE_DB_PASS" {
   type    = string
   default = ""
 
+}
+
+variable "vars.wfone_notifications_push_api_image" {
+  type = string
+  default = ""
 }

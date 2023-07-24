@@ -112,7 +112,7 @@ generate "dev_tfvars" {
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     cloudfront_header = "${local.cloudfront_header}"
-    app_image = "tomcat:jdk8-corretto"
+    app_image = "tomcat =jdk8-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
     target_env = "${local.target_env}"
@@ -139,7 +139,7 @@ generate "dev_tfvars" {
     subnet_filter = "${local.subnet_filter}"
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
-    certificate_arn = "arn:aws:acm:us-east-1:718963518348:certificate/81262c52-5967-48ce-a4ee-dec3cd67a0b4"
+    certificate_arn = "arn =aws =acm =us-east-1 =718963518348 =certificate/81262c52-5967-48ce-a4ee-dec3cd67a0b4"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"
@@ -231,5 +231,37 @@ generate "dev_tfvars" {
     FIREWEATHER_BASEURL = "${get_env("FIREWEATHER_BASEURL")}"
     FIREWEATHER_QUEUESIZE = "${get_env("FIREWEATHER_QUEUESIZE")}"
     WFNEWS_QUEUESIZE = "${get_env("WFNEWS_QUEUESIZE")}"
+
+    WFONE_MONITORS_NAME_MAP = {
+      "active_fires" = {
+        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE)}"
+      },
+      "area_restrictons" = {
+        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA)}"
+      },
+      "evac_orders" = {
+        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC)}"
+      },
+      "bans_prohibitions" = {
+        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN)}"
+      }
+    }
+    WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE = "${get_env("WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE)}"
+    WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES = "${get_env("WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES)}"
+    WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS = "${get_env("WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS)}"
+    WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS = "${get_env("WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS)}"
+    WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC = "${get_env("WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC)}"
+    WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE = "${get_env("WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE)}"
+    WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN = "${get_env("WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN)}"
+    WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA = "${get_env("WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA)}"
+    WFONE_FIREBASE_DB_URL = "${get_env("WFONE_FIREBASE_DB_URL)}"
+    WFONE_NOTIFICATIONS_PUSH_PREFIX = "${get_env("DEFAULT_APPLICATION_ENVIRONMENT)}"
+    WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS = "${get_env("WFONE_PUSH_NOTIFICATION_NEAR_ME_INTERVAL_SECONDS)}"
+    WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY = "${get_env(WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY)}"
+    WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY = "${get_env(WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY)}"
+    WFONE_DB_PASS = "${get_env(WFONE_DB_PASS)}"
+    WFONE_NOTIFICATIONS_PUSH_API_IMAGE = "${get_env(WFONE_NOTIFICATIONS_PUSH_API_IMAGE)}"
+
+    
   EOF
 }

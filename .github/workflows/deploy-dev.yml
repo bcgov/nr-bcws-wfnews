@@ -64,7 +64,7 @@ jobs:
     uses: ./.github/workflows/mvn-server.yml
     secrets: inherit
     with:
-      PROJECT_NAME: wfone-notification-push-api
+      PROJECT_NAME: ${{ vars.NOTIFICATIONS_PUSH_API_IMAGE }}
       ENVIRONMENT: DEV
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       BRANCH: ${{ vars.PATCH_BRANCH }}
