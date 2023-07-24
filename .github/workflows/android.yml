@@ -61,7 +61,7 @@ jobs:
         env:
           GOOGLE_FILE: ${{ vars.GOOGLE_SERVICES_JSON_BASE64 }}
         run: |
-          echo -n "$GOOGLE_FILE" | base64 --decode > google-services.json
+          echo "$GOOGLE_FILE" | base64 --decode --ignore-garbage > google-services.json
 
       - name: Get XML Info
         id: version
