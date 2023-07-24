@@ -505,15 +505,6 @@ input.mat-input-element {
   letter-spacing: normal;
 }
 
-.mat-chip {
-  font-size: 14px;
-  font-weight: 500;
-}
-.mat-chip .mat-chip-trailing-icon.mat-icon,
-.mat-chip .mat-chip-remove.mat-icon {
-  font-size: 18px;
-}
-
 .mat-slide-toggle-content {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
@@ -644,15 +635,15 @@ input.mat-input-element {
 }
 
 .mat-mdc-table {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
 }
 
-.mat-header-cell {
+.mat-mdc-header-cell {
   font-size: 12px;
   font-weight: 500;
 }
 
-.mat-cell, .mat-footer-cell {
+.mat-mdc-cell, .mat-mdc-footer-cell {
   font-size: 14px;
 }
 
@@ -1740,61 +1731,6 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   color: rgba(0, 0, 0, 0.87);
 }
 
-.mat-chip.mat-standard-chip {
-  background-color: #e0e0e0;
-  color: rgba(0, 0, 0, 0.87);
-}
-.mat-chip.mat-standard-chip .mat-chip-remove {
-  color: rgba(0, 0, 0, 0.87);
-  opacity: 0.4;
-}
-.mat-chip.mat-standard-chip:not(.mat-chip-disabled):active {
-  box-shadow: 0px 3px 3px -2px rgba(0, 0, 0, 0.2), 0px 3px 4px 0px rgba(0, 0, 0, 0.14), 0px 1px 8px 0px rgba(0, 0, 0, 0.12);
-}
-.mat-chip.mat-standard-chip:not(.mat-chip-disabled) .mat-chip-remove:hover {
-  opacity: 0.54;
-}
-.mat-chip.mat-standard-chip.mat-chip-disabled {
-  opacity: 0.4;
-}
-.mat-chip.mat-standard-chip::after {
-  background: black;
-}
-
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary {
-  background-color: #263238;
-  color: white;
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary .mat-chip-remove {
-  color: white;
-  opacity: 0.4;
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-primary .mat-ripple-element {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-warn {
-  background-color: #c62828;
-  color: white;
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-warn .mat-chip-remove {
-  color: white;
-  opacity: 0.4;
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-warn .mat-ripple-element {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-accent {
-  background-color: #bdbdbd;
-  color: rgba(0, 0, 0, 0.87);
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-accent .mat-chip-remove {
-  color: rgba(0, 0, 0, 0.87);
-  opacity: 0.4;
-}
-.mat-chip.mat-standard-chip.mat-chip-selected.mat-accent .mat-ripple-element {
-  background-color: rgba(0, 0, 0, 0.1);
-}
-
 .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
   background-color: #bdbdbd;
 }
@@ -2318,20 +2254,20 @@ textarea.cdk-textarea-autosize-measuring-firefox {
 .mat-mdc-table thead, .mat-table tbody, .mat-table tfoot,
 mat-header-row, mat-row, mat-footer-row,
 [mat-header-row], [mat-row], [mat-footer-row],
-.mat-table-sticky {
+.mat-mdc-table-sticky {
   background: inherit;
 }
 
 mat-row, mat-header-row, mat-footer-row,
-th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+th.mat-mdc-header-cell, td.mat-mdc-cell, td.mat-mdc-footer-cell {
   border-bottom-color: rgba(0, 0, 0, 0.12);
 }
 
-.mat-header-cell {
+.mat-mdc-header-cell {
   color: rgba(0, 0, 0, 0.54);
 }
 
-.mat-cell, .mat-footer-cell {
+.mat-mdc-cell, .mat-mdc-footer-cell {
   color: rgba(0, 0, 0, 0.87);
 }
 
@@ -4712,8 +4648,8 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   mat-table {
     display: block;
   }
-  .mat-mdc-table .mat-cell,
-  .mat-table .mat-header-cell {
+  .mat-mdc-table .mat-mdc-cell,
+  .mat-table .mat-mdc-header-cell {
     padding: 0 !important;
   }
   .nav-menu-button fa-icon,
@@ -4727,7 +4663,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   wf1-application-header {
     display: none !important;
   }
-  #core-interface-container .mat-header-cell,
+  #core-interface-container .mat-mdc-header-cell,
   .review-item .mat-expansion-panel-content .fixed-table-layout td,
   mat-expansion-panel .review-item-header .review-item-status,
   mat-expansion-panel .review-item-header mat-panel-description.mat-expansion-panel-header-description {
