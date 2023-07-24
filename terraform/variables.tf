@@ -1027,29 +1027,6 @@ variable "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS" {
   default = 120
 }
 
-variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC" {
-  type    = number
-  default = 24
-}
-
-variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE" {
-  type    = number
-  default = 48
-
-}
-
-variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN" {
-  type    = number
-  default = 8760
-
-}
-
-variable "WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA" {
-  type    = number
-  default = 8760
-
-}
-
 variable "WFONE_FIREBASE_DB_URL" {
   type    = string
   default = ""
