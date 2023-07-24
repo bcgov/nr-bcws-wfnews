@@ -6,7 +6,7 @@ import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarRef as MatSnackBarRef, LegacyTextOnlySnackBar as TextOnlySnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar, MatSnackBarRef, TextOnlySnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
