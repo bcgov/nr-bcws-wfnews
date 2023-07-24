@@ -22,7 +22,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -54,7 +53,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { MatLegacyTableModule as MatTableModule} from "@angular/material/legacy-table";
+import { MatTableModule} from "@angular/material/table";
 import { SingleSelectDirective } from './directives/singleselect.directive';
 import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
@@ -277,7 +276,6 @@ export const DATE_FORMATS = {
         MatSelectModule,
         MatGridListModule,
         MatCardModule,
-        MatChipsModule,
         MatTableModule,
         MatTabsModule,
         MatProgressSpinnerModule,
