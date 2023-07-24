@@ -652,6 +652,12 @@ wf-admin-incident-desktop{
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
 }
 
+.mat-mdc-slide-toggle {
+  .mdc-form-field{
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    font-size: 17px;
+  }
+}
 .mdc-radio {
   padding: 0 !important;
 }
