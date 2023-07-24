@@ -325,13 +325,14 @@
   font-size: 14px;
 }
 
-.mat-tooltip {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+.mat-mdc-tooltip {
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
   font-size: 10px;
   padding-top: 6px;
   padding-bottom: 6px;
 }
 
+/*TODO(mdc-migration): The following rule targets internal classes of tooltip that may no longer apply for the MDC version.*/
 .mat-tooltip-handset {
   font-size: 14px;
   padding-top: 8px;
@@ -1441,7 +1442,7 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   stroke: #c62828;
 }
 
-.mat-tooltip {
+.mat-mdc-tooltip {
   background: rgba(97, 97, 97, 0.9);
 }
 
