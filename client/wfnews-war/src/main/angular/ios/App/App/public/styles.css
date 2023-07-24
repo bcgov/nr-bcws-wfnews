@@ -326,7 +326,7 @@
 }
 
 .mat-mdc-tooltip {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
   font-size: 10px;
   padding-top: 6px;
   padding-bottom: 6px;
