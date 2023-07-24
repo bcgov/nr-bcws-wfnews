@@ -14,13 +14,13 @@
     width: 100% !important;
     height: auto !important;
   }
-
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   ::ng-deep .mat-tab-body-content {
     height: auto !important;
     overflow: hidden !important;
   }
-
-  ::ng-deep .mat-tab-body.mat-tab-body-active {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
+  ::ng-deep .mat-mdc-tab-body.mat-tab-body-active {
     overflow-x: hidden !important;
     overflow-y: hidden !important;
     height: auto !important;
@@ -46,7 +46,7 @@
   display: none;
 }
 
-:host ::ng-deep .mat-tab-group {
+:host ::ng-deep .mat-mdc-tab-group {
   background: #f3f6f9;
   @media (max-width: 768px) {
       background: white !important;
@@ -55,6 +55,7 @@
   padding-bottom: 60px;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-label {
   color: #003366;
   @media (max-width: 768px) {
@@ -70,6 +71,7 @@
   }
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-label-active {
   font-weight: 700 !important
 }
@@ -85,7 +87,7 @@
   background-color: white;
 }
 
-:host ::ng-deep .mat-tab-header {
+:host ::ng-deep .mat-mdc-tab-header {
   top: -1px;
   z-index: 9999999999999;
   position: sticky;
