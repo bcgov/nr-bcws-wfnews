@@ -144,7 +144,7 @@ jobs:
           API_KEY: ${{ secrets.API_KEY }}
           APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
-          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
           CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
           CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER }}
           DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
@@ -159,7 +159,7 @@ jobs:
           MAX_UPLOAD_SIZE: ${{ vars.MAX_UPLOAD_SIZE }}
           openmapsBaseUrl: ${{vars.OPENMAPS_BASE_URL}}
           SERVER_CPU_UNITS: ${{vars.SERVER_CPU_UNITS}}
-          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX == 'true' && '-hotfix' }}:${{ inputs.IMAGE_TAG }}
+          SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
           SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
           siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
           SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
@@ -234,7 +234,7 @@ jobs:
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
           WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
-          POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
 
           # WFONE NOTIFICATIONS API
           WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS: ${{vars.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS}}
@@ -256,7 +256,7 @@ jobs:
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET: ${{secrets.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET}}
           WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID: ${{vars.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CLIENT_ID}}
-          WFONE_NOTIFICATIONS_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_API_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          WFONE_NOTIFICATIONS_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_API_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
 
           #WFONE-PUSH-NOTIFICATION-API 
           WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE: ${{ vars.WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE }}
@@ -269,7 +269,7 @@ jobs:
           WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY: ${{ secrets.WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY }}
           WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY: ${{ secrets.WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY }}
           WFONE_DB_PASS: ${{ secrets.WFONE_DB_PASS }}
-          WFONE_NOTIFICATIONS_PUSH_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_PUSH_API_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          WFONE_NOTIFICATIONS_PUSH_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_PUSH_API_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
 
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
