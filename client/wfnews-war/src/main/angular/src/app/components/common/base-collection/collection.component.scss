@@ -7,7 +7,7 @@
   border-bottom: 1px solid $colour-light-grey;
   overflow: auto;
 
-  .mat-table {
+  .mat-mdc-table {
     width: 100%;
     display: table;
 
@@ -377,7 +377,7 @@
   }
 }
 
-.mat-table {
+.mat-mdc-table {
 
   .mat-header-cell {
     color: $colour-black;
