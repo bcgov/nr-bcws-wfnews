@@ -232,20 +232,8 @@ generate "dev_tfvars" {
     FIREWEATHER_QUEUESIZE = "${get_env("FIREWEATHER_QUEUESIZE")}"
     WFNEWS_QUEUESIZE = "${get_env("WFNEWS_QUEUESIZE")}"
 
-    WFONE_MONITORS_NAME_MAP = {
-      "active_fires" = {
-        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE)}"
-      },
-      "area_restrictons" = {
-        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA)}"
-      },
-      "evac_orders" = {
-        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC)}"
-      },
-      "bans_prohibitions" = {
-        "EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN)}"
-      }
-    }
+    WFONE_MONITORS_NAME_MAP = {"active_fires" = {"EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_FIRE)}"},"area_restrictons" = {"EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_RESTRICTED_AREA)}"},"evac_orders" = {"EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_EVAC)}"},"bans_prohibitions" = {"EXPIRE_HOURS" = "${get_env(WFONE_PUSH_ITEM_EXPIRE_HOURS_BAN)}"}}
+
     WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE = "${get_env("WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE)}"
     WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES = "${get_env("WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
     WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS = "${get_env("WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
