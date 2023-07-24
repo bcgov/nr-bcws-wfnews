@@ -3,7 +3,7 @@ import {Router} from '@angular/router';
 import {select, Store} from '@ngrx/store';
 import {RootState} from '../../store';
 import {ApplicationStateService} from '../../services/application-state.service';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable, Subscription} from 'rxjs';
 import { selectFormStatesUnsaved } from '../../store/application/application.selector';
 

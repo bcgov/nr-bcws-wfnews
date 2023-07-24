@@ -1,10 +1,12 @@
 ::ng-deep .wildfires-tabs {
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   .mat-tab-labels {
       padding-bottom: 5px;
   }
-  .mat-tab-header {
+  .mat-mdc-tab-header {
    border-bottom: none;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   .mat-tab-label.mat-tab-label-active {
       border-radius: 40px;
       background-color:#1a5a96;
@@ -12,6 +14,7 @@
       opacity: 1;
       font-weight: 700;
   }
+  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
   .mat-tab-label {
       opacity: 1;
       color: #1a5a96;
