@@ -6,7 +6,7 @@
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].rules[0].oneOf[0].use[2]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[6].rules[1].use[0]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[6].rules[1].use[1]!./src/styles/main.scss?ngGlobalStyle ***!
   \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 .mat-h1,
-.mat-headline-5-5-5-5-5,
+.mat-headline-5-5-5-5-5-5,
 .mat-typography .mat-h1,
 .mat-typography .mat-headline,
 .mat-typography h1 {
@@ -629,12 +629,12 @@ input.mat-input-element {
   font-size: 12px;
 }
 
-.mat-simple-snackbar {
+.mat-mdc-simple-snack-bar {
   font-family: Roboto, "Helvetica Neue", sans-serif;
   font-size: 14px;
 }
 
-.mat-simple-snackbar-action {
+.mat-mdc-snack-bar-action {
   line-height: 1;
   font-family: inherit;
   font-size: inherit;
@@ -2294,13 +2294,13 @@ textarea.cdk-textarea-autosize-measuring-firefox {
   opacity: 0.12;
 }
 
-.mat-snack-bar-container {
+.mat-mdc-snack-bar-container {
   color: rgba(255, 255, 255, 0.7);
   background: #323232;
   box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14), 0px 1px 18px 0px rgba(0, 0, 0, 0.12);
 }
 
-.mat-simple-snackbar-action {
+.mat-mdc-snack-bar-action {
   color: #bdbdbd;
 }
 
@@ -4584,11 +4584,11 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   color: #000000;
   position: inherit;
 }
-.snackbar-warning .mat-simple-snackbar {
+.snackbar-warning .mat-mdc-simple-snack-bar {
   font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
-.snackbar-warning .mat-simple-snackbar-action {
+.snackbar-warning .mat-mdc-snack-bar-action {
   color: #f1780e;
 }
 
@@ -4597,7 +4597,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   color: #ffffff;
   position: inherit;
 }
-.snackbar-success .mat-simple-snackbar {
+.snackbar-success .mat-mdc-simple-snack-bar {
   font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
@@ -4611,14 +4611,14 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   position: inherit;
   padding: 18px 16px !important;
 }
-.snackbar-success-v2 .mat-simple-snackbar {
+.snackbar-success-v2 .mat-mdc-simple-snack-bar {
   font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-success-v2 .mat-button-wrapper {
   color: #ffffff;
 }
-.snackbar-success-v2 .mat-simple-snackbar-action {
+.snackbar-success-v2 .mat-mdc-snack-bar-action {
   border: 1px solid white;
   border-radius: 5px;
 }
@@ -4646,14 +4646,14 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   position: inherit;
   padding: 18px 16px !important;
 }
-.snackbar-info .mat-simple-snackbar {
+.snackbar-info .mat-mdc-simple-snack-bar {
   font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-info .mat-button-wrapper {
   color: #ffffff;
 }
-.snackbar-info .mat-simple-snackbar-action {
+.snackbar-info .mat-mdc-snack-bar-action {
   border: 1px solid white;
   border-radius: 5px;
 }
@@ -4675,7 +4675,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   border-bottom-left-radius: 4px;
 }
 
-.full-snack-bar-online .mat-simple-snackbar-action {
+.full-snack-bar-online .mat-mdc-snack-bar-action {
   color: #acdbac;
 }
 

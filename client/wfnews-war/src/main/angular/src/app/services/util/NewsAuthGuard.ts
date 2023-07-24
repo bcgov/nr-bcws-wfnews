@@ -3,7 +3,7 @@ import {ActivatedRouteSnapshot, Router, RouterStateSnapshot } from "@angular/rou
 import {Injectable} from "@angular/core";
 import {AsyncSubject, Observable, of} from "rxjs";
 import {mergeMap} from "rxjs/operators";
-import {MatLegacySnackBar as MatSnackBar} from "@angular/material/legacy-snack-bar";
+import {MatSnackBar} from "@angular/material/snack-bar";
 import {ResourcesRoutes} from "../../utils";
 
 @Injectable({
