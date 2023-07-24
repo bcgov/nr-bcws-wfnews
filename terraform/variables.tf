@@ -159,6 +159,11 @@ variable "wfone_notifications_api_port" {
   default = 8080
 }
 
+variable "wfone_notifications_push_api_port" {
+  type    = number
+  default = 8080
+}
+
 variable "db_instance_type" {
   description = "Instance type to use for database vm"
   type        = string
