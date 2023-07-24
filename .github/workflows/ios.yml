@@ -55,6 +55,14 @@ jobs:
           NPMRC: ${{ secrets.NPMRC }}
         run: echo -n "$NPMRC" > .npmrc
 
+      - name: Read npmrc file
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: cat .npmrc
+
+      - name: Check npm config
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}
+        run: npm config ls -l
+
       - name: Get XML Info
         id: version
         uses: mavrosxristoforos/get-xml-info@1.1.1
