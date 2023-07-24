@@ -3,7 +3,7 @@
       <div class="header-row">
         <h1>Images and Video Gallery</h1>
       </div>
-      <mat-tab-group>
+      <mat-tab-group mat-stretch-tabs="false">
         <mat-tab id="allMedia" label="All Media">
           <incident-gallery-all-media-mobile [incident]="incident" [displayMediaStub]="displayMediaStub" [allImagesAndVideosStub]="allImagesAndVideosStub" [displayLoadMore]="displayLoadMore"></incident-gallery-all-media-mobile>
         </mat-tab>

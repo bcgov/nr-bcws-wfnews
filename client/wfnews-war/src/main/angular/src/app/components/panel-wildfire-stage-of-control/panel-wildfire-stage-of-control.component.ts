@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -22,7 +22,7 @@ import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incid
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
 import * as L from 'leaflet'
 import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()

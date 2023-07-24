@@ -27,6 +27,7 @@ p.dashboard-title{
     margin-top: auto;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-label {
     color: #003366 !important;
     font-weight: 400;
@@ -37,6 +38,7 @@ p.dashboard-title{
     background-color: #003366 !important;
 }
 
+/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-label-active {
     font-weight: 700 !important
 }

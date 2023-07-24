@@ -25,7 +25,7 @@ import {ApplicationStateService} from '../../services/application-state.service'
 import {AppConfigService, TokenService} from '@wf1/core-ui';
 import {HttpClient} from '@angular/common/http';
 import {MatDialog} from '@angular/material/dialog';
-import {MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import {PaginationInstance} from 'ngx-pagination';
 import { RootState } from '../../store';
 import { ErrorState, LoadState } from '../../store/application/application.state';

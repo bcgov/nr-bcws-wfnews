@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable, NgZone } from '@angular/core';
 import { MatSnackBarConfig } from '@angular/material/snack-bar';
-import { MatLegacySnackBar as MatSnackBar} from '@angular/material/legacy-snack-bar';
+import { MatSnackBar} from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { FCM } from '@capacitor-community/fcm';
 import { Store } from '@ngrx/store';

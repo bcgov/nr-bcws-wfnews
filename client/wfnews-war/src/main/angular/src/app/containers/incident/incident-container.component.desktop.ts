@@ -6,7 +6,7 @@ import { CheckUnsavedChanges } from "../../components/common/guards/unsaved-chan
 import { UnsavedChangesDialog } from "../../components/common/unsaved-changes-dialog/unsaved-changes-dialog.component";
 import { MatDialog } from '@angular/material/dialog';
 import { RootState } from "../../store";
-import { MatLegacySnackBar } from "@angular/material/legacy-snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { ApplicationStateService } from "../../services/application-state.service";
 import { Router } from "@angular/router";
 import { Store } from "@ngrx/store";
@@ -28,7 +28,7 @@ export class IncidentContainerDesktop extends IncidentContainer implements Check
         public dialog: MatDialog,
         store: Store<RootState>,
         router: Router,
-        snackBar: MatLegacySnackBar,
+        snackBar: MatSnackBar,
         applicationStateService: ApplicationStateService,
     ) {
         super(store, router, snackBar, applicationStateService);
