@@ -722,6 +722,11 @@ variable "FUNCTION_BUCKET" {
   default = "wfnews-lambdas"
 }
 
+variable "UNIQUE_DEPLOY_ID" {
+  type = number
+  default = 0
+}
+
 //WFSS-POINTID-API Environment Variables
 
 variable "pointid_container_name" {

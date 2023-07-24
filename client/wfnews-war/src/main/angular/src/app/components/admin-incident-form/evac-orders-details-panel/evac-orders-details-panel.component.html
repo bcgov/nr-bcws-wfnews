@@ -1,5 +1,5 @@
 <ng-container [formGroup]="formGroup" class="incident-form">
-  <mat-card class="info-card news-form-card">
+  <mat-card appearance="outlined" class="info-card news-form-card">
     <div *ngIf="evacOrders === null || evacOrders.length === 0">
       There are no current Evacuation Orders or Alerts
     </div>
@@ -7,7 +7,7 @@
       <legend>Evac Order Fields</legend>
       <div class="news-form">
         <div class="field size-third">
-          <mat-form-field appearance="standard" class="item-full-width">
+          <mat-form-field class="item-full-width">
             <mat-label>Type</mat-label>
             <mat-select class="disabled-input" appWFSingleSelect appWFPlaceholder="Select..."
                         aria-label="Type"
@@ -22,13 +22,13 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label required">Evacuation Name</mat-label>
             <input matInput class="disabled-input" type="text" placeholder="Evacuation Name" [value]="item.eventName" disabled>
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label required">Evacuation Information URL</mat-label>
             <input matInput type="text" placeholder="Evacuation Information URL" disabled>
           </mat-form-field>
@@ -36,12 +36,12 @@
       </div>
     </fieldset>
   </mat-card>
-  <mat-card *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
+  <mat-card appearance="outlined" *ngIf="incident.evacOrders.length > 0" class="info-card news-form-card">
     <fieldset class="field-set" formArrayName="evacOrders" *ngFor = "let item of evacOrderForm.controls; let i=index">
       <legend>Evac Order Fields</legend>
       <div [formGroupName]="i" class="news-form">
         <div class="field size-quarter">
-          <mat-form-field appearance="standard" class="item-full-width">
+          <mat-form-field class="item-full-width">
             <mat-label>Type</mat-label>
             <mat-select class="disabled-input" appWFSingleSelect appWFPlaceholder="Select..."
                         aria-label="Type"
@@ -56,13 +56,13 @@
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label required">Evacuation Name</mat-label>
             <input matInput class="disabled-input" type="text" placeholder="Evacuation Name" formControlName="eventName">
           </mat-form-field>
         </div>
         <div class="field size-third">
-          <mat-form-field class="item-full-width" appearance="standard" floatLabel="always">
+          <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label required">Evacuation Information URL</mat-label>
             <input matInput type="text" placeholder="Evacuation Information URL" formControlName="url">
           </mat-form-field>

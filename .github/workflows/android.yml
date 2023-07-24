@@ -61,7 +61,7 @@ jobs:
         env:
           GOOGLE_FILE: ${{ vars.GOOGLE_SERVICES_JSON_BASE64 }}
         run: |
-          echo -n "$GOOGLE_FILE" > GoogleServices.json
+          echo "$GOOGLE_FILE" | base64 --decode --ignore-garbage > google-services.json
 
       - name: Get XML Info
         id: version
@@ -164,7 +164,7 @@ jobs:
         name: Upload Build Artifact to GitHub
         with:
           name: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
-          path: "${{ env.ANGULAR_DIRECTORY }}/android/wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
+          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
           retention-days: 3
 
       - name: Post to a Slack channel
