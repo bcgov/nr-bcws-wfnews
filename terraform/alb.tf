@@ -467,29 +467,6 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
   }
 }
 
-resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifications_push_api" {
-
-  for_each = var.WFONE_MONITORS_NAME_MAP
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.wfone_notifications_push_api[each.key].arn
-  }
-
-  condition {
-    host_header {
-      values = [for sn in var.wfone_notifications_push_api_names : "${sn}-${each.key}.*"]
-    }
-  }
-  condition {
-    http_header {
-      http_header_name = "X-Cloudfront-Header"
-      values           = ["${var.cloudfront_header}"]
-    }
-  }
-}
-
 /*
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin" {
 
