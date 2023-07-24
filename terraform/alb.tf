@@ -221,7 +221,8 @@ resource "aws_alb_target_group" "wfone_notifications_api" {
 }
 
 resource "aws_alb_target_group" "wfone_notifications_push_api" {
-  name                 = "wfone-notifications-push-api-${var.target_env}"
+  for_each = var.WFONE_MONITORS_NAME_MAP
+  name                 = "wfone-notifications-push-api-${each.key}-${var.target_env}"
   port                 = var.wfone_notifications_push_api_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
@@ -456,28 +457,6 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
   condition {
     host_header {
       values = [for sn in var.wfone_notifications_api_names : "${sn}.*"]
-    }
-  }
-  condition {
-    http_header {
-      http_header_name = "X-Cloudfront-Header"
-      values           = ["${var.cloudfront_header}"]
-    }
-  }
-}
-
-resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifications_push_api" {
-
-  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
-
-  action {
-    type             = "forward"
-    target_group_arn = aws_alb_target_group.wfone_notifications_push_api.arn
-  }
-
-  condition {
-    host_header {
-      values = [for sn in var.wfone_notifications_push_api_names : "${sn}.*"]
     }
   }
   condition {
