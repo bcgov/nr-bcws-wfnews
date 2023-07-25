@@ -717,10 +717,7 @@ variable "LAMBDA_LAYER_KEY" {
   default = ""
 }
 
-variable "FUNCTION_BUCKET" {
-  type    = string
-  default = "wfnews-lambdas"
-}
+
 
 variable "UNIQUE_DEPLOY_ID" {
   type = number

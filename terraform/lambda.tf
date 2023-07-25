@@ -42,7 +42,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       QUEUE_URL   = aws_sqs_queue.queue_bans.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
@@ -62,7 +62,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
       QUEUE_URL   = aws_sqs_queue.queue_fires.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
@@ -81,7 +81,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
@@ -100,7 +100,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
       QUEUE_URL   = aws_sqs_queue.queue_evacs.url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
