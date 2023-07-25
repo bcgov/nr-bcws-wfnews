@@ -2051,7 +2051,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = "${var.POINT_WEBADE_OAUTH2_CLIENT_ID}"
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_URL",
@@ -2325,22 +2325,24 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
 }
 
 resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
-   family                   = "wfone_notifications_push_api-task-${var.target_env}"
+  for_each = var.WFONE_MONITORS_NAME_MAP
+
+  family                   = "wfone_notifications_push_api_${each.key}-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
-  cpu                      = var.wfone_notifications_push_api_cpu_units
-  memory = var.wfone_notifications_push_api_memory
+  cpu                      = var.server_cpu_units
+  memory = var.server_memory
   tags   = local.common_tags
   container_definitions = jsonencode([
     {
       essential = true
       # readonlyRootFilesystem = true
-      name        = var.wfone_notifications_push_api_container_name
-      image       = var.wfone_notifications_push_api_image
-      cpu         = var.wfone_notifications_push_api_cpu_units
-      memory      = var.wfone_notifications_push_api_memory
+      name        = "${var.wfone_notifications_push_api_container_name}-${each.key}"
+      image       = var.WFONE_NOTIFICATIONS_PUSH_API_IMAGE
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
       networkMode = "awsvpc"
       portMappings = [{
             protocol      = "tcp"
@@ -2348,7 +2350,11 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
             hostPort      = var.wfone_notifications_push_api_port
       }]
       environment = [
-        {
+          {
+            name = "SQS_QUEUE_URL",
+            value = aws_sqs_queue.queues[each.key].url
+          },
+          {
             name  = "DATASOURCE_MAX_CONNECTIONS",
             value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
           },
@@ -2365,83 +2371,43 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
             value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
           },
           {
-            name  = "DEFAULT_APPLICATION_ENVIRONMENT",
-            value = var.DEFAULT_APPLICATION_ENVIRONMENT
+            name = "WFONE_PUSH_ITEM_EXPIRE_HOURS",
+            value = "${tostring(each.value.EXPIRE_HOURS)}"
           },
           {
-            name  = "EMAIL_ADMIN_EMAIL",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE",
+            value = var.WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE
           },
           {
-            name  = "EMAIL_FROM_EMAIL",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
           },
           {
-            name  = "EMAIL_NOTIFICATIONS_ENABLED",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
           },
           {
-            name  = "EMAIL_SYNC_SEND_ERROR_FREQ",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_FREQ
+            name = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
           },
           {
-            name  = "EMAIL_SYNC_SEND_ERROR_SUBJECT",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_ERROR_SUBJECT
+            name = "WFONE_FIREBASE_DB_URL",
+            value = var.WFONE_FIREBASE_DB_URL
           },
           {
-            name  = "EMAIL_SYNC_SEND_FREQ",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SEND_FREQ
+            name = "WFONE_NOTIFICATIONS_PUSH_PREFIX"
+            value = var.WFONE_NOTIFICATIONS_PUSH_PREFIX
           },
           {
-            name  = "EMAIL_SYNC_SUBJECT",
-            value = var.WFONE_NOTIFICATIONS_API_EMAIL_SYNC_SUBJECT
-          },
-          {
-            name  = "SMTP_CREDENTIALS_PASSWORD",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_PASSWORD
-          },
-          {
-            name  = "SMTP_CREDENTIALS_USER",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_CREDENTIALS_USER
-          },
-          {
-            name  = "SMTP_HOST_NAME",
-            value = var.WFONE_NOTIFICATIONS_API_SMTP_HOST_NAME
-          },
-          {
-            name  = "WEBADE_OAUTH2_CHECK_TOKEN_URL"
-            value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
-          },
-          {
-            name  = "WEBADE_OAUTH2_REST_CLIENT_SECRET",
-            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET
-          },
-          {
-            name  = "WEBADE_OAUTH2_TOKEN_CLIENT_URL",
-            value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
-          },
-          {
-            name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = var.WEBADE-OAUTH2_TOKEN_URL
-          },
-          {
-            name  = "WFDM_REST_URL",
-            value = var.WFDM_REST_URL
-          },
-          {
-            name  = "WFIM_CLIENT_URL",
-            value = var.WFIM_CLIENT_URL
-          },
-          {
-            name  = "WFIM_CODE_TABLES_URL",
-            value = var.WFIM_CODE_TABLES_URL
+            name = "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS",
+            value = var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS
           }
       ]
       logConfiguration = {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.wfone_notifications_api_container_name}"
+          awslogs-group         = "/ecs/${var.wfone_notifications_push_api_container_name}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
@@ -2961,9 +2927,10 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 }
 
 resource "aws_ecs_service" "wfone_notifications_push_api" {
-  name                              = "wfone-notifications-push-api-${var.target_env}"
+  for_each = var.WFONE_MONITORS_NAME_MAP
+  name                              = "wfone-notifications-push-api-${each.key}-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfone_notifications_push_api.arn
+  task_definition                   = aws_ecs_task_definition.wfone_notifications_push_api[each.key].arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -2990,7 +2957,7 @@ resource "aws_ecs_service" "wfone_notifications_push_api" {
 
   #Hit http endpoint
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfone_notifications_push_api.id
+    target_group_arn = aws_alb_target_group.wfone_notifications_push_api[each.key].id
     container_name   = var.wfone_notifications_push_api_container_name
     container_port   = var.wfone_notifications_push_api_port
   }

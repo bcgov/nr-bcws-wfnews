@@ -1,22 +1,11 @@
-name: Deploy using terragrunt
+name: DEV Deploy - Manual Trigger
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
-      DEFAULT_APPLICATION_ENVIRONMENT:
-        required: true
-        type: string
-      TARGET_ENV:
-        required: true
-        type: string
       IMAGE_TAG:
         required: true
         type: string
-      IS_HOTFIX:
-        required: true
-        type: string
-        default: 'false'
-
       MAX_RECEIVED_COUNT:
         required: false
         type: number
@@ -25,15 +14,7 @@ on:
         required: false
         type: number
         default: 10
-      PUSH_NOTIFICATION_AWS_USER:
-        required: false
-        type: string
-        default: ""
       EVENT_BRIDGE_ARN:
-        required: false
-        type: string
-        default: ""
-      WFNEWS_URL:
         required: false
         type: string
         default: ""
@@ -61,49 +42,19 @@ on:
         required: false
         type: string
         default: ""
-
-    secrets:
-      # AWS_ACCESS_KEY_ID:
-      #   required: true
-      # AWS_SECRET_ACCESS_KEY:
-      #   required: true
-      LICENSE_PLATE:
-        required: true
-      DB_PASS:
-        required: true
-      TFC_TEAM_TOKEN:
-        required: true
-      SMTP_PASSWORD:
-        required: true
-      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET:
-        required: true
-      WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET:
-        required: true
-      API_KEY:
-        required: true
-      SNS_EMAIL_TARGETS:
-        required: true
-      CLOUDFRONT_HEADER:
-        required: true
-      DATABASE_WEATHER_PWD:
-        required: true
-      WEATHER_PASSWORD:
-        required: true
-      WEBADE_OAUTH2_CLIENT_SECRET:
-        required: true
         
 env:
   TF_VERSION: 1.5.3
   TG_VERSION: 0.48.4
   TG_SRC_PATH: terraform
-  TFC_WORKSPACE: wfnews-${{ inputs.TARGET_ENV }}
+  TFC_WORKSPACE: wfnews-dev
   REPOSITORY: ghcr.io
 
 jobs:
   plan:
     name: Deploy
     runs-on: ubuntu-22.04
-    environment: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
+    environment: DEV
 
     steps:
       - name: Check out the repo
@@ -125,7 +76,7 @@ jobs:
           terragrunt_version: ${{ env.TG_VERSION }}
       
       - name: Terragrunt Apply
-        working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
+        working-directory: ${{env.TG_SRC_PATH}}/dev
         env:
           # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
           # AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
@@ -146,7 +97,7 @@ jobs:
           DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
           DB_PASS: ${{ secrets.DB_PASS }}
           DB_SIZE: ${{ vars.DB_SIZE }}
-          DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
+          DEFAULT_APPLICATION_ENVIRONMENT: DEV
           drivebcBaseUrl: ${{vars.DRIVEBC_BASE_URL}}
           GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
           INSTANCE_COUNT: ${{vars.INSTANCE_COUNT}}
@@ -168,7 +119,7 @@ jobs:
           SMTP_PASSWORD: ${{secrets.SMTP_PASSWORD}}
           SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS }}
           SUBNET_FILTER: ${{ vars.SUBNET_FILTER }}
-          TARGET_ENV: ${{ inputs.TARGET_ENV }}
+          TARGET_ENV: dev
           TFC_PROJECT: ${{ secrets.LICENSE_PLATE }}
           VPC_NAME: ${{ vars.VPC_NAME }}
           WEBADE_OAUTH2_AUTHORIZE_URL: ${{vars.WEBADE_OAUTH2_AUTHORIZE_URL}}
@@ -190,8 +141,9 @@ jobs:
           MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
           VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
           ACCEPTED_IPS: ${{vars.ACCEPTED_IPS }}
-          PUSH_NOTIFICATION_AWS_USER: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
+          PUSH_NOTIFICATION_AWS_USER: ""
           EVENT_BRIDGE_ARN: ${{inputs.EVENT_BRIDGE_ARN }}
+          WFNEWS_URL: ${{inputs.WFNEWS_URL }}
           SECRET_NAME: ${{inputs.SECRET_NAME }}
           BAN_PROHIBITION_MONITOR_KEY: ${{inputs.BAN_PROHIBITION_MONITOR_KEY }}
           ACTIVE_FIRE_MONITOR_KEY: ${{inputs.ACTIVE_FIRE_MONITOR_KEY }}

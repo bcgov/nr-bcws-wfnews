@@ -113,7 +113,6 @@ jobs:
           AREA_RESTRICTIONS_MONITOR_KEY: test
           EVACUATION_MONITOR_KEY: test
           LAMBDA_LAYER_KEY: test
-          FUNCTION_BUCKET: wfnews-lambdas
 
           # POINTID API VARIABLES
           DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
