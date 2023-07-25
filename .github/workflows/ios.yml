@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         env:
           NPMRC: ${{ secrets.NPMRC }}
-        run: echo -n "$NPMRC" > .npmrc
+        run: echo -e -n "$NPMRC" > .npmrc
 
       - name: Read npmrc file
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
