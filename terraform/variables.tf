@@ -985,7 +985,7 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
 
 variable wfone_notifications_push_api_container_name {
   type = string
-  default = wfone-notifications-push-api
+  default = "wfone-notifications-push-api"
 }
 
 variable "WFONE_MONITORS_NAME_MAP" {
