@@ -156,7 +156,7 @@ jobs:
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEY_ALIAS }}
           json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-          upload-to-play-store: ${{ inputs.upload_to_play_store == 'true' }}
+          upload-to-play-store: ${{ inputs.upload_to_play_store == true }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
 
