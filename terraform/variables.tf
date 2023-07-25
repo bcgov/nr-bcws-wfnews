@@ -983,6 +983,11 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
 
 //WFONE-PUSH-NOTIFICATION-API Environment Variables
 
+variable wfone_notifications_push_api_container_name {
+  type = string
+  default = wfone-notifications-push-api
+}
+
 variable "WFONE_MONITORS_NAME_MAP" {
   type = map(object({
     EXPIRE_HOURS = number
