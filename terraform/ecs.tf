@@ -2356,7 +2356,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           },
           {
             name  = "DATASOURCE_MAX_CONNECTIONS",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS
+            value = "${tostring(var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS)}"
           },
           {
             name  = "DATASOURCE_PASSWORD",
@@ -2400,7 +2400,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           },
           {
             name = "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS",
-            value = var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
           }
       ]
       logConfiguration = {
