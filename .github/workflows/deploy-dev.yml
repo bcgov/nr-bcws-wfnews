@@ -112,7 +112,6 @@ jobs:
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
-      FUNCTION_BUCKET: "wfnews-lambdas"
 
     secrets:
       API_KEY: ${{ secrets.API_KEY_DEV }}
