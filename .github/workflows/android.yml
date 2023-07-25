@@ -148,13 +148,13 @@ jobs:
       - uses: sparkfabrik/android-build-action@v1.4.0
         name: Build APK and upload to Play Store
         env:
-          PACKAGE_NAME: ${{ secrets.KEY_ALIAS }}
+          PACKAGE_NAME: ${{ secrets.KEYSTORE_ALIAS }}
         with:
           increment-build-number: true
           package-name: ${{ env.PACKAGE_NAME }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
-          keystore-alias: ${{ secrets.KEY_ALIAS }}
+          keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
           json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
           upload-to-play-store: ${{ inputs.upload_to_play_store == true }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"

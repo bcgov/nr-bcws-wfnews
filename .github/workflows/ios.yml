@@ -202,7 +202,7 @@ jobs:
         uses: apple-actions/upload-testflight-build@v1
         if: ${{ inputs.upload_to_app_store == true }}
         with:
-          app-path: "output.ipa"
+          app-path: ${{ runner.temp }}/build/App.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
