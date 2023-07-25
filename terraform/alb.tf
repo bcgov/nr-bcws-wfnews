@@ -222,7 +222,8 @@ resource "aws_alb_target_group" "wfone_notifications_api" {
 
 resource "aws_alb_target_group" "wfone_notifications_push_api" {
   for_each = var.WFONE_MONITORS_NAME_MAP
-  name                 = "wfone-notifications-push-api-${each.key}-${var.target_env}"
+  #Would prefer to have name be wfone-notification-push-api-active-fires-dev or so on, but maximum is 32 chars
+  name                 = "${each.key}-${var.target_env}"
   port                 = var.wfone_notifications_push_api_port
   protocol             = "HTTP"
   vpc_id               = module.network.aws_vpc.id
