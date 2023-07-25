@@ -2917,7 +2917,7 @@ resource "aws_ecs_service" "wfone_notifications_api" {
   #Hit http endpoint
   load_balancer {
     target_group_arn = aws_alb_target_group.wfone_notifications_api.id
-    container_name   = var.wfone_notifications_api_container_name
+    container_name   = "${var.wfone_notifications_push_api_container_name}-${each.key}"
     container_port   = var.wfone_notifications_api_port
   }
 
