@@ -52,21 +52,18 @@
 }
 
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-tab-label {
+:host ::ng-deep .mat-mdc-tab {
     height: 3rem !important;
     flex-basis: 0;
     flex-grow: 1;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-tab-content {
     color: #003366 !important;
 }
 
 /* Styles for the active tab label */
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-tab-label.mat-tab-label-active {
+:host ::ng-deep .mat-mdc-tab.mdc-tab--active{
     border: 1px solid #003366;
     box-sizing: border-box;
     border-radius: 5px;
@@ -87,14 +84,12 @@
 
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-::ng-deep.mat-tab-label.mat-tab-label-active:not(.mat-tab-disabled),
-::ng-deep.mat-tab-label.mat-tab-label-active.cdk-focused:not(.mat-tab-disabled) {
+::ng-deep.mat-mdc-tab.mdc-tab--active:not(.mat-tab-disabled),
+::ng-deep.mat-mdc-tab.mdc-tab--active.cdk-focused:not(.mat-tab-disabled) {
   opacity: 1;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-::ng-deep.mat-tab-body-content {
+::ng-deep.mat-mdc-tab-body-content {
   overflow: hidden !important;
 }
 

@@ -41,7 +41,6 @@ select{
     font-size: 15px;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of slide-toggle that may no longer apply for the MDC version. */
 :host ::ng-deep .mat-mdc-slide-toggle.mat-mdc-slide-toggle-checked:not(.mat-disabled) .mat-slide-toggle-bar {
     background-color: #1a5a96 ;
 }

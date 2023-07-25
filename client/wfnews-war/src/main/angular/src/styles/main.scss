@@ -28,27 +28,20 @@
 .columns-menu{
   display: flex;
   flex: 0 0 auto;
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  div.mat-form-field-wrapper {
+  div.mat-mdc-text-field-wrapper
+ {
     padding-bottom: 0;
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    div.mat-form-field-underline {
+    div.mdc-line-ripple {
       display: none;
     }
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    div.mat-form-field-infix {
+    div.mat-mdc-form-text-infix {
       width: 50px;
       border-top: 0;
       padding: 0;
-      /*TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
       mat-select,
       input{
         width: 100%;
       }
-      /*TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
       .mat-select-arrow-wrapper{
         visibility: hidden;
       }
@@ -135,7 +128,6 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -150,7 +142,6 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -187,7 +178,6 @@
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -249,13 +239,11 @@
 //}
 
 @media print {
-  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table,
   tr,
   mat-sidenav-content{
     width: 750px !important;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table{
     display: block;
   }
@@ -422,7 +410,6 @@
       .summary-card{
         margin: var(--wf1-gutter-space) 0 0 0;
       }
-      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
       mat-card.mat-mdc-card.wf1-vendor-portal-header-bar {
         padding: 0;
       }
