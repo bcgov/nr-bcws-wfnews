@@ -11,6 +11,7 @@ resource "aws_sqs_queue" "deadletters" {
 
 resource "aws_sqs_queue" "queues" {
   for_each = var.WFONE_MONITORS_NAME_MAP
+  depends_on = [aws_sqs_queue.deadletters]
   name = "wfnews-${each.key}-queue-${var.target_env}"
 
   tags = {
