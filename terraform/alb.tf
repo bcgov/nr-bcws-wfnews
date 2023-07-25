@@ -468,6 +468,28 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
   }
 }
 
+#Creation is mandatory when using ecs service
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
+  for_each = var.WFONE_MONITORS_NAME_MAP
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfone_notifications_push_api[each.key].arn
+  }
+
+  condition {
+    host_header {
+      values = ["wfone-notifications-push-api-${each.key}.*"]
+    }
+  }
+  condition {
+    source_ip {
+      values           = ["127.0.0.1"]
+    }
+  }
+}
+
 /*
 resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_apisix_admin" {
 
