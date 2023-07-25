@@ -39,7 +39,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_bans.url
+      QUEUE_URL   = aws_sqs_queue.queues["bans_prohibitions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
@@ -59,7 +59,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
   environment {
     variables = {
       UNIQUE_DEPLOY_ID = var.UNIQUE_DEPLOY_ID
-      QUEUE_URL   = aws_sqs_queue.queue_fires.url
+      QUEUE_URL   = aws_sqs_queue.queues["active_fires"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
@@ -78,7 +78,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
+      QUEUE_URL   = aws_sqs_queue.queues["area-restrictions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
@@ -97,7 +97,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_evacs.url
+      QUEUE_URL   = aws_sqs_queue.queues["evac_orders"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
