@@ -1060,7 +1060,7 @@ variable "WFONE_DB_PASS" {
 
 }
 
-variable "vars.wfone_notifications_push_api_image" {
+variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
   type = string
   default = ""
 }
