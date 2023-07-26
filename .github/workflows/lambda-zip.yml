@@ -18,6 +18,8 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: ${{ inputs.ENVIRONMENT }}
+    permissions:
+      id-token: write
     steps:
       - uses: actions/checkout@v2
         with:
@@ -43,26 +45,30 @@ jobs:
         run: |
           echo "{date}={$(date +'%Y-%m-%d-%H-%M')}" >> $GITHUB_STATE
 
-      # - name: Make staging directory, copy files
-      #   run: |
-      #     mkdir staging
-      #     cp active-fire-monitor.zip staging/active-fire-monitor.zip
-      #     cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-      #     cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-      #     cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-      #     cp lambda/lambda-layer/python.zip staging/python.zip
+      - name: Make staging directory, copy files
+        run: |
+          mkdir staging
+          cp active-fire-monitor.zip staging/active-fire-monitor.zip
+          echo ${{hashFiles('staging/active-fire-monitor.zip')}} >> staging/active-fire-monitor-hash
+          cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
+          echo ${{hashFiles('staging/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash
+          cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
+          echo ${{hashFiles('staging/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash
+          cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
+          echo ${{hashFiles('staging/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash
+          cp lambda/lambda-layer/python.zip staging/python.zip
+          echo ${{hashFiles('staging/python.zip')}} >> staging/python-hash
 
-      # # Requires long-lived AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in secrets
-      # - name: Configure AWS Credentials
-      #   uses: aws-actions/configure-aws-credentials@v2
-      #   with:
-      #     aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      #     aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      #     role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
-      #     role-duration-seconds: 900
-      #     aws-region: ca-central-1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+          role-session-name: wfnews-push-lambda
+          aws-region: ca-central-1
 
-      # - name: Upload S3
-      #   id: S3
-      #   run: |
-      #     aws s3 cp ./staging s3://wfnews-lambda-dev --recursive
+      #requires a wfnews-lambda-env bucket
+      - name: Upload S3
+        id: S3
+        run: |
+          export enviro=${{ inputs.ENVIRONMENT }}
+          aws s3 cp ./staging s3://wfnews-lambda-$(echo ${enviro,,}) --recursive
