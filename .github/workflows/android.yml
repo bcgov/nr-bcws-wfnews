@@ -147,10 +147,16 @@ jobs:
 
       - name: Decode Service Account Key JSON File
         uses: timheuer/base64-to-file@v1
-        id: service_account_json_file
+        id: service_account_json_decode
         with:
           fileName: "serviceAccount.json"
           encodedString: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+
+      - name: Read serviceAccount.json
+        id: service_account_json_read
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
       - uses: sparkfabrik/android-build-action@v1.4.0
         name: Build APK and upload to Play Store
@@ -162,7 +168,7 @@ jobs:
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
-          json-key-data: ${{ steps.service_account_json_file.outputs.filePath }}
+          json-key-data: ${{ steps.service_account_json_read.outputs.content }}
           upload-to-play-store: ${{ inputs.upload_to_play_store }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
