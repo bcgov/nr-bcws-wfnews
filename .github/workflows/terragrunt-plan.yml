@@ -143,7 +143,7 @@ jobs:
           WFNEWS_QUEUESIZE: ${{vars.WFNEWS_QUEUESIZE }}
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
-          POINTID_WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
+          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.POINTD_WEBADE_OAUTH2_CLIENT_SECRET }}
           POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:pr-877
 
           # WFONE NOTIFICATIONS API

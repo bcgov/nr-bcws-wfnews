@@ -898,7 +898,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = "${var.WEBADE_OAUTH2_CLIENT_SECRET}"
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SECRET}"
           }
         ]
       logConfiguration = {
