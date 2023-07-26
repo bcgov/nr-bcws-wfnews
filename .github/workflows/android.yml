@@ -145,6 +145,14 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/android
         run: chmod +x ./gradlew
 
+      - name: Decode Google Play JSON Key
+        id: decoder
+        env:
+          GOOGLE_PLAY_JSON_BASE64: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+        run: |
+          decodedKey=$(echo "$GOOGLE_PLAY_JSON_BASE64" | base64 --decode --ignore-garbage)
+          echo "::set-output name=google_play_json_key::$decodedKey"
+
       - uses: sparkfabrik/android-build-action@v1.4.0
         name: Build APK and upload to Play Store
         env:
@@ -155,7 +163,7 @@ jobs:
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
-          json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+          json-key-data: ${{ steps.decoder.outputs.google_play_json_key }}
           upload-to-play-store: ${{ inputs.upload_to_play_store }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
