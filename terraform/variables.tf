@@ -1074,3 +1074,8 @@ variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
   type = string
   default = ""
 }
+
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
+  type = string
+  default = ""
+}
