@@ -183,7 +183,7 @@ jobs:
           -workspace ./ios/App/App.xcworkspace \
           -archivePath $RUNNER_TEMP/App.xcarchive \
           -sdk iphoneos \
-          -configuration Debug \
+          -configuration Release \
           -destination generic/platform=iOS \
           clean archive
 
