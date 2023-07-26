@@ -115,6 +115,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
@@ -130,7 +132,9 @@ jobs:
 
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm install --legacy-peer-deps
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          npm install --legacy-peer-deps
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
