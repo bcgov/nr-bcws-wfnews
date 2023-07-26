@@ -12,6 +12,10 @@ on:
         description: "Upload to Play Store"
         type: boolean
         required: true
+      increment_version_number:
+        description: "Increment Version Number"
+        type: boolean
+        default: false
   workflow_dispatch:
     inputs:
       build_environment:
@@ -24,6 +28,10 @@ on:
         default: "development"
       upload_to_play_store:
         description: "Upload to Play Store"
+        type: boolean
+        default: false
+      increment_version_number:
+        description: "Increment Version Number"
         type: boolean
         default: false
 
@@ -167,7 +175,7 @@ jobs:
         with:
           build-type: "bundle"
           gradle-task: "bundleRelease"
-          increment-build-number: ${{ inputs.upload_to_play_store }}
+          increment-build-number: ${{ inputs.increment_version_number }}
           package-name: ${{ vars.PACKAGE_NAME_PLAY_STORE }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
