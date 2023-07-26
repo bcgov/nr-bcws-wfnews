@@ -73,7 +73,7 @@
 }
 
 // toolip style customization
-::ng-deep .mat-tooltip {
+::ng-deep .mat-mdc-tooltip {
   color: #000023 !important;
   background-color: #F8F8F8;
   -moz-box-shadow: 2px 2px 11px #666;
@@ -118,7 +118,7 @@
     .location-buttons {
       display: flex;
 
-      button.mat-button {
+      button.mat-mdc-button {
         flex: 0 0 2rem;
         min-width: 2rem;
         width: 2rem;
@@ -145,14 +145,15 @@
       left: 1rem;
       font-size: x-small;
     }
-
+    /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
+    /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
     mat-radio-group,
     .checkbox-group {
       display: flex;
       flex-wrap: wrap;
       justify-content: flex-start;
       padding-bottom: .5rem;
-
+      /* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
       mat-radio-button,
       mat-checkbox {
         box-sizing: border-box;
@@ -218,7 +219,7 @@
   display: flex;
   align-items: flex-end;
 
-  .mat-title {
+  .mat-headline-6 {
       font-size: 1.4rem;
       color: white;
       white-space: nowrap;
@@ -240,6 +241,15 @@
     display: flex !important;
     margin-left: auto;
   }
+  ::ng-deep .wfnews-application {
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+}
 }
 
 @media print {

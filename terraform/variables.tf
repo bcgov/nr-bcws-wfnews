@@ -159,6 +159,11 @@ variable "wfone_notifications_api_port" {
   default = 8080
 }
 
+variable "wfone_notifications_push_api_port" {
+  type    = number
+  default = 8080
+}
+
 variable "db_instance_type" {
   description = "Instance type to use for database vm"
   type        = string
@@ -712,9 +717,11 @@ variable "LAMBDA_LAYER_KEY" {
   default = ""
 }
 
-variable "FUNCTION_BUCKET" {
-  type    = string
-  default = "wfnews-lambdas"
+
+
+variable "UNIQUE_DEPLOY_ID" {
+  type = number
+  default = 0
 }
 
 //WFSS-POINTID-API Environment Variables
@@ -825,7 +832,7 @@ variable "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS" {
   default = ""
 }
 
-variable "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
+variable "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   type    = string
   default = ""
 }
@@ -835,17 +842,17 @@ variable "WFARCGIS_QUEUESIZE" {
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_ID" {
+variable "POINTID_WEBADE_OAUTH2_CLIENT_ID" {
   type    = string
   default = ""
 }
 
-variable "WEBADE_OAUTH2_TOKEN_URL" {
+variable "POINTID_WEBADE_OAUTH2_TOKEN_URL" {
   type    = string
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_SCOPES" {
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SCOPES" {
   type    = string
   default = ""
 }
@@ -974,5 +981,96 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_REST_CLIENT_SECRET" {
 
 variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
   type    = string
+  default = ""
+}
+
+
+
+//WFONE-PUSH-NOTIFICATION-API Environment Variables
+
+variable wfone_notifications_push_api_container_name {
+  type = string
+  default = "wfone-notifications-push-api"
+}
+
+variable "WFONE_MONITORS_NAME_MAP" {
+  type = map(object({
+    EXPIRE_HOURS = number
+  }))
+}
+
+variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_MAX_CONNECTIONS" {
+  type    = number
+  default = 25
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_EXPIRE_HOURS" {
+  type    = number
+  default = 24
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE" {
+  type    = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES" {
+  type    = number
+  default = 10
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS" {
+  type    = number
+  default = 20
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS" {
+  type    = number
+  default = 120
+}
+
+variable "WFONE_FIREBASE_DB_URL" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_PREFIX" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS" {
+  type    = number
+  default = 300
+
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_DB_PASS" {
+  type    = string
+  default = ""
+
+}
+
+variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
+  type = string
   default = ""
 }

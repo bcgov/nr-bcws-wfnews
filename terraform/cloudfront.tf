@@ -612,7 +612,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_server_${var.target_env}"
+    target_origin_id = "wfss_pointid_api_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -634,7 +634,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_server_${var.target_env}"
+    target_origin_id = "wfss_pointid_api_${var.target_env}"
 
     forwarded_values {
       query_string = false
@@ -672,7 +672,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wfone_notifications_api.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfone-notifications-api.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {

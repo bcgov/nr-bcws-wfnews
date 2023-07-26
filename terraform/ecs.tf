@@ -1967,107 +1967,107 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
       environment = [
           {
             name  = "DATABASE_WEATHER_URL",
-            value = var.DATABASE_WEATHER_URL
+            value = "${var.DATABASE_WEATHER_URL}"
           },
           {
             name  = "DATABASE_WEATHER_USER",
-            value = var.DATABASE_WEATHER_USER
+            value = "${var.DATABASE_WEATHER_USER}"
           },
           {
             name  = "DATABASE_WEATHER_PWD",
-            value = var.DATABASE_WEATHER_PWD
+            value = "${var.DATABASE_WEATHER_PWD}"
           },
           {
             name  = "BCGW_URL",
-            value = var.BCGW_URL
+            value = "${var.BCGW_URL}"
           },
           {
             name  = "WFGS_URL",
-            value = var.WFGS_URL
+            value = "${var.WFGS_URL}"
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = "${var.POINTID_MAX_ALLOWED_RADIUS}"
+            value = "${tostring(var.POINTID_MAX_ALLOWED_RADIUS)}"
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
-            value = "${var.POINTID_ASYNC_JOB_INTERVAL}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_INTERVAL)}"
           },
           {
             name  = "ASYNC_JOB_REF_LAT",
-            value = "${var.POINTID_ASYNC_JOB_REF_LAT}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LAT)}"
           },
           {
             name  = "ASYNC_JOB_REF_LONG",
-            value = "${var.POINTID_ASYNC_JOB_REF_LONG}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_LONG)}"
           },
           {
             name  = "ASYNC_JOB_REF_RADIUS",
-            value = "${var.POINTID_ASYNC_JOB_REF_RADIUS}"
+            value = "${tostring(var.POINTID_ASYNC_JOB_REF_RADIUS)}"
           },
           {
             name  = "WEATHER_HOST",
-            value = var.WEATHER_HOST
+            value = "${var.WEATHER_HOST}"
           },
           {
             name  = "WEATHER_USER",
-            value = var.WEATHER_USER
+            value = "${var.WEATHER_USER}"
           },
           {
             name  = "WEATHER_PASSWORD",
-            value = var.WEATHER_PASSWORD
+            value = "${var.WEATHER_PASSWORD}"
           },
           {
             name  = "WFARCGIS_URL",
-            value = var.WFARCGIS_URL
+            value = "${var.WFARCGIS_URL}"
           },
           {
             name  = "WFARCGIS_LAYER_AREA_RESTRICTIONS",
-            value = var.WFARCGIS_LAYER_AREA_RESTRICTIONS
+            value = "${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
           },
           {
             name  = "WFARCGIS_LAYER_BANS_PROHIBITION_AREAS",
-            value = var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS
+            value = "${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
           },
           {
             name  = "WFARCGIS_LAYER_DANGER_RATING",
-            value = var.WFARCGIS_LAYER_DANGER_RATING
+            value = "${var.WFARCGIS_LAYER_DANGER_RATING}"
           },
           {
             name  = "WFARCGIS_LAYER_ACTIVE_FIRES",
-            value = var.WFARCGIS_LAYER_ACTIVE_FIRES
+            value = "${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
           },
           {
             name  = "WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS",
-            value = var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS
+            value = "${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
           },
           {
-            name  = "WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
-            value = var.WFARGIS_LAYER_FIRE_CENTRE_BOUNDARIES
+            name  = "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES",
+            value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
           },
           {
             name  = "WFARCGIS_QUEUESIZE",
-            value = var.WFARCGIS_QUEUESIZE
+            value = "${tostring(var.WFARCGIS_QUEUESIZE)}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
-            value = var.WEBADE_OAUTH2_CLIENT_ID
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = var.WEBADE_OAUTH2_TOKEN_URL
+            value = "${var.POINTID_WEBADE_OAUTH2_TOKEN_URL}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SCOPES",
-            value = var.WEBADE_OAUTH2_CLIENT_SCOPES
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SCOPES}"
           },
           {
             name  = "FIREWEATHER_BASEURL",
-            value = var.FIREWEATHER_BASEURL
+            value = "${var.FIREWEATHER_BASEURL}"
           },
           {
             name  = "FIREWEATHER_QUEUESIZE",
-            value = "${var.FIREWEATHER_QUEUESIZE}"
+            value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
             name  = "FIREWEATHER_STATIONS_KEY",
@@ -2079,11 +2079,11 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_QUEUESIZE",
-            value = "${var.WFNEWS_QUEUESIZE}"
+            value = "${tostring(var.WFNEWS_QUEUESIZE)}"
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = var.WEBADE_OAUTH2_CLIENT_SECRET
+            value = "${var.WEBADE_OAUTH2_CLIENT_SECRET}"
           }
         ]
       logConfiguration = {
@@ -2323,6 +2323,100 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
         #   readOnly = false
         # }
       ]
+      volumesFrom = []
+    }
+  ])
+}
+
+resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
+  for_each = var.WFONE_MONITORS_NAME_MAP
+
+  family                   = "wfone_notifications_push_api_${each.key}-task-${var.target_env}"
+  execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
+  task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
+  network_mode             = "awsvpc"
+  requires_compatibilities = ["FARGATE"]
+  cpu                      = var.server_cpu_units
+  memory = var.server_memory
+  tags   = local.common_tags
+  container_definitions = jsonencode([
+    {
+      essential = true
+      # readonlyRootFilesystem = true
+      name        = "${var.wfone_notifications_push_api_container_name}-${each.key}"
+      image       = var.WFONE_NOTIFICATIONS_PUSH_API_IMAGE
+      cpu         = var.server_cpu_units
+      memory      = var.server_memory
+      networkMode = "awsvpc"
+      portMappings = [{
+            protocol      = "tcp"
+            containerPort = var.wfone_notifications_push_api_port
+            hostPort      = var.wfone_notifications_push_api_port
+      }]
+      environment = [
+          {
+            name = "SQS_QUEUE_URL",
+            value = aws_sqs_queue.queues[each.key].url
+          },
+          {
+            name  = "DATASOURCE_MAX_CONNECTIONS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS)}"
+          },
+          {
+            name  = "DATASOURCE_PASSWORD",
+            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
+          },
+          {
+            name  = "DATASOURCE_URL",
+            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
+          },
+          {
+            name  = "DATASOURCE_USER",
+            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
+          },
+          {
+            name = "WFONE_PUSH_ITEM_EXPIRE_HOURS",
+            value = "${tostring(each.value.EXPIRE_HOURS)}"
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE",
+            value = var.WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS)}"
+          },
+          {
+            name = "WFONE_FIREBASE_DB_URL",
+            value = var.WFONE_FIREBASE_DB_URL
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_PREFIX"
+            value = var.WFONE_NOTIFICATIONS_PUSH_PREFIX
+          },
+          {
+            name = "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS",
+            value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
+          }
+      ]
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-create-group  = "true"
+          awslogs-group         = "/ecs/${var.wfone_notifications_push_api_container_name}"
+          awslogs-region        = var.aws_region
+          awslogs-stream-prefix = "ecs"
+        }
+      }
+      mountPoints = []
       volumesFrom = []
     }
   ])
@@ -2649,8 +2743,8 @@ resource "aws_ecs_service" "notifications_liquibase" {
   }
 
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_liquibase.id
-    container_name   = var.liquibase_container_name
+    target_group_arn = aws_alb_target_group.notifications_liquibase.id
+    container_name   = var.notifications_liquibase_container_name
     container_port   = var.db_port
   }
 
@@ -2826,9 +2920,50 @@ resource "aws_ecs_service" "wfone_notifications_api" {
 
   #Hit http endpoint
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfss_pointid.id
+    target_group_arn = aws_alb_target_group.wfone_notifications_api.id
     container_name   = var.wfone_notifications_api_container_name
     container_port   = var.wfone_notifications_api_port
+  }
+
+  depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
+
+  tags = local.common_tags
+}
+
+resource "aws_ecs_service" "wfone_notifications_push_api" {
+  for_each = var.WFONE_MONITORS_NAME_MAP
+  name                              = "wfone-notifications-push-api-${each.key}-${var.target_env}"
+  cluster                           = aws_ecs_cluster.wfnews_main.id
+  task_definition                   = aws_ecs_task_definition.wfone_notifications_push_api[each.key].arn
+  desired_count                     = var.app_count
+  enable_ecs_managed_tags           = true
+  propagate_tags                    = "TASK_DEFINITION"
+  health_check_grace_period_seconds = 60
+  wait_for_steady_state             = false
+
+
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE_SPOT"
+    weight            = 80
+  }
+  capacity_provider_strategy {
+    capacity_provider = "FARGATE"
+    weight            = 20
+    base              = 1
+  }
+
+
+  network_configuration {
+    security_groups  = [aws_security_group.wfnews_ecs_tasks.id, data.aws_security_group.app.id]
+    subnets          = module.network.aws_subnet_ids.web.ids
+    assign_public_ip = true
+  }
+
+  #Hit http endpoint
+  load_balancer {
+    target_group_arn = aws_alb_target_group.wfone_notifications_push_api[each.key].id
+    container_name   = "${var.wfone_notifications_push_api_container_name}-${each.key}"
+    container_port   = var.wfone_notifications_push_api_port
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]

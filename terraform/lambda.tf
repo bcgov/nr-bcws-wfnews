@@ -6,31 +6,32 @@
 
 
 resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
-  filename   = "python.zip"
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key = "python.zip"
   layer_name = "wfnews-python-lib"
   compatible_runtimes = ["python3.8"]
 }
 
-data "local_file" "bans_and_prohibitions_zip" {
-  filename = "bans_and_prohibitions.zip"
-}
+# data "local_file" "bans_and_prohibitions_zip" {
+#   filename = "bans_and_prohibitions.zip"
+# }
 
-data "local_file" "active_fire_monitor_zip" {
-  filename = "active-fire-monitor.zip"
-}
+# data "local_file" "active_fire_monitor_zip" {
+#   filename = "active-fire-monitor.zip"
+# }
 
-data "local_file" "area_restrictions_zip" {
-  filename = "area_restrictions.zip"
-}
+# data "local_file" "area_restrictions_zip" {
+#   filename = "area_restrictions.zip"
+# }
 
-data "local_file" "evacuation_orders_zip" {
-  filename = "evacuation_orders.zip"
-}
+# data "local_file" "evacuation_orders_zip" {
+#   filename = "evacuation_orders.zip"
+# }
 
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
-  filename = "bans_and_prohibitions.zip"
-  source_code_hash = data.local_file.bans_and_prohibitions_zip.content_base64sha256
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key = "bans-and-prohibitions-monitor.zip"
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -38,18 +39,18 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_bans.url
+      QUEUE_URL   = aws_sqs_queue.queues["bans-prohibitions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
 
 resource "aws_lambda_function" "monitor-active-fires" {
   function_name = "wfnews-monitor-active-fires-${var.target_env}"
-  filename      = "active-fire-monitor.zip"
-  source_code_hash = data.local_file.active_fire_monitor_zip.content_base64sha256
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key      = "active-fire-monitor.zip"
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -57,18 +58,19 @@ resource "aws_lambda_function" "monitor-active-fires" {
   timeout = 180
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_fires.url
+      UNIQUE_DEPLOY_ID = var.UNIQUE_DEPLOY_ID
+      QUEUE_URL   = aws_sqs_queue.queues["active-fires"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
 
 resource "aws_lambda_function" "monitor-area-restrictions" {
   function_name = "wfnews-monitor-area-restrictions-${var.target_env}"
-  filename      = "area_restrictions.zip"
-  source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key = "area-restrictions-monitor.zip"
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -76,18 +78,18 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_restrictions.url
+      QUEUE_URL   = aws_sqs_queue.queues["area-restrictions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }
 
 resource "aws_lambda_function" "monitor-evacuation" {
   function_name = "wfnews-monitor-evacuation-${var.target_env}"
-  filename =  "evacuation_orders.zip"
-  source_code_hash = data.local_file.area_restrictions_zip.content_base64sha256
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key =  "evacuation-orders-monitor.zip"
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "python3.8"
@@ -95,10 +97,10 @@ resource "aws_lambda_function" "monitor-evacuation" {
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
     variables = {
-      QUEUE_URL   = aws_sqs_queue.queue_evacs.url
+      QUEUE_URL   = aws_sqs_queue.queues["evac-orders"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = var.WFNEWS_URL
+      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
 }

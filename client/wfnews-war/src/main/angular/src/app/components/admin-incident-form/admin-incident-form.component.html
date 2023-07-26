@@ -10,13 +10,13 @@
       </h2>
     </div>
     <div class="button-holder">
-      <button class="preview-btn" mat-button (click)="onShowPreview()">Show Preview</button>
-      <button id="publish-btn" [disabled]="validFormCheck() || publishDisabled" class="publish-btn" mat-button color="primary" (click)="publishChanges()">Publish Changes</button>
+      <button class="preview-btn" mat-raised-button (click)="onShowPreview()">Show Preview</button>
+      <button id="publish-btn" [disabled]="validFormCheck() || publishDisabled" class="publish-btn" mat-raised-button color="primary" (click)="publishChanges()">Publish Changes</button>
     </div>
   </div>
 </div>
 <!-- Main Body Content -->
-<mat-tab-group>
+<mat-tab-group mat-stretch-tabs="false">
   <mat-tab label="Incident Overview">
     <mat-accordion class="details" multi>
       <mat-expansion-panel #IncidentSummaryPanel class="incident-details-panel" expanded>
