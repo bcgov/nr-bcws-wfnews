@@ -445,7 +445,7 @@
 }
 
 .smk-popup {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding-bottom: 10px;
 }
 
@@ -528,6 +528,7 @@
 
 .dialog-container {
   h1 {
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
     font-weight: 100 !important;
     background-color: #003366;
     color: white;
@@ -547,6 +548,10 @@
     button {
       margin-right: 7px;
     }
+  }
+  .dialog-content{
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
+
   }
 }
 
@@ -636,12 +641,12 @@ wf-admin-incident-desktop{
   display: block;
   overflow: hidden;
   border-radius: 20px !important;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
 }
 
 .mat-mdc-slide-toggle {
   .mdc-form-field{
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
     font-size: 17px;
   }
 }
@@ -651,7 +656,7 @@ wf-admin-incident-desktop{
 
 .mdc-form-field{
   label{
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
     padding-left: 8px !important;
   }
 }
@@ -672,7 +677,7 @@ mat-snack-bar-container{
     background-color: inherit !important;
     .mat-mdc-snack-bar-label{
       font-size: 13px !important;
-      font-family: BCSans,Noto Sans,Verdana,Arial,"sans-serif" !important;
+      font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
       color: white !important;
     }
     .mdc-button__label {
@@ -680,4 +685,11 @@ mat-snack-bar-container{
     }
   }
 }
-  // class="mat-mdc-snack-bar-label mdc-snackbar__label"
+
+.mdc-button {
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled){
+  background-color: inherit !important;
+}

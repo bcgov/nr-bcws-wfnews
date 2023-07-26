@@ -1,5 +1,5 @@
 :host {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
 }
 
 :host ::ng-deep .mat-mdc-tab {
@@ -51,13 +51,13 @@
 /* Keeping in case we want the button style again */
 
 mat-tab-group {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
 }
 
 .container {
   height: auto;
   overflow: hidden;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 40px;
   margin: auto;
   background-color: white;
@@ -109,7 +109,7 @@ mat-tab-group {
   border-top: 1px solid #e9eff5;
   border-bottom: 1px solid #e9eff5;
   background: white;
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   margin-bottom: 40px;
   margin-top: 40px;
   margin-left: 8px;
@@ -127,7 +127,7 @@ mat-tab-group {
   border: 1px solid #e9eff5;
   border-radius: 3px;
   background: white;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   margin-bottom: 40px;
   margin-top: 40px;
   width: 300px;
