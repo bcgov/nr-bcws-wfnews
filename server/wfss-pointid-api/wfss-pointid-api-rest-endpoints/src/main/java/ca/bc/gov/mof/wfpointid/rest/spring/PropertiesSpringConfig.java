@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfone.notification.push.api.rest.v1.spring;
+package ca.bc.gov.mof.wfpointid.rest.spring;
 
 import java.io.IOException;
 import java.util.Map;

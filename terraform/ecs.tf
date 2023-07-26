@@ -885,6 +885,10 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
+            name  = "FIREWEATHER_STATIONS_KEY",
+            value = "${var.FIREWEATHER_STATIONS_KEY}"
+          },
+          {
             name  = "WFNEWS_BASEURL",
             value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
           },
@@ -894,7 +898,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = "${var.WEBADE_OAUTH2_CLIENT_SECRET}"
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SECRET}"
           }
         ]
       logConfiguration = {
