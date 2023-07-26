@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Configuration
 public class PropertiesSpringConfig {
