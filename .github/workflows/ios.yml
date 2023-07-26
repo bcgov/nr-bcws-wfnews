@@ -53,7 +53,7 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         env:
           NPMRC: ${{ secrets.NPMRC }}
-        run: echo -n "$NPMRC" > .npmrc
+        run: echo -e -n "$NPMRC" > .npmrc
 
       - name: Get XML Info
         id: version
@@ -141,7 +141,7 @@ jobs:
         env:
           GOOGLE_FILE: ${{ secrets.GOOGLE_SERVICE_INFO_PLIST_BASE64 }}
         run: |
-          echo -n "$GOOGLE_FILE" > GoogleService-Info.plist
+          echo -n "$GOOGLE_FILE" | base64 --decode -o GoogleService-Info.plist
 
       - name: Install the Apple certificate and provisioning profile
         env:
@@ -165,7 +165,7 @@ jobs:
           security unlock-keychain -p "$KEYCHAIN_PASSWORD" $KEYCHAIN_PATH
 
           # import certificate to keychain
-          security import $CERTIFICATE_PATH -P "$IOS_BUILD_CERTIFICATE_PASSWORD " -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
+          security import $CERTIFICATE_PATH -P "$IOS_BUILD_CERTIFICATE_PASSWORD" -A -t cert -f pkcs12 -k $KEYCHAIN_PATH
           security list-keychain -d user -s $KEYCHAIN_PATH
 
           # apply provisioning profile

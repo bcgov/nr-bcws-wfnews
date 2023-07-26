@@ -717,10 +717,7 @@ variable "LAMBDA_LAYER_KEY" {
   default = ""
 }
 
-variable "FUNCTION_BUCKET" {
-  type    = string
-  default = "wfnews-lambdas"
-}
+
 
 variable "UNIQUE_DEPLOY_ID" {
   type = number
@@ -986,6 +983,11 @@ variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID" {
 
 //WFONE-PUSH-NOTIFICATION-API Environment Variables
 
+variable wfone_notifications_push_api_container_name {
+  type = string
+  default = "wfone-notifications-push-api"
+}
+
 variable "WFONE_MONITORS_NAME_MAP" {
   type = map(object({
     EXPIRE_HOURS = number
@@ -1063,7 +1065,7 @@ variable "WFONE_DB_PASS" {
 
 }
 
-variable "vars.wfone_notifications_push_api_image" {
+variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
   type = string
   default = ""
 }
