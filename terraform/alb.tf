@@ -485,7 +485,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
   }
   condition {
     source_ip {
-      values           = ["127.0.0.1"]
+      values           = ["127.0.0.1/32"]
     }
   }
 }
