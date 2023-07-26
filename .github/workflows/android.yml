@@ -159,25 +159,25 @@ jobs:
           path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
       - uses: sparkfabrik/android-build-action@v1.4.0
-        name: Build APK and upload to Play Store
-        env:
-          PACKAGE_NAME: ${{ secrets.KEYSTORE_ALIAS }}
+        name: Build AAB and upload to Play Store
         with:
+          build-type: "bundle"
+          gradle-task: "bundleRelease"
           increment-build-number: true
-          package-name: ${{ env.PACKAGE_NAME }}
+          package-name: ${{ secrets.KEYSTORE_ALIAS }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
           json-key-data: ${{ steps.service_account_json_read.outputs.content }}
           upload-to-play-store: ${{ inputs.upload_to_play_store }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
-          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
+          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
 
       - uses: actions/upload-artifact@v3
         name: Upload Build Artifact to GitHub
         with:
-          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
-          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
+          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.aab"
           retention-days: 3
 
       - name: Post to a Slack channel
