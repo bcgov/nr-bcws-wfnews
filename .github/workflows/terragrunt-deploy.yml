@@ -96,6 +96,8 @@ on:
         required: true
       WEBADE_OAUTH2_CLIENT_SECRET:
         required: true
+      POINTID_WEBADE_OAUTH2_CLIENT_SECRET:
+        required: true
 
 env:
   TF_VERSION: 1.5.3
@@ -227,10 +229,11 @@ jobs:
           WEBADE_OAUTH2_CLIENT_SCOPES: ${{vars.WEBADE_OAUTH2_CLIENT_SCOPES }}
           FIREWEATHER_BASEURL: ${{vars.FIREWEATHER_BASEURL }}
           FIREWEATHER_QUEUESIZE: ${{vars.FIREWEATHER_QUEUESIZE }}
+          FIREWEATHER_STATIONS_KEY: ${{vars.FIREWEATHER_STATIONS_KEY }}
           WFNEWS_QUEUESIZE: ${{vars.WFNEWS_QUEUESIZE }}
           DATABASE_WEATHER_PWD: ${{secrets.DATABASE_WEATHER_PWD }}
           WEATHER_PASSWORD: ${{secrets.WEATHER_PASSWORD }}
-          WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_CLIENT_SECRET }}
+          POINTID_WEBADE_OAUTH2_CLIENT_SECRET: ${{secrets.POINTID_WEBADE_OAUTH2_CLIENT_SECRET }}
           POINTID_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.POINTID_IMAGE }}:${{ inputs.IMAGE_TAG }}
 
           # WFONE NOTIFICATIONS API

@@ -860,6 +860,11 @@ variable "FIREWEATHER_QUEUESIZE" {
   default = ""
 }
 
+variable "FIREWEATHER_STATIONS_KEY" {
+  type    = string
+  default = ""
+}
+
 variable "WFNEWS_BASEURL" {
   type    = string
   default = ""
@@ -870,7 +875,7 @@ variable "WFNEWS_QUEUESIZE" {
   default = ""
 }
 
-variable "WEBADE_OAUTH2_CLIENT_SECRET" {
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
   type    = string
   default = ""
 }

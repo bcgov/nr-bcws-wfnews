@@ -2070,6 +2070,10 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${var.FIREWEATHER_QUEUESIZE}"
           },
           {
+            name  = "FIREWEATHER_STATIONS_KEY",
+            value = "${var.FIREWEATHER_STATIONS_KEY}"
+          },
+          {
             name  = "WFNEWS_BASEURL",
             value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
           },
