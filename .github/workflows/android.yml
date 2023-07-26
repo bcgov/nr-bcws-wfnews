@@ -167,7 +167,6 @@ jobs:
         with:
           build-type: "bundle"
           gradle-task: "bundleRelease"
-          increment-build-number: ${{ inputs.upload_to_play_store }}
           package-name: ${{ secrets.KEYSTORE_ALIAS }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
