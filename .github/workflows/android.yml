@@ -167,7 +167,7 @@ jobs:
         with:
           build-type: "bundle"
           gradle-task: "bundleRelease"
-          package-name: ${{ secrets.KEYSTORE_ALIAS }}
+          package-name: ${{ vars.PACKAGE_NAME_PLAY_STORE }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
