@@ -1,11 +1,8 @@
-
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
 mat-tab-group {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-tab-label {
+:host ::ng-deep .mat-mdc-tab {
   color: #003366 !important;
   font-weight: 400;
   font-size: 1rem;
@@ -15,8 +12,7 @@ mat-tab-group {
   background-color: #003366 !important;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-:host ::ng-deep .mat-tab-label-active {
+:host ::ng-deep .mdc-tab--active{
     font-weight: 700 !important
 }
 
@@ -24,27 +20,24 @@ mat-tab-group {
 ::ng-deep .wildfires-tabs{
 
     padding-top: 1rem;
-    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
     .mat-mdc-tab-group {
-      font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+      font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-labels{
+    .mat-mdc-tab-labels{
         padding-bottom: 1rem;
     }
     .mat-mdc-tab-header{
      border-bottom: none;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-label.mat-tab-label-active {
+    .mat-mdc-tab.mdc-tab--active{
         border-radius: 40px;
         background-color:#1a5a96;
         color:white !important;
         opacity: 1;
         font-weight: 700;
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-label{
+    .mat-mdc-tab{
         opacity: 1;
         color: #1a5a96;
         height: 36px;
@@ -57,8 +50,7 @@ mat-tab-group {
     .mat-ink-bar{
         background-color: white !important
     }
-    /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-    .mat-tab-body-content{
+    .mat-mdc-tab-body-content{
         overflow: hidden
     }
 }
@@ -345,19 +337,16 @@ section {
     text-decoration: underline;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
-::ng-deep .mat-progress-bar-fill {
+::ng-deep .mdc-linear-progress__fill{
   background-color: white;
 }
 
 
-/* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
-::ng-deep .mat-progress-bar-fill::after {
+::ng-deep .mdc-linear-progress__fill::after {
   background-color: #1a5a9684;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of progress-bar that may no longer apply for the MDC version. */
-::ng-deep .mat-progress-bar-buffer {
+::ng-deep .mdc-linear-progress__buffer {
   background: white;
 }
 

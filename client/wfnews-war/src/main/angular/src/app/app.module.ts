@@ -22,7 +22,6 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -56,7 +55,6 @@ import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { MatTableModule} from "@angular/material/table";
 import { SingleSelectDirective } from './directives/singleselect.directive';
-import { MatLegacyPaginatorModule as MatPaginatorModule } from '@angular/material/legacy-paginator';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-admin-panel.component.desktop';
 import { AdminContainerDesktop } from './containers/admin/admin-container.component.desktop';
@@ -310,7 +308,6 @@ export const DATE_FORMATS = {
         MatToolbarModule,
         MatSlideToggleModule,
         MatExpansionModule,
-        MatPaginatorModule,
         NgxPaginationModule,
         NgxChartsModule,
         YouTubePlayerModule,
