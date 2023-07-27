@@ -1,7 +1,9 @@
-package ca.bc.gov.nrs.wfone.api.rest.v1.spring;
+package ca.bc.gov.mof.wfpointid.rest.spring;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Properties;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,8 +13,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
-import java.util.Map;
-import java.util.Map.Entry;
 
 @Configuration
 public class PropertiesSpringConfig {
@@ -22,6 +22,7 @@ public class PropertiesSpringConfig {
 	public PropertiesSpringConfig() {
 		logger.info("<PropertiesSpringConfig");
 		
+
 		logger.info(">PropertiesSpringConfig");
 	}
 
@@ -50,11 +51,9 @@ public class PropertiesSpringConfig {
 		
 		propertiesFactory.setLocalOverride(true);
 
-		propertiesFactory.setPropertiesArray(bootstrapProperties());
+		propertiesFactory.setPropertiesArray(bootstrapProperties(), systemProperties());
 		propertiesFactory.setLocations(
-				new ClassPathResource("static.properties"),
-				new ClassPathResource("application-secrets.properties"),
-				new ClassPathResource("application.properties") );
+				new ClassPathResource("static.properties"));
 		
 		propertiesFactory.afterPropertiesSet();
 		
