@@ -202,14 +202,6 @@ jobs:
           path: ${{ runner.temp }}/build/App.ipa
           retention-days: 3
 
-      - name: Build number bump
-        uses: ngeri/version-bump@v1.0.2
-        if: ${{ inputs.upload_to_app_store == true }}
-        with:
-          appStoreConnectPrivateKey: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
-          keyID: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
-          issuerID: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
-          targetName: ${{ vars.PACKAGE_NAME }}
 
       - name: "Upload app to TestFlight"
         uses: apple-actions/upload-testflight-build@v1
