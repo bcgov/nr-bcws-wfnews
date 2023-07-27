@@ -31,7 +31,7 @@ on:
         type: boolean
         default: false
       build_number:
-        description: "Upload to App Store"
+        description: "A unique build number that has to be greater than the last build number uploaded to the App Store."
         type: number
         required: true
 
@@ -226,7 +226,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        if: always()
+        if: always() && (github.event_name == 'workflow_dispatch')
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
@@ -236,4 +236,10 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: "wildfire-build-notifier"
-          slack-message: ":apple_mac: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }} \n Environment: ${{ inputs.build_environment }} \n Upload to App Store: ${{ inputs.upload_to_app_store }}"
+          slack-message: >
+            :apple_mac: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }} \n 
+            Run number: ${{ github.run_number }} \n
+            Branch: ${{ github.ref_name }} \n
+            Environment: ${{ inputs.build_environment }} \n 
+            Upload to App Store: ${{ inputs.upload_to_app_store }} \n
+            Started by: ${{ github.triggering_actor }} \n

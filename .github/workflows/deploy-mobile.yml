@@ -18,6 +18,14 @@ on:
         type: boolean
         required: false
         default: false
+      app_store_build_number:
+        description: "A unique build number that has to be greater than the last build number uploaded to the App Store."
+        type: number
+        required: true
+      play_store_increment_version_number:
+        description: "Increment the version number of the Android app bundle to one higher than the last uploaded version."
+        type: boolean
+        default: false
 
 jobs:
   build-android:
@@ -26,6 +34,7 @@ jobs:
     with:
       build_environment: ${{ inputs.build_environment }}
       upload_to_play_store: ${{ inputs.upload_to_store }}
+      increment_version_number: ${{ inputs.play_store_increment_version_number }}
 
   build-ios:
     uses: ./.github/workflows/ios.yml
@@ -33,3 +42,32 @@ jobs:
     with:
       build_environment: ${{ inputs.build_environment }}
       upload_to_app_store: ${{ inputs.upload_to_store }}
+      build_number: ${{ inputs.app_store_build_number }}
+
+  notify-slack:
+    runs-on: ubuntu-latest
+    needs: [build-android, build-ios]
+    steps:
+      - name: Post to a Slack channel
+        id: slack
+        if: always()
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          ANDROID_STATUS_EMOJI: ${{ needs.build-android.result == 'success' && ':white_check_mark:' || ':x:' }}
+          IOS_STATUS_EMOJI: ${{ needs.build-ios.result == 'success' && ':white_check_mark:' || ':x:' }}
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+        with:
+          # Slack channel id, channel name, or user id to post message.
+          # See also: https://api.slack.com/methods/chat.postMessage#channels
+          # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
+          channel-id: "wildfire-build-notifier"
+          slack-message: >
+            :android: : ${{ env.ANDROID_STATUS_EMOJI }} ${{ needs.build-android.result }}  \n
+            :apple_mac: : ${{ env.IOS_STATUS_EMOJI }} ${{ needs.build-ios.result }} \n 
+            Run number: ${{ github.run_number }} \n
+            SHA: ${{ github.sha }} \n
+            Branch: ${{ github.ref_name }} \n
+            Environment: ${{ inputs.build_environment }} \n 
+            Upload to App Store: ${{ inputs.upload_to_app_store }} \n
+            Started by: ${{ github.triggering_actor }} \n
+            ${{ github.event_name == 'pull_request' && github.event.pull_request.url || '' }} 
