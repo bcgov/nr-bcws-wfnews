@@ -234,7 +234,7 @@ variable "apisix_names" {
 
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfss-pointid"]
+  default     = ["wfss-pointid-api"]
   type        = list(string)
 }
 
@@ -1071,6 +1071,11 @@ variable "WFONE_DB_PASS" {
 }
 
 variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
+  type = string
+  default = ""
+}
+
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
   type = string
   default = ""
 }
