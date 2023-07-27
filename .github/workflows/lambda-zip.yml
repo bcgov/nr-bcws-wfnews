@@ -49,13 +49,13 @@ jobs:
         run: |
           mkdir staging
           cp active-fire-monitor.zip staging/active-fire-monitor.zip
-          echo ${{hashFiles('staging/active-fire-monitor.zip')}} >> staging/active-fire-monitor-hash
+          echo ${{hashFiles('staging/active-fire-monitor.zip')}} >> staging/active-fire-monitor-hash.txt
           cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-          echo ${{hashFiles('staging/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash
+          echo ${{hashFiles('staging/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash.txt
           cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-          echo ${{hashFiles('staging/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash
+          echo ${{hashFiles('staging/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash.txt
           cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          echo ${{hashFiles('staging/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash
+          echo ${{hashFiles('staging/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash.txt
           cp lambda/lambda-layer/python.zip staging/python.zip
           echo ${{hashFiles('staging/python.zip')}} >> staging/python-hash
 
