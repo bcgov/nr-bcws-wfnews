@@ -50,7 +50,7 @@ public class PropertiesSpringConfig {
 		
 		propertiesFactory.setLocalOverride(true);
 
-		propertiesFactory.setPropertiesArray(bootstrapProperties());
+		propertiesFactory.setPropertiesArray(bootstrapProperties(), systemProperties());
 		propertiesFactory.setLocations(
 				new ClassPathResource("static.properties"),
 				new ClassPathResource("application-secrets.properties"),
