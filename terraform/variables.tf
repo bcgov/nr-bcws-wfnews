@@ -234,7 +234,7 @@ variable "apisix_names" {
 
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfss-pointid"]
+  default     = ["wfss-pointid-api"]
   type        = list(string)
 }
 
