@@ -1,21 +1,18 @@
 ::ng-deep .wildfires-tabs {
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-  .mat-tab-labels {
+  .mat-mdc-tab-labels {
       padding-bottom: 5px;
   }
   .mat-mdc-tab-header {
    border-bottom: none;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-  .mat-tab-label.mat-tab-label-active {
+  .mat-mdc-tab.mdc-tab--active {
       border-radius: 40px;
       background-color:#1a5a96;
       color:white !important;
       opacity: 1;
       font-weight: 700;
   }
-  /* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version. */
-  .mat-tab-label {
+  .mat-mdc-tab {
       opacity: 1;
       color: #1a5a96;
       height: 36px;
