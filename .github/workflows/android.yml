@@ -16,6 +16,7 @@ on:
         description: "Increment Version Number"
         type: boolean
         default: false
+        required: true
   workflow_dispatch:
     inputs:
       build_environment:

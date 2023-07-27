@@ -12,6 +12,10 @@ on:
         description: "Upload to App Store"
         type: boolean
         required: true
+      build_number:
+        description: "Upload to App Store"
+        type: number
+        required: true
   workflow_dispatch:
     inputs:
       build_environment:
@@ -26,6 +30,10 @@ on:
         description: "Upload to App Store"
         type: boolean
         default: false
+      build_number:
+        description: "Upload to App Store"
+        type: number
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -202,6 +210,10 @@ jobs:
           path: ${{ runner.temp }}/build/App.ipa
           retention-days: 3
 
+      - name: Set build number
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App/App
+        run: |
+          xcrun agvtool new-version -all ${{ inputs.build_number }}
 
       - name: "Upload app to TestFlight"
         uses: apple-actions/upload-testflight-build@v1
