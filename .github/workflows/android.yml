@@ -176,7 +176,7 @@ jobs:
           build-type: "bundle"
           gradle-task: "bundleRelease"
           increment-build-number: ${{ inputs.increment_version_number }}
-          package-name: ${{ vars.PACKAGE_NAME_PLAY_STORE }}
+          package-name: ${{ vars.PACKAGE_NAME }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
           keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
