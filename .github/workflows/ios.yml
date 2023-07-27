@@ -211,7 +211,7 @@ jobs:
           retention-days: 3
 
       - name: Set build number
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App/App
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
         run: |
           xcrun agvtool new-version -all ${{ inputs.build_number }}
 
