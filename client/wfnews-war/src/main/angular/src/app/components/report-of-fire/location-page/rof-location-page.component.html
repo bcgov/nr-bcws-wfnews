@@ -1,6 +1,15 @@
 <div>
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="map-container">
+    <wf-map-container
+      *ngIf="mapConfig"
+      [mapConfig]="mapConfig"
+      baseMap="imagery-2x"
+      (mapInitialized)="initMap($event)"
+    ></wf-map-container>
+
+  </div>
   <div class="rof-button-container">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
 	  <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button>
