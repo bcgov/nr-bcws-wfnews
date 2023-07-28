@@ -42,7 +42,7 @@ jobs:
     with:
       build_environment: ${{ inputs.build_environment }}
       upload_to_app_store: ${{ inputs.upload_to_store }}
-      build_number: ${{ inputs.app_store_build_number }}
+      build_number:  ${{ fromJSON(inputs.app_store_build_number) }} # In fromJSON because workflow forgets its a number
 
   notify-slack:
     runs-on: ubuntu-latest

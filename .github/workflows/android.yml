@@ -17,6 +17,10 @@ on:
         type: boolean
         default: false
         required: true
+      skip_slack_notification:
+        type: boolean
+        default: true
+        required: false
   workflow_dispatch:
     inputs:
       build_environment:
@@ -195,7 +199,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        if: always() && (github.event_name == 'workflow_dispatch')
+        if: always() && ${{ inputs.skip_slack_notification == false }}
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
