@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -95,21 +95,11 @@
 }
 
 
-.news-panel {
-	box-sizing: border-box;
-	max-height: $wf1-app-main-panel-tab-panel-height;
-    /* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
-    mat-card {
-    	margin-bottom: .5rem;
-    }
-}
-
 ::ng-deep .item-full-width {
   width: 100%;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
-::ng-deep .cdk-overlay-container .cdk-overlay-pane .fire-size-select-content,mat-select-panel-done-animating{
+::ng-deep .cdk-overlay-container .cdk-overlay-pane .fire-size-select-content,mat-mdc-select-panel-done-animating{
 	min-height: 20rem !important
 }
 
@@ -211,15 +201,13 @@
 				left: 1rem;
 				font-size: x-small;
 			}
-			/* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
-			/* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
+
 			mat-radio-group,
 			.checkbox-group {
 				display: flex;
 				flex-wrap: wrap;
 				justify-content: flex-start;
 				padding-bottom: .5rem;
-				/* TODO(mdc-migration): The following rule targets internal classes of radio that may no longer apply for the MDC version.*/
 				mat-radio-button,
 				mat-checkbox {
 					box-sizing: border-box;
@@ -276,7 +264,6 @@
 	}
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
 mat-card h3 {
     display: flex;
     align-items: center;
@@ -303,12 +290,15 @@ mat-card h3 {
 	box-shadow: none !important;
 }
 
-/* TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-::ng-deep .mat-tab-body-wrapper{
+::ng-deep .mat-mdc-tab-body-wrapper{
 	background-color: white !important;
 	padding-left: 1rem;
 	padding-right: 1rem;
 	padding-bottom: 5rem;
+}
+
+::ng-deep .mat-mdc-card-outlined {
+	border-width: 0 !important;
 }
 
 .mat-mdc-tab-group{

@@ -885,8 +885,12 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
+            name  = "FIREWEATHER_STATIONS_KEY",
+            value = "${var.FIREWEATHER_STATIONS_KEY}"
+          },
+          {
             name  = "WFNEWS_BASEURL",
-            value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
+            value = "wfnews-api.${var.target_env}.bcwildfireservices.com"
           },
           {
             name  = "WFNEWS_QUEUESIZE",
@@ -894,7 +898,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_SECRET",
-            value = "${var.WEBADE_OAUTH2_CLIENT_SECRET}"
+            value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_SECRET}"
           }
         ]
       logConfiguration = {
@@ -1166,23 +1170,23 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
       }]
       environment = [
           {
-            name = "SQS_QUEUE_URL",
+            name = "WFONE_SQS_QUEUE_NOTIFICATION_URL",
             value = aws_sqs_queue.queues[each.key].url
           },
           {
-            name  = "DATASOURCE_MAX_CONNECTIONS",
+            name  = "WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS",
             value = "${tostring(var.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS)}"
           },
           {
-            name  = "DATASOURCE_PASSWORD",
+            name  = "WFONE_DB_PASS",
             value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
           },
           {
-            name  = "DATASOURCE_URL",
+            name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",
             value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
           },
           {
-            name  = "DATASOURCE_USER",
+            name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME",
             value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_USER
           },
           {
@@ -1190,15 +1194,15 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
             value = "${tostring(each.value.EXPIRE_HOURS)}"
           },
           {
-            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE",
+            name = "WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE",
             value = var.WFONE_NOTIFICATIONS_PUSH_SQS_MONITOR_ATTRIBUTE
           },
           {
-            name = "WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES",
+            name = "WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES",
             value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_MAX_MESSAGES)}"
           },
           {
-            name = "WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS",
+            name = "WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS",
             value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS)}"
           },
           {
@@ -1210,12 +1214,24 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
             value = var.WFONE_FIREBASE_DB_URL
           },
           {
-            name = "WFONE_NOTIFICATIONS_PUSH_PREFIX"
+            name = "WFONE_PUSH_NOTIFICATION_PREFIX"
             value = var.WFONE_NOTIFICATIONS_PUSH_PREFIX
           },
           {
-            name = "WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS",
+            name = "WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS",
             value = "${tostring(var.WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS)}"
+          },
+          {
+            name = "WFONE_PM_SQS_S3_BUCKET_NAME"
+            value = aws_s3_bucket.wfnews-monitor-queue-bucket.bucket
+          },
+          {
+            name = "WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY",
+            value = var.WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY
+          },
+          {
+            name = "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY",
+            value = var.WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY
           }
       ]
       logConfiguration = {

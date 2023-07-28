@@ -329,7 +329,7 @@
 }
 
 .mat-mdc-tooltip {
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
   font-size: 10px;
   padding-top: 6px;
   padding-bottom: 6px;
@@ -647,7 +647,7 @@ input.mat-input-element {
 }
 
 .mat-mdc-table {
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
 }
 
 .mat-mdc-header-cell {
@@ -4010,7 +4010,7 @@ iframe#login-iframe {
 .smk-feature-list .smk-layer .smk-feature {
   text-decoration: underline;
   color: #1a5a96;
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
 @font-face {
@@ -4035,7 +4035,7 @@ iframe#login-iframe {
 }
 
 .lg-container {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Open Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .lg-next,
@@ -4581,7 +4581,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 
 #core-interface-container {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
 }
 #core-interface-container .mat-paginator-container {
   justify-content: center;
@@ -4589,7 +4589,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 
 .owl-dt-popup-container {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
 }
 
 .snackbar-warning {
@@ -4598,7 +4598,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   position: inherit;
 }
 .snackbar-warning .mat-simple-snackbar {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-warning .mat-simple-snackbar-action {
@@ -4611,7 +4611,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   position: inherit;
 }
 .snackbar-success .mat-simple-snackbar {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-success .mat-button-wrapper {
@@ -4625,7 +4625,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   padding: 18px 16px !important;
 }
 .snackbar-success-v2 .mat-simple-snackbar {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-success-v2 .mat-button-wrapper {
@@ -4660,7 +4660,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   padding: 18px 16px !important;
 }
 .snackbar-info .mat-simple-snackbar {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
 }
 .snackbar-info .mat-button-wrapper {
@@ -4695,7 +4695,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 .full-snack-bar-offline {
   background-color: #f44336;
   color: #ffffff;
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 13px;
   max-width: calc(var(--vw, 1vw) * 80) !important;
   word-break: break-word;
@@ -4769,14 +4769,14 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 .display-columns-selector.select-panel .option {
   height: 30px;
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 15px;
   padding: 10px;
 }
 .display-columns-selector.select-panel button {
   margin: 10px;
   padding: 10px;
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 15px;
   border-radius: 5px;
   border: solid 1px grey;
@@ -4799,7 +4799,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
   border-bottom: 1px solid #a7a9ac;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
 }
 .mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header .expansion-header,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .mat-expansion-panel-header .expansion-header {
@@ -4826,7 +4826,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 .mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-content,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .mat-expansion-panel-content {
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
 }
 .mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-content .mat-expansion-panel-body,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .mat-expansion-panel-content .mat-expansion-panel-body {
@@ -4836,7 +4836,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .wf1-expansion-panel-body {
   padding: 0 var(--wf1-gutter-space) var(--wf1-gutter-space);
   font-size: 15px;
-  font-family: "BCSans", "Noto Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
 }
 .mat-accordion mat-expansion-panel:not(.mat-expanded) .wf1-expansion-panel-body .expansion-header-sub,
 .mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .wf1-expansion-panel-body .expansion-header-sub {
@@ -4884,7 +4884,7 @@ body:not(.lg-from-hash) .lg-outer.lg-start-zoom .lg-item:not(.lg-zoomable).lg-co
 }
 
 .smk-popup {
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding-bottom: 10px;
 }
 
@@ -5696,7 +5696,7 @@ wf-admin-incident-desktop {
 }
 
 .lg-container {
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Open Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 .lg-next,
