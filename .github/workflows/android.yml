@@ -12,6 +12,15 @@ on:
         description: "Upload to Play Store"
         type: boolean
         required: true
+      increment_version_number:
+        description: "Increment Version Number"
+        type: boolean
+        default: false
+        required: true
+      skip_slack_notification:
+        type: boolean
+        default: true
+        required: false
   workflow_dispatch:
     inputs:
       build_environment:
@@ -24,6 +33,10 @@ on:
         default: "development"
       upload_to_play_store:
         description: "Upload to Play Store"
+        type: boolean
+        default: false
+      increment_version_number:
+        description: "Increment Version Number"
         type: boolean
         default: false
 
@@ -123,6 +136,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
@@ -135,7 +150,9 @@ jobs:
 
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm install --legacy-peer-deps
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          npm install --legacy-peer-deps
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
@@ -145,31 +162,44 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/android
         run: chmod +x ./gradlew
 
-      - uses: sparkfabrik/android-build-action@v1.4.0
-        name: Build APK and upload to Play Store
-        env:
-          PACKAGE_NAME: ${{ secrets.KEY_ALIAS }}
+      - name: Decode Service Account Key JSON File
+        uses: timheuer/base64-to-file@v1
+        id: service_account_json_decode
         with:
-          increment-build-number: true
-          package-name: ${{ env.PACKAGE_NAME }}
+          fileName: "serviceAccount.json"
+          encodedString: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
+
+      - name: Read serviceAccount.json
+        id: service_account_json_read
+        uses: juliangruber/read-file-action@v1
+        with:
+          path: ${{ steps.service_account_json_decode.outputs.filePath }}
+
+      - uses: sparkfabrik/android-build-action@v1.4.0
+        name: Build AAB and upload to Play Store
+        with:
+          build-type: "bundle"
+          gradle-task: "bundleRelease"
+          increment-build-number: ${{ inputs.increment_version_number }}
+          package-name: ${{ vars.PACKAGE_NAME }}
           keystore-content: ${{ secrets.KEYSTORE_CONTENT }}
           keystore-password: ${{ secrets.KEYSTORE_PASSWORD }}
-          keystore-alias: ${{ secrets.KEY_ALIAS }}
-          json-key-data: ${{ secrets.GOOGLE_PLAY_JSON_KEY }}
-          upload-to-play-store: ${{ inputs.upload_to_play_store == true }}
+          keystore-alias: ${{ secrets.KEYSTORE_ALIAS }}
+          json-key-data: ${{ steps.service_account_json_read.outputs.content }}
+          upload-to-play-store: ${{ inputs.upload_to_play_store }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
-          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
+          output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
 
       - uses: actions/upload-artifact@v3
         name: Upload Build Artifact to GitHub
         with:
-          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.apk
-          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.apk"
+          name: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          path: "wfnews-release-${{ steps.vars.outputs.short_sha }}.aab"
           retention-days: 3
 
       - name: Post to a Slack channel
         id: slack
-        if: always()
+        if: ('!cancelled()') && inputs.skip_slack_notification == false
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
@@ -179,4 +209,11 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: "wildfire-build-notifier"
-          slack-message: ":android: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}  \n Environment: ${{ inputs.build_environment }} \n Upload to Play Store: ${{ inputs.upload_to_play_store }}"
+          slack-message: |
+            :android: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}
+            Workflow: ${{ github.workflow }}
+            Run number: ${{ github.run_number }}
+            Branch: ${{ github.ref_name }}
+            Environment: ${{ inputs.build_environment }}
+            Upload to Play Store: ${{ inputs.upload_to_play_store }}
+            Started by: ${{ github.triggering_actor }}

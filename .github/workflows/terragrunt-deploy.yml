@@ -271,6 +271,7 @@ jobs:
           WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY: ${{ secrets.WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY }}
           WFONE_DB_PASS: ${{ secrets.WFONE_DB_PASS }}
           WFONE_NOTIFICATIONS_PUSH_API_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NOTIFICATIONS_PUSH_API_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
+          FIREBASE_CONFIG_JSON: ${{ secrets.FIREBASE_CONFIG_JSON }}
 
 
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
