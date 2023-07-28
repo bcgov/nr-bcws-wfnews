@@ -234,7 +234,7 @@ variable "apisix_names" {
 
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
-  default     = ["wfss-pointid"]
+  default     = ["wfss-pointid-api"]
   type        = list(string)
 }
 
@@ -425,6 +425,12 @@ variable "client_health_check_path" {
   description = "Endpoint to use for health checks on client"
   default     = "/config.jsp"
   type        = string
+}
+
+variable pointid_health_check_path {
+  description = "Endpoint to use for health checks on pointid API"
+  default = "/weather?lat=50&lon=-127&duration=3"
+  type = string
 }
 
 # variable etcd_container_name {
@@ -867,6 +873,11 @@ variable "FIREWEATHER_QUEUESIZE" {
   default = ""
 }
 
+variable "FIREWEATHER_STATIONS_KEY" {
+  type    = string
+  default = ""
+}
+
 variable "WFNEWS_BASEURL" {
   type    = string
   default = ""
@@ -1066,6 +1077,11 @@ variable "WFONE_DB_PASS" {
 }
 
 variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
+  type = string
+  default = ""
+}
+
+variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
   type = string
   default = ""
 }

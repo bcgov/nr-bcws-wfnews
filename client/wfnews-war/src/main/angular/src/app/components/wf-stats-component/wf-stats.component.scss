@@ -1,9 +1,8 @@
 :host {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-:host ::ng-deep .mat-tab-label {
+:host ::ng-deep .mat-mdc-tab {
   color: #003366 !important;
   font-weight: 400;
   font-size: 1rem;
@@ -51,15 +50,14 @@
 }*/
 /* Keeping in case we want the button style again */
 
-/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
 mat-tab-group {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif !important;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
 }
 
 .container {
   height: auto;
   overflow: hidden;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 40px;
   margin: auto;
   background-color: white;
@@ -111,7 +109,7 @@ mat-tab-group {
   border-top: 1px solid #e9eff5;
   border-bottom: 1px solid #e9eff5;
   background: white;
-  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   margin-bottom: 40px;
   margin-top: 40px;
   margin-left: 8px;
@@ -129,7 +127,7 @@ mat-tab-group {
   border: 1px solid #e9eff5;
   border-radius: 3px;
   background: white;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   margin-bottom: 40px;
   margin-top: 40px;
   width: 300px;
@@ -210,8 +208,7 @@ mat-tab-group {
   background-color: #003366 !important;
 }
 
-/*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
-:host ::ng-deep .mat-tab-label-active {
+:host ::ng-deep .mdc-tab--active {
   font-weight: 700 !important
 }
 

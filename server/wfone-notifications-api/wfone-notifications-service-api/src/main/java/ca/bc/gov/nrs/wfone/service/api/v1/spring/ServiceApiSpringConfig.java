@@ -43,34 +43,34 @@ public class ServiceApiSpringConfig {
 		logger.debug(">ServiceApiSpringConfig");
 	}
 	
-	@Value("${wfone.smtp.host.name}")
+	@Value("${SMTP_HOST_NAME}")
 	private String emailHostName;
 	
-	@Value("${wfone.smtp.credentials.user}")
+	@Value("${SMTP_CREDENTIALS_USER}")
 	private String emailHostUser;
 
-	@Value("${wfone.smtp.credentials.password}")
+	@Value("${SMTP_CREDENTIALS_PASSWORD}")
 	private String emailHostPassword;
 
-	@Value("${wfone.email.from.address}")
+	@Value("${EMAIL_FROM_EMAIL}")
 	private String emailFromAddress;
 	
-	@Value("${wfone.email.notifications.enabled.ind}")
+	@Value("${EMAIL_NOTIFICATIONS_ENABLED}")
 	private Boolean emailNotificationsEnabledInd;
 	
-	@Value("${wfone.email.admin.address}")
+	@Value("${EMAIL_ADMIN_EMAIL}")
 	private String rawAddresses;
 	
-	@Value("${wfone.email.sync.subject}")
+	@Value("${EMAIL_SYNC_SUBJECT}")
 	private String emailSubjectTemplate;
 	
-	@Value("${wfone.email.sync.error.subject}")
+	@Value("${EMAIL_SYNC_SEND_ERROR_SUBJECT}")
 	private String emailErrorSubjectTemplate;
 	
-	@Value("${wfone.email.sync.send.error.frequency}")
+	@Value("${EMAIL_SYNC_SEND_ERROR_FREQ}")
 	private String emailErrorFrequency;
 	
-	@Value("${wfone.email.sync.send.frequency}")
+	@Value("${EMAIL_SYNC_SEND_FREQ}")
 	private String emailFrequency;
 
 	// Beans provided by EndpointsSpringConfig

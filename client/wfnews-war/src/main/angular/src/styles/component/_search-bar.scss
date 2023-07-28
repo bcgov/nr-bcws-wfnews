@@ -34,20 +34,16 @@
 
   &__input {
     flex-grow: 1;
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-    /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-    div.mat-form-field-wrapper {
+    div.mat-mdc-text-field-wrapper
+ {
       padding-bottom: 0;
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      div.mat-form-field-underline {
+      div.mdc-line-ripple {
         bottom: .25rem;
       }
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      div.mat-form-field-infix {
+      div.mat-mdc-form-text-infix {
         border-top-width: .5rem;
       }
-      /* TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version. */
-      span.mat-form-field-label-wrapper {
+      span.mat-mdc-floating-label-wrapper {
         font-size: small;
         top: -.35rem;
       }

@@ -191,7 +191,7 @@ resource "aws_alb_target_group" "wfss_pointid" {
     matcher             = "200"
     timeout             = "3"
     port                = var.health_check_port
-    path                = var.api_health_check_path
+    path                = var.pointid_health_check_path
     unhealthy_threshold = "2"
   }
 
@@ -464,6 +464,28 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_wfone_notifi
     http_header {
       http_header_name = "X-Cloudfront-Header"
       values           = ["${var.cloudfront_header}"]
+    }
+  }
+}
+
+#Creation is mandatory when using ecs service
+resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_push_api" {
+  for_each = var.WFONE_MONITORS_NAME_MAP
+  listener_arn = data.aws_alb_listener.wfnews_server_front_end.arn
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_alb_target_group.wfone_notifications_push_api[each.key].arn
+  }
+
+  condition {
+    host_header {
+      values = ["wfone-notifications-push-api-${each.key}.*"]
+    }
+  }
+  condition {
+    source_ip {
+      values           = ["127.0.0.1/32"]
     }
   }
 }
