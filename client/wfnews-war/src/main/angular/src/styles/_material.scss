@@ -41,7 +41,7 @@ $core-map-app-theme: mat.define-light-theme($core-map-app-primary, $core-map-app
 // Define a custom typography config that overrides the font-family as well as the
 // `headlines` and `body-1` levels.
 $custom-typography: mat.define-typography-config(
-  $font-family: '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol"',
+  $font-family: '"BCSans", "Noto Sans", Verdana, Arial, sans-serif',
   $headline-6: mat.define-typography-level(32px, 32px, 700),
   $headline-5: mat.define-typography-level(32px, 48px, 700),
   $body-2: mat.define-typography-level(16px, 24px, 500)
