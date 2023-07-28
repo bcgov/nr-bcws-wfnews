@@ -427,6 +427,12 @@ variable "client_health_check_path" {
   type        = string
 }
 
+variable pointid_health_check_path {
+  description = "Endpoint to use for health checks on pointid API"
+  default = "/weather?lat=50&lon=-127&duration=3"
+  type = string
+}
+
 # variable etcd_container_name {
 #   description = "Name of etcd container"
 #   default = "wfnews-etcd-app"
