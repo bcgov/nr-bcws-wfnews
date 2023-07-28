@@ -25,7 +25,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import ca.bc.gov.mof.wfpointid.rest.client.v1.JSON;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.validation.ModelValidator;
