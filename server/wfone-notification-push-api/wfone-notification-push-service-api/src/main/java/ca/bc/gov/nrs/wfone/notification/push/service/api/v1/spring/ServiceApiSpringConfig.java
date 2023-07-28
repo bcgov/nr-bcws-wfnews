@@ -67,19 +67,19 @@ public class ServiceApiSpringConfig {
 		return result;
 	}
 
-	@Value("${wfone.push.item.expire.hours.ban}")
+	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
 	private String wfonePushItemExpireHoursBan;
 
-	@Value("${wfone.push.item.expire.hours.fire}")
+	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
 	private String wfonePushItemExpireHoursFire;
 
-	@Value("${wfone.push.item.expire.hours.evacuation}")
+	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
 	private String wfonePushItemExpireHoursEvacuation;
 
-	@Value("${wfone.push.item.expire.hours.restricted.area}")
+	@Value("${WFONE_PUSH_ITEM_EXPIRE_HOURS}")
 	private String wfonePushItemExpireHoursRestrictedArea;
 
-	@Value("${push.notification.prefix}")
+	@Value("${WFONE_PUSH_NOTIFICATION_PREFIX}")
 	private String pushNotificationPrefix;
 
 	@Bean()
@@ -111,7 +111,7 @@ public class ServiceApiSpringConfig {
 		return new SpatialMonitorHandler();
 	}
 
-	@Value("${firebase.db.url}")
+	@Value("${WFONE_FIREBASE_DB_URL}")
 	private String firebaseDbUrl;
 
 	@Bean

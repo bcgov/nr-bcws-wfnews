@@ -240,7 +240,7 @@ public class QuartzSchedulerSpringConfig {
 		return result;
 	}
 
-	@Value("${push.notification.event.consumer.interval.seconds}")
+	@Value("${WFONE_PUSH_NOTIFICATION_CONSUMER_INTERVAL_SECONDS}")
 	private String pushNotificationEventConsumerInterval;
 
 	@Bean

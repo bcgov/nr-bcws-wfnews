@@ -27,16 +27,16 @@ public class FileServiceSpringConfig {
 	
     private static final String Scopes = "WEBADE-REST.*,WFDM.*,WFIM.*";
 
-	@Value("${webade-oauth2.client.id}")
+	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 
-	@Value("${webade-oauth2.wfone_notifictions_api_rest.client.secret}")
+	@Value("${WEBADE_OAUTH2_REST_CLIENT_SECRET")
 	private String webadeOauth2ClientSecret;
 
-	@Value("${webade-oauth2.token.url}")
+	@Value("${WEBADE_OAUTH2_TOKEN_URL")
 	private String webadeOauth2TokenUrl;
 
-	@Value("${wfdm-rest.url}")
+	@Value("${WFDM_REST_URL}")
 	private String topLevelRestURL;
 
 	@Bean
