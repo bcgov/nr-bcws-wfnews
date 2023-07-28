@@ -557,6 +557,7 @@
   .dialog-actions {
     background-color: #eeeeee;
     flex-flow: row-reverse;
+    justify-content: flex-start;
     button {
       margin-right: 7px;
     }
