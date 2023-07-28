@@ -27,19 +27,19 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r active-fire-monitor.zip lambda/active-fire-monitor
+          args: zip -qq -r active-fire-monitor.zip lambda/active-fire-monitor/active_fire
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r area-restrictions-monitor.zip lambda/area-restrictions-monitor
+          args: zip -qq -r area-restrictions-monitor.zip lambda/area-restrictions-monitor/area-restrictions
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor
+          args: zip -qq -r bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor/bans-and-prohibitions
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
+          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
       - name: Get timestamp
         run: |
