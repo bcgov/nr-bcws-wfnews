@@ -96,16 +96,16 @@ public class PersistenceSpringConfig {
 		return new NotificationPushItemDaoImpl();
 	}
 
-	@Value("${wfone.datasource.url}")
+	@Value("${WFONE_PUSH_NOTIFICATION_DATASOURCE_URL}")
 	private String wfoneDataSourceUrl;
 
-	@Value("${wfone.datasource.username}")
+	@Value("${WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME}")
 	private String wfoneDataSourceUsername;
 
-	@Value("${wfone.datasource.password}")
+	@Value("${WFONE_DB_PASS}")
 	private String wfoneDataSourcePassword;
 
-	@Value("${wfone.datasource.max.connections}")
+	@Value("${WFONE_PUSH_NOTIFICATION_MAX_CONNECTIONS}")
 	private String wfoneDataSourceMaxConnections;
 
 	@Bean

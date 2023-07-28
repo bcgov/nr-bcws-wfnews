@@ -33,27 +33,20 @@ html {
 .columns-menu{
   display: flex;
   flex: 0 0 auto;
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-  div.mat-form-field-wrapper {
+  div.mat-mdc-text-field-wrapper
+ {
     padding-bottom: 0;
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    div.mat-form-field-underline {
+    div.mdc-line-ripple {
       display: none;
     }
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    /*TODO(mdc-migration): The following rule targets internal classes of form-field that may no longer apply for the MDC version.*/
-    div.mat-form-field-infix {
+    div.mat-mdc-form-text-infix {
       width: 50px;
       border-top: 0;
       padding: 0;
-      /*TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
       mat-select,
       input{
         width: 100%;
       }
-      /*TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version.*/
       .mat-select-arrow-wrapper{
         visibility: hidden;
       }
@@ -140,7 +133,6 @@ html {
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -155,7 +147,6 @@ html {
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -192,7 +183,6 @@ html {
     font-family: $font-family-main;
     font-size: 13px;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of button that may no longer apply for the MDC version.*/
   .mat-button-wrapper{
     color:$colour-white;
   }
@@ -254,13 +244,11 @@ html {
 //}
 
 @media print {
-  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table,
   tr,
   mat-sidenav-content{
     width: 750px !important;
   }
-  /*TODO(mdc-migration): The following rule targets internal classes of tabs that may no longer apply for the MDC version.*/
   mat-table{
     display: block;
   }
@@ -427,7 +415,6 @@ html {
       .summary-card{
         margin: var(--wf1-gutter-space) 0 0 0;
       }
-      /*TODO(mdc-migration): The following rule targets internal classes of card that may no longer apply for the MDC version.*/
       mat-card.mat-mdc-card.wf1-vendor-portal-header-bar {
         padding: 0;
       }
@@ -463,7 +450,7 @@ html {
 }
 
 .smk-popup {
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding-bottom: 10px;
 }
 
@@ -546,6 +533,7 @@ html {
 
 .dialog-container {
   h1 {
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
     font-weight: 100 !important;
     background-color: #003366;
     color: white;
@@ -564,6 +552,10 @@ html {
     button {
       margin-right: 7px;
     }
+  }
+  .dialog-content{
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
+
   }
 }
 
@@ -653,12 +645,12 @@ wf-admin-incident-desktop{
   display: block;
   overflow: hidden;
   border-radius: 20px !important;
-  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
 }
 
 .mat-mdc-slide-toggle {
   .mdc-form-field{
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
     font-size: 17px;
   }
 }
@@ -668,7 +660,7 @@ wf-admin-incident-desktop{
 
 .mdc-form-field{
   label{
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif !important;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif !important;
     padding-left: 8px !important;
   }
 }
@@ -689,7 +681,7 @@ mat-snack-bar-container{
     background-color: inherit !important;
     .mat-mdc-snack-bar-label{
       font-size: 13px !important;
-      font-family: BCSans,Noto Sans,Verdana,Arial,"sans-serif" !important;
+      font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
       color: white !important;
     }
     .mdc-button__label {
@@ -697,4 +689,11 @@ mat-snack-bar-container{
     }
   }
 }
-  // class="mat-mdc-snack-bar-label mdc-snackbar__label"
+
+.mdc-button {
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
+}
+
+.mdc-text-field--filled:not(.mdc-text-field--disabled){
+  background-color: inherit !important;
+}

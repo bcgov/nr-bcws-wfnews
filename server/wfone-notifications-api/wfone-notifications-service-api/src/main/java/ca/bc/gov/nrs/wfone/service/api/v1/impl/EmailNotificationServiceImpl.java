@@ -38,10 +38,10 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	private Instant lastGeneralEmailSent;
 	private Map<String, Instant> errorExceptionMap = new HashMap<>();
 
-	@Value("${wfim-client.url}")
+	@Value("${WFIM_CLIENT_URL}")
 	private String wfimClientUrl;
 	
-	@Value("${wfone.default.application.environment}")
+	@Value("${DEFAULT_APPLICATION_ENVIRONMENT}")
 	private String environment;
 
 	private FileService fileService;

@@ -14,25 +14,25 @@ public class AwsClientSpringConfig {
 
 	private static final Logger logger = LoggerFactory.getLogger(AwsClientSpringConfig.class);
 
-	@Value("${wfone.aws.sqs.queue.public.mobile.notification.url}")
+	@Value("${WFONE_SQS_QUEUE_NOTIFICATION_URL}")
 	private String awsSqsQueueUrl;
 
-	@Value("${wfone.aws.sqs.queue.public.mobile.notification.monitor.attribute}")
+	@Value("${WFONE_PUSH_NOTIFICATION_SQS_MONITOR_ATTRIBUTE}")
 	private String awsSqsQueueMonitorAttribute;
 
-	@Value("${wfone.aws.sqs.queue.receive.max.num.messages}")
+	@Value("${WFONE_PUSH_NOTIFICATION_SQS_MAX_MESSAGES}")
 	private Integer awsSqsQueueReceiveMaxNumMessages;
 
-	@Value("${wfone.aws.sqs.queue.receive.wait.time.seconds}")
+	@Value("${WFONE_PUSH_NOTIFICATION_SQS_WAIT_SECONDS}")
 	private Integer awsSqsQueueReceiveWaitTimeSeconds;
 
-	@Value("${wfone.aws.sqs.queue.s3.bucket.name}")
+	@Value("${WFONE_PM_SQS_S3_BUCKET_NAME}")
 	private String awsSqsQueueS3BucketName;
 
-	@Value("${wfone.aws.access.key}")
+	@Value("${WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY}")
 	private String awsAccessKey;
 
-	@Value("${wfone.aws.secret.key}")
+	@Value("${WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY}")
 	private String awsSecretKey;
 
 	public AwsClientSpringConfig() {

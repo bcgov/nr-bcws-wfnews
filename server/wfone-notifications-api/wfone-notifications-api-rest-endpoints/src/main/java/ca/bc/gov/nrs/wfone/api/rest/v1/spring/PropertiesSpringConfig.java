@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.ClassPathResource;
 
+import java.util.Map;
+import java.util.Map.Entry;
 
 @Configuration
 public class PropertiesSpringConfig {
@@ -24,6 +26,21 @@ public class PropertiesSpringConfig {
 	}
 
 	@Bean
+	static Properties systemProperties() throws IOException {
+		logger.debug(">systemProperties()");
+		Properties result = new Properties();
+		
+		Map<String, String> env = System.getenv();
+		for (Entry<String, String> entry : env.entrySet()) {
+			logger.debug("Fetching Environment Variable: {}", entry.getKey());
+			result.setProperty(entry.getKey(), entry.getValue());
+		}
+
+		logger.debug("<systemProperties()");
+		return result;
+	}
+
+	@Bean
 	public static Properties applicationProperties() throws IOException {
 		
 		logger.debug(">applicationProperties()");
@@ -33,7 +50,7 @@ public class PropertiesSpringConfig {
 		
 		propertiesFactory.setLocalOverride(true);
 
-		propertiesFactory.setPropertiesArray(bootstrapProperties());
+		propertiesFactory.setPropertiesArray(bootstrapProperties(), systemProperties());
 		propertiesFactory.setLocations(
 				new ClassPathResource("static.properties"),
 				new ClassPathResource("application-secrets.properties"),
