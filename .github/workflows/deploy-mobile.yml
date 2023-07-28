@@ -61,13 +61,13 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: "wildfire-build-notifier"
-          slack-message: >
-            :android: : ${{ env.ANDROID_STATUS_EMOJI }} ${{ needs.build-android.result }}  \n
-            :apple_mac: : ${{ env.IOS_STATUS_EMOJI }} ${{ needs.build-ios.result }} \n 
-            Run number: ${{ github.run_number }} \n
-            SHA: ${{ github.sha }} \n
-            Branch: ${{ github.ref_name }} \n
-            Environment: ${{ inputs.build_environment }} \n 
-            Upload to App Store: ${{ inputs.upload_to_app_store }} \n
-            Started by: ${{ github.triggering_actor }} \n
-            ${{ github.event_name == 'pull_request' && github.event.pull_request.url || '' }} 
+          slack-message: |
+            :android: : ${{ env.ANDROID_STATUS_EMOJI }} ${{ needs.build-android.result }}
+            :apple_mac: : ${{ env.IOS_STATUS_EMOJI }} ${{ needs.build-ios.result }}
+            Run number: ${{ github.run_number }}
+            SHA: ${{ github.sha }}
+            Branch: ${{ github.ref_name }}
+            Environment: ${{ inputs.build_environment }}
+            Upload to App Store: ${{ inputs.upload_to_app_store }}
+            Started by: ${{ github.triggering_actor }}
+            ${{ github.event_name == 'pull_request' && github.event.pull_request.url || '' }}
