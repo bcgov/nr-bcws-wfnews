@@ -15,6 +15,11 @@
 @import 'smk';
 @import 'lightgallery/scss/lightgallery';
 
+html {
+  font-family: $font-family-main !important;
+  --mdc-typography-font-family: $font-family-main;
+  --mdc-typography-button-letter-spacing: 0.5px;
+}
 
 .snackbar-error{
    background-color: $colour-errors;
@@ -534,17 +539,16 @@
     color: white;
     padding: 10px;
     font-size: 20px;
-    font-weight: 500;
     margin: 0;
   }
   .dialog-content {
     color: black !important;
     background-color: white;
-    padding: 0px 32px 0px 32px;
   }
   .dialog-actions {
     background-color: #eeeeee;
     flex-flow: row-reverse;
+    justify-content: flex-start;
     button {
       margin-right: 7px;
     }
