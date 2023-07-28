@@ -28,6 +28,8 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.validation.ModelValidator;
+import org.springframework.core.io.ByteArrayResource;
+
 
 @Configuration
 @Import({ PersistenceSpringConfig.class })
