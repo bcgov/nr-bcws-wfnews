@@ -43,7 +43,7 @@ export class IncidentContainerDesktop extends IncidentContainer implements Check
     changesSaved: () => boolean | Observable<boolean> = () => this.isFormClean;
     confirmDialog: () => boolean | Observable<boolean> = () => {
         return this.dialog.open(UnsavedChangesDialog, {
-            width: '400px',
+            width: '450px',
         }).afterClosed();
     }
 }

@@ -1,9 +1,13 @@
-.unsaved-changes-dialog-content {
+.dialog-title {
   font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
-  padding-bottom: 5%;
+  padding: 16px;
 }
-
+.dialog-content {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  padding: 16px;
+}
 .subtitle {
   font-weight: 700;
   margin-top: 0;
+  padding-bottom: 4px;
 }
