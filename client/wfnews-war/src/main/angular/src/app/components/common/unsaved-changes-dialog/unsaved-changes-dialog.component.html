@@ -1,10 +1,10 @@
 <div class="dialog-container">
-  <h1 mat-mdc-dialog-title>Warning</h1>
-  <div class="dialog-content unsaved-changes-dialog-content" mat-dialog-content>
+  <h1 mat-mdc-dialog-title class="dialog-title">Warning</h1>
+  <div mat-dialog-content class="dialog-content">
     <p class="subtitle">Are you sure you would like to leave this page?</p>
     If you leave this page without publishing, the information you have entered will be lost.
   </div>
-  <div class="dialog-actions" mat-dialog-actions>
+  <div mat-dialog-actions class="dialog-actions">
     <button mat-raised-button color="primary" [mat-dialog-close]="returnResult(true)">Discard Changes</button>
     <button mat-raised-button [mat-dialog-close]="returnResult(false)">Keep Editing</button>
   </div>

@@ -890,7 +890,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_BASEURL",
-            value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
+            value = "wfnews-api.${var.target_env}.bcwildfireservices.com"
           },
           {
             name  = "WFNEWS_QUEUESIZE",
@@ -1232,6 +1232,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           {
             name = "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY",
             value = var.WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY
+          },
+          {
+            name = "FIREBASE_CONFIG_JSON",
+            value = var.FIREBASE_CONFIG_JSON
           }
       ]
       logConfiguration = {
