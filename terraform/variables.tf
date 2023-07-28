@@ -174,6 +174,11 @@ variable "logging_level" {
   description = "Logging level for components"
 }
 
+variable "FIREBASE_CONFIG_JSON" {
+  type = string
+  description = "stringified json of firebase config file"
+}
+
 # variable "db_name" {
 #   description = "DynamoDB DB Name"
 #   default     = "ssp-greetings"
