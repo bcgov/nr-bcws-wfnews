@@ -890,7 +890,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "WFNEWS_BASEURL",
-            value = "wfss-pointid-api.${var.target_env}.bcwildfireservices.com"
+            value = "wfnews-api.${var.target_env}.bcwildfireservices.com"
           },
           {
             name  = "WFNEWS_QUEUESIZE",
