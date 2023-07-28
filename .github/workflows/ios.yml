@@ -184,6 +184,11 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      - name: Set build number
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
+        run: |
+          agvtool new-version -all ${{ inputs.build_number }}
+
       - name: Build archive
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
@@ -209,11 +214,6 @@ jobs:
           name: app
           path: ${{ runner.temp }}/build/App.ipa
           retention-days: 3
-
-      - name: Set build number
-        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
-        run: |
-          xcrun agvtool new-version -all ${{ inputs.build_number }}
 
       - name: "Upload app to TestFlight"
         uses: apple-actions/upload-testflight-build@v1
