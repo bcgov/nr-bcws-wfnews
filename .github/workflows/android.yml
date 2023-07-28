@@ -199,7 +199,7 @@ jobs:
 
       - name: Post to a Slack channel
         id: slack
-        if: ('!cancelled()') && ('!inputs.skip_slack_notification')
+        if: ('!cancelled()') && inputs.skip_slack_notification == false
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
