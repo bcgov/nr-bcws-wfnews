@@ -13,7 +13,7 @@ on:
         type: boolean
         required: true
       build_number:
-        description: "Upload to App Store"
+        description: "Build number for App Store"
         type: number
         required: true
   workflow_dispatch:
@@ -31,7 +31,7 @@ on:
         type: boolean
         default: false
       build_number:
-        description: "A unique build number that has to be greater than the last build number uploaded to the App Store."
+        description: "Build number for App Store"
         type: number
         required: true
 

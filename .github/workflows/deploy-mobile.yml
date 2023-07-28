@@ -19,11 +19,11 @@ on:
         required: false
         default: false
       app_store_build_number:
-        description: "A unique build number that has to be greater than the last build number uploaded to the App Store."
+        description: "Build number for App Store"
         type: number
         required: true
       play_store_increment_version_number:
-        description: "Increment the version number of the Android app bundle to one higher than the last uploaded version."
+        description: "Increment Play Store version number"
         type: boolean
         default: false
 
