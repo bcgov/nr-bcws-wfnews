@@ -40,19 +40,19 @@ public class ModelValidator extends BaseValidator {
 
 	private static final Logger logger = LoggerFactory.getLogger(ModelValidator.class);
 
-	@Value("${webade-oauth2.wfim.client.id}")
+	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 
-	@Value("${webade-oauth2.wfone_notifictions_api_rest.client.secret}")
+	@Value("${WEBADE_OAUTH2_REST_CLIENT_SECRET}")
 	private String webadeOauth2ClientSecret;
 
-	@Value("${webade-oauth2.token.client.url}")
+	@Value("${WEBADE_OAUTH2_TOKEN_CLIENT_URL}")
 	private String webadeOauth2ClientUrl;
 
-	@Value("${wfim-client.url}")
+	@Value("${WFIM_CLIENT_URL}")
 	private String wfimClientUrl;
 
-	@Value("${wfim-code-tables.url}")
+	@Value("${WFIM_CODE_TABLES_URL}")
 	private String wfimCodeTablesUrl;
 
 	private CodeTableListRsrc codeTables;
