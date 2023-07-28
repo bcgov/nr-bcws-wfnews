@@ -217,7 +217,7 @@ public class QuartzSchedulerSpringConfig {
 		return result;
 	}
 
-  @Value("${quartz.consumer.interval.seconds}")
+  @Value("${QUARTZ_CONSUMER_INTERVAL_SECONDS}")
 	private String eventConsumerInterval;
 
   @Bean
