@@ -124,7 +124,7 @@ public class ServiceApiSpringConfig {
 		try {
 
 			String[] scopes = { "https://www.googleapis.com/auth/firebase.messaging" };
-			Resource resource = new ClassPathResource(firebaseConfigJson);
+			Resource resource = new ByteArrayResource(firebaseConfigJson.getBytes());
 			GoogleCredentials googleCredentials = GoogleCredentials.fromStream(resource.getInputStream())
 					.createScoped(Arrays.asList(scopes));
 			googleCredentials.refreshAccessToken();
