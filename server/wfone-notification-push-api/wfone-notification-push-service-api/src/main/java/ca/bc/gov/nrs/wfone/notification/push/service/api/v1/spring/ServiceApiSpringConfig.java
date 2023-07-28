@@ -25,6 +25,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import ca.bc.gov.mof.wfpointid.rest.client.v1.JSON;
 import ca.bc.gov.nrs.wfone.notification.push.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.model.factory.PushNotificationFactory;
 import ca.bc.gov.nrs.wfone.notification.push.service.api.v1.validation.ModelValidator;
@@ -114,6 +115,9 @@ public class ServiceApiSpringConfig {
 	@Value("${WFONE_FIREBASE_DB_URL}")
 	private String firebaseDbUrl;
 
+	@Value("${FIREBASE_CONFIG_JSON}")
+	private JSON firebaseConfigJson;
+
 	@Bean
 	FirebaseMessaging getFireBaseMessenger() {
 		FirebaseMessaging result;
@@ -121,7 +125,7 @@ public class ServiceApiSpringConfig {
 		try {
 
 			String[] scopes = { "https://www.googleapis.com/auth/firebase.messaging" };
-			Resource resource = new ClassPathResource("firebase-config.json");
+			Resource resource = new ClassPathResource(firebaseConfigJson);
 			GoogleCredentials googleCredentials = GoogleCredentials.fromStream(resource.getInputStream())
 					.createScoped(Arrays.asList(scopes));
 			googleCredentials.refreshAccessToken();
