@@ -246,4 +246,5 @@ jobs:
             Branch: ${{ github.ref_name }}
             Environment: ${{ inputs.build_environment }}
             Upload to App Store: ${{ inputs.upload_to_app_store }}
+            App Store Build Number: ${{ inputs.build_number }}
             Started by: ${{ github.triggering_actor }}

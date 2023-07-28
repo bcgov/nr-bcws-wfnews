@@ -63,7 +63,10 @@ jobs:
           channel-id: "wildfire-build-notifier"
           slack-message: |
             :android: : ${{ env.ANDROID_STATUS_EMOJI }} ${{ needs.build-android.result }}
+            
             :apple_mac: : ${{ env.IOS_STATUS_EMOJI }} ${{ needs.build-ios.result }}
+            App Store Build Number: ${{ inputs.build_number }}
+
             Run number: ${{ github.run_number }}
             SHA: ${{ github.sha }}
             Branch: ${{ github.ref_name }}
