@@ -116,7 +116,7 @@ public class ServiceApiSpringConfig {
 	private String firebaseDbUrl;
 
 	@Value("${FIREBASE_CONFIG_JSON}")
-	private JSON firebaseConfigJson;
+	private String firebaseConfigJson;
 
 	@Bean
 	FirebaseMessaging getFireBaseMessenger() {
