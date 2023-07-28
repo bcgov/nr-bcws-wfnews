@@ -67,6 +67,7 @@ jobs:
             :apple_mac: : ${{ env.IOS_STATUS_EMOJI }} ${{ needs.build-ios.result }}
             App Store Build Number: ${{ inputs.app_store_build_number }}
 
+            Workflow: ${{ github.workflow }}
             Run number: ${{ github.run_number }}
             SHA: ${{ github.sha }}
             Branch: ${{ github.ref_name }}

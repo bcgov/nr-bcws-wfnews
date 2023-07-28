@@ -242,6 +242,7 @@ jobs:
           channel-id: "wildfire-build-notifier"
           slack-message: |
             :apple_mac: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}
+            Workflow: ${{ github.workflow }}
             Run number: ${{ github.run_number }}
             Branch: ${{ github.ref_name }}
             Environment: ${{ inputs.build_environment }}
