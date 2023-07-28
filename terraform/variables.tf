@@ -174,6 +174,11 @@ variable "logging_level" {
   description = "Logging level for components"
 }
 
+variable "FIREBASE_CONFIG_JSON" {
+  type = string
+  description = "stringified json of firebase config file"
+}
+
 # variable "db_name" {
 #   description = "DynamoDB DB Name"
 #   default     = "ssp-greetings"
@@ -425,6 +430,12 @@ variable "client_health_check_path" {
   description = "Endpoint to use for health checks on client"
   default     = "/config.jsp"
   type        = string
+}
+
+variable pointid_health_check_path {
+  description = "Endpoint to use for health checks on pointid API"
+  default = "/weather?lat=50&lon=-127&duration=3"
+  type = string
 }
 
 # variable etcd_container_name {
