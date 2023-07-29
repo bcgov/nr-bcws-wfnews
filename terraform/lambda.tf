@@ -1,14 +1,7 @@
-
-
-# data "aws_lambda_layer_version" "wfnews_lambda_layer" {
-#   layer_name = "wfnews-python-lib"
-# }
-
-
 resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key = "python.zip"
-  layer_name = "wfnews-python-lib"
+  layer_name = "wfnews_lambda_layer"
   compatible_runtimes = ["python3.8"]
 }
 
