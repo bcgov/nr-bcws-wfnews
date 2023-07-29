@@ -96,7 +96,6 @@ jobs:
     uses: ./.github/workflows/terragrunt-deploy.yml
     needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, apisix-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build]
     with:
-      ENVIRONMENT: DEV
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
