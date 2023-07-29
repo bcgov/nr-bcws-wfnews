@@ -9,35 +9,35 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_APP_WF1_NEWS.sql"
+              "path": "wfnews-db/scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_APP_WF1_NEWS.sql"
             }
           },
           {
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_PROXY_WF1_NEWS_REST.sql"
+              "path": "wfnews-db/scripts/01_00_00/00/ddl/logins/wfnews.ddl.create_login_PROXY_WF1_NEWS_REST.sql"
             }
           },
           {
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/00/ddl/roles/wfnews.ddl.create_roles.sql"
+              "path": "wfnews-db/scripts/01_00_00/00/ddl/roles/wfnews.ddl.create_roles.sql"
             }
           },
           {
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/00/ddl/schema/wfnews.ddl.create_wfnews_schema.sql"
+              "path": "wfnews-db/scripts/01_00_00/00/ddl/schema/wfnews.ddl.create_wfnews_schema.sql"
             }
           },
           {
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/00/ddl/extension/wfnews.ddl.add_extensions.sql"
+              "path": "wfnews-db/scripts/01_00_00/00/ddl/extension/wfnews.ddl.add_extensions.sql"
             }
           }
         ]
@@ -213,14 +213,14 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/02/ddl/tables/MODIFY.FILE_ATTACHMENT.sql"
+              "path": "wfnews-db/scripts/01_00_00/02/ddl/tables/MODIFY.FILE_ATTACHMENT.sql"
             }
           },
           {
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/02/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+              "path": "wfnews-db/scripts/01_00_00/02/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
             }
           }
         ]
@@ -235,7 +235,7 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/03/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+              "path": "wfnews-db/scripts/01_00_00/03/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
             }
           }
         ]
@@ -250,7 +250,7 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/04/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+              "path": "wfnews-db/scripts/01_00_00/04/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
             }
           }
         ]
@@ -265,7 +265,7 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/05/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+              "path": "wfnews-db/scripts/01_00_00/05/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
             }
           }
         ]
@@ -280,7 +280,7 @@
             "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "scripts/01_00_00/06/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
+              "path": "wfnews-db/scripts/01_00_00/06/ddl/tables/MODIFY.PUBLISHED_INCIDENT_DETAIL.sql"
             }
           }
         ]
