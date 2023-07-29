@@ -1,24 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
   <Appenders>
-    <RollingFile name="file"
-      fileName="/apps_ux/logs/WFSS/wfss-pointid-api/wfss-pointid-api.log"
-      encoding="UTF-8"
-      filePattern="/apps_ux/logs/WFSS/wfss-pointid-api/wfss-pointid-api.%d.log.gz"
-      ignoreExceptions="false">
-      <PatternLayout>
-        <!-- The log message pattern -->
-        <Pattern>%d{yyyy-MM-dd HH:mm:ss} %-5p %c{1}:%L - %m%n</Pattern>
-      </PatternLayout>
-      <Policies>
-        <TimeBasedTriggeringPolicy />
-      </Policies>
-    </RollingFile> 
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+    </Console>
   </Appenders>
-  
-  <Loggers>  
+
+  <Loggers>
     <Root level="DEBUG">
-      <AppenderRef ref="file"/>
-          </Root>
+      <AppenderRef ref="Console" />
+    </Root>
   </Loggers>
 </Configuration>
