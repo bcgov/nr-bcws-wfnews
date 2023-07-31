@@ -421,7 +421,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       environment = [
         {
           name = "CHANGELOG_FOLDER",
-          value = "wfnews-db"
+          value = "."
         },   
         {
           name  = "DB_URL",
