@@ -674,7 +674,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       environment = [
         {
           name = "CHANGELOG_FOLDER",
-          value = "wfnews-db"
+          value = "notifications-db"
         },
         {
           name  = "DB_URL",
