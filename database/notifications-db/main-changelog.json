@@ -2,36 +2,21 @@
     "databaseChangeLog": [
       {
         "changeSet": {
-          "id": "01_00_00_00",
+          "id": "01_00_00-notifications_00",
           "author": "lli",
           "changes": [
             {
               "sqlFile": {
                 "dbms": "postgresql",
                 "endDelimiter": ";",
-                "path": "notifications-db/scripts/01_00_00/00/ddl/roles/wfone-notifications-create-roles.sql"
+                "path": "scripts/01_00_00-notifications/00/ddl/roles/wfone-notifications-create-roles.sql"
               }
             },
             {
               "sqlFile": {
                 "dbms": "postgresql",
                 "endDelimiter": ";",
-                "path": "notifications-db/scripts/01_00_00/00/ddl/schema/wfone-notifications-create-schema.sql"
-              }
-            }
-          ]
-        }
-      },
-      {
-        "changeSet": {
-          "id": "01_00_00_01",
-          "author": "lli",
-          "changes": [
-            {
-              "sqlFile": {
-                "dbms": "postgresql",
-                "endDelimiter": ";",
-                "path": "notifications-db/scripts/01_00_00/01/ddl/wfone-notifications-create-tables.sql"
+                "path": "scripts/01_00_00-notifications/00/ddl/schema/wfone-notifications-create-schema.sql"
               }
             }
           ]
@@ -39,49 +24,64 @@
       },
       {
         "changeSet": {
-          "id": "01_00_00_02",
+          "id": "01_00_00-notifications_01",
+          "author": "lli",
+          "changes": [
+            {
+              "sqlFile": {
+                "dbms": "postgresql",
+                "endDelimiter": ";",
+                "path": "scripts/01_00_00-notifications/01/ddl/wfone-notifications-create-tables.sql"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "changeSet": {
+          "id": "01_00_00-notifications_02",
           "author": "lli",
           "changes": [
             {
                 "sqlFile": {
                     "dbms": "postgresql",
                     "endDelimiter": ";",
-                    "path": "notifications-db/scripts/01_00_00/02/ddl/wfone.ddl.create_extensions.sql"
+                    "path": "scripts/01_00_00-notifications/02/ddl/wfone.ddl.create_extensions.sql"
                 }
             },
             {
                 "sqlFile": {
                     "dbms": "postgresql",
                     "endDelimiter": ";",
-                    "path": "notifications-db/scripts/01_00_00/02/ddl/wfone.ddl.modify_notification.sql"
+                    "path": "scripts/01_00_00-notifications/02/ddl/wfone.ddl.modify_notification.sql"
                 }
             },
             {
                 "sqlFile": {
                     "dbms": "postgresql",
                     "endDelimiter": ";",
-                    "path": "notifications-db/scripts/01_00_00/02/ddl/wfone.ddl.monitor_process_tracker.sql"
+                    "path": "scripts/01_00_00-notifications/02/ddl/wfone.ddl.monitor_process_tracker.sql"
                 }
             },
             {
               "sqlFile": {
                   "dbms": "postgresql",
                   "endDelimiter": ";",
-                  "path": "notifications-db/scripts/01_00_00/02/ddl/wfone.ddl.report_of_fire_cache.sql"
+                  "path": "scripts/01_00_00-notifications/02/ddl/wfone.ddl.report_of_fire_cache.sql"
               }
             },
             {
                 "sqlFile": {
                     "dbms": "postgresql",
                     "endDelimiter": ";",
-                    "path": "notifications-db/scripts/01_00_00/02/ddl/wfone.ddl.report_of_fire_attachment_cache.sql"
+                    "path": "scripts/01_00_00-notifications/02/ddl/wfone.ddl.report_of_fire_attachment_cache.sql"
                 }
             },
             {
                 "sqlFile": {
                     "dbms": "postgresql",
                     "endDelimiter": ";",
-                    "path": "notifications-db/scripts/01_00_00/02/dml/wfone.dml.set_lat_long_geometry.sql"
+                    "path": "scripts/01_00_00-notifications/02/dml/wfone.dml.set_lat_long_geometry.sql"
                 }
             }
           ]
@@ -89,28 +89,28 @@
       },
       {
         "changeSet": {
-          "id": "01_00_00_03",
+          "id": "01_00_00-notifications_03",
           "author": "lli",
           "changes": [
             {
               "sqlFile": {
                 "dbms": "postgresql",
                 "endDelimiter": ";",
-                "path": "notifications-db/scripts/01_00_00/03/ddl/logins/wfone.ddl.create_login_proxy_wf1_notification_rest.sql"
+                "path": "scripts/01_00_00-notifications/03/ddl/logins/wfone.ddl.create_login_proxy_wf1_notification_rest.sql"
               }
             },
             {
               "sqlFile": {
               "dbms": "postgresql",
               "endDelimiter": ";",
-              "path": "notifications-db/scripts/01_00_00/03/ddl/roles/wfone.ddl.create_roles.sql"
+              "path": "scripts/01_00_00-notifications/03/ddl/roles/wfone.ddl.create_roles.sql"
               }
             },
             {
               "sqlFile": {
                 "dbms": "postgresql",
                 "endDelimiter": ";",
-                "path": "notifications-db/scripts/01_00_00/03/ddl/grants/wfone.ddl.apply_grants.sql"
+                "path": "scripts/01_00_00-notifications/03/ddl/grants/wfone.ddl.apply_grants.sql"
               }
             }
           ]
