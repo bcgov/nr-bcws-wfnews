@@ -43,6 +43,10 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
+  vpc_config {
+    subnet_ids         = module.network.aws_subnet.web.ids
+    security_group_ids = [module.network.aws_security_group.web.id]
+  }
 }
 
 resource "aws_lambda_function" "monitor-active-fires" {
@@ -62,6 +66,10 @@ resource "aws_lambda_function" "monitor-active-fires" {
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
+  }
+  vpc_config {
+    subnet_ids         = module.network.aws_subnet.web.ids
+    security_group_ids = [module.network.aws_security_group.web.id]
   }
 }
 
@@ -83,6 +91,10 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
   }
+  vpc_config {
+    subnet_ids         = module.network.aws_subnet.web.ids
+    security_group_ids = [module.network.aws_security_group.web.id]
+  }
 }
 
 resource "aws_lambda_function" "monitor-evacuation" {
@@ -102,5 +114,9 @@ resource "aws_lambda_function" "monitor-evacuation" {
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = aws_route53_record.wfnews_apisix.name
     }
+  }
+  vpc_config {
+    subnet_ids         = module.network.aws_subnet.web.ids
+    security_group_ids = [module.network.aws_security_group.web.id]
   }
 }
