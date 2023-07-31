@@ -17,7 +17,7 @@ CREATE INDEX notif_point_geom_buff_idx ON public.notification USING gist(point_g
 CREATE OR REPLACE FUNCTION set_notification_geometries()
   RETURNS trigger 
   LANGUAGE PLPGSQL AS
-$$
+'
 BEGIN
   IF ((NEW.latitude IS NOT NULL) AND (NEW.longitude IS NOT NULL)) THEN
     --Set Point Geometery
@@ -28,7 +28,7 @@ BEGIN
   END IF;
   RETURN NEW;
 END;
-$$;
+';
 
 --Create trigger that will set geometry columns before notification record is inserted or updated.
 DROP TRIGGER IF EXISTS notification_changes ON public.notification;
