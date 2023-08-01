@@ -1,4 +1,7 @@
 name: SonarScan
+
+env:
+  NPMRC: ${{secrets.NPMRC }}
 on:
   push:
     branches:

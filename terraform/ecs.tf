@@ -421,7 +421,7 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
       environment = [
         {
           name = "CHANGELOG_FOLDER",
-          value = "wfnews-db"
+          value = "."
         },   
         {
           name  = "DB_URL",
@@ -674,7 +674,7 @@ resource "aws_ecs_task_definition" "notifications_liquibase" {
       environment = [
         {
           name = "CHANGELOG_FOLDER",
-          value = "wfnews-db"
+          value = "notifications-db"
         },
         {
           name  = "DB_URL",
@@ -1002,7 +1002,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           },
           {
             name  = "DATASOURCE_URL",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
+            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
           },
           {
             name  = "DATASOURCE_USER",
