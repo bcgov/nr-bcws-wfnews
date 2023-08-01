@@ -48,16 +48,16 @@
             'N',
             'Y',
             'N',
-            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},
             null,
             #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
             null,
-            null,
+            #{dto.uploadedTimestamp,            javaType=java.sql.Timestamp,  jdbcType=TIMESTAMP, mode=IN},
             0,
             #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},
             #{dto.uploadedBy,            javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{dto.createdTimestamp,      javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},
             #{dto.primary,               javaType=java.lang.Boolean,  jdbcType=VARCHAR, mode=IN})
   </insert>
 
@@ -82,9 +82,9 @@
             #{dto.imageWidth,             javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
             0,
             #{dto.uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{dto.createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN},
+            #{dto.createdTimestamp,       javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},
             #{dto.uploadedBy,             javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-            #{dto.createdTimestamp,       javaType=java.util.Date,    jdbcType=DATE,    mode=IN})
+            #{dto.createdTimestamp,       javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN})
   </insert>
 
   <update id="update">
@@ -97,6 +97,7 @@
            attachment_title =          #{dto.attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
            attachment_description =    #{dto.attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
            mime_type =                 #{dto.mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
+           created_timestamp = 		   #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},		
            revision_count =            revision_count + 1,
            update_date =               CURRENT_TIMESTAMP,
            primary_ind =               #{dto.primary,               javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
