@@ -12,6 +12,14 @@ on:
         description: "Upload to App Store"
         type: boolean
         required: true
+      build_number:
+        description: "Build number for App Store"
+        type: number
+        required: true
+      skip_slack_notification:
+        type: boolean
+        default: true
+        required: false
   workflow_dispatch:
     inputs:
       build_environment:
@@ -26,6 +34,10 @@ on:
         description: "Upload to App Store"
         type: boolean
         default: false
+      build_number:
+        description: "Build number for App Store"
+        type: number
+        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -115,6 +127,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
+          cache: 'npm'
+          cache-dependency-path: '**/package.json'
 
       - name: Configure ruby
         uses: ruby/setup-ruby@v1
@@ -130,7 +144,9 @@ jobs:
 
       - name: Install app dependencies
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
-        run: npm install --legacy-peer-deps
+        run: |
+          export NODE_OPTIONS="--max_old_space_size=4096"
+          npm install --legacy-peer-deps
 
       - name: Prepare app for build
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
@@ -172,6 +188,11 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      - name: Set build number
+        working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
+        run: |
+          agvtool new-version -all ${{ inputs.build_number }}
+
       - name: Build archive
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
@@ -179,7 +200,7 @@ jobs:
           -workspace ./ios/App/App.xcworkspace \
           -archivePath $RUNNER_TEMP/App.xcarchive \
           -sdk iphoneos \
-          -configuration Debug \
+          -configuration Release \
           -destination generic/platform=iOS \
           clean archive
 
@@ -202,14 +223,14 @@ jobs:
         uses: apple-actions/upload-testflight-build@v1
         if: ${{ inputs.upload_to_app_store == true }}
         with:
-          app-path: "output.ipa"
+          app-path: ${{ runner.temp }}/build/App.ipa
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
 
       - name: Post to a Slack channel
         id: slack
-        if: always()
+        if: ('!cancelled()') && inputs.skip_slack_notification == false
         uses: slackapi/slack-github-action@v1.24.0
         env:
           STATUS_EMOJI: ${{ job.status == 'success' && ':white_check_mark:' || ':x:' }}
@@ -219,4 +240,12 @@ jobs:
           # See also: https://api.slack.com/methods/chat.postMessage#channels
           # You can pass in multiple channels to post to by providing a comma-delimited list of channel IDs.
           channel-id: "wildfire-build-notifier"
-          slack-message: ":apple_mac: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }} \n Environment: ${{ inputs.build_environment }} \n Upload to App Store: ${{ inputs.upload_to_app_store }}"
+          slack-message: |
+            :apple_mac: - ${{ steps.vars.outputs.short_sha }} : ${{ env.STATUS_EMOJI }} ${{ job.status }}
+            Workflow: ${{ github.workflow }}
+            Run number: ${{ github.run_number }}
+            Branch: ${{ github.ref_name }}
+            Environment: ${{ inputs.build_environment }}
+            Upload to App Store: ${{ inputs.upload_to_app_store }}
+            App Store Build Number: ${{ inputs.build_number }}
+            Started by: ${{ github.triggering_actor }}

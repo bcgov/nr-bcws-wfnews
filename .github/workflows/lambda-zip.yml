@@ -27,37 +27,33 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r active-fire-monitor.zip lambda/active-fire-monitor
+          args: zip -qq -r -j active-fire-monitor.zip lambda/active-fire-monitor/active_fire
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r area-restrictions-monitor.zip lambda/area-restrictions-monitor
+          args: zip -qq -r -j area-restrictions-monitor.zip lambda/area-restrictions-monitor/area-restrictions
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor
+          args: zip -qq -r -j bans-and-prohibitions-monitor.zip lambda/bans-and-prohibitions-monitor/bans-and-prohibitions
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor
-
-      - name: Get timestamp
-        run: |
-          echo "{date}={$(date +'%Y-%m-%d-%H-%M')}" >> $GITHUB_STATE
+          args: zip -qq -r -j evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
       - name: Make staging directory, copy files
         run: |
           mkdir staging
+          echo ${{hashFiles('**/active-fire-monitor.zip')}} >> staging/active-fire-monitor-hash.txt 
+          echo ${{hashFiles('**/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash.txt 
+          echo ${{hashFiles('**/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash.txt
+          echo ${{hashFiles('**/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash.txt
+          echo ${{hashFiles('**/python.zip')}} >> staging/python-hash
           cp active-fire-monitor.zip staging/active-fire-monitor.zip
-          echo ${{hashFiles('staging/active-fire-monitor.zip')}} >> staging/active-fire-monitor-hash.txt
           cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
-          echo ${{hashFiles('staging/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash.txt
           cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
-          echo ${{hashFiles('staging/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash.txt
           cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          echo ${{hashFiles('staging/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash.txt
           cp lambda/lambda-layer/python.zip staging/python.zip
-          echo ${{hashFiles('staging/python.zip')}} >> staging/python-hash
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2

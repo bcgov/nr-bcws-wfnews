@@ -5,89 +5,87 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
 
 @Component
-@PropertySource({"classpath:application.properties", "classpath:application-secrets.properties"})
 public class PointIdServiceParams {
 	
-	@Value("${wfgs.url}")
+	@Value("${WFGS_URL}}")
 	private String wfGeoserverURL;
 	
-	@Value("${bcgw.url}")
+	@Value("${BCGW_URL}")
 	private String bcgwGeoserverURL;
 	
-	@Value("${wfArcGis.url}")
+	@Value("${WFARCGIS_URL}")
 	private String wfArcGisURL;
 	
-
-	@Value("${wfArcGis.layer.Area.Restrictions}")
+	@Value("${WFARCGIS_LAYER_AREA_RESTRICTIONS}")
 	private String wfArcGisLayer_Area_Restrictions;
 	
-	@Value("${wfArcGis.layer.Bans.Prohibition.Areas}")
+	@Value("${WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}")
 	private String wfArcGisLayer_Bans_and_Prohibition_Areas;
 
-	@Value("${wfArcGis.layer.Danger.Rating}")
+	@Value("${WFARCGIS_LAYER_DANGER_RATING}")
 	private String wfArcGisLayer_Danger_Rating;
 
-	@Value("${wfArcGis.layer.ActiveFires}")
+	@Value("${WFARCGIS_LAYER_ACTIVE_FIRES}")
 	private String wfArcGisLayer_ActiveFires;
 
-	@Value("${wfArcGis.layer.Evacuation.Orders.Alerts}")
+	@Value("${WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}")
 	private String wfArcGisLayer_Evacuation_Orders_Alerts;
 	
-	@Value("${wfArcGis.layer.Fire.Centre.Boundaries}")
+	@Value("${WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}")
 	private String wfArcGisLayer_Fire_Centre_Boundaries;
 	
-	@Value("${wfArcGis.queueSize}")
+	@Value("${WFARCGIS_QUEUESIZE}")
 	private Integer wfArcGisLayer_queueSize;
 	
-	@Value("${max.allowed.radius}")
+	@Value("${MAX_ALLOWED_RADIUS}")
 	private String maxAllowedRadius;
 	
-	@Value("${async.job.interval}")
+	@Value("${ASYNC_JOB_INTERVAL}")
 	private String asyncJobInterval;
 	
-	@Value("${async.job.ref.lat}")
+	@Value("${ASYNC_JOB_REF_LAT}")
 	private String asyncJobRefLat;
 	
-	@Value("${async.job.ref.lon}")
+	@Value("${ASYNC_JOB_REF_LONG}")
 	private String asyncJobRefLon;
 	
-	@Value("${async.job.ref.radius}")
+	@Value("${ASYNC_JOB_REF_RADIUS}")
 	private String asyncJobRefRadius;
 	
-	@Value("${database.weather.url}")
+	@Value("${DATABASE_WEATHER_URL}")
 	private String weatherJdbcUrl;
 	
-	@Value("${database.weather.user}")
+	@Value("${DATABASE_WEATHER_USER}")
 	private String weatherUser;
 	
-	@Value("${database.weather.pwd}")
+	@Value("${DATABASE_WEATHER_PWD}")
 	private String weatherPwd;
 	
-	@Value("${webade.oauth2.client.id}")
+	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 	
-	@Value("${webade.oauth2.client.secret}")
+	@Value("${WEBADE_OAUTH2_CLIENT_SECRET}")
 	private String webadeOauth2ClientSecret;
 	
-	@Value("${webade.oauth2.token.url}")
+	@Value("${WEBADE_OAUTH2_TOKEN_URL}")
 	private String webadeOauth2TokenUrl;
 	
-	@Value("${webade.oauth2.client.scopes}")
+	@Value("${WEBADE_OAUTH2_CLIENT_SCOPES}")
 	private String webadeOauth2ClientScopes;
 	
-	@Value("${fireweather.baseUrl}")
+	@Value("${FIREWEATHER_BASEURL}")
 	private String fireweatherBaseUrl;
 	
-	@Value("${fireweather.queueSize}")
+	@Value("${FIREWEATHER_QUEUESIZE}")
 	private Integer fireweather_queueSize;
 	
-	@Value("${wfnews.baseUrl}")
+	@Value("${WFNEWS_BASEURL}")
 	private String wfnewsBaseUrl;
 	
-	@Value("${wfnews.queueSize}")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer wfnewsQueueSize;
 
-	@Value("${fireweather.stations.key}")
+	@Value("${FIREWEATHER_STATIONS_KEY}")
 	private String fireweatherStationsKey;
 
 	public PointIdServiceParams() {

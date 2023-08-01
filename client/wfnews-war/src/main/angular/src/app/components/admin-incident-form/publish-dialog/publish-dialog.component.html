@@ -1,9 +1,9 @@
 <div class="dialog-container">
-  <h1 mat-mdc-dialog-title>Publish incident</h1>
-  <div class="dialog-content publish-dialog-content" mat-dialog-content>
+  <h1 mat-mdc-dialog-title class="dialog-title">Publish incident</h1>
+  <div mat-dialog-content class="dialog-content" >
     Are you sure you want to publish?
   </div>
-  <div class="dialog-actions" mat-dialog-actions>
+  <div mat-dialog-actions class="dialog-actions">
   	<button mat-raised-button color="primary" [mat-dialog-close]="returnResult()">Publish</button>
 	  <button mat-raised-button [mat-dialog-close]="false">Keep Editing</button>
   </div>
