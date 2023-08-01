@@ -4,6 +4,7 @@ name: Build Client
 
 env:
   IMAGE_NAME: ${{ github.repository }}-client
+  NPMRC: ${{ secrets.NPMRC }}
 
 # Controls when the workflow will run
 on:
@@ -45,7 +46,7 @@ jobs:
           distribution: 'adopt'
       
       - name: Add .npmrc file
-        run: echo -e ${{ secrets.NPMRC }} > ~/.npmrc
+        run: echo -e $NPMRC > ~/.npmrc
           
       - name: Build with Maven
         run: mvn --settings client/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
