@@ -262,9 +262,12 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					s3Object = s3Client.getObject(getObjectRequest);
 					content = IoUtils.toByteArray(s3Object);
 					
+					String thumbnailFilename = result.getAttachmentGuid() + "-thumb";
+					String fullImagefilename = result.getAttachmentTitle();
+
 					bytesResponse = Response.status(200)
 							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-							.header("Content-disposition", "attachment; filename=\"" + result.getAttachmentGuid() + (thumbnail.booleanValue() ? "-thumb" : "") + getFileExtension(result) + "\"")
+							.header("Content-disposition", "attachment; filename=\"" + (thumbnail.booleanValue() ? thumbnailFilename : fullImagefilename) + "\"")
 							.header("Content-Length", content.length)
 							.entity(content)
 							.build();
@@ -331,8 +334,4 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 		return response;
 	}
 
-
-	private String getFileExtension(AttachmentResource result) {
-		return result.getAttachmentTitle() != null ? result.getAttachmentTitle().substring(result.getAttachmentTitle().lastIndexOf(".")) : "";
-	}
 }
