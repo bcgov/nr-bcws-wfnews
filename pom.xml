@@ -19,6 +19,7 @@
     <module>client</module>
     <module>server/wfnews-api</module>
     <module>server/wfone-notifications-api</module>
+    <module>server/wfone-notification-push-api</module>
     <module>server/wfss-pointid-api</module>
   </modules>
 
