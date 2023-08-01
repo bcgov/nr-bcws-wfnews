@@ -15,6 +15,7 @@
     <result property="archived"              column="archived_ind"             javaType="java.lang.Boolean" jdbcType="VARCHAR" />
     <result property="createdTimestamp"      column="created_timestamp"         javaType="java.util.Date"    jdbcType="TIMESTAMP" />
     <result property="uploadedBy"            column="uploaded_by_userid"        javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="uploadedTimestamp"     column="uploaded_by_timestamp"     javaType="java.util.Date"    jdbcType="TIMESTAMP" />
     <result property="primary"               column="primary_ind"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
     <result property="imageURL"              column="document_path"             javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="latitude"              column="latitude"                  javaType="java.lang.Double"  jdbcType="NUMERIC" />
@@ -97,7 +98,8 @@
            attachment_title =          #{dto.attachmentTitle,       javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
            attachment_description =    #{dto.attachmentDescription, javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
            mime_type =                 #{dto.mimeType,              javaType=java.lang.String,  jdbcType=VARCHAR, mode=IN},
-           created_timestamp = 		   #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},		
+           created_timestamp = 		   #{dto.createdTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},
+           uploaded_by_timestamp = 	   #{dto.uploadedTimestamp,      javaType=java.sql.Timestamp,    jdbcType=TIMESTAMP,    mode=IN},		
            revision_count =            revision_count + 1,
            update_date =               CURRENT_TIMESTAMP,
            primary_ind =               #{dto.primary,               javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN}
