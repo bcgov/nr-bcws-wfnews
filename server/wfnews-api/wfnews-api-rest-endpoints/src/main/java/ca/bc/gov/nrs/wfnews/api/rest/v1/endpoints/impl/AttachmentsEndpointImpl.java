@@ -263,11 +263,11 @@ public class AttachmentsEndpointImpl extends BaseEndpointsImpl implements Attach
 					content = IoUtils.toByteArray(s3Object);
 					
 					String thumbnailFilename = result.getAttachmentGuid() + "-thumb";
-					String fullImagefilename = result.getAttachmentTitle();
+					String fullImageFilename = result.getAttachmentTitle();
 
 					bytesResponse = Response.status(200)
 							.header("Content-type", result.getMimeType() != null ? result.getMimeType() : "application/octet-stream")
-							.header("Content-disposition", "attachment; filename=\"" + (thumbnail.booleanValue() ? thumbnailFilename : fullImagefilename) + "\"")
+							.header("Content-disposition", "attachment; filename=\"" + (thumbnail.booleanValue() ? thumbnailFilename : fullImageFilename) + "\"")
 							.header("Content-Length", content.length)
 							.entity(content)
 							.build();
