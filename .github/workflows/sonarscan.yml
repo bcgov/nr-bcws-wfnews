@@ -1,7 +1,7 @@
 name: SonarScan
 
 env:
-  NPMRC: $s {{secrets.NPMRC }}
+  NPMRC: ${{secrets.NPMRC }}
 on:
   push:
     branches:
@@ -22,7 +22,7 @@ jobs:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Add .npmrc file
-        run: echo -e ${{ secrets.NPMRC }} > ~/.npmrc
+        run: echo -e $NPMRC > ~/.npmrc
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
         with:
