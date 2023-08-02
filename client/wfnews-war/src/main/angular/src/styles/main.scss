@@ -527,8 +527,13 @@ html {
 }
 
 .mat-mdc-dialog-container {
-  padding: 0px 0px 24px 0px !important;
-  overflow: hidden !important;
+  // height: 70vh !important;
+  padding: 0 !important;
+  overflow: auto !important;
+  
+  .mdc-dialog__surface{
+    overflow: hidden;
+  }
 }
 
 .dialog-container {
@@ -666,12 +671,15 @@ wf-admin-incident-desktop{
 }
 
 .mdc-checkbox {
+  padding : 0 !important;
+  .mdc-checkbox__background{
+    position: sticky;
+  }
   .mdc-checkbox__checkmark-path {
     color:white
   }
   .mdc-checkbox__background{
     border: 1px solid #a7a9ac !important;
-    border-radius: 5px !important;
   }
 }
 

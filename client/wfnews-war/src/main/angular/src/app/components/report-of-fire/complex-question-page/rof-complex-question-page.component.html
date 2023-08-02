@@ -1,18 +1,20 @@
-<div class="panel-wrapper">
-  <div class="rof-text-primary-header">{{ title }}</div>
-  <div class="rof-text-secondary-header">{{ message }}</div>
+<div class="page-content">
+  <div class="panel-wrapper">
+      <div class="rof-text-primary-header">{{ title }}</div>
+      <div class="rof-text-secondary-header">{{ message }}</div>
 
-  <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
-  <div class="rof-toggle-group rof-complex-group">
-    <div *ngFor="let button of buttons">
-      <mat-button-toggle class="flex-button" *ngIf="allowMultiSelect" (change)="onValChange(button.value, $event)" [value]="button.value"><img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" /><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
-      <button class="flex-button" type="button" [id]="'btn-' + button.value" mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value, $event)"><img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" /><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>
-    </div>
-    <mat-button-toggle style="width: 100%" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><mat-icon>question_mark</mat-icon>I'm not sure</mat-button-toggle>
-  </div>
+      <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
+      <div class="rof-toggle-group rof-complex-group">
+        <div *ngFor="let button of buttons">
+          <mat-button-toggle style="width: 100%" class="flex-button" *ngIf="allowMultiSelect" (change)="onValChange(button.value, $event)" [value]="button.value"><img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" /><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
+          <button class="flex-button" type="button" [id]="'btn-' + button.value" mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value, $event)"><img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" /><mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>
+        </div>
+        <mat-button-toggle style="width: 100%" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><mat-icon>question_mark</mat-icon>I'm not sure</mat-button-toggle>
+      </div>
 
-  <div class="rof-button-container">
-    <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next<mat-icon class="left-padding">arrow_forward</mat-icon></button>
+      <div class="rof-button-container">
+        <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
+        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next<mat-icon class="left-padding">arrow_forward</mat-icon></button>
+      </div>
   </div>
 </div>
