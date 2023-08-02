@@ -1,1 +1,28 @@
 @import '../report-of-fire.component.scss';
+
+.map {
+    flex-grow: 1;
+    overflow: hidden;
+    height: calc(100% - 142px);
+    position: relative;
+
+    .map-container {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .identify-panel {
+      position: relative;
+      z-index: 1000000;
+      background-color: white;
+      height: 100%;
+      width: 50vw;
+      max-width: 600px;
+      display: none;
+      overflow-y: auto;
+      border: 1px solid #dddddd;
+    }
+}

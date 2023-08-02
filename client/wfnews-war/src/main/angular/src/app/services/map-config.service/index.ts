@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { mapConfig } from './map.config';
+import { mapConfig, reportOfFireMapConfig } from './map.config';
 import { AppConfigService } from '@wf1/core-ui';
 
 export interface MapServiceStatus {
@@ -24,5 +24,14 @@ export class MapConfigService {
         };
 
 		return this.appConfig.loadAppConfig().then( ( config ) => mapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop', this.appConfig ) );
+	}
+
+    getReportOfFireMapConfig( ): Promise<any> {
+        const status: MapServiceStatus = {
+            useSecure: true,
+            token: null,
+        };
+
+		return this.appConfig.loadAppConfig().then( ( config ) => reportOfFireMapConfig( this.appConfig.getConfig()[ 'mapServices' ], status, 'desktop', this.appConfig ) );
 	}
 }

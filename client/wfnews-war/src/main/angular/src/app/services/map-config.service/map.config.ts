@@ -126,35 +126,93 @@ export function mapConfig( mapServices: MapServices, serviceStatus: MapServiceSt
 				},
 				order: 3
 			},
-      {
+            {
 				type: "time-dimension",
 				enabled: true,
 				timeDimensionOptions: {
 				}
 			},
-      {
-        type: "scale",
-        enabled: 'desktop',
-        showZoom: true,
-        order: 2
-    },
-    {
-        type: "coordinate",
-        enabled: 'desktop',
-        order: 3,
-        format: 'DDM'
-    },
-    {
-        type: "measure",
-        enabled: 'desktop',
-        unit: 'kilometers',
-        order: 5
-    },
-    {
-        type: 'search',
-        enabled: false
-    },
+            {
+                type: "scale",
+                enabled: 'desktop',
+                showZoom: true,
+                order: 2
+            },
+            {
+                type: "coordinate",
+                enabled: 'desktop',
+                order: 3,
+                format: 'DDM'
+            },
+            {
+                type: "measure",
+                enabled: 'desktop',
+                unit: 'kilometers',
+                order: 5
+            },
+            {
+                type: 'search',
+                enabled: false
+            },
 ],
         layers: LayerConfig(mapServices, serviceStatus, appConfigService)
     };
+}
+
+export function reportOfFireMapConfig(
+    mapServices: MapServices, serviceStatus: MapServiceStatus, device: WfDevice, appConfigService: AppConfigService) {
+    return {
+        viewer: {
+            type: "leaflet",
+            device,
+            location: {
+                extent: [ -136.3, 49, -116, 60.2 ],
+            },
+            baseMap: "imagery",
+            minZoom: 4
+        },
+        tools: [
+            {
+                type: "pan",
+                enabled: true
+            },
+            {
+                type: "zoom",
+                enabled: true,
+                mouseWheel: true,
+                doubleClick: true,
+                box: true,
+                control: true
+            },
+            {
+                type: "baseMaps",
+                enabled: false,
+            },
+            {
+                type: "search",
+                enabled: false,
+            },
+            {
+                type: "search-location",
+                enabled: false
+            },
+            {
+                type: "markup",
+                enabled: false
+            },
+            {
+                type: "location",
+                enabled: false
+            },
+            {
+                type: "scale",
+                enabled: false
+            },
+            {
+                type: "bespoke",
+                enabled: false
+            }
+        ],
+        layers: LayerConfig(mapServices, serviceStatus, appConfigService)
+    }
 }

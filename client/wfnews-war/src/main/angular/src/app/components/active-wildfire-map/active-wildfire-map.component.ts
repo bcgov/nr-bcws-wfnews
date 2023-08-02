@@ -9,9 +9,10 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { TurfService } from '../../../../src/app/services/turf-service';
 
 
 export type SelectedLayer =
@@ -76,6 +77,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
+    private turfService: TurfService,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -123,7 +125,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         })
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
-
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
         });
     });
@@ -495,5 +496,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
+  }
+
+  navigateToReportOfFire() {
+    let windowValue = window;
+    this.turfService.setTurfData(windowValue);
+    this.router.navigate([ResourcesRoutes.ROF])
   }
 }

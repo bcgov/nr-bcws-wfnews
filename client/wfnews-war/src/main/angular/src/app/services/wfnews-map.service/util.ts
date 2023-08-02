@@ -69,7 +69,6 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
       cleanup();
       rej(new Error('cancelled'));
     };
-
     const script = window['L'].DomUtil.create('script');
     script.type = 'text/javascript';
     script.async = true;

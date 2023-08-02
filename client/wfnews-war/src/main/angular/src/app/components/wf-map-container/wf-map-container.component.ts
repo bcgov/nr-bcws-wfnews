@@ -70,9 +70,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         toggleAccordion: self.toggleAccordion
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
-
         const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-        hideListButtonElement[0]["style"]["display"] = 'none';
+        // hideListButtonElement[0]["style"]["display"] = 'none';
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
