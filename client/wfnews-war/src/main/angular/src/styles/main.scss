@@ -142,7 +142,7 @@ html {
   background-color: $colour-success;
   color: $colour-white;
   position: inherit;
-  padding: 18px 16px!important;
+  padding: 8px 6px!important;
   .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
@@ -178,7 +178,7 @@ html {
   background-color: $colour-info-grey;
   color: $colour-white;
   position: inherit;
-  padding: 18px 16px!important;
+  padding: 8px 6px!important;
   .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
@@ -684,6 +684,7 @@ wf-admin-incident-desktop{
 }
 
 mat-snack-bar-container{
+  height: 100%;
   .mdc-snackbar__surface {
     box-shadow: none !important;
     background-color: inherit !important;
@@ -704,4 +705,13 @@ mat-snack-bar-container{
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: inherit !important;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: #036!important;
+  opacity: 0.6;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  opacity: 1;
 }
