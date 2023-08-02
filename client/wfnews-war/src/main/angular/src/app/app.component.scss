@@ -73,9 +73,9 @@
 }
 
 // toolip style customization
-::ng-deep .mat-mdc-tooltip {
+::ng-deep .mdc-tooltip__surface {
   color: #000023 !important;
-  background-color: #F8F8F8;
+  background-color: #F8F8F8 !important;
   -moz-box-shadow: 2px 2px 11px #666;
   -webkit-box-shadow: 2px 2px 11px #666;
 }

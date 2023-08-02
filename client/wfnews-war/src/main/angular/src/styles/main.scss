@@ -142,7 +142,7 @@ html {
   background-color: $colour-success;
   color: $colour-white;
   position: inherit;
-  padding: 18px 16px!important;
+  padding: 8px 6px!important;
   .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
@@ -178,7 +178,7 @@ html {
   background-color: $colour-info-grey;
   color: $colour-white;
   position: inherit;
-  padding: 18px 16px!important;
+  padding: 8px 6px!important;
   .mat-mdc-simple-snack-bar{
     font-family: $font-family-main;
     font-size: 13px;
@@ -527,8 +527,13 @@ html {
 }
 
 .mat-mdc-dialog-container {
-  padding: 0px 0px 24px 0px !important;
-  overflow: hidden !important;
+  // height: 70vh !important;
+  padding: 0 !important;
+  overflow: auto !important;
+  
+  .mdc-dialog__surface{
+    overflow: hidden;
+  }
 }
 
 .dialog-container {
@@ -666,16 +671,20 @@ wf-admin-incident-desktop{
 }
 
 .mdc-checkbox {
+  padding : 0 !important;
+  .mdc-checkbox__background{
+    position: sticky;
+  }
   .mdc-checkbox__checkmark-path {
     color:white
   }
   .mdc-checkbox__background{
     border: 1px solid #a7a9ac !important;
-    border-radius: 5px !important;
   }
 }
 
 mat-snack-bar-container{
+  height: 100%;
   .mdc-snackbar__surface {
     box-shadow: none !important;
     background-color: inherit !important;
@@ -696,4 +705,13 @@ mat-snack-bar-container{
 
 .mdc-text-field--filled:not(.mdc-text-field--disabled){
   background-color: inherit !important;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: #036!important;
+  opacity: 0.6;
+}
+
+.mat-mdc-tab:not(.mat-mdc-tab-disabled).mdc-tab--active .mdc-tab__text-label {
+  opacity: 1;
 }
