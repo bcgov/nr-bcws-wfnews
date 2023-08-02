@@ -21,7 +21,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public extent: any
-  @Input() public defaultEvacURL: string
+  public defaultEvacURL: string
   convertToFireCentreDescription = convertToFireCentreDescription
   convertFireNumber = convertFireNumber
 
