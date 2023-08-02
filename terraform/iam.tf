@@ -35,6 +35,34 @@ resource "aws_iam_role" "lambda_iam_role" {
   })
 }
 
+resource "aws_iam_policy" "lambdaSQS" {
+  name        = "wfone-lambda-sqs-${var.target_env}"
+  path        = "/"
+  description = "Allow permissions needed for lambda functions to read/write to SQS queues"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "lambdaAttach" {
   role       = aws_iam_role.lambda_iam_role.name
   policy_arn = data.aws_iam_policy.lambdaExecute.arn
@@ -42,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "lambdaAttach" {
 
 resource "aws_iam_role_policy_attachment" "sqsAttach" {
   role       = aws_iam_role.lambda_iam_role.name
-  policy_arn = data.aws_iam_policy.lambdaSQS.arn
+  policy_arn = aws_iam_policy.lambdaSQS.arn
 }
 
 resource "aws_iam_role_policy_attachment" "vpcAttach" {
