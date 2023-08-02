@@ -128,7 +128,7 @@ jobs:
           WFDM_API_URL: ${{ vars.WFDM_REST_URL }}
           # WFDM_PROXY: ${{ vars.WFDM_PROXY }}
           WFIM_API_URL: ${{ vars.WFIM_CLIENT_URL }}
-          WFNEWS_API_KEY: ${{ env.API_KEY }}
+          WFNEWS_API_KEY: ${{ secrets.API_KEY }}
           WFNEWS_API_URL: ${{ vars.WFNEWS_API_URL }}
           WILDFIRE_INFORMATION_LINE: ${{ vars.WILDFIRE_INFORMATION_LINE }}
 
