@@ -683,7 +683,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfone_notifications_api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfone-notifications-api.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfone_notifications_api_${var.target_env}"
 
     custom_header {

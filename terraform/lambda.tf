@@ -44,8 +44,8 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet.web.ids
-    security_group_ids = [module.network.aws_security_group.web.id]
+    subnet_ids         = module.network.aws_subnet_ids.web.ids
+    security_group_ids = [data.aws_security_group.app.id]
   }
 }
 
@@ -68,8 +68,8 @@ resource "aws_lambda_function" "monitor-active-fires" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet.web.ids
-    security_group_ids = [module.network.aws_security_group.web.id]
+    subnet_ids         = module.network.aws_subnet_ids.web.ids
+    security_group_ids = [data.aws_security_group.app.id]
   }
 }
 
@@ -92,8 +92,8 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet.web.ids
-    security_group_ids = [module.network.aws_security_group.web.id]
+    subnet_ids         = module.network.aws_subnet_ids.web.ids
+    security_group_ids = [data.aws_security_group.app.id]
   }
 }
 
@@ -116,7 +116,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
     }
   }
   vpc_config {
-    subnet_ids         = module.network.aws_subnet.web.ids
-    security_group_ids = [module.network.aws_security_group.web.id]
+    subnet_ids         = module.network.aws_subnet_ids.web.ids
+    security_group_ids = [data.aws_security_group.app.id]
   }
 }
