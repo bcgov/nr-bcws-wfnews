@@ -1,5 +1,6 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dto;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.slf4j.Logger;
@@ -22,8 +23,8 @@ public class AttachmentDto extends AuditDto<AttachmentDto> {
 	private boolean archived;
 	private boolean privateIndicator;
 	private String uploadedBy;
-	private Date uploadedTimestamp;
-	private Date createdTimestamp;
+	private Timestamp uploadedTimestamp;
+	private Timestamp createdTimestamp;
 	private Double latitude;
 	private Double longitude;
 	private String mimeType;
@@ -78,8 +79,8 @@ public class AttachmentDto extends AuditDto<AttachmentDto> {
     this.archived = resource.isArchived();
     this.privateIndicator = resource.isPrivateIndicator();
     this.uploadedBy = resource.getUploadedBy();
-    this.uploadedTimestamp = resource.getUploadedTimestamp();
-    this.createdTimestamp = resource.getCreatedTimestamp();
+    this.uploadedTimestamp = resource.getUploadedTimestamp() != null ? new Timestamp(resource.getUploadedTimestamp().getTime()) : null;
+    this.createdTimestamp = resource.getCreatedTimestamp() != null ? new Timestamp(resource.getCreatedTimestamp().getTime()) : null;
     this.latitude = resource.getLatitude();
     this.longitude = resource.getLongitude();
     this.mimeType = resource.getMimeType();
@@ -223,13 +224,13 @@ public class AttachmentDto extends AuditDto<AttachmentDto> {
     return uploadedTimestamp;
   }
   public void setUploadedTimestamp(Date uploadedTimestamp) {
-    this.uploadedTimestamp = uploadedTimestamp;
+    this.uploadedTimestamp = uploadedTimestamp != null ? new Timestamp(uploadedTimestamp.getTime()) : null;
   }
   public Date getCreatedTimestamp() {
     return createdTimestamp;
   }
   public void setCreatedTimestamp(Date createdTimestamp) {
-    this.createdTimestamp = createdTimestamp;
+    this.createdTimestamp = createdTimestamp != null ? new Timestamp(createdTimestamp.getTime()) : null;
   }
   public Double getLatitude() {
     return latitude;

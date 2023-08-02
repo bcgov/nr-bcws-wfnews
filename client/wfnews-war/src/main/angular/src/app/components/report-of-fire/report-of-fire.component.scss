@@ -65,7 +65,7 @@
   height: 43px;
   padding: 8px 32px 8px 24px;
   align-items: center;
-  gap: calc(100vw - 320px);
+  gap: calc(100vw - 384px);
   bottom: 60px;
   position: fixed;
   .rof-button {
@@ -96,6 +96,9 @@
       line-height: normal;
       background-color: gray;
     }
+  }
+  .flow-buttons{
+    padding-bottom: 500px !important;
   }
 }
 
@@ -222,4 +225,17 @@
 
 .panel-wrapper {
   height: calc(100vh - 125px);
+}
+
+.page-content{
+  padding: 0 32px;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.32px;
+  .rof-text-title{
+    font-size: 32px;
+    font-weight: 600;
+  }
 }

@@ -65,6 +65,7 @@
       json.append("\"AGOLBansAndProhibitions\":\"").append(agolBansAndProhibitions).append("\",");
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
+      json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
       json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");

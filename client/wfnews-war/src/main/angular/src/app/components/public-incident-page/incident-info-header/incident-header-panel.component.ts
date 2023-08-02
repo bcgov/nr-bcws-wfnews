@@ -21,6 +21,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public extent: any
+  public defaultEvacURL: string
   convertToFireCentreDescription = convertToFireCentreDescription
   convertFireNumber = convertFireNumber
 
@@ -34,6 +35,10 @@ export class IncidentHeaderPanel implements AfterViewInit {
   constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
     ) {
     /* Empty, just here for injection */
+  }
+
+  ngOnInit(): void {
+    this.defaultEvacURL = this.appConfigService.getConfig().externalAppConfig['evacDefaultUrl'].toString()
   }
 
   ngAfterViewInit(): void {
