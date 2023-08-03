@@ -12,7 +12,6 @@ import { debounceTime } from 'rxjs/operators';
 import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
-import { TurfService } from '../../../../src/app/services/turf-service';
 
 
 export type SelectedLayer =
@@ -77,7 +76,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
-    private turfService: TurfService,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -496,11 +494,5 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
-  }
-
-  navigateToReportOfFire() {
-    let windowValue = window;
-    this.turfService.setTurfData(windowValue);
-    this.router.navigate([ResourcesRoutes.ROF])
   }
 }

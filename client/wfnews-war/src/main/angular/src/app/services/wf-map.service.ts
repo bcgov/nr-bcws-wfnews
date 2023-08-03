@@ -123,7 +123,7 @@ export class WFMapService {
             } );
     }
 
-    private patch(): Promise<any> {
+    public patch(): Promise<any> {
         const self = this;
 
         const include = window[ 'include' ];

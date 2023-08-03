@@ -1,28 +1,59 @@
 @import '../report-of-fire.component.scss';
 
 .map {
-    flex-grow: 1;
-    overflow: hidden;
-    height: calc(100% - 142px);
+  flex-grow: 1;
+  overflow: hidden;
+  height: calc(100% - 142px);
+  position: relative;
+
+  .map-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .identify-panel {
     position: relative;
-
-    .map-container {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .identify-panel {
-      position: relative;
-      z-index: 1000000;
-      background-color: white;
-      height: 100%;
-      width: 50vw;
-      max-width: 600px;
-      display: none;
-      overflow-y: auto;
-      border: 1px solid #dddddd;
-    }
+    z-index: 1000000;
+    background-color: white;
+    height: 100%;
+    width: 50vw;
+    max-width: 600px;
+    display: none;
+    overflow-y: auto;
+    border: 1px solid #dddddd;
+  }
 }
+
+::ng-deep .wfone-public-mobile-report-of-fire .body.page-fire-location {
+  .smk-map-frame {
+      .leaflet-pane.leaflet-marker-pane {
+          .leaflet-marker-icon {
+              &.rof-location {
+                  border: 4px solid white;
+                  border-radius: 14px;
+                  background-color: blue;
+                  position: relative;
+
+                  &:after {
+                      content: '';
+                      border: 10px solid #add8e68f;
+                      border-radius: 24px;
+                      width: 28px;
+                      height: 28px;
+                      position: absolute;
+                      top: -14px;
+                      left: -14px;
+                  }
+              }
+              &.rof-arrow-head {
+                  color: yellow;
+                  text-shadow: 2px 2px 3px rgba(0,0,0,36%), -2px 2px 3px rgba(0,0,0,36%), 2px -2px 3px rgba(0,0,0,36%), -2px -2px 3px rgba(0,0,0,36%);
+              }
+          }
+      }
+  }
+}
+

@@ -13,6 +13,8 @@ import { DisclaimerDialogComponent } from './components/disclaimer-dialog/discla
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
+import { WFMapService } from './services/wf-map.service';
+
 
 export const ICON = {
   ADVISORIES: 'advisories',
@@ -85,7 +87,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected domSanitizer: DomSanitizer,
     protected tokenService: TokenService,
     protected cdr: ChangeDetectorRef,
-    protected dialog: MatDialog
+    protected dialog: MatDialog,
+    protected wfMapService:WFMapService
   ) {
   }
 
@@ -94,6 +97,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   };
 
   ngOnInit() {
+    this.wfMapService.patch();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
     this.checkUserPermissions();
