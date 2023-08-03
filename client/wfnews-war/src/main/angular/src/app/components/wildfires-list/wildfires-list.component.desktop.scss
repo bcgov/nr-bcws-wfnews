@@ -107,6 +107,9 @@ table tr:nth-child(even) td{
         border-radius: 50%;
         cursor: pointer;
     }
+    mat-icon{
+        transform: translateX(-5px);
+    }
 }
 
 .stage-of-control-checkbox-group{
