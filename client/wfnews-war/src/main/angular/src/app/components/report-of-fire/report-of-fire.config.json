@@ -3,7 +3,7 @@
     {
       "id": "first-page",
       "type": "RoFTitlePage",
-      "title": "Report a Fire",
+      "title": "Report a fire",
       "message": "Submit reports of wildfire or smoke in British Columbia through the BC Wildfire Service mobile app. This process usually takes 5 to 10 minutes. Reports can also be called into the Provincial Wildfire Reporting Centre toll-free.",
       "allowSkip": false,
       "allowExit": true,

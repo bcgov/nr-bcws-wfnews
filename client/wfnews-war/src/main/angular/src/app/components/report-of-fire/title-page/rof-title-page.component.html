@@ -3,8 +3,8 @@
   <img alt="Report of Fire Banner" [src]="imageUrl" height="248px" class="rof-image"/>
   <div class="rof-text-secondary-header">{{ message }}</div>
   <div *ngIf="!closeButton" class="rof-button-container">
-      <button mat-flat-button class="rof-button" (click)="openCallPage()">Call</button>
-      <button mat-flat-button class="rof-button-primary" (click)="next()">Start<mat-icon>arrow_forward</mat-icon></button>
+      <button mat-flat-button class="rof-button" (click)="openCallPage()"><mat-icon svgIcon="phone" style="width: 24px; height: 24px;"></mat-icon>Call</button>
+      <button mat-flat-button class="rof-button-primary" (click)="next()">Start<mat-icon class="left-padding">arrow_forward</mat-icon></button>
   </div>
   <div *ngIf="closeButton" class="rof-button-container">
     <button mat-flat-button class="rof-button-primary" (click)="close()">Close</button>
