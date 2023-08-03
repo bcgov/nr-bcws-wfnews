@@ -101,7 +101,6 @@
       font-style: normal;
       font-weight: 600;
       line-height: normal;
-      background-color: gray;
       flex-direction: row-reverse;
 
     }
@@ -202,7 +201,7 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.56px;
-    margin: 20px;
+    margin: 20px 0px;
   }
   &-secondary-header {
     color: #565656;
@@ -216,9 +215,18 @@
   &-body {
     font-size: 17px;
     color: #242424;
-    margin: 20px;
+    margin: 20px 0px;
     .selected {
       font-weight: 500;
+    }
+    .mat-mdc-checkbox{
+      span{
+        color: #242424;
+        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 400;
+      }
     }
   }
   &-subheader {
@@ -227,8 +235,10 @@
     margin: 20px;
   }
   &-subheader-black {
-    font-size: 16px;
-    margin: 20px;
+    font-size: 17px;
+    font-weight: 600;
+    color:#242424;
+    margin: 20px 0px;
   }
 }
 
@@ -247,4 +257,9 @@
     font-size: 32px;
     font-weight: 600;
   }
+}
+
+.divider{
+  border-top: 1px solid #ccc;
+  width: 100%;
 }
