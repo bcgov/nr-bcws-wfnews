@@ -2,7 +2,7 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
 
-  <mat-button-toggle-group class="rof-toggle-group" [(ngModel)]="updateAttribute ? reportOfFire[updateAttribute] : localVal" #questionOptions="matButtonToggleGroup" vertical name="questionButtons" aria-label="Question Options">
+  <mat-button-toggle-group class="simple-toggle" [(ngModel)]="updateAttribute ? reportOfFire[updateAttribute] : localVal" #questionOptions="matButtonToggleGroup" vertical name="questionButtons" aria-label="Question Options">
     <mat-button-toggle value="yes" (change)="onValChange('yes')"><mat-icon>check</mat-icon>Yes</mat-button-toggle>
     <mat-button-toggle value="no" (change)="onValChange('no')"><mat-icon>close</mat-icon>No</mat-button-toggle>
     <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip"><mat-icon>question_mark</mat-icon>I'm not sure</mat-button-toggle>
