@@ -216,7 +216,7 @@
     {
       "id": "visible-flame-page",
       "type": "RoFSimpleQuestionPage",
-      "title": "Is there a visible flame?",
+      "title": "Are there visible flames?",
       "message": "",
       "allowSkip": true,
       "allowExit": true,
@@ -289,7 +289,7 @@
       "id": "infrastructure-page",
       "type": "RoFSimpleQuestionPage",
       "title": "Is there any infrastructure at risk?",
-      "message": "",
+      "message": "Do you see any homes, buildings, powerlines, railways, bridges or infrastructure within roughly 1km of the fire?",
       "allowSkip": true,
       "allowExit": true,
       "allowIDontKnowButton": true,
