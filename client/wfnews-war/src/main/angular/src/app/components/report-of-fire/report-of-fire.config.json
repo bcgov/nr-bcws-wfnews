@@ -352,7 +352,7 @@
       "allowSkip": true,
       "allowExit": true,
       "updateAttribute": "otherInfo",
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "infrastructure-page",
       "nextId": "review-page"
     },
