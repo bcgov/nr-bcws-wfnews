@@ -10,7 +10,7 @@
 
   <div class="rof-button-container">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <button [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" [disabled]="!questionOptions.value" mat-flat-button (click)="questionOptions.value === 'yes' ? next() : skip()" color="primary">Next<mat-icon iconPositionEnd>arrow_forward</mat-icon></button>
+	  <button [class]="'rof-button' + (!questionOptions.value ? '-disabled' : '-primary')" [disabled]="!questionOptions.value" mat-flat-button (click)="questionOptions.value === 'yes' ? next() : skip()" color="primary">Continue</button>
   </div>
 
 </div>

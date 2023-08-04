@@ -173,6 +173,11 @@
   }
 }
 
+::ng-deep.mat-button-toggle-button {
+   height: 90px !important;
+}
+  
+
 ::ng-deep.mat-button-toggle-label-content {
   color: #000;
   text-align: center;
