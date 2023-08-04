@@ -32,7 +32,8 @@ export const ICON = {
   MAP: 'map',
   TWITTER: 'twitter',
   CAMPING: 'camping',
-  LARGER: 'larger'
+  LARGER: 'larger',
+  PHONE: 'phone'
 };
 
 @Component({
@@ -376,6 +377,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.LARGER,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/larger.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      ICON.PHONE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/phone.svg")
+    )
   }
 
   isAdminPage() {
