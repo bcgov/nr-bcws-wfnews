@@ -93,7 +93,7 @@ export class VideoCardPanel{
 
   convertToDate(value: string | number | Date): string {
     if (value) {
-      return moment(value).format('YYYY-MM-DD hh:mm:ss')
+      return moment(value).format('YYYY-MM-DD HH:mm:ss')
     }
   }
 
