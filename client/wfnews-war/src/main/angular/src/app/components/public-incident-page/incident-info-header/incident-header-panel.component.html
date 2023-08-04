@@ -29,7 +29,7 @@
       <h4>Active Evacuation Orders and Alerts</h4>
       <div class="evac-list" *ngFor="let evac of evacOrders">
         <mat-icon style="text-decoration: none;">error</mat-icon>
-        <a class="label" [href]="evac.uri ? evac.uri : ''" target="_blank" rel="noopener">{{evac.eventName}}</a>
+        <a class="label" [href]="evac.uri ? evac.uri : 'https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023'" target="_blank" rel="noopener">{{evac.eventName}}</a>
         <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
       </div>
     </div>
