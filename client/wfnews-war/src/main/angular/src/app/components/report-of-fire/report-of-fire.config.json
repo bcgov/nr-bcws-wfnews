@@ -33,7 +33,7 @@
       "allowExit": true,
       "allowIDontKnowButton": false,
       "updateAttribute": "consentToCall",
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "permissions-page",
       "nextId": "contact-page",
       "skipId": "location-page"
@@ -46,7 +46,7 @@
       "allowSkip": true,
       "allowExit": true,
       "updateAttribute": ["fullName", "phoneNumber"],
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "callback-page",
       "nextId": "location-page"
     },
