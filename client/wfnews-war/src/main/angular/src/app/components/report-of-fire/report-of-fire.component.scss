@@ -7,12 +7,14 @@
   height: 50px;
   display: flex;
   justify-content: space-between;
-  padding:0 24px;
+  padding:60px 20px 0 20px;
   align-items: center;
   position: sticky !important;
   top:0;
   background-color: white;
   z-index:9999;
+  font-weight: 600;
+  font-size: 18px;
 }
 
 
@@ -63,9 +65,9 @@
 .rof-button-container {
   display: flex;
   height: 43px;
-  padding: 8px 32px 8px 24px;
+  padding: 8px 0px;
   align-items: center;
-  gap: calc(100vw - 384px);
+  gap: calc(100vw - 344px);
   bottom: 60px;
   position: fixed;
   .rof-button {
@@ -75,8 +77,8 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    background-color: #f5f5f5;
-    border: solid 1px #bfbfbf;
+    background-color: #F5F5F5;
+    border: solid 1px #B0B0B0;;
     &-primary {
       width: 138px;
       height: 43px;
@@ -86,6 +88,11 @@
       line-height: normal;
       color: white;
       background-color: #123262;
+      flex-direction: row-reverse;
+      .mat-icon{
+        margin-right: 0px;
+      }
+     
     }
     &-disabled {
       width: 138px;
@@ -94,7 +101,8 @@
       font-style: normal;
       font-weight: 600;
       line-height: normal;
-      background-color: gray;
+      flex-direction: row-reverse;
+
     }
   }
   .flow-buttons{
@@ -193,23 +201,32 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.56px;
-    margin: 20px;
+    margin: 20px 0px;
   }
   &-secondary-header {
-    color: #484644;
+    color: #565656;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.32px;
-    margin: 20px;
+    margin: 20px 0px;
   }
   &-body {
     font-size: 17px;
     color: #242424;
-    margin: 20px;
+    margin: 20px 0px;
     .selected {
       font-weight: 500;
+    }
+    .mat-mdc-checkbox{
+      span{
+        color: #242424;
+        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 17px;
+        font-style: normal;
+        font-weight: 400;
+      }
     }
   }
   &-subheader {
@@ -218,8 +235,10 @@
     margin: 20px;
   }
   &-subheader-black {
-    font-size: 16px;
-    margin: 20px;
+    font-size: 17px;
+    font-weight: 600;
+    color:#242424;
+    margin: 20px 0px;
   }
 }
 
@@ -238,4 +257,9 @@
     font-size: 32px;
     font-weight: 600;
   }
+}
+
+.divider{
+  border-top: 1px solid #ccc;
+  width: 100%;
 }

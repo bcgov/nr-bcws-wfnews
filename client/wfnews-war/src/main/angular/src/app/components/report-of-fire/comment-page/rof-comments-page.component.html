@@ -1,9 +1,10 @@
-<div>
+<div class="page-content">
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
-
-  <mat-form-field appearance="outline" class="text-container">
+  <div>
     <mat-label>Note</mat-label>
+  </div>
+  <mat-form-field  class="text-container">
     <textarea matInput #commentText rows="3" style="height: calc(100vh - 400px);"
       [(ngModel)]="reportOfFire[updateAttribute]">
     </textarea>
@@ -12,6 +13,6 @@
 
   <div class="rof-button-container">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <button class="rof-button-primary" mat-flat-button (click)="next()"><mat-icon>visibility</mat-icon>Review</button>
+	  <button class="rof-button-primary" mat-flat-button (click)="next()"><mat-icon class="left-padding">visibility</mat-icon>Review</button>
   </div>
 </div>
