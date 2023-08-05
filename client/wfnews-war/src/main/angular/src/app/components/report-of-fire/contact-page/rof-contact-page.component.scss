@@ -2,7 +2,12 @@
 
 .input-style {
   margin: 10px 20px;
-  width: calc(100vw - 40px);
+  width: calc(100% - 40px);
+}
+
+.input-label {
+  margin-left: 20px;
+  color: #484644;
 }
 
 .mat-form-field-appearance-outline {
@@ -15,3 +20,7 @@
  {
   margin: 0px !important;
 }
+
+::ng-deep .mdc-notched-outline {
+  opacity: 0;
+  }

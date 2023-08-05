@@ -1,1 +1,33 @@
 @import '../report-of-fire.component.scss';
+
+::ng-deep.mat-button-toggle-label-content {
+    line-height: normal !important   
+}
+
+.simple-toggle {
+    width: calc(100% - 40px);
+    margin: 20px;
+    border: none;
+    line-height: normal !important; 
+    .mat-icon {
+        color: #548ADB;
+        margin-right: 8px;
+    }
+    .mat-button-toggle{
+        margin-bottom: 24px;
+        border: none;
+        border-radius: 8px;
+        height: 60px;
+    }
+
+    .mat-button-toggle-appearance-standard {
+        color: rgba(0, 0, 0, 0.87);
+        background-color: #f1f1f1;
+    }
+    .mat-button-toggle-checked {
+        background-color: #e0e0e0 !important;
+    }
+    .mat-button-toggle-button {
+        border-radius: 8px;
+    }
+}
