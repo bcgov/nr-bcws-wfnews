@@ -140,12 +140,12 @@
         {
           "label": "The size of a House",
           "value": "house",
-          "icon": "home"
+          "customIcon": "../../../assets/images/svg-icons/home.svg"
         },
         {
           "label": "The size of a Football Field",
           "value": "football",
-          "icon": "sports_football"
+          "customIcon": "../../../assets/images/svg-icons/american-football.svg"
         },
         {
           "label": "Larger than a Football Field",
@@ -370,8 +370,8 @@
     {
       "id": "final-page",
       "type": "RoFTitlePage",
-      "title": "Thank You!",
-      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. The information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
+      "title": "Thank you!",
+      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. \nThe information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
       "allowSkip": false,
       "allowExit": false,
       "imageUrl": "../../../assets/images/rofthankyou.svg",
