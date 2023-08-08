@@ -41,7 +41,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
-
+    // wire esri leaflet
+    L.esri = esri;
+    
     L.esri.featureLayer({
       url: "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0",
       style: function (feature) {
