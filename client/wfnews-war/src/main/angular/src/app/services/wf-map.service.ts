@@ -200,6 +200,25 @@ export class WFMapService {
             .then( function() {
                 // add a component to Vue global used by SMK
                 const Vue = window['Vue'];
+
+                // shim for number formatter
+                Vue.filter( 'formatNumber', function ( value, decimalPlaces, fractionPlaces ) {
+                  return formatNumber( value, decimalPlaces, fractionPlaces )
+                } )
+
+                function formatNumber(value, precision, fractionPlaces) {
+                  const rounded = parseFloat(value.toPrecision(precision))
+
+                  if (!fractionPlaces)
+                      return rounded.toLocaleString()
+
+                  const i = rounded < 0 ? Math.ceil(rounded) : Math.floor(rounded)
+                  const f = rounded < 0 ? rounded + i : rounded - i
+
+                  return `${i.toLocaleString()}.${f.toFixed(fractionPlaces).split('.')[1]}`
+                }
+
+                // Component Shims
                 return include( 'component' ).then( function() {
                     const f = Vue.component( 'wf-feature', {
                         template: '#wf-feature-template',
