@@ -4,8 +4,8 @@
       <div class="rof-text-secondary-header">{{ message }}</div>
 
       <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
-      <div class="rof-toggle-group rof-complex-group">
-        <div *ngFor="let button of buttons" [ngStyle]="{'width':!allowMultiSelect? '100%' : 'auto'}">
+      <div class="rof-toggle-group rof-complex-group" style="justify-content: space-between;">
+        <div *ngFor="let button of buttons" [ngStyle]="{'width':!allowMultiSelect? '100%' : 'auto', 'flex':!allowMultiSelect? 'auto': '0 0 calc(50% - 24px)'}">
           <mat-button-toggle style="width: 100%" class="flex-button" *ngIf="allowMultiSelect" (change)="onValChange(button.value, $event)" [value]="button.value">
             <img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" />
             <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
