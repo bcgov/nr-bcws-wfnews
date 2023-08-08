@@ -7,7 +7,7 @@
   height: 50px;
   display: flex;
   justify-content: space-between;
-  padding:60px 32px 0 20px;
+  padding:13px 32px 0 20px;
   align-items: center;
   position: sticky !important;
   top:0;
@@ -68,7 +68,7 @@
   padding: 8px 0px;
   align-items: center;
   gap: calc(100vw - 344px);
-  bottom: 100px;
+  bottom: 4em;
   position: fixed;
   .rof-button {
     width: 138px;
@@ -133,6 +133,7 @@
     width: calc(50vw - 30px);
     height: 81px;
     margin-bottom: 0px !important;
+    background-color: #F1F1F1;
   }
   .mat-flat-button {
     border: none;
@@ -160,8 +161,7 @@
 }
 
 .rof-toggle-group {
-  width: calc(100% - 40px);
-  margin: 20px;
+  margin: 20px 0;
   border: none;
   .mat-icon {
     color: #548ADB;

@@ -1,8 +1,8 @@
 @import '../report-of-fire.component.scss';
 
 .simple-toggle {
-    width: calc(100% - 40px);
-    margin: 20px;
+    width: 100%;
+    margin: 20px 0;
     border: none;
     line-height: normal !important; 
     .mat-icon {
