@@ -1,9 +1,5 @@
 @import '../report-of-fire.component.scss';
 
-::ng-deep.mat-button-toggle-label-content {
-    line-height: normal !important   
-}
-
 .simple-toggle {
     width: calc(100% - 40px);
     margin: 20px;

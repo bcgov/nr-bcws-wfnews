@@ -113,6 +113,7 @@
       font-weight: 600;
       line-height: normal;
       flex-direction: row-reverse;
+      color: rgba(0, 0, 0)
 
     }
   }
@@ -184,6 +185,10 @@
   }
 }
 
+::ng-deep.mat-button-toggle-button {
+   height: 90px !important;
+}
+  
 ::ng-deep.mat-button-toggle-label-content {
   color: #000;
   text-align: center;
@@ -192,7 +197,6 @@
   font-weight: 600;
   letter-spacing: -0.38px;
   margin-top: 16px;
-  padding-bottom: 30px !important
 }
 
 .rof-text {

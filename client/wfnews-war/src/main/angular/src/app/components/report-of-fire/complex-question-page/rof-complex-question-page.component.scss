@@ -1,5 +1,10 @@
 @import '../report-of-fire.component.scss';
 
+::ng-deep.mat-button-toggle-label-content {
+  padding-bottom: 1.5rem !important
+}
+
+
 .btn-highlight {
   background-color: #e0e0e0 !important;
 }
