@@ -33,7 +33,8 @@ export const ICON = {
   TWITTER: 'twitter',
   CAMPING: 'camping',
   LARGER: 'larger',
-  PHONE: 'phone'
+  PHONE: 'phone',
+  ARROW_FORWARD: 'arrow-forward'
 };
 
 @Component({
@@ -380,6 +381,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.PHONE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/phone.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW_FORWARD,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-foward.svg")
     )
   }
 

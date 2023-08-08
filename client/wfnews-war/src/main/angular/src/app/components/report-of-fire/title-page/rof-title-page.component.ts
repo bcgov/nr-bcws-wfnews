@@ -11,6 +11,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 export class RoFTitlePage extends RoFPage {
   public imageUrl: string
   public closeButton: boolean
+  public messages: any;
 
   public constructor() {
     super()
@@ -20,6 +21,7 @@ export class RoFTitlePage extends RoFPage {
     super.initialize(data, index, reportOfFire);
     this.imageUrl = data.imageUrl;
     this.closeButton = data.closeButton;
+    this.messages = this.message.split('\n');
   }
 
   openCallPage () {

@@ -7,7 +7,7 @@
   height: 50px;
   display: flex;
   justify-content: space-between;
-  padding:60px 20px 0 20px;
+  padding:60px 32px 0 20px;
   align-items: center;
   position: sticky !important;
   top:0;
@@ -68,7 +68,7 @@
   padding: 8px 0px;
   align-items: center;
   gap: calc(100vw - 344px);
-  bottom: 60px;
+  bottom: 100px;
   position: fixed;
   .rof-button {
     width: 138px;
@@ -89,6 +89,17 @@
       color: white;
       background-color: #123262;
       flex-direction: row-reverse;
+      &-review{
+        width: 138px;
+        height: 43px;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: white;
+        background-color: #123262;
+        flex-direction: none;;
+      }
       .mat-icon{
         margin-right: 0px;
       }
@@ -185,7 +196,7 @@
   font-style: normal;
   font-weight: 600;
   letter-spacing: -0.38px;
-  margin-top: 16px;
+  // margin-top: 16px;
 }
 
 .rof-text {
