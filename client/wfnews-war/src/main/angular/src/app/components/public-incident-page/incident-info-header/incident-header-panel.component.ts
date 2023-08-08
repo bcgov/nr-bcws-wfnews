@@ -1,9 +1,15 @@
-import { Component, ChangeDetectionStrategy, Input, AfterViewInit } from "@angular/core"
+import { Component, ChangeDetectionStrategy, Input, AfterViewInit, HostListener } from "@angular/core"
 import { EvacOrderOption } from "../../../conversion/models"
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
-import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
+import { convertToFireCentreDescription, convertFireNumber, ResourcesRoutes } from "../../../utils"
+import * as moment from "moment"
+import { MatDialog } from "@angular/material/dialog"
+import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
+import { Router } from "@angular/router"
+import { Location } from '@angular/common';
+import * as esri from "esri-leaflet";
 
 @Component({
   selector: 'incident-header-panel',
@@ -20,7 +26,13 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
   private map: any
 
-  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService) {
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.map.invalidateSize();
+  }
+
+  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
+    ) {
     /* Empty, just here for injection */
   }
 
@@ -35,26 +47,34 @@ export class IncidentHeaderPanel implements AfterViewInit {
       boxZoom: false,
       trackResize: false,
       scrollWheelZoom: false
-    }).setView(location, 12)
+    }).setView(location, 9)
+
+    L.esri = esri
     // configure map data
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
 
-    let databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
-    L.tileLayer.wms(databcUrl, {
-      layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
-      styles: '6885',
-      format: 'image/png',
-      transparent: true,
-      version: '1.1.1'
+    L.esri.featureLayer({
+      url: "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0",
+      style: function (feature) {
+        console.log(feature)
+        if (feature.properties.EVENT_TYPE === 'Fire') {
+          if (feature.properties.ORDER_ALERT_STATUS === 'Order') {
+            return {color: '#ff7f7f', weight: 1 };
+          } else if (feature.properties.ORDER_ALERT_STATUS === 'Alert') {
+            return {color: '#ffa77c', weight: 1 };
+          } else if (feature.properties.ORDER_ALERT_STATUS === 'Tactical Evacuation') {
+            return {color: '#ff7f7f', weight: 1 };
+          }
+        }
+      }
     }).addTo(this.map);
-    L.tileLayer.wms(databcUrl, {
-      layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
-      styles: '1751_1752',
-      format: 'image/png',
-      transparent: true,
-      version: '1.1.1'
+    L.esri.featureLayer({
+      url: "https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0",
+      style: function (feature) {
+        return {color: 'red', weight: 1 };
+      }
     }).addTo(this.map);
 
     const icon = L.icon({
@@ -118,7 +138,43 @@ export class IncidentHeaderPanel implements AfterViewInit {
     }
   }
 
-  hideOnMobileView () {
+  isMobileView() {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
+
+  convertToMobileFormat (dateString) {
+    // Should probably be MMM for month formats to prevent long strings
+    const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
+    return formattedDate
+
+  }
+
+  openContactUsWindow() {
+    this.dialog.open(ContactUsDialogComponent, {
+      panelClass: 'contact-us-dialog',
+      data: {
+        fireCentre: convertToFireCentreDescription(this.incident.contactOrgUnitIdentifer || this.incident.fireCentreName || this.incident.fireCentreCode || this.incident.fireCentre),
+        email: this.incident.contactEmailAddress,
+        phoneNumber: this.incident.contactPhoneNumber
+      }
+    });
+  }
+
+  backToMap() {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
+    }, 100);
+  }
+
+  shareContent() {
+    const currentUrl = this.location.path();
+    if (navigator.share) {
+      navigator.share({
+        url: currentUrl // The URL user wants to share
+      })
+        .then(() => console.log('Sharing succeeded.'))
+        .catch((error) => console.error('Error sharing:', error));
+    }
+  }
+
 }
