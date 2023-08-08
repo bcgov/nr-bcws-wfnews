@@ -52,6 +52,7 @@
     "assert": "2.0.0",
     "core-js": "2.5.7",
     "dayjs": "1.11.4",
+    "esri-leaflet": "^3.0.11",
     "file-size": "1.0.0",
     "font-awesome": "4.7.0",
     "jquery": "3.5.1",
