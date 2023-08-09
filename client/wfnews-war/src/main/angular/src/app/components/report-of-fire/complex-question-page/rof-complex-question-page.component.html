@@ -18,7 +18,7 @@
 
       <div class="rof-button-container">
         <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next<mat-icon svgIcon="arrow-forward" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>        
+        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>        
       </div>
   </div>
 </div>
