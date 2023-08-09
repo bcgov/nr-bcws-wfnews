@@ -128,7 +128,9 @@ mat-toolbar.wf1-application-toolbar {
         min-width: 2rem;
         padding: 0;
         box-shadow: none;
-        color: $colour-dark-grey;
+        background-color: #DFE5EE !important;
+        border-radius: 8px;
+        border: 3px solid #4169A4;
     }
 
     .wf1-toolbar-spacer {
