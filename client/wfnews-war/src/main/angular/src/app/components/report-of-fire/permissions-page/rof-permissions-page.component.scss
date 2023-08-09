@@ -3,3 +3,8 @@
 ::ng-deep.mat-checkbox-layout {
   white-space: normal !important;
 }
+
+
+::ng-deep .mat-mdc-checkbox .mdc-form-field {
+  align-items: start !important; 
+}

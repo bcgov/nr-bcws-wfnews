@@ -3,7 +3,7 @@
     {
       "id": "first-page",
       "type": "RoFTitlePage",
-      "title": "Report a Fire",
+      "title": "Report a fire",
       "message": "Submit reports of wildfire or smoke in British Columbia through the BC Wildfire Service mobile app. This process usually takes 5 to 10 minutes. Reports can also be called into the Provincial Wildfire Reporting Centre toll-free.",
       "allowSkip": false,
       "allowExit": true,
@@ -33,7 +33,7 @@
       "allowExit": true,
       "allowIDontKnowButton": false,
       "updateAttribute": "consentToCall",
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "permissions-page",
       "nextId": "contact-page",
       "skipId": "location-page"
@@ -46,7 +46,7 @@
       "allowSkip": true,
       "allowExit": true,
       "updateAttribute": ["fullName", "phoneNumber"],
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "callback-page",
       "nextId": "location-page"
     },
@@ -140,12 +140,12 @@
         {
           "label": "The size of a House",
           "value": "house",
-          "icon": "home"
+          "customIcon": "../../../assets/images/svg-icons/home.svg"
         },
         {
           "label": "The size of a Football Field",
           "value": "football",
-          "icon": "sports_football"
+          "customIcon": "../../../assets/images/svg-icons/american-football.svg"
         },
         {
           "label": "Larger than a Football Field",
@@ -216,7 +216,7 @@
     {
       "id": "visible-flame-page",
       "type": "RoFSimpleQuestionPage",
-      "title": "Is there a visible flame?",
+      "title": "Are there visible flames?",
       "message": "",
       "allowSkip": true,
       "allowExit": true,
@@ -289,7 +289,7 @@
       "id": "infrastructure-page",
       "type": "RoFSimpleQuestionPage",
       "title": "Is there any infrastructure at risk?",
-      "message": "",
+      "message": "Do you see any homes, buildings, powerlines, railways, bridges or infrastructure within roughly 1km of the fire?",
       "allowSkip": true,
       "allowExit": true,
       "allowIDontKnowButton": true,
@@ -352,7 +352,7 @@
       "allowSkip": true,
       "allowExit": true,
       "updateAttribute": "otherInfo",
-      "showProgress": true,
+      "showProgress": false,
       "previousId": "infrastructure-page",
       "nextId": "review-page"
     },
@@ -370,8 +370,8 @@
     {
       "id": "final-page",
       "type": "RoFTitlePage",
-      "title": "Thank You!",
-      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. The information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
+      "title": "Thank you!",
+      "message": "Thank you for reporting signs of wildfire. The Provincial Wildfire Reporting Centre has received your report and is sharing it with the appropriate fire centre for response. \nThe information provided in these reports allows us to respond quickly and effectively to wildfires, and helps protect the lands and people of British Columbia.",
       "allowSkip": false,
       "allowExit": false,
       "imageUrl": "../../../assets/images/rofthankyou.svg",

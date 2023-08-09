@@ -1,0 +1,16 @@
+name: Deploy Dev Patch
+
+env:
+  REGISTRY: ghcr.io
+  WEBADE_JCRS_URL: ${{ secrets.WEBADE_JCRS_URL }}
+  NPMRC: ${{ secrets.NPMRC }}
+  TRIGGERS: ('client/' 'server/' '.github/workflows')
+  PATCH_BRANCH: ${{ vars.PATCH_BRANCH }}
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "ERROR - THIS BRANCH MAY NOT BE RUN IN MAIN BRANCH"

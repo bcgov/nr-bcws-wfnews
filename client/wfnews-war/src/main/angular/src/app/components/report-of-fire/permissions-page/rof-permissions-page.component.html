@@ -5,7 +5,9 @@
   <div class="divider"></div>
   <div class="rof-text-subheader-black">Do you agree to share information with the BC Wildfire Service?</div>
   <div class="rof-text-body">
-    <mat-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">I agree to share information provided in this report with BC Wildfire Service</mat-checkbox>
+    <mat-checkbox [checked]="dataShareAccepted" (change)="dataShareAcceptedToggle($event.checked)">
+      <span>I agree to share information provided in this report with BC Wildfire Service</span>
+    </mat-checkbox>
   </div>
   <div class="rof-button-container">
     <button mat-flat-button class="rof-button" (click)="close()">Cancel</button>

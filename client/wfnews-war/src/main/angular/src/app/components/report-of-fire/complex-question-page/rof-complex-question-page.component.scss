@@ -1,9 +1,29 @@
 @import '../report-of-fire.component.scss';
 
+::ng-deep.mat-button-toggle-label-content {
+  line-height: 35px !important;
+  padding-bottom: 1.5rem !important
+}
+
+
 .btn-highlight {
   background-color: #e0e0e0 !important;
 }
 
 .btn-icon {
   margin-right: 8px;
+}
+
+.multi-select-class{
+  width: auto;
+  flex: 0 0 calc(50% - 12px);
+  max-width: calc(50% - 12px);
+  .flex-button{
+    white-space: normal;
+  }
+}
+
+.single-select-class{
+  width: 100%;
+  flex: auto;
 }

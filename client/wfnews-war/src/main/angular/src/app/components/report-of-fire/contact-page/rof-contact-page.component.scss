@@ -1,8 +1,12 @@
 @import '../report-of-fire.component.scss';
 
 .input-style {
-  margin: 10px 20px;
-  width: calc(100vw - 40px);
+  margin: 10px 0px;
+  width: 100%
+}
+
+.input-label {
+  color: #484644;
 }
 
 .mat-form-field-appearance-outline {
@@ -15,3 +19,7 @@
  {
   margin: 0px !important;
 }
+
+::ng-deep .mdc-notched-outline {
+  opacity: 0;
+  }
