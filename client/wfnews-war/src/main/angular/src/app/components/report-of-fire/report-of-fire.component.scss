@@ -72,7 +72,7 @@
   height: 43px;
   padding: 8px 0px;
   align-items: center;
-  gap: calc(100vw - 344px);
+  gap: calc(100vw - 324px);
   bottom: 4em;
   position: fixed;
   .rof-button {
@@ -183,7 +183,9 @@
     background-color: #f1f1f1;
   }
   .mat-button-toggle-checked {
-    background-color: #e0e0e0 !important;
+    background-color: #DFE5EE !important;
+    border-radius: 8px;
+    border: 3px solid #4169A4;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
