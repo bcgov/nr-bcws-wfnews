@@ -366,6 +366,17 @@ export class WFMapService {
                 } );
             } )
             .then( function() {
+                window[ 'L' ].NonTiledLayer.WMS.prototype.getImageUrl = function(t,e,i) {
+                  const fractionPlaces = 4
+                  var s = this.wmsParams;
+                  s.width = e, s.height = i;
+                  var n = this._crs.project(t.getNorthWest()),
+                      a = this._crs.project(t.getSouthEast()),
+                      o = this._wmsUrl;
+                  var r = r = (1.3 <= this._wmsVersion && this._crs === window[ 'L' ].CRS.EPSG4326 ? [a.y.toFixed(fractionPlaces), n.x.toFixed(fractionPlaces), n.y.toFixed(fractionPlaces), a.x.toFixed(fractionPlaces)] : [n.x.toFixed(fractionPlaces), a.y.toFixed(fractionPlaces), a.x.toFixed(fractionPlaces), n.y.toFixed(fractionPlaces)]).join(",");
+                  return o + window[ 'L' ].Util.getParamString(this.wmsParams, o ,this.options.uppercase) + (this.options.uppercase ? "&BBOX=":"&bbox=") + r;
+                }
+              
                 SMK.TYPE.Viewer.leaflet.prototype.mapResized = function() {
                     const self = this;
                     setTimeout( function() {
