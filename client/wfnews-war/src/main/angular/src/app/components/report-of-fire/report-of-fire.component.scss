@@ -1,6 +1,6 @@
 @import '../../../styles/variables';
 :host {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: 'Noto Sans';
 }
 
 .mobile-header{
@@ -15,6 +15,9 @@
   z-index:9999;
   font-weight: 600;
   font-size: 18px;
+  .skip{
+    color:#7A7A7A;
+  }
 }
 
 
@@ -40,16 +43,16 @@
   list-style: none;
   display: flex;
   justify-content: space-between;
+  width: 70%;
 }
 
 .ProgressBar-step {
-  width: 100%;
+  width: 80%;
   .ProgressBar-icon {
-    width: 1px;
-    height: 1px;
+    width: 12px;
+    height: 12px;
     background-color: #737373;
     border-radius: 50%;
-    padding: 12px;
     max-width: 100%;
     z-index: 10;
     position: relative;
@@ -60,6 +63,8 @@
 .rof-image {
   text-align: center;
   width: 100%;
+  height: 30vh;
+  display: block;
 }
 
 .rof-button-container {
@@ -80,7 +85,7 @@
     background-color: #F5F5F5;
     border: solid 1px #B0B0B0;;
     &-primary {
-      width: 138px;
+      width: 125px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -90,7 +95,7 @@
       background-color: #123262;
       flex-direction: row-reverse;
       &-review{
-        width: 138px;
+        width: 125px;
         height: 43px;
         font-size: 20px;
         font-style: normal;
@@ -106,7 +111,7 @@
      
     }
     &-disabled {
-      width: 138px;
+      width: 125px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -186,7 +191,7 @@
 }
 
 ::ng-deep.mat-button-toggle-button {
-   height: 90px !important;
+   height: 94px !important;
 }
   
 ::ng-deep.mat-button-toggle-label-content {
@@ -225,7 +230,7 @@
     font-weight: 400;
     line-height: normal;
     letter-spacing: -0.32px;
-    margin: 20px 0px;
+    margin-bottom: 24px;
   }
   &-body {
     font-size: 17px;
@@ -263,7 +268,8 @@
 
 .page-content{
   padding: 0 32px;
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: 'Noto Sans';
+  font-style: normal;
   font-size: 16px;
   font-weight: 400;
   line-height: normal;

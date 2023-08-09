@@ -1,1 +1,11 @@
 @import '../report-of-fire.component.scss';
+
+.page-content{
+    padding: 0 48px;
+}
+.rof-button-container{
+    gap: calc(100vw - 355px);
+    .rof-button{
+        width: 125px;
+    }
+}

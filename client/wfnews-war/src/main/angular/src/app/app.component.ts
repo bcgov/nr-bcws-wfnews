@@ -34,7 +34,8 @@ export const ICON = {
   CAMPING: 'camping',
   LARGER: 'larger',
   PHONE: 'phone',
-  ARROW_FORWARD: 'arrow-forward'
+  ARROW_FORWARD_ENABLED: 'arrow-forward-enabled',
+  ARROW_FORWARD_DISABLED: 'arrow-forward-disabled'
 };
 
 @Component({
@@ -383,8 +384,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/phone.svg")
     );
     this.matIconRegistry.addSvgIcon(
-      ICON.ARROW_FORWARD,
-      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-foward.svg")
+      ICON.ARROW_FORWARD_ENABLED,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-forward-enabled.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW_FORWARD_DISABLED,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-forward-disabled.svg")
     )
   }
 
