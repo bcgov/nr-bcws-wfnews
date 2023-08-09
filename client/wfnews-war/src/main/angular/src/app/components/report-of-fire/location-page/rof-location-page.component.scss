@@ -11,8 +11,7 @@
   height: 50vh;
 }
 
-::ng-deep .wfone-public-mobile-report-of-fire .body.page-fire-location {
-  .smk-map-frame {
+::ng-deep.smk-map-frame {
       .leaflet-pane.leaflet-marker-pane {
           .leaflet-marker-icon {
               &.rof-location {
@@ -38,6 +37,34 @@
               }
           }
       }
-  }
 }
+
+.photo-location {
+  position: absolute;
+  top: calc( 50% - 24px );
+  left: calc( 50% - 24px );
+  z-index: 1;
+  color: yellow;
+  text-shadow: 2px 2px 3px rgba(0,0,0,36%), -2px 2px 3px rgba(0,0,0,36%), 2px -2px 3px rgba(0,0,0,36%), -2px -2px 3px rgba(0,0,0,36%);
+  font-size: 48px;
+}
+
+.compass-rose {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+  z-index: 1;
+  background-image: url( '../../../../assets/images/north-arrow.png' );
+  background-repeat: no-repeat;
+  background-size: 50px;
+  width: 50px;
+  height: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  color: white;
+  font-size: 20px;
+  text-shadow: 2px 2px 3px rgba(0,0,0,36%), -2px 2px 3px rgba(0,0,0,36%), 2px -2px 3px rgba(0,0,0,36%), -2px -2px 3px rgba(0,0,0,36%);
+}
+
 

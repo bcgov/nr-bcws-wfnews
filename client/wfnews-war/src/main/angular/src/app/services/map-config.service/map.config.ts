@@ -208,11 +208,6 @@ export function reportOfFireMapConfig(
                 type: "scale",
                 enabled: false
             },
-            {
-                type: "bespoke",
-                enabled: false
-            }
         ],
-        layers: LayerConfig(mapServices, serviceStatus, appConfigService)
     }
 }

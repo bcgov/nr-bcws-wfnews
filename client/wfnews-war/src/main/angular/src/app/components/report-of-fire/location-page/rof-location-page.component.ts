@@ -52,18 +52,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
           this.mapConfig = [ cfg, view ]
           this.cdr.detectChanges()
         })
-      // this.appConfig.configEmitter.subscribe((config)=> {
-      //   const mapConfig = [];
-      //   this.mapConfigService.getMapConfig()
-      //     .then((mapState) => {
-      //       this.SMK = window['SMK'];
-      //       mapConfig.push(mapState);
-      //     })
-      //     .then(() => {
-      //       const deviceConfig = { viewer: {device: 'desktop' }};
-      //       this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
-      //     })
-      // })
   }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -91,53 +79,53 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     this.location = await this.commonUtilityService.getCurrentLocationPromise()
   }
 
-  initMap(smk: any) {
-    this.smkApi = new SmkApi(smk);
-  }
-
   // initMap(smk: any) {
   //   this.smkApi = new SmkApi(smk);
-
-  //   console.log('initMap')
-  //   const L = window[ 'L' ]
-  //   const T = window[ 'turf' ]
-
-  //   const loc = {
-  //       type: 'Point',
-  //       coordinates: [ this.location.coords.longitude, this.location.coords.latitude ]
-  //   };
-
-  //   smk.showFeature( 'location', loc, {
-  //       pointToLayer: function ( geojson, latlng ) {
-  //           return L.marker( latlng, {
-  //               icon: L.divIcon( {
-  //                   className:  'rof-location',
-  //                   iconSize:   [ 20, 20 ],
-  //                   iconAnchor: [ 14, 14 ]
-  //               } )
-  //           } )
-  //       }
-  //   } )
-  //   let map = smk.$viewer.map
-
-  //   map.on( "zoom", () => {
-  //       connector()
-  //   } )
-  //   map.on( "move", () => {
-  //       connector()
-  //   } )
-
-  //   let connector = () => {
-  //       let photo = map.getCenter(),
-  //           loc = [ this.location.coords.longitude, this.location.coords.latitude ] as LonLat
-
-  //       this.fireLocation = [ photo.lat, photo.lng ]
-
-  //       this.arrow( smk, loc, [ photo.lng, photo.lat ] )
-  //   }
-
-  //   connector()
   // }
+
+  initMap(smk: any) {
+    this.smkApi = new SmkApi(smk);
+
+    console.log('initMap')
+    const L = window[ 'L' ]
+    const T = window[ 'turf' ]
+
+    const loc = {
+        type: 'Point',
+        coordinates: [ this.location.coords.longitude, this.location.coords.latitude ]
+    };
+
+    smk.showFeature( 'location', loc, {
+        pointToLayer: function ( geojson, latlng ) {
+            return L.marker( latlng, {
+                icon: L.divIcon( {
+                    className:  'rof-location',
+                    iconSize:   [ 20, 20 ],
+                    iconAnchor: [ 14, 14 ]
+                } )
+            } )
+        }
+    } )
+    let map = smk.$viewer.map
+
+    map.on( "zoom", () => {
+        connector()
+    } )
+    map.on( "move", () => {
+        connector()
+    } )
+
+    let connector = () => {
+        let photo = map.getCenter(),
+            loc = [ this.location.coords.longitude, this.location.coords.latitude ] as LonLat
+
+        this.fireLocation = [ photo.lat, photo.lng ]
+
+        this.arrow( smk, loc, [ photo.lng, photo.lat ] )
+    }
+
+    connector()
+  }
 
   // start -----> end
   arrow( smk: any, start: LonLat, end: LonLat ) {
