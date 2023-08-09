@@ -7,6 +7,8 @@ import { CommonUtilityService } from '../../../services/common-utility.service';
 import { LatLon, LonLat } from "../../../../../src/app/services/wfnews-map.service/util";
 import { SmkApi } from "../../../../../src/app/utils/smk";
 import { HttpClient } from "@angular/common/http";
+import { AppConfigService } from '@wf1/core-ui';
+
 
 @Component({
   selector: 'rof-location-page',
@@ -30,6 +32,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
     private injector: Injector,
+    private appConfig: AppConfigService,
+
   ) {
     super()
   }
@@ -48,6 +52,18 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
           this.mapConfig = [ cfg, view ]
           this.cdr.detectChanges()
         })
+      // this.appConfig.configEmitter.subscribe((config)=> {
+      //   const mapConfig = [];
+      //   this.mapConfigService.getMapConfig()
+      //     .then((mapState) => {
+      //       this.SMK = window['SMK'];
+      //       mapConfig.push(mapState);
+      //     })
+      //     .then(() => {
+      //       const deviceConfig = { viewer: {device: 'desktop' }};
+      //       this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+      //     })
+      // })
   }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {
