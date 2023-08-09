@@ -2,12 +2,14 @@
 
 ::ng-deep.mat-button-toggle-label-content {
   line-height: 35px !important;
-  padding-bottom: 1.5rem !important
+  padding-bottom: 10px !important;
 }
 
 
 .btn-highlight {
-  background-color: #e0e0e0 !important;
+  border-radius: 8px;
+  border: 3px solid #4169A4;
+  background-color: #DFE5EE !important;
 }
 
 .btn-icon {
