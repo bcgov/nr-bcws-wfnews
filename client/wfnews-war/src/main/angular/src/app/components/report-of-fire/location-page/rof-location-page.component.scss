@@ -47,6 +47,10 @@
   display: none !important;
 }
 
+:host ::ng-deep .smk-tool-BespokeTool--full-extent {
+  display: none !important;
+}
+
 :host ::ng-deep .sticky-widget {
   display: none !important;
 }
