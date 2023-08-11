@@ -208,6 +208,15 @@ export function reportOfFireMapConfig(
                 type: "scale",
                 enabled: false
             },
+            {
+                type: "bespoke",
+                instance: "full-screen",
+                title: "Full Screen",
+                position: "toolbar",
+                enabled: true,
+                order: 1,
+                icon: "open_in_full"
+            },
         ],
     }
 }

@@ -39,6 +39,31 @@
       }
 }
 
+:host ::ng-deep .smk-tool-BespokeTool--hide-list {
+    display: none !important;
+  }
+  
+:host ::ng-deep .smk-tool-BespokeTool--show-list {
+  display: none !important;
+}
+
+:host ::ng-deep .sticky-widget {
+  display: none !important;
+}
+
+:host ::ng-deep .smk-actionbar{
+  top: unset !important;
+  bottom:0 !important;
+  right: 0 !important;
+}
+
+:host ::ng-deep .smk-actionbar{
+  top: unset !important;
+  bottom:0 !important;
+  right: 0 !important;
+}
+
+
 .photo-location {
   position: absolute;
   top: calc( 50% - 24px );

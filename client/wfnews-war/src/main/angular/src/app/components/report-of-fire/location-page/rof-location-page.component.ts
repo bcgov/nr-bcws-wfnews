@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Injector, AfterViewInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Injector, AfterViewInit, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MapConfigService } from '../../../services/map-config.service';
@@ -7,7 +7,6 @@ import { CommonUtilityService } from '../../../services/common-utility.service';
 import { LatLon, LonLat } from "../../../../../src/app/services/wfnews-map.service/util";
 import { SmkApi } from "../../../../../src/app/utils/smk";
 import { HttpClient } from "@angular/common/http";
-import { AppConfigService } from '@wf1/core-ui';
 
 
 @Component({
@@ -31,8 +30,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     private mapConfigService: MapConfigService,        
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
-    private injector: Injector,
-    private appConfig: AppConfigService,
+    private elementRef: ElementRef
 
   ) {
     super()
@@ -52,7 +50,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
           this.mapConfig = [ cfg, view ]
           this.cdr.detectChanges()
         })
-  }
+        const mapView = this.elementRef.nativeElement.querySelector('#mapView');
+      }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     await this.useMyCurrentLocation()
@@ -69,6 +68,11 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     return true
   }
 
+  toggleFullScreen(): void {
+    const mapContainer = this.elementRef.nativeElement.querySelector('#mapView');
+    mapContainer.requestFullscreen();
+  }
+
   setLocation () {
     // the map should trigger this once configured
     this.reportOfFire.estimatedDistance = 0;
@@ -78,10 +82,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   async useMyCurrentLocation() {
     this.location = await this.commonUtilityService.getCurrentLocationPromise()
   }
-
-  // initMap(smk: any) {
-  //   this.smkApi = new SmkApi(smk);
-  // }
 
   initMap(smk: any) {
     this.smkApi = new SmkApi(smk);
