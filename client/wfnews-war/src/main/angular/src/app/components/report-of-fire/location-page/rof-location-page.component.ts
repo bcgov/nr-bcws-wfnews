@@ -25,6 +25,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   fireLocation?: LatLon;
   smkApi: SmkApi;
   http: HttpClient
+  fullScreenMode: boolean = false;
 
   public constructor(
     private mapConfigService: MapConfigService,        
@@ -69,8 +70,13 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   toggleFullScreen(): void {
+    this.fullScreenMode = !this.fullScreenMode;
     const mapContainer = this.elementRef.nativeElement.querySelector('#mapView');
-    mapContainer.requestFullscreen();
+    if (this.fullScreenMode){
+      mapContainer.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
   }
 
   setLocation () {
@@ -125,6 +131,10 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     }
 
     connector()
+  }
+
+  confirmLocation() {
+    this.reportOfFire[this.updateAttribute] = this.fireLocation;
   }
 
   // start -----> end

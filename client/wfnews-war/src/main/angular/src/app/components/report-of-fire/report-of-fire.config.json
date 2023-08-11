@@ -57,6 +57,7 @@
       "message": "Center the yellow crosshairs on the location of the fire by moving the map with your finger. If you can’t locate the fire, tap skip.",
       "allowSkip": true,
       "allowExit": true,
+      "updateAttribute": "fireLocation",
       "showProgress": true,
       "previousId": "callback-page",
       "nextId": "photo-page"
