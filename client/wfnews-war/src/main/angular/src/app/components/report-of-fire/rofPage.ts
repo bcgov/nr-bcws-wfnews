@@ -1,4 +1,4 @@
-import { Component } from "@angular/core"
+import { AfterViewInit, Component } from "@angular/core"
 import { ReportOfFire } from "./reportOfFireModel"
 import {v4 as uuidv4} from 'uuid';
 
