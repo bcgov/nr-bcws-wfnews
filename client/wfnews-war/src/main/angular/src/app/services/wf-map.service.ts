@@ -116,6 +116,10 @@ export class WFMapService {
                     zoomToProvince()
                 });
 
+                SMK.HANDLER.set('BespokeTool--full-screen', 'triggered', (smk, tool) => {
+                    option.fullScreen.emit();
+                });
+
                 return SMK.INIT({
                     baseUrl: self.smkBaseUrl,
                     ...option
@@ -123,7 +127,7 @@ export class WFMapService {
             } );
     }
 
-    private patch(): Promise<any> {
+    public patch(): Promise<any> {
         const self = this;
 
         const include = window[ 'include' ];

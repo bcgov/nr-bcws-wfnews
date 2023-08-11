@@ -379,7 +379,7 @@ export const DATE_FORMATS = {
         LocalStorageService,
         WatchlistService,
         PointIdService,
-        CanDeactivateGuard
+        CanDeactivateGuard,
     ],
     bootstrap: [
         AppComponent

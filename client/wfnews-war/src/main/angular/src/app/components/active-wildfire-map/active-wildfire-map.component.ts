@@ -9,7 +9,7 @@ import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 
@@ -123,7 +123,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         })
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
-
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
         });
     });
