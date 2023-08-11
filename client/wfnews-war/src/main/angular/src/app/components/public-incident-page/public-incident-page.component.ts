@@ -171,7 +171,7 @@ export class PublicIncidentPage implements OnInit {
               issuingAgency: 'Pending',
               preOcCode: 'NA',
               emrgOAAsysID: 0,
-              uri: null,
+              uri: uri.externalUri,
               centroid: [0, 0]
             })
           }

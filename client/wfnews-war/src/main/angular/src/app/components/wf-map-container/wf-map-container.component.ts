@@ -19,6 +19,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
   @Output() mapInitialized = new EventEmitter<any>();
   @Output() toggleAccordion = new EventEmitter<any>();
+  @Output() fullScreen = new EventEmitter<any>();
 
   @ViewChild('mapContainer') mapContainer;
 
@@ -67,12 +68,12 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         id: mapIndex,
         containerSel: self.mapContainer.nativeElement,
         config: mapConfig,
-        toggleAccordion: self.toggleAccordion
+        toggleAccordion: self.toggleAccordion,
+        fullScreen: self.fullScreen
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
-
         const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-        hideListButtonElement[0]["style"]["display"] = 'none';
+        // hideListButtonElement[0]["style"]["display"] = 'none';
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
