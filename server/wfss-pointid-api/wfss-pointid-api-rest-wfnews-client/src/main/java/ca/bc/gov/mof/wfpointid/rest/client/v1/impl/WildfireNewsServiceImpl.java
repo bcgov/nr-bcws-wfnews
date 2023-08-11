@@ -35,7 +35,7 @@ import ca.bc.gov.nrs.common.rest.resource.PagedResource;
 
 public class WildfireNewsServiceImpl extends BaseRestServiceClient implements WildfireNewsService {
 
-	private static final String INCIDENTS_PATH = "/publicPublishedIncident/";
+	private static final String INCIDENTS_PATH = "/publicPublishedIncident";
 	private static final int PAGE_SIZE = 20;
 
 	private static final Logger logger = LoggerFactory.getLogger(WildfireNewsServiceImpl.class);
