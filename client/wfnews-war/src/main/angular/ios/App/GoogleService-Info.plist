@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>517576537300-qps2itm7617d6t4nnlkq2usot37pnevn.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.517576537300-qps2itm7617d6t4nnlkq2usot37pnevn</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDhOOTycP9mFxvMqOOWWiLcr3JCAHZud3I</string>
+	<key>GCM_SENDER_ID</key>
+	<string>517576537300</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>ca.bc.gov.WildfireInformation</string>
+	<key>PROJECT_ID</key>
+	<string>wfnews-notifications-dev</string>
+	<key>STORAGE_BUCKET</key>
+	<string>wfnews-notifications-dev.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:517576537300:ios:261053717ffcfb55dc3741</string>
+</dict>
+</plist>
