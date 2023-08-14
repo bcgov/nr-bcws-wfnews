@@ -9,11 +9,16 @@ import { ReportOfFire } from "../reportOfFireModel";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoFPhotoPage extends RoFPage {
+  public disableNext: boolean = true;
   public constructor() {
     super()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
+  }
+
+  takePhoto(){
+    console.log('Open Camera');
   }
 }
