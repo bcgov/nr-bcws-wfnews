@@ -35,6 +35,10 @@ export interface LocationNotification {
     fireYear?: number
 }
 
+export interface ReportOfFireNotification {
+    notification: string
+}
+
 const UPDATE_AFTER_INACTIVE_MILLIS = 1000 * 60 // 1 minute
 const REFRESH_INTERVAL_ACTIVE_MILLIS = 5 * 1000 * 60 // 5 minutes
 
@@ -56,9 +60,11 @@ export class CapacitorService {
     updateMainMapLayers = new EventEmitter();
     currentHeadingPromise: Promise<CompassHeading>
     locationNotifications = new EventEmitter<LocationNotification>()
+    rofNotifications = new EventEmitter<ReportOfFireNotification>()
     inactiveStart: number;
     refreshTimer
     locationNotificationsDelay = 5000
+    rofNotificationsDelay = 5000
     notificationSnackbarPromise = Promise.resolve()
     registeredForNotifications = false
 
@@ -189,7 +195,7 @@ export class CapacitorService {
         PushNotifications.addListener('pushNotificationReceived', (notification) => {
 
             console.log('pushNotificationReceived', notification)
-            this.handleLocationPushNotification( notification )
+            this.handleRofPushNotification( notification )
         }).catch((error) => {
             console.error(error);
           });
@@ -217,6 +223,39 @@ export class CapacitorService {
 
         await PushNotifications.register();
         return true;
+    }
+
+    handleRofPushNotification( notification: PushNotificationSchema ) {
+
+        this.notificationSnackbarPromise = this.notificationSnackbarPromise.then( () => {
+            return new Promise( ( res, rej ) => {
+                let sb = this.showNotificationSnackbar( notification.title, notification.body )
+
+                sb.onAction().subscribe( () => {
+                    this.emitRofNotification( notification.data )
+                } )
+
+                sb.afterDismissed().subscribe( () => {
+                    res()
+                } )
+            } )
+        } )
+
+        return true
+    }
+
+    emitRofNotification( data ) {
+        setTimeout(() => {
+            try {             
+
+                this.rofNotifications.emit({notification: data})
+
+                this.rofNotificationsDelay = 0
+            }
+            catch (e) {
+                console.warn('push notification not handled:', e, data)
+            }
+        }, this.rofNotificationsDelay );
     }
 
     handleLocationPushNotification( notification: PushNotificationSchema ) {
