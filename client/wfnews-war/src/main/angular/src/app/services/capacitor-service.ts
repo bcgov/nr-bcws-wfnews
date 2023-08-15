@@ -36,7 +36,8 @@ export interface LocationNotification {
 }
 
 export interface ReportOfFireNotification {
-    notification: string
+    title: string
+    body: string
 }
 
 const UPDATE_AFTER_INACTIVE_MILLIS = 1000 * 60 // 1 minute
@@ -232,7 +233,7 @@ export class CapacitorService {
                 let sb = this.showNotificationSnackbar( notification.title, notification.body )
 
                 sb.onAction().subscribe( () => {
-                    this.emitRofNotification( notification.data )
+                    this.emitRofNotification( notification.title, notification.body )
                 } )
 
                 sb.afterDismissed().subscribe( () => {
@@ -244,16 +245,16 @@ export class CapacitorService {
         return true
     }
 
-    emitRofNotification( data ) {
+    emitRofNotification( title, body ) {
         setTimeout(() => {
             try {             
 
-                this.rofNotifications.emit({notification: data})
+                this.rofNotifications.emit({ title, body })
 
                 this.rofNotificationsDelay = 0
             }
             catch (e) {
-                console.warn('push notification not handled:', e, data)
+                console.warn('push notification not handled:', e, title + ': ' + body)
             }
         }, this.rofNotificationsDelay );
     }
