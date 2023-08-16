@@ -68,15 +68,16 @@
 }
 
 .rof-button-container {
+  justify-content: space-between;
   display: flex;
   height: 43px;
   padding: 8px 0px;
   align-items: center;
-  gap: calc(100vw - 324px);
+  width: calc(100% - 64px);
   bottom: 4em;
   position: fixed;
   .rof-button {
-    width: 138px;
+    padding:0 32px;
     height: 43px;
     font-size: 20px;
     font-style: normal;
@@ -85,7 +86,7 @@
     background-color: #F5F5F5;
     border: solid 1px #B0B0B0;;
     &-primary {
-      width: 125px;
+      padding:0 32px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -95,7 +96,7 @@
       background-color: #123262;
       flex-direction: row-reverse;
       &-review{
-        width: 125px;
+        padding:0 32px;
         height: 43px;
         font-size: 20px;
         font-style: normal;
@@ -105,13 +106,10 @@
         background-color: #123262;
         flex-direction: none;;
       }
-      .mat-icon{
-        margin-right: 0px;
-      }
      
     }
     &-disabled {
-      width: 125px;
+      padding:0 32px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -131,9 +129,8 @@
   flex-flow: wrap;
   display: flex;
   overflow-y: auto;
-  height: calc(100vh - 310px);
-  max-height: 509px;
-  gap: 20px;
+  max-height: 525px;
+  gap: 24px;
   .flex-button {
     width: calc(50vw - 30px);
     height: 81px;
@@ -285,4 +282,9 @@
 .divider{
   border-top: 1px solid #ccc;
   width: 100%;
+}
+
+.question-mark{
+  color:#548ADB;
+  margin-right: 8px;
 }
