@@ -2,8 +2,16 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
   <div class="button-group">
-    <button (click)="takePhoto()"><mat-icon svgIcon="camera"></mat-icon><span>Take Photo</span></button>
-    <button><mat-icon svgIcon="image"></mat-icon><span>Add from Photo Library</span></button>
+    <button (click)="takePhoto()" [disabled]="images.length === 3"><mat-icon [svgIcon]="images.length === 3 ? 'camera-grey' : 'camera' " ></mat-icon><span [class]="'photo-button' + (images.length === 3 ? '-disabled' : '-enabled')" >Take Photo</span></button>
+    <button><mat-icon [svgIcon]="images.length === 3 ? 'image-grey' : 'image' "></mat-icon><span [class]="'photo-button' + (images.length === 3 ? '-disabled' : '-enabled')">Add from Photo Library</span></button>
+  </div>
+  <div *ngIf="images && images.length" class="images">
+    <div *ngFor = "let image of images; let i = index" class="image-container" [class.first-image]="i === 0" [class.last-image]="i === images.length - 1">
+      <div class="image-wrapper">
+        <img [src]="image" class="image" (click)="switchImageFullScreen(i)">
+        <button class="delete-button" (click)="deleteImage(i)">x</button>
+      </div>
+    </div>
   </div>
   <div class="rof-button-container">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>

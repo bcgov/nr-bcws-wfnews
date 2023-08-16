@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 
 @Component({
   selector: 'rof-photo-page',
@@ -10,7 +11,14 @@ import { ReportOfFire } from "../reportOfFireModel";
 })
 export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
-  public constructor() {
+  public image : any;
+  captureUrl:any;
+  isCaptured: boolean;
+  images:string[] = [];
+  isFullScreen: boolean = false;
+  public constructor(
+    private changeDetector: ChangeDetectorRef,
+    private el: ElementRef) {
     super()
   }
 
@@ -18,7 +26,47 @@ export class RoFPhotoPage extends RoFPage {
     super.initialize(data, index, reportOfFire)
   }
 
-  takePhoto(){
-    console.log('Open Camera');
+  async takePhoto(){
+    this.image = await Camera.getPhoto({
+      quality: 100,
+      allowEditing: false,
+      resultType: CameraResultType.DataUrl,
+      source: CameraSource.Camera,
+      saveToGallery: false,
+      webUseInput: true,
+      width: undefined
+    }).then((url) => {
+      this.captureUrl = url.dataUrl;
+      this.isCaptured = true
+      this.images.push(this.captureUrl)
+      this.changeDetector.detectChanges()
+      })
+  }
+
+  deleteImage(index:number) {
+    if(index >= 0 && index < this.images.length) {
+      this.images.splice(index,1);
+    }
+  }
+
+  switchImageFullScreen(index: number) {
+    if(!this.isFullScreen){
+      const imgElement = this.el.nativeElement.querySelectorAll('img')[index];
+      if (imgElement) {
+        if (imgElement.requestFullscreen) {
+          imgElement.requestFullscreen();
+        } else if (imgElement.mozRequestFullScreen) {
+          imgElement.mozRequestFullScreen();
+        } else if (imgElement.webkitRequestFullscreen) {
+          imgElement.webkitRequestFullscreen();
+        } else if (imgElement.msRequestFullscreen) {
+          imgElement.msRequestFullscreen();
+        }
+      }
+    }
+    else{
+      document.exitFullscreen();
+    }
+    this.isFullScreen = !this.isFullScreen;
   }
 }

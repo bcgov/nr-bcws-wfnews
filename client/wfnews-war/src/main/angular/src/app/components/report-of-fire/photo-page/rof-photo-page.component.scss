@@ -28,3 +28,50 @@
         letter-spacing: -0.38px;
     }
 }
+
+.images{
+    display: flex;
+    overflow-x: auto;
+    .image-container{
+        display: inline-block;
+        margin: 24px 10px;
+    }
+
+    .first-image {
+        margin-left: 0; /* Removes left margin for the first image */
+    }
+      
+    .last-image {
+        margin-right: 0; /* Removes right margin for the last image */
+    }
+
+    .image-wrapper {
+        position: relative;
+    }
+    
+    .image{
+        height: 200px;
+    }
+    
+    .delete-button {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background-color: #E6E6E6;
+        color: #242424;
+        border: none;
+        border-radius: 81.579px;
+        padding: 5px 8px;
+        cursor: pointer;
+    }
+
+}
+
+.photo-button{
+    &-disabled {
+        color: #939393 !important;
+    }
+    &-enabled {
+       color: #000 !important;
+    }
+}
