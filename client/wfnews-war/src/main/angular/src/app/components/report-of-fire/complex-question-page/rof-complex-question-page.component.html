@@ -13,7 +13,7 @@
             <img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
             <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</button>
         </div>
-        <mat-button-toggle style="width: 100%; box-sizing: border-box;" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><span class="question-mark">?</span>I'm not sure</mat-button-toggle>
+        <mat-button-toggle #notSureButton class="flex-button" style="width: 100%; box-sizing: border-box;" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><span class="question-mark">?</span>I'm not sure</mat-button-toggle>
       </div>
 
       <div class="rof-button-container">
