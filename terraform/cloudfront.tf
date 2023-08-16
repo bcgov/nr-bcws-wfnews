@@ -720,30 +720,8 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
-    default_ttl            = 300
-    max_ttl                = 86400
-  }
-
-  ordered_cache_behavior {
-    path_pattern    = "/static/*"
-    allowed_methods = ["GET", "HEAD"]
-    cached_methods  = ["GET", "HEAD"]
-
-    target_origin_id = "wfone_notifications_api_${var.target_env}"
-
-    forwarded_values {
-      query_string = false
-      headers      = ["Origin"]
-
-      cookies {
-        forward = "none"
-      }
-    }
-
-    viewer_protocol_policy = "redirect-to-https"
-    min_ttl                = 0
-    default_ttl            = 300
-    max_ttl                = 86400
+    default_ttl            = 0
+    max_ttl                = 0
   }
 
   price_class = "PriceClass_100"
