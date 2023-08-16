@@ -48,7 +48,54 @@
       "updateAttribute": ["fullName", "phoneNumber"],
       "showProgress": false,
       "previousId": "callback-page",
-      "nextId": "location-page"
+      "nextId": "distance-page"
+    },
+    {
+      "id": "distance-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "How far away is the smoke?",
+      "message": "Choose the option you think is most accurate. If you’re not sure, feel free to select all the options you think might apply or select “I’m not sure”.",
+      "isDistancePage": true,
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "allowMultiSelect": false,
+      "updateAttribute": "estimatedDistance",
+      "showProgress": true,
+      "previousId": "contact-page",
+      "nextId": "location-page",
+      "buttons": [
+        {
+          "label": "50m—200m",
+          "value": "50m—200m",
+          "icon": ""
+        },
+        {
+          "label": "200m—1 km",
+          "value": "200m—1 km",
+          "icon": ""
+        },
+        {
+          "label": "1—5 km",
+          "value": "1—5 km",
+          "icon": ""
+        },
+        {
+          "label": "5—10 km",
+          "value": "5—10 km",
+          "icon": ""
+        },
+        {
+          "label": "10+ km",
+          "value": "10+ km",
+          "icon": ""
+        },
+        {
+          "label": "I'm not sure",
+          "value": "skip",
+          "icon": ""
+        }
+      ]
     },
     {
       "id": "location-page",
@@ -59,7 +106,7 @@
       "allowExit": true,
       "updateAttribute": "fireLocation",
       "showProgress": true,
-      "previousId": "callback-page",
+      "previousId": "distance-page",
       "nextId": "photo-page"
     },
     {

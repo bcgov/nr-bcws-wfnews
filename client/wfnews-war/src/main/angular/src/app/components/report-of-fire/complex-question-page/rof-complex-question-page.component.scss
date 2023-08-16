@@ -30,3 +30,13 @@
   width: 100%;
   flex: auto;
 }
+
+.distance-class {
+    width: auto;
+    flex: 0 0 calc(50% - 12px);
+    max-width: calc(50% - 12px);
+    height: fit-content;
+    .flex-button{
+      white-space: nowrap;
+    }
+}
