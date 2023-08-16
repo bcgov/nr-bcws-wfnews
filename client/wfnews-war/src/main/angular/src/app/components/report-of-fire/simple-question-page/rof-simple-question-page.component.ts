@@ -11,6 +11,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 export class RoFSimpleQuestionPage extends RoFPage {
   public allowIDontKnowButton: boolean
   public localVal: any;
+  public optionSelected: string;
 
   public constructor() {
     super()
@@ -22,8 +23,18 @@ export class RoFSimpleQuestionPage extends RoFPage {
   }
 
   onValChange (value) {
-    if (value && this.updateAttribute && this.updateAttribute !== '') {
+    this.optionSelected = value;
+    if (value && this.updateAttribute && this.updateAttribute !== "") {
       this.reportOfFire[this.updateAttribute] = value;
+    }
+  }
+
+  processToNext(){
+    if( (this.id === 'response-page' || this.id === 'infrastructure-page') && this.optionSelected !== 'yes'){
+      this.skip()
+    }
+    else{
+      this.next()
     }
   }
 }
