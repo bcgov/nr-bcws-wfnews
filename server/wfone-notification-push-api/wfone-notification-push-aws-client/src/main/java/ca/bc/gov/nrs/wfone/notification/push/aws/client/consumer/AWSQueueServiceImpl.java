@@ -28,9 +28,7 @@ public class AWSQueueServiceImpl implements QueueService {
 	private AWSConfig awsConfig;
 
 	public AWSQueueServiceImpl(AWSConfig awsConfig) {
-		AWSCredentials credentials = DefaultAWSCredentialsProviderChain.getInstance().getCredentials();
-		this.s3Client = AmazonS3ClientBuilder.standard().withCredentials(credentials)
-				.withRegion(Regions.CA_CENTRAL_1).build();
+		this.s3Client = AmazonS3ClientBuilder.standard().withRegion(Regions.CA_CENTRAL_1).build();
 
 		this.awsConfig = awsConfig;
 
