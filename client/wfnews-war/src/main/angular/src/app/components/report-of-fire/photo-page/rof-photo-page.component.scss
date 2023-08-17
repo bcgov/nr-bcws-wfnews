@@ -1,1 +1,78 @@
 @import '../report-of-fire.component.scss';
+
+.button-group{
+    display: flex;
+    width: 326px;
+    align-items: center;
+    gap: 24px;
+    button{
+        height: 132px;
+        display: flex;
+        padding: 12px;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        flex: 1 0 0;
+        align-self: stretch;  
+        border-radius: 8px;
+        background: #F1F1F1;
+        border-width: inherit;
+    }
+    span{
+        color: #000;
+        font-family: 'Noto Sans';
+        font-size: 19px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        letter-spacing: -0.38px;
+    }
+}
+
+.images{
+    display: flex;
+    overflow-x: auto;
+    .image-container{
+        display: inline-block;
+        margin: 24px 10px;
+    }
+
+    .first-image {
+        margin-left: 0; /* Removes left margin for the first image */
+    }
+      
+    .last-image {
+        margin-right: 0; /* Removes right margin for the last image */
+    }
+
+    .image-wrapper {
+        position: relative;
+    }
+    
+    .image{
+        height: 200px;
+    }
+    
+    .delete-button {
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        background-color: #E6E6E6;
+        color: #242424;
+        border: none;
+        border-radius: 81.579px;
+        padding: 5px 8px;
+        cursor: pointer;
+    }
+
+}
+
+.photo-button{
+    &-disabled {
+        color: #939393 !important;
+    }
+    &-enabled {
+       color: #000 !important;
+    }
+}
