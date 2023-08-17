@@ -10,7 +10,7 @@ resource "aws_s3_bucket" "wfnews_log_bucket" {
   force_destroy = true
 }
 
-//Need to upload artifacts to bucket before running terraform
+//Need to manually create bucket before first deployment in given environment, as lambdas must be uploaded before terraform runs.
 data "aws_s3_bucket" "wfnews_lambda" {
   bucket        = "wfnews-lambda-${var.target_env}"
 }
