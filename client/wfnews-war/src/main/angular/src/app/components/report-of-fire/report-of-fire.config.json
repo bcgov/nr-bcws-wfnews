@@ -67,32 +67,32 @@
       "buttons": [
         {
           "label": "50m—200m",
-          "value": "50m—200m",
+          "value": "50",
           "icon": ""
         },
         {
           "label": "200m—1 km",
-          "value": "200m—1 km",
+          "value": "200",
           "icon": ""
         },
         {
           "label": "1—5 km",
-          "value": "1—5 km",
+          "value": "1000",
           "icon": ""
         },
         {
           "label": "5—10 km",
-          "value": "5—10 km",
+          "value": "5000",
           "icon": ""
         },
         {
           "label": "10+ km",
-          "value": "10+ km",
+          "value": "10000",
           "icon": ""
         },
         {
           "label": "I'm not sure",
-          "value": "skip",
+          "value": "0",
           "icon": ""
         }
       ]
