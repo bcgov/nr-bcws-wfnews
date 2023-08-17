@@ -12,7 +12,6 @@ import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button
 export class RoFComplexQuestionPage extends RoFPage {
   public allowIDontKnowButton: boolean;
   public allowMultiSelect: boolean;
-  public isDistancePage: boolean
   public disableNext: boolean = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
@@ -28,7 +27,6 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.allowIDontKnowButton = data.allowIDontKnowButton;
     this.allowMultiSelect = data.allowMultiSelect;
     this.buttons = data.buttons;
-    this.isDistancePage = data.isDistancePage;
   }
 
   onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {
