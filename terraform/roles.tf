@@ -220,6 +220,31 @@ resource "aws_iam_role_policy" "wfnews_task_execution_sns_policy" {
   EOF
 }
 
+resource "aws_iam_role_policy" "wfnews_task_execution_sqs_policy" {
+  name   = "wfnews_task_execution_sqs_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_ecs_task_execution_role.id
+  policy = <<-EOF
+  {
+    "Statement": [
+        {
+            "Action": [
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Effect": "Allow",
+            "Resource": ${aws_sqs_queue.queues[*].arn}
+        }
+    ],
+    "Version": "2012-10-17"
+}
+  EOF
+}
 
 # resource "aws_iam_role_policy" "wfnews_app_dynamodb" {
 #   name = "wfnews_app_dynamodb"
