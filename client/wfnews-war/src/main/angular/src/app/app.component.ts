@@ -37,7 +37,11 @@ export const ICON = {
   LARGER: 'larger',
   PHONE: 'phone',
   ARROW_FORWARD_ENABLED: 'arrow-forward-enabled',
-  ARROW_FORWARD_DISABLED: 'arrow-forward-disabled'
+  ARROW_FORWARD_DISABLED: 'arrow-forward-disabled',
+  CAMERA: 'camera',
+  IMAGE: 'image',
+  CAMERA_GREY: 'camera-grey',
+  IMAGE_GREY: 'image-grey',
 };
 
 @Component({
@@ -394,6 +398,22 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.ARROW_FORWARD_DISABLED,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-forward-disabled.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CAMERA,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/camera.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.IMAGE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/image.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CAMERA_GREY,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/camera-grey.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.IMAGE_GREY,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/image-grey.svg")
     )
   }
 
