@@ -1226,14 +1226,6 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
             value = aws_s3_bucket.wfnews-monitor-queue-bucket.bucket
           },
           {
-            name = "WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY",
-            value = var.WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY
-          },
-          {
-            name = "WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY",
-            value = var.WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY
-          },
-          {
             name = "FIREBASE_CONFIG_JSON",
             value = var.FIREBASE_CONFIG_JSON
           }

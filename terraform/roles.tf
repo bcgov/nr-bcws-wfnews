@@ -159,6 +159,7 @@ resource "aws_iam_role_policy" "wfnews_task_execution_bucket_policy" {
                 "${aws_s3_bucket.wfnews_upload_bucket.arn}/*",
                 "${aws_s3_bucket.wfnews_log_bucket.arn}",
                 "${aws_s3_bucket.wfnews_log_bucket.arn}/*",
+                "${aws_s3_bucket.wfnews-monitor-queue-bucket}/*",
                 "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"
             ]
         }

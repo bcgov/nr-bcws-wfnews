@@ -29,12 +29,6 @@ public class AwsClientSpringConfig {
 	@Value("${WFONE_PM_SQS_S3_BUCKET_NAME}")
 	private String awsSqsQueueS3BucketName;
 
-	@Value("${WFONE_PUSH_NOTIFICATION_AWS_ACCESS_KEY}")
-	private String awsAccessKey;
-
-	@Value("${WFONE_PUSH_NOTIFICATION_AWS_SECRET_KEY}")
-	private String awsSecretKey;
-
 	public AwsClientSpringConfig() {
 		logger.debug("<AwsClientSpringConfig");
 
@@ -56,8 +50,6 @@ public class AwsClientSpringConfig {
 		result.setSqsQueueReceiveWaitTimeSeconds(awsSqsQueueReceiveWaitTimeSeconds);
 		result.setMonitorAttribute(awsSqsQueueMonitorAttribute);
 		result.setS3BucketName(awsSqsQueueS3BucketName);
-		result.setAwsAccessKey(awsAccessKey);
-		result.setAwsSecretKey(awsSecretKey);
 
 		return result;
 	}
