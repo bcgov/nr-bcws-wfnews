@@ -65,7 +65,7 @@
     {
       "id": "photo-page",
       "type": "RoFPhotoPage",
-      "title": "Add Photos",
+      "title": "Add up to 3 photos",
       "message": "Photos help us identify the type of fire and find it faster. If you are no longer near the fire or can’t take a photo, tap skip.",
       "allowSkip": true,
       "allowExit": true,
