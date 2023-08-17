@@ -1,7 +1,7 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ViewChild } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
-import { MatButtonToggleChange } from "@angular/material/button-toggle";
+import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
 
 @Component({
   selector: 'rof-complex-question-page',
@@ -15,6 +15,8 @@ export class RoFComplexQuestionPage extends RoFPage {
   public disableNext: boolean = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
+  @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
+
 
   public constructor() {
     super()
@@ -47,6 +49,10 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
+      // this.highlightedButton.classList.remove("btn-highlight");
+      if(this.notSureButton) {
+        this.notSureButton.checked = false
+      }
       if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
         this.reportOfFire[this.updateAttribute].push(value)
       } else if (Array.isArray(this.reportOfFire[this.updateAttribute]) && this.reportOfFire[this.updateAttribute].includes(value)) {
