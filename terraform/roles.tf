@@ -238,7 +238,7 @@ resource "aws_iam_role_policy" "wfnews_task_execution_sqs_policy" {
                 "logs:PutLogEvents"
             ],
             "Effect": "Allow",
-            "Resource": ${aws_sqs_queue.queues[*].arn}
+            "Resource": "*"
         }
     ],
     "Version": "2012-10-17"
