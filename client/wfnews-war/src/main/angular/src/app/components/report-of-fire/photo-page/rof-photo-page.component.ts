@@ -11,7 +11,6 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 })
 export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
-  public image : any;
   captureUrl:any;
   isCaptured: boolean;
   images:string[] = [];
@@ -27,7 +26,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   async takePhoto(){
-    this.image = await Camera.getPhoto({
+    const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
@@ -41,6 +40,21 @@ export class RoFPhotoPage extends RoFPage {
       this.images.push(this.captureUrl)
       this.changeDetector.detectChanges()
       })
+  }
+
+  async addFromCameraRoll() {
+    const photos = await Camera.pickImages({
+      quality: 100,
+      limit: 3 - this.images.length
+    }).then((url) =>{
+      if(url.photos) {
+        url.photos = url.photos.splice(0,3-this.images.length)
+        url.photos.forEach(photo => {
+          this.images.push(photo.webPath)
+          this.changeDetector.detectChanges()
+        });
+      }
+    })
   }
 
   deleteImage(index:number) {
