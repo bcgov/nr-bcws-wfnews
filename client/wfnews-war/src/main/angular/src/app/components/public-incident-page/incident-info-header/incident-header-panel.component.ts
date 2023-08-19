@@ -4,7 +4,7 @@ import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { WatchlistService } from "../../../services/watchlist-service"
 import { convertToFireCentreDescription, convertFireNumber } from "../../../utils"
-import * as esri from "esri-leaflet";
+// import * as esri from "esri-leaflet";
 
 @Component({
   selector: 'incident-header-panel',
@@ -42,9 +42,25 @@ export class IncidentHeaderPanel implements AfterViewInit {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map);
     // wire esri leaflet
-    L.esri = esri;
+    //L.esri = esri;
+
+    let databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
+    L.tileLayer.wms(databcUrl, {
+      layers: 'WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
+      styles: '6885',
+      format: 'image/png',
+      transparent: true,
+      version: '1.1.1'
+    }).addTo(this.map);
+    L.tileLayer.wms(databcUrl, {
+      layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
+      styles: '1751_1752',
+      format: 'image/png',
+      transparent: true,
+      version: '1.1.1'
+    }).addTo(this.map);
     
-    L.esri.featureLayer({
+    /* L.esri.featureLayer({
       url: "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0",
       style: function (feature) {
         console.log(feature)
@@ -64,7 +80,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
       style: function (feature) {
         return {color: 'red', weight: 1 };
       }
-    }).addTo(this.map);
+    }).addTo(this.map); */
 
     const icon = L.icon({
       iconUrl: "/assets/images/local_fire_department.png",
