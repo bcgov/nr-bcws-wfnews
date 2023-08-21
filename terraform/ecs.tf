@@ -1062,7 +1062,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           },
           {
             name  = "WEBADE_OAUTH2_CHECK_TOKEN_URL"
-            value = var.WEBADE-OAUTH2_CHECK_TOKEN_URL
+            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CHECK_TOKEN_URL
           },
           {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
@@ -1074,11 +1074,11 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_CLIENT_URL",
-            value = var.WEBADE-OAUTH2_TOKEN_CLIENT_URL
+            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_CLIENT_URL
           },
           {
             name  = "WEBADE_OAUTH2_TOKEN_URL",
-            value = var.WEBADE-OAUTH2_TOKEN_URL
+            value = var.WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_URL
           },
           {
             name  = "WEBADE_OAUTH2_WFIM_CLIENT_ID",
