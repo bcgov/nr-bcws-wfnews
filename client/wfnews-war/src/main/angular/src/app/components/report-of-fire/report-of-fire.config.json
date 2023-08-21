@@ -36,7 +36,7 @@
       "showProgress": false,
       "previousId": "permissions-page",
       "nextId": "contact-page",
-      "skipId": "location-page"
+      "skipId": "distance-page"
     },
     {
       "id": "contact-page",
@@ -58,7 +58,7 @@
       "allowSkip": true,
       "allowExit": true,
       "allowIDontKnowButton": false,
-      "allowMultiSelect": true,
+      "allowMultiSelect": false,
       "updateAttribute": "estimatedDistance",
       "showProgress": true,
       "previousId": "contact-page",
