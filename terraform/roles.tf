@@ -246,33 +246,3 @@ resource "aws_iam_role_policy" "wfnews_task_execution_sqs_policy" {
   }
   EOF
 }
-
-# resource "aws_iam_role_policy" "wfnews_app_dynamodb" {
-#   name = "wfnews_app_dynamodb"
-#   role = aws_iam_role.wfnews_app_container_role.id
-
-#   policy = <<-EOF
-#   {
-#     "Version": "2012-10-17",
-#     "Statement": [
-#       {
-#           "Effect": "Allow",
-#           "Action": [
-#               "dynamodb:BatchGet*",
-#               "dynamodb:DescribeStream",
-#               "dynamodb:DescribeTable",
-#               "dynamodb:Get*",
-#               "dynamodb:Query",
-#               "dynamodb:Scan",
-#               "dynamodb:BatchWrite*",
-#               "dynamodb:CreateTable",
-#               "dynamodb:Delete*",
-#               "dynamodb:Update*",
-#               "dynamodb:PutItem"
-#           ],
-#           "Resource": "${aws_dynamodb_table.wfnews_table.arn}"
-#         }
-#     ]
-#   }
-#   EOF  
-# }
