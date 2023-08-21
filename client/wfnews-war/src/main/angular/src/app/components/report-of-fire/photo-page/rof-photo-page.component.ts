@@ -23,7 +23,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
-    super.initialize(data, index, reportOfFire)
+    super.initialize(data, index, reportOfFire);
   }
 
   async takePhoto(){
@@ -49,9 +49,9 @@ export class RoFPhotoPage extends RoFPage {
     }
   }
 
-  switchImageFullScreen(index: number) {
+  enterImageFullScreen(index: number) {
     if(!this.isFullScreen){
-      const imgElement = this.el.nativeElement.querySelectorAll('img')[index];
+      const imgElement = this.el.nativeElement.querySelectorAll('.imagecontainer')[index];
       if (imgElement) {
         if (imgElement.requestFullscreen) {
           imgElement.requestFullscreen();
@@ -63,10 +63,14 @@ export class RoFPhotoPage extends RoFPage {
           imgElement.msRequestFullscreen();
         }
       }
+      this.isFullScreen = !this.isFullScreen;
     }
-    else{
-      document.exitFullscreen();
+  }
+
+  exitImageFullScreen(){
+    if(this.isFullScreen){
+      document.exitFullscreen();  
+      this.isFullScreen = !this.isFullScreen;
     }
-    this.isFullScreen = !this.isFullScreen;
   }
 }

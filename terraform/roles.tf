@@ -159,6 +159,7 @@ resource "aws_iam_role_policy" "wfnews_task_execution_bucket_policy" {
                 "${aws_s3_bucket.wfnews_upload_bucket.arn}/*",
                 "${aws_s3_bucket.wfnews_log_bucket.arn}",
                 "${aws_s3_bucket.wfnews_log_bucket.arn}/*",
+                "${aws_s3_bucket.wfnews-monitor-queue-bucket.arn}/*",
                 "arn:aws:kms:*:${data.aws_caller_identity.current.account_id}:key/*"
             ]
         }
@@ -220,6 +221,31 @@ resource "aws_iam_role_policy" "wfnews_task_execution_sns_policy" {
   EOF
 }
 
+resource "aws_iam_role_policy" "wfnews_task_execution_sqs_policy" {
+  name   = "wfnews_task_execution_sqs_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_ecs_task_execution_role.id
+  policy = <<-EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "sqs:ListQueues",
+                "sqs:ReceiveMessage",
+                "sqs:DeleteMessage",
+                "sqs:SendMessage",
+                "sqs:GetQueueAttributes",
+                "logs:CreateLogGroup",
+                "logs:CreateLogStream",
+                "logs:PutLogEvents"
+            ],
+            "Resource": "*"
+        }
+    ]
+  }
+  EOF
+}
 
 # resource "aws_iam_role_policy" "wfnews_app_dynamodb" {
 #   name = "wfnews_app_dynamodb"
