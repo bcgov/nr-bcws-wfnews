@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Injector, AfterViewInit, ElementRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MapConfigService } from '../../../services/map-config.service';
@@ -41,7 +41,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
           let turf = window['turf'],
           loc = [ this.location.coords.longitude, this.location.coords.latitude],
-          dist = this.distanceEstimateMeter / 1000, //km
+          dist = this.reportOfFire.estimatedDistance ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
           head = this.currentHeading,
           photo = turf.destination( loc, dist, head ),
           poly = turf.circle( photo.geometry.coordinates, dist ),
@@ -149,7 +149,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     let arrowLen = T.length( arrowLine )
     let arrowLenPx = arrowLen * 1000 / view.metersPerPixel
 
-    if ( arrowLenPx >= 2 * ( lineStartOffsetPx + lineEndOffsetPx ) ) {
         let startOffset = view.metersPerPixel * lineStartOffsetPx / 1000
         let endOffset = view.metersPerPixel * lineEndOffsetPx / 1000
 
@@ -199,12 +198,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
                 }
             }
         } )
-    }
-    else {
-        smk.showFeature( 'arrow-head' )
-        smk.showFeature( 'arrow-line' )
-        smk.showFeature( 'arrow-line-shadow' )
-    }
   }
 }
 
