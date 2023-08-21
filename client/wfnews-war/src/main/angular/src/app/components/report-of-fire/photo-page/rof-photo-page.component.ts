@@ -11,7 +11,6 @@ import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 })
 export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
-  public image : any;
   captureUrl:any;
   isCaptured: boolean;
   images:string[] = [];
@@ -23,11 +22,11 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
-    super.initialize(data, index, reportOfFire)
+    super.initialize(data, index, reportOfFire);
   }
 
   async takePhoto(){
-    this.image = await Camera.getPhoto({
+    const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: false,
       resultType: CameraResultType.DataUrl,
@@ -43,15 +42,30 @@ export class RoFPhotoPage extends RoFPage {
       })
   }
 
+  async addFromCameraRoll() {
+    const photos = await Camera.pickImages({
+      quality: 100,
+      limit: 3 - this.images.length
+    }).then((url) =>{
+      if(url.photos) {
+        url.photos = url.photos.splice(0,3-this.images.length)
+        url.photos.forEach(photo => {
+          this.images.push(photo.webPath)
+          this.changeDetector.detectChanges()
+        });
+      }
+    })
+  }
+
   deleteImage(index:number) {
     if(index >= 0 && index < this.images.length) {
       this.images.splice(index,1);
     }
   }
 
-  switchImageFullScreen(index: number) {
+  enterImageFullScreen(index: number) {
     if(!this.isFullScreen){
-      const imgElement = this.el.nativeElement.querySelectorAll('img')[index];
+      const imgElement = this.el.nativeElement.querySelectorAll('.imagecontainer')[index];
       if (imgElement) {
         if (imgElement.requestFullscreen) {
           imgElement.requestFullscreen();
@@ -63,10 +77,14 @@ export class RoFPhotoPage extends RoFPage {
           imgElement.msRequestFullscreen();
         }
       }
+      this.isFullScreen = !this.isFullScreen;
     }
-    else{
-      document.exitFullscreen();
+  }
+
+  exitImageFullScreen(){
+    if(this.isFullScreen){
+      document.exitFullscreen();  
+      this.isFullScreen = !this.isFullScreen;
     }
-    this.isFullScreen = !this.isFullScreen;
   }
 }

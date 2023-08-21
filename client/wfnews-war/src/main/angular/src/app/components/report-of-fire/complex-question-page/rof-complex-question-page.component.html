@@ -5,7 +5,7 @@
 
       <!-- <mat-button-toggle-group> doesn't allow ngFor for whatever reason -->
       <div class="rof-toggle-group rof-complex-group" style="justify-content: space-between;">
-        <div *ngFor="let button of buttons" [ngClass]="{'condition-class': true, 'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect}">
+        <div *ngFor="let button of buttons" [ngClass]="{'condition-class': true, 'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}">
           <mat-button-toggle style="width: 100%; box-sizing: border-box;" class="flex-button" *ngIf="allowMultiSelect" (change)="onValChange(button.value, $event)" [value]="button.value">
             <img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" />
             <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}</mat-button-toggle>
