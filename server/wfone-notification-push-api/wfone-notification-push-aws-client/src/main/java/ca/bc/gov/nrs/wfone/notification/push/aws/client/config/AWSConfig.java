@@ -6,8 +6,6 @@ public class AWSConfig {
 	private Integer sqsQueueReceiveWaitTimeSeconds;
 	private String monitorAttribute;
 	private String s3BucketName;
-	private String awsAccessKey;
-	private String awsSecretKey;
 
 	public String getSqsQueueUrl() {
 		return sqsQueueUrl;
@@ -47,21 +45,5 @@ public class AWSConfig {
 
 	public void setS3BucketName(String s3BucketName) {
 		this.s3BucketName = s3BucketName;
-	}
-
-	public String getAwsAccessKey() {
-		return awsAccessKey;
-	}
-
-	public void setAwsAccessKey(String awsAccessKey) {
-		this.awsAccessKey = awsAccessKey;
-	}
-
-	public String getAwsSecretKey() {
-		return awsSecretKey;
-	}
-
-	public void setAwsSecretKey(String awsSecretKey) {
-		this.awsSecretKey = awsSecretKey;
 	}
 }
