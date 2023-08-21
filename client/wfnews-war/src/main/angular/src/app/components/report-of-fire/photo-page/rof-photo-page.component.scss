@@ -36,6 +36,15 @@
     .image-container{
         display: inline-block;
         margin: 24px 10px;
+        .closebutton{
+            color:#FFF;
+            font-size: 17px;
+            font-style: normal;
+            font-weight: 400;
+            position:absolute;
+            right:26px;
+            top:26px;
+        }
     }
 
     .first-image {
@@ -52,6 +61,21 @@
     
     .image{
         height: 200px;
+
+        &-fullScreen {
+            object-fit: contain;
+            user-select: text;
+            box-sizing: border-box !important;
+            min-width: 0px !important;
+            max-width: none !important;
+            min-height: 0px !important;
+            max-height: none !important;
+            width: 100% !important;
+            height: 100% !important;
+            transform: none !important;
+            inset: 0px !important;
+            margin: 0px !important;
+        }
     }
     
     .delete-button {

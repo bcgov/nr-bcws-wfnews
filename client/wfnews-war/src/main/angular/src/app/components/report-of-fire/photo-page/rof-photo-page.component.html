@@ -8,7 +8,10 @@
   <div *ngIf="images && images.length" class="images">
     <div *ngFor = "let image of images; let i = index" class="image-container" [class.first-image]="i === 0" [class.last-image]="i === images.length - 1">
       <div class="image-wrapper">
-        <img [src]="image" class="image" (click)="switchImageFullScreen(i)">
+        <div class="imagecontainer">
+          <span *ngIf="isFullScreen" class="closebutton" (click)="exitImageFullScreen()">Close</span>
+          <img [src]="image" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
+        </div>
         <button class="delete-button" (click)="deleteImage(i)">x</button>
       </div>
     </div>
