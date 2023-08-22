@@ -9,7 +9,6 @@
     "baseUrl": "./src",
     "paths": {
       "@app/*": ["app/*"],
-      // "@services/*": ["app/services/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": false,
