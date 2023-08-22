@@ -1,12 +1,12 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
-import { MapConfigService } from '../../../services/map-config.service';
-import { CompassHeading } from "../../../services/capacitor-service";
-import { CommonUtilityService } from '../../../services/common-utility.service';
-import { LatLon, LonLat } from "../../../../../src/app/services/wfnews-map.service/util";
-import { SmkApi } from "../../../../../src/app/utils/smk";
 import { HttpClient } from "@angular/common/http";
+import { CompassHeading } from "@app/services/capacitor-service";
+import { LatLon, LonLat } from "@app/services/wfnews-map.service/util";
+import { SmkApi } from "@app/utils/smk";
+import { MapConfigService } from "@app/services/map-config.service";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 
 @Component({

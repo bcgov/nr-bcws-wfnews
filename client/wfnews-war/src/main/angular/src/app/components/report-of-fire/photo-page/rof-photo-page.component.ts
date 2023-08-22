@@ -2,8 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } fro
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { CommonUtilityService } from "../../../../../src/app/services/common-utility.service";
-
+import { CommonUtilityService } from "@app/services/common-utility.service";
 @Component({
   selector: 'rof-photo-page',
   templateUrl: './rof-photo-page.component.html',
