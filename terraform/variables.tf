@@ -151,7 +151,7 @@ variable "wfone_notifications_api_cpu_units" {
 variable "wfone_notifications_api_memory" {
   description = "server memory to provision (in MiB)"
   type        = number
-  default     = 1024
+  default     = 2048
 }
 
 variable "wfone_notifications_api_port" {
