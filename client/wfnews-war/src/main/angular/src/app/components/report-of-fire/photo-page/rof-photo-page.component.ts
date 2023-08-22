@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } fro
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { CommonUtilityService } from "../../../../../src/app/services/common-utility.service";
 
 @Component({
   selector: 'rof-photo-page',
@@ -17,7 +18,8 @@ export class RoFPhotoPage extends RoFPage {
   isFullScreen: boolean = false;
   public constructor(
     private changeDetector: ChangeDetectorRef,
-    private el: ElementRef) {
+    private el: ElementRef,
+    private commonUtilityService: CommonUtilityService) {
     super()
   }
 
@@ -64,7 +66,8 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   enterImageFullScreen(index: number) {
-    if(!this.isFullScreen){
+
+    if(!this.isFullScreen && !this.commonUtilityService.isIPhone()){
       const imgElement = this.el.nativeElement.querySelectorAll('.imagecontainer')[index];
       if (imgElement) {
         if (imgElement.requestFullscreen) {
