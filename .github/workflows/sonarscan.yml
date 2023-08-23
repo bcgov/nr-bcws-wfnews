@@ -39,4 +39,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: mvn --settings server/wfnews-api/mvn_settings/settings.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bcgov_nr-bcws-wfnews -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests
+        run: |
+          export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=512m"
+          export NODE_OPTIONS="--max-old-space-size=4096"
+          mvn --settings server/wfnews-api/mvn_settings/settings.xml -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=bcgov_nr-bcws-wfnews -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests
