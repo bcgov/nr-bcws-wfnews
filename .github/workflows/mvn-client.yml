@@ -4,6 +4,7 @@ name: Build Client
 
 env:
   IMAGE_NAME: ${{ github.repository }}-client
+  NPMRC: ${{ secrets.NPMRC }}
 
 # Controls when the workflow will run
 on:
@@ -43,6 +44,9 @@ jobs:
         with:
           java-version: '11'
           distribution: 'adopt'
+      
+      - name: Add .npmrc file
+        run: echo -e $NPMRC > ~/.npmrc
           
       - name: Build with Maven
         run: |
