@@ -213,7 +213,7 @@ export function reportOfFireMapConfig(
                 instance: "full-screen",
                 title: "Full Screen",
                 position: "toolbar",
-                enabled: true,
+                enabled: false,
                 order: 1,
                 icon: "open_in_full"
             },

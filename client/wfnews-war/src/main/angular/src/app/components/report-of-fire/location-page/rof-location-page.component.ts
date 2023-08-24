@@ -1,12 +1,12 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, Injector, AfterViewInit, ElementRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, AfterViewInit, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
-import { MapConfigService } from '../../../services/map-config.service';
-import { CompassHeading } from "../../../services/capacitor-service";
-import { CommonUtilityService } from '../../../services/common-utility.service';
-import { LatLon, LonLat } from "../../../../../src/app/services/wfnews-map.service/util";
-import { SmkApi } from "../../../../../src/app/utils/smk";
 import { HttpClient } from "@angular/common/http";
+import { CompassHeading } from "@app/services/capacitor-service";
+import { LatLon, LonLat } from "@app/services/wfnews-map.service/util";
+import { SmkApi } from "@app/utils/smk";
+import { MapConfigService } from "@app/services/map-config.service";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 
 @Component({
@@ -37,22 +37,9 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     super()
   }
 
-  ngAfterViewInit() {
-      this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
-          let turf = window['turf'],
-          loc = [ this.location.coords.longitude, this.location.coords.latitude],
-          dist = this.distanceEstimateMeter / 1000, //km
-          head = this.currentHeading,
-          photo = turf.destination( loc, dist, head ),
-          poly = turf.circle( photo.geometry.coordinates, dist ),
-          exp = turf.transformScale( poly, 1.10 ),
-          bbox = turf.bbox( exp ),
-          view = { viewer: { location: { extent: bbox } } }
-          this.mapConfig = [ cfg, view ]
-          this.cdr.detectChanges()
-        })
-        const mapView = this.elementRef.nativeElement.querySelector('#mapView');
-      }
+  ngAfterViewInit(): void {
+    this.loadMapConfig()
+  }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     await this.useMyCurrentLocation()
@@ -149,13 +136,11 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     let arrowLen = T.length( arrowLine )
     let arrowLenPx = arrowLen * 1000 / view.metersPerPixel
 
-    if ( arrowLenPx >= 2 * ( lineStartOffsetPx + lineEndOffsetPx ) ) {
         let startOffset = view.metersPerPixel * lineStartOffsetPx / 1000
         let endOffset = view.metersPerPixel * lineEndOffsetPx / 1000
 
         let headPt = T.along( T.lineString( [ end, start ] ), endOffset )
         let headRot = T.bearing( headPt.geometry.coordinates, end )
-
         smk.showFeature( 'arrow-head', headPt, {
             pointToLayer: function ( geojson, latlng ) {
                 return L.marker( latlng, {
@@ -199,12 +184,22 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
                 }
             }
         } )
-    }
-    else {
-        smk.showFeature( 'arrow-head' )
-        smk.showFeature( 'arrow-line' )
-        smk.showFeature( 'arrow-line-shadow' )
-    }
+  }
+
+  loadMapConfig(){
+    this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
+      let turf = window['turf'],
+      loc = [ this.location.coords.longitude, this.location.coords.latitude],
+      dist = (this.reportOfFire.estimatedDistance && this.reportOfFire.estimatedDistance != 0) ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
+      head = this.currentHeading,
+      photo = turf.destination( loc, dist, head ),
+      poly = turf.circle( photo.geometry.coordinates, dist ),
+      exp = turf.transformScale( poly, 1.10 ),
+      bbox = turf.bbox( exp ),
+      view = { viewer: { location: { extent: bbox } } }
+      this.mapConfig = [ cfg, view ]
+      this.cdr.detectChanges()
+    })
   }
 }
 

@@ -1,8 +1,8 @@
 <div class="page-content">
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
-  <div>
-    <wf-map-container id="mapView" class="map-container"
+  <div class="map-container">
+    <wf-map-container id="mapView" 
       *ngIf="mapConfig"
       [mapConfig]="mapConfig"
       (mapInitialized)="initMap($event)"

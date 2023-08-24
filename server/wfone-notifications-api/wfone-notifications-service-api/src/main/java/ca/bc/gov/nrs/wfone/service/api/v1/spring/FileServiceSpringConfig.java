@@ -30,10 +30,10 @@ public class FileServiceSpringConfig {
 	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 
-	@Value("${WEBADE_OAUTH2_REST_CLIENT_SECRET")
+	@Value("${WEBADE_OAUTH2_REST_CLIENT_SECRET}")
 	private String webadeOauth2ClientSecret;
 
-	@Value("${WEBADE_OAUTH2_TOKEN_URL")
+	@Value("${WEBADE_OAUTH2_TOKEN_URL}")
 	private String webadeOauth2TokenUrl;
 
 	@Value("${WFDM_REST_URL}")

@@ -40,7 +40,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       QUEUE_URL   = aws_sqs_queue.queues["bans-prohibitions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_apisix.name}"
     }
   }
   vpc_config {
@@ -64,7 +64,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
       QUEUE_URL   = aws_sqs_queue.queues["active-fires"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_apisix.name}"
     }
   }
   vpc_config {
@@ -88,7 +88,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       QUEUE_URL   = aws_sqs_queue.queues["area-restrictions"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_apisix.name}"
     }
   }
   vpc_config {
@@ -112,7 +112,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
       QUEUE_URL   = aws_sqs_queue.queues["evac-orders"].url
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      WFNEWS_API  = aws_route53_record.wfnews_apisix.name
+      WFNEWS_API  = "https://${aws_route53_record.wfnews_apisix.name}"
     }
   }
   vpc_config {

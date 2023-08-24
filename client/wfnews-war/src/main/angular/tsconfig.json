@@ -6,7 +6,10 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "baseUrl": "./",
+    "baseUrl": "./src",
+    "paths": {
+      "@app/*": ["app/*"],
+    },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": false,
     "strict": false,

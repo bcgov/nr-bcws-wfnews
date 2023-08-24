@@ -151,7 +151,7 @@ variable "wfone_notifications_api_cpu_units" {
 variable "wfone_notifications_api_memory" {
   description = "server memory to provision (in MiB)"
   type        = number
-  default     = 1024
+  default     = 2048
 }
 
 variable "wfone_notifications_api_port" {
@@ -1089,4 +1089,20 @@ variable "WFONE_NOTIFICATIONS_PUSH_API_IMAGE" {
 variable "POINTID_WEBADE_OAUTH2_CLIENT_SECRET" {
   type = string
   default = ""
+}
+
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_CHECK_TOKEN_URL" {
+  type = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_CLIENT_URL" {
+  type = string
+  default = ""
+}
+
+variable "WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_TOKEN_URL" {
+   type = string
+   default = ""
 }

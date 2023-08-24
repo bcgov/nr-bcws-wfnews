@@ -7,6 +7,7 @@ import com.amazon.sqs.javamessaging.ExtendedClientConfiguration;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
@@ -27,9 +28,7 @@ public class AWSQueueServiceImpl implements QueueService {
 	private AWSConfig awsConfig;
 
 	public AWSQueueServiceImpl(AWSConfig awsConfig) {
-		AWSCredentials credentials = new BasicAWSCredentials(awsConfig.getAwsAccessKey(), awsConfig.getAwsSecretKey());
-		this.s3Client = AmazonS3ClientBuilder.standard().withCredentials(new AWSStaticCredentialsProvider(credentials))
-				.withRegion(Regions.CA_CENTRAL_1).build();
+		this.s3Client = AmazonS3ClientBuilder.standard().withRegion(Regions.CA_CENTRAL_1).build();
 
 		this.awsConfig = awsConfig;
 

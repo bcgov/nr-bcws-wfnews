@@ -1,10 +1,23 @@
 <div class="page-content">
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="button-group">
+    <button (click)="takePhoto()" [disabled]="images.length === 3"><mat-icon [svgIcon]="images.length === 3 ? 'camera-grey' : 'camera' " ></mat-icon><span [class]="'photo-button' + (images.length === 3 ? '-disabled' : '-enabled')" >Take Photo</span></button>
+    <button (click)="addFromCameraRoll()" [disabled]="images.length === 3"><mat-icon [svgIcon]="images.length === 3 ? 'image-grey' : 'image' "></mat-icon><span [class]="'photo-button' + (images.length === 3 ? '-disabled' : '-enabled')">Add from Photo Library</span></button>
+  </div>
+  <div *ngIf="images && images.length" class="images">
+    <div *ngFor = "let image of images; let i = index" class="image-container" [class.first-image]="i === 0" [class.last-image]="i === images.length - 1">
+      <div class="image-wrapper">
+        <div class="imagecontainer">
+          <span *ngIf="isFullScreen" class="closebutton" (click)="exitImageFullScreen()">Close</span>
+          <img [src]="image" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
+        </div>
+        <button class="delete-button" (click)="deleteImage(i)">x</button>
+      </div>
+    </div>
+  </div>
   <div class="rof-button-container">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-	  <!-- <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button> -->
-    <button mat-flat-button class="rof-button-primary" (click)="next()"><mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
-
+    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="next()"><mat-icon [svgIcon]="images.length === 0? 'arrow-forward-disabled' : 'arrow-forward-enabled'"  class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
   </div>
 </div>

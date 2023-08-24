@@ -36,7 +36,7 @@
       "showProgress": false,
       "previousId": "permissions-page",
       "nextId": "contact-page",
-      "skipId": "location-page"
+      "skipId": "distance-page"
     },
     {
       "id": "contact-page",
@@ -48,7 +48,53 @@
       "updateAttribute": ["fullName", "phoneNumber"],
       "showProgress": false,
       "previousId": "callback-page",
-      "nextId": "location-page"
+      "nextId": "distance-page"
+    },
+    {
+      "id": "distance-page",
+      "type": "RoFComplexQuestionPage",
+      "title": "How far away is the fire?",
+      "message": "Choose the option you think is most accurate. If you’re not sure, feel free to select all the options you think might apply or select “I’m not sure”.",
+      "allowSkip": true,
+      "allowExit": true,
+      "allowIDontKnowButton": false,
+      "allowMultiSelect": false,
+      "updateAttribute": "estimatedDistance",
+      "showProgress": true,
+      "previousId": "contact-page",
+      "nextId": "location-page",
+      "buttons": [
+        {
+          "label": "50m—200m",
+          "value": "50",
+          "icon": ""
+        },
+        {
+          "label": "200m—1 km",
+          "value": "200",
+          "icon": ""
+        },
+        {
+          "label": "1—5 km",
+          "value": "1000",
+          "icon": ""
+        },
+        {
+          "label": "5—10 km",
+          "value": "5000",
+          "icon": ""
+        },
+        {
+          "label": "10+ km",
+          "value": "10000",
+          "icon": ""
+        },
+        {
+          "label": "I'm not sure",
+          "value": "0",
+          "icon": ""
+        }
+      ]
     },
     {
       "id": "location-page",
@@ -59,13 +105,13 @@
       "allowExit": true,
       "updateAttribute": "fireLocation",
       "showProgress": true,
-      "previousId": "callback-page",
+      "previousId": "distance-page",
       "nextId": "photo-page"
     },
     {
       "id": "photo-page",
       "type": "RoFPhotoPage",
-      "title": "Add Photos",
+      "title": "Add up to 3 photos",
       "message": "Photos help us identify the type of fire and find it faster. If you are no longer near the fire or can’t take a photo, tap skip.",
       "allowSkip": true,
       "allowExit": true,

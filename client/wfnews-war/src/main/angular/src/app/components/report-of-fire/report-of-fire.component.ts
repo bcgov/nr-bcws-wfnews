@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectorRef, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from "@angular/core"
+import { AfterContentInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from "@angular/core"
 import { RoFTitlePage } from "./title-page/rof-title-page.component";
 import { RoFPermissionsPage } from "./permissions-page/rof-permissions-page.component";
 import { RoFSimpleQuestionPage } from "./simple-question-page/rof-simple-question-page.component";
@@ -42,7 +42,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef) {
+  constructor(private router: Router, protected cdr: ChangeDetectorRef, private resolver: ComponentFactoryResolver) {
     this.pageComponents = [];
   }
 
@@ -162,6 +162,14 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     this.currentPage.instance.reportOfFire = this.reportOfFire;
     // and finally insert the component into the container
     this.dynamicContainer.insert(this.currentPage.hostView);
+
+    // reload the map in location-page to pick up the distance && compass changes from previous step
+    if (pageId == 'location-page') {
+      const locationPageComponent = this.currentPage.instance as RoFLocationPage;
+      if (locationPageComponent.mapConfig) {
+        locationPageComponent.loadMapConfig()
+      }
+    }
 
     // Check if the component allows for the exit, skip buttons, and will display the progress
     // bar at the bottom
