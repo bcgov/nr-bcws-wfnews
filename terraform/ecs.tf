@@ -237,19 +237,17 @@ resource "aws_ecs_task_definition" "wfnews_client" {
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.client_cpu_units
   memory                   = var.client_memory
-  # volume {
-  #   name = "work"
-  #   emptyDir = {}
-  # }
-  # volume {
-  #   name = "logging"
-  #   emptyDir = {}
-  # }
+  volume {
+    name = "work"
+  }
+  volume {
+    name = "logging"
+  }
   tags                     = local.common_tags
   container_definitions = jsonencode([
     {
       essential   = true
-      # readonlyRootFilesystem = true
+      readonlyRootFilesystem = true
       name        = var.client_container_name
       image       = var.client_image
       cpu         = var.client_cpu_units
@@ -356,16 +354,16 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         }
       }
       mountPoints = [
-        # {
-        #   sourceVolume = "logging"
-        #   containerPath = "/usr/local/tomcat/logs"
-        #   readOnly = false
-        # },
-        # {
-        #   sourceVolume = "work"
-        #   containerPath = "/usr/local/tomcat/work"
-        #   readOnly = false
-        # }
+        {
+          sourceVolume = "logging"
+          containerPath = "/usr/local/tomcat/logs"
+          readOnly = false
+        },
+        {
+          sourceVolume = "work"
+          containerPath = "/usr/local/tomcat/work"
+          readOnly = false
+        }
         ]
       volumesFrom = []
     }
