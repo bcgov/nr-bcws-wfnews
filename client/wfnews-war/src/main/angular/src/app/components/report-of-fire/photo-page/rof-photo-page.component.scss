@@ -18,6 +18,9 @@
         border-radius: 8px;
         background: #F1F1F1;
         border-width: inherit;
+        @media (max-height: 700px) {
+            height: 20vh !important;
+          }
     }
     span{
         color: #000;
@@ -27,6 +30,9 @@
         font-weight: 600;
         line-height: normal;
         letter-spacing: -0.38px;
+        @media (max-height: 700px) {
+            font-size: 2.2vh !important;
+        }
     }
 }
 
@@ -60,7 +66,7 @@
     }
     
     .image{
-        height: 200px;
+        height: 25vh;
 
         &-fullScreen {
             object-fit: contain;
