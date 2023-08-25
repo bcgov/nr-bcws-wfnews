@@ -19,7 +19,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   mapConfig = null;
   SMK: any;
   location?: any;
-  distanceEstimateMeter: number = 100;
+  distanceEstimateMeter: number = 1000;
   heading: CompassHeading;
   turf:any;
   fireLocation?: LatLon;
