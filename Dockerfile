@@ -21,7 +21,7 @@ RUN apt-get update &&\
   mkdir -p /usr/local/tomcat/temp &&\
   chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work && chmod 766 /usr/local/tomcat/temp
 
-VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work
+VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work /usr/local/tomcat/temp
 
 # run as tomcat user
 USER tomcat
