@@ -29,6 +29,7 @@ end
 
 def firebase_pods
   pod 'FirebaseAnalytics'
+  pod 'Firebase/Messaging'
 end
 
 target 'App' do
