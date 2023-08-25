@@ -4,7 +4,6 @@
 }
 
 .mobile-header{
-  height: 50px;
   display: flex;
   justify-content: space-between;
   padding:13px 32px 0 20px;
@@ -27,6 +26,12 @@
   }
   .title{
     color:black !important
+  }
+}
+
+@media (max-height: 700px) {
+  .rof-text-secondary-header{
+      font-size: 2.3vh !important;
   }
 }
 
@@ -70,11 +75,10 @@
 .rof-button-container {
   justify-content: space-between;
   display: flex;
-  height: 43px;
   padding: 8px 0px;
   align-items: center;
   width: calc(100% - 64px);
-  bottom: 4em;
+  bottom: 3em;
   position: fixed;
   .rof-button {
     padding:0 32px;
@@ -136,12 +140,18 @@
     height: 81px;
     margin-bottom: 0px !important;
     background-color: #F1F1F1;
+    @media (max-height: 700px){
+      height: 9vh;
+    }
   }
   .mat-flat-button {
     border: none;
     border-radius: 8px;
     background: #f1f1f1;
     height: 81px;
+    @media (max-height: 700px){
+      height: 9vh;
+    }
     padding: 0;
     margin: 0;
     font: inherit;
@@ -151,6 +161,9 @@
     color: #000 !important;
     text-align: center !important;
     font-size: 19px !important;
+    @media (max-height: 700px){
+      font-size: 2.3vh;
+    }
     font-style: normal !important;
     font-weight: 600 !important;
     line-height: normal !important;
@@ -174,6 +187,9 @@
     border: none;
     border-radius: 8px;
     height: 81px;
+    @media (max-height: 700px){
+      height: 9vh !important;
+    }
   }
   .mat-button-toggle-appearance-standard {
     color: rgba(0, 0, 0, 0.87);
@@ -191,12 +207,18 @@
 
 ::ng-deep.mat-button-toggle-button {
    height: 94px !important;
+   @media (max-height: 700px) {
+    height: 12vh !important;
+   }
 }
   
 ::ng-deep.mat-button-toggle-label-content {
   color: #000;
   text-align: center;
   font-size: 19px;
+  @media (max-height: 700px){
+    font-size: 2.3vh;
+  }
   font-style: normal;
   font-weight: 600;
   letter-spacing: -0.38px;
