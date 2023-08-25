@@ -17,11 +17,11 @@ RUN apt-get update &&\
   adduser --system tomcat &&\
   chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
   chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
-  chown -h tomcat:0 ${CATALINA_HOME}
+  chown -h tomcat:0 ${CATALINA_HOME} &&\
+  mkdir -p /usr/local/tomcat/temp &&\
+  chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work && chmod 766 /usr/local/tomcat/temp
 
-VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work
-
-RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work 
+VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work /usr/local/tomcat/temp
 
 # run as tomcat user
 USER tomcat
