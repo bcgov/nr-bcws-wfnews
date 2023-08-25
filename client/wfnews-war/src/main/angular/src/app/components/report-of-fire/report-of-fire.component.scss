@@ -31,7 +31,7 @@
 
 @media (max-height: 700px) {
   .rof-text-secondary-header{
-      font-size: 2.3vh !important;
+      font-size: 2.2vh !important;
   }
 }
 
@@ -142,6 +142,7 @@
     background-color: #F1F1F1;
     @media (max-height: 700px){
       height: 9vh;
+      font-size: 2.2vh !important;
     }
   }
   .mat-flat-button {
@@ -162,7 +163,7 @@
     text-align: center !important;
     font-size: 19px !important;
     @media (max-height: 700px){
-      font-size: 2.3vh;
+      font-size: 2.2vh;
     }
     font-style: normal !important;
     font-weight: 600 !important;
@@ -217,7 +218,7 @@
   text-align: center;
   font-size: 19px;
   @media (max-height: 700px){
-    font-size: 2.3vh;
+    font-size: 2.2vh;
   }
   font-style: normal;
   font-weight: 600;
