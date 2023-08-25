@@ -1,6 +1,6 @@
 FROM tomcat:8.5.47-jdk8-openjdk
 ENV TOMCAT_MAJOR=8 \
-ENV JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" \
+JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all" \
 TOMCAT_VERSION=8.5.47 \
 TOMCAT_HOME=/usr/local/tomcat \
 CATALINA_HOME=/usr/local/tomcat \
@@ -11,6 +11,9 @@ RUN adduser --system tomcat
 RUN chown -R tomcat:0 `readlink -f ${CATALINA_HOME}` &&\
 chmod -R 770 `readlink -f ${CATALINA_HOME}` &&\
 chown -h tomcat:0 ${CATALINA_HOME}
+
+RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work  && chmod 766 /usr/local/tomcat/temp
+VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work /usr/local/tomcat/temp
 
 # run as tomcat user
 USER tomcat
