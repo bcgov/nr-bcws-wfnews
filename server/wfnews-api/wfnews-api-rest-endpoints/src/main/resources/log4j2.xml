@@ -14,6 +14,6 @@
     </Logger>
     <Logger name="javax.net.debug" level="ERROR">
       <AppenderRef ref="Console" />
-    </logger>
+    </Logger>
   </Loggers>
 </Configuration>
