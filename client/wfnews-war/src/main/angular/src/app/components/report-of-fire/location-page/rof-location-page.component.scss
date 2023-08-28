@@ -9,6 +9,9 @@
   position:fixed;
   width: calc(100% - 65px);
   height: 50vh;
+  @media (max-height: 700px){
+    height: 45vh !important;
+  }
 }
 
 ::ng-deep.smk-map-frame {

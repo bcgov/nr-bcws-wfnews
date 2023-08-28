@@ -54,7 +54,7 @@
       "id": "distance-page",
       "type": "RoFComplexQuestionPage",
       "title": "How far away is the fire?",
-      "message": "Choose the option you think is most accurate. If you’re not sure, feel free to select all the options you think might apply or select “I’m not sure”.",
+      "message": "Choose the option you think is most accurate.",
       "allowSkip": true,
       "allowExit": true,
       "allowIDontKnowButton": false,
@@ -66,22 +66,22 @@
       "buttons": [
         {
           "label": "50m—200m",
-          "value": "50",
+          "value": "125",
           "icon": ""
         },
         {
           "label": "200m—1 km",
-          "value": "200",
+          "value": "600",
           "icon": ""
         },
         {
           "label": "1—5 km",
-          "value": "1000",
+          "value": "3000",
           "icon": ""
         },
         {
           "label": "5—10 km",
-          "value": "5000",
+          "value": "7500",
           "icon": ""
         },
         {
@@ -91,7 +91,7 @@
         },
         {
           "label": "I'm not sure",
-          "value": "0",
+          "value": "1000",
           "icon": ""
         }
       ]
