@@ -12,7 +12,7 @@ on:
       LIQUIBASE_IMAGE:
         required: true
         type: string
-      APISIX_IMAGE:
+      NGINX_IMAGE:
         required: true
         type: string
       CLIENT_CPU_UNITS:
@@ -178,7 +178,7 @@ jobs:
           CLIENT_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.CLIENT_IMAGE }}:${{ inputs.IMAGE_TAG }}
           SERVER_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.SERVER_IMAGE }}:${{ inputs.IMAGE_TAG }}
           LIQUIBASE_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.LIQUIBASE_IMAGE }}:${{ inputs.IMAGE_TAG }}
-          APISIX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          NGINX_IMAGE: ${{inputs.registry}}/${{ github.repository_owner }}/${{ inputs.NGINX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           
           CLIENT_CPU_UNITS: ${{inputs.CLIENT_CPU_UNITS}}
           CLIENT_MEMORY: ${{inputs.CLIENT_MEMORY}}

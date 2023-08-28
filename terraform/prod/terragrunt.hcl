@@ -14,7 +14,7 @@ locals {
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
-  apisix_image = get_env("APISIX_IMAGE")
+  nginx_image = get_env("NGINX_IMAGE")
 
   client_cpu_units = get_env("CLIENT_CPU_UNITS")
   client_memory = get_env("CLIENT_MEMORY")
@@ -121,7 +121,7 @@ generate "test_tfvars" {
     server_image     = "${local.server_image}"
     client_image     = "${local.client_image}"
     liquibase_image     = "${local.liquibase_image}"
-    apisix_image = "${local.apisix_image}"
+    nginx_image = "${local.nginx_image}"
     client_cpu_units = "${local.client_cpu_units}"
     client_memory = "${local.client_memory}"
     server_cpu_units = "${local.server_cpu_units}"

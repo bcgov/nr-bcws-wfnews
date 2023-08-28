@@ -51,7 +51,7 @@ jobs:
           agolUrl: ${{vars.AGOL_URL}}
           ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY_DEV }}
-          APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:pr-877
+          NGINX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NGINX_IMAGE }}:pr-877
           CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
           CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}:pr-877
           CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}

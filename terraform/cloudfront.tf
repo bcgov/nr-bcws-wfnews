@@ -234,7 +234,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
   }
 }
 
-resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
+resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
 
   count = var.cloudfront ? 1 : 0
 
@@ -250,8 +250,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
       ]
     }
 
-    domain_name = "${var.apisix_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_${var.target_env}"
+    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_nginx_${var.target_env}"
 
     custom_header {
       name  = "X-Cloudfront-Header"
@@ -283,7 +283,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -304,7 +304,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_apisix_${var.target_env}"
+    target_origin_id       = "wfnews_nginx_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -315,7 +315,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -468,8 +468,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
       "TLSv1.2"]
     }
 
-    domain_name = "${var.apisix_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_gov_${var.target_env}"
+    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_nginx_gov_${var.target_env}"
     custom_header {
       name  = "X-Cloudfront-Header"
       value = var.cloudfront_header
@@ -500,7 +500,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_gov_${var.target_env}"
+    target_origin_id = "wfnews_nginx_gov_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -521,7 +521,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     path_pattern           = "/publicPublishedIncidentAttachment/*/attachments/*"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "HEAD"]
-    target_origin_id       = "wfnews_apisix_gov_${var.target_env}"
+    target_origin_id       = "wfnews_nginx_gov_${var.target_env}"
     compress               = true
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
@@ -532,7 +532,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_gov_${var.target_env}"
+    target_origin_id = "wfnews_nginx_gov_${var.target_env}"
 
     forwarded_values {
       query_string = false
@@ -741,7 +741,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
   }
 }
 /*
-resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
+resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx_admin" {
 
   count = var.cloudfront ? 1 : 0
 
@@ -756,8 +756,8 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
       "TLSv1.2"]
     }
 
-    domain_name = "wfnews-apisix-admin.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_${var.target_env}"
+    domain_name = "wfnews-nginx-admin.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_nginx_${var.target_env}"
   }
 
   enabled         = true
@@ -784,7 +784,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -806,7 +806,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_${var.target_env}"
+    target_origin_id = "wfnews_nginx_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -843,7 +843,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_admin" {
   }
 }
 
-resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
+resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx_gui" {
 
   count = var.cloudfront ? 1 : 0
 
@@ -859,7 +859,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
     }
 
     domain_name = "wfnews-api-gui.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
-    origin_id   = "wfnews_apisix_gui_${var.target_env}"
+    origin_id   = "wfnews_nginx_gui_${var.target_env}"
   }
 
   enabled         = true
@@ -886,7 +886,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
     "PUT"]
     cached_methods = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_gui_${var.target_env}"
+    target_origin_id = "wfnews_nginx_gui_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -908,7 +908,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_apisix_gui" {
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]
 
-    target_origin_id = "wfnews_apisix_gui_${var.target_env}"
+    target_origin_id = "wfnews_nginx_gui_${var.target_env}"
 
     forwarded_values {
       query_string = true
@@ -954,8 +954,8 @@ output "wfnews_cloudfront_server_url" {
   value = "https://${aws_cloudfront_distribution.wfnews_geofencing_server[0].domain_name}"
 }
 
-output "wfnews_cloudfront_apisix_url" {
-  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_apisix[0].domain_name}"
+output "wfnews_cloudfront_nginx_url" {
+  value = "https://${aws_cloudfront_distribution.wfnews_geofencing_nginx[0].domain_name}"
 }
 
 

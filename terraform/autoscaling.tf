@@ -8,9 +8,9 @@ resource "aws_appautoscaling_target" "wfnews_target" {
   max_capacity       = 10
 }
 
-resource "aws_appautoscaling_target" "wfnews_apisix_target" {
+resource "aws_appautoscaling_target" "wfnews_nginx_target" {
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix.name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.nginx.name}"
   scalable_dimension = "ecs:service:DesiredCount"
   min_capacity       = var.app_count
   max_capacity       = 10
@@ -37,10 +37,10 @@ resource "aws_appautoscaling_policy" "wfnews_up" {
   depends_on = [aws_appautoscaling_target.wfnews_target]
 }
 
-resource "aws_appautoscaling_policy" "wfnews_apisix_up" {
-  name               = "wfnews_apisix_scale_up"
+resource "aws_appautoscaling_policy" "wfnews_nginx_up" {
+  name               = "wfnews_nginx_scale_up"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix.name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.nginx.name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -54,7 +54,7 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_up" {
     }
   }
 
-  depends_on = [aws_appautoscaling_target.wfnews_apisix_target]
+  depends_on = [aws_appautoscaling_target.wfnews_nginx_target]
 }
 
 # Automatically scale capacity down by one
@@ -78,10 +78,10 @@ resource "aws_appautoscaling_policy" "wfnews_down" {
   depends_on = [aws_appautoscaling_target.wfnews_target]
 }
 
-resource "aws_appautoscaling_policy" "wfnews_apisix_down" {
-  name               = "wfnews_apisix_scale_down"
+resource "aws_appautoscaling_policy" "wfnews_nginx_down" {
+  name               = "wfnews_nginx_scale_down"
   service_namespace  = "ecs"
-  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.apisix.name}"
+  resource_id        = "service/${aws_ecs_cluster.wfnews_main.name}/${aws_ecs_service.nginx.name}"
   scalable_dimension = "ecs:service:DesiredCount"
 
   step_scaling_policy_configuration {
@@ -95,7 +95,7 @@ resource "aws_appautoscaling_policy" "wfnews_apisix_down" {
     }
   }
 
-  depends_on = [aws_appautoscaling_target.wfnews_apisix_target]
+  depends_on = [aws_appautoscaling_target.wfnews_nginx_target]
 }
 
 # CloudWatch alarm that triggers the autoscaling up policy
@@ -119,8 +119,8 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_high" {
   tags = local.common_tags
 }
 
-resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_high" {
-  alarm_name          = "wfnews_apisix_cpu_utilization_high"
+resource "aws_cloudwatch_metric_alarm" "wfnews_nginx_service_cpu_high" {
+  alarm_name          = "wfnews_nginx_cpu_utilization_high"
   comparison_operator = "GreaterThanOrEqualToThreshold"
   evaluation_periods  = "1"
   metric_name         = "CPUUtilization"
@@ -131,10 +131,10 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_high" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.apisix.name
+    ServiceName = aws_ecs_service.nginx.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_up.arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_nginx_up.arn]
 
   tags = local.common_tags
 }
@@ -160,8 +160,8 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_service_cpu_low" {
   tags = local.common_tags
 }
 
-resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_low" {
-  alarm_name          = "wfnews_apisix_cpu_utilization_low"
+resource "aws_cloudwatch_metric_alarm" "wfnews_nginx_service_cpu_low" {
+  alarm_name          = "wfnews_nginx_cpu_utilization_low"
   comparison_operator = "LessThanOrEqualToThreshold"
   evaluation_periods  = "2"
   metric_name         = "CPUUtilization"
@@ -172,10 +172,10 @@ resource "aws_cloudwatch_metric_alarm" "wfnews_apisix_service_cpu_low" {
 
   dimensions = {
     ClusterName = aws_ecs_cluster.wfnews_main.name
-    ServiceName = aws_ecs_service.apisix.name
+    ServiceName = aws_ecs_service.nginx.name
   }
 
-  alarm_actions = [aws_appautoscaling_policy.wfnews_apisix_down.arn]
+  alarm_actions = [aws_appautoscaling_policy.wfnews_nginx_down.arn]
 
   tags = local.common_tags
 }

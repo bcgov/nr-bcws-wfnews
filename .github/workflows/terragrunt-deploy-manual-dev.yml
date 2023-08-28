@@ -89,7 +89,7 @@ jobs:
           agolUrl: ${{vars.AGOL_URL}}
           ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY }}
-          APISIX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.APISIX_IMAGE }}:${{ inputs.IMAGE_TAG }}
+          NGINX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NGINX_IMAGE }}:${{ inputs.IMAGE_TAG }}
           CLIENT_CPU_UNITS: ${{vars.CLIENT_CPU_UNITS}}
           CLIENT_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.CLIENT_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
           CLIENT_MEMORY: ${{vars.CLIENT_MEMORY}}
