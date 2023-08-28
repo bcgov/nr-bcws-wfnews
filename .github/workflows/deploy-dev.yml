@@ -86,15 +86,15 @@ jobs:
     with:
       ENVIRONMENT: DEV
 
-  apisix-build:
-    uses: ./.github/workflows/apisix.yml
+  nginx-build:
+    uses: ./.github/workflows/nginx.yml
     secrets: inherit
     with:
       ENVIRONMENT: DEV
 
   terragrunt-deploy-dev:
     uses: ./.github/workflows/terragrunt-deploy.yml
-    needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, apisix-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build]
+    needs: [call-lambda-zip, call-mvn-client, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, nginx-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build]
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: DEV
       IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}

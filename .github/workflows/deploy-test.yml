@@ -56,11 +56,11 @@ jobs:
           docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.LIQUIBASE_IMAGE }}:${{ env.IMAGE_TAG }}
 
-      - name: Tag apisix image
+      - name: Tag nginx image
         run: |
-          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:main
-          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:${{ env.IMAGE_TAG }}
-          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.APISIX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
 
       - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
         id: get-release-tag

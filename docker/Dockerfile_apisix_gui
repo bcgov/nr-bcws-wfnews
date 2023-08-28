@@ -1,6 +1,0 @@
-FROM apache/apisix-dashboard
-EXPOSE 9000
-COPY docker/apisix-gui-conf.yaml /usr/local/apisix-dashboard/conf/conf.yaml
-COPY docker/AmazonRootCA1.pem   /etc/pki/ca-trust/extracted/pem/AmazonRootCA1.pem
-USER root
-RUN ulimit -n 4096

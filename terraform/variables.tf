@@ -231,7 +231,7 @@ variable "notifications_liquibase_names" {
   type        = list(string)
 }
 
-variable "apisix_names" {
+variable "nginx_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfnews-api"]
   type        = list(string)
@@ -249,28 +249,6 @@ variable "wfone_notifications_api_names" {
   type        = list(string)
 }
 
-# variable "apisix_admin_names" {
-#   description = "List of service names to use as subdomains"
-#   default     = ["wfnews-api-admin"]
-#   type        = list(string)
-# }
-
-# variable "etcd_names" {
-#   description = "List of service names to use as subdomains"
-#   default     = ["wfnews-etcd"]
-#   type        = list(string)
-# }
-
-# variable "etcd_password" {
-#   description = "Password to use for etcd access"
-#   type = string
-# }
-
-# variable "apisix_gui_names" {
-#   description = "List of service names to use as subdomains"
-#   default     = ["wfnews-api-gui"]
-#   type        = list(string)
-# }
 
 variable "alb_name" {
   description = "Name of the internal alb"
@@ -414,15 +392,15 @@ variable "wfone_notifications_api_image" {
   default = "wfone_notifications_api"
 }
 
-variable "apisix_name" {
-  description = "Name of apisix app"
+variable "nginx_name" {
+  description = "Name of nginx app"
   type        = string
-  default     = "wfnews-apisix-app"
+  default     = "wfnews-nginx-app"
 }
 
-variable "apisix_container_name" {
-  description = "Name of apisix container"
-  default     = "wfnews-apisix-app"
+variable "nginx_container_name" {
+  description = "Name of nginx container"
+  default     = "wfnews-nginx-app"
   type        = string
 }
 
@@ -450,20 +428,8 @@ variable pointid_health_check_path {
   type = string
 }
 
-# variable etcd_container_name {
-#   description = "Name of etcd container"
-#   default = "wfnews-etcd-app"
-#   type = string
-# } 
-
-# variable apisix_gui_container_name {
-#   description = "Name of apisix gui container"
-#   default = "wfnews-apisix-gui-app"
-#   type = string
-# } 
-
-variable "apisix_image" {
-  description = "Full name of apisix image"
+variable "nginx_image" {
+  description = "Full name of nginx image"
   default     = ""
   type        = string
 }
@@ -474,32 +440,10 @@ variable "etcd_image" {
   type        = string
 }
 
-variable "apisix_gui_image" {
-  description = "Full name of apisix gui image"
-  default     = ""
-  type        = string
-}
-
-variable "apisix_ports" {
-  description = "Port apisix listens on"
-  default     = [8080, 9080, 9443]
+variable "nginx_ports" {
+  description = "Port nginx listens on"
+  default     = [8080]
   type        = list(number)
-}
-
-variable "apisix_admin_port" {
-  description = "Port apisix listens on for config updates/changes"
-  default     = 9180
-  type        = number
-}
-
-variable "etcd_port" {
-  description = "Port etcd listens on"
-  default     = 2379
-}
-
-variable "apisix_gui_port" {
-  description = "Port the apisix gui listens on"
-  default     = 9000
 }
 
 variable "db_port" {

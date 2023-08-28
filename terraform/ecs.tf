@@ -310,7 +310,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         { //Will be phased out from prod eventually, but not yet
           name  = "WFNEWS_API_URL",
-          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_apisix.name}/"
+          value = var.target_env == "prod" ? "https://${var.gov_api_url}/" : "https://${aws_route53_record.wfnews_nginx.name}/"
         },
         {
           name  = "WFNEWS_API_KEY",
@@ -483,8 +483,8 @@ resource "aws_ecs_task_definition" "wfnews_liquibase" {
   ])
 }
 
-resource "aws_ecs_task_definition" "wfnews_apisix" {
-  family                   = "wfnews-apisix-task-${var.target_env}"
+resource "aws_ecs_task_definition" "wfnews_nginx" {
+  family                   = "wfnews-nginx-task-${var.target_env}"
   execution_role_arn       = aws_iam_role.wfnews_ecs_task_execution_role.arn
   task_role_arn            = aws_iam_role.wfnews_app_container_role.arn
   network_mode             = "awsvpc"
@@ -508,42 +508,23 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
     name = "nginx-lib"
   }
   volume {
-    name = "local"
-  }
-  volume {
     name = "tmp"
   }
   container_definitions = jsonencode([
     {
       essential   = true
       readonlyRootFilesystem = true
-      name        = var.apisix_container_name
-      image       = var.apisix_image
+      name        = var.nginx_container_name
+      image       = var.nginx_image
       cpu         = var.server_cpu_units
       memory      = var.server_memory
       networkMode = "awsvpc"
       portMappings = [
         {
           protocol      = "tcp"
-          containerPort = var.apisix_ports[0]
-          hostPort      = var.apisix_ports[0]
-        },
-        {
-          protocol      = "tcp"
-          containerPort = var.apisix_ports[1]
-          hostPort      = var.apisix_ports[1]
+          containerPort = var.nginx_ports[0]
+          hostPort      = var.nginx_ports[0]
         }
-        # {
-        #   protocol = "tcp"
-        #   containerPort = var.apisix_admin_port
-        #   hostPort = var.apisix_admin_port
-        # },
-        # {
-        #   protocol = "tcp"
-        #   containerPort = var.health_check_port
-        #   hostPort = var.health_check_port
-        # }
-
       ]
       environment = [
         {
@@ -575,7 +556,7 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         logDriver = "awslogs"
         options = {
           awslogs-create-group  = "true"
-          awslogs-group         = "/ecs/${var.apisix_names[0]}"
+          awslogs-group         = "/ecs/${var.nginx_names[0]}"
           awslogs-region        = var.aws_region
           awslogs-stream-prefix = "ecs"
         }
@@ -604,11 +585,6 @@ resource "aws_ecs_task_definition" "wfnews_apisix" {
         {
           sourceVolume = "nginx-lib"
           containerPath = "/var/lib/nginx"
-          readOnly = false
-        },
-        {
-          sourceVolume = "local"
-          containerPath = "/usr/local/apisix"
           readOnly = false
         },
         {
@@ -1329,10 +1305,10 @@ resource "aws_ecs_service" "client" {
   tags = local.common_tags
 }
 
-resource "aws_ecs_service" "apisix" {
-  name                              = "wfnews-apisix-service-${var.target_env}"
+resource "aws_ecs_service" "nginx" {
+  name                              = "wfnews-nginx-service-${var.target_env}"
   cluster                           = aws_ecs_cluster.wfnews_main.id
-  task_definition                   = aws_ecs_task_definition.wfnews_apisix.arn
+  task_definition                   = aws_ecs_task_definition.wfnews_nginx.arn
   desired_count                     = var.app_count
   enable_ecs_managed_tags           = true
   propagate_tags                    = "TASK_DEFINITION"
@@ -1359,9 +1335,9 @@ resource "aws_ecs_service" "apisix" {
 
   #Hit http endpoint
   load_balancer {
-    target_group_arn = aws_alb_target_group.wfnews_apisix.id
-    container_name   = var.apisix_container_name
-    container_port   = var.apisix_ports[0]
+    target_group_arn = aws_alb_target_group.wfnews_nginx.id
+    container_name   = var.nginx_container_name
+    container_port   = var.nginx_ports[0]
   }
 
   depends_on = [aws_iam_role_policy_attachment.wfnews_ecs_task_execution_role]
