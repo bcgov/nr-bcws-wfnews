@@ -390,6 +390,18 @@ variable "liquibase_image" {
   default     = ""
 }
 
+variable "liquibase_cpu" {
+  description = "number of milliCPUs to allocate to liquibase instances"
+  type = number
+  default = 256
+}
+
+variable "liquibase_memory" {
+  description = "Amount of memory to allocate to liquibase instances, in MB"
+  type = number
+  default = 512
+}
+
 variable "pointid_image" {
   description = "Full name of liquibase image"
   type        = string
