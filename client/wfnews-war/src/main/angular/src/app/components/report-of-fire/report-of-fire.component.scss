@@ -30,6 +30,11 @@
 }
 
 @media (max-height: 700px) {
+  .rof-text-primary-header{
+    font-size: 3.85vh;
+    margin: 10px 0px;
+  }
+
   .rof-text-secondary-header{
       font-size: 2.2vh !important;
   }
@@ -246,6 +251,9 @@
     line-height: normal;
     letter-spacing: -0.56px;
     margin: 20px 0px;
+
+    font-size: 3.85vh;
+    margin: 10px 0px;
   }
   &-secondary-header {
     color: #565656;
