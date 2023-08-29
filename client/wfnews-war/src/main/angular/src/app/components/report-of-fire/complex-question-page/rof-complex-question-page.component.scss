@@ -2,7 +2,7 @@
 
 ::ng-deep.mat-button-toggle-label-content {
   line-height: 35px !important;
-  padding-bottom: 10px !important;
+  padding-bottom: 0 !important;
 }
 
 
@@ -19,6 +19,7 @@
 }
 
 .multi-select-class{
+  padding-top: 3px;
   width: auto;
   flex: 0 0 calc(50% - 12px);
   max-width: calc(50% - 12px);

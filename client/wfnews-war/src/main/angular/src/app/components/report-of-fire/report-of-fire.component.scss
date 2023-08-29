@@ -193,6 +193,7 @@
     }
   }
   .mat-button-toggle-appearance-standard {
+    padding-top: 3px;
     color: rgba(0, 0, 0, 0.87);
     background-color: #f1f1f1;
   }
@@ -200,6 +201,7 @@
     background-color: #DFE5EE !important;
     border-radius: 8px;
     border: 3px solid #4169A4;
+    bottom: 3px;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
@@ -207,9 +209,9 @@
 }
 
 ::ng-deep.mat-button-toggle-button {
-   height: 94px !important;
+   height: 81px !important;
    @media (max-height: 700px) {
-    height: 12vh !important;
+    height: 9vh !important;
    }
 }
   
