@@ -136,8 +136,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-          cache: 'npm'
-          cache-dependency-path: '**/package.json'
 
       - name: Set up JDK 17
         uses: actions/setup-java@v3
