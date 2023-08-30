@@ -4,7 +4,5 @@
     padding: 0 48px;
 }
 .rof-button-container{
-    .rof-button{
-        width: 125px;
-    }
+    width: calc(100% - 96px);
 }
