@@ -406,8 +406,8 @@
     {
       "id": "review-page",
       "type": "RoFReviewPage",
-      "title": "",
-      "message": "",
+      "title": "Review",
+      "message": "Please review your answers and submit your report.",
       "allowSkip": false,
       "allowExit": true,
       "showProgress": false,

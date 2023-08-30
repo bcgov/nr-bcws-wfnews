@@ -151,6 +151,7 @@ import { RoFComplexQuestionPage } from './components/report-of-fire/complex-ques
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
 
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -242,7 +243,8 @@ export const DATE_FORMATS = {
         RoFContactPage,
         RoFPhotoPage,
         RoFLocationPage,
-        RoFCommentsPage
+        RoFCommentsPage,
+        RoFReviewPage,
     ],
     imports: [
         MatSortModule,

@@ -1,4 +1,25 @@
 <div class="page-content">
+  <div class="rof-text-primary-header">{{ title }}</div>
+  <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="divider"></div>
+
+  <div *ngIf="reportOfFirePages">
+    <div *ngFor="let page of reportOfFirePages">
+      <div class="rof-text-review-header">
+        {{page.title}}
+      </div>
+      <div class="item">
+        <div class="item-content">
+          <div class="text">value001</div>
+          <div class="edit-icon">
+            <mat-icon svgIcon="edit"></mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
 
   {{ parseJson() }}
 

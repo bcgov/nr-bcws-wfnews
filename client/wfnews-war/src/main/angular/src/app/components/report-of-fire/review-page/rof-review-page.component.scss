@@ -1,1 +1,26 @@
 @import '../report-of-fire.component.scss';
+
+.item {
+    border-radius: 8px;
+    background: #F5F5F5;
+    padding: 10px;
+    margin-bottom: 5px;
+    width: 95%;
+    // display: flex;
+    // justify-content: space-between;
+    // align-items: center;
+}
+
+.item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text {
+    margin-right: 10px;
+}
+  
+.edit-icon {
+    cursor: pointer;
+}
