@@ -206,7 +206,6 @@
     background-color: #DFE5EE !important;
     border-radius: 8px;
     border: 3px solid #4169A4;
-    bottom: 3px;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
@@ -325,6 +324,7 @@
 }
 
 .question-mark{
+  vertical-align: baseline;
   color:#548ADB;
   margin-right: 8px;
 }
