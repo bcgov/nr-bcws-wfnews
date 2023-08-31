@@ -1,8 +1,8 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, AfterViewInit } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import ConfigJson from '../report-of-fire.config.json';
-import { startWith } from "rxjs/operators";
+import * as L from 'leaflet'
 
 
 @Component({
@@ -11,11 +11,45 @@ import { startWith } from "rxjs/operators";
   styleUrls: ['./rof-review-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFReviewPage extends RoFPage {
+export class RoFReviewPage extends RoFPage implements AfterViewInit{
   public reportOfFirePages: any;
+  private map: any;
 
   public constructor() {
     super()
+  }
+
+  ngAfterViewInit(): void {
+    const location = this.reportOfFire.fireLocation;
+    this.map = L.map('map', {
+      attributionControl: false,
+      zoomControl: false,
+      dragging: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      trackResize: false,
+      scrollWheelZoom: false
+    }).setView(location, 9)
+    // configure map data
+    L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+      maxZoom: 20,
+      subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(this.map);
+
+    const fireLocationIcon = L.divIcon({
+      html: '<i class="fireLocationIcon material-icons">location_searching</i>',
+      iconSize: [48, 48],
+      className: 'fireLocationIcon'
+    })
+    L.marker(location, {icon:fireLocationIcon}).addTo(this.map)
+
+    L.marker( this.reportOfFire.currentLocation, {
+      icon: L.divIcon( {
+          className:  'rof-location',
+          iconSize:   [ 20, 20 ],
+          iconAnchor: [ 14, 14 ]
+      } )
+    }).addTo(this.map)
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {

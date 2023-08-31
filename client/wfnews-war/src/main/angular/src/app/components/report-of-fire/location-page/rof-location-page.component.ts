@@ -87,6 +87,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
         coordinates: [ this.location.coords.longitude, this.location.coords.latitude ]
     };
 
+    this.reportOfFire[this.updateAttribute] = [ Number(this.location.coords.latitude), Number(this.location.coords.longitude) ]
+    this.reportOfFire.currentLocation = [ Number(this.location.coords.latitude), Number(this.location.coords.longitude) ]
     smk.showFeature( 'location', loc, {
         pointToLayer: function ( geojson, latlng ) {
             return L.marker( latlng, {

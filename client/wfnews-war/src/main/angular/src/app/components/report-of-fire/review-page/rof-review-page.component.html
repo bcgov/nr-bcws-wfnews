@@ -21,19 +21,9 @@
           <img class="image" [src]="reportOfFire.image3">
         </div>
       </div>
-      <!-- <div *ngIf = "page.id === 'photo-page' " class="item">
-        <div class="item-content">
-          <div class="text">{{photoNumber()}}</div>
-          <div class="edit-icon">
-            <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
-          </div>
-        </div>
-        <div *ngIf = "reportOfFire.image1" class="images">
-          <img class="image" [src]="reportOfFire.image1">
-          <img class="image" [src]="reportOfFire.image2">
-          <img class="image" [src]="reportOfFire.image3">
-        </div>
-      </div> -->
+      <div *ngIf = "page.id === 'location-page'">
+        <div id="map" class="map-container">
+      </div>
       <div class="item" *ngIf="twoPartsQuestions(page)">
         <div class="item-content">
           <div class="text">{{selectedAnswerPart2(page)}}</div>
