@@ -80,7 +80,7 @@
 
 .splash-screen .centered .title {
     font-size: 34px;
-    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
     color: white;
     letter-spacing: 0.21em;
 }
@@ -146,7 +146,7 @@
 
 .splash-screen .footer .status {
     font-size: 20px;
-    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
     color: white;
     letter-spacing: 0.21em;
     padding-top: 16px;

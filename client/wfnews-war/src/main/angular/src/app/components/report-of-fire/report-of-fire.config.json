@@ -48,6 +48,20 @@
       "updateAttribute": ["fullName", "phoneNumber"],
       "showProgress": false,
       "previousId": "callback-page",
+      "nextId": "compass-page"
+    },
+    {
+      "id": "compass-page",
+      "type": "RoFCompassPage",
+      "title": "What direction is the fire?",
+      "message": "Hold your phone steady and orient it so that the yellow arrow on the compass is pointing in the direction of the fire.",
+      "allowSkip": false,
+      "allowExit": true,
+      "updateAttribute": "fireDirection",
+      "showProgress": true,
+      "compassFaceUrl": "../../../assets/images/compassface.png",
+      "compassHandUrl": "../../../assets/images/compasshand.png",
+      "previousId": "callback-page",
       "nextId": "distance-page"
     },
     {
@@ -61,7 +75,7 @@
       "allowMultiSelect": false,
       "updateAttribute": "estimatedDistance",
       "showProgress": true,
-      "previousId": "contact-page",
+      "previousId": "compass-page",
       "nextId": "location-page",
       "buttons": [
         {
