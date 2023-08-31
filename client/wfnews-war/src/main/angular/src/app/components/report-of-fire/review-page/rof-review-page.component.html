@@ -10,9 +10,17 @@
       </div>
       <div class="item">
         <div class="item-content">
-          <div class="text">value001</div>
+          <div class="text">{{selectedAnswer(page)}}</div>
           <div class="edit-icon">
-            <mat-icon svgIcon="edit"></mat-icon>
+            <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="item" *ngIf="twoPartsQuestions(page)">
+        <div class="item-content">
+          <div class="text">{{selectedAnswerPart2(page)}}</div>
+          <div class="edit-icon">
+            <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
           </div>
         </div>
       </div>
