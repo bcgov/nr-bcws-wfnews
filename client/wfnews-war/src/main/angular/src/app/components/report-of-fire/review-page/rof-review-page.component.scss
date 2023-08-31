@@ -5,10 +5,9 @@
     background: #F5F5F5;
     padding: 10px;
     margin-bottom: 5px;
+    margin-top: 5px;
     width: 95%;
-    // display: flex;
-    // justify-content: space-between;
-    // align-items: center;
+    white-space: pre-line;
 }
 
 .item-content {
@@ -22,5 +21,44 @@
 }
   
 .edit-icon {
+    align-self: flex-start;
     cursor: pointer;
+}
+
+.images{
+    display: flex;
+    overflow-x: auto;
+    // .image-container{
+    //     display: inline-block;
+    //     margin: 24px 10px;
+    // }
+    .image{
+        height: 25vh;
+        margin: 6px 11px;
+    }
+}
+
+.submit-button-row{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12vh 0;
+    .action-button {
+        border-radius: 6px;
+        padding:0 32px;
+        height: 43px;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #FFF;
+        font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+        background-color: #123262;
+        flex-direction: row-reverse;
+    }
+    .mat-icon{
+        margin-left: 12px;
+        height: 24px;
+        width: 24px;
+    }
 }

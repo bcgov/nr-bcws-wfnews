@@ -8,14 +8,32 @@
       <div class="rof-text-review-header">
         {{page.title}}
       </div>
-      <div class="item">
+      <div *ngIf = "page.id !== 'location-page'" class="item">
         <div class="item-content">
           <div class="text">{{selectedAnswer(page)}}</div>
           <div class="edit-icon">
             <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
           </div>
         </div>
+        <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1" class="images">
+          <img class="image" [src]="reportOfFire.image1">
+          <img class="image" [src]="reportOfFire.image2">
+          <img class="image" [src]="reportOfFire.image3">
+        </div>
       </div>
+      <!-- <div *ngIf = "page.id === 'photo-page' " class="item">
+        <div class="item-content">
+          <div class="text">{{photoNumber()}}</div>
+          <div class="edit-icon">
+            <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+          </div>
+        </div>
+        <div *ngIf = "reportOfFire.image1" class="images">
+          <img class="image" [src]="reportOfFire.image1">
+          <img class="image" [src]="reportOfFire.image2">
+          <img class="image" [src]="reportOfFire.image3">
+        </div>
+      </div> -->
       <div class="item" *ngIf="twoPartsQuestions(page)">
         <div class="item-content">
           <div class="text">{{selectedAnswerPart2(page)}}</div>
@@ -27,11 +45,12 @@
     </div>
   </div>
 
-  <div class="divider"></div>
 
-  {{ parseJson() }}
+  <!-- {{ parseJson() }} -->
 
-  <div>
-	  <button mat-flat-button class="rof-button-primary" (click)="next()">Submit</button>
+  <div class="submit-button-row">
+	  <button mat-flat-button class="action-button" (click)="next()">Submit Report
+      <mat-icon svgIcon="send"></mat-icon>
+    </button>
   </div>
 </div>

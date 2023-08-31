@@ -37,21 +37,42 @@ export class RoFReviewPage extends RoFPage {
   selectedAnswer(page:any) {
     switch(page.id){
       case 'contact-page' : 
-        if (this.reportOfFire.consentToCall) {
-          
-        }
         return this.reportOfFire.consentToCall ? 'Yes' : 'No';
       case 'location-page' :
         return this.reportOfFire.fireLocation
+      case 'photo-page' :
+        return this.photoNumber()
+      case 'smoke-color-page' :
+        return this.reportOfFire.smokeColor;
+      case 'fire-size-page' :
+        return this.reportOfFire.fireSize;
+      case 'response-details-page' :
+        return this.reportOfFire.signsOfResponse;
+      case 'visible-flame-page' :
+        return this.reportOfFire.visibleFlame;
+      case 'fire-spread-page' :
+        return this.reportOfFire.rateOfSpread;
+      case 'what-is-burning-page' :
+        return this.reportOfFire.burning;
+      case 'infrastructure-details-page' :
+        return this.reportOfFire.assetsAtRisk;
+      case 'comments-page' :
+        return this.reportOfFire.otherInfo;
+      default :
+        return null;
     }
-    console.log(page);
-    // return 'Value001'
   }
 
   selectedAnswerPart2(page: any) {
     switch(page.id) {
       case 'contact-page' :
-        return (this.reportOfFire.fullName) + '\n' +(this.reportOfFire.phoneNumber)
+        var phoneNumber = ('' + this.reportOfFire.phoneNumber).replace(/\D/g, '');
+        var match = phoneNumber.match(/^(\d{3})(\d{3})(\d{4})$/); 
+        // reformate to phonenumber
+        if (match) {
+          console.log(match)
+          return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
+        }
     }
   }
 
@@ -59,11 +80,32 @@ export class RoFReviewPage extends RoFPage {
     switch(page.id) {
       case 'contact-page' :
         if (this.reportOfFire.consentToCall && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) {
-          debugger
           return true
         }
       default:
         return false;
+    }
+  }
+
+  photoNumber() {
+    let photoNumber = 0;
+    if (this.reportOfFire.image1) {
+      photoNumber++;
+    }
+    if (this.reportOfFire.image2) {
+      photoNumber++;
+    }
+    if (this.reportOfFire.image3) {
+      photoNumber++;
+    }
+    if ( photoNumber === 0) {
+      return 'Skipped'
+    }
+    else if ( photoNumber === 1) {
+      return photoNumber + ' photo added'
+    }
+    else  {
+      return photoNumber + ' photos added'
     }
   }
 

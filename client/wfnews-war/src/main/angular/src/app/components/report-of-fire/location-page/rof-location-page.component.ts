@@ -8,7 +8,6 @@ import { SmkApi } from "@app/utils/smk";
 import { MapConfigService } from "@app/services/map-config.service";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 
-
 @Component({
   selector: 'rof-location-page',
   templateUrl: './rof-location-page.component.html',
@@ -38,7 +37,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadMapConfig()
+    this.loadMapConfig();
   }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {

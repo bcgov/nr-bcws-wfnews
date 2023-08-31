@@ -116,6 +116,7 @@
       "allowSkip": true,
       "allowExit": true,
       "showProgress": true,
+      "updateAttribute": "firePhotos",
       "previousId": "location-page",
       "nextId": "smoke-color-page"
     },
