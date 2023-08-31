@@ -13,7 +13,7 @@ import { CapacitorService } from "../../../services/capacitor-service";
 export class RoFCompassPage extends RoFPage implements OnInit {
   public compassFaceUrl: string
   public compassHandUrl: string
-  public compassHeading: number = 0;
+  public compassHeading: number;
   public currentLat: number
   public currentLong: number
   public heading: string = "0° N";
@@ -76,6 +76,8 @@ handler(e) {
 
     document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
     document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + polarDirection;
+
+    this.reportOfFire.compassHeading = compassHeading;
 
 }
 

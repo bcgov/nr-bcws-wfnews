@@ -21,5 +21,5 @@ export class ReportOfFire {
   public image1: any;
   public image2: any;
   public image3: any;
-  public fireDirection: number = 0;
+  public compassHeading: number = 0;
 }
