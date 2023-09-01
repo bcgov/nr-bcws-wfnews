@@ -36,7 +36,7 @@
       "showProgress": false,
       "previousId": "permissions-page",
       "nextId": "contact-page",
-      "skipId": "distance-page"
+      "skipId": "compass-page"
     },
     {
       "id": "contact-page",
