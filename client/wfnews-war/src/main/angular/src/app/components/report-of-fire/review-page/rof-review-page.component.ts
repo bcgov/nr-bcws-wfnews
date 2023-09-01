@@ -104,7 +104,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
         var match = phoneNumber.match(/^(\d{3})(\d{3})(\d{4})$/); 
         // reformate to phonenumber
         if (match) {
-          console.log(match)
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
     }
@@ -143,13 +142,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  parseJson () {
-    console.log(ConfigJson)
-    return JSON.stringify(this.reportOfFire);
-  }
-
   edit() {
-    console.log('EDIT')
     //todo: navigate to the step page
   }
 }
