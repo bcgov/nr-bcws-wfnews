@@ -12,3 +12,4 @@ User-agent: *
 Allow: /map
 Allow: /currentStatistics
 Allow: /resources
+Allow: /reportOfFire

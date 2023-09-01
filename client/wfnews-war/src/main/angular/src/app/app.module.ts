@@ -149,8 +149,10 @@ import { RoFPhotoPage } from './components/report-of-fire/photo-page/rof-photo-p
 import { RoFLocationPage } from './components/report-of-fire/location-page/rof-location-page.component';
 import { RoFComplexQuestionPage } from './components/report-of-fire/complex-question-page/rof-complex-question-page.component';
 import { RoFCommentsPage } from './components/report-of-fire/comment-page/rof-comments-page.component';
+import { RoFCompassPage } from './components/report-of-fire/compass-page/rof-compass-page.component'
+import { NgxMaskModule, IConfig } from 'ngx-mask';
+import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
 
-import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -242,7 +244,9 @@ export const DATE_FORMATS = {
         RoFContactPage,
         RoFPhotoPage,
         RoFLocationPage,
-        RoFCommentsPage
+        RoFCommentsPage,
+        RoFCompassPage,
+        LocationServicesDialogComponent
     ],
     imports: [
         MatSortModule,
