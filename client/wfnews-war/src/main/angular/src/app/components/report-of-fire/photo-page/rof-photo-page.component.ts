@@ -89,4 +89,11 @@ export class RoFPhotoPage extends RoFPage {
       this.isFullScreen = !this.isFullScreen;
     }
   }
+
+  confirmLocation() {
+    this.reportOfFire.image1 = this.images[0];
+    this.reportOfFire.image2 = this.images[1];
+    this.reportOfFire.image3 = this.images[2];
+
+  }
 }

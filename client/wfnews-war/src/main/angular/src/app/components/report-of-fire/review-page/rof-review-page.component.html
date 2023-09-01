@@ -1,8 +1,49 @@
 <div class="page-content">
+  <div class="rof-text-primary-header">{{ title }}</div>
+  <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="divider"></div>
 
-  {{ parseJson() }}
+  <div *ngIf="reportOfFirePages">
+    <div *ngFor="let page of reportOfFirePages">
+      <div class="rof-text-review-header">
+        {{page.title}}
+      </div>
+      <div *ngIf = "page.id !== 'location-page'">
+        <div class="item">
+          <div class="item-content">
+            <div class="text">{{selectedAnswer(page)}}</div>
+            <div class="edit-icon">
+              <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+            </div>
+          </div>
+          <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1" class="images">
+            <img class="image" [src]="reportOfFire.image1">
+            <img class="image" [src]="reportOfFire.image2">
+            <img class="image" [src]="reportOfFire.image3">
+          </div>
+        </div>
+        <div *ngIf="twoPartsQuestions(page)" class="item">
+          <div class="item-content">
+            <div class="text">{{selectedAnswerPart2(page)}}</div>
+            <div class="edit-icon">
+              <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf = "page.id === 'location-page'" style="position: relative;">
+        <button (click)="edit()" class="edit-button">
+          <mat-icon svgIcon="edit"></mat-icon>
+          Edit
+        </button>
+        <div id="map" class="map-container">
+      </div>
+    </div>
+  </div>
 
-  <div>
-	  <button mat-flat-button class="rof-button-primary" (click)="next()">Submit</button>
+  <div class="submit-button-row">
+	  <button mat-flat-button class="action-button" (click)="next()">Submit Report
+      <mat-icon svgIcon="send"></mat-icon>
+    </button>
   </div>
 </div>

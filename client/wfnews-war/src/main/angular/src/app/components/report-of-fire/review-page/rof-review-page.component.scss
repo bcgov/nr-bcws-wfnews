@@ -1,1 +1,95 @@
 @import '../report-of-fire.component.scss';
+
+.item {
+    border-radius: 8px;
+    background: #F5F5F5;
+    padding: 10px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    width: 95%;
+    white-space: pre-line;
+}
+
+.item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text {
+    margin-right: 10px;
+}
+  
+.edit-icon {
+    align-self: flex-start;
+    cursor: pointer;
+}
+.edit-button{
+    padding:10px;
+    display: flex;
+    align-items: center;
+    position:absolute;
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.90);
+    z-index: 1000;
+    font-size: 16px;
+    right: 8px;
+    top: 8px;
+    gap:7px
+}
+.images{
+    display: flex;
+    overflow-x: auto;
+    // .image-container{
+    //     display: inline-block;
+    //     margin: 24px 10px;
+    // }
+    .image{
+        height: 25vh;
+        margin: 6px 11px;
+    }
+}
+
+.submit-button-row{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 12vh 0;
+    .action-button {
+        border-radius: 6px;
+        padding:0 32px;
+        height: 43px;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #FFF;
+        font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+        background-color: #123262;
+        flex-direction: row-reverse;
+    }
+    .mat-icon{
+        margin-left: 12px;
+        height: 24px;
+        width: 24px;
+    }
+}
+
+.map-container{
+    width: 100%;
+    max-width: 533px;
+    min-height: 400px !important;
+    border-radius: 8px;
+}
+
+::ng-deep .fireLocationIcon{
+    color: yellow;
+    font-size: 48px;
+}
+
+::ng-deep .rof-location {
+    border: 4px solid white;
+    border-radius: 14px;
+    background-color: blue;
+    position: relative;
+}

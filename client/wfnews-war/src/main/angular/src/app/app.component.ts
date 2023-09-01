@@ -42,6 +42,8 @@ export const ICON = {
   IMAGE: 'image',
   CAMERA_GREY: 'camera-grey',
   IMAGE_GREY: 'image-grey',
+  EDIT: 'edit',
+  SEND: 'send',
 };
 
 @Component({
@@ -414,6 +416,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.IMAGE_GREY,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/image-grey.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.EDIT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/edit.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.SEND,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/send.svg")
     )
   }
 
