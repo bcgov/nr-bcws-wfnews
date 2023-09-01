@@ -22,4 +22,5 @@ export class ReportOfFire {
   public image2: any;
   public image3: any;
   public currentLocation: Array<number> = [0, 0];
+  public compassHeading: number = 0;
 }

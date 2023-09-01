@@ -12,6 +12,7 @@ import ConfigJson from './report-of-fire.config.json';
 import { RoFCommentsPage } from "./comment-page/rof-comments-page.component";
 import { RoFReviewPage } from "./review-page/rof-review-page.component";
 import { Router } from "@angular/router";
+import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
 
 enum PageOperation {
   Next = 1,
@@ -85,6 +86,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         break;
         case "RoFReviewPage":
           component = this.dynamicContainer.createComponent(RoFReviewPage);
+        break;
+        case "RoFCompassPage":
+          component = this.dynamicContainer.createComponent(RoFCompassPage);
         break;
       }
 

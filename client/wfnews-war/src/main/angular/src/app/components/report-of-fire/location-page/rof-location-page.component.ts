@@ -37,7 +37,8 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.loadMapConfig();
+    this.loadMapConfig()
+    this.setHeading();
   }
 
   async initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -53,6 +54,12 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     if ( !this.heading ) return false
     if ( this.heading.error ) return false
     return true
+  }
+
+  setHeading() {
+    let compassHeading = {} as CompassHeading;
+    compassHeading.trueHeading = this.reportOfFire.compassHeading;
+    this.heading = compassHeading;
   }
 
   toggleFullScreen(): void {
