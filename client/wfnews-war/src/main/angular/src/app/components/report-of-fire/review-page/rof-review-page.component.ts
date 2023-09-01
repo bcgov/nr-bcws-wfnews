@@ -100,8 +100,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   selectedAnswerPart2(page: any) {
     switch(page.id) {
       case 'contact-page' :
-        var phoneNumber = ('' + this.reportOfFire.phoneNumber).replace(/\D/g, '');
-        var match = phoneNumber.match(/^(\d{3})(\d{3})(\d{4})$/); 
+        let phoneNumber = ('' + this.reportOfFire.phoneNumber).replace(/\D/g, '');
+        let match = phoneNumber.match(/^(\d{3})(\d{3})(\d{4})$/); 
         // reformate to phonenumber
         if (match) {
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
@@ -110,13 +110,11 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
   twoPartsQuestions(page:any) {
-    switch(page.id) {
-      case 'contact-page' :
-        if (this.reportOfFire.consentToCall && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) {
-          return true
-        }
-      default:
-        return false;
+    if ((page.id === 'contact-page') && (this.reportOfFire.consentToCall && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) ) {
+      return true;
+    }
+    else {
+      return false;
     }
   }
 
