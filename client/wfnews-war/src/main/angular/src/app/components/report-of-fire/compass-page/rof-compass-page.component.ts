@@ -2,7 +2,12 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from "../../../services/common-utility.service";
-import { CapacitorService } from "../../../services/capacitor-service";
+import { MatDialog } from '@angular/material/dialog';
+import { LocationServicesDialogComponent } from './location-services-dialog/location-services-dialog.component';
+
+interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
 
 @Component({
   selector: 'rof-compass-page',
@@ -17,9 +22,10 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   public currentLat: number
   public currentLong: number
   public heading: string = "0° N";
+  public locationSupported: boolean = false;
 
   constructor(private commonUtilityService: CommonUtilityService,
-    private capacitorService: CapacitorService) {
+              protected dialog: MatDialog) {
     super();
   }
   
@@ -34,48 +40,61 @@ ngOnInit(): void {
   this.useMyCurrentLocation();
 }
 
-getOrientation() {
-  if (this.capacitorService.isIOSPlatform) {
-    (DeviceOrientationEvent as any).requestPermission()
-      .then((response) => {
+async getOrientation() {
+  try{
+    const requestPermission = (DeviceOrientationEvent as unknown as DeviceOrientationEventiOS).requestPermission;
+    const iOS = typeof requestPermission === 'function';
+    if (iOS) {
+    const response = await requestPermission();
         if (response === "granted") {
           window.addEventListener("deviceorientation", this.handler, true);
         } else {
-          alert("has to be allowed!");
+            this.dialog.open(LocationServicesDialogComponent, {
+            width: '350px',
+            data: {
+              message: "Location services are required"
+            }
+          });
         }
-      })
-      .catch(() => alert("not supported"));
-  } else {
-    window.addEventListener("deviceorientationabsolute", this.handler, true);
-  }
+      } else {
+          window.addEventListener("deviceorientationabsolute", this.handler, true);
+      }
+     } catch (err) {
+      this.dialog.open(LocationServicesDialogComponent, {
+        width: '350px',
+        data: {
+            message: "Location services are not supported"
+        }
+      }); 
+  } 
 
 }
 
 handler(e) {
-  var compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+  let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
     compassHeading = Math.trunc(compassHeading)
-    var polarDirection = ""
+    let cardinalDirection = ""
 
     if ((compassHeading >= 0 && compassHeading <= 22) || (compassHeading >= 337 && compassHeading <= 360)) {
-      polarDirection = "N"
+      cardinalDirection = "N"
     }else if (compassHeading >= 23 && compassHeading <= 66) {
-      polarDirection = "NE"
+      cardinalDirection = "NE"
     }else if (compassHeading >= 67 && compassHeading <= 112) {
-      polarDirection = "E"  
+      cardinalDirection = "E"  
     }else if (compassHeading >= 113 && compassHeading <= 157) {
-      polarDirection = "SE"
+      cardinalDirection = "SE"
     }else if (compassHeading >= 158 && compassHeading <= 202) {
-      polarDirection = "SW"
+      cardinalDirection = "SW"
     }else if (compassHeading >= 203 && compassHeading <= 246) {
-      polarDirection = "S"
+      cardinalDirection = "S"
     }else if (compassHeading >= 247 && compassHeading <= 292) {
-      polarDirection = "W"
+      cardinalDirection = "W"
     }else if (compassHeading >= 293 && compassHeading <= 336) {
-      polarDirection = "NW"
+      cardinalDirection = "NW"
     }
 
     document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
-    document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + polarDirection;
+    document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
 
     this.reportOfFire.compassHeading = compassHeading;
 
