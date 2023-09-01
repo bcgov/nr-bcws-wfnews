@@ -84,9 +84,9 @@ handler(e) {
     }else if (compassHeading >= 113 && compassHeading <= 157) {
       cardinalDirection = "SE"
     }else if (compassHeading >= 158 && compassHeading <= 202) {
-      cardinalDirection = "SW"
-    }else if (compassHeading >= 203 && compassHeading <= 246) {
       cardinalDirection = "S"
+    }else if (compassHeading >= 203 && compassHeading <= 246) {
+      cardinalDirection = "Sw"
     }else if (compassHeading >= 247 && compassHeading <= 292) {
       cardinalDirection = "W"
     }else if (compassHeading >= 293 && compassHeading <= 336) {
