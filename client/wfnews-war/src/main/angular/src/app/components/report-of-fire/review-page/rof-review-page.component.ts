@@ -31,8 +31,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       scrollWheelZoom: false
     }).setView(location, 9)
     // configure map data
-    L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-      maxZoom: 20,
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      zoom: 5,
       subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(this.map);
 
@@ -59,6 +59,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'first-page',
       'permissions-page',
       'callback-page',
+      'compass-page',
       'distance-page',
       'infrastructure-page',
       'response-page',
