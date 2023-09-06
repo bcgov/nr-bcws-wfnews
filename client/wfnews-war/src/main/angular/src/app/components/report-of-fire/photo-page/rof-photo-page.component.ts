@@ -3,6 +3,7 @@ import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 @Component({
   selector: 'rof-photo-page',
   templateUrl: './rof-photo-page.component.html',
@@ -15,10 +16,13 @@ export class RoFPhotoPage extends RoFPage {
   isCaptured: boolean;
   images:string[] = [];
   isFullScreen: boolean = false;
+  isEditMode: boolean = false;
   public constructor(
     private changeDetector: ChangeDetectorRef,
     private el: ElementRef,
-    private commonUtilityService: CommonUtilityService) {
+    private commonUtilityService: CommonUtilityService,
+    private reportOfFirePage: ReportOfFirePage
+    ) {
     super()
   }
 
@@ -27,6 +31,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   async takePhoto(){
+    console.log('wqewqewqeqw')
     const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: false,
@@ -90,10 +95,17 @@ export class RoFPhotoPage extends RoFPage {
     }
   }
 
-  confirmLocation() {
+  confirmPhotos() {
     this.reportOfFire.image1 = this.images[0];
     this.reportOfFire.image2 = this.images[1];
     this.reportOfFire.image3 = this.images[2];
+  }
 
+  editMode() {
+    this.isEditMode = true;
+  }
+
+  backToReview() {
+    this.reportOfFirePage.edit('review-page')
   }
 }

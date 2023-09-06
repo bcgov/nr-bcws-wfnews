@@ -16,8 +16,13 @@
       </div>
     </div>
   </div>
-  <div class="rof-button-container">
+  <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="next(); confirmLocation()"><mat-icon [svgIcon]="images.length === 0? 'arrow-forward-disabled' : 'arrow-forward-enabled'"  class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
+    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="next(); confirmPhotos()"><mat-icon [svgIcon]="images.length === 0? 'arrow-forward-disabled' : 'arrow-forward-enabled'"  class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Next</button>
+  </div>
+
+  <div class="rof-button-container" *ngIf="isEditMode">
+    <button class="rof-button" mat-flat-button (click)="backToReview();">Cancel</button>
+    <button mat-flat-button [class]="'rof-button' + (images.length === 0 ? '-disabled' : '-primary')" [disabled]="images.length === 0" (click)="confirmPhotos(); backToReview();">Save</button>
   </div>
 </div>

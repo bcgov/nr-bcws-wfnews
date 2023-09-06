@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, ViewChild } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 @Component({
   selector: 'rof-complex-question-page',
@@ -15,10 +16,12 @@ export class RoFComplexQuestionPage extends RoFPage {
   public disableNext: boolean = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
+  isEditMode: boolean = false;
+
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
 
-  public constructor() {
+  public constructor(private reportOfFirePage: ReportOfFirePage) {
     super()
   }
 
@@ -69,5 +72,15 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     this.disableNext = false;
+  }
+
+  editMode() {
+    this.isEditMode = true;
+  }
+  
+  backToReview() {
+    console.log(this.reportOfFire)
+    debugger
+    this.reportOfFirePage.edit('review-page')
   }
 }

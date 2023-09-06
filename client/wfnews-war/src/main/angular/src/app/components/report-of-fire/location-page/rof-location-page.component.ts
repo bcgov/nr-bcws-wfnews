@@ -7,6 +7,7 @@ import { LatLon, LonLat } from "@app/services/wfnews-map.service/util";
 import { SmkApi } from "@app/utils/smk";
 import { MapConfigService } from "@app/services/map-config.service";
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 @Component({
   selector: 'rof-location-page',
@@ -25,13 +26,14 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   smkApi: SmkApi;
   http: HttpClient
   fullScreenMode: boolean = false;
+  isEditMode: boolean = false;
 
   public constructor(
     private mapConfigService: MapConfigService,        
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
-    private elementRef: ElementRef
-
+    private elementRef: ElementRef,
+    private reportOfFirePage: ReportOfFirePage
   ) {
     super()
   }
@@ -129,6 +131,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   confirmLocation() {
+    console.log(this.fireLocation);
     this.reportOfFire[this.updateAttribute] = this.fireLocation;
   }
 
@@ -208,6 +211,14 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       this.mapConfig = [ cfg, view ]
       this.cdr.detectChanges()
     })
+  }
+
+  editMode() {
+    this.isEditMode = true;
+  }
+
+  backToReview() {
+    this.reportOfFirePage.edit('review-page')
   }
 }
 

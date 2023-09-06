@@ -1,4 +1,4 @@
-import { AfterContentInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, OnInit, ViewChild, ViewContainerRef } from "@angular/core"
+import { AfterContentInit, ChangeDetectorRef, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from "@angular/core"
 import { RoFTitlePage } from "./title-page/rof-title-page.component";
 import { RoFPermissionsPage } from "./permissions-page/rof-permissions-page.component";
 import { RoFSimpleQuestionPage } from "./simple-question-page/rof-simple-question-page.component";
@@ -43,7 +43,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef, private resolver: ComponentFactoryResolver) {
+  constructor(private router: Router, protected cdr: ChangeDetectorRef) {
     this.pageComponents = [];
   }
 
@@ -129,7 +129,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * Page selection for navigation of the RoF forms
    * @param index The page index. Zero-based
    */
-  selectPage (pageId: string, operation: PageOperation) {
+  selectPage (pageId: string, operation: PageOperation, editMode?: boolean) {
     if (!pageId) {
       return;
     }
@@ -174,6 +174,30 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         locationPageComponent.loadMapConfig()
       }
     }
+
+    if (editMode) {
+      switch (pageId) {
+        case 'location-page':
+          const locationPageComponent = this.currentPage.instance as RoFLocationPage;
+          locationPageComponent.editMode()
+        case 'photo-page':
+          const photoPageComponent = this.currentPage.instance as RoFPhotoPage;
+          photoPageComponent.editMode()
+        case 'review-page':
+          const reviewPageComponent = this.currentPage.instance as RoFReviewPage;
+          if (reviewPageComponent.map) {
+            reviewPageComponent.loadMap()
+          }
+        case 'smoke-color-page':
+        case 'fire-size-page':
+        case 'response-details-page':
+        case 'what-is-burning-page':
+        case 'infrastructure-details-page':
+          const complexQuestionPageComponent = this.currentPage.instance as RoFComplexQuestionPage;
+          complexQuestionPageComponent.editMode()
+      }
+    }
+
 
     // Check if the component allows for the exit, skip buttons, and will display the progress
     // bar at the bottom
@@ -226,5 +250,10 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
       this.currentPage.instance.skip();
     }
+  }
+
+  edit(pageId) {
+    this.selectPage(pageId,1,true)
+    this.showProgress = false;
   }
 }
