@@ -36,7 +36,6 @@ export class RoFComplexQuestionPage extends RoFPage {
   editMode() {
     this.isEditMode = true;
     this.cdr.detectChanges()
-    // this.reportOfFire.burning = ['cao']
   }
 
   onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {

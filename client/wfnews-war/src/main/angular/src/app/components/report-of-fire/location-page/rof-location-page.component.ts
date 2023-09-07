@@ -131,7 +131,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   confirmLocation() {
-    console.log(this.fireLocation);
     this.reportOfFire[this.updateAttribute] = this.fireLocation;
   }
 
