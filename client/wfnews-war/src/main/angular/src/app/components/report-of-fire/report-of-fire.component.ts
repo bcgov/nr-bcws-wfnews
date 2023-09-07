@@ -177,17 +177,15 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
 
     if (editMode) {
       switch (pageId) {
+        case 'contact-page':
+          const contactPageComponent = this.currentPage.instance as RoFContactPage
+          contactPageComponent.editMode()
         case 'location-page':
           const locationPageComponent = this.currentPage.instance as RoFLocationPage;
           locationPageComponent.editMode()
         case 'photo-page':
           const photoPageComponent = this.currentPage.instance as RoFPhotoPage;
           photoPageComponent.editMode()
-        case 'review-page':
-          const reviewPageComponent = this.currentPage.instance as RoFReviewPage;
-          if (reviewPageComponent.map) {
-            reviewPageComponent.loadMap()
-          }
         case 'smoke-color-page':
         case 'fire-size-page':
         case 'response-details-page':
@@ -195,6 +193,14 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'infrastructure-details-page':
           const complexQuestionPageComponent = this.currentPage.instance as RoFComplexQuestionPage;
           complexQuestionPageComponent.editMode()
+
+        case 'review-page':
+          const reviewPageComponent = this.currentPage.instance as RoFReviewPage;
+          if (reviewPageComponent.map) {
+            reviewPageComponent.loadMap()
+          }
+        default:
+          return null
       }
     }
 
@@ -253,7 +259,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   }
 
   edit(pageId) {
-    this.selectPage(pageId,1,true)
+    this.selectPage(pageId,null,true)
     this.showProgress = false;
   }
 }

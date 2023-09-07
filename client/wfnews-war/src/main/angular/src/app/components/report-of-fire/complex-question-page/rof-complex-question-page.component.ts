@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
@@ -21,7 +21,8 @@ export class RoFComplexQuestionPage extends RoFPage {
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
 
-  public constructor(private reportOfFirePage: ReportOfFirePage) {
+  public constructor(private reportOfFirePage: ReportOfFirePage,
+    private cdr: ChangeDetectorRef) {
     super()
   }
 
@@ -30,6 +31,12 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.allowIDontKnowButton = data.allowIDontKnowButton;
     this.allowMultiSelect = data.allowMultiSelect;
     this.buttons = data.buttons;
+  }
+
+  editMode() {
+    this.isEditMode = true;
+    this.cdr.detectChanges()
+    // this.reportOfFire.burning = ['cao']
   }
 
   onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {
@@ -73,14 +80,13 @@ export class RoFComplexQuestionPage extends RoFPage {
 
     this.disableNext = false;
   }
-
-  editMode() {
-    this.isEditMode = true;
-  }
   
   backToReview() {
+    console.log(this.id) 
     console.log(this.reportOfFire)
-    debugger
+    if (this.id === "smoke-color-page") {
+      this.reportOfFire.smokeColor = this.reportOfFire.smokeColor
+    }
     this.reportOfFirePage.edit('review-page')
   }
 }

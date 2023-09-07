@@ -17,7 +17,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   map: any;
 
   public constructor(
-    private reportOfFirePage: ReportOfFirePage
+    private reportOfFirePage: ReportOfFirePage,
   ) {
     super()
   }
@@ -52,19 +52,19 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'photo-page' :
         return this.photoNumber()
       case 'smoke-color-page' :
-        return this.reportOfFire.smokeColor;
+        return this.reportOfFire.smokeColor.toString();;
       case 'fire-size-page' :
-        return this.reportOfFire.fireSize;
+        return this.reportOfFire.fireSize.toString();;
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse;
+        return this.reportOfFire.signsOfResponse.toString();
       case 'visible-flame-page' :
-        return this.reportOfFire.visibleFlame;
+        return this.reportOfFire.visibleFlame.toString();;
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread;
+        return this.reportOfFire.rateOfSpread.toString();;
       case 'what-is-burning-page' :
-        return this.reportOfFire.burning;
+        return this.reportOfFire.burning.toString();;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk;
+        return this.reportOfFire.assetsAtRisk.toString();;
       case 'comments-page' :
         return this.reportOfFire.otherInfo;
       default :
@@ -153,8 +153,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
   edit(pageId:string) {
-    //todo: navigate to the step page
-    console.log(pageId)
     this.reportOfFirePage.edit(pageId)
+  }
+
+  showInfo() {
+    console.log(this.reportOfFire)
   }
 }

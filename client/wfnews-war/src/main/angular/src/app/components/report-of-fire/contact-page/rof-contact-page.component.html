@@ -11,8 +11,13 @@
     <input matInput mask="(000) 000-0000" [(ngModel)]="reportOfFire.phoneNumber">
   </mat-form-field>
 
-  <div class="rof-button-container">
+  <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="reportOfFire.consentToCall = false; previous();">Previous</button>
 	  <button [class]="'rof-button' + (!reportOfFire.fullName || !reportOfFire.phoneNumber ? '-disabled' : '-primary')"  mat-flat-button (click)="reportOfFire.consentToCall = true; next();" [disabled]="!reportOfFire.fullName || !reportOfFire.phoneNumber">Continue</button>
+  </div>
+
+  <div class="rof-button-container" *ngIf="isEditMode">
+    <button class="rof-button" mat-flat-button (click)="reportOfFire.consentToCall = false; backToReview();">Cancel</button>
+	  <button [class]="'rof-button' + (!reportOfFire.fullName || !reportOfFire.phoneNumber ? '-disabled' : '-primary')"  mat-flat-button (click)="reportOfFire.consentToCall = true; backToReview();" [disabled]="!reportOfFire.fullName || !reportOfFire.phoneNumber">Save</button>
   </div>
 </div>
