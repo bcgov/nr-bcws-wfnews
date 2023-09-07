@@ -15,6 +15,8 @@ export class RoFComplexQuestionPage extends RoFPage {
   public disableNext: boolean = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
+  public buttonStates: boolean[] = Array(10).fill(false);
+
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
 
@@ -29,7 +31,10 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.buttons = data.buttons;
   }
 
-  onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {
+  onValChange (value: string, event: MatButtonToggleChange | PointerEvent, index:number) {
+    this.buttonStates.fill(false);
+    this.buttonStates[index] = !this.buttonStates[index];
+
     // Handler to ensure single select buttons highlight on click
     // to match the toggle button appearance
     if ( event instanceof PointerEvent) {
