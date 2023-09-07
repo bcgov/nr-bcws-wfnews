@@ -23,7 +23,7 @@
 
       <div class="rof-button-container" *ngIf="isEditMode">
         <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="backToReview()">Save</button>        
+        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>        
       </div>
   </div>
 </div>

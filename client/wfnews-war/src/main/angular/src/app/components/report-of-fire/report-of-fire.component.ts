@@ -194,6 +194,14 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
           const complexQuestionPageComponent = this.currentPage.instance as RoFComplexQuestionPage;
           complexQuestionPageComponent.editMode()
 
+        case 'visible-flame-page':
+        case 'fire-spread-page':
+          const simpleQustionPageComponent= this.currentPage.instance as RoFSimpleQuestionPage;
+          simpleQustionPageComponent.editMode()
+
+        case 'comments-page' :
+          const commentPageComponent= this.currentPage.instance as RoFCommentsPage;
+          commentPageComponent.editMode()
         case 'review-page':
           const reviewPageComponent = this.currentPage.instance as RoFReviewPage;
           if (reviewPageComponent.map) {

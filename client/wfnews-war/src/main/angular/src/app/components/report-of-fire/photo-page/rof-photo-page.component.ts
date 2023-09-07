@@ -21,7 +21,8 @@ export class RoFPhotoPage extends RoFPage {
     private changeDetector: ChangeDetectorRef,
     private el: ElementRef,
     private commonUtilityService: CommonUtilityService,
-    private reportOfFirePage: ReportOfFirePage
+    private reportOfFirePage: ReportOfFirePage,
+    private cdr: ChangeDetectorRef
     ) {
     super()
   }
@@ -103,6 +104,8 @@ export class RoFPhotoPage extends RoFPage {
 
   editMode() {
     this.isEditMode = true;
+    this.cdr.detectChanges()
+
   }
 
   backToReview() {

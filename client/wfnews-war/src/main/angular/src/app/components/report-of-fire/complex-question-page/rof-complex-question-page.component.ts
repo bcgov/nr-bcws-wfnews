@@ -17,6 +17,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
   isEditMode: boolean = false;
+  isPageDirty: boolean = false;
 
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
@@ -34,11 +35,13 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
 
   editMode() {
+    this.isPageDirty = false;
     this.isEditMode = true;
     this.cdr.detectChanges()
   }
 
   onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {
+    this.isPageDirty = true;
     // Handler to ensure single select buttons highlight on click
     // to match the toggle button appearance
     if ( event instanceof PointerEvent) {
@@ -81,11 +84,6 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
   
   backToReview() {
-    console.log(this.id) 
-    console.log(this.reportOfFire)
-    if (this.id === "smoke-color-page") {
-      this.reportOfFire.smokeColor = this.reportOfFire.smokeColor
-    }
     this.reportOfFirePage.edit('review-page')
   }
 }
