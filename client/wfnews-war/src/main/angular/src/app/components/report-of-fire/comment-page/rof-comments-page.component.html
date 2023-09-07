@@ -6,13 +6,18 @@
   </div>
   <mat-form-field  class="text-container">
     <textarea matInput #commentText rows="3" style="height: calc(100vh - 400px);"
-      [(ngModel)]="reportOfFire[updateAttribute]">
+      [(ngModel)]="reportOfFire[updateAttribute]" (ngModelChange)="onTextAreaChange()">
     </textarea>
     <mat-hint align="end">{{commentText.value.length}}/120</mat-hint>
   </mat-form-field>
 
-  <div class="rof-button-container">
+  <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
 	  <button class="rof-button-primary-review" mat-flat-button (click)="next()"><mat-icon style="padding-right: 12px !important; margin-right: -4px;">visibility</mat-icon>Review</button>
+  </div>
+
+  <div class="rof-button-container" *ngIf="isEditMode">
+    <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
+	  <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button (click)="backToReview()">Save</button>
   </div>
 </div>

@@ -16,9 +16,14 @@
         <mat-button-toggle #notSureButton class="flex-button" style="width: 100%; box-sizing: border-box; align-items: center;" *ngIf="allowIDontKnowButton" value="skip" (click)="onValChange(null)"><span class="question-mark">?</span>I'm not sure</mat-button-toggle>
       </div>
 
-      <div class="rof-button-container">
+      <div class="rof-button-container" *ngIf="!isEditMode">
         <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
         <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="next()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>        
+      </div>
+
+      <div class="rof-button-container" *ngIf="isEditMode">
+        <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
+        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>        
       </div>
   </div>
 </div>

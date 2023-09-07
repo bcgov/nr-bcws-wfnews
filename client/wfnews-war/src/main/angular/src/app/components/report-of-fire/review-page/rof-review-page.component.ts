@@ -3,6 +3,7 @@ import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import ConfigJson from '../report-of-fire.config.json';
 import * as L from 'leaflet'
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 
 @Component({
@@ -13,43 +14,16 @@ import * as L from 'leaflet'
 })
 export class RoFReviewPage extends RoFPage implements AfterViewInit{
   public reportOfFirePages: any;
-  private map: any;
+  map: any;
 
-  public constructor() {
+  public constructor(
+    private reportOfFirePage: ReportOfFirePage,
+  ) {
     super()
   }
 
   ngAfterViewInit(): void {
-    const location = this.reportOfFire.fireLocation;
-    this.map = L.map('map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false
-    }).setView(location, 9)
-    // configure map data
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      zoom: 5,
-      subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(this.map);
-
-    const fireLocationIcon = L.divIcon({
-      html: '<i class="fireLocationIcon material-icons">location_searching</i>',
-      iconSize: [48, 48],
-      className: 'fireLocationIcon'
-    })
-    L.marker(location, {icon:fireLocationIcon}).addTo(this.map)
-
-    L.marker( this.reportOfFire.currentLocation, {
-      icon: L.divIcon( {
-          className:  'rof-location',
-          iconSize:   [ 20, 20 ],
-          iconAnchor: [ 14, 14 ]
-      } )
-    }).addTo(this.map)
+    this.loadMap()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -78,19 +52,19 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'photo-page' :
         return this.photoNumber()
       case 'smoke-color-page' :
-        return this.reportOfFire.smokeColor;
+        return this.reportOfFire.smokeColor.toString();;
       case 'fire-size-page' :
-        return this.reportOfFire.fireSize;
+        return this.reportOfFire.fireSize.toString();;
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse;
+        return this.reportOfFire.signsOfResponse.toString();
       case 'visible-flame-page' :
-        return this.reportOfFire.visibleFlame;
+        return this.reportOfFire.visibleFlame.toString();;
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread;
+        return this.reportOfFire.rateOfSpread.toString();;
       case 'what-is-burning-page' :
-        return this.reportOfFire.burning;
+        return this.reportOfFire.burning.toString();;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk;
+        return this.reportOfFire.assetsAtRisk.toString();;
       case 'comments-page' :
         return this.reportOfFire.otherInfo;
       default :
@@ -141,7 +115,43 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  edit() {
-    //todo: navigate to the step page
+  loadMap() {
+    if (this.map) {
+      this.map.remove();
+    }
+    const location = this.reportOfFire.fireLocation;
+    this.map = L.map('map', {
+      attributionControl: false,
+      zoomControl: false,
+      dragging: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      trackResize: false,
+      scrollWheelZoom: false
+    }).setView(location, 9)
+    // configure map data
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      zoom: 5,
+      subdomains:['mt0','mt1','mt2','mt3']
+    }).addTo(this.map);
+
+    const fireLocationIcon = L.divIcon({
+      html: '<i class="fireLocationIcon material-icons">location_searching</i>',
+      iconSize: [48, 48],
+      className: 'fireLocationIcon'
+    })
+    L.marker(location, {icon:fireLocationIcon}).addTo(this.map)
+
+    L.marker( this.reportOfFire.currentLocation, {
+      icon: L.divIcon( {
+          className:  'rof-location',
+          iconSize:   [ 20, 20 ],
+          iconAnchor: [ 14, 14 ]
+      } )
+    }).addTo(this.map)
+  }
+
+  edit(pageId:string) {
+    this.reportOfFirePage.edit(pageId)
   }
 }

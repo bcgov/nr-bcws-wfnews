@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, ViewChild } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 @Component({
   selector: 'rof-complex-question-page',
@@ -15,12 +16,15 @@ export class RoFComplexQuestionPage extends RoFPage {
   public disableNext: boolean = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
+  isEditMode: boolean = false;
+  isPageDirty: boolean = false;
   public buttonStates: boolean[] = Array(10).fill(false);
 
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
 
-  public constructor() {
+  public constructor(private reportOfFirePage: ReportOfFirePage,
+    private cdr: ChangeDetectorRef) {
     super()
   }
 
@@ -31,7 +35,14 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.buttons = data.buttons;
   }
 
+  editMode() {
+    this.isPageDirty = false;
+    this.isEditMode = true;
+    this.cdr.detectChanges()
+  }
+
   onValChange (value: string, event: MatButtonToggleChange | PointerEvent, index:number) {
+    this.isPageDirty = true;
     this.buttonStates.fill(false);
     this.buttonStates[index] = !this.buttonStates[index];
 
@@ -80,5 +91,9 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     this.disableNext = false;
+  }
+  
+  backToReview() {
+    this.reportOfFirePage.edit('review-page')
   }
 }

@@ -13,7 +13,7 @@
           <div class="item-content">
             <div class="text">{{selectedAnswer(page)}}</div>
             <div class="edit-icon">
-              <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+              <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
             </div>
           </div>
           <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1" class="images">
@@ -26,13 +26,13 @@
           <div class="item-content">
             <div class="text">{{selectedAnswerPart2(page)}}</div>
             <div class="edit-icon">
-              <mat-icon svgIcon="edit" (click)="edit()"></mat-icon>
+              <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
             </div>
           </div>
         </div>
       </div>
       <div *ngIf = "page.id === 'location-page'" style="position: relative;">
-        <button (click)="edit()" class="edit-button">
+        <button (click)="edit(page.id)" class="edit-button">
           <mat-icon svgIcon="edit"></mat-icon>
           Edit
         </button>

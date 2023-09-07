@@ -1,6 +1,7 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 @Component({
   selector: 'rof-comments-page',
@@ -9,11 +10,27 @@ import { ReportOfFire } from "../reportOfFireModel";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RoFCommentsPage extends RoFPage {
-  public constructor() {
+  isEditMode: boolean = false;
+  isPageDirty: boolean = false;
+  public constructor(private cdr: ChangeDetectorRef, private reportOfFirePage: ReportOfFirePage) {
     super()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
+  }
+
+  editMode() {
+    this.isPageDirty = false;
+    this.isEditMode = true;
+    this.cdr.detectChanges()
+  }
+
+  onTextAreaChange() {
+    this.isPageDirty = true;
+  }
+
+  backToReview() {
+    this.reportOfFirePage.edit('review-page')
   }
 }
