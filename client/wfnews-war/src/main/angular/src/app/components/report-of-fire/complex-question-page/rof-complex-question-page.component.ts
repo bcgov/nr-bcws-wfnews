@@ -35,17 +35,23 @@ export class RoFComplexQuestionPage extends RoFPage {
     if ( event instanceof PointerEvent) {
       // middle of the button will return the span, edges will return the button itself
       // which is super annoying, so we need to check that we have an id set
-      const clickedButton = (event.target as HTMLElement).id !== '' ? event.target as HTMLElement : (event.target as HTMLElement).parentElement;
+      // const clickedButton = (event.target as HTMLElement).id !== '' ? event.target as HTMLElement : (event.target as HTMLElement).parentElement;
+
+      const clickedElement = event.target as HTMLElement;
+      const clickedButton = clickedElement.closest('button');
+
 
       // remove the highlight on the currently selected button
-      if (this.highlightedButton) {
-        this.highlightedButton.classList.remove("btn-highlight");
-      }
+      if (clickedButton){
+        if (this.highlightedButton) {
+          this.highlightedButton.classList.remove("btn-highlight");
+        }
 
-      // highlight the new button
-      clickedButton.classList.add("btn-highlight");
-      // and store it for later events
-      this.highlightedButton = clickedButton
+        // highlight the new button
+        clickedButton.classList.add("btn-highlight");
+        // and store it for later events
+        this.highlightedButton = clickedButton
+      }
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
