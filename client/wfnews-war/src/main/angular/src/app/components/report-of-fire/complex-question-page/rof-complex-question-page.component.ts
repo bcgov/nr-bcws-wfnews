@@ -18,6 +18,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   public highlightedButton: HTMLElement;
   isEditMode: boolean = false;
   isPageDirty: boolean = false;
+  public buttonStates: boolean[] = Array(10).fill(false);
 
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
 
@@ -40,8 +41,11 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.cdr.detectChanges()
   }
 
-  onValChange (value: string, event: MatButtonToggleChange | PointerEvent) {
+  onValChange (value: string, event: MatButtonToggleChange | PointerEvent, index:number) {
     this.isPageDirty = true;
+    this.buttonStates.fill(false);
+    this.buttonStates[index] = !this.buttonStates[index];
+
     // Handler to ensure single select buttons highlight on click
     // to match the toggle button appearance
     if ( event instanceof PointerEvent) {
