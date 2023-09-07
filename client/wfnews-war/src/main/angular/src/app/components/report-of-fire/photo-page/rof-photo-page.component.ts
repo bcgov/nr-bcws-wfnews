@@ -32,7 +32,6 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   async takePhoto(){
-    console.log('wqewqewqeqw')
     const image = await Camera.getPhoto({
       quality: 100,
       allowEditing: false,

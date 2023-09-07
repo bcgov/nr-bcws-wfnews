@@ -120,7 +120,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       this.map.remove();
     }
     const location = this.reportOfFire.fireLocation;
-    console.log(location)
     this.map = L.map('map', {
       attributionControl: false,
       zoomControl: false,
@@ -154,9 +153,5 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
 
   edit(pageId:string) {
     this.reportOfFirePage.edit(pageId)
-  }
-
-  showInfo() {
-    console.log(this.reportOfFire)
   }
 }
