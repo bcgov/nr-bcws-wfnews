@@ -137,7 +137,7 @@ confirmHeading() {
 formatDDM(decimal: number){
   decimal = Math.abs(decimal);
   let d = Math.abs(Math.trunc(decimal));
-  return d+ "° " +(60 * (decimal - d)).toFixed(3) + "'";
+  return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
 }
  
 
