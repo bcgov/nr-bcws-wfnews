@@ -6,10 +6,10 @@
         <img alt="Compass Hand" [src]="compassHandUrl"  class="compass-hand-image"/>
     </div>
     <div class="compass-heading" id="compass-heading">{{ heading }}</div>
-    <div class="location">{{ currentLat }},{{ currentLong }}</div>
+    <div class="location" id="location">{{ currentLat }},{{ currentLong }}</div>
     <div class="rof-button-container">
       <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>
-        <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button>
+        <button class="rof-button-primary" mat-flat-button (click)="confirmHeading()">Continue</button>
     </div>
   </div>
   

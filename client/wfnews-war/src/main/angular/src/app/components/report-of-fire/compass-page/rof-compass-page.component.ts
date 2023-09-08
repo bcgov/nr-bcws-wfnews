@@ -18,14 +18,14 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
 export class RoFCompassPage extends RoFPage implements OnInit {
   public compassFaceUrl: string
   public compassHandUrl: string
-  public compassHeading: number;
-  public currentLat: number
-  public currentLong: number
+  public compassHeading: number = 0;
+  public currentLat: string;
+  public currentLong: string;
   public heading: string = "0° N";
   public locationSupported: boolean = false;
 
   constructor(private commonUtilityService: CommonUtilityService,
-              protected dialog: MatDialog) {
+              protected dialog: MatDialog, ) {
     super();
   }
   
@@ -36,7 +36,7 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  this.getOrientation(); 
+  this.getOrientation();
   this.useMyCurrentLocation();
 }
 
@@ -71,7 +71,9 @@ async getOrientation() {
 }
 
 handler(e) {
-  let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+
+  try {
+    let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
     compassHeading = Math.trunc(compassHeading)
     let cardinalDirection = ""
 
@@ -93,21 +95,50 @@ handler(e) {
       cardinalDirection = "NW"
     }
 
-    document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
-    document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
+    if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
+    if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
 
     this.reportOfFire.compassHeading = compassHeading;
 
+    this.useMyCurrentLocation();
+
+  } catch(err) {
+    console.error('Could not set compass heading', err)
+  }
+    
 }
 
 async useMyCurrentLocation() {
 
-  const location = await this.commonUtilityService.getCurrentLocationPromise()
-  if (location) {
-    this.currentLat = Number(location.coords.latitude);
-    this.currentLong = Number(location.coords.longitude);
+  try {
+    const location = await this.commonUtilityService.getCurrentLocationPromise()
+    if (location) {   
+      this.currentLat = this.formatDDM(Number(location.coords.latitude));
+      this.currentLong = this.formatDDM(Number(location.coords.longitude));
+    }
+
+    if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
+  } catch(err){
+    console.error('Could not find current location', err)
   }
   
 }
+
+confirmHeading() {
+  try{
+    this.reportOfFire.compassHeading = this.compassHeading;
+    this.next();
+  } catch(err){
+    console.error('Could not confirm heading', err)
+  }
+
+}
+
+formatDDM(decimal: number){
+  decimal = Math.abs(decimal);
+  let d = Math.abs(Math.trunc(decimal));
+  return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
+}
+ 
 
 }

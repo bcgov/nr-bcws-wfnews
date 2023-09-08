@@ -57,7 +57,7 @@
       "message": "Hold your phone steady and orient it so that the yellow arrow on the compass is pointing in the direction of the fire.",
       "allowSkip": true,
       "allowExit": true,
-      "updateAttribute": "fireDirection",
+      "updateAttribute": "compassHeading",
       "showProgress": true,
       "compassFaceUrl": "../../../assets/images/compassface.png",
       "compassHandUrl": "../../../assets/images/compasshand.png",
