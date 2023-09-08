@@ -18,14 +18,14 @@ interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
 export class RoFCompassPage extends RoFPage implements OnInit {
   public compassFaceUrl: string
   public compassHandUrl: string
-  public compassHeading: number;
-  public currentLat: number
-  public currentLong: number
+  public compassHeading: number = 0;
+  public currentLat: number = 0;
+  public currentLong: number = 0;
   public heading: string = "0° N";
   public locationSupported: boolean = false;
 
   constructor(private commonUtilityService: CommonUtilityService,
-              protected dialog: MatDialog) {
+              protected dialog: MatDialog, ) {
     super();
   }
   
@@ -36,7 +36,7 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  this.getOrientation(); 
+  this.getOrientation();
   this.useMyCurrentLocation();
 }
 
@@ -98,16 +98,23 @@ handler(e) {
 
     this.reportOfFire.compassHeading = compassHeading;
 
+    this.useMyCurrentLocation();
 }
 
 async useMyCurrentLocation() {
 
   const location = await this.commonUtilityService.getCurrentLocationPromise()
-  if (location) {
+  if (location) {   
     this.currentLat = Number(location.coords.latitude);
     this.currentLong = Number(location.coords.longitude);
   }
+
+  document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
   
+}
+
+confirmHeading() {
+  this.reportOfFire.compassHeading = this.compassHeading;
 }
 
 }
