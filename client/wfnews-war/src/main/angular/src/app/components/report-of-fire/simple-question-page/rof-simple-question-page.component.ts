@@ -49,6 +49,10 @@ export class RoFSimpleQuestionPage extends RoFPage {
   }
 
   backToReview() {
+    if (this.id === 'callback-page' && this.reportOfFire[this.updateAttribute] === 'no') {
+      this.reportOfFire.phoneNumber == null;
+      this.reportOfFire.fullName == null;
+    }
     this.reportOfFirePage.edit('review-page')
   }
 }

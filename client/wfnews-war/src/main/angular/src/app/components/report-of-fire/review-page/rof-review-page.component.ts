@@ -46,7 +46,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   selectedAnswer(page:any) {
     switch(page.id){
       case 'contact-page' : 
-        return this.reportOfFire.consentToCall ? 'Yes' : 'No';
+        return (this.reportOfFire.consentToCall && this.reportOfFire.consentToCall === 'yes') ? 'Yes' : 'No';
       case 'location-page' :
         return this.reportOfFire.fireLocation
       case 'photo-page' :
@@ -85,7 +85,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
   twoPartsQuestions(page:any) {
-    if ((page.id === 'contact-page') && (this.reportOfFire.consentToCall && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) ) {
+    if ((page.id === 'contact-page') && (this.reportOfFire.consentToCall === 'yes' && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) ) {
       return true;
     }
     else {
@@ -151,7 +151,11 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }).addTo(this.map)
   }
 
-  edit(pageId:string) {
-    this.reportOfFirePage.edit(pageId)
+  edit(pageId:string, callbackStep?:number) {
+    if((pageId === 'contact-page') && !callbackStep) {
+      this.reportOfFirePage.edit('callback-page')
+    } else {
+      this.reportOfFirePage.edit(pageId)
+    }
   }
 }
