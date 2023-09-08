@@ -19,8 +19,8 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   public compassFaceUrl: string
   public compassHandUrl: string
   public compassHeading: number = 0;
-  public currentLat: number = 0;
-  public currentLong: number = 0;
+  public currentLat: string;
+  public currentLong: string;
   public heading: string = "0° N";
   public locationSupported: boolean = false;
 
@@ -113,8 +113,8 @@ async useMyCurrentLocation() {
   try {
     const location = await this.commonUtilityService.getCurrentLocationPromise()
     if (location) {   
-      this.currentLat = Number(location.coords.latitude);
-      this.currentLong = Number(location.coords.longitude);
+      this.currentLat = this.formatDDM(Number(location.coords.latitude));
+      this.currentLong = this.formatDDM(Number(location.coords.longitude));
     }
 
     if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
@@ -131,7 +131,14 @@ confirmHeading() {
   } catch(err){
     console.error('Could not confirm heading', err)
   }
-  
+
 }
+
+formatDDM(decimal: number){
+  decimal = Math.abs(decimal);
+  let d = Math.abs(Math.trunc(decimal));
+  return d+ "° " +(60 * (decimal - d)).toFixed(3) + "'";
+}
+ 
 
 }
