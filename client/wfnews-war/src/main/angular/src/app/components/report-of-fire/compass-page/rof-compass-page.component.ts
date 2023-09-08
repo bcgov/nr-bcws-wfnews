@@ -71,7 +71,9 @@ async getOrientation() {
 }
 
 handler(e) {
-  let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+
+  try {
+    let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
     compassHeading = Math.trunc(compassHeading)
     let cardinalDirection = ""
 
@@ -93,28 +95,43 @@ handler(e) {
       cardinalDirection = "NW"
     }
 
-    document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
-    document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
+    if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
+    if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
 
     this.reportOfFire.compassHeading = compassHeading;
 
     this.useMyCurrentLocation();
+
+  } catch(err) {
+    console.error('Could not set compass heading', err)
+  }
+    
 }
 
 async useMyCurrentLocation() {
 
-  const location = await this.commonUtilityService.getCurrentLocationPromise()
-  if (location) {   
-    this.currentLat = Number(location.coords.latitude);
-    this.currentLong = Number(location.coords.longitude);
-  }
+  try {
+    const location = await this.commonUtilityService.getCurrentLocationPromise()
+    if (location) {   
+      this.currentLat = Number(location.coords.latitude);
+      this.currentLong = Number(location.coords.longitude);
+    }
 
-  document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
+    if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
+  } catch(err){
+    console.error('Could not find current location', err)
+  }
   
 }
 
 confirmHeading() {
-  this.reportOfFire.compassHeading = this.compassHeading;
+  try{
+    this.reportOfFire.compassHeading = this.compassHeading;
+    this.next();
+  } catch(err){
+    console.error('Could not confirm heading', err)
+  }
+  
 }
 
 }
