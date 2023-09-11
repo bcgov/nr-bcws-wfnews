@@ -131,12 +131,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     })
 
     // Calculate the bounding box
-    const bbox = L.latLngBounds(this.reportOfFire.currentLocation, this.reportOfFire.fireLocation);
-
+    if (this.reportOfFire.currentLocation && this.reportOfFire.fireLocation) {
+      const bbox = L.latLngBounds(this.reportOfFire.currentLocation, this.reportOfFire.fireLocation);
+      const zoomLevel = this.map.getBoundsZoom(bbox);
+      this.map.setView(bbox.getCenter(), zoomLevel)
+    }
     // Calculate the ideal zoom level to fit the bounding box within the map's view
-    const zoomLevel = this.map.getBoundsZoom(bbox);
-
-    this.map.setView(bbox.getCenter(), zoomLevel)
     // configure map data
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
       zoom: 5,
