@@ -91,6 +91,10 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     this.disableNext = false;
+
+    if (value === null) {
+      this.reportOfFire[this.updateAttribute] = "I'm not sure"
+    } 
   }
   
   backToReview() {

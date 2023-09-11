@@ -11,7 +11,7 @@
       <div *ngIf = "page.id !== 'location-page'">
         <div class="item">
           <div class="item-content">
-            <div class="text">{{selectedAnswer(page)}}</div>
+            <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
             <div class="edit-icon">
               <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
             </div>
