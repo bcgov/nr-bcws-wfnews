@@ -46,7 +46,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   selectedAnswer(page:any) {
     switch(page.id){
       case 'contact-page' : 
-        return (this.reportOfFire.consentToCall && this.reportOfFire.consentToCall === 'yes') ? 'Yes' : 'No';
+        return this.reportOfFire.consentToCall.charAt(0).toUpperCase() + this.reportOfFire.consentToCall.slice(1);
       case 'location-page' :
         return this.reportOfFire.fireLocation
       case 'photo-page' :
