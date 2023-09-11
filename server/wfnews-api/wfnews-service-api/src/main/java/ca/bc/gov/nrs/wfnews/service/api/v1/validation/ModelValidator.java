@@ -1,24 +1,17 @@
 package ca.bc.gov.nrs.wfnews.service.api.v1.validation;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.yaml.snakeyaml.external.biz.base64Coder.Base64Coder;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.utils.Base64Coder;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -27,6 +20,9 @@ import ca.bc.gov.nrs.common.rest.resource.CodeTableListResource;
 import ca.bc.gov.nrs.common.rest.resource.CodeTableResource;
 import ca.bc.gov.nrs.wfone.common.service.api.validation.BaseValidator;
 import ca.bc.gov.nrs.wfone.common.utils.MessageBuilder;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfnews.api.model.v1.Attachment;
 import ca.bc.gov.nrs.wfnews.api.model.v1.ExternalUri;
