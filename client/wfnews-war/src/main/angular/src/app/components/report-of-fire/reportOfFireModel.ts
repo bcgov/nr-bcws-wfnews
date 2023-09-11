@@ -3,7 +3,7 @@
  * Which we will be submitting to
  */
 export class ReportOfFire {
-  public consentToCall: boolean = false;
+  public consentToCall: string = 'No';
   public fullName: string = '';
   public phoneNumber: string = '';
   public estimatedDistance: number = 0;
