@@ -42,12 +42,15 @@ ngOnInit(): void {
 
 async getOrientation() {
   try{
+    let self = this;
     const requestPermission = (DeviceOrientationEvent as unknown as DeviceOrientationEventiOS).requestPermission;
     const iOS = typeof requestPermission === 'function';
     if (iOS) {
     const response = await requestPermission();
         if (response === "granted") {
-          window.addEventListener("deviceorientation", this.handler, true);
+          window.addEventListener("deviceorientation", (function(passedInElement) {
+            return function(e) {self.handler(e, passedInElement); };
+        }) (self), true);
         } else {
             this.dialog.open(LocationServicesDialogComponent, {
             width: '350px',
@@ -57,7 +60,9 @@ async getOrientation() {
           });
         }
       } else {
-          window.addEventListener("deviceorientationabsolute", this.handler, true);
+        window.addEventListener("deviceorientationabsolute", (function(passedInElement) {
+          return function(e) {self.handler(e, passedInElement); };
+      }) (self), true);
       }
      } catch (err) {
       this.dialog.open(LocationServicesDialogComponent, {
@@ -70,7 +75,7 @@ async getOrientation() {
 
 }
 
-handler(e) {
+handler(e, self) {
 
   try {
     let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
@@ -98,9 +103,11 @@ handler(e) {
     if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
     if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
 
-    this.reportOfFire.compassHeading = compassHeading;
+    self.reportOfFire.compassHeading = compassHeading;
 
-    this.useMyCurrentLocation();
+    self.useMyCurrentLocation(self);
+
+    this.reportOfFire = self.reportOfFire;
 
   } catch(err) {
     console.error('Could not set compass heading', err)
@@ -108,7 +115,7 @@ handler(e) {
     
 }
 
-async useMyCurrentLocation() {
+async useMyCurrentLocation(){
 
   try {
     const location = await this.commonUtilityService.getCurrentLocationPromise()
@@ -118,6 +125,22 @@ async useMyCurrentLocation() {
     }
 
     if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
+  } catch(err){
+    console.error('Could not find current location', err)
+  }
+  
+}
+
+async useCurrentLocation(self: any){
+
+  try {
+    const location = await self.commonUtilityService.getCurrentLocationPromise()
+    if (location) {   
+      self.currentLat = this.formatDDM(Number(location.coords.latitude));
+      self.currentLong = this.formatDDM(Number(location.coords.longitude));
+    }
+
+    if (document.getElementById("location")) document.getElementById("location").innerText = self.currentLat + "," + self.currentLong;
   } catch(err){
     console.error('Could not find current location', err)
   }

@@ -3,6 +3,8 @@
 #compass-container {
   max-width: 262px;
   max-height: 262px;
+  min-height: 200px !important;
+  min-width: 200px !important;
   margin: 0 auto;
   position: relative;
   display: flex;
@@ -11,13 +13,9 @@
 }
 
 #compass-container #compass-face-image {
-  height: 30vh;
-  width: 65vw;
+  height: 100%;
+  width: 100%;
   margin: 0 auto;
-  min-height: 200px !important;
-  min-width: 200px !important;
-  max-height: 262px;
-  max-width: 262px;
 }
 
 .compass-hand-image {
