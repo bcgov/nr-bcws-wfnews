@@ -48,8 +48,8 @@ async getOrientation() {
     if (iOS) {
     const response = await requestPermission();
         if (response === "granted") {
-          window.addEventListener("deviceorientation", (function(passedInElement) {
-            return function(e) {self.handler(e, passedInElement); };
+          window.addEventListener("deviceorientation", (function(compass) {
+            return function(e) {self.handler(e, compass); };
         }) (self), true);
         } else {
             this.dialog.open(LocationServicesDialogComponent, {
@@ -60,8 +60,8 @@ async getOrientation() {
           });
         }
       } else {
-        window.addEventListener("deviceorientationabsolute", (function(passedInElement) {
-          return function(e) {self.handler(e, passedInElement); };
+        window.addEventListener("deviceorientationabsolute", (function(compass) {
+          return function(e) {self.handler(e, compass); };
       }) (self), true);
       }
      } catch (err) {
