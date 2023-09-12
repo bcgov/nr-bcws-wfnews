@@ -4,6 +4,7 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from "../../../services/common-utility.service";
 import { MatDialog } from '@angular/material/dialog';
 import { LocationServicesDialogComponent } from './location-services-dialog/location-services-dialog.component';
+import { equalsIgnoreCase } from '../../../utils';
 
 interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   requestPermission?: () => Promise<'granted' | 'denied'>;
@@ -23,6 +24,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   public currentLong: string;
   public heading: string = "0° N";
   public locationSupported: boolean = false;
+  equalsIgnoreCase = equalsIgnoreCase; 
 
   constructor(private commonUtilityService: CommonUtilityService,
               protected dialog: MatDialog, ) {
@@ -47,7 +49,7 @@ async getOrientation() {
     const iOS = typeof requestPermission === 'function';
     if (iOS) {
     const response = await requestPermission();
-        if (response === "granted") {
+        if (equalsIgnoreCase(response, "granted")) {
           window.addEventListener("deviceorientation", (function(compass) {
             return function(e) {self.handler(e, compass); };
         }) (self), true);
@@ -105,7 +107,7 @@ handler(e, self) {
 
     self.reportOfFire.compassHeading = compassHeading;
 
-    self.useMyCurrentLocation(self);
+    this.useMyCurrentLocation();
 
     this.reportOfFire = self.reportOfFire;
 
@@ -116,7 +118,6 @@ handler(e, self) {
 }
 
 async useMyCurrentLocation(){
-
   try {
     const location = await this.commonUtilityService.getCurrentLocationPromise()
     if (location) {   
@@ -125,22 +126,6 @@ async useMyCurrentLocation(){
     }
 
     if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
-  } catch(err){
-    console.error('Could not find current location', err)
-  }
-  
-}
-
-async useCurrentLocation(self: any){
-
-  try {
-    const location = await self.commonUtilityService.getCurrentLocationPromise()
-    if (location) {   
-      self.currentLat = this.formatDDM(Number(location.coords.latitude));
-      self.currentLong = this.formatDDM(Number(location.coords.longitude));
-    }
-
-    if (document.getElementById("location")) document.getElementById("location").innerText = self.currentLat + "," + self.currentLong;
   } catch(err){
     console.error('Could not find current location', err)
   }
