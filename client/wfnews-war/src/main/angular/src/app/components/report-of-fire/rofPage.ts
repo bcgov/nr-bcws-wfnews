@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from "@angular/core"
+import { Component } from "@angular/core"
 import { ReportOfFire } from "./reportOfFireModel"
 import {v4 as uuidv4} from 'uuid';
 
@@ -24,7 +24,9 @@ export class RoFPage {
   public allowExit: boolean;
   public reportOfFire: ReportOfFire;
   public title: string;
+  public offLineTitle: string;
   public message: string;
+  public offLineMessage: string;
   public updateAttribute: string;
   public showProgress: boolean;
 
@@ -33,7 +35,9 @@ export class RoFPage {
     this.allowSkip = data.allowSkip;
     this.isStartPage = data.isStartPage || false;
     this.message = data.message;
+    this.offLineMessage = data.offLineMessage;
     this.title = data.title;
+    this.offLineTitle = data.offLineTitle;
     this.showProgress = data.showProgress;
     this.updateAttribute = data.updateAttribute || '';
     this.index = index;
