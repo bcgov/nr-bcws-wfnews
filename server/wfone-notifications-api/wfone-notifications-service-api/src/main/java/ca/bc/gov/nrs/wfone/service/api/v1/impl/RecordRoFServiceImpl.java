@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -45,10 +46,6 @@ import com.drew.lang.Rational;
 import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.GpsDirectory;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.utils.Base64Coder;
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 import com.vividsolutions.jts.geom.GeometryFactory;
@@ -79,6 +76,9 @@ import ca.bc.gov.nrs.wfone.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordServiceConstants;
 import ca.bc.gov.nrs.wfone.service.api.v1.spring.ServiceApiSpringConfig;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
 
 /**
  * Service implementation used for writing submitted RoF forms stored in
@@ -136,7 +136,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		try {
 			HttpResponse<JsonNode> tokenResponse = Unirest.get(webadeOauth2ClientUrl)
 					.header("Authorization",
-							"Basic " + Base64Coder.encodeString(webadeOauth2ClientId + ":" + webadeOauth2ClientSecret))
+							"Basic " + Base64.getEncoder().encodeToString((webadeOauth2ClientId + ":" + webadeOauth2ClientSecret).getBytes()))
 					.header("Content-Type", "application/json").asJson();
 			JsonNode tokenBody = tokenResponse.getBody();
 			String token = tokenBody.getObject().getString("access_token");
@@ -647,7 +647,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 				// create a token
 				HttpResponse<JsonNode> tokenResponse = Unirest.get(ouathApiUrl)
-						.header("Authorization", "Basic " + Base64Coder.encodeString(client + ":" + secret))
+						.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client + ":" + secret).getBytes()))
 						.header("Content-Type", "application/json").asJson();
 				JsonNode tokenBody = tokenResponse.getBody();
 				String token = tokenBody.getObject().getString("access_token");

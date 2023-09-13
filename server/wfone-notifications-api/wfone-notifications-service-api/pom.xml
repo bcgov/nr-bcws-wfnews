@@ -43,9 +43,9 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mashape.unirest</groupId>
-			<artifactId>unirest-java</artifactId>
-			<version>1.4.9</version>
+				<groupId>com.konghq</groupId>
+				<artifactId>unirest-java</artifactId>
+				<version>3.11.09</version>
 		</dependency>
 
 		<dependency>
