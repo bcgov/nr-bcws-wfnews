@@ -4,6 +4,7 @@ import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from "../../../services/common-utility.service";
 import { MatDialog } from '@angular/material/dialog';
 import { LocationServicesDialogComponent } from './location-services-dialog/location-services-dialog.component';
+import { equalsIgnoreCase } from '../../../utils';
 
 interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
   requestPermission?: () => Promise<'granted' | 'denied'>;
@@ -23,6 +24,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   public currentLong: string;
   public heading: string = "0° N";
   public locationSupported: boolean = false;
+  equalsIgnoreCase = equalsIgnoreCase; 
 
   constructor(private commonUtilityService: CommonUtilityService,
               protected dialog: MatDialog, ) {
@@ -42,12 +44,15 @@ ngOnInit(): void {
 
 async getOrientation() {
   try{
+    let self = this;
     const requestPermission = (DeviceOrientationEvent as unknown as DeviceOrientationEventiOS).requestPermission;
     const iOS = typeof requestPermission === 'function';
     if (iOS) {
     const response = await requestPermission();
-        if (response === "granted") {
-          window.addEventListener("deviceorientation", this.handler, true);
+        if (equalsIgnoreCase(response, "granted")) {
+          window.addEventListener("deviceorientation", (function(compass) {
+            return function(e) {self.handler(e, compass); };
+        }) (self), true);
         } else {
             this.dialog.open(LocationServicesDialogComponent, {
             width: '350px',
@@ -57,7 +62,9 @@ async getOrientation() {
           });
         }
       } else {
-          window.addEventListener("deviceorientationabsolute", this.handler, true);
+        window.addEventListener("deviceorientationabsolute", (function(compass) {
+          return function(e) {self.handler(e, compass); };
+      }) (self), true);
       }
      } catch (err) {
       this.dialog.open(LocationServicesDialogComponent, {
@@ -70,7 +77,7 @@ async getOrientation() {
 
 }
 
-handler(e) {
+handler(e, self) {
 
   try {
     let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
@@ -98,9 +105,11 @@ handler(e) {
     if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
     if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
 
-    this.reportOfFire.compassHeading = compassHeading;
+    self.reportOfFire.compassHeading = compassHeading;
 
     this.useMyCurrentLocation();
+
+    this.reportOfFire = self.reportOfFire;
 
   } catch(err) {
     console.error('Could not set compass heading', err)
@@ -108,8 +117,7 @@ handler(e) {
     
 }
 
-async useMyCurrentLocation() {
-
+async useMyCurrentLocation(){
   try {
     const location = await this.commonUtilityService.getCurrentLocationPromise()
     if (location) {   
