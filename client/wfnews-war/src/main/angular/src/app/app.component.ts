@@ -44,6 +44,7 @@ export const ICON = {
   IMAGE_GREY: 'image-grey',
   EDIT: 'edit',
   SEND: 'send',
+  LOCATION_OFF: 'location-off',
 };
 
 @Component({
@@ -424,7 +425,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.SEND,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/send.svg")
-    )
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LOCATION_OFF,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/location-off.svg')
+    );
   }
 
   isAdminPage() {

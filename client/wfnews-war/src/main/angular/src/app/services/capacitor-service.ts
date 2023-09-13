@@ -461,4 +461,14 @@ export class CapacitorService {
             return this.currentHeadingPromise;
         }
     }
+
+    async checkDeviceSystem() {
+        // const deviceInfo = <DeviceInfo>
+        try {
+            const deviceInfo = await Device.getInfo();
+            return deviceInfo
+          } catch (error) {
+            console.error('Error getting device info:', error);
+          }
+    }
 }
