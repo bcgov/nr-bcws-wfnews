@@ -310,8 +310,11 @@ export function hideOnMobileView () {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
-  export function convertToMobileFormat (dateString) {
+export function convertToMobileFormat (dateString) {
     const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
     return formattedDate
+}
 
-  }
+export function equalsIgnoreCase(text, other) {
+    return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
+}
