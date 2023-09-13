@@ -98,6 +98,7 @@ export class IncidentsEffect {
             ['FIRE'],
             fireOfNotePublishedInd[0],
             undefined,
+            undefined,
             `${pageNumber}`,
             `${pageSize}`,
             orderBy,

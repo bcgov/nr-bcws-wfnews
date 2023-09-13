@@ -44,3 +44,10 @@ override.tf.json
 *.iml
 **/.DS_Store*
 
+server/wfss-pointid-api/wfss-pointid-api-rest-client/target
+server/wfss-pointid-api/wfss-pointid-api-rest-endpoints/target
+server/wfss-pointid-api/wfss-pointid-api-rest-wfnews-client/target
+server/wfss-pointid-api/wfss-pointid-api-rest-fireweather-client/target
+server/wfss-pointid-api/wfss-pointid-api-rest-fireweather-common/target
+server/wfss-pointid-api/wfss-pointid-api-rest-wfnews-common/target
+server/wfss-pointid-api/wfss-pointid-swagger-java-client/target

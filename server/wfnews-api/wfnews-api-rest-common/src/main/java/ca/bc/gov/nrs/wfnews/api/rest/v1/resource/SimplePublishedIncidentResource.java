@@ -30,6 +30,7 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	private String fireCentreCode;
 	private String fireCentreName;
 	private Boolean fireOfNoteInd;
+	private Boolean wasFireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
 	private String traditionalTerritoryDetail;
@@ -130,6 +131,16 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	@Override
 	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
+	}
+
+	@Override
+	public Boolean getWasFireOfNoteInd() {
+		return wasFireOfNoteInd;
+	}
+
+	@Override
+	public void setWasFireOfNoteInd(Boolean wasFireOfNoteInd) {
+		this.wasFireOfNoteInd = wasFireOfNoteInd;
 	}
 
 	@Override

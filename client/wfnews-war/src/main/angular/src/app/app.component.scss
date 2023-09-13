@@ -83,6 +83,12 @@
 .incident-form {
   display: flex;
   flex-wrap: wrap;
+  .size-quarter {
+    flex: 0 0 25%;
+    box-sizing: border-box;
+    padding: .5rem 1rem;
+  }
+
   .size-third {
     flex: 0 0 33.33%;
     box-sizing: border-box;

@@ -17,6 +17,7 @@
 		<result property="declaredOutDate" column="DECLARED_OUT_DATE" javaType="java.util.Date" jdbcType="TIMESTAMP" />
 		<result property="fireZoneUnitIdentifier" column="FIRE_ZONE_ORG_UNIT_IDENTIFIER" javaType="java.lang.Integer" jdbcType="NUMERIC" />
 		<result property="fireOfNoteInd" column="FIRE_OF_NOTE_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+		<result property="wasFireOfNoteInd" column="WAS_FIRE_OF_NOTE_IND" javaType="java.lang.Boolean" jdbcType="VARCHAR" />
 		<result property="incidentName" column="INCIDENT_NAME" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentLocation" column="INCIDENT_LOCATION" javaType="java.lang.String" jdbcType="VARCHAR" />
 		<result property="incidentOverview" column="INCIDENT_OVERVIEW" javaType="java.lang.String" jdbcType="VARCHAR" />
@@ -136,6 +137,7 @@
 				#{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				#{dto.fireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				#{dto.wasFireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentLocation, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -193,6 +195,7 @@
 				FIRE_YEAR = #{dto.fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_ZONE_ORG_UNIT_IDENTIFIER =				#{dto.fireZoneUnitIdentifier, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN},
 				FIRE_OF_NOTE_IND =				#{dto.fireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				WAS_FIRE_OF_NOTE_IND =				#{dto.wasFireOfNoteInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_NAME =				#{dto.incidentName, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_LOCATION =				#{dto.incidentLocation, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
 				INCIDENT_OVERVIEW =				#{dto.incidentOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
