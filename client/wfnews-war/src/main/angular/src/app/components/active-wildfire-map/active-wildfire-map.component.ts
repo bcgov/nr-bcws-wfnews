@@ -2,16 +2,17 @@ import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList,
 import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
-import { AGOLService } from '../../services/AGOL-service';
 import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { SmkApi } from '../../utils/smk';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
-import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PublishedIncidentService } from '../../services/published-incident-service';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 
 
 export type SelectedLayer =
@@ -73,9 +74,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected activedRouter: ActivatedRoute,
     private appConfig: AppConfigService,
     private mapConfigService: MapConfigService,
-    private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
+    protected dialog: MatDialog,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -390,8 +391,15 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       action: 'find_my_location'
     })
 
+    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
+      if (!enabled) {
+        let dialogRef = this.dialog.open(DialogLocationComponent, {
+          autoFocus: false,
+          width: '80vw',
+        });
+      }
+    });
     this.searchText = undefined;
-
     const location = await this.commonUtilityService.getCurrentLocationPromise()
 
     const long = location.coords.longitude;
