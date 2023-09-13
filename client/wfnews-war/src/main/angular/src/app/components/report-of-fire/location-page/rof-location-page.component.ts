@@ -201,7 +201,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       let turf = window['turf'],
       loc = [ this.location.coords.longitude, this.location.coords.latitude],
       dist = (this.reportOfFire.estimatedDistance && this.reportOfFire.estimatedDistance != 0) ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
-      head = this.currentHeading,
+      head = this.reportOfFire.compassHeading,
       photo = turf.destination( loc, dist, head ),
       poly = turf.circle( photo.geometry.coordinates, dist ),
       exp = turf.transformScale( poly, 1.10 ),
