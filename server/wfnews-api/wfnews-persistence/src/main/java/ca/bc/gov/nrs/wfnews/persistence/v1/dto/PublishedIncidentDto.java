@@ -26,6 +26,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
+	private Boolean wasFireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
 	private String incidentOverview;
@@ -76,6 +77,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.discoveryDate = dto.discoveryDate;
 		this.fireZoneUnitIdentifier = dto.fireZoneUnitIdentifier;
 		this.fireOfNoteInd = dto.fireOfNoteInd;
+		this.wasFireOfNoteInd = dto.wasFireOfNoteInd;
 		this.incidentName = dto.incidentName;
 		this.incidentLocation = dto.incidentLocation;
 		this.incidentOverview = dto.incidentOverview;
@@ -128,6 +130,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.discoveryDate = incident.getDiscoveryDate();
 		this.fireZoneUnitIdentifier = incident.getFireZoneUnitIdentifier();
 		this.fireOfNoteInd = incident.getFireOfNoteInd();
+		this.wasFireOfNoteInd = incident.getWasFireOfNoteInd();
 		this.incidentName = incident.getIncidentName();
 		this.incidentLocation = incident.getIncidentLocation();
 		this.incidentOverview = incident.getIncidentOverview();
@@ -206,6 +209,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("discoveryDate", discoveryDate, other.discoveryDate);
 			result = result && equals("fireZoneUnitIdentifier", fireZoneUnitIdentifier, other.fireZoneUnitIdentifier);
 			result = result && equals("fireOfNoteInd", fireOfNoteInd, other.fireOfNoteInd);
+			result = result && equals("wasFireOfNoteInd", wasFireOfNoteInd, other.wasFireOfNoteInd);
 			result = result && equals("incidentName", incidentName, other.incidentName);
 			result = result && equals("incidentLocation", incidentLocation, other.incidentLocation);
 			result = result && equals("incidentOverview", incidentOverview, other.incidentOverview);
@@ -333,6 +337,14 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 
 	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
+	}
+
+	public Boolean getWasFireOfNoteInd() {
+		return wasFireOfNoteInd;
+	}
+
+	public void setWasFireOfNoteInd(Boolean fireOfNoteInd) {
+		this.wasFireOfNoteInd = wasFireOfNoteInd;
 	}
 
 	public String getIncidentName() {

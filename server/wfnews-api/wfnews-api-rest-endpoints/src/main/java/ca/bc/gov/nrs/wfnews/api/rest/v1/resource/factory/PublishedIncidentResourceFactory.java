@@ -106,6 +106,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
 		resource.setFireZoneUnitIdentifier(dto.getFireZoneUnitIdentifier());
 		resource.setFireOfNoteInd(dto.getFireOfNoteInd());
+		resource.setWasFireOfNoteInd(dto.getWasFireOfNoteInd());
 		resource.setIncidentName(dto.getIncidentName());
 		resource.setIncidentLocation(dto.getIncidentLocation());
 		resource.setIncidentOverview(dto.getIncidentOverview());
@@ -160,6 +161,7 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setDiscoveryDate(dto.getDiscoveryDate());
 		resource.setDeclaredOutDate(dto.getDeclaredOutDate());
 		resource.setFireOfNoteInd(dto.getFireOfNoteInd());
+		resource.setWasFireOfNoteInd(dto.getWasFireOfNoteInd());
 		resource.setIncidentName(dto.getIncidentName());
 		resource.setIncidentLocation(dto.getIncidentLocation());
 		resource.setTraditionalTerritoryDetail(dto.getTraditionalTerritoryDetail());

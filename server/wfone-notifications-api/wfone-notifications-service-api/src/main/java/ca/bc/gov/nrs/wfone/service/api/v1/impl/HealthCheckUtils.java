@@ -7,13 +7,13 @@ import java.lang.reflect.Method;
 import org.springframework.util.ReflectionUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
 
 import ca.bc.gov.nrs.common.wfone.rest.resource.HealthCheckResponseRsrc;
 import ca.bc.gov.nrs.wfone.common.model.ValidationStatus;
 import ca.bc.gov.nrs.wfone.common.rest.client.RestClientServiceException;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
 
 public class HealthCheckUtils {
 	
@@ -55,7 +55,7 @@ public class HealthCheckUtils {
 				response = Unirest.post(url+"checkHealth")
 						.header("Accept", "application/json").asString();
 				ObjectMapper mapper = new ObjectMapper();
-				return mapper.readValue(response.getRawBody(), HealthCheckResponseRsrc.class);
+				return mapper.readValue(response.getBody(), HealthCheckResponseRsrc.class);
 			} catch (UnirestException | IOException ex) {
 				throw new RestClientServiceException(ex);
 			}

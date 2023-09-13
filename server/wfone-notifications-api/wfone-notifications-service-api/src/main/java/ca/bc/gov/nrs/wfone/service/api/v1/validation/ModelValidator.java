@@ -3,6 +3,7 @@ package ca.bc.gov.nrs.wfone.service.api.v1.validation;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -15,10 +16,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.utils.Base64Coder;
+import kong.unirest.HttpResponse;
+import kong.unirest.JsonNode;
+import kong.unirest.Unirest;
+
 import com.vividsolutions.jts.geom.Coordinate;
 import com.vividsolutions.jts.geom.Geometry;
 
@@ -64,7 +65,7 @@ public class ModelValidator extends BaseValidator {
 		try {
 			HttpResponse<JsonNode> tokenResponse = Unirest.get(webadeOauth2ClientUrl)
 					.header("Authorization",
-							"Basic " + Base64Coder.encodeString(webadeOauth2ClientId + ":" + webadeOauth2ClientSecret))
+							"Basic " + Base64.getEncoder().encodeToString((webadeOauth2ClientId + ":" + webadeOauth2ClientSecret).getBytes()))
 					.header("Content-Type", "application/json").asJson();
 			JsonNode tokenBody = tokenResponse.getBody();
 			String token = tokenBody.getObject().getString("access_token");

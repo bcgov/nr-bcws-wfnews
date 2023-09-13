@@ -31,6 +31,7 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private String fireCentreName;
 	private Integer fireZoneUnitIdentifier;
 	private Boolean fireOfNoteInd;
+	private Boolean wasFireOfNoteInd;
 	private String incidentName;
 	private String incidentLocation;
 	private String incidentOverview;
@@ -141,6 +142,14 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 
 	public void setFireOfNoteInd(Boolean fireOfNoteInd) {
 		this.fireOfNoteInd = fireOfNoteInd;
+	}
+
+	public Boolean getWasFireOfNoteInd() {
+		return wasFireOfNoteInd;
+	}
+
+	public void setWasFireOfNoteInd(Boolean wasFireOfNoteInd) {
+		this.wasFireOfNoteInd = wasFireOfNoteInd;
 	}
 
 	public String getIncidentName() {
