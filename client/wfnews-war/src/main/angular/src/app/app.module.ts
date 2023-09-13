@@ -153,6 +153,7 @@ import { RoFCompassPage } from './components/report-of-fire/compass-page/rof-com
 import { NgxMaskModule } from 'ngx-mask';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
+import { DialogLocationComponent } from './components/report-of-fire/dialog-location/dialog-location.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -247,7 +248,8 @@ export const DATE_FORMATS = {
         RoFCommentsPage,
         RoFReviewPage,
         RoFCompassPage,
-        LocationServicesDialogComponent
+        LocationServicesDialogComponent,
+        DialogLocationComponent
     ],
     imports: [
         MatSortModule,
