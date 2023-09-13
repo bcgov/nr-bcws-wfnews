@@ -30,6 +30,9 @@ public interface SimplePublishedIncident {
 	public Boolean getFireOfNoteInd(); 
 	public void setFireOfNoteInd(Boolean fireOfNoteInd); 
 
+	public Boolean getWasFireOfNoteInd(); 
+	public void setWasFireOfNoteInd(Boolean wasfireOfNoteInd); 
+
 	public String getIncidentName(); 
 	public void setIncidentName(String incidentName);
 
