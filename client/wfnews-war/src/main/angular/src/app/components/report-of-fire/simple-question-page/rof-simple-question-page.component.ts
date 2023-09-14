@@ -55,4 +55,17 @@ export class RoFSimpleQuestionPage extends RoFPage {
     }
     this.reportOfFirePage.edit('review-page')
   }
+
+  twoPartsQuestions() {
+    if (this.id === 'callback-page' || this.id === 'response-page' || this.id === 'infrastructure-page') {
+      if (this.reportOfFire[this.updateAttribute] === 'no' || this.reportOfFire[this.updateAttribute] === 'I\'m not sure') {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  nextPart() {
+    this.reportOfFirePage.edit(this.nextId);
+  }
 }

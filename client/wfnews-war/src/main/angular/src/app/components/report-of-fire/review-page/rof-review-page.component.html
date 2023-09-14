@@ -24,7 +24,7 @@
         </div>
         <div *ngIf="twoPartsQuestions(page)" class="item">
           <div class="item-content">
-            <div class="text">{{selectedAnswerPart2(page)}}</div>
+            <div class="text">{{selectedAnswerPart2(page)? selectedAnswerPart2(page) : 'Skipped'}}</div>
             <div class="edit-icon">
               <mat-icon svgIcon="edit" (click)="edit(page.id,true)"></mat-icon>
             </div>

@@ -14,7 +14,9 @@ export class ReportOfFire {
   public burning: Array<string> = [];
   public smokeColor: Array<string> = [];
   public weather: Array<string> = [];
+  public ifAssetsAtRisk: string = '';
   public assetsAtRisk: Array<string> = [];
+  public ifSignsOfResponse: string = '';
   public signsOfResponse: Array<string> = [];
   public otherInfo: string = '';
   // image placeholder. Base64 strings or perhaps stored via capacitor before submit?

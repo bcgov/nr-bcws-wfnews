@@ -200,6 +200,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'callback-page':
         case 'visible-flame-page':
         case 'fire-spread-page':
+        case 'response-page':
+        case 'infrastructure-page':
           const simpleQustionPageComponent= this.currentPage.instance as RoFSimpleQuestionPage;
           simpleQustionPageComponent.editMode()
 
