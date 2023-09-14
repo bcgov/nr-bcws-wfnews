@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, ViewChildren, QueryList } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
@@ -21,6 +21,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   public buttonStates: boolean[] = Array(10).fill(false);
 
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
+  @ViewChildren('toggleButton') toggleButtons!: QueryList<MatButtonToggle>;
 
 
   public constructor(private reportOfFirePage: ReportOfFirePage,
@@ -71,9 +72,10 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
-      // this.highlightedButton.classList.remove("btn-highlight");
-      if(this.notSureButton) {
-        this.notSureButton.checked = false
+      if(this.notSureButton && this.notSureButton.checked) {
+        this.notSureButton.checked = false;
+        this.reportOfFire[this.updateAttribute] = this.reportOfFire[this.updateAttribute].filter(item => item !== "I'm not sure");
+
       }
       if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
         this.reportOfFire[this.updateAttribute].push(value)
@@ -93,10 +95,17 @@ export class RoFComplexQuestionPage extends RoFPage {
     this.disableNext = false;
 
     if (value === null) {
-      this.reportOfFire[this.updateAttribute] = "I'm not sure"
+      this.notSureButton.checked = true;
+      this.reportOfFire[this.updateAttribute]
+      this.reportOfFire[this.updateAttribute] = ["I'm not sure"]  
+      // Deselect all other buttons
+      this.toggleButtons.forEach((button) => {
+        if (button !== this.notSureButton) {
+          button.checked = false;
+        }
+      });
     } 
   }
-  
   backToReview() {
     this.reportOfFirePage.edit('review-page')
   }

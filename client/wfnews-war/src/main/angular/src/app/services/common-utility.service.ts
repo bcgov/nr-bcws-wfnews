@@ -128,6 +128,26 @@ export class CommonUtilityService {
     isIPhone(): boolean {
         const userAgent = window.navigator.userAgent.toLowerCase();
         return /iphone/.test(userAgent);
-    }    
+    }
+
+    checkLocationServiceStatus(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+          if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+              (position) => {
+                // Location service is enabled
+                resolve(true);
+              },
+              (error) => {
+                // Location service is disabled or the user denied access
+                resolve(false);
+              }
+            );
+          } else {
+            // Geolocation is not supported by the browser
+            resolve(false);
+          }
+        });
+      }
 
 }
