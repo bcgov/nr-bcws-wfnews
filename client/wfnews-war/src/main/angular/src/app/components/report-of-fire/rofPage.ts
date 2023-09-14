@@ -27,6 +27,7 @@ export class RoFPage {
   public message: string;
   public updateAttribute: string;
   public showProgress: boolean;
+  public allowMultiSelect: boolean;
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     this.allowExit = data.allowExit;
@@ -35,6 +36,7 @@ export class RoFPage {
     this.message = data.message;
     this.title = data.title;
     this.showProgress = data.showProgress;
+    this.allowMultiSelect = data.allowMultiSelect;
     this.updateAttribute = data.updateAttribute || '';
     this.index = index;
     this.reportOfFire = reportOfFire;

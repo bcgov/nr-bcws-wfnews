@@ -74,8 +74,9 @@ export class RoFComplexQuestionPage extends RoFPage {
     if (value && this.updateAttribute && this.updateAttribute !== '') {
       if(this.notSureButton && this.notSureButton.checked) {
         this.notSureButton.checked = false;
-        this.reportOfFire[this.updateAttribute] = this.reportOfFire[this.updateAttribute].filter(item => item !== "I'm not sure");
-
+        if (this.allowMultiSelect) {
+          this.reportOfFire[this.updateAttribute] = this.reportOfFire[this.updateAttribute].filter(item => item !== "I'm not sure");
+        }
       }
       if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
         this.reportOfFire[this.updateAttribute].push(value)
@@ -96,8 +97,11 @@ export class RoFComplexQuestionPage extends RoFPage {
 
     if (value === null) {
       this.notSureButton.checked = true;
-      this.reportOfFire[this.updateAttribute]
-      this.reportOfFire[this.updateAttribute] = ["I'm not sure"]  
+      if(this.allowMultiSelect == true) {
+        this.reportOfFire[this.updateAttribute] = ["I'm not sure"]  
+      } else {
+        this.reportOfFire[this.updateAttribute] = "I'm not sure"
+      }
       // Deselect all other buttons
       this.toggleButtons.forEach((button) => {
         if (button !== this.notSureButton) {
