@@ -46,7 +46,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   selectedAnswer(page:any) {
     switch(page.id){
       case 'contact-page' : 
-        return this.reportOfFire.consentToCall.charAt(0).toUpperCase() + this.reportOfFire.consentToCall.slice(1);
+        return this.reportOfFire.consentToCall ? this.reportOfFire.consentToCall.charAt(0).toUpperCase() + this.reportOfFire.consentToCall.slice(1) : null;
       case 'location-page' :
         return this.reportOfFire.fireLocation
       case 'photo-page' :
@@ -56,7 +56,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'fire-size-page' :
         return this.reportOfFire.fireSize.toString();;
       case 'response-details-page' :
-        return this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1);
+        //make the first letter of a string uppercase
+        return this.reportOfFire.ifSignsOfResponse ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1) : null;
       case 'visible-flame-page' :
         return this.reportOfFire.visibleFlame.toString();;
       case 'fire-spread-page' :
@@ -64,7 +65,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'what-is-burning-page' :
         return this.reportOfFire.burning.toString();;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1);
+        return this.reportOfFire.ifAssetsAtRisk ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1) : null;
       case 'comments-page' :
         return this.reportOfFire.otherInfo;
       default :
