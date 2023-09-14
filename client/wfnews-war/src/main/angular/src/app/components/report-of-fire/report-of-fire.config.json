@@ -196,22 +196,22 @@
       "buttons": [
         {
           "label": "The size of a Campfire",
-          "value": "campfire",
+          "value": "Campfire",
           "customIcon": "../../../assets/images/svg-icons/camping.svg"
         },
         {
           "label": "The size of a House",
-          "value": "house",
+          "value": "House",
           "customIcon": "../../../assets/images/svg-icons/home.svg"
         },
         {
           "label": "The size of a Football Field",
-          "value": "football",
+          "value": "Football Field",
           "customIcon": "../../../assets/images/svg-icons/american-football.svg"
         },
         {
           "label": "Larger than a Football Field",
-          "value": "large",
+          "value": "Larger than Football Field",
           "customIcon": "../../../assets/images/svg-icons/larger.svg"
         }
       ]

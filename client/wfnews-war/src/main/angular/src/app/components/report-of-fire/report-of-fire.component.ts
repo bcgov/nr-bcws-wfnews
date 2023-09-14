@@ -37,6 +37,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   public allowExit = false;
   public allowSkip = false;
   public showProgress = false;
+  public isEditMode = false;
   public progressSteps = [];
   public currentStep = 0;
 
@@ -176,6 +177,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     }
 
     if (editMode) {
+      this.isEditMode = true;
+
       switch (pageId) {
         case 'contact-page':
           const contactPageComponent = this.currentPage.instance as RoFContactPage
@@ -254,7 +257,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * This may change for mobile vs desktop
    */
   exit () {
-    this.router.navigateByUrl('/map')
+    if (this.isEditMode) {
+      this.edit('review-page');
+      this.isEditMode = false;
+      this.cdr.detectChanges();
+    }else {
+      this.router.navigateByUrl('/map')
+    }
   }
 
   /**
@@ -270,5 +279,14 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   edit(pageId) {
     this.selectPage(pageId,null,true)
     this.showProgress = false;
+  }
+
+  exitText() {
+    if (this.isEditMode) {
+      return 'Back to Review';
+    }
+    if (this.allowExit) {
+      return 'Exit';
+    }
   }
 }
