@@ -10,7 +10,19 @@
       </div>
       <div *ngIf = "page.id !== 'location-page'">
         <div class="item">
-          <div class="item-content">
+          <div *ngIf="page.id === 'comments-page'">
+            <div class="item-content" >
+              <div class="text">Note</div>
+              <div class="edit-icon">
+                <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
+
+          </div>
+
+          <div class="item-content" *ngIf="page.id !== 'comments-page'">
             <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
             <div class="edit-icon">
               <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
@@ -24,7 +36,7 @@
         </div>
         <div *ngIf="twoPartsQuestions(page)" class="item">
           <div class="item-content">
-            <div class="text">{{selectedAnswerPart2(page)}}</div>
+            <div class="text">{{selectedAnswerPart2(page)? selectedAnswerPart2(page) : 'Skipped'}}</div>
             <div class="edit-icon">
               <mat-icon svgIcon="edit" (click)="edit(page.id,true)"></mat-icon>
             </div>
