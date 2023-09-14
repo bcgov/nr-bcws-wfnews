@@ -98,7 +98,6 @@ export class RoFComplexQuestionPage extends RoFPage {
     if (value === null) {
       this.notSureButton.checked = true;
       this.reportOfFire[this.updateAttribute]
-      console.log(this.reportOfFire[this.updateAttribute])
       this.reportOfFire[this.updateAttribute] = ["I'm not sure"]  
       // Deselect all other buttons
       this.toggleButtons.forEach((button) => {
@@ -109,7 +108,6 @@ export class RoFComplexQuestionPage extends RoFPage {
     } 
   }
   backToReview() {
-    console.log(this.reportOfFire.smokeColor)
     this.reportOfFirePage.edit('review-page')
   }
 }
