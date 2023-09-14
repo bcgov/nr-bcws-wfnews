@@ -15,6 +15,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   public optionSelected: string;
   isEditMode: boolean = false;
   isPageDirty: boolean = false;
+  offLine: boolean = false;
 
   public constructor(private reportOfFirePage: ReportOfFirePage,private cdr:ChangeDetectorRef) {
     super()
