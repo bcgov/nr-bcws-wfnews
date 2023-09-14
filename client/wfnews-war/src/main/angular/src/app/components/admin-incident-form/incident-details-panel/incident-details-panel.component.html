@@ -3,25 +3,32 @@
     <fieldset class="field-set">
       <legend style="display: none">Info Card</legend>
       <div class="news-form">
-        <div class="field size-third">
+        <div class="field size-quarter">
           <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label">Fire Name</mat-label>
             <input matInput class="disabled-input" type="text" [(ngModel)]="incident.fireName" formControlName="fireName" disabled>
           </mat-form-field>
         </div>
-        <div class="field size-third">
+        <div class="field size-quarter">
           <mat-form-field class="item-full-width" floatLabel="always">
             <mat-label class="label">Traditional Territory</mat-label>
             <input matInput class="disabled-input" type="text" [(ngModel)]="incident.traditionalTerritory" formControlName="traditionalTerritory" disabled>
           </mat-form-field>
         </div>
-        <div class="field size-third radio-checkbox-group">
-            <mat-label id="fireOfNote">Wildfire Of Note</mat-label>
+        <div class="field size-quarter radio-checkbox-group">
+            <mat-label id="fireOfNote">Is Wildfire Of Note</mat-label>
             <span class='material-icons-outlined fire-icon'>local_fire_department</span>
             <mat-radio-group matInput aria-label="Wildfire of Note" formControlName="fireOfNote" [(ngModel)]="incident.fireOfNote">
               <mat-radio-button [value]="false">No</mat-radio-button>
               <mat-radio-button [value]="true">Yes</mat-radio-button>
             </mat-radio-group>
+        </div>
+        <div class="field size-quarter radio-checkbox-group">
+          <mat-label id="wasFireOfNote">Was Wildfire Of Note</mat-label>
+          <mat-radio-group matInput aria-label="Was Wildfire of Note" formControlName="wasFireOfNote" [(ngModel)]="incident.wasFireOfNote">
+            <mat-radio-button [value]="false">No</mat-radio-button>
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+          </mat-radio-group>
         </div>
         <div class="field size-full">
           <mat-form-field class="item-full-width" appearance="outline" floatLabel="always">

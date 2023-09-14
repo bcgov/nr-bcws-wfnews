@@ -229,6 +229,7 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		incident.setDeclaredOutDate(publishedIncidentResource.getDeclaredOutDate());
 		incident.setFireZoneUnitIdentifier(publishedIncidentResource.getFireZoneUnitIdentifier());
 		incident.setFireOfNoteInd(publishedIncidentResource.getFireOfNoteInd());
+		incident.setWasFireOfNoteInd(publishedIncidentResource.getWasFireOfNoteInd());
 		incident.setIncidentName(publishedIncidentResource.getIncidentName());
 		incident.setIncidentLocation(publishedIncidentResource.getIncidentLocation());
 		incident.setIncidentOverview(publishedIncidentResource.getIncidentOverview());

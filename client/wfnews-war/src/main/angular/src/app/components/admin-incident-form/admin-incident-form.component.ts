@@ -49,6 +49,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     fireName: undefined,
     fireNumber: 0,
     fireOfNote: false,
+    wasFireOfNote: false,
     geometry: {
       x: null,
       y: null
@@ -109,6 +110,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       evacOrders: this.formBuilder.array([]),
       fireName: [],
       fireOfNote: [],
+      wasFireOfNote: [],
       heavyEquipmentComments: [],
       heavyEquipmentInd: [],
       incidentLocation: [],
@@ -171,6 +173,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
             self.incident.fireNumber = self.currentAdminIncident.incidentNumberSequence;
             self.incident.wildfireYear = self.currentAdminIncident.wildfireYear;
             self.incident.fireOfNote = self.currentAdminIncident.fireOfNotePublishedInd;
+            self.incident.wasFireOfNote = self.currentAdminIncident.wasFireOfNotePublishedInd;
             self.incident.incidentNumberSequence = self.currentAdminIncident.incidentNumberSequence;
             self.incident.fireName = self.currentAdminIncident.incidentName || self.currentAdminIncident.incidentLabel;
             self.incident.publishedStatus = 'DRAFT';
@@ -202,7 +205,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.traditionalTerritory = response.traditionalTerritoryDetail;
               self.incident.lastPublished = response.publishedTimestamp;
               self.incident.location = response.incidentLocation;
-              
+
               self.incident.sizeComments = response.incidentSizeDetail || 'Fire size is based on most current information available.';
               Object.entries(SizeTypeOptionDisclaimer).forEach(([index, disclaimer]) => {
                 if (disclaimer === response.incidentSizeDetail) {
@@ -295,6 +298,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       contactPhoneNumber: this.nullEmptyStrings(this.incident.contact.phoneNumber),
       discoveryDate: new Date().valueOf().toString(),
       fireOfNoteInd: this.incident.fireOfNote,
+      wasFireOfNoteInd: this.incident.wasFireOfNote,
       heavyEquipmentResourcesDetail: this.nullEmptyStrings(this.incident.heavyEquipmentComments),
       heavyEquipmentResourcesInd: this.incident.heavyEquipmentInd,
       incidentCauseDetail: this.nullEmptyStrings(this.incident.causeComments),
@@ -360,6 +364,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       discoveryDate: new Date(this.incident.incidentData.discoveryTimestamp).toString(),
       fireCentre: this.currentAdminIncident.fireCentreOrgUnitIdentifier,
       fireOfNoteInd: this.incidentForm.controls['fireOfNote'].value,
+      wasFireOfNoteInd: this.incidentForm.controls['wasFireOfNote'].value,
       fireYear: this.incident.wildfireYear,
       generalIncidentCauseCatId: this.incidentForm.controls['cause'].value,
       heavyEquipmentResourcesDetail: this.incidentForm.controls['heavyEquipmentComments'].value,
