@@ -84,6 +84,15 @@
     border-radius: 8px;
 }
 
+.divider{
+    border-top: 1px solid #E2E2E2;
+    width: 100%;
+    margin-left: -10px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    width: calc(100% + 20px);
+}
+
 ::ng-deep .fireLocationIcon{
     color: yellow;
     font-size: 48px;

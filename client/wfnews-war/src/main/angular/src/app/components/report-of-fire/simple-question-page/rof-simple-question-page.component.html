@@ -16,7 +16,9 @@
 
   <div class="rof-button-container" *ngIf="isEditMode">
     <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-    <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button (click)="backToReview()">Save</button>
+    <button *ngIf="!twoPartsQuestions()" [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button (click)="backToReview()">Save</button>
+    <button *ngIf="twoPartsQuestions()" [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="nextPart()">Next<mat-icon [svgIcon]="!isPageDirty? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
+
   </div>
 
 </div>

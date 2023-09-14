@@ -46,7 +46,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   selectedAnswer(page:any) {
     switch(page.id){
       case 'contact-page' : 
-        return this.reportOfFire.consentToCall.charAt(0).toUpperCase() + this.reportOfFire.consentToCall.slice(1);
+        return this.reportOfFire.consentToCall ? this.reportOfFire.consentToCall.charAt(0).toUpperCase() + this.reportOfFire.consentToCall.slice(1) : null;
       case 'location-page' :
         return this.reportOfFire.fireLocation
       case 'photo-page' :
@@ -56,7 +56,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'fire-size-page' :
         return this.reportOfFire.fireSize.toString();;
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse.toString();
+        //make the first letter of a string uppercase
+        return this.reportOfFire.ifSignsOfResponse ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1) : null;
       case 'visible-flame-page' :
         return this.reportOfFire.visibleFlame.toString();;
       case 'fire-spread-page' :
@@ -64,7 +65,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'what-is-burning-page' :
         return this.reportOfFire.burning.toString();;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk.toString();;
+        return this.reportOfFire.ifAssetsAtRisk ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1) : null;
       case 'comments-page' :
         return this.reportOfFire.otherInfo;
       default :
@@ -81,13 +82,23 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
         if (match) {
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
+      case 'response-details-page' :
+        return this.reportOfFire.signsOfResponse.toString();
+      case 'infrastructure-details-page' :
+        return this.reportOfFire.assetsAtRisk.toString();
     }
   }
 
   twoPartsQuestions(page:any) {
-    if ((page.id === 'contact-page') && (this.reportOfFire.consentToCall === 'yes' && this.reportOfFire.fullName && this.reportOfFire.phoneNumber) ) {
+    if ((page.id === 'contact-page') && (this.reportOfFire.consentToCall === 'yes' ) ) {
       return true;
     }
+    else if ((page.id === 'response-details-page') && (this.reportOfFire.ifSignsOfResponse === 'yes')){
+      return true
+    }
+    else if ((page.id === 'infrastructure-details-page') && (this.reportOfFire.ifAssetsAtRisk === 'yes')){
+      return true
+    } 
     else {
       return false;
     }
@@ -159,10 +170,17 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }).addTo(this.map)
   }
 
-  edit(pageId:string, callbackStep?:number) {
-    if((pageId === 'contact-page') && !callbackStep) {
+  edit(pageId:string, secondStep?:boolean) {
+    if((pageId === 'contact-page') && !secondStep) {
       this.reportOfFirePage.edit('callback-page')
-    } else {
+    } 
+    else if((pageId === 'response-details-page') && !secondStep) {
+      this.reportOfFirePage.edit('response-page')
+    }
+    else if((pageId === 'infrastructure-details-page') && !secondStep) {
+      this.reportOfFirePage.edit('infrastructure-page')
+    }
+    else {
       this.reportOfFirePage.edit(pageId)
     }
   }
