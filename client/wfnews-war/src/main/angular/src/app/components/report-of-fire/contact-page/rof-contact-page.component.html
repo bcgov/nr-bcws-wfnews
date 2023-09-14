@@ -1,6 +1,6 @@
 <div class="page-content">
-  <div class="rof-text-primary-header">{{ title }}</div>
-  <div class="rof-text-secondary-header">{{ message }}</div>
+  <div class="rof-text-primary-header">{{ offLine? offLineTitle: title }}</div>
+  <div class="rof-text-secondary-header">{{ offLine? offLineMessage: message }}</div>
 
   <mat-label class="input-label">Name*</mat-label>
   <mat-form-field appearance="outline" class="input-style">

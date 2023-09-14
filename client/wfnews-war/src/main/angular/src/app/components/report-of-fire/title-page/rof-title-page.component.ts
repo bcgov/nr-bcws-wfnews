@@ -15,6 +15,8 @@ export class RoFTitlePage extends RoFPage {
   public imageUrl: string
   public closeButton: boolean
   public messages: any;
+  public offLineMessages: any;
+  offLine: boolean = false;
 
   public constructor(
     protected dialog: MatDialog,
@@ -29,6 +31,7 @@ export class RoFTitlePage extends RoFPage {
     this.imageUrl = data.imageUrl;
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
+    this.offLineMessages = this.offLineMessage.split('\n');
   }
 
   openCallPage () {

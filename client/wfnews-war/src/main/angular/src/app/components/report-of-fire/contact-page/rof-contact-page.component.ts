@@ -11,6 +11,7 @@ import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.
 })
 export class RoFContactPage extends RoFPage {
   isEditMode: boolean = false;
+  offLine: boolean = false;
   public constructor(
     private reportOfFirePage: ReportOfFirePage
     ) {
