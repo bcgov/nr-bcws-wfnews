@@ -3,6 +3,7 @@ import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 @Component({
   selector: 'rof-title-page',
@@ -17,6 +18,8 @@ export class RoFTitlePage extends RoFPage {
 
   public constructor(
     protected dialog: MatDialog,
+    private commonUtilityService: CommonUtilityService,
+
     ) {
     super()
   }
@@ -32,28 +35,9 @@ export class RoFTitlePage extends RoFPage {
     // not yet implemented
   }
 
-  checkLocationServiceStatus(): Promise<boolean> {
-    return new Promise<boolean>((resolve, reject) => {
-      if ('geolocation' in navigator) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            // Location service is enabled
-            resolve(true);
-          },
-          (error) => {
-            // Location service is disabled or the user denied access
-            resolve(false);
-          }
-        );
-      } else {
-        // Geolocation is not supported by the browser
-        resolve(false);
-      }
-    });
-  }
 
   triggerLocationServiceCheck(){
-    this.checkLocationServiceStatus().then((enabled) => {
+    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
       if (!enabled) {
         let dialogRef = this.dialog.open(DialogLocationComponent, {
           autoFocus: false,
