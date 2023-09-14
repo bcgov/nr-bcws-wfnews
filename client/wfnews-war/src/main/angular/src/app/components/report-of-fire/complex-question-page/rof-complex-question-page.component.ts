@@ -72,8 +72,7 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
-      // this.highlightedButton.classList.remove("btn-highlight");
-      if(this.notSureButton.checked) {
+      if(this.notSureButton && this.notSureButton.checked) {
         this.notSureButton.checked = false;
         this.reportOfFire[this.updateAttribute] = this.reportOfFire[this.updateAttribute].filter(item => item !== "I'm not sure");
 
