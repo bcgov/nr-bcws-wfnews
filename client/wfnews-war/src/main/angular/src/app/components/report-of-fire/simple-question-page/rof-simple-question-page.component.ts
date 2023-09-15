@@ -70,4 +70,9 @@ export class RoFSimpleQuestionPage extends RoFPage {
   nextPart() {
     this.reportOfFirePage.edit(this.nextId);
   }
+
+  nextPage(){
+    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
+    this.next();
+  }
 }
