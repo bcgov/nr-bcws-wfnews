@@ -52,18 +52,18 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'photo-page' :
         return this.photoNumber()
       case 'smoke-color-page' :
-        return this.reportOfFire.smokeColor.toString();;
+        return this.reportOfFire.smokeColor.join(', ');
       case 'fire-size-page' :
-        return this.reportOfFire.fireSize.toString();;
+        return this.reportOfFire.fireSize.toString();
       case 'response-details-page' :
         //make the first letter of a string uppercase
         return this.reportOfFire.ifSignsOfResponse ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1) : null;
       case 'visible-flame-page' :
-        return this.reportOfFire.visibleFlame.toString();;
+        return this.reportOfFire.visibleFlame.toString();
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread.toString();;
+        return this.reportOfFire.rateOfSpread.toString();
       case 'what-is-burning-page' :
-        return this.reportOfFire.burning.toString();;
+        return this.reportOfFire.burning.join(', ');
       case 'infrastructure-details-page' :
         return this.reportOfFire.ifAssetsAtRisk ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1) : null;
       case 'comments-page' :
@@ -83,9 +83,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse.toString();
+        return this.reportOfFire.signsOfResponse.join(', ');
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk.toString();
+        return this.reportOfFire.assetsAtRisk.join(', ');
     }
   }
 
