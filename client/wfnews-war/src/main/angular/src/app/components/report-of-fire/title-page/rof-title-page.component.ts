@@ -32,6 +32,7 @@ export class RoFTitlePage extends RoFPage {
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
+    this.offLine = !window.navigator.onLine;
   }
 
   openCallPage () {

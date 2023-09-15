@@ -24,6 +24,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
     this.allowIDontKnowButton = data.allowIDontKnowButton;
+    this.offLine = !window.navigator.onLine;
   }
 
   onValChange (value) {
