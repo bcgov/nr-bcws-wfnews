@@ -46,9 +46,19 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             alwaysShowLegend: false
         },
         {
-            id: 'bans-and-prohibitions',
+            id: 'bans-and-prohibitions-cat1',
             isVisible: false,
             class: 'smk-inline-legend'
+        },
+        {
+          id: 'bans-and-prohibitions-cat2',
+          isVisible: false,
+          class: 'smk-inline-legend'
+        },
+        {
+          id: 'bans-and-prohibitions-cat3',
+          isVisible: false,
+          class: 'smk-inline-legend'
         },
         {
             id: 'bans-and-prohibitions-highlight',
