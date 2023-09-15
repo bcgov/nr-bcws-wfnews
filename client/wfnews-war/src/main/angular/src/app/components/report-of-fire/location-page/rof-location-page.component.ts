@@ -8,12 +8,15 @@ import { SmkApi } from "@app/utils/smk";
 import { MapConfigService } from "@app/services/map-config.service";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { ActivatedRoute, Router } from "@angular/router";
+import { LocationStrategy, PathLocationStrategy } from "@angular/common";
 
 @Component({
   selector: 'rof-location-page',
   templateUrl: './rof-location-page.component.html',
   styleUrls: ['./rof-location-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [Location, {provide: LocationStrategy, useClass: PathLocationStrategy}]
 })
 export class RoFLocationPage extends RoFPage implements AfterViewInit {
   mapConfig = null;
