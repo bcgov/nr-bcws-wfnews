@@ -39,7 +39,6 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  let self = this;
   this.getOrientation();
   this.useMyCurrentLocation();
 }
