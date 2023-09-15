@@ -52,18 +52,18 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'photo-page' :
         return this.photoNumber()
       case 'smoke-color-page' :
-        return this.reportOfFire.smokeColor.join(', ');
+        return this.reportOfFire.smokeColor? this.reportOfFire.smokeColor.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(', ') : null;
       case 'fire-size-page' :
-        return this.reportOfFire.fireSize.toString();
+        return this.reportOfFire.fireSize ? this.reportOfFire.fireSize.charAt(0).toUpperCase() + this.reportOfFire.fireSize.slice(1) : null;
       case 'response-details-page' :
         //make the first letter of a string uppercase
         return this.reportOfFire.ifSignsOfResponse ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1) : null;
       case 'visible-flame-page' :
-        return this.reportOfFire.visibleFlame.toString();
+        return this.reportOfFire.visibleFlame ? this.reportOfFire.visibleFlame.charAt(0).toUpperCase() + this.reportOfFire.visibleFlame.slice(1) : null;
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread.toString();
+        return this.reportOfFire.rateOfSpread ? this.reportOfFire.rateOfSpread.charAt(0).toUpperCase() + this.reportOfFire.rateOfSpread.slice(1) : null;
       case 'what-is-burning-page' :
-        return this.reportOfFire.burning.join(', ');
+        return this.reportOfFire.burning? this.reportOfFire.burning.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(', ') : null;
       case 'infrastructure-details-page' :
         return this.reportOfFire.ifAssetsAtRisk ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1) : null;
       case 'comments-page' :
@@ -83,9 +83,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse.join(', ');
+        return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(', ') : null;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk.join(', ');
+        return this.reportOfFire.assetsAtRisk? this.reportOfFire.assetsAtRisk.map(item => item.charAt(0).toUpperCase() + item.slice(1)).join(', ') : null;
     }
   }
 
