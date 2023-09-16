@@ -13,6 +13,7 @@ import { RoFCommentsPage } from "./comment-page/rof-comments-page.component";
 import { RoFReviewPage } from "./review-page/rof-review-page.component";
 import { Router } from "@angular/router";
 import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 enum PageOperation {
   Next = 1,
@@ -44,7 +45,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef) {
+  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService) {
     this.pageComponents = [];
   }
 
@@ -224,6 +225,21 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     this.allowExit = this.currentPage.instance.allowExit;
     this.allowSkip = this.currentPage.instance.allowSkip;
     this.showProgress = this.currentPage.instance.showProgress;
+    if(this.currentPage.instance.offLineMessage){
+      switch(pageId) {
+        case 'first-page':
+        case 'final-page':
+          const rofTitlePageComponent = this.currentPage.instance as RoFTitlePage;
+          rofTitlePageComponent.checkOnlineStatus()
+        case 'callback-page':
+          const roFSimpleQuestionPageComponent = this.currentPage.instance as RoFSimpleQuestionPage;
+          roFSimpleQuestionPageComponent.checkOnlineStatus()
+        case 'contact-page':
+          const roFContactPageComponent = this.currentPage.instance as RoFContactPage;
+          roFContactPageComponent.checkOnlineStatus()
+
+      }
+    }
 
     // And finally, just as a safety (but should not be needed), call a detect changes on the form
     this.cdr.detectChanges();

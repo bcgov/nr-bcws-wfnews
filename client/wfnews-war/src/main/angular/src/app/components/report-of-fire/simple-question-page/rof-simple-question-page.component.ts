@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 @Component({
   selector: 'rof-simple-question-page',
@@ -17,14 +18,13 @@ export class RoFSimpleQuestionPage extends RoFPage {
   isPageDirty: boolean = false;
   offLine: boolean = false;
 
-  public constructor(private reportOfFirePage: ReportOfFirePage,private cdr:ChangeDetectorRef) {
+  public constructor(private reportOfFirePage: ReportOfFirePage,private cdr:ChangeDetectorRef, private commonUtilityService: CommonUtilityService) {
     super()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
     this.allowIDontKnowButton = data.allowIDontKnowButton;
-    this.offLine = !window.navigator.onLine;
   }
 
   onValChange (value) {
@@ -69,5 +69,18 @@ export class RoFSimpleQuestionPage extends RoFPage {
 
   nextPart() {
     this.reportOfFirePage.edit(this.nextId);
+  }
+
+  checkOnlineStatus() {
+    this.commonUtilityService.pingSerivce().subscribe(
+      () => {
+        this.offLine = false;
+        this.cdr.detectChanges();
+      },
+      () => {
+        this.offLine = true;
+        this.cdr.detectChanges();
+      }
+    );
   }
 }
