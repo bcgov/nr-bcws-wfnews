@@ -23,6 +23,7 @@ export class RoFContactPage extends RoFPage {
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
+    this.offLine = !window.navigator.onLine;
   }
 
   editMode() {

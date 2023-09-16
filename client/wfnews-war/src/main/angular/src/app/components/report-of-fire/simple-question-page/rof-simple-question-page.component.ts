@@ -25,6 +25,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire)
     this.allowIDontKnowButton = data.allowIDontKnowButton;
+    this.offLine = !window.navigator.onLine;
   }
 
   onValChange (value) {
@@ -82,5 +83,10 @@ export class RoFSimpleQuestionPage extends RoFPage {
         this.cdr.detectChanges();
       }
     );
+  }
+  
+  nextPage(){
+    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
+    this.next();
   }
 }

@@ -27,9 +27,10 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   equalsIgnoreCase = equalsIgnoreCase; 
 
   constructor(private commonUtilityService: CommonUtilityService,
-              protected dialog: MatDialog, ) {
+              protected dialog: MatDialog) {
     super();
   }
+
   
 initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
@@ -78,41 +79,42 @@ async getOrientation() {
 }
 
 handler(e, self) {
-
-  try {
-    let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
-    compassHeading = Math.trunc(compassHeading)
-    let cardinalDirection = ""
-
-    if ((compassHeading >= 0 && compassHeading <= 22) || (compassHeading >= 337 && compassHeading <= 360)) {
-      cardinalDirection = "N"
-    }else if (compassHeading >= 23 && compassHeading <= 66) {
-      cardinalDirection = "NE"
-    }else if (compassHeading >= 67 && compassHeading <= 112) {
-      cardinalDirection = "E"  
-    }else if (compassHeading >= 113 && compassHeading <= 157) {
-      cardinalDirection = "SE"
-    }else if (compassHeading >= 158 && compassHeading <= 202) {
-      cardinalDirection = "S"
-    }else if (compassHeading >= 203 && compassHeading <= 246) {
-      cardinalDirection = "SW"
-    }else if (compassHeading >= 247 && compassHeading <= 292) {
-      cardinalDirection = "W"
-    }else if (compassHeading >= 293 && compassHeading <= 336) {
-      cardinalDirection = "NW"
+  if (self.reportOfFire?.headingDetectionActive){
+    try {
+      let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
+      compassHeading = Math.trunc(compassHeading)
+      let cardinalDirection = ""
+  
+      if ((compassHeading >= 0 && compassHeading <= 22) || (compassHeading >= 337 && compassHeading <= 360)) {
+        cardinalDirection = "N"
+      }else if (compassHeading >= 23 && compassHeading <= 66) {
+        cardinalDirection = "NE"
+      }else if (compassHeading >= 67 && compassHeading <= 112) {
+        cardinalDirection = "E"  
+      }else if (compassHeading >= 113 && compassHeading <= 157) {
+        cardinalDirection = "SE"
+      }else if (compassHeading >= 158 && compassHeading <= 202) {
+        cardinalDirection = "S"
+      }else if (compassHeading >= 203 && compassHeading <= 246) {
+        cardinalDirection = "SW"
+      }else if (compassHeading >= 247 && compassHeading <= 292) {
+        cardinalDirection = "W"
+      }else if (compassHeading >= 293 && compassHeading <= 336) {
+        cardinalDirection = "NW"
+      }
+  
+      if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
+      if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
+  
+      self.reportOfFire.compassHeading = compassHeading;
+  
+      this.useMyCurrentLocation();
+  
+      this.reportOfFire = self.reportOfFire;
+  
+    } catch(err) {
+      console.error('Could not set compass heading', err)
     }
-
-    if (document.getElementById("compass-face-image")) document.getElementById("compass-face-image").style.transform = `rotate(${-compassHeading}deg)`;
-    if (document.getElementById("compass-heading")) document.getElementById("compass-heading").innerText = compassHeading.toString() + "° " + cardinalDirection;
-
-    self.reportOfFire.compassHeading = compassHeading;
-
-    this.useMyCurrentLocation();
-
-    this.reportOfFire = self.reportOfFire;
-
-  } catch(err) {
-    console.error('Could not set compass heading', err)
   }
     
 }
@@ -134,7 +136,7 @@ async useMyCurrentLocation(){
 
 confirmHeading() {
   try{
-    this.reportOfFire.compassHeading = this.compassHeading;
+    this.reportOfFire.headingDetectionActive = false;
     this.next();
   } catch(err){
     console.error('Could not confirm heading', err)
