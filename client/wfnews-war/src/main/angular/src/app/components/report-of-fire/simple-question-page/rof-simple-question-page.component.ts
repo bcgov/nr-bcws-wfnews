@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 @Component({
   selector: 'rof-simple-question-page',
@@ -17,7 +18,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   isPageDirty: boolean = false;
   offLine: boolean = false;
 
-  public constructor(private reportOfFirePage: ReportOfFirePage,private cdr:ChangeDetectorRef) {
+  public constructor(private reportOfFirePage: ReportOfFirePage,private cdr:ChangeDetectorRef, private commonUtilityService: CommonUtilityService) {
     super()
   }
 
@@ -71,6 +72,19 @@ export class RoFSimpleQuestionPage extends RoFPage {
     this.reportOfFirePage.edit(this.nextId);
   }
 
+  checkOnlineStatus() {
+    this.commonUtilityService.pingSerivce().subscribe(
+      () => {
+        this.offLine = false;
+        this.cdr.detectChanges();
+      },
+      () => {
+        this.offLine = true;
+        this.cdr.detectChanges();
+      }
+    );
+  }
+  
   nextPage(){
     if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
     this.next();

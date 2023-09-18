@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
@@ -27,7 +27,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   public constructor(
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
-
+    private cdr: ChangeDetectorRef,
     ) {
     super()
   }
@@ -94,4 +94,16 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   }
 
   
+  checkOnlineStatus() {
+    this.commonUtilityService.pingSerivce().subscribe(
+      () => {
+        this.offLine = false;
+        this.cdr.detectChanges()
+      },
+      () => {
+        this.offLine = true;
+        this.cdr.detectChanges()
+      }
+    );
+  }
 }

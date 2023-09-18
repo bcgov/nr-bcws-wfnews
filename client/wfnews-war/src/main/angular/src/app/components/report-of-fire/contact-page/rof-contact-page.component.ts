@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 @Component({
   selector: 'rof-contact-page',
@@ -13,7 +14,9 @@ export class RoFContactPage extends RoFPage {
   isEditMode: boolean = false;
   offLine: boolean = false;
   public constructor(
-    private reportOfFirePage: ReportOfFirePage
+    private reportOfFirePage: ReportOfFirePage,
+    private commonUtilityService: CommonUtilityService,
+    private cdr: ChangeDetectorRef,
     ) {
     super()
   }
@@ -29,5 +32,18 @@ export class RoFContactPage extends RoFPage {
 
   backToReview() {
     this.reportOfFirePage.edit('review-page')
+  }
+
+  checkOnlineStatus() {
+    this.commonUtilityService.pingSerivce().subscribe(
+      () => {
+        this.offLine = false;
+        this.cdr.detectChanges()
+      },
+      () => {
+        this.offLine = true;
+        this.cdr.detectChanges()
+      }
+    );
   }
 }
