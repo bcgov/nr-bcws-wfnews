@@ -6,6 +6,7 @@ import * as L from 'leaflet'
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 
 
+
 @Component({
   selector: 'rof-review-page',
   templateUrl: './rof-review-page.component.html',
@@ -52,18 +53,18 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'photo-page' :
         return this.photoNumber()
       case 'smoke-color-page' :
-        return this.reportOfFire.smokeColor.toString();;
+        return this.reportOfFire.smokeColor? this.reportOfFire.smokeColor.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'fire-size-page' :
-        return this.reportOfFire.fireSize.toString();;
+        return this.reportOfFire.fireSize ? this.findLabelByValue(page.id,this.reportOfFire.fireSize) : null;
       case 'response-details-page' :
         //make the first letter of a string uppercase
         return this.reportOfFire.ifSignsOfResponse ? this.reportOfFire.ifSignsOfResponse.charAt(0).toUpperCase() + this.reportOfFire.ifSignsOfResponse.slice(1) : null;
       case 'visible-flame-page' :
-        return this.reportOfFire.visibleFlame.toString();;
+        return this.reportOfFire.visibleFlame ? this.reportOfFire.visibleFlame.charAt(0).toUpperCase() + this.reportOfFire.visibleFlame.slice(1) : null;
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread.toString();;
+        return this.reportOfFire.rateOfSpread ? this.reportOfFire.rateOfSpread.charAt(0).toUpperCase() + this.reportOfFire.rateOfSpread.slice(1) : null;
       case 'what-is-burning-page' :
-        return this.reportOfFire.burning.toString();;
+        return this.reportOfFire.burning? this.reportOfFire.burning.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'infrastructure-details-page' :
         return this.reportOfFire.ifAssetsAtRisk ? this.reportOfFire.ifAssetsAtRisk.charAt(0).toUpperCase() + this.reportOfFire.ifAssetsAtRisk.slice(1) : null;
       case 'comments-page' :
@@ -83,9 +84,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
       case 'response-details-page' :
-        return this.reportOfFire.signsOfResponse.toString();
+        return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.assetsAtRisk.toString();
+        return this.reportOfFire.assetsAtRisk? this.reportOfFire.assetsAtRisk.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
     }
   }
 
@@ -182,6 +183,17 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
     else {
       this.reportOfFirePage.edit(pageId)
+    }
+  }
+
+  findLabelByValue(pageId: string, valueToFind: string) {
+    if (pageId && valueToFind) {
+      const page = this.reportOfFirePages.find(page => page.id === pageId);
+      const button = page.buttons.find(button => button.value === valueToFind);
+      if (button) {
+        const label = button.label;
+        return label
+      }
     }
   }
 }

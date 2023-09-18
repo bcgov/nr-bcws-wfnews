@@ -271,7 +271,7 @@
         },
         {
           "label": "Heavy Equipment",
-          "value": "equipment",
+          "value": "heavy equipment",
           "icon": ""
         },
         {
@@ -333,7 +333,7 @@
         },
         {
           "label": "Mixed Wood",
-          "value": "wood",
+          "value": "mixed wood",
           "icon": ""
         },
         {

@@ -343,7 +343,7 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		return wasFireOfNoteInd;
 	}
 
-	public void setWasFireOfNoteInd(Boolean fireOfNoteInd) {
+	public void setWasFireOfNoteInd(Boolean wasFireOfNoteInd) {
 		this.wasFireOfNoteInd = wasFireOfNoteInd;
 	}
 

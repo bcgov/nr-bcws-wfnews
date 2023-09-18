@@ -47,7 +47,7 @@
   margin-bottom: 10px !important
 }
 
-@media screen and (max-height: 620px) and (min-height: 585px) {
+@media screen and (max-height: 630px) and (min-height: 585px) {
   #compass-container #compass-face-image {
     height: 90%;
     width: 90%;
@@ -82,14 +82,14 @@
   }
 }
 
-@media screen and (max-height: 510px) and (min-height: 470px) {
+@media screen and (max-height: 510px) and (min-height: 485px) {
   #compass-container #compass-face-image {
     height: 75%;
     width: 75%;
   } 
   .compass-heading {
     font-size: 20px;
-    padding-top: 1px;
+    padding-top: 10px;
     line-height: 10px;
   } 
   .location {
@@ -100,14 +100,14 @@
   }
 }
 
-@media screen and (max-height: 470px) {
+@media screen and (max-height: 485px) and (min-height: 460px) {
   #compass-container #compass-face-image {
     height: 70%;
     width: 70%;
   } 
   .compass-heading {
     font-size: 18px;
-    padding-top: 1px;
+    padding-top: 5px;
     line-height: 5px;
   } 
   .location {
@@ -115,6 +115,29 @@
   }
   .compass-hand-image {
     height: 90px
+  }
+}
+
+
+@media screen and (max-height: 460px)  {
+  #compass-container {
+    min-height: 100px !important;
+    min-width: 100px !important;
+  }
+  #compass-container #compass-face-image {
+    height: 60%;
+    width: 60%;
+  } 
+  .compass-heading {
+    font-size: 14px;
+    padding-top: 10px;
+    line-height: 5px;
+  } 
+  .location {
+    font-size: 8px;
+  }
+  .compass-hand-image {
+    height: 80px
   }
 }
 

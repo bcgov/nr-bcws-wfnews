@@ -2,6 +2,9 @@ import { NumberFormatStyle } from "@angular/common";
 import { Injectable } from "@angular/core";
 import { Geolocation } from '@capacitor/geolocation';
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
+import { AppConfigService } from "@wf1/core-ui";
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -27,8 +30,10 @@ export class CommonUtilityService {
     private location;
 
     constructor (
-        protected snackbarService : MatSnackBar
-     ) {}
+        protected snackbarService : MatSnackBar,
+        private http: HttpClient,
+        private appConfigService: AppConfigService
+        ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
         const self = this
@@ -149,5 +154,10 @@ export class CommonUtilityService {
           }
         });
       }
+
+    pingSerivce(): Observable<any> {
+        const url = this.appConfigService.getConfig().rest['wfnews'];
+        return this.http.get(url)
+    }
 
 }
