@@ -194,6 +194,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
         const label = button.label;
         return label
       }
+      else {
+        return "I\'m not sure"
+      }
     }
   }
 }
