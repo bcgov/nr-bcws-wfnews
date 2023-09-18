@@ -86,8 +86,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'response-details-page' :
         return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'infrastructure-details-page' :
-        return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
-      case 'infrastructure-details-page' :
         return this.reportOfFire.assetsAtRisk? this.reportOfFire.assetsAtRisk.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
     }
   }
