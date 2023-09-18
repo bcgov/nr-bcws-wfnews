@@ -113,4 +113,10 @@ export class RoFComplexQuestionPage extends RoFPage {
   backToReview() {
     this.reportOfFirePage.edit('review-page')
   }
+
+  previousPage() {
+    if (this.id === 'distance-page') this.reportOfFire.headingDetectionActive = true;
+    this.previous();
+  }
+
 }
