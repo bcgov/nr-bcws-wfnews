@@ -84,14 +84,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           return (this.reportOfFire.fullName) + '\n' + '(' + match[1] + ') ' + match[2] + '-' + match[3];
         }
       case 'response-details-page' :
-        // if (this.reportOfFire.signsOfResponse && this.reportOfFire.signsOfResponse[0] === "I\'m not sure") {
-        //   return this.reportOfFire.signsOfResponse.toString()
-        // }
         return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'infrastructure-details-page' :
-        // if (this.reportOfFire.assetsAtRisk && this.reportOfFire.assetsAtRisk[0] === "I\'m not sure") {
-        //   return this.reportOfFire.assetsAtRisk.toString()
-        // }
+        return this.reportOfFire.signsOfResponse? this.reportOfFire.signsOfResponse.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
+      case 'infrastructure-details-page' :
         return this.reportOfFire.assetsAtRisk? this.reportOfFire.assetsAtRisk.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
     }
   }
