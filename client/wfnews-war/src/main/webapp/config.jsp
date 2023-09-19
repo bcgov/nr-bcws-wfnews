@@ -22,6 +22,8 @@
     String baseUrl = EnvironmentVariable.getVariable("BASE_URL");
     String env = EnvironmentVariable.getVariable("APPLICATION_ENVIRONMENT");
     String siteminderPrefix = EnvironmentVariable.getVariable("SITEMINDER_URL_PREFIX");
+    String syncIntervalMinutes = EnvironmentVariable.getVariable("SYNC_INTERVAL_MINUTES");
+
     String wfnewsApiKey = EnvironmentVariable.getVariable("WFNEWS_API_KEY");
     StringBuilder json = new StringBuilder("{");
 
@@ -34,6 +36,8 @@
       json.append("\"environment\":\"").append(env).append("\"").append(",");
       json.append("\"baseUrl\":\"").append(baseUrl).append("\"").append(",");
       json.append("\"siteminderUrlPrefix\":\"").append(siteminderPrefix).append("\"").append(",");
+      json.append("\"syncIntervalMinutes\":\"").append(syncIntervalMinutes).append("\"").append(",");
+
       json.append("\"wfnewsApiKey\":\"").append(wfnewsApiKey).append("\"");
     json.append("},");
 
@@ -116,11 +120,17 @@
       wfdmUri = wfdmUri.substring(0, wfdmUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String fireReportUri = EnvironmentVariable.getVariable("FIRE_REPORT_API_URL"); 
+    if (fireReportUri != null && fireReportUri.endsWith("/")) {
+      fireReportUri = fireReportUri.substring(0, fireReportUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
+      json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 
