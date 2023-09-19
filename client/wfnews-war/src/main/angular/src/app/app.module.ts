@@ -155,6 +155,8 @@ import { LocationServicesDialogComponent } from './components/report-of-fire/com
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 import { DialogLocationComponent } from './components/report-of-fire/dialog-location/dialog-location.component';
 import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/rof-disclaimer-page.component';
+import { IonicStorageModule } from '@ionic/storage-angular';
+import { IonicModule } from '@ionic/angular';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -320,7 +322,10 @@ export const DATE_FORMATS = {
         NgxPaginationModule,
         NgxChartsModule,
         YouTubePlayerModule,
-        NgxMaskModule.forRoot()
+        NgxMaskModule.forRoot(),
+        IonicStorageModule.forRoot(),
+        IonicModule.forRoot(),
+
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
