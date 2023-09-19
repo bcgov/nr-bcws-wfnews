@@ -14,6 +14,7 @@ import { RoFReviewPage } from "./review-page/rof-review-page.component";
 import { Router } from "@angular/router";
 import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { RoFDisclaimerPage } from "./disclaimer-page/rof-disclaimer-page.component";
 
 enum PageOperation {
   Next = 1,
@@ -64,6 +65,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       switch(page.type) {
         case "RoFTitlePage":
           component = this.dynamicContainer.createComponent(RoFTitlePage);
+        break;
+        case "RoFDisclaimerPage":
+          component = this.dynamicContainer.createComponent(RoFDisclaimerPage);
         break;
         case "RoFPermissionsPage":
           component = this.dynamicContainer.createComponent(RoFPermissionsPage);
@@ -230,7 +234,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'first-page':
         case 'final-page':
           const rofTitlePageComponent = this.currentPage.instance as RoFTitlePage;
-          rofTitlePageComponent.checkOnlineStatus()
+          rofTitlePageComponent.checkOnlineStatus()    
+          if (rofTitlePageComponent.offLine === true) this.currentPage.instance.nextId = 'disclaimer-page'
         case 'callback-page':
           const roFSimpleQuestionPageComponent = this.currentPage.instance as RoFSimpleQuestionPage;
           roFSimpleQuestionPageComponent.checkOnlineStatus()
