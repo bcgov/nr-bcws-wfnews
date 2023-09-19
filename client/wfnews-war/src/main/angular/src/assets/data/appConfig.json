@@ -30,7 +30,8 @@
             "incidents-table": 500
         },
         "lazyAuthenticate": "true",
-        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl="
+        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=",
+        "syncIntervalMinutes": 10
     },
 
     "externalAppConfig": {
@@ -89,7 +90,8 @@
         "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
         "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
         "causecodes": "causeCodes/token.jsp",
-        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api"
+        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
+        "fire-report-api": "https://wfone-notifications-api-int.bcwildfireservices.com/rof"
     },
 
     "webade": {

@@ -6,6 +6,7 @@ import * as L from 'leaflet'
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 import { Storage } from '@ionic/storage-angular';
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { AppConfigService } from "@wf1/core-ui";
 
 
 
@@ -25,6 +26,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     private storage: Storage,
     private commonUtilityService : CommonUtilityService,
     private cdr: ChangeDetectorRef,
+    private appConfigService: AppConfigService,
   ) {
     super()
   }
@@ -216,7 +218,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
 
   async scheduleDataSync() {
     await this.storage.create();
-    const syncIntervalMinutes = 0.1;
+    //set to check connection every 10min
+    const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
     setInterval(async() => {
       const isConnected = await this.checkOnlineStatus();
       console.log('isConnected:', isConnected);
@@ -260,9 +263,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   async submitReportToServer(offlineReport?): Promise<any>{
     // this part is the task of WFNEWS-1419 which is under progress.
     // please ignore the following process as this will be replaced by real caller.
+    const url = this.appConfigService.getConfig().rest['fire-report-api']
     try {
       // Make an HTTP POST request to your server's API endpoint
-      const response = await fetch('https://wfone-notifications-api-int.bcwildfireservices.com/rof', {
+      const response = await fetch(url, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
