@@ -6,6 +6,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { LocationServicesDialogComponent } from './location-services-dialog/location-services-dialog.component';
 import { equalsIgnoreCase } from '../../../utils';
 
+interface DeviceOrientationEventiOS extends DeviceOrientationEvent {
+  requestPermission?: () => Promise<'granted' | 'denied'>;
+}
+
 @Component({
   selector: 'rof-compass-page',
   templateUrl: './rof-compass-page.component.html',
@@ -42,14 +46,26 @@ ngOnInit(): void {
 async getOrientation() {
   try{
     let self = this;
-        if (this.reportOfFire.iosGranted) {
+    const requestPermission = (DeviceOrientationEvent as unknown as DeviceOrientationEventiOS).requestPermission;
+    const iOS = typeof requestPermission === 'function';
+    if (iOS) {
+    const response = await requestPermission();
+        if (equalsIgnoreCase(response, "granted")) {
           window.addEventListener("deviceorientation", (function(compass) {
             return function(e) {self.handler(e, compass); };
-          }) (self), true);
-      } else if (this.reportOfFire.androidGranted) {
+        }) (self), true);
+        } else {
+            this.dialog.open(LocationServicesDialogComponent, {
+            width: '350px',
+            data: {
+              message: "Location services are required"
+            }
+          });
+        }
+      } else {
         window.addEventListener("deviceorientationabsolute", (function(compass) {
           return function(e) {self.handler(e, compass); };
-        }) (self), true);
+      }) (self), true);
       }
      } catch (err) {
       this.dialog.open(LocationServicesDialogComponent, {

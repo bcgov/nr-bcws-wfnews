@@ -289,6 +289,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
+    if (this.currentPage.instance.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
     if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
       this.currentPage.instance.skip();
     }
