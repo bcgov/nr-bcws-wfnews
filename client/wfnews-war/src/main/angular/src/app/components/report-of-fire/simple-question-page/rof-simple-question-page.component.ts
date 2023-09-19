@@ -37,6 +37,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   }
 
   processToNext(){
+    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
     if( (this.id === 'response-page' || this.id === 'infrastructure-page') && this.optionSelected !== 'yes'){
       this.skip()
     }
