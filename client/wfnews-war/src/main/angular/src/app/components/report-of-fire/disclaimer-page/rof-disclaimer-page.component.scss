@@ -6,4 +6,11 @@
     margin: 0 auto;
     position: relative;
     display: flex;
-  }
+    padding-bottom: 20px;
+}
+
+@media screen and (max-height: 470px)  {
+    #rof-text-title {
+        font-size: 24px;
+    }
+}    
