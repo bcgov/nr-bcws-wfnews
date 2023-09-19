@@ -90,4 +90,9 @@ export class RoFSimpleQuestionPage extends RoFPage {
     if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
     this.next();
   }
+
+  skipPage(){
+    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
+    this.skip();
+  }
 }
