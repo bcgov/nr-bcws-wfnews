@@ -15,6 +15,18 @@
       "isStartPage": true
     },
     {
+      "id": "disclaimer-page",
+      "type": "RoFDisclaimerPage",
+      "title": "You are currently offline",
+      "message": "This application supports offline reporting. The information you provide in this report will be sent to the Provincial Wildfire Reporting Centre as soon as your device connects to Wi-Fi or cellular data. Once the reporting centre has received your report, they will share it with the appropriate fire centre for response.",
+      "allowSkip": false,
+      "allowExit": true,
+      "showProgress": false,
+      "imageUrl": "../../../assets/images/offlineicon.png",
+      "previousId": "first-page",
+      "nextId": "permissions-page"
+    },  
+    {
       "id": "permissions-page",
       "type": "RoFPermissionsPage",
       "title": "Permissions",

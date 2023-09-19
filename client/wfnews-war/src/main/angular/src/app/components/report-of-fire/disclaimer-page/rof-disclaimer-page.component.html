@@ -1,0 +1,14 @@
+<div class="page-content">
+    <div class="rof-text-title">{{ title }}</div>
+    <img alt="Offline Icon" [src]="imageUrl" class="disclaimer-image"/>
+    <div class="rof-text-secondary-header">
+        <p>
+          {{ message }}    
+        </p>
+    </div>
+    <div class="rof-button-container">
+        <button class="rof-button" mat-flat-button (click)="previous()">Cancel</button>
+        <button class="rof-button-primary" mat-flat-button (click)="next()">Continue</button>
+    </div>
+  </div>
+  
