@@ -8,7 +8,7 @@ import { Storage } from '@ionic/storage-angular';
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ReportOfFireService } from "@app/services/report-of-fire-service";
+import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
 
 
@@ -292,7 +292,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
 submitRof(){
-  const rofResource = {
+  const rofResource: ReportOfFireType = {
     fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
     phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
     consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, "Yes") ? true : false,

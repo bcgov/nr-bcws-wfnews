@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+
 @Component({
   selector: 'rof-photo-page',
   templateUrl: './rof-photo-page.component.html',
@@ -14,7 +15,7 @@ export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
   captureUrl:any;
   isCaptured: boolean;
-  images:string[] = [];
+  images: Photo[] = [];
   isFullScreen: boolean = false;
   isEditMode: boolean = false;
   public constructor(
@@ -39,11 +40,16 @@ export class RoFPhotoPage extends RoFPage {
       source: CameraSource.Camera,
       saveToGallery: false,
       webUseInput: true,
-      width: undefined
+      width: undefined,
     }).then((url) => {
-      this.captureUrl = url.dataUrl;
-      this.isCaptured = true
-      this.images.push(this.captureUrl)
+      const img: Photo = {
+        format: "",
+        saved: false
+      }
+      img.webPath = url.dataUrl;
+      img.format = url.format;
+      
+      this.images.push(img)
       this.changeDetector.detectChanges()
       })
   }
@@ -56,7 +62,13 @@ export class RoFPhotoPage extends RoFPage {
       if(url.photos) {
         url.photos = url.photos.splice(0,3-this.images.length)
         url.photos.forEach(photo => {
-          this.images.push(photo.webPath)
+          const img: Photo = {
+            format: "",
+            saved: false
+          }
+          img.webPath = photo.webPath;
+          img.format = photo.format;
+          this.images.push(img)
           this.changeDetector.detectChanges()
         });
       }
