@@ -1,6 +1,6 @@
-import { HttpClient, HttpEvent, HttpRequest } from "@angular/common/http";
+import { HttpClient, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AppConfigService, TokenService } from "@wf1/core-ui";
+import { AppConfigService } from "@wf1/core-ui";
 import { Observable } from "rxjs/internal/Observable";
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Observable } from "rxjs/internal/Observable";
 export class ReportOfFireService {
     rofUrl: string;
 
-    constructor(private appConfigService: AppConfigService, private tokenService: TokenService, private httpClient: HttpClient) {  }
+    constructor(private appConfigService: AppConfigService, private httpClient: HttpClient) {  }
 
     public saveReportOfFire (reportOfFire: any, image1: any, image2: any, image3: any): Observable<any> {
 

@@ -305,12 +305,12 @@ submitRof(){
     weather: this.reportOfFire.weather,
     assetsAtRisk: this.reportOfFire.assetsAtRisk,
     signsOfResponse: this.reportOfFire.signsOfResponse,
-    otherInfo: this.reportOfFire.otherInfo
+    otherInfo: this.reportOfFire.otherInfo,
   }
 
   try {   
-    const response = this.reportOfFireService.saveReportOfFire(rofResource, this.reportOfFire.image1, 
-      this.reportOfFire.image2, this.reportOfFire.image3);
+    const response = this.reportOfFireService.saveReportOfFire(rofResource, this.reportOfFire.image1, this.reportOfFire.image2, this.reportOfFire.image3);
+    this.next();
   } catch (err) {
      this.snackbarService.open(
        'Failed to submit Report Of Fire: ' + JSON.stringify(err.message),
@@ -321,8 +321,6 @@ submitRof(){
   } finally {
     this.cdr.detectChanges();
   }
-
-  this.next();
 
 }
   nullEmptyStrings(value: string) {
