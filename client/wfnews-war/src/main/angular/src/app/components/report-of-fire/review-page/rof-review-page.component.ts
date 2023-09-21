@@ -7,8 +7,9 @@ import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.
 import { Storage } from '@ionic/storage-angular';
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { AppConfigService } from "@wf1/core-ui";
-
-
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { ReportOfFireService } from "@app/services/report-of-fire-service";
+import { equalsIgnoreCase } from '../../../utils';
 
 
 @Component({
@@ -27,6 +28,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     private commonUtilityService : CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private appConfigService: AppConfigService,
+    private reportOfFireService: ReportOfFireService,
+    protected snackbarService: MatSnackBar,
   ) {
     super()
   }
@@ -287,4 +290,45 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       return { success: false, message: 'An error occurred while submitting the report' };
     }
   }
+
+submitRof(){
+  const rofResource = {
+    fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
+    phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
+    consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, "Yes") ? true : false,
+    estimatedDistance: this.reportOfFire.estimatedDistance,
+    fireLocation: this.reportOfFire.fireLocation,
+    fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
+    rateOfSpread: equalsIgnoreCase(this.reportOfFire.rateOfSpread, "Yes") ? "Fast" : equalsIgnoreCase(this.reportOfFire.rateOfSpread, "No") ? "Slow" : "Unknown",
+    burning: this.reportOfFire.burning,
+    smokeColor: this.reportOfFire.smokeColor,
+    weather: this.reportOfFire.weather,
+    assetsAtRisk: this.reportOfFire.assetsAtRisk,
+    signsOfResponse: this.reportOfFire.signsOfResponse,
+    otherInfo: this.reportOfFire.otherInfo
+  }
+
+  try {   
+    const response = this.reportOfFireService.saveReportOfFire(rofResource, this.reportOfFire.image1, 
+      this.reportOfFire.image2, this.reportOfFire.image3);
+  } catch (err) {
+     this.snackbarService.open(
+       'Failed to submit Report Of Fire: ' + JSON.stringify(err.message),
+       'OK',
+       { duration: 10000, panelClass: 'snackbar-error' }
+     );
+    
+  } finally {
+    this.cdr.detectChanges();
+  }
+
+  this.next();
+
 }
+  nullEmptyStrings(value: string) {
+    return !value ? null : value;
+  }
+
+
+}
+

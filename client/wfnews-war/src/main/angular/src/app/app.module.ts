@@ -154,13 +154,10 @@ import { NgxMaskModule } from 'ngx-mask';
 import { LocationServicesDialogComponent } from './components/report-of-fire/compass-page/location-services-dialog/location-services-dialog.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 import { DialogLocationComponent } from './components/report-of-fire/dialog-location/dialog-location.component';
-<<<<<<< Updated upstream
 import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/rof-disclaimer-page.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule } from '@ionic/angular';
-=======
-import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/disclaimer-page.component';
->>>>>>> Stashed changes
+import { ReportOfFireService } from './services/report-of-fire-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -398,6 +395,7 @@ export const DATE_FORMATS = {
         WatchlistService,
         PointIdService,
         CanDeactivateGuard,
+        ReportOfFireService
     ],
     bootstrap: [
         AppComponent
