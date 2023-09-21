@@ -41,6 +41,11 @@ export class RoFTitlePage extends RoFPage {
 
 
  triggerLocationServiceCheck (){
+  // re-check if user's device has gone offline since view was initialised and route to offline if so
+    this.checkOnline().then((result) => {
+      if(!result) this.nextId = 'disclaimer-page'
+   })
+
     this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
       if (!enabled) {
         let dialogRef = this.dialog.open(DialogLocationComponent, {
@@ -65,4 +70,16 @@ export class RoFTitlePage extends RoFPage {
       }
     );
   }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
+  }
+
 }
