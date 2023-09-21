@@ -11,7 +11,6 @@
       "closeButton": false,
       "showProgress": false,
       "imageUrl": "../../../assets/images/rofbanner.svg",
-      "nextOfflineId": "disclaimer-page",
       "nextId": "permissions-page",
       "isStartPage": true
     },
