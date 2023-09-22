@@ -157,6 +157,7 @@ import { DialogLocationComponent } from './components/report-of-fire/dialog-loca
 import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/rof-disclaimer-page.component';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule } from '@ionic/angular';
+import { ReportOfFireService } from './services/report-of-fire-service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -394,6 +395,7 @@ export const DATE_FORMATS = {
         WatchlistService,
         PointIdService,
         CanDeactivateGuard,
+        ReportOfFireService
     ],
     bootstrap: [
         AppComponent
