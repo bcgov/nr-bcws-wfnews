@@ -1,4 +1,5 @@
 @import '../report-of-fire.component.scss';
+@import "notosans-fontface/scss/notosans-fontface";
 
 .item {
     border-radius: 8px;
@@ -21,7 +22,7 @@
     word-wrap: break-word;
     max-width: 90%;
 }
-  
+
 .edit-icon {
     align-self: flex-start;
     cursor: pointer;
@@ -66,7 +67,7 @@
         font-weight: 600;
         line-height: normal;
         color: #FFF;
-        font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+        font-family: 'Noto Sans', Arial, 'sans serif';
         background-color: #123262;
         flex-direction: row-reverse;
     }

@@ -1,6 +1,8 @@
 @import '../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
 :host {
-  font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+  font-family: 'Noto Sans', Arial, 'sans serif';
 }
 
 .mobile-header{
@@ -116,7 +118,7 @@
         background-color: #123262;
         flex-direction: none;;
       }
-     
+
     }
     &-disabled {
       padding:0 32px;
@@ -219,7 +221,7 @@
     height: 8.5vh !important;
    }
 }
-  
+
 ::ng-deep.mat-button-toggle-label-content {
   line-height: 20px !important;
   color: #000;
@@ -272,7 +274,7 @@
     .mat-mdc-checkbox{
       span{
         color: #242424;
-        font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+        font-family: 'Noto Sans', Arial, 'sans serif';
         font-size: 17px;
         font-style: normal;
         font-weight: 400;
@@ -292,7 +294,7 @@
   }
   &-review-header {
     color: #000;
-    font-family: "BC Sans", "Noto Sans", Arial, "sans serif"; 
+    font-family: "BC Sans", "Noto Sans", Arial, "sans serif";
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -308,7 +310,7 @@
 
 .page-content{
   padding: 0 32px;
-  font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+  font-family: 'Noto Sans', Arial, 'sans serif';
   font-style: normal;
   font-size: 16px;
   font-weight: 400;

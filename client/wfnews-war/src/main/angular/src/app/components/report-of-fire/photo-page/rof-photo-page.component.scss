@@ -1,4 +1,5 @@
 @import '../report-of-fire.component.scss';
+@import "notosans-fontface/scss/notosans-fontface";
 
 .button-group{
     display: flex;
@@ -13,7 +14,7 @@
         align-items: center;
         gap: 8px;
         flex: 1 0 0;
-        align-self: stretch;  
+        align-self: stretch;
         border-radius: 8px;
         background: #F1F1F1;
         border-width: inherit;
@@ -23,7 +24,7 @@
     }
     span{
         color: #000;
-        font-family: 'BC Sans', 'Noto Sans', Arial, 'sans serif';
+        font-family: 'Noto Sans', Arial, 'sans serif';
         font-size: 19px;
         font-style: normal;
         font-weight: 600;
@@ -55,7 +56,7 @@
     .first-image {
         margin-left: 0; /* Removes left margin for the first image */
     }
-      
+
     .last-image {
         margin-right: 0; /* Removes right margin for the last image */
     }
@@ -63,7 +64,7 @@
     .image-wrapper {
         position: relative;
     }
-    
+
     .image{
         height: 25vh;
 
@@ -82,7 +83,7 @@
             margin: 0px !important;
         }
     }
-    
+
     .delete-button {
         position: absolute;
         top: 5px;
