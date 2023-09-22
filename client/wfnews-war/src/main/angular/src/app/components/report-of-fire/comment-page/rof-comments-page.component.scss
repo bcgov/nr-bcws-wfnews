@@ -7,3 +7,17 @@
   background-color: #F5F5F5 !important;
   border-radius: 3px;
 }
+
+.review-icon {
+  padding-right: 12px !important; 
+  margin-right: -4px;
+}
+
+@media screen and (max-width: 380px) {
+  .review-icon {
+    padding-right: 12px !important; 
+    margin-right: -4px;
+    transform: translate(-15px);
+    
+  }
+}
