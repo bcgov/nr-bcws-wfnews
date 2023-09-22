@@ -109,6 +109,7 @@ jobs:
           SERVER_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.SERVER_IMAGE }}${{ inputs.IS_HOTFIX=='true' && '-hotfix' || ''}}:${{ inputs.IMAGE_TAG }}
           SERVER_MEMORY: ${{vars.SERVER_MEMORY}}
           siteMinderURLPrefix: ${{vars.SITEMINDER_URL_PREFIX}}
+          syncIntervalMinutes: ${{vars.SYNC_INTERVAL_MINUTES}}
           SMTP_ADMIN_EMAIL: ${{vars.SMTP_ADMIN_EMAIL}}
           SMTP_EMAIL_ERROR_SUBJECT: ${{vars.SMTP_EMAIL_ERROR_SUBJECT}}
           SMTP_EMAIL_FREQ: ${{vars.SMTP_EMAIL_FREQ}}
@@ -131,6 +132,7 @@ jobs:
           WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{vars.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE-OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL}}
           WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
+          FIRE_REPORT_API_URL: $${vars.FIRE_REPORT_API_URL}
           WFIM_CLIENT_URL: ${{vars.WFIM_CLIENT_URL}}
           WFIM_CODE_TABLES_URL: ${{vars.WFIM_CODE_TABLES_URL}}
           WFNEWS_AGOL_QUERY_URL: ${{vars.WFNEWS_AGOL_QUERY_URL}}

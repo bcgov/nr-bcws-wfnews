@@ -95,6 +95,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFDM_REST_URL
         },
         {
+          name = "FIRE_REPORT_API_URL",
+          value = var.FIRE_REPORT_API_URL
+        },
+        {
           name  = "WFIM_CLIENT_URL",
           value = var.WFIM_CLIENT_URL
         },
@@ -305,6 +309,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.WFDM_REST_URL
         },
         {
+          name = "FIRE_REPORT_API_URL",
+          value = var.FIRE_REPORT_API_URL
+        },
+        {
           name  = "ORG_UNIT_URL",
           value = ""
         },
@@ -339,6 +347,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name  = "SITEMINDER_URL_PREFIX",
           value = var.siteMinderURLPrefix
+        },
+        {
+          name = "SYNC_INTERVAL_MINUTES",
+          value = var.syncIntervalMinutes
         },
         {
           name  = "AGOL_AREA_RESTRICTIONS",
@@ -1018,6 +1030,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           {
             name  = "WFDM_REST_URL",
             value = var.WFDM_REST_URL
+          },
+          {
+            name = "FIRE_REPORT_API_URL",
+            value = var.FIRE_REPORT_API_URL
           },
           {
             name  = "WFIM_CLIENT_URL",

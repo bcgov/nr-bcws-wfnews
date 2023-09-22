@@ -39,6 +39,7 @@ locals {
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
   WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET")
   WFDM_REST_URL = get_env("WFDM_REST_URL")
+  FIRE_REPORT_API_URL = get_env("FIRE_REPORT_API_URL")
   WFIM_CLIENT_URL = get_env("WFIM_CLIENT_URL")
   WFIM_CODE_TABLES_URL = get_env("WFIM_CODE_TABLES_URL")
   WEBADE-OAUTH2_CHECK_TOKEN_URL = get_env("WEBADE-OAUTH2_CHECK_TOKEN_URL")
@@ -64,6 +65,7 @@ locals {
   drivebcBaseUrl = get_env("drivebcBaseUrl")
   openmapsBaseUrl = get_env("openmapsBaseUrl")
   siteMinderURLPrefix = get_env("siteMinderURLPrefix")
+  syncIntervalMinutes = get_env("syncIntervalMinutes")
   agolAreaRestrictions = get_env("agolAreaRestrictions")
   agolBansAndProhibitions = get_env("agolBansAndProhibitions")
   WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET")
@@ -142,6 +144,7 @@ generate "dev_tfvars" {
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"
     WFDM_REST_URL ="${local.WFDM_REST_URL}"
+    FIRE_REPORT_API_URL ="${local.FIRE_REPORT_API_URL}"
     WFIM_CLIENT_URL ="${local.WFIM_CLIENT_URL}"
     WFIM_CODE_TABLES_URL ="${local.WFIM_CODE_TABLES_URL}"
     WEBADE-OAUTH2_CHECK_TOKEN_URL ="${local.WEBADE-OAUTH2_CHECK_TOKEN_URL}"
@@ -165,6 +168,7 @@ generate "dev_tfvars" {
     drivebcBaseUrl = "${local.drivebcBaseUrl}"
     openmapsBaseUrl = "${local.openmapsBaseUrl}"
     siteMinderURLPrefix = "${local.siteMinderURLPrefix}"
+    syncIntervalMinutes = "${local.syncIntervalMinutes}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
     WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
