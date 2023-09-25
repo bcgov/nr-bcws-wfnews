@@ -66,10 +66,12 @@ env:
   REPOSITORY: ghcr.io
 
 jobs:
-  plan:
+  deploy:
     name: Deploy
     runs-on: ubuntu-22.04
     environment: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
+    permissions:
+      id-token: write
 
     steps:
       - name: Check out the repo
