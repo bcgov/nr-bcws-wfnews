@@ -30,9 +30,7 @@ export class ReportOfFireService {
 
     public saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Observable<any> {
 
-        // let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
-        let rofUrl = "https://wfone-notifications-api-int.bcwildfireservices.com/rof"
-        console.log('rofUrl = ' + rofUrl)
+        let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
 
         const formData = new FormData()
         formData.append('resource', new Blob([JSON.stringify(reportOfFire)], {type: 'application/json'}))
@@ -46,7 +44,6 @@ export class ReportOfFireService {
             responseType: 'json',
         } ) )
         
-        console.log(req.constructor.name)
         req.subscribe(
         (ev) => {
         
