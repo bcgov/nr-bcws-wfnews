@@ -81,6 +81,13 @@ jobs:
       #     name: lambda-functions
       #     path: ${{env.TG_SRC_PATH}}/lambda-functions
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+          role-session-name: wfnews-terraform-s3
+          aws-region: ca-central-1
+
       - uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: ${{ env.TF_VERSION }}
