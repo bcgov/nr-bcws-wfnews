@@ -86,7 +86,7 @@ jobs:
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_S3_PUSH_ROLE }}
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_TO_ASSUME }}
           role-session-name: wfnews-terraform-s3
           aws-region: ca-central-1
 
