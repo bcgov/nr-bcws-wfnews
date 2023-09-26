@@ -11,6 +11,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
 import { MBTiles, mbTiles } from 'leaflet-tilelayer-mbtiles-ts';
+import offlineMapJson from './offline.geo.json';
+
 
 
 @Component({
@@ -163,16 +165,17 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
     // Calculate the ideal zoom level to fit the bounding box within the map's view
     // configure map data
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-      zoom: 5,
+    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    //   zoom: 5,
+    //   subdomains:['mt0','mt1','mt2','mt3']
+    // }).addTo(this.map);
+
+
+    const geoJsonData = offlineMapJson
+    L.geoJson(geoJsonData,{
+      zoom:18,
       subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(this.map);
-
-    const myLayer = L.tileLayer;
-    let mbtiles = new MBTiles('./offline-map.mbtiles');
-
-    // myLayer.mbtiles = mbTiles
-    debugger
+    }).addTo(this.map)
 
     const fireLocationIcon = L.divIcon({
       html: '<i class="fireLocationIcon material-icons">location_searching</i>',
