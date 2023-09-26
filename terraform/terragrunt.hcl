@@ -1,8 +1,6 @@
 locals {
   tfc_hostname     = "app.terraform.io"
   tfc_organization = "bcgov"
-  project = get_env("TFC_PROJECT","")
-  environment      = reverse(split("/", get_terragrunt_dir()))[0]
 }
 
 generate "remote_state" {
@@ -10,12 +8,12 @@ generate "remote_state" {
   if_exists = "overwrite"
   contents  = <<EOF
 terraform {
-  backend "remote" {
-    hostname = "${local.tfc_hostname}"
-    organization = "${local.tfc_organization}"
-    workspaces {
-      name = "${local.project}-${local.environment}"
-    }
+  backend "s3" {
+    bucket         = "terraform-remote-state-${get_env("TFC_PROJECT")}-${reverse(split("/", get_terragrunt_dir()))[0]}"  # Replace with either generated or custom bucket name
+    key            = "terraform.${get_env("TFC_PROJECT")}-${reverse(split("/", get_terragrunt_dir()))[0]}-state"           # Path and name of the state file within the bucket
+    region         = "ca-central-1"                   # AWS region where the bucket is located
+    dynamodb_table = "terraform-remote-state-lock-${get_env("TFC_PROJECT")}"  # Replace with either generated or custom DynamoDB table name
+    encrypt        = true                              # Enable encryption for the state file
   }
 }
 EOF
@@ -41,7 +39,7 @@ generate "provider" {
 provider "aws" {
   region  = var.aws_region
   assume_role {
-    role_arn = "arn:aws:iam::$${var.target_aws_account_id}:role/BCGOV_$${var.target_env}_Automation_Admin_Role"
+    role_arn = "arn:aws:iam::$${var.target_aws_account_id}:role/Terraform_Deploy_Role"
   }
 }
 EOF
