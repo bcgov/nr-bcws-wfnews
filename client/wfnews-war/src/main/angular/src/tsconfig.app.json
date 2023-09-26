@@ -5,7 +5,17 @@
     "allowSyntheticDefaultImports": true,
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
-    "types": ["jest"]
+    "types": ["jest"],
+    "paths": {
+      "@app/*": ["app/*"],
+      "crypto": ["./node_modules/crypto-browserify"],
+      "stream": ["./node_modules/stream-browserify"],
+      "assert": ["./node_modules/assert"],
+      "http": ["./node_modules/stream-http"],
+      "https": ["./node_modules/https-browserify"],
+      "os": ["./node_modules/os-browserify"],
+      "fs": ["./node_modules/fs-web"]
+    },
   },
   "files": [
     "main.ts",

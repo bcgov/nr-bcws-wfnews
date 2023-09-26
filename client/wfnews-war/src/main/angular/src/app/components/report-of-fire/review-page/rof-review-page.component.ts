@@ -10,6 +10,7 @@ import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
+import { MBTiles, mbTiles } from 'leaflet-tilelayer-mbtiles-ts';
 
 
 @Component({
@@ -166,6 +167,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       zoom: 5,
       subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(this.map);
+
+    const myLayer = L.tileLayer;
+    let mbtiles = new MBTiles('./offline-map.mbtiles');
+
+    // myLayer.mbtiles = mbTiles
+    debugger
 
     const fireLocationIcon = L.divIcon({
       html: '<i class="fireLocationIcon material-icons">location_searching</i>',
