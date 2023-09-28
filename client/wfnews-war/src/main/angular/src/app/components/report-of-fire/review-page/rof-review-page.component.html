@@ -29,9 +29,9 @@
             </div>
           </div>
           <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1 && reportOfFire.image1.webPath" class="images">
-            <img class="image" [src]="reportOfFire.image1.webPath">
-            <img class="image" [src]="reportOfFire.image2.webPath">
-            <img class="image" [src]="reportOfFire.image3.webPath">
+            <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1 && reportOfFire.image1.webPath"><img class="image" [src]="reportOfFire.image1.webPath"></div>
+            <div *ngIf = "page.id === 'photo-page' && reportOfFire.image2 && reportOfFire.image2.webPath"><img class="image" [src]="reportOfFire.image2.webPath"></div>
+            <div *ngIf = "page.id === 'photo-page' && reportOfFire.image3 && reportOfFire.image3.webPath"><img class="image" [src]="reportOfFire.image3.webPath"></div>
           </div>
         </div>
         <div *ngIf="twoPartsQuestions(page)" class="item">
