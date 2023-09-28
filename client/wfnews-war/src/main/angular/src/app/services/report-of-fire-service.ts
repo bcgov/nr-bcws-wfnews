@@ -67,13 +67,11 @@ export class ReportOfFireService {
   async convertToBase64 (image: Photo){
       // if the webPath is already a base64 string, return it
       if (image.webPath !== null && image.webPath.startsWith("data:image")){
-          console.log("webPath: " + image.webPath)
           return image.webPath;
       }
       else {   
           let b64 = ""
           await this.blobToBase64(image.webPath).then(result => {
-            console.log("b64: " + result)
             b64 = result;
           })
           return b64;
