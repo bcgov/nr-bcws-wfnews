@@ -29,17 +29,32 @@ export class ReportOfFireService {
 
         let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
         let resource = JSON.stringify(reportOfFire)
-        const formData = new FormData()
-        formData.append('resource', resource)
 
-        if (image1 !== null && image1 !== undefined && image1.webPath) formData.append('image1', await this.convertToBase64(image1))
-        if (image2 !== null && image2 !== undefined && image2.webPath) formData.append('image2', await this.convertToBase64(image2))
-        if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
-        
-        let response = await fetch(rofUrl, {
-             method: 'POST',
-             body: formData
-         });
+        try {
+          const formData = new FormData()
+          formData.append('resource', resource)
+
+          if (image1 !== null && image1 !== undefined && image1.webPath) formData.append('image1', await this.convertToBase64(image1))
+          if (image2 !== null && image2 !== undefined && image2.webPath) formData.append('image2', await this.convertToBase64(image2))
+          if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
+          
+          let response = await fetch(rofUrl, {
+              method: 'POST',
+              body: formData
+          });
+          if (response.ok) {
+            // The server successfully processed the report
+            return { success: true, message: 'Report submitted successfully' };
+          } else {
+            // The server encountered an error
+            const responseData = await response.json();
+            return { success: false, message: responseData.error };
+          }
+
+        } catch (error) {
+          // An error occurred during the HTTP request
+          return { success: false, message: 'An error occurred while submitting the report' };
+        }
 
       }
 
