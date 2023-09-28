@@ -1,6 +1,7 @@
-import { Storage } from '@ionic/storage';
+const Storage = require('@ionic/storage');
 
-addEventListener('submitOfflineRoF', (resolve, reject) => { 
+function submitOfflineRoF ( event ) {
+  addEventListener(event, (resolve, reject) => { 
     try {
         scheduleDataSync();
         resolve();
@@ -8,6 +9,7 @@ addEventListener('submitOfflineRoF', (resolve, reject) => {
         reject(err);
     }
   });
+}
 
  async function scheduleDataSync() {
     const storage = new Storage();
@@ -44,7 +46,7 @@ async function submitReportToServer(offlineReport){
     const image1 = rofJson.image1;
     const image2 = rofJson.image2;
     const image3 = rofJson.image3;
-    const rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
+    const rofUrl = "https://wfone-notifications-api.dev.bcwildfireservices.com/rof"
     try {
         const formData = new FormData()
         if (resource !== null && resource !== undefined) formData.append('resource', resource)
