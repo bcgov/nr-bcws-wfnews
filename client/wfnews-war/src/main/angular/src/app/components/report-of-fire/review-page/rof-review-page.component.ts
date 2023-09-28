@@ -11,7 +11,8 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
 import { MBTiles, mbTiles } from 'leaflet-tilelayer-mbtiles-ts';
-import offlineMapJson from './offline.geo.json';
+import offlineMapJson from '../../../../assets/maps/british-columbia.json'
+
 
 
 
@@ -165,17 +166,26 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
     // Calculate the ideal zoom level to fit the bounding box within the map's view
     // configure map data
-    // L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-    //   zoom: 5,
-    //   subdomains:['mt0','mt1','mt2','mt3']
-    // }).addTo(this.map);
-
-
-    const geoJsonData = offlineMapJson
-    L.geoJson(geoJsonData,{
-      zoom:18,
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+      zoom: 5,
       subdomains:['mt0','mt1','mt2','mt3']
-    }).addTo(this.map)
+    }).addTo(this.map);
+
+    this.checkOnline().then((result) => {
+      if(!result) {
+        const geoJsonData = offlineMapJson
+        L.geoJson(geoJsonData,{
+          style:{
+            color:"#6495ED",
+            weight:8,
+            fillColor:'',
+            fillOpacity:0.00001
+          },
+          zoom:6,
+          subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(this.map)
+      }
+    })
 
     const fireLocationIcon = L.divIcon({
       html: '<i class="fireLocationIcon material-icons">location_searching</i>',
@@ -335,6 +345,17 @@ submitRof(){
 }
   nullEmptyStrings(value: string) {
     return !value ? null : value;
+  }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
   }
 
 

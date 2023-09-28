@@ -8,8 +8,11 @@ import { SmkApi } from "@app/utils/smk";
 import { MapConfigService } from "@app/services/map-config.service";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
-import { ActivatedRoute, Router } from "@angular/router";
 import { LocationStrategy, PathLocationStrategy } from "@angular/common";
+import offlineMapJson from '../../../../assets/maps/british-columbia.json'
+import * as L from 'leaflet'
+
+
 
 @Component({
   selector: 'rof-location-page',
@@ -131,6 +134,12 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     }
 
     connector()
+    
+    this.checkOnline().then((result) => {
+      if(!result) {
+        this.addOfflineLayer();
+      }
+    })
   }
 
   confirmLocation() {
@@ -147,7 +156,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
 
     let arrowLine = T.lineString( [ start, end ] )
     let arrowLen = T.length( arrowLine )
-    let arrowLenPx = arrowLen * 1000 / view.metersPerPixel
 
         let startOffset = view.metersPerPixel * lineStartOffsetPx / 1000
         let endOffset = view.metersPerPixel * lineEndOffsetPx / 1000
@@ -222,6 +230,40 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   backToReview() {
     this.reportOfFirePage.edit('review-page')
   }
+
+  addOfflineLayer(){
+    const SMK = window['SMK'];
+    for (const smkMap in SMK.MAP) {
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) { 
+        const geoJsonData = offlineMapJson
+        const offlineLyaer = L.geoJson(geoJsonData,{
+          style:{
+            color:"#6495ED",
+            weight:8,
+            fillColor:'',
+            fillOpacity:0.00001
+          },
+          zoom:6,
+          subdomains:['mt0','mt1','mt2','mt3']
+        })
+        SMK.MAP[1].$viewer.map
+        offlineLyaer.addTo(SMK.MAP[1].$viewer.map);
+      }
+    }
+        
+  }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
+  }
+
 }
 
 function formatDist( dist: number ): string {
