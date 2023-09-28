@@ -208,19 +208,37 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   loadMapConfig(){
-    this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
-      let turf = window['turf'],
-      loc = [ this.location.coords.longitude, this.location.coords.latitude],
-      dist = (this.reportOfFire.estimatedDistance && this.reportOfFire.estimatedDistance != 0) ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
-      head = this.reportOfFire.compassHeading,
-      photo = turf.destination( loc, dist, head ),
-      poly = turf.circle( photo.geometry.coordinates, dist ),
-      exp = turf.transformScale( poly, 1.10 ),
-      bbox = turf.bbox( exp ),
-      view = { viewer: { location: { extent: bbox } } }
-      this.mapConfig = [ cfg, view ]
-      this.cdr.detectChanges()
-    })
+    this.checkOnline().then((result) => {
+      if(!result) {
+        this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
+          let turf = window['turf'],
+          loc = [ this.location.coords.longitude, this.location.coords.latitude],
+          dist = (this.reportOfFire.estimatedDistance && this.reportOfFire.estimatedDistance != 0) ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
+          head = this.reportOfFire.compassHeading,
+          photo = turf.destination( loc, dist, head ),
+          poly = turf.circle( photo.geometry.coordinates, dist ),
+          exp = turf.transformScale( poly, 1.10 ),
+          bbox = turf.bbox( exp ),
+          view = { viewer: { location: { extent: bbox } } }
+          this.mapConfig = [ cfg, view ]
+          this.cdr.detectChanges()
+        })
+      }else{
+        this.mapConfigService.getReportOfFireMapConfig().then((cfg) => {
+          let turf = window['turf'],
+          loc = [ this.location.coords.longitude, this.location.coords.latitude],
+          dist = (this.reportOfFire.estimatedDistance && this.reportOfFire.estimatedDistance != 0) ? this.reportOfFire.estimatedDistance / 1000 : this.distanceEstimateMeter / 1000, //km
+          head = this.reportOfFire.compassHeading,
+          photo = turf.destination( loc, dist, head ),
+          poly = turf.circle( photo.geometry.coordinates, dist ),
+          exp = turf.transformScale( poly, 1.10 ),
+          bbox = turf.bbox( exp ),
+          view = { viewer: { location: { extent: bbox } } }
+          this.mapConfig = [ cfg, view ]
+          this.cdr.detectChanges()
+        })
+      }
+    })    
   }
 
   editMode() {
@@ -248,6 +266,12 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
         })
         SMK.MAP[1].$viewer.map
         offlineLyaer.addTo(SMK.MAP[1].$viewer.map);
+        (SMK.MAP[1].$viewer.map).setZoom(5)
+        const offlineUrl = '/assets/offline-maps/{z}/{y}/{x}.jpg'
+        L.tileLayer(offlineUrl, {
+          zoom: 5,
+          subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(SMK.MAP[1].$viewer.map);
       }
     }
         
