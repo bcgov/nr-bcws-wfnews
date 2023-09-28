@@ -1,15 +1,14 @@
 const Storage = require('@ionic/storage');
 
-function submitOfflineRoF ( event ) {
-  addEventListener(event, (resolve, reject) => { 
+  addEventListener("submitOfflineRoF", (resolve, reject) => { 
     try {
+        console.log("submitting offline ROF")
         scheduleDataSync();
         resolve();
     } catch (err) {
         reject(err);
     }
   });
-}
 
  async function scheduleDataSync() {
     const storage = new Storage();

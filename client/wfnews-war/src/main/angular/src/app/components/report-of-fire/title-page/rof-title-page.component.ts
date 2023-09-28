@@ -4,6 +4,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { BackgroundRunner } from '@capacitor/background-runner'
 
 @Component({
   selector: 'rof-title-page',
@@ -24,6 +25,7 @@ export class RoFTitlePage extends RoFPage {
     private cdr: ChangeDetectorRef,
     ) {
     super()
+    this.initBackground()
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -37,6 +39,28 @@ export class RoFTitlePage extends RoFPage {
 
   openCallPage () {
     // not yet implemented
+  }
+
+  async initBackground() {
+    console.log('initBackground')
+    try {
+      const permissions = await BackgroundRunner.requestPermissions({
+        apis: ['geolocation', 'notifications']
+      })
+      this.backgroundRoF()
+    } catch(err) {
+      console.log(err)
+    }
+
+  }
+
+  async backgroundRoF() {
+    const result = await BackgroundRunner.dispatchEvent({
+      label: 'ca.bc.gov.WildfireInformation.background',
+      event: 'submitOfflineRoF',
+      details: {}
+    })
+    console.log("Background ROF Result = " + result)
   }
 
 

@@ -9,11 +9,11 @@ const config: CapacitorConfig = {
   },
   plugins: {
     BackgroundRunner: {
-      label: 'wfnews.background.task',
-      src: 'src/background.js',
+      label: 'ca.bc.gov.WildfireInformation.background',
+      src: 'background/background.js',
       event: 'submitOfflineRoF',
       repeat: true,
-      interval: 600,
+      interval: 10,
       autoStart: true,
     }
   }

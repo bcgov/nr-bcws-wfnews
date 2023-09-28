@@ -1,5 +1,6 @@
 import UIKit
 import Capacitor
+import CapacitorBackgroundRunner
 import FirebaseCore
 import Firebase
 
@@ -66,10 +67,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-    BackgroundRunnerPlugin.registerBackgroundTask()
-    BackgroundRunnerPlugin.handleApplicationDidFinishLaunching(launchOptions: launchOptions)
+        BackgroundRunnerPlugin.registerBackgroundTask()
+        BackgroundRunnerPlugin.handleApplicationDidFinishLaunching(launchOptions: launchOptions)
 
     return true
-}
+    }
+
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+            BackgroundRunnerPlugin.dispatchEvent(event: "remoteNotification", eventArgs: userInfo) { result in
+                switch result {
+                case .success:
+                    completionHandler(.newData)
+                case .failure:
+                    completionHandler(.failed)
+                }
+            }
+        }
 
 }

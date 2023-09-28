@@ -59,6 +59,11 @@
                 "glob": "bc-sans/**/*",
                 "input": "node_modules/@wf1/wfcc-application-ui",
                 "output": "assets"
+              },
+              {
+                "glob": "background.js",
+                "input": "src/app/background",
+                "output": "background"
               }
             ],
             "styles": [
