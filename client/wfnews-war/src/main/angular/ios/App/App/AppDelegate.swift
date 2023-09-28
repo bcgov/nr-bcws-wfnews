@@ -64,4 +64,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         NotificationCenter.default.post(name: .capacitorDidFailToRegisterForRemoteNotifications, object: error)
     }
 
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+
+    BackgroundRunnerPlugin.registerBackgroundTask()
+    BackgroundRunnerPlugin.handleApplicationDidFinishLaunching(launchOptions: launchOptions)
+
+    return true
+}
+
 }

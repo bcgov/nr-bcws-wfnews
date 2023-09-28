@@ -10,7 +10,8 @@ addEventListener('submitOfflineRoF', (resolve, reject) => {
   });
 
  async function scheduleDataSync() {
-    await this.storage.create();
+    const storage = new Storage();
+    await storage.create();
     const isConnected = await checkOnlineStatus();
       if (isConnected) {
         await syncDataWithServer();
