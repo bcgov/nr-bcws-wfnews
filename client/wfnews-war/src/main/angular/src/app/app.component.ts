@@ -61,7 +61,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   public snowPlowHelper = snowPlowHelper
   public isMobileView = mobileView
   public TOOLTIP_DELAY = 500;
-  
+
 
   title = 'News';
 
