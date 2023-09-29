@@ -475,5 +475,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   setActive(menuItem: string): void {
     this.activeMenuItem = menuItem;
+    if (menuItem == 'report') {
+      this.router.navigate([ResourcesRoutes.ROF]);
+      this.activeMenuItem = '';
+    }
   }    
 }
