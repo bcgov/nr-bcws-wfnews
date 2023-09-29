@@ -1,4 +1,4 @@
-const Storage = require('@ionic/storage');
+import * as Storage from './node_modules/@ionic/storage/dist/ionic-storage.js';
 
   addEventListener("submitOfflineRoF", (resolve, reject) => { 
     try {
