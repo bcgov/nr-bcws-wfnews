@@ -5,6 +5,11 @@
   font-family: 'Noto Sans', Arial, 'sans serif';
 }
 
+.rof{
+  height: 100vh; 
+  background-color: white !important;
+}
+
 .mobile-header{
   display: flex;
   justify-content: space-between;
@@ -40,6 +45,10 @@
   .rof-text-secondary-header{
       font-size: 2.2vh !important;
   }
+}
+
+.rof-text-secondary-header{
+  text-align: center;
 }
 
 .wrapper {
