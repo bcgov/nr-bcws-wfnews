@@ -220,3 +220,61 @@ export function reportOfFireMapConfig(
         ],
     }
 }
+
+export function reportOfFireOfflineMapConfig(
+    mapServices: MapServices, serviceStatus: MapServiceStatus, device: WfDevice, appConfigService: AppConfigService) {
+    return {
+        viewer: {
+            type: "leaflet",
+            device,
+            location: {
+                extent: [ -136.3, 49, -116, 60.2 ],
+            },
+            baseMap: "imagery",
+            zoomControl: false,
+            doubleClickZoom: false,
+            boxZoom: false,
+            trackResize: false,
+            scrollWheelZoom: false
+        },
+        tools: [
+            {
+                type: "pan",
+                enabled: true
+            },
+            {
+                type: "baseMaps",
+                enabled: false,
+            },
+            {
+                type: "search",
+                enabled: false,
+            },
+            {
+                type: "search-location",
+                enabled: false
+            },
+            {
+                type: "markup",
+                enabled: false
+            },
+            {
+                type: "location",
+                enabled: false
+            },
+            {
+                type: "scale",
+                enabled: false
+            },
+            {
+                type: "bespoke",
+                instance: "full-screen",
+                title: "Full Screen",
+                position: "toolbar",
+                enabled: false,
+                order: 1,
+                icon: "open_in_full"
+            },
+        ],
+    }
+}
