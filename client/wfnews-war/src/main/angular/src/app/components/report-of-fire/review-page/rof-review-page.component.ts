@@ -250,7 +250,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
         console.log('Syncing data with the server');
         await this.syncDataWithServer();
       }
-    }, syncIntervalMinutes *60 * 1000);
+    }, syncIntervalMinutes *60 * 100000000);
   }
 
   async checkOnlineStatus() {
