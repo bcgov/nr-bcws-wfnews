@@ -33,7 +33,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   http: HttpClient
   fullScreenMode: boolean = false;
   isEditMode: boolean = false;
-
+  distance: number;
   public constructor(
     private mapConfigService: MapConfigService,        
     private cdr: ChangeDetectorRef,
@@ -143,6 +143,13 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   confirmLocation() {
+    if (this.distance) {
+      this.reportOfFire.estimatedDistance = this.distance * 1000;
+    }
+    let direction = this.commonUtilityService.calculateBearing(this.location.coords.latitude, this.location.coords.longitude, this.fireLocation[0],this.fireLocation[1])
+    if (direction) {
+      this.reportOfFire.compassHeading = direction
+    }
     this.reportOfFire[this.updateAttribute] = this.fireLocation;
   }
 
@@ -156,6 +163,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
 
     let arrowLine = T.lineString( [ start, end ] )
     let arrowLen = T.length( arrowLine )
+    this.distance = arrowLen;
 
         let startOffset = view.metersPerPixel * lineStartOffsetPx / 1000
         let endOffset = view.metersPerPixel * lineEndOffsetPx / 1000
@@ -287,7 +295,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       return false;
     }
   }
-
 }
 
 function formatDist( dist: number ): string {
