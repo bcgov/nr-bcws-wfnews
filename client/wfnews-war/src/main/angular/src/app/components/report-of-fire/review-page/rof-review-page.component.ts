@@ -244,9 +244,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
     setInterval(async() => {
       const isConnected = await this.checkOnlineStatus();
-      console.log('isConnected:', isConnected);
       if (isConnected) {
-        console.log('Syncing data with the server');
         await this.syncDataWithServer();
       }
     }, syncIntervalMinutes *60 * 100000000);
