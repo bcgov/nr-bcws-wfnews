@@ -12,6 +12,7 @@ import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.
 export class RoFCommentsPage extends RoFPage {
   isEditMode: boolean = false;
   isPageDirty: boolean = false;
+  maxLength: number = 500;
   public constructor(private cdr: ChangeDetectorRef, private reportOfFirePage: ReportOfFirePage) {
     super()
   }
