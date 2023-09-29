@@ -2,7 +2,6 @@
   <div class="rof-text-primary-header">{{ title }}</div>
   <div class="rof-text-secondary-header">{{ message }}</div>
   <div class="divider"></div>
-
   <div *ngIf="reportOfFirePages">
     <div *ngFor="let page of reportOfFirePages">
       <div class="rof-text-review-header">
@@ -29,9 +28,9 @@
             </div>
           </div>
           <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1 && reportOfFire.image1.webPath" class="images">
-            <img class="image" [src]="reportOfFire.image1.webPath">
-            <img class="image" [src]="reportOfFire.image2.webPath">
-            <img class="image" [src]="reportOfFire.image3.webPath">
+            <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.webPath !== undefined"><img class="image" [src]="reportOfFire.image1.webPath"></div>
+            <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.webPath !== undefined"><img class="image" [src]="reportOfFire.image2.webPath"></div>
+            <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.webPath !== undefined"><img class="image" [src]="reportOfFire.image3.webPath"></div>
           </div>
         </div>
         <div *ngIf="twoPartsQuestions(page)" class="item">

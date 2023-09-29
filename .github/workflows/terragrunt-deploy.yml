@@ -66,10 +66,12 @@ env:
   REPOSITORY: ghcr.io
 
 jobs:
-  plan:
+  deploy:
     name: Deploy
     runs-on: ubuntu-22.04
     environment: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
+    permissions:
+      id-token: write
 
     steps:
       - name: Check out the repo
@@ -80,6 +82,13 @@ jobs:
       #   with:
       #     name: lambda-functions
       #     path: ${{env.TG_SRC_PATH}}/lambda-functions
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: ${{ secrets.AWS_TERRAFORM_ROLE_TO_ASSUME }}
+          role-session-name: wfnews-terraform-s3
+          aws-region: ca-central-1
 
       - uses: hashicorp/setup-terraform@v2
         with:

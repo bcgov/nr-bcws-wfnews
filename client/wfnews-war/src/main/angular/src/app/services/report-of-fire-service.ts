@@ -1,8 +1,6 @@
-import { HttpClient, HttpRequest } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Photo } from "@capacitor/camera";
 import { AppConfigService } from "@wf1/core-ui";
-import { Observable } from "rxjs/internal/Observable";
 
 export type ReportOfFireType = {
     fullName?: string,
@@ -24,26 +22,75 @@ export type ReportOfFireType = {
     providedIn: 'root'
 })
 export class ReportOfFireService {
-    rofUrl: string;
 
-    constructor(private appConfigService: AppConfigService, private httpClient: HttpClient) {  }
+    constructor(private appConfigService: AppConfigService) {  }
 
-    public saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Observable<any> {
+    async saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Promise<any> {
 
         let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
+        let resource = JSON.stringify(reportOfFire)
 
-        const formData = new FormData()
-        formData.append('resource', new Blob([JSON.stringify(reportOfFire)], {type: 'application/json'}))
-        if (image1 != null) formData.append('image1', new Blob([image1.webPath], {type: 'image/' + image1.webPath}))
-        if (image2 != null) formData.append('image2', new Blob([image2.webPath], {type: 'image/' + image2.webPath})) 
-        if (image3 != null) formData.append('image3', new Blob([image3.webPath], {type: 'image/' + image3.webPath})) 
+        try {
+          const formData = new FormData()
+          formData.append('resource', resource)
 
-        let req = this.httpClient.request(new HttpRequest('POST', rofUrl, formData, {
-            reportProgress: true,
-            responseType: 'json',
-        } ) )
+          if (image1 !== null && image1 !== undefined && image1.webPath) formData.append('image1', await this.convertToBase64(image1))
+          if (image2 !== null && image2 !== undefined && image2.webPath) formData.append('image2', await this.convertToBase64(image2))
+          if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
+          
+          let response = await fetch(rofUrl, {
+              method: 'POST',
+              body: formData
+          });
+          if (response.ok) {
+            // The server successfully processed the report
+            return { success: true, message: 'Report submitted successfully' };
+          } else {
+            // The server encountered an error
+            const responseData = await response.json();
+            return { success: false, message: responseData.error };
+          }
 
-        return req;
+        } catch (error) {
+          // An error occurred during the HTTP request
+          return { success: false, message: 'An error occurred while submitting the report' };
+        }
+
       }
-     
+
+    async blobToBase64 (url): Promise<string> {
+      return new Promise(async (resolve, _) => {
+        // do a request to the blob uri
+        const response = await fetch(url);
+      
+        // response has a method called .blob() to get the blob file
+        const blob = await response.blob();
+      
+        // instantiate a file reader
+        const fileReader = new FileReader();
+      
+        // read the file
+        fileReader.readAsDataURL(blob);
+      
+        fileReader.onloadend = function(){
+          resolve(fileReader.result as string); // Here is the base64 string
+        }
+      });
+    };
+      
+
+  async convertToBase64 (image: Photo){
+      // if the webPath is already a base64 string, return it
+      if (image.webPath !== null && image.webPath.startsWith("data:image")){
+          return image.webPath;
+      }
+      else {   
+          let b64 = ""
+          await this.blobToBase64(image.webPath).then(result => {
+            b64 = result;
+          })
+          return b64;
+      }
+    }
+   
 }
