@@ -1,0 +1,47 @@
+{
+    "project_info": {
+      "project_number": "517576537300",
+      "project_id": "wfnews-notifications-dev",
+      "storage_bucket": "wfnews-notifications-dev.appspot.com"
+    },
+    "client": [
+      {
+        "client_info": {
+          "mobilesdk_app_id": "1:517576537300:android:0dd63bbd6a9f4e8adc3741",
+          "android_client_info": {
+            "package_name": "ca.bc.gov.WildfireInformation"
+          }
+        },
+        "oauth_client": [
+          {
+            "client_id": "517576537300-9kp6ekpduhd3353fk15ft5kbvttuedbj.apps.googleusercontent.com",
+            "client_type": 3
+          }
+        ],
+        "api_key": [
+          {
+            "current_key": "AIzaSyBh-bp1KhdMxM9BbQJLRr2gRnzkcwcAk5Q"
+          }
+        ],
+        "services": {
+          "appinvite_service": {
+            "other_platform_oauth_client": [
+              {
+                "client_id": "517576537300-9kp6ekpduhd3353fk15ft5kbvttuedbj.apps.googleusercontent.com",
+                "client_type": 3
+              },
+              {
+                "client_id": "517576537300-qps2itm7617d6t4nnlkq2usot37pnevn.apps.googleusercontent.com",
+                "client_type": 2,
+                "ios_info": {
+                  "bundle_id": "ca.bc.gov.WildfireInformation",
+                  "app_store_id": "1477675008"
+                }
+              }
+            ]
+          }
+        }
+      }
+    ],
+    "configuration_version": "1"
+  }
