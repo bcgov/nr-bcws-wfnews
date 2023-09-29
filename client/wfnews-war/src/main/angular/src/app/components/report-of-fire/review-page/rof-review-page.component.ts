@@ -10,7 +10,6 @@ import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
-import { MBTiles, mbTiles } from 'leaflet-tilelayer-mbtiles-ts';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 
 
