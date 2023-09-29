@@ -5,6 +5,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AppConfigService } from "@wf1/core-ui";
+import { of } from 'rxjs'
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -156,8 +157,9 @@ export class CommonUtilityService {
       }
 
     pingSerivce(): Observable<any> {
-        const url = this.appConfigService.getConfig().rest['wfnews'];
-        return this.http.get(url)
+        // const url = this.appConfigService.getConfig().rest['wfnews'];
+        // return this.http.get(url)
+        return of(true);
     }
 
 }

@@ -10,6 +10,9 @@ import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
+import offlineMapJson from '../../../../assets/maps/british-columbia.json'
+
+
 
 
 @Component({
@@ -53,7 +56,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    this.ionViewDidEnter()
+    // this.ionViewDidEnter()
   }
 
   selectedAnswer(page:any) {
@@ -167,6 +170,22 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(this.map);
 
+    this.checkOnline().then((result) => {
+      if(!result) {
+        const geoJsonData = offlineMapJson
+        L.geoJson(geoJsonData,{
+          style:{
+            color:"#6495ED",
+            weight:8,
+            fillColor:'',
+            fillOpacity:0.00001
+          },
+          zoom:6,
+          subdomains:['mt0','mt1','mt2','mt3']
+        }).addTo(this.map)
+      }
+    })
+
     const fireLocationIcon = L.divIcon({
       html: '<i class="fireLocationIcon material-icons">location_searching</i>',
       iconSize: [48, 48],
@@ -225,9 +244,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
     setInterval(async() => {
       const isConnected = await this.checkOnlineStatus();
-      console.log('isConnected:', isConnected);
       if (isConnected) {
-        console.log('Syncing data with the server');
         await this.syncDataWithServer();
       }
     }, syncIntervalMinutes *60 * 1000);
@@ -325,6 +342,17 @@ submitRof(){
 }
   nullEmptyStrings(value: string) {
     return !value ? null : value;
+  }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
   }
 
 
