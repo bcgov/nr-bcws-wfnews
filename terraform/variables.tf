@@ -509,6 +509,12 @@ variable "WFDM_REST_URL" {
   type    = string
   default = ""
 }
+
+variable "FIRE_REPORT_API_URL" {
+  type  = string
+  default = ""
+}
+
 variable "WFIM_CLIENT_URL" {
   type    = string
   default = ""
@@ -595,6 +601,11 @@ variable "openmapsBaseUrl" {
 
 variable "siteMinderURLPrefix" {
   type    = string
+  default = ""
+}
+
+variable "syncIntervalMinutes" {
+  type  = string
   default = ""
 }
 
