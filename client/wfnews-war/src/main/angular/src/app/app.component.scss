@@ -242,7 +242,7 @@
 
 @media screen and (max-width: 768px) {
   ::ng-deep .menu {
-    display: flex !important;
+    display: none !important;
     margin-left: auto;
   }
   ::ng-deep .wfnews-application {
@@ -253,7 +253,46 @@
     right: 0;
     bottom: 0;
     background-color: white;
-}
+  }
+  .mobile-navigation-bar{
+    position: fixed;
+    bottom: 0;
+    z-index: 1000000;
+    width: 100%;
+    background-color: #FCFCFC;
+    height: 10vh;
+  }
+
+  .mobile-navigation-bar ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .mobile-navigation-bar li {
+    mat-icon{
+      padding: 1px 6px;
+    }
+    text-align: center;
+    padding: 12px;
+    color: #242424;
+    font-family: 'Noto Sans', Arial, 'sans serif';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.24px;
+  }
+
+  .active {
+    color: white;
+    fill: white;
+    background-color: #123262;; /* Set the background color to blue for active items */
+    border-radius: 8.832px;;
+  }
 }
 
 @media print {
