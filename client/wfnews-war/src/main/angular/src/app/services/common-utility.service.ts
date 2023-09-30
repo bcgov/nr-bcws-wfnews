@@ -29,6 +29,12 @@ export class CommonUtilityService {
     private myLocation;
     private locationTime;
     private location;
+    private deg2rad(deg: number): number {
+        return deg * (Math.PI / 180);
+    }
+    private rad2deg(rad: number): number {
+        return rad * (180 / Math.PI);
+    }
 
     constructor (
         protected snackbarService : MatSnackBar,
@@ -162,4 +168,13 @@ export class CommonUtilityService {
         return of(true);
     }
 
+    calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number {
+        const dLon = this.deg2rad(lon2 - lon1);
+        const x = Math.sin(dLon) * Math.cos(this.deg2rad(lat2));
+        const y = Math.cos(this.deg2rad(lat1)) * Math.sin(this.deg2rad(lat2)) -
+            Math.sin(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) * Math.cos(dLon);
+        const bearing = Math.atan2(x, y);
+        const bearingDegrees = this.rad2deg(bearing);
+        return (bearingDegrees + 360) % 360;
+      }
 }
