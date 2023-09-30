@@ -39,8 +39,12 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  this.getOrientation();
-  this.useMyCurrentLocation();
+  if ( typeof( DeviceMotionEvent ) !== "undefined") {
+    this.getOrientation();
+    this.useMyCurrentLocation();
+  } else {
+    this.skip()
+  }
 }
 
 async getOrientation() {

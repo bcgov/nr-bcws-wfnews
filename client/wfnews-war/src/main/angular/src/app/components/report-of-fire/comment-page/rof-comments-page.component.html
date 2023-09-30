@@ -5,10 +5,10 @@
     <mat-label>Note</mat-label>
   </div>
   <mat-form-field  class="text-container">
-    <textarea matInput #commentText rows="3" style="height: calc(100vh - 400px);"
+    <textarea matInput #commentText rows="3" style="height: calc(100vh - 400px);" [maxLength]="maxLength"
       [(ngModel)]="reportOfFire[updateAttribute]" (ngModelChange)="onTextAreaChange()">
     </textarea>
-    <mat-hint align="end">{{commentText.value.length}}/120</mat-hint>
+    <mat-hint align="end">{{commentText.value.length}}/500</mat-hint>
   </mat-form-field>
 
   <div class="rof-button-container" *ngIf="!isEditMode">
