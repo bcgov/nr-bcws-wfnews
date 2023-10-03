@@ -230,6 +230,7 @@ jobs:
           api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
 
+      # NOTE: This step requires a github access token with access to the repository to update the variable - if this fails, the token may have expired or belong to a user without repo access
       - name: "Increment Build Number for next upload"
         uses: action-pack/increment@v2
         with:
