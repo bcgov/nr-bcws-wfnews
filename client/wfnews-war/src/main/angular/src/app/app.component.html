@@ -33,7 +33,6 @@
       [config]="applicationConfig"
       [(state)]="applicationState"
     ></wf-menu-bar>
-
     <router-outlet></router-outlet>
 
     <!-- wf-footer
@@ -42,6 +41,30 @@
     [(state)]="applicationState"
     (activeItemChanged)="navigateToFooterPage($event)"
     ></wf-footer -->
+    <div class="mobile-navigation-bar">
+        <ul>
+          <li (click)="setActive('dashboard')">
+            <mat-icon svgIcon="dashboard" [ngClass]="{'active': activeMenuItem === 'dashboard'}"></mat-icon>
+            Dashboard
+          </li>
+          <li (click)="setActive('map')">
+            <mat-icon svgIcon="map" [ngClass]="{'active': activeMenuItem === 'map'}"></mat-icon>
+            Map
+          </li>
+          <li (click)="setActive('saved')">
+            <mat-icon svgIcon="saved" [ngClass]="{'active': activeMenuItem === 'saved'}"></mat-icon>
+            Saved
+          </li>
+          <li (click)="setActive('report')">
+            <mat-icon svgIcon="report" [ngClass]="{'active': activeMenuItem === 'report'}"></mat-icon>
+            Report
+          </li>
+          <li (click)="setActive('more')">
+            <mat-icon svgIcon="more" [ngClass]="{'active': activeMenuItem === 'more'}"></mat-icon>
+            More
+          </li>
+        </ul>
+    </div>
   </div>
 </ng-template>
 </wf-application>

@@ -10,7 +10,6 @@ import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
-import { MBTiles, mbTiles } from 'leaflet-tilelayer-mbtiles-ts';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 
 
@@ -57,7 +56,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    this.ionViewDidEnter()
+    // this.ionViewDidEnter()
   }
 
   selectedAnswer(page:any) {
@@ -245,12 +244,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
     setInterval(async() => {
       const isConnected = await this.checkOnlineStatus();
-      console.log('isConnected:', isConnected);
       if (isConnected) {
-        console.log('Syncing data with the server');
         await this.syncDataWithServer();
       }
-    }, syncIntervalMinutes *60 * 100000000);
+    }, syncIntervalMinutes *60 * 1000);
   }
 
   async checkOnlineStatus() {
