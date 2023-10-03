@@ -34,10 +34,6 @@ on:
         description: "Upload to App Store"
         type: boolean
         default: false
-      build_number:
-        description: "Build number for App Store"
-        type: number
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
