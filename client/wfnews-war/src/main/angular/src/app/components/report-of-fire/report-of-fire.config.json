@@ -192,7 +192,7 @@
         },
         {
           "label": "Other",
-          "value": "other",
+          "value": "unknown",
           "icon": ""
         }
       ]

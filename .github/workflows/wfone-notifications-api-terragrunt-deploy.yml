@@ -66,6 +66,9 @@ on:
       WFDM_REST_URL:
         required: true
         type: string
+      FIRE_REPORT_API_URL:
+        required: true
+        type: string
       WFIM_CODE_TABLES_URL:
         required: true
         type: string
@@ -217,6 +220,7 @@ jobs:
           WEBADE_OAUTH2_WFONE_NOTIFICATIONS_API_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFONE_NOTIFICATIONS_REST_CLIENT_SECRET}}
 
           WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
+          FIRE_REPORT_API_URL: ${{inputs.FIRE_REPORT_API_URL}}
           WFIM_CODE_TABLES_URL: ${{inputs.WFIM_CODE_TABLES_URL}}
           
         run: terragrunt apply --terragrunt-non-interactive -auto-approve

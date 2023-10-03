@@ -9,6 +9,9 @@
     "baseUrl": "./src",
     "paths": {
       "@app/*": ["app/*"],
+      "os": ["./node_modules/os-browserify"],
+      "fs": ["./node_modules/fs-web"],
+      "crypto":["./node_modules/crypto-browserify"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": false,
