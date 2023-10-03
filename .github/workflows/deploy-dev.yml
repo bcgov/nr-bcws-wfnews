@@ -119,3 +119,22 @@ jobs:
     needs: [terragrunt-deploy-dev]
     with:
       ENVIRONMENT: dev
+
+  ios-deploy:
+    uses: ./github/workflows/ios.yml
+    needs: [call-mvn-client]
+    with:
+      build_environment: DEV
+      upload_to_app_store: true
+      skip_slack_notification: false
+    secrets: inherit
+
+  android-deploy:
+    uses: ./github/workflows/android.yml
+    needs: [call-mvn-client]
+    with:
+      build_environment: DEV
+      upload_to_play_store: true
+      increment_version_number: true
+      skip_slack_notification: false
+    secrets: inherit
