@@ -45,6 +45,10 @@ export const ICON = {
   EDIT: 'edit',
   SEND: 'send',
   LOCATION_OFF: 'location-off',
+  DASHBOARD: 'dashboard',
+  MORE: 'more',
+  REPORT: 'report',
+  SAVED: 'saved',
 };
 
 @Component({
@@ -57,6 +61,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   public snowPlowHelper = snowPlowHelper
   public isMobileView = mobileView
   public TOOLTIP_DELAY = 500;
+
 
   title = 'News';
 
@@ -86,6 +91,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   lastSyncDate;
   lastSyncValue = undefined;
   tokenSubscription: Subscription;
+  activeMenuItem: string = '';
 
   constructor(
     protected appConfigService: AppConfigService,
@@ -430,6 +436,22 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.LOCATION_OFF,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/location-off.svg')
     );
+    this.matIconRegistry.addSvgIcon(
+      ICON.DASHBOARD,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/dashboard.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.MORE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/more.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.REPORT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/report.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.SAVED,
+      this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/saved.svg')
+    );
   }
 
   isAdminPage() {
@@ -450,4 +472,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.router.navigate([ResourcesRoutes.SIGN_OUT]);
     }, 100);
   }
+
+  setActive(menuItem: string): void {
+    this.activeMenuItem = menuItem;
+    if (menuItem == 'report') {
+      this.router.navigate([ResourcesRoutes.ROF]);
+      this.activeMenuItem = '';
+    }
+  }    
 }
