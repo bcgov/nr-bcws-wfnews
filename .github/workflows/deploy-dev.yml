@@ -121,7 +121,7 @@ jobs:
       ENVIRONMENT: dev
 
   ios-deploy:
-    uses: ./github/workflows/ios.yml
+    uses: ./.github/workflows/ios.yml
     needs: [call-mvn-client]
     with:
       build_environment: DEV
@@ -130,7 +130,7 @@ jobs:
     secrets: inherit
 
   android-deploy:
-    uses: ./github/workflows/android.yml
+    uses: ./.github/workflows/android.yml
     needs: [call-mvn-client]
     with:
       build_environment: DEV
