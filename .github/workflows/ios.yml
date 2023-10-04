@@ -12,10 +12,6 @@ on:
         description: "Upload to App Store"
         type: boolean
         required: true
-      build_number:
-        description: "Build number for App Store"
-        type: number
-        required: true
       skip_slack_notification:
         type: boolean
         default: true
@@ -34,10 +30,6 @@ on:
         description: "Upload to App Store"
         type: boolean
         default: false
-      build_number:
-        description: "Build number for App Store"
-        type: number
-        required: true
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -163,9 +155,9 @@ jobs:
 
       - name: Install the Apple certificate and provisioning profile
         env:
-          BUILD_CERTIFICATE_BASE64: ${{ secrets.BUILD_CERTIFICATE_BASE64 }}
-          IOS_BUILD_CERTIFICATE_PASSWORD: ${{ secrets.IOS_BUILD_CERTIFICATE_PASSWD  }}
-          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.BUILD_PROVISION_PROFILE_BASE64 }}
+          BUILD_CERTIFICATE_BASE64: ${{ secrets.APPLE_APP_STORE_BUILD_CERTIFICATE_BASE64 }}
+          IOS_BUILD_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_APP_STORE_BUILD_CERTIFICATE_PASSWD  }}
+          BUILD_PROVISION_PROFILE_BASE64: ${{ secrets.APPLE_APP_STORE_BUILD_PROVISIONING_PROFILE_BASE64 }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
         run: |
           # create variables
@@ -193,7 +185,7 @@ jobs:
       - name: Set build number
         working-directory: ${{ env.ANGULAR_DIRECTORY }}/ios/App
         run: |
-          agvtool new-version -all ${{ inputs.build_number }}
+          agvtool new-version -all ${{ vars.APPLE_APP_STORE_BUILD_NUMBER }}
 
       - name: Build archive
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
@@ -229,6 +221,13 @@ jobs:
           issuer-id: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
           api-key-id: ${{ secrets.APP_STORE_CONNECT_KEY_IDENTIFIER_95 }}
           api-private-key: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY_95 }}
+
+      # NOTE: This step requires a github access token with access to the repository to update the variable - if this fails, the token may have expired or belong to a user without repo access
+      - name: "Increment Build Number for next upload"
+        uses: action-pack/increment@v2
+        with:
+          name: 'APPLE_APP_STORE_BUILD_NUMBER'
+          token: ${{ secrets.VARIABLE_UPDATE_ACCESS_TOKEN }}
 
       - name: Post to a Slack channel
         id: slack
