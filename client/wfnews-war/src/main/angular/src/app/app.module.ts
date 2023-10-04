@@ -158,6 +158,7 @@ import { RoFDisclaimerPage } from './components/report-of-fire/disclaimer-page/r
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule } from '@ionic/angular';
 import { ReportOfFireService } from './services/report-of-fire-service';
+import { RofCallPage } from './components/report-of-fire/rof-callback-page/rof-call-page.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -254,7 +255,8 @@ export const DATE_FORMATS = {
         RoFCompassPage,
         LocationServicesDialogComponent,
         DialogLocationComponent,
-        RoFDisclaimerPage
+        RoFDisclaimerPage,
+        RofCallPage,
     ],
     imports: [
         MatSortModule,

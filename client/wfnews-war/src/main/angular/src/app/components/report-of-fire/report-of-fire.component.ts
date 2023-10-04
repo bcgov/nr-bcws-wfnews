@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { RoFDisclaimerPage } from "./disclaimer-page/rof-disclaimer-page.component";
+import { RofCallPage } from "@app/components/report-of-fire/rof-callback-page/rof-call-page.component";
 
 enum PageOperation {
   Next = 1,
@@ -65,6 +66,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       switch(page.type) {
         case "RoFTitlePage":
           component = this.dynamicContainer.createComponent(RoFTitlePage);
+        break;
+        case "RofCallPage":
+          component = this.dynamicContainer.createComponent(RofCallPage);
         break;
         case "RoFDisclaimerPage":
           component = this.dynamicContainer.createComponent(RoFDisclaimerPage);
@@ -151,7 +155,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
 
     // find out what the next page will be
     const nextPage = this.pageComponents.find(c => c.instance.id === pageId);
-
+    console.log(this.pageComponents)
     if (!nextPage) {
       console.error('Failed to route to page ' + pageId + ' operation: ' + operation )
       return;
