@@ -4,9 +4,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 import ConfigJson from '../report-of-fire.config.json';
 import * as L from 'leaflet'
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
-import { Storage } from '@ionic/storage-angular';
 import { CommonUtilityService } from "@app/services/common-utility.service";
-import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
@@ -27,10 +25,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private storage: Storage,
     private commonUtilityService : CommonUtilityService,
     private cdr: ChangeDetectorRef,
-    private appConfigService: AppConfigService,
     private reportOfFireService: ReportOfFireService,
     protected snackbarService: MatSnackBar,
   ) {
@@ -228,85 +224,16 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  async submitReport() {
-    if (!this.checkOnlineStatus) {
-      await this.storage.set('offlineReportData', this.reportOfFire);
-    }
-  }
-
   ionViewDidEnter() {
-    this.scheduleDataSync();
+    const syncData = () => {
+      setInterval(function () {
+        // Invoke function every 10 minutes 
+        if (this.commonUtilityService.checkOnlineStatus)
+        this.commonUtilityService.syncDataWithServer()
+      }, 600000);
   }
+}
 
-  async scheduleDataSync() {
-    await this.storage.create();
-    //set to check connection every 10min
-    const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
-    setInterval(async() => {
-      const isConnected = await this.checkOnlineStatus();
-      if (isConnected) {
-        await this.syncDataWithServer();
-      }
-    }, syncIntervalMinutes *60 * 1000);
-  }
-
-  async checkOnlineStatus() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
-  }
-
-  async syncDataWithServer() {
-    try {
-      // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
-
-      if (offlineReport) {
-        // Send the report to the server
-        const response = await this.submitReportToServer(offlineReport);
-
-        if (response.success) {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-        }
-      }
-    } catch (error) {
-      console.error('Sync failed:', error);
-    }
-  }
-
-  async submitReportToServer(offlineReport?): Promise<any>{
-    // this part is the task of WFNEWS-1419 which is under progress.
-    // please ignore the following process as this will be replaced by real caller.
-    const url = this.appConfigService.getConfig().rest['fire-report-api']
-    try {
-      // Make an HTTP POST request to your server's API endpoint
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(offlineReport),
-      });
-  
-      if (response.ok) {
-        // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // The server encountered an error
-        const responseData = await response.json();
-        return { success: false, message: responseData.error };
-      }
-    } catch (error) {
-      // An error occurred during the HTTP request
-      return { success: false, message: 'An error occurred while submitting the report' };
-    }
-  }
 
 submitRof(){
   const rofResource: ReportOfFireType = {
