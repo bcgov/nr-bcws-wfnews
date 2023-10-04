@@ -61,7 +61,6 @@ export class RoFTitlePage extends RoFPage implements OnInit{
 
   runBackground() {
     // check if the app is in the background and if so, check for saved offline RoF to be submitted
-    console.log('Moving to background')
     if (this.commonUtilityService.checkOnlineStatus)
       this.commonUtilityService.syncDataWithServer()
   }
