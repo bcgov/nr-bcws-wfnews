@@ -52,7 +52,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    // this.ionViewDidEnter()
+    this.ionViewDidEnter()
   }
 
   selectedAnswer(page:any) {
