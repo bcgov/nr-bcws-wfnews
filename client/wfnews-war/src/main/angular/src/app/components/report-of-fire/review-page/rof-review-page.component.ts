@@ -11,6 +11,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
+import { SmkApi } from "@app/utils/smk";
 
 
 
@@ -24,6 +25,8 @@ import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 export class RoFReviewPage extends RoFPage implements AfterViewInit{
   public reportOfFirePages: any;
   map: any;
+  smkApi: SmkApi;
+
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
@@ -200,6 +203,32 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           iconAnchor: [ 14, 14 ]
       } )
     }).addTo(this.map)
+
+    // draw the arrow and lines between fire location and current location
+    let latlngs = Array();
+    if (this.reportOfFire?.fireLocation?.length && this.reportOfFire?.currentLocation?.length) {
+      // Code to be executed if both fireLocation and currentLocation arrays have elements
+      latlngs.push(this.reportOfFire.fireLocation);
+      latlngs.push(this.reportOfFire.currentLocation)
+      let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
+      let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
+      L.marker( this.reportOfFire.fireLocation, {
+        icon: L.divIcon( {
+            className:  'rof-arrow-head',
+            html:       `<i class="material-icons" style="transform:rotateZ(${ direction }deg);color:yellow;">navigation</i>`,
+            iconSize:   [ 24, 24 ],
+            iconAnchor: [ 12, 12 ]
+        } )
+      }).addTo(this.map)
+  
+      const middlePoint = this.calculateMiddlePoint(this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1],this.reportOfFire.currentLocation[0],this.reportOfFire.currentLocation[1])
+      L.tooltip({
+      })
+      .setContent((this.reportOfFire.estimatedDistance/1000).toFixed( 3 ) + ' km')
+      .setLatLng(middlePoint)
+      .addTo(this.map)
+    }
+    
   }
 
   edit(pageId:string, secondStep?:boolean) {
@@ -355,6 +384,9 @@ submitRof(){
     }
   }
 
-
+  calculateMiddlePoint(lat1: number, lon1: number, lat2: number, lon2: number): { lat: number, lon: number } {
+    const middleLat = (lat1 + lat2) / 2;
+    const middleLon = (lon1 + lon2) / 2;
+    return { lat: middleLat, lon: middleLon };
+  }
 }
-
