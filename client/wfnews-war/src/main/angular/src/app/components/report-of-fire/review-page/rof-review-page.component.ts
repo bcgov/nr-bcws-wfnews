@@ -206,25 +206,29 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
 
     // draw the arrow and lines between fire location and current location
     let latlngs = Array();
-    latlngs.push(this.reportOfFire.fireLocation);
-    latlngs.push(this.reportOfFire.currentLocation)
-    let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
-    let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
-    L.marker( this.reportOfFire.fireLocation, {
-      icon: L.divIcon( {
-          className:  'rof-arrow-head',
-          html:       `<i class="material-icons" style="transform:rotateZ(${ direction }deg);color:yellow;">navigation</i>`,
-          iconSize:   [ 24, 24 ],
-          iconAnchor: [ 12, 12 ]
-      } )
-    }).addTo(this.map)
-
-    const middlePoint = this.calculateMiddlePoint(this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1],this.reportOfFire.currentLocation[0],this.reportOfFire.currentLocation[1])
-    L.tooltip({
-    })
-    .setContent((this.reportOfFire.estimatedDistance/1000).toFixed( 3 ) + ' km')
-    .setLatLng(middlePoint)
-    .addTo(this.map)
+    if (this.reportOfFire?.fireLocation?.length && this.reportOfFire?.currentLocation?.length) {
+      // Code to be executed if both fireLocation and currentLocation arrays have elements
+      latlngs.push(this.reportOfFire.fireLocation);
+      latlngs.push(this.reportOfFire.currentLocation)
+      let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
+      let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
+      L.marker( this.reportOfFire.fireLocation, {
+        icon: L.divIcon( {
+            className:  'rof-arrow-head',
+            html:       `<i class="material-icons" style="transform:rotateZ(${ direction }deg);color:yellow;">navigation</i>`,
+            iconSize:   [ 24, 24 ],
+            iconAnchor: [ 12, 12 ]
+        } )
+      }).addTo(this.map)
+  
+      const middlePoint = this.calculateMiddlePoint(this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1],this.reportOfFire.currentLocation[0],this.reportOfFire.currentLocation[1])
+      L.tooltip({
+      })
+      .setContent((this.reportOfFire.estimatedDistance/1000).toFixed( 3 ) + ' km')
+      .setLatLng(middlePoint)
+      .addTo(this.map)
+    }
+    
   }
 
   edit(pageId:string, secondStep?:boolean) {
