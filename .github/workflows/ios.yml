@@ -12,10 +12,6 @@ on:
         description: "Upload to App Store"
         type: boolean
         required: true
-      build_number:
-        description: "Build number for App Store"
-        type: number
-        required: true
       skip_slack_notification:
         type: boolean
         default: true
