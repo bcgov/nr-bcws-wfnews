@@ -205,10 +205,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }).addTo(this.map)
 
     // draw the arrow and lines between fire location and current location
-    var latlngs = Array();
+    let latlngs = Array();
     latlngs.push(this.reportOfFire.fireLocation);
     latlngs.push(this.reportOfFire.currentLocation)
-    var polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
+    let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
     let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
     L.marker( this.reportOfFire.fireLocation, {
       icon: L.divIcon( {
