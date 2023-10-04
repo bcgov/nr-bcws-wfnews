@@ -38,7 +38,6 @@ export class RoFTitlePage extends RoFPage {
   }
 
   openCallPage () {
-    // not yet implemented
     this.reportOfFirePage.selectPage('call-page',null,false);
   }
 
