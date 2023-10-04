@@ -92,6 +92,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   lastSyncValue = undefined;
   tokenSubscription: Subscription;
   activeMenuItem: string = '';
+  showMobileNavigationBar = false;
 
   constructor(
     protected appConfigService: AppConfigService,
@@ -162,6 +163,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       }, 200)
     }
+    this.checkScreenWidth();
   }
 
   isIncidentsPage () {
@@ -479,5 +481,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.router.navigate([ResourcesRoutes.ROF]);
       this.activeMenuItem = '';
     }
-  }    
+  }
+
+  checkScreenWidth(): void {
+    this.showMobileNavigationBar = window.innerWidth < 768;
+  }
 }

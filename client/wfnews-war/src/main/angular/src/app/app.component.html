@@ -41,7 +41,7 @@
     [(state)]="applicationState"
     (activeItemChanged)="navigateToFooterPage($event)"
     ></wf-footer -->
-    <div class="mobile-navigation-bar">
+    <div class="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
         <ul>
           <li (click)="setActive('dashboard')">
             <mat-icon svgIcon="dashboard" [ngClass]="{'active': activeMenuItem === 'dashboard'}"></mat-icon>
