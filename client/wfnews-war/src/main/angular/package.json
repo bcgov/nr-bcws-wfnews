@@ -59,6 +59,7 @@
     "@capacitor/push-notifications": "^5.0.2",
     "@capacitor/splash-screen": "^5.0.2",
     "@capacitor/status-bar": "5.0.4",
+    "@capawesome/capacitor-background-task": "^5.0.0",
     "@ckeditor/ckeditor5-angular": "4.0.0",
     "@ckeditor/ckeditor5-build-decoupled-document": "35.0.1",
     "@ionic/angular": "^7.4.0",

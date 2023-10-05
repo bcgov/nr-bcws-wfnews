@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Photo } from "@capacitor/camera";
 import { AppConfigService } from "@wf1/core-ui";
+import { CommonUtilityService } from "./common-utility.service";
+import { Storage } from '@ionic/storage-angular';
 
 export type ReportOfFireType = {
     fullName?: string,
@@ -23,13 +25,15 @@ export type ReportOfFireType = {
 })
 export class ReportOfFireService {
 
-    constructor(private appConfigService: AppConfigService) {  }
+    constructor(private appConfigService: AppConfigService,
+      private commonUtilityService: CommonUtilityService,
+      private storage: Storage) {  }
 
     async saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Promise<any> {
 
         let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
         let resource = JSON.stringify(reportOfFire)
-
+        
         try {
           const formData = new FormData()
           formData.append('resource', resource)
@@ -37,6 +41,13 @@ export class ReportOfFireService {
           if (image1 !== null && image1 !== undefined && image1.webPath) formData.append('image1', await this.convertToBase64(image1))
           if (image2 !== null && image2 !== undefined && image2.webPath) formData.append('image2', await this.convertToBase64(image2))
           if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
+
+          // if the device is offline save RoF in storage
+          if (!this.commonUtilityService.checkOnlineStatus) {
+            this.storage.create();
+            await this.storage.set('offlineReportData', formData);
+            return;
+          }
           
           let response = await fetch(rofUrl, {
               method: 'POST',
@@ -90,6 +101,45 @@ export class ReportOfFireService {
             b64 = result;
           })
           return b64;
+      }
+    }
+
+
+    async submitOfflineReportToServer(offlineReport?): Promise<any>{
+
+      // retrive the offline RoF from the device's storage and convert to FormData for submission
+      // images will already to converted to base64 string from initial submission
+      const rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
+      const rofJson = JSON.parse(offlineReport);
+      const resource = rofJson.resource;
+      const image1 = rofJson.image1;
+      const image2 = rofJson.image2;
+      const image3 = rofJson.image3;
+
+      const formData = new FormData()
+      if (resource !== null) formData.append('resource', resource)
+
+      if (image1 !== null) formData.append('image1', image1)
+      if (image1 !== null) formData.append('image2', image2)
+      if (image1 !== null) formData.append('image3', image3)
+      try {
+        // Make an HTTP POST request to your server's API endpoint
+        let response = await fetch(rofUrl, {
+          method: 'POST',
+          body: formData
+      });
+    
+        if (response.ok) {
+          // The server successfully processed the report
+          return { success: true, message: 'Report submitted successfully' };
+        } else {
+          // The server encountered an error
+          const responseData = await response.json();
+          return { success: false, message: responseData.error };
+        }
+      } catch (error) {
+        // An error occurred during the HTTP request
+        return { success: false, message: 'An error occurred while submitting the report' };
       }
     }
    

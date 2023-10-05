@@ -5,7 +5,9 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { AppConfigService } from "@wf1/core-ui";
-import { of } from 'rxjs'
+import { Storage } from '@ionic/storage-angular';
+import { ReportOfFireService } from './report-of-fire-service';
+
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -24,7 +26,9 @@ export interface Position {
     readonly timestamp: NumberFormatStyle;
 }
 
-@Injectable()
+@Injectable({ 
+    providedIn: 'root' 
+})
 export class CommonUtilityService {
     private myLocation;
     private locationTime;
@@ -39,7 +43,9 @@ export class CommonUtilityService {
     constructor (
         protected snackbarService : MatSnackBar,
         private http: HttpClient,
-        private appConfigService: AppConfigService
+        private appConfigService: AppConfigService,
+        private storage: Storage,
+        private reportOfFireService: ReportOfFireService
         ) {}
 
      getCurrentLocationPromise(): Promise<Position> {
@@ -163,9 +169,8 @@ export class CommonUtilityService {
       }
 
     pingSerivce(): Observable<any> {
-        // const url = this.appConfigService.getConfig().rest['wfnews'];
-        // return this.http.get(url)
-        return of(true);
+        const url = this.appConfigService.getConfig().rest['wfnews'];
+        return this.http.get(url)
     }
 
     calculateBearing(lat1: number, lon1: number, lat2: number, lon2: number): number {
@@ -182,5 +187,34 @@ export class CommonUtilityService {
         decimal = Math.abs(decimal);
         let d = Math.abs(Math.trunc(decimal));
         return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
+      }
+    
+      async checkOnlineStatus() {
+        try {
+          await this.pingSerivce().toPromise();
+          return true;
+        } catch (error) {
+          return false;
+        }
+      }
+    
+      async syncDataWithServer() {
+        await this.storage.create();
+        try {
+          // Fetch and submit locally stored data
+          const offlineReport = await this.storage.get('offlineReportData');
+    
+          if (offlineReport) {
+            // Send the report to the server
+            const response = await this.reportOfFireService.submitOfflineReportToServer(offlineReport);
+    
+            if (response.success) {
+              // Remove the locally stored data if sync is successful
+              await this.storage.remove('offlineReportData');
+            }
+          }
+        } catch (error) {
+          console.error('Sync failed:', error);
+        }
       }
 }

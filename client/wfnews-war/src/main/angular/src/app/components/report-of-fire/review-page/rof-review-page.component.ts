@@ -4,13 +4,12 @@ import { ReportOfFire } from "../reportOfFireModel";
 import ConfigJson from '../report-of-fire.config.json';
 import * as L from 'leaflet'
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
-import { Storage } from '@ionic/storage-angular';
 import { CommonUtilityService } from "@app/services/common-utility.service";
-import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-fire-service";
 import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
+import { SmkApi } from "@app/utils/smk";
 
 
 
@@ -24,13 +23,13 @@ import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 export class RoFReviewPage extends RoFPage implements AfterViewInit{
   public reportOfFirePages: any;
   map: any;
+  smkApi: SmkApi;
+
 
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
-    private storage: Storage,
     private commonUtilityService : CommonUtilityService,
     private cdr: ChangeDetectorRef,
-    private appConfigService: AppConfigService,
     private reportOfFireService: ReportOfFireService,
     protected snackbarService: MatSnackBar,
   ) {
@@ -56,7 +55,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    // this.ionViewDidEnter()
+    this.ionViewDidEnter()
   }
 
   selectedAnswer(page:any) {
@@ -200,6 +199,32 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
           iconAnchor: [ 14, 14 ]
       } )
     }).addTo(this.map)
+
+    // draw the arrow and lines between fire location and current location
+    let latlngs = Array();
+    if (this.reportOfFire?.fireLocation?.length && this.reportOfFire?.currentLocation?.length) {
+      // Code to be executed if both fireLocation and currentLocation arrays have elements
+      latlngs.push(this.reportOfFire.fireLocation);
+      latlngs.push(this.reportOfFire.currentLocation)
+      let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
+      let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
+      L.marker( this.reportOfFire.fireLocation, {
+        icon: L.divIcon( {
+            className:  'rof-arrow-head',
+            html:       `<i class="material-icons" style="transform:rotateZ(${ direction }deg);color:yellow;">navigation</i>`,
+            iconSize:   [ 24, 24 ],
+            iconAnchor: [ 12, 12 ]
+        } )
+      }).addTo(this.map)
+  
+      const middlePoint = this.calculateMiddlePoint(this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1],this.reportOfFire.currentLocation[0],this.reportOfFire.currentLocation[1])
+      L.tooltip({
+      })
+      .setContent((this.reportOfFire.estimatedDistance/1000).toFixed( 3 ) + ' km')
+      .setLatLng(middlePoint)
+      .addTo(this.map)
+    }
+    
   }
 
   edit(pageId:string, secondStep?:boolean) {
@@ -228,85 +253,16 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  async submitReport() {
-    if (!this.checkOnlineStatus) {
-      await this.storage.set('offlineReportData', this.reportOfFire);
-    }
-  }
-
   ionViewDidEnter() {
-    this.scheduleDataSync();
+    const syncData = () => {
+      setInterval(function () {
+        // Invoke function every 10 minutes 
+        if (this.commonUtilityService.checkOnlineStatus)
+        this.commonUtilityService.syncDataWithServer()
+      }, 600000);
   }
+}
 
-  async scheduleDataSync() {
-    await this.storage.create();
-    //set to check connection every 10min
-    const syncIntervalMinutes = this.appConfigService.getConfig().application['syncIntervalMinutes'].toString();
-    setInterval(async() => {
-      const isConnected = await this.checkOnlineStatus();
-      if (isConnected) {
-        await this.syncDataWithServer();
-      }
-    }, syncIntervalMinutes *60 * 1000);
-  }
-
-  async checkOnlineStatus() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
-  }
-
-  async syncDataWithServer() {
-    try {
-      // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
-
-      if (offlineReport) {
-        // Send the report to the server
-        const response = await this.submitReportToServer(offlineReport);
-
-        if (response.success) {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-        }
-      }
-    } catch (error) {
-      console.error('Sync failed:', error);
-    }
-  }
-
-  async submitReportToServer(offlineReport?): Promise<any>{
-    // this part is the task of WFNEWS-1419 which is under progress.
-    // please ignore the following process as this will be replaced by real caller.
-    const url = this.appConfigService.getConfig().rest['fire-report-api']
-    try {
-      // Make an HTTP POST request to your server's API endpoint
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(offlineReport),
-      });
-  
-      if (response.ok) {
-        // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // The server encountered an error
-        const responseData = await response.json();
-        return { success: false, message: responseData.error };
-      }
-    } catch (error) {
-      // An error occurred during the HTTP request
-      return { success: false, message: 'An error occurred while submitting the report' };
-    }
-  }
 
 submitRof(){
   const rofResource: ReportOfFireType = {
@@ -355,6 +311,9 @@ submitRof(){
     }
   }
 
-
+  calculateMiddlePoint(lat1: number, lon1: number, lat2: number, lon2: number): { lat: number, lon: number } {
+    const middleLat = (lat1 + lat2) / 2;
+    const middleLon = (lon1 + lon2) / 2;
+    return { lat: middleLat, lon: middleLon };
+  }
 }
-
