@@ -184,6 +184,12 @@ export class CommonUtilityService {
         const bearing = Math.atan2(x, y);
         const bearingDegrees = this.rad2deg(bearing);
         return (bearingDegrees + 360) % 360;
+    }
+
+    formatDDM(decimal: number){
+        decimal = Math.abs(decimal);
+        let d = Math.abs(Math.trunc(decimal));
+        return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
       }
     
       async checkOnlineStatus() {

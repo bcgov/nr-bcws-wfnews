@@ -127,8 +127,8 @@ async useMyCurrentLocation(){
   try {
     const location = await this.commonUtilityService.getCurrentLocationPromise()
     if (location) {   
-      this.currentLat = this.formatDDM(Number(location.coords.latitude));
-      this.currentLong = this.formatDDM(Number(location.coords.longitude));
+      this.currentLat = this.commonUtilityService.formatDDM(Number(location.coords.latitude));
+      this.currentLong = this.commonUtilityService.formatDDM(Number(location.coords.longitude));
     }
 
     if (document.getElementById("location")) document.getElementById("location").innerText = this.currentLat + "," + this.currentLong;
@@ -147,12 +147,5 @@ confirmHeading() {
   }
 
 }
-
-formatDDM(decimal: number){
-  decimal = Math.abs(decimal);
-  let d = Math.abs(Math.trunc(decimal));
-  return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
-}
- 
 
 }
