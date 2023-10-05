@@ -257,8 +257,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
         const label = button.label;
         return label
       }
-      console.log(pageId)
-      console.log(valueToFind)
     }
   }
 
