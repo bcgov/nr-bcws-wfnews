@@ -4,6 +4,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
 
@@ -24,6 +25,7 @@ export class RoFTitlePage extends RoFPage implements OnInit{
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
+    private reportOfFirePage: ReportOfFirePage
     ) {
     super()
   }
@@ -56,7 +58,7 @@ export class RoFTitlePage extends RoFPage implements OnInit{
   }
 
   openCallPage () {
-    // not yet implemented
+    this.reportOfFirePage.selectPage('call-page',null,false);
   }
 
   runBackground() {

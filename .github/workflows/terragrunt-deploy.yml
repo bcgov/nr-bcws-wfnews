@@ -107,6 +107,7 @@ jobs:
 
 
           UNIQUE_DEPLOY_ID: ${{ github.run_id }}
+          BCWILDFIRE_CERT_ARN: ${{secrets.BCWILDFIRE_CERT_ARN}}
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}

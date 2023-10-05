@@ -15,6 +15,17 @@
       "isStartPage": true
     },
     {
+      "id": "call-page",
+      "type": "RofCallPage",
+      "title": "What to know when calling to report a Wildfire",
+      "message": "In order to determine the location and essential details of a report, we will ask you the following questions. When you are ready, tap the Call button to contact the Provincial Wildfire Reporting Centre toll-free.",
+      "allowSkip": false,
+      "allowExit": true,
+      "showProgress": false,
+      "previousId": "first-page",
+      "nextId": "callback-page"
+    },
+    {
       "id": "disclaimer-page",
       "type": "RoFDisclaimerPage",
       "title": "You are currently offline",
