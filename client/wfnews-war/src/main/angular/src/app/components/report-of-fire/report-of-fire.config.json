@@ -308,8 +308,8 @@
     },
     {
       "id": "fire-spread-page",
-      "type": "RoFSimpleQuestionPage",
-      "title": "Is the fire spreading?",
+      "type": "RoFComplexQuestionPage",
+      "title": "How quickly is the fire spreading?",
       "message": "",
       "allowSkip": true,
       "allowExit": true,
@@ -317,7 +317,24 @@
       "updateAttribute": "rateOfSpread",
       "showProgress": true,
       "previousId": "visible-flame-page",
-      "nextId": "what-is-burning-page"
+      "nextId": "what-is-burning-page",
+      "buttons": [
+        {
+          "label": "It's not spreading",
+          "value": "Not Spreading",
+          "icon": ""
+        },
+        {
+          "label": "It’s spreading slowly",
+          "value": "Slow",
+          "icon": ""
+        },
+        {
+          "label": "It’s spreading fast",
+          "value": "Fast",
+          "icon": ""
+        }
+      ]
     },
     {
       "id": "what-is-burning-page",
