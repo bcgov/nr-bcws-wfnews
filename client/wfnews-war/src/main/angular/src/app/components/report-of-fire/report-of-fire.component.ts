@@ -31,7 +31,10 @@ enum PageOperation {
 @Component({
   selector: 'report-of-fire',
   templateUrl: './report-of-fire.component.html',
-  styleUrls: ['./report-of-fire.component.scss']
+  styleUrls: ['./report-of-fire.component.scss'],
+  providers: [
+    CommonUtilityService
+  ]
 })
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   public reportOfFire: ReportOfFire;
