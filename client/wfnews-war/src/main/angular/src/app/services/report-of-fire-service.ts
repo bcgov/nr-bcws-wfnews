@@ -138,6 +138,9 @@ export class ReportOfFireService {
       })
     
       if (response.ok) {
+          // Remove the locally stored data if sync is successful
+          await this.storage.create();
+          await this.storage.remove('offlineReportData');
            // The server successfully processed the report
          return { success: true, message: 'Report submitted successfully' };
          } else {
