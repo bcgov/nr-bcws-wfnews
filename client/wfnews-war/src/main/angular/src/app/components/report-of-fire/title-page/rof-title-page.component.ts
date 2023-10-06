@@ -42,7 +42,7 @@ export class RoFTitlePage extends RoFPage implements OnInit{
         setInterval(function () {
           // Invoke function every 10 minutes while app is in background
           self.runBackground();
-        }, 6000);
+        }, 600000);
         BackgroundTask.finish({ taskId });
       });
     });
@@ -61,10 +61,13 @@ export class RoFTitlePage extends RoFPage implements OnInit{
     this.reportOfFirePage.selectPage('call-page',null,false);
   }
 
-  runBackground() {
-    // check if the app is in the background and if so, check for saved offline RoF to be submitted
-    if (this.commonUtilityService.checkOnlineStatus)
-      this.commonUtilityService.syncDataWithServer()
+  async runBackground() {
+    // check if the app is in the background and offline and if so, check for saved offline RoF to be submitted
+    await (this.commonUtilityService.checkOnlineStatus().then(result => {
+      if (!result){
+          this.commonUtilityService.syncDataWithServer()
+      }
+    }));
   }
 
 

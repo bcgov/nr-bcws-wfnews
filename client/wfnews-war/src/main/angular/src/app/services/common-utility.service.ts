@@ -192,7 +192,7 @@ export class CommonUtilityService {
         return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
       }
     
-      async checkOnlineStatus() {
+      async checkOnlineStatus(): Promise<boolean> {
         try {
           await this.pingSerivce().toPromise();
           return true;
@@ -206,11 +206,11 @@ export class CommonUtilityService {
         try {
           // Fetch and submit locally stored data
           const offlineReport = await this.storage.get('offlineReportData');
-    
+          
           if (offlineReport) {
             // Send the report to the server
             const response = await this.rofService.submitOfflineReportToServer(offlineReport);
-    
+            
             if (response.success) {
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
