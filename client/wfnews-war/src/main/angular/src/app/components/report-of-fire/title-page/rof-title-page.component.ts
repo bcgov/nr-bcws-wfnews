@@ -62,9 +62,9 @@ export class RoFTitlePage extends RoFPage implements OnInit{
   }
 
   async runBackground() {
-    // check if the app is in the background and offline and if so, check for saved offline RoF to be submitted
+    // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await (this.commonUtilityService.checkOnlineStatus().then(result => {
-      if (!result){
+      if (result){
           this.commonUtilityService.syncDataWithServer()
       }
     }));
