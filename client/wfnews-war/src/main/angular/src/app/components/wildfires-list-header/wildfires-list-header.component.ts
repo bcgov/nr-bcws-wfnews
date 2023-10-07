@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatIconRegistry } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { WFMapService } from '@app/services/wf-map.service';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'app-wildfires-list-header',
@@ -7,9 +12,22 @@ import { Component } from '@angular/core';
 })
 export class WildfiresListHeaderComponent {
 
-  openStageOfControlLink() {
-    let url = "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control"
-    window.open(url, "_blank");
+  public selectedTab = 0
+
+  constructor(
+    protected appConfigService: AppConfigService,
+    protected router: Router,
+    protected matIconRegistry: MatIconRegistry,
+    protected cdr: ChangeDetectorRef,
+    protected dialog: MatDialog,
+    protected wfMapService: WFMapService
+  ) {
   }
-  
+
+  selectTab (tab: number) {
+    this.selectedTab = tab
+    // swap to the desired tab
+    this.cdr.detectChanges();
+  }
+
 }

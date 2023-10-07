@@ -10,16 +10,16 @@ import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { debounceTime } from 'rxjs/operators';
-import { PagedCollection } from '../../conversion/models';
-import { ApplicationStateService } from '../../services/application-state.service';
-import { CommonUtilityService } from '../../services/common-utility.service';
-import { WatchlistService } from '../../services/watchlist-service';
-import { PlaceData } from '../../services/wfnews-map.service/place-data';
-import { RootState } from '../../store';
-import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
-import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper, convertFireNumber } from '../../utils';
-import { CollectionComponent } from '../common/base-collection/collection.component';
+import { PagedCollection } from '../../../conversion/models';
+import { ApplicationStateService } from '../../../services/application-state.service';
+import { CommonUtilityService } from '../../../services/common-utility.service';
+import { WatchlistService } from '../../../services/watchlist-service';
+import { PlaceData } from '../../../services/wfnews-map.service/place-data';
+import { RootState } from '../../../store';
+import { searchWildfires } from '../../../store/wildfiresList/wildfiresList.action';
+import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../../store/wildfiresList/wildfiresList.stats';
+import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper, convertFireNumber } from '../../../utils';
+import { CollectionComponent } from '../../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
 
 @Directive()

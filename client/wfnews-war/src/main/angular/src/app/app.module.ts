@@ -97,7 +97,7 @@ import { PointIdService } from "./services/point-id.service";
 import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
 import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
+import { WildFiresListComponentDesktop } from './components/wildfires-list-header/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
@@ -159,6 +159,8 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule } from '@ionic/angular';
 import { ReportOfFireService } from './services/report-of-fire-service';
 import { RofCallPage } from './components/report-of-fire/rof-callback-page/rof-call-page.component';
+import { BansListComponent } from './components/wildfires-list-header/bans-list/bans-list.component';
+import { BansListComponentDesktop } from './components/wildfires-list-header/bans-list/bans-list.component.desktop';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -224,6 +226,8 @@ export const DATE_FORMATS = {
         SummaryPanel,
         CurrentAlertComponentComponent,
         WildfiresListHeaderComponent,
+        BansListComponent,
+        BansListComponentDesktop,
         SafePipe,
         VideoGalleryPanel,
         VideoCardPanel,

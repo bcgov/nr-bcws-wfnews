@@ -2,15 +2,26 @@
     <div class="header-row">
         <p class="dashboard-title">Wildfires List
         </p>
-        <button mat-raised-button color="primary" class="stage-of-control" (click)="openStageOfControlLink()">What are Stages of Control?</button>
     </div>
-    <mat-tab-group mat-stretch-tabs="false" class="tab-group">
-        <mat-tab label="Wildfires">
-            <wf-list-container-desktop></wf-list-container-desktop>
-        </mat-tab>
-        <mat-tab label="Current Notices">
-            <current-alert-component></current-alert-component>
-        </mat-tab>
-    </mat-tab-group>
+
+    <div class="">
+      <button [class]="'list-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><mat-icon>edit</mat-icon>Wildfires</button>
+      <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><mat-icon>edit</mat-icon>Evacuations</button>
+      <button [class]="'list-button' + (selectedTab === 2 ? '-selected' : '')" (click)="selectTab(2)" mat-flat-button ><mat-icon>edit</mat-icon>Area Restrictions</button>
+      <button [class]="'list-button' + (selectedTab === 3 ? '-selected' : '')" (click)="selectTab(3)" mat-flat-button ><mat-icon>edit</mat-icon>Bans</button>
+    </div>
+
+    <div class="list-container">
+      <div *ngIf="selectedTab === 0">
+        <wf-list-container-desktop></wf-list-container-desktop>
+      </div>
+      <div *ngIf="selectedTab === 1">
+        <current-alert-component></current-alert-component>
+      </div>
+      <div *ngIf="selectedTab === 2"></div>
+      <div *ngIf="selectedTab === 3">
+        <wf-bans-list-desktop></wf-bans-list-desktop>
+      </div>
+    </div>
 </div>
 <sticky-widget></sticky-widget>

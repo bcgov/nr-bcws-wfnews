@@ -40,3 +40,20 @@ p.dashboard-title{
 :host ::ng-deep .mdc-tab--active {
     font-weight: 700 !important
 }
+
+.list-button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  &-selected {
+    margin-right: 7px;
+    border-radius: 20px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+  }
+}
+
+.list-container {
+  
+}

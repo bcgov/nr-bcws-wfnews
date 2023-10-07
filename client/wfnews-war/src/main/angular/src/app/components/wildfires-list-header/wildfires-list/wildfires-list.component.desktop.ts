@@ -5,7 +5,7 @@ import { WildFiresListComponent } from "./wildfires-list.component";
     selector: 'wf-list-desktop',
     templateUrl: './wildfires-list.component.desktop.html',
     styleUrls: [
-      '../common/base-collection/collection.component.scss',
+      '../../common/base-collection/collection.component.scss',
       './wildfires-list.component.desktop.scss']
   })
 
