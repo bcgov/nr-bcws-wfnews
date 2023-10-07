@@ -55,7 +55,11 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    this.ionViewDidEnter()
+
+    // ping server every 10 minutes, then find any offline reports to be submitted if device is online
+    setInterval(() => {
+      this.ionViewDidEnter()
+    }, 600000);
   }
 
   selectedAnswer(page:any) {
@@ -76,7 +80,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       case 'visible-flame-page' :
         return this.reportOfFire.visibleFlame ? this.reportOfFire.visibleFlame.charAt(0).toUpperCase() + this.reportOfFire.visibleFlame.slice(1) : null;
       case 'fire-spread-page' :
-        return this.reportOfFire.rateOfSpread ? this.reportOfFire.rateOfSpread.charAt(0).toUpperCase() + this.reportOfFire.rateOfSpread.slice(1) : null;
+        return this.reportOfFire.rateOfSpread ? this.findLabelByValue(page.id,this.reportOfFire.rateOfSpread) : null;
       case 'what-is-burning-page' :
         return this.reportOfFire.burning? this.reportOfFire.burning.map(item => this.findLabelByValue(page.id,item)).join(', ') : null;
       case 'infrastructure-details-page' :
@@ -246,6 +250,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     if (pageId && valueToFind) {
       const page = this.reportOfFirePages.find(page => page.id === pageId);
       const button = page.buttons.find(button => button.value === valueToFind);
+      if (valueToFind === 'I\'m not sure') {
+        return 'I\'m not sure'
+      }
       if (button) {
         const label = button.label;
         return label
@@ -253,15 +260,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  ionViewDidEnter() {
-    const syncData = () => {
-      setInterval(function () {
-        // Invoke function every 10 minutes 
-        if (this.commonUtilityService.checkOnlineStatus)
-        this.commonUtilityService.syncDataWithServer()
-      }, 600000);
+  async ionViewDidEnter() {
+    // if server is reachable look for previously stored offline RoFs to be submitted 
+      await (this.commonUtilityService.checkOnlineStatus().then(result => {
+        if (result){
+            this.commonUtilityService.syncDataWithServer()
+        }
+      }));
   }
-}
 
 
 submitRof(){
@@ -272,7 +278,7 @@ submitRof(){
     estimatedDistance: this.reportOfFire.estimatedDistance,
     fireLocation: this.reportOfFire.fireLocation,
     fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
-    rateOfSpread: equalsIgnoreCase(this.reportOfFire.rateOfSpread, "Yes") ? "Fast" : equalsIgnoreCase(this.reportOfFire.rateOfSpread, "No") ? "Slow" : "Unknown",
+    rateOfSpread: this.reportOfFire.rateOfSpread,
     burning: this.reportOfFire.burning,
     smokeColor: this.reportOfFire.smokeColor,
     weather: this.reportOfFire.weather,

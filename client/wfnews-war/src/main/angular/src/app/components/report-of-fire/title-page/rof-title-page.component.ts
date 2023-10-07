@@ -4,6 +4,7 @@ import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
 import { DialogLocationComponent } from "@app/components/report-of-fire/dialog-location/dialog-location.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
+import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
 
@@ -24,6 +25,7 @@ export class RoFTitlePage extends RoFPage implements OnInit{
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
+    private reportOfFirePage: ReportOfFirePage
     ) {
     super()
   }
@@ -40,7 +42,7 @@ export class RoFTitlePage extends RoFPage implements OnInit{
         setInterval(function () {
           // Invoke function every 10 minutes while app is in background
           self.runBackground();
-        }, 6000);
+        }, 600000);
         BackgroundTask.finish({ taskId });
       });
     });
@@ -56,13 +58,16 @@ export class RoFTitlePage extends RoFPage implements OnInit{
   }
 
   openCallPage () {
-    // not yet implemented
+    this.reportOfFirePage.selectPage('call-page',null,false);
   }
 
-  runBackground() {
-    // check if the app is in the background and if so, check for saved offline RoF to be submitted
-    if (this.commonUtilityService.checkOnlineStatus)
-      this.commonUtilityService.syncDataWithServer()
+  async runBackground() {
+    // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
+    await (this.commonUtilityService.checkOnlineStatus().then(result => {
+      if (result){
+          this.commonUtilityService.syncDataWithServer()
+      }
+    }));
   }
 
 

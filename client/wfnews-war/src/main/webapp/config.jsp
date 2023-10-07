@@ -72,6 +72,7 @@
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
+      json.append("\"rofPhoneNumber\":\"1 800 663-5555\",");
       json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");
       json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
       json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");

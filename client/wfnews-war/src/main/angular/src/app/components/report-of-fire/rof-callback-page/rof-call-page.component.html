@@ -1,0 +1,29 @@
+<div class="page-content">
+    <div class="rof-text-primary-header">{{ title }}</div>
+    <div class="rof-text-secondary-header">{{ message }}</div>
+    <div class="divider"></div>
+    <div *ngFor="let item of callInfo">
+        <div class="rof-text-review-header">
+            {{item.title}}
+        </div>
+        <div class="call-page-content">
+            {{item.info}}
+        </div>
+        <div *ngIf="item.title === 'Location' && location " class="location-detail">
+            <!-- display user's coords -->
+            <div class="rof-text-review-header">
+                Your Location
+            </div>
+            <div class="call-page-content">
+                Latitude: {{formate(location.coords.latitude)}}<br>
+                Longitude: {{formate(location.coords.longitude)}}
+            </div>
+        </div>
+    </div>
+
+    <div class="rof-button-container">
+        <button class="rof-button" mat-flat-button (click)="previous()">Cancel</button>
+        <button mat-flat-button class="rof-button" style="background-color: #FFF" (click)="call()"><mat-icon svgIcon="phone" style="width: 24px; height: 24px;"></mat-icon>Call</button>
+    </div>
+</div>
+  

@@ -4,50 +4,52 @@
   <div class="divider"></div>
   <div *ngIf="reportOfFirePages">
     <div *ngFor="let page of reportOfFirePages">
-      <div class="rof-text-review-header">
-        {{page.title}}
-      </div>
-      <div *ngIf = "page.id !== 'location-page'">
-        <div class="item">
-          <div *ngIf="page.id === 'comments-page'">
-            <div class="item-content" >
-              <div class="text">Note</div>
+      <div *ngIf="page.id !== 'disclaimer-page' && page.id !== 'call-page' ">
+        <div class="rof-text-review-header">
+          {{page.title}}
+        </div>
+        <div *ngIf = "page.id !== 'location-page'">
+          <div class="item">
+            <div *ngIf="page.id === 'comments-page'">
+              <div class="item-content" >
+                <div class="text">Note</div>
+                <div class="edit-icon">
+                  <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
+                </div>
+              </div>
+              <div class="divider"></div>
+              <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
+
+            </div>
+
+            <div class="item-content" *ngIf="page.id !== 'comments-page'">
+              <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
               <div class="edit-icon">
                 <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
               </div>
             </div>
-            <div class="divider"></div>
-            <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
-
-          </div>
-
-          <div class="item-content" *ngIf="page.id !== 'comments-page'">
-            <div class="text">{{selectedAnswer(page)? selectedAnswer(page) : 'Skipped'}}</div>
-            <div class="edit-icon">
-              <mat-icon svgIcon="edit" (click)="edit(page.id)"></mat-icon>
+            <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1 && reportOfFire.image1.webPath" class="images">
+              <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.webPath !== undefined"><img class="image" [src]="reportOfFire.image1.webPath"></div>
+              <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.webPath !== undefined"><img class="image" [src]="reportOfFire.image2.webPath"></div>
+              <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.webPath !== undefined"><img class="image" [src]="reportOfFire.image3.webPath"></div>
             </div>
           </div>
-          <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1 && reportOfFire.image1.webPath" class="images">
-            <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.webPath !== undefined"><img class="image" [src]="reportOfFire.image1.webPath"></div>
-            <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.webPath !== undefined"><img class="image" [src]="reportOfFire.image2.webPath"></div>
-            <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.webPath !== undefined"><img class="image" [src]="reportOfFire.image3.webPath"></div>
-          </div>
-        </div>
-        <div *ngIf="twoPartsQuestions(page)" class="item">
-          <div class="item-content">
-            <div class="text">{{selectedAnswerPart2(page)? selectedAnswerPart2(page) : 'Skipped'}}</div>
-            <div class="edit-icon">
-              <mat-icon svgIcon="edit" (click)="edit(page.id,true)"></mat-icon>
+          <div *ngIf="twoPartsQuestions(page)" class="item">
+            <div class="item-content">
+              <div class="text">{{selectedAnswerPart2(page)? selectedAnswerPart2(page) : 'Skipped'}}</div>
+              <div class="edit-icon">
+                <mat-icon svgIcon="edit" (click)="edit(page.id,true)"></mat-icon>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div *ngIf = "page.id === 'location-page'" style="position: relative;">
-        <button (click)="edit(page.id)" class="edit-button">
-          <mat-icon svgIcon="edit"></mat-icon>
-          Edit
-        </button>
-        <div id="map" class="map-container">
+        <div *ngIf = "page.id === 'location-page'" style="position: relative;">
+          <button (click)="edit(page.id)" class="edit-button">
+            <mat-icon svgIcon="edit"></mat-icon>
+            Edit
+          </button>
+          <div id="map" class="map-container">
+        </div>
       </div>
     </div>
   </div>

@@ -28,6 +28,8 @@ export class ReportOfFireService {
     constructor(private appConfigService: AppConfigService,
       private commonUtilityService: CommonUtilityService,
       private storage: Storage) {  }
+      
+    submittedOffline: boolean
 
     async saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Promise<any> {
 
@@ -43,11 +45,16 @@ export class ReportOfFireService {
           if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
 
           // if the device is offline save RoF in storage
-          if (!this.commonUtilityService.checkOnlineStatus) {
-            this.storage.create();
-            await this.storage.set('offlineReportData', formData);
-            return;
-          }
+          await (this.commonUtilityService.checkOnlineStatus().then(result => {
+            let self = this
+            if (!result){
+              this.submitToStorage(formData)
+              self.submittedOffline = true;
+            ;
+            }
+          }));
+
+          if (this.submittedOffline) return;
           
           let response = await fetch(rofUrl, {
               method: 'POST',
@@ -117,30 +124,42 @@ export class ReportOfFireService {
       const image3 = rofJson.image3;
 
       const formData = new FormData()
-      if (resource !== null) formData.append('resource', resource)
+      if (resource) formData.append('resource', resource)
 
-      if (image1 !== null) formData.append('image1', image1)
-      if (image1 !== null) formData.append('image2', image2)
-      if (image1 !== null) formData.append('image3', image3)
+      if (image1) formData.append('image1', image1)
+      if (image2) formData.append('image2', image2)
+      if (image3) formData.append('image3', image3)
+
       try {
         // Make an HTTP POST request to your server's API endpoint
         let response = await fetch(rofUrl, {
           method: 'POST',
           body: formData
-      });
+      })
     
-        if (response.ok) {
-          // The server successfully processed the report
-          return { success: true, message: 'Report submitted successfully' };
-        } else {
+      if (response.ok) {
+          // Remove the locally stored data if sync is successful
+          await this.storage.create();
+          await this.storage.remove('offlineReportData');
+           // The server successfully processed the report
+         return { success: true, message: 'Report submitted successfully' };
+         } else {
           // The server encountered an error
-          const responseData = await response.json();
-          return { success: false, message: responseData.error };
-        }
+           const responseData = await response.json()
+           return { success: false, message: responseData.error };
+         }
       } catch (error) {
         // An error occurred during the HTTP request
         return { success: false, message: 'An error occurred while submitting the report' };
       }
+    }
+
+    async submitToStorage(formData: FormData) {
+      this.storage.create();
+      let object = {};
+      formData.forEach((value, key) => object[key] = value);
+      let json = JSON.stringify(object);
+      await this.storage.set('offlineReportData', json);
     }
    
 }

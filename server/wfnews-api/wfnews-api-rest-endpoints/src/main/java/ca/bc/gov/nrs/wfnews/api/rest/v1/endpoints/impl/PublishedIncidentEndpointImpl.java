@@ -54,6 +54,9 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		}
 
 		try {
+			// if incident is a fire of note set the wasFireOfNote indicator
+			if (publishedIncidentResource.getFireOfNoteInd()) publishedIncidentResource.setWasFireOfNoteInd(true);
+
 			// If the resource has a GUID, check if it exists. If so, this should have been a PUT/update
 			if (publishedIncidentResource.getPublishedIncidentDetailGuid() != null) {
 				try {
@@ -120,6 +123,9 @@ public class PublishedIncidentEndpointImpl extends BaseEndpointsImpl implements 
 		try {
 			publishedIncidentResource.setUpdateDate(new Date());
 			publishedIncidentResource.setLastUpdatedTimestamp(new Date());
+
+			// if incident is a fire of note set the wasFireOfNote indicator
+			if (publishedIncidentResource.getFireOfNoteInd()) publishedIncidentResource.setWasFireOfNoteInd(true);
 
 			PublishedIncident publishedIncident = getPublishedIncidentFromResource(publishedIncidentResource);
 			PublishedIncidentResource result = incidentsService.updatePublishedWildfireIncident(publishedIncident,
