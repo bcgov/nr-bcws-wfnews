@@ -13,11 +13,8 @@ import { haversineDistance } from '@app/services/wfnews-map.service/util';
 })
 export class EvacListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
-  public searchState = {
-    sortParam: 'fireCentre',
-    sortDirection: 'DESC'
-  };
-
+  public selectedSortOrder = ''
+  public sortOptions = [{ description: 'Name', code: 'name'}, { description: 'Event Type', code: 'eventType'}, { description: 'Status', code: 'status'}, { description: 'agency', code: 'agency'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
 
   public order = true
@@ -82,7 +79,9 @@ export class EvacListComponent implements OnInit {
           })
         }
       }
-      evacData.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+      if (this.selectedSortOrder !== '') {
+        evacData.sort((a,b) => (a[this.selectedSortOrder] > b[this.selectedSortOrder]) ? 1 : ((b[this.selectedSortOrder] > a[this.selectedSortOrder]) ? -1 : 0))
+      }
       this.dataSource.data = evacData
       this.cdr.detectChanges()
     });

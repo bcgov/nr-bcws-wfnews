@@ -118,6 +118,19 @@ table tr:nth-child(even) td{
     }
 }
 
+.rounded-select {
+  border-radius: 20px !important;
+}
+
+.checkbox-label {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  letter-spacing: 0em !important;
+  text-align: left !important;
+  margin-left: 3px;
+}
+
 .stage-of-control-checkbox-group{
     margin-top: 13px !important;
     flex-basis: auto !important;

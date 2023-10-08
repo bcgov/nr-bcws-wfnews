@@ -135,6 +135,10 @@ table tr:nth-child(even) td{
     }
 }
 
+.rounded-select {
+  border-radius: 20px !important;
+}
+
 .checkbox-label {
   font-size: 15px !important;
   font-weight: 600 !important;

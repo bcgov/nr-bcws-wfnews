@@ -13,11 +13,8 @@ import { haversineDistance } from '@app/services/wfnews-map.service/util';
 })
 export class AreaRestrictionListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
-  public searchState = {
-    sortParam: 'name',
-    sortDirection: 'DESC'
-  };
-
+  public selectedSortOrder = ''
+  public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
 
   columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
@@ -57,7 +54,9 @@ export class AreaRestrictionListComponent implements OnInit {
           })
         }
       }
-      areaRestrictionData.sort((a,b) => (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0))
+      if (this.selectedSortOrder !== '') {
+        areaRestrictionData.sort((a,b) => (a[this.selectedSortOrder] > b[this.selectedSortOrder]) ? 1 : ((b[this.selectedSortOrder] > a[this.selectedSortOrder]) ? -1 : 0))
+      }
       this.dataSource.data = areaRestrictionData
       this.cdr.detectChanges()
     });

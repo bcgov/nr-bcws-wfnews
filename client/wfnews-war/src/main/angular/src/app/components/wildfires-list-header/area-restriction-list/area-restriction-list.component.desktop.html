@@ -11,11 +11,27 @@
                     </span>
             </button>
         </div>
+        <button mat-flat-button matTooltip="Filter by Location" class="filter-button"
+          aria-label="By Location" (click)="searchByLocation(); $event.stopPropagation()">
+          <span class="button-wrapper">Filter by Location</span>
+        </button>
+        <div class="field">
+          <select appWFSingleSelect appWFPlaceholder="Fire Centre"
+                  class="rounded-select"
+                  aria-label="Sort"
+                  [options]="sortOptions"
+                  [selected]="selectedSortOrder"
+                  [(ngModel)]="selectedSortOrder"
+                  (updated)="search()">
+              <option value="">
+                  <span class="placeholder">Sort</span>
+              </option>
+              <option *ngFor = "let item of sortOptions" value="{{item.code}}">
+                  <span>{{item.description}}</span>
+              </option>
+          </select>
+        </div>
     </div>
-    <button mat-flat-button matTooltip="Filter by Location" class="filter-button"
-        aria-label="By Location" (click)="searchByLocation(); $event.stopPropagation()">
-        <span class="button-wrapper">Filter by Location</span>
-    </button>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="dataSource && dataSource.data.length > 0; else loading">

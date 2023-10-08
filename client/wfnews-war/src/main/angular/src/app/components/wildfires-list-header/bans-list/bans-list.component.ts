@@ -11,13 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class BansListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
-  public searchState = {
-    sortParam: 'fireCentre',
-    sortDirection: 'DESC'
-  };
-
+  public selectedSortOrder = ''
+  public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Type', code: 'type'}, { description: 'Details', code: 'details'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
-
   public category1 = true
   public category2 = true
   public category3 = true
@@ -72,7 +68,10 @@ export class BansListComponent implements OnInit {
           })
         }
       }
-      banData.sort((a,b) => (a.fireCentre > b.fireCentre) ? 1 : ((b.fireCentre > a.fireCentre) ? -1 : 0))
+
+      if (this.selectedSortOrder !== '') {
+        banData.sort((a,b) => (a[this.selectedSortOrder] > b[this.selectedSortOrder]) ? 1 : ((b[this.selectedSortOrder] > a[this.selectedSortOrder]) ? -1 : 0))
+      }
       this.dataSource.data = banData
       this.cdr.detectChanges()
     });
