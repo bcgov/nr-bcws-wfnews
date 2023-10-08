@@ -5,10 +5,10 @@
     </div>
 
     <div class="">
-      <button [class]="'list-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><img class="image-size" [src]="'../../../assets/images/svg-icons/wildfire' + (selectedTab === 0 ? '-selected' : '') + '.svg'" alt="WIldfires" height="20" width="20" />Wildfires</button>
-      <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><img class="image-size" [src]="'../../../assets/images/svg-icons/carbon_bullhorn' + (selectedTab === 1 ? '-selected' : '') + '.svg'" alt="Evacuation Orders and Alerts" height="20" width="20" />Evacuations</button>
-      <button [class]="'list-button' + (selectedTab === 2 ? '-selected' : '')" (click)="selectTab(2)" mat-flat-button ><img class="image-size" [src]="'../../../assets/images/svg-icons/carbon_warning-hex' + (selectedTab === 2 ? '-selected' : '') + '.svg'" alt="Area Restrictions" height="20" width="20" />Area Restrictions</button>
-      <button [class]="'list-button' + (selectedTab === 3 ? '-selected' : '')" (click)="selectTab(3)" mat-flat-button ><img class="image-size" [src]="'../../../assets/images/svg-icons/bans-restrictions' + (selectedTab === 3 ? '-selected' : '') + '.svg'" alt="Bans and Prohibitions" height="20" width="20" />Bans</button>
+      <button [class]="'list-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/wildfire' + (selectedTab === 0 ? '-selected' : '') + '.svg'" alt="WIldfires" height="20" width="20" /><span class="list-button-label">Wildfires</span></button>
+      <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/carbon_bullhorn' + (selectedTab === 1 ? '-selected' : '') + '.svg'" alt="Evacuation Orders and Alerts" height="20" width="20" /><span class="list-button-label">Evacuations</span></button>
+      <button [class]="'list-button' + (selectedTab === 2 ? '-selected' : '')" (click)="selectTab(2)" mat-flat-button ><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/carbon_warning-hex' + (selectedTab === 2 ? '-selected' : '') + '.svg'" alt="Area Restrictions" height="20" width="20" /><span class="list-button-label">Area Restrictions</span></button>
+      <button [class]="'list-button' + (selectedTab === 3 ? '-selected' : '')" (click)="selectTab(3)" mat-flat-button ><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/bans-restrictions' + (selectedTab === 3 ? '-selected' : '') + '.svg'" alt="Bans and Prohibitions" height="20" width="20" /><span class="list-button-label">Bans</span></button>
     </div>
 
     <div class="list-container">
