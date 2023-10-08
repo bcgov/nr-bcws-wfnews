@@ -38,9 +38,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   url;
   displayLabel = "Simple Wildfires Search"
   selectedFireCentreCode = "";
-  wildfiresOfNoteInd = false;
-  newFires = false;
-  activeWildfiresInd = true;
+  wildfiresOfNoteInd = true;
+  outOfControlFires = true;
+  beingHeldFires = true;
+  underControlFires = true;
   outWildfiresInd = false;
   selectedRadius = 50;
   radiusOptions = [
@@ -120,7 +121,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   }
 
   doSearch() {
-    if (!this.activeWildfiresInd && !this.outWildfiresInd && !this.newFires && !this.wildfiresOfNoteInd) {
+    if (!this.wildfiresOfNoteInd && !this.outOfControlFires && !this.beingHeldFires && !this.underControlFires && !this.outWildfiresInd) {
       this.collectionData = []
       this.collection = null;
       this.summaryString = 'No records to display.'
@@ -133,15 +134,15 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       if (this.outWildfiresInd) {
         stageOfControlList.push('OUT')
       }
-      if(this.activeWildfiresInd) {
+      if(this.outOfControlFires) {
         stageOfControlList.push('OUT_CNTRL')
+      }
+      if(this.beingHeldFires) {
         stageOfControlList.push('HOLDING')
+      }
+      if(this.underControlFires) {
         stageOfControlList.push('UNDR_CNTRL')
       }
-      // We use a boolean in the postgres model so this shouldn't be needed
-      //if(this.wildfiresOfNoteInd) {
-      //  stageOfControlList.push('FIRE_OF_NOTE')
-      //}
 
       this.store.dispatch(searchWildfires(this.componentId, {
         pageNumber: this.config.currentPage,
@@ -150,7 +151,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
         sortDirection: this.currentSortDirection,
         query: this.searchText
       },
-        this.selectedFireCentreCode, this.wildfiresOfNoteInd, stageOfControlList, this.newFires, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
+        this.selectedFireCentreCode, this.wildfiresOfNoteInd, stageOfControlList, false, undefined, this.displayLabel,this.selectedLat,this.selectedLong,this.selectedRadius));
     }
   }
 
@@ -164,8 +165,6 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     this.locationName = null;
     this.selectedFireCentreCode = null;
     this.wildfiresOfNoteInd = false;
-    this.newFires = false;
-    this.activeWildfiresInd = true;
     this.outWildfiresInd = false;
     this.selectedRadius = 50
     this.selectedLat = null;

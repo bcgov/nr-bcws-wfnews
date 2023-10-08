@@ -13,59 +13,10 @@
             </button>
         </div>
 
-        <div class="field search-input">
-            <mat-label class="label">Search for an address</mat-label>
-            <input [readonly]="isSearchText()" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" [formControl]="searchByLocationControl">
-            <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
-                    [value]="option">
-                    <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
-                        <div *ngIf="option.address !== ''">
-                            <div>
-                                <span class="address">{{option.address}}</span>
-                            </div>
-                            <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
-                        </div>
-                        <div *ngIf="option.address === ''">
-                            <div>
-                                <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
-                            </div>
-                        </div>
-                    </div>
-                </mat-option>
-            </mat-autocomplete>
-            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="locationName"
-                    aria-label="Clear" (click)="searchByLocationControl.reset();selectedLat=undefined;selectedLong=undefined;searchTextUpdated(); $event.stopPropagation()"
-                    matTooltip="Clear">
-                <mat-icon>close</mat-icon>
-            </button>
-        </div>
-
-        <div class="field">
-            <mat-label class="label">Search Radius (km)</mat-label>
-            <select appWFSingleSelect appWFPlaceholder="Select..." [disabled]="!locationName"
-                    aria-label="Type"
-                    [options]="radiusOptions"
-                    [selected]="selectedRadius"
-                    [(ngModel)]="selectedRadius"
-                    (updated)="selectFilterUpdated('selectedRadius', $event)">
-                <option *ngFor = "let item of radiusOptions" value="{{item}}">
-                    <span>{{item}}</span>
-                </option>
-            </select>
-        </div>
-
-        <div class="field">
-          <div class="my-location-button">
-            <button mat-raised-button (click)="useMyCurrentLocation()" style="width: 100%">
-              <mat-icon>my_location</mat-icon><span style="width: 100%;">Find My Location</span>
-            </button>
-          </div>
-        </div>
-
         <div class="field">
             <mat-label class="label">Fire Centre</mat-label>
             <select appWFSingleSelect appWFPlaceholder="Select..."
+                    class="rounded-select"
                     aria-label="Type"
                     [options]="fireCentreOptions"
                     [selected]="selectedFireCentreCode"
@@ -82,31 +33,26 @@
         <div class="stage-of-control-checkbox-group">
             <mat-label>Choose Wildfires to display</mat-label>
             <section class="checkbox-group">
-                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="activeWildfiresInd">
-                    Active Wildfires
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="wildfiresOfNoteInd">
+                  <img height="18" width="18" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"> Wildfire of Note
+                </mat-checkbox>
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="outOfControlFires">
+                  <img height="18" width="18" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"> Out of Control
+                </mat-checkbox>
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="beingHeldFires">
+                  <img height="18" width="18" src="/assets/images/svg-icons/being-held.svg" alt="Holding" class="icon"> Being Held
+                </mat-checkbox>
+                <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="underControlFires">
+                  <img height="18" width="18" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"> Under Control
                 </mat-checkbox>
                 <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd">
-                    Out Wildfires
-                </mat-checkbox>
-                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="newFires">
-                    New Wildfires
-                </mat-checkbox>
-                <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="wildfiresOfNoteInd">
-                    Wildfires of Note
+                  <img height="18" width="18" src="/assets/images/svg-icons/out-fire.svg" alt="Under Control" class="icon"> Out Wildfires
                 </mat-checkbox>
             </section>
         </div>
-                <div class="field">
-            <button mat-raised-button color="primary" (click)="clearSearchAndFilters()" style="width: 100px;"><mat-icon svgIcon="filter-cancel"></mat-icon>Clear</button>
-        </div>
-
     </div>
-
 </div>
 <p class ="results-count" >{{collection ? collection.totalRowCount : 0}} Results</p>
-
-
-
 <div class="table-wrapper flex-y-grow" *ngIf="collectionData; else loading">
     <table  mat-table matSort [dataSource]="collectionData | paginate:config"
             [matSortActive]="this.searchState.sortParam"
@@ -115,37 +61,33 @@
             aria-label="Incident Table">
         <ng-container matColumnDef = "fireName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentName}}</span></td>
-        </ng-container>
-
-        <ng-container matColumnDef = "fireNumber">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Number</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFireNumber(item)}}</span></td>
-        </ng-container>
-
-        <ng-container matColumnDef = "lastUpdated">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)">
+              <div>
+                <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon">
+                <span #el>{{item.incidentName}}</span>
+                <div #el *ngIf="item.incidentName !== convertFireNumber(item)" >{{convertFireNumber(item)}}</div>
+              </div>
+            </td>
         </ng-container>
 
         <ng-container matColumnDef = "stageOfControl">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToStageOfControlDescription(item.stageOfControlCode)}}</span></td>
-        </ng-container>
-
-        <ng-container matColumnDef = "wildfireOfNote">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire of Note</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireOfNoteInd? 'Yes' : 'No'}}</span></td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertToStageOfControlDescription(item.stageOfControlCode)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "fireCentreName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentreName}}</span></td>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre</th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.fireCentreName}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "location">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Location</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{item.incidentLocation}}</span></td>
+        </ng-container>
+
+        <ng-container matColumnDef = "lastUpdated">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Updated</th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)"><span #el >{{convertFromTimestamp(item.lastUpdatedTimestamp)}}</span></td>
         </ng-container>
 
         <ng-container matColumnDef = "addToWatchlist">
