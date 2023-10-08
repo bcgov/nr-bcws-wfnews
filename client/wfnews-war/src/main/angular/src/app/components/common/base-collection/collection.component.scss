@@ -185,7 +185,7 @@
   background-color: $colour-table-background-odd;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .top-filter{

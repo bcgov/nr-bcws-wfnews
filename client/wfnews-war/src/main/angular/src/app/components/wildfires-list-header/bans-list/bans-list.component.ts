@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import moment from 'moment';
 import { AGOLService } from '../../../services/AGOL-service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,12 +9,14 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['../../common/base-collection/collection.component.scss', './bans-list.component.desktop.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class BansListComponent implements OnChanges, OnInit, AfterViewInit {
+export class BansListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
   public searchState = {
     sortParam: 'fireCentre',
     sortDirection: 'DESC'
   };
+
+  public searchText
 
   public category1 = true
   public category2 = true
@@ -25,68 +27,60 @@ export class BansListComponent implements OnChanges, OnInit, AfterViewInit {
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef ) {}
 
   ngOnInit(): void {
-    this.agolService.getBansAndProhibitions(null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
-        const banData = []
+    this.search()
+  }
+
+  async search() {
+
+    let whereString = ''
+
+    if (this.searchText && this.searchText.length > 0) {
+      whereString += `(ACCESS_PROHIBITION_DESCRIPTION LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%' OR TYPE LIKE '%${this.searchText}%') AND (`
+    }
+
+    if (this.category1) {
+      whereString += '(ACCESS_PROHIBITION_DESCRIPTION LIKE \'%1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfires%\')'
+    }
+
+    if (this.category2) {
+      whereString += ' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%2%\''
+    }
+
+    if (this.category3) {
+      whereString += ' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%3%\''
+    }
+
+    if (this.searchText && this.searchText.length > 0) {
+      whereString += ')'
+    }
+
+    if (whereString.startsWith(' OR ')) whereString = whereString.substring(3)
+    if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
+    if (whereString === '') whereString = null
+
+    this.agolService.getBansAndProhibitions(whereString, null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
+      const banData = []
+      if (bans && bans.features) {
         for (const element of bans.features) {
           banData.push({
             id: element.attributes.PROT_BAP_SYSID,
             fireCentre: element.attributes.FIRE_CENTRE_NAME,
             type: element.attributes.TYPE,
             details: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
-            issuedOn: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            issuedOn: this.convertToDate(element.attributes.ACCESS_STATUS_EFFECTIVE_DATE),
             bulletinUrl: element.attributes.BULLETIN_URL
           })
         }
-        banData.sort((a,b) => (a.fireCentre > b.fireCentre) ? 1 : ((b.fireCentre > a.fireCentre) ? -1 : 0))
-        this.dataSource.data = banData
-        this.cdr.detectChanges()
+      }
+      banData.sort((a,b) => (a.fireCentre > b.fireCentre) ? 1 : ((b.fireCentre > a.fireCentre) ? -1 : 0))
+      this.dataSource.data = banData
+      this.cdr.detectChanges()
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('change detected')
-  }
-  ngAfterViewInit(): void {
-    console.log('View initialized')
-  }
-
-  async loadPage() {
-  }
-
-  async search() {
-    const data = this.dataSource.data
-    const cat1 = data.filter(b => b.details.toLowerCase().includes('1') || b.details.toLowerCase().includes('campfires'))
-    const cat2 = data.filter(b => b.details.toLowerCase().includes('2'))
-    const cat3 = data.filter(b => b.details.toLowerCase().includes('3'))
-    this.dataSource.data = []
-
-    console.log(cat1, cat2, cat3)
-
-    if (this.category1) {
-      for (const c1 of cat1) {
-        if (!this.dataSource.data.find(b => b.id === c1.id)) {
-          this.dataSource.data.push(c1)
-        }
-      }
-    }
-
-    if (this.category2) {
-      for (const c2 of cat2) {
-        if (!this.dataSource.data.find(b => b.id === c2.id)) {
-          this.dataSource.data.push(c2)
-        }
-      }
-    }
-
-    if (this.category3) {
-      for (const c3 of cat3) {
-        if (!this.dataSource.data.find(b => b.id === c3.id)) {
-          this.dataSource.data.push(c3)
-        }
-      }
-    }
-
-    this.cdr.detectChanges()
+  searchByLocation() {
+    // get location
+    // pass to search
   }
 
   convertToDate(value: string) {

@@ -17,32 +17,21 @@
         <span class="button-wrapper">Filter by Location</span>
     </button>
 </div>
-<div class="stage-of-control-checkbox-group">
-  <section class="checkbox-group">
-    <mat-checkbox [(ngModel)]="category1" [checked]="category1" (change)="search()"><span class="checkbox-label">Category 1 (Campfires)</span></mat-checkbox>
-    <mat-checkbox [(ngModel)]="category2" [checked]="category2" (change)="search()"><span class="checkbox-label">Category 2</span></mat-checkbox>
-    <mat-checkbox [(ngModel)]="category3" [checked]="category3" (change)="search()"><span class="checkbox-label">Category 3</span></mat-checkbox>
-  </section>
-</div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="dataSource && dataSource.data.length > 0; else loading">
-    <table mat-table [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
+    <table mat-table [dataSource]="dataSource" aria-label="Area Restrictions Table">
 
-      <ng-container matColumnDef="fireCentre">
-        <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
-        <td mat-cell *matCellDef="let element"> {{element.fireCentre}} </td>
-      </ng-container>
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-      </ng-container>
-      <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef> Details </th>
-        <td mat-cell *matCellDef="let element"> {{element.details}} </td>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
       <ng-container matColumnDef="issuedOn">
         <th mat-header-cell *matHeaderCellDef> Issued On </th>
         <td mat-cell *matCellDef="let element"> {{element.issuedOn}} </td>
+      </ng-container>
+      <ng-container matColumnDef="fireCentre">
+        <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
+        <td mat-cell *matCellDef="let element"> {{element.fireCentre}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
