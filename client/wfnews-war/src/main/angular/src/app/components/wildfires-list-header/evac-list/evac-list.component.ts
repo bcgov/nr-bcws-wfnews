@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import moment from 'moment';
 import { AGOLService } from '../../../services/AGOL-service';
 import { MatTableDataSource } from '@angular/material/table';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { haversineDistance } from '@app/services/wfnews-map.service/util';
 
 @Component({
   selector: 'wf-evac-list',
@@ -21,15 +23,17 @@ export class EvacListComponent implements OnInit {
   public order = true
   public alert = true
 
-  columnsToDisplay = ["name", "status", "issuedOn", "agency"];
+  columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"];
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef ) {}
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService ) {}
 
   ngOnInit(): void {
     this.search()
   }
 
   async search() {
+
+    const location = await this.commonUtilityService.getCurrentLocationPromise()
 
     let whereString = ''
 
@@ -53,11 +57,19 @@ export class EvacListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getEvacOrders(whereString, null, { returnCentroid: false, returnGeometry: false}).subscribe(evacs => {
+    this.agolService.getEvacOrders(whereString, null, { returnCentroid: location !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
-        console.log(evacs.features)
         for (const element of evacs.features) {
+          let distance = null
+          if (location) {
+              const currentLat = Number(location.coords.latitude);
+              const currentLong = Number(location.coords.longitude);
+
+              if (element.centroid) {
+                distance = (haversineDistance(element.centroid.y, currentLat, element.centroid.x, currentLong) / 1000).toFixed(2);
+              }
+          }
           evacData.push({
             name: element.attributes.EVENT_NAME,
             eventType: element.attributes.EVENT_TYPE,
@@ -65,7 +77,8 @@ export class EvacListComponent implements OnInit {
             agency: element.attributes.ISSUING_AGENCY,
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
-            issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED)
+            issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED),
+            distance: distance
           })
         }
       }

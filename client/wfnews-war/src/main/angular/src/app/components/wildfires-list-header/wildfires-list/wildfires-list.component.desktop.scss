@@ -122,10 +122,20 @@ table tr:nth-child(even) td{
     }
 }
 
+.checkbox-label {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  letter-spacing: 0em !important;
+  text-align: left !important;
+  margin-left: 3px;
+}
+
 .stage-of-control-checkbox-group{
     margin-top: 13px !important;
     flex-basis: auto !important;
     width: auto !important;
+
     .mat-label{
         font-size: 15px;
     }
@@ -140,11 +150,40 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-fireName {
-    width: 20%;
+    width: 25%;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 16px !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
 }
 
-.mat-column-fireNumber {
-    width: 10%;
+.fire-label-icon {
+  margin-top: 6px;
+  margin-right: 6px;
+}
+
+.fire-single-label {
+  margin-top: 10px !important;
+}
+
+.fire-label-container {
+  display: flex !important;
+}
+
+.fire-label-holder {
+  display: flex !important;
+  flex-flow: column !important;
+  overflow-y: hidden !important;
+}
+
+.fireNumber-subtext {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 16px;
+  letter-spacing: -0.02em;
+  text-align: left;
+  color: #7C7C7C;
 }
 
 .mat-column-lastUpdated {
@@ -152,25 +191,32 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-stageOfControl {
-    width: 10%;
-}
-
-.mat-column-wildfireOfNote {
-    width: 10%;
+    width: 15%;
 }
 
 .mat-column-fireCentre {
-    width: 20%;
+    width: 15%;
 }
 
 .mat-column-location {
-    width: 20%;
+    width: 25%;
 }
 
 .mat-column-addToWatchlist {
-    width: 10%;
+    width: 5%;
 }
 
 .mat-column-viewMap {
-    width: 10%;
+    width: 15%;
+}
+
+.cell-button {
+  width: 100% !important;
+  border: 1px solid #C4C4C4;
+  font-family: Open Sans;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
 }

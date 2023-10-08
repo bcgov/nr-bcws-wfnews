@@ -4,11 +4,13 @@
 }
 
 .table-search-header{
-    background-color: white !important;
-    border-top: none !important;
-    .label{
-        font-size: 15px;
-    }
+  background-color: white !important;
+  border-top: none !important;
+  display: block !important;
+  padding-left: 10px;
+  .label{
+      font-size: 15px;
+  }
 }
 
 .search-input {
@@ -116,7 +118,7 @@ table tr:nth-child(even) td{
     }
 }
 
-.stage-of-control-checkbox-group{
+.filter-checkbox-group {
     margin-top: 13px !important;
     flex-basis: auto !important;
     width: auto !important;
@@ -131,6 +133,15 @@ table tr:nth-child(even) td{
             border: none;
         }
     }
+}
+
+.checkbox-label {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  letter-spacing: 0em !important;
+  text-align: left !important;
+  margin-left: 3px;
 }
 
 .filter-button {
@@ -152,38 +163,40 @@ table tr:nth-child(even) td{
   flex-flow: row wrap;
 }
 
-.mat-column-fireName {
+.mat-column-name {
     width: 20%;
 }
 
-.mat-column-fireNumber {
+.mat-column-status {
     width: 10%;
 }
 
-.mat-column-lastUpdated {
+.mat-column-issuedOn {
     width: 10%;
 }
 
-.mat-column-stageOfControl {
-    width: 10%;
-}
 
-.mat-column-wildfireOfNote {
-    width: 10%;
-}
-
-.mat-column-fireCentre {
+.mat-column-agency {
     width: 20%;
 }
 
-.mat-column-location {
-    width: 20%;
+.mat-column-distance {
+  width: 10%;
 }
 
-.mat-column-addToWatchlist {
-    width: 10%;
+.mat-column-details {
+  width: 10%;
 }
 
 .mat-column-viewMap {
     width: 10%;
+}
+
+.status-icon {
+  position: relative !important;
+  top: 4px;
+}
+
+.status-label {
+  margin-left: 5px;
 }

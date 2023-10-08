@@ -10,5 +10,5 @@ import { AreaRestrictionListComponent } from "./area-restriction-list.component"
   })
 
 export class AreaRestrictionListComponentDesktop extends AreaRestrictionListComponent {
-    columnsToDisplay = ["name", "issuedOn", "fireCentre"];
+    columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 }

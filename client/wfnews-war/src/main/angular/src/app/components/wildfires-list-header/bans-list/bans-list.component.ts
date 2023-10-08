@@ -22,7 +22,7 @@ export class BansListComponent implements OnInit {
   public category2 = true
   public category3 = true
 
-  columnsToDisplay = ["fireCentre", "type", "details", "issuedOn"];
+  columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
 
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef ) {}
 

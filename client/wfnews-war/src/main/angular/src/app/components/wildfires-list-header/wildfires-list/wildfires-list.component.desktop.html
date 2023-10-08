@@ -31,19 +31,19 @@
     <div class="stage-of-control-checkbox-group">
       <section class="checkbox-group">
           <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="wildfiresOfNoteInd">
-            <img height="18" width="18" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"> Wildfire of Note
+            <img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span class="checkbox-label">Wildfire of Note</span>
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="outOfControlFires">
-            <img height="18" width="18" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"> Out of Control
+            <img height="17" width="17" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"><span class="checkbox-label">Out of Control</span>
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="beingHeldFires">
-            <img height="18" width="18" src="/assets/images/svg-icons/being-held.svg" alt="Holding" class="icon"> Being Held
+            <img height="17" width="17" src="/assets/images/svg-icons/being-held.svg" alt="Holding" class="icon"><span class="checkbox-label">Being Held</span>
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="underControlFires">
-            <img height="18" width="18" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"> Under Control
+            <img height="17" width="17" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"><span class="checkbox-label">Under Control</span>
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd">
-            <img height="18" width="18" src="/assets/images/svg-icons/out-fire.svg" alt="Under Control" class="icon"> Out Wildfires
+            <img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Under Control" class="icon"><span class="checkbox-label">Out Wildfires</span>
           </mat-checkbox>
       </section>
   </div>
@@ -58,10 +58,12 @@
         <ng-container matColumnDef = "fireName">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)">
-              <div>
-                <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon">
-                <span #el> {{item.incidentName}}</span>
-                <span #el *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
+              <div class="fire-label-container">
+                <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon fire-label-icon">
+                <div class="fire-label-holder">
+                  <span #el [class]="item.incidentName === convertFireNumber(item) ? 'fire-single-label' : ''"> {{item.incidentName}}</span>
+                  <span #el class="fireNumber-subtext" *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
+                </div>
               </div>
             </td>
         </ng-container>
@@ -73,7 +75,7 @@
             <img *ngIf="item.stageOfControlCode === 'HOLDING'" height="10" width="10" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="icon">
             <img *ngIf="item.stageOfControlCode === 'UNDR_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="icon">
             <img *ngIf="item.stageOfControlCode === 'OUT'" height="10" width="10" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon">
-            <span #el > {{convertToStageOfControlDescription(item.stageOfControlCode)}}</span>
+            <span #el> {{convertToStageOfControlDescription(item.stageOfControlCode)}}</span>
           </td>
         </ng-container>
 
@@ -93,9 +95,9 @@
         </ng-container>
 
         <ng-container matColumnDef = "fullDetails">
-            <th mat-header-cell *matHeaderCellDef mat-non-sort-header> Full Details</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="onWatchlist(item) ? removeFromWatchlist(item) : addToWatchlist(item)">
-                <button mat-flat-button (click)="selectIncident(item)">Full Details</button>
+            <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item">
+                <button class="cell-button" mat-flat-button (click)="selectIncident(item)">Full Details</button>
             </td>
         </ng-container>
 
