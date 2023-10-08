@@ -10,5 +10,5 @@ import { WildFiresListComponent } from "./wildfires-list.component";
   })
 
 export class WildFiresListComponentDesktop extends WildFiresListComponent {
-    columnsToDisplay = ["fireName", "lastUpdated", "stageOfControl", "fireCentreName", "location", "addToWatchlist", "viewMap"];
+    columnsToDisplay = ["fireName", "stageOfControl", "fireCentreName", "location", "lastUpdated", "viewMap", "fullDetails"];
 }
