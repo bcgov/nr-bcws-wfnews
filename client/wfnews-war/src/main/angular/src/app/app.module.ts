@@ -164,6 +164,9 @@ import { AreaRestrictionListComponent } from './components/wildfires-list-header
 import { AreaRestrictionListComponentDesktop } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component.desktop';
 import { EvacListComponent } from './components/wildfires-list-header/evac-list/evac-list.component';
 import { EvacListComponentDesktop } from './components/wildfires-list-header/evac-list/evac-list.component.desktop';
+import { AreaRestrictionListComponentMobile } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component.mobile';
+import { BansListComponentMobile } from './components/wildfires-list-header/bans-list/bans-list.component.mobile';
+import { EvacListComponentMobile } from './components/wildfires-list-header/evac-list/evac-list.component.mobile';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -230,10 +233,13 @@ export const DATE_FORMATS = {
         WildfiresListHeaderComponent,
         BansListComponent,
         BansListComponentDesktop,
+        BansListComponentMobile,
         AreaRestrictionListComponent,
         AreaRestrictionListComponentDesktop,
+        AreaRestrictionListComponentMobile,
         EvacListComponent,
         EvacListComponentDesktop,
+        EvacListComponentMobile,
         SafePipe,
         VideoGalleryPanel,
         VideoCardPanel,

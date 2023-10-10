@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { WFMapService } from '@app/services/wf-map.service';
+import { isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -13,6 +14,8 @@ import { AppConfigService } from '@wf1/core-ui';
 export class WildfiresListHeaderComponent {
 
   public selectedTab = 0
+
+  public isMobileView = isMobileView
 
   constructor(
     protected appConfigService: AppConfigService,

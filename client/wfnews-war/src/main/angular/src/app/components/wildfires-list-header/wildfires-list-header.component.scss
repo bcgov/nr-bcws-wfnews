@@ -76,3 +76,21 @@ p.dashboard-title{
   margin: 20px -20px 0px -20px;
   padding-top: 10px;
 }
+
+.mobile-container {
+  margin: 0px;
+}
+
+.mobile-list-button {
+  min-width: 200px;
+}
+
+.mobile-buttons-container {
+  padding: 10px 6px 6px 6px;
+  display: flex;
+  justify-content: left;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  margin: 0px;
+}

@@ -169,6 +169,11 @@ table tr:nth-child(even) td{
   flex-flow: row wrap;
 }
 
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
 .mat-column-name {
     width: 30%;
     font-size: 15px !important;
