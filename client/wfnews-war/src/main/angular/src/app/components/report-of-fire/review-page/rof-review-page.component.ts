@@ -55,7 +55,11 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    this.ionViewDidEnter()
+
+    // ping server every 10 minutes, then find any offline reports to be submitted if device is online
+    setInterval(() => {
+      this.ionViewDidEnter()
+    }, 600000);
   }
 
   selectedAnswer(page:any) {
@@ -256,15 +260,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     }
   }
 
-  ionViewDidEnter() {
-    const syncData = () => {
-      setInterval(function () {
-        // Invoke function every 10 minutes 
-        if (this.commonUtilityService.checkOnlineStatus)
-        this.commonUtilityService.syncDataWithServer()
-      }, 600000);
+  async ionViewDidEnter() {
+    // if server is reachable look for previously stored offline RoFs to be submitted 
+      await (this.commonUtilityService.checkOnlineStatus().then(result => {
+        if (result){
+            this.commonUtilityService.syncDataWithServer()
+        }
+      }));
   }
-}
 
 
 submitRof(){
