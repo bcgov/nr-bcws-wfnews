@@ -38,7 +38,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   url;
   displayLabel = "Simple Wildfires Search"
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentreName'}, { description: 'Name', code: 'incidentName'}, { description: 'Stage of Control', code: 'stageOfControlCode'}, { description: 'Last Updated', code: 'lastUpdatedTimestamp'}]
-  public selectedSortOrder = ''
+  public selectedSortValue = ''
   selectedFireCentreCode = "";
   wildfiresOfNoteInd = true;
   outOfControlFires = true;
@@ -146,9 +146,10 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
         stageOfControlList.push('UNDR_CNTRL')
       }
 
-      if (this.selectedSortOrder !== '') {
-        this.currentSort = this.selectedSortOrder
-        this.currentSortDirection = 'ASC'
+      if (this.selectedSortValue !== '') {
+        this.currentSort = this.selectedSortValue
+        this.currentSortDirection = this.currentSortDirection === 'ASC' ? 'DESC' : 'ASC'
+        this.selectedSortValue = ''
       }
 
       this.store.dispatch(searchWildfires(this.componentId, {

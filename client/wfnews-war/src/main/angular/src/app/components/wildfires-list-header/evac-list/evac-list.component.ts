@@ -13,8 +13,9 @@ import { haversineDistance } from '@app/services/wfnews-map.service/util';
 })
 export class EvacListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
-  public selectedSortOrder = ''
-  public sortOptions = [{ description: 'Name', code: 'name'}, { description: 'Event Type', code: 'eventType'}, { description: 'Status', code: 'status'}, { description: 'agency', code: 'agency'}, { description: 'Issued On', code: 'issuedOn'}]
+  public selectedSortValue = ''
+  public selectedSortOrder = 'DESC'
+  public sortOptions = [{ description: 'Name', code: 'name'}, { description: 'Status', code: 'status'}, { description: 'Agency', code: 'agency'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
 
   public order = true
@@ -79,8 +80,11 @@ export class EvacListComponent implements OnInit {
           })
         }
       }
-      if (this.selectedSortOrder !== '') {
-        evacData.sort((a,b) => (a[this.selectedSortOrder] > b[this.selectedSortOrder]) ? 1 : ((b[this.selectedSortOrder] > a[this.selectedSortOrder]) ? -1 : 0))
+      if (this.selectedSortValue !== '') {
+        this.selectedSortOrder = this.selectedSortOrder === 'ASC' ? 'DESC' : 'ASC'
+        const sortVal = this.selectedSortOrder === 'ASC' ? 1 : -1
+        evacData.sort((a,b) =>(a[this.selectedSortValue] > b[this.selectedSortValue]) ? sortVal : ((b[this.selectedSortValue] > a[this.selectedSortValue]) ? sortVal * -1 : 0))
+        this.selectedSortValue = ''
       }
       this.dataSource.data = evacData
       this.cdr.detectChanges()

@@ -20,11 +20,11 @@
                   class="rounded-select"
                   aria-label="Sort"
                   [options]="sortOptions"
-                  [selected]="selectedSortOrder"
-                  [(ngModel)]="selectedSortOrder"
+                  [selected]="selectedSortValue"
+                  [(ngModel)]="selectedSortValue"
                   (updated)="search()">
               <option value="">
-                  <span class="placeholder">Sort</span>
+                  <span class="placeholder">Sort By</span>
               </option>
               <option *ngFor = "let item of sortOptions" value="{{item.code}}">
                   <span>{{item.description}}</span>
