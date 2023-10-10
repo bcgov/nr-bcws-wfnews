@@ -27,6 +27,22 @@
                 </option>
             </select>
         </div>
+        <div class="field">
+          <select appWFSingleSelect appWFPlaceholder="Sort"
+                  class="rounded-select"
+                  aria-label="Sort"
+                  [options]="sortOptions"
+                  [selected]="selectedSortOrder"
+                  [(ngModel)]="selectedSortOrder"
+                  (updated)="doSearch()">
+              <option value="">
+                  <span class="placeholder">Sort</span>
+              </option>
+              <option *ngFor = "let item of sortOptions" value="{{item.code}}">
+                  <span>{{item.description}}</span>
+              </option>
+          </select>
+        </div>
     </div>
     <div class="stage-of-control-checkbox-group">
       <section class="checkbox-group">
@@ -102,8 +118,8 @@
         </ng-container>
 
         <ng-container matColumnDef = "viewMap">
-            <th mat-header-cell *matHeaderCellDef> View Map</th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span></td>
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span><span class="cell-label"> View Map</span></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>

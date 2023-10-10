@@ -118,6 +118,16 @@ table tr:nth-child(even) td{
     }
 }
 
+.cell-button {
+  width: 100% !important;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
 .filter-checkbox-group {
     margin-top: 13px !important;
     flex-basis: auto !important;
@@ -168,7 +178,7 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-name {
-    width: 20%;
+    width: 25%;
 }
 
 .mat-column-status {
@@ -203,4 +213,9 @@ table tr:nth-child(even) td{
 
 .status-label {
   margin-left: 5px;
+}
+
+.cell-label {
+  position: relative;
+  top: -7px;
 }

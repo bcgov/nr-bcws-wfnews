@@ -122,6 +122,16 @@ table tr:nth-child(even) td{
   border-radius: 20px !important;
 }
 
+.cell-button {
+  width: 100% !important;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
 .checkbox-label {
   font-size: 15px !important;
   font-weight: 600 !important;
@@ -167,38 +177,31 @@ table tr:nth-child(even) td{
   flex-flow: row wrap;
 }
 
-.mat-column-fireName {
-    width: 20%;
-}
-
-.mat-column-fireNumber {
-    width: 10%;
-}
-
-.mat-column-lastUpdated {
-    width: 10%;
-}
-
-.mat-column-stageOfControl {
-    width: 10%;
-}
-
-.mat-column-wildfireOfNote {
-    width: 10%;
-}
-
 .mat-column-fireCentre {
+    width: 15%;
+}
+
+.mat-column-type {
     width: 20%;
 }
 
-.mat-column-location {
-    width: 20%;
+.mat-column-details {
+    width: 30%;
 }
 
-.mat-column-addToWatchlist {
+.mat-column-issuedOn {
     width: 10%;
+}
+
+.mat-column-fullDetails {
+  width: 10%;
 }
 
 .mat-column-viewMap {
     width: 10%;
+}
+
+.cell-label {
+  position: relative;
+  top: -7px;
 }
