@@ -1,5 +1,5 @@
 import { NumberFormatStyle } from "@angular/common";
-import { Injectable } from "@angular/core";
+import { Injectable, Injector } from "@angular/core";
 import { Geolocation } from '@capacitor/geolocation';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { Observable } from "rxjs";
@@ -33,6 +33,7 @@ export class CommonUtilityService {
     private myLocation;
     private locationTime;
     private location;
+    private rofService
     private deg2rad(deg: number): number {
         return deg * (Math.PI / 180);
     }
@@ -45,8 +46,10 @@ export class CommonUtilityService {
         private http: HttpClient,
         private appConfigService: AppConfigService,
         private storage: Storage,
-        private reportOfFireService: ReportOfFireService
-        ) {}
+        private injector: Injector
+        ) {
+          setTimeout(() => this.rofService = injector.get(ReportOfFireService));
+        }
 
      getCurrentLocationPromise(): Promise<Position> {
         const self = this
@@ -181,9 +184,15 @@ export class CommonUtilityService {
         const bearing = Math.atan2(x, y);
         const bearingDegrees = this.rad2deg(bearing);
         return (bearingDegrees + 360) % 360;
+    }
+
+    formatDDM(decimal: number){
+        decimal = Math.abs(decimal);
+        let d = Math.abs(Math.trunc(decimal));
+        return d + "° " + (60 * (decimal - d)).toFixed(3) + "'";
       }
     
-      async checkOnlineStatus() {
+      async checkOnlineStatus(): Promise<boolean> {
         try {
           await this.pingSerivce().toPromise();
           return true;
@@ -197,11 +206,11 @@ export class CommonUtilityService {
         try {
           // Fetch and submit locally stored data
           const offlineReport = await this.storage.get('offlineReportData');
-    
+          
           if (offlineReport) {
             // Send the report to the server
-            const response = await this.reportOfFireService.submitOfflineReportToServer(offlineReport);
-    
+            const response = await this.rofService.submitOfflineReportToServer(offlineReport);
+            
             if (response.success) {
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
