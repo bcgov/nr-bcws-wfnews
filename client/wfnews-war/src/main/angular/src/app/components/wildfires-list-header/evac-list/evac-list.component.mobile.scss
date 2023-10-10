@@ -107,3 +107,43 @@ margin-right: 7px;
 .padding {
 padding-bottom: 24px;
 }
+
+.status-card {
+  &-order {
+    width: 194px;
+    height: 30px;
+    padding: 4px 16px 4px 16px;
+    border-radius: 4px;
+    margin-left: 30px;
+    margin-bottom: 8px;
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #98273B;
+    background: #FEF1F2;
+  }
+  &-alert {
+    width: 194px;
+    height: 30px;
+    padding: 4px 16px 4px 16px;
+    border-radius: 4px;
+    margin-left: 30px;
+    margin-bottom: 8px;
+    font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22px;
+    letter-spacing: 0em;
+    text-align: left;
+    background: #FCF3D4;
+    color: #7C5D11;
+  }
+}
+
+.status-icon {
+  position: relative;
+  top: 5px;
+}
