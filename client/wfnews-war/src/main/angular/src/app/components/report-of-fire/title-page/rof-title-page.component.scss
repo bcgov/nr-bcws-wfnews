@@ -6,3 +6,9 @@
 .rof-button-container{
     width: calc(100% - 96px);
 }
+
+@media (min-width: 1024px) {
+.rof-image {
+    height: 23vh;
+}
+}
