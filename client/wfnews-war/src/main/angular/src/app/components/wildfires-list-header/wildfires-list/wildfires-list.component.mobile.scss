@@ -74,8 +74,6 @@
   top: 5px;
 }
 
-.panel-card-container {}
-
 .panel-card {
   border-bottom: 1px solid #DEDEDE;
 }
@@ -110,4 +108,35 @@
 
 .padding {
   padding-bottom: 24px;
+}
+
+.status-icon {
+  position: relative;
+  top: 5px;
+}
+
+.fire-label-holder {
+  padding-left: 30px;
+}
+
+.fon-badge {
+  width: 181px;
+  height: 30px;
+  padding: 4px 16px 4px 16px;
+  border-radius: 4px;
+  margin-left: 30px;
+  margin-bottom: 8px;
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #98273B;
+  background: #FEF1F2;
+}
+
+.soc-icon-adjust {
+  position: relative;
+  left: 4px;
 }

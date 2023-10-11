@@ -295,4 +295,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }
   }
 
+  searchByLocation () {
+    
+  }
+
 }

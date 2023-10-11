@@ -1,0 +1,42 @@
+<div class="table-search-header flex-y-fixed">
+  <div class="search-and-filters">
+      <div class="field search-input">
+        <mat-icon class="search-icon" matSuffix>search</mat-icon>
+        <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
+      </div>
+      <button mat-fab matTooltip="Filter by Location" class="filter-button"
+        aria-label="By Location" (click)="searchByLocation(); $event.stopPropagation()">
+        <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
+      </button>
+      <button mat-fab matTooltip="Filter" class="filter-button"
+        aria-label="Filter">
+        <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/filter-button.svg'" alt="filter button" height="24" width="24" /></span>
+      </button>
+  </div>
+</div>
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngFor="let item of dataSource.data">
+  <div class="panel-card">
+    <div class="card-header" (click)="selectIncident(item)">
+      <span>{{item.incidentName}}</span> <span *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
+    </div>
+    <div *ngIf="item.fireOfNoteInd" class="fon-badge">
+      <img class="status-icon icon" height="20" width="20" src="/assets/images/local_fire_department.png" alt="Fire of Note">
+      Wildfire of Note
+    </div>
+    <div class="card-item">
+      <img *ngIf="item.stageOfControlCode === 'OUT_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="card-icon image-size soc-icon-adjust">
+      <img *ngIf="item.stageOfControlCode === 'HOLDING'" height="10" width="10" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="card-icon image-size soc-icon-adjust">
+      <img *ngIf="item.stageOfControlCode === 'UNDR_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="card-icon image-size soc-icon-adjust">
+      <img *ngIf="item.stageOfControlCode === 'OUT'" height="10" width="10" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="card-icon image-size soc-icon-adjust">
+      {{convertToStageOfControlDescription(item.stageOfControlCode)}}
+    </div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentreName}} Fire Centre</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/calendar-pin.svg'" alt="Issued On Icon" height="16" width="16" />Discovered On {{item.discoveryDate}}</div>
+    <div class="padding"></div>
+  </div>
+</div>
+<div class="padding"></div>
+<div class="padding"></div>
+</div>
+<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>

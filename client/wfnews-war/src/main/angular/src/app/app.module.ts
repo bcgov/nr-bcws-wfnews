@@ -167,6 +167,7 @@ import { EvacListComponentDesktop } from './components/wildfires-list-header/eva
 import { AreaRestrictionListComponentMobile } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component.mobile';
 import { BansListComponentMobile } from './components/wildfires-list-header/bans-list/bans-list.component.mobile';
 import { EvacListComponentMobile } from './components/wildfires-list-header/evac-list/evac-list.component.mobile';
+import { WildFiresListComponentMobile } from './components/wildfires-list-header/wildfires-list/wildfires-list.component.mobile';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -231,6 +232,7 @@ export const DATE_FORMATS = {
         IncidentOverviewPanel,
         SummaryPanel,
         WildfiresListHeaderComponent,
+        WildFiresListComponentMobile,
         BansListComponent,
         BansListComponentDesktop,
         BansListComponentMobile,

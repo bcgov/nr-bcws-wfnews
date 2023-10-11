@@ -79,6 +79,8 @@ p.dashboard-title{
 
 .mobile-container {
   margin: 0px;
+  // overflow: auto;
+  // height: 100vh;
 }
 
 .mobile-list-button {
@@ -93,4 +95,8 @@ p.dashboard-title{
   overflow-y: hidden;
   white-space: nowrap;
   margin: 0px;
+  position: sticky;
+  top: -1px;
+  z-index: 100;
+  background-color: white;
 }

@@ -27,6 +27,21 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
+  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
+    let url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&orderBy=${orderBy}`;
+
+    if (searchText && searchText.length) {
+      url += `&searchText=${searchText}`
+    }
+
+    if (stageOfControl && stageOfControl.length > 0) {
+      for (const soc of stageOfControl) {
+        url += `&stageOfControlList=${soc}`
+      }
+    }
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
   // published incident guid, WF Incident Guid, WF year and incident sequence number?
   public fetchPublishedIncident (guid: string, fireYear: string = null): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/${guid}${fireYear ? '?fireYear=' + fireYear : ''}`;
