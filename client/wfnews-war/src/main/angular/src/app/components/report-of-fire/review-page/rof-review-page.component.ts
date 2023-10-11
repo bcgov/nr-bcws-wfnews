@@ -56,10 +56,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
 
-    // ping server every 10 minutes, then find any offline reports to be submitted if device is online
+    // ping server every 5 minutes, then find any offline reports to be submitted if device is online
     setInterval(() => {
       this.ionViewDidEnter()
-    }, 600000);
+    }, 300000);
   }
 
   selectedAnswer(page:any) {
