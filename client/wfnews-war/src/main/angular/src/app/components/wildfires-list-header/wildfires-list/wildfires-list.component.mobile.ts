@@ -6,11 +6,10 @@ import { ResourcesRoutes, convertFireNumber, convertToStageOfControlDescription 
 import moment from "moment";
 
 @Component({
-    selector: 'wf-list-container-mobile',
-    templateUrl: './wildfires-list.component.mobile.html',
-    styleUrls: ['./wildfires-list.component.mobile.scss']
-  })
-@HostListener("window:scroll", ["$event"])
+  selector: 'wf-list-container-mobile',
+  templateUrl: './wildfires-list.component.mobile.html',
+  styleUrls: ['./wildfires-list.component.mobile.scss']
+})
 export class WildFiresListComponentMobile {
   public dataSource = new MatTableDataSource<any>();
   public selectedSortValue = ''
@@ -18,10 +17,12 @@ export class WildFiresListComponentMobile {
   public searchText
   public keepPaging = true
   public page = 0
-  public rowCount = 9999
+  public rowCount = 10
 
   public order = true
   public alert = true
+
+  private searchTimer
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription
@@ -35,6 +36,7 @@ export class WildFiresListComponentMobile {
 
   async search() {
     if (this.keepPaging) {
+      this.page += 1
       this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, this.searchText === '' && this.searchText.length ? null : this.searchText, true).subscribe(incidents => {
         console.log(incidents);
         const incidentData = []
@@ -50,7 +52,11 @@ export class WildFiresListComponentMobile {
               discoveryDate: this.convertToDate(element.discoveryDate),
               fireYear: element.fireYear
             })
+
+            this.keepPaging = this.page !== incidents.totalPageCount
           }
+        } else {
+          this.keepPaging = false
         }
 
         this.dataSource.data = this.dataSource.data.concat(incidentData)
@@ -64,13 +70,22 @@ export class WildFiresListComponentMobile {
     // pass to search
     this.dataSource.data = []
     this.page = 0
+    this.keepPaging = true
     this.search()
   }
 
   searchByText() {
-    this.dataSource.data = []
-    this.page = 0
-    this.search()
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.dataSource.data = []
+      this.page = 0
+      this.keepPaging = true
+      this.search()
+    }, 1000)
   }
 
   convertToDate(value: string) {
@@ -79,11 +94,7 @@ export class WildFiresListComponentMobile {
     }
   }
 
-  viewMap(ban: any) {
-  }
-
-  showDetails(ban: any) {
-
+  viewMap(incident: any) {
   }
 
   sortData (event: any) {
