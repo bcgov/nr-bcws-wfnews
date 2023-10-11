@@ -36,7 +36,7 @@
   }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 675px) {
   .rof-text-primary-header{
     font-size: 3.85vh !important;
     margin: 10px 0px !important;
@@ -201,8 +201,17 @@
     border: none;
     border-radius: 8px;
     height: 81px;
-    @media (max-height: 700px){
+    @media (max-height: 800px) and (min-height: 750px){
       height: 9vh !important;
+    }
+    @media (max-height: 749px) and (min-height: 700px){
+      height: 8vh !important;
+    }
+    @media (max-height: 699px) and (min-height: 625px){
+      height: 7vh !important;
+    }
+    @media (max-height: 624px){
+      height: 6vh !important;
     }
   }
   .mat-button-toggle-appearance-standard {
