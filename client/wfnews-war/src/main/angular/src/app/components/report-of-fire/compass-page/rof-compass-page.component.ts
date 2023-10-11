@@ -39,14 +39,14 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  if ('AbsoluteOrientationSensor' in window && 'ontouchstart' in window) {
-    // setup real compass thing
+  // if ('AbsoluteOrientationSensor' in window && 'ontouchstart' in window) {
+  //   // setup real compass thing
     this.getOrientation();
     this.useMyCurrentLocation();
-  } else {
-    // skip compass
-    this.skip()
-  }
+  // } else {
+  //   // skip compass
+  //   this.skip()
+  // }
 }
 
 async getOrientation() {
