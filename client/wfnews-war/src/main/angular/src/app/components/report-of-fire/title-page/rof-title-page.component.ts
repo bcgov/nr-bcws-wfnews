@@ -47,9 +47,9 @@ export class RoFTitlePage extends RoFPage {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this
         setInterval(function () {
-          // Invoke function every 10 minutes while app is in background
+          // Invoke function every 5 minutes while app is in background
           self.runBackground();
-        }, 600000);
+        }, 300000);
         BackgroundTask.finish({ taskId });
       });
     });
