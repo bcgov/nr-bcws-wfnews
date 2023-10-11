@@ -57,7 +57,8 @@
         "newsLocal": "#{WFNEWS_API_URL}#",
         "wfnews": "#{WFNEWS_API_URL}#",
         "wfdm": "#{WFDM_API_URL}#",
-        "pointId": "#{POINT_ID_URL}#"
+        "pointId": "#{POINT_ID_URL}#",
+        "fire-report-api": "#{FIRE_REPORT_API_URL}#"
     },
 
     "webade": {
