@@ -2,7 +2,7 @@
   <div class="search-and-filters">
       <div class="field search-input">
         <mat-icon class="search-icon" matSuffix>search</mat-icon>
-        <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="search()">
+        <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
       </div>
       <button mat-fab matTooltip="Filter by Location" class="filter-button"
         aria-label="By Location" (click)="searchByLocation(); $event.stopPropagation()">

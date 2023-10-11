@@ -17,7 +17,7 @@ export class EvacListComponent implements OnInit {
   public selectedSortOrder = 'DESC'
   public sortOptions = [{ description: 'Name', code: 'name'}, { description: 'Status', code: 'status'}, { description: 'Agency', code: 'agency'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
-
+  public searchTimer
   public order = true
   public alert = true
 
@@ -111,5 +111,16 @@ export class EvacListComponent implements OnInit {
 
   sortData (event: any) {
     this.cdr.detectChanges()
+  }
+
+  searchByText() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.search()
+    }, 1000)
   }
 }

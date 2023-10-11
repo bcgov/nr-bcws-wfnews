@@ -18,7 +18,7 @@ export class BansListComponent implements OnInit {
   public category1 = true
   public category2 = true
   public category3 = true
-
+  public searchTimer
   columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
 
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef ) {}
@@ -101,5 +101,16 @@ export class BansListComponent implements OnInit {
 
   sortData (event: any) {
     this.cdr.detectChanges()
+  }
+
+  searchByText() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.search()
+    }, 1000)
   }
 }

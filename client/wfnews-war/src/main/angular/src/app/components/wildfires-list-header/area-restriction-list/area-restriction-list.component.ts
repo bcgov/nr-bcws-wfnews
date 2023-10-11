@@ -17,7 +17,7 @@ export class AreaRestrictionListComponent implements OnInit {
   public selectedSortOrder = 'DESC'
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
-
+  public searchTimer
   columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService ) {}
@@ -86,5 +86,16 @@ export class AreaRestrictionListComponent implements OnInit {
 
   sortData (event: any) {
     this.cdr.detectChanges()
+  }
+
+  searchByText() {
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer)
+      this.searchTimer = null
+    }
+
+    this.searchTimer = setTimeout(() => {
+      this.search()
+    }, 1000)
   }
 }
