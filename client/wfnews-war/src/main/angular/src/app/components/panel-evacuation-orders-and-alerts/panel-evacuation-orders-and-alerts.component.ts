@@ -77,7 +77,7 @@ export class PanelEvacuationOrdersAndAlertsComponent implements OnInit {
   }
 
   getEvacOrders () {
-    this.agolService.getEvacOrders(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+    this.agolService.getEvacOrders(null, null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
