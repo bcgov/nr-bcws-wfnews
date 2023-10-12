@@ -8,7 +8,7 @@
       <div class="dialog-title">Sort By</div>
       <button [class]="'radius-button' + (filterData.sortColumn === 'incidentName' ? '-selected' : '')" (click)="setSortColumn('incidentName')" mat-flat-button ><span class="list-button-label">Wildfire Name</span></button>
       <button [class]="'radius-button' + (filterData.sortColumn === 'fireCentreName' ? '-selected' : '')" (click)="setSortColumn('fireCentreName')" mat-flat-button ><span class="list-button-label">Fire Centre</span></button>
-      <button [class]="'radius-button' + (filterData.sortColumn === 'lastUpdatedTimestamp' ? '-selected' : '')" (click)="setSortColumn('lastUpdatedTimestamp')" mat-flat-button ><span class="list-button-label">Last Update Time</span></button>
+      <button [class]="'radius-button' + (filterData.sortColumn === 'lastUpdatedTimestamp' ? '-selected' : '')" (click)="setSortColumn('lastUpdatedTimestamp')" mat-flat-button ><span class="list-button-label">Last Update</span></button>
     </div>
     <div class="radius-panel">
       <div class="dialog-title">Sort By Direction</div>
@@ -16,12 +16,12 @@
       <button [class]="'radius-button' + (filterData.sortDirection === 'DESC' ? '-selected' : '')" (click)="setSortDirection('DESC')" mat-flat-button ><span class="list-button-label">Descending</span></button>
     </div>
     <div class="radius-panel">
-      <div class="dialog-title">Filter By Wildfire Type</div>
-      <button [class]="'radius-button' + (filterData.fireOfNoteInd ? '-selected' : '')" (click)="setFireOfNoteInd()" mat-flat-button ><span class="list-button-label">Wildfire of Note</span></button>
-      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('OUT_CNTRL')" mat-flat-button ><span class="list-button-label">Out of Control</span></button>
-      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('HOLDING') ? '-selected' : '')" (click)="setStageOfControl('HOLDING')" mat-flat-button ><span class="list-button-label">Being Held</span></button>
-      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('UNDR_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('UNDR_CNTRL')" mat-flat-button ><span class="list-button-label">Under Control</span></button>
-      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT') ? '-selected' : '')" (click)="setStageOfControl('OUT')" mat-flat-button ><span class="list-button-label">Out</span></button>
+      <div class="dialog-title">Filter By Stage of Control</div>
+      <button [class]="'radius-button' + (filterData.fireOfNoteInd ? '-selected' : '')" (click)="setFireOfNoteInd()" mat-flat-button ><img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span class="list-button-label">Wildfire of Note</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('OUT_CNTRL')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"><span class="list-button-label">Out of Control</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('HOLDING') ? '-selected' : '')" (click)="setStageOfControl('HOLDING')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/being-held.svg" alt="Holding" class="icon"><span class="list-button-label">Being Held</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('UNDR_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('UNDR_CNTRL')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"><span class="list-button-label">Under Control</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT') ? '-selected' : '')" (click)="setStageOfControl('OUT')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon"><span class="list-button-label">Out</span></button>
     </div>
     <div class="radius-panel">
       <div class="dialog-title">Filter By Fire Centre</div>
