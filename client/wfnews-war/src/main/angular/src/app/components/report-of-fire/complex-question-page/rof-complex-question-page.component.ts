@@ -115,8 +115,17 @@ export class RoFComplexQuestionPage extends RoFPage {
   }
 
   previousPage() {
-    if (this.id === 'distance-page') this.reportOfFire.headingDetectionActive = true;
-    this.previous();
+    if (this.id === 'distance-page'){
+      this.reportOfFire.headingDetectionActive = true;
+      if (this.reportOfFire.motionSensor) {
+        this.previous();
+      } else{
+        this.reportOfFirePage.selectPage('callback-page',null,false)
+        this.reportOfFirePage.currentStep--;
+      }
+    } else {
+      this.previous();
+    }
   }
 
 }

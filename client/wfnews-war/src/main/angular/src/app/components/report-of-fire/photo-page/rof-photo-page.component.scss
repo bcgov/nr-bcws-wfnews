@@ -18,9 +18,10 @@
         border-radius: 8px;
         background: #F1F1F1;
         border-width: inherit;
-        @media (max-height: 700px) {
-            height: 20vh !important;
-          }
+        @media (min-width: 1024px) and (max-height:735px){
+            height: 10vh !important;
+        }
+        
     }
     span{
         color: #000;
@@ -66,7 +67,12 @@
     }
 
     .image{
-        height: 25vh;
+        @media (min-width: 1024px) and (max-height: 699px){
+            height: 20vh;
+        }
+        @media (min-height: 700px){
+             height: 25vh;
+        }
 
         &-fullScreen {
             object-fit: contain;
@@ -105,4 +111,15 @@
     &-enabled {
        color: #000 !important;
     }
+}
+
+@media (min-width: 1024px) and (max-height: 735px){
+    .take-photo {
+        display: none;
+    }
+
+    .library-photo {
+        display: none;
+    }
+
 }
