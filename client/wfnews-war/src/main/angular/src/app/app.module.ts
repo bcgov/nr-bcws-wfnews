@@ -90,7 +90,6 @@ import { UploadImageDialogComponent } from './components/admin-incident-form/ima
 import { ImageCardPanel } from './components/admin-incident-form/image-gallery-panel/image-card-component/image-card-panel.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
 import { ResourcePanelComponent } from './components/wildfire-resources/resource-panel/resource-panel.component';
-import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 import { LightgalleryModule } from 'lightgallery/angular/13';
 import { PointIdService } from "./services/point-id.service";
@@ -171,6 +170,7 @@ import { WildFiresListComponentMobile } from './components/wildfires-list-header
 import { FilterByLocationDialogComponent } from './components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { FilterOptionsDialogComponent } from './components/wildfires-list-header/filter-options-dialog/filter-options-dialog.component';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
+import { Dashboard } from './components/dashboard-component/dashboard.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -216,7 +216,7 @@ export const DATE_FORMATS = {
         PublishDialogComponent,
         UnsavedChangesDialog,
         ImageCardPanel,
-        WFStatsComponent,
+        Dashboard,
         WeatherPanelComponent,
         WildfirewResourcesComponent,
         ResourcePanelComponent,

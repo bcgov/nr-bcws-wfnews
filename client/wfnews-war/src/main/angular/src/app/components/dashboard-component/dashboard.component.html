@@ -1,0 +1,20 @@
+<div class="container" style="height: auto !important;">
+  <div class="header-row">
+    <img height="44" width="47" src="/assets/images/svg-icons/bc-logo.svg" alt="Order" class="icon">
+    <div class="title">
+        <h1>B.C. Wildfire Dashboard</h1>
+    </div>
+  </div>
+  <div class="content">
+    <div class="tabs">
+      <button [class]="'tab-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><span class="tab-button-label">Current Situation</span></button>
+      <button [class]="'right-tab tab-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><span class="tab-button-label">Totals this Year</span></button>
+    </div>
+    <div id="current-stats-page" *ngIf="selectedTab === 0" class="panel-container">
+
+    </div>
+    <div id="totals-page" *ngIf="selectedTab === 1" class="panel-container">
+
+    </div>
+  </div>
+</div>
