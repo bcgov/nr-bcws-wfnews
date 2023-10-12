@@ -114,7 +114,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         if (page.showProgress && !this.progressSteps.includes(page.title)) {
           this.progressSteps.push(page.title)
         }
-
         // button definitions for go back, next question, and skip question.
         component.instance.previous = () => { this.selectPage(component.instance.previousId, PageOperation.previous) }
         component.instance.next = () => { this.selectPage(component.instance.nextId, PageOperation.Next) }
@@ -311,8 +310,15 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
-    if (this.currentPage.instance.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
-    if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
+    if (this.currentPage.instance.id === 'callback-page' || this.currentPage.instance.id === 'contact-page') {
+      this.reportOfFire.headingDetectionActive = true;
+      if (!this.reportOfFire.motionSensor) {
+        this.selectPage('distance-page',null,false);
+      } else {
+        this.currentPage.instance.skip();
+      }
+    }
+    else if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
       this.currentPage.instance.skip();
     }
   }
