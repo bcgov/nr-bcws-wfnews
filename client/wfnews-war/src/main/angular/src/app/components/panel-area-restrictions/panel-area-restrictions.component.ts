@@ -70,7 +70,7 @@ export class PanelAreaRestrictionsComponent implements OnInit {
   }
 
   getAreaRestrictions () {
-    this.agolService.getAreaRestrictions(null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+    this.agolService.getAreaRestrictions(null, null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push({

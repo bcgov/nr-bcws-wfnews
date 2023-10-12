@@ -1,0 +1,25 @@
+<div class="table-search-header flex-y-fixed">
+  <div class="search-and-filters">
+      <div class="field search-input">
+        <mat-icon class="search-icon" matSuffix>search</mat-icon>
+        <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
+      </div>
+      <button mat-fab matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
+        <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
+      </button>
+  </div>
+</div>
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngFor="let item of dataSource.data" class="panel-card-container">
+  <div class="panel-card">
+    <div class="card-header">{{item.type}}</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentre}} Fire Centre</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/ban-icon.svg'" alt="Issued On Icon" height="16" width="16" />{{item.details}}</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/calendar-pin.svg'" alt="Issued On Icon" height="16" width="16" />Issued On {{item.issuedOn}}</div>
+    <div class="padding"></div>
+  </div>
+</div>
+<div class="padding"></div>
+<div class="padding"></div>
+</div>
+<ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

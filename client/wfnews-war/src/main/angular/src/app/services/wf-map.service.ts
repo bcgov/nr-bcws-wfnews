@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConfigService } from '@wf1/core-ui';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
@@ -11,6 +12,10 @@ export class WFMapService {
     private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
     identifyCallback;
     identifyDoneCallback;
+
+    constructor(protected appConfigService: AppConfigService) {
+        
+    }
 
     setHandler( id, method, handler ): Promise<any> {
         const SMK = window[ 'SMK' ];
@@ -568,7 +573,11 @@ export class WFMapService {
                 console.log( 'done patching SMK' );
             } );
 }
-
+        console.log("WFNEWS application config = " + JSON.stringify(this.appConfigService.getConfig().application))
+        console.log("WFNEWS externalApplication config = " + JSON.stringify(this.appConfigService.getConfig().externalAppConfig))
+        console.log("WFNEWS mapService config = " + JSON.stringify(this.appConfigService.getConfig()['mapServices']))
+        console.log("WFNEWS rest config = " + JSON.stringify(this.appConfigService.getConfig().rest))
+        console.log("WFNEWS webade config = " + JSON.stringify(this.appConfigService.getConfig().webade))
         return this.patchPromise;
     }
         catch (error) {

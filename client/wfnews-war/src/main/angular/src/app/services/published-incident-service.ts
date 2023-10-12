@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
@@ -24,6 +25,32 @@ export class PublishedIncidentService {
 
   public fetchPublishedIncidents (pageNum: number = 0, rowCount: number = 9999, fireOfNote = false, out = false, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     const url = out ? `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=true` : `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=false&orderBy=${orderBy}&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
+  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, location: LocationData | null = null, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], fireCentreCode: number | null = null, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
+    let url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&orderBy=${orderBy}`;
+
+    if (searchText && searchText.length) {
+      url += `&searchText=${searchText}`
+    }
+
+    if (stageOfControl && stageOfControl.length > 0) {
+      for (const soc of stageOfControl) {
+        url += `&stageOfControlList=${soc}`
+      }
+    }
+
+    if (location && location.radius) {
+      url += `&latitude=${location.latitude}`
+      url += `&longitude=${location.longitude}`
+      url += `&radius=${location.radius * 1000}`
+    }
+
+    if (fireCentreCode) {
+      url += `&fireCentreCode=${fireCentreCode}`
+    }
+
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
