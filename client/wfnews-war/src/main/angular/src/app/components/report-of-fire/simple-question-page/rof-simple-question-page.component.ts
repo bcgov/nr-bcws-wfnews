@@ -87,12 +87,24 @@ export class RoFSimpleQuestionPage extends RoFPage {
   }
   
   nextPage(){
-    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
-    this.next();
+    if (this.id === 'callback-page') {
+      this.reportOfFire.headingDetectionActive = true;
+      this.next();
+    }
   }
 
   skipPage(){
-    if (this.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
-    this.skip();
+    if (this.id === 'callback-page') {
+      this.reportOfFire.headingDetectionActive = true;
+      if (this.motionSensor) {
+        this.skip();
+      } else {
+        this.reportOfFirePage.selectPage('distance-page',null,false);
+      }
+    }
+    else{
+      this.skip();
+
+    }
   }
 }

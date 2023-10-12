@@ -189,6 +189,7 @@ jobs:
           upload-to-play-store: ${{ inputs.upload_to_play_store }}
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
+          release-status: "completed"
 
       - uses: actions/upload-artifact@v3
         name: Upload Build Artifact to GitHub
