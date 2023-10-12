@@ -96,7 +96,7 @@ export class RoFSimpleQuestionPage extends RoFPage {
   skipPage(){
     if (this.id === 'callback-page') {
       this.reportOfFire.headingDetectionActive = true;
-      if (this.reportOfFire.motionSensor) {
+      if (this.reportOfFire.motionSensor === 'yes') {
         this.skip();
       } else {
         this.reportOfFirePage.selectPage('distance-page',null,false);

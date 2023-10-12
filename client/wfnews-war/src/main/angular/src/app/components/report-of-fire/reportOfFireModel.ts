@@ -28,5 +28,5 @@ export class ReportOfFire {
   public currentLocation: Array<number> = [0, 0];
   public compassHeading: number = 0;
   public headingDetectionActive: boolean;
-  public motionSensor: boolean;
+  public motionSensor: string;
 }

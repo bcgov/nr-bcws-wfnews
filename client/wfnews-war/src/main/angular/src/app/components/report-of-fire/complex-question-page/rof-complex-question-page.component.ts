@@ -117,7 +117,7 @@ export class RoFComplexQuestionPage extends RoFPage {
   previousPage() {
     if (this.id === 'distance-page'){
       this.reportOfFire.headingDetectionActive = true;
-      if (this.reportOfFire.motionSensor) {
+      if (this.reportOfFire.motionSensor === 'yes') {
         this.previous();
       } else{
         this.reportOfFirePage.selectPage('callback-page',null,false)

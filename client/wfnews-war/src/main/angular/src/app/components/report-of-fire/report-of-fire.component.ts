@@ -312,7 +312,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   skip () {
     if (this.currentPage.instance.id === 'callback-page' || this.currentPage.instance.id === 'contact-page') {
       this.reportOfFire.headingDetectionActive = true;
-      if (!this.reportOfFire.motionSensor) {
+      if (this.reportOfFire.motionSensor === 'no') {
         this.selectPage('distance-page',null,false);
       } else {
         this.currentPage.instance.skip();

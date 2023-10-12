@@ -48,7 +48,7 @@ export class RoFContactPage extends RoFPage {
   }
 
   nextPage() {
-    if (this.reportOfFire.motionSensor) {
+    if (this.reportOfFire.motionSensor === 'yes') {
       this.next();
     } else{
       this.reportOfFirePage.selectPage('distance-page',null,false)
