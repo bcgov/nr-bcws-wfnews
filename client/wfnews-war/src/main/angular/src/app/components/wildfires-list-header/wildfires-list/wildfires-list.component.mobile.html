@@ -4,12 +4,10 @@
         <mat-icon class="search-icon" matSuffix>search</mat-icon>
         <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
       </div>
-      <button mat-fab matTooltip="Filter by Location" class="filter-button"
-        aria-label="By Location" (click)="openLocationFilter()">
+      <button mat-fab matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
         <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
       </button>
-      <button mat-fab matTooltip="Filter" class="filter-button"
-        aria-label="Filter">
+      <button mat-fab matTooltip="Filter" class="filter-button" aria-label="Filter" (click)="filterOptions()">
         <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/filter-button.svg'" alt="filter button" height="24" width="24" /></span>
       </button>
   </div>
@@ -43,4 +41,4 @@
 <div class="padding"></div>
 <div class="padding"></div>
 </div>
-<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>
+<ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

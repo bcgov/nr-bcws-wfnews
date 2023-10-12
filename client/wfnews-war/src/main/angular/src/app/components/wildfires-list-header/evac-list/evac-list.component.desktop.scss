@@ -228,3 +228,9 @@ table tr:nth-child(even) td{
 .right-align {
   margin-left: auto !important;
 }
+
+.spinner-position {
+  position: relative;
+  left: 50vw;
+  top: 20px;
+}

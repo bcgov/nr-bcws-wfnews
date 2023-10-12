@@ -7,10 +7,6 @@
         <button mat-fab matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
           <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
         </button>
-        <button mat-fab matTooltip="Filter" class="filter-button"
-          aria-label="Filter">
-          <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/filter-button.svg'" alt="filter button" height="24" width="24" /></span>
-        </button>
     </div>
 </div>
 <div *ngIf="dataSource && dataSource.data.length > 0; else loading">
@@ -26,4 +22,4 @@
   <div class="padding"></div>
   <div class="padding"></div>
 </div>
-<ng-template #loading><mat-spinner [diameter]="40"></mat-spinner></ng-template>
+<ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

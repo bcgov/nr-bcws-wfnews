@@ -7,7 +7,7 @@
   background-color: white !important;
   border-top: none !important;
   display: block !important;
-  padding-left: 10px;
+  padding-left: 20px;
   padding-bottom: 24px;
   border-bottom: 1px solid #dedede;
 
@@ -38,6 +38,7 @@
   background-color: white !important;
   height: 36px;
   width: 36px;
+  box-shadow: none;
 }
 
 .search-and-filters {
@@ -151,4 +152,10 @@
 .status-icon {
   position: relative;
   top: 5px;
+}
+
+.spinner-position {
+  position: relative;
+  left: 50vw;
+  top: 20px;
 }

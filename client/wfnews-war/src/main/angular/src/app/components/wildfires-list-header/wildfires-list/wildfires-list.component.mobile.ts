@@ -8,6 +8,7 @@ import { ResourcesRoutes, convertFireNumber, convertToStageOfControlDescription 
 import moment from "moment";
 import { Observable } from "rxjs";
 import { FilterByLocationDialogComponent, LocationData } from "../filter-by-location/filter-by-location-dialog.component";
+import { FilterData, FilterOptionsDialogComponent } from "../filter-options-dialog/filter-options-dialog.component";
 
 @Component({
   selector: 'wf-list-container-mobile',
@@ -28,6 +29,9 @@ export class WildFiresListComponentMobile {
 
   private searchTimer
 
+  private filters = new FilterData
+  private lastLocation: LocationData
+
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription
 
@@ -42,8 +46,7 @@ export class WildFiresListComponentMobile {
   async search(location: LocationData | null = null) {
     if (this.keepPaging) {
       this.page += 1
-      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, location, this.searchText === '' && this.searchText.length ? null : this.searchText, true).subscribe(incidents => {
-        console.log(incidents);
+      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, location, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters?.fireOfNoteInd, this.filters?.stagesOfControl || null, this.filters?.fireCentre || null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
         const incidentData = []
         if (incidents && incidents.collection) {
           for (const element of incidents.collection) {
@@ -71,8 +74,9 @@ export class WildFiresListComponentMobile {
   }
 
   openLocationFilter () {
+    this.lastLocation = null
     const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
-      width: '311px',
+      width: '380px',
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
@@ -82,7 +86,7 @@ export class WildFiresListComponentMobile {
       if (size.matches) {
         dialogRef.updateSize('100%', '100%');
       } else {
-        dialogRef.updateSize('311px', '453px');
+        dialogRef.updateSize('380px', '453px');
       }
     });
 
@@ -91,6 +95,7 @@ export class WildFiresListComponentMobile {
       this.dataSource.data = []
       this.page = 0
       this.keepPaging = true
+      this.lastLocation = result
       this.search(result)
     });
   }
@@ -105,6 +110,7 @@ export class WildFiresListComponentMobile {
       this.dataSource.data = []
       this.page = 0
       this.keepPaging = true
+      this.lastLocation = null
       this.search()
     }, 1000)
   }
@@ -120,6 +126,36 @@ export class WildFiresListComponentMobile {
 
   sortData (event: any) {
     this.cdr.detectChanges()
+  }
+
+  filterOptions () {
+    const dialogRef = this.dialog.open(FilterOptionsDialogComponent, {
+      width: '450px',
+      height: '650px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: this.filters
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('450px', '650px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: FilterData | boolean) => {
+      smallDialogSubscription.unsubscribe();
+      if ((result as boolean) !== false) {
+        this.dataSource.data = []
+        this.page = 0
+        this.keepPaging = true
+
+        this.filters = result as FilterData
+        this.search(this.lastLocation)
+      }
+    });
   }
 
   selectIncident(incident: any) {

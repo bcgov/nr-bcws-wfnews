@@ -55,7 +55,7 @@ export class AGOLService {
       if (location.radius) {
         const turf = window['turf']
         const point = turf.point([location.x, location.y])
-        const buffered = turf.buffer(point, location.radius * 1000, { units:'kilometers' })
+        const buffered = turf.buffer(point, location.radius, { units:'kilometers' })
         const bbox = turf.bbox(buffered)
 
         url += `&geometry=${bbox}`
@@ -98,7 +98,7 @@ export class AGOLService {
       if (location.radius) {
         const turf = window['turf']
         const point = turf.point([location.x, location.y])
-        const buffered = turf.buffer(point, location.radius * 1000, { units:'kilometers' })
+        const buffered = turf.buffer(point, location.radius, { units:'kilometers' })
         const bbox = turf.bbox(buffered)
 
         url += `&geometry=${bbox}`
@@ -143,7 +143,7 @@ export class AGOLService {
       if (location.radius) {
         const turf = window['turf']
         const point = turf.point([location.x, location.y])
-        const buffered = turf.buffer(point, location.radius * 1000, { units:'kilometers' })
+        const buffered = turf.buffer(point, location.radius, { units:'kilometers' })
         const bbox = turf.bbox(buffered)
 
         url += `&geometry=${bbox}`

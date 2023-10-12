@@ -88,7 +88,7 @@ p.dashboard-title{
 }
 
 .mobile-buttons-container {
-  padding: 10px 6px 6px 6px;
+  padding: 10px 6px 6px 15px;
   display: flex;
   justify-content: left;
   overflow-x: auto;
@@ -99,4 +99,10 @@ p.dashboard-title{
   top: -1px;
   z-index: 100;
   background-color: white;
+}
+
+.spinner-position {
+  position: relative;
+  left: 50vw;
+  top: 20px;
 }

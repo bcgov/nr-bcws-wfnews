@@ -259,7 +259,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   openLocationFilter () {
     const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
-      width: '311px',
+      width: '380px',
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
@@ -269,7 +269,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       if (size.matches) {
         dialogRef.updateSize('100%', '100%');
       } else {
-        dialogRef.updateSize('311px', '453px');
+        dialogRef.updateSize('380px', '453px');
       }
     });
 
