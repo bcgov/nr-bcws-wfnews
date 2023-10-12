@@ -16,6 +16,8 @@ import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { RoFDisclaimerPage } from "./disclaimer-page/rof-disclaimer-page.component";
 import { RofCallPage } from "@app/components/report-of-fire/rof-callback-page/rof-call-page.component";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogExitComponent } from "@app/components/report-of-fire/dialog-exit/dialog-exit.component";
 
 enum PageOperation {
   Next = 1,
@@ -50,7 +52,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService) {
+  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, protected dialog: MatDialog) {
     this.pageComponents = [];
   }
 
@@ -290,7 +292,16 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.isEditMode = false;
       this.cdr.detectChanges();
     }else {
-      this.router.navigateByUrl('/map')
+        let dialogRef = this.dialog.open(DialogExitComponent, {
+          autoFocus: false,
+          width: '80vw',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result['exit']) {
+            this.router.navigateByUrl('/map')
+          }
+        });
     }
   }
 
