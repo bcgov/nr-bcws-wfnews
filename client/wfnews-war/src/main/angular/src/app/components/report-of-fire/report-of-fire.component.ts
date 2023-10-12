@@ -16,6 +16,8 @@ import { RoFCompassPage } from "./compass-page/rof-compass-page.component";
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { RoFDisclaimerPage } from "./disclaimer-page/rof-disclaimer-page.component";
 import { RofCallPage } from "@app/components/report-of-fire/rof-callback-page/rof-call-page.component";
+import { MatDialog } from "@angular/material/dialog";
+import { DialogExitComponent } from "@app/components/report-of-fire/dialog-exit/dialog-exit.component";
 
 enum PageOperation {
   Next = 1,
@@ -50,7 +52,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService) {
+  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, protected dialog: MatDialog) {
     this.pageComponents = [];
   }
 
@@ -112,7 +114,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         if (page.showProgress && !this.progressSteps.includes(page.title)) {
           this.progressSteps.push(page.title)
         }
-
         // button definitions for go back, next question, and skip question.
         component.instance.previous = () => { this.selectPage(component.instance.previousId, PageOperation.previous) }
         component.instance.next = () => { this.selectPage(component.instance.nextId, PageOperation.Next) }
@@ -291,7 +292,16 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.isEditMode = false;
       this.cdr.detectChanges();
     }else {
-      this.router.navigateByUrl('/map')
+        let dialogRef = this.dialog.open(DialogExitComponent, {
+          autoFocus: false,
+          width: '80vw',
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result['exit']) {
+            this.router.navigateByUrl('/map')
+          }
+        });
     }
   }
 
@@ -300,8 +310,15 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
-    if (this.currentPage.instance.id === 'callback-page') this.reportOfFire.headingDetectionActive = true;
-    if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
+    if (this.currentPage.instance.id === 'callback-page' || this.currentPage.instance.id === 'contact-page') {
+      this.reportOfFire.headingDetectionActive = true;
+      if (this.reportOfFire.motionSensor === 'no') {
+        this.selectPage('distance-page',null,false);
+      } else {
+        this.currentPage.instance.skip();
+      }
+    }
+    else if (this.currentPage.instance.nextId || this.currentPage.instance.skipId) {
       this.currentPage.instance.skip();
     }
   }

@@ -170,6 +170,7 @@ import { EvacListComponentMobile } from './components/wildfires-list-header/evac
 import { WildFiresListComponentMobile } from './components/wildfires-list-header/wildfires-list/wildfires-list.component.mobile';
 import { FilterByLocationDialogComponent } from './components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { FilterOptionsDialogComponent } from './components/wildfires-list-header/filter-options-dialog/filter-options-dialog.component';
+import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -279,6 +280,7 @@ export const DATE_FORMATS = {
         DialogLocationComponent,
         RoFDisclaimerPage,
         RofCallPage,
+        DialogExitComponent,
     ],
     imports: [
         MatSortModule,

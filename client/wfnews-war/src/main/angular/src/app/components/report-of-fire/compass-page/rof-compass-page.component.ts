@@ -39,12 +39,8 @@ initialize (data: any, index: number, reportOfFire: ReportOfFire) {
   }
 
 ngOnInit(): void {
-  if ( typeof( DeviceMotionEvent ) !== "undefined") {
     this.getOrientation();
     this.useMyCurrentLocation();
-  } else {
-    this.skip()
-  }
 }
 
 async getOrientation() {
@@ -84,6 +80,14 @@ async getOrientation() {
 
 handler(e, self) {
   if (self.reportOfFire?.headingDetectionActive){
+    if (!e.alpha && !e.webkitCompassHeading){
+      this.reportOfFire.motionSensor = 'no';
+      this.skip()
+    }
+    else {
+      this.reportOfFire.motionSensor = 'yes';
+    }
+
     try {
       let compassHeading = e.webkitCompassHeading || Math.abs(e.alpha - 360);
       compassHeading = Math.trunc(compassHeading)

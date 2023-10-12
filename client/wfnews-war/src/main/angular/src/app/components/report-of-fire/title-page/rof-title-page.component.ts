@@ -14,7 +14,7 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFTitlePage extends RoFPage implements OnInit{
+export class RoFTitlePage extends RoFPage {
   public imageUrl: string
   public closeButton: boolean
   public messages: any;
@@ -30,24 +30,6 @@ export class RoFTitlePage extends RoFPage implements OnInit{
     super()
   }
 
-  ngOnInit(): void {
-    App.addListener('appStateChange', async ({ isActive }) => {
-      if (isActive) {
-        return;
-      }
-      // The app state has been changed to inactive.
-      // Start the background task by calling `beforeExit`.
-      const taskId = await BackgroundTask.beforeExit(async () => {
-        const self = this
-        setInterval(function () {
-          // Invoke function every 10 minutes while app is in background
-          self.runBackground();
-        }, 600000);
-        BackgroundTask.finish({ taskId });
-      });
-    });
-  }
-
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.imageUrl = data.imageUrl;
@@ -55,6 +37,22 @@ export class RoFTitlePage extends RoFPage implements OnInit{
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
     this.offLine = !window.navigator.onLine;
+    this.backgroundListener();
+  }
+
+  async backgroundListener (){
+    App.addListener('appStateChange', async () => {
+      // The app state has been changed to inactive.
+      // Start the background task by calling `beforeExit`.
+      const taskId = await BackgroundTask.beforeExit(async () => {
+        const self = this
+        setInterval(function () {
+          // Invoke function every 5 minutes while app is in background
+          self.runBackground();
+        }, 300000);
+        BackgroundTask.finish({ taskId });
+      });
+    });
   }
 
   openCallPage () {
