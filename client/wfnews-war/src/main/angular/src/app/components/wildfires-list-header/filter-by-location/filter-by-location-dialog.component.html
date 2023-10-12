@@ -1,0 +1,43 @@
+<div class="dialog">
+  <div class="dialog-panel">
+    <div class="dialog-header">
+      <div class="dialog-title">Filter by location</div>
+      <mat-icon class="right-align" [mat-dialog-close]="false">close</mat-icon>
+    </div>
+    <div class="search-panel">
+      <div class="field search-input">
+        <mat-icon class="search-icon" matSuffix>search</mat-icon>
+        <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" placeholder=" Search" [(ngModel)]="searchText">
+          <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
+              <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
+                  [value]="option">
+                  <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
+                      <div *ngIf="option.address !== ''">
+                          <div>
+                              <span class="address">{{option.address}}</span>
+                          </div>
+                          <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
+                      </div>
+                      <div *ngIf="option.address === ''">
+                          <div>
+                              <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
+                          </div>
+                      </div>
+                  </div>
+              </mat-option>
+          </mat-autocomplete>
+      </div>
+      <button [class]="'list-button' + (useLocationSelected ? '-selected' : '')" (click)="useUserLocation()" mat-flat-button ><img class="list-icon image-size" src="../../../assets/images/svg-icons/location-button.svg" alt="Use your location" height="20" width="20" /><span class="list-button-label">Use your location</span></button>
+    </div>
+    <div class="radius-panel">
+      <button [class]="'radius-button' + (locationData.radius === 5 ? '-selected' : '')" (click)="setRadius(5)" mat-flat-button ><span class="list-button-label">Within 5 km</span></button>
+      <button [class]="'radius-button' + (locationData.radius === 10 ? '-selected' : '')" (click)="setRadius(10)" mat-flat-button ><span class="list-button-label">Within 10 km</span></button>
+      <button [class]="'radius-button' + (locationData.radius === 20 ? '-selected' : '')" (click)="setRadius(20)" mat-flat-button ><span class="list-button-label">Within 20 km</span></button>
+      <button [class]="'radius-button' + (locationData.radius === 50 ? '-selected' : '')" (click)="setRadius(50)" mat-flat-button ><span class="list-button-label">Within 50 km</span></button>
+      <button [class]="'radius-button' + (locationData.radius === 100 ? '-selected' : '')" (click)="setRadius(100)" mat-flat-button ><span class="list-button-label">Within 100 km</span></button>
+    </div>
+  </div>
+  <div class="dialog-footer" mat-dialog-actions>
+  	<button class="footer-button" mat-raised-button color="primary" [mat-dialog-close]="locationData">Show Results</button>
+  </div>
+</div>

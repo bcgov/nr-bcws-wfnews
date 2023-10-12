@@ -177,6 +177,15 @@ table tr:nth-child(even) td{
   overflow-y: hidden !important;
 }
 
+.filter-button {
+  margin-right: 7px;
+  border: 1px solid #C4C4C4;
+  background-color: white !important;
+  height: 36px;
+  width: 36px;
+  border-radius: 20px;
+}
+
 .fireNumber-subtext {
   font-size: 15px;
   font-weight: 600;

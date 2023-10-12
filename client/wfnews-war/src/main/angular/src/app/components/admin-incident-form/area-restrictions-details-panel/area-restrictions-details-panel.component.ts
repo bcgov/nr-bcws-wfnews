@@ -25,7 +25,7 @@ export class AreaRestrictionsDetailsPanel implements OnInit {
 
   getAreaRestrictions () {
     if(this.incident.geometry.x && this.incident.geometry.y){
-      this.agolService.getAreaRestrictions(null, { x: this.incident.geometry.x, y: this.incident.geometry.y}).subscribe(response => {
+      this.agolService.getAreaRestrictions(null, { x: this.incident.geometry.x, y: this.incident.geometry.y, radius: null}).subscribe(response => {
         if (response.features) {
           for (const element of response.features) {
             this.areaRestrictions.push({

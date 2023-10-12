@@ -1,9 +1,13 @@
+import { BreakpointObserver, BreakpointState, Breakpoints } from "@angular/cdk/layout";
 import { ChangeDetectorRef, Component, HostListener } from "@angular/core";
+import { MatDialog } from "@angular/material/dialog";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { PublishedIncidentService } from "@app/services/published-incident-service";
 import { ResourcesRoutes, convertFireNumber, convertToStageOfControlDescription } from "@app/utils";
 import moment from "moment";
+import { Observable } from "rxjs";
+import { FilterByLocationDialogComponent, LocationData } from "../filter-by-location/filter-by-location-dialog.component";
 
 @Component({
   selector: 'wf-list-container-mobile',
@@ -27,17 +31,18 @@ export class WildFiresListComponentMobile {
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription
 
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private router: Router, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef ) { }
+  constructor ( private router: Router, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.search()
   }
 
-  async search() {
+  async search(location: LocationData | null = null) {
     if (this.keepPaging) {
       this.page += 1
-      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, this.searchText === '' && this.searchText.length ? null : this.searchText, true).subscribe(incidents => {
+      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, location, this.searchText === '' && this.searchText.length ? null : this.searchText, true).subscribe(incidents => {
         console.log(incidents);
         const incidentData = []
         if (incidents && incidents.collection) {
@@ -65,13 +70,29 @@ export class WildFiresListComponentMobile {
     }
   }
 
-  searchByLocation() {
-    // get location
-    // pass to search
-    this.dataSource.data = []
-    this.page = 0
-    this.keepPaging = true
-    this.search()
+  openLocationFilter () {
+    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
+      width: '311px',
+      height: '453px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('311px', '453px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: LocationData) => {
+      smallDialogSubscription.unsubscribe();
+      this.dataSource.data = []
+      this.page = 0
+      this.keepPaging = true
+      this.search(result)
+    });
   }
 
   searchByText() {

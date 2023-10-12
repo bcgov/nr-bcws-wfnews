@@ -183,7 +183,7 @@ export class PublicIncidentPage implements OnInit {
   }
 
   async getAreaRestrictions () {
-    return this.agolService.getAreaRestrictions(null, { x: +this.incident.longitude, y: +this.incident.latitude}).toPromise().then(response => {
+    return this.agolService.getAreaRestrictions(null, { x: +this.incident.longitude, y: +this.incident.latitude, radius: null}).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.areaRestrictions.push({

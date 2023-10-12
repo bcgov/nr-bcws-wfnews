@@ -4,8 +4,7 @@
         <mat-icon class="search-icon" matSuffix>search</mat-icon>
         <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
       </div>
-      <button mat-fab matTooltip="Filter by Location" class="filter-button"
-        aria-label="By Location" (click)="searchByLocation(); $event.stopPropagation()">
+      <button mat-fab matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
         <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
       </button>
       <button mat-fab matTooltip="Filter" class="filter-button"

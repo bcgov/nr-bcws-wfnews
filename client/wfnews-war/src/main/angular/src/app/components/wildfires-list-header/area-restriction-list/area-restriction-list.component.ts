@@ -4,6 +4,10 @@ import { AGOLService } from '../../../services/AGOL-service';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -18,27 +22,29 @@ export class AreaRestrictionListComponent implements OnInit {
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public searchTimer
-  columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
+  public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService ) {}
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
   }
 
-  async search() {
-    const location = await this.commonUtilityService.getCurrentLocationPromise()
+  async search(location: LocationData | null = null) {
+    const userLocation = await this.commonUtilityService.getCurrentLocationPromise()
 
     const whereString = this.searchText && this.searchText.length > 0 ? `NAME LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%'` : null
 
-    this.agolService.getAreaRestrictions(whereString, null, { returnCentroid: true, returnGeometry: false}).subscribe(areaRestrictions => {
+    this.agolService.getAreaRestrictions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: true, returnGeometry: false}).subscribe(areaRestrictions => {
       const areaRestrictionData = []
       if (areaRestrictions && areaRestrictions.features) {
         for (const element of areaRestrictions.features) {
           let distance = null
           if (location) {
-              const currentLat = Number(location.coords.latitude);
-              const currentLong = Number(location.coords.longitude);
+              const currentLat = Number(userLocation.coords.latitude);
+              const currentLong = Number(userLocation.coords.longitude);
 
               if (element.centroid) {
                 distance = (haversineDistance(element.centroid.y, currentLat, element.centroid.x, currentLong) / 1000).toFixed(2);
@@ -66,9 +72,26 @@ export class AreaRestrictionListComponent implements OnInit {
     });
   }
 
-  searchByLocation() {
-    // get location
-    // pass to search
+  openLocationFilter () {
+    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
+      width: '311px',
+      height: '453px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('311px', '453px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: LocationData) => {
+      smallDialogSubscription.unsubscribe();
+      this.search(result)
+    });
   }
 
   convertToDate(value: string) {

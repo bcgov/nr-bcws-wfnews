@@ -21,6 +21,9 @@ import { initWildfiresListPaging, SEARCH_WILDFIRES_COMPONENT_ID } from '../../..
 import { convertFromTimestamp, convertToStageOfControlDescription, FireCentres, convertToFireCentreDescription, ResourcesRoutes, snowPlowHelper, convertFireNumber } from '../../../utils';
 import { CollectionComponent } from '../../common/base-collection/collection.component';
 import { WildFiresListComponentModel } from './wildfires-list.component.model';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
 
 @Directive()
 export class WildFiresListComponent extends CollectionComponent implements OnChanges, AfterViewInit, OnInit {
@@ -62,6 +65,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   locationName: string;
   sortedAddressList: string[];
 
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
   convertFromTimestamp = convertFromTimestamp;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToFireCentreDescription = convertToFireCentreDescription
@@ -69,7 +74,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   convertFireNumber = convertFireNumber;
 
 
-  constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: UntypedFormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService)
+  constructor ( router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: UntypedFormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver)
   {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService,commonUtilityService);
     this.placeData = new PlaceData();
@@ -231,56 +236,13 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   }
 
-
   stageOfControlChanges(event: any) {
     this.onChangeFilters();
     this.doSearch()
   }
 
-  async useMyCurrentLocation() {
-    this.searchText = undefined;
-
-    const location = await this.commonUtilityService.getCurrentLocationPromise()
-    const lat = location.coords.latitude;
-    const long = location.coords.longitude;
-    this.locationName = lat.toString() + ', ' + long.toString()
-    this.selectedLat = lat;
-    this.selectedLong = long;
-    this.doSearch()
-  }
-
   onlyOneControlSelected() {
     // unused
-  }
-
-  getFullAddress(location) {
-    let result = "";
-
-    if(location.civicNumber) {
-        result += location.civicNumber
-    }
-
-    if(location.streetName) {
-        result += " " + location.streetName
-    }
-
-    if(location.streetQualifier) {
-        result += " " + location.streetQualifier
-    }
-
-    if(location.streetType) {
-        result += " " + location.streetType
-    }
-
-    return result;
-  }
-
-  onLocationSelected(selectedOption) {
-    let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
-    this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
-    this.selectedLat=selectedOption.loc[1];
-    this.selectedLong=selectedOption.loc[0]
-    this.doSearch()
   }
 
   isLocationName() {
@@ -295,8 +257,31 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     }
   }
 
-  searchByLocation () {
-    
+  openLocationFilter () {
+    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
+      width: '311px',
+      height: '453px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('311px', '453px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: LocationData) => {
+      smallDialogSubscription.unsubscribe();
+
+      this.selectedLat = result.latitude
+      this.selectedLong = result.longitude
+      this.selectedRadius = result.radius
+
+      this.doSearch()
+    });
   }
 
 }

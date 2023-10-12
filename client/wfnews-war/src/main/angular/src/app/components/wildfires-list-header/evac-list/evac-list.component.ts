@@ -4,6 +4,10 @@ import { AGOLService } from '../../../services/AGOL-service';
 import { MatTableDataSource } from '@angular/material/table';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { haversineDistance } from '@app/services/wfnews-map.service/util';
+import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'wf-evac-list',
@@ -20,18 +24,19 @@ export class EvacListComponent implements OnInit {
   public searchTimer
   public order = true
   public alert = true
+  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"];
 
-  columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"];
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService ) {}
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
   }
 
-  async search() {
+  async search(location: LocationData | null = null) {
 
-    const location = await this.commonUtilityService.getCurrentLocationPromise()
+    const userLocation = await this.commonUtilityService.getCurrentLocationPromise()
 
     let whereString = ''
 
@@ -55,14 +60,14 @@ export class EvacListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getEvacOrders(whereString, null, { returnCentroid: location !== null, returnGeometry: false}).subscribe(evacs => {
+    this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: location !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
         for (const element of evacs.features) {
           let distance = null
           if (location) {
-              const currentLat = Number(location.coords.latitude);
-              const currentLong = Number(location.coords.longitude);
+              const currentLat = Number(userLocation.coords.latitude);
+              const currentLong = Number(userLocation.coords.longitude);
 
               if (element.centroid) {
                 distance = (haversineDistance(element.centroid.y, currentLat, element.centroid.x, currentLong) / 1000).toFixed(2);
@@ -91,9 +96,26 @@ export class EvacListComponent implements OnInit {
     });
   }
 
-  searchByLocation() {
-    // get location
-    // pass to search
+  openLocationFilter () {
+    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
+      width: '311px',
+      height: '453px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('311px', '453px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: LocationData) => {
+      smallDialogSubscription.unsubscribe();
+      this.search(result)
+    });
   }
 
   convertToDate(value: string) {

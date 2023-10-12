@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
@@ -27,7 +28,7 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
-  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
+  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, location: LocationData | null = null, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     let url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&orderBy=${orderBy}`;
 
     if (searchText && searchText.length) {
@@ -39,6 +40,13 @@ export class PublishedIncidentService {
         url += `&stageOfControlList=${soc}`
       }
     }
+
+    if (location && location.radius) {
+      url += `&latitude=${location.latitude}`
+      url += `&longitude=${location.longitude}`
+      url += `&radius=${location.radius * 1000}`
+    }
+
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 

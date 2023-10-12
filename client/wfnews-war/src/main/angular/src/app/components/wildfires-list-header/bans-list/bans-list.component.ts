@@ -2,6 +2,10 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import moment from 'moment';
 import { AGOLService } from '../../../services/AGOL-service';
 import { MatTableDataSource } from '@angular/material/table';
+import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
+import { Observable } from 'rxjs';
+import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
 
 @Component({
   selector: 'wf-bans-list',
@@ -19,15 +23,17 @@ export class BansListComponent implements OnInit {
   public category2 = true
   public category3 = true
   public searchTimer
-  columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
+  public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef ) {}
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
   }
 
-  async search() {
+  async search(location: LocationData | null = null) {
 
     let whereString = ''
 
@@ -55,7 +61,7 @@ export class BansListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getBansAndProhibitions(whereString, null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
+    this.agolService.getBansAndProhibitions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
       const banData = []
       if (bans && bans.features) {
         for (const element of bans.features) {
@@ -81,11 +87,6 @@ export class BansListComponent implements OnInit {
     });
   }
 
-  searchByLocation() {
-    // get location
-    // pass to search
-  }
-
   convertToDate(value: string) {
     if (value) {
       return moment(value).format('YYYY-MM-DD HH:mm:ss')
@@ -97,6 +98,28 @@ export class BansListComponent implements OnInit {
 
   showDetails(ban: any) {
 
+  }
+
+  openLocationFilter () {
+    const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
+      width: '311px',
+      height: '453px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('311px', '453px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: LocationData) => {
+      smallDialogSubscription.unsubscribe();
+      this.search(result)
+    });
   }
 
   sortData (event: any) {
