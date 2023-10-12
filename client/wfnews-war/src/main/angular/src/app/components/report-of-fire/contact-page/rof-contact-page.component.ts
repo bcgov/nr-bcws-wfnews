@@ -46,4 +46,12 @@ export class RoFContactPage extends RoFPage {
       }
     );
   }
+
+  nextPage() {
+    if (this.reportOfFire.motionSensor) {
+      this.next();
+    } else{
+      this.reportOfFirePage.selectPage('distance-page',null,false)
+    }
+  }
 }

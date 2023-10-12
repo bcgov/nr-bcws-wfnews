@@ -13,7 +13,7 @@
 
   <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="reportOfFire.consentToCall = 'no'; previous();">Previous</button>
-	  <button [class]="'rof-button' + (!reportOfFire.fullName || !reportOfFire.phoneNumber ? '-disabled' : '-primary')"  mat-flat-button (click)="reportOfFire.consentToCall = 'yes'; next();" [disabled]="!reportOfFire.fullName || !reportOfFire.phoneNumber">Continue</button>
+	  <button [class]="'rof-button' + (!reportOfFire.fullName || !reportOfFire.phoneNumber ? '-disabled' : '-primary')"  mat-flat-button (click)="reportOfFire.consentToCall = 'yes'; nextPage();" [disabled]="!reportOfFire.fullName || !reportOfFire.phoneNumber">Continue</button>
   </div>
 
   <div class="rof-button-container" *ngIf="isEditMode">
