@@ -30,7 +30,6 @@ export class RoFPage {
   public updateAttribute: string;
   public showProgress: boolean;
   public allowMultiSelect: boolean;
-  public motionSensor: boolean;
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     this.allowExit = data.allowExit;
@@ -49,7 +48,6 @@ export class RoFPage {
     this.previousId = data.previousId || null;
     this.nextId = data.nextId || null;
     this.skipId = data.skipId || null;
-    this.motionSensor = false;
   }
 
   previous () {

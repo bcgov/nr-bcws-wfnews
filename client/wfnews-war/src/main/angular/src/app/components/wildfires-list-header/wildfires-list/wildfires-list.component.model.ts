@@ -1,5 +1,5 @@
 import {DomSanitizer} from "@angular/platform-browser";
-import { BaseComponentModel } from "../base/base.component.model";
+import { BaseComponentModel } from "../../base/base.component.model";
 
 export class WildFiresListComponentModel extends BaseComponentModel {
 
