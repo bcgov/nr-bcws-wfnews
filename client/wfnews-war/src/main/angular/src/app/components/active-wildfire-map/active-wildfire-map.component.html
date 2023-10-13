@@ -132,21 +132,27 @@
         <div class="mobile-wildfire-count">
           <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
         </div>
-        <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()"></wf-map-container>
+        <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
       </div>
-      <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag>
-        <div class="grab-container" cdkDragHandle>
-          <div id="grabber" class="drag-grabber"></div>
-          <div style="text-align: center; padding: 7px;">{{selectedPanel === 'wildfire-stage-of-control' ? 'Wildfires' :
-            selectedPanel === 'evacuation-orders-and-alerts' ? 'Evacuation Orders' :
-            selectedPanel === 'area-restrictions' ? 'Area Restrictions' :
-            selectedPanel === 'bans-and-prohibitions' ? 'Bans &amp; Prohibitions' :
-            selectedPanel === 'smoke-forecast' ? 'smoke-forecast' :
-            selectedPanel === 'fire-danger' ? 'Fire Danger' :
-            selectedPanel === 'routes-impacted' ? 'Drive BC' :
-            selectedPanel === 'local-authorities' ? 'Local Authorities' : ''}}</div>
-        </div>
-        <div class="panel-container" style="padding-top: 10px;">
+      <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="incidentRefs && incidentRefs.length">
+
+        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+            <div class="draggable-panel-title">
+                {{incidentRefs.length}} Results
+            </div>
+            <div *ngIf="filteredWildfires && filteredWildfires.length">
+                <div class="criteria-title">Wildfires</div>
+                <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
+                    <div class="widget-row">
+                        {{wildfire.title}}
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div *ngFor="let incident of incidentRefs">
+                {{incident.title}}
+            </div> -->
           <!-- <panel-wildfire-stage-of-control-container-desktop *ngIf="selectedPanel === 'wildfire-stage-of-control'"></panel-wildfire-stage-of-control-container-desktop>
           <panel-evacuation-orders-and-alerts *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"></panel-evacuation-orders-and-alerts>
           <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions'"></panel-area-restrictions>

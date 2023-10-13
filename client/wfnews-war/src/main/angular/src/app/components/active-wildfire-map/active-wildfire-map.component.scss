@@ -491,10 +491,38 @@ mat-panel-title {
     }
 
     .panel-container {
+      font-weight: 600;
       padding: 10px;
       overflow: auto;
       height: 90%;
       border-radius: 20px;
+
+      .draggable-panel-title{
+        font-size: 18px;
+        color: #242424;
+        padding: 20px 10px;
+        border-bottom: 1px solid #DEDEDE;
+      }
+
+      .criteria-title{
+        font-size: 18px;
+        color: #242424;
+        padding: 20px 10px;
+      }
+
+      .widget-card{
+        padding: 8px;
+      }
+
+      .widget-row{
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        border-radius: 8px;
+        background: #F2F2F6;
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
 

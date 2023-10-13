@@ -66,6 +66,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   url;
   sortedAddressList: string[];
   temp: any[] =[];
+  incidentRefs: any[];
+  filteredWildfires: any[];
+
+  wildfireLayerIds: string[] = [
+    'active-wildfires-fire-of-note',
+    'active-wildfires-out-of-control',
+    'active-wildfires-holding',
+    'active-wildfires-under-control',
+    'bcws-activefires-publicview-inactive',
+    'fire-perimeters'
+  ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
@@ -318,6 +329,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onToggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
+  
+  onSelectIncidents(incidentRefs){
+    console.log(incidentRefs)
+    this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+    if (this.incidentRefs.length > 1) {
+      // multiple features within clicked area
+
+      this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
+    }
+  }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
@@ -521,6 +542,5 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             }
           }
       }
-
   }
 }

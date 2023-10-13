@@ -49,6 +49,7 @@ export const ICON = {
   MORE: 'more',
   REPORT: 'report',
   SAVED: 'saved',
+  ARROW: 'arrow',
 };
 
 @Component({
@@ -453,6 +454,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.SAVED,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/saved.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow.svg")
     );
   }
 
