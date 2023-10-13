@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.SituationReportMapper">
+  <resultMap id="SituationReportDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.SituationReportDto">
+	  <id     property="REPORT_GUID"              column="REPORT_GUID"                javaType="java.lang.String"  jdbcType="BINARY" />
+    <result property="incidentTeamCount"        column="INCIDENT_TEAM_COUNT"        javaType="java.lang.Long"    jdbcType="NUMERIC" />
+		<result property="crewCount"                column="CREW_COUNT"                 javaType="java.lang.Long"    jdbcType="NUMERIC" />
+		<result property="aviationCount"            column="AVIATION_COUNT"             javaType="java.lang.Long"    jdbcType="NUMERIC" />
+		<result property="heavyEquipmentCount"      column="HEAVY_EQUIPMENT_COUNT"      javaType="java.lang.Long"    jdbcType="NUMERIC" />
+		<result property="structureProtectionCount" column="STRUCTURE_PROTECTION_COUNT" javaType="java.lang.Long"    jdbcType="NUMERIC" />
+    <result property="situationOverview"        column="SITUATION_OVERVIEW"         javaType="java.lang.String"  jdbcType="VARCHAR" />
+    <result property="situationReportDate"      column="SITUATION_REPORT_DATE"      javaType="java.util.Date"    jdbcType="TIMESTAMP" />
+		<result property="publishedInd"             column="PUBLISHED_IND"              javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+		<result property="createdTimestamp"         column="CREATED_TIMESTAMP"          javaType="java.util.Date"    jdbcType="TIMESTAMP" />
+		<result property="archivedInd"              column="ARCHIVED_IND"               javaType="java.lang.Boolean" jdbcType="VARCHAR" />
+		<result property="revisionCount"            column="REVISION_COUNT"             javaType="java.lang.Long"    jdbcType="NUMERIC" />
+		<result property="createUser"               column="CREATE_USER"                javaType="java.lang.String"  jdbcType="VARCHAR" />
+		<result property="createDate"               column="CREATE_DATE"                javaType="java.util.Date"    jdbcType="DATE" />
+		<result property="updateUser"               column="UPDATE_USER"                javaType="java.lang.String"  jdbcType="VARCHAR" />
+		<result property="updateDate"               column="UPDATE_DATE"                javaType="java.util.Date"    jdbcType="DATE" /> 
+	</resultMap>
+
+  <insert id="insert">
+    INSERT INTO wfnews.SITUATION_REPORT (
+        REPORT_GUID,
+				INCIDENT_TEAM_COUNT,
+				CREW_COUNT,
+				AVIATION_COUNT,
+				HEAVY_EQUIPMENT_COUNT,
+				STRUCTURE_PROTECTION_COUNT,
+        SITUATION_OVERVIEW,
+        SITUATION_REPORT_DATE,
+				PUBLISHED_IND,
+				CREATED_TIMESTAMP,
+				ARCHIVED_IND,
+				REVISION_COUNT,
+				CREATE_USER,
+				CREATE_DATE,
+				UPDATE_USER,
+				UPDATE_DATE
+		) VALUES (
+        #{dto.reportGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+			  #{dto.incidentTeamCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+			  #{dto.crewCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				#{dto.aviationCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				#{dto.heavyEquipmentCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				#{dto.structureProtectionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+        #{dto.situationOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+        #{dto.situationReportDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.publishedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				#{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.archivedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				#{dto.revisionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				#{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+    ) 
+  </insert>
+
+  <update id="update">
+  	UPDATE WFNEWS.SITUATION_REPORT
+		    SET REPORT_GUID =            #{dto.reportGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN},
+			  INCIDENT_TEAM_COUNT =        #{dto.incidentTeamCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+			  CREW_COUNT =                 #{dto.crewCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				AVIATION_COUNT =             #{dto.aviationCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				HEAVY_EQUIPMENT_COUNT =      #{dto.heavyEquipmentCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+				STRUCTURE_PROTECTION_COUNT = #{dto.structureProtectionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
+        SITUATION_OVERVIEW =         #{dto.situationOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				SITUATION_REPORT_DATE =	     #{dto.situationReportDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+        PUBLISHED_IND =              #{dto.publishedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				CREATED_TIMESTAMP =          #{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				ARCHIVED_IND =               #{dto.archivedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
+				REVISION_COUNT =             REVISION_COUNT + 1,
+				CREATE_USER =                #{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				CREATE_DATE =                #{dto.createDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				UPDATE_USER =                #{dto.updateUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
+				UPDATE_DATE =                #{dto.updateDate, javaType=java.util.Date, jdbcType=DATE, mode=IN}
+		 WHERE EXTERNAL_URI_GUID =       #{dto.externalUriGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+  </update>
+
+  <delete id="delete">
+		DELETE FROM WFNEWS.SITUATION_REPORT 
+		WHERE REPORT_GUID = #{reportGuid, javaType=java.lang.String, jdbcType=BINARY, mode=IN}
+	</delete>
+
+  <select id="fetch" resultMap="SituationReportDtoMap"> 
+		SELECT *
+		  FROM WFNEWS.REPORT_GUID
+		 WHERE REPORT_GUID = #{reportGuid}
+	</select>
+
+  <select id="select" resultMap="SituationReportDtoMap">
+		SELECT *
+		  FROM WFNEWS.SITUATION_REPORT
+     WHERE REPORT_GUID IS NOT NULL
+		   AND REPORT_GUID != ''
+    <if test="published != null &amp;&amp; published == true">
+      AND PUBLISHED_IND = #{published, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+    </if>
+		<if test="offset != null and pageRowCount != null">
+	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
+	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
+		</if> 
+	</select>
+
+  <select id="selectCount" resultType="int">
+		SELECT COUNT(*)
+		  FROM WFNEWS.SITUATION_REPORT
+		 WHERE REPORT_GUID IS NOT NULL
+		   AND REPORT_GUID != ''
+		  <if test="published != null &amp;&amp; published == true">
+				AND PUBLISHED_IND = #{published, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+		  </if>
+	</select>
+</mapper>

@@ -7,7 +7,6 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.persistence.dao.IntegrityConstraintViolatedDaoException;
@@ -24,17 +23,22 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.SituationReportDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.AttachmentDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dto.SituationReportDto;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.SituationReportFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
 import ca.bc.gov.nrs.wfone.common.model.Message;
@@ -51,10 +55,12 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	private PublishedIncidentFactory publishedIncidentFactory;
 	private ExternalUriFactory externalUriFactory;
 	private AttachmentFactory attachmentFactory;
+	private SituationReportFactory situationReportFactory;
 
 	private PublishedIncidentDao publishedIncidentDao;
 	private AttachmentDao attachmentDao;
 	private ExternalUriDao externalUriDao;
+	private SituationReportDao situationReportDao;
 
 	@Autowired
 	private ModelValidator modelValidator;
@@ -85,6 +91,14 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	public void setExternalUriDao(ExternalUriDao externalUriDao) {
 		this.externalUriDao = externalUriDao;
+	}
+
+	public void setSituationReportDao(SituationReportDao situationReportDao) {
+		this.situationReportDao = situationReportDao;
+	}
+
+	public void setSituationReportFactory(SituationReportFactory situationReportFactory) {
+		this.situationReportFactory = situationReportFactory;
 	}
 
 	@Override
@@ -782,6 +796,162 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			if (dto != null) {
 				return this.attachmentFactory.getAttachment(dto, factoryContext);
 			}else throw new NotFoundException("Did not find the attachmentGuid: " + attachmentGuid);
+			
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public SituationReportListResource getSitationReportList(Integer pageNumber, Integer pageRowCount, Boolean published, FactoryContext factoryContext) throws ConflictException, NotFoundException {
+		SituationReportListResource result = new SituationReportListResource();
+
+		try {
+			PagedDtos<SituationReportDto> list = this.situationReportDao.select(pageNumber, pageRowCount, published);
+			result = this.situationReportFactory.getSituationReportList(list, pageNumber, pageRowCount, factoryContext);
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+
+		return result;
+	}
+
+	@Override
+	public SituationReportResource createSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		SituationReportResource response = null;
+		long effectiveAsOfMillis = report.getCreatedTimestamp() == null ? System.currentTimeMillis()
+				: report.getCreatedTimestamp().getTime();
+		try {
+			List<Message> errors = this.modelValidator.validateReport(report, effectiveAsOfMillis);
+			if (!errors.isEmpty()) {
+				throw new Exception("Validation failed for report: " + errors.toString());
+			}
+
+			SituationReportDto dto = new SituationReportDto(report);
+			try {
+				dto.setCreateDate(new Date());
+				dto.setUpdateDate(new Date());
+				dto.setRevisionCount(Long.valueOf(0));
+				if (dto.getCreatedTimestamp() == null)
+					dto.setCreatedTimestamp(new Date());
+				if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
+					dto.setUpdateUser(webAdeAuthentication.getUserId());
+				if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
+					dto.setCreateUser(webAdeAuthentication.getUserId());
+
+				this.situationReportDao.insert(dto);
+			} catch (DaoException e) {
+				throw new ServiceException(e.getMessage(), e);
+			}
+
+			SituationReportDto updatedDto = this.situationReportDao.fetch(dto.getReportGuid());
+
+			response = this.situationReportFactory.getSituationReport(updatedDto, factoryContext);
+
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage(), e);
+		}
+
+		logger.debug(">CreateSitationReport");
+		return response;
+	}
+
+	@Override
+	public SituationReportResource updateSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		SituationReportResource response = null;
+		long effectiveAsOfMillis = report.getCreatedTimestamp() == null ? System.currentTimeMillis() : report.getCreatedTimestamp().getTime();
+
+		try {
+			List<Message> errors = this.modelValidator.validateReport(report, effectiveAsOfMillis);
+
+			if (!errors.isEmpty()) {
+				throw new Exception("Validation failed for report: " + errors.toString());
+			}
+
+			SituationReportResource currentReport = getSituationReport(report.getReportGuid(), factoryContext);
+
+			if (currentReport != null) {
+				SituationReportDto dto = new SituationReportDto(report);
+
+				try {
+					dto.setUpdateDate(new Date());
+					if (dto.getCreateDate() == null)
+						dto.setCreateDate(new Date());
+					if (dto.getCreatedTimestamp() == null)
+						dto.setCreatedTimestamp(new Date());
+					if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
+						dto.setUpdateUser(webAdeAuthentication.getUserId());
+					if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
+						dto.setCreateUser(webAdeAuthentication.getUserId());
+
+					this.situationReportDao.update(dto);
+				} catch (DaoException e) {
+					throw new ServiceException(e.getMessage(), e);
+				}
+
+				SituationReportDto updatedDto = this.situationReportDao.fetch(dto.getReportGuid());
+				response = this.situationReportFactory.getSituationReport(updatedDto, factoryContext);
+			}
+
+		} catch (IntegrityConstraintViolatedDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		} catch (Exception e) {
+			throw new Exception(e.getMessage(), e);
+		}
+
+		logger.debug(">updateSituationReport");
+		return response;
+	}
+
+	@Override
+	public SituationReportResource deleteSituationReport(String reportGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		logger.debug("<deleteSituationReport");
+
+		try {
+			SituationReportDto dto = this.situationReportDao.fetch(reportGuid);
+			SituationReportResource result = this.situationReportFactory.getSituationReport(dto, factoryContext);
+
+			if (dto == null) {
+				throw new NotFoundException("Did not find the report: " + reportGuid);
+			}
+
+			this.situationReportDao.delete(reportGuid);
+
+			return result;
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		try {
+			SituationReportDto dto = this.situationReportDao.fetch(reportGuid);
+			if (dto != null) {
+				return this.situationReportFactory.getSituationReport(dto, factoryContext);
+			}else throw new NotFoundException("Did not find the reportGuid: " + reportGuid);
 			
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());

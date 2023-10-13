@@ -10,6 +10,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
@@ -18,7 +20,7 @@ import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -32,15 +34,16 @@ import io.swagger.annotations.Extension;
 import io.swagger.annotations.ExtensionProperty;
 import io.swagger.annotations.ResponseHeader;
 
-@Path("/externalUri")
-@Api(value = "ExternalUriEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
-public interface ExternalUriEndpoint extends BaseEndpoints {
-	@ApiOperation(value = "Add a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Add a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+@Path("/situationReport")
+@Api(value = "SituationReportEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+public interface SituationReportEndpoint extends BaseEndpoints {
+  @ApiOperation(value = "Add a Sitation Report Resource", response = SituationReportResource.class, notes = "Add a Situation Report", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Created", response = ExternalUriResource.class, responseHeaders = {
+			@ApiResponse(code = 201, message = "Created", response = SituationReportResource.class, responseHeaders = {
 					@ResponseHeader(name = "ETag", response = String.class, description = "The ETag response-header field provides the current value of the entity tag for the requested variant."),
 					@ResponseHeader(name = "Location", response = String.class, description = "The Location response-header field is used to redirect the recipient to a location other than the Request-URI for completion of the request or identification of a new resource.") }),
 			@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
@@ -50,16 +53,16 @@ public interface ExternalUriEndpoint extends BaseEndpoints {
 	@POST
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response createExternalUri(
-			@ApiParam(name = "externalUri", value = "The ExternalUri resource containing the new values.", required = true) ExternalUriResource resource)
+	public Response createSituationReport(
+			@ApiParam(name = "situationReport", value = "The SituationReportResource containing the new values.", required = true) SituationReportResource resource)
 	throws NotFoundException, ForbiddenException, ConflictException;
 
-	@ApiOperation(value = "Update a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Update a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Update a SituationReportResource", response = SituationReportResource.class, notes = "SituationReportResource", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.UPDATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
 	})
 	@ApiResponses(value = {
-			@ApiResponse(code = 201, message = "Updated", response = ExternalUriResource.class, responseHeaders = {
+			@ApiResponse(code = 201, message = "Updated", response = SituationReportResource.class, responseHeaders = {
 					@ResponseHeader(name = "ETag", response = String.class, description = "The ETag response-header field provides the current value of the entity tag for the requested variant."),
 					@ResponseHeader(name = "Location", response = String.class, description = "The Location response-header field is used to redirect the recipient to a location other than the Request-URI for completion of the request or identification of a new resource.") }),
 			@ApiResponse(code = 400, message = "Bad Request", response = Messages.class),
@@ -67,15 +70,15 @@ public interface ExternalUriEndpoint extends BaseEndpoints {
 			@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class)
 	})
 	@PUT
-	@Path("/{externalUriGuid}")
+	@Path("/{reportGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
-	public Response updateExternalUri(
-			@ApiParam(name = "externalUri", value = "The ExternalUri resource containing the new values.", required = true) ExternalUriResource resource,
-			@ApiParam(name = "externalUriGuid", value = "The ExternalUri GUID.") @PathParam("externalUriGuid") String externalUriGuid)
+	public Response updateSituationReport(
+			@ApiParam(name = "situationReport", value = "The SituationReportResource containing the new values.", required = true) SituationReportResource resource,
+			@ApiParam(name = "reportGuid", value = "The report GUID.") @PathParam("reportGuid") String reportGuid)
 	throws NotFoundException, ForbiddenException, ConflictException;
 
-	@ApiOperation(value = "Delete ExternalURI resource by ID", notes = "Delete ExternalURI by ID", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
+	@ApiOperation(value = "Delete SituationReportResource by ID", notes = "Delete SituationReportResource by ID", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.DELETE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header"),
 		@ApiImplicitParam(name = HeaderConstants.IF_MATCH_HEADER, value = HeaderConstants.IF_MATCH_DESCRIPTION, required = false, dataType = "string", paramType = "header")
@@ -87,8 +90,8 @@ public interface ExternalUriEndpoint extends BaseEndpoints {
 			@ApiResponse(code = 412, message = "Precondition Failed"),
 			@ApiResponse(code = 500, message = "Internal Server Error", response = Messages.class) })
 	@DELETE
-	@Path("/{externalUriGuid}")
-	public Response deleteExternalUri(
-			@ApiParam("The externalUriGuid of the External Uri resource.") @PathParam("externalUriGuid") String externalUriGuid)
+	@Path("/{reportGuid}")
+	public Response deleteSituationReport(
+			@ApiParam("The reportGuid of the situation report resource.") @PathParam("reportGuid") String reportGuid)
 	throws NotFoundException, ConflictException, DaoException;	
 }

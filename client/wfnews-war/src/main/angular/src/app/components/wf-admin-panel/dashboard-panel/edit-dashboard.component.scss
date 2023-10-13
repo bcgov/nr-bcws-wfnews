@@ -1,0 +1,20 @@
+@import '../../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+.report-panel {
+  margin: 10px;
+  padding: 10px;
+  background-color: #FDFDFD;
+  min-height: 300px;
+}
+
+.counts-panel {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.half-size {
+  flex: 0 0 50%;
+  box-sizing: border-box;
+  padding: 0.5rem 1rem;
+}

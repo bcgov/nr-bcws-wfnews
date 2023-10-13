@@ -1,9 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -91,6 +89,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.antMatchers(HttpMethod.GET, "/publicPublishedIncidentAttachment/**")
 		.antMatchers(HttpMethod.OPTIONS, "/publicExternalUri/**")
 		.antMatchers(HttpMethod.GET, "/publicExternalUri/**")
+		.antMatchers(HttpMethod.GET, "/publicSituationReport/**")
 		.antMatchers(HttpMethod.OPTIONS, "/mail/**")
 		.antMatchers(HttpMethod.POST, "/mail/**")
 		.antMatchers(HttpMethod.GET, "/")

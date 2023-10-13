@@ -27,6 +27,7 @@ import ca.bc.gov.nrs.wfone.common.model.Message;
 import ca.bc.gov.nrs.wfnews.api.model.v1.Attachment;
 import ca.bc.gov.nrs.wfnews.api.model.v1.ExternalUri;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
+import ca.bc.gov.nrs.wfnews.api.model.v1.SituationReport;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.AttachmentConstraints;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.ExternalUriConstraints;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.PublishedIncidentConstraints;
@@ -192,6 +193,16 @@ public class ModelValidator extends BaseValidator {
 		List<Message> results = this.validate(attachment, groups);
 		
 		logger.debug(">validateAttachment " + results.size());
+		return results;
+	}
+
+	public List<Message> validateReport(SituationReport report, long effectiveAsOfMillis) throws DaoException {
+		logger.debug("<validateReport");
+		Class<?>[] groups = new Class<?>[] { AttachmentConstraints.class};
+
+		List<Message> results = this.validate(report, groups);
+		
+		logger.debug(">validateReport " + results.size());
 		return results;
 	}
 }

@@ -1,0 +1,43 @@
+<div class="container">
+  <div class="report-panel">
+    <h2>Resource Counts:</h2>
+    <div class="counts-panel">
+      <div class="field half-size">
+        <mat-form-field class="item-full-width" floatLabel="always">
+          <mat-label class="label">Incident Management Teams</mat-label>
+          <input matInput class="disabled-input" type="text" [(ngModel)]="incidentManagementTeamCount">
+        </mat-form-field>
+      </div>
+      <div class="field half-size">
+        <mat-form-field class="item-full-width" floatLabel="always">
+          <mat-label class="label">Firefighting Personnel</mat-label>
+          <input matInput class="disabled-input" type="text" [(ngModel)]="crewCount">
+        </mat-form-field>
+      </div>
+      <div class="field half-size">
+        <mat-form-field class="item-full-width" floatLabel="always">
+          <mat-label class="label">Aviation Count</mat-label>
+          <input matInput class="disabled-input" type="text" [(ngModel)]="aviationCount">
+        </mat-form-field>
+      </div>
+      <div class="field half-size">
+        <mat-form-field class="item-full-width" floatLabel="always">
+          <mat-label class="label">Heavy Equipment Count</mat-label>
+          <input matInput class="disabled-input" type="text" [(ngModel)]="heavyEquipmentCount">
+        </mat-form-field>
+      </div>
+      <div class="field half-size">
+        <mat-form-field class="item-full-width" floatLabel="always">
+          <mat-label class="label">Structure Protection Count</mat-label>
+          <input matInput class="disabled-input" type="text" [(ngModel)]="structureProtection">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="report-panel">
+    <h2>Situation Report:</h2>
+    <ckeditor [editor]="Editor" [(ngModel)]="situationReport" (ready)="onReady($event)"></ckeditor>
+  </div>
+</div>
