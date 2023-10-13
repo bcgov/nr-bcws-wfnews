@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { AppConfigService } from '@wf1/core-ui';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
@@ -11,6 +12,10 @@ export class WFMapService {
     private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
     identifyCallback;
     identifyDoneCallback;
+
+    constructor(protected appConfigService: AppConfigService) {
+        
+    }
 
     setHandler( id, method, handler ): Promise<any> {
         const SMK = window[ 'SMK' ];
@@ -54,49 +59,49 @@ export class WFMapService {
               //hideDetailsPanel.style.display = 'block'
             }
         }
-
         return this.patch()
             .then( function() {
-                option.config.push( {
-                    // viewer: {
-                    //     baseMap: baseMapIds[ 0 ]
-                    // },
-                    tools: [
-                        {
-                            type: 'baseMaps',
-                            choices: baseMapIds
-                        },
-                        {
-                            type: "bespoke",
-                            instance: "show-list",
-                            title: "Show list menu",
-                            position: "toolbar",
-                            enabled: true,
-                            order: 0,
-                            icon: "arrow_forward"
-                        },
-                        {
-                            type: "bespoke",
-                            instance: "hide-list",
-                            title: "Hide list menu",
-                            position: "toolbar",
-                            enabled: true,
-                            order: 1,
-                            icon: "arrow_back"
-                        },
-                        {
-                            type: "bespoke",
-                            instance: "full-extent",
-                            title: "Zoom to Full Extent",
-                            enabled: true,
-                            position: "actionbar",
-                            showTitle: false,
-                            showPanel: false,
-                            icon: "zoom_out_map",
-                            order: 3
-                        },
-                    ]
-                } );
+                try {
+                    option.config.push( {
+                        // viewer: {
+                        //     baseMap: baseMapIds[ 0 ]
+                        // },
+                        tools: [
+                            {
+                                type: 'baseMaps',
+                                choices: baseMapIds
+                            },
+                            {
+                                type: "bespoke",
+                                instance: "show-list",
+                                title: "Show list menu",
+                                position: "toolbar",
+                                enabled: true,
+                                order: 0,
+                                icon: "arrow_forward"
+                            },
+                            {
+                                type: "bespoke",
+                                instance: "hide-list",
+                                title: "Hide list menu",
+                                position: "toolbar",
+                                enabled: true,
+                                order: 1,
+                                icon: "arrow_back"
+                            },
+                            {
+                                type: "bespoke",
+                                instance: "full-extent",
+                                title: "Zoom to Full Extent",
+                                enabled: true,
+                                position: "actionbar",
+                                showTitle: false,
+                                showPanel: false,
+                                icon: "zoom_out_map",
+                                order: 3
+                            },
+                        ]
+                    } );
 
                 SMK.HANDLER.set('BespokeTool--show-list', 'triggered', (smk, tool) => {
                     toggleHideListButton("flex");
@@ -124,10 +129,21 @@ export class WFMapService {
                     baseUrl: self.smkBaseUrl,
                     ...option
                 });
-            } );
+            } 
+            catch (error) {
+                console.error("Error occurred during SMK initialization:", error);
+                throw error
+            } 
+        })
+        .catch(function (error) {
+            console.error("Error occurred during patching:", error);
+            throw error; // Re-throw the error to propagate it to the caller
+        });
+        
     }
 
     public patch(): Promise<any> {
+        try {
         const self = this;
 
         const include = window[ 'include' ];
@@ -348,7 +364,11 @@ export class WFMapService {
                     'layer-wms-time-leaflet'
                 ).then( function() {
                     console.log('custom smk layers loaded');
-                } );
+                } )
+                .catch(function (error) {
+                    console.error("Error occurred while loading custom SMK layers:", error);
+                    throw error;
+                });
             } )
             .then( function() {
                 SMK.TYPE.Viewer.leaflet.prototype.mapResized = function() {
@@ -553,8 +573,17 @@ export class WFMapService {
                 console.log( 'done patching SMK' );
             } );
 }
-
+        console.log("WFNEWS application config = " + JSON.stringify(this.appConfigService.getConfig().application))
+        console.log("WFNEWS externalApplication config = " + JSON.stringify(this.appConfigService.getConfig().externalAppConfig))
+        console.log("WFNEWS mapService config = " + JSON.stringify(this.appConfigService.getConfig()['mapServices']))
+        console.log("WFNEWS rest config = " + JSON.stringify(this.appConfigService.getConfig().rest))
+        console.log("WFNEWS webade config = " + JSON.stringify(this.appConfigService.getConfig().webade))
         return this.patchPromise;
+    }
+        catch (error) {
+            console.error("Error occurred during patching:", error);
+            throw error; // Re-throw the error to propagate it to the caller
+        }
     }
 }
 

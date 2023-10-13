@@ -81,11 +81,11 @@ async getOrientation() {
 handler(e, self) {
   if (self.reportOfFire?.headingDetectionActive){
     if (!e.alpha && !e.webkitCompassHeading){
-      this.motionSensor = false;
+      this.reportOfFire.motionSensor = 'no';
       this.skip()
     }
     else {
-      this.motionSensor = true;
+      this.reportOfFire.motionSensor = 'yes';
     }
 
     try {

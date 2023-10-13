@@ -92,7 +92,7 @@ export class EvacOrdersDetailsPanel implements OnInit {
 
   getEvacOrders() {
     if (this.incident.geometry.x && this.incident.geometry.y) {
-      this.agolService.getEvacOrders(this.incident.geometry).subscribe(response => {
+      this.agolService.getEvacOrders(null, this.incident.geometry).subscribe(response => {
         if (response.features) {
           for (const element of response.features) {
             this.evacOrders.push({

@@ -97,7 +97,7 @@ import { PointIdService } from "./services/point-id.service";
 import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
 import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
-import { WildFiresListComponentDesktop } from './components/wildfires-list/wildfires-list.component.desktop';
+import { WildFiresListComponentDesktop } from './components/wildfires-list-header/wildfires-list/wildfires-list.component.desktop';
 import { WildfiresListContainerDesktop } from './containers/wildfiresList/wildfiresList-container.component.desktop';
 import { PublishedIncidentService } from './services/published-incident-service';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
@@ -114,7 +114,6 @@ import { IncidentMapsPanel } from './components/public-incident-page/incident-ma
 import { IncidentOverviewPanel } from './components/public-incident-page/incident-overview-panel/incident-overview-panel.component';
 import { LocalStorageService } from './services/local-storage-service';
 import { WatchlistService } from './services/watchlist-service';
-import { CurrentAlertComponentComponent } from './components/current-alert-component/current-alert-component.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 import { SafePipe } from './pipes/safe.pipe';
 import { VideoGalleryPanel } from './components/admin-incident-form/video-gallery-panel/video-gallery-panel.component';
@@ -159,6 +158,19 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { IonicModule } from '@ionic/angular';
 import { ReportOfFireService } from './services/report-of-fire-service';
 import { RofCallPage } from './components/report-of-fire/rof-callback-page/rof-call-page.component';
+import { BansListComponent } from './components/wildfires-list-header/bans-list/bans-list.component';
+import { BansListComponentDesktop } from './components/wildfires-list-header/bans-list/bans-list.component.desktop';
+import { AreaRestrictionListComponent } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component';
+import { AreaRestrictionListComponentDesktop } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component.desktop';
+import { EvacListComponent } from './components/wildfires-list-header/evac-list/evac-list.component';
+import { EvacListComponentDesktop } from './components/wildfires-list-header/evac-list/evac-list.component.desktop';
+import { AreaRestrictionListComponentMobile } from './components/wildfires-list-header/area-restriction-list/area-restriction-list.component.mobile';
+import { BansListComponentMobile } from './components/wildfires-list-header/bans-list/bans-list.component.mobile';
+import { EvacListComponentMobile } from './components/wildfires-list-header/evac-list/evac-list.component.mobile';
+import { WildFiresListComponentMobile } from './components/wildfires-list-header/wildfires-list/wildfires-list.component.mobile';
+import { FilterByLocationDialogComponent } from './components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { FilterOptionsDialogComponent } from './components/wildfires-list-header/filter-options-dialog/filter-options-dialog.component';
+import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -222,8 +234,19 @@ export const DATE_FORMATS = {
         IncidentMapsPanel,
         IncidentOverviewPanel,
         SummaryPanel,
-        CurrentAlertComponentComponent,
         WildfiresListHeaderComponent,
+        WildFiresListComponentMobile,
+        BansListComponent,
+        BansListComponentDesktop,
+        BansListComponentMobile,
+        AreaRestrictionListComponent,
+        AreaRestrictionListComponentDesktop,
+        AreaRestrictionListComponentMobile,
+        EvacListComponent,
+        EvacListComponentDesktop,
+        EvacListComponentMobile,
+        FilterByLocationDialogComponent,
+        FilterOptionsDialogComponent,
         SafePipe,
         VideoGalleryPanel,
         VideoCardPanel,
@@ -257,6 +280,7 @@ export const DATE_FORMATS = {
         DialogLocationComponent,
         RoFDisclaimerPage,
         RofCallPage,
+        DialogExitComponent,
     ],
     imports: [
         MatSortModule,

@@ -60,6 +60,9 @@ export class RoFTitlePage extends RoFPage {
   }
 
   async runBackground() {
+    // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
+    await this.commonUtilityService.removeInvalidOfflineRoF();
+
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await (this.commonUtilityService.checkOnlineStatus().then(result => {
       if (result){

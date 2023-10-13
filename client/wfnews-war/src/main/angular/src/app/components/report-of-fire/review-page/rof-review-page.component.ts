@@ -10,6 +10,7 @@ import { ReportOfFireService, ReportOfFireType } from "@app/services/report-of-f
 import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 import { SmkApi } from "@app/utils/smk";
+import { LatLng } from 'leaflet';
 
 
 
@@ -206,13 +207,29 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
 
     // draw the arrow and lines between fire location and current location
     let latlngs = Array();
-    if (this.reportOfFire?.fireLocation?.length && this.reportOfFire?.currentLocation?.length) {
+    if (this.reportOfFire?.fireLocation?.length && this.reportOfFire?.currentLocation?.length && this.reportOfFire.estimatedDistance) {
       // Code to be executed if both fireLocation and currentLocation arrays have elements
-      latlngs.push(this.reportOfFire.fireLocation);
-      latlngs.push(this.reportOfFire.currentLocation)
-      let polyline = L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
       let direction = this.commonUtilityService.calculateBearing(this.reportOfFire.currentLocation[0], this.reportOfFire.currentLocation[1], this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1])
-      L.marker( this.reportOfFire.fireLocation, {
+
+      const initialFirePoint: LatLng = L.latLng(this.reportOfFire.fireLocation[0],this.reportOfFire.fireLocation[1]);
+      const currentLocationFirePoint: LatLng = L.latLng(this.reportOfFire.currentLocation[0],this.reportOfFire.currentLocation[1]);
+      const pointI = this.map.latLngToContainerPoint(initialFirePoint); // convert to containerpoint (px);
+      const pointC = this.map.latLngToContainerPoint(currentLocationFirePoint); // convert to containerpoint (px);
+
+      const distanceInPixels = this.calculateDistanceInPixels(pointI.x, pointI.y, pointC.x, pointC.y)
+      const metersPerPixel = this.reportOfFire.estimatedDistance / distanceInPixels 
+      const offSet = metersPerPixel * 35
+      const angleInRadians = ((direction + 180) * Math.PI) / 180;
+      // calculates a new latitude value by adding a offset (in meters) to the initial latitude, considering the angle and the Earth's radius
+      const newLatitude = initialFirePoint.lat + offSet * Math.cos(angleInRadians) / (Math.PI * 6378137 / 180);
+      const newLongitude = initialFirePoint.lng + offSet * Math.sin(angleInRadians) / (Math.PI * 6378137 / 180) / Math.cos(initialFirePoint.lat * Math.PI / 180);
+      const newFirePoint = [newLatitude,newLongitude]
+
+      latlngs.push(newFirePoint);
+      latlngs.push(this.reportOfFire.currentLocation)
+      L.polyline(latlngs, {color: 'yellow', opacity:0.7}).addTo(this.map);
+
+      L.marker( newFirePoint, {
         icon: L.divIcon( {
             className:  'rof-arrow-head',
             html:       `<i class="material-icons" style="transform:rotateZ(${ direction }deg);color:yellow;">navigation</i>`,
@@ -261,6 +278,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
   async ionViewDidEnter() {
+    // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
+      await this.commonUtilityService.removeInvalidOfflineRoF();
+
     // if server is reachable look for previously stored offline RoFs to be submitted 
       await (this.commonUtilityService.checkOnlineStatus().then(result => {
         if (result){
@@ -285,6 +305,7 @@ submitRof(){
     assetsAtRisk: this.reportOfFire.assetsAtRisk,
     signsOfResponse: this.reportOfFire.signsOfResponse,
     otherInfo: this.reportOfFire.otherInfo,
+    submittedTimestamp: new Date().getTime().toString()
   }
 
   try {   
@@ -322,4 +343,13 @@ submitRof(){
     const middleLon = (lon1 + lon2) / 2;
     return { lat: middleLat, lon: middleLon };
   }
+
+  calculateDistanceInPixels(x1, y1, x2, y2) {
+    var xDistance = x2 - x1;
+    var yDistance = y2 - y1;
+    // Calculate the distance using the Pythagorean theorem
+    var distance = Math.sqrt(xDistance * xDistance + yDistance * yDistance);
+    
+    return distance;
+}
 }
