@@ -144,8 +144,14 @@
                 <div class="criteria-title">Wildfires</div>
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row">
-                        {{wildfire.title}}
-                        <mat-icon svgIcon='arrow'></mat-icon>
+                        <div class="left-content">
+                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="fire-note-icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department">
+                            <span class="circle-icon {{wildfire.layerId}}"></span>
+                            {{wildfire.title}}
+                        </div>
+                        <div class="right-content">
+                            <mat-icon svgIcon='arrow'></mat-icon>
+                        </div>
                     </div>
                 </div>
 

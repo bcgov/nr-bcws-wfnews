@@ -75,7 +75,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     'active-wildfires-holding',
     'active-wildfires-under-control',
     'bcws-activefires-publicview-inactive',
-    'fire-perimeters'
   ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
