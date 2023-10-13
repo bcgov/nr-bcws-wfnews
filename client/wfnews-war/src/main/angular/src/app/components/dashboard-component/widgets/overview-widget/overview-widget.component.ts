@@ -60,6 +60,15 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       }).addTo(this.map)
 
+      const databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
+      L.tileLayer.wms(databcUrl, {
+        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_CURRENT_FIRE_POLYS_SP',
+        styles: '1751_1752',
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1'
+      }).addTo(this.map)
+
       const fonIcon = L.icon({iconUrl: "/assets/images/local_fire_department.png", iconSize: [20, 20], shadowAnchor: [4, 42], shadowSize: [31, 31]})
       const ucIcon = L.icon({iconUrl: "/assets/images/svg-icons/under-control.svg", iconSize: [10, 10], shadowAnchor: [4, 32], shadowSize: [10, 10] })
       const holdIcon = L.icon({iconUrl: "/assets/images/svg-icons/being-held.svg", iconSize: [10, 10], shadowAnchor: [4, 32], shadowSize: [10, 10] })
