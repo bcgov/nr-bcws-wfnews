@@ -95,6 +95,6 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON "wfnews"."situation_report" TO "app_wf1_
 
 /* indexes */
 
-CREATE INDEX "sitrep_date_idx" ON "wfnews"."situation_report" USING btree("situation_date");
+CREATE INDEX "sitrep_date_idx" ON "wfnews"."situation_report" USING btree("situation_report_date");
 CREATE INDEX "sitrep_pub_idx" ON "wfnews"."situation_report" USING btree("published_ind");
 CREATE INDEX "sitrep_arch_idx" ON "wfnews"."situation_report" USING btree("archived_ind");
