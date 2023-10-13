@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./videos-widget.component.scss']
 })
 export class VideosWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

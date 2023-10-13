@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./fire-cause-widget.component.scss']
 })
 export class FireCauseWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

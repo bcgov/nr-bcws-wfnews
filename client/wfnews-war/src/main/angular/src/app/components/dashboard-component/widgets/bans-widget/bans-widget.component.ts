@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./bans-widget.component.scss']
 })
 export class BansWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

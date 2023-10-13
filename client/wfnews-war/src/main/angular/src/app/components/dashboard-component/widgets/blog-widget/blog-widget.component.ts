@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./blog-widget.component.scss']
 })
 export class BlogWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

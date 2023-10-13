@@ -19,6 +19,12 @@
   align-self: stretch;
 }
 
+.spinner-position {
+  position: relative;
+  left: calc(50% - 40px);
+  top: calc(50% - 40px);
+}
+
 .widget-header {
   color: #242424;
   font-feature-settings: 'clig' off, 'liga' off;

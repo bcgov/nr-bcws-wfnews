@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./situation-widget.component.scss']
 })
 export class SituationWidget {
+  public startupComplete = false
+
   constructor() { }
 }

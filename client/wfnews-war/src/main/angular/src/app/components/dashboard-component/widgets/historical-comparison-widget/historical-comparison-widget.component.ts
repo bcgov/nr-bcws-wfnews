@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./historical-comparison-widget.component.scss']
 })
 export class HistoricalComparisonWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

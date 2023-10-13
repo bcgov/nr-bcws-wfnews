@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./summary-widget.component.scss']
 })
 export class SummaryWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

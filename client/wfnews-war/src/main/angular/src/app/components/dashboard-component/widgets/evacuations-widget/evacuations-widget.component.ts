@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./evacuations-widget.component.scss']
 })
 export class EvacuationsWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

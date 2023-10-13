@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./resources-widget.component.scss']
 })
 export class ResourcesWidget {
+  public startupComplete = false
+  
   constructor() { }
 }

@@ -6,5 +6,7 @@ import { Component } from "@angular/core"
   styleUrls: ['./fires-of-note-widget.component.scss']
 })
 export class FiresOfNoteWidget {
+  public startupComplete = false
+  
   constructor() { }
 }
