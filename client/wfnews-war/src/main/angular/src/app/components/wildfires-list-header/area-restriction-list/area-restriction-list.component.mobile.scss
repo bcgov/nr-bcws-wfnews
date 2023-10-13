@@ -1,0 +1,116 @@
+.header-row{
+    display: flex;
+    margin: 0;
+}
+
+.table-search-header{
+  background-color: white !important;
+  border-top: none !important;
+  display: block !important;
+  padding-left: 20px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #dedede;
+  .label{
+      font-size: 15px;
+  }
+}
+
+.rounded-select {
+  border-radius: 20px !important;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 5px;
+}
+
+.filter-button {
+  margin-right: 7px;
+  border: 1px solid #C4C4C4;
+  background-color: white !important;
+  height: 36px;
+  width: 36px;
+  box-shadow: none;
+}
+
+.search-and-filters {
+  flex: 0 !important;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.mdc-button__label {
+  margin-left: 1px !important;
+  margin-top: 3px !important;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;;
+  box-shadow: none !important;
+  &:focus {
+    outline: none !important;;
+    box-shadow: none !important;
+  }
+}
+
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
+.panel-card-container {
+}
+
+.panel-card {
+  border-bottom: 1px solid #DEDEDE;
+}
+
+.card-header {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+  padding-bottom: 8px;
+  padding-left: 30px;
+  padding-top: 24px;
+}
+
+.card-item {
+  font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 22px;
+  letter-spacing: -0.40799999237060547px;
+  text-align: left;
+  color: #484848;
+  padding-bottom: 2px;
+  padding-left: 30px;
+}
+
+.card-icon {
+  margin-right: 7px;
+}
+
+.padding {
+  padding-bottom: 24px;
+}
+
+.spinner-position {
+  position: relative;
+  left: 50vw;
+  top: 20px;
+}
