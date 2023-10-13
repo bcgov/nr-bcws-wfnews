@@ -134,27 +134,43 @@
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
       </div>
-      <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="incidentRefs && incidentRefs.length">
+      <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="showPanel && incidentRefs && incidentRefs.length">
 
         <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
             <div class="draggable-panel-title">
-                {{incidentRefs.length}} Results
+                {{incidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div *ngIf="filteredWildfires && filteredWildfires.length">
                 <div class="criteria-title">Wildfires</div>
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row">
                         <div class="left-content">
-                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="fire-note-icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department">
+                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" height="20" width="20" src="/assets/images/local_fire_department.png" alt="local_fire_department">
                             <span class="circle-icon {{wildfire.layerId}}"></span>
-                            {{wildfire.title}}
+                            {{wildfire.properties.incident_name ? wildfire.properties.incident_name : wildfire.properties.incident_number_label + ' Wildfire'}}
                         </div>
                         <div class="right-content">
                             <mat-icon svgIcon='arrow'></mat-icon>
                         </div>
                     </div>
                 </div>
+            </div>
 
+            <div *ngIf="filteredEvacs && filteredEvacs.length">
+                <div class="criteria-title">Evacuations</div>
+                <div *ngFor="let evac of filteredEvacs" class="widget-card">
+                    <div class="widget-row">
+                        <div class="left-content">
+                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
+                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
+
+                           Evacuation {{evac.properties.ORDER_ALERT_STATUS}} for {{evac.properties.ORDER_ALERT_NAME}}
+                        </div>
+                        <div class="right-content">
+                            <mat-icon svgIcon='arrow'></mat-icon>
+                        </div>
+                    </div>
+                </div>
             </div>
             <!-- <div *ngFor="let incident of incidentRefs">
                 {{incident.title}}

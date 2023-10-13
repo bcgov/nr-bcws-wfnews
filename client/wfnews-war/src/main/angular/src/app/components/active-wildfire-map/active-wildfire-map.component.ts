@@ -65,9 +65,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   markers: any[];
   url;
   sortedAddressList: string[];
-  temp: any[] =[];
   incidentRefs: any[];
   filteredWildfires: any[];
+  filteredEvacs: any[];
+  showPanel: boolean
 
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
@@ -330,12 +331,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
   
   onSelectIncidents(incidentRefs){
-    console.log(incidentRefs)
+    this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+    console.log(this.incidentRefs)
     if (this.incidentRefs.length > 1) {
       // multiple features within clicked area
-
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
+      this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
     }
   }
 
@@ -526,20 +528,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  selectIncidents(incidentRefs){
-      const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            viewer = SMK.MAP[smkMap].$viewer;
-            incidentRefs = viewer.identified.featureSet
-            let temp = Object.keys(incidentRefs).map(key => incidentRefs[key]);
-            if (temp.length) {
-              console.log(temp.length)
-              this.temp = temp
-              this.cdr.detectChanges();
-            }
-          }
-      }
+  closePanel() {
+    this.showPanel = false;
   }
 }

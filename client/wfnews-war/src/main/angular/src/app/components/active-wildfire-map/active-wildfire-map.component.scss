@@ -502,6 +502,9 @@ mat-panel-title {
         color: #242424;
         padding: 20px 10px;
         border-bottom: 1px solid #DEDEDE;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
       }
 
       .criteria-title{
@@ -529,7 +532,7 @@ mat-panel-title {
         align-items: center;
       }
 
-      .fire-note-icon{
+      .incident-icon{
         margin-right: 12px;
       }
 
@@ -557,6 +560,14 @@ mat-panel-title {
             width: 18px;
             height: 18px;
             margin-right: 12px;
+        }
+        &.bcws-activefires-publicview-inactive{
+          background-color: #5C6671;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
         }
       }
     }
