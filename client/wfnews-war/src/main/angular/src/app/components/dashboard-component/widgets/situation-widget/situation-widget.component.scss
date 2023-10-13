@@ -19,3 +19,17 @@
   background: var(--Summary-Blue, #DFE5F1);
   box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
 }
+
+.widget-header {
+  color: #242424;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: Noto Sans;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px; /* 130.769% */
+  letter-spacing: 0.35px;
+  border-bottom: 1px solid #C4C4C4;
+  width: 100%;
+  padding-bottom: 16px;
+}
