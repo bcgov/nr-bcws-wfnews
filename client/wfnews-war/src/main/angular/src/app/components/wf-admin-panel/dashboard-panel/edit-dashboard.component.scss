@@ -18,3 +18,13 @@
   box-sizing: border-box;
   padding: 0.5rem 1rem;
 }
+
+.button-bar {
+  width: 100%;
+  display: flex;
+  flex-flow: row-reverse;
+}
+
+.publish-btn {
+  margin: 15px 15px 5px 15px;
+}

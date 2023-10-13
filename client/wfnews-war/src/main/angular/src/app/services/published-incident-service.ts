@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { SituationReport } from '@app/components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable, of } from 'rxjs';
@@ -110,5 +111,47 @@ export class PublishedIncidentService {
   public fetchAttachmentBytes (incidentNumber, attachmentGuid): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
+  }
+
+  /********** Situation Report ************/
+
+  public fetchSituationReportList (pageNum: number = 0, rowCount: number = 9999, published = true): Observable<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published}`
+    return this.httpClient.get<SituationReport>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
+  public fetchSituationReport (reportGuid: string): Observable<SituationReport> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicSituationReport/${reportGuid}`
+    return this.httpClient.get<SituationReport>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
+  public updateSituationReport (report: SituationReport): Observable<SituationReport> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/situationReport/${report.reportGuid}`
+    const headers = {
+      headers: {
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`
+      }
+    }
+    return this.httpClient.put<SituationReport>(url, report, headers)
+  }
+
+  public createSituationReport (report: SituationReport): Observable<SituationReport> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/situationReport`
+    const headers = {
+      headers: {
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`
+      }
+    }
+    return this.httpClient.post<SituationReport>(url, report, headers)
+  }
+
+  public deleteSituationReport (report: SituationReport): Observable<SituationReport> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/situationReport/${report.reportGuid}`
+    const headers = {
+      headers: {
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`
+      }
+    }
+    return this.httpClient.delete<SituationReport>(url, headers)
   }
 }

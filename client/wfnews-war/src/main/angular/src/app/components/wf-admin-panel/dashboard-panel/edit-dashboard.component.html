@@ -1,43 +1,44 @@
 <div class="container">
+  <div class="button-bar">
+    <button id="publish-btn" [disabled]="publishDisabled" class="publish-btn" mat-raised-button color="primary" (click)="publishChanges()">Publish Changes</button>
+  </div>
   <div class="report-panel">
     <h2>Resource Counts:</h2>
     <div class="counts-panel">
       <div class="field half-size">
         <mat-form-field class="item-full-width" floatLabel="always">
           <mat-label class="label">Incident Management Teams</mat-label>
-          <input matInput class="disabled-input" type="text" [(ngModel)]="incidentManagementTeamCount">
+          <input matInput class="disabled-input" type="text" [(ngModel)]="situationReport.incidentTeamCount">
         </mat-form-field>
       </div>
       <div class="field half-size">
         <mat-form-field class="item-full-width" floatLabel="always">
           <mat-label class="label">Firefighting Personnel</mat-label>
-          <input matInput class="disabled-input" type="text" [(ngModel)]="crewCount">
+          <input matInput class="disabled-input" type="text" [(ngModel)]="situationReport.crewCount">
         </mat-form-field>
       </div>
       <div class="field half-size">
         <mat-form-field class="item-full-width" floatLabel="always">
           <mat-label class="label">Aviation Count</mat-label>
-          <input matInput class="disabled-input" type="text" [(ngModel)]="aviationCount">
+          <input matInput class="disabled-input" type="text" [(ngModel)]="situationReport.aviationCount">
         </mat-form-field>
       </div>
       <div class="field half-size">
         <mat-form-field class="item-full-width" floatLabel="always">
           <mat-label class="label">Heavy Equipment Count</mat-label>
-          <input matInput class="disabled-input" type="text" [(ngModel)]="heavyEquipmentCount">
+          <input matInput class="disabled-input" type="text" [(ngModel)]="situationReport.heavyEquipmentCount">
         </mat-form-field>
       </div>
       <div class="field half-size">
         <mat-form-field class="item-full-width" floatLabel="always">
           <mat-label class="label">Structure Protection Count</mat-label>
-          <input matInput class="disabled-input" type="text" [(ngModel)]="structureProtection">
+          <input matInput class="disabled-input" type="text" [(ngModel)]="situationReport.structureProtectionCount">
         </mat-form-field>
       </div>
     </div>
   </div>
-
-
   <div class="report-panel">
     <h2>Situation Report:</h2>
-    <ckeditor [editor]="Editor" [(ngModel)]="situationReport" (ready)="onReady($event)"></ckeditor>
+    <ckeditor [editor]="Editor" [(ngModel)]="situationReport.situationOverview" (ready)="onReady($event)"></ckeditor>
   </div>
 </div>

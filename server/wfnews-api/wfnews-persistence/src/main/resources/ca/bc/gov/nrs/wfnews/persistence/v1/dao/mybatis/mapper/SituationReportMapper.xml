@@ -3,7 +3,7 @@
 
 <mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.SituationReportMapper">
   <resultMap id="SituationReportDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.SituationReportDto">
-	  <id     property="REPORT_GUID"              column="REPORT_GUID"                javaType="java.lang.String"  jdbcType="BINARY" />
+	  <id     property="reportGuid"               column="REPORT_GUID"                javaType="java.lang.String"  jdbcType="BINARY" />
     <result property="incidentTeamCount"        column="INCIDENT_TEAM_COUNT"        javaType="java.lang.Long"    jdbcType="NUMERIC" />
 		<result property="crewCount"                column="CREW_COUNT"                 javaType="java.lang.Long"    jdbcType="NUMERIC" />
 		<result property="aviationCount"            column="AVIATION_COUNT"             javaType="java.lang.Long"    jdbcType="NUMERIC" />
@@ -22,6 +22,9 @@
 	</resultMap>
 
   <insert id="insert">
+		<selectKey keyProperty="reportGuid" resultType="java.lang.String" order="BEFORE"> 
+			SELECT GEN_RANDOM_UUID();
+		</selectKey>
     INSERT INTO wfnews.SITUATION_REPORT (
         REPORT_GUID,
 				INCIDENT_TEAM_COUNT,
