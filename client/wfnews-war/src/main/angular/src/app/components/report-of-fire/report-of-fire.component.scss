@@ -41,9 +41,24 @@
     font-size: 3.85vh !important;
     margin: 10px 0px !important;
   }
+}
 
+.rof-text-secondary-header {
+  font-size: 2.2vh !important;
+  transform: scale(1);
+}
+
+@media (max-width: 400px) and (min-width: 350px) {
   .rof-text-secondary-header{
-      font-size: 2.2vh !important;
+    font-size: 2vh !important;
+    transform: scale(1);
+  }
+}
+
+@media (max-width: 349px) {
+  .rof-text-secondary-header{
+    font-size: 1.8vh !important;
+    transform: scale(1);
   }
 }
 
