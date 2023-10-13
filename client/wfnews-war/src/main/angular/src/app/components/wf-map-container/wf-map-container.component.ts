@@ -3,6 +3,7 @@ import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
+import { ActiveWildfireMapComponent } from '@app/components/active-wildfire-map/active-wildfire-map.component';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -113,6 +114,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   addSelectedIncidentPanels (smk) {
     const self = this;
     const identified = smk.$viewer.identified;
+    let mobileCompRef = self.makeComponent(ActiveWildfireMapComponent);
+    (mobileCompRef.instance as any).selectIncidents(identified.featureSet);
+
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];

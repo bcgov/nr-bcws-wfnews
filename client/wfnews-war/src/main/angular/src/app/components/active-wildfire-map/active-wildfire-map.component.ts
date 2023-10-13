@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
@@ -30,6 +30,7 @@ declare const window: any;
   selector: 'active-wildfire-map',
   templateUrl: './active-wildfire-map.component.html',
   styleUrls: ['./active-wildfire-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @Input() incidents: any;
@@ -64,7 +65,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   markers: any[];
   url;
   sortedAddressList: string[];
-
+  temp: any[] =[];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
@@ -77,6 +78,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
     protected dialog: MatDialog,
+    protected cdr: ChangeDetectorRef
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -502,5 +504,23 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
+  }
+
+  selectIncidents(incidentRefs){
+      const SMK = window['SMK'];
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+            viewer = SMK.MAP[smkMap].$viewer;
+            incidentRefs = viewer.identified.featureSet
+            let temp = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+            if (temp.length) {
+              console.log(temp.length)
+              this.temp = temp
+              this.cdr.detectChanges();
+            }
+          }
+      }
+
   }
 }
