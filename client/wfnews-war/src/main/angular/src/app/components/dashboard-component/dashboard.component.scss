@@ -2,12 +2,11 @@
 @import "notosans-fontface/scss/notosans-fontface";
 
 .container {
-  height: calc(100vh - 125px) !important;
   overflow: hidden;
   font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 20px;
   background-color: #FDFDFD;
-  max-width: 1300px;
+  max-width: 1500px;
   margin: auto;
 }
 
@@ -65,37 +64,36 @@
 }
 
 .panel-container {
-
+  display: flex;
+  padding-top: 24px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--24, 24px);
+}
+.panel-container> * {
+  flex: 1 1 49%;
 }
 
-.tab-button {
+.list-button {
+  margin-right: 7px;
   border-radius: 20px;
   border: 1px solid #C4C4C4;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
-  z-index: 100;
-  width: 201px;
-  font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
   &-selected {
+    margin-right: 7px;
     border-radius: 20px;
-    border: 2px solid #1A5A96 !important;
-    background-color: #1A5A96 !important;
-    color: #FDFDFD !important;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
     font-size: 16px;
     font-weight: 400;
     line-height: 21.79px;
-    z-index: 200;
-    width: 201px;
-    font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
   }
 }
 
-.right-tab {
-  margin-left: -25px;
-}
-
-.tab-button-label {
+.list-button-label {
   margin: 0px 0px 0px 7px;
 }
 

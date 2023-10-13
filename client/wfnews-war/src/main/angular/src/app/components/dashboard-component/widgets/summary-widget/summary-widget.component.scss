@@ -1,0 +1,21 @@
+@import '../../../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+.container {
+  overflow: hidden;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  padding: 20px;
+  display: flex;
+  height: 640px;
+  //max-width: 700px;
+  max-height: 640px;
+  padding: var(--24, 24px);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1 0 0;
+  align-self: stretch;
+  border-radius: 20px;
+  background: var(--Summary-Blue, #DFE5F1);
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+}

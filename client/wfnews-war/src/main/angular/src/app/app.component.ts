@@ -197,7 +197,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   initAppMenu() {
     this.appMenu = [
-      new RouterLink('Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
+      new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
       new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
       new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
       new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router)

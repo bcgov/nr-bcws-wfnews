@@ -172,6 +172,20 @@ import { FilterOptionsDialogComponent } from './components/wildfires-list-header
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { AdminEditDashboard } from './components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
+import { OverviewWidget } from './components/dashboard-component/widgets/overview-widget/overview-widget.component';
+import { SituationWidget } from './components/dashboard-component/widgets/situation-widget/situation-widget.component';
+import { SummaryWidget } from './components/dashboard-component/widgets/summary-widget/summary-widget.component';
+import { ActiveFiresWidget } from './components/dashboard-component/widgets/active-fires-widget/active-fires-widget.component';
+import { ResourcesWidget } from './components/dashboard-component/widgets/resources-widget/resources-widget.component';
+import { EvacuationsWidget } from './components/dashboard-component/widgets/evacuations-widget/evacuations-widget.component';
+import { BansWidget } from './components/dashboard-component/widgets/bans-widget/bans-widget.component';
+import { FiresOfNoteWidget } from './components/dashboard-component/widgets/fires-of-note-widget/fires-of-note-widget.component';
+import { FireCauseWidget } from './components/dashboard-component/widgets/fire-cause-widget/fire-cause-widget.component';
+import { BlogWidget } from './components/dashboard-component/widgets/blog-widget/blog-widget.component';
+import { VideosWidget } from './components/dashboard-component/widgets/videos-widget/videos-widget.component';
+import { FireTotalsWidget } from './components/dashboard-component/widgets/fire-totals-widget/fire-totals-widget.component';
+import { HistoricalComparisonWidget } from './components/dashboard-component/widgets/historical-comparison-widget/historical-comparison-widget.component';
+import { FireCentreStatsWidget } from './components/dashboard-component/widgets/fire-centre-stats-widget/fire-centre-stats-widget.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -283,6 +297,20 @@ export const DATE_FORMATS = {
         RoFDisclaimerPage,
         RofCallPage,
         DialogExitComponent,
+        OverviewWidget,
+        SituationWidget,
+        SummaryWidget,
+        ActiveFiresWidget,
+        ResourcesWidget,
+        EvacuationsWidget,
+        BansWidget,
+        FiresOfNoteWidget,
+        FireCauseWidget,
+        BlogWidget,
+        VideosWidget,
+        FireTotalsWidget,
+        HistoricalComparisonWidget,
+        FireCentreStatsWidget
     ],
     imports: [
         MatSortModule,
