@@ -23,6 +23,8 @@ dependencies {
     implementation project(':capacitor-push-notifications')
     implementation project(':capacitor-splash-screen')
     implementation project(':capacitor-status-bar')
+    implementation project(':capawesome-capacitor-background-task')
+    implementation project(':capacitor-native-settings')
 
 }
 
