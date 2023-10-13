@@ -3,5 +3,24 @@
     <span>Wildfire Summary</span>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="active-fire-holder">
+      <span class="active-fire-data">{{activeFires}}</span> <span class="active-fire-label">Active Wildfires</span>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/warning.svg" alt="Order" class="stat-box-icon" />
+      <span class="stat-box-label">Started in the Last 24 hours</span>
+      <span class="stat-box-data">{{starts24hour}}</span>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />
+      <span class="stat-box-label">Started in the Last 7 Days</span>
+      <span class="stat-box-data">{{starts7Day}}</span>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/crop-growth.svg" alt="Order" class="stat-box-icon" />
+      <span class="stat-box-label">Put out in the Last 7 Days</span>
+      <span class="stat-box-data">{{out7Day}}</span>
+    </div>
+  </div>
 </div>
