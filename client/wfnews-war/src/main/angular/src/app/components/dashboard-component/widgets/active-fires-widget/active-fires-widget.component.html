@@ -1,7 +1,65 @@
 <div class="container">
   <div class="widget-header">
     <span>Active Wildfires</span>
+    <div class="field right-align">
+      <select appWFSingleSelect appWFPlaceholder="Fire Centre"
+              class="rounded-select"
+              aria-label="Type"
+              [options]="fireCentreOptions"
+              [selected]="selectedFireCentreCode"
+              [(ngModel)]="selectedFireCentreCode"
+              (updated)="selectFireCentre($event)">
+          <option value="">
+              <span class="placeholder">All of BC</span>
+          </option>
+          <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+              <span>{{item.description}}</span>
+          </option>
+      </select>
+    </div>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="counts-box">
+      <div class="stat-box">
+        <img height="36" width="36" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />
+        <div class="stat-text">
+          <span class="stat-box-label">Total Wildfires</span>
+          <span class="stat-box-data">{{activeFires}}</span>
+        </div>
+      </div>
+      <div class="stat-box">
+        <img height="36" width="36" src="/assets/images/local_fire_department.png" alt="Order" class="stat-box-icon" />
+        <div class="stat-text">
+          <span class="stat-box-label">Wildfires of Note</span>
+          <span class="stat-box-data">{{activeFireOfNote}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="charts-box">
+      <div class="chart-box-title">Stages of Control</div>
+      
+      <ngx-charts-pie-chart
+        [view]="[160, 160]"
+        [doughnut]="true"
+        [legend]="false"
+        [scheme]="outOfControlScheme"
+        [results]="outOfControlData">
+      </ngx-charts-pie-chart>
+      <ngx-charts-pie-chart
+        [view]="[160, 160]"
+        [doughnut]="true"
+        [legend]="false"
+        [scheme]="beingHeldScheme"
+        [results]="beingHeldData">
+      </ngx-charts-pie-chart>
+      <ngx-charts-pie-chart
+        [view]="[160, 160]"
+        [doughnut]="true"
+        [legend]="false"
+        [scheme]="underControlScheme"
+        [results]="underControlData">
+      </ngx-charts-pie-chart>
+    </div>
+  </div>
 </div>
