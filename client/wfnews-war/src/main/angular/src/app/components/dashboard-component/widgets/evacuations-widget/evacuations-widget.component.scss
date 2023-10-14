@@ -38,3 +38,115 @@
   width: 100%;
   padding-bottom: 16px;
 }
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.counts-box {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.stat-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-box {
+  display: flex;
+  padding: 0px 20px 0px 20px;
+  align-items: center;
+  gap: 32px;
+  align-self: stretch;
+  border-radius: var(--16, 16px);
+  background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+  border: 1.5px solid #DEDEDE;
+  height: 116px;
+  width: calc(50% - 24px);
+}
+
+.stat-box-icon {
+  display: flex;
+  padding: 12px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 60px;
+  position: relative;
+  top: -5px;
+}
+
+.stat-box-data {
+  color: #242424;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0.35px;
+}
+
+.stat-box-label {
+  color: var(--Black-2, #484848);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.evac-list-box {
+
+}
+
+.evac-card-content {
+  display: flex;
+}
+
+.evac-card-title {
+  overflow: hidden;
+  color: var(--grays-gray-1, #242424);
+  text-overflow: ellipsis;
+  font-family: Noto Sans;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-left: 8px;
+}
+
+.evac-card-text {
+  color: var(--grays-gray-3, #666);
+  font-family: Noto Sans;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 146.667% */
+  letter-spacing: -0.408px;
+  margin-left: 8px;
+}
+
+.evac-card {
+  border-bottom: 1px solid #DEDEDE;
+  display: flex;
+  padding: 10px 0px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  align-self: stretch;
+}
+
+.evac-list-title {
+  color: var(--Black-2, #484848);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 29px; /* 131.818% */
+}
