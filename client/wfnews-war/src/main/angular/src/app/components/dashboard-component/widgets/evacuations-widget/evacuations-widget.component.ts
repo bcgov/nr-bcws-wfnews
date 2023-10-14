@@ -21,7 +21,7 @@ export class EvacuationsWidget implements AfterViewInit {
       if (evacs && evacs.features) {
 
         this.evacOrders = evacs.features.filter(e => e.attributes.ORDER_ALERT_STATUS === 'Order').length
-        this.evacAlerts = evacs.features.filter(e => e.attributes.ORDER_ALERT_STATUS === 'Alerts').length
+        this.evacAlerts = evacs.features.filter(e => e.attributes.ORDER_ALERT_STATUS === 'Alert').length
 
         for (const element of evacs.features) {
           this.evacList.push({
@@ -37,7 +37,7 @@ export class EvacuationsWidget implements AfterViewInit {
         }
 
         // sort the list by date
-        this.evacList.sort((a,b) =>(a.issuedOnRaw > b.issuedOnRaw) ? 1 : ((b.issuedOnRaw > a.issuedOnRaw) ? -1 : 0))
+        this.evacList.sort((a,b) =>(a.issuedOnRaw > b.issuedOnRaw) ? -1 : ((b.issuedOnRaw > a.issuedOnRaw) ? 1 : 0))
         // only keep the first 4 or 5
         if (this.evacList.length > 5) {
           this.evacList = this.evacList.slice(0, 5);

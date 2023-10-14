@@ -53,12 +53,11 @@
 
 .stat-text {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .stat-box {
-  display: flex;
-  padding: 0px 20px 0px 20px;
+  padding: 16px 20px 0px 20px;
   align-items: center;
   gap: 32px;
   align-self: stretch;
@@ -71,14 +70,14 @@
 
 .stat-box-icon {
   display: flex;
-  padding: 12px;
+  padding: 12px 12px 12px 0px;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 8px;
   border-radius: 60px;
   position: relative;
-  top: -5px;
+  top: 6px;
 }
 
 .stat-box-data {
@@ -99,6 +98,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  margin-top: 16px;
 }
 
 .evac-list-box {
@@ -149,4 +149,19 @@
   font-style: normal;
   font-weight: 500;
   line-height: 29px; /* 131.818% */
+}
+
+.footer {
+  width: 100%;
+  text-align: end;
+}
+
+.link {
+  color: var(--blues-blue-5, var(--Medium-Blue, #146FB4));
+  font-family: Noto Sans;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px; /* 131.25% */
+  text-decoration: none;
 }

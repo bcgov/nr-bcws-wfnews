@@ -32,8 +32,6 @@ export class BansWidget implements OnInit, AfterViewInit {
       this.startupComplete = true
       this.cdr.detectChanges()
 
-      console.log(cat1sld, cat2sld, cat3sld)
-
       // Create map and append data to the map component
       const southWest = L.latLng(60.2, -116),
       northEast = L.latLng(49, -136.3),
