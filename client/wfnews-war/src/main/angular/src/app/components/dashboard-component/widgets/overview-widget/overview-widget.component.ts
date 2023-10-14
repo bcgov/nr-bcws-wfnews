@@ -26,8 +26,6 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     console.log('After View Init')
     // load the incident points from the API
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/features?stageOfControl=`
-    this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise()
-
     Promise.all([
       this.httpClient.get(url + 'FIRE_OF_NOTE', { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise(),
       this.httpClient.get(url + 'OUT_CNTRL', { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} }).toPromise(),

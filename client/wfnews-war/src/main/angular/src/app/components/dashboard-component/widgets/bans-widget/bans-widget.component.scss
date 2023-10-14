@@ -28,7 +28,7 @@
 .widget-header {
   color: #242424;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Noto Sans;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 26px;
   font-style: normal;
   font-weight: 500;
@@ -37,4 +37,37 @@
   border-bottom: 1px solid #C4C4C4;
   width: 100%;
   padding-bottom: 16px;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.legend-bar {
+  display: flex;
+  padding: 8px 0px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 24px var(--24, 24px);
+  align-self: stretch;
+  flex-wrap: wrap;
+  color: var(--Black-2, #484848);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.icon {
+  padding: 4px;
+  position: relative;
+  top: 6px;
+}
+
+.bans-map-container {
+  width: 100%;
+  height: calc(100% - 50px);
+  border-radius: 10px;
 }

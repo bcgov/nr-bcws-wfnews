@@ -3,5 +3,18 @@
     <span>Fire Bans</span>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="legend-bar">
+      <div class="legend-part">
+        <img height="17" width="17" src="/assets/images/category1ban.png" alt="Category 1" class="icon"><span class="checkbox-label">Category 1 (Campfires)</span>
+      </div>
+      <div class="legend-part">
+        <img height="17" width="17" src="/assets/images/category2ban.png" alt="Category 2" class="icon"><span class="checkbox-label">Category 2</span>
+      </div>
+      <div class="legend-part">
+        <img height="17" width="17" src="/assets/images/category3ban.png" alt="Category 3" class="icon"><span class="checkbox-label">Category 3</span>
+      </div>
+    </div>
+    <div id="bans-map" class="bans-map-container"></div>
+  </div>
 </div>
