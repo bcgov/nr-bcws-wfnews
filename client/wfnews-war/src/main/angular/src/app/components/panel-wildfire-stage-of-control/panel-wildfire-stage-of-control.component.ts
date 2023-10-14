@@ -157,7 +157,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
         let message = "... Waiting on SMK init to hook map events ..."
         if (err instanceof Error) message = err.message;
 
-        console.warn('message');
+        console.warn(message);
       }
     }, 1000)
   }
