@@ -6,9 +6,8 @@
   font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 20px;
   display: flex;
-  height: 640px;
   width: auto;
-  max-height: 640px;
+  min-height: 640px;
   padding: var(--24, 24px);
   flex-direction: column;
   align-items: flex-start;
@@ -52,6 +51,7 @@
 
 .content {
   width: 100%;
+  height: 100%;
 }
 
 .counts-box {
@@ -65,10 +65,84 @@
   border-radius: var(--16, 16px);
   background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
   border: 1.5px solid #DEDEDE;
-  width: 100%;
-  height: 100%;
+  height: calc(100% - 196px);
   margin-top: 25px;
   padding: 20px;
+}
+
+.chart-box-title-bar {
+  display: flex;
+}
+
+.chart-box-content {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.chart-box-content> * {
+  flex: 1 0 20%;
+}
+
+.chart {
+  display: flex;
+  flex-flow: column;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  flex: 1 0 0;
+}
+
+.chart-percent {
+  color: var(--grays-gray-1, #242424);
+  text-align: center;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-size: 28.929px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  top: -196px;
+}
+
+.chart-label {
+  color: var(--Black-1, #242424);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.chart-data {
+  color: var(--Grey-1, #666);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+.button-label {
+  position: relative;
+  top: -3px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+}
+
+.button-icon {
+  position: relative;
+  top: 2px;
+  left: -6px;
 }
 
 .chart-box-title {

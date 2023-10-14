@@ -37,29 +37,48 @@
       </div>
     </div>
     <div class="charts-box">
-      <div class="chart-box-title">Stages of Control</div>
-      
-      <ngx-charts-pie-chart
-        [view]="[160, 160]"
-        [doughnut]="true"
-        [legend]="false"
-        [scheme]="outOfControlScheme"
-        [results]="outOfControlData">
-      </ngx-charts-pie-chart>
-      <ngx-charts-pie-chart
-        [view]="[160, 160]"
-        [doughnut]="true"
-        [legend]="false"
-        [scheme]="beingHeldScheme"
-        [results]="beingHeldData">
-      </ngx-charts-pie-chart>
-      <ngx-charts-pie-chart
-        [view]="[160, 160]"
-        [doughnut]="true"
-        [legend]="false"
-        [scheme]="underControlScheme"
-        [results]="underControlData">
-      </ngx-charts-pie-chart>
+      <div class="chart-box-title-bar">
+        <div class="chart-box-title">Stages of Control</div>
+        <button class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="button-icon" /><span class="button-label">Learn More</span></button>
+      </div>
+      <div class="chart-box-content">
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="outOfControlScheme"
+            [results]="outOfControlData">
+          </ngx-charts-pie-chart>
+          <span class="chart-label">Out of Control</span>
+          <span class="chart-data">{{activeOutOfControl}} Wildfires</span>
+          <div class="chart-percent">{{activeOutOfControlPct}}%</div>
+        </div>
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="beingHeldScheme"
+            [results]="beingHeldData">
+          </ngx-charts-pie-chart>
+          <span class="chart-label">Being Held</span>
+          <span class="chart-data">{{activeBeingHeld}} Wildfires</span>
+          <div class="chart-percent">{{activeBeingHeldPct}}%</div>
+        </div>
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="underControlScheme"
+            [results]="underControlData">
+          </ngx-charts-pie-chart>
+          <span class="chart-label">Under Control</span>
+          <span class="chart-data">{{activeUnderControl}} Wildfires</span>
+          <div class="chart-percent">{{activeUnderControlPct}}%</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
