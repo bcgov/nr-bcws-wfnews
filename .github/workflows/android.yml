@@ -103,7 +103,7 @@ jobs:
           BC_WILDFIRE_SUPPORT_PAGE: ${{ vars.BC_WILDFIRE_SUPPORT_PAGE }}
           BUILD_NUMBER: ${{ github.run_number }}
           BURN_REGISTRATION_LINE: ${{ vars.BURN_REGISTRATION_LINE }}
-          # CONFIG_IM_URL: ${{ vars.CONFIG_IM_URL }}
+          CONFIG_IM_URL: ${{ vars.CONFIG_IM_URL }}
           DRIVEBC_BASE_URL: ${{ vars.DRIVEBC_BASE_URL }}
           FACEBOOK_URL: ${{ vars.FACEBOOK_URL }}
           GOOGLE_PLAY_URL: ${{ vars.GOOGLE_PLAY_URL }}
