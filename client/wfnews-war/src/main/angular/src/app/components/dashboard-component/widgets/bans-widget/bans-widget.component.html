@@ -1,6 +1,7 @@
 <div class="container">
   <div class="widget-header">
-    <span>Fire Bans</span>
+    <span class="widget-title">Fire Bans</span>
+    <button class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="button-icon" /><span class="button-label">Learn More</span></button>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div class="content" *ngIf="startupComplete; else loading">
