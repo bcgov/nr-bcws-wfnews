@@ -69,7 +69,7 @@
     display: flex;
     flex-direction: column;
     padding: 0px 20px 0px 20px;
-    gap: 32px;
+    gap: 10px;
     align-self: stretch;
     border-radius: var(--16, 16px);
     background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
@@ -284,6 +284,8 @@
   font-weight: 500;
   line-height: normal;
   letter-spacing: 0.35px;
+  margin-left: 10px;
+  margin-top: -10px;
 }
 
 .stat-box-label {
@@ -293,4 +295,5 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  margin-top: 10px
 }
