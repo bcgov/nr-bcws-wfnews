@@ -36,8 +36,8 @@ export class WildfiresListHeaderComponent implements OnInit {
 
   ngOnInit() {
     this.activatedRoute.queryParams.subscribe(params => {
-        const tab = params['tab']
-        this.selectTab(Number(tab))
-      });
+      const tab = params['tab']
+      this.selectTab(Number(tab))
+    })
   }
 }
