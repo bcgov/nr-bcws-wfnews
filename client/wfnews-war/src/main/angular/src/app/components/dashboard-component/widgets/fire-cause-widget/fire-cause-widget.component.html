@@ -1,7 +1,72 @@
 <div class="container">
   <div class="widget-header">
     <span>Wildfire Causes</span>
+    <div class="field right-align">
+      <select appWFSingleSelect appWFPlaceholder="Fire Centre"
+              class="rounded-select"
+              aria-label="Type"
+              [options]="fireCentreOptions"
+              [selected]="selectedFireCentreCode"
+              [(ngModel)]="selectedFireCentreCode"
+              (updated)="selectFireCentre($event)">
+          <option value="">
+              <span class="placeholder">All of BC</span>
+          </option>
+          <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+              <span>{{item.description}}</span>
+          </option>
+      </select>
+    </div>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="info-box">
+      <span>Wildfire cause statistics are a combination of determined and suspected causes.</span>
+      <img height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="info-button-icon" />
+    </div>
+    <div class="data-box">
+      <div class="data-box-title">Active Wildfires</div>
+      <div class="data-box-content">
+        <div class="data-box-content-card">
+          <div class="data-box-content-card-count-box">
+            <img height="52" width="52" src="/assets/images/svg-icons/lightning.svg" alt="Order" class="button-icon" />
+            <div class="data-box-content-card-count-holder">
+              <div class="data-box-content-card-count-holder-title">Lightning</div>
+              <div class="data-box-content-card-count-holder-data">{{lightningFires}}</div>
+            </div>
+          </div>
+          <div class="data-box-content-card-pct-box">
+            <mat-progress-bar class="data-box-content-card-pct-box-bar" mode="determinate" [value]="lightningFiresPct"></mat-progress-bar>
+            <div class="data-box-content-card-pct-box-value">{{lightningFiresPct}}%</div>
+          </div>
+        </div>
+        <div class="data-box-content-card">
+          <div class="data-box-content-card-count-box">
+            <img height="52" width="52" src="/assets/images/svg-icons/human.svg" alt="Order" class="button-icon" />
+            <div class="data-box-content-card-count-holder">
+              <div class="data-box-content-card-count-holder-title">Human</div>
+              <div class="data-box-content-card-count-holder-data">{{humanFires}}</div>
+            </div>
+          </div>
+          <div class="data-box-content-card-pct-box">
+            <mat-progress-bar class="data-box-content-card-pct-box-bar" mode="determinate" [value]="humanFiresPct"></mat-progress-bar>
+            <div class="data-box-content-card-pct-box-value">{{humanFiresPct}}%</div>
+          </div>
+        </div>
+        <div class="data-box-content-card">
+          <div class="data-box-content-card-count-box">
+            <img height="52" width="52" src="/assets/images/svg-icons/help.svg" alt="Order" class="button-icon" />
+            <div class="data-box-content-card-count-holder">
+              <div class="data-box-content-card-count-holder-title">Undetermined</div>
+              <div class="data-box-content-card-count-holder-data">{{unknownFires}}</div>
+            </div>
+          </div>
+          <div class="data-box-content-card-pct-box">
+            <mat-progress-bar class="data-box-content-card-pct-box-bar" mode="determinate" [value]="unknownFiresPct"></mat-progress-bar>
+            <div class="data-box-content-card-pct-box-value">{{unknownFiresPct}}%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
