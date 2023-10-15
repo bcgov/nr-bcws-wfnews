@@ -3,5 +3,39 @@
     <span>Latest News</span>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="blog-card">
+      <div class="blog-card-header">
+        <img height="55" width="59" src="/assets/images/svg-icons/bc-logo.svg" alt="BC logo" class="blog-card-header-icon">
+        <div class="blog-card-header-title">BC Wildfire Blog</div>
+        <img onclick="window.open('https://blog.gov.bc.ca/bcwildfire/', '_blank')" height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
+      </div>
+      <div class="divider"></div>
+      <div class="blog-card-footer">Explore publicly issued bulletins, updates on wildfire activity across B.C. and other wildfire information.</div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-card-header">
+        <img height="28" width="28" src="/assets/images/svg-icons/facebook-blue.svg" alt="BC logo" class="blog-card-header-icon-blue">
+        <div class="blog-card-header-title">Facebook</div>
+        <img onclick="window.open('https://www.facebook.com/BCForestFireInfo/', '_blank')" height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-card-header">
+        <img height="28" width="28" src="/assets/images/svg-icons/youtube.svg" alt="BC logo" class="blog-card-header-icon-blue">
+        <div class="blog-card-header-title">Youtube</div>
+        <img height="24" width="24" onclick="window.open('https://www.youtube.com/@BCWildfireService', '_blank')" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
+      </div>
+    </div>
+
+    <div class="blog-card">
+      <div class="blog-card-header">
+        <img height="28" width="23" style="padding: 10px 12px 10px 12px !important;" src="/assets/images/svg-icons/twitter-x.svg" alt="BC logo" class="blog-card-header-icon-blue">
+        <div class="blog-card-header-title">X (Formerly Twitter)</div>
+        <img height="24" width="24" onclick="window.open('https://mobile.twitter.com/bcgovfireinfo', '_blank')" src="/assets/images/svg-icons/link.svg" alt="BC logo" class="blog-card-header-link">
+      </div>
+    </div>
+  </div>
 </div>
