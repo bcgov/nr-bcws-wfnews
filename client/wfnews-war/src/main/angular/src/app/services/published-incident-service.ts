@@ -98,6 +98,11 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 
+  public fetchExternalUriList (page: number = 1, rows: number = 10): Observable<any> {
+    let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicExternalUri?pageNumber=${page}&pageRowCount=${rows}`;
+    return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
+  }
+
   public fetchExternalUri (incidentNumber): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
