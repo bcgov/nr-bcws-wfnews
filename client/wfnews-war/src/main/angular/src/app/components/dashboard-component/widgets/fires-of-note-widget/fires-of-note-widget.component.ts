@@ -60,4 +60,9 @@ export class FiresOfNoteWidget  implements AfterViewInit {
   convertToDateString (date) {
     return new Date(date).toLocaleDateString()
   }
+
+  viewIncident (incident) {
+    console.log(incident)
+    window.open('/incidents?fireYear=' + incident.fireYear + '&incidentNumber=' + incident.incidentNumberLabel, '_blank')
+  }
 }
