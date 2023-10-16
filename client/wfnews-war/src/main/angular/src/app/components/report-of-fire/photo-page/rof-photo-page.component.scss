@@ -18,9 +18,12 @@
         border-radius: 8px;
         background: #F1F1F1;
         border-width: inherit;
-        @media (min-width: 1024px) and (max-height:735px){
-            height: 10vh !important;
+        @media (min-width: 1024px) and (max-height:735px) {
+            height: 15vh !important;
         }
+        // @media (min-width: 1024px) and (max-height:735px){
+        //     height: 10vh !important;
+        // }
         
     }
     span{
@@ -67,11 +70,9 @@
     }
 
     .image{
+        height: 25vh;
         @media (min-width: 1024px) and (max-height: 699px){
             height: 20vh;
-        }
-        @media (min-height: 700px){
-             height: 25vh;
         }
 
         &-fullScreen {

@@ -162,16 +162,20 @@
   display: flex;
   overflow-y: auto;
   max-height: 525px;
-  gap: 24px;
+  gap: 16px;
   .flex-button {
     width: calc(50vw - 30px);
     height: 81px;
     margin-bottom: 0px !important;
     background-color: #F1F1F1;
-    @media (max-height: 700px){
-      height: 9vh;
+    @media (max-height: 800px) and (min-height: 700px){
+      height: 8vh;
       font-size: 2.2vh !important;
     }
+    @media (max-height: 699px){
+       height: 7vh;
+      font-size: 2.2vh !important;
+     }
   }
   .mat-flat-button {
     border: none;
@@ -190,8 +194,13 @@
     color: #000 !important;
     text-align: center !important;
     font-size: 19px !important;
-    @media (max-height: 700px){
-      font-size: 2.2vh;
+    @media (max-height: 800px) and (min-height: 700px){
+      height: 10vh;
+      font-size: 2.2vh !important;
+    }
+    @media (max-height: 699px){
+      height: 9vh;
+      font-size: 2.2vh !important;
     }
     font-style: normal !important;
     font-weight: 600 !important;
@@ -216,16 +225,13 @@
     border: none;
     border-radius: 8px;
     height: 81px;
-    @media (max-height: 800px) and (min-height: 750px){
-      height: 9vh !important;
-    }
-    @media (max-height: 749px) and (min-height: 700px){
+    @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
       height: 8vh !important;
     }
-    @media (max-height: 699px) and (min-height: 625px){
+    @media (min-width: 1024px) and (max-height: 649px) and (min-height: 615px) {
       height: 7vh !important;
     }
-    @media (max-height: 624px){
+    @media (min-width: 1024px) and (max-height: 614px) {
       height: 6vh !important;
     }
   }
@@ -245,10 +251,13 @@
 }
 
 ::ng-deep.mat-button-toggle-button {
-   height: 81px !important;
-   @media (max-height: 700px) {
-    height: 8.5vh !important;
-   }
+  height: 81px !important;
+  @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
+    height: 8vh !important;
+  }
+  @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
+    height: 7vh !important;
+  }
 }
 
 ::ng-deep.mat-button-toggle-label-content {
