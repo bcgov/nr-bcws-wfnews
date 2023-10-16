@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="widget-header">
+    <span>Evacuations</span>
+  </div>
+  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="counts-box">
+      <div class="stat-box">
+        <span class="stat-box-label">Total Evacuation Orders</span>
+        <div class="stat-text">
+          <img height="36" width="36" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" class="stat-box-icon" />
+          <span class="stat-box-data">{{evacOrders}}</span>
+        </div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-box-label">Total Evacuation Alerts</span>
+        <div class="stat-text">
+          <img height="36" width="36" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" class="stat-box-icon" />
+          <span class="stat-box-data">{{evacAlerts}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="evac-list-box">
+      <div class="evac-list-title">Recent Notices</div>
+      <div class="evac-card" *ngFor="let evac of evacList">
+        <div class="evac-card-content">
+          <img *ngIf="evac.status === 'Order'" height="22" width="22" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" />
+          <img *ngIf="evac.status === 'Alert'" height="22" width="22" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" />
+          <span class="evac-card-title">{{evac.name}}</span>
+        </div>
+        <div class="evac-card-content">
+          <img height="22" width="22" src="/assets/images/svg-icons/calendar-pin.svg" alt="issued on" />
+          <span class="evac-card-text">{{evac.issuedOn}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+      <a class="link" routerLink="../list" [queryParams]="{tab: 1}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow.svg" alt="Order" /></a>
+    </div>
+  </div>
+</div>

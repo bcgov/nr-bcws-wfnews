@@ -10,6 +10,7 @@ Disallow: /incident
 
 User-agent: *
 Allow: /map
-Allow: /currentStatistics
+Allow: /dashboard
+Allow: /list
 Allow: /resources
 Allow: /reportOfFire

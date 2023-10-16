@@ -7,8 +7,6 @@ import javax.servlet.ServletConfig;
 import javax.ws.rs.core.Context;
 
 import org.glassfish.jersey.media.multipart.MultiPartFeature;
-import org.glassfish.jersey.message.GZipEncoder;
-import org.glassfish.jersey.server.filter.EncodingFilter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +16,9 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.ExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.MailEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicExternalUriEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicPublishedIncidentEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicSituationReportEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublishedIncidentEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.SituationReportEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
@@ -50,6 +50,8 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(AttachmentsListEndpointImpl.class);
 		register(AttachmentsEndpointImpl.class);
 		register(MailEndpointImpl.class);
+		register(SituationReportEndpointImpl.class);
+		register(PublicSituationReportEndpointImpl.class);
 		register(GZIPWriterInterceptor.class);
 		//EncodingFilter.enableFor(this, GZipEncoder.class);
 
