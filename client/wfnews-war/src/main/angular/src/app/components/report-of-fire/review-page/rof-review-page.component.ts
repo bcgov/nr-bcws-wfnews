@@ -278,6 +278,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
   }
 
   async ionViewDidEnter() {
+    // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
+      await this.commonUtilityService.removeInvalidOfflineRoF();
+
     // if server is reachable look for previously stored offline RoFs to be submitted 
       await (this.commonUtilityService.checkOnlineStatus().then(result => {
         if (result){
@@ -302,6 +305,7 @@ submitRof(){
     assetsAtRisk: this.reportOfFire.assetsAtRisk,
     signsOfResponse: this.reportOfFire.signsOfResponse,
     otherInfo: this.reportOfFire.otherInfo,
+    submittedTimestamp: new Date().getTime().toString()
   }
 
   try {   
