@@ -1,0 +1,115 @@
+@import '../../../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+@media (min-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    height: 640px;
+    //max-width: 700px;
+    max-height: 640px;
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    height: 640px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    background: #FFF;
+  }
+}
+
+.spinner-position {
+  position: relative;
+  left: calc(50% - 40px);
+  top: calc(50% - 40px);
+}
+
+.widget-header {
+  border-bottom: 1px solid #C4C4C4;
+  width: 100%;
+  padding-bottom: 16px;
+  display: flex;
+}
+
+.widget-title {
+  color: #242424;
+  font-feature-settings: 'clig' off, 'liga' off;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 26px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 34px; /* 130.769% */
+  letter-spacing: 0.35px;
+}
+
+.content {
+  height: 100%;
+  width: 100%;
+}
+
+.legend-bar {
+  display: flex;
+  padding: 8px 0px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 24px var(--24, 24px);
+  align-self: stretch;
+  flex-wrap: wrap;
+  color: var(--Black-2, #484848);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.icon {
+  padding: 4px;
+  position: relative;
+  top: 6px;
+}
+
+.bans-map-container {
+  width: 100%;
+  height: calc(100% - 50px);
+  border-radius: 10px;
+}
+
+.button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+.button-label {
+  position: relative;
+  top: -3px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+}
+
+.button-icon {
+  position: relative;
+  top: 2px;
+  left: -6px;
+}

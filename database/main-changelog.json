@@ -300,6 +300,21 @@
           }
         ]
       }
+    },
+    {
+      "changeSet": {
+        "id": "01_00_00_08",
+        "author": "dhemsworth",
+        "changes": [
+          {
+            "sqlFile": {
+              "dbms": "postgresql",
+              "endDelimiter": ";",
+              "path": "scripts/01_00_00/08/ddl/tables/CREATE.SITUATION_REPORT.sql"
+            }
+          }
+        ]
+      }
     }
   ]
 }
