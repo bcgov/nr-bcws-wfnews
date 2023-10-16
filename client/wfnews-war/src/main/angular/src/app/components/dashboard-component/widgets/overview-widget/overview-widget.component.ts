@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http"
 export class OverviewWidget implements OnInit, AfterViewInit {
   public startupComplete = false
   public map: any = null
+  public showViewMapButton = false
 
   constructor(private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, private httpClient: HttpClient, private el: ElementRef) { }
 
@@ -65,7 +66,7 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         format: 'image/png',
         transparent: true,
         version: '1.1.1'
-      }).addTo(this.map)
+      }).addTo(this.map);
 
       const fonIcon = L.icon({iconUrl: "/assets/images/local_fire_department.png", iconSize: [20, 20], shadowAnchor: [4, 42], shadowSize: [31, 31]})
       const ucIcon = L.icon({iconUrl: "/assets/images/svg-icons/under-control.svg", iconSize: [10, 10], shadowAnchor: [4, 32], shadowSize: [10, 10] })
