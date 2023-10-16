@@ -44,4 +44,11 @@ public class ResourceTypes extends BaseResourceTypes {
 	public static final String UPDATE_ATTACHMENT = NAMESPACE + "updateAttachment";
 	public static final String DELETE_ATTACHMENT = NAMESPACE + "deleteAttachment";
 	
+	public static final String SITUATION_REPORT_NAME = "situationReport";
+	public static final String SITUATION_REPORT = NAMESPACE + SITUATION_REPORT_NAME;
+	public static final String SITUATION_REPORT_LIST_NAME = "situationReportList";
+	public static final String SITUATION_REPORT_LIST = NAMESPACE + SITUATION_REPORT_LIST_NAME;
+	public static final String CREATE_SITUATION_REPORT = NAMESPACE + "createSituationReport";
+	public static final String UPDATE_SITUATION_REPORT = NAMESPACE + "updateSituationReport";
+	public static final String DELETE_SITUATION_REPORT = NAMESPACE + "deleteSituationReport";
 }

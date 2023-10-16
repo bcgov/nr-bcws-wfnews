@@ -25,6 +25,7 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.impl.IncidentsServiceImpl;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.SituationReportFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 
 @Configuration
@@ -83,6 +84,7 @@ public class ServiceApiSpringConfig {
 	@Autowired PublishedIncidentFactory publishedIncidentFactory;
 	@Autowired ExternalUriFactory externalUriFactory;
 	@Autowired AttachmentFactory attachmentFactory;
+	@Autowired SituationReportFactory situationReportFactory;
 	
 	
 	@Bean
@@ -175,6 +177,8 @@ public class ServiceApiSpringConfig {
 		result.setExternalUriFactory(externalUriFactory);
 		result.setAttachmentDao(persistenceSpringConfig.attachmentDao());
 		result.setAttachmentFactory(attachmentFactory);
+		result.setSituationReportFactory(situationReportFactory);
+		result.setSituationReportDao(persistenceSpringConfig.situationReportDao());
 		
 		return result;
 	}

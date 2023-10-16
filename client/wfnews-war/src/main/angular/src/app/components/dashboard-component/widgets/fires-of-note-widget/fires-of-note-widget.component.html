@@ -1,0 +1,55 @@
+<div class="container">
+  <div class="widget-header">
+    <span class="widget-title">Wildfires of Note</span>
+    <a class="link" routerLink="../list" [queryParams]="{tab: 0}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="Order" /></a>
+  </div>
+  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="count-panel">
+      <div class="count-panel-title">Currently Active</div>
+      <div class="count-panel-data-content">
+        <img height="24" width="24" src="/assets/images/local_fire_department.png" alt="Order" class="count-panel-icon" />
+        <div class="count-panel-data">{{activeFireOfNote}}</div>
+      </div>
+      <div class="count-panel-text">Wildfires of Note are wildfires that are highly visible or pose a potential threat to public safety.</div>
+    </div>
+    <div class="fire-of-note-card" *ngFor="let incident of activeFiresList">
+      <div class="fire-of-note-card-title">{{incident.incidentName}}</div>
+      <div *ngIf="incident.ordersCount && incident.ordersCount > 0" class="fire-of-note-card-order-panel">
+        <img height="16" width="16" src="/assets/images/svg-icons/evacuation-order.svg" alt="Discovered on" class="icon">
+        <div>{{incident.ordersCount}} Evacuation Orders</div>
+      </div>
+      <div *ngIf="incident.alertsCount && incident.alertsCount > 0" class="fire-of-note-card-alert-panel">
+        <img height="16" width="16" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Discovered on" class="icon">
+        <div>{{incident.alertsCount}} Evacuation Alerts</div>
+      </div>
+      <div class="fire-of-note-card-data-panel">
+        <div class="fire-of-note-card-icon">
+          <img *ngIf="incident.stageOfControlCode === 'OUT_CNTRL'" height="16" width="16" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon">
+          <img *ngIf="incident.stageOfControlCode === 'HOLDING'" height="16" width="16" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="icon">
+          <img *ngIf="incident.stageOfControlCode === 'UNDR_CNTRL'" height="16" width="16" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="icon">
+        </div>
+        <div class="fire-of-note-card-text">
+          {{convertToStageOfControlDescription(incident.stageOfControlCode)}}
+        </div>
+      </div>
+      <div class="fire-of-note-card-data-panel">
+        <div class="fire-of-note-card-icon">
+          <img height="16" width="16" src="/assets/images/svg-icons/location-pin.svg" alt="fire centre" class="icon">
+        </div>
+        <div class="fire-of-note-card-text">
+          {{incident.fireCentreName}}
+        </div>
+      </div>
+      <div class="fire-of-note-card-data-panel">
+        <div class="fire-of-note-card-icon">
+          <img height="16" width="16" src="/assets/images/svg-icons/calendar-pin.svg" alt="Discovered on" class="icon">
+        </div>
+        <div class="fire-of-note-card-text">
+          Discovered on {{convertToDateString(incident.discoveryDate)}}
+        </div>
+        <img height="16" width="16" (click)="viewIncident(incident)" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="GoTo" class="link-icon">
+      </div>
+    </div>
+  </div>
+</div>

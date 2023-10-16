@@ -1,0 +1,127 @@
+@import '../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+.container {
+  overflow: hidden;
+  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  padding: 20px;
+  background-color: #FDFDFD;
+  max-width: 1500px;
+  margin: auto;
+}
+
+.header-row {
+  display: flex;
+  height: 75px;
+  margin-top: -7px;
+  .icon {
+    margin-top: 15px;
+  }
+  .title {
+    padding: 10px;
+    box-sizing: border-box;
+    min-width: 363px;
+    h1 {
+        font-size: 22px;
+        font-weight: 500;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+  }
+  .title-button-container {
+    margin: auto;
+    color: #0e5fa9;
+    font-size: 15px;
+    font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .icon-container {
+      margin-left: auto;
+      padding-right: 22px;
+      .icon {
+        position: relative;
+        top: 5px;
+        height: 20px;
+        padding-right: 10px;
+        .facebook {
+          color: #3b5998;
+        }
+        .twitter {
+          color: #1da1f2;
+        }
+      }
+    }
+  }
+}
+
+.content {
+
+}
+
+.tabs {
+
+}
+
+.panel-container {
+  display: flex;
+  padding-top: 24px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--24, 24px);
+}
+.panel-container> * {
+  flex: 1 1 49%;
+}
+
+.list-button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+  &-selected {
+    margin-right: 7px;
+    border-radius: 20px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
+  }
+}
+
+.list-button-label {
+  margin: 0px 0px 0px 7px;
+}
+
+@media screen and (max-width: 768px) {
+  .tab-button {
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.79px;
+    z-index: 100;
+    width: 50%;
+    font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
+    &-selected {
+      border-radius: 20px;
+      border: 2px solid #1A5A96 !important;
+      background-color: #1A5A96 !important;
+      color: #FDFDFD !important;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21.79px;
+      z-index: 200;
+      width: 50%;
+      font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
+    }
+  }
+
+  .right-tab {
+    margin-left: -25px;
+  }
+}

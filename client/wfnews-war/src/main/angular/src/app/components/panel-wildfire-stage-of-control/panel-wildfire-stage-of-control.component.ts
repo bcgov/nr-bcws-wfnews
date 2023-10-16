@@ -124,15 +124,21 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   bindMapEvents() {
     this.initInterval = setInterval(() => {
       try {
+        //TODO: REMOVE THIS LOGGING STATEMENT
+        console.warn('... Attempting to bind map events ...')
         const SMK = window['SMK'];
         this.viewer = null;
         for (const smkMap in SMK.MAP) {
           if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
             this.viewer = SMK.MAP[smkMap].$viewer;
           }
+          //TODO: REMOVE THIS LOGGING STATEMENT
+          console.warn('... SMK Map property ' + smkMap + ' has been added to viewer ...')
         }
         this.map = this.viewer.map;
         if (!this.highlightLayer) {
+          //TODO: REMOVE THIS LOGGING STATEMENT
+          console.warn('... Adding highlight layer ...')
           this.highlightLayer = window['L'].layerGroup().addTo(this.map);
           this.map.on('zoomend', () => {
             this.mapEventHandler(false);
@@ -148,7 +154,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
           this.doSearch();
         }
       } catch (err) {
-        console.warn('... Waiting on SMK init to hook map events ...')
+        let message = "... Waiting on SMK init to hook map events ..."
+        if (err instanceof Error) message = err.message;
+
+        console.warn(message);
       }
     }, 1000)
   }

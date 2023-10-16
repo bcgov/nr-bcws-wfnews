@@ -22,14 +22,6 @@
       (logoutClick)="logOutCurrentUser()"
       (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
-
-    <wf-menu
-      class="hide"
-      [menuItems]="appMenu"
-      [config]="applicationConfig"
-      [(state)]="applicationState"
-    ></wf-menu>
-
     <wf-menu-bar
       class="hide"
       [menuItems]="appMenu"
@@ -37,13 +29,6 @@
       [(state)]="applicationState"
     ></wf-menu-bar>
     <router-outlet></router-outlet>
-
-    <!-- wf-footer
-    [footerItems]="footerMenu"
-    [config]="applicationConfig"
-    [(state)]="applicationState"
-    (activeItemChanged)="navigateToFooterPage($event)"
-    ></wf-footer -->
     <div class="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
         <ul>
           <li (click)="setActive('dashboard')">
@@ -58,8 +43,8 @@
             <mat-icon svgIcon="saved" [ngClass]="{'active': activeMenuItem === 'saved'}"></mat-icon>
             Saved
           </li>
-          <li (click)="setActive('report')">
-            <mat-icon svgIcon="report" [ngClass]="{'active': activeMenuItem === 'report'}"></mat-icon>
+          <li (click)="setActive('reportOfFire')">
+            <mat-icon svgIcon="report" [ngClass]="{'active': activeMenuItem === 'reportOfFire'}"></mat-icon>
             Report
           </li>
           <li (click)="setActive('more')">

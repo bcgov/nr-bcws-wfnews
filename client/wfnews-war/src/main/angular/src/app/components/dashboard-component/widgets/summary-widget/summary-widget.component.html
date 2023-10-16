@@ -1,0 +1,33 @@
+<div class="container">
+  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Active Wildfires</span>
+        <span class="stat-box-data">{{activeFires}}</span>
+      </div>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/warning.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Started in the Last 24 hours</span>
+        <span class="stat-box-data">{{starts24hour}}</span>
+      </div>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/crop-growth.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Declared out in the Last 24 Hours</span>
+        <span class="stat-box-data">{{starts7Day}}</span>
+      </div>
+    </div>
+    <div class="stat-box">
+      <img height="36" width="36" src="/assets/images/svg-icons/calendar-pin.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Declared out in the Last 7 Days</span>
+        <span class="stat-box-data">{{out7Day}}</span>
+      </div>
+    </div>
+  </div>
+</div>
