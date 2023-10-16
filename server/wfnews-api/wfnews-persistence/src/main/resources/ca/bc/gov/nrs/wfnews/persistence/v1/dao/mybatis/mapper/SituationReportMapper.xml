@@ -90,7 +90,7 @@
 
   <select id="fetch" resultMap="SituationReportDtoMap"> 
 		SELECT *
-		  FROM WFNEWS.REPORT_GUID
+		  FROM WFNEWS.SITUATION_REPORT
 		 WHERE REPORT_GUID = #{reportGuid}
 	</select>
 
