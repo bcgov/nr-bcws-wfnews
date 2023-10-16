@@ -103,6 +103,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WFIM_CLIENT_URL
         },
         {
+          name  = "WFIM_REST_URL",
+          value = var.WFIM_REST_URL
+        },
+        {
           name  = "WFIM_CODE_TABLES_URL",
           value = var.WFIM_CODE_TABLES_URL
         },
@@ -303,6 +307,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name  = "WFIM_API_URL",
           value = var.WFIM_CLIENT_URL
+        },
+         {
+          name  = "WFIM_REST_URL",
+          value = var.WFIM_REST_URL
         },
         {
           name  = "WFDM_API_URL",
@@ -1038,6 +1046,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           {
             name  = "WFIM_CLIENT_URL",
             value = var.WFIM_CLIENT_URL
+          },
+          {
+            name  = "WFIM_REST_URL",
+            value = var.WFIM_REST_URL
           },
           {
             name  = "WFIM_CODE_TABLES_URL",
