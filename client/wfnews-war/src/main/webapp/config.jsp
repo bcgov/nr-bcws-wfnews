@@ -108,7 +108,7 @@
     json.append("},");
 
     // REST API Section
-    String incidentsUri = EnvironmentVariable.getVariable("WFIM_API_URL"); 
+    String incidentsUri = EnvironmentVariable.getVariable("WFIM_REST_URL"); 
     if (incidentsUri != null && incidentsUri.endsWith("/")) {
       incidentsUri = incidentsUri.substring(0, incidentsUri.length() - 1); //Strip off trailing slash, if it exists.
     }
