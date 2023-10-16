@@ -108,6 +108,9 @@
   width: calc(100% - 64px);
   bottom: 3em;
   position: fixed;
+  @media (max-height: 699px){
+    bottom: 2em;
+  }
   .rof-button {
     padding:0 32px;
     height: 43px;
