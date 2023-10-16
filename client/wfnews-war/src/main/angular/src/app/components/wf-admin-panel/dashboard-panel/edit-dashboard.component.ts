@@ -23,6 +23,7 @@ export class SituationReport {
   public createDate: Date
   public updateUser: string
   public updateDate: Date
+  public type = 'http://wfnews.nrs.gov.bc.ca/v1/situationReport'
 }
 
 @Component({
@@ -108,7 +109,8 @@ export class AdminEditDashboard implements OnInit {
       this.situationReport.reportGuid = null
       this.situationReport.archivedInd = false
       this.situationReport.createdTimestamp = new Date()
-      this.situationReport.situationReportDate = new Date()
+      this.situationReport.situationReportDate = new Date();
+      (this.situationReport as any)['@type'] = 'http://wfnews.nrs.gov.bc.ca/v1/situationReport';
       await this.publishedIncidentService.createSituationReport(this.situationReport).toPromise()
       // notify user
       this.snackbarService.open('Situation Report Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });

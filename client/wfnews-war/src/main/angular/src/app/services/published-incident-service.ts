@@ -121,7 +121,7 @@ export class PublishedIncidentService {
   /********** Situation Report ************/
 
   public fetchSituationReportList (pageNum: number = 0, rowCount: number = 9999, published = true): Observable<any> {
-    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published}`
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published ? 'T' : 'F'}`
     return this.httpClient.get<SituationReport>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
