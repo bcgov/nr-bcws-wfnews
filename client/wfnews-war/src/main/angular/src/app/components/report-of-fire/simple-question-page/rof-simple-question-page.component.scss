@@ -14,8 +14,11 @@
         border: none;
         border-radius: 8px;
         height: 81px;
-        @media (max-height: 700px){
+        @media (max-height: 800px) and (min-height: 700px){
             height: 9vh;
+        }
+        @media (max-height: 699px){
+            height: 8vh;
         }
     }
 
