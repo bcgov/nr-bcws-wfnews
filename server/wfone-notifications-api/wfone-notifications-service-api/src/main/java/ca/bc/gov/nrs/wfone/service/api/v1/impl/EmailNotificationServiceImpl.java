@@ -38,7 +38,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	private Instant lastGeneralEmailSent;
 	private Map<String, Instant> errorExceptionMap = new HashMap<>();
 
-	@Value("${WFIM_CLIENT_URL}")
+	@Value("${WFIM_REST_URL}")
 	private String wfimClientUrl;
 	
 	@Value("${DEFAULT_APPLICATION_ENVIRONMENT}")

@@ -24,9 +24,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.SituationReportDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.AttachmentDaoImpl;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.ExternalUriDaoImpl;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.PublishedIncidentDaoImpl;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.SituationReportDaoImpl;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.BooleanTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.InstantTypeHandler;
 import ca.bc.gov.nrs.wfone.common.persistence.dao.mybatis.LocalDateTimeTypeHandler;
@@ -104,6 +106,11 @@ public class PersistenceSpringConfig {
 	@Bean
 	public AttachmentDao attachmentDao() {
 		return new AttachmentDaoImpl();
+	}
+
+	@Bean
+	public SituationReportDao situationReportDao() {
+		return new SituationReportDaoImpl();
 	}
 	
 }
