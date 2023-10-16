@@ -49,6 +49,21 @@ export const ICON = {
   MORE: 'more',
   REPORT: 'report',
   SAVED: 'saved',
+  ARROW: 'arrow',
+  CANCEL: 'cancel',
+  AREA_RESTRICTION: 'area-restriction',
+  BAN: 'ban',
+  FIRE_DANGER_VERY_LOW: 'fire-danger-very-low',
+  FIRE_DANGER_LOW: 'fire-danger-low',
+  FIRE_DANGER_MODERATE: 'fire-danger-moderate',
+  FIRE_DANGER_HIGH: 'fire-danger-high',
+  FIRE_DANGER_EXTREME: 'fire-danger-extreme',
+  ROAD_EVENT: 'road-event',
+  CLOSED_RECREATION_SITE: 'closed-recreation-site',
+  REGIONAL_DISTRICTS: 'regional-districts',
+  BROWN_SQUARE: 'brown-square',
+  INDIAN_RESERVE: 'indian-reserve',
+
 };
 
 @Component({
@@ -454,6 +469,62 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.SAVED,
       this.domSanitizer.bypassSecurityTrustResourceUrl('assets/images/svg-icons/saved.svg')
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CANCEL,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/cancel.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.AREA_RESTRICTION,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/area-restriction.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.BAN,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/ban.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_DANGER_VERY_LOW,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-danger-very-low.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_DANGER_LOW,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-danger-low.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_DANGER_MODERATE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-danger-moderate.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_DANGER_HIGH,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-danger-high.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_DANGER_EXTREME,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-danger-extreme.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ROAD_EVENT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/road-event.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CLOSED_RECREATION_SITE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/closed-recreation-site.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.REGIONAL_DISTRICTS,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/regional-districts.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.BROWN_SQUARE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/brown-square.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.INDIAN_RESERVE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/indian-reserve.svg")
     );
   }
 

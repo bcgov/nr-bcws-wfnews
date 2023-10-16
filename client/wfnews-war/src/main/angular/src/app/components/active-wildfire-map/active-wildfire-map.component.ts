@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, NgZone, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { AppConfigService } from '@wf1/core-ui';
@@ -30,6 +30,7 @@ declare const window: any;
   selector: 'active-wildfire-map',
   templateUrl: './active-wildfire-map.component.html',
   styleUrls: ['./active-wildfire-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @Input() incidents: any;
@@ -64,7 +65,31 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   markers: any[];
   url;
   sortedAddressList: string[];
+  incidentRefs: any[];
+  filteredWildfires: any[];
+  filteredFirePerimeters: any[];
+  filteredEvacs: any[];
+  filteredAreaRestrictions: any[];
+  filteredBansAndProhibitions: any[];
+  filteredDangerRatings: any[];
+  filteredRoadEvents: any[];
+  filteredClosedRecreationSites: any[];
+  filteredForestServiceRoads: any[];
+  filteredProtectedLandsAccessRestrictions: any[];
+  filteredRegionalDistricts: any[];
+  filteredMunicipalities: any[];
+  filteredFirstNationsTreatyLand: any[];
+  filteredIndianReserve: any[];
 
+  showPanel: boolean;
+
+  wildfireLayerIds: string[] = [
+    'active-wildfires-fire-of-note',
+    'active-wildfires-out-of-control',
+    'active-wildfires-holding',
+    'active-wildfires-under-control',
+    'bcws-activefires-publicview-inactive',
+  ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
@@ -77,6 +102,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private publishedIncidentService: PublishedIncidentService,
     private commonUtilityService: CommonUtilityService,
     protected dialog: MatDialog,
+    protected cdr: ChangeDetectorRef
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -316,6 +342,27 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onToggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
+  
+  onSelectIncidents(incidentRefs){
+    this.showPanel = true;
+    this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+    if (this.incidentRefs.length >= 1) {
+      // multiple features within clicked area
+      this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
+      this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
+      this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
+      this.filteredBansAndProhibitions = this.incidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
+      this.filteredDangerRatings = this.incidentRefs.filter(item => item.layerId === 'danger-rating');
+      this.filteredRoadEvents = this.incidentRefs.filter(item => item.layerId === 'drive-bc-active-events');
+      this.filteredClosedRecreationSites = this.incidentRefs.filter(item => item.layerId === 'closed-recreation-sites');
+      this.filteredForestServiceRoads = this.incidentRefs.filter(item => item.layerId === 'bc-fsr');
+      this.filteredProtectedLandsAccessRestrictions = this.incidentRefs.filter(item => item.layerId === 'protected-lands-access-restrictions');
+      this.filteredRegionalDistricts = this.incidentRefs.filter(item => item.layerId === 'abms-regional-districts');
+      this.filteredMunicipalities = this.incidentRefs.filter(item => item.layerId === 'abms-municipalities');
+      this.filteredFirstNationsTreatyLand = this.incidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
+      this.filteredIndianReserve = this.incidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
+    }
+  }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
@@ -502,5 +549,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
+  }
+
+  closePanel() {
+    this.showPanel = false;
   }
 }
