@@ -178,6 +178,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         }
       }, 200)
     }
+
     this.checkScreenWidth();
   }
 
@@ -211,9 +212,9 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   initAppMenu() {
     this.appMenu = [
+      new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
       new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
       new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
-      new RouterLink('Current Statistics', '/' + ResourcesRoutes.CURRENTSTATISTICS, 'bar_chart', 'collapsed', this.router),
       new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }
@@ -548,9 +549,23 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   setActive(menuItem: string): void {
     this.activeMenuItem = menuItem;
-    if (menuItem == 'report') {
-      this.router.navigate([ResourcesRoutes.ROF]);
-      this.activeMenuItem = '';
+    switch(menuItem) {
+      case 'dashboard':
+        this.router.navigate([ResourcesRoutes.DASHBOARD]);
+        break;
+      case 'map':
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
+        break;
+      case 'reportOfFire':
+        this.router.navigate([ResourcesRoutes.ROF]);
+        this.activeMenuItem = '';
+        break;
+      case 'saved':
+        break;
+      case 'more':
+        break;
+      default:
+        this.router.navigate([ResourcesRoutes.DASHBOARD]);
     }
   }
 

@@ -1,0 +1,7 @@
+<div class="container">
+  <div class="widget-header">
+    <span>Wildfire Situation</span>
+  </div>
+  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div *ngIf="startupComplete; else loading"></div>
+</div>
