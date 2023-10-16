@@ -40,6 +40,40 @@
     line-height: normal;
     margin-top: 16px;
   }
+
+  .evac-card-title {
+    overflow: hidden;
+    color: var(--grays-gray-1, #242424);
+    text-overflow: ellipsis;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 8px;
+  }
+
+  .evac-card-text {
+    color: var(--grays-gray-3, #666);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 146.667% */
+    letter-spacing: -0.408px;
+    margin-left: 8px;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px 12px 12px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    position: relative;
+  }
 }
 
 @media (max-width: 768px) {
@@ -77,6 +111,41 @@
     line-height: normal;
     margin-top: 16px;
   }
+
+  .evac-card-title {
+    overflow: hidden;
+    color: var(--grays-gray-1, #242424);
+    text-overflow: ellipsis;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 8px;
+  }
+
+  .evac-card-text {
+    color: var(--grays-gray-3, #666);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 146.667% */
+    letter-spacing: -0.408px;
+    margin-left: 8px;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px 12px 12px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    position: relative;
+    top: 6px;
+  }
 }
 
 .spinner-position {
@@ -88,7 +157,7 @@
 .widget-header {
   color: #242424;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Noto Sans;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 26px;
   font-style: normal;
   font-weight: 500;
@@ -148,29 +217,6 @@
   display: flex;
 }
 
-.evac-card-title {
-  overflow: hidden;
-  color: var(--grays-gray-1, #242424);
-  text-overflow: ellipsis;
-  font-family: Noto Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-left: 8px;
-}
-
-.evac-card-text {
-  color: var(--grays-gray-3, #666);
-  font-family: Noto Sans;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px; /* 146.667% */
-  letter-spacing: -0.408px;
-  margin-left: 8px;
-}
-
 .evac-card {
   border-bottom: 1px solid #DEDEDE;
   display: flex;
@@ -197,7 +243,7 @@
 
 .link {
   color: var(--blues-blue-5, var(--Medium-Blue, #146FB4));
-  font-family: Noto Sans;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

@@ -44,7 +44,7 @@
 .widget-header {
   color: #242424;
   font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Noto Sans;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 26px;
   font-style: normal;
   font-weight: 500;
@@ -90,7 +90,7 @@
     }
     &-title {
       color: var(--grays-gray-1, #242424);
-      font-family: Noto Sans;
+      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
       font-size: 22px;
       font-style: normal;
       font-weight: 500;
@@ -107,7 +107,7 @@
   }
   &-footer {
     color: var(--Grey-1, #666);
-    font-family: Noto Sans;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
