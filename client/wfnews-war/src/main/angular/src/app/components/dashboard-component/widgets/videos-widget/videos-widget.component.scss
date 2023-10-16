@@ -1,22 +1,63 @@
 @import '../../../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
-.container {
-  overflow: hidden;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  display: flex;
-  height: 386px;
-  flex: 1 0 0;
-  border-radius: 20px;
-  background: #FFF;
-  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
-  max-width: 1480px;
-  width: calc(100vw - 104px);
-  padding: var(--24, 24px);
-  flex-direction: column;
-  align-items: flex-start;
-  gap: var(--24, 24px);
-  align-self: stretch;
+@media (min-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    height: 386px;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    max-width: 1480px;
+    width: calc(100vw - 104px);
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+    align-self: stretch;
+  }
+
+  .content {
+    height: calc(100% - 78px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+    align-self: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    height: 386px;
+    flex: 1 0 0;
+    background: #FFF;
+    width: calc(100vw - 104px);
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .content {
+    height: calc(100% - 78px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+    align-self: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-top: 24px;
+    padding-bottom: 15px;
+  }
 }
 
 .spinner-position {
@@ -61,15 +102,6 @@
     top: 4px;
     left: 4px;
   }
-}
-
-.content {
-  height: calc(100% - 78px);
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  gap: var(--24, 24px);
-  align-self: stretch;
 }
 
 .video-card {
