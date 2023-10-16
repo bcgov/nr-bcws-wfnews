@@ -94,8 +94,10 @@ export class AdminEditDashboard implements OnInit {
     if (this.previousSituationReport) {
       try {
         this.previousSituationReport.publishedInd = false
-        this.previousSituationReport.archivedInd = true
-        await this.publishedIncidentService.updateSituationReport(this.previousSituationReport).toPromise()
+        this.previousSituationReport.archivedInd = true;
+        (this.previousSituationReport as any)['@type'] = 'SituationReportResource';
+        
+        await this.publishedIncidentService.updateSituationReport(this.previousSituationReport).toPromise();
       } catch (err) {
         this.snackbarService.open('Failed to un-publish previous report. Please wait a moment and try again. If the issue persist contact support: ' + JSON.stringify(err), 'OK', { duration: 100000, panelClass: 'snackbar-error' });
         this.publishDisabled = false
@@ -110,8 +112,9 @@ export class AdminEditDashboard implements OnInit {
       this.situationReport.archivedInd = false
       this.situationReport.createdTimestamp = new Date()
       this.situationReport.situationReportDate = new Date();
-      (this.situationReport as any)['@type'] = 'http://wfnews.nrs.gov.bc.ca/v1/situationReport';
-      await this.publishedIncidentService.createSituationReport(this.situationReport).toPromise()
+      (this.situationReport as any)['@type'] = 'SituationReportResource';
+
+      await this.publishedIncidentService.createSituationReport(this.situationReport).toPromise();
       // notify user
       this.snackbarService.open('Situation Report Published Successfully', 'OK', { duration: 100000, panelClass: 'snackbar-success-v2' });
     } catch (err) {
