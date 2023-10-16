@@ -34,7 +34,7 @@ import io.swagger.annotations.ResponseHeader;
 
 @Path("/externalUri")
 @Api(value = "ExternalUriEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
-public interface ExternalUriEndpoint extends BaseEndpoints{
+public interface ExternalUriEndpoint extends BaseEndpoints {
 	@ApiOperation(value = "Add a External Uri Resource to the List of External Uri resources", response = ExternalUriResource.class, notes = "Add a External Uri Resource to the List of External Uri resources", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_EXTERNAL_URI, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = HeaderConstants.VERSION_HEADER, value = HeaderConstants.VERSION_HEADER_DESCRIPTION, required = false, dataType = "integer", paramType = "header")
