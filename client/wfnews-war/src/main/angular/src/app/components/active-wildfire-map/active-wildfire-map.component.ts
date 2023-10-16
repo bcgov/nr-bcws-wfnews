@@ -347,7 +347,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
     if (this.incidentRefs.length >= 1) {
-      console.log(this.incidentRefs)
       // multiple features within clicked area
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
       this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
