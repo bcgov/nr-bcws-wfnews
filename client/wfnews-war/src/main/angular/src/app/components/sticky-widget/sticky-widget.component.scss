@@ -129,3 +129,9 @@
   border-radius: 2px;
   height: 2px !important;
 }
+
+@media screen and (max-width: 768px) {
+  .hide {
+    display: none;
+  }
+}

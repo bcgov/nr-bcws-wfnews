@@ -1,0 +1,70 @@
+
+<div class="table-search-header flex-y-fixed">
+    <div class="search-and-filters">
+        <div class="field search-input">
+            <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
+            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
+                    aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()"
+                    matTooltip="Clear">
+                    <span class="button-wrapper">
+                        <mat-icon>close</mat-icon>
+                    </span>
+            </button>
+        </div>
+        <button mat-flat-button matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
+          <span class="button-wrapper">Filter by Location</span>
+        </button>
+        <div class="field right-align">
+          <select appWFSingleSelect appWFPlaceholder="Sort"
+                  class="rounded-select"
+                  aria-label="Sort"
+                  [options]="sortOptions"
+                  [selected]="selectedSortValue"
+                  [(ngModel)]="selectedSortValue"
+                  (updated)="search()">
+              <option value="">
+                  <span class="placeholder">Sort By</span>
+              </option>
+              <option *ngFor = "let item of sortOptions" value="{{item.code}}">
+                  <span>{{item.description}}</span>
+              </option>
+          </select>
+        </div>
+    </div>
+</div>
+<p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+    <table mat-table [dataSource]="dataSource" aria-label="Area Restrictions Table">
+
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+      <ng-container matColumnDef="issuedOn">
+        <th mat-header-cell *matHeaderCellDef> Issued On </th>
+        <td mat-cell *matCellDef="let element"> {{element.issuedOn}} </td>
+      </ng-container>
+      <ng-container matColumnDef="fireCentre">
+        <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
+        <td mat-cell *matCellDef="let element"> {{element.fireCentre}} </td>
+      </ng-container>
+      <ng-container matColumnDef="distance">
+        <th mat-header-cell *matHeaderCellDef> Distance </th>
+        <td mat-cell *matCellDef="let element"> {{element.distance || '---'}} km</td>
+      </ng-container>
+      <ng-container matColumnDef = "details">
+        <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>
+        <td mat-cell style="cursor: pointer;" *matCellDef="let item">
+            <button class="cell-button" mat-flat-button (click)="alert('todo!')">Full Details</button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef = "viewMap">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span><span class="cell-label"> View Map</span></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+    </table>
+</div>
+<ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

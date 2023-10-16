@@ -1,0 +1,125 @@
+.dialog {
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.dialog-panel {
+  padding: 16px;
+  overflow: auto;
+  height: calc(100% - 100px);
+}
+
+.dialog-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DEDEDE;
+  display: flex;
+}
+
+.dialog-title {
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.footer-button {
+  width: 100%;
+}
+
+.right-align {
+  margin-left: auto;
+}
+
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+  &:focus {
+    outline: none !important;
+    ;
+    box-shadow: none !important;
+  }
+}
+
+.search-panel {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DEDEDE;
+}
+
+.radius-button {
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21.79px;
+  width: calc(50% - 10px);
+  margin-left: 5px;
+  margin-top: 15px;
+  &-selected {
+    border-radius: 20px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.79px;
+    width: calc(50% - 10px);
+    margin-left: 5px;
+    margin-top: 15px;
+  }
+}
+
+.list-button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 21.79px;
+  width: 100%;
+  margin-top: 10px;
+  &-selected {
+    margin-right: 7px;
+    border-radius: 20px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
+    width: 100%;
+    margin-top: 10px;
+  }
+}
+
+.list-button-label {
+  margin: 0px 0px 0px 7px;
+}

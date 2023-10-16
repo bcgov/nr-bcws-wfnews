@@ -10,6 +10,7 @@
 <ng-template #mainPage>
   <div>
     <wf-header
+      class="hide"
       [config]="applicationConfig"
       [(state)]="applicationState"
       [useAppLogo]="false"
@@ -23,12 +24,14 @@
     ></wf-header>
 
     <wf-menu
+      class="hide"
       [menuItems]="appMenu"
       [config]="applicationConfig"
       [(state)]="applicationState"
     ></wf-menu>
 
     <wf-menu-bar
+      class="hide"
       [menuItems]="appMenu"
       [config]="applicationConfig"
       [(state)]="applicationState"

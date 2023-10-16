@@ -1,0 +1,39 @@
+<div class="dialog">
+  <div class="dialog-panel">
+    <div class="dialog-header">
+      <div class="dialog-title">Filters</div>
+      <mat-icon class="right-align" [mat-dialog-close]="false">close</mat-icon>
+    </div>
+    <div class="radius-panel">
+      <div class="dialog-title">Sort By</div>
+      <button [class]="'radius-button' + (filterData.sortColumn === 'incidentName' ? '-selected' : '')" (click)="setSortColumn('incidentName')" mat-flat-button ><span class="list-button-label">Wildfire Name</span></button>
+      <button [class]="'radius-button' + (filterData.sortColumn === 'fireCentreName' ? '-selected' : '')" (click)="setSortColumn('fireCentreName')" mat-flat-button ><span class="list-button-label">Fire Centre</span></button>
+      <button [class]="'radius-button' + (filterData.sortColumn === 'lastUpdatedTimestamp' ? '-selected' : '')" (click)="setSortColumn('lastUpdatedTimestamp')" mat-flat-button ><span class="list-button-label">Last Update</span></button>
+    </div>
+    <div class="radius-panel">
+      <div class="dialog-title">Sort By Direction</div>
+      <button [class]="'radius-button' + (filterData.sortDirection === 'ASC' ? '-selected' : '')" (click)="setSortDirection('ASC')" mat-flat-button ><span class="list-button-label">Ascending</span></button>
+      <button [class]="'radius-button' + (filterData.sortDirection === 'DESC' ? '-selected' : '')" (click)="setSortDirection('DESC')" mat-flat-button ><span class="list-button-label">Descending</span></button>
+    </div>
+    <div class="radius-panel">
+      <div class="dialog-title">Filter By Stage of Control</div>
+      <button [class]="'radius-button' + (filterData.fireOfNoteInd ? '-selected' : '')" (click)="setFireOfNoteInd()" mat-flat-button ><img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span class="list-button-label">Wildfire of Note</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('OUT_CNTRL')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"><span class="list-button-label">Out of Control</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('HOLDING') ? '-selected' : '')" (click)="setStageOfControl('HOLDING')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/being-held.svg" alt="Holding" class="icon"><span class="list-button-label">Being Held</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('UNDR_CNTRL') ? '-selected' : '')" (click)="setStageOfControl('UNDR_CNTRL')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"><span class="list-button-label">Under Control</span></button>
+      <button [class]="'radius-button' + (filterData.stagesOfControl.includes('OUT') ? '-selected' : '')" (click)="setStageOfControl('OUT')" mat-flat-button ><img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon"><span class="list-button-label">Out</span></button>
+    </div>
+    <div class="radius-panel">
+      <div class="dialog-title">Filter By Fire Centre</div>
+      <button [class]="'radius-button' + (filterData.fireCentre === 2 ? '-selected' : '')" (click)="setFireCentre(2)" mat-flat-button ><span class="list-button-label">Cariboo</span></button>
+      <button [class]="'radius-button' + (filterData.fireCentre === 50 ? '-selected' : '')" (click)="setFireCentre(50)" mat-flat-button ><span class="list-button-label">Coastal</span></button>
+      <button [class]="'radius-button' + (filterData.fireCentre === 25 ? '-selected' : '')" (click)="setFireCentre(25)" mat-flat-button ><span class="list-button-label">Kamloops</span></button>
+      <button [class]="'radius-button' + (filterData.fireCentre === 42 ? '-selected' : '')" (click)="setFireCentre(42)" mat-flat-button ><span class="list-button-label">Northwest</span></button>
+      <button [class]="'radius-button' + (filterData.fireCentre === 8 ? '-selected' : '')" (click)="setFireCentre(8)" mat-flat-button ><span class="list-button-label">Prince George</span></button>
+      <button [class]="'radius-button' + (filterData.fireCentre === 34 ? '-selected' : '')" (click)="setFireCentre(34)" mat-flat-button ><span class="list-button-label">Southeast</span></button>
+    </div>
+  </div>
+  <div class="dialog-footer" mat-dialog-actions>
+  	<button class="footer-button" mat-raised-button color="primary" [mat-dialog-close]="filterData">Show Results</button>
+  </div>
+</div>

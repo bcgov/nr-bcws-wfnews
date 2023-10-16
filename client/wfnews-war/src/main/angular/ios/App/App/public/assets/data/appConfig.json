@@ -30,7 +30,8 @@
             "incidents-table": 500
         },
         "lazyAuthenticate": "true",
-        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl="
+        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=",
+        "syncIntervalMinutes": 10
     },
 
     "externalAppConfig": {
@@ -66,6 +67,7 @@
         "AGOLactiveFirest": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/",
         "evacDefaultUrl": "https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023",
         "contactInformation": {
+            "rofPhoneNumber": "1 800 663-5555",
             "reportAWildfirePhone": "1 800 663-5555 or *5555 on a cell",
             "wildFireInformationLine": "1 888 336-7378",
             "burnRegistrationLine": "1 888 797-1717",
@@ -89,7 +91,8 @@
         "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
         "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
         "causecodes": "causeCodes/token.jsp",
-        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api"
+        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
+        "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof"
     },
 
     "webade": {

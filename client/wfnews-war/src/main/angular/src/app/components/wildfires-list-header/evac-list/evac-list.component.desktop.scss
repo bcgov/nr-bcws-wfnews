@@ -4,11 +4,17 @@
 }
 
 .table-search-header{
-    background-color: white !important;
-    border-top: none !important;
-    .label{
-        font-size: 15px;
-    }
+  background-color: white !important;
+  border-top: none !important;
+  display: block !important;
+  padding-left: 10px;
+  .label{
+      font-size: 15px;
+  }
+}
+
+.search-input {
+  border-radius: 20px !important;
 }
 
 .stage-of-control{
@@ -112,7 +118,17 @@ table tr:nth-child(even) td{
     }
 }
 
-.stage-of-control-checkbox-group{
+.cell-button {
+  width: 100% !important;
+  border: 1px solid #C4C4C4;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.filter-checkbox-group {
     margin-top: 13px !important;
     flex-basis: auto !important;
     width: auto !important;
@@ -129,38 +145,92 @@ table tr:nth-child(even) td{
     }
 }
 
-.mat-column-fireName {
+.rounded-select {
+  border-radius: 20px !important;
+}
+
+.checkbox-label {
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 20px !important;
+  letter-spacing: 0em !important;
+  text-align: left !important;
+  margin-left: 3px;
+}
+
+.filter-button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  &-selected {
+    margin-right: 7px;
+    border-radius: 20px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+  }
+}
+
+.search-and-filters {
+  flex: 0 !important;
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.mat-column-name {
+    width: 25%;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    line-height: 16px !important;
+    letter-spacing: -0.02em !important;
+    text-align: left !important;
+}
+
+.mat-column-status {
+    width: 10%;
+}
+
+.mat-column-issuedOn {
+    width: 10%;
+}
+
+
+.mat-column-agency {
     width: 20%;
 }
 
-.mat-column-fireNumber {
-    width: 10%;
+.mat-column-distance {
+  width: 10%;
 }
 
-.mat-column-lastUpdated {
-    width: 10%;
-}
-
-.mat-column-stageOfControl {
-    width: 10%;
-}
-
-.mat-column-wildfireOfNote {
-    width: 10%;
-}
-
-.mat-column-fireCentre {
-    width: 20%;
-}
-
-.mat-column-location {
-    width: 20%;
-}
-
-.mat-column-addToWatchlist {
-    width: 10%;
+.mat-column-details {
+  width: 10%;
 }
 
 .mat-column-viewMap {
     width: 10%;
+}
+
+.status-icon {
+  position: relative !important;
+  top: 4px;
+}
+
+.status-label {
+  margin-left: 5px;
+}
+
+.cell-label {
+  position: relative;
+  top: -7px;
+}
+
+.right-align {
+  margin-left: auto !important;
+}
+
+.spinner-position {
+  position: relative;
+  left: 50vw;
+  top: 20px;
 }
