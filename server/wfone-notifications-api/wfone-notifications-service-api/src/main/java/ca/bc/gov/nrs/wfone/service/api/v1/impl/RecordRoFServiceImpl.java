@@ -98,7 +98,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	@Value("${WEBADE_OAUTH2_TOKEN_CLIENT_URL}")
 	private String webadeOauth2ClientUrl;
 
-	@Value("${WFIM_CLIENT_URL}")
+	@Value("${WFIM_REST_URL}")
 	private String wfimClientUrl;
 
 	@Value("${WFIM_CODE_TABLES_URL}")
