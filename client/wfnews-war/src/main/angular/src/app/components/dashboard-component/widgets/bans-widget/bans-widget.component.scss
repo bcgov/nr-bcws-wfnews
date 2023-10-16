@@ -113,3 +113,39 @@
   top: 2px;
   left: -6px;
 }
+
+.map-overlay {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: 0px;
+  z-index: 10000;
+  background-color: #00000039;
+}
+
+.link {
+  color: #242424;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  text-decoration: none;
+  border-radius: 20px;
+  border: 1px solid #5c5c5c;
+  background-color: white;
+  width: 151px;
+  text-align: center;
+  height: 25px;
+  display: block;
+  position: relative;
+  top: 50%;
+  left: calc(50% - 75px);
+}
+
+.link-icon {
+  padding: 10px;
+  border-radius: 50px;
+  background-color: #EEE;
+  cursor: pointer;
+  margin-left: auto;
+}
