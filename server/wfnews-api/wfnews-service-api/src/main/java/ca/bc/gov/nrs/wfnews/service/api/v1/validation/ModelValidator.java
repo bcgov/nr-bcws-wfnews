@@ -31,6 +31,7 @@ import ca.bc.gov.nrs.wfnews.api.model.v1.SituationReport;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.AttachmentConstraints;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.ExternalUriConstraints;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.PublishedIncidentConstraints;
+import ca.bc.gov.nrs.wfnews.service.api.v1.validation.constraints.SituationReportConstraints;
 import ca.bc.gov.nrs.common.persistence.dao.DaoException;
 
 public class ModelValidator extends BaseValidator {
@@ -198,7 +199,7 @@ public class ModelValidator extends BaseValidator {
 
 	public List<Message> validateReport(SituationReport report, long effectiveAsOfMillis) throws DaoException {
 		logger.debug("<validateReport");
-		Class<?>[] groups = new Class<?>[] { AttachmentConstraints.class};
+		Class<?>[] groups = new Class<?>[] { SituationReportConstraints.class};
 
 		List<Message> results = this.validate(report, groups);
 		

@@ -24,7 +24,7 @@ public interface PublicSituationReportEndpoint extends BaseEndpoints {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	public Response getSituationReportList( 
-    @ApiParam("The published ind") @QueryParam("sourceObjectUniqueId") Boolean published,
+    @ApiParam("The published ind") @QueryParam("published") Boolean published,
 		@ApiParam("The page number of the results to be returned.") @QueryParam("pageNumber") String pageNumber,
 	  @ApiParam("The number of results per page.") @QueryParam("pageRowCount") String pageRowCount) throws NotFoundException, ForbiddenException, ConflictException;
 	
