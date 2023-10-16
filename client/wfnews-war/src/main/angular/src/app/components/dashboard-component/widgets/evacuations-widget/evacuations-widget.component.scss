@@ -19,6 +19,75 @@
     background: #FFF;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
   }
+
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 16px;
+  }
+
+  .evac-card-title {
+    overflow: hidden;
+    color: var(--grays-gray-1, #242424);
+    text-overflow: ellipsis;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 8px;
+  }
+
+  .evac-card-text {
+    color: var(--grays-gray-3, #666);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 146.667% */
+    letter-spacing: -0.408px;
+    margin-left: 8px;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px 12px 12px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    position: relative;
+  }
+
+  .widget-header {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+    border-bottom: 1px solid #C4C4C4;
+    width: 100%;
+    padding-bottom: 16px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -26,12 +95,84 @@
     overflow: hidden;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
     display: flex;
-    height: 640px;
+    height: 558px;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
     flex: 1 0 0;
     background: #FFF;
+  }
+
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+    position: relative;
+    top: 16px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 16px;
+  }
+
+  .evac-card-title {
+    overflow: hidden;
+    color: var(--grays-gray-1, #242424);
+    text-overflow: ellipsis;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 8px;
+  }
+
+  .evac-card-text {
+    color: var(--grays-gray-3, #666);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 146.667% */
+    letter-spacing: -0.408px;
+    margin-left: 8px;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px 12px 12px 0px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    position: relative;
+    top: 6px;
+  }
+
+  .widget-header {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+    border-bottom: 1px solid #C4C4C4;
+    width: 100%;
+    padding-bottom: 16px;
   }
 }
 
@@ -39,20 +180,6 @@
   position: relative;
   left: calc(50% - 40px);
   top: calc(50% - 40px);
-}
-
-.widget-header {
-  color: #242424;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: Noto Sans;
-  font-size: 26px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 34px; /* 130.769% */
-  letter-spacing: 0.35px;
-  border-bottom: 1px solid #C4C4C4;
-  width: 100%;
-  padding-bottom: 16px;
 }
 
 .content {
@@ -84,68 +211,12 @@
   width: calc(50% - 24px);
 }
 
-.stat-box-icon {
-  display: flex;
-  padding: 12px 12px 12px 0px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 60px;
-  position: relative;
-  top: 6px;
-}
-
-.stat-box-data {
-  color: #242424;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.35px;
-}
-
-.stat-box-label {
-  color: var(--Black-2, #484848);
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-top: 16px;
-}
-
 .evac-list-box {
   padding-top: 12px;
 }
 
 .evac-card-content {
   display: flex;
-}
-
-.evac-card-title {
-  overflow: hidden;
-  color: var(--grays-gray-1, #242424);
-  text-overflow: ellipsis;
-  font-family: Noto Sans;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  margin-left: 8px;
-}
-
-.evac-card-text {
-  color: var(--grays-gray-3, #666);
-  font-family: Noto Sans;
-  font-size: 15px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 22px; /* 146.667% */
-  letter-spacing: -0.408px;
-  margin-left: 8px;
 }
 
 .evac-card {
@@ -174,7 +245,7 @@
 
 .link {
   color: var(--blues-blue-5, var(--Medium-Blue, #146FB4));
-  font-family: Noto Sans;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
