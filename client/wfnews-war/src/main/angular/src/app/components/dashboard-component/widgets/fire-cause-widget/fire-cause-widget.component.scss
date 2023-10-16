@@ -36,7 +36,7 @@
 
   .progress-bar {
     display: block;
-    height: 7px;
+    height: 7px !important;
     border-radius: 50px;
     --mdc-linear-progress-track-height: 7px;
     --mdc-linear-progress-active-indicator-color: #146FB4;
@@ -152,7 +152,7 @@
 
   .progress-bar-mobile {
     display: block;
-    height: 7px;
+    height: 7px !important;
     border-radius: 50px;
     --mdc-linear-progress-track-height: 7px;
     --mdc-linear-progress-active-indicator-color: #146FB4;
