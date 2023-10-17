@@ -12,7 +12,6 @@
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 20px;
@@ -63,7 +62,7 @@
   .subtext {
     display: flex;
     position: relative;
-    top: -66px;
+    top: -54px;
     left: 110px;
   }
 }
@@ -74,9 +73,8 @@
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
-    height: 416px;
     max-height: 416px;
-    padding: var(--24, 24px);
+    padding: 16;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
@@ -150,4 +148,5 @@
 .content {
   width: 100%;
   height: 100%;
+  overflow-y: auto;
 }
