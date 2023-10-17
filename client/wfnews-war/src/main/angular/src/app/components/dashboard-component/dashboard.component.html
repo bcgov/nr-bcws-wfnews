@@ -1,0 +1,33 @@
+<div class="container" style="height: auto !important;">
+  <div class="header-row">
+    <img height="44" width="47" src="/assets/images/svg-icons/bc-logo.svg" alt="Order" class="icon">
+    <div class="title">
+        <h1>B.C. Wildfire Dashboard</h1>
+    </div>
+  </div>
+  <div class="content">
+    <div class="tabs">
+      <button [class]="'list-button' + (selectedTab === 0 ? '-selected' : '')" (click)="selectTab(0)" mat-flat-button ><span class="tab-button-label">Current Situation</span></button>
+      <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><span class="tab-button-label">Totals this Year</span></button>
+    </div>
+    <div id="current-stats-page" *ngIf="selectedTab === 0" class="panel-container">
+      <situation-widget></situation-widget>
+      <summary-widget></summary-widget>
+      <overview-widget></overview-widget>
+      <active-fires-widget></active-fires-widget>
+      <resources-widget></resources-widget>
+      <evacuations-widget></evacuations-widget>
+      <bans-widget></bans-widget>
+      <fires-of-note-widget></fires-of-note-widget>
+      <fire-cause-widget [yearly]="false"></fire-cause-widget>
+      <blog-widget></blog-widget>
+      <videos-widget></videos-widget>
+    </div>
+    <div id="totals-page" *ngIf="selectedTab === 1" class="panel-container">
+      <fire-totals-widget></fire-totals-widget>
+      <fire-cause-widget [yearly]="true"></fire-cause-widget>
+      <historical-comparison-widget></historical-comparison-widget>
+      <fire-centre-stats-widget></fire-centre-stats-widget>
+    </div>
+  </div>
+</div>

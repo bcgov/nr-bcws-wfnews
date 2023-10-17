@@ -13,6 +13,8 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportListResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.common.service.ValidationFailureException;
@@ -78,5 +80,18 @@ public interface IncidentsService {
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	AttachmentResource getIncidentAttachment(String attachmentGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 
-	
+	@Transactional(readOnly = true, rollbackFor=Exception.class)
+	SituationReportListResource getSitationReportList(Integer pageNumber, Integer pageRowCount, Boolean published, FactoryContext factoryContext) throws ConflictException, NotFoundException;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	SituationReportResource createSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	SituationReportResource updateSituationReport(SituationReportResource report, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	SituationReportResource deleteSituationReport(String reportGuid, WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = false, rollbackFor=Exception.class)
+	SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 }

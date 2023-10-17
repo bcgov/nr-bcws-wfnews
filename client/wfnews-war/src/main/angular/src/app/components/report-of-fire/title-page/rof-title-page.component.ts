@@ -14,7 +14,7 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFTitlePage extends RoFPage {
+export class RoFTitlePage extends RoFPage implements OnInit {
   public imageUrl: string
   public closeButton: boolean
   public messages: any;
@@ -30,14 +30,20 @@ export class RoFTitlePage extends RoFPage {
     super()
   }
 
+  ngOnInit(): void {
+    // run background task
+    const background = this.backgroundListener();
+    // run when user comes back to app without sending app to background explicitlyng
+    const listener = this.runBackground();
+  }
+
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.imageUrl = data.imageUrl;
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
-    this.offLine = !window.navigator.onLine;
-    this.backgroundListener();
+    this.offLine = !window.navigator.onLine;    
   }
 
   async backgroundListener (){
@@ -47,9 +53,10 @@ export class RoFTitlePage extends RoFPage {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this
         setInterval(function () {
-          // Invoke function every 5 minutes while app is in background
+          console.log('set interval')
+          // Invoke function every minute while app is in background
           self.runBackground();
-        }, 300000);
+        }, 60000);
         BackgroundTask.finish({ taskId });
       });
     });

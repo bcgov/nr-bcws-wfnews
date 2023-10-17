@@ -1,0 +1,366 @@
+@import '../../../../../styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+@media (min-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    width: auto;
+    min-height: 640px;
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .chart-box-content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .chart-box-content> * {
+    flex: 1 0 20%;
+  }
+
+  .charts-box {
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    height: calc(100% - 196px);
+    margin-top: 25px;
+    padding: 20px;
+  }
+
+  .chart {
+    display: flex;
+    flex-flow: column;
+    text-align: center;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    flex: 1 0 0;
+  }
+
+  .chart-percent {
+    color: var(--grays-gray-1, #242424);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 28.929px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: relative;
+    top: -196px;
+  }
+
+  .chart-data-holder {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px 0px 20px;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    height: 116px;
+    width: calc(50% - 24px);
+  }
+
+  .stat-text {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .widget-header {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+    border-bottom: 1px solid #C4C4C4;
+    width: 100%;
+    padding-bottom: 16px;
+    display: flex;
+  }
+  
+  .stat-box-icon {
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    background: var(--Summary-Blue, #DFE5F1);
+    position: relative;
+    top: -5px;
+    width: 36px;
+    height: 36px;
+  }
+
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+    margin-left: 10px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 10px
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    background: #FFF;
+  }
+
+  .chart-box-content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    width: calc(100vw - 70px);
+  }
+  .chart-box-content> * {
+    flex: 0 0 0px;
+  }
+
+  .charts-box {
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    margin-top: 25px;
+    align-items: flex-start;
+    padding-top: 12px;
+    padding-left: 12px;
+  }
+
+  .chart {
+    display: flex;
+    flex-flow: row;
+    gap: 12px;
+    flex: 1 0 0;
+    border-bottom: 1px solid #DEDEDE;
+  }
+
+  .chart-percent {
+    color: var(--grays-gray-1, #242424);
+    text-align: center;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-size: 28.929px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    position: relative;
+    top: 70px;
+    left: -325px;
+  }
+
+  .chart-data-holder {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 65px;
+    position: relative;
+    top: 60px;
+    width: 185px;
+  }
+
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px 0px 20px;
+    gap: 10px;
+    align-self: stretch;
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    height: 116px;
+    width: calc(50% - 24px);
+  }
+
+  .stat-text {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    background: var(--Summary-Blue, #DFE5F1);
+    position: relative;
+    top: -5px;
+    height: 24px;
+    width: 24px;
+    margin-left: auto;
+  }
+
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-top: 10px
+  }
+
+  .widget-header {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+    border-bottom: 1px solid #C4C4C4;
+    width: 100%;
+    padding-bottom: 16px;
+    display: flex;
+  }
+}
+
+.rounded-select {
+  border-radius: 20px !important;
+  height: 40px;
+  padding-left: 10px;
+}
+
+.right-align {
+  margin-left: auto !important;
+}
+
+.spinner-position {
+  position: relative;
+  left: calc(50% - 40px);
+  top: calc(50% - 40px);
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+}
+
+.counts-box {
+  display: flex;
+  width: 100%;
+  gap: 24px;
+  margin-top: 10px;
+}
+
+.chart-box-title-bar {
+  display: flex;
+}
+
+.chart-label {
+  color: var(--Black-1, #242424);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.chart-data {
+  color: var(--Grey-1, #666);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+.button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background-color: transparent;
+  margin-left: auto;
+}
+
+.button-label {
+  position: relative;
+  top: -3px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+}
+
+.button-icon {
+  position: relative;
+  top: 2px;
+  left: -6px;
+}
+
+.chart-box-title {
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 27px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.stat-box-label {
+  color: var(--Black-2, #484848);
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin-top: 10px
+}
+
+.red {
+  background: #aa1d3e !important;
+}

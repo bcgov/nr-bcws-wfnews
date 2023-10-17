@@ -1,0 +1,90 @@
+<div class="container">
+  <div class="widget-header">
+    <span>Active Wildfires</span>
+    <div class="field right-align">
+      <select appWFSingleSelect appWFPlaceholder="Fire Centre"
+              class="rounded-select"
+              aria-label="Type"
+              [options]="fireCentreOptions"
+              [selected]="selectedFireCentreCode"
+              [(ngModel)]="selectedFireCentreCode"
+              (updated)="selectFireCentre($event)">
+          <option value="">
+              <span class="placeholder">All of BC</span>
+          </option>
+          <option *ngFor = "let item of fireCentreOptions" value="{{item.code}}">
+              <span>{{item.description}}</span>
+          </option>
+      </select>
+    </div>
+  </div>
+  <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="counts-box">
+      <div class="stat-box">
+        <span class="stat-box-label">Total Wildfires</span>
+        <div class="stat-text">
+          <img height="36" width="36" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />
+          <span class="stat-box-data">{{activeFires}}</span>
+        </div>
+      </div>
+      <div class="stat-box">
+        <span class="stat-box-label">Wildfires of Note</span>
+        <div class="stat-text">
+          <img height="36" width="36" src="/assets/images/local_fire_department.png" alt="Order" class="stat-box-icon red" />
+          <span class="stat-box-data">{{activeFireOfNote}}</span>
+        </div>
+      </div>
+    </div>
+    <div class="charts-box">
+      <div class="chart-box-title-bar">
+        <div class="chart-box-title">Stages of Control</div>
+        <button class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="button-icon" /><span class="button-label">Learn More</span></button>
+      </div>
+      <div class="chart-box-content">
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="outOfControlScheme"
+            [results]="outOfControlData">
+          </ngx-charts-pie-chart>
+          <div class="chart-data-holder">
+            <span class="chart-label">Out of Control</span>
+            <span class="chart-data">{{activeOutOfControl}} Wildfires</span>
+          </div>
+          <div class="chart-percent">{{activeOutOfControlPct}}%</div>
+        </div>
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="beingHeldScheme"
+            [results]="beingHeldData">
+          </ngx-charts-pie-chart>
+          <div class="chart-data-holder">
+            <span class="chart-label">Being Held</span>
+            <span class="chart-data">{{activeBeingHeld}} Wildfires</span>
+          </div>
+          <div class="chart-percent">{{activeBeingHeldPct}}%</div>
+        </div>
+        <div class="chart">
+          <ngx-charts-pie-chart
+            [view]="[chartSize, chartSize]"
+            [doughnut]="true"
+            [legend]="false"
+            [scheme]="underControlScheme"
+            [results]="underControlData">
+          </ngx-charts-pie-chart>
+          <div class="chart-data-holder">
+            <span class="chart-label">Under Control</span>
+            <span class="chart-data">{{activeUnderControl}} Wildfires</span>
+          </div>
+          <div class="chart-percent">{{activeUnderControlPct}}%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

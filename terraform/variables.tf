@@ -519,6 +519,10 @@ variable "WFIM_CLIENT_URL" {
   type    = string
   default = ""
 }
+variable "WFIM_REST_URL" {
+  type    = string
+  default = ""
+}
 variable "WFIM_CODE_TABLES_URL" {
   type    = string
   default = ""

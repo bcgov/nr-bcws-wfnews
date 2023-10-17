@@ -47,6 +47,23 @@
   margin-bottom: 10px !important
 }
 
+@media screen and (max-height: 850px) and (min-height: 656px) {
+  #compass-container #compass-face-image {
+    height: 95%;
+    width: 95%;
+  }
+  .compass-heading {
+    font-size: 26px;
+    padding-top: 10px;
+  }
+  .location {
+    font-size: 16px;
+  }
+  .compass-hand-image {
+    height: 120px
+  }
+}
+
 @media screen and (max-height: 655px) and (min-height: 585px) {
   #compass-container #compass-face-image {
     height: 90%;

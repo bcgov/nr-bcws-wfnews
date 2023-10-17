@@ -8,12 +8,12 @@ import { NewsAuthGuard } from './services/util/NewsAuthGuard';
 import { IncidentContainerDesktop } from './containers/incident/incident-container.component.desktop';
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { WildfirewResourcesComponent } from './components/wildfire-resources/wf-resources.component';
-import { WFStatsComponent } from './components/wf-stats-component/wf-stats.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { PublicIncidentPage } from './components/public-incident-page/public-incident-page.component';
 import { WildfiresListHeaderComponent } from './components/wildfires-list-header/wildfires-list-header.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
+import { Dashboard } from './components/dashboard-component/dashboard.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -21,10 +21,10 @@ const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
 const PANEL_ROUTES: Routes = [
 	// { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedPageComponent, pathMatch: 'full', outlet: 'root' },
-  { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.ACTIVEWILDFIREMAP, pathMatch: 'full',},
+  { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.DASHBOARD, pathMatch: 'full',},
+  { path: ResourcesRoutes.DASHBOARD, component: Dashboard, pathMatch: 'full',},
   { path: ResourcesRoutes.ACTIVEWILDFIREMAP, component: ActiveWildfireMapComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.WILDFIRESLIST, component: WildfiresListHeaderComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.CURRENTSTATISTICS, component: WFStatsComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.ROF, component: ReportOfFirePage, pathMatch: 'full',},
   { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},

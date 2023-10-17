@@ -3,7 +3,7 @@
   font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 20px;
   background-color: white;
-  max-width: 1300px;
+  max-width: 1500px;
   margin: auto;
 }
 
@@ -73,18 +73,12 @@ p.dashboard-title{
 
 .list-container {
   border-top: 2px solid #DEDEDE;
-  margin: 20px -20px 0px -20px;
+  margin: 16px -20px 0px -20px;
   padding-top: 10px;
 }
 
 .mobile-container {
   margin: 0px;
-  // overflow: auto;
-  // height: 100vh;
-}
-
-.mobile-list-button {
-  min-width: 200px;
 }
 
 .mobile-buttons-container {
@@ -105,4 +99,8 @@ p.dashboard-title{
   position: relative;
   left: 50vw;
   top: 20px;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
 }

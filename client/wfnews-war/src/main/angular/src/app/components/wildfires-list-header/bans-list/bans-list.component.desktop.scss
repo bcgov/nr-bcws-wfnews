@@ -23,6 +23,10 @@
     margin-top: auto;
 }
 
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
+}
+
 .my-location-button{
   border: 1px solid #a7a9ac;
   border-radius: 5px;
@@ -101,7 +105,7 @@ table tr:nth-child(even) td{
     width: 24px;
     font-size: 15px;
     border-radius: 20%;
-    background-color: #f2f2f2;
+    background-color: transparent;
     border: none;
     .button-wrapper{
         padding: 0;
@@ -123,9 +127,9 @@ table tr:nth-child(even) td{
 }
 
 .cell-button {
-  width: 100% !important;
+  width: 107px !important;
   border: 1px solid #C4C4C4;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 19px;
   letter-spacing: 0em;
@@ -168,6 +172,44 @@ table tr:nth-child(even) td{
     border: 2px solid #38598A !important;
     background-color: #E9F0F8 !important;
     color: #242424 !important;
+  }
+}
+
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 20px;
+  margin-top: -20px;
+}
+
+.mdc-button__label {
+  margin-left: 1px !important;
+  margin-top: 3px !important;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -219,4 +261,8 @@ table tr:nth-child(even) td{
   position: relative;
   left: 50vw;
   top: 20px;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600 !important;
 }

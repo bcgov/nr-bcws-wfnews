@@ -2,14 +2,15 @@
 <div class="table-search-header">
     <div class="search-and-filters">
         <div class="field search-input">
-            <input [readonly]="isLocationName()" matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
-            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
-                    aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
-                    matTooltip="Clear">
-                    <span class="button-wrapper">
-                        <mat-icon>close</mat-icon>
-                    </span>
-            </button>
+          <mat-icon class="search-icon" matSuffix>search</mat-icon>
+          <input [readonly]="isLocationName()" matInput class="search-input" aria-label="Search" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="searchTextUpdated()">
+          <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
+                  aria-label="Clear" (click)="searchText=undefined;searchTextUpdated(); $event.stopPropagation()"
+                  matTooltip="Clear">
+                  <span class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                  </span>
+          </button>
         </div>
         <div class="field">
             <select appWFSingleSelect appWFPlaceholder="Fire Centre"
@@ -27,7 +28,7 @@
                 </option>
             </select>
         </div>
-        <button mat-flat-button matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
+        <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <span class="button-wrapper">Filter by Location</span>
         </button>
         <div class="field right-align">
@@ -80,7 +81,7 @@
               <div class="fire-label-container">
                 <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon fire-label-icon">
                 <div class="fire-label-holder">
-                  <span #el [class]="item.incidentName === convertFireNumber(item) ? 'fire-single-label' : ''"> {{item.incidentName}}</span>
+                  <span #el [class]="'fire-label-holder-label ' + (item.incidentName === convertFireNumber(item) ? 'fire-single-label' : '')"> {{item.incidentName}}</span>
                   <span #el class="fireNumber-subtext" *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
                 </div>
               </div>

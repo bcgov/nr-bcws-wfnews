@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { debounceTime } from 'rxjs/operators';
@@ -9,6 +9,8 @@ export class LocationData {
   public latitude: number
   public longitude: number
   public radius: number = 50
+  public searchText: string
+  public useUserLocation = false
 }
 
 @Component({
@@ -18,7 +20,6 @@ export class LocationData {
 })
 export class FilterByLocationDialogComponent {
   public searchText
-  public useLocationSelected = false
   public filteredOptions = []
   public searchByLocationControl = new UntypedFormControl
   public locationData = new LocationData
@@ -26,7 +27,8 @@ export class FilterByLocationDialogComponent {
   private placeData: PlaceData
   private sortedAddressList: string[] = []
 
-  constructor(private dialogRef: MatDialogRef<FilterByLocationDialogComponent>, private commonUtilityService: CommonUtilityService) {
+  constructor(private dialogRef: MatDialogRef<FilterByLocationDialogComponent>, private commonUtilityService: CommonUtilityService, @Inject(MAT_DIALOG_DATA) public data: LocationData) {
+    this.locationData = data || new LocationData
     this.placeData = new PlaceData();
     let self = this;
     this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
@@ -35,7 +37,7 @@ export class FilterByLocationDialogComponent {
           this.filteredOptions = [];
           this.locationData.latitude = undefined;
           this.locationData.longitude = undefined;
-          this.searchText = undefined;
+          this.searchText = this.locationData?.searchText || undefined;
           return;
       }
 
@@ -59,6 +61,7 @@ export class FilterByLocationDialogComponent {
 
     this.locationData.latitude = selectedOption.loc[1]
     this.locationData.longitude = selectedOption.loc[0]
+    this.locationData.searchText = this.searchText
   }
 
   setRadius (radius: number) {
@@ -66,9 +69,9 @@ export class FilterByLocationDialogComponent {
   }
 
   async useUserLocation () {
-    this.useLocationSelected = !this.useLocationSelected
+    this.locationData.useUserLocation = !this.locationData.useUserLocation
 
-    if (this.useLocationSelected) {
+    if (this.locationData.useUserLocation) {
       this.searchText = undefined
 
       const location = await this.commonUtilityService.getCurrentLocationPromise()
@@ -76,5 +79,7 @@ export class FilterByLocationDialogComponent {
       this.locationData.longitude = location.coords.longitude
       this.searchText = this.locationData.latitude.toString() + ', ' + this.locationData.longitude.toString()
     }
+
+    this.locationData.searchText = this.searchText
   }
 }
