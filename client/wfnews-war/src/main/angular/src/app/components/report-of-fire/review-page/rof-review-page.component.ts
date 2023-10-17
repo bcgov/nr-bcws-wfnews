@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef } from "@angular/core";
+import { Component, ChangeDetectionStrategy, AfterViewInit, ChangeDetectorRef, OnInit } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import ConfigJson from '../report-of-fire.config.json';
@@ -21,7 +21,7 @@ import { LatLng } from 'leaflet';
   styleUrls: ['./rof-review-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFReviewPage extends RoFPage implements AfterViewInit{
+export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
   public reportOfFirePages: any;
   map: any;
   smkApi: SmkApi;
@@ -41,6 +41,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
     this.loadMap()
   }
 
+  ngOnInit(): void {
+    const runPreviouslySubmitted = this.ionViewDidEnter();
+  }
+
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.reportOfFirePages = ConfigJson.pages
@@ -56,11 +60,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit{
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-
-    // ping server every 5 minutes, then find any offline reports to be submitted if device is online
-    setInterval(() => {
-      this.ionViewDidEnter()
-    }, 300000);
   }
 
   selectedAnswer(page:any) {
