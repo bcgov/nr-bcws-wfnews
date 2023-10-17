@@ -292,6 +292,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.isEditMode = false;
       this.cdr.detectChanges();
     }else {
+      if(this.currentPage.instance.id === 'final-page') {
+        this.router.navigateByUrl('/map')
+      } else {
         let dialogRef = this.dialog.open(DialogExitComponent, {
           autoFocus: false,
           width: '80vw',
@@ -302,6 +305,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
             this.router.navigateByUrl('/map')
           }
         });
+      }
     }
   }
 
