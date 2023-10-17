@@ -1,4 +1,4 @@
-import { AfterViewInit, Component } from "@angular/core"
+import { AfterViewInit, Component, Input } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
 import { FireCentres } from "@app/utils"
 
@@ -8,6 +8,8 @@ import { FireCentres } from "@app/utils"
   styleUrls: ['./fire-cause-widget.component.scss']
 })
 export class FireCauseWidget implements AfterViewInit {
+  @Input() public yearly = false
+
   public startupComplete = false
   public selectedFireCentreCode = ''
   public fireCentreOptions = FireCentres
@@ -26,11 +28,25 @@ export class FireCauseWidget implements AfterViewInit {
 
   queryData () {
     this.startupComplete = false
-    Promise.all([
+
+    const promises = [
       this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
       this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise()
-    ]).then(([activeIncidents, activeFoNIncidents ]) => {
+    ]
+
+    if (this.yearly) {
+      promises.push(this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise())
+    }
+
+    Promise.all(promises).then(([activeIncidents, activeFoNIncidents, outIncidents ]) => {
       let fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
+
+      // If this is a yearly totals sum, then we need to include outfires
+      // out fires promise will only be handled if yearly is true
+      if (this.yearly && outIncidents) {
+        const outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
+        fires = fires.concat(outFires)
+      }
 
       if (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') {
         fires = fires.filter(f => f.fireCentreCode === this.selectedFireCentreCode)
