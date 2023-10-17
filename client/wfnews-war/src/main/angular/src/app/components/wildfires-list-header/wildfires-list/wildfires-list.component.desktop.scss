@@ -177,6 +177,16 @@ table tr:nth-child(even) td{
   overflow-y: hidden !important;
 }
 
+.fire-label-holder-label {
+  white-space: nowrap;
+  width: 100%;
+  display: inline-block;
+  text-overflow: ellipsis !important;
+  overflow-x: hidden;
+  overflow-y: visible;
+  line-height: 18px;
+}
+
 .filter-button {
   margin-right: 7px;
   border: 1px solid #C4C4C4;
@@ -242,4 +252,8 @@ table tr:nth-child(even) td{
   position: relative;
   left: 50vw;
   top: 20px;
+}
+
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
 }

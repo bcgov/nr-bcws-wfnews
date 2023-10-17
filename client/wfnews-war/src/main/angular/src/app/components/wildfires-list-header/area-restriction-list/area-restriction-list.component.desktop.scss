@@ -21,6 +21,10 @@
   border-radius: 20px !important;
 }
 
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
+}
+
 .cell-button {
   width: 100% !important;
   border: 1px solid #C4C4C4;

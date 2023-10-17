@@ -23,6 +23,10 @@
     margin-top: auto;
 }
 
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
+}
+
 .my-location-button{
   border: 1px solid #a7a9ac;
   border-radius: 5px;
