@@ -134,6 +134,7 @@
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
       </div>
+      <wfnews-draggable-panel *ngIf="showPanel && incidentRefs && incidentRefs.length"></wfnews-draggable-panel>
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="showPanel && incidentRefs && incidentRefs.length">
 
         <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
