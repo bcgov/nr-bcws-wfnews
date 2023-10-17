@@ -14,7 +14,7 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFTitlePage extends RoFPage {
+export class RoFTitlePage extends RoFPage implements OnInit {
   public imageUrl: string
   public closeButton: boolean
   public messages: any;
@@ -30,14 +30,17 @@ export class RoFTitlePage extends RoFPage {
     super()
   }
 
+  ngOnInit(): void {
+    const listener = this.backgroundListener();
+  }
+
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.imageUrl = data.imageUrl;
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
-    this.offLine = !window.navigator.onLine;
-    this.backgroundListener();
+    this.offLine = !window.navigator.onLine;    
   }
 
   async backgroundListener (){
