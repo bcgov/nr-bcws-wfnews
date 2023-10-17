@@ -26,10 +26,10 @@
 }
 
 .cell-button {
-  width: 100% !important;
+  width: 107px !important;
   border: 1px solid #C4C4C4;
   font-family: Open Sans;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 19px;
   letter-spacing: 0em;
@@ -258,4 +258,8 @@ table tr:nth-child(even) td{
   position: relative;
   left: 50vw;
   top: 20px;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600 !important;
 }

@@ -44,7 +44,7 @@ export class AreaRestrictionListComponent implements OnInit {
       if (areaRestrictions && areaRestrictions.features) {
         for (const element of areaRestrictions.features) {
           let distance = null
-          if (location) {
+          if (userLocation) {
               const currentLat = Number(userLocation.coords.latitude);
               const currentLong = Number(userLocation.coords.longitude);
 
@@ -104,7 +104,7 @@ export class AreaRestrictionListComponent implements OnInit {
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      return moment(value).format('MMM Do YYYY h:mm:ss a')
     }
   }
 

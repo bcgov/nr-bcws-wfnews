@@ -204,7 +204,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      return moment(value).format('MMM Do YYYY h:mm:ss a')
     }
   }
 
