@@ -194,6 +194,14 @@ table tr:nth-child(even) td{
   height: 36px;
   width: 36px;
   border-radius: 20px;
+  &-selected {
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    color: #242424 !important;
+    height: 36px;
+    width: 36px;
+    border-radius: 20px;
+  }
 }
 
 .fireNumber-subtext {

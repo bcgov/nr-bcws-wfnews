@@ -65,6 +65,8 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
   locationName: string;
   sortedAddressList: string[];
 
+  public locationData: LocationData
+
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
   convertFromTimestamp = convertFromTimestamp;
@@ -263,6 +265,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: this.locationData
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
@@ -273,12 +276,21 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: LocationData) => {
+    dialogRef.afterClosed().subscribe((result: LocationData | boolean) => {
       smallDialogSubscription.unsubscribe();
 
-      this.selectedLat = result.latitude
-      this.selectedLong = result.longitude
-      this.selectedRadius = result.radius
+      if ((result as boolean) === false) {
+        this.locationData = null
+        this.selectedLat = null
+        this.selectedLong = null
+        this.selectedRadius = null
+      } else {
+        this.selectedLat = (result as LocationData).latitude
+        this.selectedLong = (result as LocationData).longitude
+        this.selectedRadius = (result as LocationData).radius
+
+        this.locationData = result as LocationData
+      }
 
       this.doSearch()
     });
