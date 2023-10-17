@@ -3,15 +3,28 @@
 .text-container {
   margin: 20px 0px;
   width: calc(100vw - 60px);
-  height: calc(100vh - 440px);
+  height: calc(100vh - 400px);
   background-color: #F5F5F5 !important;
   border-radius: 3px;
+  min-height: 200px;
+  @media all and (min-width: 768px) and (orientation:portrait) {
+    height: calc(100vh - 440px);
+  }
+  @media all and (min-width: 1024px) and (orientation:landscape) {
+    height: calc(100vh - 440px);
+  }
 }
 
 .review-icon {
   padding-right: 12px !important; 
   margin-right: -4px;
 }
+
+.text-area {
+  height: calc(100vh - 450px); 
+  min-height:200px;
+}
+
 
 @media screen and (max-width: 380px) {
   .review-icon {

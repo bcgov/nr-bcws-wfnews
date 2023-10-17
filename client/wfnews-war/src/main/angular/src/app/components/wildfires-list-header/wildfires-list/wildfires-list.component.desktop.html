@@ -80,7 +80,7 @@
               <div class="fire-label-container">
                 <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon fire-label-icon">
                 <div class="fire-label-holder">
-                  <span #el [class]="item.incidentName === convertFireNumber(item) ? 'fire-single-label' : ''"> {{item.incidentName}}</span>
+                  <span #el [class]="'fire-label-holder-label ' + (item.incidentName === convertFireNumber(item) ? 'fire-single-label' : '')"> {{item.incidentName}}</span>
                   <span #el class="fireNumber-subtext" *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
                 </div>
               </div>

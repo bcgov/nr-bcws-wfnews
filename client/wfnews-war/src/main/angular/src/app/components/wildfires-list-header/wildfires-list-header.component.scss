@@ -106,3 +106,7 @@ p.dashboard-title{
   left: 50vw;
   top: 20px;
 }
+
+.mat-mdc-row:hover .mat-mdc-cell{
+  background-color: #c4cdd2;
+}

@@ -1,87 +1,180 @@
 @import '../../../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
-.container {
-  overflow: hidden;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  display: flex;
-  max-height: 912px;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 12px;
-  flex: 1 0 0;
-  align-self: stretch;
-  background: transparent
+@media (min-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    max-height: 912px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    align-self: stretch;
+    background: transparent
+  }
+
+  .spinner-position {
+    position: relative;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
+  }
+
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+  .content> * {
+    flex: 1 0 247px;
+  }
+
+  .stat-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-box {
+    display: flex;
+    padding: 0px 20px 0px 20px;
+    align-items: center;
+    gap: 32px;
+    align-self: stretch;
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    height: 218px;
+    max-height: 218px;
+    max-width: 322px;
+    min-width: 175px;
+  }
+
+  .stat-box-icon {
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    background: var(--Summary-Blue, #DFE5F1);
+    position: relative;
+    top: -5px;
+    width: 48px;
+    height: 48px;
+  }
+
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 }
 
-.spinner-position {
-  position: relative;
-  left: calc(50% - 40px);
-  top: calc(50% - 40px);
-}
+@media (max-width: 768px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    max-height: 912px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    align-self: stretch;
+    background: transparent
+  }
 
-.content {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 24px;
-  flex: 1 0 0;
-  align-self: stretch;
-}
-.content> * {
-  flex: 1 0 0px;
-}
+  .spinner-position {
+    position: relative;
+    left: calc(50% - 40px);
+    top: calc(50% - 40px);
+  }
 
-.stat-text {
-  display: flex;
-  flex-direction: column;
-}
+  .content {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: 24px;
+    flex: 1 0 0;
+    align-self: stretch;
+  }
+  .content> * {
+    flex: 1 0 247px;
+  }
 
-.stat-box {
-  display: flex;
-  padding: 0px 20px 0px 20px;
-  align-items: center;
-  gap: 32px;
-  align-self: stretch;
-  border-radius: var(--16, 16px);
-  background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
-  border: 1.5px solid #DEDEDE;
-  height: 218px;
-  max-height: 218px;
-  max-width: 322px;
-  min-width: 175px;
-}
+  .stat-text {
+    display: flex;
+    flex-direction: column;
+  }
 
-.stat-box-icon {
-  display: flex;
-  padding: 12px;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  border-radius: 60px;
-  background: var(--Summary-Blue, #DFE5F1);
-  position: relative;
-  top: -5px;
-}
+  .stat-box {
+    display: flex;
+    padding: 0px 20px 0px 20px;
+    align-items: center;
+    gap: 24px;
+    align-self: stretch;
+    border-radius: var(--16, 16px);
+    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
+    border: 1.5px solid #DEDEDE;
+    height: 218px;
+    max-height: 128px;
+    max-width: 322px;
+    min-width: 175px;
+  }
 
-.stat-box-data {
-  color: #242424;
-  font-feature-settings: 'clig' off, 'liga' off;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
-  letter-spacing: 0.35px;
-}
+  .stat-box-icon {
+    display: flex;
+    padding: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 60px;
+    background: var(--Summary-Blue, #DFE5F1);
+    position: relative;
+    top: -5px;
+    width: 36px;
+    height: 36px;
+  }
 
-.stat-box-label {
-  color: var(--Black-2, #484848);
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: normal;
+  .stat-box-data {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    letter-spacing: 0.35px;
+  }
+
+  .stat-box-label {
+    color: var(--Black-2, #484848);
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
 }

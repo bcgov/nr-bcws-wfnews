@@ -108,6 +108,9 @@
   width: calc(100% - 64px);
   bottom: 3em;
   position: fixed;
+  @media (max-height: 699px){
+    bottom: 2em;
+  }
   .rof-button {
     padding:0 32px;
     height: 43px;
@@ -173,8 +176,8 @@
       font-size: 2.2vh !important;
     }
     @media (max-height: 699px){
-       height: 7vh;
-      font-size: 2.2vh !important;
+       height: 7dvh;
+      font-size: 2.2dvh !important;
      }
   }
   .mat-flat-button {
@@ -195,12 +198,12 @@
     text-align: center !important;
     font-size: 19px !important;
     @media (max-height: 800px) and (min-height: 700px){
-      height: 10vh;
-      font-size: 2.2vh !important;
+      height: 10dvh;
+      font-size: 2.2dvh !important;
     }
     @media (max-height: 699px){
-      height: 9vh;
-      font-size: 2.2vh !important;
+      height: 9dvh;
+      font-size: 2.2dvh !important;
     }
     font-style: normal !important;
     font-weight: 600 !important;
@@ -226,16 +229,16 @@
     border-radius: 8px;
     height: 81px;
     @media (max-width: 1023px) and (max-height: 700px) {
-      height: 8.5vh !important;
+      height: 8.5dvh !important;
     }
     @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
-      height: 8vh !important;
+      height: 8dvh !important;
     }
     @media (min-width: 1024px) and (max-height: 649px) and (min-height: 615px) {
-      height: 7vh !important;
+      height: 7dvh !important;
     }
     @media (min-width: 1024px) and (max-height: 614px) {
-      height: 6vh !important;
+      height: 6dvh !important;
     }
   }
   .mat-button-toggle-appearance-standard {
