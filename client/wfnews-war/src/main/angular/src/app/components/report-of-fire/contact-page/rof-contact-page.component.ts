@@ -47,6 +47,15 @@ export class RoFContactPage extends RoFPage {
     );
   }
 
+  validatePhoneNumber(value) {
+    if (value && value.toString().length === 10) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+
   nextPage() {
     if (this.reportOfFire.motionSensor === 'yes') {
       this.next();
