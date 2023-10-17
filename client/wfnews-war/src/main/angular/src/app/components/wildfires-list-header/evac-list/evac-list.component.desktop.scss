@@ -175,6 +175,44 @@ table tr:nth-child(even) td{
   }
 }
 
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 20px;
+  margin-top: -20px;
+}
+
+.mdc-button__label {
+  margin-left: 1px !important;
+  margin-top: 3px !important;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
+  }
+}
+
 .search-and-filters {
   flex: 0 !important;
   display: flex;

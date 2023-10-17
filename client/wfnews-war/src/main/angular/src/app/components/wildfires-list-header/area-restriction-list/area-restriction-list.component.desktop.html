@@ -2,14 +2,15 @@
 <div class="table-search-header flex-y-fixed">
     <div class="search-and-filters">
         <div class="field search-input">
-            <input matInput class="search-input" aria-label="Search" placeholder="     Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
-            <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
-                    aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()"
-                    matTooltip="Clear">
-                    <span class="button-wrapper">
-                        <mat-icon>close</mat-icon>
-                    </span>
-            </button>
+          <mat-icon class="search-icon" matSuffix>search</mat-icon>
+          <input matInput class="search-input" aria-label="Search" placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="searchByText()">
+          <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText"
+                  aria-label="Clear" (click)="searchText=undefined; searchByText(); $event.stopPropagation()"
+                  matTooltip="Clear">
+                  <span class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                  </span>
+          </button>
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <span class="button-wrapper">Filter by Location</span>
