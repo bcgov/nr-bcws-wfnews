@@ -291,7 +291,9 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.edit('review-page');
       this.isEditMode = false;
       this.cdr.detectChanges();
-    }else {
+    } else if (this.currentPage.instance.id === 'final-page') {
+      this.router.navigateByUrl('/map')   
+     } else {
         let dialogRef = this.dialog.open(DialogExitComponent, {
           autoFocus: false,
           width: '80vw',
