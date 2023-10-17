@@ -29,7 +29,7 @@
             </select>
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
-          <span class="button-wrapper">Filter by Location</span>
+          <img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
         </button>
         <div class="field right-align">
           <select appWFSingleSelect appWFPlaceholder="Sort"
@@ -63,7 +63,7 @@
             <img height="17" width="17" src="/assets/images/svg-icons/under-control.svg" alt="Under Control" class="icon"><span class="checkbox-label">Under Control</span>
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd">
-            <img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon"><span class="checkbox-label">Out Wildfires</span>
+            <img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon"><span class="checkbox-label">Out</span>
           </mat-checkbox>
       </section>
   </div>
@@ -76,7 +76,7 @@
             (matSortChange)="sortData($event)"
             aria-label="Incident Table">
         <ng-container matColumnDef = "fireName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Name</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Wildfire Name</th>
             <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)">
               <div class="fire-label-container">
                 <img *ngIf="item.fireOfNoteInd" height="24" width="24" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon fire-label-icon">
@@ -91,10 +91,10 @@
         <ng-container matColumnDef = "stageOfControl">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Stage of Control</th>
           <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="selectIncident(item)">
-            <img *ngIf="item.stageOfControlCode === 'OUT_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon">
-            <img *ngIf="item.stageOfControlCode === 'HOLDING'" height="10" width="10" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="icon">
-            <img *ngIf="item.stageOfControlCode === 'UNDR_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="icon">
-            <img *ngIf="item.stageOfControlCode === 'OUT'" height="10" width="10" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon">
+            <img *ngIf="item.stageOfControlCode === 'OUT_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="list-icon">
+            <img *ngIf="item.stageOfControlCode === 'HOLDING'" height="10" width="10" src="/assets/images/svg-icons/being-held.svg" alt="Being Held" class="list-icon">
+            <img *ngIf="item.stageOfControlCode === 'UNDR_CNTRL'" height="10" width="10" src="/assets/images/svg-icons/under-control.svg" alt="under control" class="list-icon">
+            <img *ngIf="item.stageOfControlCode === 'OUT'" height="10" width="10" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="list-icon">
             <span #el> {{convertToStageOfControlDescription(item.stageOfControlCode)}}</span>
           </td>
         </ng-container>
@@ -123,7 +123,7 @@
 
         <ng-container matColumnDef = "viewMap">
             <th mat-header-cell *matHeaderCellDef> </th>
-            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96" svgIcon="map"></mat-icon></span><span class="cell-label"> View Map</span></td>
+            <td mat-cell style="cursor: pointer;" *matCellDef="let item" (click)="viewMap(item)"><span #el ><mat-icon style="color:#1A5A96; height: 20px; width: 20px;" svgIcon="map"></mat-icon></span><span class="cell-label"> View Map</span></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay;sticky:true"></tr>

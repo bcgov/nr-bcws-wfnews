@@ -13,7 +13,7 @@
           </button>
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
-          <span class="button-wrapper">Filter by Location</span>
+          <img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
         </button>
         <div class="field right-align">
           <select appWFSingleSelect appWFPlaceholder="Sort"
