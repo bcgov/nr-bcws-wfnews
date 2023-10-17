@@ -11,6 +11,7 @@ import { HttpClient } from "@angular/common/http"
 export class BansWidget implements OnInit, AfterViewInit {
   public startupComplete = false
   public map: any = null
+  public showViewMapButton = false
 
   constructor(private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, private httpClient: HttpClient, private el: ElementRef) { }
 

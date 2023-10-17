@@ -38,9 +38,9 @@ export class EvacuationsWidget implements AfterViewInit {
 
         // sort the list by date
         this.evacList.sort((a,b) =>(a.issuedOnRaw > b.issuedOnRaw) ? -1 : ((b.issuedOnRaw > a.issuedOnRaw) ? 1 : 0))
-        // only keep the first 4 or 5
-        if (this.evacList.length > 5) {
-          this.evacList = this.evacList.slice(0, 5);
+        // only keep the first 4
+        if (this.evacList.length > 4) {
+          this.evacList = this.evacList.slice(0, 4);
         }
       }
 
