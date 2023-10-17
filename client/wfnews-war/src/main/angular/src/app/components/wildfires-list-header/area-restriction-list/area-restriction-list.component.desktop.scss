@@ -280,6 +280,9 @@ table tr:nth-child(even) td{
 .cell-label {
   position: relative;
   top: -7px;
+  white-space: nowrap;
+  display: inline-block;
+  text-overflow: ellipsis !important;
 }
 
 .right-align {

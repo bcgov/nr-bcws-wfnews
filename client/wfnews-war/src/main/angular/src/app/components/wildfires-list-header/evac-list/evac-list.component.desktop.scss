@@ -302,6 +302,8 @@ table tr:nth-child(even) td{
 .cell-label {
   position: relative;
   top: -7px;
+  display: inline-block;
+  text-overflow: ellipsis !important;
 }
 
 .right-align {
