@@ -3,15 +3,15 @@
 .text-container {
   margin: 20px 0px;
   width: calc(100vw - 60px);
-  height: calc(100vh - 400px);
+  height: calc(100dvh - 400px);
   background-color: #F5F5F5 !important;
   border-radius: 3px;
   min-height: 200px;
   @media all and (min-width: 768px) and (orientation:portrait) {
-    height: calc(100vh - 440px);
+    height: calc(100dvh - 440px);
   }
   @media all and (min-width: 1024px) and (orientation:landscape) {
-    height: calc(100vh - 440px);
+    height: calc(100dvh - 440px);
   }
 }
 
