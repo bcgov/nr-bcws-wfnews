@@ -14,7 +14,7 @@
 </div>
 <div *ngIf="dataSource && dataSource.data.length > 0; else loading">
 <div *ngFor="let item of dataSource.data">
-  <div class="panel-card">
+  <div class="panel-card" (click)="selectIncident(item)">
     <div class="card-header" (click)="selectIncident(item)">
       <span>{{item.incidentName}}</span> <span *ngIf="item.incidentName !== convertFireNumber(item)" > ({{convertFireNumber(item)}})</span>
     </div>
