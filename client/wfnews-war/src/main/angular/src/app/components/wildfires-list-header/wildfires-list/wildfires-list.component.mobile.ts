@@ -80,6 +80,7 @@ export class WildFiresListComponentMobile {
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: this.lastLocation
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe(size => {

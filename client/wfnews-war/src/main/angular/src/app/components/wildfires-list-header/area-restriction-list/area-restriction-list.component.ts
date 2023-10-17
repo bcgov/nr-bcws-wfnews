@@ -24,6 +24,8 @@ export class AreaRestrictionListComponent implements OnInit {
   public searchTimer
   public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 
+  public locationData: LocationData
+
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
@@ -42,7 +44,7 @@ export class AreaRestrictionListComponent implements OnInit {
       if (areaRestrictions && areaRestrictions.features) {
         for (const element of areaRestrictions.features) {
           let distance = null
-          if (location) {
+          if (userLocation) {
               const currentLat = Number(userLocation.coords.latitude);
               const currentLong = Number(userLocation.coords.longitude);
 
@@ -78,6 +80,7 @@ export class AreaRestrictionListComponent implements OnInit {
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: this.locationData
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
@@ -88,15 +91,20 @@ export class AreaRestrictionListComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: LocationData) => {
+    dialogRef.afterClosed().subscribe((result: LocationData | boolean) => {
       smallDialogSubscription.unsubscribe();
-      this.search(result)
+      if ((result as boolean) === false) {
+        this.locationData = null
+      } else {
+        this.locationData = result as LocationData
+      }
+      this.search(result as LocationData)
     });
   }
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      return moment(value).format('MMM Do YYYY h:mm:ss a')
     }
   }
 
