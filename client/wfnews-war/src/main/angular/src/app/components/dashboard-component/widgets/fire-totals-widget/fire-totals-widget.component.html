@@ -1,4 +1,27 @@
 <div class="container">
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="message">Totals for the year refers to wildfire activity between April 1, {{getFireYear()}}, and today's date.</div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="stat-box">
+      <img height="48" width="48" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Wildfires Started</span>
+        <span class="stat-box-data">{{totalFires.toLocaleString()}}</span>
+      </div>
+    </div>
+    <div class="stat-box">
+      <img height="48" width="48" src="/assets/images/svg-icons/measure.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Hectares Burned</span>
+        <span class="stat-box-data">{{hectaresBurned.toLocaleString()}}</span>
+      </div>
+    </div>
+    <div class="stat-box">
+      <img height="48" width="48" src="/assets/images/svg-icons/crop-growth.svg" alt="Order" class="stat-box-icon" />
+      <div class="stat-text">
+        <span class="stat-box-label">Extinguished Wildfires</span>
+        <span class="stat-box-data">{{outFires.toLocaleString()}}</span>
+      </div>
+    </div>
+  </div>
 </div>
