@@ -97,6 +97,14 @@
   .content> * {
     flex: 1 0 200px;
   }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -192,6 +200,14 @@
       }
     }
   }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.79px;
+  }
 }
 
 .widget-header {
@@ -215,16 +231,7 @@
   margin-left: auto;
 }
 
-.button-label {
-  position: relative;
-  top: -3px;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 21.79px;
-}
-
 .button-icon {
   position: relative;
-  top: 2px;
-  left: -6px;
+  top: 4px;
 }

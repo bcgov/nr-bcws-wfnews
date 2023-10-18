@@ -1,7 +1,7 @@
 <div class="container">
   <div class="widget-header">
     <span class="widget-title">Fire Bans</span>
-    <button class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/question.svg" alt="Order" class="button-icon" /><span class="button-label">Learn More</span></button>
+    <button onclick="window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions', '_blank')" class="button" mat-flat-button ><span class="button-label">Learn More</span><img height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="Order" class="button-icon" /></button>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div class="content" *ngIf="startupComplete; else loading">
