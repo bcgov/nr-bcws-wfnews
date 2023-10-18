@@ -7,7 +7,7 @@
             <span class="button-wrapper"><mat-icon>close</mat-icon></span>
           </button>
         </div>
-        <button mat-fab matTooltip="Filter by Location" class="filter-button" aria-label="By Location" (click)="openLocationFilter()">
+        <button mat-fab matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <span class="button-wrapper"><img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /></span>
         </button>
     </div>
