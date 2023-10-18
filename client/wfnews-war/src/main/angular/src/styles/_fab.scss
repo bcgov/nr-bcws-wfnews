@@ -25,7 +25,7 @@
         }
     }
 }
-@include mat-fab-px-('white', 48, $colour-white, $colour-dark-grey);
+@include mat-fab-px-('white', 48, $colour-white, $colour-fab-icon-grey);
 
 button.mat-mdc-mini-fab.bottom-right {
     position: absolute;
