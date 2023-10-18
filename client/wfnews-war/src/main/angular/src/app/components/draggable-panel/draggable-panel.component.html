@@ -1,0 +1,234 @@
+<div #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && incidentRefs && incidentRefs.length">
+    <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+        <div class="draggable-panel-title">
+            {{incidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+        </div>
+        <div *ngIf="filteredWildfires && filteredWildfires.length">
+            <div class="criteria-title">Wildfires</div>
+            <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" height="20" width="20" src="/assets/images/local_fire_department.png" alt="local_fire_department">
+                        <span class="circle-icon {{wildfire.layerId}}"></span>
+                        {{wildfire.properties.incident_name ? wildfire.properties.incident_name : wildfire.properties.incident_number_label + ' Wildfire'}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredFirePerimeters && filteredFirePerimeters.length">
+            <div class="criteria-title">Fire Perimeters</div>
+            <div *ngFor="let firePerimeter of filteredFirePerimeters" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                       {{firePerimeter.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredEvacs && filteredEvacs.length">
+            <div class="criteria-title">Evacuations</div>
+            <div *ngFor="let evac of filteredEvacs" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
+                        <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
+
+                       Evacuation {{evac.properties.ORDER_ALERT_STATUS}} for {{evac.properties.ORDER_ALERT_NAME}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredAreaRestrictions && filteredAreaRestrictions.length">
+            <div class="criteria-title">Area Restrictions</div>
+            <div *ngFor="let areaRestriction of filteredAreaRestrictions" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="area-restriction" alt="Area Restrictions"></mat-icon>
+                       {{areaRestriction.properties.NAME}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredBansAndProhibitions && filteredBansAndProhibitions.length">
+            <div class="criteria-title">Fire Bans and Prohibitions</div>
+            <div *ngFor="let ban of filteredBansAndProhibitions" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+                       Fire Ban on {{ban.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredDangerRatings && filteredDangerRatings.length">
+            <div class="criteria-title">Fire Danger Rating</div>
+            <div *ngFor="let danger of filteredDangerRatings" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Extreme'">
+                            <mat-icon class="incident-icon" svgIcon="fire-danger-extreme" alt="Fire Danger"></mat-icon>
+                            {{danger.properties.DANGER_RATING_DESC}} Fire Danger
+                        </div>
+                        <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'High'">
+                            <mat-icon class="incident-icon" svgIcon="fire-danger-high" alt="Fire Danger"></mat-icon>
+                            {{danger.properties.DANGER_RATING_DESC}} Fire Danger
+                        </div>
+                        <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Moderate'">
+                            <mat-icon class="incident-icon" svgIcon="fire-danger-moderate" alt="Fire Danger"></mat-icon>
+                            {{danger.properties.DANGER_RATING_DESC}} Fire Danger
+                        </div>
+                        <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Low'">
+                            <mat-icon class="incident-icon" svgIcon="fire-danger-low" alt="Fire Danger"></mat-icon>
+                            {{danger.properties.DANGER_RATING_DESC}} Fire Danger
+                        </div>
+                        <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Very Low'">
+                            <mat-icon class="incident-icon" svgIcon="fire-danger-very-low" alt="Fire Danger"></mat-icon>
+                            {{danger.properties.DANGER_RATING_DESC}} Fire Danger
+                        </div>
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredRoadEvents && filteredRoadEvents.length">
+            <div class="criteria-title">Road Events</div>
+            <div *ngFor="let event of filteredRoadEvents" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="road-event" alt="Ban"></mat-icon>
+                        {{event.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredClosedRecreationSites && filteredClosedRecreationSites.length">
+            <div class="criteria-title">Closed Recreation Sites</div>
+            <div *ngFor="let closedRecreationSite of filteredClosedRecreationSites" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="closed-recreation-site" alt="closed-recreation-site"></mat-icon>
+                        {{closedRecreationSite.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredForestServiceRoads && filteredForestServiceRoads.length">
+            <div class="criteria-title">Forest Service Roads</div>
+            <div *ngFor="let forestServiceRoad of filteredForestServiceRoads" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        {{forestServiceRoad.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredProtectedLandsAccessRestrictions && filteredProtectedLandsAccessRestrictions.length">
+            <div class="criteria-title">Protected Lands Access Restrictions</div>
+            <div *ngFor="let protectedLandsAccessRestriction of filteredProtectedLandsAccessRestrictions" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        {{protectedLandsAccessRestriction.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredRegionalDistricts && filteredRegionalDistricts.length">
+            <div class="criteria-title">Regional Districts</div>
+            <div *ngFor="let regionalDistrict of filteredRegionalDistricts" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="regional-districts" alt="regional-districts"></mat-icon>
+                        {{regionalDistrict.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredMunicipalities && filteredMunicipalities.length">
+            <div class="criteria-title">Municipalities</div>
+            <div *ngFor="let municipality of filteredMunicipalities" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="regional-districts" alt="municipalities"></mat-icon>
+                        {{municipality.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredFirstNationsTreatyLand && filteredFirstNationsTreatyLand.length">
+            <div class="criteria-title">First Nations Treaty Land</div>
+            <div *ngFor="let firstNationsTreatyLand of filteredFirstNationsTreatyLand" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="brown-square" alt="first-nations-treaty-land"></mat-icon>
+                        {{firstNationsTreatyLand.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="filteredIndianReserve && filteredIndianReserve.length">
+            <div class="criteria-title">Indian Reserve</div>
+            <div *ngFor="let indianReserve of filteredIndianReserve" class="widget-card">
+                <div class="widget-row">
+                    <div class="left-content">
+                        <mat-icon class="incident-icon" svgIcon="indian-reserve" alt="indian-reserve"></mat-icon>
+                        {{indianReserve.title}}
+                    </div>
+                    <div class="right-content">
+                        <mat-icon svgIcon='arrow'></mat-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
