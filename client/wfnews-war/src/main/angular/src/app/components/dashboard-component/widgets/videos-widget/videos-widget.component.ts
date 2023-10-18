@@ -20,14 +20,14 @@ export class VideosWidget implements AfterViewInit {
     .then(externalUris => {
       if (externalUris && externalUris.collection && externalUris.collection.length > 0) {
         for (let video of externalUris.collection.filter(v => v.externalUriCategoryTag === 'video')) {
-          if (this.videos.filter(v => v.externalUri !== video.externalUri).length === 0) {
+          if (this.videos.filter(v => v.externalUri == video.externalUri).length === 0) {
             this.videos.push({
               externalUriGuid: video.externalUriGuid,
               sourceObjectUniqueId: video.sourceObjectUniqueId,
               externalUriDisplayLabel: video.externalUriDisplayLabel,
               externalUri: video.externalUri
             })
-            
+
             if (this.videos.length === 5) {
               break
             }
