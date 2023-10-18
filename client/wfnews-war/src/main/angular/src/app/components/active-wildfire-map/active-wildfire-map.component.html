@@ -134,8 +134,8 @@
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
         <button mat-fab class="mat-white-48 bottom-20 right-20" (click)="useMyCurrentLocation()">
-            <mat-icon *ngIf="isLocationEnabled">my_location</mat-icon>
-            <mat-icon *ngIf="!isLocationEnabled">edit</mat-icon>
+            <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
+            <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
         </button>
       </div>
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="showPanel && incidentRefs && incidentRefs.length">
