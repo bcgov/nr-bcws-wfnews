@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="top">
+  <!-- <div class="top">
       <div class="header-row">
           <div class="title">
               <h1>Wildfires Map</h1>
@@ -114,7 +114,7 @@
               <span class="hide shrink">Road Conditions</span>
           </div>
       </div>
-  </div>
+  </div> -->
 
   <div class="bottom">
       <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
@@ -133,6 +133,10 @@
           <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
         </div>
         <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
+        <button mat-fab class="mat-white-48 bottom-20 right-20" (click)="useMyCurrentLocation()">
+            <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
+            <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
+        </button>
       </div>
       <div #resizeBox id="draggable-panel" class="draggable-panel" cdkDragLockAxis="y" (cdkDragMoved)="dragMove($event)" (cdkDragEnded)="dragDropped($event)" cdkDrag *ngIf="showPanel && incidentRefs && incidentRefs.length">
 
