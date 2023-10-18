@@ -8,10 +8,31 @@
   border-top: none !important;
   display: block !important;
   padding-left: 20px;
-  padding-bottom: 24px;
+  padding-bottom: 16px;
+  padding-top: 6px;
   border-bottom: 1px solid #dedede;
   .label{
       font-size: 15px;
+  }
+}
+
+.input-clear-button{
+  position: relative;
+  background-color: transparent;
+  border: none;
+  top: 5px;
+  .button-wrapper{
+      padding: 0;
+      min-width: 0;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      line-height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+  }
+  mat-icon{
+      transform: translateX(-5px);
   }
 }
 
@@ -38,6 +59,14 @@
   height: 36px;
   width: 36px;
   box-shadow: none;
+  &-selected {
+    margin-right: 7px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    height: 36px;
+    width: 36px;
+    box-shadow: none !important;
+  }
 }
 
 .search-and-filters {

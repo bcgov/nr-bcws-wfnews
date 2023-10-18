@@ -96,6 +96,34 @@ table tr:nth-child(even) td{
     display: inline-block;
 }
 
+.filter-clear {
+  margin-bottom: 8px;
+  position: absolute;
+  line-height: 24px;
+  font-size: 15px;
+  border-radius: 20%;
+  background-color: transparent;
+  border: none;
+  right: -40px;
+  top: 12px;
+  .button-wrapper{
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: -6px;
+    left: 6px;
+  }
+  mat-icon{
+      transform: translateX(-5px);
+  }
+}
+
 .input-clear-button{
     margin-bottom: 8px;
     margin-left: 278px;
@@ -105,7 +133,7 @@ table tr:nth-child(even) td{
     width: 24px;
     font-size: 15px;
     border-radius: 20%;
-    background-color: #f2f2f2;
+    background-color: transparent;
     border: none;
     .button-wrapper{
         padding: 0;
@@ -123,9 +151,9 @@ table tr:nth-child(even) td{
 }
 
 .cell-button {
-  width: 100% !important;
+  width: 107px !important;
   border: 1px solid #C4C4C4;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 19px;
   letter-spacing: 0em;
@@ -166,12 +194,82 @@ table tr:nth-child(even) td{
   margin-right: 7px;
   border-radius: 20px;
   border: 1px solid #C4C4C4;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
   &-selected {
-    margin-right: 7px;
-    border-radius: 20px;
     border: 2px solid #38598A !important;
     background-color: #E9F0F8 !important;
     color: #242424 !important;
+    height: 36px;
+    width: 36px;
+    border-radius: 20px;
+    .button-wrapper{
+      padding: 0;
+      min-width: 0;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      line-height: 40px;
+      border-radius: 50%;
+      margin-left: 4px;
+      cursor: pointer;
+    }
+  }
+  .button-wrapper{
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    margin-left: 4px;
+    cursor: pointer;
+  }
+}
+
+.list-icon {
+  position: relative;
+  margin: 0 0 -3px 0px;
+  top: 3px;
+}
+
+.search-icon {
+  position: relative !important;
+  top: 5px;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+  margin-right: 5px;
+  margin-left: 20px;
+  margin-top: -20px;
+}
+
+.mdc-button__label {
+  margin-left: 1px !important;
+  margin-top: 3px !important;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+
+  &:focus {
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
 
@@ -196,23 +294,28 @@ table tr:nth-child(even) td{
 
 .mat-column-issuedOn {
     width: 10%;
+
 }
 
 
 .mat-column-agency {
     width: 20%;
+
 }
 
 .mat-column-distance {
   width: 10%;
+
 }
 
 .mat-column-details {
   width: 10%;
+
 }
 
 .mat-column-viewMap {
     width: 10%;
+
 }
 
 .status-icon {
@@ -227,6 +330,9 @@ table tr:nth-child(even) td{
 .cell-label {
   position: relative;
   top: -7px;
+  display: inline-block;
+  text-overflow: ellipsis !important;
+  margin-left: 8px;
 }
 
 .right-align {
@@ -237,4 +343,8 @@ table tr:nth-child(even) td{
   position: relative;
   left: 50vw;
   top: 20px;
+}
+
+.mat-mdc-header-cell {
+  font-weight: 600 !important;
 }
