@@ -41,7 +41,7 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Area Restrictions Table">
 
       <ng-container matColumnDef="name">
