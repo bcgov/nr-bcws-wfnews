@@ -24,6 +24,8 @@ export class WildFiresListComponentMobile {
   public page = 0
   public rowCount = 10
 
+  public totalRowCount = 0
+
   public order = true
   public alert = true
 
@@ -49,6 +51,7 @@ export class WildFiresListComponentMobile {
       this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, location, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters?.fireOfNoteInd, this.filters?.stagesOfControl || null, this.filters?.fireCentre || null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
         const incidentData = []
         if (incidents && incidents.collection) {
+          this.totalRowCount = incidents.totalRowCount
           for (const element of incidents.collection) {
             incidentData.push({
               incidentName: element.incidentName,
