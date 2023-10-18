@@ -29,8 +29,8 @@ export class WildFiresListComponentMobile {
 
   private searchTimer
 
-  private filters = new FilterData
-  private lastLocation: LocationData
+  public filters: FilterData
+  public lastLocation: LocationData
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription
@@ -154,6 +154,9 @@ export class WildFiresListComponentMobile {
         this.keepPaging = true
 
         this.filters = result as FilterData
+        this.search(this.lastLocation)
+      } else {
+        this.filters = null
         this.search(this.lastLocation)
       }
     });

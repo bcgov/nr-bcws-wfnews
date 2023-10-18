@@ -59,6 +59,14 @@
   height: 36px;
   width: 36px;
   box-shadow: none;
+  &-selected {
+    margin-right: 7px;
+    border: 2px solid #38598A !important;
+    background-color: #E9F0F8 !important;
+    height: 36px;
+    width: 36px;
+    box-shadow: none !important;
+  }
 }
 
 .search-and-filters {

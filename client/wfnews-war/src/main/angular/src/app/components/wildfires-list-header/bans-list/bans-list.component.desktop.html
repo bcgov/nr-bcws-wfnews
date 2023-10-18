@@ -14,6 +14,13 @@
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
+          <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData"
+                  aria-label="Clear" (click)="locationData=undefined; searchByText(); $event.stopPropagation()"
+                  matTooltip="Clear">
+                  <span class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                  </span>
+          </button>
         </button>
         <div class="field right-align">
           <select appWFSingleSelect appWFPlaceholder="Sort"
