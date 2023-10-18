@@ -27,7 +27,8 @@ def lambda_handler(event, context):
         last_fetched_time_stamp_string = last_fetched_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         current_time_stamp_string = current_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         try:
-            ip = requests.get("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Bans_and_Prohibition_Areas_-_View/FeatureServer/14/query?where=ACCESS_STATUS_EFFECTIVE_DATE >'" +
+            agol = config_agol()
+            ip = requests.get( agol["layer_url"] + "/query?where=ACCESS_STATUS_EFFECTIVE_DATE >'" +
                               last_fetched_time_stamp_string + "'+and+ACCESS_STATUS_EFFECTIVE_DATE <='" + current_time_stamp_string +
                               "'&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel"
                               "=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter"
