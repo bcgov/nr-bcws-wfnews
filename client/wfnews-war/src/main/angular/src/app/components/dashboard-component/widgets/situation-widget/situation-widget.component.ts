@@ -2,6 +2,7 @@ import { AfterViewInit, Component } from "@angular/core"
 import { DomSanitizer } from "@angular/platform-browser";
 import { PublishedIncidentService } from "@app/services/published-incident-service"
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
+import moment from "moment";
 
 @Component({
   selector: 'situation-widget',
@@ -31,7 +32,7 @@ export class SituationWidget implements AfterViewInit {
         const validReports = sitrep.collection.filter(r => r.publishedInd && !r.archivedInd)
         validReports.sort((a,b) =>(a.situationReportDate > b.situationReportDate) ? 1 : ((b.situationReportDate > a.situationReportDate) ? -1 : 0))
         this.situationReport = validReports[0]
-        this.situationReport.situationReportDate = new Date(this.situationReport.situationReportDate)
+        this.situationReport.situationReportDate = moment(new Date(this.situationReport.situationReportDate)).format('MMM Do YYYY h:mm:ss a')
       }
 
       this.startupComplete = true
