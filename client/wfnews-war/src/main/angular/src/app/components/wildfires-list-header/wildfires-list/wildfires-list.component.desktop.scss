@@ -313,26 +313,38 @@ table tr:nth-child(even) td{
 
 .mat-column-lastUpdated {
     width: 10%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-stageOfControl {
     width: 15%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-fireCentre {
     width: 15%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-location {
     width: 25%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-addToWatchlist {
     width: 5%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-viewMap {
     width: 15%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .cell-button {

@@ -62,7 +62,7 @@ export class EvacListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: location !== null, returnGeometry: false}).subscribe(evacs => {
+    this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: userLocation !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
         for (const element of evacs.features) {
