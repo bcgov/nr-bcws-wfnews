@@ -283,6 +283,7 @@ table tr:nth-child(even) td{
   white-space: nowrap;
   display: inline-block;
   text-overflow: ellipsis !important;
+  margin-left: 8px;
 }
 
 .right-align {

@@ -131,6 +131,11 @@ table tr:nth-child(even) td{
   top: -2px;
 }
 
+.btn-icon {
+  position: relative;
+  top: 6px;
+}
+
 .icon {
   position: relative;
   margin: 0 0 -3px 0px;
@@ -317,6 +322,7 @@ table tr:nth-child(even) td{
   top: -7px;
   display: inline-block;
   text-overflow: ellipsis !important;
+  margin-left: 8px;
 }
 
 .right-align {
