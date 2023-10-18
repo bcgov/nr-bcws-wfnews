@@ -291,6 +291,8 @@ table tr:nth-child(even) td{
 
 .mat-column-fireCentre {
     width: 20%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-distance {
