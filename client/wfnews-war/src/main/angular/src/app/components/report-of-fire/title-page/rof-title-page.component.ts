@@ -31,7 +31,10 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   }
 
   ngOnInit(): void {
-    const listener = this.backgroundListener();
+    // run background task
+    const background = this.backgroundListener();
+    // run when user comes back to app without sending app to background explicitlyng
+    const listener = this.runBackground();
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -50,9 +53,10 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this
         setInterval(function () {
-          // Invoke function every 5 minutes while app is in background
+          console.log('set interval')
+          // Invoke function every minute while app is in background
           self.runBackground();
-        }, 300000);
+        }, 60000);
         BackgroundTask.finish({ taskId });
       });
     });

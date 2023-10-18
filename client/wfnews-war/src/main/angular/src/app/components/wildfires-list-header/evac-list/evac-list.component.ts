@@ -24,9 +24,11 @@ export class EvacListComponent implements OnInit {
   public searchTimer
   public order = true
   public alert = true
-  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"];
+  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"]
 
-  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+  public locationData: LocationData
+
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall)
 
   constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
@@ -60,12 +62,12 @@ export class EvacListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: location !== null, returnGeometry: false}).subscribe(evacs => {
+    this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: userLocation !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
         for (const element of evacs.features) {
           let distance = null
-          if (location) {
+          if (userLocation) {
               const currentLat = Number(userLocation.coords.latitude);
               const currentLong = Number(userLocation.coords.longitude);
 
@@ -102,6 +104,7 @@ export class EvacListComponent implements OnInit {
       height: '453px',
       maxWidth: '100vw',
       maxHeight: '100vh',
+      data: this.locationData
     });
 
     const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
@@ -112,15 +115,20 @@ export class EvacListComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: LocationData) => {
+    dialogRef.afterClosed().subscribe((result: LocationData | boolean) => {
       smallDialogSubscription.unsubscribe();
-      this.search(result)
+      if ((result as boolean) === false) {
+        this.locationData = null
+      } else {
+        this.locationData = result as LocationData
+      }
+      this.search(result as LocationData)
     });
   }
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      return moment(value).format('MMM Do YYYY h:mm:ss a')
     }
   }
 

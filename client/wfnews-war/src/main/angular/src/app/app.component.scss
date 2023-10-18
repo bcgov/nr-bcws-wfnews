@@ -264,7 +264,7 @@
   }
   .mobile-navigation-bar{
     position: fixed;
-    bottom: 0;
+    bottom: env(safe-area-inset-bottom);
     z-index: 1000000;
     width: 100%;
     background-color: #FCFCFC;
