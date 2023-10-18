@@ -13,6 +13,11 @@
   @media all and (min-width: 1024px) and (orientation:landscape) {
     height: calc(100dvh - 440px);
   }
+  // set max width for desktop
+  @media (min-width: 1181px) {
+   max-width: 790px;
+ }
+  
 }
 
 .review-icon {

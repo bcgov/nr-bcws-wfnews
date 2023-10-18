@@ -135,5 +135,12 @@
   }
 }
 
+// set max width for desktop
+@media (min-width: 1181px) {
+  .map-container {
+   max-width: 790px;
+ }
+}
+
 
 

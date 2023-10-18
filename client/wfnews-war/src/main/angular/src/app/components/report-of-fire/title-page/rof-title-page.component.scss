@@ -12,3 +12,10 @@
     height: 23vh;
 }
 }
+
+// set max width for desktop
+@media (min-width: 1181px) {
+    .rof-button-container {
+     max-width: 750px;
+   }
+}
