@@ -263,7 +263,7 @@
     padding-right: env(safe-area-inset-right);
   }
   .mobile-navigation-bar{
-    position: fixed;
+    position: absolute;
     bottom: 0;
     z-index: 1000000;
     width: 100%;
