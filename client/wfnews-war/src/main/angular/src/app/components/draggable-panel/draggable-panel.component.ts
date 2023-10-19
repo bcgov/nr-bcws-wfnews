@@ -4,6 +4,7 @@ import { BehaviorSubject } from 'rxjs';
 import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { MapConfigService } from '@app/services/map-config.service';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -43,7 +44,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   constructor(
     private publishedIncidentService: PublishedIncidentService,
     protected cdr: ChangeDetectorRef,
-    protected http: HttpClient) {
+    protected http: HttpClient,
+    private mapConfigService: MapConfigService,
+    ) {
 }
 
 
@@ -176,6 +179,24 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         else if (code.toUpperCase().trim() === 'HOLDING') return "This wildfire is not likely to spread beyond predetermined boundaries under current conditions."
         else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return "This wildfire will not spread any further due to suppression efforts."
         else return 'Unknown'
+    }
+  }
+
+  zoomIn() {
+    if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
+      const long = Number(this.identifyIncident.longitude);
+      const lat = Number(this.identifyIncident.latitude);
+  
+      this.mapConfigService.getMapConfig().then(() => {
+        const SMK = window['SMK'];
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+            viewer = SMK.MAP[smkMap].$viewer;
+          }
+        }
+        viewer.panToFeature(window['turf'].point([long, lat]), 15)
+      })
     }
   }
 
