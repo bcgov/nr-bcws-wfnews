@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var bgTask: UIBackgroundTaskIdentifier = 0;
         bgTask = application.beginBackgroundTask(expirationHandler: {() -> Void in
             while bgTask != UIBackgroundTaskInvalid {
-                // continue
+                // continue 
             }
             application.endBackgroundTask(bgTask)
             bgTask = UIBackgroundTaskInvalid
