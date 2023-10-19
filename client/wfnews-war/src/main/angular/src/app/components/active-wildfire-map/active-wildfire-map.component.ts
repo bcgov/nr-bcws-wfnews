@@ -24,7 +24,8 @@ export type SelectedLayer =
   'fire-danger' |
   'local-authorities' |
   'routes-impacted' |
-  'wildfire-stage-of-control';
+  'wildfire-stage-of-control' |
+  'all-layers';
 
 declare const window: any;
 @Component({
@@ -52,7 +53,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   smkApi: SmkApi;
   activeFireCountPromise;
   selectedLayer: SelectedLayer;
-  selectedPanel = 'wildfire-stage-of-control'
+  selectedPanel = 'wildfire-stage-of-control';
+  allLayersSelected = false;
+  layers: any[];
   showAccordion: boolean;
   searchText = undefined;
   zone: NgZone;
@@ -183,6 +186,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url)
     this.showAccordion = true;
     this.updateLocationEnabledVariable();
+    this.initializeLayers();
   }
 
   getFullAddress(location) {
@@ -372,73 +376,99 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onSelectLayer(selectedLayer: SelectedLayer) {
+  initializeLayers() {
+    this.layers = [
+      /* 00 */ { itemId: 'active-wildfires', visible: true }, // On for initial load
+      /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: true }, // Evacuations are on at initial load, button selected
+      /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
+      /* 03 */ { itemId: 'danger-rating', visible: false },
+      /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
+      /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
+      /* 06 */ { itemId: 'area-restrictions', visible: false },
+      /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
+      /* 08 */ { itemId: 'fire-perimeters', visible: true }, // On for initial load
+      /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
+      /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
+      /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
+      /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // On for initial load
+      /* 13 */ { itemId: 'prescribed-fire', visible: false },
+      /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
+      /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
+      /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
+      /* 17 */ { itemId: 'abms-municipalities', visible: false },
+      /* 18 */ { itemId: 'abms-regional-districts', visible: false }
+    ];
+
+    
+
+    return this.smkApi.setDisplayContextItemsVisible(...this.layers);
+  }
+
+  toggleLayer(event) {
+    const selectedLayer = event.value;
+    const isSelected = event.source.checked;
     this.selectedLayer = selectedLayer;
-    this.selectedPanel = selectedLayer
+    this.selectedPanel = selectedLayer;
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
       text: selectedLayer
-    })
-    const layers = [
-            /* 00 */ { itemId: 'active-wildfires', visible: true },
-            /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
-            /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
-            /* 03 */ { itemId: 'danger-rating', visible: false },
-            /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
-            /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
-            /* 06 */ { itemId: 'area-restrictions', visible: false },
-            /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
-            /* 08 */ { itemId: 'fire-perimeters', visible: false },
-            /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
-            /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
-            /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
-            /* 12 */ { itemId: 'bc-fire-centres', visible: true },
-            /* 13 */ { itemId: 'prescribed-fire', visible: false },
-            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
-            /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
-            /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
-            /* 17 */ { itemId: 'abms-municipalities', visible: false },
-            /* 18 */ { itemId: 'abms-regional-districts', visible: false }
-    ];
+    });
+
+    if (selectedLayer === 'all-layers') {
+      this.allLayersSelected = isSelected;
+    }
+
+    if (this.allLayersSelected) {
+      this.layers.forEach(layer => {
+        layer.visible = true;
+      });
+      return this.smkApi.setDisplayContextItemsVisible(...this.layers);
+    }
 
     switch (selectedLayer) {
       case 'evacuation-orders-and-alerts':
-        layers[1].visible = true;
+        this.layers[1].visible = isSelected;
         break;
 
       case 'area-restrictions':
-        layers[6].visible = true;
-        layers[7].visible = true;
+        this.layers[6].visible = isSelected;
+        this.layers[7].visible = isSelected;
         break;
 
       case 'bans-and-prohibitions':
-        layers[4].visible = true;
-        layers[5].visible = true;
+        this.layers[4].visible = isSelected;
+        this.layers[5].visible = isSelected;
         break;
 
       case 'smoke-forecast':
-        layers[14].visible = true
+        this.layers[14].visible = isSelected;
         break;
 
       case 'fire-danger':
-        layers[0].visible = true;
-        layers[3].visible = true;
+        this.layers[0].visible = isSelected;
+        this.layers[3].visible = isSelected;
         break;
 
       case 'local-authorities':
-        layers[12].visible = true;
-        layers[15].visible = true;
-        layers[16].visible = true;
-        layers[17].visible = true;
-        layers[18].visible = true;
+        this.layers[12].visible = isSelected;
+        this.layers[15].visible = isSelected;
+        this.layers[16].visible = isSelected;
+        this.layers[17].visible = isSelected;
+        this.layers[18].visible = isSelected;
         break;
 
       case 'routes-impacted':
-        layers[11].visible = true;
+        this.layers[11].visible = isSelected;
+        break;
+
+      case 'all-layers':
+        this.layers.forEach(layer => {
+          layer.visible = isSelected;
+        });
         break;
     }
 
-    return this.smkApi.setDisplayContextItemsVisible(...layers);
+    return this.smkApi.setDisplayContextItemsVisible(...this.layers);
   }
 
   async useMyCurrentLocation() {

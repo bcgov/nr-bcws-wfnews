@@ -1,0 +1,9 @@
+<div class="map-toggle">
+  <mat-button-toggle class="map-toggle-button" [value]="value" [checked]="checked" (change)="onButtonToggleChange($event)">
+    <div class="map-toggle-button-label">
+      <img class="icon" [src]="labelIconPath" [alt]="labelText"
+        height="24" width="24" />
+      <span>{{labelText}}</span>
+    </div>
+  </mat-button-toggle>
+</div>
