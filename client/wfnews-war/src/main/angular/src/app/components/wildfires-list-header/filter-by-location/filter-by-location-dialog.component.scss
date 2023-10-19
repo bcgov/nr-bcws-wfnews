@@ -56,6 +56,7 @@
   line-height: 35px;
   font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
   font-size: 15px;
+  position: relative;
 }
 
 .mat-mdc-input-element {
@@ -130,11 +131,11 @@
 }
 
 .input-clear-button{
-  position: relative;
+  position: absolute;
   background-color: transparent;
   border: none;
   top: 5px;
-  right: -40px;
+  right: 0px;
   .button-wrapper{
       padding: 0;
       min-width: 0;
@@ -158,8 +159,8 @@
   border-radius: 20%;
   background-color: transparent;
   border: none;
-  right: -40px;
   top: 6px;
+  position: absolute;
   .button-wrapper{
     padding: 0;
     min-width: 0;
