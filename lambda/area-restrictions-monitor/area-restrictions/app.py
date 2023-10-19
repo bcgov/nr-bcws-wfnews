@@ -24,10 +24,11 @@ def lambda_handler(event, context):
     if last_fetched_time_stamp is None:
         postgre_database.insert_current_fetched_time_stamp(monitor_name, current_time_stamp)
     else:
+        agol = config_agol()
         last_fetched_time_stamp_string = last_fetched_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         current_time_stamp_string = current_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         try:
-            ip = requests.get("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Area_Restrictions_-_View/FeatureServer/13/query?where=ACCESS_STATUS_EFFECTIVE_DATE>'" +
+            ip = requests.get(agol["layer_url"] + "/query?where=ACCESS_STATUS_EFFECTIVE_DATE>'" +
                               last_fetched_time_stamp_string + "'+and+ACCESS_STATUS_EFFECTIVE_DATE<='" + current_time_stamp_string +
                               "'&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel"
                               "=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter"

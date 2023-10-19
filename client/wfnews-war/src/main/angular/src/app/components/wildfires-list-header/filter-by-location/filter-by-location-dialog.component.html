@@ -8,7 +8,7 @@
       <div class="field search-input">
         <mat-icon class="search-icon" matSuffix>search</mat-icon>
         <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Find Address" placeholder="Find Address" [(ngModel)]="searchText">
-        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText = null; locationData.searchText = null; $event.stopPropagation()" matTooltip="Clear">
+        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText = null; locationData.useUserLocation = false; locationData.searchText = null; $event.stopPropagation()" matTooltip="Clear">
           <span class="button-wrapper"><mat-icon>close</mat-icon></span>
         </button>
           <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
