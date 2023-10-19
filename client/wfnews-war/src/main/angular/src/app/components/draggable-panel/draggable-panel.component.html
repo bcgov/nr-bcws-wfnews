@@ -9,7 +9,7 @@
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon='fire-note' *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'"></mat-icon>
+                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" height="24" width="24" src="/assets/images/local_fire_department.png"/>
                             <span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }}"></span>
                             {{displayWildfireName(wildfire)}}
                         </div>
@@ -239,16 +239,42 @@
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel"></mat-icon>
                 <span class="preview-title">
+                    <ng-container *ngIf="identifyItem.layerId === 'active-wildfires-fire-of-note'; else fireIcon">
+                        <img class="incident-icon" height="24" width="24" src="/assets/images/local_fire_department.png"/>
+                    </ng-container>
+                    <ng-template #fireIcon>
+                        <mat-icon class="incident-icon" svgIcon='report'></mat-icon>
+                    </ng-template>
                     {{displayItemTitle(identifyItem)}} 
                 </span>
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div class="identify-card">
-                <div class="criteria-title" *ngIf="identifyIncident">{{identifyIncident.incidentName}}</div>
-                <div class="identify-card-item">{{identifyIncident.fireCentreName}}</div>
-                <div class="identify-card-item">Discovered on {{identifyIncident.discoveryDate}}</div>
-                <div class="identify-card-item">{{getStageOfControlLabel(identifyIncident.stageOfControlCode)}}</div>
-
+                <div class="identify-card-title" *ngIf="identifyIncident">{{identifyIncident.incidentName}}</div>
+                <div class="identify-card-item">
+                    <img height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    {{identifyIncident.fireCentreName}}
+                </div>
+                <div class="identify-card-item">
+                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    Discovered on {{identifyIncident.discoveryDate}}
+                </div>
+                <div class="identify-card-item">
+                    <span class="circle-icon {{getStageOfControlIcon(identifyIncident.stageOfControlCode)}}"></span>
+                    {{getStageOfControlLabel(identifyIncident.stageOfControlCode)}}
+                </div>
+                <div class="identify-card-description">
+                    {{getDescription(identifyIncident.stageOfControlCode)}}
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary">
+                    Full Details
+                </button>
             </div>
         </div>
     </div>

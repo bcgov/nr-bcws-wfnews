@@ -1,5 +1,5 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { Component, Injectable, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Injectable, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -42,6 +42,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   constructor(
     private publishedIncidentService: PublishedIncidentService,
+    protected cdr: ChangeDetectorRef,
     protected http: HttpClient) {
 }
 
@@ -51,18 +52,30 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges){
-    console.log(this.incidentRefs)
+    this.showPanel = false;
+    this.identifyIncident = null;
     if (this.incidentRefs.length === 1){
       this.showPanel = true;
       this.identifyItem = this.incidentRefs[0];
-      if (this.identifyItem.properties.incident_number_label && this.identifyItem.properties.fire_year) {
-        this.publishedIncidentService.fetchPublishedIncident(this.identifyItem.properties.incident_number_label, this.identifyItem.properties.fire_yea).toPromise().then(async result => {
+      let incidentNumber = null;
+      let fireYear = null;
+      if (this.identifyItem.layerId === 'fire-perimeters') {
+        incidentNumber = this.identifyItem.properties.FIRE_NUMBER;
+        fireYear = this.identifyItem.properties.FIRE_YEAR;
+      } 
+      else if (this.identifyItem.properties.incident_number_label && this.identifyItem.properties.fire_year) {
+        incidentNumber = this.identifyItem.properties.incident_number_label;
+        fireYear = this.identifyItem.properties.fire_year;
+      }
+      if (incidentNumber && fireYear) {
+        this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise().then(async result => {
           this.identifyIncident = result
-          console.log(this.identifyIncident)
+          this.cdr.detectChanges();
         })
       }
     } 
     else if (this.incidentRefs.length >= 1) {
+      this.identifyItem = null;
       this.showPanel = true;
       // multiple features within clicked area
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
@@ -96,6 +109,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   closePanel() {
     this.showPanel = false;
+    this.identifyIncident = {};
   }
 
   convertFireStatus(status) {
@@ -114,7 +128,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   displayItemTitle(identifyItem) {
-    console.log(identifyItem.layerId)
     switch(identifyItem.layerId) {
       case 'active-wildfires-fire-of-note':
         return  'Wildfire of Note';
@@ -127,13 +140,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   displayTitleIcon(identifyItem) {
-    console.log(identifyItem.layerId)
     switch(identifyItem.layerId) {
       case 'active-wildfires-out-of-control':
       case 'active-wildfires-under-control':
       case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
-        console.log('qweeeeeeeeee')
         return 'report'
       }
   }
@@ -144,6 +155,26 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'Out of Control'
         else if (code.toUpperCase().trim() === 'HOLDING') return 'Being Held'
         else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
+        else return 'Unknown'
+    }
+  }
+
+  getStageOfControlIcon (code: string) {
+    if (code) {
+      if (code.toUpperCase().trim() === 'OUT') return 'bcws-activefires-publicview-inactive'
+        else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'active-wildfires-out-of-control'
+        else if (code.toUpperCase().trim() === 'HOLDING') return 'active-wildfires-holding'
+        else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'active-wildfires-under-control'
+        else return 'Unknown'
+    }
+  }
+
+  getDescription (code: string) {
+    if (code) {
+      if (code.toUpperCase().trim() === 'OUT') return "This wildfire is extinguished. Suppression efforts are complete."
+        else if (code.toUpperCase().trim() === 'OUT_CNTRL') return "This wildfire is continuing to spread and is not responding to suppression efforts."
+        else if (code.toUpperCase().trim() === 'HOLDING') return "This wildfire is not likely to spread beyond predetermined boundaries under current conditions."
+        else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return "This wildfire will not spread any further due to suppression efforts."
         else return 'Unknown'
     }
   }

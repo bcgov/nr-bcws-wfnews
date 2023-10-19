@@ -67,7 +67,8 @@ export const ICON = {
   FIRE_NOTE: 'fire-note',
   LOCATION_DISABLED: 'location-disabled',
   LOCATION_ENABLED: 'location-enabled',
-
+  CALENDAR: 'calendar',
+  ZOOM_IN: 'zoom-in'
 };
 
 @Component({
@@ -545,6 +546,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.LOCATION_ENABLED,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/location-enabled.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CALENDAR,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/calendar.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ZOOM_IN,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/zoom-in.svg")
     );
   }
 
