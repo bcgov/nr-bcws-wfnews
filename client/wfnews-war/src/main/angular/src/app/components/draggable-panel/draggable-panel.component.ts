@@ -2,6 +2,8 @@ import { CdkDrag } from '@angular/cdk/drag-drop';
 import { Component, Injectable, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import {Input} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -27,25 +29,44 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
   showPanel: boolean;
-
+  identifyItem:any;
+  identifyIncident: any = {};
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
     'active-wildfires-holding',
     'active-wildfires-under-control',
     'bcws-activefires-publicview-inactive',
+    "fire-perimeters",
   ];
+
+  constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    protected http: HttpClient) {
+}
+
 
   ngOnInit(): void {
       
   }
 
   ngOnChanges(changes: SimpleChanges){
-    if (this.incidentRefs.length >= 1) {
+    console.log(this.incidentRefs)
+    if (this.incidentRefs.length === 1){
+      this.showPanel = true;
+      this.identifyItem = this.incidentRefs[0];
+      if (this.identifyItem.properties.incident_number_label && this.identifyItem.properties.fire_year) {
+        this.publishedIncidentService.fetchPublishedIncident(this.identifyItem.properties.incident_number_label, this.identifyItem.properties.fire_yea).toPromise().then(async result => {
+          this.identifyIncident = result
+          console.log(this.identifyIncident)
+        })
+      }
+    } 
+    else if (this.incidentRefs.length >= 1) {
       this.showPanel = true;
       // multiple features within clicked area
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
-      this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
+      // this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
       this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
       this.filteredBansAndProhibitions = this.incidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
       this.filteredDangerRatings = this.incidentRefs.filter(item => item.layerId === 'danger-rating');
@@ -60,7 +81,71 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
+  displayWildfireName(wildfire) {
+    if (wildfire.layerId === 'fire-perimeters') {
+      return wildfire.properties.FIRE_NUMBER + ' Wildfire'
+    }
+    else {
+      if (wildfire.properties.incident_name) {
+        return wildfire.properties.incident_name + ' (' + wildfire.properties.incident_number_label + ')';
+      }else {
+        return wildfire.properties.incident_number_label + ' Wildfire';
+      }
+    }
+  }
+
   closePanel() {
     this.showPanel = false;
   }
+
+  convertFireStatus(status) {
+    switch(status) {
+      case 'Out Of Control':
+          return 'active-wildfires-out-of-control'
+      case 'Being Held':
+          return 'active-wildfires-holding'
+      case 'Under Control':
+          return 'active-wildfires-under-control'
+      case 'Out':
+          return 'bcws-activefires-publicview-inactive'
+      default:
+          break;
+    }
+  }
+
+  displayItemTitle(identifyItem) {
+    console.log(identifyItem.layerId)
+    switch(identifyItem.layerId) {
+      case 'active-wildfires-fire-of-note':
+        return  'Wildfire of Note';
+      case 'active-wildfires-out-of-control':
+      case 'active-wildfires-under-control':
+      case 'bcws-activefires-publicview-inactive':
+      case 'active-wildfires-holding':
+        return 'Wildfire'
+      }
+  }
+
+  displayTitleIcon(identifyItem) {
+    console.log(identifyItem.layerId)
+    switch(identifyItem.layerId) {
+      case 'active-wildfires-out-of-control':
+      case 'active-wildfires-under-control':
+      case 'bcws-activefires-publicview-inactive':
+      case 'active-wildfires-holding':
+        console.log('qweeeeeeeeee')
+        return 'report'
+      }
+  }
+
+  getStageOfControlLabel (code: string) {
+    if (code) {
+      if (code.toUpperCase().trim() === 'OUT') return 'Out'
+        else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'Out of Control'
+        else if (code.toUpperCase().trim() === 'HOLDING') return 'Being Held'
+        else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
+        else return 'Unknown'
+    }
+  }
+
 }

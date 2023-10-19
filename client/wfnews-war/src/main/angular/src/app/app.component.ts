@@ -63,7 +63,8 @@ export const ICON = {
   REGIONAL_DISTRICTS: 'regional-districts',
   BROWN_SQUARE: 'brown-square',
   INDIAN_RESERVE: 'indian-reserve',
-
+  BACK_ICON_PANEL: 'back-icon-panel',
+  FIRE_NOTE: 'fire-note',
 };
 
 @Component({
@@ -525,6 +526,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.INDIAN_RESERVE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/indian-reserve.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.BACK_ICON_PANEL,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/back-icon-panel.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_NOTE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-note.svg")
     );
   }
 
