@@ -20,7 +20,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   public messages: any;
   public offLineMessages: any;
   offLine: boolean = false;
-  done: boolean = false;
 
   public constructor(
     protected dialog: MatDialog,
@@ -57,15 +56,11 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       // The app state has been changed to inactive.
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
-        let self = this
+        const self = this
         setInterval(function () {
           // Invoke function every minute while app is in background
-          // if (!self.done) {
             self.checkStoredRoF();
-            self.done = true;
-          // }
         }, 60000);
-        self = this
         BackgroundTask.finish({ taskId });
       });
     });
