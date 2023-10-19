@@ -263,6 +263,9 @@
                     <span class="circle-icon {{getStageOfControlIcon(identifyIncident.stageOfControlCode)}}"></span>
                     {{getStageOfControlLabel(identifyIncident.stageOfControlCode)}}
                 </div>
+                <div class="identify-card-description" style="padding:0;" *ngIf="identifyItem.layerId === 'active-wildfires-fire-of-note'">
+                    This wildfire is highly visible or poses a potential threat to public safety.
+                </div>
                 <div class="identify-card-description">
                     {{getDescription(identifyIncident.stageOfControlCode)}}
                 </div>
