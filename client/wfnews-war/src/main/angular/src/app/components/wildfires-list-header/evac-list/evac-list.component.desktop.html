@@ -53,12 +53,11 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Evacuation Orders and Alerts Table">
-
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Evacuation Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element">{{element.name}}</td>
       </ng-container>
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
