@@ -12,8 +12,8 @@ import { Subscription } from 'rxjs';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
-import { ResourcesRoutes, snowPlowHelper, isMobileView as mobileView } from './utils';
 import { WFMapService } from './services/wf-map.service';
+import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from './utils';
 
 
 export const ICON = {
@@ -65,6 +65,9 @@ export const ICON = {
   INDIAN_RESERVE: 'indian-reserve',
   BACK_ICON_PANEL: 'back-icon-panel',
   FIRE_NOTE: 'fire-note',
+  LOCATION_DISABLED: 'location-disabled',
+  LOCATION_ENABLED: 'location-enabled',
+
 };
 
 @Component({
@@ -534,6 +537,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.FIRE_NOTE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-note.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LOCATION_DISABLED,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/location-disabled.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.LOCATION_ENABLED,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/location-enabled.svg")
     );
   }
 

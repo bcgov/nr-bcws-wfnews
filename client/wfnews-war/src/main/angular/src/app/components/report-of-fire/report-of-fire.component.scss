@@ -71,7 +71,10 @@
 
 .ProgressBar {
   margin: 0 auto;
-  padding: 0em 0 1em;
+  padding-top: 0em;
+  padding-right: 0;
+  padding-bottom: calc(1em + env(safe-area-inset-bottom));
+  padding-left: 0;
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -106,10 +109,10 @@
   padding: 8px 0px;
   align-items: center;
   width: calc(100% - 64px);
-  bottom: 3em;
+  bottom: calc(3em + env(safe-area-inset-bottom));
   position: fixed;
   @media (max-height: 699px){
-    bottom: 2em;
+    bottom: calc(2em + env(safe-area-inset-bottom));
   }
   .rof-button {
     padding:0 32px;
