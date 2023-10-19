@@ -1,0 +1,1 @@
+[{"__symbolic":"module","version":4,"metadata":{},"exports":[{"from":"./moment-adapter/moment-date-time-adapter.class"},{"from":"./moment-adapter/moment-date-time-format.class"},{"from":"./moment-adapter/moment-date-time.module","export":["OwlMomentDateTimeModule"]}]}]

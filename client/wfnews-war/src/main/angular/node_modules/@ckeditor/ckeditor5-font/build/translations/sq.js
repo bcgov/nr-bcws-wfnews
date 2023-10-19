@@ -1,0 +1,1 @@
+!function(o){const t=o.sq=o.sq||{};t.dictionary=Object.assign(t.dictionary||{},{Big:"I madh",Default:"Parazgjedhur","Document colors":"","Font Background Color":"","Font Color":"","Font Family":"Familja e fontit","Font Size":"Madhësia tekstit",Huge:"I stërmadh",Small:"I vogël",Tiny:"I vocërr"})}(window.CKEDITOR_TRANSLATIONS||(window.CKEDITOR_TRANSLATIONS={}));

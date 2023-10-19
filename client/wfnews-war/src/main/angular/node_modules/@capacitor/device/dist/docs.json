@@ -1,0 +1,424 @@
+{
+  "api": {
+    "name": "DevicePlugin",
+    "slug": "deviceplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "getId",
+        "signature": "() => Promise<DeviceId>",
+        "parameters": [],
+        "returns": "Promise<DeviceId>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Return an unique identifier for the device.",
+        "complexTypes": [
+          "DeviceId"
+        ],
+        "slug": "getid"
+      },
+      {
+        "name": "getInfo",
+        "signature": "() => Promise<DeviceInfo>",
+        "parameters": [],
+        "returns": "Promise<DeviceInfo>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Return information about the underlying device/os/platform.",
+        "complexTypes": [
+          "DeviceInfo"
+        ],
+        "slug": "getinfo"
+      },
+      {
+        "name": "getBatteryInfo",
+        "signature": "() => Promise<BatteryInfo>",
+        "parameters": [],
+        "returns": "Promise<BatteryInfo>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Return information about the battery.",
+        "complexTypes": [
+          "BatteryInfo"
+        ],
+        "slug": "getbatteryinfo"
+      },
+      {
+        "name": "getLanguageCode",
+        "signature": "() => Promise<GetLanguageCodeResult>",
+        "parameters": [],
+        "returns": "Promise<GetLanguageCodeResult>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Get the device's current language locale code.",
+        "complexTypes": [
+          "GetLanguageCodeResult"
+        ],
+        "slug": "getlanguagecode"
+      },
+      {
+        "name": "getLanguageTag",
+        "signature": "() => Promise<LanguageTag>",
+        "parameters": [],
+        "returns": "Promise<LanguageTag>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "4.0.0"
+          }
+        ],
+        "docs": "Get the device's current language locale tag.",
+        "complexTypes": [
+          "LanguageTag"
+        ],
+        "slug": "getlanguagetag"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "DeviceId",
+      "slug": "deviceid",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "identifier",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The identifier of the device as available to the app. This identifier may change\non modern mobile platforms that only allow per-app install ids.\n\nOn iOS, the identifier is a UUID that uniquely identifies a device to the app’s vendor ([read more](https://developer.apple.com/documentation/uikit/uidevice/1620059-identifierforvendor)).\n\non Android 8+, __the identifier is a 64-bit number (expressed as a hexadecimal string)__, unique to each combination of app-signing key, user, and device ([read more](https://developer.android.com/reference/android/provider/Settings.Secure#ANDROID_ID)).\n\nOn web, a random identifier is generated and stored on localStorage for subsequent calls.\nIf localStorage is not available a new random identifier will be generated on every call.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "DeviceInfo",
+      "slug": "deviceinfo",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The name of the device. For example, \"John's iPhone\".\n\nThis is only supported on iOS and Android 7.1 or above.\n\nOn iOS 16+ this will return a generic device name without the appropriate [entitlements](https://developer.apple.com/documentation/bundleresources/entitlements/com_apple_developer_device-information_user-assigned-device-name).",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "model",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The device model. For example, \"iPhone13,4\".",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "platform",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The device platform (lowercase).",
+          "complexTypes": [],
+          "type": "'ios' | 'android' | 'web'"
+        },
+        {
+          "name": "operatingSystem",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The operating system of the device.",
+          "complexTypes": [
+            "OperatingSystem"
+          ],
+          "type": "OperatingSystem"
+        },
+        {
+          "name": "osVersion",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The version of the device OS.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "iOSVersion",
+          "tags": [
+            {
+              "text": "5.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The iOS version number.\n\nOnly available on iOS.\n\nMulti-part version numbers are crushed down into an integer padded to two-digits, ex: `\"16.3.1\"` -> `160301`",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "androidSDKVersion",
+          "tags": [
+            {
+              "text": "5.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The Android SDK version number.\n\nOnly available on Android.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "manufacturer",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The manufacturer of the device.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "isVirtual",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether the app is running in a simulator/emulator.",
+          "complexTypes": [],
+          "type": "boolean"
+        },
+        {
+          "name": "memUsed",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Approximate memory used by the current app, in bytes. Divide by\n1048576 to get the number of MBs used.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "diskFree",
+          "tags": [
+            {
+              "text": "Use `realDiskFree`.",
+              "name": "deprecated"
+            },
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "How much free disk space is available on the normal data storage\npath for the os, in bytes.\n\nOn Android it returns the free disk space on the \"system\"\npartition holding the core Android OS.\nOn iOS this value is not accurate.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "diskTotal",
+          "tags": [
+            {
+              "text": "Use `realDiskTotal`.",
+              "name": "deprecated"
+            },
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The total size of the normal data storage path for the OS, in bytes.\n\nOn Android it returns the disk space on the \"system\"\npartition holding the core Android OS.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "realDiskFree",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "How much free disk space is available on the normal data storage, in bytes.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "realDiskTotal",
+          "tags": [
+            {
+              "text": "1.1.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The total size of the normal data storage path, in bytes.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "webViewVersion",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The web view browser version",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "BatteryInfo",
+      "slug": "batteryinfo",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "batteryLevel",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "A percentage (0 to 1) indicating how much the battery is charged.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "isCharging",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether the device is charging.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "GetLanguageCodeResult",
+      "slug": "getlanguagecoderesult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Two character language code.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "LanguageTag",
+      "slug": "languagetag",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "4.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Returns a well-formed IETF BCP 47 language tag.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "OperatingSystem",
+      "slug": "operatingsystem",
+      "docs": "",
+      "types": [
+        {
+          "text": "'ios'",
+          "complexTypes": []
+        },
+        {
+          "text": "'android'",
+          "complexTypes": []
+        },
+        {
+          "text": "'windows'",
+          "complexTypes": []
+        },
+        {
+          "text": "'mac'",
+          "complexTypes": []
+        },
+        {
+          "text": "'unknown'",
+          "complexTypes": []
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": []
+}

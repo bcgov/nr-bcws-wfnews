@@ -1,0 +1,74 @@
+{
+  "name": "@ngrx/store",
+  "version": "15.4.0",
+  "description": "RxJS powered Redux for Angular apps",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngrx/platform.git"
+  },
+  "keywords": [
+    "RxJS",
+    "Angular",
+    "Redux",
+    "NgRx",
+    "Schematics",
+    "Angular CLI"
+  ],
+  "author": "NgRx",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ngrx/platform/issues"
+  },
+  "homepage": "https://github.com/ngrx/platform#readme",
+  "peerDependencies": {
+    "@angular/core": "^15.0.0",
+    "rxjs": "^6.5.3 || ^7.5.0"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-update": {
+    "packageGroup": [
+      "@ngrx/store",
+      "@ngrx/effects",
+      "@ngrx/entity",
+      "@ngrx/router-store",
+      "@ngrx/data",
+      "@ngrx/schematics",
+      "@ngrx/store-devtools",
+      "@ngrx/component-store",
+      "@ngrx/component",
+      "@ngrx/eslint-plugin"
+    ],
+    "migrations": "./migrations/migration.json"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "tslib": "^2.0.0"
+  },
+  "module": "fesm2015/ngrx-store.mjs",
+  "es2020": "fesm2020/ngrx-store.mjs",
+  "esm2020": "esm2020/ngrx-store.mjs",
+  "fesm2020": "fesm2020/ngrx-store.mjs",
+  "fesm2015": "fesm2015/ngrx-store.mjs",
+  "typings": "index.d.ts",
+  "exports": {
+    "./package.json": {
+      "default": "./package.json"
+    },
+    ".": {
+      "types": "./index.d.ts",
+      "esm2020": "./esm2020/ngrx-store.mjs",
+      "es2020": "./fesm2020/ngrx-store.mjs",
+      "es2015": "./fesm2015/ngrx-store.mjs",
+      "node": "./fesm2015/ngrx-store.mjs",
+      "default": "./fesm2020/ngrx-store.mjs"
+    },
+    "./testing": {
+      "types": "./testing/index.d.ts",
+      "esm2020": "./esm2020/testing/ngrx-store-testing.mjs",
+      "es2020": "./fesm2020/ngrx-store-testing.mjs",
+      "es2015": "./fesm2015/ngrx-store-testing.mjs",
+      "node": "./fesm2015/ngrx-store-testing.mjs",
+      "default": "./fesm2020/ngrx-store-testing.mjs"
+    }
+  }
+}

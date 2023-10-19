@@ -1,0 +1,883 @@
+{
+  "api": {
+    "name": "PushNotificationsPlugin",
+    "slug": "pushnotificationsplugin",
+    "docs": "",
+    "tags": [],
+    "methods": [
+      {
+        "name": "register",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Register the app to receive push notifications.\n\nThis method will trigger the `'registration'` event with the push token or\n`'registrationError'` if there was a problem. It does not prompt the user for\nnotification permissions, use `requestPermissions()` first.",
+        "complexTypes": [],
+        "slug": "register"
+      },
+      {
+        "name": "unregister",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "5.0.0"
+          }
+        ],
+        "docs": "Unregister the app from push notifications.\n\nThis will delete a firebase token on Android, and unregister APNS on iOS.",
+        "complexTypes": [],
+        "slug": "unregister"
+      },
+      {
+        "name": "getDeliveredNotifications",
+        "signature": "() => Promise<DeliveredNotifications>",
+        "parameters": [],
+        "returns": "Promise<DeliveredNotifications>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Get a list of notifications that are visible on the notifications screen.",
+        "complexTypes": [
+          "DeliveredNotifications"
+        ],
+        "slug": "getdeliverednotifications"
+      },
+      {
+        "name": "removeDeliveredNotifications",
+        "signature": "(delivered: DeliveredNotifications) => Promise<void>",
+        "parameters": [
+          {
+            "name": "delivered",
+            "docs": "",
+            "type": "DeliveredNotifications"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Remove the specified notifications from the notifications screen.",
+        "complexTypes": [
+          "DeliveredNotifications"
+        ],
+        "slug": "removedeliverednotifications"
+      },
+      {
+        "name": "removeAllDeliveredNotifications",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Remove all the notifications from the notifications screen.",
+        "complexTypes": [],
+        "slug": "removealldeliverednotifications"
+      },
+      {
+        "name": "createChannel",
+        "signature": "(channel: Channel) => Promise<void>",
+        "parameters": [
+          {
+            "name": "channel",
+            "docs": "",
+            "type": "Channel"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Create a notification channel.\n\nOnly available on Android O or newer (SDK 26+).",
+        "complexTypes": [
+          "Channel"
+        ],
+        "slug": "createchannel"
+      },
+      {
+        "name": "deleteChannel",
+        "signature": "(args: { id: string; }) => Promise<void>",
+        "parameters": [
+          {
+            "name": "args",
+            "docs": "",
+            "type": "{ id: string; }"
+          }
+        ],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Delete a notification channel.\n\nOnly available on Android O or newer (SDK 26+).",
+        "complexTypes": [],
+        "slug": "deletechannel"
+      },
+      {
+        "name": "listChannels",
+        "signature": "() => Promise<ListChannelsResult>",
+        "parameters": [],
+        "returns": "Promise<ListChannelsResult>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "List the available notification channels.\n\nOnly available on Android O or newer (SDK 26+).",
+        "complexTypes": [
+          "ListChannelsResult"
+        ],
+        "slug": "listchannels"
+      },
+      {
+        "name": "checkPermissions",
+        "signature": "() => Promise<PermissionStatus>",
+        "parameters": [],
+        "returns": "Promise<PermissionStatus>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Check permission to receive push notifications.\n\nOn Android 12 and below the status is always granted because you can always\nreceive push notifications. If you need to check if the user allows\nto display notifications, use local-notifications plugin.",
+        "complexTypes": [
+          "PermissionStatus"
+        ],
+        "slug": "checkpermissions"
+      },
+      {
+        "name": "requestPermissions",
+        "signature": "() => Promise<PermissionStatus>",
+        "parameters": [],
+        "returns": "Promise<PermissionStatus>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Request permission to receive push notifications.\n\nOn Android 12 and below it doesn't prompt for permission because you can always\nreceive push notifications.\n\nOn iOS, the first time you use the function, it will prompt the user\nfor push notification permission and return granted or denied based\non the user selection. On following calls it will get the current status of\nthe permission without prompting again.",
+        "complexTypes": [
+          "PermissionStatus"
+        ],
+        "slug": "requestpermissions"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'registration', listenerFunc: (token: Token) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'registration'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(token: Token) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Called when the push notification registration finishes without problems.\n\nProvides the push notification token.",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "Token"
+        ],
+        "slug": "addlistenerregistration"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'registrationError', listenerFunc: (error: RegistrationError) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'registrationError'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(error: RegistrationError) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Called when the push notification registration finished with problems.\n\nProvides an error with the registration problem.",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "RegistrationError"
+        ],
+        "slug": "addlistenerregistrationerror"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'pushNotificationReceived', listenerFunc: (notification: PushNotificationSchema) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'pushNotificationReceived'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(notification: PushNotificationSchema) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Called when the device receives a push notification.",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "PushNotificationSchema"
+        ],
+        "slug": "addlistenerpushnotificationreceived"
+      },
+      {
+        "name": "addListener",
+        "signature": "(eventName: 'pushNotificationActionPerformed', listenerFunc: (notification: ActionPerformed) => void) => Promise<PluginListenerHandle> & PluginListenerHandle",
+        "parameters": [
+          {
+            "name": "eventName",
+            "docs": "",
+            "type": "'pushNotificationActionPerformed'"
+          },
+          {
+            "name": "listenerFunc",
+            "docs": "",
+            "type": "(notification: ActionPerformed) => void"
+          }
+        ],
+        "returns": "Promise<PluginListenerHandle> & PluginListenerHandle",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Called when an action is performed on a push notification.",
+        "complexTypes": [
+          "PluginListenerHandle",
+          "ActionPerformed"
+        ],
+        "slug": "addlistenerpushnotificationactionperformed"
+      },
+      {
+        "name": "removeAllListeners",
+        "signature": "() => Promise<void>",
+        "parameters": [],
+        "returns": "Promise<void>",
+        "tags": [
+          {
+            "name": "since",
+            "text": "1.0.0"
+          }
+        ],
+        "docs": "Remove all native listeners for this plugin.",
+        "complexTypes": [],
+        "slug": "removealllisteners"
+      }
+    ],
+    "properties": []
+  },
+  "interfaces": [
+    {
+      "name": "DeliveredNotifications",
+      "slug": "deliverednotifications",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "notifications",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "List of notifications that are visible on the\nnotifications screen.",
+          "complexTypes": [
+            "PushNotificationSchema"
+          ],
+          "type": "PushNotificationSchema[]"
+        }
+      ]
+    },
+    {
+      "name": "PushNotificationSchema",
+      "slug": "pushnotificationschema",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "title",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification title.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "subtitle",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification subtitle.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "body",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The main text payload for the notification.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification identifier.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "tag",
+          "tags": [
+            {
+              "text": "4.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification tag.\n\nOnly available on Android (from push notifications).",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "badge",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The number to display for the app icon badge.",
+          "complexTypes": [],
+          "type": "number | undefined"
+        },
+        {
+          "name": "notification",
+          "tags": [
+            {
+              "text": "will be removed in next major version.",
+              "name": "deprecated"
+            },
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "It's not being returned.",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "data",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Any additional data that was included in the\npush notification payload.",
+          "complexTypes": [],
+          "type": "any"
+        },
+        {
+          "name": "click_action",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The action to be performed on the user opening the notification.\n\nOnly available on Android.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "link",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Deep link from the notification.\n\nOnly available on Android.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "group",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Set the group identifier for notification grouping.\n\nOnly available on Android. Works like `threadIdentifier` on iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "groupSummary",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Designate this notification as the summary for an associated `group`.\n\nOnly available on Android.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "Channel",
+      "slug": "channel",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "id",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The channel identifier.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The human-friendly name of this channel (presented to the user).",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The description of this channel (presented to the user).",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "sound",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            },
+            {
+              "text": "\"jingle.wav\"",
+              "name": "example"
+            }
+          ],
+          "docs": "The sound that should be played for notifications posted to this channel.\n\nNotification channels with an importance of at least `3` should have a\nsound.\n\nThe file name of a sound file should be specified relative to the android\napp `res/raw` directory.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "importance",
+          "tags": [
+            {
+              "text": "`3`",
+              "name": "default"
+            },
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The level of interruption for notifications posted to this channel.",
+          "complexTypes": [
+            "Importance"
+          ],
+          "type": "Importance"
+        },
+        {
+          "name": "visibility",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The visibility of notifications posted to this channel.\n\nThis setting is for whether notifications posted to this channel appear on\nthe lockscreen or not, and if so, whether they appear in a redacted form.",
+          "complexTypes": [
+            "Visibility"
+          ],
+          "type": "Visibility"
+        },
+        {
+          "name": "lights",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether notifications posted to this channel should display notification\nlights, on devices that support it.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        },
+        {
+          "name": "lightColor",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The light color for notifications posted to this channel.\n\nOnly supported if lights are enabled on this channel and the device\nsupports it.\n\nSupported color formats are `#RRGGBB` and `#RRGGBBAA`.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "vibration",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Whether notifications posted to this channel should vibrate.",
+          "complexTypes": [],
+          "type": "boolean | undefined"
+        }
+      ]
+    },
+    {
+      "name": "ListChannelsResult",
+      "slug": "listchannelsresult",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "channels",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "List of all the Channels created by your app.",
+          "complexTypes": [
+            "Channel"
+          ],
+          "type": "Channel[]"
+        }
+      ]
+    },
+    {
+      "name": "PermissionStatus",
+      "slug": "permissionstatus",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "receive",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Permission state of receiving notifications.",
+          "complexTypes": [
+            "PermissionState"
+          ],
+          "type": "PermissionState"
+        }
+      ]
+    },
+    {
+      "name": "PluginListenerHandle",
+      "slug": "pluginlistenerhandle",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "remove",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "() => Promise<void>"
+        }
+      ]
+    },
+    {
+      "name": "Token",
+      "slug": "token",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "value",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "On iOS it contains the APNS token.\nOn Android it contains the FCM token.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "RegistrationError",
+      "slug": "registrationerror",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "error",
+          "tags": [
+            {
+              "text": "4.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Error message describing the registration failure.",
+          "complexTypes": [],
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "ActionPerformed",
+      "slug": "actionperformed",
+      "docs": "",
+      "tags": [],
+      "methods": [],
+      "properties": [
+        {
+          "name": "actionId",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The action performed on the notification.",
+          "complexTypes": [],
+          "type": "string"
+        },
+        {
+          "name": "inputValue",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "Text entered on the notification action.\n\nOnly available on iOS.",
+          "complexTypes": [],
+          "type": "string | undefined"
+        },
+        {
+          "name": "notification",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            }
+          ],
+          "docs": "The notification in which the action was performed.",
+          "complexTypes": [
+            "PushNotificationSchema"
+          ],
+          "type": "PushNotificationSchema"
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "typeAliases": [
+    {
+      "name": "Importance",
+      "slug": "importance",
+      "docs": "The importance level. For more details, see the [Android Developer Docs](https://developer.android.com/reference/android/app/NotificationManager#IMPORTANCE_DEFAULT)",
+      "types": [
+        {
+          "text": "1",
+          "complexTypes": []
+        },
+        {
+          "text": "2",
+          "complexTypes": []
+        },
+        {
+          "text": "3",
+          "complexTypes": []
+        },
+        {
+          "text": "4",
+          "complexTypes": []
+        },
+        {
+          "text": "5",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "Visibility",
+      "slug": "visibility",
+      "docs": "The notification visibility. For more details, see the [Android Developer Docs](https://developer.android.com/reference/androidx/core/app/NotificationCompat#VISIBILITY_PRIVATE)",
+      "types": [
+        {
+          "text": "-1",
+          "complexTypes": []
+        },
+        {
+          "text": "0",
+          "complexTypes": []
+        },
+        {
+          "text": "1",
+          "complexTypes": []
+        }
+      ]
+    },
+    {
+      "name": "PermissionState",
+      "slug": "permissionstate",
+      "docs": "",
+      "types": [
+        {
+          "text": "'prompt'",
+          "complexTypes": []
+        },
+        {
+          "text": "'prompt-with-rationale'",
+          "complexTypes": []
+        },
+        {
+          "text": "'granted'",
+          "complexTypes": []
+        },
+        {
+          "text": "'denied'",
+          "complexTypes": []
+        }
+      ]
+    }
+  ],
+  "pluginConfigs": [
+    {
+      "name": "PushNotifications",
+      "slug": "pushnotifications",
+      "properties": [
+        {
+          "name": "presentationOptions",
+          "tags": [
+            {
+              "text": "1.0.0",
+              "name": "since"
+            },
+            {
+              "text": "[\"badge\", \"sound\", \"alert\"]",
+              "name": "example"
+            }
+          ],
+          "docs": "This is an array of strings you can combine. Possible values in the array are:\n  - `badge`: badge count on the app icon is updated (default value)\n  - `sound`: the device will ring/vibrate when the push notification is received\n  - `alert`: the push notification is displayed in a native dialog\n\nAn empty array can be provided if none of the options are desired.\n\nbadge is only available for iOS.",
+          "complexTypes": [
+            "PresentationOption"
+          ],
+          "type": "PresentationOption[]"
+        }
+      ],
+      "docs": "You can configure the way the push notifications are displayed when the app is in foreground."
+    }
+  ]
+}
