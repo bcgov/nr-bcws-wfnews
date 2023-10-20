@@ -45,10 +45,10 @@ export class WildFiresListComponentMobile {
     this.search()
   }
 
-  async search(location: LocationData | null = null) {
+  async search() {
     if (this.keepPaging) {
       this.page += 1
-      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, location, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters?.fireOfNoteInd, this.filters?.stagesOfControl || null, this.filters?.fireCentre || null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
+      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, this.lastLocation, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters?.fireOfNoteInd, this.filters?.stagesOfControl || null, this.filters?.fireCentre || null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
         const incidentData = []
         if (incidents && incidents.collection) {
           this.totalRowCount = incidents.totalRowCount
@@ -77,7 +77,6 @@ export class WildFiresListComponentMobile {
   }
 
   openLocationFilter () {
-    this.lastLocation = null
     const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
       width: '380px',
       height: '453px',
@@ -100,7 +99,7 @@ export class WildFiresListComponentMobile {
       this.page = 0
       this.keepPaging = true
       this.lastLocation = result
-      this.search(result)
+      this.search()
     });
   }
 
@@ -157,10 +156,10 @@ export class WildFiresListComponentMobile {
         this.keepPaging = true
 
         this.filters = result as FilterData
-        this.search(this.lastLocation)
+        this.search()
       } else {
         this.filters = null
-        this.search(this.lastLocation)
+        this.search()
       }
     });
   }

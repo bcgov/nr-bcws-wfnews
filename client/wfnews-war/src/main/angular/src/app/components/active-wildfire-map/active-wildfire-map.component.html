@@ -128,7 +128,7 @@
           <panel-local-authority *ngIf="selectedPanel === 'local-authorities'"></panel-local-authority>
       </div>
       <div class="map">
-        <div class="identify-panel"></div>
+        <div class="identify-panel" *ngIf="!isMobileView()"></div>
         <div class="mobile-wildfire-count">
           <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
         </div>

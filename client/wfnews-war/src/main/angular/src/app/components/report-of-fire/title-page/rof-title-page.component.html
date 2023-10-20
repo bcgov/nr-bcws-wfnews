@@ -13,7 +13,7 @@
       </p>
     </div>
   </div>
-  <div *ngIf="!closeButton" class="rof-button-container">
+  <div *ngIf="!closeButton" class="rof-button-container" id="title-container">
       <button mat-flat-button class="rof-button" style="background-color: #FFF" (click)="openCallPage()"><mat-icon svgIcon="phone" style="width: 24px; height: 24px;"></mat-icon>Call</button>
       <button mat-flat-button class="rof-button-primary" (click)="triggerLocationServiceCheck()"><mat-icon svgIcon="arrow-forward-enabled" class="left-padding" style="width: 24px; height: 24px;"></mat-icon>Start</button>
   </div>
