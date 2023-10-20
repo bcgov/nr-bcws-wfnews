@@ -4,6 +4,14 @@
     <a class="link" routerLink="../list" [queryParams]="{tab: 0}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="Order" /></a>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
+  <div *ngIf="startupComplete" class="count-panel-mobile">
+    <div class="count-panel-mobile-title">Currently Active</div>
+    <div class="count-panel-mobile-data-content">
+      <img height="24" width="24" src="/assets/images/local_fire_department.png" alt="Order" class="count-panel-mobile-icon" />
+      <div class="count-panel-mobile-data">{{activeFireOfNote}}</div>
+    </div>
+    <div class="count-panel-mobile-text">Wildfires of Note are wildfires that are highly visible or pose a potential threat to public safety.</div>
+  </div>
   <div class="content" *ngIf="startupComplete; else loading">
     <div class="count-panel">
       <div class="count-panel-title">Currently Active</div>
@@ -48,6 +56,8 @@
         <div class="fire-of-note-card-text">
           Discovered on {{convertToDateString(incident.discoveryDate)}}
         </div>
+      </div>
+      <div class="link-holder">
         <img height="16" width="16" (click)="viewIncident(incident)" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="GoTo" class="link-icon">
       </div>
     </div>

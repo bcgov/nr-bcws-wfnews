@@ -30,6 +30,14 @@
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
   }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -54,6 +62,14 @@
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
+  }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.79px;
   }
 }
 
@@ -121,8 +137,7 @@
 
 .button-icon {
   position: relative;
-  top: 2px;
-  left: -6px;
+  top: 4px;
 }
 
 .map-overlay {

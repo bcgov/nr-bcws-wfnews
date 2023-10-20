@@ -5,6 +5,7 @@
 }
 .rof-button-container{
     width: calc(100% - 96px);
+    max-width: 750px;
 }
 
 @media (min-width: 1024px) {
@@ -12,3 +13,4 @@
     height: 23vh;
 }
 }
+

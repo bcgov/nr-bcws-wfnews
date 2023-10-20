@@ -9,6 +9,7 @@
   position:fixed;
   width: calc(100% - 65px);
   height: 50vh;
+  max-width: 790px;
   @media (max-height: 700px){
     height: 45vh !important;
   }
@@ -134,6 +135,7 @@
     height: 40dvh !important;
   }
 }
+
 
 
 

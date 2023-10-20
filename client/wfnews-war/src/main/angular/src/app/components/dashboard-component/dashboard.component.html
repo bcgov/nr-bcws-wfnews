@@ -11,7 +11,7 @@
       <button [class]="'list-button' + (selectedTab === 1 ? '-selected' : '')" (click)="selectTab(1)" mat-flat-button ><span class="tab-button-label">Totals this Year</span></button>
     </div>
     <div id="current-stats-page" *ngIf="selectedTab === 0" class="panel-container">
-      <situation-widget></situation-widget>
+      <situation-widget *ngIf="!offseason()"></situation-widget>
       <summary-widget></summary-widget>
       <overview-widget></overview-widget>
       <active-fires-widget></active-fires-widget>
