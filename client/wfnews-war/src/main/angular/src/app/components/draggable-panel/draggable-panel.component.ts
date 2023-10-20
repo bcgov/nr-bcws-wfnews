@@ -94,6 +94,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
       // this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
       this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
+      this.filteredAreaRestrictions = this.incidentRefs.filter(item => item.layerId === 'area-restrictions');
       this.filteredBansAndProhibitions = this.incidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
       this.filteredDangerRatings = this.incidentRefs.filter(item => item.layerId === 'danger-rating');
       this.filteredRoadEvents = this.incidentRefs.filter(item => item.layerId === 'drive-bc-active-events');
