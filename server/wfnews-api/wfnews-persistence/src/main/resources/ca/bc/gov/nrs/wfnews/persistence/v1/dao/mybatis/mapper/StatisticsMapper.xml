@@ -3,6 +3,7 @@
 
 <mapper namespace="ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis.mapper.StatisticsMapper">
   <resultMap id="StatisticsDtoMap" type="ca.bc.gov.nrs.wfnews.persistence.v1.dto.StatisticsDto">
+    <id     property="fireCentre"                     column="fire_centre_name"               javaType="java.lang.String"  jdbcType="VARCHAR" />
     <result property="activeOutOfControlFires"        column="activeOutOfControlFires"        javaType="java.lang.Integer" jdbcType="NUMERIC" />
     <result property="activeOutOfControlFiresOfNote"  column="activeOutOfControlFiresOfNote"  javaType="java.lang.Integer" jdbcType="NUMERIC" />
     <result property="activeBeingHeldFires"           column="activeBeingHeldFires"           javaType="java.lang.Integer" jdbcType="NUMERIC" />

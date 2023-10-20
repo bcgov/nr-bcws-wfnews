@@ -14,6 +14,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 @JsonTypeName(ResourceTypes.STATISTICS)
 public class StatisticsResource extends BaseResource implements Statistics {
   private static final long serialVersionUID = 1L;
+  private String fireCentre;
   private int activeOutOfControlFires;
   private int activeOutOfControlFiresOfNote;
   private int activeBeingHeldFires;
@@ -166,5 +167,13 @@ public class StatisticsResource extends BaseResource implements Statistics {
   
   public void setOutFires7Days(int outFires7Days) {
     this.outFires7Days = outFires7Days;
+  }
+
+  public String getFireCentre() {
+    return this.fireCentre;
+  }
+
+  public void setFireCentre(String fireCentre) {
+    this.fireCentre = fireCentre;
   }
 }

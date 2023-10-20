@@ -97,5 +97,5 @@ public interface IncidentsService {
 	SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 
 	@Transactional(readOnly = true)
-	StatisticsResource getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+	List<StatisticsResource> getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 }

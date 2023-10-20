@@ -11,6 +11,7 @@ public class StatisticsDto extends BaseDto implements Serializable {
   private static final long serialVersionUID = 1L;
 	private static final Logger logger = LoggerFactory.getLogger(StatisticsDto.class);
 
+  private String fireCentre;
   private int activeOutOfControlFires;
   private int activeOutOfControlFiresOfNote;
   private int activeBeingHeldFires;
@@ -32,6 +33,7 @@ public class StatisticsDto extends BaseDto implements Serializable {
   public StatisticsDto() { }
 
   public StatisticsDto(StatisticsDto dto) {
+    this.fireCentre = dto.fireCentre;
 		this.activeOutOfControlFires = dto.activeOutOfControlFires;
     this.activeOutOfControlFiresOfNote = dto.activeOutOfControlFiresOfNote;
     this.activeBeingHeldFires = dto.activeBeingHeldFires;
@@ -52,6 +54,7 @@ public class StatisticsDto extends BaseDto implements Serializable {
   }
 
   public StatisticsDto(StatisticsResource resource) {
+    this.fireCentre = resource.getFireCentre();
     this.activeOutOfControlFires = resource.getActiveOutOfControlFires();
     this.activeOutOfControlFiresOfNote = resource.getActiveOutOfControlFiresOfNote();
     this.activeBeingHeldFires = resource.getActiveBeingHeldFires();
@@ -79,6 +82,14 @@ public class StatisticsDto extends BaseDto implements Serializable {
   @Override
   public boolean equalsAll(Object other) {
 		return false;
+  }
+
+  public String getFireCentre() {
+    return this.fireCentre;
+  }
+
+  public void setFireCentre(String fireCentre) {
+    this.fireCentre = fireCentre;
   }
 
   public int getActiveOutOfControlFires() {

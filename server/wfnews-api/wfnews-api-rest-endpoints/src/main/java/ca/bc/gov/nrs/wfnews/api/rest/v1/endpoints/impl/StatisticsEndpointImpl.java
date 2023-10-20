@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
+import java.util.List;
+
 import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -27,12 +29,13 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
     
     try {
       
-        StatisticsResource result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
-        GenericEntity<StatisticsResource> entity = new GenericEntity<StatisticsResource>(result) {
+        List<StatisticsResource> result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
+        GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
           /* do nothing */
         };
 
-        response = Response.ok(entity).tag(result.getUnquotedETag()).build();
+        // static resource doesn't need an eTag
+        response = Response.ok(entity).build();
       
     } catch (NotFoundException e) {
       response = Response.status(Status.NOT_FOUND).build();
