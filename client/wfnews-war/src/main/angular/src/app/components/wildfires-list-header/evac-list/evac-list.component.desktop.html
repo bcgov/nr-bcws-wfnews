@@ -57,11 +57,11 @@
     <table mat-table [dataSource]="dataSource" aria-label="Evacuation Orders and Alerts Table">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Evacuation Name </th>
-        <td mat-cell *matCellDef="let element" (click)="alert('todo!')">{{element.name}}</td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')">{{element.name}}</td>
       </ng-container>
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element" (click)="alert('todo!')">
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')">
           <img class="status-icon icon" *ngIf="element.status === 'Order'" height="20" width="20" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
           <img class="status-icon icon" *ngIf="element.status === 'Alert'" height="20" width="20" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
           <span class="status-label">{{element.status}}</span>
@@ -69,16 +69,16 @@
       </ng-container>
       <ng-container matColumnDef="issuedOn">
         <th mat-header-cell *matHeaderCellDef> Issued On </th>
-        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef="agency">
         <th mat-header-cell *matHeaderCellDef> Agency </th>
-        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.agency}} </td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.agency}} </td>
       </ng-container>
 
       <ng-container matColumnDef="distance">
         <th mat-header-cell *matHeaderCellDef> Distance </th>
-        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.distance || '---'}} km</td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.distance || '---'}} km</td>
       </ng-container>
       <ng-container matColumnDef = "details">
         <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>
