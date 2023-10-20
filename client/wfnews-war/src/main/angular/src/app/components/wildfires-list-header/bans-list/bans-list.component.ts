@@ -23,6 +23,7 @@ export class BansListComponent implements OnInit {
   public category2 = true
   public category3 = true
   public searchTimer
+  public searchingComplete = false
   public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
 
   public locationData: LocationData
@@ -36,6 +37,7 @@ export class BansListComponent implements OnInit {
   }
 
   async search(location: LocationData | null = null) {
+    this.searchingComplete = false
 
     let whereString = ''
 
@@ -85,6 +87,7 @@ export class BansListComponent implements OnInit {
         this.selectedSortValue = ''
       }
       this.dataSource.data = banData
+      this.searchingComplete = true
       this.cdr.detectChanges()
     });
   }
