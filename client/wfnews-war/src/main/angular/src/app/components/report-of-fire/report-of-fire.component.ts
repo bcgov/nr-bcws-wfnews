@@ -339,7 +339,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   }
 
   exitText() {
-    if (this.isEditMode) {
+    if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
       return 'Back to Review';
     }
     if (this.allowExit) {

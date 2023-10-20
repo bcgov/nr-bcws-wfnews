@@ -130,7 +130,8 @@
     font-weight: 600;
     line-height: normal;
     background-color: #F5F5F5;
-    border: solid 1px #B0B0B0;;
+    border: solid 1px #B0B0B0;
+    border-radius: 6px;
     &-primary {
       padding:0 32px;
       height: 43px;
@@ -141,6 +142,7 @@
       color: white;
       background-color: #123262;
       flex-direction: row-reverse;
+      border-radius: 6px;
       &-review{
         padding:0 32px;
         height: 43px;
@@ -150,7 +152,8 @@
         line-height: normal;
         color: white;
         background-color: #123262;
-        flex-direction: none;;
+        flex-direction: none;
+        border-radius: 6px;
       }
 
     }
@@ -162,8 +165,8 @@
       font-weight: 600;
       line-height: normal;
       flex-direction: row-reverse;
-      color: rgba(0, 0, 0)
-
+      color: rgba(0, 0, 0);
+      border-radius: 6px;
     }
   }
   .flow-buttons{
