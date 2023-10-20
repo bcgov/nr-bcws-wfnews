@@ -294,11 +294,19 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     } else if (this.currentPage.instance.id === 'final-page') {
       this.router.navigateByUrl('/map')   
      } else {
-        let dialogRef = this.dialog.open(DialogExitComponent, {
+        let dialogRef;
+        if (window.innerWidth >= 850) {
+            dialogRef = this.dialog.open(DialogExitComponent, {
+            autoFocus: false,
+            width: '500px',
+          });
+        }else {
+          dialogRef = this.dialog.open(DialogExitComponent, {
           autoFocus: false,
           width: '80vw',
         });
-
+      }
+        
         dialogRef.afterClosed().subscribe(result => {
           if (result['exit']) {
             this.router.navigateByUrl('/map')
