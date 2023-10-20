@@ -10,7 +10,7 @@
                     <div class="widget-row" (click)="openPreviewPanel(wildfire)">
                         <div class="left-content">
                             <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" height="24" width="24" src="/assets/images/local_fire_department.png"/>
-                            <span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }}"></span>
+                            <span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }}"></span>
                             {{displayWildfireName(wildfire)}}
                         </div>
                         <div class="right-content">
@@ -259,7 +259,7 @@
                 </div>
                 <div class="identify-card-item">
                     <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
-                    Discovered on {{identifyIncident.discoveryDate}}
+                    Discovered on {{convertTimeStamp(identifyIncident.discoveryDate)}}
                 </div>
                 <div class="identify-card-item">
                     <span class="circle-icon {{getStageOfControlIcon(identifyIncident.stageOfControlCode)}}"></span>

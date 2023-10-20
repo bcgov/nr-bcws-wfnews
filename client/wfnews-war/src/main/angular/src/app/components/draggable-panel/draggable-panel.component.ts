@@ -127,9 +127,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.identifyIncident = {};
   }
 
-  convertFireStatus(status) {
+  convertFirePerimeterFireStatus(status) {
     switch(status) {
-      case 'Out Of Control':
+      case 'Out of Control':
           return 'active-wildfires-out-of-control'
       case 'Being Held':
           return 'active-wildfires-holding'
@@ -229,6 +229,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     //yet to implement
+  }
+
+  convertTimeStamp(time) {
+    const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(time).toLocaleTimeString("en-US", options) 
   }
 
 }
