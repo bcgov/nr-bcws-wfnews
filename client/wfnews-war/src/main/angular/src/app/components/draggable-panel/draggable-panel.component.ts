@@ -1,6 +1,5 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, Injectable, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -15,6 +14,7 @@ import { MapConfigService } from '@app/services/map-config.service';
 export class DraggablePanelComponent implements OnInit, OnChanges {
   resizeHeight: string = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
+  storedIncidentRefs: any [];
   filteredWildfires: any[];
   filteredFirePerimeters: any[];
   filteredEvacs: any[];
@@ -30,6 +30,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
   showPanel: boolean;
+  allowBackToIncidentsPanel: boolean;
   identifyItem:any;
   identifyIncident: any = {};
   wildfireLayerIds: string[] = [
@@ -57,7 +58,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges){
     this.showPanel = false;
     this.identifyIncident = null;
+    this.handleLayersSelection()
+  }
+
+  handleLayersSelection(returnFromPreiviewPanel?: boolean){
+    if (returnFromPreiviewPanel && this.storedIncidentRefs) {
+      // clicked back from preiview panel
+      this.incidentRefs = this.storedIncidentRefs
+    }
     if (this.incidentRefs.length === 1){
+      // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.incidentRefs[0];
       let incidentNumber = null;
@@ -78,9 +88,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       }
     } 
     else if (this.incidentRefs.length >= 1) {
+      // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
-      // multiple features within clicked area
       this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
       // this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
       this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
@@ -112,6 +122,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   closePanel() {
     this.showPanel = false;
+    this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
   }
 
@@ -198,6 +209,25 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         viewer.panToFeature(window['turf'].point([long, lat]), 15)
       })
     }
+  }
+
+  openPreviewPanel(item) {
+    this.allowBackToIncidentsPanel = true;
+    this.storedIncidentRefs = this.incidentRefs
+        // capture the identify panel list;
+    this.identifyItem = item;
+    this.incidentRefs = [item];
+    this.cdr.detectChanges();
+    this.handleLayersSelection();
+  }
+
+  backToIdentifyPanel() {
+    this.allowBackToIncidentsPanel = false;
+    this.handleLayersSelection(true)
+  }
+
+  enterFullDetail() {
+    //yet to implement
   }
 
 }
