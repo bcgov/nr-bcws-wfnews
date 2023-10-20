@@ -7,6 +7,7 @@ import { HttpClient } from "@angular/common/http";
 import { AppConfigService } from "@wf1/core-ui";
 import { Storage } from '@ionic/storage-angular';
 import { ReportOfFireService } from './report-of-fire-service';
+import { App } from "@capacitor/app";
 
 const MAX_CACHE_AGE = 30 * 1000
 
@@ -213,6 +214,7 @@ export class CommonUtilityService {
             if (response.success) {
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
+              App.removeAllListeners();
             }
           }
         } catch (error) {

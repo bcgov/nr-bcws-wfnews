@@ -8,6 +8,8 @@
 .rof{
   height: 100vh; 
   background-color: white !important;
+  max-width: 850px;
+  margin: auto;
 }
 
 .mobile-header{
@@ -70,6 +72,10 @@
 }
 
 .ProgressBar {
+  @media (min-width: 850px) {
+    width: 570px;
+    margin: auto 130px auto;
+  }
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
@@ -103,6 +109,8 @@
 }
 
 .rof-button-container {
+
+  max-width: 780px;
   justify-content: space-between;
   gap: 12px;
   display: flex;
