@@ -15,6 +15,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.common.service.ValidationFailureException;
@@ -94,4 +95,7 @@ public interface IncidentsService {
 
 	@Transactional(readOnly = false, rollbackFor=Exception.class)
 	SituationReportResource getSituationReport(String reportGuid, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
+
+	@Transactional(readOnly = true)
+	StatisticsResource getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception;
 }
