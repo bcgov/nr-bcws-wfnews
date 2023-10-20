@@ -5,6 +5,8 @@ import ca.bc.gov.nrs.wfone.common.service.api.model.factory.FactoryContext;
 import ca.bc.gov.nrs.wfone.common.webade.authentication.WebAdeAuthentication;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.ws.rs.core.UriBuilder;
 
@@ -66,24 +68,28 @@ public class StatisticsResourceFactory extends BaseResourceFactory implements St
 	}
 
   @Override
-  public StatisticsResource getStatistics(StatisticsDto dto, FactoryContext context) throws FactoryException {
+  public List<StatisticsResource> getStatistics(List<StatisticsDto> dto, FactoryContext context) throws FactoryException {
     logger.debug("<getStatistics");
 		URI baseUri = getBaseURI(context);
 
-		StatisticsResource result = new StatisticsResource();
-		populate(result, dto);
-
-		String eTag = getEtag(result);
-		result.setETag(eTag);
-
-		setSelfLink(result, baseUri);
-
-		setLinks("", result, baseUri);
+		List<StatisticsResource> result = new ArrayList<>(dto.size());
+    
+    for (StatisticsDto statisticsDto : dto) {
+      StatisticsResource newResult = new StatisticsResource();
+      result.add(newResult);
+      
+		  populate(newResult, statisticsDto);
+      
+      newResult.setETag(getEtag(newResult));
+      setSelfLink(newResult, baseUri);
+		  setLinks("", newResult, baseUri);
+    }
 
 		return result;
   }
 
   private void populate(StatisticsResource resource, StatisticsDto dto) {
+    resource.setFireCentre(dto.getFireCentre());
     resource.setActiveBeingHeldFires(dto.getActiveBeingHeldFires());
     resource.setActiveBeingHeldFiresOfNote(dto.getActiveBeingHeldFiresOfNote());
     resource.setActiveHumanCausedFires(dto.getActiveHumanCausedFires());

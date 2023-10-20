@@ -977,9 +977,9 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	}
 
 	@Override
-	public StatisticsResource getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+	public List<StatisticsResource> getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
 		try {
-			StatisticsDto dto = this.statisticsDao.fetch(fireCentre, fireYear);
+			List<StatisticsDto> dto = this.statisticsDao.fetch(fireCentre, fireYear);
 			if (dto != null) {
 				return this.statisticsFactory.getStatistics(dto, factoryContext);
 			}else throw new NotFoundException("Did not find the fire centre: " + fireCentre);

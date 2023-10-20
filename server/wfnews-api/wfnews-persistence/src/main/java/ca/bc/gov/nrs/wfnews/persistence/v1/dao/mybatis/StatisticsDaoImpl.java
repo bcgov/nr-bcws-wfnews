@@ -3,6 +3,7 @@ package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -26,10 +27,10 @@ public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
 	@Autowired
 	private transient StatisticsMapper statisticsMapper;
 
-  public StatisticsDto fetch(String fireCentre, Integer fireYear) throws DaoException {
+  public List<StatisticsDto> fetch(String fireCentre, Integer fireYear) throws DaoException {
 		logger.debug("<fetch");
 
-		StatisticsDto result = null;
+		List<StatisticsDto> result = null;
 
 		try {
 

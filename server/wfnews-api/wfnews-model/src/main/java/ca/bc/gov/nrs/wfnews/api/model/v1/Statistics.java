@@ -3,6 +3,9 @@ package ca.bc.gov.nrs.wfnews.api.model.v1;
 import java.io.Serializable;
 
 public interface Statistics extends Serializable {
+  public String getFireCentre();
+  public void setFireCentre(String fireCentre);
+
   public int getActiveOutOfControlFires();
   public void setActiveOutOfControlFires(int activeOutOfControlFires);
 
