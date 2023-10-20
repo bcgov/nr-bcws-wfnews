@@ -9,6 +9,7 @@
   position:fixed;
   width: calc(100% - 65px);
   height: 50vh;
+  max-width: 790px;
   @media (max-height: 700px){
     height: 45vh !important;
   }
@@ -135,12 +136,6 @@
   }
 }
 
-// set max width for desktop
-@media (min-width: 1181px) {
-  .map-container {
-   max-width: 790px;
- }
-}
 
 
 

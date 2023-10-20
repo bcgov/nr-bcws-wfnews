@@ -8,12 +8,8 @@
 .rof{
   height: 100vh; 
   background-color: white !important;
-
-  // set max width for desktop
-  @media (min-width: 1181px) {
-    max-width: 850px;
-    margin: auto;
-  }
+  max-width: 850px;
+  margin: auto;
 }
 
 .mobile-header{
@@ -76,9 +72,9 @@
 }
 
 .ProgressBar {
-  // set max width for desktop
-  @media (min-width: 1181px) {
-    position: absolute
+  @media (min-width: 850px) {
+    width: 570px;
+    margin: auto 130px auto;
   }
   margin: 0 auto;
   padding-top: 0em;
@@ -113,11 +109,8 @@
 }
 
 .rof-button-container {
-   // set max width for desktop
-   @media (min-width: 1181px) {
-    max-width: 780px;
-  }
 
+  max-width: 780px;
   justify-content: space-between;
   gap: 12px;
   display: flex;

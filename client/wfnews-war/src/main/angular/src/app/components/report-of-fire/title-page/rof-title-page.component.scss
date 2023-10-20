@@ -5,6 +5,7 @@
 }
 .rof-button-container{
     width: calc(100% - 96px);
+    max-width: 750px;
 }
 
 @media (min-width: 1024px) {
@@ -13,9 +14,3 @@
 }
 }
 
-// set max width for desktop
-@media (min-width: 1181px) {
-    .rof-button-container {
-     max-width: 750px;
-   }
-}
