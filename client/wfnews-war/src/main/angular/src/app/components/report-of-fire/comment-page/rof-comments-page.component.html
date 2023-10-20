@@ -5,7 +5,7 @@
     <mat-label>Note</mat-label>
   </div>
   <mat-form-field class="text-container">
-    <textarea class="text-area" #commentText [(ngModel)]="reportOfFire[updateAttribute]" [maxLength]="maxLength"></textarea>
+    <textarea class="text-area" #commentText [(ngModel)]="reportOfFire[updateAttribute]" [maxLength]="maxLength" (ngModelChange)="onTextAreaChange()"></textarea>
     <div class="comment-divider"></div>
     <div class="word-count">{{commentText.value.length}}/500</div>
   </mat-form-field >
