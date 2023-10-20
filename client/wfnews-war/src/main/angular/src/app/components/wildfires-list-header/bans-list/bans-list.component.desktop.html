@@ -48,7 +48,7 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
+<div *ngIf="searchingComplete; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
 
       <ng-container matColumnDef="fireCentre">
@@ -81,5 +81,6 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
     </table>
+    <div *ngIf="dataSource.data.length === 0">No records to display</div>
 </div>
 <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>
