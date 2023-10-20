@@ -25,20 +25,24 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportListResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.ExternalUriDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.PublishedIncidentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dao.SituationReportDao;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dao.StatisticsDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.AttachmentDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.ExternalUriDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PagedDtos;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.PublishedIncidentDto;
 import ca.bc.gov.nrs.wfnews.persistence.v1.dto.SituationReportDto;
+import ca.bc.gov.nrs.wfnews.persistence.v1.dto.StatisticsDto;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.SituationReportFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.StatisticsFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.exception.ValidationException;
 import ca.bc.gov.nrs.wfone.common.model.Message;
@@ -56,11 +60,13 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 	private ExternalUriFactory externalUriFactory;
 	private AttachmentFactory attachmentFactory;
 	private SituationReportFactory situationReportFactory;
+	private StatisticsFactory statisticsFactory;
 
 	private PublishedIncidentDao publishedIncidentDao;
 	private AttachmentDao attachmentDao;
 	private ExternalUriDao externalUriDao;
 	private SituationReportDao situationReportDao;
+	private StatisticsDao statisticsDao;
 
 	@Autowired
 	private ModelValidator modelValidator;
@@ -99,6 +105,14 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 
 	public void setSituationReportFactory(SituationReportFactory situationReportFactory) {
 		this.situationReportFactory = situationReportFactory;
+	}
+
+	public void setStatisticsDao(StatisticsDao statisticsDao) {
+		this.statisticsDao = statisticsDao;
+	}
+
+	public void setStatisticsFactory(StatisticsFactory statisticsFactory) {
+		this.statisticsFactory = statisticsFactory;
 	}
 
 	@Override
@@ -952,6 +966,23 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			if (dto != null) {
 				return this.situationReportFactory.getSituationReport(dto, factoryContext);
 			}else throw new NotFoundException("Did not find the reportGuid: " + reportGuid);
+			
+		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
+			throw new ConflictException(e.getMessage());
+		} catch (NotFoundDaoException e) {
+			throw new NotFoundException(e.getMessage());
+		} catch (DaoException e) {
+			throw new ServiceException(e.getMessage(), e);
+		}
+	}
+
+	@Override
+	public StatisticsResource getStatistics(String fireCentre, Integer fireYear, FactoryContext factoryContext) throws ValidationFailureException, ConflictException, NotFoundException, Exception {
+		try {
+			StatisticsDto dto = this.statisticsDao.fetch(fireCentre, fireYear);
+			if (dto != null) {
+				return this.statisticsFactory.getStatistics(dto, factoryContext);
+			}else throw new NotFoundException("Did not find the fire centre: " + fireCentre);
 			
 		} catch (IntegrityConstraintViolatedDaoException | OptimisticLockingFailureDaoException e) {
 			throw new ConflictException(e.getMessage());
