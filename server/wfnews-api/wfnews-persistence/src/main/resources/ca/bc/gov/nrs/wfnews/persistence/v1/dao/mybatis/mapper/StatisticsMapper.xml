@@ -142,7 +142,6 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS extinguishedUnknownCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires
-    UNION
   ) stats
   <if test="fireCentre != null">
     WHERE fire_centre_name = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
