@@ -143,7 +143,8 @@
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
             <div class="layers-container">
                 <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
-                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" checked="true" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Wildfire" value="wildfire" checked="true" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Area Restrictions" value="area-restrictions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Fire Danger" value="fire-danger" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
