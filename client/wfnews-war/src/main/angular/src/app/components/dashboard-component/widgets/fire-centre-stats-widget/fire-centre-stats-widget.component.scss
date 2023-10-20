@@ -146,12 +146,19 @@
   line-height: 19px; /* 135.714% */
 }
 
+.data-content>*{
+  flex: 0 0 40%;
+}
+
 .data-content {
   display: flex;
   align-items: flex-start;
+  flex-wrap: wrap;
+  flex-direction: row;
   gap: var(--24, 24px);
   flex-shrink: 0;
   align-self: stretch;
+  padding-top: 12px;
   &-image-box {
     width: 50%;
     flex-shrink: 0;
@@ -162,6 +169,7 @@
   }
   &-chart {
     display: flex;
+    width: 50%;
     padding: var(--16, 16px);
     flex-direction: column;
     justify-content: space-between;

@@ -20,21 +20,33 @@
         <div class="data-content-chart-container">
           <ngx-charts-bar-vertical
             class="vertical-chart"
-            [view]="['100%', '100%']"
-            [showLegend]="true"
             [animations]="true"
+            [scheme]="colorScheme"
+            [gradient]="false"
             [xAxis]="true"
             [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [roundEdges]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
             [results]="viewWildfireCounts ? fireCentreTotals : fireCentreHectares">
           </ngx-charts-bar-vertical>
 
           <ngx-charts-bar-horizontal
             class="horizontal-chart"
-            [view]="['100%', '100%']"
-            [showLegend]="true"
             [animations]="true"
+            [scheme]="colorScheme"
+            [gradient]="false"
             [xAxis]="true"
             [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [roundEdges]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
             [results]="viewWildfireCounts ? fireCentreTotals : fireCentreHectares">
           </ngx-charts-bar-horizontal>
         </div>

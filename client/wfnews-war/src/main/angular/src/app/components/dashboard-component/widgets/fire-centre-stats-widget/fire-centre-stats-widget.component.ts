@@ -17,7 +17,7 @@ export class FireCentreStatsWidget implements AfterViewInit {
   private fireCentres = FireCentres
 
   public colorScheme = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
+    domain: ['#95A4FC', '#A1E3CB', '#8D8D8D', '##B1E3FF', '#BAEDBD', '#A8C5DA']
   };
 
   constructor(private publishedIncidentService: PublishedIncidentService) { }
@@ -42,12 +42,12 @@ export class FireCentreStatsWidget implements AfterViewInit {
       for (const fc of this.fireCentres) {
         const firesByCentre = fires.filter(f => f.fireCentreCode === fc.code || f.fireCentreName === fc.description)
         this.fireCentreTotals.push({
-          name: fc.description,
+          name: fc.description.replace(' Fire Centre', ''),
           value: firesByCentre.length
         })
 
         this.fireCentreHectares.push({
-          name: fc.description,
+          name: fc.description.replace(' Fire Centre', ''),
           value: Math.round(firesByCentre.reduce((n, { incidentSizeEstimatedHa }) => n + incidentSizeEstimatedHa, 0) || 0) || 0
         })
       }
