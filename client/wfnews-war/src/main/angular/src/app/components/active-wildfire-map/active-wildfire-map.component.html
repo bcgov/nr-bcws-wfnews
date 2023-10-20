@@ -142,7 +142,7 @@
                 (toggleAccordion)="onToggleAccordion()"
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
             <div class="layers-container">
-                <div class="layer-buttons">
+                <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
                     <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" checked="true" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Area Restrictions" value="area-restrictions" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
@@ -152,7 +152,7 @@
                     <map-toggle-button labelText="Local Authorities" value="local-authorities" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Road Events" value="routes-impacted" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
                     <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
-                </div>
+                </mat-button-toggle-group>
             </div>
             <button mat-fab class="mat-white-48 bottom-20 right-20" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>

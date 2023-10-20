@@ -228,12 +228,14 @@
 
     .layer-buttons {
       display: flex;
-      overflow-x: scroll;
+      overflow-x: visible;
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+      z-index: 1000;
+      gap: 12px;
+      border: none;
     }
   }
-  
 }
 
 //mat-input focused color
