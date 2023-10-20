@@ -17,6 +17,8 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.TopLevelEndpoints;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.EndpointsRsrc;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.ExternalUriResourceFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.PublishedIncidentResourceFactory;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.SituationReportResourceFactory;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.factory.StatisticsResourceFactory;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
@@ -44,6 +46,16 @@ public class TopLevelEndpointsImpl extends BaseEndpointsImpl implements TopLevel
 		{
 			String selfURI = ExternalUriResourceFactory.getExternalUriSelfUri(null, baseUri);
 			result.getLinks().add(new RelLink(ResourceTypes.EXTERNAL_URI_LIST, selfURI, HttpMethod.GET));
+		}
+
+		{
+			String selfURI = SituationReportResourceFactory.getSituationReportSelfUri(null, baseUri);
+			result.getLinks().add(new RelLink(ResourceTypes.SITUATION_REPORT_LIST, selfURI, HttpMethod.GET));
+		}
+
+		{
+			String selfURI = StatisticsResourceFactory.getStatisticsSelfUri(null, baseUri);
+			result.getLinks().add(new RelLink(ResourceTypes.STATISTICS, selfURI, HttpMethod.GET));
 		}
 		
 		try {

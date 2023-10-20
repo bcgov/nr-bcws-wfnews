@@ -1,7 +1,64 @@
 <div class="container">
   <div class="widget-header">
-    <span>Resources Assigned</span>
+    <span class="widget-title">Resources Assigned</span>
+    <button onclick="window.open('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools', '_blank')" class="button" mat-flat-button ><span class="button-label">Learn More</span><img height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="Learn More" class="button-icon" /></button>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="resource-card">
+      <div class="resource-card-title">Firefighting Personnel</div>
+      <div class="resource-card-content">
+        <div class="resource-card-content-icon-holder">
+          <img height="40" width="40" src="/assets/images/svg-icons/personnel.svg" alt="Personnel" class="resource-card-content-icon">
+        </div>
+        <div class="resource-card-content-data">
+          {{situationReport.crewCount || '---'}}
+        </div>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-card-title">Incident Management Teams</div>
+      <div class="resource-card-content">
+        <div class="resource-card-content-icon-holder">
+          <img height="40" width="40" src="/assets/images/svg-icons/incident-management-team.svg" alt="Personnel" class="resource-card-content-icon">
+        </div>
+        <div class="resource-card-content-data">
+          {{situationReport.incidentTeamCount || '---'}}
+        </div>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-card-title">Aviation</div>
+      <div class="resource-card-content">
+        <div class="resource-card-content-icon-holder">
+          <img height="40" width="40" src="/assets/images/svg-icons/aviation-blue.svg" alt="Personnel" class="resource-card-content-icon">
+        </div>
+        <div class="resource-card-content-data">
+          {{situationReport.aviationCount || '---'}}
+        </div>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-card-title">Heavy Equipment</div>
+      <div class="resource-card-content">
+        <div class="resource-card-content-icon-holder">
+          <img height="40" width="40" src="/assets/images/svg-icons/heavy-equipment.svg" alt="Personnel" class="resource-card-content-icon">
+        </div>
+        <div class="resource-card-content-data">
+          {{situationReport.heavyEquipmentCount || '---'}}
+        </div>
+      </div>
+    </div>
+    <div class="resource-card">
+      <div class="resource-card-title">Structure Protection</div>
+      <div class="resource-card-content">
+        <div class="resource-card-content-icon-holder">
+          <img height="40" width="40" src="/assets/images/svg-icons/structure-protection-blue.svg" alt="Personnel" class="resource-card-content-icon">
+        </div>
+        <div class="resource-card-content-data">
+          {{situationReport.structureProtectionCount || '---'}}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

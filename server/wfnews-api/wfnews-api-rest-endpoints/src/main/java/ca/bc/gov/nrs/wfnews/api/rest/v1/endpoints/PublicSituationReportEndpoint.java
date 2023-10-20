@@ -33,5 +33,4 @@ public interface PublicSituationReportEndpoint extends BaseEndpoints {
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/{reportGuid}")
 	public Response getSituationReport( @ApiParam("The guid for the situation report.") @PathParam("reportGuid") String reportGuid) throws NotFoundException, ForbiddenException, ConflictException;
-	
 }

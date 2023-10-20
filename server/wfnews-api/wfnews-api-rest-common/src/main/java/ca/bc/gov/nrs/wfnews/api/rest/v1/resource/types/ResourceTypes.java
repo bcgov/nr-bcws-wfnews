@@ -51,4 +51,7 @@ public class ResourceTypes extends BaseResourceTypes {
 	public static final String CREATE_SITUATION_REPORT = NAMESPACE + "createSituationReport";
 	public static final String UPDATE_SITUATION_REPORT = NAMESPACE + "updateSituationReport";
 	public static final String DELETE_SITUATION_REPORT = NAMESPACE + "deleteSituationReport";
+
+	public static final String STATISTICS_NAME = "statistics";
+	public static final String STATISTICS = NAMESPACE + STATISTICS_NAME;
 }

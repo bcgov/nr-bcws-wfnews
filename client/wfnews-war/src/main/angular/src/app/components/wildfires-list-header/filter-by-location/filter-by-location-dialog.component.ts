@@ -35,8 +35,8 @@ export class FilterByLocationDialogComponent {
 
       if(!val) {
           this.filteredOptions = [];
-          this.locationData.latitude = undefined;
-          this.locationData.longitude = undefined;
+          this.locationData.latitude = this.locationData?.latitude || undefined;
+          this.locationData.longitude = this.locationData?.longitude || undefined;
           this.searchText = this.locationData?.searchText || undefined;
           return;
       }
