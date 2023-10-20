@@ -41,6 +41,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_BANS_PROHIBITION_AREAS}"
     }
   }
   vpc_config {
@@ -65,6 +66,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_ACTIVE_FIRES}"
     }
   }
   vpc_config {
@@ -89,6 +91,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_AREA_RESTRICTIONS}"
     }
   }
   vpc_config {
@@ -113,6 +116,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
       WFNEWS_API  = "https://${aws_route53_record.wfnews_nginx.name}"
+      LAYER_URL   = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
     }
   }
   vpc_config {
