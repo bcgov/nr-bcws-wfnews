@@ -1,5 +1,7 @@
 package ca.bc.gov.nrs.wfnews.persistence.v1.dao.mybatis;
 
+import java.time.Year;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,7 @@ public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();
 			parameters.put("fireCentre", fireCentre);
-			parameters.put("fireYear", fireYear);
+			parameters.put("fireYear", fireYear != null ? fireYear.intValue() : getCurrentFireYear());
 			result = this.statisticsMapper.fetch(parameters);
 
 		} catch (RuntimeException e) {
@@ -42,5 +44,13 @@ public class StatisticsDaoImpl extends BaseDao implements StatisticsDao {
 
 		logger.debug(">fetch " + result);
 		return result;
+	}
+
+	private int getCurrentFireYear() {
+		int currentYear = Year.now().getValue();
+		if (Calendar.getInstance().get(Calendar.MONTH) < 3) {
+			currentYear -= 1;
+		}
+		return currentYear;
 	}
 }
