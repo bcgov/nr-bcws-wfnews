@@ -143,15 +143,15 @@
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
             <div class="layers-container">
                 <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
-                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" checked="true" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Area Restrictions" value="area-restrictions" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Danger" value="fire-danger" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Out Fires" value="evacuation-orders-and-alerts" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Local Authorities" value="local-authorities" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Road Events" value="routes-impacted" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="toggleLayer($event)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" checked="true" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Area Restrictions" value="area-restrictions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Fire Danger" value="fire-danger" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Out Fires" value="out-fires" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Local Authorities" value="local-authorities" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Road Events" value="routes-impacted" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
             <button mat-fab class="mat-white-48 bottom-20 right-20" (click)="useMyCurrentLocation()">

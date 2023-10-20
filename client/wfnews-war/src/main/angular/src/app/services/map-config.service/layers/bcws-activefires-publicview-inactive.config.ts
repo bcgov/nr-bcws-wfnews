@@ -4,7 +4,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
     return [
         {
           type: 'vector',
-          id: 'bcws-activefires-publicview-inactive',
+          id: 'active-wildfires-out',
           title: 'BC Wildfires - Declared Out',
           isQueryable: true,
           useClustering: true,

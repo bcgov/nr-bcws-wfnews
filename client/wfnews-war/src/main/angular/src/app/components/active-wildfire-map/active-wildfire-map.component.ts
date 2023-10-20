@@ -25,6 +25,7 @@ export type SelectedLayer =
   'local-authorities' |
   'routes-impacted' |
   'wildfire-stage-of-control' |
+  'out-fires' |
   'all-layers';
 
 declare const window: any;
@@ -54,8 +55,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   activeFireCountPromise;
   selectedLayer: SelectedLayer;
   selectedPanel = 'wildfire-stage-of-control';
-  allLayersSelected = false;
-  layers: any[];
   showAccordion: boolean;
   searchText = undefined;
   zone: NgZone;
@@ -94,7 +93,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     'active-wildfires-out-of-control',
     'active-wildfires-holding',
     'active-wildfires-under-control',
-    'bcws-activefires-publicview-inactive',
+    'active-wildfires-out',
   ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
@@ -161,6 +160,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+          this.initializeLayers();
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
@@ -186,7 +186,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.snowPlowHelper(this.url)
     this.showAccordion = true;
     this.updateLocationEnabledVariable();
-    this.initializeLayers();
   }
 
   getFullAddress(location) {
@@ -377,20 +376,31 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   initializeLayers() {
-    this.layers = [
-      /* 00 */ { itemId: 'active-wildfires', visible: true }, // On for initial load
-      /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: true }, // Evacuations are on at initial load, button selected
+    this.onSelectLayer('evacuation-orders-and-alerts');
+  }
+
+  onSelectLayer(selectedLayer: SelectedLayer) {
+    this.selectedLayer = selectedLayer;
+    this.selectedPanel = selectedLayer;
+    this.snowPlowHelper(this.url, {
+      action: 'feature_layer_navigation',
+      text: selectedLayer
+    });
+
+    const layers = [
+      /* 00 */ { itemId: 'active-wildfires', visible: true }, // Always on
+      /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
       /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
       /* 03 */ { itemId: 'danger-rating', visible: false },
       /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
       /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
       /* 06 */ { itemId: 'area-restrictions', visible: false },
       /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
-      /* 08 */ { itemId: 'fire-perimeters', visible: true }, // On for initial load
-      /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
+      /* 08 */ { itemId: 'fire-perimeters', visible: true }, // Always on
+      /* 09 */ { itemId: 'active-wildfires-out', visible: false },
       /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
       /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
-      /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // On for initial load
+      /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
       /* 13 */ { itemId: 'prescribed-fire', visible: false },
       /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
       /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
@@ -399,76 +409,54 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 18 */ { itemId: 'abms-regional-districts', visible: false }
     ];
 
-    
-
-    return this.smkApi.setDisplayContextItemsVisible(...this.layers);
-  }
-
-  toggleLayer(event) {
-    const selectedLayer = event.value;
-    const isSelected = event.source.checked;
-    this.selectedLayer = selectedLayer;
-    this.selectedPanel = selectedLayer;
-    this.snowPlowHelper(this.url, {
-      action: 'feature_layer_navigation',
-      text: selectedLayer
-    });
-
-    if (selectedLayer === 'all-layers') {
-      this.allLayersSelected = isSelected;
-    }
-
-    if (this.allLayersSelected) {
-      this.layers.forEach(layer => {
-        layer.visible = true;
-      });
-      return this.smkApi.setDisplayContextItemsVisible(...this.layers);
-    }
-
     switch (selectedLayer) {
       case 'evacuation-orders-and-alerts':
-        this.layers[1].visible = isSelected;
+        layers[1].visible = true;
+        layers[2].visible = true;
         break;
 
       case 'area-restrictions':
-        this.layers[6].visible = isSelected;
-        this.layers[7].visible = isSelected;
+        layers[6].visible = true;
+        layers[7].visible = true;
         break;
 
       case 'bans-and-prohibitions':
-        this.layers[4].visible = isSelected;
-        this.layers[5].visible = isSelected;
+        layers[4].visible = true;
+        layers[5].visible = true;
         break;
 
       case 'smoke-forecast':
-        this.layers[14].visible = isSelected;
+        layers[14].visible = true;
         break;
 
       case 'fire-danger':
-        this.layers[0].visible = isSelected;
-        this.layers[3].visible = isSelected;
+        layers[0].visible = true;
+        layers[3].visible = true;
         break;
 
       case 'local-authorities':
-        this.layers[12].visible = isSelected;
-        this.layers[15].visible = isSelected;
-        this.layers[16].visible = isSelected;
-        this.layers[17].visible = isSelected;
-        this.layers[18].visible = isSelected;
+        layers[15].visible = true;
+        layers[16].visible = true;
+        layers[17].visible = true;
+        layers[18].visible = true;
         break;
 
       case 'routes-impacted':
-        this.layers[11].visible = isSelected;
+        layers[11].visible = true;
+        break;
+
+      case 'out-fires':
+        layers[9].visible = true;
         break;
 
       case 'all-layers':
-        this.layers.forEach(layer => {
-          layer.visible = isSelected;
+        layers.forEach(layer => {
+          layer.visible = true;
         });
         break;
     }
 
-    return this.smkApi.setDisplayContextItemsVisible(...this.layers);
+    return this.smkApi.setDisplayContextItemsVisible(...layers);
   }
 
   async useMyCurrentLocation() {
