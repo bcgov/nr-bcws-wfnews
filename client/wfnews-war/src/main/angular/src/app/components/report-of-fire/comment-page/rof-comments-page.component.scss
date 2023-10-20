@@ -7,6 +7,7 @@
   background-color: #F5F5F5 !important;
   border-radius: 3px;
   min-height: 200px;
+  max-width: 790px;
   @media all and (min-width: 768px) and (orientation:portrait) {
     height: calc(100dvh - 440px);
   }
