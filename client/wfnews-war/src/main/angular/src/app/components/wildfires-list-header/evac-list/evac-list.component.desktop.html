@@ -14,6 +14,13 @@
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
+          <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData"
+                  aria-label="Clear" (click)="locationData=undefined; searchByText(); $event.stopPropagation()"
+                  matTooltip="Clear">
+                  <span class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                  </span>
+          </button>
         </button>
         <div class="field right-align">
           <select appWFSingleSelect appWFPlaceholder="Sort"
@@ -46,16 +53,15 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Evacuation Orders and Alerts Table">
-
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Evacuation Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')">{{element.name}}</td>
       </ng-container>
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element">
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')">
           <img class="status-icon icon" *ngIf="element.status === 'Order'" height="20" width="20" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
           <img class="status-icon icon" *ngIf="element.status === 'Alert'" height="20" width="20" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
           <span class="status-label">{{element.status}}</span>
@@ -63,16 +69,16 @@
       </ng-container>
       <ng-container matColumnDef="issuedOn">
         <th mat-header-cell *matHeaderCellDef> Issued On </th>
-        <td mat-cell *matCellDef="let element"> {{element.issuedOn}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef="agency">
         <th mat-header-cell *matHeaderCellDef> Agency </th>
-        <td mat-cell *matCellDef="let element"> {{element.agency}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.agency}} </td>
       </ng-container>
 
       <ng-container matColumnDef="distance">
         <th mat-header-cell *matHeaderCellDef> Distance </th>
-        <td mat-cell *matCellDef="let element"> {{element.distance || '---'}} km</td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.distance || '---'}} km</td>
       </ng-container>
       <ng-container matColumnDef = "details">
         <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>

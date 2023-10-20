@@ -7,7 +7,10 @@
     <div class="search-panel">
       <div class="field search-input">
         <mat-icon class="search-icon" matSuffix>search</mat-icon>
-        <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Search" placeholder=" Search" [(ngModel)]="searchText">
+        <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Find Address" placeholder="Find Address" [(ngModel)]="searchText">
+        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText = null; locationData.useUserLocation = false; locationData.searchText = null; $event.stopPropagation()" matTooltip="Clear">
+          <span class="button-wrapper"><mat-icon>close</mat-icon></span>
+        </button>
           <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
               <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
                   [value]="option">
@@ -27,7 +30,15 @@
               </mat-option>
           </mat-autocomplete>
       </div>
-      <button [class]="'list-button' + (locationData.useUserLocation ? '-selected' : '')" (click)="useUserLocation()" mat-flat-button ><img class="search-icon image-size" src="../../../assets/images/svg-icons/location-button.svg" alt="Use your location" height="20" width="20" /><span class="list-button-label">Use your location</span></button>
+      <button [class]="'list-button' + (locationData.useUserLocation ? '-selected' : '')" (click)="useUserLocation()" mat-flat-button ><img class="search-icon image-size" src="../../../assets/images/svg-icons/location-button.svg" alt="Use your location" height="20" width="20" /><span class="list-button-label">Use your location</span>
+        <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData.useUserLocation"
+                aria-label="Clear" (click)="useUserLocation(); $event.stopPropagation();"
+                matTooltip="Clear">
+                <span class="button-wrapper">
+                    <mat-icon>close</mat-icon>
+                </span>
+        </button>
+      </button>
     </div>
     <div class="radius-panel">
       <button [class]="'radius-button' + (locationData.radius === 5 ? '-selected' : '')" (click)="setRadius(5)" mat-flat-button ><span class="list-button-label">Within 5 km</span></button>
@@ -38,6 +49,6 @@
     </div>
   </div>
   <div class="dialog-footer" mat-dialog-actions>
-  	<button class="footer-button" mat-raised-button color="primary" [mat-dialog-close]="locationData">Show Results</button>
+  	<button [disabled]="!searchText || searchText === ''" [class]="'footer-button' + (!searchText || searchText === '' ? '-disabled' : '')" mat-raised-button color="primary" [mat-dialog-close]="locationData">Show Results</button>
   </div>
 </div>

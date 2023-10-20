@@ -186,6 +186,7 @@ import { VideosWidget } from './components/dashboard-component/widgets/videos-wi
 import { FireTotalsWidget } from './components/dashboard-component/widgets/fire-totals-widget/fire-totals-widget.component';
 import { HistoricalComparisonWidget } from './components/dashboard-component/widgets/historical-comparison-widget/historical-comparison-widget.component';
 import { FireCentreStatsWidget } from './components/dashboard-component/widgets/fire-centre-stats-widget/fire-centre-stats-widget.component';
+import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -310,7 +311,8 @@ export const DATE_FORMATS = {
         VideosWidget,
         FireTotalsWidget,
         HistoricalComparisonWidget,
-        FireCentreStatsWidget
+        FireCentreStatsWidget,
+        DraggablePanelComponent
     ],
     imports: [
         MatSortModule,

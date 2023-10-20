@@ -78,6 +78,8 @@ export class FilterByLocationDialogComponent {
       this.locationData.latitude = location.coords.latitude
       this.locationData.longitude = location.coords.longitude
       this.searchText = this.locationData.latitude.toString() + ', ' + this.locationData.longitude.toString()
+    } else {
+      this.searchText = null
     }
 
     this.locationData.searchText = this.searchText

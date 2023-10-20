@@ -14,6 +14,13 @@
         </div>
         <button mat-flat-button matTooltip="Filter by Location" [class]="'filter-button' + (locationData ? '-selected' : '')" aria-label="By Location" (click)="openLocationFilter()">
           <img class="list-icon image-size" [src]="'../../../assets/images/svg-icons/location-button.svg'" alt="location button" height="24" width="24" /><span class="button-wrapper">Filter by Location</span>
+          <button mat-mdc-button matSuffix mat-mdc-icon-button class="filter-clear" *ngIf="locationData"
+                  aria-label="Clear" (click)="locationData=undefined; searchByText(); $event.stopPropagation()"
+                  matTooltip="Clear">
+                  <span class="button-wrapper">
+                      <mat-icon>close</mat-icon>
+                  </span>
+          </button>
         </button>
         <div class="field right-align">
           <select appWFSingleSelect appWFPlaceholder="Sort"
@@ -41,24 +48,24 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
 
       <ng-container matColumnDef="fireCentre">
         <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
-        <td mat-cell *matCellDef="let element"> {{element.fireCentre}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}} </td>
       </ng-container>
       <ng-container matColumnDef="type">
         <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.type}} </td>
       </ng-container>
       <ng-container matColumnDef="details">
         <th mat-header-cell *matHeaderCellDef> Details </th>
-        <td mat-cell *matCellDef="let element"> {{element.details}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.details}} </td>
       </ng-container>
       <ng-container matColumnDef="issuedOn">
         <th mat-header-cell *matHeaderCellDef> Issued On </th>
-        <td mat-cell *matCellDef="let element"> {{element.issuedOn}} </td>
+        <td mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef = "fullDetails">
         <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>

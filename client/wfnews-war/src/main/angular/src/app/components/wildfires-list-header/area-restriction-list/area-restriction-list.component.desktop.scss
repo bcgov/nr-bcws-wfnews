@@ -111,6 +111,34 @@ table tr:nth-child(even) td{
     display: inline-block;
 }
 
+.filter-clear {
+  margin-bottom: 8px;
+  position: absolute;
+  line-height: 24px;
+  font-size: 15px;
+  border-radius: 20%;
+  background-color: transparent;
+  border: none;
+  right: -40px;
+  top: 12px;
+  .button-wrapper{
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    position: relative;
+    top: -6px;
+    left: 6px;
+  }
+  mat-icon{
+      transform: translateX(-5px);
+  }
+}
+
 .input-clear-button{
     margin-bottom: 8px;
     margin-left: 278px;
@@ -263,6 +291,8 @@ table tr:nth-child(even) td{
 
 .mat-column-fireCentre {
     width: 20%;
+    text-wrap: nowrap;
+    text-overflow: ellipsis;
 }
 
 .mat-column-distance {

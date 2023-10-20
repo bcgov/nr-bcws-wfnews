@@ -25,18 +25,30 @@
         }
     }
 }
-@include mat-fab-px-('white', 48, $colour-white, $colour-dark-grey);
+@include mat-fab-px-('white', 48, $colour-white, $colour-fab-icon-grey);
 
 button.mat-mdc-mini-fab.bottom-right {
-    position: fixed;
+    position: absolute;
     bottom: 24px;
     right: 24px;
     z-index: 1000;
 }
 
-button.mat-mdc-fab.bottom-right {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 1000;
+@mixin bottom-($pixels) {
+    button.mat-mdc-fab.bottom-#{$pixels} {
+        position: absolute;
+        bottom: $pixels + px;
+        z-index: 1000;
+    }
 }
+@include bottom-(20);
+@include bottom-(80);
+
+@mixin right-($pixels) {
+    button.mat-mdc-fab.right-#{$pixels} {
+        position: absolute;
+        right: $pixels + px;
+        z-index: 1000;
+    }
+}
+@include right-(20);
