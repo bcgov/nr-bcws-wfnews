@@ -23,5 +23,5 @@ public interface StatisticsEndpoint extends BaseEndpoints {
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Consumes({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
 	@Path("/")
-	public Response getStatistics( @QueryParam("The Fire Centre") @PathParam("fireCentre") String fireCentre, @QueryParam("The Fire Year") @PathParam("fireYear") Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException;
+	public Response getStatistics(@QueryParam("fireCentre") String fireCentre, @QueryParam("fireYear") Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException;
 }
