@@ -687,7 +687,9 @@ mat-snack-bar-container{
   height: 100%;
   .mdc-snackbar__surface {
     box-shadow: none !important;
-    background-color: inherit !important;
+    @media (max-width: 768px) {
+      margin-bottom: env(safe-area-inset-bottom) + 10vh !important;
+    }
     .mat-mdc-snack-bar-label{
       font-size: 13px !important;
       font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;

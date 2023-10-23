@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { App } from '@capacitor/app';
@@ -108,6 +109,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private commonUtilityService: CommonUtilityService,
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
+    protected snackbarService: MatSnackBar,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -160,7 +162,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
-          this.initializeLayers();
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
@@ -348,6 +349,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   initMap(smk: any) {
     this.smkApi = new SmkApi(smk);
+    this.initializeLayers();
   }
 
   onToggleAccordion() {
@@ -458,22 +460,30 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.isLocationEnabled = enabled;
     });
     this.searchText = undefined;
-    const location = await this.commonUtilityService.getCurrentLocationPromise()
-
-    const long = location.coords.longitude;
-    const lat = location.coords.latitude;
-    if (lat && long) {
-      this.showAreaHighlight([long, lat], 50)
-      this.showLocationMarker({
-        type: 'Point',
-        coordinates: [long, lat]
-      });
+    try {
+      const location = await this.commonUtilityService.getCurrentLocationPromise();
+      const long = location.coords.longitude;
+      const lat = location.coords.latitude;
+      if (lat && long) {
+        this.showAreaHighlight([long, lat], 50);
+        this.showLocationMarker({
+          type: 'Point',
+          coordinates: [long, lat]
+        });
+      }
+      this.searchByLocationControl.setValue(lat + ',' + long);
+    } catch (error) {
+      if (this.isLocationEnabled) {
+        this.snackbarService.open('Awaiting location information from device. Please try again momentarily.', '', {
+          duration: 10000,
+        });
+      }
     }
-    this.searchByLocationControl.setValue(lat + ',' + long)
   }
 
   async updateLocationEnabledVariable() {
     this.isLocationEnabled = await this.commonUtilityService.checkLocationServiceStatus();
+    this.cdr.detectChanges();
   }
 
   showAreaHighlight(center, radius) {

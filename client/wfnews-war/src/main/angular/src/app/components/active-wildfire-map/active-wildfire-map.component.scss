@@ -419,7 +419,7 @@ mat-panel-title {
     }
 
     .map {
-      height: 90vh !important;
+      height: calc(100% - 10vh - env(safe-area-inset-bottom)) !important;
 
       .identify-panel {
         height: 100% !important;
