@@ -32,7 +32,7 @@
     align-self: stretch;
   }
   .content> * {
-    flex: 1 0 350px;
+    flex: 1 0 28%;
   }
 
   .stat-text {
@@ -51,7 +51,7 @@
     border: 1.5px solid #DEDEDE;
     height: 218px;
     max-height: 218px;
-    min-width: 355px;
+    min-width: 285px;
   }
 
   .stat-box-icon {
@@ -111,7 +111,7 @@
     align-items: flex-start;
     gap: var(--24, 24px);
     align-self: stretch;
-    width: calc(100vw - 104px);
+    width: calc(100% - 47px);
   }
 
   .spinner-position {
@@ -130,7 +130,7 @@
     align-self: stretch;
   }
   .content> * {
-    flex: 1 0 350px;
+    flex: 1 0 28%;
   }
 
   .stat-text {
@@ -149,7 +149,7 @@
     border: 1.5px solid #DEDEDE;
     height: 218px;
     max-height: 218px;
-    min-width: 355px;
+    min-width: 285px;
   }
 
   .stat-box-icon {
@@ -243,7 +243,7 @@
     border: 1.5px solid #DEDEDE;
     height: 218px;
     max-height: 128px;
-    min-width: 175px;
+    min-width: 285px;
   }
 
   .stat-box-icon {
