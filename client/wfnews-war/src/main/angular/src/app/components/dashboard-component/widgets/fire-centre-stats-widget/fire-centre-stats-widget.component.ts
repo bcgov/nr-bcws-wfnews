@@ -48,7 +48,7 @@ export class FireCentreStatsWidget implements AfterViewInit {
 
         this.fireCentreHectares.push({
           name: fc.description.replace(' Fire Centre', ''),
-          value: Math.round(firesByCentre.reduce((n, { incidentSizeEstimatedHa }) => n + incidentSizeEstimatedHa, 0) || 0) || 0
+          value: Math.round(firesByCentre.filter(f => f.fireYear === 2023).reduce((n, { incidentSizeEstimatedHa }) => n + incidentSizeEstimatedHa, 0) || 0) || 0
         })
       }
 
