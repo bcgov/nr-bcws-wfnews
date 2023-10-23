@@ -7,7 +7,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.codehaus.jackson.annotate.JsonTypeInfo;
 import org.codehaus.jackson.annotate.JsonTypeName;
 
-import ca.bc.gov.nrs.common.rest.resource.BaseResource;
 import ca.bc.gov.nrs.wfnews.api.model.v1.PublishedIncident;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.types.ResourceTypes;
 
@@ -55,6 +54,11 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	private String incidentMgmtCrewRsrcDetail;
 	private Boolean structureProtectionRsrcInd;
 	private String structureProtectionRsrcDetail;
+	private Integer crewResourceCount;
+	private Integer aviationResourceCount;
+	private Integer heavyEquipmentResourceCount;
+	private Integer incidentManagementResourceCount;
+  private Integer structureProtectionResourceCount;
 	private Date publishedTimestamp;
 	private String publishedUserTypeCode; 
 	private String publishedUserGuid;
@@ -512,5 +516,45 @@ public class PublishedIncidentResource extends SimplePublishedIncidentResource i
 	@Override
 	public void setResponseTypeDetail(String responseTypeDetail) {
 		this.responseTypeDetail = responseTypeDetail;
+	}
+
+	public Integer getCrewResourceCount() {
+		return crewResourceCount;
+	}
+
+	public void setCrewResourceCount(Integer crewResourceCount) {
+		this.crewResourceCount = crewResourceCount;
+	}
+
+	public Integer getAviationResourceCount() {
+		return aviationResourceCount;
+	}
+
+	public void setAviationResourceCount(Integer aviationResourceCount) {
+		this.aviationResourceCount = aviationResourceCount;
+	}
+
+	public Integer getHeavyEquipmentResourceCount() {
+		return heavyEquipmentResourceCount;
+	}
+
+	public void setHeavyEquipmentResourceCount(Integer heavyEquipmentResourceCount) {
+		this.heavyEquipmentResourceCount = heavyEquipmentResourceCount;
+	}
+
+	public Integer getIncidentManagementResourceCount() {
+		return incidentManagementResourceCount;
+	}
+
+	public void setIncidentManagementResourceCount(Integer incidentManagementResourceCount) {
+		this.incidentManagementResourceCount = incidentManagementResourceCount;
+	}
+
+	public Integer getStructureProtectionResourceCount() {
+		return structureProtectionResourceCount;
+	}
+
+	public void setStructureProtectionResourceCount(Integer structureProtectionResourceCount) {
+		this.structureProtectionResourceCount = structureProtectionResourceCount;
 	}
 }
