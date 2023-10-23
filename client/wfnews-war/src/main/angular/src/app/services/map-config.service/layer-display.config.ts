@@ -85,7 +85,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
-            id: 'bcws-activefires-publicview-inactive',
+            id: 'active-wildfires-out',
             isVisible: false,
             class: 'smk-inline-legend'
         },

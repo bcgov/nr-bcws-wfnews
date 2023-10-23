@@ -5,7 +5,7 @@ import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { convertToFireCentreDescription, ResourcesRoutes, convertFireNumber } from '../../utils';
+import { ResourcesRoutes, convertFireNumber, convertToFireCentreDescription } from '../../utils';
 
 
 @Component({
@@ -43,7 +43,7 @@ export class IncidentIdentifyPanelComponent {
     for (const fid in identifyList) {
       if (Object.prototype.hasOwnProperty.call(identifyList, fid)) {
         const feature = identifyList[fid];
-        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'bcws-activefires-publicview-inactive'].includes(feature.layerId)) {
+        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out'].includes(feature.layerId)) {
           this.identifiedFeatures.push(feature)
           // if we want to reset the index, we need to compare the input feature ID to the identified feature ID
           if (setIndex) {

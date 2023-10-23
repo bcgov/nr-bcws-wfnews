@@ -24,7 +24,9 @@ export type SelectedLayer =
   'fire-danger' |
   'local-authorities' |
   'routes-impacted' |
-  'wildfire-stage-of-control';
+  'wildfire-stage-of-control' |
+  'out-fires' |
+  'all-layers';
 
 declare const window: any;
 @Component({
@@ -52,7 +54,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   smkApi: SmkApi;
   activeFireCountPromise;
   selectedLayer: SelectedLayer;
-  selectedPanel = 'wildfire-stage-of-control'
+  selectedPanel = 'wildfire-stage-of-control';
   showAccordion: boolean;
   searchText = undefined;
   zone: NgZone;
@@ -91,7 +93,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     'active-wildfires-out-of-control',
     'active-wildfires-holding',
     'active-wildfires-under-control',
-    'bcws-activefires-publicview-inactive',
+    'active-wildfires-out',
   ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
@@ -158,6 +160,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         .then(() => {
           const deviceConfig = { viewer: { device: 'desktop' } };
           this.mapConfig = [...mapConfig, deviceConfig, 'theme=wf', '?'];
+          this.initializeLayers();
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
@@ -356,38 +359,44 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
   }
 
+  initializeLayers() {
+    this.onSelectLayer('evacuation-orders-and-alerts');
+  }
+
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
-    this.selectedPanel = selectedLayer
+    this.selectedPanel = selectedLayer;
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
       text: selectedLayer
-    })
+    });
+
     const layers = [
-            /* 00 */ { itemId: 'active-wildfires', visible: true },
-            /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
-            /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
-            /* 03 */ { itemId: 'danger-rating', visible: false },
-            /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
-            /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
-            /* 06 */ { itemId: 'area-restrictions', visible: false },
-            /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
-            /* 08 */ { itemId: 'fire-perimeters', visible: false },
-            /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
-            /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
-            /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
-            /* 12 */ { itemId: 'bc-fire-centres', visible: true },
-            /* 13 */ { itemId: 'prescribed-fire', visible: false },
-            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
-            /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
-            /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
-            /* 17 */ { itemId: 'abms-municipalities', visible: false },
-            /* 18 */ { itemId: 'abms-regional-districts', visible: false }
+      /* 00 */ { itemId: 'active-wildfires', visible: true }, // Always on
+      /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
+      /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
+      /* 03 */ { itemId: 'danger-rating', visible: false },
+      /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
+      /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
+      /* 06 */ { itemId: 'area-restrictions', visible: false },
+      /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
+      /* 08 */ { itemId: 'fire-perimeters', visible: true }, // Always on
+      /* 09 */ { itemId: 'active-wildfires-out', visible: false },
+      /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
+      /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
+      /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
+      /* 13 */ { itemId: 'prescribed-fire', visible: false },
+      /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
+      /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
+      /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
+      /* 17 */ { itemId: 'abms-municipalities', visible: false },
+      /* 18 */ { itemId: 'abms-regional-districts', visible: false }
     ];
 
     switch (selectedLayer) {
       case 'evacuation-orders-and-alerts':
         layers[1].visible = true;
+        layers[2].visible = true;
         break;
 
       case 'area-restrictions':
@@ -401,7 +410,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'smoke-forecast':
-        layers[14].visible = true
+        layers[14].visible = true;
         break;
 
       case 'fire-danger':
@@ -410,7 +419,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'local-authorities':
-        layers[12].visible = true;
         layers[15].visible = true;
         layers[16].visible = true;
         layers[17].visible = true;
@@ -419,6 +427,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
       case 'routes-impacted':
         layers[11].visible = true;
+        break;
+
+      case 'out-fires':
+        layers[9].visible = true;
+        break;
+
+      case 'all-layers':
+        layers.forEach(layer => {
+          layer.visible = true;
+        });
         break;
     }
 
