@@ -41,24 +41,24 @@
     </div>
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading" class="table-wrapper">
+<div *ngIf="searchingComplete; else loading" class="table-wrapper">
     <table mat-table [dataSource]="dataSource" aria-label="Area Restrictions Table">
 
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.name}} </td>
       </ng-container>
       <ng-container matColumnDef="issuedOn">
         <th mat-header-cell *matHeaderCellDef> Issued On </th>
-        <td mat-cell *matCellDef="let element"> {{element.issuedOn}} </td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef="fireCentre">
         <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
-        <td mat-cell *matCellDef="let element"> {{element.fireCentre}} </td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}} </td>
       </ng-container>
       <ng-container matColumnDef="distance">
         <th mat-header-cell *matHeaderCellDef> Distance </th>
-        <td mat-cell *matCellDef="let element"> {{element.distance || '---'}} km</td>
+        <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.distance || '---'}} km</td>
       </ng-container>
       <ng-container matColumnDef = "details">
         <th mat-header-cell *matHeaderCellDef mat-non-sort-header> </th>
@@ -74,5 +74,6 @@
       <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
       <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
     </table>
+    <div *ngIf="dataSource.data.length === 0">No records to display</div>
 </div>
 <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

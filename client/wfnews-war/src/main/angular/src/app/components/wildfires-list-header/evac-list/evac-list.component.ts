@@ -24,6 +24,7 @@ export class EvacListComponent implements OnInit {
   public searchTimer
   public order = true
   public alert = true
+  public searchingComplete = false
   public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"]
 
   public locationData: LocationData
@@ -37,7 +38,7 @@ export class EvacListComponent implements OnInit {
   }
 
   async search(location: LocationData | null = null) {
-
+    this.searchingComplete = false
     const userLocation = await this.commonUtilityService.getCurrentLocationPromise()
 
     let whereString = ''
@@ -94,6 +95,7 @@ export class EvacListComponent implements OnInit {
         this.selectedSortValue = ''
       }
       this.dataSource.data = evacData
+      this.searchingComplete = true
       this.cdr.detectChanges()
     });
   }

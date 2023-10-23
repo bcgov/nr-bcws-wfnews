@@ -357,22 +357,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectIncidents(incidentRefs){
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
-    if (this.incidentRefs.length >= 1) {
-      // multiple features within clicked area
-      this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
-      this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
-      this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
-      this.filteredBansAndProhibitions = this.incidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
-      this.filteredDangerRatings = this.incidentRefs.filter(item => item.layerId === 'danger-rating');
-      this.filteredRoadEvents = this.incidentRefs.filter(item => item.layerId === 'drive-bc-active-events');
-      this.filteredClosedRecreationSites = this.incidentRefs.filter(item => item.layerId === 'closed-recreation-sites');
-      this.filteredForestServiceRoads = this.incidentRefs.filter(item => item.layerId === 'bc-fsr');
-      this.filteredProtectedLandsAccessRestrictions = this.incidentRefs.filter(item => item.layerId === 'protected-lands-access-restrictions');
-      this.filteredRegionalDistricts = this.incidentRefs.filter(item => item.layerId === 'abms-regional-districts');
-      this.filteredMunicipalities = this.incidentRefs.filter(item => item.layerId === 'abms-municipalities');
-      this.filteredFirstNationsTreatyLand = this.incidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
-      this.filteredIndianReserve = this.incidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
-    }
   }
 
   initializeLayers() {
@@ -582,7 +566,4 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }
   }
 
-  closePanel() {
-    this.showPanel = false;
-  }
 }

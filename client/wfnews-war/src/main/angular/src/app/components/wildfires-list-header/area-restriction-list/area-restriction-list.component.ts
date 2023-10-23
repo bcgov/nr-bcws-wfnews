@@ -22,6 +22,7 @@ export class AreaRestrictionListComponent implements OnInit {
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public searchTimer
+  public searchingComplete = false
   public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 
   public locationData: LocationData
@@ -35,6 +36,7 @@ export class AreaRestrictionListComponent implements OnInit {
   }
 
   async search(location: LocationData | null = null) {
+    this.searchingComplete = false
     const userLocation = await this.commonUtilityService.getCurrentLocationPromise()
 
     const whereString = this.searchText && this.searchText.length > 0 ? `NAME LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%'` : null
@@ -70,6 +72,7 @@ export class AreaRestrictionListComponent implements OnInit {
         this.selectedSortValue = ''
       }
       this.dataSource.data = areaRestrictionData
+      this.searchingComplete = true
       this.cdr.detectChanges()
     });
   }

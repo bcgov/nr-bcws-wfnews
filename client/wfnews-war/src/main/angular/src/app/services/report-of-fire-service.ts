@@ -3,6 +3,7 @@ import { Photo } from "@capacitor/camera";
 import { AppConfigService } from "@wf1/core-ui";
 import { CommonUtilityService } from "./common-utility.service";
 import { Storage } from '@ionic/storage-angular';
+import { App } from '@capacitor/app';
 
 export type ReportOfFireType = {
     fullName?: string,
@@ -142,6 +143,7 @@ export class ReportOfFireService {
           // Remove the locally stored data if sync is successful
           await this.storage.create();
           await this.storage.remove('offlineReportData');
+          App.removeAllListeners();
            // The server successfully processed the report
          return { success: true, message: 'Report submitted successfully' };
          } else {

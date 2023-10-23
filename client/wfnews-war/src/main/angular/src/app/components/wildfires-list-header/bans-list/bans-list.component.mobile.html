@@ -12,7 +12,7 @@
       </button>
   </div>
 </div>
-<div *ngIf="dataSource && dataSource.data.length > 0; else loading">
+<div *ngIf="searchingComplete; else loading">
 <div *ngFor="let item of dataSource.data" class="panel-card-container">
   <div class="panel-card">
     <div class="card-header">{{item.type}}</div>
@@ -24,5 +24,6 @@
 </div>
 <div class="padding"></div>
 <div class="padding"></div>
+<div *ngIf="dataSource.data.length === 0" style="padding-left: 24px;">No records to display</div>
 </div>
 <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>

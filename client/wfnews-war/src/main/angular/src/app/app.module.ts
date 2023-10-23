@@ -102,6 +102,7 @@ import { SituationWidget } from './components/dashboard-component/widgets/situat
 import { SummaryWidget } from './components/dashboard-component/widgets/summary-widget/summary-widget.component';
 import { VideosWidget } from './components/dashboard-component/widgets/videos-widget/videos-widget.component';
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
+import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
@@ -312,7 +313,8 @@ export const DATE_FORMATS = {
         FireTotalsWidget,
         HistoricalComparisonWidget,
         FireCentreStatsWidget,
-        MapToggleButtonComponent
+        MapToggleButtonComponent,
+        DraggablePanelComponent
     ],
     imports: [
         MatSortModule,

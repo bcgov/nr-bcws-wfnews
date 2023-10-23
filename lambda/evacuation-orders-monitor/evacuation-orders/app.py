@@ -27,8 +27,8 @@ def lambda_handler(event, context):
         last_fetched_time_stamp_string = last_fetched_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         current_time_stamp_string = current_time_stamp.strftime("%m/%d/%Y %H:%M:%S")
         try:
-            ip = requests.get("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services"
-                              "/Evacuation_Orders_and_Alerts/FeatureServer/0/query?where=DATE_MODIFIED>'" +
+            agol = config_agol()
+            ip = requests.get( agol["layer_url"] + "/query?where=DATE_MODIFIED>'" +
                               last_fetched_time_stamp_string + "'+and+DATE_MODIFIED<='" + current_time_stamp_string +
                               "'+and+EVENT_TYPE%3D%27Fire%27&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope"
                               "&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units"

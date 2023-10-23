@@ -8,6 +8,8 @@
 .rof{
   height: 100vh; 
   background-color: white !important;
+  max-width: 850px;
+  margin: auto;
 }
 
 .mobile-header{
@@ -70,6 +72,10 @@
 }
 
 .ProgressBar {
+  @media (min-width: 850px) {
+    width: 570px;
+    margin: auto 130px auto;
+  }
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
@@ -103,6 +109,8 @@
 }
 
 .rof-button-container {
+
+  max-width: 780px;
   justify-content: space-between;
   gap: 12px;
   display: flex;
@@ -122,7 +130,8 @@
     font-weight: 600;
     line-height: normal;
     background-color: #F5F5F5;
-    border: solid 1px #B0B0B0;;
+    border: solid 1px #B0B0B0;
+    border-radius: 6px;
     &-primary {
       padding:0 32px;
       height: 43px;
@@ -133,6 +142,7 @@
       color: white;
       background-color: #123262;
       flex-direction: row-reverse;
+      border-radius: 6px;
       &-review{
         padding:0 32px;
         height: 43px;
@@ -142,7 +152,8 @@
         line-height: normal;
         color: white;
         background-color: #123262;
-        flex-direction: none;;
+        flex-direction: none;
+        border-radius: 6px;
       }
 
     }
@@ -154,8 +165,8 @@
       font-weight: 600;
       line-height: normal;
       flex-direction: row-reverse;
-      color: rgba(0, 0, 0)
-
+      color: rgba(0, 0, 0);
+      border-radius: 6px;
     }
   }
   .flow-buttons{
