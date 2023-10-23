@@ -1,5 +1,5 @@
 <div class="container">
-    <!-- 
+    <!--
     <div class="top">
       <div class="header-row">
           <div class="title">
@@ -115,7 +115,7 @@
               <span class="hide shrink">Road Conditions</span>
           </div>
       </div>
-  </div> 
+  </div>
   -->
 
     <div class="bottom">
@@ -132,11 +132,11 @@
             <panel-local-authority *ngIf="selectedPanel === 'local-authorities'"></panel-local-authority>
         </div>
         <div class="map">
-    <!-- 
+    <!--
         <div class="identify-panel"></div>
         <div class="mobile-wildfire-count">
           <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
-        </div> 
+        </div>
     -->
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
                 (toggleAccordion)="onToggleAccordion()"
@@ -160,7 +160,6 @@
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>
         </div>
-        <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
       </div>
       <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
 </div>

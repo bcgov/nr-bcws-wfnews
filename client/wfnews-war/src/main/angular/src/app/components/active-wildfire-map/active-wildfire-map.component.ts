@@ -137,7 +137,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       }
     });
 
-    App.addListener('resume', () => { 
+    App.addListener('resume', () => {
       this.updateLocationEnabledVariable();
     });
   }
@@ -355,7 +355,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onToggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
-  
+
   onSelectIncidents(incidentRefs){
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
@@ -475,7 +475,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } catch (error) {
       if (this.isLocationEnabled) {
         this.snackbarService.open('Awaiting location information from device. Please try again momentarily.', '', {
-          duration: 10000,
+          duration: 5000,
         });
       }
     }
