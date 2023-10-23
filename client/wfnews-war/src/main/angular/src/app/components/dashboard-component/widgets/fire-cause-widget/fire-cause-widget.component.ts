@@ -28,10 +28,11 @@ export class FireCauseWidget implements AfterViewInit {
 
   queryData () {
     this.startupComplete = false
+    const fireCentre = (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') ? FireCentres.find(fc => fc.code === this.selectedFireCentreCode).description : null
 
     Promise.all([
-      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1).toPromise(),
-      this.publishedIncidentService.fetchStatistics(currentFireYear()).toPromise()
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1, fireCentre).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear(), fireCentre).toPromise()
     ]).then(([previousYearStats, stats]) => {
       // fire counts
       const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
