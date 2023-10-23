@@ -142,7 +142,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   ngAfterViewInit() {
     this.locationOptions.changes.subscribe(() => {
       this.locationOptions.forEach((option: ElementRef) => {
@@ -180,6 +179,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         })
       }
     })
+
+    const scroller = document.querySelector('.layer-buttons');
+    scroller.addEventListener('wheel', (e: WheelEvent) => {
+      scroller.scrollLeft += e.deltaY * 4;
+    }, { passive: true });
   }
 
   ngOnInit() {
