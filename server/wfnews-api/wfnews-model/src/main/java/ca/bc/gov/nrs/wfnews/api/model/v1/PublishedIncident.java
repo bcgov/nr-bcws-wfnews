@@ -1,7 +1,5 @@
 package ca.bc.gov.nrs.wfnews.api.model.v1;
 
-import java.util.Date;
-
 public interface PublishedIncident extends SimplePublishedIncident {
 	public Integer getFireZoneUnitIdentifier();
 	public void setFireZoneUnitIdentifier(Integer fireZoneUnitIdentifier);
@@ -59,4 +57,19 @@ public interface PublishedIncident extends SimplePublishedIncident {
 	
 	public String getUpdateUser();
 	public void setUpdateUser(String updateUser);
+
+	public Integer getCrewResourceCount();
+	public void setCrewResourceCount(Integer crewResourceCount);
+
+	public Integer getAviationResourceCount();
+	public void setAviationResourceCount(Integer aviationResourceCount);
+
+	public Integer getHeavyEquipmentResourceCount();
+	public void setHeavyEquipmentResourceCount(Integer heavyEquipmentResourceCount);
+
+	public Integer getIncidentManagementResourceCount();
+	public void setIncidentManagementResourceCount(Integer incidentManagementResourceCount);
+
+	public Integer getStructureProtectionResourceCount();
+	public void setStructureProtectionResourceCount(Integer structureProtectionResourceCount);
 }

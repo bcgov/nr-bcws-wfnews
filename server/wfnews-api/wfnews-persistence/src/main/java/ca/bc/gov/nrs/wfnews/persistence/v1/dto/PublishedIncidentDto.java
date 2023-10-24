@@ -50,6 +50,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	private String incidentMgmtCrewRsrcDetail;
 	private Boolean structureProtectionRsrcInd;
 	private String structureProtectionRsrcDetail;
+	private Integer crewResourceCount;
+	private Integer aviationResourceCount;
+	private Integer heavyEquipmentResourceCount;
+	private Integer incidentManagementResourceCount;
+  private Integer structureProtectionResourceCount;
 	private Date publishedTimestamp;
 	private String publishedUserTypeCode; 
 	private String publishedUserGuid;
@@ -117,6 +122,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.responseTypeDetail = dto.responseTypeDetail;
 		this.createDate = dto.createDate;
 		this.updateDate = dto.updateDate;
+		this.crewResourceCount = dto.crewResourceCount;
+		this.aviationResourceCount = dto.aviationResourceCount;
+		this.heavyEquipmentResourceCount = dto.heavyEquipmentResourceCount;
+		this.incidentManagementResourceCount = dto.incidentManagementResourceCount;
+  	this.structureProtectionResourceCount = dto.structureProtectionResourceCount;
 	}
 	
 	public PublishedIncidentDto(PublishedIncident incident) {
@@ -170,6 +180,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 		this.responseTypeDetail = incident.getResponseTypeDetail();
 		this.createDate = incident.getCreateDate();
 		this.updateDate = incident.getUpdateDate();
+		this.crewResourceCount = incident.getCrewResourceCount();
+		this.aviationResourceCount = incident.getAviationResourceCount();
+		this.heavyEquipmentResourceCount = incident.getHeavyEquipmentResourceCount();
+		this.incidentManagementResourceCount = incident.getIncidentManagementResourceCount();
+  	this.structureProtectionResourceCount = incident.getStructureProtectionResourceCount();
 	}
 	
 	
@@ -217,6 +232,11 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 			result = result && equals("incidentSizeType", incidentSizeType, other.incidentSizeType);
 			result = result && incidentSizeEstimatedHa.equals(other.incidentSizeEstimatedHa);
 			result = result && incidentSizeMappedHa.equals(other.incidentSizeMappedHa);
+			result = result && equals("crewResourceCount", crewResourceCount, other.crewResourceCount);
+			result = result && equals("aviationResourceCount", aviationResourceCount, other.aviationResourceCount);
+			result = result && equals("heavyEquipmentResourceCount", heavyEquipmentResourceCount, other.heavyEquipmentResourceCount);
+			result = result && equals("incidentManagementResourceCount", incidentManagementResourceCount, other.incidentManagementResourceCount);
+			result = result && equals("structureProtectionResourceCount", structureProtectionResourceCount, other.structureProtectionResourceCount);
 			result = result && equals("incidentSizeDetail", incidentSizeDetail, other.incidentSizeDetail);
 			result = result && equals("incidentCauseDetail", incidentCauseDetail, other.incidentCauseDetail);
 			result = result && equals("contactOrgUnitIdentifer", contactOrgUnitIdentifer, other.contactOrgUnitIdentifer);
@@ -642,5 +662,44 @@ public class PublishedIncidentDto extends AuditDto<PublishedIncidentDto> {
 	public void setResponseTypeDetail(String responseTypeDetail) {
 		this.responseTypeDetail = responseTypeDetail;
 	}
-	
+
+	public Integer getCrewResourceCount() {
+		return crewResourceCount;
+	}
+
+	public void setCrewResourceCount(Integer crewResourceCount) {
+		this.crewResourceCount = crewResourceCount;
+	}
+
+	public Integer getAviationResourceCount() {
+		return aviationResourceCount;
+	}
+
+	public void setAviationResourceCount(Integer aviationResourceCount) {
+		this.aviationResourceCount = aviationResourceCount;
+	}
+
+	public Integer getHeavyEquipmentResourceCount() {
+		return heavyEquipmentResourceCount;
+	}
+
+	public void setHeavyEquipmentResourceCount(Integer heavyEquipmentResourceCount) {
+		this.heavyEquipmentResourceCount = heavyEquipmentResourceCount;
+	}
+
+	public Integer getIncidentManagementResourceCount() {
+		return incidentManagementResourceCount;
+	}
+
+	public void setIncidentManagementResourceCount(Integer incidentManagementResourceCount) {
+		this.incidentManagementResourceCount = incidentManagementResourceCount;
+	}
+
+	public Integer getStructureProtectionResourceCount() {
+		return structureProtectionResourceCount;
+	}
+
+	public void setStructureProtectionResourceCount(Integer structureProtectionResourceCount) {
+		this.structureProtectionResourceCount = structureProtectionResourceCount;
+	}
 }
