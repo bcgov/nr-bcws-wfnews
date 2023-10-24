@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
-import { FireCentres } from "@app/utils"
+import { FireCentres, currentFireYear } from "@app/utils"
 
 @Component({
   selector: 'fire-centre-stats-widget',
@@ -24,31 +24,21 @@ export class FireCentreStatsWidget implements AfterViewInit {
 
   ngAfterViewInit (): void {
     Promise.all([
-      this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
-      this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise(),
-      this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise()
-    ]).then(([activeIncidents, activeFoNIncidents, outIncidents ]) => {
-      let fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
-
-      const outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
-      fires = fires.concat(outFires)
-
-      for (const fire of fires) {
-        if (!fire.incidentSizeEstimatedHa) {
-          fire.incidentSizeEstimatedHa = 0
-        }
-      }
-
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear()).toPromise()
+    ]).then(([previousYearStats, stats ]) => {
       for (const fc of this.fireCentres) {
-        const firesByCentre = fires.filter(f => f.fireCentreCode === fc.code || f.fireCentreName === fc.description)
+        const currentYearActive = stats.filter(f => f.fireCentre === fc.description).reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+        const previousYearActive = previousYearStats.filter(f => f.fireCentre === fc.description).reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+
         this.fireCentreTotals.push({
           name: fc.description.replace(' Fire Centre', ''),
-          value: firesByCentre.length
+          value: currentYearActive + previousYearActive
         })
 
         this.fireCentreHectares.push({
           name: fc.description.replace(' Fire Centre', ''),
-          value: Math.round(firesByCentre.reduce((n, { incidentSizeEstimatedHa }) => n + incidentSizeEstimatedHa, 0) || 0) || 0
+          value: Math.round(stats.find(f => f.fireCentre === fc.description)?.hectaresBurned) || 0
         })
       }
 

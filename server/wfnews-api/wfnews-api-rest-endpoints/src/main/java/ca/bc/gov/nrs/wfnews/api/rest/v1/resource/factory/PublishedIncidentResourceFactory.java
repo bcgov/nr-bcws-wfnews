@@ -148,6 +148,11 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setFireYear(dto.getFireYear());
 		resource.setResponseTypeCode(dto.getResponseTypeCode());
 		resource.setResponseTypeDetail(dto.getResponseTypeDetail());
+		resource.setCrewResourceCount(dto.getCrewResourceCount());
+		resource.setAviationResourceCount(dto.getAviationResourceCount());
+		resource.setHeavyEquipmentResourceCount(dto.getHeavyEquipmentResourceCount());
+		resource.setIncidentManagementResourceCount(dto.getIncidentManagementResourceCount());
+  	resource.setStructureProtectionResourceCount(dto.getStructureProtectionResourceCount());
 	}
 
 	private void populate(SimplePublishedIncidentResource resource, PublishedIncidentDto dto) {
@@ -185,6 +190,11 @@ public class PublishedIncidentResourceFactory extends BaseResourceFactory implem
 		resource.setFireYear(dto.getFireYear());
 		resource.setResponseTypeCode(dto.getResponseTypeCode());
 		resource.setResponseTypeDetail(dto.getResponseTypeDetail());
+		resource.setCrewResourceCount(dto.getCrewResourceCount());
+		resource.setAviationResourceCount(dto.getAviationResourceCount());
+		resource.setHeavyEquipmentResourceCount(dto.getHeavyEquipmentResourceCount());
+		resource.setIncidentManagementResourceCount(dto.getIncidentManagementResourceCount());
+  	resource.setStructureProtectionResourceCount(dto.getStructureProtectionResourceCount());
 	}
 
 	@Override
