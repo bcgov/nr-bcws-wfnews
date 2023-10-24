@@ -287,7 +287,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * This may change for mobile vs desktop
    */
   exit () {
-    if (this.isEditMode) {
+    if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
       this.edit('review-page');
       this.isEditMode = false;
       this.cdr.detectChanges();

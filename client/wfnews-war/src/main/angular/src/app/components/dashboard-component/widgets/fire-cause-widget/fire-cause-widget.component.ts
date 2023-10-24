@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
-import { FireCentres } from "@app/utils"
+import { FireCentres, currentFireYear } from "@app/utils"
 
 @Component({
   selector: 'fire-cause-widget',
@@ -28,36 +28,39 @@ export class FireCauseWidget implements AfterViewInit {
 
   queryData () {
     this.startupComplete = false
+    const fireCentre = (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') ? FireCentres.find(fc => fc.code === this.selectedFireCentreCode).description : null
 
-    const promises = [
-      this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
-      this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise()
-    ]
+    Promise.all([
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1, fireCentre).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear(), fireCentre).toPromise()
+    ]).then(([previousYearStats, stats]) => {
+      // fire counts
+      const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const previousYearActive = previousYearStats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const currentYearOut = stats.reduce((n, { outFires }) => n + outFires, 0) || 0
+      // If this is a yearly totals sum, then we need to include outfires
+      const totalFires = currentYearActive + previousYearActive + (this.yearly ? currentYearOut : 0)
 
-    if (this.yearly) {
-      promises.push(this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise())
-    }
+      // counts by cause code
+      const currentYearHuman = stats.reduce((n, { activeHumanCausedFires }) => n + activeHumanCausedFires, 0) || 0
+      const previousYearHuman = previousYearStats.reduce((n, { activeHumanCausedFires }) => n + activeHumanCausedFires, 0) || 0
+      const humanOut = stats.reduce((n, { extinguishedHumanCausedFires }) => n + extinguishedHumanCausedFires, 0) || 0
 
-    Promise.all(promises).then(([activeIncidents, activeFoNIncidents, outIncidents ]) => {
-      let fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
+      const currentYearNatural = stats.reduce((n, { activeNaturalCausedFires }) => n + activeNaturalCausedFires, 0) || 0
+      const previousYearNatural = previousYearStats.reduce((n, { activeNaturalCausedFires }) => n + activeNaturalCausedFires, 0) || 0
+      const naturalOut = stats.reduce((n, { extinguishedNaturalCausedFires }) => n + extinguishedNaturalCausedFires, 0) || 0
+
+      const currentYearUnknown = stats.reduce((n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires, 0) || 0
+      const previousYearUnknown = previousYearStats.reduce((n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires, 0) || 0
+      const unknownOut = stats.reduce((n, { extinguishedUnknownCausedFires }) => n + extinguishedUnknownCausedFires, 0) || 0
 
       // If this is a yearly totals sum, then we need to include outfires
-      // out fires promise will only be handled if yearly is true
-      if (this.yearly && outIncidents) {
-        const outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
-        fires = fires.concat(outFires)
-      }
-
-      if (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') {
-        fires = fires.filter(f => f.fireCentreCode === this.selectedFireCentreCode)
-      }
-
-      this.lightningFires = fires.filter(f => f.generalIncidentCauseCatId === 2).length
-      this.lightningFiresPct = Math.round((this.lightningFires / fires.length) * 100) || 0
-      this.humanFires = fires.filter(f => f.generalIncidentCauseCatId === 1).length
-      this.humanFiresPct = Math.round((this.humanFires / fires.length) * 100) || 0
-      this.unknownFires = fires.filter(f => f.generalIncidentCauseCatId === 3).length
-      this.unknownFiresPct = Math.round((this.unknownFires / fires.length) * 100) || 0
+      this.lightningFires = currentYearNatural + previousYearNatural + (this.yearly ? naturalOut : 0)
+      this.lightningFiresPct = Math.round((this.lightningFires / totalFires) * 100) || 0
+      this.humanFires = currentYearHuman + previousYearHuman + (this.yearly ? humanOut : 0)
+      this.humanFiresPct = Math.round((this.humanFires / totalFires) * 100) || 0
+      this.unknownFires = currentYearUnknown + previousYearUnknown + (this.yearly ? unknownOut : 0)
+      this.unknownFiresPct = Math.round((this.unknownFires / totalFires) * 100) || 0
 
       this.startupComplete = true
     }).catch(err => {

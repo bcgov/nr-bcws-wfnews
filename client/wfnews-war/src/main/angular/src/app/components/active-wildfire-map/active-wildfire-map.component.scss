@@ -141,41 +141,6 @@
       bottom: -11px;
     }
   }
-
-  .map-layers {
-    padding: 10px 6px 6px 6px;
-    display: flex;
-    justify-content: center;
-    overflow-x: auto;
-    border-bottom: 1px solid #dddddd;
-
-    .item {
-      margin: 0 10px;
-      padding: 10px 10px;
-      color: #4f4f52;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      white-space: nowrap;
-      border: 2px solid transparent;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: 0.5s;
-
-      &:hover {
-        background-color: #f1f1f3;
-      }
-
-      &.active {
-        border: 2px solid #003366;
-        color: #003366;
-      }
-
-      .icon {
-        padding-right: 10px;
-      }
-    }
-  }
 }
 
 .bottom {
@@ -218,6 +183,21 @@
       display: none;
       overflow-y: auto;
       border: 1px solid #dddddd;
+    }
+  }
+
+  .layers-container {
+    margin-top: 24px;
+    margin-left: 8px;
+
+    .layer-buttons {
+      display: flex;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      z-index: 1000;
+      gap: 12px;
+      border: none;
+      padding-right: 40px;
     }
   }
 }
@@ -337,6 +317,10 @@ mat-panel-title {
     flex-direction: column;
   }
 
+  .identify-panel{
+    display: none !important
+  }
+
   .title {
     display: none !important;
   }
@@ -437,7 +421,7 @@ mat-panel-title {
     }
 
     .map {
-      height: 90vh !important;
+      height: calc(100% - 10vh - env(safe-area-inset-bottom)) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -487,6 +471,88 @@ mat-panel-title {
         margin-top: 15px;
         border-radius: 70px;
         cursor: grab;
+      }
+    }
+
+    .panel-container {
+      font-weight: 600;
+      padding: 10px;
+      overflow: auto;
+      height: 90%;
+      border-radius: 20px;
+
+      .draggable-panel-title{
+        font-size: 18px;
+        color: #242424;
+        padding: 20px 10px;
+        border-bottom: 1px solid #DEDEDE;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .criteria-title{
+        font-size: 18px;
+        color: #242424;
+        padding: 20px 10px;
+      }
+
+      .widget-card{
+        padding: 8px;
+      }
+
+      .widget-row{
+        display: flex;
+        padding: 12px;
+        align-items: center;
+        border-radius: 8px;
+        background: #F2F2F6;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .left-content {
+        display: flex;
+        align-items: center;
+      }
+
+      .incident-icon{
+        margin-right: 12px;
+      }
+
+      .circle-icon{
+        &.active-wildfires-holding{
+            background-color: #ffff00;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+        }
+        &.active-wildfires-out-of-control{
+            background-color: #FF0000;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+        }
+        &.active-wildfires-under-control{
+            background-color: #98E600;
+            border: 1px solid black;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+        }
+        &.active-wildfires-out{
+          background-color: #5C6671;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
+        }
       }
     }
   }

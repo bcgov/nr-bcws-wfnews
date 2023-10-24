@@ -17,7 +17,7 @@
         width: $size + px;
         height: $size + px;
         .mat-button-wrapper {
-            padding: $size / 6 + px;
+            padding: calc($size / 6) + px;
         }
         
         &:not([disabled]).intermediate-action {

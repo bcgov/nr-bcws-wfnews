@@ -118,6 +118,13 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
   }
 
+  /********** Stats Data ***********/
+
+  public fetchStatistics (fireYear: number, fireCentre: string | null = null): Observable<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/statistics?fireYear=${fireYear}${fireCentre ? ('&fireCentre=' + fireCentre) : ''}`
+    return this.httpClient.get<any>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
+  }
+
   /********** Situation Report ************/
 
   public fetchSituationReportList (pageNum: number = 0, rowCount: number = 9999, published = true, cacheBust = false): Observable<any> {

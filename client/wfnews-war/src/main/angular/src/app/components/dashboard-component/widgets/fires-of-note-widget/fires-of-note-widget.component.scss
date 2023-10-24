@@ -1,7 +1,7 @@
 @import '../../../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 768px) {
+@media (min-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
@@ -13,6 +13,92 @@
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
     max-width: 1480px;
     width: calc(100vw - 104px);
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+    align-self: stretch;
+  }
+
+  .content {
+    height: calc(100% - 78px);
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--24, 24px);
+    align-self: stretch;
+    padding-bottom: 15px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .count-panel {
+    display: flex;
+    padding: var(--16, 16px) var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--16, 16px);
+    align-self: stretch;
+    border-radius: var(--16, 16px);
+    border: 1px solid var(--grays-gray-8, #E4E4E4);
+    background: var(--blues-blue-11, #F5F6F9);
+    width: 186px;
+    &-panel-title {
+      color: #585858;
+      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+    }
+    &-text {
+      color: var(--grays-gray-2, #484848);
+      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    &-data-content {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      width: 186px;
+    }
+    &-data {
+      color: #242424;
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 40px;
+      font-style: normal;
+      font-weight: 500;
+      line-height: normal;
+      letter-spacing: 0.35px;
+      margin-left: 10px;
+    }
+    &-icon {
+      position: relative;
+      top: 15px;
+    }
+  }
+
+  .count-panel-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1250px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    display: flex;
+    height: 412px;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    max-width: 850px;
+    width: calc(100% - 47px);
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
