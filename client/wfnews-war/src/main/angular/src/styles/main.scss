@@ -729,5 +729,7 @@ mat-snack-bar-container{
 }
 
 ::-webkit-scrollbar {
-  display: none; // Safari and Chrome
+  @media (max-width: 768px) {
+    display: none; // Safari and Chrome
+  }
 }
