@@ -243,7 +243,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     return new Date(time).toLocaleTimeString("en-US", options)
   }
 
-  convertEvacTimeStamp(time) {
+  convertIrregularTimeStamp(time) {
     const date = new Date(time);
     return this.convertTimeStamp(date);
   }

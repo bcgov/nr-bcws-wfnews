@@ -306,7 +306,7 @@
                 <div class="identify-card-title" *ngIf="identifyItem.properties.EVENT_NAME">{{displayEvacTitle(identifyItem)}}</div>
                 <div class="identify-card-item">
                     <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
-                    Issued on {{convertEvacTimeStamp(identifyItem.properties.DATE_MODIFIED)}} PST
+                    Issued on {{convertIrregularTimeStamp(identifyItem.properties.DATE_MODIFIED)}} PST
                 </div>
                 <div class="identify-card-item">
                     <mat-icon class="incident-icon" svgIcon='agency'></mat-icon>
@@ -317,6 +317,44 @@
                 </div>
                 <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'">
                     People in this area are at risk and should leave the area immediately. Failing to leave puts you and others at risk.
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'area-restrictions' ">
+        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+                <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+                <span class="preview-title">
+                    <mat-icon class="incident-icon" svgIcon="area-restriction" alt="Area Restrictions"></mat-icon>
+                    Area Restrictions
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title" *ngIf="identifyItem.properties.NAME">{{identifyItem.properties.NAME}}</div>
+                <div class="identify-card-item">
+                    <img height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    {{identifyItem.properties.FIRE_CENTRE_NAME ? identifyItem.properties.FIRE_CENTRE_NAME + ' Fire Centre' : null}}
+                </div>
+                <div class="identify-card-item">
+                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    Issued on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}
+                </div>
+                <div class="identify-card-description">
+                    Access to this area is prohibited in order to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.
                 </div>
             </div>
             <div class="button-row">
