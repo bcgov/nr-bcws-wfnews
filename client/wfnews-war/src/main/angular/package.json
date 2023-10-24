@@ -56,6 +56,7 @@
     "@capacitor/keyboard": "5.0.4",
     "@capacitor/motion": "^5.0.6",
     "@capacitor/network": "^5.0.6",
+    "@capacitor/preferences": "^5.0.6",
     "@capacitor/push-notifications": "^5.0.2",
     "@capacitor/splash-screen": "^5.0.2",
     "@capacitor/status-bar": "5.0.4",

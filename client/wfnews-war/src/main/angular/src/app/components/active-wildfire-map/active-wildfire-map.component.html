@@ -1,5 +1,5 @@
 <div class="container">
-    <!-- 
+
     <div class="top">
       <div class="header-row">
           <div class="title">
@@ -61,62 +61,7 @@
             </mat-menu>
         </div>
     </div>
-      <div class="divider">
-          <span>MAP LAYERS</span>
-      </div>
-
-      <div class="map-layers">
-          <div matTooltip="Wildfires" class="item" [class.active]="selectedLayer === 'wildfire-stage-of-control'"
-              (click)="onSelectLayer( 'wildfire-stage-of-control' )">
-              <span class='material-icons-outlined icon'>local_fire_department</span>
-              <span class="hide shrink">Wildfires</span>
-          </div>
-
-          <div matTooltip="Evacuation Orders and Alerts" class="item" [class.active]="selectedLayer === 'evacuation-orders-and-alerts'"
-              (click)="onSelectLayer( 'evacuation-orders-and-alerts' )">
-              <wf-icon class="icon" iconName="error" iconSize="small"></wf-icon>
-              <span class="hide shrink">Evacuation Orders and Alerts</span>
-          </div>
-
-          <div matTooltip="Area Restrictions" class="item"
-              [class.active]="selectedLayer === 'area-restrictions'"
-              (click)="onSelectLayer( 'area-restrictions' )"
-          >
-              <span class="icon signpost mat-icon"></span>
-              <span class="hide shrink">Area Restrictions</span>
-          </div>
-
-          <div matTooltip="Bans and Prohibitions" class="item" [class.active]="selectedLayer === 'bans-and-prohibitions'"
-              (click)="onSelectLayer( 'bans-and-prohibitions' )">
-              <wf-icon class="icon" iconName="block" iconSize="small"></wf-icon>
-              <span class="hide shrink">Bans and Prohibitions</span>
-          </div>
-
-          <div matTooltip="Smoke Forecast" class="item" [class.active]="selectedLayer === 'smoke-forecast'"
-              (click)="onSelectLayer( 'smoke-forecast' )">
-              <wf-icon class="icon" iconName="air" iconSize="small"></wf-icon>
-              <span class="hide shrink">Smoke Forecast</span>
-          </div>
-
-          <div matTooltip="Danger Rating" class="item" [class.active]="selectedLayer === 'fire-danger'" (click)="onSelectLayer( 'fire-danger' )">
-              <wf-icon class="icon" iconName="format_list_numbered" iconSize="small"></wf-icon>
-              <span class="hide shrink">Danger Rating</span>
-          </div>
-
-          <div matTooltip="Local Authorities" class="item" [class.active]="selectedLayer === 'local-authorities'"
-              (click)="onSelectLayer( 'local-authorities' )">
-              <wf-icon class="icon" iconName="place" iconSize="small"></wf-icon>
-              <span class="hide shrink">Local Authorities</span>
-          </div>
-
-          <div matTooltip="Road Conditions" class="item" [class.active]="selectedLayer === 'routes-impacted'"
-              (click)="onSelectLayer( 'routes-impacted' )">
-              <wf-icon class="icon" iconName="directions_car_filled" iconSize="small"></wf-icon>
-              <span class="hide shrink">Road Conditions</span>
-          </div>
-      </div>
-  </div> 
-  -->
+  </div>
 
     <div class="bottom">
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
@@ -132,35 +77,34 @@
             <panel-local-authority *ngIf="selectedPanel === 'local-authorities'"></panel-local-authority>
         </div>
         <div class="map">
-    <!-- 
+
         <div class="identify-panel"></div>
         <div class="mobile-wildfire-count">
           <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
-        </div> 
-    -->
+        </div>
+
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
                 (toggleAccordion)="onToggleAccordion()"
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
-            <div class="layers-container">
+            <div class="layers-container" *ngIf="this.isMapLoaded && isMobileView()" (mouseover)="setupScrollForLayersComponent()">
                 <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
-                    <map-toggle-button labelText="Wildfire" value="wildfire" checked="true" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Area Restrictions" value="area-restrictions" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Fire Danger" value="fire-danger" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Out Fires" value="out-fires" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Local Authorities" value="local-authorities" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="Road Events" value="routes-impacted" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Wildfire" value="wildfire" [checked]="isChecked('wildfire')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" [checked]="isChecked('evacuation-orders-and-alerts')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" [checked]="isChecked('bans-and-prohibitions')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Area Restrictions" value="area-restrictions" [checked]="isChecked('area-restrictions')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_warning-hex.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Fire Danger" value="fire-danger" [checked]="isChecked('fire-danger')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_gauge.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Smoke Forecast" value="smoke-forecast" [checked]="isChecked('smoke-forecast')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_smoke.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Local Authorities"  value="local-authorities" [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="All Layers" value="all-layers" [checked]="isChecked('all-layers')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
-            <button mat-fab class="mat-white-48 bottom-20 right-20" (click)="useMyCurrentLocation()">
+            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="this.isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>
         </div>
-        <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
       </div>
       <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
 </div>

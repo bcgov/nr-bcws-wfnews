@@ -187,14 +187,12 @@
   }
 
   .layers-container {
-    width: 100%;
     margin-top: 24px;
     margin-left: 8px;
 
     .layer-buttons {
       display: flex;
-      overflow-x: visible;
-      scroll-behavior: smooth;
+      overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       z-index: 1000;
       gap: 12px;
@@ -419,7 +417,7 @@ mat-panel-title {
     }
 
     .map {
-      height: 90vh !important;
+      height: calc(100% - 10vh - env(safe-area-inset-bottom)) !important;
 
       .identify-panel {
         height: 100% !important;
