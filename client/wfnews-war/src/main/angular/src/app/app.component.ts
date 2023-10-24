@@ -558,7 +558,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     );
     this.matIconRegistry.addSvgIcon(
       ICON.AGENCY,
-      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/agency.svg")
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_finance.svg")
     );
   }
 

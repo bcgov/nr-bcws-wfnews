@@ -62,6 +62,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   handleLayersSelection(returnFromPreiviewPanel?: boolean){
+    console.log(this.incidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.incidentRefs = this.storedIncidentRefs
