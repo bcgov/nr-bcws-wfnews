@@ -6,6 +6,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { App } from '@capacitor/app';
+import { Preferences } from '@capacitor/preferences';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
@@ -18,6 +19,7 @@ import { SmkApi } from '../../utils/smk';
 
 
 export type SelectedLayer =
+  'wildfire' |
   'evacuation-orders-and-alerts' |
   'area-restrictions' |
   'bans-and-prohibitions' |
@@ -86,6 +88,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredIndianReserve: any[];
 
   isLocationEnabled: boolean;
+  isMapLoaded = false;
 
   showPanel: boolean;
 
@@ -178,12 +181,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer.panToFeature(window['turf'].point([long, lat]), 15)
         })
       }
-    })
-
-    const scroller = document.querySelector('.layer-buttons');
-    scroller.addEventListener('wheel', (e: WheelEvent) => {
-      scroller.scrollLeft += e.deltaY * 4;
-    }, { passive: true });
+    });
   }
 
   ngOnInit() {
@@ -365,16 +363,25 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
   }
 
-  initializeLayers() {
-    this.onSelectLayer('evacuation-orders-and-alerts');
+  async initializeLayers() {
+    const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
+    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire';
+    this.onSelectLayer(this.selectedLayer);
+    this.isMapLoaded = true;
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
-    this.selectedPanel = selectedLayer;
+    this.selectedPanel = this.selectedLayer;
+    
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
-      text: selectedLayer
+      text: this.selectedLayer
+    });
+
+    Preferences.set({
+      key: 'selectedLayer',
+      value: this.selectedLayer
     });
 
     const layers = [
@@ -399,7 +406,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 18 */ { itemId: 'abms-regional-districts', visible: false }
     ];
 
-    switch (selectedLayer) {
+    switch (this.selectedLayer) {
       case 'evacuation-orders-and-alerts':
         layers[1].visible = true;
         layers[2].visible = true;
@@ -578,6 +585,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
+  }
+
+  isChecked(layer: SelectedLayer) {
+    return this.selectedLayer === layer;
+  }
+
+  setupScrollForLayersComponent() {
+    const scroller = document.querySelector('.layer-buttons');
+    scroller.addEventListener('wheel', (e: WheelEvent) => {
+      scroller.scrollLeft += e.deltaY;
+    }, { passive: true });
   }
 
 }

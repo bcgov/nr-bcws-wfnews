@@ -187,16 +187,12 @@
   }
 
   .layers-container {
-    @media (min-width: 768px) {
-      display: none;
-    }
     margin-top: 24px;
     margin-left: 8px;
 
     .layer-buttons {
       display: flex;
       overflow-x: auto;
-      scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
       z-index: 1000;
       gap: 12px;
