@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
+import { currentFireYear } from "@app/utils"
 
 @Component({
   selector: 'fire-totals-widget',
@@ -17,25 +18,17 @@ export class FireTotalsWidget implements AfterViewInit {
 
   ngAfterViewInit (): void {
     Promise.all([
-      this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
-      this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise(),
-      this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise()
-    ]).then(([activeIncidents, activeFoNIncidents, outIncidents ]) => {
-      let fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear()).toPromise()
+    ]).then(([ previousYearStats, stats ]) => {
 
-      const outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
-      fires = fires.concat(outFires)
+      const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const previousYearActive = previousYearStats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const currentYearOut = stats.reduce((n, { outFires }) => n + outFires, 0) || 0
 
-      this.totalFires = fires.length + outFires.length
-      this.outFires = outFires.length
-
-      for (const fire of fires) {
-        if (!fire.incidentSizeEstimatedHa) {
-          fire.incidentSizeEstimatedHa = 0
-        }
-      }
-
-      this.hectaresBurned = Math.round(fires.reduce((n, { incidentSizeEstimatedHa }) => n + incidentSizeEstimatedHa, 0) || 0) || 0
+      this.totalFires = currentYearActive + previousYearActive + currentYearOut
+      this.outFires = currentYearOut
+      this.hectaresBurned = Math.round(stats.reduce((n, { hectaresBurned }) => n + hectaresBurned, 0) || 0) || 0
 
       this.startupComplete = true
     }).catch(err => {

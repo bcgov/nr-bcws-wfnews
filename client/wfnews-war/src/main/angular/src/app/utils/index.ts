@@ -318,3 +318,13 @@ export function convertToMobileFormat (dateString) {
 export function equalsIgnoreCase(text, other) {
     return text.localeCompare(other, undefined, { sensitivity: 'base' }) === 0;
 }
+
+export function currentFireYear () {
+  const now = new Date();
+  let currentFireYear = now.getFullYear();
+  if (now.getMonth() < 3) {
+    currentFireYear -= 1;
+  }
+
+  return currentFireYear;
+}

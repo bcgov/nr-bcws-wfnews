@@ -43,6 +43,11 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	private Boolean heavyEquipmentResourcesInd;
 	private Boolean incidentMgmtCrewRsrcInd;
 	private Boolean structureProtectionRsrcInd;
+	private Integer crewResourceCount;
+	private Integer aviationResourceCount;
+	private Integer heavyEquipmentResourceCount;
+	private Integer incidentManagementResourceCount;
+  private Integer structureProtectionResourceCount;
 	private Date publishedTimestamp;
 	private Date lastUpdatedTimestamp;
 	private Date createDate;
@@ -391,5 +396,45 @@ public class SimplePublishedIncidentResource extends BaseResource implements Sim
 	@Override
 	public void setResponseTypeDetail(String responseTypeDetail) {
 		this.responseTypeDetail = responseTypeDetail;
+	}
+
+	public Integer getCrewResourceCount() {
+		return crewResourceCount;
+	}
+
+	public void setCrewResourceCount(Integer crewResourceCount) {
+		this.crewResourceCount = crewResourceCount;
+	}
+
+	public Integer getAviationResourceCount() {
+		return aviationResourceCount;
+	}
+
+	public void setAviationResourceCount(Integer aviationResourceCount) {
+		this.aviationResourceCount = aviationResourceCount;
+	}
+
+	public Integer getHeavyEquipmentResourceCount() {
+		return heavyEquipmentResourceCount;
+	}
+
+	public void setHeavyEquipmentResourceCount(Integer heavyEquipmentResourceCount) {
+		this.heavyEquipmentResourceCount = heavyEquipmentResourceCount;
+	}
+
+	public Integer getIncidentManagementResourceCount() {
+		return incidentManagementResourceCount;
+	}
+
+	public void setIncidentManagementResourceCount(Integer incidentManagementResourceCount) {
+		this.incidentManagementResourceCount = incidentManagementResourceCount;
+	}
+
+	public Integer getStructureProtectionResourceCount() {
+		return structureProtectionResourceCount;
+	}
+
+	public void setStructureProtectionResourceCount(Integer structureProtectionResourceCount) {
+		this.structureProtectionResourceCount = structureProtectionResourceCount;
 	}
 }
