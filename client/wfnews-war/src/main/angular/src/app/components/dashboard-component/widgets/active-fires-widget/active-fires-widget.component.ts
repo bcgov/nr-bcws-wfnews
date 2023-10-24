@@ -1,6 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service";
-import { FireCentres } from "@app/utils";
+import { FireCentres, currentFireYear } from "@app/utils";
 
 @Component({
   selector: 'active-fires-widget',
@@ -38,21 +38,22 @@ export class ActiveFiresWidget implements AfterViewInit {
 
   queryData () {
     this.startupComplete = false
+    const fireCentre = (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') ? FireCentres.find(fc => fc.code === this.selectedFireCentreCode).description : null
+
     Promise.all([
-      this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
-      this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise()
-    ]).then(([activeIncidents, activeFoNIncidents ]) => {
-      let fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1, fireCentre).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear(), fireCentre).toPromise()
+    ]).then(([previousYearStats, stats ]) => {
+      const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const previousYearActive = previousYearStats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const currentYearActiveFoN = stats.reduce((n, { activeBeingHeldFiresOfNote, activeOutOfControlFiresOfNote, activeUnderControlFiresOfNote }) => n + activeBeingHeldFiresOfNote + activeOutOfControlFiresOfNote + activeUnderControlFiresOfNote, 0) || 0
+      const previousYearActiveFoN = previousYearStats.reduce((n, { activeBeingHeldFiresOfNote, activeOutOfControlFiresOfNote, activeUnderControlFiresOfNote }) => n + activeBeingHeldFiresOfNote + activeOutOfControlFiresOfNote + activeUnderControlFiresOfNote, 0) || 0
 
-      if (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') {
-        fires = fires.filter(f => f.fireCentreCode === this.selectedFireCentreCode)
-      }
-
-      this.activeFires = fires.length
-      this.activeFireOfNote = activeFoNIncidents.collection.length
-      this.activeOutOfControl = fires.filter(f => f.stageOfControlCode === 'OUT_CNTRL').length
-      this.activeBeingHeld = fires.filter(f => f.stageOfControlCode === 'HOLDING').length
-      this.activeUnderControl = fires.filter(f => f.stageOfControlCode === 'UNDR_CNTRL').length
+      this.activeFires = currentYearActive + previousYearActive
+      this.activeFireOfNote = currentYearActiveFoN + previousYearActiveFoN
+      this.activeOutOfControl = (stats.reduce((n, { activeOutOfControlFires }) => n + activeOutOfControlFires, 0) || 0) + (previousYearStats.reduce((n, { activeOutOfControlFires }) => n + activeOutOfControlFires, 0) || 0)
+      this.activeBeingHeld = (stats.reduce((n, { activeBeingHeldFires }) => n + activeBeingHeldFires, 0) || 0) + (previousYearStats.reduce((n, { activeBeingHeldFires }) => n + activeBeingHeldFires, 0) || 0)
+      this.activeUnderControl = (stats.reduce((n, { activeUnderControlFires }) => n + activeUnderControlFires, 0) || 0) + (previousYearStats.reduce((n, { activeUnderControlFires }) => n + activeUnderControlFires, 0) || 0)
 
       this.outOfControlData = [{ name: "Out of Control", value: this.activeOutOfControl }, { name: "All Fires", value: this.activeFires }]
       this.beingHeldData = [{ name: "Being Held", value: this.activeBeingHeld }, { name: "All Fires", value: this.activeFires }]

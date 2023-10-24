@@ -1,7 +1,7 @@
 @import '../../../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 768px) {
+@media (min-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
@@ -9,6 +9,73 @@
     display: flex;
     height: 416px;
     max-height: 416px;
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 20px;
+    border: 1.5px solid #DEDEDE;
+    background-color: #F5F6F9;
+  }
+
+  .widget-header {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+    width: 100%;
+    padding-bottom: 16px;
+  }
+
+  .header-icon {
+    border-radius: 90px;
+    background: var(--Blue-4, #DFE5EE);
+    padding: var(--16, 16px);
+    align-items: center;
+  }
+
+  .header-title {
+    position: relative;
+    top: -50px;
+    margin-left: 32px;
+  }
+
+  .header-subtext {
+    color: var(--grays-gray-3, #666);
+    font-family: Noto Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin-left: 10px;
+  }
+
+  .subtext-icon {
+    position: relative;
+  }
+
+  .subtext {
+    display: flex;
+    position: relative;
+    top: -54px;
+    left: 110px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1250px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    height: 416px;
+    max-height: 416px;
+    max-width: 850px;
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
