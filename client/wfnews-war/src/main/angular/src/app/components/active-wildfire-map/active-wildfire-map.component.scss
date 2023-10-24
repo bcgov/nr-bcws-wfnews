@@ -317,6 +317,10 @@ mat-panel-title {
     flex-direction: column;
   }
 
+  .identify-panel{
+    display: none !important
+  }
+
   .title {
     display: none !important;
   }
