@@ -530,7 +530,7 @@ html {
   // height: 70vh !important;
   padding: 0 !important;
   overflow: auto !important;
-  
+
   .mdc-dialog__surface{
     overflow: hidden;
   }
@@ -685,9 +685,11 @@ wf-admin-incident-desktop{
 
 mat-snack-bar-container{
   height: 100%;
+  @media (max-width: 768px) {
+    margin-bottom: calc(12vh + env(safe-area-inset-bottom)) !important
+  }
   .mdc-snackbar__surface {
     box-shadow: none !important;
-    background-color: inherit !important;
     .mat-mdc-snack-bar-label{
       font-size: 13px !important;
       font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;
@@ -720,7 +722,7 @@ mat-snack-bar-container{
   background: transparent; /* Chrome/Safari/Webkit */
   width: 0px;
 }
-    
+
 .disable-scrollbars {
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE 10+ */
