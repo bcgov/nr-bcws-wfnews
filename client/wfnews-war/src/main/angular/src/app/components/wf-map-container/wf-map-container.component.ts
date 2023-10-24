@@ -3,7 +3,6 @@ import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
-import { ActiveWildfireMapComponent } from '@app/components/active-wildfire-map/active-wildfire-map.component';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -121,7 +120,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
-        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'bcws-activefires-publicview-inactive', 'fire-perimeters'].includes(feature.layerId)) {
+        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
           feature.properties.createContent = function (el) {
             self.zone.run(function () {
               let compRef = self.makeComponent(IncidentIdentifyPanelComponent);

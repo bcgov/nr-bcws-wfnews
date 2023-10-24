@@ -2,9 +2,11 @@ import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, E
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { App } from '@capacitor/app';
+import { Preferences } from '@capacitor/preferences';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { debounceTime } from 'rxjs/operators';
@@ -17,6 +19,7 @@ import { SmkApi } from '../../utils/smk';
 
 
 export type SelectedLayer =
+  'wildfire' |
   'evacuation-orders-and-alerts' |
   'area-restrictions' |
   'bans-and-prohibitions' |
@@ -24,7 +27,9 @@ export type SelectedLayer =
   'fire-danger' |
   'local-authorities' |
   'routes-impacted' |
-  'wildfire-stage-of-control';
+  'wildfire-stage-of-control' |
+  'out-fires' |
+  'all-layers';
 
 declare const window: any;
 @Component({
@@ -52,7 +57,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   smkApi: SmkApi;
   activeFireCountPromise;
   selectedLayer: SelectedLayer;
-  selectedPanel = 'wildfire-stage-of-control'
+  selectedPanel = 'wildfire-stage-of-control';
   showAccordion: boolean;
   searchText = undefined;
   zone: NgZone;
@@ -83,6 +88,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredIndianReserve: any[];
 
   isLocationEnabled: boolean;
+  isMapLoaded = false;
 
   showPanel: boolean;
 
@@ -91,7 +97,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     'active-wildfires-out-of-control',
     'active-wildfires-holding',
     'active-wildfires-under-control',
-    'bcws-activefires-publicview-inactive',
+    'active-wildfires-out',
   ];
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
@@ -106,6 +112,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private commonUtilityService: CommonUtilityService,
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
+    protected snackbarService: MatSnackBar,
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -133,11 +140,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       }
     });
 
-    App.addListener('resume', () => { 
+    App.addListener('resume', () => {
       this.updateLocationEnabledVariable();
     });
   }
-
 
   ngAfterViewInit() {
     this.locationOptions.changes.subscribe(() => {
@@ -175,7 +181,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer.panToFeature(window['turf'].point([long, lat]), 15)
         })
       }
-    })
+    });
   }
 
   ngOnInit() {
@@ -345,49 +351,65 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   initMap(smk: any) {
     this.smkApi = new SmkApi(smk);
+    this.initializeLayers();
   }
 
   onToggleAccordion() {
     this.showAccordion = !this.showAccordion;
   }
-  
+
   onSelectIncidents(incidentRefs){
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
   }
 
+  async initializeLayers() {
+    const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
+    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire';
+    this.onSelectLayer(this.selectedLayer);
+    this.isMapLoaded = true;
+  }
+
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
-    this.selectedPanel = selectedLayer
+    this.selectedPanel = this.selectedLayer;
+    
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
-      text: selectedLayer
-    })
+      text: this.selectedLayer
+    });
+
+    Preferences.set({
+      key: 'selectedLayer',
+      value: this.selectedLayer
+    });
+
     const layers = [
-            /* 00 */ { itemId: 'active-wildfires', visible: true },
-            /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
-            /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
-            /* 03 */ { itemId: 'danger-rating', visible: false },
-            /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
-            /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
-            /* 06 */ { itemId: 'area-restrictions', visible: false },
-            /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
-            /* 08 */ { itemId: 'fire-perimeters', visible: false },
-            /* 09 */ { itemId: 'bcws-activefires-publicview-inactive', visible: false },
-            /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
-            /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
-            /* 12 */ { itemId: 'bc-fire-centres', visible: true },
-            /* 13 */ { itemId: 'prescribed-fire', visible: false },
-            /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
-            /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
-            /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
-            /* 17 */ { itemId: 'abms-municipalities', visible: false },
-            /* 18 */ { itemId: 'abms-regional-districts', visible: false }
+      /* 00 */ { itemId: 'active-wildfires', visible: true }, // Always on
+      /* 01 */ { itemId: 'evacuation-orders-and-alerts-wms', visible: false },
+      /* 02 */ { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: false },
+      /* 03 */ { itemId: 'danger-rating', visible: false },
+      /* 04 */ { itemId: 'bans-and-prohibitions', visible: false },
+      /* 05 */ { itemId: 'bans-and-prohibitions-highlight', visible: false },
+      /* 06 */ { itemId: 'area-restrictions', visible: false },
+      /* 07 */ { itemId: 'area-restrictions-highlight', visible: false },
+      /* 08 */ { itemId: 'fire-perimeters', visible: true }, // Always on
+      /* 09 */ { itemId: 'active-wildfires-out', visible: false },
+      /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
+      /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
+      /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
+      /* 13 */ { itemId: 'prescribed-fire', visible: false },
+      /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
+      /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
+      /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
+      /* 17 */ { itemId: 'abms-municipalities', visible: false },
+      /* 18 */ { itemId: 'abms-regional-districts', visible: false }
     ];
 
-    switch (selectedLayer) {
+    switch (this.selectedLayer) {
       case 'evacuation-orders-and-alerts':
         layers[1].visible = true;
+        layers[2].visible = true;
         break;
 
       case 'area-restrictions':
@@ -401,7 +423,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'smoke-forecast':
-        layers[14].visible = true
+        layers[14].visible = true;
         break;
 
       case 'fire-danger':
@@ -410,7 +432,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'local-authorities':
-        layers[12].visible = true;
         layers[15].visible = true;
         layers[16].visible = true;
         layers[17].visible = true;
@@ -419,6 +440,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
       case 'routes-impacted':
         layers[11].visible = true;
+        break;
+
+      case 'out-fires':
+        layers[9].visible = true;
+        break;
+
+      case 'all-layers':
+        layers.forEach(layer => {
+          layer.visible = true;
+        });
         break;
     }
 
@@ -440,22 +471,30 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.isLocationEnabled = enabled;
     });
     this.searchText = undefined;
-    const location = await this.commonUtilityService.getCurrentLocationPromise()
-
-    const long = location.coords.longitude;
-    const lat = location.coords.latitude;
-    if (lat && long) {
-      this.showAreaHighlight([long, lat], 50)
-      this.showLocationMarker({
-        type: 'Point',
-        coordinates: [long, lat]
-      });
+    try {
+      const location = await this.commonUtilityService.getCurrentLocationPromise();
+      const long = location.coords.longitude;
+      const lat = location.coords.latitude;
+      if (lat && long) {
+        this.showAreaHighlight([long, lat], 50);
+        this.showLocationMarker({
+          type: 'Point',
+          coordinates: [long, lat]
+        });
+      }
+      this.searchByLocationControl.setValue(lat + ',' + long);
+    } catch (error) {
+      if (this.isLocationEnabled) {
+        this.snackbarService.open('Awaiting location information from device. Please try again momentarily.', '', {
+          duration: 5000,
+        });
+      }
     }
-    this.searchByLocationControl.setValue(lat + ',' + long)
   }
 
   async updateLocationEnabledVariable() {
     this.isLocationEnabled = await this.commonUtilityService.checkLocationServiceStatus();
+    this.cdr.detectChanges();
   }
 
   showAreaHighlight(center, radius) {
@@ -546,6 +585,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     } else {
       return 'Disclaimer and Legal Links';
     }
+  }
+
+  isChecked(layer: SelectedLayer) {
+    return this.selectedLayer === layer;
+  }
+
+  setupScrollForLayersComponent() {
+    const scroller = document.querySelector('.layer-buttons');
+    scroller.addEventListener('wheel', (e: WheelEvent) => {
+      scroller.scrollLeft += e.deltaY;
+    }, { passive: true });
   }
 
 }

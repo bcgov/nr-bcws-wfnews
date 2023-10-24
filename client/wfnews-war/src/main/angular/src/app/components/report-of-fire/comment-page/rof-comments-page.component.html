@@ -5,10 +5,11 @@
     <mat-label>Note</mat-label>
   </div>
   <mat-form-field class="text-container">
-    <textarea class="text-area" #commentText [(ngModel)]="reportOfFire[updateAttribute]" [maxLength]="maxLength" (ngModelChange)="onTextAreaChange()"></textarea>
-    <div class="comment-divider"></div>
+    <textarea matInput class="text-area" #commentText [(ngModel)]="reportOfFire[updateAttribute]" [maxLength]="maxLength" (ngModelChange)="onTextAreaChange()" (focus)="enterTextArea()" (blur)="exitTextArea()"></textarea>
+    <!-- <div class="comment-divider"></div> -->
     <div class="word-count">{{commentText.value.length}}/500</div>
   </mat-form-field >
+
 
   <div class="rof-button-container" *ngIf="!isEditMode">
     <button class="rof-button" mat-flat-button (click)="previous()">Previous</button>

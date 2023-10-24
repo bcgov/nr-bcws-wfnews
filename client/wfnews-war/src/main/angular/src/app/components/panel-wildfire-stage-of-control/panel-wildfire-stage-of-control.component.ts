@@ -2,12 +2,15 @@ import { Overlay } from '@angular/cdk/overlay';
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, ComponentFactoryResolver, ComponentRef, Directive, Injector, Input, NgZone, OnChanges, OnDestroy, OnInit, SimpleChanges, Type, ViewChild, ViewContainerRef } from '@angular/core';
 import { UntypedFormBuilder } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { TokenService, AppConfigService } from '@wf1/core-ui';
+import { AppConfigService, TokenService } from '@wf1/core-ui';
+import * as L from 'leaflet';
 import { PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
@@ -16,13 +19,10 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { snowPlowHelper, convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, convertToFireCentreDescription } from '../../utils';
+import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, convertToFireCentreDescription, snowPlowHelper } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
-import * as L from 'leaflet'
-import { MatCheckboxChange } from '@angular/material/checkbox';
-import { MatTabChangeEvent } from '@angular/material/tabs';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
@@ -81,8 +81,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       (panel.item(0) as HTMLElement).remove();
     }
 
-    (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
-
+    if ((document.getElementsByClassName('identify-panel').item(0) as HTMLElement)?.style?.display) {
+      (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
+    }
+    
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
