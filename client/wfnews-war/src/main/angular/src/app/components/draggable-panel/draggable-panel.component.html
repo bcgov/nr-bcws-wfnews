@@ -368,4 +368,35 @@
             </div>
         </div>
     </div>
+
+    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'danger-rating' ">
+        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+                <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+                <span class="preview-title">
+                    <mat-icon class="incident-icon" svgIcon="carbon-gauge" alt="Danger Rating"></mat-icon>
+                    Wildfire Danger Rating
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title" *ngIf="identifyItem.properties.DANGER_RATING_DESC">{{identifyItem.properties.DANGER_RATING_DESC}} Fire Danger</div>
+                <div class="identify-card-description">
+                    {{displayDangerRatingDes(identifyItem.properties.DANGER_RATING_DESC)}}
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+    
 </div>
