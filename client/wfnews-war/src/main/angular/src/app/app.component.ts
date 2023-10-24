@@ -68,7 +68,8 @@ export const ICON = {
   LOCATION_DISABLED: 'location-disabled',
   LOCATION_ENABLED: 'location-enabled',
   CALENDAR: 'calendar',
-  ZOOM_IN: 'zoom-in'
+  ZOOM_IN: 'zoom-in',
+  AGENCY: 'agency',
 };
 
 @Component({
@@ -554,6 +555,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.ZOOM_IN,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/zoom-in.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.AGENCY,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/agency.svg")
     );
   }
 

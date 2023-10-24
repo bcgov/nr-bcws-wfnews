@@ -195,10 +195,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   zoomIn() {
+    let long;
+    let lat;
     if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
-      const long = Number(this.identifyIncident.longitude);
-      const lat = Number(this.identifyIncident.latitude);
-  
+       long = Number(this.identifyIncident.longitude);
+       lat = Number(this.identifyIncident.latitude);
+    } else if (this.identifyItem && this.identifyItem._identifyPoint.longitude && this.identifyItem._identifyPoint.latitude) {
+      long = Number(this.identifyItem._identifyPoint.longitude);
+      lat = Number(this.identifyItem._identifyPoint.latitude);
+    }
+    if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
         const SMK = window['SMK'];
         let viewer = null;
@@ -233,7 +239,23 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   convertTimeStamp(time) {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(time).toLocaleTimeString("en-US", options) 
+    return new Date(time).toLocaleTimeString("en-US", options)
+  }
+
+  convertEvacTimeStamp(time) {
+    const date = new Date(time);
+    return this.convertTimeStamp(date);
+  }
+
+  displayEvacTitle(item) {
+    let prefix = null;
+    if (item.properties.ORDER_ALERT_STATUS === 'Alert') {
+      prefix = 'Evacuation Alert for '
+    }
+    else if (item.properties.ORDER_ALERT_STATUS === 'Order') {
+      prefix = 'Evacuation Order for '
+    }
+    return prefix + item.properties.EVENT_NAME;
   }
 
 }
