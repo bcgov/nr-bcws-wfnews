@@ -143,6 +143,26 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS extinguishedUnknownCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires
+    UNION
+    SELECT
+      'BC' AS fire_centre_name,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'Y') AS activeOutOfControlFiresOfNote,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'HOLDING' AND fire_of_note_ind = 'N') AS activeBeingHeldFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'HOLDING' AND fire_of_note_ind = 'Y') AS activeBeingHeldFiresOfNote,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'UNDR_CNTRL' AND fire_of_note_ind = 'N') AS activeUnderControlFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'UNDR_CNTRL' AND fire_of_note_ind = 'Y') AS activeUnderControlFiresOfNote,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT') AS outFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 2 AND stage_of_control_code != 'OUT') AS activeNaturalCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 1 AND stage_of_control_code != 'OUT') AS activeHumanCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 3 AND stage_of_control_code != 'OUT') AS activeUnknownCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 2 AND stage_of_control_code = 'OUT') AS extinguishedNaturalCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 1 AND stage_of_control_code = 'OUT') AS extinguishedHumanCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 3 AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires,
+      (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS extinguishedUnknownCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires,
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires
   ) stats
   <if test="fireCentre != null">
     WHERE fire_centre_name = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
