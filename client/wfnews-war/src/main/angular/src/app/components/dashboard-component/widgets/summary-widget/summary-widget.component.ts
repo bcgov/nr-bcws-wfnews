@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
+import { currentFireYear } from "@app/utils"
 
 @Component({
   selector: 'summary-widget',
@@ -11,25 +12,23 @@ export class SummaryWidget implements AfterViewInit {
 
   public activeFires: string
   public starts24hour: string
-  public starts7Day: string
+  public out24Hours: string
   public out7Day: string
 
   constructor(private publishedIncidentService: PublishedIncidentService) { }
 
   ngAfterViewInit (): void {
     Promise.all([
-      this.publishedIncidentService.getActiveFireCount(),
-      this.publishedIncidentService.fetchPublishedIncidents().toPromise(),
-      this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise(),
-      this.publishedIncidentService.fetchOutIncidents(0, 9999).toPromise()
-    ]).then(([activeCount, activeIncidents, activeFoNIncidents,outIncidents ]) => {
-      const outFires = outIncidents.collection.filter(f => f.stageOfControlCode === 'OUT')
-      const fires = activeIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT').concat(activeFoNIncidents.collection.filter(f => f.stageOfControlCode !== 'OUT'))
+      this.publishedIncidentService.fetchStatistics(currentFireYear() - 1).toPromise(),
+      this.publishedIncidentService.fetchStatistics(currentFireYear()).toPromise()
+    ]).then(([previousYearStats, stats ]) => {
+      const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const previousYearActive = previousYearStats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
 
-      this.activeFires = '' + activeCount
-      this.starts24hour = '' + (fires.filter(f => f.discoveryDate > Date.now() - 86400000).length + outFires.filter(f => f.discoveryDate > Date.now() - 86400000).length)
-      this.starts7Day = '' + (fires.filter(f => f.discoveryDate > Date.now() - 604800000).length + outFires.filter(f => f.discoveryDate > Date.now() - 604800000).length)
-      this.out7Day = '' + (outFires.filter(f => f.discoveryDate > Date.now() - 604800000).length)
+      this.activeFires = '' + (currentYearActive + previousYearActive)
+      this.starts24hour = '' + (stats.reduce((n, { newFires24Hours }) => n + newFires24Hours, 0) || 0)
+      this.out24Hours = '' + (stats.reduce((n, { outFires24Hours }) => n + outFires24Hours, 0) || 0)
+      this.out7Day = '' + (stats.reduce((n, { outFires7Days }) => n + outFires7Days, 0) || 0)
 
       this.startupComplete = true
     }).catch(err => {

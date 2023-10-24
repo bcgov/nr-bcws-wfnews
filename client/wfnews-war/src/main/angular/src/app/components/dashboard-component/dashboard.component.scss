@@ -1,6 +1,12 @@
 @import '../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
+@media (min-width: 768px) and (max-width: 1250px) {
+  .widget {
+    max-width: 850px;
+  }
+}
+
 .container {
   overflow: hidden;
   font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
@@ -69,9 +75,11 @@
   flex-direction: row;
   flex-wrap: wrap;
   gap: var(--24, 24px);
+  align-items: center;
+  justify-content: center;
 }
 .panel-container> * {
-  flex: 1 1 49%;
+  flex: 1 1 48.996%;
 }
 
 .list-button {
