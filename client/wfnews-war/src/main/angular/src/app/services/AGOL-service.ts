@@ -77,11 +77,9 @@ export class AGOLService {
     }
     // append query
     url += `query?where=PROT_RA_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
-    console.log('url = '+ url)
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin','*');
     headers.append('Accept','*/*');
-    console.log(url)
     return this.http.get<any>(encodeURI(url),{headers})
   }
 
