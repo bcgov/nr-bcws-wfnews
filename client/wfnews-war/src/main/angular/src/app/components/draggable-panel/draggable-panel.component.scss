@@ -1,6 +1,6 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: 50vh;
+  height: 40vh;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -14,7 +14,7 @@
 
 .panel-container {
   font-weight: 600;
-  margin: 20px 10px 10px 10px;
+  margin: 20px 10px 0px 10px;
   overflow: auto;
   height: 90%;
   border-radius: 20px;
@@ -146,6 +146,9 @@
   }
 
   .button-row{
+    position:sticky;
+    bottom:0;
+    background-color: white;
     justify-content: space-between;
     gap: 16px;
     display: flex;
