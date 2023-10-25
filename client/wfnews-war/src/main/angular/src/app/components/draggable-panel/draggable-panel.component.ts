@@ -1,5 +1,4 @@
-import { CdkDrag } from '@angular/cdk/drag-drop';
-import { ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component,OnChanges, OnInit, SimpleChanges} from '@angular/core';
 import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -47,8 +46,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected cdr: ChangeDetectorRef,
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
-    ) {
-}
+    ) { 
+    }
 
 
   ngOnInit(): void {
