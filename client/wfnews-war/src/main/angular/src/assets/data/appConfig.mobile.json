@@ -36,7 +36,10 @@
             },
             "moreInformationLink": "#{MORE_INFORMATION_LINK}#"
         },
-        "wfdmProxy": "#{WFDM_PROXY}#"
+        "wfdmProxy": "#{WFDM_PROXY}#",
+        "currentRestrictions": "#{CURRENT_RESTRICTIONS_URL}#",
+        "recSiteTrailsClosures": "#{REC_SITE_TRAILS_CLOSURES_URL}#",
+        "parksClosures": "#{PARKS_CLOSURES_URL}#"
     },
 
     "mapIcons": {

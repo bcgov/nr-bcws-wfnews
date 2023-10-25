@@ -62,6 +62,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   handleLayersSelection(returnFromPreiviewPanel?: boolean){
+    console.log(this.incidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.incidentRefs = this.storedIncidentRefs
@@ -195,10 +196,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   zoomIn() {
+    let long;
+    let lat;
     if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
-      const long = Number(this.identifyIncident.longitude);
-      const lat = Number(this.identifyIncident.latitude);
-  
+       long = Number(this.identifyIncident.longitude);
+       lat = Number(this.identifyIncident.latitude);
+    } else if (this.identifyItem && this.identifyItem._identifyPoint.longitude && this.identifyItem._identifyPoint.latitude) {
+      long = Number(this.identifyItem._identifyPoint.longitude);
+      lat = Number(this.identifyItem._identifyPoint.latitude);
+    }
+    if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
         const SMK = window['SMK'];
         let viewer = null;
@@ -233,7 +240,38 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   convertTimeStamp(time) {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(time).toLocaleTimeString("en-US", options) 
+    return new Date(time).toLocaleTimeString("en-US", options)
+  }
+
+  convertIrregularTimeStamp(time) {
+    const date = new Date(time);
+    return this.convertTimeStamp(date);
+  }
+
+  displayEvacTitle(item) {
+    let prefix = null;
+    if (item.properties.ORDER_ALERT_STATUS === 'Alert') {
+      prefix = 'Evacuation Alert for '
+    }
+    else if (item.properties.ORDER_ALERT_STATUS === 'Order') {
+      prefix = 'Evacuation Order for '
+    }
+    return prefix + item.properties.EVENT_NAME;
+  }
+
+  displayDangerRatingDes(danger) {
+    switch(danger) {
+      case 'Extreme':
+        return "Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts."
+      case 'High':
+        return "Forest fuels are very dry and the fire risk is serious.  Extreme caution must be used in any forest activities."
+      case 'Moderate':
+        return "Forest fuels are drying and there is an increased risk of surface fires starting. Carry out any forest activities with caution."
+      case 'Low':
+        return "Fires may start easily and spread quickly but there will be minimal involvement of deeper fuel layers or larger fuels."
+      case 'Very Low':
+        return "Dry forest fuels are at a very low risk of catching fire."
+    }
   }
 
 }

@@ -19,7 +19,7 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   fireCentre: string;
   map: any;
   currentRestrictionsUrl: string;
-  recSiteTrailClosuresUrl: string;
+  recSiteTrailsClosuresUrl: string;
   parksClosuresUrl: string;
   incident: any = { };
   incidentName: string;
@@ -135,10 +135,10 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
 
  populateUrls() {
   let currentRestrictions = this.appConfigService.getConfig().externalAppConfig['currentRestrictions'].toString()
-  let recSiteTrailClosures = this.appConfigService.getConfig().externalAppConfig['recSiteTrailClosures'].toString()
+  let recSiteTrailsClosures = this.appConfigService.getConfig().externalAppConfig['recSiteTrailsClosures'].toString()
   let parksClosures = this.appConfigService.getConfig().externalAppConfig['parksClosures'].toString()
   this.currentRestrictionsUrl = currentRestrictions;
-  this.recSiteTrailClosuresUrl = recSiteTrailClosures;
+  this.recSiteTrailsClosuresUrl = recSiteTrailsClosures;
   this.parksClosuresUrl = parksClosures;
  }
 

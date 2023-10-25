@@ -79,7 +79,7 @@
         },
         "wfdmProxy": "wfdmProxy.jsp",
         "currentRestrictions": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions",
-        "recSiteTrailClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
+        "recSiteTrailsClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
         "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire"
 
     },
