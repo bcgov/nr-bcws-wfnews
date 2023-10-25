@@ -555,6 +555,14 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.ZOOM_IN,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/zoom-in.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ZOOM_IN,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-left.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ZOOM_IN,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_calendar.svg")
+    );
   }
 
   isAdminPage() {

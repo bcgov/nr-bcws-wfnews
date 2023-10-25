@@ -8,6 +8,7 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/l
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -29,7 +30,7 @@ export class AreaRestrictionListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, protected router: Router ) {}
 
   ngOnInit(): void {
     this.search()
