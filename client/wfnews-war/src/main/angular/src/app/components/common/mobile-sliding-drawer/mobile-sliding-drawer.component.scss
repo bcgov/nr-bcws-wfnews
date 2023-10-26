@@ -1,0 +1,63 @@
+@import 'src/styles/variables';
+@import "notosans-fontface/scss/notosans-fontface";
+
+.sliding-drawer-boundary {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 90vh;
+  z-index: 100000000 !important;
+
+  .sliding-drawer {
+    position: fixed;
+    width: 100%;
+    height: 10vh;
+    bottom: 0;
+    left: 0;
+    cursor: grab;
+    background-color: #F5F5F5;
+    border-top: 1px solid #ccc;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+
+    .header {
+      padding-top: 8px;
+      padding-bottom: 10px;
+      padding-left: 24px;
+      padding-right: 24px;
+      overflow: auto;
+
+      .handle {
+        width: 32px;
+        height: 4px;
+        margin: auto;
+        border-radius: 100px;
+        opacity: 0.4;
+        background-color: #79747E;
+      }
+    
+      .title {
+        padding-top: 15px;
+        font-size: 14px;
+        line-height: 19px;
+        font-weight: 500;
+        font-style: normal;
+        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        text-align: center;
+        color: #666;
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+    
+    .content {
+      height: 100vh;
+      background: $colour-white;
+      padding: 10px;
+      overflow-y: auto;
+    }
+  }
+}
+
+
