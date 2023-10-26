@@ -337,6 +337,10 @@ mat-panel-title {
     display: none !important;
   }
 
+  ::ng-deep .smk-sidepanel{
+    display: none !important
+  }
+
   ::ng-deep .menu-bar {
     display: none !important;
     // hidden until we have a style settled for menu bar
