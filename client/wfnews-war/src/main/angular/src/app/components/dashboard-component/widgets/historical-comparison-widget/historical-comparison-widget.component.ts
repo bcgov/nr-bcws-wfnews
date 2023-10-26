@@ -37,7 +37,7 @@ export class HistoricalComparisonWidget implements AfterViewInit {
       // set FC to BC
       const result = await this.publishedIncidentService.fetchStatistics(year).toPromise()
 
-      const fireCount = result.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
+      const fireCount = result.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires, outFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires + outFires, 0) || 0
       totalFires += fireCount
 
       const burnedHectares = result.reduce((n, { hectaresBurned }) => n + hectaresBurned, 0) || 0
@@ -58,8 +58,8 @@ export class HistoricalComparisonWidget implements AfterViewInit {
       year -= 1
     }
 
-    const averageHectaresBurned = totalHectares / 20
-    const averageWildfires = totalFires / 20
+    const averageHectaresBurned = Math.round(totalHectares / 20)
+    const averageWildfires = Math.round(totalFires / 20)
 
     this.wildfireTotals.push({
       name: '20-Year Average',
