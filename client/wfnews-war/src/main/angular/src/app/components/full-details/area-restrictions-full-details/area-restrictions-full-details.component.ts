@@ -3,10 +3,11 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { convertToDateYear, getStageOfControlLabel, getStageOfControlIcon } from '@app/utils';
+import { convertToDateYear, getStageOfControlLabel, getStageOfControlIcon, ResourcesRoutes } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { FullDetailsComponent } from '../full-details.component';
+import { Router as Route } from '@angular/router';
 
 @Component({
   selector: 'wfnews-area-restrictions-full-details',
@@ -21,10 +22,13 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   currentRestrictionsUrl: string;
   recSiteTrailsClosuresUrl: string;
   parksClosuresUrl: string;
+  bulletinUrl: string;
   incident: any = { };
   incidentName: string;
   incidentNumber: string;
   wildfireYear: string;
+  stageOfControlLabel: string;
+  stageOfControlIcon: string;
   getStageOfControlLabel = getStageOfControlLabel;
   getStageOfControlIcon = getStageOfControlIcon;
 
@@ -35,7 +39,8 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
     router: ActivatedRoute, 
     private fullDetails: FullDetailsComponent, 
     private agolService: AGOLService,
-    private publishedIncidentService: PublishedIncidentService) {
+    private publishedIncidentService: PublishedIncidentService,
+    private route: Route) {
     super(router);
     this.restrictionID = fullDetails.restrictionID;
     this.agolService = agolService;
@@ -117,6 +122,7 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
           this.name = name + " Restricted Area"
           this.fireCentre = response.features[0].attributes.FIRE_CENTRE_NAME + " Fire Centre";
           this.issuedDate = convertToDateYear(response.features[0].attributes.ACCESS_STATUS_EFFECTIVE_DATE);
+          this.bulletinUrl = response.features[0].attributes.BULLETIN_URL;
       }
    })
  }
@@ -130,6 +136,9 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
     fireName = fireName.replace("Fire", "").trim();
     this.incidentName = fireName + " Wildfire";
     this.initMap(result.latitude, result.longitude)
+    this.stageOfControlIcon = getStageOfControlIcon(result.stageOfControlCode)
+    this.stageOfControlLabel = getStageOfControlLabel(result.stageOfControlCode)
+
   })
  }
 
@@ -141,5 +150,29 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   this.recSiteTrailsClosuresUrl = recSiteTrailsClosures;
   this.parksClosuresUrl = parksClosures;
  }
+
+ navToMap() {
+  setTimeout(() => {
+    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.incident.longitude, latitude: this.incident.latitude, areaRestriction: true} });
+  }, 100);
+ }
+
+ navToCurrentRestrictions() {
+  window.open(this.currentRestrictionsUrl, '_blank')
+ }
+
+ navToRecClosures() {
+  window.open(this.recSiteTrailsClosuresUrl, '_blank')
+ }
+
+ navToParksClosures() {
+  window.open(this.parksClosuresUrl, '_blank')
+
+ }
+
+ navToBulletinUrl() {
+  window.open(this.bulletinUrl, '_blank')
+ }
+
 
 }

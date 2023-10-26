@@ -1,3 +1,6 @@
+.wfnews-area-restrictionsfull-details {
+    max-width: 850px;
+}
 .title-panel {
     display: flex;
     padding: 24px 24px 32px 24px;
@@ -37,10 +40,9 @@
 
 .info-container {
     display: flex;
-    padding: 0px 24px 32px 24px;
+    padding: 24px 24px 10px 24px;
     flex-direction: column;
-    // align-items: center;
-    gap: 16px;
+    gap: 8px;
     align-self: stretch; 
 }
 
@@ -54,12 +56,16 @@
 }
 
 .full-details-header {
-    // position: fixed;
+    height: 25px;
+    width: 90%;
+    position: absolute;
     display: flex;
     padding: 10px 20px;
     justify-content: space-between;
     align-items: flex-start;
     align-self: stretch; 
+    z-index: 1000 !important;
+    background-color: white;
 }
 
 .wildfire-title {
@@ -70,8 +76,32 @@
     line-height: normal; 
 }
 
+.fire-info-container {
+    position:relative;
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch; 
+    border-radius: 8px;
+    border: 1px solid var(--grays-gray-7, #DEDEDE);
+    background: var(--White, #FDFDFD);
+    /* Card Shadow 2 */
+    box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07); 
+    .break {
+        border: 0;
+        clear:both;
+        display:flex;
+        width: 99%;               
+        background-color:#DDD;
+        height: 1px;
+        margin-left: 0px !important;
+      }
+}
+
 .wilfire-of-note-panel {
-    width: 45%;
+    width: 50%;
     display: flex;
     padding: 4px 12px;
     align-items: center;
@@ -121,6 +151,7 @@
   }
 
 .links {
+    position: relative;
     padding-bottom: 100px;
     margin-left: 20px;
     margin-right: 20px;
@@ -184,13 +215,56 @@
   }
 
   .arrow-button {
+    position: absolute;
+    display: flex;
+    right: 10px;
+    bottom: 10px;
     width: 20px;
     height: 20px;
-    display: flex;
-    padding: 6px;
-    justify-content: flex-end;
-    align-items: flex-start;
-    gap: 8px;  
+    padding: 6px; 
     border-radius: 64px;
     background: var(--Grey-2-EEE, #EEE); 
+    &:hover{
+        cursor: pointer;
+      }
   }
+
+  .bulletin {
+    display: flex;
+    width: 85%;
+    padding-right: 8px;
+    padding-left: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px; 
+    position: fixed;
+    left: 16px;
+    bottom: 3vh; 
+    border-radius: 8px;
+    border: 1px solid var(--grays-gray-8, #E4E4E4);
+    background: #FFF;
+    /* Card Shadow */
+    box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.10); 
+    p {
+        color: var(--blues-blue-2, #036);
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px; /* 146.667% */
+        letter-spacing: -0.408px; 
+    }
+    button {
+        position: relative;
+        display: flex;
+        padding: 8px 14px;
+        align-items: flex-start;
+        gap: 8px; 
+        border-radius: 8px;
+        background: var(--blues-blue-2, #036); 
+        width: 100px;
+        color: white;
+    }
+
+  }
+
+  
