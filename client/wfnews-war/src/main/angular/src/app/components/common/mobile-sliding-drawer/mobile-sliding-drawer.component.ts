@@ -66,10 +66,11 @@ export class MobileSlidingDrawerComponent {
   }
 
   setContentHeight() {
+    const padding = 40;
     if (this.drawerContentElement?.nativeElement && this.isFullScreen()) {
-      this.drawerContentElement.nativeElement.style.height = `${window.innerHeight - this.getHeaderHeight()}px`;
+      this.drawerContentElement.nativeElement.style.height = `${window.innerHeight - this.getHeaderHeight() - padding}px`;
     } else if (this.drawerContentElement?.nativeElement) {
-      this.drawerContentElement.nativeElement.style.height = this.getDrawerHeight() - this.getHeaderHeight() + 'px';
+      this.drawerContentElement.nativeElement.style.height = this.getDrawerHeight() - this.getHeaderHeight() - padding + 'px';
     }
   }
 
