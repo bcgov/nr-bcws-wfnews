@@ -273,4 +273,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
+  shareableLayers() {
+    if (this.showPanel && this.identifyItem && 
+      (this.identifyItem.layerId === 'area-restrictions' || this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId === 'closed-recreation-sites' || this.identifyItem.layerId === 'drive-bc-active-events')){
+        return true
+    }
+  }
+
 }

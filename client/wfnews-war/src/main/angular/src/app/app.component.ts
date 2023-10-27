@@ -73,6 +73,7 @@ export const ICON = {
   CARBON_GAUGE: 'carbon-gauge',
   CARBON_CALENDAR: 'carbon-calendar',
   ARROW_LEFT: 'carbon-calendar',
+  CARBON_LAYER: 'carbon-layer'
 };
 
 @Component({
@@ -574,6 +575,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.CARBON_GAUGE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_gauge.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_LAYER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_layers.svg")
     );
   }
 
