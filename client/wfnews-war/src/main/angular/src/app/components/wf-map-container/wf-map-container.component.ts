@@ -114,8 +114,16 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   addSelectedIncidentPanels (smk) {
     const self = this;
     const identified = smk.$viewer.identified;
-    // let mobileCompRef = self.makeComponent(ActiveWildfireMapComponent);
-    this.selectIncidents.emit(identified.featureSet)
+    let map = smk.$viewer.map;
+
+    let delayTimer;
+    // double click on map does not bring up identify panel, set half second delay to track if zoom in happens before the delay is finished, then cancel the identify
+    delayTimer = setTimeout(() => {
+      this.selectIncidents.emit(identified.featureSet);
+    },500)
+    map.on('zoomend', () => {
+      clearTimeout(delayTimer);
+    });    
 
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {

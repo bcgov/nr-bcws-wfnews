@@ -120,7 +120,7 @@ export class PublishedIncidentService {
 
   /********** Stats Data ***********/
 
-  public fetchStatistics (fireYear: number, fireCentre: string | null = null): Observable<any> {
+  public fetchStatistics (fireYear: number, fireCentre: string = "BC"): Observable<any> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/statistics?fireYear=${fireYear}${fireCentre ? ('&fireCentre=' + fireCentre) : ''}`
     return this.httpClient.get<any>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
