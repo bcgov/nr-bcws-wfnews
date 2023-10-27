@@ -25,12 +25,29 @@ export class MobileSlidingDrawerComponent {
 
   calculatePosition(endDragEvent) {
     const deltaY = endDragEvent.distance.y;
-    if ((deltaY < -100 && this.isDefaultPosition()) || (deltaY < (-1 * this.getDrawerHeight())) ) {
+    const isMovingUp = deltaY < 0;
+    const isMovingDown = deltaY > 0;
+    const isPastThreshold = Math.abs(deltaY) > 100;
+    const isBigSwipe = Math.abs(deltaY) > this.getDrawerHeight();
+
+    if (this.isDefaultPosition() && isMovingUp && isPastThreshold) {
       this.setToFullScreen();
-    } else if ((deltaY > 100 && this.isDefaultPosition()) || (deltaY > (this.getDrawerHeight())) ) {
+    } else if (this.isDefaultPosition() && isMovingDown && isPastThreshold) {
       this.closeDrawer();
-    } else if ((deltaY < -100 && this.isMinimized()) || (deltaY > 100 && this.isFullScreen())) {
+    } else if (this.isDefaultPosition() && !isPastThreshold) {
+      this.setToDefaultPosition(); 
+    } else if (this.isFullScreen() && isMovingDown && isBigSwipe) {
+      this.closeDrawer();
+    } else if (this.isFullScreen() && isMovingDown && isPastThreshold) {
       this.setToDefaultPosition();
+    } else if (this.isFullScreen() && (isMovingUp || !isPastThreshold)) {
+      this.setToFullScreen();
+    } else if (this.isMinimized() && isMovingUp && isBigSwipe) {
+      this.setToFullScreen();
+    } else if (this.isMinimized() && isMovingUp && isPastThreshold) {
+      this.setToDefaultPosition();
+    } else if (this.isMinimized() && (isMovingDown || !isPastThreshold)) {
+      this.setToMinimized();
     }
   }
 
