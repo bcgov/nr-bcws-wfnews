@@ -104,6 +104,7 @@ import { VideosWidget } from './components/dashboard-component/widgets/videos-wi
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
@@ -187,6 +188,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -314,7 +316,9 @@ export const DATE_FORMATS = {
         HistoricalComparisonWidget,
         FireCentreStatsWidget,
         MapToggleButtonComponent,
-        DraggablePanelComponent
+        DraggablePanelComponent,
+        FullDetailsComponent,
+        AreaRestrictionsFullDetailsComponent
     ],
     imports: [
         MatSortModule,

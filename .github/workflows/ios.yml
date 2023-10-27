@@ -116,6 +116,10 @@ jobs:
           WFNEWS_API_KEY: ${{ secrets.API_KEY }}
           WFNEWS_API_URL: ${{ vars.WFNEWS_API_URL }}
           WILDFIRE_INFORMATION_LINE: ${{ vars.WILDFIRE_INFORMATION_LINE }}
+          CURRENT_RESTRICTIONS_URL: ${{ vars.CURRENT_RESTRICTIONS_URL }}
+          REC_SITE_TRAILS_CLOSURES_URL: ${{ vars.REC_SITE_TRAILS_CLOSURES_URL }}
+          PARKS_CLOSURES_URL: ${{ vars.PARKS_CLOSURES_URL }}
+          
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
