@@ -19,7 +19,6 @@ import { SmkApi } from '../../utils/smk';
 
 
 export type SelectedLayer =
-  'wildfire' |
   'evacuation-orders-and-alerts' |
   'area-restrictions' |
   'bans-and-prohibitions' |
@@ -365,7 +364,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   async initializeLayers() {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
-    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire';
+    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
   }
