@@ -17,6 +17,9 @@ export class MobileSlidingDrawerComponent {
   @ViewChild('drawerHeaderElement')
   drawerHeaderElement: ElementRef;
 
+  @ViewChild('drawerContentElement')
+  drawerContentElement: ElementRef;
+
   dragPosition = { x: 0, y: 0 };
 
   closePanel() {
@@ -49,10 +52,25 @@ export class MobileSlidingDrawerComponent {
     } else if (this.isMinimized() && (isMovingDown || !isPastThreshold)) {
       this.setToMinimized();
     }
+
+    this.setContentHeight();
   }
 
   setPosition() {
-    this.dragPosition = { x: 0, y: (this.isFullScreen() ? 0 : this.getTopPosition()) };
+    if (this.isFullScreen()) {
+      this.setToDefaultPosition();
+    } else {
+      this.setToFullScreen();
+    }
+    this.setContentHeight();
+  }
+
+  setContentHeight() {
+    if (this.drawerContentElement?.nativeElement && this.isFullScreen()) {
+      this.drawerContentElement.nativeElement.style.height = `${window.innerHeight - this.getHeaderHeight()}px`;
+    } else if (this.drawerContentElement?.nativeElement) {
+      this.drawerContentElement.nativeElement.style.height = this.getDrawerHeight() - this.getHeaderHeight() + 'px';
+    }
   }
 
   closeDrawer() {
