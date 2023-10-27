@@ -1,6 +1,6 @@
 <div>
-    <div #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && incidentRefs && incidentRefs.length > 1">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div class="draggable-panel" *ngIf="showPanel && incidentRefs && incidentRefs.length > 1">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 {{incidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
@@ -234,8 +234,8 @@
         </div>
     </div>
     
-    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyIncident">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyIncident">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
@@ -283,4 +283,126 @@
             </div>
         </div>
     </div>
+
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'evacuation-orders-and-alerts-wms' ">
+        <div class="panel-container" >
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+                <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+                <span class="preview-title">
+                    <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'" class="preview-title">
+                        <img class="incident-icon" height="24" width="24" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
+                        Evacuation Alert
+                    </span>
+                    <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'" class="preview-title">
+                        <img class="incident-icon" height="24" width="24" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
+                        Evacuation Order
+                    </span>
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title" *ngIf="identifyItem.properties.EVENT_NAME">{{displayEvacTitle(identifyItem)}}</div>
+                <div class="identify-card-item">
+                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    Issued on {{convertIrregularTimeStamp(identifyItem.properties.DATE_MODIFIED)}} PST
+                </div>
+                <div class="identify-card-item">
+                    <mat-icon class="incident-icon" svgIcon='agency'></mat-icon>
+                    Issued by {{identifyItem.properties.ISSUING_AGENCY}}
+                </div>
+                <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'">
+                    An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation.
+                </div>
+                <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'">
+                    People in this area are at risk and should leave the area immediately. Failing to leave puts you and others at risk.
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+<!-- preview panel: area-restrictions, bans-and-prohibitions -->
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && (identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')) ">
+        <div class="panel-container" >
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+                <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+                <span class="preview-title" *ngIf="identifyItem.layerId === 'area-restrictions'">
+                    <mat-icon class="incident-icon" svgIcon="area-restriction" alt="Area Restrictions"></mat-icon>
+                    Area Restrictions
+                </span>
+                <span class="preview-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">
+                    <mat-icon class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+                    Fire Bans
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{identifyItem.properties.NAME}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Fire Ban on {{identifyItem.title}}</div>
+                <div class="identify-card-item">
+                    <img height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    {{identifyItem.properties.FIRE_CENTRE_NAME ? identifyItem.properties.FIRE_CENTRE_NAME + ' Fire Centre' : null}}
+                </div>
+                <div class="identify-card-item">
+                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    Issued on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}
+                </div>
+                <div class="identify-card-description">
+                    <span *ngIf="identifyItem.layerId === 'area-restrictions'">Access to this area is prohibited in order to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.</span>
+                    <span *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres.</span>
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'danger-rating' ">
+        <div class="panel-container" >
+            <div class="draggable-panel-title">
+                <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+                <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+                <span class="preview-title">
+                    <mat-icon class="incident-icon" svgIcon="carbon-gauge" alt="Danger Rating"></mat-icon>
+                    Wildfire Danger Rating
+                </span>
+                <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+            </div>
+            <div class="identify-card">
+                <div class="identify-card-title" *ngIf="identifyItem.properties.DANGER_RATING_DESC">{{identifyItem.properties.DANGER_RATING_DESC}} Fire Danger</div>
+                <div class="identify-card-description">
+                    {{displayDangerRatingDes(identifyItem.properties.DANGER_RATING_DESC)}}
+                </div>
+            </div>
+            <div class="button-row">
+                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                    Zoom to
+                </button>
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                    Full Details
+                </button>
+            </div>
+        </div>
+    </div>
+    
 </div>
