@@ -38,7 +38,7 @@ export class ActiveFiresWidget implements AfterViewInit {
 
   queryData () {
     this.startupComplete = false
-    const fireCentre = (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') ? FireCentres.find(fc => fc.code === this.selectedFireCentreCode).description : null
+    const fireCentre = (this.selectedFireCentreCode && this.selectedFireCentreCode !== '') ? FireCentres.find(fc => fc.code === this.selectedFireCentreCode).description : 'BC'
 
     Promise.all([
       this.publishedIncidentService.fetchStatistics(currentFireYear() - 1, fireCentre).toPromise(),
