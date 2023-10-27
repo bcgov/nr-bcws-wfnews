@@ -1,6 +1,6 @@
 <div>
-    <div #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && incidentRefs && incidentRefs.length > 1">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div class="draggable-panel" *ngIf="showPanel && incidentRefs && incidentRefs.length > 1">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 {{incidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
@@ -234,8 +234,8 @@
         </div>
     </div>
     
-    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyIncident">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyIncident">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
@@ -284,8 +284,8 @@
         </div>
     </div>
 
-    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'evacuation-orders-and-alerts-wms' ">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'evacuation-orders-and-alerts-wms' ">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
@@ -331,8 +331,8 @@
         </div>
     </div>
 <!-- preview panel: area-restrictions, bans-and-prohibitions -->
-    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && (identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')) ">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && (identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')) ">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
@@ -375,8 +375,8 @@
         </div>
     </div>
 
-    <div  #resizeBox class="draggable-panel" cdkDrag cdkDragLockAxis="y" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'danger-rating' ">
-        <div class="panel-container" style="padding-top: 10px;" cdkDragHandle>
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'danger-rating' ">
+        <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>

@@ -1,6 +1,6 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: 50vh;
+  height: 40vh;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -9,16 +9,20 @@
   border-top: 1px solid #ccc;
   z-index: 100000000 !important;
   border-radius: 20px;
+  min-height: 260px;
 }
 
 .panel-container {
   font-weight: 600;
-  padding: 10px;
+  margin: 20px 10px 0px 10px;
   overflow: auto;
   height: 90%;
   border-radius: 20px;
 
   .draggable-panel-title{
+    background-color: white;
+    position: sticky;
+    top: 0;
     font-size: 18px;
     color: #242424;
     padding: 20px 10px;
@@ -142,6 +146,9 @@
   }
 
   .button-row{
+    position:sticky;
+    bottom:0;
+    background-color: white;
     justify-content: space-between;
     gap: 16px;
     display: flex;
