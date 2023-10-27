@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'mobile-sliding-drawer',
@@ -7,6 +7,8 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 })
 export class MobileSlidingDrawerComponent {
   @Input() isVisible: boolean;
+  @Output() isVisibleChange = new EventEmitter<boolean>();
+  
   @Input() title: string;
 
   @ViewChild('drawerElement')
@@ -26,7 +28,7 @@ export class MobileSlidingDrawerComponent {
     if ((deltaY < -100 && this.isDefaultPosition()) || (deltaY < (-1 * this.getDrawerHeight())) ) {
       this.setToFullScreen();
     } else if ((deltaY > 100 && this.isDefaultPosition()) || (deltaY > (this.getDrawerHeight())) ) {
-      this.setToMinimized();
+      this.closeDrawer();
     } else if ((deltaY < -100 && this.isMinimized()) || (deltaY > 100 && this.isFullScreen())) {
       this.setToDefaultPosition();
     }
@@ -37,7 +39,9 @@ export class MobileSlidingDrawerComponent {
   }
 
   closeDrawer() {
-    this.setToMinimized();
+    this.setToDefaultPosition();
+    this.isVisible = false;
+    this.isVisibleChange.emit(this.isVisible);
   }
 
   getHeaderHeight() {

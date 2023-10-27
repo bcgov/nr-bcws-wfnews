@@ -8,8 +8,17 @@
   width: 100%;
   z-index: 100000000 !important;
 
+  &.show {
+    transform: translateY(0%) !important;
+    transition: transform 300ms;
+  }
+  
+  &.hide {
+    transform: translateY(100%) !important;
+    transition: transform 300ms;
+  }
+
   .sliding-drawer {
-    position: fixed;
     width: 100%;
     height: 45vh;
     bottom: 0;
@@ -64,14 +73,6 @@
       overflow-y: auto;
     }
   }
-}
-
-.show {
-  animation: slide-up 300ms ease-in-out forwards;
-}
-
-.hide {
-  display: none;
 }
 
 .cdk-drag {

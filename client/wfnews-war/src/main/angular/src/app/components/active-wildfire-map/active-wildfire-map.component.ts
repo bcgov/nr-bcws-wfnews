@@ -89,6 +89,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   isLocationEnabled: boolean;
   isMapLoaded = false;
+  isAllLayersOpen = true;
 
   showPanel: boolean;
 

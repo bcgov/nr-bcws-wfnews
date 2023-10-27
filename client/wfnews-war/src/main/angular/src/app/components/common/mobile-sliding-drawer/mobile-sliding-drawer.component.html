@@ -1,5 +1,5 @@
-<div class="sliding-drawer-boundary" >
-  <div class="sliding-drawer" #drawerElement [ngClass]="isVisible ? 'show' : 'hide'" cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="calculatePosition($event)" [cdkDragFreeDragPosition]="dragPosition">
+<div class="sliding-drawer-boundary" [ngClass]="isVisible ? 'show' : 'hide'">
+  <div class="sliding-drawer" #drawerElement cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="calculatePosition($event)" [cdkDragFreeDragPosition]="dragPosition">
     <div class="header" #drawerHeaderElement style="padding-top: 10px;" cdkDragHandle>
       <div class="handle"></div>
       <div class="title">
