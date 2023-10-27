@@ -71,6 +71,7 @@ export const ICON = {
   ZOOM_IN: 'zoom-in',
   AGENCY: 'agency',
   CARBON_GAUGE: 'carbon-gauge',
+  CARBON_LAYER: 'carbon-layer'
 };
 
 @Component({
@@ -564,6 +565,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.CARBON_GAUGE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_gauge.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_LAYER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_layers.svg")
     );
   }
 
