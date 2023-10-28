@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+<<<<<<< HEAD
 import { ActivatedRoute, Router as Route } from '@angular/router';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -7,6 +8,17 @@ import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfCo
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { FullDetailsComponent } from '../full-details.component';
+=======
+import { ActivatedRoute } from '@angular/router';
+import { AGOLService } from '@app/services/AGOL-service';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { convertToDateYear, getStageOfControlLabel, getStageOfControlIcon, ResourcesRoutes } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
+import * as L from 'leaflet';
+import { FullDetailsComponent } from '../full-details.component';
+import { Router as Route } from '@angular/router';
+import { AgolOptions } from '@app/services/AGOL-service';
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
 
 @Component({
   selector: 'wfnews-area-restrictions-full-details',
@@ -17,12 +29,16 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   name: string;
   issuedDate: string;
   fireCentre: string;
+<<<<<<< HEAD
   discoveryDate: string
+=======
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
   map: any;
   currentRestrictionsUrl: string;
   recSiteTrailsClosuresUrl: string;
   parksClosuresUrl: string;
   bulletinUrl: string;
+<<<<<<< HEAD
   incidentName: string;
   incidentNumber: string;
   wildfireYear: string;
@@ -32,6 +48,16 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   stageOfControlLabel: string;
   stageOfControlIcon: string;
   fireOfNoteInd: boolean;
+=======
+  incident: any = { };
+  incidentName: string;
+  incidentNumber: string;
+  wildfireYear: string;
+  longitude: string;
+  latitude: string;
+  stageOfControlLabel: string;
+  stageOfControlIcon: string;
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
   getStageOfControlLabel = getStageOfControlLabel;
   getStageOfControlIcon = getStageOfControlIcon;
 
@@ -57,11 +83,19 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   this.populateUrls()
  } 
 
+<<<<<<< HEAD
  initMap(): void {
     this.cdr.detectChanges()
 
     // Create map and append data to the map component
     const location = [Number(this.centroidLatitude), Number(this.centroidLongitude)]
+=======
+ initMap(latitude: string, longitude: string): void {
+    this.cdr.detectChanges()
+
+    // Create map and append data to the map component
+    const location = [Number(latitude), Number(longitude)]
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
 
     this.map = L.map('map', {
     attributionControl: false,
@@ -93,11 +127,20 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
       popupAnchor: [1, -34],
       shadowSize: [41, 41]
     });
+<<<<<<< HEAD
     if(this.fireOfNoteInd) {
       L.marker(location, {icon: fireOfNoteIcon}).addTo(this.map);
     }else{
       let colorToDisplay;
       switch(this.stageOfControlCode) {
+=======
+
+    if(this.incident.fireOfNoteInd) {
+      L.marker(location, {icon: fireOfNoteIcon}).addTo(this.map);
+    }else{
+      let colorToDisplay;
+      switch(this.incident.stageOfControlCode) {
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
         case 'OUT_CNTRL':
           colorToDisplay = '#FF0000'
           break;
@@ -127,15 +170,24 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
           this.fireCentre = response.features[0].attributes.FIRE_CENTRE_NAME + " Fire Centre";
           this.issuedDate = convertToDateYear(response.features[0].attributes.ACCESS_STATUS_EFFECTIVE_DATE);
           this.bulletinUrl = response.features[0].attributes.BULLETIN_URL;
+<<<<<<< HEAD
           this.centroidLatitude = response.features[0].centroid.y;
           this.centroidLongitude = response.features[0].centroid.x;
           let restrictionPolygon = response.features[0].geometry.rings;
           this.populateIncident(restrictionPolygon)
+=======
+          let restrictionPolygon = response.features[0].geometry.rings;
+          this.populateIncident(restrictionPolygon)
+          this.latitude = response.features[0].centroid.y;
+          this.longitude = response.features[0].centroid.x;
+          this.initMap(this.latitude, this.longitude);
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
       }
    })
  }
 
  populateIncident(restrictionPolygon: [][]) {
+<<<<<<< HEAD
   let poly: number [][] = restrictionPolygon[0]
   let polyArray:Array<number> [] = [];
  
@@ -157,6 +209,16 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
      xArray.push(value[0]);
      yArray.push(value[1]);
    })
+=======
+  let poly = restrictionPolygon[0]
+  let xArray: number [] = [];
+  let yArray: number [] = [];
+
+  poly.forEach((value) => {
+    xArray.push(value[0]);
+    yArray.push(value[1]);
+  })
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
 
   // get max and min coords for bbox
   let minX = Math.min(...xArray)
@@ -167,6 +229,7 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   let bbox: string = minX.toString() + "," + minY.toString() + "," + maxX.toString() + "," + maxY.toString();
   let stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
   
+<<<<<<< HEAD
   // find incidents within the area restriction polygon
  this.publishedIncidentService.fetchPublishedIncidentsList(0, 1000, null, null, null, stageOfControlCodes, null, bbox).subscribe(incidents => {
 
@@ -180,6 +243,18 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
         this.stageOfControlIcon = getStageOfControlIcon(incidents.collection[0].stageOfControlCode)
         this.stageOfControlLabel = getStageOfControlLabel(incidents.collection[0].stageOfControlCode)
         this.initMap();
+=======
+  // find the points for each fire within the fireCentre
+ this.publishedIncidentService.fetchPublishedIncidentsList(0, 1000, null, null, null, stageOfControlCodes, null, bbox).subscribe(incidents => {
+     if (incidents && incidents.collection && incidents.collection[0]) {
+        this.incident = incidents.collection[0]
+        this.incident.discoveryDate = convertToDateYear(incidents.collection[0].discoveryDate)
+        let fireName = incidents.collection[0].discoveryDate.incidentName
+        fireName = fireName.replace("Fire", "").trim();
+        this.incidentName = fireName + " Wildfire";
+        this.stageOfControlIcon = getStageOfControlIcon(incidents.collection[0].stageOfControlCode)
+        this.stageOfControlLabel = getStageOfControlLabel(incidents.collection[0].stageOfControlCode)
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
      }    
     });
  }
@@ -195,7 +270,11 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
 
  navToMap() {
   setTimeout(() => {
+<<<<<<< HEAD
     this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.centroidLongitude, latitude: this.centroidLatitude, areaRestriction: true} });
+=======
+    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.longitude, latitude: this.latitude, areaRestriction: true} });
+>>>>>>> b5a2e7f9bef1bfd3a0f4aff52bcf7653da228a92
   }, 100);
  }
 

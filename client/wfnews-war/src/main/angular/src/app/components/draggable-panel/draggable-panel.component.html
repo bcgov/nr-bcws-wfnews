@@ -330,8 +330,8 @@
             </div>
         </div>
     </div>
-<!-- preview panel: area-restrictions, bans-and-prohibitions -->
-    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && (identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')) ">
+<!-- preview panel: area-restrictions, bans-and-prohibitions, closed recreation sites, drive-bc-active-events-->
+    <div  class="draggable-panel" *ngIf="shareableLayers()">
         <div class="panel-container" >
             <div class="draggable-panel-title">
                 <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
@@ -345,22 +345,64 @@
                     <mat-icon class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
                     Fire Bans
                 </span>
+
+                <span class="preview-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">
+                    <mat-icon class="incident-icon" svgIcon="carbon-layer" alt="closed-recreation-site"></mat-icon>
+                    Closed Recreational Sites
+                </span>
+                <span class="preview-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">
+                    <mat-icon class="incident-icon" svgIcon="road-event" alt="road-event"></mat-icon>
+                    Road Events
+                </span>
+
+                <span class="preview-title" *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">
+                    <mat-icon class="incident-icon" svgIcon="carbon-layer" alt="Protected-Lands"></mat-icon>
+                    Protected Lands
+                </span>
+
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div class="identify-card">
                 <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{identifyItem.properties.NAME}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Fire Ban on {{identifyItem.title}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">{{identifyItem.properties.PROJECT_NAME}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.title}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">{{identifyItem.properties.PROTECTED_LANDS_NAME}}</div>
+
+
+                <div *ngIf="identifyItem.layerId === 'drive-bc-active-events'" class="identify-card-item">
+                    {{identifyItem.properties.SEVERITY[0].toUpperCase() + identifyItem.properties.SEVERITY.slice(1).toLowerCase()}} Severity
+                </div>
+                <div *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'" class="identify-card-item">
+                    {{identifyItem.properties.ACCESS_STATUS}}
+                </div>
+
                 <div class="identify-card-item">
-                    <img height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
-                    {{identifyItem.properties.FIRE_CENTRE_NAME ? identifyItem.properties.FIRE_CENTRE_NAME + ' Fire Centre' : null}}
+                    <img *ngIf="identifyItem.layerId !== 'drive-bc-active-events' && identifyItem.layerId !== 'protected-lands-access-restrictions' " height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    <mat-icon *ngIf="identifyItem.layerId === 'drive-bc-active-events'" class="incident-icon" svgIcon='agency'></mat-icon>
+                    <mat-icon *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions' && identifyItem.properties.CAMPFIRE_BAN_IND !== 'N' " class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+
+                    <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">{{identifyItem.properties.FIRE_CENTRE_NAME ? identifyItem.properties.FIRE_CENTRE_NAME + ' Fire Centre' : null}}</span>
+                    <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">{{identifyItem.properties.RECREATION_DISTRICT_NAME}}</span>
+                    <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.properties.AREA}}</span>
+                    <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions' && identifyItem.properties.CAMPFIRE_BAN_IND !== 'N' ">Campfire Ban</span>
+
                 </div>
                 <div class="identify-card-item">
                     <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
-                    Issued on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}
+                    <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">Issued on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+                    <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">Closed on {{convertTimeStamp(identifyItem.properties.CLOSURE_DATE)}}</span>
+                    <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">Created on {{convertTimeStamp(identifyItem.properties.CREATED_TIME)}}</span>
+                    <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">Effective on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+
                 </div>
                 <div class="identify-card-description">
                     <span *ngIf="identifyItem.layerId === 'area-restrictions'">Access to this area is prohibited in order to limit the risk of a fire, to address a public safety concern or to avoid interference with fire control.</span>
                     <span *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres.</span>
+                    <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">The Recreation Site/Trail is closed due to an active wildfire in the area. Find further information at www.bcwildfire.ca</span>
+                    <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.properties.DESCRIPTION}}</span>
+                    <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">{{identifyItem.properties.ACCESS_DETAILS}}</span>
+
                 </div>
             </div>
             <div class="button-row">
@@ -368,7 +410,7 @@
                     <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
                     Zoom to
                 </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
                     Full Details
                 </button>
             </div>

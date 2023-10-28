@@ -575,6 +575,10 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       ICON.CARBON_GAUGE,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_gauge.svg")
     );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_LAYER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_layers.svg")
+    );
   }
 
   isAdminPage() {
