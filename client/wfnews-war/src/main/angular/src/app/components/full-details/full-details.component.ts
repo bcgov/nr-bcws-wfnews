@@ -7,22 +7,13 @@ import { ParamMap, ActivatedRoute } from '@angular/router';
   styleUrls: ['./full-details.component.scss']
 })
 export class FullDetailsComponent implements OnInit {
-  router: ActivatedRoute;
-  areaRestrictions: boolean;
-  restrictionID: string
+  public params: ParamMap
 
-constructor(router: ActivatedRoute){
-  this.router = router;
-}
+  constructor(private router: ActivatedRoute) { }
 
- ngOnInit(): void {
-  this.router.queryParams.subscribe((params: ParamMap) => {
-    if (params && params['areaRestrictions'] && params['restrictionID']) {
-    this.areaRestrictions = true
-    this.restrictionID = params['restrictionID'];
- }
-});
-
- }
-
+  ngOnInit(): void {
+    this.router.queryParams.subscribe((params: ParamMap) => {
+      this.params = params
+    })
+  }
 }
