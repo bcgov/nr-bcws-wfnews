@@ -139,9 +139,9 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
   let poly: number [][] = restrictionPolygon[0]
   let polyArray:Array<number> [] = [];
  
-  poly.forEach(value => {
-    polyArray.push(value)
-  })
+  for (let item of poly){
+    polyArray.push(item)
+  }
   
   let multiPolyArray = [polyArray];
   let turf = window['turf']
@@ -150,21 +150,7 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
     units: 'kilometers'
   });
 
-  let xArray: number [] = [];
-  let yArray: number [] = [];
-
-  buffer.geometry.coordinates[0].forEach((value) => {
-     xArray.push(value[0]);
-     yArray.push(value[1]);
-   })
-
-  // get max and min coords for bbox
-  let minX = Math.min(...xArray)
-  let minY = Math.min(...yArray)
-  let maxX = Math.max(...xArray)
-  let maxY = Math.max(...yArray)
-
-  let bbox: string = minX.toString() + "," + minY.toString() + "," + maxX.toString() + "," + maxY.toString();
+  let bbox = turf.bbox(buffer)
   let stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
   
   // find incidents within the area restriction polygon

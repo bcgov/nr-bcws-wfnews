@@ -73,6 +73,7 @@ export const ICON = {
   CARBON_GAUGE: 'carbon-gauge',
   CARBON_CALENDAR: 'carbon-calendar',
   ARROW_LEFT: 'carbon-calendar',
+  CARBON_LAYER: 'carbon-layer'
 };
 
 @Component({
