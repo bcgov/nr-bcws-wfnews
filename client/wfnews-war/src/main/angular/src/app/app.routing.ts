@@ -14,6 +14,7 @@ import { WildfiresListHeaderComponent } from './components/wildfires-list-header
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
+import { FullDetailsComponent } from './components/full-details/full-details.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -31,7 +32,8 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard], canDeactivate: [CanDeactivateGuard]},
   { path: ResourcesRoutes.PUBLIC_INCIDENT, component: PublicIncidentPage, pathMatch: 'full'},
   { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',}
+  { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',},
+  { path: ResourcesRoutes.FULL_DETAILS, component: FullDetailsComponent, pathMatch: 'full',},
 ];
 
 

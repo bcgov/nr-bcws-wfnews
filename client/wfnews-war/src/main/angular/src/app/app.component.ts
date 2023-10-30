@@ -68,7 +68,12 @@ export const ICON = {
   LOCATION_DISABLED: 'location-disabled',
   LOCATION_ENABLED: 'location-enabled',
   CALENDAR: 'calendar',
-  ZOOM_IN: 'zoom-in'
+  ZOOM_IN: 'zoom-in',
+  AGENCY: 'agency',
+  CARBON_GAUGE: 'carbon-gauge',
+  CARBON_CALENDAR: 'carbon-calendar',
+  ARROW_LEFT: 'carbon-calendar',
+  CARBON_LAYER: 'carbon-layer'
 };
 
 @Component({
@@ -554,6 +559,26 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     this.matIconRegistry.addSvgIcon(
       ICON.ZOOM_IN,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/zoom-in.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW_LEFT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-left.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_CALENDAR,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_calendar.svg")
+      );
+    this.matIconRegistry.addSvgIcon(
+      ICON.AGENCY,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_finance.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_GAUGE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_gauge.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_LAYER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_layers.svg")
     );
   }
 
