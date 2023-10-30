@@ -34,8 +34,8 @@ export class SimpleIncident {
 export class AreaRestrictionsFullDetailsComponent implements OnInit {
   @Input() id: string
 
-  public restrictionData: AreaRestriction
-  public incident: SimpleIncident
+  public restrictionData: AreaRestriction | null
+  public incident: SimpleIncident | null
   public map: any;
 
   public getStageOfControlLabel = getStageOfControlLabel;
@@ -43,8 +43,9 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
   constructor(private cdr: ChangeDetectorRef, private appConfigService: AppConfigService, private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private route: Route) { }
 
-  ngOnInit(): void {
-    this.populateAreaRestrictionByID({ returnGeometry: true, returnCentroid: true, returnExtent: false })
+  async ngOnInit(): Promise<void> {
+    await this.populateAreaRestrictionByID({ returnGeometry: true, returnCentroid: true, returnExtent: false })
+    this.initMap()
   }
 
   initMap(): void {
@@ -110,33 +111,29 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     this.cdr.detectChanges()
   }
 
-  populateAreaRestrictionByID(options: AgolOptions = null) {
+  async populateAreaRestrictionByID(options: AgolOptions = null) {
     this.restrictionData = null
-    this.agolService.getAreaRestrictionsByID(this.id, options).subscribe((response) => {
-      // could also do response length === 1
-      if (response?.features[0]?.attributes) {
-        const areaRestriction = response.features[0]
+    const response = await this.agolService.getAreaRestrictionsByID(this.id, options).toPromise()
+    // could also do response length === 1
+    if (response?.features[0]?.attributes) {
+      const areaRestriction = response.features[0]
 
-        this.restrictionData = new AreaRestriction
+      this.restrictionData = new AreaRestriction
 
-        this.restrictionData.name = areaRestriction.attributes.NAME.replace("Area Restriction", "").trim() + " Restricted Area"
-        this.restrictionData.fireCentre = areaRestriction.attributes.FIRE_CENTRE_NAME + " Fire Centre";
-        this.restrictionData.issuedDate = convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE);
-        this.restrictionData.bulletinUrl = areaRestriction.attributes.BULLETIN_URL;
-        this.restrictionData.centroidLatitude = areaRestriction.centroid.y;
-        this.restrictionData.centroidLongitude = areaRestriction.centroid.x;
+      this.restrictionData.name = areaRestriction.attributes.NAME.replace("Area Restriction", "").trim() + " Restricted Area"
+      this.restrictionData.fireCentre = areaRestriction.attributes.FIRE_CENTRE_NAME + " Fire Centre";
+      this.restrictionData.issuedDate = convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE);
+      this.restrictionData.bulletinUrl = areaRestriction.attributes.BULLETIN_URL;
+      this.restrictionData.centroidLatitude = areaRestriction.centroid.y;
+      this.restrictionData.centroidLongitude = areaRestriction.centroid.x;
 
-        this.populateIncident(areaRestriction.geometry.rings)
-
-        this.initMap()
-
-      } else {
-        // What happens when this fails?
-      }
-    })
+      await this.populateIncident(areaRestriction.geometry.rings)
+    } else {
+      // What happens when this fails?
+    }
   }
 
-  populateIncident(restrictionPolygon: [][]) {
+  async populateIncident(restrictionPolygon: [][]) {
     const turf = window['turf']
 
     const poly: number[][] = restrictionPolygon[0]
@@ -159,25 +156,22 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     // If we're only expecting 1, why fetch 1000 and only use the first?
     // what happens if there are more than one?
     this.incident = null
-    this.publishedIncidentService.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).subscribe(incidents => {
-      if (incidents?.collection && incidents?.collection?.length === 1) {
-        const firstIncident = incidents.collection[0]
-        const fireName = firstIncident.incidentName.replace("Fire", "").trim()
+    const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).toPromise()
+    if (incidents?.collection && incidents?.collection?.length === 1) {
+      const firstIncident = incidents.collection[0]
+      const fireName = firstIncident.incidentName.replace("Fire", "").trim()
 
-        this.incident = new SimpleIncident
+      this.incident = new SimpleIncident
 
-        this.incident.discoveryDate = convertToDateYear(firstIncident.discoveryDate)
-        this.incident.incidentName = fireName + " Wildfire"
-        this.incident.fireOfNoteInd = firstIncident.fireOfNoteInd
-        this.incident.stageOfControlCode = firstIncident.stageOfControlCode
-        this.incident.stageOfControlIcon = getStageOfControlIcon(firstIncident.stageOfControlCode)
-        this.incident.stageOfControlLabel = getStageOfControlLabel(firstIncident.stageOfControlCode)
-
-        this.initMap()
-      } else {
-        // what happens when this fails?
-      }
-    })
+      this.incident.discoveryDate = convertToDateYear(firstIncident.discoveryDate)
+      this.incident.incidentName = fireName + " Wildfire"
+      this.incident.fireOfNoteInd = firstIncident.fireOfNoteInd
+      this.incident.stageOfControlCode = firstIncident.stageOfControlCode
+      this.incident.stageOfControlIcon = getStageOfControlIcon(firstIncident.stageOfControlCode)
+      this.incident.stageOfControlLabel = getStageOfControlLabel(firstIncident.stageOfControlCode)
+    } else {
+      // what happens when this fails?
+    }
   }
 
   navToMap() {
