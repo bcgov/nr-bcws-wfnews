@@ -207,6 +207,11 @@
     border: 1px solid var(--grays-gray-7, #DEDEDE);
     background: var(--blues-blue-11, #F5F6F9);
   }
+
+  &-relative {
+    position: relative;
+    cursor: pointer;
+  }
 }
 
 .circle-icon {
@@ -293,7 +298,7 @@ hr {
   gap: 8px;
   position: fixed;
   left: 16px;
-  bottom: 3vh;
+  bottom: 94px;
   border-radius: 8px;
   border: 1px solid var(--grays-gray-8, #E4E4E4);
   background: #FFF;
@@ -322,4 +327,27 @@ hr {
     color: white;
   }
 
+  &-link-icon {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+  }
+}
+
+.spacer {
+  position: relative !important;
+  height: 50px !important;
+  width: 100% !important;
+}
+
+.link-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
 }

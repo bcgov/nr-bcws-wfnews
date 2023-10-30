@@ -53,7 +53,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
     // this code is duplicated in a few places now. Might make sense to move into
     // a specific component or util factory class
-    this.map = L.map('map', {
+    this.map = L.map('restrictions-map', {
       attributionControl: false,
       zoomControl: false,
       dragging: false,
@@ -83,27 +83,29 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       popupAnchor: [1, -34],
       shadowSize: [41, 41]
     });
-    if (this.incident.fireOfNoteInd) {
-      L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
-    } else {
-      let colorToDisplay;
-      switch (this.incident.stageOfControlCode) {
-        case 'OUT_CNTRL':
-          colorToDisplay = '#FF0000'
-          break;
-        case 'HOLDING':
-          colorToDisplay = '#ffff00'
-          break;
-        case 'UNDR_CNTRL':
-          colorToDisplay = '#98E600'
-          break;
-        case 'OUT':
-          colorToDisplay = '#999999'
-          break;
-        default:
-          colorToDisplay = 'white';
+    if (this.incident) {
+      if (this.incident.fireOfNoteInd) {
+        L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+      } else {
+        let colorToDisplay;
+        switch (this.incident.stageOfControlCode) {
+          case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000'
+            break;
+          case 'HOLDING':
+            colorToDisplay = '#ffff00'
+            break;
+          case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600'
+            break;
+          case 'OUT':
+            colorToDisplay = '#999999'
+            break;
+          default:
+            colorToDisplay = 'white';
+        }
+        L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
       }
-      L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
     }
     this.cdr.detectChanges()
   }
@@ -125,6 +127,9 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
         this.restrictionData.centroidLongitude = areaRestriction.centroid.x;
 
         this.populateIncident(areaRestriction.geometry.rings)
+
+        this.initMap()
+
       } else {
         // What happens when this fails?
       }
