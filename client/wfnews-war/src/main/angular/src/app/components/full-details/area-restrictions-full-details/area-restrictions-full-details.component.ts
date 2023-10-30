@@ -1,78 +1,69 @@
-import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router as Route } from '@angular/router';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { Router as Route } from '@angular/router';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { FullDetailsComponent } from '../full-details.component';
+
+export class AreaRestriction {
+  public name: string;
+  public issuedDate: string;
+  public bulletinUrl: string;
+  public wildfireYear: string;
+  public centroidLongitude: string;
+  public centroidLatitude: string;
+  public fireCentre: string;
+}
+
+export class SimpleIncident {
+  public incidentName: string;
+  public incidentNumber: string;
+  public discoveryDate: string
+  public stageOfControlCode: string;
+  public stageOfControlLabel: string;
+  public stageOfControlIcon: string;
+  public fireOfNoteInd: boolean;
+}
 
 @Component({
   selector: 'wfnews-area-restrictions-full-details',
   templateUrl: './area-restrictions-full-details.component.html',
   styleUrls: ['./area-restrictions-full-details.component.scss']
 })
-export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent implements OnInit {
-  name: string;
-  issuedDate: string;
-  fireCentre: string;
-  discoveryDate: string
-  map: any;
-  currentRestrictionsUrl: string;
-  recSiteTrailsClosuresUrl: string;
-  parksClosuresUrl: string;
-  bulletinUrl: string;
-  incidentName: string;
-  incidentNumber: string;
-  wildfireYear: string;
-  centroidLongitude: string;
-  centroidLatitude: string;
-  stageOfControlCode: string;
-  stageOfControlLabel: string;
-  stageOfControlIcon: string;
-  fireOfNoteInd: boolean;
-  getStageOfControlLabel = getStageOfControlLabel;
-  getStageOfControlIcon = getStageOfControlIcon;
+export class AreaRestrictionsFullDetailsComponent implements OnInit {
+  @Input() id: string
 
+  public restrictionData: AreaRestriction | null
+  public incident: SimpleIncident | null
+  public map: any;
 
-  constructor(private cdr: ChangeDetectorRef, 
-    private httpClient: HttpClient, 
-    private appConfigService: AppConfigService, 
-    router: ActivatedRoute, 
-    private fullDetails: FullDetailsComponent, 
-    private agolService: AGOLService,
-    private publishedIncidentService: PublishedIncidentService,
-    private route: Route) {
-    super(router);
-    this.restrictionID = fullDetails.restrictionID;
-    this.agolService = agolService;
+  public getStageOfControlLabel = getStageOfControlLabel;
+  public getStageOfControlIcon = getStageOfControlIcon;
+
+  constructor(private cdr: ChangeDetectorRef, private appConfigService: AppConfigService, private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private route: Route) { }
+
+  async ngOnInit(): Promise<void> {
+    await this.populateAreaRestrictionByID({ returnGeometry: true, returnCentroid: true, returnExtent: false })
+    this.initMap()
   }
 
- ngOnInit(): void {
-  let options: AgolOptions = {}
-  options.returnGeometry = true;
-  options.returnCentroid = true;
-  this.populateAreaRestrictionByID(this.restrictionID, options)
-  this.populateUrls()
- } 
-
- initMap(): void {
-    this.cdr.detectChanges()
-
+  initMap(): void {
     // Create map and append data to the map component
-    const location = [Number(this.centroidLatitude), Number(this.centroidLongitude)]
+    const location = [Number(this.restrictionData.centroidLatitude), Number(this.restrictionData.centroidLongitude)]
 
-    this.map = L.map('map', {
-    attributionControl: false,
-    zoomControl: false,
-    dragging: false,
-    doubleClickZoom: false,
-    boxZoom: false,
-    trackResize: false,
-    scrollWheelZoom: false,
+    // this code is duplicated in a few places now. Might make sense to move into
+    // a specific component or util factory class
+    this.map = L.map('restrictions-map', {
+      attributionControl: false,
+      zoomControl: false,
+      dragging: false,
+      doubleClickZoom: false,
+      boxZoom: false,
+      trackResize: false,
+      scrollWheelZoom: false
     }).setView(location, 9)
-    // configure map data
+    // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(this.map)
@@ -93,114 +84,115 @@ export class AreaRestrictionsFullDetailsComponent extends FullDetailsComponent i
       popupAnchor: [1, -34],
       shadowSize: [41, 41]
     });
-    if(this.fireOfNoteInd) {
-      L.marker(location, {icon: fireOfNoteIcon}).addTo(this.map);
-    }else{
-      let colorToDisplay;
-      switch(this.stageOfControlCode) {
-        case 'OUT_CNTRL':
-          colorToDisplay = '#FF0000'
-          break;
-        case 'HOLDING':
-          colorToDisplay = '#ffff00'
-          break;
-        case 'UNDR_CNTRL':
-          colorToDisplay = '#98E600'
-          break;
-        case 'OUT':
-          colorToDisplay = '#999999'
-          break;
-        default:
-          colorToDisplay = 'white';
+    if (this.incident) {
+      if (this.incident.fireOfNoteInd) {
+        L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+      } else {
+        let colorToDisplay;
+        switch (this.incident.stageOfControlCode) {
+          case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000'
+            break;
+          case 'HOLDING':
+            colorToDisplay = '#ffff00'
+            break;
+          case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600'
+            break;
+          case 'OUT':
+            colorToDisplay = '#999999'
+            break;
+          default:
+            colorToDisplay = 'white';
+        }
+        L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
       }
-      L.circleMarker(location,{radius:15,fillOpacity:1,color:'black', fillColor:colorToDisplay}).addTo(this.map)
     }
     this.cdr.detectChanges()
   }
 
- populateAreaRestrictionByID(id: string, options: AgolOptions = null) {
-    let areaRestrict = this.agolService.getAreaRestrictionsByID(id, options).toPromise().then((response) => {
-      if (response.features && response.features[0] && response.features[0].attributes) {
-          let name: string = response.features[0].attributes.NAME;
-          name = name.replace("Area Restriction", "").trim();
-          this.name = name + " Restricted Area"
-          this.fireCentre = response.features[0].attributes.FIRE_CENTRE_NAME + " Fire Centre";
-          this.issuedDate = convertToDateYear(response.features[0].attributes.ACCESS_STATUS_EFFECTIVE_DATE);
-          this.bulletinUrl = response.features[0].attributes.BULLETIN_URL;
-          this.centroidLatitude = response.features[0].centroid.y;
-          this.centroidLongitude = response.features[0].centroid.x;
-          let restrictionPolygon = response.features[0].geometry.rings;
-          this.populateIncident(restrictionPolygon)
-      }
-   })
- }
+  async populateAreaRestrictionByID(options: AgolOptions = null) {
+    this.restrictionData = null
+    const response = await this.agolService.getAreaRestrictionsByID(this.id, options).toPromise()
+    // could also do response length === 1
+    if (response?.features[0]?.attributes) {
+      const areaRestriction = response.features[0]
 
- populateIncident(restrictionPolygon: [][]) {
-  let poly: number [][] = restrictionPolygon[0]
-  let polyArray:Array<number> [] = [];
- 
-  for (let item of poly){
-    polyArray.push(item)
+      this.restrictionData = new AreaRestriction
+
+      this.restrictionData.name = areaRestriction.attributes.NAME.replace("Area Restriction", "").trim() + " Restricted Area"
+      this.restrictionData.fireCentre = areaRestriction.attributes.FIRE_CENTRE_NAME + " Fire Centre";
+      this.restrictionData.issuedDate = convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE);
+      this.restrictionData.bulletinUrl = areaRestriction.attributes.BULLETIN_URL;
+      this.restrictionData.centroidLatitude = areaRestriction.centroid.y;
+      this.restrictionData.centroidLongitude = areaRestriction.centroid.x;
+
+      await this.populateIncident(areaRestriction.geometry.rings)
+    } else {
+      // What happens when this fails?
+    }
   }
-  
-  let multiPolyArray = [polyArray];
-  let turf = window['turf']
-  let bufferedPolygon = turf.polygon(multiPolyArray)
-  let buffer = turf.buffer(bufferedPolygon, 10, {
-    units: 'kilometers'
-  });
 
-  let bbox = turf.bbox(buffer)
-  let stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-  
-  // find incidents within the area restriction polygon
- this.publishedIncidentService.fetchPublishedIncidentsList(0, 1000, null, null, null, stageOfControlCodes, null, bbox).subscribe(incidents => {
+  async populateIncident(restrictionPolygon: [][]) {
+    const turf = window['turf']
 
-     if (incidents && incidents.collection && incidents.collection[0]) {
-        this.discoveryDate = convertToDateYear(incidents.collection[0].discoveryDate)
-        let fireName = incidents.collection[0].incidentName
-        fireName = fireName.replace("Fire", "").trim();
-        this.incidentName = fireName + " Wildfire";
-        this.fireOfNoteInd = incidents.collection[0].fireOfNoteInd;
-        this.stageOfControlCode = incidents.collection[0].stageOfControlCode;
-        this.stageOfControlIcon = getStageOfControlIcon(incidents.collection[0].stageOfControlCode)
-        this.stageOfControlLabel = getStageOfControlLabel(incidents.collection[0].stageOfControlCode)
-        this.initMap();
-     }    
+    const poly: number[][] = restrictionPolygon[0]
+    const polyArray: Array<number>[] = [];
+
+    for (let item of poly) {
+      polyArray.push(item)
+    }
+
+    const multiPolyArray = [polyArray];
+    const bufferedPolygon = turf.polygon(multiPolyArray)
+    const buffer = turf.buffer(bufferedPolygon, 10, {
+      units: 'kilometers'
     });
- }
 
- populateUrls() {
-  let currentRestrictions = this.appConfigService.getConfig().externalAppConfig['currentRestrictions'].toString()
-  let recSiteTrailsClosures = this.appConfigService.getConfig().externalAppConfig['recSiteTrailsClosures'].toString()
-  let parksClosures = this.appConfigService.getConfig().externalAppConfig['parksClosures'].toString()
-  this.currentRestrictionsUrl = currentRestrictions;
-  this.recSiteTrailsClosuresUrl = recSiteTrailsClosures;
-  this.parksClosuresUrl = parksClosures;
- }
+    const bbox = turf.bbox(buffer)
+    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
 
- navToMap() {
-  setTimeout(() => {
-    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.centroidLongitude, latitude: this.centroidLatitude, areaRestriction: true} });
-  }, 100);
- }
+    // find incidents within the area restriction polygon
+    // If we're only expecting 1, why fetch 1000 and only use the first?
+    // what happens if there are more than one?
+    this.incident = null
+    const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).toPromise()
+    if (incidents?.collection && incidents?.collection?.length === 1) {
+      const firstIncident = incidents.collection[0]
+      const fireName = firstIncident.incidentName.replace("Fire", "").trim()
 
- navToCurrentRestrictions() {
-  window.open(this.currentRestrictionsUrl, '_blank')
- }
+      this.incident = new SimpleIncident
 
- navToRecClosures() {
-  window.open(this.recSiteTrailsClosuresUrl, '_blank')
- }
+      this.incident.discoveryDate = convertToDateYear(firstIncident.discoveryDate)
+      this.incident.incidentName = fireName + " Wildfire"
+      this.incident.fireOfNoteInd = firstIncident.fireOfNoteInd
+      this.incident.stageOfControlCode = firstIncident.stageOfControlCode
+      this.incident.stageOfControlIcon = getStageOfControlIcon(firstIncident.stageOfControlCode)
+      this.incident.stageOfControlLabel = getStageOfControlLabel(firstIncident.stageOfControlCode)
+    } else {
+      // what happens when this fails?
+    }
+  }
 
- navToParksClosures() {
-  window.open(this.parksClosuresUrl, '_blank')
+  navToMap() {
+    setTimeout(() => {
+      this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.restrictionData.centroidLongitude, latitude: this.restrictionData.centroidLatitude, areaRestriction: true } });
+    }, 100);
+  }
 
- }
+  navToCurrentRestrictions() {
+    window.open(this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank')
+  }
 
- navToBulletinUrl() {
-  window.open(this.bulletinUrl, '_blank')
- }
+  navToRecClosures() {
+    window.open(this.appConfigService.getConfig().externalAppConfig['recSiteTrailsClosures'] as unknown as string, '_blank')
+  }
 
+  navToParksClosures() {
+    window.open(this.appConfigService.getConfig().externalAppConfig['parksClosures'] as unknown as string, '_blank')
+  }
 
+  navToBulletinUrl() {
+    window.open(this.restrictionData.bulletinUrl, '_blank')
+  }
 }

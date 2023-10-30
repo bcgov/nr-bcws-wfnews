@@ -1,52 +1,76 @@
 <div class="full-details-header">
-    <img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/arrow-left.svg" alt="Arrow Left"/>Area Restrictions
-    <img height="20" width="20" style="position: relative; top: 5px; margin-right: 5px;" src="/assets/images/svg-icons/cancel.svg" alt="Cancel"/>
+  <img height="20" width="20" class="full-details-header-left-button" src="/assets/images/svg-icons/arrow-left.svg"
+    alt="Arrow Left" />Area Restrictions
+  <img height="20" width="20" class="full-details-header-right-button" src="/assets/images/svg-icons/cancel.svg"
+    alt="Cancel" />
 </div>
-<div id="map" class="map-container-mobile"></div>
+<div id="restrictions-map" class="map-container-mobile"></div>
 <div class="title-panel">
-    <div class="full-details-title">{{name}}</div>
-    <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a public safety concern or avoid interference with fire control.</p>
-    <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" style="position: relative; top: 4px; right: 8px;" src="/assets/images/svg-icons/map.svg" alt="Map"/>View on Map</button>
+  <div class="full-details-title">{{restrictionData.name}}</div>
+  <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
+    public safety concern or avoid interference with fire control.</p>
+  <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="icon"
+      src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
 </div>
 <hr>
 <div class="info-container">
-    <div class="info"><img height="20" width="20" style="position: relative; top: 4px; margin-right: 8px;" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar"/>Issued on {{issuedDate}}</div>
-    <div class="info"><img height="20" width="20" style="position: relative; top: 4px; margin-right: 8px;" src="/assets/images/svg-icons/location-pin.svg" alt="Location Pin"/>{{fireCentre}}</div>
-    <div class="info"><img height="20" width="20" style="position: relative; top: 4px; margin-right: 8px;" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers"/>BC Wildfire Area Restrictions Layer</div>
+  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
+      alt="Calendar" />Issued on {{restrictionData.issuedDate}}</div>
+  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
+      alt="Location Pin" />{{restrictionData.fireCentre}}</div>
+  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg"
+      alt="Layers" />BC Wildfire Area Restrictions Layer</div>
 </div>
 <hr>
-<div class="info-container">
-<div class="full-details-secondary-title">Associated Wildfire</div>
-    <div class="fire-info-container">
-    <div class="wildfire-title">{{incidentName}}<img height="20" width="20" style="position: absolute; top: 20px; right: 20px;" src="/assets/images/svg-icons/bookmark.svg" alt="Calendar"/></div>
+<div class="info-container" *ngIf="incident">
+  <div class="full-details-secondary-title">Associated Wildfire</div>
+  <div class="fire-info-container">
+    <div class="wildfire-title">{{incident.incidentName}}<img height="20" width="20" class="wildfire-title-icon"
+        src="/assets/images/svg-icons/bookmark.svg" alt="Calendar" /></div>
     <hr class="break">
-    <div *ngIf="fireOfNoteInd" class="wilfire-of-note-panel"><img height="20" width="20" style="position: relative; margin-right: 8px;" src="/assets/images/local_fire_department.png" alt="Fire Of Note"/>Wildfire of Note</div>
-    <div class="info"><span class="circle-icon {{stageOfControlIcon}}"></span>{{stageOfControlLabel}}</div>
-    <div class="info"><img height="20" width="20" style="position: relative; top: 4px; margin-right: 8px;" src="/assets/images/svg-icons/location-pin.svg" alt="Location Pin"/>{{fireCentre}}</div>
-    <div class="info"><img height="20" width="20" style="position: relative; top: 4px; margin-right: 8px;" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar"/>Discovered on {{discoveryDate}}<img height="20" width="20" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
-</div>
-</div>
-<hr>
-<div class="info-container">
-    <div class="full-details-secondary-title">Excluded Areas</div>
-    <p class="info">Restrictions do not include areas which are within the boundaries of local government and subject to local bylaws. You should check with local government authorities before lighting any fires.</p>
-</div>
-<hr>
-<div class="info-container">
-    <div class="full-details-secondary-title">Warning</div>
-    <p class="info">The Wildfires Act and the Wildfire Regulation grant authority to government officials engaged in fire control (including firefighters) to order all people to leave active fire areas.</p>
-    <p class="info">A person must not remain in or enter the restricted area without the prior written authorization of an official designated for the purposes of the Wildfire Act.</p>
+    <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img height="20" width="20"
+        class="wilfire-of-note-panel-icon" src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
+      of Note</div>
+    <div class="info"><span class="circle-icon {{incident.stageOfControlIcon}}"></span>{{incident.stageOfControlLabel}}</div>
+    <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
+        alt="Location Pin" />{{restrictionData.fireCentre}}</div>
+    <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
+        alt="Calendar" />Discovered on {{incident.discoveryDate}}<img height="20" width="20" class="arrow-button"
+        src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+  </div>
 </div>
 <hr>
 <div class="info-container">
-    <div class="full-details-secondary-title">Related Topics</div>
-    <p class="info">Links will open in your internet browser.</p>
+  <div class="full-details-secondary-title">Excluded Areas</div>
+  <p class="info">Restrictions do not include areas which are within the boundaries of local government and subject to
+    local bylaws. You should check with local government authorities before lighting any fires.</p>
 </div>
-<div class="links"> 
-        <div style="position:relative"><p>Current Area Restrictions<img (click)="navToCurrentRestrictions()" onmouseover="this.style.cursor='pointer'" height="20" width="20" style="position: absolute; top: 10px; right: 10px;" src="/assets/images/svg-icons/launch.svg" alt="Launch"/></p></div>
-        <div style="position:relative"><p>Recreational Sites and Trail Closures<img (click)="navToRecClosures()" onmouseover="this.style.cursor='pointer'" height="20" width="20" style="position: absolute; top: 10px; right: 10px;" src="/assets/images/svg-icons/launch.svg" alt="Launch"/></p></div>
-        <div style="position:relative"><p>BC Parks Closures<img (click)="navToParksClosures()" onmouseover="this.style.cursor='pointer'" height="20" width="20" style="position: absolute; top: 10px; right: 10px;" src="/assets/images/svg-icons/launch.svg" alt="Launch"/></p></div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Warning</div>
+  <p class="info">The Wildfires Act and the Wildfire Regulation grant authority to government officials engaged in fire
+    control (including firefighters) to order all people to leave active fire areas.</p>
+  <p class="info">A person must not remain in or enter the restricted area without the prior written authorization of an
+    official designated for the purposes of the Wildfire Act.</p>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Related Topics</div>
+  <p class="info">Links will open in your internet browser.</p>
+</div>
+<div class="links">
+  <div class="links-relative">
+    <p>Current Area Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+  <div class="links-relative">
+    <p>Recreational Sites and Trail Closures<img (click)="navToRecClosures()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+  <div class="links-relative">
+    <p>BC Parks Closures<img (click)="navToParksClosures()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
 </div>
 <div class="bulletin">
-    <p>Open the information bulletin for more details</p><button>Go to<img (click)="navToBulletinUrl()" onmouseover="this.style.cursor='pointer'" height="20" width="20" style="position: absolute; top: 7px; right: 10px;" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch"/></button>
+  <p>Open the information bulletin for more details</p>
+  <button>Go to<img (click)="navToBulletinUrl()" height="20" width="20" class="bulletin-link-icon" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
 </div>
+<div class="spacer"></div>
