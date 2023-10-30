@@ -213,7 +213,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
             viewer = SMK.MAP[smkMap].$viewer;
           }
         }
-        viewer.panToFeature(window['turf'].point([long, lat]), 15)
+        viewer.panToFeature(window['turf'].point([long, lat]), 10)
       })
     }
   }
@@ -275,8 +275,27 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   shareableLayers() {
     if (this.showPanel && this.identifyItem && 
-      (this.identifyItem.layerId === 'area-restrictions' || this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId === 'closed-recreation-sites' || this.identifyItem.layerId === 'drive-bc-active-events' || this.identifyItem.layerId === 'protected-lands-access-restrictions')){
-        return true
+      (this.identifyItem.layerId === 'area-restrictions' || 
+        this.identifyItem.layerId.includes('bans-and-prohibitions') || 
+        this.identifyItem.layerId === 'closed-recreation-sites' || 
+        this.identifyItem.layerId === 'drive-bc-active-events' || 
+        this.identifyItem.layerId === 'protected-lands-access-restrictions' || 
+        this.identifyItem.layerId === 'bc-fsr'))
+        {
+          return true
+        }
+  }
+
+  displayForestServiceRoadsAlert(item) {
+    switch (item['ALERT_TYPE']) {
+      case 'WARNING':
+        return 'Warning for ' + item['LOCATION'];
+      case 'CLOSURE':
+        return 'Closure for ' + item['LOCATION'];
+      case 'SEASONAL':
+        return 'Seasonal Closure for ' + item['LOCATION'];
+      default:
+        return 'Unknown'
     }
   }
 
