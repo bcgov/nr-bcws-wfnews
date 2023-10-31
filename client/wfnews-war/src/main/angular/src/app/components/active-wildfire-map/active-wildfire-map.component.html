@@ -109,5 +109,7 @@
       <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
       <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" [title]="'Map Settings'">
         <map-type-picker></map-type-picker>
+        <hr class="drawer-section-divider">
+        <map-layers-section></map-layers-section>
       </mobile-sliding-drawer>
 </div>

@@ -189,6 +189,8 @@ import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
+import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
+import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -318,7 +320,9 @@ export const DATE_FORMATS = {
         MapToggleButtonComponent,
         DraggablePanelComponent,
         MobileSlidingDrawerComponent,
-        MapTypePickerComponent
+        MapTypePickerComponent,
+        CheckboxButtonComponent,
+        MapLayersDrawerSectionComponent
     ],
     imports: [
         MatSortModule,

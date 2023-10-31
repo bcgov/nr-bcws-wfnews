@@ -15,7 +15,7 @@ export class MapTypePickerComponent {
   }
 
   getMapType() {
-    return this.mapService.getBaseMap().find((basemap) => !!basemap.options.wfnewsId)?.options?.wfnewsId;
+    return this.mapService.getBaseMap()?.find((basemap) => !!basemap.options.wfnewsId)?.options?.wfnewsId;
   }
 
   onSelect(mapTypeId) {

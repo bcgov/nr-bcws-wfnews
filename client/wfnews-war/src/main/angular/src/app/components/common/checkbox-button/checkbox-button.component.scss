@@ -1,0 +1,42 @@
+.button-container {
+  display: flex;
+  padding: 12px 8px;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+
+  border-radius: 6px;
+  border: 1px solid #DEDEDE;
+  background: #FFFFFF;  
+
+  .selected {
+    border: 1px solid #C4C4C4;
+    background: #F5F5F5;
+  }
+
+  .label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: stretch;
+
+    color: #000;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+
+  .checkmark {
+    width: 22px;
+    height: 22.089px;
+    background-image: url('../../../../assets/images/svg-icons/checkbox-unfilled.svg');
+
+    .selected {
+      background-image: url('../../../../assets/images/svg-icons/checkbox-filled.svg');
+    }
+  }
+}
