@@ -3,6 +3,8 @@ import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
+import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -46,6 +48,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected cdr: ChangeDetectorRef,
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
+    private router: Router
     ) { 
     }
 
@@ -234,7 +237,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   enterFullDetail() {
-    //yet to implement
+    const item = this.identifyItem
+    if (item && item.layerId && item.properties) {
+      if (this.identifyItem.layerId === 'area-restrictions' && item.properties.PROT_RA_SYSID){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} }); 
+      }
+    }
   }
 
   convertTimeStamp(time) {

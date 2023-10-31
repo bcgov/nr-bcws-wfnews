@@ -1,10 +1,3 @@
-<div class="full-details-header">
-  <img height="20" width="20" class="full-details-header-left-button" src="/assets/images/svg-icons/arrow-left.svg"
-    alt="Arrow Left" />Area Restrictions
-  <img height="20" width="20" class="full-details-header-right-button" src="/assets/images/svg-icons/cancel.svg"
-    alt="Cancel" />
-</div>
-<div id="restrictions-map" class="map-container-mobile"></div>
 <div class="title-panel">
   <div class="full-details-title">{{restrictionData.name}}</div>
   <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
@@ -71,6 +64,6 @@
 </div>
 <div class="bulletin">
   <p>Open the information bulletin for more details</p>
-  <button>Go to<img (click)="navToBulletinUrl()" height="20" width="20" class="bulletin-link-icon" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
+  <button (click)="navToBulletinUrl()">Go to<img height="20" width="20" class="bulletin-link-icon" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
 </div>
 <div class="spacer"></div>

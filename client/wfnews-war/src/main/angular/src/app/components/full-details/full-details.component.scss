@@ -64,7 +64,7 @@
 
 .full-details-header {
   height: 25px;
-  width: 90%;
+  width: 95%;
   position: absolute;
   display: flex;
   padding: 10px 20px;
@@ -290,7 +290,7 @@ hr {
 
 .bulletin {
   display: flex;
-  width: 85%;
+  width: 85 dvw;
   padding-right: 8px;
   padding-left: 8px;
   justify-content: center;
@@ -298,6 +298,7 @@ hr {
   gap: 8px;
   position: fixed;
   left: 16px;
+  right: 16px;
   bottom: 94px;
   border-radius: 8px;
   border: 1px solid var(--grays-gray-8, #E4E4E4);
@@ -325,6 +326,7 @@ hr {
     background: var(--blues-blue-2, #036);
     width: 100px;
     color: white;
+    cursor: pointer;
   }
 
   &-link-icon {
