@@ -48,18 +48,16 @@
   display: flex;
   padding: 24px 24px 10px 24px;
   flex-direction: column;
-  gap: 8px;
   align-self: stretch;
 }
 
 .info {
   color: var(--Grey-6---666, #666);
-  /* Body 1 */
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 21px;
-  /* 131.25% */
+  margin-bottom: 10px;
 }
 
 .full-details-header {
@@ -97,6 +95,7 @@
   font-style: normal;
   font-weight: 600;
   line-height: normal;
+  margin-bottom: 8px;
 
   &-icon {
     position: absolute;
@@ -108,12 +107,12 @@
 }
 
 .fire-info-container {
+  margin-top: 10px;
   position: relative;
   display: flex;
   padding: 16px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
   align-self: stretch;
   border-radius: 8px;
   border: 1px solid var(--grays-gray-7, #DEDEDE);
@@ -129,6 +128,15 @@
     background-color: #DDD;
     height: 1px;
     margin-left: 0px !important;
+    margin-bottom: 16px;
+  }
+
+  .info {
+    color: var(--Grey-6---666, #666);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
   }
 }
 
@@ -174,7 +182,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 33px;
-  /* 150% */
 }
 
 .restriction-info {
@@ -193,9 +200,9 @@
 
 .links {
   position: relative;
-  padding-bottom: 100px;
-  margin-left: 20px;
+  padding-bottom: 120px;
   margin-right: 20px;
+  margin-left: 20px;
 
   p {
     display: flex;
