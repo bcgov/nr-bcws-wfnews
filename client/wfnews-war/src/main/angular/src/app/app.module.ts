@@ -188,6 +188,7 @@ import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy'
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
+import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -316,7 +317,8 @@ export const DATE_FORMATS = {
         FireCentreStatsWidget,
         MapToggleButtonComponent,
         DraggablePanelComponent,
-        MobileSlidingDrawerComponent
+        MobileSlidingDrawerComponent,
+        MapTypePickerComponent
     ],
     imports: [
         MatSortModule,
