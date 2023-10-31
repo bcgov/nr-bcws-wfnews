@@ -101,8 +101,7 @@ export class MobileSlidingDrawerComponent {
   }
 
   getSafeInset() {
-    return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat'), 10)
-      + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sab'), 10);
+    return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat'), 10);
   }
 
   isDefaultPosition() {
