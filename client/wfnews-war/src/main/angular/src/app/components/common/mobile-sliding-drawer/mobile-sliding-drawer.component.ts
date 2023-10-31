@@ -93,11 +93,16 @@ export class MobileSlidingDrawerComponent {
   }
 
   getTopPosition() {
-    return (window.innerHeight * -1) + this.getDrawerHeight();
+    return (window.innerHeight * -1) + this.getDrawerHeight() + this.getSafeInset();
   }
 
   getMinimizedPosition() {
     return this.getDrawerHeight() - this.getHeaderHeight();
+  }
+
+  getSafeInset() {
+    return parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sat'), 10)
+      + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sab'), 10);
   }
 
   isDefaultPosition() {
