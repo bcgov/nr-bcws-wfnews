@@ -1,0 +1,4 @@
+<div class="full-details">
+  <!-- This is probably fine for now, but we can change to use an injector like what we do in RoF pages -->
+  <wfnews-area-restrictions-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'area-restriction'" [id]="params['id']"></wfnews-area-restrictions-full-details>
+</div>

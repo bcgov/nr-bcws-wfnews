@@ -19,7 +19,6 @@ import { SmkApi } from '../../utils/smk';
 
 
 export type SelectedLayer =
-  'wildfire' |
   'evacuation-orders-and-alerts' |
   'area-restrictions' |
   'bans-and-prohibitions' |
@@ -146,7 +145,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  ngAfterViewInit() {
+  async ngAfterViewInit() {
     this.locationOptions.changes.subscribe(() => {
       this.locationOptions.forEach((option: ElementRef) => {
         option.nativeElement.addEventListener('mouseover', this.onLocationOptionOver.bind(this));
@@ -171,17 +170,26 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
-        this.mapConfigService.getMapConfig().then(() => {
-          const SMK = window['SMK'];
-          let viewer = null;
-          for (const smkMap in SMK.MAP) {
-            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-              viewer = SMK.MAP[smkMap].$viewer;
-            }
-          }
-          viewer.panToFeature(window['turf'].point([long, lat]), 15)
-        })
+        // set timeout to load smk features to load
+        setTimeout(() => {
+        const pan = this.panToLocation(long, lat);
+        // turn on area restriction layer if accessing from area restrictions full details
+        if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
+      }, 1000)
+
+  }});
+}
+  
+  panToLocation(long, lat) {
+    this.mapConfigService.getMapConfig().then(() => {
+      const SMK = window['SMK'];
+      let viewer = null;
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+          viewer = SMK.MAP[smkMap].$viewer;
+        }
       }
+      viewer.panToFeature(window['turf'].point([long, lat]), 10)
     });
   }
 
@@ -366,7 +374,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   async initializeLayers() {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
-    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire';
+    this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
   }
@@ -415,7 +423,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
       case 'area-restrictions':
         layers[6].visible = true;
-        layers[7].visible = true;
+        // gives a 404 error from SMK
+        // layers[7].visible = true;
         break;
 
       case 'bans-and-prohibitions':
@@ -453,6 +462,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
         break;
     }
+
+    // initialize smkApi if undefined
+    if (!this.smkApi) {
+      let event: Event;
+      this.initMap(event)
+    } 
 
     return this.smkApi.setDisplayContextItemsVisible(...layers);
   }

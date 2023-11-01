@@ -56,52 +56,47 @@ export const mapConfig = (
                 zoom: true,
                 custom: true
             },
-            internalLayers: [
-                {
-                    id: 'search-area',
+            internalLayer: {
+                'search-area': {
                     style: {
-                        stroke: false,
-                        fill: true,
-                        fillColor: 'white',
-                        fillOpacity: 0.1,
+                        stroke:             false,
+                        fill:               true,
+                        fillColor:          "#548ADB",
+                        fillOpacity:        0.3,
                     },
                 },
-                {
-                    id: 'search-border-1',
+                'search-border-1': {
                     style: {
-                        strokeWidth: 1,
-                        strokeColor: 'black',
-                        strokeOpacity: 1,
-                        strokeCap: 'butt',
+                        strokeWidth:        1,
+                        strokeColor:        "#548ADB",
+                        strokeOpacity:      1,
+                        strokeCap:          "butt",
                     },
                 },
-                {
-                    id: 'search-border-2',
+                'search-border-2': {
                     style: {
-                        strokeWidth: 1,
-                        strokeColor: 'white',
-                        strokeOpacity: 1,
-                        strokeCap: 'butt',
+                        strokeWidth:        1,
+                        strokeColor:        "#548ADB",
+                        strokeOpacity:      1,
+                        strokeCap:          "butt",
                     }
                 },
-                {
-                    id: 'location',
-                    title: 'Identify Location',
+                'location': {
+                    title: "Identify Location",
                     style: {
                         markerUrl: null,
                     },
                     legend: {
                     }
                 },
-                {
-                    id: 'edit-search-area',
+                'edit-search-area': {
                     style: {
-                        strokeWidth: 3,
-                        strokeColor: 'red',
-                        strokeOpacity: 1
+                        strokeWidth:        3,
+                        strokeColor:        "red",
+                        strokeOpacity:      1
                     }
                 }
-            ]
+            }
         },
         {
             type: 'pan',

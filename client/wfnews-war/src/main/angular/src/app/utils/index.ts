@@ -17,7 +17,8 @@ export enum ResourcesRoutes {
     ERROR_PAGE = 'error-page',
     ADMIN = 'admin',
     ADMIN_INCIDENT = 'incident',
-    PUBLIC_INCIDENT = 'incidents'
+    PUBLIC_INCIDENT = 'incidents',
+    FULL_DETAILS = 'full-details'
 }
 
 export const FireCentres = [
@@ -236,7 +237,7 @@ export function  convertToStageOfControlDescription(code: string) {
       }
 }
 
-function displayDay(date: string): string{
+export function displayDay(date: string): string{
     if (date) {
         const result = moment(date).format('dddd');
         return (result.charAt(0).toUpperCase() + result.slice(1)).slice(0, 3); // abbreviate days of the week
@@ -328,3 +329,29 @@ export function currentFireYear () {
 
   return currentFireYear;
 }
+export function convertToDateYear(date: string): string{
+    // e.g. October 23, 2023
+    if (date) {
+        return moment(date).format('MMMM D, YYYY');
+    } else {
+        return null;
+    }
+}
+
+export function getStageOfControlLabel (code: string) {
+    if (code.toUpperCase().trim() === 'OUT') return 'Out'
+    else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'Out of Control'
+    else if (code.toUpperCase().trim() === 'HOLDING') return 'Being Held'
+    else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'Under Control'
+    else return 'Unknown'
+  }
+
+  export function getStageOfControlIcon (code: string) {
+    if (code) {
+      if (code.toUpperCase().trim() === 'OUT') return 'bcws-activefires-publicview-inactive'
+        else if (code.toUpperCase().trim() === 'OUT_CNTRL') return 'active-wildfires-out-of-control'
+        else if (code.toUpperCase().trim() === 'HOLDING') return 'active-wildfires-holding'
+        else if (code.toUpperCase().trim() === 'UNDR_CNTRL') return 'active-wildfires-under-control'
+        else return 'Unknown'
+    }
+  }

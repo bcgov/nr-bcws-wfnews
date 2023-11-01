@@ -104,6 +104,7 @@ import { VideosWidget } from './components/dashboard-component/widgets/videos-wi
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
@@ -191,6 +192,8 @@ import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
+import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
+
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -323,6 +326,8 @@ export const DATE_FORMATS = {
         MapTypePickerComponent,
         CheckboxButtonComponent,
         MapLayersDrawerSectionComponent
+        FullDetailsComponent,
+        AreaRestrictionsFullDetailsComponent
     ],
     imports: [
         MatSortModule,

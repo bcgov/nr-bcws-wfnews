@@ -573,11 +573,6 @@ export class WFMapService {
                 console.log( 'done patching SMK' );
             } );
 }
-        console.log("WFNEWS application config = " + JSON.stringify(this.appConfigService.getConfig().application))
-        console.log("WFNEWS externalApplication config = " + JSON.stringify(this.appConfigService.getConfig().externalAppConfig))
-        console.log("WFNEWS mapService config = " + JSON.stringify(this.appConfigService.getConfig()['mapServices']))
-        console.log("WFNEWS rest config = " + JSON.stringify(this.appConfigService.getConfig().rest))
-        console.log("WFNEWS webade config = " + JSON.stringify(this.appConfigService.getConfig().webade))
         return this.patchPromise;
     }
         catch (error) {
