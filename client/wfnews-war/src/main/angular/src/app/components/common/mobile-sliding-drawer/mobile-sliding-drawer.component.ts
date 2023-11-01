@@ -93,7 +93,7 @@ export class MobileSlidingDrawerComponent {
   }
 
   getTopPosition() {
-    return (window.innerHeight * -1) + this.getDrawerHeight() + this.getSafeInset();
+    return (window.innerHeight * -1) - 1 + this.getDrawerHeight() + this.getSafeInset();
   }
 
   getMinimizedPosition() {

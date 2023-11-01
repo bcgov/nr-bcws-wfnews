@@ -100,7 +100,7 @@
                     <map-toggle-button labelText="All Layers" value="all-layers" [checked]="isChecked('all-layers')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
-            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="this.isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
+            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>
@@ -110,6 +110,6 @@
       <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" [title]="'Map Settings'">
         <map-type-picker></map-type-picker>
         <hr class="drawer-section-divider">
-        <map-layers-section></map-layers-section>
+        <map-layers-section [mapInitialized]="isMapLoaded"></map-layers-section>
       </mobile-sliding-drawer>
 </div>
