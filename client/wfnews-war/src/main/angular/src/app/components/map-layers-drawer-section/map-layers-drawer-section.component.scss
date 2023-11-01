@@ -32,7 +32,7 @@
   align-items: flex-start;
   gap: 32px;
   align-self: stretch;
-  margin-bottom: 100px;
+  margin-bottom: calc(24px + env(safe-area-inset-bottom));
 }
 
 .section {
