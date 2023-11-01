@@ -88,7 +88,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   isLocationEnabled: boolean;
   isMapLoaded = false;
-  isAllLayersOpen = true;
+  isAllLayersOpen = false;
 
   showPanel: boolean;
 
@@ -612,6 +612,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     scroller.addEventListener('wheel', (e: WheelEvent) => {
       scroller.scrollLeft += e.deltaY;
     }, { passive: true });
+  }
+
+  openAllLayers() {
+    this.isAllLayersOpen = true;
   }
 
 }

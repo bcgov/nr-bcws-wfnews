@@ -154,6 +154,9 @@
                     <map-toggle-button labelText="All Layers" value="all-layers" [checked]="isChecked('all-layers')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
+            <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
+                <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+            </button>
             <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
