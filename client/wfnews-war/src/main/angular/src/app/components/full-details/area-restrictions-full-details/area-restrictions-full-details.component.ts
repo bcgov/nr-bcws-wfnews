@@ -114,7 +114,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
           }
       }
     } catch(err){
-      console.log('Could not retrieve surroundung incidents for area restriction')
+      console.error('Could not retrieve surrounding incidents for area restriction')
     } 
     this.cdr.detectChanges()
   }
