@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { NativeSettings, AndroidSettings, IOSSettings } from 'capacitor-native-settings';
+import { AndroidSettings, IOSSettings, NativeSettings } from 'capacitor-native-settings';
 
 
 @Component({
@@ -10,19 +10,25 @@ import { NativeSettings, AndroidSettings, IOSSettings } from 'capacitor-native-s
   styleUrls: ['./dialog-location.component.scss']
 })
 export class DialogLocationComponent {
+  showSettingsButton = false;
+
   constructor(private dialogRef: MatDialogRef<DialogLocationComponent>, private capacitorService: CapacitorService) { }
 
   closeDialog() {
     this.dialogRef.close();
   }
+
+  async checkOperatingSystem() {
+    const device = await this.capacitorService.checkDeviceSystem();
+    this.showSettingsButton =  (device.operatingSystem === 'ios' || device.operatingSystem === 'android');
+  }
   
   async goToSetting() {
-    let device = (await this.capacitorService.checkDeviceSystem())
+    const device = (await this.capacitorService.checkDeviceSystem())
     if (device.operatingSystem === 'ios') {
       NativeSettings.openIOS({
         option: IOSSettings.App,
       });
-
     }
     else if (device.operatingSystem === 'android') {
       NativeSettings.openAndroid({

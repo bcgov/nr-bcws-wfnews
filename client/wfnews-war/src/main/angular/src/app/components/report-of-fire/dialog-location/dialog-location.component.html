@@ -3,7 +3,7 @@
     <div class="icon"><mat-icon svgIcon="location-off"></mat-icon></div>
     <p>To access this feature, please turn on location services in your device settings.</p>
     <div class="button-group">
-        <button class="btn-block primary" (click)="goToSetting()"> Go to settings </button>
+        <button class="btn-block primary" *ngIf="showSettingsButton" (click)="goToSetting()"> Go to settings </button>
         <button class="btn-block secondary" (click)="closeDialog()"> Cancel </button>
     </div>
 </div>
