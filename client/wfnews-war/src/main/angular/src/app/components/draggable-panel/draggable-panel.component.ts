@@ -288,7 +288,10 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         this.identifyItem.layerId === 'closed-recreation-sites' || 
         this.identifyItem.layerId === 'drive-bc-active-events' || 
         this.identifyItem.layerId === 'protected-lands-access-restrictions' || 
-        this.identifyItem.layerId === 'bc-fsr'))
+        this.identifyItem.layerId === 'bc-fsr' ||
+        this.identifyItem.layerId === 'abms-regional-districts' ||
+        this.identifyItem.layerId === 'clab-indian-reserves' ||
+        this.identifyItem.layerId === 'abms-municipalities'))
         {
           return true
         }
@@ -304,6 +307,44 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         return 'Seasonal Closure for ' + item['LOCATION'];
       default:
         return 'Unknown'
+    }
+  }
+
+  showLocationIcon(layerId: string){
+    if (layerId !== 'drive-bc-active-events'
+      && layerId !== 'protected-lands-access-restrictions'
+      && layerId !== 'bc-fsr'
+      && layerId !== 'abms-regional-districts'
+      && layerId !== 'clab-indian-reserves'
+      && layerId !== 'abms-municipalities') {
+        return true;
+      }
+  }
+
+  showCalendarIcon(layerId: string) {
+    if (layerId !== 'bc-fsr'
+    && layerId !== 'abms-regional-districts'
+    && layerId !== 'clab-indian-reserves'
+    && layerId !== 'abms-municipalities') {
+      return true;
+    }
+  }
+
+  isLocalAuthoritiesLayer(layerId: string) {
+    if (layerId === 'abms-regional-districts' || layerId === 'clab-indian-reserves' || layerId === 'abms-municipalities') {
+      return true;
+    }
+  }
+
+  displayLocalAuthorityType(layerId: string) {
+    if (layerId === 'abms-regional-districts' ) {
+      return 'Regional District'
+    }
+    if (layerId === 'clab-indian-reserves' ) {
+      return 'Indian Reserve'
+    }
+    if (layerId === 'abms-municipalities' ) {
+      return 'Municipality'
     }
   }
 
