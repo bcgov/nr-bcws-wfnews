@@ -457,9 +457,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'all-layers':
-        layers.forEach(layer => {
-          layer.visible = true;
-        });
         break;
     }
 
@@ -617,5 +614,4 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   openAllLayers() {
     this.isAllLayersOpen = true;
   }
-
 }
