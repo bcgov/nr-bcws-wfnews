@@ -14,7 +14,6 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
 
   ngOnInit(): void {
     this.populateOrdersAndAlerts()
-    
   }
 
   populateOrdersAndAlerts() {
@@ -25,36 +24,34 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
         else console.error('Could not determine orderAlertStatus for mobile evacuations')
       }
     }
-    console.log(this.evacOrders)
-    console.log(this.mobileEvacOrders)
-    console.log(this.mobileEvacAlerts)
+
   }
 
-  navigateToMap(){
+  navigateToMap() {
     //to do, need to wait for the mobile map screen ticket
   }
 
-  navigateToEvac(evac){
+  navigateToEvac(evac) {
     //to do. need to wait for the screen design
   }
 
-  navigateToAreaRestriction(area){
+  navigateToAreaRestriction(area) {
     //to do. need to wait for the screen design
   }
 
-  scrollToSection(event,sectionId) {
+  scrollToSection(event, sectionId) {
     const section = document.getElementById(sectionId);
     section.scrollIntoView({ behavior: 'smooth' });
   }
 
-  callFireCentre(phoneNumber:string) {
+  callFireCentre(phoneNumber: string) {
     const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ""));
     window.open(`tel:${parsedPhoneNumber}`, '_system');
   }
 
-  emailFireCentre(recipientEmail:string) {
+  emailFireCentre(recipientEmail: string) {
     const mailtoUrl = `mailto:${recipientEmail}`;
     window.location.href = mailtoUrl;
   }
-  
+
 }
