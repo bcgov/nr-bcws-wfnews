@@ -3,29 +3,42 @@
     <div>
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
-    <div>
+    <div *ngIf="!hideOnMobileView()">
       <mat-tab-group mat-stretch-tabs [headerPosition]="above">
         <mat-tab label="Incident Details">
-          <incident-info-panel *ngIf="!hideOnMobileView()"[incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
-          <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
+          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
         </mat-tab>
         <mat-tab label="Incident Response">
-          <incident-overview-panel *ngIf="!hideOnMobileView()" [incident]="incident"></incident-overview-panel>
+          <incident-overview-panel [incident]="incident"></incident-overview-panel>
+        </mat-tab>
+        <mat-tab label="Gallery">
+          <ng-template matTabContent>
+            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Maps">
+          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div *ngIf="hideOnMobileView()">
+      <mat-tab-group mat-stretch-tabs [headerPosition]="above">
+        <mat-tab label="Details">
+          <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
+        </mat-tab>
+        <mat-tab label="Response">
           <incident-overview-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" ></incident-overview-panel-mobile>
         </mat-tab>
         <mat-tab label="Gallery">
           <ng-template matTabContent>
-            <incident-gallery-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
             <incident-gallery-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel-mobile>
           </ng-template>
         </mat-tab>
         <mat-tab label="Maps">
-          <incident-maps-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
           <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
         </mat-tab>
       </mat-tab-group>
     </div>
-    <scroll-to-top-button hasTabs="true"></scroll-to-top-button>
   </div>
 </div>
 <div *ngIf="!isLoading && loadingFailed" class="page-container">
