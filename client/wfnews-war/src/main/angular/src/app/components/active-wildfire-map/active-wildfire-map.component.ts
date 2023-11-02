@@ -88,6 +88,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   isLocationEnabled: boolean;
   isMapLoaded = false;
+  isAllLayersOpen = false;
 
   showPanel: boolean;
 
@@ -456,9 +457,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'all-layers':
-        layers.forEach(layer => {
-          layer.visible = true;
-        });
         break;
     }
 
@@ -613,4 +611,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }, { passive: true });
   }
 
+  openAllLayers() {
+    this.isAllLayersOpen = true;
+  }
 }

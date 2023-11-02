@@ -1,0 +1,16 @@
+<div class="sliding-drawer-boundary" [ngClass]="isVisible ? 'show' : 'hide'">
+  <div class="sliding-drawer" [ngClass]="{'fullscreen': isFullScreen()}" #drawerElement cdkDrag cdkDragLockAxis="y" (cdkDragEnded)="calculatePosition($event)" [cdkDragFreeDragPosition]="dragPosition">
+    <div class="header" #drawerHeaderElement style="padding-top: 10px;" cdkDragHandle>
+      <div class="handle"></div>
+      <div class="title">
+        <img class="icon" [ngClass]="{'arrow-down': isFullScreen()}" (click)="setPosition()" src="../../../assets/images/svg-icons/carbon_up-arrow.svg" alt="Expand" height="24" width="24" />
+        {{title}}
+        <img class="icon" (click)="closeDrawer()" src="../../../assets/images/svg-icons/carbon_cancel.svg" alt="Cancel" height="24" width="24" />
+      </div>
+    </div>
+    <div class="content" #drawerContentElement>
+      <ng-content></ng-content>
+    </div>
+    <div class="filler"></div>
+  </div>
+</div>

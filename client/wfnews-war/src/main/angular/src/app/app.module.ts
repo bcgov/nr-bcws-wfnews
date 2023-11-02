@@ -82,8 +82,10 @@ import { UploadVideoDialogComponent } from './components/admin-incident-form/vid
 import { VideoCardPanel } from './components/admin-incident-form/video-gallery-panel/video-card-component/video-card-panel.component';
 import { VideoGalleryPanel } from './components/admin-incident-form/video-gallery-panel/video-gallery-panel.component';
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
+import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
+import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
 import { UnsavedChangesDialog } from './components/common/unsaved-changes-dialog/unsaved-changes-dialog.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
@@ -104,8 +106,11 @@ import { VideosWidget } from './components/dashboard-component/widgets/videos-wi
 import { DisclaimerDialogComponent } from './components/disclaimer-dialog/disclaimer-dialog.component';
 import { DraggablePanelComponent } from './components/draggable-panel/draggable-panel.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
+import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
+import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
 import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
 import { PanelBansAndProhibitionsComponent } from './components/panel-bans-prohibitions/panel-bans-prohibitions.component';
@@ -188,7 +193,7 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
-import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
+
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -317,6 +322,10 @@ export const DATE_FORMATS = {
         FireCentreStatsWidget,
         MapToggleButtonComponent,
         DraggablePanelComponent,
+        MobileSlidingDrawerComponent,
+        MapTypePickerComponent,
+        CheckboxButtonComponent,
+        MapLayersDrawerSectionComponent,
         FullDetailsComponent,
         AreaRestrictionsFullDetailsComponent
     ],
