@@ -11,7 +11,7 @@ export class AreaRestrictionListComponentMobile extends AreaRestrictionListCompo
 
 navigateToFullDetails(item: any) {
   if (item.protRsSysID) {
-    this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { areaRestrictions: true, restrictionID: item.protRsSysID } }); 
+    this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.protRsSysID, source: [ResourcesRoutes.WILDFIRESLIST] } }); 
   }
 } 
 
