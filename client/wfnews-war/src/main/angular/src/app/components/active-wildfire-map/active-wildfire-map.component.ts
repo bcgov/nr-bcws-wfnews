@@ -379,6 +379,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.cdr.detectChanges();
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
