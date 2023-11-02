@@ -90,6 +90,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isMapLoaded = false;
   isAllLayersOpen = false;
   refreshAllLayers = false;
+  isDataSourcesOpen = false;
 
   showPanel: boolean;
 
@@ -632,5 +633,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   handleLayerChange() {
     this.selectedLayer = 'all-layers';
     this.selectedPanel = 'all-layers';
+  }
+
+  handleDrawerVisibilityChange(isVisible: boolean) {
+    if (!isVisible) {
+      this.isDataSourcesOpen = false;
+    }
   }
 }

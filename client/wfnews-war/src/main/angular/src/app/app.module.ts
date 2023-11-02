@@ -84,6 +84,7 @@ import { VideoGalleryPanel } from './components/admin-incident-form/video-galler
 import { AlertOrderBannerComponent } from './components/common/alert-order-banner/alert-order-banner.component';
 import { CheckboxButtonComponent } from './components/common/checkbox-button/checkbox-button.component';
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
+import { LinkButtonComponent } from './components/common/link-button/link-button.component';
 import { MapToggleButtonComponent } from './components/common/map-toggle-button/map-toggle-button.component';
 import { MobileSlidingDrawerComponent } from './components/common/mobile-sliding-drawer/mobile-sliding-drawer.component';
 import { ScrollToTopComponent } from './components/common/scroll-to-top-button/scroll-to-top.component';
@@ -109,6 +110,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
 import { AreaRestrictionsFullDetailsComponent } from './components/full-details/area-restrictions-full-details/area-restrictions-full-details.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { IncidentIdentifyPanelComponent } from './components/incident-identify-panel/incident-identify-panel.component';
+import { MapLayersDataSourceDrawerSectionComponent } from './components/map-layers-datasource-drawer-section/map-layers-datasource-drawer-section.component';
 import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
@@ -326,8 +328,10 @@ export const DATE_FORMATS = {
         MapTypePickerComponent,
         CheckboxButtonComponent,
         MapLayersDrawerSectionComponent,
+        MapLayersDataSourceDrawerSectionComponent,
         FullDetailsComponent,
-        AreaRestrictionsFullDetailsComponent
+        AreaRestrictionsFullDetailsComponent,
+        LinkButtonComponent
     ],
     imports: [
         MatSortModule,
