@@ -580,6 +580,28 @@ export class WFMapService {
             throw error; // Re-throw the error to propagate it to the caller
         }
     }
+
+    setBaseMap( mapId: string ) {
+        const SMK = window['SMK'];
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
+            }
+        }
+        viewer.setBasemap( mapId );
+    }
+
+    getBaseMap() {
+        const SMK = window['SMK'];
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
+            }
+        }
+        return viewer?.currentBasemap;
+    }
 }
 
 function clone( obj ) {
@@ -599,8 +621,8 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
                 const L = window[ 'L' ];
 
                 const orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options );
-                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone( bm.option || {} ) );
-                L.esri.BasemapLayer.TILES[ bm.id ].options = orig;
+                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone( {...bm.option, wfnewsId: id} || {} ) );
+                L.esri.BasemapLayer.TILES[ bm.id ].options = {...orig, wfnewsId: id};
                 return bmly;
             } );
         }
