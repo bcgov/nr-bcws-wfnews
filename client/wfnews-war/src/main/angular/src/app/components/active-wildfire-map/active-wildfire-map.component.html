@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="top" *ngIf="!isMobileView()">
+    <div class="top">
       <div class="header-row">
           <div class="title">
               <h1>Wildfires Map</h1>
@@ -133,10 +133,6 @@
         <div class="map">
 
         <div class="identify-panel"></div>
-        <div class="mobile-wildfire-count">
-          <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
-        </div>
-
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
                 (toggleAccordion)="onToggleAccordion()"
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
@@ -151,14 +147,22 @@
                     <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Local Authorities"  value="local-authorities" [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="All Layers" value="all-layers" [checked]="isChecked('all-layers')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+                    <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
-            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="this.isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
+            <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
+                <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+            </button>
+            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>
         </div>
       </div>
       <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
+      <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" [title]="'Map Settings'">
+        <map-type-picker></map-type-picker>
+        <hr class="drawer-section-divider">
+        <map-layers-section [mapInitialized]="isMapLoaded"></map-layers-section>
+      </mobile-sliding-drawer>
 </div>

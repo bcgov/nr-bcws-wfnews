@@ -1,0 +1,59 @@
+.map-type-picker {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  align-self: stretch;
+
+  .header {
+    font-family: Noto Sans;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .map-type-container {
+    display: flex;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 32px;
+    align-self: stretch;
+    flex-wrap: wrap;
+  
+    .map-type {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+
+      .map-type-image {
+        display: flex;
+        width: 52px;
+        height: 52px;
+        border-radius: 6px;
+        padding: 2px;
+        align-items: flex-start;
+        gap: 8px;
+        border: 2px solid transparent;
+
+        &.selected {
+          border: 2px solid #548ADB;
+        }
+      }
+      .map-type-name {
+        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+
+        &.selected {
+          color: #548ADB;
+        }
+      }
+    }
+  }
+}

@@ -10,6 +10,36 @@
   background-color: white !important;
   max-width: 850px;
   margin: auto;
+
+  ::ng-deep.mat-button-toggle-button {
+    height: 81px !important;
+    @media (max-width: 1023px) and (max-height: 700px) {
+        height: 8.5vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
+      height: 8vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
+      height: 7vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 599px) {
+      height: 6vh !important;
+    }
+  }
+  
+  ::ng-deep.mat-button-toggle-label-content {
+    line-height: 20px !important;
+    color: #000;
+    text-align: center;
+    font-size: 19px;
+    @media (max-height: 700px){
+      font-size: 2.2vh;
+    }
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: -0.38px;
+    // margin-top: 16px;
+  }
 }
 
 .mobile-header{
@@ -268,36 +298,6 @@
   .mat-button-toggle-button {
     border-radius: 8px;
   }
-}
-
-::ng-deep.mat-button-toggle-button {
-  height: 81px !important;
-  @media (max-width: 1023px) and (max-height: 700px) {
-      height: 8.5vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
-    height: 8vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
-    height: 7vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 599px) {
-    height: 6vh !important;
-  }
-}
-
-::ng-deep.mat-button-toggle-label-content {
-  line-height: 20px !important;
-  color: #000;
-  text-align: center;
-  font-size: 19px;
-  @media (max-height: 700px){
-    font-size: 2.2vh;
-  }
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: -0.38px;
-  // margin-top: 16px;
 }
 
 .rof-text {

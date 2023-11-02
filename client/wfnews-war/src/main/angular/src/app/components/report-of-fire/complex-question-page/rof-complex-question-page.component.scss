@@ -1,12 +1,11 @@
 @import '../report-of-fire.component.scss';
 
-::ng-deep.mat-button-toggle-label-content {
-  line-height: 35px !important;
-  padding-bottom: 0 !important;
+.rof-toggle-group {
+  ::ng-deep.mat-button-toggle-label-content {
+    line-height: 35px !important;
+    padding-bottom: 0 !important;
+  }
 }
-
-
-
 
 .btn-highlight {
   border-radius: 8px !important;

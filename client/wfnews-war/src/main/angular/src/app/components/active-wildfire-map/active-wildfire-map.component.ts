@@ -88,6 +88,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   isLocationEnabled: boolean;
   isMapLoaded = false;
+  isAllLayersOpen = false;
 
   showPanel: boolean;
 
@@ -411,7 +412,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
       /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
       /* 17 */ { itemId: 'abms-municipalities', visible: false },
-      /* 18 */ { itemId: 'abms-regional-districts', visible: false }
+      /* 18 */ { itemId: 'abms-regional-districts', visible: false },
+      /* 19 */ { itemId: 'bans-and-prohibitions-cat1', visible: false },
+      /* 20 */ { itemId: 'bans-and-prohibitions-cat2', visible: false },
+      /* 21 */ { itemId: 'bans-and-prohibitions-cat3', visible: false },
     ];
 
     switch (this.selectedLayer) {
@@ -427,8 +431,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'bans-and-prohibitions':
-        layers[4].visible = true;
         layers[5].visible = true;
+        layers[19].visible = true;
+        layers[20].visible = true;
+        layers[21].visible = true;
         break;
 
       case 'smoke-forecast':
@@ -456,9 +462,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break;
 
       case 'all-layers':
-        layers.forEach(layer => {
-          layer.visible = true;
-        });
         break;
     }
 
@@ -613,4 +616,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     }, { passive: true });
   }
 
+  openAllLayers() {
+    this.isAllLayersOpen = true;
+  }
 }
