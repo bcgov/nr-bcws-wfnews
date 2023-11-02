@@ -6,6 +6,13 @@ body {
     // min-height: 100vh;
 }
 
+:root {
+    --sat: env(safe-area-inset-top);
+    --sar: env(safe-area-inset-right);
+    --sab: env(safe-area-inset-bottom);
+    --sal: env(safe-area-inset-left);
+}
+
 .wf1-loading-screen {
     height: $wf1-loading-screen-height;
     display: flex;

@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router as Route } from '@angular/router';
+import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
@@ -48,7 +49,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     this.initMap()
   }
 
-  initMap(): void {
+  async initMap() {
     // Create map and append data to the map component
     const location = [Number(this.restrictionData.centroidLatitude), Number(this.restrictionData.centroidLongitude)]
 
@@ -88,26 +89,33 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       if (this.incident.fireOfNoteInd) {
         L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
       } else {
-        let colorToDisplay;
-        switch (this.incident.stageOfControlCode) {
-          case 'OUT_CNTRL':
-            colorToDisplay = '#FF0000'
-            break;
-          case 'HOLDING':
-            colorToDisplay = '#ffff00'
-            break;
-          case 'UNDR_CNTRL':
-            colorToDisplay = '#98E600'
-            break;
-          case 'OUT':
-            colorToDisplay = '#999999'
-            break;
-          default:
-            colorToDisplay = 'white';
-        }
+        const colorToDisplay = this.setDisplayColor(this.incident.stageOfControlCode)
         L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
       }
     }
+
+    // now fetch the rest of the incidents in the area and display on map
+    try {
+        const locationData = new LocationData()
+        locationData.latitude = Number(this.restrictionData.centroidLatitude);
+        locationData.longitude = Number(this.restrictionData.centroidLongitude);
+        locationData.radius = 10;
+        const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+        const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
+        if (incidents?.collection && incidents?.collection?.length > 0){
+          for (const item of incidents.collection) {
+            const location = [Number(item.latitude), Number(item.longitude)]
+            if (item.fireOfNoteInd) {
+              L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+            } else {
+              const colorToDisplay = this.setDisplayColor(item.stageOfControlCode)
+              L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
+            }
+          }
+      }
+    } catch(err){
+      console.error('Could not retrieve surrounding incidents for area restriction')
+    } 
     this.cdr.detectChanges()
   }
 
@@ -174,10 +182,31 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     }
   }
 
+  setDisplayColor(stageOfControlCode: string){
+    let colorToDisplay;
+        switch (stageOfControlCode) {
+          case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000'
+            break;
+          case 'HOLDING':
+            colorToDisplay = '#ffff00'
+            break;
+          case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600'
+            break;
+          case 'OUT':
+            colorToDisplay = '#999999'
+            break;
+          default:
+            colorToDisplay = 'white';
+        }
+    return colorToDisplay;
+  }
+
   navToMap() {
     setTimeout(() => {
       this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.restrictionData.centroidLongitude, latitude: this.restrictionData.centroidLatitude, areaRestriction: true } });
-    }, 100);
+    }, 200);
   }
 
   navToCurrentRestrictions() {
