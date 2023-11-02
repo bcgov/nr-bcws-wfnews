@@ -82,7 +82,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
   public getCauseLabel (code: number) {
     if (code === 1) return 'Human'
-    else if (code === 2) return 'Lightning / Natural'
+    else if (code === 2) return 'Lightning'
     else if (code === 3) return 'Under Investigation'
     else return 'Unknown'
   }

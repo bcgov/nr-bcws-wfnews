@@ -47,6 +47,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
     }
   } 
 
+
   clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;
     this.airQuality = false; // TODO: add air quality layer

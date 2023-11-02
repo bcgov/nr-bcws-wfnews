@@ -91,6 +91,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isAllLayersOpen = false;
   refreshAllLayers = false;
 
+
   showPanel: boolean;
 
   wildfireLayerIds: string[] = [
@@ -417,6 +418,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 19 */ { itemId: 'bans-and-prohibitions-cat1', visible: false },
       /* 20 */ { itemId: 'bans-and-prohibitions-cat2', visible: false },
       /* 21 */ { itemId: 'bans-and-prohibitions-cat3', visible: false },
+
       // Not in a feature but need to be cleared
       { itemId: 'bc-fsr', visible: false },
       { itemId: 'current-conditions--default', visible: false },
