@@ -10,6 +10,7 @@
   z-index: 100000000 !important;
   border-radius: 20px;
   min-height: 260px;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
 }
 
 .panel-container {
@@ -39,7 +40,7 @@
   .criteria-title{
     font-size: 18px;
     color: #242424;
-    padding: 20px 10px;
+    padding: 16px 20px 0 20px
   }
 
   .identify-card-title{
@@ -52,7 +53,7 @@
   }
 
   .widget-card{
-    padding: 8px;
+    padding: 8px 20px 0 20px;
   }
 
   .widget-row{
