@@ -1,6 +1,6 @@
 <div class="container">
 
-    <div class="top" *ngIf="!isMobileView()">
+    <div class="top">
       <div class="header-row">
           <div class="title">
               <h1>Wildfires Map</h1>
@@ -133,10 +133,6 @@
         <div class="map">
 
         <div class="identify-panel"></div>
-        <div class="mobile-wildfire-count">
-          <span style="margin: auto; display: flex;"><span class='material-icons-outlined fire-icon'>local_fire_department</span>{{ activeFireCount | async }} Active Wildfires</span>
-        </div>
-
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
                 (toggleAccordion)="onToggleAccordion()"
                 (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
