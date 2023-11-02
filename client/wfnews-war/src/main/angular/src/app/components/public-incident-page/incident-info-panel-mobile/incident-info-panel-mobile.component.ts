@@ -1,18 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
+import { convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'incident-info-panel-mobile',
   templateUrl: './incident-info-panel-mobile.component.html',
   styleUrls: ['./incident-info-panel-mobile.component.scss']
 })
-export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel {
+export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implements OnInit {
+  mobileEvacOrders = [];
+  mobileEvacAlerts = [];
+  convertToDateYear = convertToDateYear;
 
-  getTooltipText() {
-    return `What is a Hectare?
+  ngOnInit(): void {
+    this.populateOrdersAndAlerts()
+    
+  }
 
-    A hectare is a unit of area equal to 10,000 square meters or around 2.5 acres of land.
-    `;
+  populateOrdersAndAlerts() {
+    if (this.evacOrders) {
+      for (const evac of this.evacOrders) {
+        if (evac.orderAlertStatus === 'Order') this.mobileEvacOrders.push(evac)
+        else if (evac.orderAlertStatus === 'Alert') this.mobileEvacAlerts.push(evac)
+        else console.error('Could not determine orderAlertStatus for mobile evacuations')
+      }
+    }
+    console.log(this.evacOrders)
+    console.log(this.mobileEvacOrders)
+    console.log(this.mobileEvacAlerts)
   }
 
   navigateToMap(){

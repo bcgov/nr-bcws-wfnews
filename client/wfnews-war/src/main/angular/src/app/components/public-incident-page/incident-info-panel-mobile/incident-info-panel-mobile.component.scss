@@ -72,6 +72,26 @@
                     display: flex;
                     vertical-align: middle;
                     margin-bottom: 8px;
+
+                    &.fire-of-note {
+                        width: 160px;
+                        color: var(--reds-red-1, #852A2D);
+                        font-size: 16px;
+                        font-style: normal;
+                        font-weight: 500;
+                        line-height: normal; 
+                        padding: 8px 16px;
+                        align-items: center;
+                        align-content: center;
+                        gap: 8px;
+                        flex-wrap: wrap; 
+                        border-radius: 4px;
+                        border: 1px solid var(--reds-red-6, #FBE3E3);
+                        background: var(--reds-red-7, #FEF1F2); 
+                        .icon{
+                            padding-right: 0px;
+                        }
+                    }
                 }
 
                 .icon-title {
@@ -170,46 +190,108 @@
   }
 
   .circle-icon{
+    margin-left: 3px;
+    margin-right: 18px;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
     &.HOLDING{
         background-color: #ffff00;
         border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 16px;
     }
     &.OUT_CNTRL{
         background-color: #FF0000;
         border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 16px;
     }
     &.UNDR_CNTRL{
         background-color: #98E600;
         border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 16px;
     }
     &.OUT{
         background-color: #5C6671;
         border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 16px;
     }
 }
-// .tooltip {
-//     position: absolute;
-//     top: 100%;
-//     left: 50%;
-//     transform: translateX(-50%);
-//     background-color: #f0f0f0;
-//     padding: 8px;
-//     border-radius: 4px;
-//     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-//   }
+
+hr {
+    border: 0;
+    clear: both;
+    display: flex;
+    width: 99%;
+    background-color: #DDD;
+    height: 1px;
+    margin-left: 0px !important;
+  }
+
+.info-card {
+    position: relative;
+    display: flex;
+    padding: 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    align-self: stretch;
+    border-radius: 8px;
+    margin: 32px 0px 32px 0px;
+    .title {
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal; 
+    }
+
+    .subtitle {
+        color: var(--grays-gray-2, var(--Black-2, #484848));
+        font-size: 15px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 22px;
+        letter-spacing: -0.408px; 
+    }
+}
+    .order-count {
+        width: 90%;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal; 
+        padding: 8px 16px;
+        align-items: center;
+        align-content: center;
+        gap: 8px;
+        align-self: stretch;
+        flex-wrap: wrap; 
+        border-radius: 4px;
+        color: var(--reds-red-2, #98273B);
+        border: 1px solid var(--reds-red-7, #F4D1D1);
+        background: var(--reds-red-7, #FEF1F2); 
+        margin-bottom: 12px;
+        .icon{ 
+            padding-right: 8px !important; 
+            height:20px; 
+            width:20px;
+        }
+    }
+    .alert-count {
+        width: 90%;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal; 
+        padding: 8px 16px;
+        align-items: center;
+        align-content: center;
+        gap: 8px;
+        align-self: stretch;
+        flex-wrap: wrap; 
+        border-radius: 4px;
+        color: #7C5D11; 
+        border: 1px solid var(--yellows-yellow-6, #F3D999);
+        background: var(--yellows-yellow-6, #FCF3D4); 
+        margin-bottom: 32px;
+    }
+
+
+
+
+
