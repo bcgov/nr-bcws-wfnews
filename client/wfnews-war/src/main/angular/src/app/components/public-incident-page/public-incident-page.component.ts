@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http"
 import { ChangeDetectorRef, Component, OnInit } from "@angular/core"
 import { ActivatedRoute, ParamMap } from "@angular/router"
-import { convertToDateYear } from '@app/utils'
+import { convertToDateTimeTimeZone, convertToDateYear } from '@app/utils'
 import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models"
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
@@ -57,6 +57,7 @@ export class PublicIncidentPage implements OnInit {
           this.incident.declaredOutDate = this.incident.declaredOutDate ? new Date(this.incident.declaredOutDate).toLocaleTimeString("en-US", options) : 'Pending'
           this.incident.lastUpdatedTimestamp = this.incident.lastUpdatedTimestamp ? new Date(this.incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options) : 'Pending'
           if (this.incident.discoveryDate) this.incident.discoveryDate = convertToDateYear(this.incident.discoveryDate)
+          if (this.incident.updateDate) this.incident.updateDate = convertToDateTimeTimeZone(this.incident.updateDate)
           // check the contact info
           if (!this.incident.contactOrgUnitIdentifer) {
             this.http.get('../../../../assets/data/fire-center-contacts-agol.json').subscribe(data => {
@@ -69,25 +70,10 @@ export class PublicIncidentPage implements OnInit {
               this.cdr.detectChanges();
             });
           }
-
           if (this.incident.incidentSizeEstimatedHa) this.incident.incidentSizeEstimatedHa = this.incident.incidentSizeEstimatedHa.toLocaleString();
-          if (this.incident.discoveryDate) this.incident.discoveryDate = convertToDateYear(this.incident.discoveryDate)
-          
-          const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
-          if (this.incident.updateDate) {
-            let convertedUpdateDate: string;
-            convertedUpdateDate = this.incident.updateDate = this.incident.updateDate ? new Date(this.incident.updateDate).toLocaleTimeString("en-US", updateOptions) + " PST" : 'Pending'
-            if (convertedUpdateDate !== 'Pending') {
-              // add full stops and lowercase
-              convertedUpdateDate = convertedUpdateDate.replace("AM", "a.m.")
-              convertedUpdateDate = convertedUpdateDate.replace("PM", "p.m.")
-            }
-            this.incident.updateDate = convertedUpdateDate;
-          }
           // fetch the fire perimetre
           await this.getFirePerimetre()
           // load evac orders and area restrictions nearby
-          console.log('evac')
           await this.getEvacOrders()
           await this.getExternalUriEvacOrders()
           await this.getAreaRestrictions()
@@ -169,7 +155,8 @@ export class PublicIncidentPage implements OnInit {
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
             uri: null,
-            centroid: element.centroid
+            centroid: element.centroid,
+            issuedOn: convertToDateTimeTimeZone(element.attributes.DATE_MODIFIED),
           })
         }
       }
@@ -189,7 +176,8 @@ export class PublicIncidentPage implements OnInit {
               preOcCode: 'NA',
               emrgOAAsysID: 0,
               uri: uri.externalUri,
-              centroid: [0, 0]
+              centroid: [0, 0],
+              issuedOn: convertToDateTimeTimeZone(uri.updateDate)
             })
           }
         }
