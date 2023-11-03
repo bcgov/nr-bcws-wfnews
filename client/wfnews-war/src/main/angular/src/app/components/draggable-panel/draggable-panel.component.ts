@@ -127,21 +127,15 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   closePanel() {
     const SMK = window['SMK'];
-    let viewer = null;
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
-    for (const set in viewer.identified.featureSet) {
-      viewer.identified.clear([set])
-    }
+    SMK.MAP[1].$viewer.identified.clear();
+    SMK.MAP[1].$sidepanel.setExpand( 0 )
     this.cdr.detectChanges();
 
     this.showPanel = false;
     this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
   }
+
 
   convertFirePerimeterFireStatus(status) {
     switch(status) {
