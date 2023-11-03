@@ -33,7 +33,7 @@
         <ul>
           <li (click)="setActive('dashboard')">
 
-            <img *ngIf="activeMenuItem === 'dashboard'" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
+            <img *ngIf="activeMenuItem === 'dashboard' || router.url === ''" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
             <img *ngIf="activeMenuItem !== 'dashboard'" class="icon" src="/assets/images/svg-icons/dashboard.svg" >
             Dashboard
           </li>
