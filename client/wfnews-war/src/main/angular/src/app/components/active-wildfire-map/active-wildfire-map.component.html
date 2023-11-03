@@ -163,6 +163,8 @@
       <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" [title]="'Map Settings'">
         <map-type-picker></map-type-picker>
         <hr class="drawer-section-divider">
-        <map-layers-section [mapInitialized]="isMapLoaded"></map-layers-section>
+
+        <map-layers-section [mapInitialized]="isMapLoaded" [(triggerRefresh)]="refreshAllLayers" (layersChangedEvent)="handleLayerChange()"></map-layers-section>
+
       </mobile-sliding-drawer>
 </div>
