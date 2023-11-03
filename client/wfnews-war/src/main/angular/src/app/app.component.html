@@ -32,23 +32,30 @@
     <div class="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
         <ul>
           <li (click)="setActive('dashboard')">
-            <mat-icon svgIcon="dashboard" [ngClass]="{'active': activeMenuItem === 'dashboard'}"></mat-icon>
+
+            <img *ngIf="activeMenuItem === 'dashboard'" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
+            <img *ngIf="activeMenuItem !== 'dashboard'" class="icon" src="/assets/images/svg-icons/dashboard.svg" >
             Dashboard
           </li>
           <li (click)="setActive('map')">
-            <mat-icon svgIcon="map" [ngClass]="{'active': activeMenuItem === 'map'}"></mat-icon>
+            <mat-icon svgIcon="map" class="icon active" *ngIf="activeMenuItem === 'map'"></mat-icon>
+            <mat-icon svgIcon="map" class="icon" *ngIf="activeMenuItem !== 'map'"></mat-icon>
             Map
           </li>
           <li (click)="setActive('saved')">
-            <mat-icon svgIcon="saved" [ngClass]="{'active': activeMenuItem === 'saved'}"></mat-icon>
+            <img *ngIf="activeMenuItem === 'saved'" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
+            <img *ngIf="activeMenuItem !== 'saved'" class="icon" src="/assets/images/svg-icons/saved.svg" >
             Saved
           </li>
           <li (click)="setActive('reportOfFire')">
-            <mat-icon svgIcon="report" [ngClass]="{'active': activeMenuItem === 'reportOfFire'}"></mat-icon>
+            <img *ngIf="activeMenuItem === 'reportOfFire'" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
+            <img *ngIf="activeMenuItem !== 'reportOfFire'" class="icon" src="/assets/images/svg-icons/wildfire-white.svg" >
             Report
           </li>
           <li (click)="setActive('more')">
-            <mat-icon svgIcon="more" [ngClass]="{'active': activeMenuItem === 'more'}"></mat-icon>
+            <img *ngIf="activeMenuItem === 'more'" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
+            <img *ngIf="activeMenuItem !== 'more'" class="icon" src="/assets/images/svg-icons/more.svg" >
+            <!-- <mat-icon svgIcon="more" [ngClass]="{'active': activeMenuItem === 'more'}"></mat-icon> -->
             More
           </li>
         </ul>
