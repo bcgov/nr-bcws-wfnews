@@ -70,6 +70,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.incidentRefs = this.storedIncidentRefs
     }
     if (this.incidentRefs.length === 1){
+      this.zoomIn(8)
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.incidentRefs[0];
@@ -125,6 +126,18 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   closePanel() {
+    const SMK = window['SMK'];
+    let viewer = null;
+    for (const smkMap in SMK.MAP) {
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+        viewer = SMK.MAP[smkMap].$viewer;
+      }
+    }
+    for (const set in viewer.identified.featureSet) {
+      viewer.identified.clear([set])
+    }
+    this.cdr.detectChanges();
+
     this.showPanel = false;
     this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
@@ -197,7 +210,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
-  zoomIn() {
+  zoomIn(level?:number) {
     let long;
     let lat;
     if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
@@ -216,7 +229,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
             viewer = SMK.MAP[smkMap].$viewer;
           }
         }
-        viewer.panToFeature(window['turf'].point([long, lat]), 10)
+        viewer.panToFeature(window['turf'].point([long, lat]), level? level: 12)
       })
     }
   }

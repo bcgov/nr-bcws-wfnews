@@ -182,7 +182,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }});
 }
   
-  panToLocation(long, lat) {
+  panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;
@@ -191,7 +191,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), 10)
+      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:10)
     });
   }
 
@@ -372,6 +372,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectIncidents(incidentRefs){
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+    if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
+      this.panToLocation(this.incidentRefs[0]._identifyPoint.longitude, this.incidentRefs[0]._identifyPoint.latitude,true)
+    }
   }
 
   async initializeLayers() {
