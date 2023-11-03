@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { Photo } from "@capacitor/camera";
+import { GalleryPhoto, Photo } from "@capacitor/camera";
 import { AppConfigService } from "@wf1/core-ui";
 import { CommonUtilityService } from "./common-utility.service";
 import { Storage } from '@ionic/storage-angular';
 import { App } from '@capacitor/app';
+import { Filesystem } from '@capacitor/filesystem';
 
 export type ReportOfFireType = {
     fullName?: string,
@@ -30,14 +31,14 @@ export class ReportOfFireService {
     constructor(private appConfigService: AppConfigService,
       private commonUtilityService: CommonUtilityService,
       private storage: Storage) {  }
-      
+
     submittedOffline: boolean
 
-    async saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Promise<any> {
+    async saveReportOfFire (reportOfFire: ReportOfFireType, image1: Photo | GalleryPhoto, image2: Photo | GalleryPhoto, image3: Photo | GalleryPhoto): Promise<any> {
 
         let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
         let resource = JSON.stringify(reportOfFire)
-        
+
         try {
           const formData = new FormData()
           formData.append('resource', resource)
@@ -57,7 +58,7 @@ export class ReportOfFireService {
           }));
 
           if (this.submittedOffline) return;
-          
+
           let response = await fetch(rofUrl, {
               method: 'POST',
               body: formData
@@ -82,29 +83,45 @@ export class ReportOfFireService {
       return new Promise(async (resolve, _) => {
         // do a request to the blob uri
         const response = await fetch(url);
-      
+
         // response has a method called .blob() to get the blob file
         const blob = await response.blob();
-      
+
         // instantiate a file reader
         const fileReader = new FileReader();
-      
+
         // read the file
         fileReader.readAsDataURL(blob);
-      
+
         fileReader.onloadend = function(){
           resolve(fileReader.result as string); // Here is the base64 string
         }
       });
     };
-      
 
-  async convertToBase64 (image: Photo){
+
+  async convertToBase64 (image: Photo | GalleryPhoto){
+      if (image.exif) {
+        // For images from the gallery this should be populated as long as the photos permission is set to 'granted' or
+        // the limited selection includes this image.
+        console.log('exif', image.exif)
+      }
+
+      if (image.path) {
+        // read binary data (base64 encoded) from plugins that return File URIs, such as
+        // the Camera.
+        const contents = await Filesystem.readFile({
+          path: image.path,
+        });
+
+        return contents.data;
+      }
+
       // if the webPath is already a base64 string, return it
       if (image.webPath !== null && image.webPath.startsWith("data:image")){
           return image.webPath;
       }
-      else {   
+      else {
           let b64 = ""
           await this.blobToBase64(image.webPath).then(result => {
             b64 = result;
@@ -138,7 +155,7 @@ export class ReportOfFireService {
           method: 'POST',
           body: formData
       })
-    
+
       if (response.ok) {
           // Remove the locally stored data if sync is successful
           await this.storage.create();
@@ -164,5 +181,5 @@ export class ReportOfFireService {
       let json = JSON.stringify(object);
       await this.storage.set('offlineReportData', json);
     }
-   
+
 }
