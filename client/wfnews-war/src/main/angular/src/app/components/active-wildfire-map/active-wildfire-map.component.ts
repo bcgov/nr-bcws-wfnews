@@ -90,7 +90,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isMapLoaded = false;
   isAllLayersOpen = false;
   refreshAllLayers = false;
-
+  isDataSourcesOpen = false;
 
   showPanel: boolean;
 
@@ -382,6 +382,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.cdr.detectChanges();
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
@@ -637,5 +638,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   handleLayerChange() {
     this.selectedLayer = 'all-layers';
     this.selectedPanel = 'all-layers';
+  }
+
+  handleDrawerVisibilityChange(isVisible: boolean) {
+    if (!isVisible) {
+      this.isDataSourcesOpen = false;
+    }
   }
 }

@@ -40,13 +40,11 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('onChanges', changes);
     if (this.mapInitialized || (this.mapInitialized && this.triggerRefresh)) {
       this.clearAll(false);
       this.loadLayers();
     }
   } 
-
 
   clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;

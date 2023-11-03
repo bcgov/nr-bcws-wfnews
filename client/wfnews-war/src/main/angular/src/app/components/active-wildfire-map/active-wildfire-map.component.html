@@ -160,11 +160,15 @@
         </div>
       </div>
       <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
-      <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" [title]="'Map Settings'">
-        <map-type-picker></map-type-picker>
-        <hr class="drawer-section-divider">
-
-        <map-layers-section [mapInitialized]="isMapLoaded" [(triggerRefresh)]="refreshAllLayers" (layersChangedEvent)="handleLayerChange()"></map-layers-section>
-
+      <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
+        <div *ngIf="!isDataSourcesOpen">
+            <map-type-picker></map-type-picker>
+            <hr class="drawer-section-divider">
+            <map-layers-section [mapInitialized]="isMapLoaded" [(triggerRefresh)]="refreshAllLayers" (layersChangedEvent)="handleLayerChange()"></map-layers-section>
+            <div class="drawer-footer">
+                <button (click)="isDataSourcesOpen = true">Data Sources</button>
+            </div>
+        </div>
+        <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
       </mobile-sliding-drawer>
 </div>
