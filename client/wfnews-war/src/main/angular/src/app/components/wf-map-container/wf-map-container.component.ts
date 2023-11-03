@@ -119,7 +119,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     
     // Function to handle the timeout logic
     function handleTimeout() {
-      self.selectIncidents.emit(identified.featureSet);
+      this.selectIncidents.emit(identified.featureSet);
     }
     
     // Set a timeout to emit selectIncidents event after 500 milliseconds
