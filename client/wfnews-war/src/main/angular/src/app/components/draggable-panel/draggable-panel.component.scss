@@ -10,11 +10,11 @@
   z-index: 100000000 !important;
   border-radius: 20px;
   min-height: 260px;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
 }
 
 .panel-container {
   font-weight: 600;
-  margin: 20px 10px 0px 10px;
   overflow: auto;
   height: 90%;
   border-radius: 20px;
@@ -25,7 +25,7 @@
     top: 0;
     font-size: 18px;
     color: #242424;
-    padding: 20px 10px;
+    padding: 12px 20px;
     border-bottom: 1px solid #DEDEDE;
     display: flex;
     justify-content: space-between;
@@ -40,7 +40,7 @@
   .criteria-title{
     font-size: 18px;
     color: #242424;
-    padding: 20px 10px;
+    padding: 16px 20px 0 20px
   }
 
   .identify-card-title{
@@ -53,7 +53,7 @@
   }
 
   .widget-card{
-    padding: 8px;
+    padding: 8px 20px 0 20px;
   }
 
   .widget-row{
@@ -72,6 +72,8 @@
   }
 
   .incident-icon{
+    width: 24px;
+    height: 24px;
     margin-right: 12px;
   }
 
@@ -111,7 +113,6 @@
   }
 
   .identify-card{
-    border-bottom: 1px solid #DEDEDE;
     display: flex;
     margin: 16px 20px 24px 20px;
     flex-direction: column;
@@ -151,30 +152,39 @@
     background-color: white;
     justify-content: space-between;
     gap: 16px;
-    display: flex;
-    padding: 0px 20px;
+    padding: 24px 20px 0 20px;
     align-items: center;
-    .mobile-button{
-      width: 100%;
-      font-family: 'Noto Sans', Arial, 'sans serif';
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      color:#000;
-      background-color: #F5F5F5;
-      padding: 8px;
+    // border-top: 1px solid #DEDEDE;
+    .divider{
+      height: 1px;
+      background-color: #DEDEDE;
+      margin-bottom:24px;
     }
-    .mobile-button-primary{
-      width: 100%;
-      font-family: 'Noto Sans', Arial, 'sans serif';
-      font-size: 16px;
-      font-style: normal;
-      font-weight: 600;
-      line-height: normal;
-      color: #FDFDFD;
-      background-color: #036;
-      padding: 8px;
+    
+    .buttons{
+      display: flex;
+      .mobile-button{
+        width: 100%;
+        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color:#000;
+        background-color: #F5F5F5;
+        padding: 8px;
+      }
+      .mobile-button-primary{
+        width: 100%;
+        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #FDFDFD;
+        background-color: #036;
+        padding: 8px;
+      }
     }
   }
 }

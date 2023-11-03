@@ -92,7 +92,6 @@
     }
   }
   .divider {
-    border-bottom: 1px lightgray solid;
     padding-top: 7px;
     padding-bottom: 7px;
   }
@@ -150,6 +149,7 @@
     font-size: 14px;
     display: flex;
     justify-content: space-between;
+    gap: 12px;
     // .item{
     //   margin-right: 26px;
     // }
@@ -170,7 +170,7 @@
       box-sizing: border-box;
       align-items: center;
       justify-content: center;
-      min-width: 130px;
+      width: 40dvw;
       height: 48px;
 
       &.fixed-width {

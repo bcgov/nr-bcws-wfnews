@@ -82,7 +82,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
   public getCauseLabel (code: number) {
     if (code === 1) return 'Human'
-    else if (code === 2) return 'Lightning / Natural'
+    else if (code === 2) return 'Lightning'
     else if (code === 3) return 'Under Investigation'
     else return 'Unknown'
   }
@@ -90,7 +90,6 @@ export class IncidentInfoPanel implements AfterViewInit {
   public getCauseDescription (code: number) {
     if (code === 1) return 'A wildfire started by humans or human activity.'
     else if (code === 2) return 'When lightning strikes an object it can release enough heat to ignite a tree or other fuels.'
-    else if (code === 3) return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
     else return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
   }
 

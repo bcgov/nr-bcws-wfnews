@@ -57,23 +57,15 @@
       </div>
     </div>
     <div *ngIf="isMobileView()">
-
-      <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
-      <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
-      <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
-      <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
-        incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
-
       <div class="header-content">
         <div class="item">
-          <button mat-button class="mobile-button fixed-width">
-            <span class="material-icons-outlined">notifications_active</span>
-            Notifications On
+          <button mat-button class="mobile-button">
+            <mat-icon svgIcon="bookmark"></mat-icon>
+            Save
           </button>
         </div>
         <div class="item">
-          <button mat-button class="mobile-button fixed-width" (click)="openContactUsWindow()">
-            <mat-icon svgIcon="contact-us"></mat-icon>
+          <button mat-button class="mobile-button" (click)="openContactUsWindow()">
             Contact Us
           </button>
         </div>

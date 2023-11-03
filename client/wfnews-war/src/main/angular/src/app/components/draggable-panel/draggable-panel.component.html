@@ -9,7 +9,7 @@
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(wildfire)">
                         <div class="left-content">
-                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" height="24" width="24" src="/assets/images/local_fire_department.png"/>
+                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon" src="/assets/images/local_fire_department.png"/>
                             <span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }}"></span>
                             {{displayWildfireName(wildfire)}}
                         </div>
@@ -39,8 +39,8 @@
                 <div *ngFor="let evac of filteredEvacs" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(evac)">
                         <div class="left-content">
-                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
-                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon" height="20" width="20" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
+                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
+                            <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
 
                         Evacuation {{evac.properties.ORDER_ALERT_STATUS}} for {{evac.properties.ORDER_ALERT_NAME}}
                         </div>
@@ -56,7 +56,7 @@
                 <div *ngFor="let areaRestriction of filteredAreaRestrictions" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(areaRestriction)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="area-restriction" alt="Area Restrictions"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
                         {{areaRestriction.properties.NAME}}
                         </div>
                         <div class="right-content">
@@ -71,7 +71,7 @@
                 <div *ngFor="let ban of filteredBansAndProhibitions" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(ban)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/ban.svg" alt="Ban">
                         Fire Ban on {{ban.title}}
                         </div>
                         <div class="right-content">
@@ -87,23 +87,23 @@
                     <div class="widget-row" (click)="openPreviewPanel(danger)">
                         <div class="left-content">
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Extreme'">
-                                <mat-icon class="incident-icon" svgIcon="fire-danger-extreme" alt="Fire Danger"></mat-icon>
+                                <img class="incident-icon" src="/assets/images/svg-icons/fire-danger-extreme.svg" alt="Fire Danger">
                                 {{danger.properties.DANGER_RATING_DESC}} Fire Danger
                             </div>
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'High'">
-                                <mat-icon class="incident-icon" svgIcon="fire-danger-high" alt="Fire Danger"></mat-icon>
+                                <img class="incident-icon" src="/assets/images/svg-icons/fire-danger-high.svg" alt="Fire Danger">
                                 {{danger.properties.DANGER_RATING_DESC}} Fire Danger
                             </div>
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Moderate'">
-                                <mat-icon class="incident-icon" svgIcon="fire-danger-moderate" alt="Fire Danger"></mat-icon>
+                                <img class="incident-icon" src="/assets/images/svg-icons/fire-danger-moderate.svg" alt="Fire Danger">
                                 {{danger.properties.DANGER_RATING_DESC}} Fire Danger
                             </div>
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Low'">
-                                <mat-icon class="incident-icon" svgIcon="fire-danger-low" alt="Fire Danger"></mat-icon>
+                                <img class="incident-icon" src="/assets/images/svg-icons/fire-danger-low.svg" alt="Fire Danger">
                                 {{danger.properties.DANGER_RATING_DESC}} Fire Danger
                             </div>
                             <div *ngIf = "danger.properties.DANGER_RATING_DESC === 'Very Low'">
-                                <mat-icon class="incident-icon" svgIcon="fire-danger-very-low" alt="Fire Danger"></mat-icon>
+                                <img class="incident-icon" src="/assets/images/svg-icons/fire-danger-very-low.svg" alt="Fire Danger">
                                 {{danger.properties.DANGER_RATING_DESC}} Fire Danger
                             </div>
                         </div>
@@ -119,7 +119,7 @@
                 <div *ngFor="let event of filteredRoadEvents" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(event)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="road-event" alt="Ban"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/ban.svg" alt="ban">
                             {{event.title}}
                         </div>
                         <div class="right-content">
@@ -134,7 +134,7 @@
                 <div *ngFor="let closedRecreationSite of filteredClosedRecreationSites" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(closedRecreationSite)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="closed-recreation-site" alt="closed-recreation-site"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/closed-recreation-site.svg" alt="closed-recreation-site">
                             {{closedRecreationSite.title}}
                         </div>
                         <div class="right-content">
@@ -177,7 +177,7 @@
                 <div *ngFor="let regionalDistrict of filteredRegionalDistricts" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(regionalDistrict)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="regional-districts" alt="regional-districts"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/regional-districts.svg" alt="regional-districts">
                             {{regionalDistrict.title}}
                         </div>
                         <div class="right-content">
@@ -192,7 +192,7 @@
                 <div *ngFor="let municipality of filteredMunicipalities" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(municipality)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="regional-districts" alt="municipalities"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/regional-districts.svg" alt="municipalities">
                             {{municipality.title}}
                         </div>
                         <div class="right-content">
@@ -207,7 +207,7 @@
                 <div *ngFor="let firstNationsTreatyLand of filteredFirstNationsTreatyLand" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(firstNationsTreatyLand)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="brown-square" alt="first-nations-treaty-land"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/brown-square.svg" alt="first-nations-treaty-land">
                             {{firstNationsTreatyLand.title}}
                         </div>
                         <div class="right-content">
@@ -222,7 +222,7 @@
                 <div *ngFor="let indianReserve of filteredIndianReserve" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(indianReserve)">
                         <div class="left-content">
-                            <mat-icon class="incident-icon" svgIcon="indian-reserve" alt="indian-reserve"></mat-icon>
+                            <img class="incident-icon" src="/assets/images/svg-icons/indian-reserve.svg" alt="indian-reserve">
                             {{indianReserve.title}}
                         </div>
                         <div class="right-content">
@@ -245,7 +245,7 @@
                         <img class="incident-icon" height="24" width="24" src="/assets/images/local_fire_department.png"/>
                     </ng-container>
                     <ng-template #fireIcon>
-                        <mat-icon class="incident-icon" svgIcon='report'></mat-icon>
+                        <img class="incident-icon" src="/assets/images/svg-icons/report.svg">
                     </ng-template>
                     {{displayItemTitle(identifyItem)}} 
                 </span>
@@ -258,7 +258,7 @@
                     {{identifyIncident.fireCentreName}}
                 </div>
                 <div class="identify-card-item">
-                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     Discovered on {{convertTimeStamp(identifyIncident.discoveryDate)}}
                 </div>
                 <div class="identify-card-item">
@@ -273,13 +273,16 @@
                 </div>
             </div>
             <div class="button-row">
-                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
-                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
-                    Zoom to
-                </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
-                    Full Details
-                </button>
+                <div class="divider"></div>
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                        <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                        Zoom to
+                    </button>
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                        Full Details
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -292,11 +295,11 @@
 
                 <span class="preview-title">
                     <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'" class="preview-title">
-                        <img class="incident-icon" height="24" width="24" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
+                        <img class="incident-icon" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert">
                         Evacuation Alert
                     </span>
                     <span *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Order'" class="preview-title">
-                        <img class="incident-icon" height="24" width="24" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
+                        <img class="incident-icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
                         Evacuation Order
                     </span>
                 </span>
@@ -305,11 +308,11 @@
             <div class="identify-card">
                 <div class="identify-card-title" *ngIf="identifyItem.properties.EVENT_NAME">{{displayEvacTitle(identifyItem)}}</div>
                 <div class="identify-card-item">
-                    <mat-icon class="incident-icon" svgIcon='calendar'></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     Issued on {{convertIrregularTimeStamp(identifyItem.properties.DATE_MODIFIED)}} PST
                 </div>
                 <div class="identify-card-item">
-                    <mat-icon class="incident-icon" svgIcon='agency'></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/carbon_finance.svg">
                     Issued by {{identifyItem.properties.ISSUING_AGENCY}}
                 </div>
                 <div class="identify-card-description" *ngIf="identifyItem.properties.ORDER_ALERT_STATUS === 'Alert'">
@@ -320,13 +323,16 @@
                 </div>
             </div>
             <div class="button-row">
-                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
-                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
-                    Zoom to
-                </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
-                    Full Details
-                </button>
+                <div class="divider"></div>
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                        <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                        Zoom to
+                    </button>
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                        Full Details
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -338,30 +344,30 @@
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'area-restrictions'">
-                    <mat-icon class="incident-icon" svgIcon="area-restriction" alt="Area Restrictions"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
                     Area Restrictions
                 </span>
                 <span class="preview-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">
-                    <mat-icon class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/ban.svg">
                     Fire Bans
                 </span>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">
-                    <mat-icon class="incident-icon" svgIcon="carbon-layer" alt="closed-recreation-site"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/carbon_layers.svg">
                     Closed Recreational Sites
                 </span>
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">
-                    <mat-icon class="incident-icon" svgIcon="road-event" alt="road-event"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/road-event.svg">
                     Road Events
                 </span>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">
-                    <mat-icon class="incident-icon" svgIcon="carbon-layer" alt="Protected-Lands"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/carbon_layers.svg">
                     Protected Lands
                 </span>
                 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'bc-fsr'">
-                    <mat-icon class="incident-icon" svgIcon="carbon-layer" alt="Protected-Lands"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/svg-icons/carbon_layers.svg">
                     Forest Service Roads
                 </span>
 
@@ -394,9 +400,10 @@
                 </div>
 
                 <div class="identify-card-item">
-                    <img *ngIf="showLocationIcon(identifyItem.layerId)" height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
-                    <mat-icon *ngIf="identifyItem.layerId === 'drive-bc-active-events'" class="incident-icon" svgIcon='agency'></mat-icon>
-                    <mat-icon *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions' && identifyItem.properties.CAMPFIRE_BAN_IND !== 'N' " class="incident-icon" svgIcon="ban" alt="Ban"></mat-icon>
+                    <img *ngIf="showLocationIcon(identifyItem.layerId)" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    <img *ngIf="identifyItem.layerId === 'drive-bc-active-events'" src="/assets/images/svg-icons/carbon_finance.svg" class="incident-icon" >
+
+                    <img *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions' && identifyItem.properties.CAMPFIRE_BAN_IND !== 'N' " class="incident-icon" src="/assets/images/svg-icons/ban.svg" alt="Ban">
 
                     <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">{{identifyItem.properties.FIRE_CENTRE_NAME ? identifyItem.properties.FIRE_CENTRE_NAME + ' Fire Centre' : null}}</span>
                     <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">{{identifyItem.properties.RECREATION_DISTRICT_NAME}}</span>
@@ -407,7 +414,7 @@
 
                 </div>
                 <div class="identify-card-item">
-                    <mat-icon *ngIf="showCalendarIcon(identifyItem.layerId)" class="incident-icon" svgIcon='calendar'></mat-icon>
+                    <img *ngIf="showCalendarIcon(identifyItem.layerId)" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">Issued on {{convertIrregularTimeStamp(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">Closed on {{convertTimeStamp(identifyItem.properties.CLOSURE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">Created on {{convertTimeStamp(identifyItem.properties.CREATED_TIME)}}</span>
@@ -425,13 +432,16 @@
                 </div>
             </div>
             <div class="button-row">
-                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
-                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
-                    Zoom to
-                </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
-                    Full Details
-                </button>
+                <div class="divider"></div>
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                        <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                        Zoom to
+                    </button>
+                    <button (click)="enterFullDetail()" mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
+                        Full Details
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -443,7 +453,7 @@
                 <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
                 <span class="preview-title">
-                    <mat-icon class="incident-icon" svgIcon="carbon-gauge" alt="Danger Rating"></mat-icon>
+                    <img class="incident-icon" src="/assets/images/carbon_gauge.svg" alt="Danger Rating">
                     Wildfire Danger Rating
                 </span>
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
@@ -455,13 +465,16 @@
                 </div>
             </div>
             <div class="button-row">
-                <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
-                    <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
-                    Zoom to
-                </button>
-                <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
-                    Full Details
-                </button>
+                <div class="divider"></div>
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                        <mat-icon class="incident-icon" svgIcon='zoom-in'></mat-icon>
+                        Zoom to
+                    </button>
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                        Full Details
+                    </button>
+                </div>
             </div>
         </div>
     </div>

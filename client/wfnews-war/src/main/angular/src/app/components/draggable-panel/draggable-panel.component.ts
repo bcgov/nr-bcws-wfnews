@@ -3,6 +3,8 @@ import {Input} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
+import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -46,6 +48,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected cdr: ChangeDetectorRef,
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
+    private router: Router
     ) { 
     }
 
@@ -67,6 +70,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.incidentRefs = this.storedIncidentRefs
     }
     if (this.incidentRefs.length === 1){
+      this.zoomIn(8)
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.incidentRefs[0];
@@ -122,6 +126,18 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   closePanel() {
+    const SMK = window['SMK'];
+    let viewer = null;
+    for (const smkMap in SMK.MAP) {
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+        viewer = SMK.MAP[smkMap].$viewer;
+      }
+    }
+    for (const set in viewer.identified.featureSet) {
+      viewer.identified.clear([set])
+    }
+    this.cdr.detectChanges();
+
     this.showPanel = false;
     this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
@@ -194,7 +210,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
-  zoomIn() {
+  zoomIn(level?:number) {
     let long;
     let lat;
     if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
@@ -213,7 +229,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
             viewer = SMK.MAP[smkMap].$viewer;
           }
         }
-        viewer.panToFeature(window['turf'].point([long, lat]), 10)
+        viewer.panToFeature(window['turf'].point([long, lat]), level? level: 12)
       })
     }
   }
@@ -234,7 +250,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   enterFullDetail() {
-    //yet to implement
+    const item = this.identifyItem
+    if (item && item.layerId && item.properties) {
+      if (this.identifyItem.layerId === 'area-restrictions' && item.properties.PROT_RA_SYSID){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} }); 
+      }
+    }
   }
 
   convertTimeStamp(time) {
