@@ -22,7 +22,7 @@
       </mat-tab-group>
     </div>
     <div *ngIf="hideOnMobileView()">
-      <mat-tab-group mat-stretch-tabs [headerPosition]="above">
+      <mat-tab-group mat-stretch-tabs-mobile [headerPosition]="above">
         <mat-tab label="Details">
           <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
         </mat-tab>

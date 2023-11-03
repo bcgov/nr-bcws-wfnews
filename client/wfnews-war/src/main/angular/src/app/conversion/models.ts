@@ -23,6 +23,7 @@ export interface EvacOrderOption {
   dateModified?: Date;
   noticeType?: string;
   uri?: string;
+  issuedOn?: string;
 }
 
 export interface AreaRestrictionsOption {
