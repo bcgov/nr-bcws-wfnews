@@ -1,20 +1,15 @@
 <div class="panel">
     <div class="content-panel">
         <div>
-            <div class="count" *ngIf="mobileEvacOrders && mobileEvacOrders.length > 0">
-                <div class="order-count" *ngIf="mobileEvacOrders && mobileEvacOrders.length === 1">
-                    <img class="icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="evacuation-order" />
-                    <span>{{mobileEvacOrders.length}} Evacuation Order</span>
-                </div>
-                <div class="order-count" *ngIf="mobileEvacOrders && mobileEvacOrders.length > 1">
+            <div
+                *ngIf="mobileEvacOrders && mobileEvacOrders.length > 0 || mobileEvacAlerts && mobileEvacAlerts.length > 0">
+                <div class="order-count" (click)="scrollToSection('evac-order')"
+                    *ngIf="mobileEvacOrders && mobileEvacOrders.length > 0">
                     <img class="icon" src="/assets/images/svg-icons/evacuation-order.svg" alt="evacuation-order" />
                     <span>{{mobileEvacOrders.length}} Evacuation Orders</span>
                 </div>
-                <div class="alert-count" *ngIf="mobileEvacAlerts && mobileEvacOrders.length === 1"> <img class="icon"
-                        src="/assets/images/svg-icons/evacuation-alert.svg" alt="evacuation-alert" />
-                    <span>{{mobileEvacAlerts.length}} Evacuation Alert</span>
-                </div>
-                <div class="alert-count" *ngIf="mobileEvacAlerts && mobileEvacOrders.length > 1">
+                <div class="alert-count" (click)="scrollToSection('evac-alert')"
+                    *ngIf="mobileEvacAlerts && mobileEvacAlerts.length > 0">
                     <img class="icon" src="/assets/images/svg-icons/evacuation-alert.svg"
                         alt="evacuation-alert" /><span>{{mobileEvacAlerts.length}} Evacuation Alerts</span>
                 </div>
@@ -106,16 +101,15 @@
                 <div *ngIf="incident.fireOfNoteInd">
                     <div class="sub-content">
                         <div class="icon-title">
-                            <img class="fire-icon" style="padding-right: 18px !important" height="22" width="22" src="/assets/images/local_fire_department.png"
-                                alt="local_fire_department" />
+                            <img class="fire-icon" style="padding-right: 18px !important" height="22" width="22"
+                                src="/assets/images/local_fire_department.png" alt="local_fire_department" />
                             <span>Wildfire Of Note</span>
                         </div>
                     </div>
-                    <div class="sub-content">
+                    <div class="sub-content" style="padding-bottom: 24px;">
                         This wildfire is highly visible or poses a potential threat to public safety.
                     </div>
                 </div>
-                <br />
                 <div>
                     <div class="sub-title">
                         <span class="circle-icon {{incident.stageOfControlCode}}"></span>
@@ -133,7 +127,7 @@
                     <h1 style="margin-bottom: 4px;">Fire Size</h1>
                 </div>
                 <div class="sub-content" style="color:#3e4347; display: flex; align-items: baseline;">
-                    <img class="icon" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg"
+                    <img class="icon-top" height="24" width="24" src="/assets/images/svg-icons/carbon_ruler.svg"
                         alt="carbon_ruler" />
                     {{incident.incidentSizeEstimatedHa ? incident.incidentSizeEstimatedHa.toLocaleString() : 0}}
                     Hectares
@@ -163,8 +157,8 @@
                 </div>
                 <br />
                 <button mat-button class="mobile-button" (click)="navigateToMap()">
-                    <span class="material-icons-outlined">map</span>
-                    <span class="map-button"> View Full Map</span>
+                    <img class="icon-top" height="20" width="20" style="padding-right: 8px !important" src="/assets/images/svg-icons/map.svg" alt="map" />
+                    <span class="map-button">View Full Map</span>
                 </button>
                 <div class="divider"></div>
             </div>
@@ -174,7 +168,7 @@
                 <div class="sub-content"
                     *ngIf="!mobileEvacOrders || mobileEvacOrders.length <= 0 || !mobileEvacAlerts || mobileEvacAlerts.length <= 0">
                     There are no current evacuation orders or alerts associated with this incident.</div>
-                <div *ngIf="mobileEvacOrders && mobileEvacOrders.length >= 1">
+                <div id="evac-order" *ngIf="mobileEvacOrders && mobileEvacOrders.length >= 1">
                     <div class="evac-title"><img class="icon" src="/assets/images/svg-icons/union.svg"
                             alt="union" />Evacuation Orders</div>
                     <div class="sub-content">
@@ -195,14 +189,15 @@
                         <div class="subtitle">
                             <img class="icon" height="16" width="16" src="/assets/images/svg-icons/issuing_agency.svg"
                                 alt="issuing_agency" />Issued by {{item.issuingAgency}}
-                            <img height="20" (click)="navigateToEvac(item)" width="20" class="arrow-button" style="background: var(--reds-red-6, #FBE3E3);"
+                            <img height="20" (click)="navigateToEvac(item)" width="20" class="arrow-button"
+                                style="background: var(--reds-red-6, #FBE3E3);"
                                 src="/assets/images/svg-icons/forward-arrow-red.svg">
                         </div>
                     </div>
                 </div>
-                <div *ngIf="mobileEvacAlerts && mobileEvacAlerts.length >= 1">
-                    <div class="evac-title"><img class="icon" src="/assets/images/svg-icons/custom_warning.svg"
-                            alt="ustom_warning" />Evacuation Alerts</div>
+                <div id="evac-alert" *ngIf="mobileEvacAlerts && mobileEvacAlerts.length >= 1">
+                    <div class="evac-title"><img class="icon" style="top: 3px !important" src="/assets/images/svg-icons/custom_warning.svg"
+                            alt="custom_warning" />Evacuation Alerts</div>
                     <div class="sub-content">
                         An evacuation alert is a warning about a potential threat to life and/or property. It is
                         intended to give you time to be ready for a possible evacuation.
@@ -222,8 +217,8 @@
                         <div class="subtitle"><img class="icon" height="16" width="16"
                                 src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
                             {{item.issuingAgency}}
-                            <img height="20" (click)="navigateToEvac(item)" width="20" class="arrow-button" style="background: #F2E8C4;" 
-                                src="/assets/images/svg-icons/forward-arrow-yellow.svg">
+                            <img height="20" (click)="navigateToEvac(item)" width="20" class="arrow-button"
+                                style="background: #F2E8C4;" src="/assets/images/svg-icons/forward-arrow-yellow.svg">
                         </div>
                     </div>
                 </div>
@@ -241,9 +236,8 @@
                         restrictions
                         necessary to limit the risk of a fire, address a public safety concern or avoid interference
                         with fire control. </div>
-                    <div class="info-card"
-                        style="border: 2px solid var(--grays-gray-6, #C4C4C4); background: var(--grays-gray-10, #F5F5F5);"
-                        *ngFor="let area of areaRestrictions">
+                    <div class="info-card" style="border: 2px solid var(--grays-gray-6, #C4C4C4);
+                    background: var(--grays-gray-10, #F5F5F5);" *ngFor="let area of areaRestrictions">
                         <div class="title"><img class="icon" height="24" width="24"
                                 src="/assets/images/svg-icons/area-restriction.svg"
                                 alt="area-restriction" />{{area.name}}</div>
@@ -254,8 +248,10 @@
                         <div class="subtitle"><img class="icon" height="16" width="16"
                                 src="/assets/images/svg-icons/calendar.svg" alt="calendar" />Issued on
                             {{convertToDateYear(area.accessStatusEffectiveDate)}}
-                            <img (click)="navigateToAreaRestriction(area)" height="20" width="20" class="arrow-button"
-                            src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+                            <img (click)="navigateToAreaRestriction(area)" style="background: var(--Grey-2-EEE, #EEE);"
+                                height="20" width="20" class="arrow-button"
+                                src="/assets/images/svg-icons/forward-arrow-grey.svg">
+                        </div>
                     </div>
                 </ng-template>
                 <div class="divider"></div>
@@ -265,19 +261,19 @@
                 <h1>Suspected Cause</h1>
 
                 <div class="sub-title">
-                    <div class="sub-content">
+                    <div class="sub-content-title">
                         <div *ngIf='incident.generalIncidentCauseCatId === 1'>
-                            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/human.svg"
+                            <img class="icon-top" height="24" width="24" style="padding-right: 8px !important" src="/assets/images/svg-icons/human.svg"
                                 alt="human" />
                             {{getCauseLabel(incident.generalIncidentCauseCatId)}}
                         </div>
                         <div *ngIf='incident.generalIncidentCauseCatId === 2'>
-                            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/lightning.svg"
+                            <img class="icon-top" height="24" width="24" style="padding-right: 8px !important" src="/assets/images/svg-icons/lightning.svg"
                                 alt="lightning" />
                             {{getCauseLabel(incident.generalIncidentCauseCatId)}}
                         </div>
                         <div *ngIf='incident.generalIncidentCauseCatId === 3'>
-                            <img class="icon" height="24" width="24" src="/assets/images/svg-icons/help.svg"
+                            <img class="icon-top" height="24" width="24" style="padding-right: 8px !important" src="/assets/images/svg-icons/help.svg"
                                 alt="question" />
                             {{getCauseLabel(incident.generalIncidentCauseCatId)}}
                         </div>
@@ -292,27 +288,28 @@
             <div class="content-panel-stack">
                 <h1>Contact Us</h1>
                 <div>
-                    <div style="display: flex; margin-bottom: 5px;"><span class="material-icons-outlined"
-                            style="padding-right: 10px;">badge</span><span>{{convertToFireCentreDescription(incident.contactOrgUnitIdentifer
-                            || incident.fireCentreName || incident.fireCentreCode || incident.fireCentre)}}</span></div>
-                    <div style="display: flex; margin-bottom: 5px;"><span class="material-icons-outlined"
-                            style="padding-right: 10px;">email</span><span>{{incident.contactEmailAddress}}</span></div>
-                    <div style="display: flex; margin-bottom: 5px;"><span class="material-icons"
-                            style="padding-right: 10px;">call</span><span>{{incident.contactPhoneNumber}}</span></div>
+                    <div class="contact-info"><img class="icon-top" height="24" width="24"
+                            src="/assets/images/centre.png" alt="centre" />{{incident.fireCentreName}}</div>
+                    <div class="contact-info"> <img class="icon-top" height="24" width="24"
+                            src="/assets/images/svg-icons/carbon_email.svg"
+                            alt="carbon_email" />{{incident.contactEmailAddress}}</div>
+                    <div class="contact-info"><img class="icon-top" height="24" width="24"
+                            src="/assets/images/svg-icons/carbon_phone.svg"
+                            alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
                 </div>
-                <div style="display: flex; justify-content: space-between; padding-top: 24px;">
-                    <button mat-button class="mobile-button fixed-width"
-                        (click)="callFireCentre(incident.contactPhoneNumber)">
-                        <span class="material-icons">call</span>
+                <div class="contact-buttons">
+                    <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
+                        <img class="icon-top" height="24" width="24" src="/assets/images/svg-icons/carbon_phone.svg"
+                            alt="carbon_phone" />
                         Call Us
                     </button>
-                    <button mat-button class="mobile-button fixed-width"
-                        (click)="emailFireCentre(incident.contactEmailAddress)">
-                        <span class="material-icons-outlined">email</span>
+                    <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
+                        <img class="icon-top" height="24" width="24"
+                            src="/assets/images/svg-icons/carbon_email.svg"
+                            alt="carbon_email" />
                         Email Us
                     </button>
                 </div>
-                <div class="divider"></div>
             </div>
 
         </div>

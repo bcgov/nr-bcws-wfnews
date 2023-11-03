@@ -6,6 +6,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
+import { setDisplayColor } from '@app/utils';
 
 export class AreaRestriction {
   public name: string;
@@ -89,7 +90,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       if (this.incident.fireOfNoteInd) {
         L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
       } else {
-        const colorToDisplay = this.setDisplayColor(this.incident.stageOfControlCode)
+        const colorToDisplay = setDisplayColor(this.incident.stageOfControlCode)
         L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
       }
     }
@@ -108,7 +109,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
             if (item.fireOfNoteInd) {
               L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
             } else {
-              const colorToDisplay = this.setDisplayColor(item.stageOfControlCode)
+              const colorToDisplay = setDisplayColor(item.stageOfControlCode)
               L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
             }
           }
@@ -180,27 +181,6 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     } else {
       // what happens when this fails?
     }
-  }
-
-  setDisplayColor(stageOfControlCode: string){
-    let colorToDisplay;
-        switch (stageOfControlCode) {
-          case 'OUT_CNTRL':
-            colorToDisplay = '#FF0000'
-            break;
-          case 'HOLDING':
-            colorToDisplay = '#ffff00'
-            break;
-          case 'UNDR_CNTRL':
-            colorToDisplay = '#98E600'
-            break;
-          case 'OUT':
-            colorToDisplay = '#999999'
-            break;
-          default:
-            colorToDisplay = 'white';
-        }
-    return colorToDisplay;
   }
 
   navToMap() {
