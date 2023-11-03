@@ -1,6 +1,6 @@
 <div class="header">
   <div class="heading">Map Layers</div>
-  <div class="clear-all" (click)="clearAll()">Clear All</div>
+  <div class="clear-all" (click)="clearAll(true)">Clear All</div>
 </div>
 <div class="sections">
   <div class="section">
@@ -39,7 +39,7 @@
 
   <div class="section">
     <div class="subheading">
-      Routes & Access
+      Routes and Access
     </div>
     <checkbox-button (click)="updateLayers()" [(checked)]="roadEvents">Road Events</checkbox-button>
     <checkbox-button (click)="updateLayers()" [(checked)]="closedRecreationSites">Closed Recreation Sites</checkbox-button>

@@ -89,6 +89,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLocationEnabled: boolean;
   isMapLoaded = false;
   isAllLayersOpen = false;
+  refreshAllLayers = false;
+  isDataSourcesOpen = false;
 
   showPanel: boolean;
 
@@ -180,7 +182,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }});
 }
   
-  panToLocation(long, lat) {
+  panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
       let viewer = null;
@@ -189,7 +191,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), 10)
+      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:10)
     });
   }
 
@@ -370,6 +372,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectIncidents(incidentRefs){
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
+    if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
+      this.panToLocation(this.incidentRefs[0]._identifyPoint.longitude, this.incidentRefs[0]._identifyPoint.latitude,true)
+    }
   }
 
   async initializeLayers() {
@@ -377,6 +382,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.cdr.detectChanges();
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
@@ -416,6 +422,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 19 */ { itemId: 'bans-and-prohibitions-cat1', visible: false },
       /* 20 */ { itemId: 'bans-and-prohibitions-cat2', visible: false },
       /* 21 */ { itemId: 'bans-and-prohibitions-cat3', visible: false },
+
+      // Not in a feature but need to be cleared
+      { itemId: 'bc-fsr', visible: false },
+      { itemId: 'current-conditions--default', visible: false },
+      { itemId: 'precipitation', visible: false },
+      { itemId: 'protected-lands-access-restrictions', visible: false },
+      { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
+      { itemId: 'weather-stations', visible: false },
     ];
 
     switch (this.selectedLayer) {
@@ -471,7 +485,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.initMap(event)
     } 
 
-    return this.smkApi.setDisplayContextItemsVisible(...layers);
+    this.smkApi.setDisplayContextItemsVisible(...layers);
+    this.refreshAllLayers = true;
   }
 
   async useMyCurrentLocation() {
@@ -618,5 +633,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   openAllLayers() {
     this.isAllLayersOpen = true;
+  }
+
+  handleLayerChange() {
+    this.selectedLayer = 'all-layers';
+    this.selectedPanel = 'all-layers';
+  }
+
+  handleDrawerVisibilityChange(isVisible: boolean) {
+    if (!isVisible) {
+      this.isDataSourcesOpen = false;
+    }
   }
 }
