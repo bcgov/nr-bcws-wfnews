@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { SmkApi } from '@app/utils/smk';
 
 @Component({
@@ -8,6 +8,9 @@ import { SmkApi } from '@app/utils/smk';
 })
 export class MapLayersDrawerSectionComponent implements OnChanges {
   @Input() mapInitialized: boolean;
+  @Input() triggerRefresh: boolean;
+  @Output() triggerRefreshChange = new EventEmitter<boolean>();
+  @Output() layersChangedEvent = new EventEmitter<boolean>();
 
   activeWeatherStations = false;
   airQuality = false; // TODO: add air quality layer
@@ -34,14 +37,18 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   underControlWildfire = false;
   wildfireOfNote = false;
 
+  constructor(private cdr: ChangeDetectorRef) {}
+
   ngOnChanges(changes: SimpleChanges) {
     console.log('onChanges', changes);
-    if (this.mapInitialized) {
+    if (this.mapInitialized || (this.mapInitialized && this.triggerRefresh)) {
+      this.clearAll(false);
       this.loadLayers();
     }
   } 
 
-  clearAll() {
+
+  clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;
     this.airQuality = false; // TODO: add air quality layer
     this.areaRestrictions = false;
@@ -67,7 +74,9 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
     this.underControlWildfire = false;
     this.wildfireOfNote = false;
 
-    this.updateLayers();
+    if (updateLayers) {
+      this.updateLayers();
+    }
   }
 
   loadLayers() {
@@ -157,6 +166,9 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           break;
       }
     });
+    
+    this.triggerRefreshChange.emit(false);
+    this.cdr.detectChanges();
   }
 
   updateLayers() {
@@ -194,6 +206,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       { itemId: 'weather-stations', visible: this.activeWeatherStations },
     ];
 
-    return smkApi.setDisplayContextItemsVisible(...layers);
+    smkApi.setDisplayContextItemsVisible(...layers);
+    this.layersChangedEvent.emit(true);
   }
 }

@@ -89,6 +89,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLocationEnabled: boolean;
   isMapLoaded = false;
   isAllLayersOpen = false;
+  refreshAllLayers = false;
+
 
   showPanel: boolean;
 
@@ -419,6 +421,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 19 */ { itemId: 'bans-and-prohibitions-cat1', visible: false },
       /* 20 */ { itemId: 'bans-and-prohibitions-cat2', visible: false },
       /* 21 */ { itemId: 'bans-and-prohibitions-cat3', visible: false },
+
+      // Not in a feature but need to be cleared
+      { itemId: 'bc-fsr', visible: false },
+      { itemId: 'current-conditions--default', visible: false },
+      { itemId: 'precipitation', visible: false },
+      { itemId: 'protected-lands-access-restrictions', visible: false },
+      { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
+      { itemId: 'weather-stations', visible: false },
     ];
 
     switch (this.selectedLayer) {
@@ -474,7 +484,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.initMap(event)
     } 
 
-    return this.smkApi.setDisplayContextItemsVisible(...layers);
+    this.smkApi.setDisplayContextItemsVisible(...layers);
+    this.refreshAllLayers = true;
   }
 
   async useMyCurrentLocation() {
@@ -621,5 +632,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   openAllLayers() {
     this.isAllLayersOpen = true;
+  }
+
+  handleLayerChange() {
+    this.selectedLayer = 'all-layers';
+    this.selectedPanel = 'all-layers';
   }
 }
