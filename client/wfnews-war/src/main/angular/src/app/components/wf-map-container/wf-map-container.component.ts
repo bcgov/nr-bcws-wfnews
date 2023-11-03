@@ -115,15 +115,22 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const self = this;
     const identified = smk.$viewer.identified;
     let map = smk.$viewer.map;
-
-    let delayTimer;
-    // double click on map does not bring up identify panel, set half second delay to track if zoom in happens before the delay is finished, then cancel the identify
-    delayTimer = setTimeout(() => {
-      this.selectIncidents.emit(identified.featureSet);
-    },500)
+    let delayTimer; // Variable to store the timeout ID
+    
+    // Function to handle the timeout logic
+    function handleTimeout() {
+      self.selectIncidents.emit(identified.featureSet);
+    }
+    
+    // Set a timeout to emit selectIncidents event after 500 milliseconds
+    delayTimer = setTimeout(handleTimeout, 500);
+    
+    // Listen for the zoomend event
     map.on('zoomend', () => {
+      // Clear the timeout to prevent the selectIncidents event from being emitted
       clearTimeout(delayTimer);
-    });    
+    });
+    
 
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {

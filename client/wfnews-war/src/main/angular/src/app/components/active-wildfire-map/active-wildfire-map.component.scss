@@ -370,7 +370,7 @@ mat-panel-title {
   }
 
   .container {
-    height: calc(100vh) !important;
+    height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)) !important;
     overflow: hidden;
   }
 
@@ -475,7 +475,7 @@ mat-panel-title {
     }
 
     .map {
-      height: calc(100% - 10vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)) !important;
+      height: calc(100% - 10vh) !important;
 
       .identify-panel {
         height: 100% !important;
