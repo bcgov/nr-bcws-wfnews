@@ -1,6 +1,6 @@
 .container{
     display: flex;
-    // width: 342px;
+    background: #F5F6F9; 
     flex-direction: column;
     align-items: flex-start;
     gap: 24px;
@@ -81,6 +81,7 @@
                 border-radius: 12px;
                 border: 1.5px solid var(--grays-gray-7, #DEDEDE);
                 background: var(--White, #FDFDFD);
+                position: relative;
             }
         }
     }
@@ -101,4 +102,12 @@
     .bottom-section-item{
         margin-bottom: 16px;
     }
+}
+
+.external-link-icon{
+    width: 24px;
+    height: 24px;
+    position: absolute;
+    right: 12px;
+    top: 16px;
 }
