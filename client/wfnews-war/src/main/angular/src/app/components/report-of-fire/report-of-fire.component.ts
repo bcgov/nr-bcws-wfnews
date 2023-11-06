@@ -309,7 +309,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         
         dialogRef.afterClosed().subscribe(result => {
           if (result['exit']) {
-            this.router.navigateByUrl('/map')
+            this.router.navigateByUrl('/dashboard')
           }
         });
     }
