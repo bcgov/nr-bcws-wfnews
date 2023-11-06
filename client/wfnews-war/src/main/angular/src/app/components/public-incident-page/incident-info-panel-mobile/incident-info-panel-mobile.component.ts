@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
-import { convertToDateYear } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'incident-info-panel-mobile',
@@ -28,7 +28,7 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   navigateToMap() {
-    //to do, need to wait for the mobile map screen ticket
+    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP])
   }
 
   navigateToEvac(evac) {
@@ -36,12 +36,13 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   navigateToAreaRestriction(area) {
-    //to do. need to wait for the screen design
+    if (area && area.protRsSysID) 
+      this.route.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: area.protRsSysID, source: [ResourcesRoutes.PUBLIC_INCIDENT] }});
   }
 
-  scrollToSection(event, sectionId) {
+  scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
-    section.scrollIntoView({ behavior: 'smooth' });
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
   }
 
   callFireCentre(phoneNumber: string) {
