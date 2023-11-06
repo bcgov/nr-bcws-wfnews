@@ -612,11 +612,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         break;
       case 'reportOfFire':
         this.router.navigate([ResourcesRoutes.ROF]);
-        this.activeMenuItem = '';
         break;
       case 'saved':
+        this.router.navigate([ResourcesRoutes.SAVED]);
         break;
       case 'more':
+        this.router.navigate([ResourcesRoutes.MORE]);
         break;
       default:
         this.router.navigate([ResourcesRoutes.DASHBOARD]);

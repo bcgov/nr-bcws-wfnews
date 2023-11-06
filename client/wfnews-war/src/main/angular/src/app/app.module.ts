@@ -195,6 +195,8 @@ import { WFMapService } from './services/wf-map.service';
 import { CustomReuseStrategy } from './shared/route/custom-route-reuse-strategy';
 import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
+import { SavedComponent } from './components/saved/saved.component';
+import { MoreComponent } from './components/more/more.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -331,7 +333,9 @@ export const DATE_FORMATS = {
         MapLayersDataSourceDrawerSectionComponent,
         FullDetailsComponent,
         AreaRestrictionsFullDetailsComponent,
-        LinkButtonComponent
+        LinkButtonComponent,
+        SavedComponent,
+        MoreComponent
     ],
     imports: [
         MatSortModule,

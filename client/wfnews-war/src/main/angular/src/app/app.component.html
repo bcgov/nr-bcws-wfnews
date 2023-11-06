@@ -33,29 +33,38 @@
         <ul>
           <li (click)="setActive('dashboard')">
 
-            <img *ngIf="activeMenuItem === 'dashboard' || router.url === ''" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
-            <img *ngIf="activeMenuItem !== 'dashboard'" class="icon" src="/assets/images/svg-icons/dashboard.svg" >
+            <img *ngIf="router.url === '/dashboard'; else dashboardOther" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
+            <ng-template #dashboardOther>
+              <img class="icon" src="/assets/images/svg-icons/dashboard.svg" >
+            </ng-template>
             Dashboard
           </li>
           <li (click)="setActive('map')">
-            <mat-icon svgIcon="map" class="icon active" *ngIf="activeMenuItem === 'map'"></mat-icon>
-            <mat-icon svgIcon="map" class="icon" *ngIf="activeMenuItem !== 'map'"></mat-icon>
+            <mat-icon svgIcon="map" class="icon active" *ngIf="router.url === '/map'; else mapOther"></mat-icon>
+            <ng-template #mapOther>
+              <mat-icon svgIcon="map" class="icon"></mat-icon>
+            </ng-template>
             Map
           </li>
           <li (click)="setActive('saved')">
-            <img *ngIf="activeMenuItem === 'saved'" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
-            <img *ngIf="activeMenuItem !== 'saved'" class="icon" src="/assets/images/svg-icons/saved.svg" >
+            <img *ngIf="router.url === '/saved'; else savedOther" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
+            <ng-template #savedOther>
+              <img class="icon" src="/assets/images/svg-icons/saved.svg" >
+            </ng-template>
             Saved
           </li>
           <li (click)="setActive('reportOfFire')">
-            <img *ngIf="activeMenuItem === 'reportOfFire'" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
-            <img *ngIf="activeMenuItem !== 'reportOfFire'" class="icon" src="/assets/images/svg-icons/wildfire-white.svg" >
+            <img *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
+            <ng-template #reportOfFireOther>
+              <img class="icon" src="/assets/images/svg-icons/wildfire-white.svg" >
+            </ng-template>
             Report
           </li>
           <li (click)="setActive('more')">
-            <img *ngIf="activeMenuItem === 'more'" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
-            <img *ngIf="activeMenuItem !== 'more'" class="icon" src="/assets/images/svg-icons/more.svg" >
-            <!-- <mat-icon svgIcon="more" [ngClass]="{'active': activeMenuItem === 'more'}"></mat-icon> -->
+            <img *ngIf="router.url === '/more'; else moreOther" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
+            <ng-template #moreOther>
+              <img class="icon" src="/assets/images/svg-icons/more.svg" >
+            </ng-template>
             More
           </li>
         </ul>
