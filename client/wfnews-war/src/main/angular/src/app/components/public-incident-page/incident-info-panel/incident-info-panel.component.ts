@@ -5,7 +5,7 @@ import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeI
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
@@ -30,7 +30,8 @@ export class IncidentInfoPanel implements AfterViewInit {
   public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,
                      private router: ActivatedRoute,
-                     private http: HttpClient) {}
+                     private http: HttpClient,
+                     protected route: Router) {}
   public primaryMedia = null
 
   handleImageFallback (href: string) {
@@ -89,7 +90,7 @@ export class IncidentInfoPanel implements AfterViewInit {
 
   public getCauseDescription (code: number) {
     if (code === 1) return 'A wildfire started by humans or human activity.'
-    else if (code === 2) return 'When lightning strikes an object it can release enough heat to ignite a tree or other fuels.'
+    else if (code === 2) return 'This fire was caused by a dry lightning strike which means it occurred without rain nearby. The cause of a wildfire is determined by professional investigations in accordance with international standards. Wildfire investigations can be complex and may take weeks or even months to complete.'
     else return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
   }
 

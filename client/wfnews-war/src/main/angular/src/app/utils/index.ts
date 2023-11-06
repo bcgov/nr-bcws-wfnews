@@ -368,3 +368,25 @@ export function convertToDateTimeTimeZone(date) {
     }
     return convertedDate;
 }
+
+export function setDisplayColor(stageOfControlCode: string) {
+    let colorToDisplay;
+    switch (stageOfControlCode) {
+        case 'OUT_CNTRL':
+            colorToDisplay = '#FF0000'
+            break;
+        case 'HOLDING':
+            colorToDisplay = '#ffff00'
+            break;
+        case 'UNDR_CNTRL':
+            colorToDisplay = '#98E600'
+            break;
+        case 'OUT':
+            colorToDisplay = '#999999'
+            break;
+        default:
+            colorToDisplay = 'white';
+    }
+    return colorToDisplay;
+}
+
