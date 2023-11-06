@@ -5,7 +5,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { setDisplayColor } from '@app/utils';
+import { ResourcesRoutes, setDisplayColor } from '@app/utils';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -95,14 +95,15 @@ export class DangerRatingFullDetailsComponent implements OnInit {
         }
       }
     } catch(err){
-      console.error('Could not retrieve surrounding incidents for area restriction')
+      console.error('Could not retrieve surrounding incidents')
     }
     this.cdr.detectChanges()
   }
 
   navToMap() {
     setTimeout(() => {
-      //this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.location.longitude, latitude: this.location.latitude, dangerRating: true } });
+      const locationData = JSON.parse(this.location) as LocationData
+      this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: locationData.longitude, latitude: locationData.latitude, dangerRating: true } });
     }, 200);
   }
 
