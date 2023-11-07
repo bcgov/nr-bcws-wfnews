@@ -16,6 +16,7 @@ import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.com
 import { Dashboard } from './components/dashboard-component/dashboard.component';
 import { FullDetailsComponent } from './components/full-details/full-details.component';
 import { SavedComponent } from '@app/components/saved/saved.component';
+import { MoreComponent } from '@app/components/more/more.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -36,7 +37,7 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.FULL_DETAILS, component: FullDetailsComponent, pathMatch: 'full',},
   { path: ResourcesRoutes.SAVED, component: SavedComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.MORE, component: SavedComponent, pathMatch: 'full',},
+  { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full',},
 
 
 ];
