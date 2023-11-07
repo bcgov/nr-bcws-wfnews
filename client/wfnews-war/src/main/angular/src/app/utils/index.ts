@@ -18,7 +18,9 @@ export enum ResourcesRoutes {
     ADMIN = 'admin',
     ADMIN_INCIDENT = 'incident',
     PUBLIC_INCIDENT = 'incidents',
-    FULL_DETAILS = 'full-details'
+    FULL_DETAILS = 'full-details',
+    SAVED = 'saved',
+    MORE = 'more',
 }
 
 export const FireCentres = [
