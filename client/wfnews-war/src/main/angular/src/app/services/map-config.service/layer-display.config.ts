@@ -103,10 +103,6 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false
         },
         {
-          id: 'bc-fsr',
-          isVisible: false
-        },
-        {
             id: "radar-1km-rrai--radarurpprecipr14-linear",
             isVisible: false
         },
