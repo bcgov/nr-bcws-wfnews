@@ -35,6 +35,10 @@
             <mat-label class="label">Unit Crews</mat-label>
             <input matInput type="number" #unitCrews (change)="crewsValueChange()">
           </mat-form-field>
+          <mat-form-field floatLabel="always">
+            <mat-label class="label">Total Crew Units</mat-label>
+            <input matInput type="number" [value]="incident.crewResourceCount" disabled>
+          </mat-form-field>
         </div>
         <div class="field size-third">
           <mat-checkbox [(ngModel)]="incident.wildifreCrewsInd" formControlName="wildifreCrewsInd" class="example-margin" (change)="onWildfireCrewsChecked($event)">Crews</mat-checkbox>
@@ -70,6 +74,10 @@
             <mat-label class="label">Airtankers</mat-label>
             <input matInput type="number" #airtankers (change)="aviationValueChange()">
           </mat-form-field>
+          <mat-form-field floatLabel="always">
+            <mat-label class="label">Total Aviation Units</mat-label>
+            <input matInput type="number" [value]="incident.aviationResourceCount" disabled>
+          </mat-form-field>
         </div>
         <div class="field size-third">
           <mat-checkbox [(ngModel)]="incident.aviationInd" formControlName="aviationInd" class="example-margin" (change)="onAviationChecked($event)">Wildfire Aviation</mat-checkbox>
@@ -99,7 +107,7 @@
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Incident Management Teams</mat-label>
-            <input matInput type="number" #imTeams (change)="incidentTeamValueChange()">
+            <input matInput type="number" [value]="incident.incidentManagementResourceCount" #imTeams (change)="incidentTeamValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
@@ -130,7 +138,7 @@
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Heavy Equipment Pieces</mat-label>
-            <input matInput type="number" #pieces (change)="heavyEquipmentValueChange()">
+            <input matInput type="number" [value]="incident.heavyEquipmentResourceCount" #pieces (change)="heavyEquipmentValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">
@@ -161,7 +169,7 @@
         <div class="field size-unset">
           <mat-form-field floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
-            <input matInput type="number" #structure (change)="structuretValueChange()">
+            <input matInput [value]="incident.structureProtectionResourceCount" type="number" #structure (change)="structuretValueChange()">
           </mat-form-field>
         </div>
         <div class="field size-third">

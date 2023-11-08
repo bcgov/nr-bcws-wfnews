@@ -109,19 +109,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
                 value: 'See Here',
             }
         ]
-    },
-
-        {
-            type: 'wms',
-            id: 'bans-and-prohibitions-highlight',
-            title: 'BC Wildfire Bans and Prohibitions',
-            serviceUrl: ls.openmapsBaseUrl,
-            // "serviceUrl": "https://delivery.openmaps.gov.bc.ca/geo/pub/ows",
-            // "#serviceUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
-            layerName: 'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
-            opacity: 0.8,
-            sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/bans-and-prohibitions-highlight.sld`
-        }
+    }
 
     ];
 }
