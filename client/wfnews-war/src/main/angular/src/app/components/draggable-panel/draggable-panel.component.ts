@@ -52,13 +52,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
     private router: Router
-<<<<<<< Updated upstream
-    ) {
-    }
-=======
   ) {
   }
->>>>>>> Stashed changes
 
 
   ngOnInit(): void {
