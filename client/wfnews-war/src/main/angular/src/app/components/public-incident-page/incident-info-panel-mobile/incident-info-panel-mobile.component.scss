@@ -208,6 +208,19 @@
                 top: 5px;
             }
 
+            .icon-bottom {
+                padding-right: 16px;
+                position: relative;
+                bottom: 2px;
+            }
+
+            .icon-contact {
+                position: relative;
+                top: 7px;
+                height: 24px;
+                width: 24px;
+            }
+
             .icon-evac {
                 padding-right: 16px;
                 position: relative;
@@ -224,11 +237,10 @@
             }
 
             .icon-info-title {
-                padding-right: 16px;
+                padding-right: 10px;
                 position: relative;
                 height: 24px;
                 width: 24px;
-                top: 5px;
             }
 
             .fire-icon {
@@ -313,6 +325,7 @@ hr {
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        display: flex;
     }
 
     .subtitle {
@@ -322,6 +335,7 @@ hr {
         font-weight: 400;
         line-height: 22px;
         letter-spacing: -0.408px;
+        display: flex;
     }
 
     .icon {
@@ -347,6 +361,7 @@ hr {
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        display: flex;
     }
 
     .subtitle {
@@ -356,10 +371,12 @@ hr {
         font-weight: 400;
         line-height: 22px;
         letter-spacing: -0.408px;
+        display: flex;
     }
 
     .icon {
         top: 2px !important;
+        float: left;
     }
 }
 
@@ -381,6 +398,7 @@ hr {
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        display: flex;
     }
 
     .subtitle {
@@ -390,6 +408,7 @@ hr {
         font-weight: 400;
         line-height: 22px;
         letter-spacing: -0.408px;
+        display: flex
     }
 
     .icon {
@@ -415,6 +434,7 @@ hr {
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        display: flex;
     }
 
     .subtitle {
@@ -424,6 +444,7 @@ hr {
         font-weight: 400;
         line-height: 22px;
         letter-spacing: -0.408px;
+        display: flex;
     }
 
     .icon {
@@ -562,14 +583,15 @@ hr {
     font-weight: 400;
     line-height: 21px;
     padding-bottom: 10px;
+    display: flex;
 }
 
 .contact-buttons {
+    padding-top: 16px;
     display: flex;
     align-items: flex-start;
     gap: 16px;
     align-self: stretch;
-    padding-top: 8px;
 
     .mobile-buttons {
         display: flex;
@@ -581,10 +603,15 @@ hr {
         border-radius: 5px;
         border: 1px solid var(--grays-gray-6, #C4C4C4);
         background: #FFF;
-        height: 52px;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
+        height: 40px;
     }
+
+    ::ng-deep .mdc-button__label {
+        bottom: 5px;
+    }
+}
+
+.block_container {
+    display: flex;
+    justify-content: center;
 }
