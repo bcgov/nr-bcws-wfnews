@@ -5,10 +5,10 @@
     </div>
     <div *ngIf="!hideOnMobileView()">
       <mat-tab-group mat-stretch-tabs [headerPosition]="above">
-        <mat-tab label="Incident Details">
+        <mat-tab label="Details">
           <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
         </mat-tab>
-        <mat-tab label="Incident Response">
+        <mat-tab label="Response">
           <incident-overview-panel [incident]="incident"></incident-overview-panel>
         </mat-tab>
         <mat-tab label="Gallery">
