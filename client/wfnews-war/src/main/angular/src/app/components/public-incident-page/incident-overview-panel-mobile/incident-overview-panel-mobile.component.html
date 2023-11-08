@@ -1,11 +1,52 @@
-
 <div class="panel">
-  <div class="content-panel">
+    <div class="content-panel">
         <div class="content-panel-stack">
-            <h1>Wildfire Details</h1>
-            <div class="contents">
-                <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || '<p>For more information on this incident, please contact the information officers assigned.</p>'" (ready)="onReady($event)"></ckeditor>
+            <h4>{{incident.resourceDetail}}</h4>
+        </div>
+        <div class="content-panel-stack">
+            <h1>Response Type</h1>
+            <h4>{{getResponseTypeDescription(incident.responseTypeCode)}}</h4>
+        </div>
+        <div class="content-panel-stack">
+            <h1>Resources Assigned</h1>
+            <div class="resources-assigned"
+                *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
+                <div *ngIf="incident.incidentMgmtCrewRsrcInd">
+                    <img class="image-size" src="../../../assets/images/svg-icons/incident_management_team.svg"
+                        alt="Incident Management Team" />
+                    <div>Incident Management Team</div>
+                    <div>{{incident.incidentMgmtCrewRsrcDetail}}</div>
+                </div>
+                <div *ngIf="incident.wildfireCrewResourcesInd">
+                    <img class="image-size" src="../../../assets/images/svg-icons/firefighting_personnel.svg"
+                        alt="Wildfire Crews" />
+                        <div>Firefighting Personnel</div>
+                        <div>{{incident.wildfireCrewResourcesDetail}}</div>
+                </div>
+                <div *ngIf="incident.wildfireAviationResourceInd">
+                    <img class="image-size" src="../../../assets/images/svg-icons/aviation_response.svg" alt="Aviation"/>
+                    <div>Aviation</div>
+                    <div>{{incident.wildfireAviationResourceDetail}}</div>
+                </div>
+                <div *ngIf="incident.heavyEquipmentResourcesInd">
+                    <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment_response.svg"
+                        alt="Heavy Equipment" />
+                    <div>Heavy Equipment</div>
+                    <div>{{incident.heavyEquipmentResourcesDetail}}</div>
+                </div>
+                <div *ngIf="incident.structureProtectionRsrcInd">
+                    <img class="image-size" src="../../../assets/images/svg-icons/structure_protection.svg"
+                        alt="Structure Protection"/>
+                    <div>Structure Protection</div>
+                    <div>{{incident.structureProtectionRsrcDetail}}</div>
+                </div>
             </div>
+            <button>Learn More about Wildfire Resources</button>
+        </div>
+        <div class="content-panel-stack" *ngIf="incident.incidentOverview">
+            <h1>Response Update</h1>
+            <h4>{{convertToDateYear(incident.lastUpdatedTimestamp)}}</h4>
+            <div [innerHTML]="incident.incidentOverview"></div>
         </div>
     </div>
 </div>

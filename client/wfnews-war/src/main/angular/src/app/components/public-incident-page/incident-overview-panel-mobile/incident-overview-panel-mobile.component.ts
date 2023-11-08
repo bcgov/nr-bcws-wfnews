@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { convertToDateYear, getResponseTypeDescription } from "../../../utils";
 import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overview-panel.component';
 
 @Component({
@@ -7,5 +8,7 @@ import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overv
   styleUrls: ['./incident-overview-panel-mobile.component.scss']
 })
 export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel {
+  getResponseTypeDescription = getResponseTypeDescription;
+  convertToDateYear = convertToDateYear;
   
 }

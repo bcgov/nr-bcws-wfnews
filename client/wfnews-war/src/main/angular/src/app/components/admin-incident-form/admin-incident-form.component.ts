@@ -348,6 +348,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     };
 
     try {
+      console.log('jsonn')
+      console.log(JSON.stringify(publishedIncidentResource))
       const doc = await self.publishIncident(publishedIncidentResource);
       this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
 
