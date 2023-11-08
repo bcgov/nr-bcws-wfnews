@@ -96,6 +96,12 @@
     <fieldset class="field-set">
       <legend style="display: none">Incident Management Response Card</legend>
       <div class="news-form">
+        <div class="field size-unset">
+          <mat-form-field floatLabel="always">
+            <mat-label class="label">Incident Management Teams</mat-label>
+            <input matInput type="number" #imTeams (change)="incidentTeamValueChange()">
+          </mat-form-field>
+        </div>
         <div class="field size-third">
           <mat-checkbox [(ngModel)]="incident.incidentManagementInd" formControlName="incidentManagementInd" class="example-margin" (change)="onIncidentManagementTeamsChecked($event)">Incident Management Team</mat-checkbox>
         </div>
@@ -152,12 +158,12 @@
     <fieldset class="field-set">
       <legend style="display: none">Structure Protection Response Card</legend>
       <div class="news-form">
-        <!-- div class="field size-unset">
-          <mat-form-field appearance="standard" floatLabel="always">
+        <div class="field size-unset">
+          <mat-form-field floatLabel="always">
             <mat-label class="label">Structure protection</mat-label>
             <input matInput type="number" #structure (change)="structuretValueChange()">
           </mat-form-field>
-        </div -->
+        </div>
         <div class="field size-third">
           <mat-checkbox [(ngModel)]="incident.structureProtectionInd" formControlName="structureProtectionInd" class="example-margin"  (change)="onStructureProtectionChecked($event)">Structure Protection</mat-checkbox>
         </div>

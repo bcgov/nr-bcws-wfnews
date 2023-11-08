@@ -4,8 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -43,6 +43,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     'bcws-activefires-publicview-inactive',
     "fire-perimeters",
   ];
+  convertToDateYear = convertToDateYear;
+
 
   constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -261,6 +263,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   convertTimeStamp(time) {
+    console.log(time)
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(time).toLocaleTimeString("en-US", options)
   }
