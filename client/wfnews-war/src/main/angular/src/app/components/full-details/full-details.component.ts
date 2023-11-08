@@ -25,6 +25,8 @@ export class FullDetailsComponent implements OnInit {
         return 'Area Restriction'
       case 'danger-rating':
         return 'Wildfire Danger Rating'
+      case 'bans-prohibitions':
+        return 'Fire Bans'
     }
   }
 
