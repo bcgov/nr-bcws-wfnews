@@ -1,6 +1,6 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: 40vh;
+  height: 50vh;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -50,6 +50,7 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    padding-bottom: 4px;
   }
 
   .widget-card{
@@ -72,6 +73,12 @@
   }
 
   .incident-icon{
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+  }
+
+  .incident-icon-title{
     width: 24px;
     height: 24px;
     margin-right: 12px;
@@ -79,36 +86,52 @@
 
   .circle-icon{
     &.active-wildfires-holding{
-        background-color: #ffff00;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 12px;
+      background-color: #ffff00;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.active-wildfires-out-of-control{
-        background-color: #FF0000;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 12px;
+      background-color: #FF0000;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.active-wildfires-under-control{
-        background-color: #98E600;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 12px;
+      background-color: #98E600;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.bcws-activefires-publicview-inactive{
       background-color: #5C6671;
       border: 1px solid black;
       border-radius: 50%;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
   }
 
@@ -117,7 +140,7 @@
     margin: 16px 20px 24px 20px;
     flex-direction: column;
     align-items: flex-start;
-    gap: 16px;
+    gap: 4px;
     flex: 1 0 0;
     align-self: stretch;
     min-height: 25vh;
@@ -131,6 +154,11 @@
       font-weight: 400;
       line-height: 22px; /* 146.667% */
       letter-spacing: -0.408px;
+      align-items: center;
+    }
+
+    .description-section{
+      padding-top: 12px;
     }
 
     .identify-card-description{
