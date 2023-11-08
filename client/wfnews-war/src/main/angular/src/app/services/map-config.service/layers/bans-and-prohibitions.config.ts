@@ -9,7 +9,7 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
             sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/bans-cat1.sld`,
-            where: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Category 1%\' OR ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
+            where: 'ACCESS_PROHIBITION_DESCRIPTION LIKE \'%Campfire%\'',
             opacity: 0.5,
             titleAttribute: 'ACCESS_PROHIBITION_DESCRIPTION',
             geometryAttribute: 'SHAPE',
