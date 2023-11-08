@@ -248,6 +248,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
+    console.log(this.identifyItem.layerId)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -256,6 +257,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
       if (this.identifyItem.layerId === 'area-restrictions' && item.properties.PROT_RA_SYSID){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
+      } else if (this.identifyItem.layerId.startsWith('bans-and-prohibitions') && item.properties.PROT_BAP_SYSID){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.properties.PROT_BAP_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       } else if (this.identifyItem.layerId === 'danger-rating'){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       }

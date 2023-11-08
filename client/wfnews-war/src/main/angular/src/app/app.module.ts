@@ -197,6 +197,7 @@ import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { SavedComponent } from './components/saved/saved.component';
 import { MoreComponent } from './components/more/more.component';
+import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
 
 
@@ -337,7 +338,8 @@ export const DATE_FORMATS = {
         DangerRatingFullDetailsComponent,
         LinkButtonComponent,
         SavedComponent,
-        MoreComponent
+        MoreComponent,
+        BansFullDetailsComponent
     ],
     imports: [
         MatSortModule,
