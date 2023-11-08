@@ -1,6 +1,6 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: 40vh;
+  height: 50vh;
   width: 100%;
   position: absolute;
   bottom: 0;
@@ -86,28 +86,40 @@
 
   .circle-icon{
     &.active-wildfires-holding{
-        background-color: #ffff00;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        margin-right: 12px;
+      background-color: #ffff00;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.active-wildfires-out-of-control{
-        background-color: #FF0000;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        margin-right: 12px;
+      background-color: #FF0000;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.active-wildfires-under-control{
-        background-color: #98E600;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 16px;
-        height: 16px;
-        margin-right: 12px;
+      background-color: #98E600;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
     &.bcws-activefires-publicview-inactive{
       background-color: #5C6671;
@@ -116,6 +128,10 @@
       width: 16px;
       height: 16px;
       margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
   }
 
@@ -139,6 +155,10 @@
       line-height: 22px; /* 146.667% */
       letter-spacing: -0.408px;
       align-items: center;
+    }
+
+    .description-section{
+      padding-top: 12px;
     }
 
     .identify-card-description{
