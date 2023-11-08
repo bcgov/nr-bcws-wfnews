@@ -98,35 +98,35 @@ export class ResponseDetailsPanel implements OnInit {
   crewsValueChange() {
     if(this.incident.wildifreCrewsInd){
       this.formGroup.controls["crewsComments"].setValue(this.crewCommentsValue(this.initialAttackCrews.nativeElement.value, this.unitCrews.nativeElement.value));
-      this.incident.crewResourceCount = (this.initialAttackCrews?.nativeElement?.value || 0) + (this.unitCrews?.nativeElement?.value || 0) || undefined
+      this.incident.crewResourceCount = (Number(this.initialAttackCrews?.nativeElement?.value) || 0) + (Number(this.unitCrews?.nativeElement?.value) || 0) || undefined
     }
   }
 
   aviationValueChange() {
     if(this.incident.aviationInd){
       this.formGroup.controls["aviationComments"].setValue(this.aviationCommentsValue(this.helicopters.nativeElement.value, this.airtankers.nativeElement.value));
-      this.incident.aviationResourceCount = (this.helicopters?.nativeElement?.value || 0) + (this.airtankers?.nativeElement?.value || 0) || undefined
+      this.incident.aviationResourceCount = (Number(this.helicopters?.nativeElement?.value) || 0) + (Number(this.airtankers?.nativeElement?.value) || 0) || undefined
     }
   }
 
   heavyEquipmentValueChange() {
     if(this.incident.heavyEquipmentInd){
       this.formGroup.controls["heavyEquipmentComments"].setValue(this.heavyEquipmentCommentsValue(this.pieces.nativeElement.value));
-      this.incident.heavyEquipmentResourceCount = this.pieces?.nativeElement?.value || undefined;
+      this.incident.heavyEquipmentResourceCount = Number(this.pieces?.nativeElement?.value) || undefined;
     }
   }
 
   structuretValueChange() {
     if(this.incident.structureProtectionInd){
       this.formGroup.controls["structureProtectionComments"].setValue(this.structureProtectionCommentsValue());
-      this.incident.structureProtectionResourceCount = this.structure?.nativeElement?.value || undefined;
+      this.incident.structureProtectionResourceCount = Number(this.structure?.nativeElement?.value) || undefined;
     }
   }
 
   incidentTeamValueChange() {
     if(this.incident.incidentManagementInd){
       this.formGroup.controls["incidentManagementComments"].setValue(this.incidentTeamCommentsValue());
-      this.incident.incidentManagementResourceCount = this.imTeams?.nativeElement?.value || undefined;
+      this.incident.incidentManagementResourceCount = Number(this.imTeams?.nativeElement?.value) || undefined;
     }
   }
 }
