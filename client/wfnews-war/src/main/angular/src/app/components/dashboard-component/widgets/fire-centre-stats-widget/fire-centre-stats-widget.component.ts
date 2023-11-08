@@ -17,7 +17,7 @@ export class FireCentreStatsWidget implements AfterViewInit {
   private fireCentres = FireCentres
 
   public colorScheme = {
-    domain: ['#95A4FC', '#A1E3CB', '#8D8D8D', '##B1E3FF', '#BAEDBD', '#A8C5DA']
+    domain: ['#3070AD', '#469C76', '#EEE461', '#DCA237', '#C66526', '#C17DA5']
   };
 
   constructor(private publishedIncidentService: PublishedIncidentService) { }
