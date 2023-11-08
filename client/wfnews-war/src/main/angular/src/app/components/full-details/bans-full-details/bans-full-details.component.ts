@@ -61,8 +61,14 @@ export class BansFullDetailsComponent implements OnInit {
     Promise.all([
       this.httpClient.get('assets/js/smk/bans-cat1.sld', {responseType: 'text'}).toPromise(),
       this.httpClient.get('assets/js/smk/bans-cat2.sld', {responseType: 'text'}).toPromise(),
-      this.httpClient.get('assets/js/smk/bans-cat3.sld', {responseType: 'text'}).toPromise()
-    ]).then(async ([cat1sld, cat2sld, cat3sld]) => {
+      this.httpClient.get('assets/js/smk/bans-cat3.sld', {responseType: 'text'}).toPromise(),
+      this.agolService.getBansAndProhibitionsById(this.id, { returnGeometry: false, returnCentroid: false, returnExtent: true }).toPromise()
+    ]).then(async ([cat1sld, cat2sld, cat3sld, extent]) => {
+      // zoom to the polygon extent
+      if (extent?.extent) {
+        this.map.fitBounds(new L.LatLngBounds([extent.extent.ymin, extent.extent.xmin], [extent.extent.ymax, extent.extent.xmax]));
+      }
+
       const databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
         L.tileLayer.wms(databcUrl, {
           layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_BANS_AND_PROHIBITIONS_SP',
@@ -145,7 +151,6 @@ export class BansFullDetailsComponent implements OnInit {
       this.banData.bulletinUrl = ban.attributes.BULLETIN_URL;
       this.banData.centroidLatitude = ban.centroid.y;
       this.banData.centroidLongitude = ban.centroid.x;
-
     } else {
       // What happens when this fails?
     }
