@@ -481,10 +481,14 @@ hr {
         position: relative;
         top: 3px;
     }
+
+    @media screen and (min-width: 450px) {
+        width: 93%;
+    }
 }
 
 .alert-count {
-    width: 90%;
+    width: 100%;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -511,6 +515,10 @@ hr {
         width: 20px;
         position: relative;
         top: 3px;
+    }
+
+    @media screen and (min-width: 450px) {
+        width: 93%;
     }
 }
 
@@ -584,6 +592,7 @@ hr {
     line-height: 21px;
     padding-bottom: 10px;
     display: flex;
+    word-break: break-all;
 }
 
 .contact-buttons {
@@ -608,6 +617,10 @@ hr {
 
     ::ng-deep .mdc-button__label {
         bottom: 5px;
+        @media screen and (max-width: 350px) {
+            font-size: 12px;
+            white-space: nowrap;
+        }
     }
 }
 
