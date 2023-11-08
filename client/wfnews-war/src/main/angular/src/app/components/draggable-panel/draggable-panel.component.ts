@@ -4,7 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
+import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -42,6 +43,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     'bcws-activefires-publicview-inactive',
     "fire-perimeters",
   ];
+  convertToDateYear = convertToDateYear;
+
 
   constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -247,15 +250,23 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     const item = this.identifyItem
     console.log(this.identifyItem.layerId)
     if (item && item.layerId && item.properties) {
+      // swtich?
+      const location = new LocationData()
+      location.latitude = Number(this.identifyItem._identifyPoint.latitude)
+      location.longitude = Number(this.identifyItem._identifyPoint.longitude)
+
       if (this.identifyItem.layerId === 'area-restrictions' && item.properties.PROT_RA_SYSID){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       } else if (this.identifyItem.layerId.startsWith('bans-and-prohibitions') && item.properties.PROT_BAP_SYSID){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.properties.PROT_BAP_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
+      } else if (this.identifyItem.layerId === 'danger-rating'){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       }
     }
   }
 
   convertTimeStamp(time) {
+    console.log(time)
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(time).toLocaleTimeString("en-US", options)
   }

@@ -279,7 +279,7 @@
     justify-content: space-between;
     align-items: center;
     list-style-type: none;
-    padding: 0;
+    padding: 0 8px;
     margin: 0;
   }
 
@@ -295,6 +295,7 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.24px;
+    display: grid;
   }
 
   .icon{

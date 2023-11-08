@@ -280,23 +280,23 @@
         <div class="content-panel-stack">
             <h1>Contact Us</h1>
             <div>
-                <div class="contact-info"><img class="icon-top" height="24" width="24" src="/assets/images/centre.png"
+                <div class="contact-info"><img class="icon-bottom" height="24" width="24" src="/assets/images/centre.png"
                         alt="centre" />{{incident.fireCentreName}}</div>
-                <div class="contact-info"> <img class="icon-top" height="24" width="24"
+                <div class="contact-info"> <img class="icon-bottom" height="24" width="24"
                         src="/assets/images/svg-icons/carbon_email.svg"
                         alt="carbon_email" />{{incident.contactEmailAddress}}</div>
-                <div class="contact-info"><img class="icon-top" height="24" width="24"
+                <div class="contact-info"><img class="icon-bottom" height="24" width="24"
                         src="/assets/images/svg-icons/carbon_phone.svg"
                         alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
             </div>
             <div class="contact-buttons">
                 <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
-                    <img class="icon-top" height="24" width="24" src="/assets/images/svg-icons/carbon_phone.svg"
+                    <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
                         alt="carbon_phone" />
                     Call Us
                 </button>
                 <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
-                    <img class="icon-top" height="24" width="24" src="/assets/images/svg-icons/carbon_email.svg"
+                    <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"
                         alt="carbon_email" />
                     Email Us
                 </button>
