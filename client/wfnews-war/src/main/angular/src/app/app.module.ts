@@ -197,6 +197,7 @@ import { initialRootState, rootEffects, rootReducers } from './store';
 import { provideBootstrapEffects } from './utils';
 import { SavedComponent } from './components/saved/saved.component';
 import { MoreComponent } from './components/more/more.component';
+import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -333,6 +334,7 @@ export const DATE_FORMATS = {
         MapLayersDataSourceDrawerSectionComponent,
         FullDetailsComponent,
         AreaRestrictionsFullDetailsComponent,
+        DangerRatingFullDetailsComponent,
         LinkButtonComponent,
         SavedComponent,
         MoreComponent
