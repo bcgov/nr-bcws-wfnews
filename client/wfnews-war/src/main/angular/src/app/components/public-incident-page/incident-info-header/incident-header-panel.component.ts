@@ -7,7 +7,7 @@ import { convertToFireCentreDescription, convertFireNumber, ResourcesRoutes } fr
 import * as moment from "moment"
 import { MatDialog } from "@angular/material/dialog"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
-import { Router } from "@angular/router"
+import { ActivatedRoute, ParamMap, Router } from "@angular/router"
 import { Location } from '@angular/common';
 import { LocationData } from "@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
@@ -21,6 +21,8 @@ import { setDisplayColor } from "../../../utils"
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncidentHeaderPanel implements AfterViewInit {
+  public params: ParamMap
+
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public extent: any
@@ -35,13 +37,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
     this.map.invalidateSize();
   }
 
-  constructor(private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location, private publishedIncidentService: PublishedIncidentService
+  constructor(private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location, private publishedIncidentService: PublishedIncidentService, private route: ActivatedRoute
   ) {
     /* Empty, just here for injection */
   }
 
   ngOnInit(): void {
     this.defaultEvacURL = this.appConfigService.getConfig().externalAppConfig['evacDefaultUrl'].toString()
+    this.route.queryParams.subscribe((params: ParamMap) => {
+      this.params = params
+    })
   }
 
   ngAfterViewInit(): void {
@@ -164,9 +169,19 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   backToMap() {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
-    }, 100);
+    if (this.incident && this.incident.longitude && this.incident.latitude) {
+      setTimeout(() => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.incident.longitude, latitude: this.incident.latitude} });
+      }, 100);
+    }
+  }
+
+  back() {
+    if (this.params && this.params['source'] && this.params['source'][0]){
+      if (this.params['source'][0] === "map") this.backToMap()
+      else this.router.navigate(this.params['source']);
+    }
+    else this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
 
   shareContent() {
