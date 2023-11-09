@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
+import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 import * as L from 'leaflet';
 
@@ -55,12 +56,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
     private router: Router
-    ) { 
+    ) {
     }
 
 
   ngOnInit(): void {
-      
+
   }
 
   ngOnChanges(changes: SimpleChanges){
@@ -92,7 +93,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       if (this.identifyItem.layerId === 'fire-perimeters') {
         incidentNumber = this.identifyItem.properties.FIRE_NUMBER;
         fireYear = this.identifyItem.properties.FIRE_YEAR;
-      } 
+      }
       else if (this.identifyItem.properties.incident_number_label && this.identifyItem.properties.fire_year) {
         incidentNumber = this.identifyItem.properties.incident_number_label;
         fireYear = this.identifyItem.properties.fire_year;
@@ -113,7 +114,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         //identify anything other than incident
         this.zoomIn(8)
       }
-    } 
+    }
     else if (this.incidentRefs.length >= 1) {
       // multiple features within clicked area
       this.identifyItem = null;
@@ -328,14 +329,22 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   enterFullDetail() {
     const item = this.identifyItem
     if (item && item.layerId && item.properties) {
+      // swtich?
+      const location = new LocationData()
+      location.latitude = Number(this.identifyItem._identifyPoint.latitude)
+      location.longitude = Number(this.identifyItem._identifyPoint.longitude)
+
       if (this.identifyItem.layerId === 'area-restrictions' && item.properties.PROT_RA_SYSID){
-        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} }); 
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: item.properties.PROT_RA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
+      } else if (this.identifyItem.layerId.startsWith('bans-and-prohibitions') && item.properties.PROT_BAP_SYSID){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.properties.PROT_BAP_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
+      } else if (this.identifyItem.layerId === 'danger-rating'){
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       }
     }
   }
 
   convertTimeStamp(time) {
-    console.log(time)
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(time).toLocaleTimeString("en-US", options)
   }
@@ -372,12 +381,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   shareableLayers() {
-    if (this.showPanel && this.identifyItem && 
-      (this.identifyItem.layerId === 'area-restrictions' || 
-        this.identifyItem.layerId.includes('bans-and-prohibitions') || 
-        this.identifyItem.layerId === 'closed-recreation-sites' || 
-        this.identifyItem.layerId === 'drive-bc-active-events' || 
-        this.identifyItem.layerId === 'protected-lands-access-restrictions' || 
+    if (this.showPanel && this.identifyItem &&
+      (this.identifyItem.layerId === 'area-restrictions' ||
+        this.identifyItem.layerId.includes('bans-and-prohibitions') ||
+        this.identifyItem.layerId === 'closed-recreation-sites' ||
+        this.identifyItem.layerId === 'drive-bc-active-events' ||
+        this.identifyItem.layerId === 'protected-lands-access-restrictions' ||
         this.identifyItem.layerId === 'bc-fsr' ||
         this.identifyItem.layerId === 'abms-regional-districts' ||
         this.identifyItem.layerId === 'clab-indian-reserves' ||

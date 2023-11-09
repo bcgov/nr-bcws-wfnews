@@ -19,6 +19,17 @@ export class FullDetailsComponent implements OnInit {
     })
   }
 
+  getTitle () {
+    switch (this.params['type']) {
+      case 'area-restriction':
+        return 'Area Restriction'
+      case 'danger-rating':
+        return 'Wildfire Danger Rating'
+      case 'bans-prohibitions':
+        return 'Fire Bans'
+    }
+  }
+
   back() {
     if (this.params && this.params['source']){
       this.route.navigate(this.params['source']);

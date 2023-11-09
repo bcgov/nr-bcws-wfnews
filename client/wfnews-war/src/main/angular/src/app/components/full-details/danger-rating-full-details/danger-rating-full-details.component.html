@@ -1,0 +1,39 @@
+<div class="title-panel">
+  <div class="full-details-title">{{rating}} Danger Rating</div>
+  <p class="info">{{dangerDescription()}}</p>
+  <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="icon"
+      src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
+</div>
+<hr>
+<div class="info-container">
+  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />BC Wildfire Danger Rating Layer</div>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">What is a Danger Rating</div>
+  <p class="info">Fire danger ratings are used to indicate how easily fires can start and spread in an area, and indicate which areas are at risk of severe wildfire activity.</p>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Update Frequency</div>
+  <p class="info">The fire danger rating (i.e. the risk of a wildfire starting) for the province is updated daily at approximately 2 pm. Danger Ratings are not calculated from November to April.</p>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Industrial Activities</div>
+  <p class="info">Please note that the data within the danger class report is only relevant for the geographic location of the weather station. Persons carrying out industrial activities who want to apply the danger class information from this website must determine that the weather station location is representative of their operational area.</p>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Related Topics</div>
+  <p class="info">Links will open in your internet browser.</p>
+</div>
+<div class="links">
+  <div class="links-relative">
+    <p>Fire Danger Rating<img (click)="navToDangerSummary()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+  <div class="links-relative">
+    <p>Current Bans and Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  </div>
+</div>
+<div class="spacer"></div>
