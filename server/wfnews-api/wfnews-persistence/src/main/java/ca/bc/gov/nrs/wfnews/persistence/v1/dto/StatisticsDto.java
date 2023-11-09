@@ -29,6 +29,8 @@ public class StatisticsDto extends BaseDto implements Serializable {
   private int newFires24Hours;
   private int outFires24Hours;
   private int outFires7Days;
+  private int hectaresBurned20YearAvg;
+  private int incidentCount20YearAvg;
 
   public StatisticsDto() { }
 
@@ -202,6 +204,22 @@ public class StatisticsDto extends BaseDto implements Serializable {
 	public Logger getLogger() {
 		return logger;
 	}
+
+  public int getHectaresBurned20YearAvg() {
+    return this.hectaresBurned20YearAvg;
+  }
+
+  public void setHectaresBurned20YearAvg(int hectaresBurned20YearAvg) {
+    this.hectaresBurned20YearAvg = hectaresBurned20YearAvg;
+  }
+
+  public int getIncidentCount20YearAvg() {
+    return this.incidentCount20YearAvg;
+  }
+
+  public void setIncidentCount20YearAvg(int incidentCount20YearAvg) {
+    this.incidentCount20YearAvg = incidentCount20YearAvg;
+  }
 
   /**
    * Not needed for the Statistics Dto. Assume they're never equals. Non transactional read-only data

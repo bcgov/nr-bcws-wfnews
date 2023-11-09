@@ -21,6 +21,8 @@
     <result property="newFires24Hours"                column="newFires24Hours"                javaType="java.lang.Integer" jdbcType="NUMERIC" />
     <result property="outFires24Hours"                column="outFires24Hours"                javaType="java.lang.Integer" jdbcType="NUMERIC" />
     <result property="outFires7Days"                  column="outFires7Days"                  javaType="java.lang.Integer" jdbcType="NUMERIC" />
+    <result property="hectaresBurned20YearAvg"        column="hectaresBurned20YearAvg"        javaType="java.lang.Integer" jdbcType="NUMERIC" />
+    <result property="incidentCount20YearAvg"         column="incidentCount20YearAvg"         javaType="java.lang.Integer" jdbcType="NUMERIC" />
 	</resultMap>
   <select id="fetch" resultMap="StatisticsDtoMap"> 
   SELECT * FROM (
@@ -42,7 +44,9 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Cariboo%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
     UNION
     SELECT
       'Coastal Fire Centre' AS fire_centre_name,
@@ -62,7 +66,9 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Coastal%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
     UNION
     SELECT
       'Kamloops Fire Centre' AS fire_centre_name,
@@ -82,7 +88,9 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Kamloops%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
     UNION
     SELECT
       'Northwest Fire Centre' AS fire_centre_name,
@@ -102,7 +110,10 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Northwest%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
+
     UNION
     SELECT
       'Prince George Fire Centre' AS fire_centre_name,
@@ -122,7 +133,9 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Prince George%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
     UNION
     SELECT
       'Southeast Fire Centre' AS fire_centre_name,
@@ -142,7 +155,9 @@
       (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name LIKE '%Southeast%' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
     UNION
     SELECT
       'BC' AS fire_centre_name,
@@ -159,10 +174,12 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 2 AND stage_of_control_code = 'OUT') AS extinguishedNaturalCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 1 AND stage_of_control_code = 'OUT') AS extinguishedHumanCausedFires,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND general_incident_cause_cat_id = 3 AND stage_of_control_code = 'OUT') AS extinguishedUnknownCausedFires,
-      (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,  
+      (SELECT SUM(incident_size_estimated_ha) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND discovery_date > now() - interval '24 hours') AS newFires24Hours,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '24 hours' AND stage_of_control_code = 'OUT') AS outFires24Hours,
-      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days
+      (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp > now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
+      (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
+      (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
   ) stats
   <if test="fireCentre != null">
     WHERE fire_centre_name = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
