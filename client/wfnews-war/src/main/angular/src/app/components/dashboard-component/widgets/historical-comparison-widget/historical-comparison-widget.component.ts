@@ -32,9 +32,17 @@ export class HistoricalComparisonWidget implements AfterViewInit {
     let totalHectares = 0
     let totalFires = 0
     let year = fireYear
-    while (year >= fireYear - 19) {
-      // set FC to BC
+
+    // first (current) year fetched has 20 year averages. load the next 5 for counts.cd ..
+    let averageHectaresBurned = 0
+    let averageWildfires = 0
+    while (year >= fireYear - 5) {
       const result = await this.publishedIncidentService.fetchStatistics(year).toPromise()
+
+      if (year === fireYear) {
+        averageHectaresBurned = Math.round(result[0].hectaresBurned20YearAvg)
+        averageWildfires = Math.round(result[0].incidentCount20YearAvg)
+      }
 
       const fireCount = result.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires, outFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires + outFires, 0) || 0
       totalFires += fireCount
@@ -56,9 +64,6 @@ export class HistoricalComparisonWidget implements AfterViewInit {
 
       year -= 1
     }
-
-    const averageHectaresBurned = Math.round(totalHectares / 20)
-    const averageWildfires = Math.round(totalFires / 20)
 
     this.wildfireTotals.push({
       name: '20-Year Average',
