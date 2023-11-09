@@ -5,6 +5,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
 import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -43,6 +44,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     "fire-perimeters",
   ];
   convertToDateYear = convertToDateYear;
+  private marker: any
+  private markerAnimation
+
 
 
   constructor(
@@ -66,13 +70,20 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   handleLayersSelection(returnFromPreiviewPanel?: boolean){
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
     console.log(this.incidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.incidentRefs = this.storedIncidentRefs
     }
     if (this.incidentRefs.length === 1){
-      this.zoomIn(8)
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.incidentRefs[0];
@@ -87,10 +98,20 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         fireYear = this.identifyItem.properties.fire_year;
       }
       if (incidentNumber && fireYear) {
+        // identify an incident
         this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise().then(async result => {
-          this.identifyIncident = result
+          this.identifyIncident = result;
+          this.zoomIn(8)
+
+          if (this.identifyIncident){
+            this.addMarker(this.identifyIncident)
+          };
+
           this.cdr.detectChanges();
         })
+      }else {
+        //identify anything other than incident
+        this.zoomIn(8)
       }
     } 
     else if (this.incidentRefs.length >= 1) {
@@ -114,6 +135,57 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
+  addMarker(incident:any) {
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+
+    const pointerIcon = L.divIcon({
+      iconSize: [20, 20],
+      iconAnchor: [12, 12],
+      popupAnchor: [10, 0],
+      shadowSize: [0, 0],
+      className: 'animated-icon'
+    });
+    this.marker = L.marker([Number(incident.latitude), Number(incident.longitude)],{icon: pointerIcon})
+    this.marker.on('add',function(){
+        const icon: any = document.querySelector('.animated-icon')
+        incident
+        if (incident.fireOfNoteInd) {
+          icon.style.backgroundColor = '#aa0d0d'
+        } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
+          icon.style.backgroundColor = '#FF0000'
+        } else if (incident.stageOfControlCode === 'HOLDING') {
+          icon.style.backgroundColor = '#FFFF00'
+        } else if (incident.stageOfControlCode === 'UNDR_CNTRL') {
+          icon.style.backgroundColor = '#98E600'
+        }
+  
+        this.markerAnimation = setInterval(() => {
+          icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
+          icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
+          icon.style.marginLeft = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.marginTop = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.boxShadow = icon.style.width === "20px" ? '4px 4px 4px rgba(0, 0, 0, 0.65)' : '0px 0px 0px transparent'
+        }, 1000)
+      }
+    )
+
+    let viewer = null;
+    const SMK = window['SMK'];
+    for (const smkMap in SMK.MAP) {
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+        viewer = SMK.MAP[smkMap].$viewer;
+      }
+    }
+    this.marker.addTo(viewer.map)
+  }
+
   displayWildfireName(wildfire) {
     if (wildfire.layerId === 'fire-perimeters') {
       return wildfire.properties.FIRE_NUMBER + ' Wildfire'
@@ -128,6 +200,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   closePanel() {
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
     const SMK = window['SMK'];
     SMK.MAP[1].$viewer.identified.clear();
     SMK.MAP[1].$sidepanel.setExpand( 0 )
