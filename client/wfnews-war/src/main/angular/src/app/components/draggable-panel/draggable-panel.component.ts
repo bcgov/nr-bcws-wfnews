@@ -67,7 +67,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   handleLayersSelection(returnFromPreiviewPanel?: boolean){
-    console.log(this.incidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.incidentRefs = this.storedIncidentRefs
@@ -248,7 +247,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(this.identifyItem.layerId)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -266,7 +264,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   convertTimeStamp(time) {
-    console.log(time)
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(time).toLocaleTimeString("en-US", options)
   }

@@ -23,7 +23,6 @@ export class HistoricalComparisonWidget implements AfterViewInit {
   ngAfterViewInit (): void {
     this.loadHistoricalData().then(() => {
       this.startupComplete = true
-      console.log('startup complete')
     })
   }
 
