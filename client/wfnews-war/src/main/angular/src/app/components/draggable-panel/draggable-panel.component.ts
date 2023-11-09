@@ -66,8 +66,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.handleLayersSelection()
   }
 
-  handleLayersSelection(returnFromPreiviewPanel?: boolean) {
-    console.log(this.incidentRefs)
+  handleLayersSelection(returnFromPreiviewPanel?: boolean){
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.incidentRefs = this.storedIncidentRefs
@@ -248,7 +247,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(this.identifyItem.layerId)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()

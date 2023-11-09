@@ -1,7 +1,8 @@
-import { Component, ChangeDetectionStrategy, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { isMobileView } from "@app/utils";
 import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
+import { AppConfigService } from "@wf1/core-ui";
 
 @Component({
   selector: 'incident-overview-panel',
@@ -15,8 +16,7 @@ export class IncidentOverviewPanel {
   public Editor = Editor
   public isMobileView = isMobileView
 
-
-  constructor (private sanitizer: DomSanitizer) { }
+  constructor (private sanitizer: DomSanitizer, protected appConfigService: AppConfigService) { }
 
   formatHtml (html: string) {
     return html // We don't want to execute script tags:: this.sanitizer.bypassSecurityTrustHtml(html)

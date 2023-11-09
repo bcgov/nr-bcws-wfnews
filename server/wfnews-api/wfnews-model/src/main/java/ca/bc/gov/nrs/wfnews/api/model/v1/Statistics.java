@@ -56,4 +56,10 @@ public interface Statistics extends Serializable {
 
   public int getOutFires7Days();
   public void setOutFires7Days(int outFires7Days);
+
+  public int getHectaresBurned20YearAvg();
+  public void setHectaresBurned20YearAvg(int hectaresBurned20YearAvg);
+
+  public int getIncidentCount20YearAvg();
+  public void setIncidentCount20YearAvg(int incidentCount20YearAvg);
 }

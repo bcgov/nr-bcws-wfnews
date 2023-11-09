@@ -107,5 +107,7 @@ public class StatisticsResourceFactory extends BaseResourceFactory implements St
 		resource.setOutFires(dto.getOutFires());
     resource.setOutFires24Hours(dto.getOutFires24Hours());
     resource.setOutFires7Days(dto.getOutFires7Days());
+    resource.setHectaresBurned20YearAvg(dto.getHectaresBurned20YearAvg());
+    resource.setIncidentCount20YearAvg(dto.getIncidentCount20YearAvg());
   }
 }
