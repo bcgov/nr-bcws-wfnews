@@ -617,9 +617,10 @@ hr {
 
     ::ng-deep .mdc-button__label {
         bottom: 5px;
+        white-space: nowrap;
+
         @media screen and (max-width: 350px) {
             font-size: 12px;
-            white-space: nowrap;
         }
     }
 }

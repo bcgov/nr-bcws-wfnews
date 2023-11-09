@@ -58,39 +58,6 @@
                     <span>BC Wildfires Active Fires Layer</span>
                 </div>
             </div>
-            <div class="current-resources"
-                *ngIf="incident.wildfireCrewResourcesInd || incident.wildfireAviationResourceInd || incident.incidentMgmtCrewRsrcInd || incident.heavyEquipmentResourcesInd || incident.structureProtectionRsrcInd">
-                <h4>Current Resources</h4>
-                <div *ngIf="incident.wildfireCrewResourcesInd">
-                    <img class="image-size" src="../../../assets/images/svg-icons/wildfire-crews-mobile.svg"
-                        alt="Wildfire Crews" height="36" width="36" />
-                    Wildfire Crews
-                </div>
-                <div *ngIf="incident.wildfireAviationResourceInd">
-                    <img class="image-size" src="../../../assets/images/svg-icons/aviation-mobile.svg" alt="Aviation"
-                        height="36" width="36" />
-                    Aviation
-                </div>
-                <div *ngIf="incident.incidentMgmtCrewRsrcInd">
-                    <img class="image-size" src="../../../assets/images/svg-icons/incident-management-teams-mobile.svg"
-                        alt="Incident Management Team" height="36" width="36" />
-                    Incident Management Teams
-                </div>
-                <div *ngIf="incident.heavyEquipmentResourcesInd">
-                    <img class="image-size" src="../../../assets/images/svg-icons/heavy_equipment-mobile.svg"
-                        alt="Heavy Equipment" height="36" width="36" />
-                    Heavy Equipment
-                </div>
-                <div *ngIf="incident.structureProtectionRsrcInd">
-                    <img class="image-size" src="../../../assets/images/svg-icons/structure-protection-mobile.svg"
-                        alt="Structure Protection Units" height="36" width="36" />
-                    Structure Protection Units
-                </div>
-                <div style="padding-top:16px" (click)="scrollToSection(event, 'currentResourcesSection')">
-                    <span> Jump to current resources section</span>
-                    <mat-icon>chevron_right</mat-icon>
-                </div>
-            </div>
             <div class="divider"></div>
         </div>
 
@@ -276,32 +243,5 @@
             </div>
             <div class="divider"></div>
         </div>
-
-        <div class="content-panel-stack">
-            <h1>Contact Us</h1>
-            <div>
-                <div class="contact-info"><img class="icon-bottom" height="24" width="24" src="/assets/images/centre.png"
-                        alt="centre" />{{incident.fireCentreName}}</div>
-                <div class="contact-info"> <img class="icon-bottom" height="24" width="24"
-                        src="/assets/images/svg-icons/carbon_email.svg"
-                        alt="carbon_email" />{{incident.contactEmailAddress}}</div>
-                <div class="contact-info"><img class="icon-bottom" height="24" width="24"
-                        src="/assets/images/svg-icons/carbon_phone.svg"
-                        alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
-            </div>
-            <div class="contact-buttons">
-                <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
-                    <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
-                        alt="carbon_phone" />
-                    Call Us
-                </button>
-                <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
-                    <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"
-                        alt="carbon_email" />
-                    Email Us
-                </button>
-            </div>
-        </div>
-
     </div>
 </div>
