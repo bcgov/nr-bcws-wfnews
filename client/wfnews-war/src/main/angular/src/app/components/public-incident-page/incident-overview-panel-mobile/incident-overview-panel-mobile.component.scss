@@ -1,8 +1,7 @@
 .panel {
     background-color: white !important;
-    padding: 24px;
+    padding: 24px 24px 0px 24px;
     display: flex;
-    padding: 32px 24px;
     flex-direction: column;
     align-items: center;
     gap: 32px;
@@ -51,6 +50,15 @@
 
         }
 
+        .icon {
+
+            position: relative;
+            width: 24px;
+            height: 24px;
+            top: 3px !important;
+            margin-right: 8px
+        }
+
         .update-date {
             color: #5B5B5B;
             font-size: 16px;
@@ -63,9 +71,8 @@
                 position: relative;
                 width: 20px;
                 height: 20px;
-                top: 4px !important;
+                top: 3px !important;
                 margin-right: 6px
-
             }
         }
 
@@ -86,7 +93,7 @@
             font-style: normal;
             font-weight: 400;
             line-height: normal;
-            padding-bottom: 16px;
+            padding-bottom: 24px;
         }
 
         .resource-panel {
@@ -178,10 +185,10 @@
 }
 
 .overview {
-    color: var(--Black-2, #484848);
-    font-size: 16px;
+    color: var(--Black-2, #484848) !important;
+    font-size: 16px !important;
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    align-self: stretch
+    align-self: stretch;
 }

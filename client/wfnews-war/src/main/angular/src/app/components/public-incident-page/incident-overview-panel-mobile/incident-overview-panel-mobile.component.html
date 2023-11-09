@@ -5,7 +5,7 @@
         </div>
         <div *ngIf="incident.responseTypeCode" class="content-panel-stack">
             <h1>Response Type</h1>
-            <h4>{{getResponseTypeTitle(incident.responseTypeCode)}}</h4>
+            <h4><img class="icon" src={{getResponseImage(incident.responseTypeCode)}} alt="Response"/>{{getResponseTypeTitle(incident.responseTypeCode)}}</h4>
             <div class="description">{{getResponseTypeDescription(incident.responseTypeCode)}}</div>
             <hr>
         </div>
@@ -14,34 +14,34 @@
             <h1>Resources Assigned</h1>
             <div class="resource-panel" *ngIf="incident.incidentMgmtCrewRsrcInd">
                 <div class="subtitle"><img class="image-size"
-                        src="../../../assets/images/svg-icons/incident_management_team.svg"
+                        src="/assets/images/svg-icons/incident_management_team.svg"
                         alt="Incident Management Team" />Incident Management Team</div>
                 <div class="contents">{{incident.incidentMgmtCrewRsrcDetail}}</div>
                 <hr>
             </div>
             <div class="resource-panel" *ngIf="incident.wildfireCrewResourcesInd">
                 <div class="subtitle"><img class="image-size"
-                        src="../../../assets/images/svg-icons/firefighting_personnel.svg"
+                        src="/assets/images/svg-icons/firefighting_personnel.svg"
                         alt="Wildfire Crews" />Firefighting Personnel</div>
                 <div class="contents">{{incident.wildfireCrewResourcesDetail}}</div>
                 <hr>
             </div>
             <div class="resource-panel" *ngIf="incident.wildfireAviationResourceInd">
                 <div class="subtitle"> <img class="image-size"
-                        src="../../../assets/images/svg-icons/aviation_response.svg" alt="Aviation" />Aviation</div>
+                        src="/assets/images/svg-icons/aviation_response.svg" alt="Aviation" />Aviation</div>
                 <div class="contents">{{incident.wildfireAviationResourceDetail}}</div>
                 <hr>
             </div>
             <div class="resource-panel" *ngIf="incident.heavyEquipmentResourcesInd">
                 <div class="subtitle"><img class="image-size"
-                        src="../../../assets/images/svg-icons/heavy_equipment_response.svg"
+                        src="/assets/images/svg-icons/heavy_equipment_response.svg"
                         alt="Heavy Equipment" />Heavy Equipment</div>
                 <div class="contents">{{incident.heavyEquipmentResourcesDetail}}</div>
                 <hr>
             </div>
             <div class="resource-panel" *ngIf="incident.structureProtectionRsrcInd">
                 <div class="subtitle"><img class="image-size"
-                        src="../../../assets/images/svg-icons/structure_protection.svg"
+                        src="/assets/images/svg-icons/structure_protection.svg"
                         alt="Structure Protection" />Structure Protection</div>
                 <div class="contents">{{incident.structureProtectionRsrcDetail}}</div>
                 <hr>
@@ -50,12 +50,14 @@
                 <img class="icon" src="/assets/images/svg-icons/launch_black.svg" alt="Launch" />
                 <span class="button-text">Learn about Wildfire Resources</span>
             </button>
+            <br>
             <hr>
         </div>
         <div class="content-panel-stack" *ngIf="incident.incidentOverview">
             <h1>Response Update</h1>
             <div class="update-date"><img class="icon" src="/assets/images/svg-icons/fluent_edit.svg" alt="Edit" />{{incident.lastUpdatedTimestamp}}</div>
             <div class="overview" [innerHTML]="incident.incidentOverview"></div>
+            <br>
             <hr>
         </div>
     </div>

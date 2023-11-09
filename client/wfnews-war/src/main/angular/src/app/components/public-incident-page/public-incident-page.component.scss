@@ -130,7 +130,17 @@
 
 .content-panel-stack {
   margin-bottom: 32px;
-  padding: 24px;
+  padding: 0px 24px;
+
+  h1 {
+    color: var(--Black-1, #242424);
+    align-self: stretch;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 33px;
+
+  }
 
   .contact-info {
     color: var(--Black-2, #484848);
