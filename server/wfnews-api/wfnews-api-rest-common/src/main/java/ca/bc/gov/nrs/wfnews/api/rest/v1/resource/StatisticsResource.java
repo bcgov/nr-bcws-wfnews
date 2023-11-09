@@ -32,6 +32,8 @@ public class StatisticsResource extends BaseResource implements Statistics {
   private int newFires24Hours;
   private int outFires24Hours;
   private int outFires7Days;
+  private int hectaresBurned20YearAvg;
+  private int incidentCount20YearAvg;
 
   public int getActiveOutOfControlFires() {
     return activeOutOfControlFires;
@@ -175,5 +177,21 @@ public class StatisticsResource extends BaseResource implements Statistics {
 
   public void setFireCentre(String fireCentre) {
     this.fireCentre = fireCentre;
+  }
+
+  public int getHectaresBurned20YearAvg() {
+    return this.hectaresBurned20YearAvg;
+  }
+
+  public void setHectaresBurned20YearAvg(int hectaresBurned20YearAvg) {
+    this.hectaresBurned20YearAvg = hectaresBurned20YearAvg;
+  }
+
+  public int getIncidentCount20YearAvg() {
+    return this.incidentCount20YearAvg;
+  }
+
+  public void setIncidentCount20YearAvg(int incidentCount20YearAvg) {
+    this.incidentCount20YearAvg = incidentCount20YearAvg;
   }
 }
