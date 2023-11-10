@@ -22,7 +22,6 @@ export class PublicIncidentPage implements OnInit {
   public evacOrders: EvacOrderOption[] = []
   public areaRestrictions: AreaRestrictionsOption[] = []
   public extent: any = null
-  public errorMessage: string = 'default';
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
@@ -85,7 +84,6 @@ export class PublicIncidentPage implements OnInit {
           this.cdr.detectChanges()
         }).catch(err => {
           console.error(err)
-          this.errorMessage = err + " " + responseUrl 
           this.isLoading = false
           this.loadingFailed = true
         })
@@ -93,7 +91,6 @@ export class PublicIncidentPage implements OnInit {
         if (params && params['preview']) {
           this.loadPreview()
         } else {
-          this.errorMessage = "Failed to Load " + responseUrl
           this.isLoading = false
           this.loadingFailed = true
         }
