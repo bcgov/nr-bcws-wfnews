@@ -3,6 +3,7 @@ import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { CommonUtilityService } from "@app/services/common-utility.service";
 
 @Component({
   selector: 'rof-complex-question-page',
@@ -25,7 +26,8 @@ export class RoFComplexQuestionPage extends RoFPage {
 
 
   public constructor(private reportOfFirePage: ReportOfFirePage,
-    private cdr: ChangeDetectorRef) {
+    private cdr: ChangeDetectorRef,
+    private commonUtilityService: CommonUtilityService) {
     super()
   }
 
@@ -128,4 +130,29 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
   }
 
+  nextPage() {
+    if (this.id === 'distance-page') {
+      this.checkOnline().then((result) => {
+        if(!result) {
+          this.reportOfFirePage.selectPage('photo-page',null,false);
+        } else {
+          this.next();
+        }
+      })
+    }
+    else{
+      this.next();
+    }
+  }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
+  }
 }

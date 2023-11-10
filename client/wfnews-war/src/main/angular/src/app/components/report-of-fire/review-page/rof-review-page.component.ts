@@ -25,8 +25,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
   public reportOfFirePages: any;
   map: any;
   smkApi: SmkApi;
-
-
+  isOffLine: boolean;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private commonUtilityService : CommonUtilityService,
@@ -60,6 +59,13 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
+    this.checkOnline().then((result) => {
+      if(!result) {
+        this.isOffLine = true;
+      } else{
+        this.isOffLine = false;
+      }
+    })
   }
 
   selectedAnswer(page:any) {

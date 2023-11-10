@@ -20,7 +20,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   public messages: any;
   public offLineMessages: any;
   offLine: boolean = false;
-
   public constructor(
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,

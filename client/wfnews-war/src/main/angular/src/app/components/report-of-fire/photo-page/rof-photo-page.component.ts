@@ -122,4 +122,26 @@ export class RoFPhotoPage extends RoFPage {
   backToReview() {
     this.reportOfFirePage.edit('review-page')
   }
+
+  previousPage() {
+    this.checkOnline().then((result) => {
+      if(!result) {
+        this.reportOfFirePage.selectPage('distance-page',null,false);
+        this.reportOfFirePage.currentStep--;
+      } else {
+        this.previous();
+      }
+    })
+  }
+
+  async checkOnline() {
+    try {
+      await this.commonUtilityService.pingSerivce().toPromise();
+      this.cdr.detectChanges();
+      return true;
+    } catch (error) {
+      this.cdr.detectChanges();
+      return false;
+    }
+  }
 }
