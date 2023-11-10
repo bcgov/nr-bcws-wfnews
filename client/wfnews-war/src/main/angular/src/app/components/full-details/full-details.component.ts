@@ -19,11 +19,11 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     this.router.queryParams.subscribe((params: ParamMap) => {
       this.params = params
     })
-    document.getElementById('mobile-navigation-bar').style.display = 'none'
+    if (document.getElementById('mobile-navigation-bar')) document.getElementById('mobile-navigation-bar').style.display = 'none'
   }
 
   ngOnDestroy(): void {
-    document.getElementById('mobile-navigation-bar').style.display = 'block'
+    if (document.getElementById('mobile-navigation-bar')) document.getElementById('mobile-navigation-bar').style.display = 'block'
   }
 
   getTitle() {
