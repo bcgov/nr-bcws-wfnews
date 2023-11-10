@@ -8,6 +8,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { getResponseTypeDescription } from "../../../utils";
 
 @Component({
   selector: 'incident-info-panel',
@@ -26,6 +27,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public findFireCentreByName = findFireCentreByName
   public convertToYoutubeId = convertToYoutubeId
   public isMobileView = isMobileView
+  getResponseTypeDescription = getResponseTypeDescription;
 
   public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,

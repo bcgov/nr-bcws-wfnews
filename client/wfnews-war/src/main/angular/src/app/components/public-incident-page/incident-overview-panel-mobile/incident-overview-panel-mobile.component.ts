@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { convertToDateYear, getResponseTypeDescription, getResponseTypeTitle } from "../../../utils";
 import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overview-panel.component';
 
 @Component({
@@ -7,5 +8,18 @@ import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overv
   styleUrls: ['./incident-overview-panel-mobile.component.scss']
 })
 export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel {
-  
+  getResponseTypeTitle = getResponseTypeTitle;
+  getResponseTypeDescription = getResponseTypeDescription;
+  convertToDateYear = convertToDateYear;
+
+  getResponseImage(code: string): string {
+    if (code === 'MONITOR') return "/assets/images/svg-icons/monitored_response.svg"
+    else if (code === 'MODIFIED') return "/assets/images/svg-icons/modified_response.svg"
+    else if (code === 'FULL') return "/assets/images/svg-icons/full_response.svg"
+  }
+
+  navToLearnMore() {
+    let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'].toString();
+    window.open(responseUrl, "_blank")
+  }
 }

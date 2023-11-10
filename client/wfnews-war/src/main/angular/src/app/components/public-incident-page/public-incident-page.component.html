@@ -38,6 +38,31 @@
           <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
         </mat-tab>
       </mat-tab-group>
+      <div class="content-panel-stack">
+        <h1>Contact Us</h1>
+        <div>
+            <div class="contact-info"><img class="icon-bottom" src="/assets/images/centre.png"
+                    alt="centre" />{{incident.fireCentreName}}</div>
+            <div class="contact-info"> <img class="icon-bottom"
+                    src="/assets/images/svg-icons/carbon_email.svg"
+                    alt="carbon_email" />{{incident.contactEmailAddress}}</div>
+            <div class="contact-info"><img class="icon-bottom"
+                    src="/assets/images/svg-icons/carbon_phone.svg"
+                    alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
+        </div>
+        <div class="contact-buttons">
+            <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
+                <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
+                    alt="carbon_phone" />
+                Call Us
+            </button>
+            <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
+                <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"
+                    alt="carbon_email" />
+                Email Us
+            </button>
+        </div>
+    </div>
     </div>
   </div>
 </div>

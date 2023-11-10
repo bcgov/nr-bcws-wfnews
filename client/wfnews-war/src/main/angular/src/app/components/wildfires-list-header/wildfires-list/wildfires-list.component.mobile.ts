@@ -39,7 +39,7 @@ export class WildFiresListComponentMobile {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private router: Router, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog) { }
+  constructor(private router: Router, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.search()
@@ -76,7 +76,7 @@ export class WildFiresListComponentMobile {
     }
   }
 
-  openLocationFilter () {
+  openLocationFilter() {
     const dialogRef = this.dialog.open(FilterByLocationDialogComponent, {
       width: '380px',
       height: '453px',
@@ -127,11 +127,11 @@ export class WildFiresListComponentMobile {
   viewMap(incident: any) {
   }
 
-  sortData (event: any) {
+  sortData(event: any) {
     this.cdr.detectChanges()
   }
 
-  filterOptions () {
+  filterOptions() {
     const dialogRef = this.dialog.open(FilterOptionsDialogComponent, {
       width: '450px',
       height: '650px',
@@ -165,9 +165,7 @@ export class WildFiresListComponentMobile {
   }
 
   selectIncident(incident: any) {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel } })
-    )
-    window.open(url, '_blank')
-}
+    this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
+      { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.WILDFIRESLIST] } })
+  }
 }
