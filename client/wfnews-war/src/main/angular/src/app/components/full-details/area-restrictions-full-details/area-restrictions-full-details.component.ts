@@ -97,26 +97,26 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
     // now fetch the rest of the incidents in the area and display on map
     try {
-        const locationData = new LocationData()
-        locationData.latitude = Number(this.restrictionData.centroidLatitude);
-        locationData.longitude = Number(this.restrictionData.centroidLongitude);
-        locationData.radius = 10;
-        const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-        const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
-        if (incidents?.collection && incidents?.collection?.length > 0){
-          for (const item of incidents.collection) {
-            const location = [Number(item.latitude), Number(item.longitude)]
-            if (item.fireOfNoteInd) {
-              L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
-            } else {
-              const colorToDisplay = setDisplayColor(item.stageOfControlCode)
-              L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
-            }
+      const locationData = new LocationData()
+      locationData.latitude = Number(this.restrictionData.centroidLatitude);
+      locationData.longitude = Number(this.restrictionData.centroidLongitude);
+      locationData.radius = 10;
+      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+      const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
+      if (incidents?.collection && incidents?.collection?.length > 0) {
+        for (const item of incidents.collection) {
+          const location = [Number(item.latitude), Number(item.longitude)]
+          if (item.fireOfNoteInd) {
+            L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+          } else {
+            const colorToDisplay = setDisplayColor(item.stageOfControlCode)
+            L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
           }
+        }
       }
-    } catch(err){
+    } catch (err) {
       console.error('Could not retrieve surrounding incidents for area restriction')
-    } 
+    }
     this.cdr.detectChanges()
   }
 
@@ -204,4 +204,5 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   navToBulletinUrl() {
     window.open(this.restrictionData.bulletinUrl, '_blank')
   }
+
 }

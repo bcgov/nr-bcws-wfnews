@@ -29,7 +29,7 @@
       [(state)]="applicationState"
     ></wf-menu-bar>
     <router-outlet></router-outlet>
-    <div class="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
+    <div class="mobile-navigation-bar" id="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
         <ul>
           <li (click)="setActive('dashboard')">
 
