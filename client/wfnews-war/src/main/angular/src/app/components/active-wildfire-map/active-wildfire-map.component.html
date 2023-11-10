@@ -159,7 +159,7 @@
             </button>
         </div>
       </div>
-      <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel && incidentRefs && incidentRefs.length" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
+      <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
       <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
         <div *ngIf="!isDataSourcesOpen">
             <map-type-picker></map-type-picker>
