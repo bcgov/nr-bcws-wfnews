@@ -6,6 +6,7 @@ import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
 import { findFireCentreByName, hideOnMobileView } from "../../utils"
+import { AppConfigService } from "@wf1/core-ui"
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -33,12 +34,13 @@ export class PublicIncidentPage implements OnInit {
     protected cdr: ChangeDetectorRef,
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
-    protected http: HttpClient) {
+    protected http: HttpClient, private appConfigService: AppConfigService) {
 
   }
 
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
+      let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'].toString();
       if (params && params['incidentNumber'] && params['fireYear']) {
         this.incidentNumber = params['incidentNumber']
         this.fireYear = params['fireYear']

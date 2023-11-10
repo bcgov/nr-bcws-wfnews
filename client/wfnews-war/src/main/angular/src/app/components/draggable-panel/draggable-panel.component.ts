@@ -5,7 +5,8 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -16,7 +17,8 @@ import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 export class DraggablePanelComponent implements OnInit, OnChanges {
   resizeHeight: string = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
-  storedIncidentRefs: any[];
+  currentIncidentRefs: any[];
+  storedIncidentRefs: any [];
   filteredWildfires: any[];
   filteredFirePerimeters: any[];
   filteredEvacs: any[];
@@ -44,6 +46,10 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     "fire-perimeters",
   ];
   convertToDateYear = convertToDateYear;
+  private marker: any
+  private markerAnimation
+  removeIdentity = false;
+
 
 
   constructor(
@@ -60,22 +66,38 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    this.showPanel = false;
-    this.identifyIncident = null;
-    this.handleLayersSelection()
+  ngOnChanges(changes: SimpleChanges){
+    if (!this.removeIdentity || (changes?.incidentRefs?.currentValue && changes.incidentRefs.currentValue.length > 0)) {
+      this.removeIdentity = false;
+      this.showPanel = false;
+      this.identifyIncident = null;
+    
+      const incidentRefs = changes?.incidentRefs?.currentValue;
+      if (incidentRefs) {
+        this.currentIncidentRefs = incidentRefs;
+        this.handleLayersSelection();
+      }
+    }
   }
 
   handleLayersSelection(returnFromPreiviewPanel?: boolean){
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+    console.log(this.currentIncidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
-      this.incidentRefs = this.storedIncidentRefs
+      this.currentIncidentRefs = this.storedIncidentRefs
     }
-    if (this.incidentRefs.length === 1) {
-      this.zoomIn(8)
+    if (this.currentIncidentRefs.length === 1){
       // single feature within clicked area
       this.showPanel = true;
-      this.identifyItem = this.incidentRefs[0];
+      this.identifyItem = this.currentIncidentRefs[0];
       let incidentNumber = null;
       let fireYear = null;
       if (this.identifyItem.layerId === 'fire-perimeters') {
@@ -87,31 +109,89 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         fireYear = this.identifyItem.properties.fire_year;
       }
       if (incidentNumber && fireYear) {
+        // identify an incident
         this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise().then(async result => {
-          this.identifyIncident = result
+          this.identifyIncident = result;
+          this.zoomIn(8)
+
+          if (this.identifyIncident){
+            this.addMarker(this.identifyIncident)
+          };
+
           this.cdr.detectChanges();
         })
+      }else {
+        //identify anything other than incident
+        this.zoomIn(8)
       }
+      console.log('REMOVING IDENTIY')
+      const SMK = window['SMK'];
+      SMK.MAP[1].$viewer.identified.clear();
+      SMK.MAP[1].$sidepanel.setExpand( 0 )
+      this.removeIdentity = true;
+
     }
-    else if (this.incidentRefs.length >= 1) {
+    else if (this.currentIncidentRefs.length >= 1) {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
-      this.filteredWildfires = this.incidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
-      // this.filteredFirePerimeters = this.incidentRefs.filter(item => item.layerId === 'fire-perimeters');
-      this.filteredEvacs = this.incidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
-      this.filteredAreaRestrictions = this.incidentRefs.filter(item => item.layerId === 'area-restrictions');
-      this.filteredBansAndProhibitions = this.incidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
-      this.filteredDangerRatings = this.incidentRefs.filter(item => item.layerId === 'danger-rating');
-      this.filteredRoadEvents = this.incidentRefs.filter(item => item.layerId === 'drive-bc-active-events');
-      this.filteredClosedRecreationSites = this.incidentRefs.filter(item => item.layerId === 'closed-recreation-sites');
-      this.filteredForestServiceRoads = this.incidentRefs.filter(item => item.layerId === 'bc-fsr');
-      this.filteredProtectedLandsAccessRestrictions = this.incidentRefs.filter(item => item.layerId === 'protected-lands-access-restrictions');
-      this.filteredRegionalDistricts = this.incidentRefs.filter(item => item.layerId === 'abms-regional-districts');
-      this.filteredMunicipalities = this.incidentRefs.filter(item => item.layerId === 'abms-municipalities');
-      this.filteredFirstNationsTreatyLand = this.incidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
-      this.filteredIndianReserve = this.incidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
+      this.filteredWildfires = this.currentIncidentRefs.filter(item => this.wildfireLayerIds.includes(item.layerId));
+      // this.filteredFirePerimeters = this.currentIncidentRefs.filter(item => item.layerId === 'fire-perimeters');
+      this.filteredEvacs = this.currentIncidentRefs.filter(item => item.layerId === 'evacuation-orders-and-alerts-wms');
+      this.filteredAreaRestrictions = this.currentIncidentRefs.filter(item => item.layerId === 'area-restrictions');
+      this.filteredBansAndProhibitions = this.currentIncidentRefs.filter(item => item.layerId === 'bans-and-prohibitions-cat1' || item.layerId === 'bans-and-prohibitions-cat2' || item.layerId === 'bans-and-prohibitions-cat3');
+      this.filteredDangerRatings = this.currentIncidentRefs.filter(item => item.layerId === 'danger-rating');
+      this.filteredRoadEvents = this.currentIncidentRefs.filter(item => item.layerId === 'drive-bc-active-events');
+      this.filteredClosedRecreationSites = this.currentIncidentRefs.filter(item => item.layerId === 'closed-recreation-sites');
+      this.filteredForestServiceRoads = this.currentIncidentRefs.filter(item => item.layerId === 'bc-fsr');
+      this.filteredProtectedLandsAccessRestrictions = this.currentIncidentRefs.filter(item => item.layerId === 'protected-lands-access-restrictions');
+      this.filteredRegionalDistricts = this.currentIncidentRefs.filter(item => item.layerId === 'abms-regional-districts');
+      this.filteredMunicipalities = this.currentIncidentRefs.filter(item => item.layerId === 'abms-municipalities');
+      this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
+      this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
     }
+  }
+
+  addMarker(incident:any) {
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+
+    const pointerIcon = L.divIcon({
+      iconSize: [20, 20],
+      iconAnchor: [12, 12],
+      popupAnchor: [10, 0],
+      shadowSize: [0, 0],
+      className: 'animated-icon'
+    });
+    this.marker = L.marker([Number(incident.latitude), Number(incident.longitude)],{icon: pointerIcon})
+    this.marker.on('add',function(){
+        const icon: any = document.querySelector('.animated-icon')
+        icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
+  
+        this.markerAnimation = setInterval(() => {
+          icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
+          icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
+          icon.style.marginLeft = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.marginTop = icon.style.width === "20px" ? '-10px' : '-5px'
+          icon.style.boxShadow = icon.style.width === "20px" ? '4px 4px 4px rgba(0, 0, 0, 0.65)' : '0px 0px 0px transparent'
+        }, 1000)
+      }
+    )
+
+    let viewer = null;
+    const SMK = window['SMK'];
+    for (const smkMap in SMK.MAP) {
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+        viewer = SMK.MAP[smkMap].$viewer;
+      }
+    }
+    this.marker.addTo(viewer.map)
   }
 
   displayWildfireName(wildfire) {
@@ -128,6 +208,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   closePanel() {
+    if (this.marker) {
+      this.marker.remove()
+      this.marker = null
+    }
+
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
     const SMK = window['SMK'];
     SMK.MAP[1].$viewer.identified.clear();
     SMK.MAP[1].$sidepanel.setExpand(0)
@@ -232,10 +320,10 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   openPreviewPanel(item) {
     this.allowBackToIncidentsPanel = true;
-    this.storedIncidentRefs = this.incidentRefs
-    // capture the identify panel list;
+    this.storedIncidentRefs = this.currentIncidentRefs
+        // capture the identify panel list;
     this.identifyItem = item;
-    this.incidentRefs = [item];
+    this.currentIncidentRefs = [item];
     this.cdr.detectChanges();
     this.handleLayersSelection();
   }

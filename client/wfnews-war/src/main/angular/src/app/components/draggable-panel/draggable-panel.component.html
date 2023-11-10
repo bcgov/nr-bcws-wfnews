@@ -1,8 +1,8 @@
 <div>
-    <div class="draggable-panel" *ngIf="showPanel && incidentRefs && incidentRefs.length > 1">
+    <div class="draggable-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length > 1">
         <div class="panel-container" >
             <div class="draggable-panel-title">
-                {{incidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+                {{currentIncidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div *ngIf="filteredWildfires && filteredWildfires.length">
                 <div class="criteria-title">Wildfires</div>

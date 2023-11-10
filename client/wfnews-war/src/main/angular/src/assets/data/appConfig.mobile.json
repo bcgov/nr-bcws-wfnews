@@ -38,6 +38,7 @@
             "moreInformationLink": "#{MORE_INFORMATION_LINK}#"
         },
         "wfdmProxy": "#{WFDM_PROXY}#",
+        "evacDefaultUrl": "#{EVAC_DEFAULT_URL}#",
         "currentRestrictions": "#{CURRENT_RESTRICTIONS_URL}#",
         "recSiteTrailsClosures": "#{REC_SITE_TRAILS_CLOSURES_URL}#",
         "parksClosures": "#{PARKS_CLOSURES_URL}#"
