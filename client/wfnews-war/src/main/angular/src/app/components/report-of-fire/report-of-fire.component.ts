@@ -241,8 +241,11 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'first-page':
         case 'final-page':
           const rofTitlePageComponent = this.currentPage.instance as RoFTitlePage;
-          rofTitlePageComponent.checkOnlineStatus()    
-          if (rofTitlePageComponent.offLine === true) this.currentPage.instance.nextId = 'disclaimer-page'
+          this.commonUtilityService.checkOnline().then((result) => {
+            if(!result) {
+              this.currentPage.instance.nextId = 'disclaimer-page'
+            }
+          })
         case 'callback-page':
           const roFSimpleQuestionPageComponent = this.currentPage.instance as RoFSimpleQuestionPage;
           roFSimpleQuestionPageComponent.checkOnlineStatus()
@@ -320,6 +323,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
+    if (this.currentPage.instance.id === 'distance-page' ) {
+      this.commonUtilityService.checkOnline().then((result) => {
+        if(!result) {
+          this.selectPage('photo-page',null,false);
+        }
+      })
+    }
     if (this.currentPage.instance.id === 'callback-page' || this.currentPage.instance.id === 'contact-page') {
       this.reportOfFire.headingDetectionActive = true;
       if (this.reportOfFire.motionSensor === 'no') {

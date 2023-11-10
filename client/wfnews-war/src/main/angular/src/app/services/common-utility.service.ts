@@ -237,4 +237,13 @@ export class CommonUtilityService {
     private rad2deg(rad: number): number {
         return rad * (180 / Math.PI);
     }
+
+    async checkOnline() {
+      try {
+        await this.pingSerivce().toPromise();
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
 }
