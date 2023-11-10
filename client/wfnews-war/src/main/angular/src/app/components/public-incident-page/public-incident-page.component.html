@@ -67,7 +67,7 @@
   </div>
 </div>
 <div *ngIf="!isLoading && loadingFailed" class="page-container">
-  failed to load...
+  {{errorMessage}}
 </div>
 <div *ngIf="isLoading">
   <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>

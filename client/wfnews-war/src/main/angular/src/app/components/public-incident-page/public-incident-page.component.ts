@@ -6,6 +6,7 @@ import { AreaRestrictionsOption, EvacOrderOption } from "../../conversion/models
 import { AGOLService } from "../../services/AGOL-service"
 import { PublishedIncidentService } from "../../services/published-incident-service"
 import { findFireCentreByName, hideOnMobileView } from "../../utils"
+import { AppConfigService } from "@wf1/core-ui"
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -21,6 +22,7 @@ export class PublicIncidentPage implements OnInit {
   public evacOrders: EvacOrderOption[] = []
   public areaRestrictions: AreaRestrictionsOption[] = []
   public extent: any = null
+  public errorMessage: string = 'default';
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
@@ -33,12 +35,13 @@ export class PublicIncidentPage implements OnInit {
     protected cdr: ChangeDetectorRef,
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
-    protected http: HttpClient) {
+    protected http: HttpClient, private appConfigService: AppConfigService) {
 
   }
 
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
+      let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'].toString();
       if (params && params['incidentNumber'] && params['fireYear']) {
         this.incidentNumber = params['incidentNumber']
         this.fireYear = params['fireYear']
@@ -82,6 +85,7 @@ export class PublicIncidentPage implements OnInit {
           this.cdr.detectChanges()
         }).catch(err => {
           console.error(err)
+          this.errorMessage = err + " " + responseUrl 
           this.isLoading = false
           this.loadingFailed = true
         })
@@ -89,6 +93,7 @@ export class PublicIncidentPage implements OnInit {
         if (params && params['preview']) {
           this.loadPreview()
         } else {
+          this.errorMessage = "Failed to Load " + responseUrl
           this.isLoading = false
           this.loadingFailed = true
         }
