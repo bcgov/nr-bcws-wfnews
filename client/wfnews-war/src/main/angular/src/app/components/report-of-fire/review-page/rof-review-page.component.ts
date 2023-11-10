@@ -59,7 +59,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       'final-page'
     ];
     this.reportOfFirePages = this.reportOfFirePages.filter(page => !pagesToRemove.includes(page.id));
-    this.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         this.isOffLine = true;
       } else{
@@ -179,7 +179,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(this.map);
 
-    this.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         const geoJsonData = offlineMapJson
         L.geoJson(geoJsonData,{
@@ -330,17 +330,6 @@ submitRof(){
 }
   nullEmptyStrings(value: string) {
     return !value ? null : value;
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
   }
 
   calculateMiddlePoint(lat1: number, lon1: number, lat2: number, lon2: number): { lat: number, lon: number } {

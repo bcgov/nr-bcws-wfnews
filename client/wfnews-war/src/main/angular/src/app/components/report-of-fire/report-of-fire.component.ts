@@ -241,7 +241,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'first-page':
         case 'final-page':
           const rofTitlePageComponent = this.currentPage.instance as RoFTitlePage;
-          rofTitlePageComponent.checkOnline().then((result) => {
+          this.commonUtilityService.checkOnline().then((result) => {
             if(!result) {
               this.currentPage.instance.nextId = 'disclaimer-page'
             }
@@ -324,7 +324,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    */
   skip () {
     if (this.currentPage.instance.id === 'distance-page' ) {
-      this.checkOnline().then((result) => {
+      this.commonUtilityService.checkOnline().then((result) => {
         if(!result) {
           this.selectPage('photo-page',null,false);
         }
@@ -354,17 +354,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     }
     if (this.allowExit) {
       return 'Exit';
-    }
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
     }
   }
 }

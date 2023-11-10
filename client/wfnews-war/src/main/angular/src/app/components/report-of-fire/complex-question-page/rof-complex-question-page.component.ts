@@ -132,7 +132,7 @@ export class RoFComplexQuestionPage extends RoFPage {
 
   nextPage() {
     if (this.id === 'distance-page') {
-      this.checkOnline().then((result) => {
+      this.commonUtilityService.checkOnline().then((result) => {
         if(!result) {
           this.reportOfFirePage.selectPage('photo-page',null,false);
         } else {
@@ -145,14 +145,4 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
   }
 
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
-  }
 }

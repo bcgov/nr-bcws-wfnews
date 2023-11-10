@@ -84,7 +84,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
 
  triggerLocationServiceCheck (){
   // re-check if user's device has gone offline since view was initialised and route to offline if so
-    this.checkOnline().then((result) => {
+  this.commonUtilityService.checkOnline().then((result) => {
       if(!result) this.nextId = 'disclaimer-page'
    })
 
@@ -111,17 +111,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
         this.cdr.detectChanges()
       }
     );
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
   }
 
 }

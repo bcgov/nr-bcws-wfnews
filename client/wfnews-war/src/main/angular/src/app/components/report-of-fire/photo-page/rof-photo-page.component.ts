@@ -124,7 +124,7 @@ export class RoFPhotoPage extends RoFPage {
   }
 
   previousPage() {
-    this.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         this.reportOfFirePage.selectPage('distance-page',null,false);
         this.reportOfFirePage.currentStep--;
@@ -132,16 +132,5 @@ export class RoFPhotoPage extends RoFPage {
         this.previous();
       }
     })
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
   }
 }
