@@ -5,7 +5,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { MapConfigService } from '@app/services/map-config.service';
 import { Router } from '@angular/router';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
 
 @Component({
@@ -172,16 +172,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.marker = L.marker([Number(incident.latitude), Number(incident.longitude)],{icon: pointerIcon})
     this.marker.on('add',function(){
         const icon: any = document.querySelector('.animated-icon')
-        incident
-        if (incident.fireOfNoteInd) {
-          icon.style.backgroundColor = '#aa0d0d'
-        } else if (incident.stageOfControlCode === 'OUT_CNTRL') {
-          icon.style.backgroundColor = '#FF0000'
-        } else if (incident.stageOfControlCode === 'HOLDING') {
-          icon.style.backgroundColor = '#FFFF00'
-        } else if (incident.stageOfControlCode === 'UNDR_CNTRL') {
-          icon.style.backgroundColor = '#98E600'
-        }
+        icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
   
         this.markerAnimation = setInterval(() => {
           icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
