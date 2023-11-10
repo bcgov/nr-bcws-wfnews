@@ -4,8 +4,8 @@
   <div class="divider"></div>
   <div *ngIf="reportOfFirePages">
     <div *ngFor="let page of reportOfFirePages">
-      <div *ngIf="page.id !== 'disclaimer-page' && page.id !== 'call-page' ">
-        <div class="rof-text-review-header">
+      <div *ngIf="page.id !== 'disclaimer-page' && page.id !== 'call-page' && !(page.id === 'location-page' && isOffLine)">
+        <div class="rof-text-review-header" >
           {{page.title}}
         </div>
         <div *ngIf = "page.id !== 'location-page'">
@@ -43,12 +43,12 @@
             </div>
           </div>
         </div>
-        <div *ngIf = "page.id === 'location-page'" style="position: relative;">
+        <div *ngIf = "page.id === 'location-page' && !isOffLine" style="position: relative;">
           <button (click)="edit(page.id)" class="edit-button">
             <mat-icon svgIcon="edit"></mat-icon>
             Edit
           </button>
-          <div id="map" class="map-container">
+          <div *ngIf="!isOffLine" id="map" class="map-container">
         </div>
       </div>
     </div>
