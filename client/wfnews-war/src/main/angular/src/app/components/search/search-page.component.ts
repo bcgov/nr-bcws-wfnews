@@ -6,16 +6,17 @@ import { PublishedIncidentService } from "@app/services/published-incident-servi
 import { PlaceData } from "@app/services/wfnews-map.service/place-data"
 import { haversineDistance } from "@app/services/wfnews-map.service/util"
 
+type GeocoderDefaults = string | null | undefined
 export class GeocoderAddress {
-  civicNumber: string | number | null | undefined
-  dir: string | null | undefined
-  dist: string | number | null | undefined
+  civicNumber: GeocoderDefaults | number
+  dir: GeocoderDefaults
+  dist: GeocoderDefaults | number
   loc: number[] | null | undefined
-  localityName: string | null | undefined
-  localityType: string | null | undefined
-  streetName: string | null | undefined
-  streetQualifier: string | null | undefined
-  streetType: string | null | undefined
+  localityName: GeocoderDefaults
+  localityType: GeocoderDefaults
+  streetName: GeocoderDefaults
+  streetQualifier: GeocoderDefaults
+  streetType: GeocoderDefaults
 }
 
 export class SearchData {
