@@ -329,3 +329,22 @@
     display: none !important;
   }
 }
+
+.header-row {
+  position: fixed;
+  top: 35px;
+  right: 40px;
+
+  .disclaimer-dropdown{
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 36px;
+    color: var(--blues-bcws-blue-6, #F5F6F9);
+    font-family: "BC Sans";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}

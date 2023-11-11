@@ -16,6 +16,51 @@
 }
 
 ::ng-deep .smk-map-frame {
+  .smk-sidepanel {
+    top: 106px !important;
+    z-index: 1000;
+    .smk-sidepanel {
+      border-radius: 10px;
+    }
+  }
+
+  .smk-actionbar {
+    top: unset !important;
+    bottom: 65px !important;
+  }
+  .smk-toolbar {
+    left: unset !important;
+    right: 0px !important;
+
+    .smk-tool {
+      border-radius: 20px;
+      border: 1px solid #C4C4C4 !important;
+      background-color: #ffffff !important;
+      margin-left: auto;
+      height: 36px !important;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+      display: flex;
+      align-items: center;
+      height: 36px !important;
+      min-width: 118px !important;
+      padding: unset !important;
+      padding-left: 16px !important;
+    }
+  }
+
+  /* .smk-tool {
+    background-color: white;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+    margin-right: 10px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    min-width: 125px;
+    text-align: center;
+    padding-left: 23px;
+  } */
+
     &.smk-theme-wf .smk-actionbar {
         padding: 5px 0;
     }
@@ -141,6 +186,10 @@
 
                 .smk-scale {
                     margin-left: 20px;
+                    margin-bottom: -33px;
+                }
+                .smk-coordinate {
+                  margin-bottom: -33px;
                 }
             }
         }
