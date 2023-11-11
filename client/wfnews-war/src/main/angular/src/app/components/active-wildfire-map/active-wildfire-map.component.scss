@@ -62,11 +62,11 @@
 
   @media (min-width: 768px) {
     .layers-container {
-      margin-top: 50px;
+      margin-top: 65px;
       margin-left: 8px;
-
       .layer-buttons {
         display: flex;
+        flex-wrap: wrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 1000;
@@ -91,6 +91,10 @@
         border: none;
         padding-right: 40px;
       }
+    }
+
+    .search-row {
+      display: none;
     }
   }
 }
@@ -155,9 +159,6 @@ mat-panel-title {
   .hide {
     display: none !important;
   }
-  .search-row {
-    padding-right: 0px !important;
-  }
 }
 
 .location-icon {
@@ -187,6 +188,10 @@ mat-panel-title {
   ::ng-deep .menu-bar {
     display: none !important;
     // hidden until we have a style settled for menu bar
+  }
+
+  .search-row {
+    display: none;
   }
 
   ::ng-deep .sticky-widget {
@@ -271,15 +276,6 @@ mat-panel-title {
     width: 100%;
   }
 
-  .search-bar {
-    width: calc(100vw - 150px);
-  }
-
-  .search-row {
-    padding-right: 0rem !important;
-    margin-left: 0px;
-  }
-
   .my-location-button {
     display: none !important;
     padding-left: 0px;
@@ -287,11 +283,6 @@ mat-panel-title {
     border: none;
     border-radius: 100px;
     transition: 0.5s;
-  }
-
-  .my-location-button-min {
-    display: block !important;
-    margin-left: -22px;
   }
 
   .identify-panel {
@@ -518,7 +509,16 @@ mat-panel-title {
 
     input {
       margin-top: 0 !important;
-
+      display: flex;
+      width: 368px;
+      align-items: flex-end;
+      gap: 12px;
+      flex-shrink: 0;
+      height: 36px;
+      border-radius: 20px;
+      background: #FFF;
+      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      border: 1px solid #C4C4C4;
       &::placeholder {
         color:#767676;
         font-size: 1rem;
@@ -535,27 +535,30 @@ mat-panel-title {
     }
   }
 
-  .my-location-button {
-    padding-left: 5px;
-    padding-right: 10px;
-    border: 1px solid grey;
-    border-radius: 5px;
-    height: 40px;
-    display: flex;
-
-    .mat-mdc-raised-button {
-      box-shadow: none;
-    }
-
-    transition: 0.5s;
-  }
-
-  .my-location-button-min {
-    display: none;
-  }
-
   .firecentre-filter {
     display: flex;
     padding-left: 10px;
   }
+}
+
+.button {
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background-color: #ffffff;
+  margin-left: auto;
+  height: 36px !important;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+}
+
+.button-label {
+  position: relative;
+  top: -3px;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 21.79px;
+}
+
+.button-icon {
+  position: relative;
 }

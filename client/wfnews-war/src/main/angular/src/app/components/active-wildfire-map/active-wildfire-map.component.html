@@ -19,9 +19,8 @@
         <div class="search-row">
           <div class="search-bar">
               <input type="text" placeholder="Search by Location" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
-              <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()">
-                  <mat-icon>close</mat-icon>
-              </button>
+              <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
+              <!-- Autocomplete will be updated to also support incidents/evacs -->
               <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
                   <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
                       [value]="option">
@@ -41,15 +40,7 @@
                   </mat-option>
               </mat-autocomplete>
           </div>
-          <div class="my-location-button">
-              <button mat-raised-button (click)="useMyCurrentLocation()">
-                  <mat-icon class="location-icon">my_location</mat-icon>
-                  Find My Location
-              </button>
-          </div>
-          <div class="my-location-button-min">
-            <button mat-icon-button (click)="useMyCurrentLocation()"><mat-icon class="location-icon">my_location</mat-icon></button>
-          </div>
+          <button class="button" mat-raised-button (click)="useMyCurrentLocation()"><mat-icon class="button-icon">my_location</mat-icon><span class="button-label">Find My Location</span></button>
       </div>
 
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
@@ -66,7 +57,7 @@
                     <map-toggle-button labelText="Out Fires" value="out-fires" [checked]="isChecked('out-fires')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_crop-growth.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Local Authorities"  value="local-authorities" [checked]="isChecked('local-authorities')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_finance.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
-                    <map-toggle-button labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
+                    <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
             <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
