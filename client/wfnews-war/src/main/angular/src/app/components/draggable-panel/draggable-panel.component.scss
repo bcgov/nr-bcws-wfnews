@@ -1,6 +1,7 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: 40vh;
+  height: calc(40vh - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 56px) !important;
+  min-height: 320px;
   width: 100%;
   position: absolute;
   bottom: 0;
