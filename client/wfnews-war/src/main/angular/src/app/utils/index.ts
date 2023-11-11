@@ -21,6 +21,7 @@ export enum ResourcesRoutes {
     FULL_DETAILS = 'full-details',
     SAVED = 'saved',
     MORE = 'more',
+    CONTACT_US = 'contact-us'
 }
 
 export const FireCentres = [
