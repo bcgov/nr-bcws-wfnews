@@ -1,0 +1,33 @@
+<div class="dialog">
+  <div class="dialog-panel">
+    <div class="search-panel">
+      <div class="field search-input">
+        <mat-icon class="search-icon" matSuffix [mat-dialog-close]="false">arrow_back_ios</mat-icon>
+        <input matInput class="search-input" aria-label="Search Here" placeholder="Search Here" [(ngModel)]="searchText" (ngModelChange)="search()">
+        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="clearSearch(); $event.stopPropagation()" matTooltip="Clear">
+          <span class="button-wrapper"><mat-icon>close</mat-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="results-panel">
+      <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>
+      <div *ngIf="addressSearchComplete || evacSearchComplete || incidentSearchComplete; else loading" class="result-panel-cards">
+        <div *ngFor="let item of allResultData" class="result-card">
+          <div class="result-card-icon-holder">
+            <div class="result-card-icon-holder-icon">
+              <img *ngIf="item.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+              <img *ngIf="item.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img *ngIf="item.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+              <img *ngIf="item.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+            </div>
+            <div class="result-card-icon-holder-dist">{{item.distance}}</div>
+          </div>
+          <div class="result-card-info">
+            <div class="result-card-title">{{item.title}}</div>
+            <div class="result-card-subtitle">{{item.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

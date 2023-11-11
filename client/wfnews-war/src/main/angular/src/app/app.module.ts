@@ -199,6 +199,7 @@ import { SavedComponent } from './components/saved/saved.component';
 import { MoreComponent } from './components/more/more.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
+import { SearchPageComponent } from './components/search/search-page.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -339,7 +340,8 @@ export const DATE_FORMATS = {
         LinkButtonComponent,
         SavedComponent,
         MoreComponent,
-        BansFullDetailsComponent
+        BansFullDetailsComponent,
+        SearchPageComponent
     ],
     imports: [
         MatSortModule,

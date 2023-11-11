@@ -16,6 +16,9 @@ import { PublishedIncidentService } from '../../services/published-incident-serv
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
+import { SearchData, SearchPageComponent } from '../search/search-page.component';
+import { Observable } from 'rxjs';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
 
 export type SelectedLayer =
@@ -92,6 +95,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   refreshAllLayers = false;
   isDataSourcesOpen = false;
 
+  public searchData: SearchData
+
   showPanel: boolean;
 
   wildfireLayerIds: string[] = [
@@ -104,6 +109,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,
@@ -115,6 +122,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -181,7 +189,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   }});
 }
-  
+
   panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
@@ -388,7 +396,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   onSelectLayer(selectedLayer: SelectedLayer) {
     this.selectedLayer = selectedLayer;
     this.selectedPanel = this.selectedLayer;
-    
+
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
       text: this.selectedLayer
@@ -483,7 +491,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     if (!this.smkApi) {
       let event: Event;
       this.initMap(event)
-    } 
+    }
 
     this.smkApi.setDisplayContextItemsVisible(...layers);
     this.refreshAllLayers = true;
@@ -644,5 +652,32 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     if (!isVisible) {
       this.isDataSourcesOpen = false;
     }
+  }
+
+  openSearchPage () {
+    const dialogRef = this.dialog.open(SearchPageComponent, {
+      width: '450px',
+      height: '650px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: this.searchData
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('450px', '650px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: SearchData | boolean) => {
+      smallDialogSubscription.unsubscribe();
+      if ((result as boolean) !== false) {
+        this.searchData = result as SearchData
+      } else {
+        this.searchData = null
+      }
+    });
   }
 }
