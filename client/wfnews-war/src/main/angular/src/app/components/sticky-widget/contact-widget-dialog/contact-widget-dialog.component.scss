@@ -1,5 +1,166 @@
-.contact-widget-dialog-container {
-    
+@media (min-width: 1250px) {
+  .mobile-container {
+    display: none;
+  }
+
+  .contact-widget-dialog-container {
+
+      .mat-mdc-dialog-title{
+          font-weight: 0 !important;
+          margin-bottom: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 16px 10px;
+      }
+
+      .title {
+        color: #000;
+        font-feature-settings: 'clig' off, 'liga' off;
+        font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 26px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 35px; /* 134.615% */
+        letter-spacing: 0.35px;
+      }
+
+      .dialog-content{
+          padding: 0!important;
+          margin: 0!important;
+      }
+      overflow: hidden;
+      font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      padding: 20px;
+      background-color: white;
+      max-width: 1500px;
+      margin: auto;
+
+      .padding-15 {
+        padding: 15px;
+      }
+  }
+
+  .contact-widget-dialog-content{
+      display: flex;
+      width: 100%;
+
+      .panel{
+          padding: 15px;
+      }
+
+      .left-panel{
+          width: 65%;
+      }
+
+      .right-panel{
+          width: 35%;
+          background-color: #f3f5f6;
+          color: #1A5A96;
+
+          .contact-info{
+              padding-top: 15px;
+              padding-bottom: 15px;
+              border-bottom: solid #dddddd 1px;
+
+              .title{
+                  font-weight: bold;
+                  color: #000;
+              }
+
+              .detail{
+                  padding-top: 5px;
+                  display: flex;
+                  align-items: flex-end;
+
+                  mat-icon{
+                      background: #1A5A96;
+                      border-radius: 5px;
+                      color: #f3f5f6;
+                      margin-right: 5px;
+                  }
+
+                  svg{
+                      width: 24px;
+                      height: 24px;
+                      margin-right: 5px;
+                      fill: #1A5A96;
+                  }
+              }
+          }
+      }
+
+      .form{
+
+          .row{
+              display: flex;
+              padding-top: 15px;
+          }
+
+          .field{
+              flex: 0 0 150px;
+              display: flex;
+              flex-direction: column;
+              min-width: 0;
+              flex-grow: 1;
+              padding-right: 10px;
+              justify-content: start;
+
+              .label{
+                  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+                  font-weight: 400;
+                  padding: 5px 1.5px;
+              }
+
+              input, textarea{
+                  border: 1px solid #a7a9ac;
+                  padding: 0 5px;
+                  border-radius: 5px;
+                  height: 35px;
+                  line-height: 35px;
+                  font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+                  font-size: 15px;
+              }
+              input:focus, textarea:focus{
+                  outline: none;
+                  box-shadow: 0 0 4px #3e7fff;
+              }
+          }
+
+          .submit-row{
+              justify-content: center;
+          }
+
+          .contact-submit{
+              justify-self: center;
+              background-color: #1A5A96;
+              color: #FFFFFF;
+              height: 36px;
+              font-size: 15px;
+              line-height: 36px;
+              padding: 0 16px;
+              border-radius: 4px;
+              display: flex;
+              align-items: center;
+              border: none;
+              cursor: pointer;
+          }
+      }
+  }
+
+  .pt-3{
+      padding-top: 1.5rem;
+  }
+
+  button:disabled {
+      background-color: gray !important;
+      cursor: not-allowed !important
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1250px) {
+  .contact-widget-dialog-container {
+
     .mat-mdc-dialog-title{
         font-weight: 0 !important;
         margin-bottom: 0;
@@ -9,9 +170,30 @@
         padding: 16px 10px;
     }
 
+    .title {
+      color: #000;
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 35px; /* 134.615% */
+      letter-spacing: 0.35px;
+    }
+
     .dialog-content{
         padding: 0!important;
         margin: 0!important;
+    }
+    overflow: hidden;
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    padding: 20px;
+    background-color: white;
+    max-width: 1500px;
+    margin: auto;
+
+    .padding-15 {
+      padding: 15px;
     }
 }
 
@@ -129,4 +311,149 @@
 button:disabled {
     background-color: gray !important;
     cursor: not-allowed !important
+}
+
+  .mobile-container {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .contact-widget-dialog-container {
+    display: none;
+  }
+
+  .mobile-container {
+    display: flex;
+    padding: 32px;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    align-self: stretch;
+
+    .title {
+      align-self: stretch;
+      color: #000;
+      font-feature-settings: 'clig' off, 'liga' off;
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 26px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 35px; /* 134.615% */
+      letter-spacing: 0.35px;
+    }
+
+    .text {
+      color: #565656;
+      align-self: stretch;
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+
+    .form {
+      width: 100%;
+      .mat-mdc-form-field {
+        width: 100% !important;
+        border-radius: 3px !important;
+        background: var(--grays-gray-10, #F5F5F5) !important;
+      }
+    }
+
+    .contact-submit {
+      border-radius: 5px;
+      background: var(--blues-blue-2, #036);
+      display: flex;
+      height: 40px;
+      padding: 8px;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      align-self: stretch;
+      color: var(--grays-white, var(--White, #FDFDFD));
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+      cursor: pointer;
+      &-disabled {
+        border-radius: 5px;
+        background: grey;
+        display: flex;
+        height: 40px;
+        padding: 8px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        color: black;
+        font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+      }
+    }
+
+    .spacer {
+      display: flex;
+      padding: 32px;
+      flex-direction: column;
+      align-items: center;
+      gap: 48px;
+      align-self: stretch;
+    }
+
+    .subtitle {
+      align-self: stretch;
+      color: #000;
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
+    }
+
+    .phone-number-box {
+      display: flex;
+      padding: 8px;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
+      border-radius: 6px;
+      border: 1px solid var(--grays-gray-7, #DEDEDE);
+      background: var(--blues-blue-11, #F5F6F9);
+      &-info {
+        display: flex;
+        flex-direction: column;
+      }
+      &-title {
+        align-self: stretch;
+        color: #000;
+        font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      &-number {
+        align-self: stretch;
+        color: var(--grays-gray-4, #7D7D7D);
+        font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+      }
+      &-icon {
+        width: 24px;
+        height: 24px;
+        margin-left: auto;
+        cursor: pointer;
+      }
+    }
+  }
 }

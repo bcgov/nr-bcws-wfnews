@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,8 +13,11 @@ import { AppConfigService } from '@wf1/core-ui';
 export class ContactWidgetDialogComponent implements OnInit {
 
     public contactForm: UntypedFormGroup;
-    contactInformationConfig: any;
+    public contactInformationConfig: any;
     public closeColor;
+    // If used as a dialog, set pageMode to false as an input
+    // could also pass in as a data object
+    @Input() public pageMode = true
 
     constructor (
       private dialogRef: MatDialogRef<ContactWidgetDialogComponent>,
@@ -70,5 +73,9 @@ export class ContactWidgetDialogComponent implements OnInit {
         }).catch(err => {
           this.snackbarService.open('Your request could not be processed at this time. Please try again later.', null, { duration: 10000, panelClass: 'snackbar-error' });
         })
+    }
+
+    openMoreInfo (type: string, url: string) {
+      window.open(`${type === 'tel' ? 'tel:' : ''}${this.contactInformationConfig[url]}`, type === 'tel' ? '_self' : '_blank')
     }
 }
