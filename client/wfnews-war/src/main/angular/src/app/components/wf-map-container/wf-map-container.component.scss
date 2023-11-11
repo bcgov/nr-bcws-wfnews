@@ -16,6 +16,28 @@
 }
 
 ::ng-deep .smk-map-frame {
+  .smk-actionbar {
+    top: unset !important;
+    bottom: 65px !important;
+  }
+  .smk-toolbar {
+    left: unset !important;
+    right: 0px !important;
+  }
+
+  /* .smk-tool {
+    background-color: white;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+    margin-right: 10px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    border-radius: 25px;
+    min-width: 125px;
+    text-align: center;
+    padding-left: 23px;
+  } */
+
     &.smk-theme-wf .smk-actionbar {
         padding: 5px 0;
     }
@@ -141,6 +163,10 @@
 
                 .smk-scale {
                     margin-left: 20px;
+                    margin-bottom: -33px;
+                }
+                .smk-coordinate {
+                  margin-bottom: -33px;
                 }
             }
         }
