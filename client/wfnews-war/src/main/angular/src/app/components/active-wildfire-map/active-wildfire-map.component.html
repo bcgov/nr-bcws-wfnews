@@ -18,7 +18,7 @@
 
         <div class="search-row">
           <div class="search-bar">
-              <input type="text" placeholder="Search by Location" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
+              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
               <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
               <!-- Autocomplete will be updated to also support incidents/evacs -->
               <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
@@ -26,15 +26,11 @@
                       [value]="option">
                       <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
                           <div *ngIf="option.address !== ''">
-                              <div>
-                                  <span class="address">{{option.address}}</span>
-                              </div>
+                              <div><span class="address">{{option.address}}</span></div>
                               <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
                           </div>
                           <div *ngIf="option.address === ''">
-                              <div>
-                                  <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
-                              </div>
+                              <div><span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span></div>
                           </div>
                       </div>
                   </mat-option>
@@ -42,10 +38,7 @@
           </div>
           <button class="button" mat-raised-button (click)="useMyCurrentLocation()"><mat-icon class="button-icon">my_location</mat-icon><span class="button-label">Find My Location</span></button>
       </div>
-
-            <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)"
-                (toggleAccordion)="onToggleAccordion()"
-                (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
+            <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
             <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
                 <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
                     <map-toggle-button labelText="Wildfires" value="wildfire-stage-of-control" [checked]="isChecked('wildfire-stage-of-control')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>

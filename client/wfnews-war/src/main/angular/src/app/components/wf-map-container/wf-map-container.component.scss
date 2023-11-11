@@ -16,6 +16,14 @@
 }
 
 ::ng-deep .smk-map-frame {
+  .smk-sidepanel {
+    top: 106px !important;
+    z-index: 1000;
+    .smk-sidepanel {
+      border-radius: 10px;
+    }
+  }
+
   .smk-actionbar {
     top: unset !important;
     bottom: 65px !important;

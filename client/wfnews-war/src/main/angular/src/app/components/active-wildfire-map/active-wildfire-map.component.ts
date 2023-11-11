@@ -131,6 +131,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2) {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
+        // search addresses
         this.placeData.searchAddresses(val).then(function (results) {
           if (results) {
             results.forEach((result) => {
@@ -139,6 +140,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             self.filteredOptions = self.sortedAddressList;
           }
         });
+        // search incidents
+
+        // search evac orders
       }
     });
 
