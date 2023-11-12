@@ -54,7 +54,8 @@
     "mapServices": {
         "openmapsBaseUrl": "#{OPENMAPS_BASE_URL}#",
         "drivebcBaseUrl": "#{DRIVEBC_BASE_URL}#",
-        "wfnews": "#{WFNEWS_API_URL}#"
+        "wfnews": "#{WFNEWS_API_URL}#",
+        "esriMapToken": "#{ESRI_MAP_TOKEN}#"
     },
 
     "rest": {

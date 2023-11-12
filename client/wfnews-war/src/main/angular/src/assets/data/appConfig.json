@@ -115,7 +115,8 @@
         "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
         "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
         "#wfnews": "http://localhost:1338",
-        "wfnews": "https://wfnews-server.dev.bcwildfireservices.com"
+        "wfnews": "https://wfnews-server.dev.bcwildfireservices.com",
+        "esriMapToken": "AAPKbad5c316bf4f49319f066455650d1f68cwKLS3AevU1TlfiSOEXPLy1StSgHeJREhBcUyoafQMgjpgvmFu6CIeKDTUQJjWdx"
     },
 
     "causeCodeConfig": {

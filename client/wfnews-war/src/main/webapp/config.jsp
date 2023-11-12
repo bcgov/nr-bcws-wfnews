@@ -104,11 +104,14 @@
       openmaps = openmaps.substring(0, openmaps.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String esriMapToken = EnvironmentVariable.getVariable("ESRI_MAP_TOKEN"); 
+
     // External Application Section
     json.append("\"mapServices\":{");
       json.append("\"openmapsBaseUrl\":\"").append(openmaps).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
-      json.append("\"drivebcBaseUrl\":\"").append(driveBc).append("\"");
+      json.append("\"drivebcBaseUrl\":\"").append(driveBc).append("\"").append(",");
+      json.append("\"esriMapToken\":\"").append(esriMapToken);
     json.append("},");
 
     // REST API Section

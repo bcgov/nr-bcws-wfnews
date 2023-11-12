@@ -15,11 +15,18 @@ export class WFMapService {
   identifyDoneCallback;
   map: any;
   config: any;
+  currentBasemap: any;
+  esriApiKey = this.appConfigService.getConfig()['mapServices']['esriMapToken'];
+
+  supportedBasemaps = [
+    'osm/navigation',
+    'arcgis/imagery',
+    'arcgis/topographic',
+    'arcgis/streets-night'
+  ];
 
   private patchPromise: Promise<any>;
   private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
-
-
 
   constructor(protected appConfigService: AppConfigService) { }
 
@@ -70,13 +77,9 @@ export class WFMapService {
       .then(() => {
         try {
           option.config.push({
-            // viewer: {
-            //     baseMap: baseMapIds[ 0 ]
-            // },
             tools: [
               {
                 type: 'baseMaps',
-                choices: baseMapIds
               },
               {
                 type: 'bespoke',
@@ -179,51 +182,6 @@ export class WFMapService {
               config: 'show-tool=bespoke'
             })
               .then((smk) => {
-                const option2x = {
-                  tileSize: 512,
-                  zoomOffset: -1
-                };
-
-                const topographicOption = {
-                  maxNativeZoom: 20,
-                  maxZoom: 30
-                };
-
-                defineEsriBasemap('topographic', 'Topographic', [
-                  { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                ]);
-
-                const imageryOption = {
-                  maxZoom: 30
-                };
-
-                defineEsriBasemap('imagery', 'Imagery', [
-                  { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
-                  { id: 'ImageryTransportation', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                  { id: 'ImageryLabels', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                ]);
-
-                const baseMapOptions = {
-                  maxZoom: 30
-                };
-
-                defineEsriBasemap('default', 'Default', [
-                  { id: 'Streets', option: { ...baseMapOptions } },
-                ]);
-
-                defineEsriBasemap('satellite', 'Satellite', [
-                  { id: 'Imagery', option: { ...baseMapOptions } },
-                ]);
-
-                defineEsriBasemap('terrain', 'Terrain', [
-                  { id: 'Topographic', option: { ...baseMapOptions } },
-                ]);
-
-                defineEsriBasemap('dark', 'Dark', [
-                  { id: 'DarkGray', option: { ...baseMapOptions } },
-                ]);
-
-
                 smk.destroy();
                 temp.parentElement.removeChild(temp);
               });
@@ -334,6 +292,8 @@ export class WFMapService {
                   { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-tooltip.js' },
                   { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-arrow.js' },
                   { loader: 'script', url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-crosshairs.js' },
+                  { loader: 'script', url: 'https://unpkg.com/esri-leaflet@3.0.10/dist/esri-leaflet.js' },
+                  { loader: 'script', url: 'https://unpkg.com/esri-leaflet-vector@4.2.2/dist/esri-leaflet-vector.js' },
                   { loader: 'style', url: './assets/js/smk/plugin-wfnews/style/wfnews-markers2.css' },
                   { loader: 'style', url: './assets/js/smk/plugin-wfnews/style/wfnews-info.css' }
                 ]
@@ -413,6 +373,21 @@ export class WFMapService {
                 self.map.invalidateSize({ animate: false });
               }, 500);
             };
+
+            SMK.TYPE.Viewer.leaflet.prototype.setBasemap = (mapId) => {
+              if (mapId && this.supportedBasemaps.indexOf(mapId) >= 0) {
+                this.setBaseMap(mapId);
+              } else if (this.getBaseMap() === 'osm/navigation') {
+                this.setBaseMap('arcgis/imagery');
+              } else if (this.getBaseMap() === 'arcgis/imagery') {
+                this.setBaseMap('arcgis/topographic');
+              } else if (this.getBaseMap() === 'arcgis/topographic') {
+                this.setBaseMap('arcgis/streets-night');
+              } else {
+                this.setBaseMap('osm/navigation');
+              }
+            };
+
             const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;
             SMK.TYPE.Viewer.leaflet.prototype.initialize = function(smk) {
               // Call the existing initializer
@@ -612,6 +587,7 @@ export class WFMapService {
   }
 
   setBaseMap(mapId: string) {
+    const L = window['L'];
     const SMK = window['SMK'];
     let viewer = null;
     for (const smkMap in SMK.MAP) {
@@ -619,43 +595,24 @@ export class WFMapService {
         viewer = SMK.MAP[smkMap].$viewer;
       }
     }
-    viewer.setBasemap(mapId);
+
+    if (mapId === this.currentBasemap?.options?.key) {
+      return;
+    }
+
+    if (this.currentBasemap) {
+      viewer.map.removeLayer(this.currentBasemap);
+    }
+    
+    this.currentBasemap = L.esri.Vector.vectorBasemapLayer(mapId, {
+      apikey: this.esriApiKey,
+    }).addTo(viewer.map);
   }
 
   getBaseMap() {
-    const SMK = window['SMK'];
-    let viewer = null;
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
-    return viewer?.currentBasemap;
+    return this.currentBasemap?.options?.key;
   }
 }
-
-const clone = (obj) => JSON.parse(JSON.stringify(obj));
-
-let order = 100;
-const baseMapIds = [];
-const defineEsriBasemap = (id: string, title: string, baseMaps: { id: string; option?: { [key: string]: any } }[]) => {
-  order += 1;
-  baseMapIds.push(id);
-  window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
-    title,
-    order,
-    create() {
-      return baseMaps.map(bm => {
-        const L = window['L'];
-
-        const orig = clone(L.esri.BasemapLayer.TILES[bm.id].options);
-        const bmly = window['L'].esri.basemapLayer(bm.id, clone({ ...bm.option, wfnewsId: id } || {}));
-        L.esri.BasemapLayer.TILES[bm.id].options = { ...orig, wfnewsId: id };
-        return bmly;
-      });
-    }
-  };
-};
 
 const encodeUrl = (url, data) => {
   if (!data) {
