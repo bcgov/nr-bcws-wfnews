@@ -28,6 +28,17 @@
   padding: 12px;
 }
 
+.legend-layer-description {
+  color: var(--grays-gray-2, #484848);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 22px; /* 146.667% */
+  letter-spacing: -0.408px;
+  padding-bottom: 12px;
+}
+
 .legend-accordion {
   background-color: #ffffff;
   justify-content: space-between;
