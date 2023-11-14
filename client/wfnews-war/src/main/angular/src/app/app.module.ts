@@ -210,6 +210,7 @@ import { SmokeLegendComponent } from './components/legend-panels/smoke-layers/sm
 import { RoadEventLegendComponent } from './components/legend-panels/road-event-layers/road-event-legend.component';
 import { LocalAuthoritiesLegendComponent } from './components/legend-panels/local-authorities-layers/local-authorities-legend.component';
 import { PrecipRadarLegendComponent } from './components/legend-panels/precip-radar-layers/precip-radar-legend.component';
+import { PrecipForecastLegendComponent } from './components/legend-panels/precip-forecast-layers/precip-forecast-legend.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -361,7 +362,8 @@ export const DATE_FORMATS = {
         SmokeLegendComponent,
         RoadEventLegendComponent,
         LocalAuthoritiesLegendComponent,
-        PrecipRadarLegendComponent
+        PrecipRadarLegendComponent,
+        PrecipForecastLegendComponent
     ],
     imports: [
         MatSortModule,
