@@ -8,6 +8,38 @@
 .rof{
   height: 100vh; 
   background-color: white !important;
+  max-width: 850px;
+  margin: auto;
+
+  ::ng-deep.mat-button-toggle-button {
+    height: 81px !important;
+    @media (max-width: 1023px) and (max-height: 700px) {
+        height: 8.5vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
+      height: 8vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
+      height: 7vh !important;
+    }
+    @media (min-width: 1024px) and (max-height: 599px) {
+      height: 6vh !important;
+    }
+  }
+  
+  ::ng-deep.mat-button-toggle-label-content {
+    line-height: 20px !important;
+    color: #000;
+    text-align: center;
+    font-size: 19px;
+    @media (max-height: 700px){
+      font-size: 2.2vh;
+    }
+    font-style: normal;
+    font-weight: 600;
+    letter-spacing: -0.38px;
+    // margin-top: 16px;
+  }
 }
 
 .mobile-header{
@@ -70,6 +102,10 @@
 }
 
 .ProgressBar {
+  @media (min-width: 850px) {
+    width: 570px;
+    margin: auto 130px auto;
+  }
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
@@ -103,6 +139,8 @@
 }
 
 .rof-button-container {
+
+  max-width: 780px;
   justify-content: space-between;
   gap: 12px;
   display: flex;
@@ -122,7 +160,8 @@
     font-weight: 600;
     line-height: normal;
     background-color: #F5F5F5;
-    border: solid 1px #B0B0B0;;
+    border: solid 1px #B0B0B0;
+    border-radius: 6px;
     &-primary {
       padding:0 32px;
       height: 43px;
@@ -133,6 +172,7 @@
       color: white;
       background-color: #123262;
       flex-direction: row-reverse;
+      border-radius: 6px;
       &-review{
         padding:0 32px;
         height: 43px;
@@ -142,7 +182,8 @@
         line-height: normal;
         color: white;
         background-color: #123262;
-        flex-direction: none;;
+        flex-direction: none;
+        border-radius: 6px;
       }
 
     }
@@ -154,8 +195,8 @@
       font-weight: 600;
       line-height: normal;
       flex-direction: row-reverse;
-      color: rgba(0, 0, 0)
-
+      color: rgba(0, 0, 0);
+      border-radius: 6px;
     }
   }
   .flow-buttons{
@@ -257,36 +298,6 @@
   .mat-button-toggle-button {
     border-radius: 8px;
   }
-}
-
-::ng-deep.mat-button-toggle-button {
-  height: 81px !important;
-  @media (max-width: 1023px) and (max-height: 700px) {
-      height: 8.5vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
-    height: 8vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 649px) and (min-height: 600px) {
-    height: 7vh !important;
-  }
-  @media (min-width: 1024px) and (max-height: 599px) {
-    height: 6vh !important;
-  }
-}
-
-::ng-deep.mat-button-toggle-label-content {
-  line-height: 20px !important;
-  color: #000;
-  text-align: center;
-  font-size: 19px;
-  @media (max-height: 700px){
-    font-size: 2.2vh;
-  }
-  font-style: normal;
-  font-weight: 600;
-  letter-spacing: -0.38px;
-  // margin-top: 16px;
 }
 
 .rof-text {

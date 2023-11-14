@@ -1,7 +1,56 @@
 <div class="container">
   <div class="widget-header">
-    <span>Fire Centre Statistics</span>
+    <span class="widget-title">Fire Centre Statistics</span>
+    <div class="widget-button-bar">
+      <button [disabled]="!viewWildfireCounts" (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="!viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-blue.svg" alt="Hectares" class="button-icon" /><span class="button-label-selected">Hectares Burned</span></button>
+      <button (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-black.svg" alt="Hectares" class="button-icon" /><span class="button-label">Hectares Burned</span></button>
+      <button (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="!viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-black.svg" alt="Wildfires" class="button-icon" /><span class="button-label">Wildfires</span></button>
+      <button [disabled]="viewWildfireCounts" (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Wildfires" class="button-icon" /><span class="button-label-selected">Wildfires</span></button>
+    </div>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div *ngIf="startupComplete; else loading"></div>
+  <div class="content" *ngIf="startupComplete; else loading">
+    <div class="message">The province is divided into six regional fire centres. Each fire centre is responsible for wildfire management within its boundaries.</div>
+    <div class="data-content">
+      <div class="data-content-image-box">
+        <img class="data-content-image" src="/assets/images/firecentres.png" alt="Fire Centres">
+      </div>
+      <div class="data-content-chart">
+        <div class="data-content-chart-label">Hectares Burned by Regional Fire Centre</div>
+        <div class="data-content-chart-container">
+          <ngx-charts-bar-vertical
+            class="vertical-chart"
+            [animations]="true"
+            [scheme]="colorScheme"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [roundEdges]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
+            [results]="viewWildfireCounts ? fireCentreTotals : fireCentreHectares">
+          </ngx-charts-bar-vertical>
+
+          <ngx-charts-bar-horizontal
+            class="horizontal-chart"
+            [animations]="true"
+            [scheme]="colorScheme"
+            [gradient]="false"
+            [xAxis]="true"
+            [yAxis]="true"
+            [legend]="false"
+            [showXAxisLabel]="false"
+            [showYAxisLabel]="false"
+            [roundEdges]="true"
+            [showGridLines]="true"
+            [showDataLabel]="true"
+            [results]="viewWildfireCounts ? fireCentreTotals : fireCentreHectares">
+          </ngx-charts-bar-horizontal>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

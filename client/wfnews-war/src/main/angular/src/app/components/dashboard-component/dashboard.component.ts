@@ -13,4 +13,8 @@ export class Dashboard {
   selectTab (tab: number) {
     this.selectedTab = tab
   }
+
+  offseason () {
+    return new Date().getMonth() < 3 || new Date().getMonth() > 10
+  }
 }

@@ -61,6 +61,7 @@
         json.append("\"url\":\"").append(properties.getProperty("externalAppConfig.pointId.url", "")).append("\"");
       json.append("},");
       json.append("\"bcWildFireSupportPage\":\"").append(properties.getProperty("bcWildFireSupportPage", "")).append("\",");
+      json.append("\"bcWildfireResponsePage\":\"").append(properties.getProperty("bcWildfireResponsePage", "")).append("\",");
       json.append("\"appStoreUrl\":\"").append(properties.getProperty("appStoreUrl", "")).append("\",");
       json.append("\"googlePlayUrl\":\"").append(properties.getProperty("googlePlayUrl", "")).append("\",");
       json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
@@ -70,6 +71,9 @@
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
+      json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
+      json.append("\"recSiteTrailsClosures\":\"").append("http://www.sitesandtrailsbc.ca/closures.aspx").append("\",");
+      json.append("\"parksClosures\":\"").append("https://bcparks.ca/active-advisories/?type=wildfire").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
       json.append("\"rofPhoneNumber\":\"1 800 663-5555\",");

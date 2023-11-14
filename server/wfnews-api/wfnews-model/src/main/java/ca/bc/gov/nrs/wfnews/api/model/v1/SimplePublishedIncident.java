@@ -104,4 +104,19 @@ public interface SimplePublishedIncident {
 
 	public String getResponseTypeDetail();
 	public void setResponseTypeDetail(String responseTypeDetail);
+
+	public Integer getCrewResourceCount();
+	public void setCrewResourceCount(Integer crewResourceCount);
+
+	public Integer getAviationResourceCount();
+	public void setAviationResourceCount(Integer aviationResourceCount);
+
+	public Integer getHeavyEquipmentResourceCount();
+	public void setHeavyEquipmentResourceCount(Integer heavyEquipmentResourceCount);
+
+	public Integer getIncidentManagementResourceCount();
+	public void setIncidentManagementResourceCount(Integer incidentManagementResourceCount);
+
+	public Integer getStructureProtectionResourceCount();
+	public void setStructureProtectionResourceCount(Integer structureProtectionResourceCount);
 }

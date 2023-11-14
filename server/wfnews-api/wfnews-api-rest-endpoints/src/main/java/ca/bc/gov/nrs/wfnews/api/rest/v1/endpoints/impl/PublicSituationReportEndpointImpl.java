@@ -87,5 +87,4 @@ public class PublicSituationReportEndpointImpl extends BaseEndpointsImpl impleme
 
 	return response;
   }
-
 }

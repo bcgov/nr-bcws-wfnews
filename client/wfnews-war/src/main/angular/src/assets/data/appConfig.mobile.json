@@ -18,6 +18,7 @@
             "url": "#{POINT_ID_URL}#"
         },
         "bcWildFireSupportPage": "#{BC_WILDFIRE_SUPPORT_PAGE}#",
+        "bcWildfireResponsePage": "#{BC_WILDFIRE_RESPONSE_PAGE}#",
         "appStoreUrl": "#{APP_STORE_URL}#",
         "googlePlayUrl": "#{GOOGLE_PLAY_URL}#",
         "AGOLfireCentres": "#{AGOL_FIRE_CENTRES}#",
@@ -36,7 +37,11 @@
             },
             "moreInformationLink": "#{MORE_INFORMATION_LINK}#"
         },
-        "wfdmProxy": "#{WFDM_PROXY}#"
+        "wfdmProxy": "#{WFDM_PROXY}#",
+        "evacDefaultUrl": "#{EVAC_DEFAULT_URL}#",
+        "currentRestrictions": "#{CURRENT_RESTRICTIONS_URL}#",
+        "recSiteTrailsClosures": "#{REC_SITE_TRAILS_CLOSURES_URL}#",
+        "parksClosures": "#{PARKS_CLOSURES_URL}#"
     },
 
     "mapIcons": {

@@ -1,8 +1,9 @@
 <div class="header-container forPrint" [ngClass]="{mobile: isMobileView()}" id="toprint-header">
   <div class="mobile-header" *ngIf="isMobileView()">
-    <span class="material-icons" (click)="backToMap()">arrow_back</span>
+    <img (click)="back()" height="20" width="20" src="/assets/images/svg-icons/arrow-left.svg">
     <span>Wildfire</span>
-    <span class="material-icons" (click)="shareContent()">share</span>
+    <img (click)="backToMap()" height="20" width="20" src="/assets/images/svg-icons/cancel.svg"
+    alt="Cancel" />
   </div>
   <div id="map" class="map-container-mobile" *ngIf="isMobileView()">
   </div>
@@ -57,32 +58,19 @@
       </div>
     </div>
     <div *ngIf="isMobileView()">
-
-      <div class="mobile-label"> Fire Number {{convertFireNumber(incident)}}</div>
-      <div class="mobile-label"> Discovered on {{convertToMobileFormat(incident.discoveryDate)}}</div>
-      <div class="mobile-label"> Last updated {{convertToMobileFormat(incident.lastUpdatedTimestamp)}}</div>
-      <div class="mobile-label"> Fire Size {{incident.incidentSizeEstimatedHa ?
-        incident.incidentSizeEstimatedHa.toLocaleString() : 0}} Hectares </div>
-
-      <div class="header-content">
-        <div class="item">
-          <button mat-button class="mobile-button fixed-width">
-            <span class="material-icons-outlined">notifications_active</span>
-            Notifications On
-          </button>
-        </div>
-        <div class="item">
-          <button mat-button class="mobile-button fixed-width" (click)="openContactUsWindow()">
-            <mat-icon svgIcon="contact-us"></mat-icon>
+      <div class="contact-buttons">
+        <button mat-button class="mobile-buttons">
+            <img class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
+                alt="bookmark" />
+            Save
+        </button>
+        <button mat-button class="mobile-buttons" (click)="openContactUsWindow()">
             Contact Us
-          </button>
-        </div>
-      </div>
+        </button>
+    </div>
       <div class="divider"></div>
     </div>
   </div>
   <div id="map" class="map-container" *ngIf="!isMobileView()">
   </div>
 </div>
-
-<sticky-widget *ngIf="!isMobileView()"></sticky-widget>

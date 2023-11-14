@@ -107,6 +107,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
+    console.log('hello')
   }
 
   initModels() {
@@ -280,10 +281,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
       smallDialogSubscription.unsubscribe();
 
       if ((result as boolean) === false) {
-        this.locationData = null
-        this.selectedLat = null
-        this.selectedLong = null
-        this.selectedRadius = null
+        this.clearLocation()
       } else {
         this.selectedLat = (result as LocationData).latitude
         this.selectedLong = (result as LocationData).longitude
@@ -296,4 +294,17 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
     });
   }
 
+  clearLocation () {
+    this.locationData = null
+    this.selectedLat = null
+    this.selectedLong = null
+    this.selectedRadius = null
+  }
+
+  clearLocationFilter () {
+    this.locationData = undefined
+    this.searchTextUpdated()
+    this.clearLocation()
+    this.doSearch()
+  }
 }

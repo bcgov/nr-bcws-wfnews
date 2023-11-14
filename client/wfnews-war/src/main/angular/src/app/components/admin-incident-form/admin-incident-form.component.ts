@@ -76,6 +76,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     wildfireIncidentGuid: '',
     wildfireYear: new Date().getFullYear(),
     wildifreCrewsInd: false,
+    crewResourceCount: undefined,
+	  aviationResourceCount: undefined,
+	  heavyEquipmentResourceCount: undefined,
+	  incidentManagementResourceCount: undefined,
+    structureProtectionResourceCount: undefined
   };
 
   public readonly incidentForm: UntypedFormGroup;
@@ -129,6 +134,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       structureProtectionInd: [],
       traditionalTerritory: [],
       wildifreCrewsInd: [],
+      crewResourceCount: [],
+      aviationResourceCount: [],
+      heavyEquipmentResourceCount: [],
+      incidentManagementResourceCount: [],
+      structureProtectionResourceCount: []
     });
 
     this.incidentForm.valueChanges.subscribe(() => {
@@ -240,6 +250,12 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.structureProtectionInd = response.structureProtectionRsrcInd;
               self.incident.structureProtectionComments = response.structureProtectionRsrcDetail;
 
+              self.incident.crewResourceCount = response?.crewResourceCount || undefined;
+              self.incident.aviationResourceCount = response?.aviationResourceCount || undefined;
+              self.incident.heavyEquipmentResourceCount = response?.heavyEquipmentResourceCount || undefined;
+              self.incident.incidentManagementResourceCount = response?.incidentManagementResourceCount || undefined;
+              self.incident.structureProtectionResourceCount = response?.structureProtectionResourceCount || undefined;
+
               self.incident.contact.fireCentre = response.contactOrgUnitIdentifer?.toString();
               self.incident.contact.phoneNumber = response.contactPhoneNumber;
               self.incident.contact.emailAddress = response.contactEmailAddress;
@@ -322,6 +338,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       wildfireAviationResourceInd: this.incident.aviationInd,
       wildfireCrewResourcesDetail: this.nullEmptyStrings(this.incident.crewsComments),
       wildfireCrewResourcesInd: this.incident.wildifreCrewsInd,
+      crewResourceCount: this.incident.crewResourceCount,
+      aviationResourceCount: this.incident.aviationResourceCount,
+      heavyEquipmentResourceCount: this.incident.heavyEquipmentResourceCount,
+      incidentManagementResourceCount: this.incident.incidentManagementResourceCount,
+      structureProtectionResourceCount: this.incident.structureProtectionResourceCount,
       // eslint-disable-next-line @typescript-eslint/naming-convention
       '@type': 'http://wfim.nrs.gov.bc.ca/v1/publishedIncident'
     };
@@ -392,6 +413,11 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       wildfireAviationResourceInd: this.incidentForm.controls['aviationInd'].value,
       wildfireCrewResourcesDetail: this.incidentForm.controls['crewsComments'].value,
       wildfireCrewResourcesInd: this.incidentForm.controls['wildifreCrewsInd'].value,
+      crewResourceCount: this.incident.crewResourceCount || undefined,
+      aviationResourceCount: this.incident.aviationResourceCount || undefined,
+      heavyEquipmentResourceCount: this.incident.heavyEquipmentResourceCount || undefined,
+      incidentManagementResourceCount: this.incident.incidentManagementResourceCount || undefined,
+      structureProtectionResourceCount: this.incident.structureProtectionResourceCount || undefined
     };
 
     if (localStorage.getItem('preview_incident') != null) {

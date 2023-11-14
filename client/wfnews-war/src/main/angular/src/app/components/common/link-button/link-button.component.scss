@@ -1,0 +1,50 @@
+.button-container {
+  display: flex;
+  padding: 8px;
+  align-items: center;
+  gap: 8px;
+  align-self: stretch;
+  cursor: pointer;
+  width: 100%;
+
+  border-radius: 6px;
+  border: 1px solid #dedede;
+  background: #F5F6F9;
+
+  .labels {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 8px;
+    flex: 1 0 0;
+
+    .text {
+      align-self: stretch;
+      color: #000;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+    
+    .subtext {
+      align-self: stretch;
+      color: #7D7D7D;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+    }
+  }
+
+  .icon {
+    background-color: #548ADB;
+    width: 24px;
+    height: 24px;
+    -webkit-mask-image: url("../../../../assets/images/svg-icons/launch.svg");
+    mask-image: url("../../../../assets/images/svg-icons/launch.svg");
+  }
+}

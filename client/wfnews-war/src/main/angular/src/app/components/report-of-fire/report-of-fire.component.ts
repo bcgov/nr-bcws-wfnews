@@ -241,8 +241,11 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
         case 'first-page':
         case 'final-page':
           const rofTitlePageComponent = this.currentPage.instance as RoFTitlePage;
-          rofTitlePageComponent.checkOnlineStatus()    
-          if (rofTitlePageComponent.offLine === true) this.currentPage.instance.nextId = 'disclaimer-page'
+          this.commonUtilityService.checkOnline().then((result) => {
+            if(!result) {
+              this.currentPage.instance.nextId = 'disclaimer-page'
+            }
+          })
         case 'callback-page':
           const roFSimpleQuestionPageComponent = this.currentPage.instance as RoFSimpleQuestionPage;
           roFSimpleQuestionPageComponent.checkOnlineStatus()
@@ -287,21 +290,29 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * This may change for mobile vs desktop
    */
   exit () {
-    if (this.isEditMode) {
+    if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
       this.edit('review-page');
       this.isEditMode = false;
       this.cdr.detectChanges();
     } else if (this.currentPage.instance.id === 'final-page') {
       this.router.navigateByUrl('/map')   
      } else {
-        let dialogRef = this.dialog.open(DialogExitComponent, {
+        let dialogRef;
+        if (window.innerWidth >= 850) {
+            dialogRef = this.dialog.open(DialogExitComponent, {
+            autoFocus: false,
+            width: '500px',
+          });
+        }else {
+          dialogRef = this.dialog.open(DialogExitComponent, {
           autoFocus: false,
           width: '80vw',
         });
-
+      }
+        
         dialogRef.afterClosed().subscribe(result => {
           if (result['exit']) {
-            this.router.navigateByUrl('/map')
+            this.router.navigateByUrl('/dashboard')
           }
         });
     }
@@ -312,6 +323,13 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
    * displayed components "skip"
    */
   skip () {
+    if (this.currentPage.instance.id === 'distance-page' ) {
+      this.commonUtilityService.checkOnline().then((result) => {
+        if(!result) {
+          this.selectPage('photo-page',null,false);
+        }
+      })
+    }
     if (this.currentPage.instance.id === 'callback-page' || this.currentPage.instance.id === 'contact-page') {
       this.reportOfFire.headingDetectionActive = true;
       if (this.reportOfFire.motionSensor === 'no') {
@@ -331,7 +349,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   }
 
   exitText() {
-    if (this.isEditMode) {
+    if (this.isEditMode && this.currentPage.instance.id !== 'review-page') {
       return 'Back to Review';
     }
     if (this.allowExit) {

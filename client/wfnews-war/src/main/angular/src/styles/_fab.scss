@@ -17,7 +17,7 @@
         width: $size + px;
         height: $size + px;
         .mat-button-wrapper {
-            padding: $size / 6 + px;
+            padding: calc($size / 6) + px;
         }
         
         &:not([disabled]).intermediate-action {
@@ -26,6 +26,7 @@
     }
 }
 @include mat-fab-px-('white', 48, $colour-white, $colour-fab-icon-grey);
+@include mat-fab-px-('white', 40, $colour-white, $colour-fab-icon-grey);
 
 button.mat-mdc-mini-fab.bottom-right {
     position: absolute;

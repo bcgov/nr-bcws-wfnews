@@ -5,9 +5,10 @@ import { convertToFireCentreDescription, findFireCentreByName, convertToYoutubeI
 import { PublishedIncidentService } from "../../../services/published-incident-service";
 import { AppConfigService } from "@wf1/core-ui";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, ParamMap, Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { getResponseTypeDescription } from "../../../utils";
 
 @Component({
   selector: 'incident-info-panel',
@@ -26,11 +27,13 @@ export class IncidentInfoPanel implements AfterViewInit {
   public findFireCentreByName = findFireCentreByName
   public convertToYoutubeId = convertToYoutubeId
   public isMobileView = isMobileView
+  getResponseTypeDescription = getResponseTypeDescription;
 
   public constructor(private publishedIncidentService: PublishedIncidentService, private snackbarService: MatSnackBar, private appConfigService: AppConfigService,
                      private cdr: ChangeDetectorRef,
                      private router: ActivatedRoute,
-                     private http: HttpClient) {}
+                     private http: HttpClient,
+                     protected route: Router) {}
   public primaryMedia = null
 
   handleImageFallback (href: string) {
@@ -82,22 +85,15 @@ export class IncidentInfoPanel implements AfterViewInit {
 
   public getCauseLabel (code: number) {
     if (code === 1) return 'Human'
-    else if (code === 2) return 'Lightning / Natural'
+    else if (code === 2) return 'Lightning'
     else if (code === 3) return 'Under Investigation'
     else return 'Unknown'
   }
 
   public getCauseDescription (code: number) {
     if (code === 1) return 'A wildfire started by humans or human activity.'
-    else if (code === 2) return 'When lightning strikes an object it can release enough heat to ignite a tree or other fuels.'
-    else if (code === 3) return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
+    else if (code === 2) return 'This fire was caused by a dry lightning strike which means it occurred without rain nearby. The cause of a wildfire is determined by professional investigations in accordance with international standards. Wildfire investigations can be complex and may take weeks or even months to complete.'
     else return 'A wildfire of undetermined cause, including a wildfire that is currently under investigation, as well as one where the investigation has been completed.'
-  }
-
-  public getResponseTypeDescription (code: string) {
-    if (code === 'MONITOR') return 'When a fire is being monitored, this means BC Wildfire Service is observing and analyzing the fire but it\'s not immediately suppressed. It may be allowed to burn to achieve ecological or resource management objectives and is used on remote fires that do not threaten values.'
-    else if (code === 'MODIFIED') return 'During a modified response, a wildfire is managed using a combination of techniques with the goal to minimize costs and damage while maximizing ecological benefits from the fire. This response method is used when there is no immediate threat to values.'
-    else if (code === 'FULL') return 'The BC Wildfire Service uses a full response when there is threat to public safety and/or property and other values, such as infrastructure or timber. Immediate action is taken. During a full response, a wildfire is suppressed and controlled until it is deemed "out".'
   }
 
   public printPage() {

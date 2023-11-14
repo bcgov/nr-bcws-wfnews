@@ -15,7 +15,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
 
-import ca.bc.gov.nrs.wfnews.persistence.v1.dao.AttachmentDao;
 import ca.bc.gov.nrs.wfnews.persistence.v1.spring.PersistenceSpringConfig;
 import ca.bc.gov.nrs.wfnews.service.api.v1.EmailNotificationService;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
@@ -26,6 +25,7 @@ import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.AttachmentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.ExternalUriFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.PublishedIncidentFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.SituationReportFactory;
+import ca.bc.gov.nrs.wfnews.service.api.v1.model.factory.StatisticsFactory;
 import ca.bc.gov.nrs.wfnews.service.api.v1.validation.ModelValidator;
 
 @Configuration
@@ -85,6 +85,7 @@ public class ServiceApiSpringConfig {
 	@Autowired ExternalUriFactory externalUriFactory;
 	@Autowired AttachmentFactory attachmentFactory;
 	@Autowired SituationReportFactory situationReportFactory;
+	@Autowired StatisticsFactory statisticsFactory;
 	
 	
 	@Bean
@@ -179,6 +180,8 @@ public class ServiceApiSpringConfig {
 		result.setAttachmentFactory(attachmentFactory);
 		result.setSituationReportFactory(situationReportFactory);
 		result.setSituationReportDao(persistenceSpringConfig.situationReportDao());
+		result.setStatisticsDao(persistenceSpringConfig.statisticsDao());
+		result.setStatisticsFactory(statisticsFactory);
 		
 		return result;
 	}

@@ -1,11 +1,12 @@
 import { NumberFormatStyle } from "@angular/common";
-import { Injectable, Injector } from "@angular/core";
-import { Geolocation } from '@capacitor/geolocation';
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { AppConfigService } from "@wf1/core-ui";
+import { Injectable, Injector } from "@angular/core";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { App } from "@capacitor/app";
+import { Geolocation } from '@capacitor/geolocation';
 import { Storage } from '@ionic/storage-angular';
+import { AppConfigService } from "@wf1/core-ui";
+import { Observable } from "rxjs";
 import { ReportOfFireService } from './report-of-fire-service';
 
 const MAX_CACHE_AGE = 30 * 1000
@@ -32,13 +33,7 @@ export class CommonUtilityService {
     private myLocation;
     private locationTime;
     private location;
-    private rofService
-    private deg2rad(deg: number): number {
-        return deg * (Math.PI / 180);
-    }
-    private rad2deg(rad: number): number {
-        return rad * (180 / Math.PI);
-    }
+    private rofService;
 
     constructor (
         protected snackbarService : MatSnackBar,
@@ -151,24 +146,18 @@ export class CommonUtilityService {
     }
 
     checkLocationServiceStatus(): Promise<boolean> {
-        return new Promise<boolean>((resolve, reject) => {
-          if ('geolocation' in navigator) {
-            navigator.geolocation.getCurrentPosition(
-              (position) => {
-                // Location service is enabled
-                resolve(true);
-              },
-              (error) => {
-                // Location service is disabled or the user denied access
-                resolve(false);
-              }
-            );
-          } else {
-            // Geolocation is not supported by the browser
-            resolve(false);
-          }
-        });
-      }
+      const timeoutDuration = 1000; // 1 seconds limit
+    
+      const timeoutPromise = new Promise<boolean>((resolve) => {
+        setTimeout(() => resolve(false), timeoutDuration);
+      });
+    
+      const locationPromise = Geolocation.getCurrentPosition()
+        .then(() => Promise.resolve(true))
+        .catch(() => Promise.resolve(false));
+    
+      return Promise.race([timeoutPromise, locationPromise]);
+    }
 
     pingSerivce(): Observable<any> {
         const url = this.appConfigService.getConfig().rest['wfnews'];
@@ -213,6 +202,7 @@ export class CommonUtilityService {
             if (response.success) {
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
+              App.removeAllListeners();
             }
           }
         } catch (error) {
@@ -248,4 +238,20 @@ export class CommonUtilityService {
         const oneDay = 24 * 60 * 60 * 1000;
         return (now - submittedTimestamp) > oneDay;
       }
+
+    private deg2rad(deg: number): number {
+      return deg * (Math.PI / 180);
+    }
+    private rad2deg(rad: number): number {
+        return rad * (180 / Math.PI);
+    }
+
+    async checkOnline() {
+      try {
+        await this.pingSerivce().toPromise();
+        return true;
+      } catch (error) {
+        return false;
+      }
+    }
 }

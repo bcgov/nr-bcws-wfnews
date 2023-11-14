@@ -7,8 +7,11 @@ import { convertToFireCentreDescription, convertFireNumber, ResourcesRoutes } fr
 import * as moment from "moment"
 import { MatDialog } from "@angular/material/dialog"
 import { ContactUsDialogComponent } from "../../admin-incident-form/contact-us-dialog/contact-us-dialog.component"
-import { Router } from "@angular/router"
+import { ActivatedRoute, ParamMap, Router } from "@angular/router"
 import { Location } from '@angular/common';
+import { LocationData } from "@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component"
+import { PublishedIncidentService } from "@app/services/published-incident-service"
+import { setDisplayColor } from "../../../utils"
 
 
 @Component({
@@ -18,6 +21,8 @@ import { Location } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IncidentHeaderPanel implements AfterViewInit {
+  public params: ParamMap
+
   @Input() public incident: any
   @Input() public evacOrders: EvacOrderOption[] = []
   @Input() public extent: any
@@ -32,13 +37,16 @@ export class IncidentHeaderPanel implements AfterViewInit {
     this.map.invalidateSize();
   }
 
-  constructor (private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location
-    ) {
+  constructor(private appConfigService: AppConfigService, private watchlistService: WatchlistService, private dialog: MatDialog, private router: Router, private location: Location, private publishedIncidentService: PublishedIncidentService, private route: ActivatedRoute
+  ) {
     /* Empty, just here for injection */
   }
 
   ngOnInit(): void {
     this.defaultEvacURL = this.appConfigService.getConfig().externalAppConfig['evacDefaultUrl'].toString()
+    this.route.queryParams.subscribe((params: ParamMap) => {
+      this.params = params
+    })
   }
 
   ngAfterViewInit(): void {
@@ -82,12 +90,12 @@ export class IncidentHeaderPanel implements AfterViewInit {
       shadowSize: [41, 41]
     });
 
-    if(this.incident.fireOfNoteInd) {
-      L.marker(location, {icon: icon}).addTo(this.map);
+    if (this.incident.fireOfNoteInd) {
+      L.marker(location, { icon: icon }).addTo(this.map);
     }
-    else{
+    else {
       let colorToDisplay;
-      switch(this.incident.stageOfControlCode) {
+      switch (this.incident.stageOfControlCode) {
         case 'OUT_CNTRL':
           colorToDisplay = '#FF0000'
           break;
@@ -103,27 +111,30 @@ export class IncidentHeaderPanel implements AfterViewInit {
         default:
           colorToDisplay = 'white';
       }
-      L.circleMarker(location,{radius:15,fillOpacity:1,color:'black', fillColor:colorToDisplay}).addTo(this.map)
+      L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
     }
 
+    // fetch incidents in surrounding area and add to map
+    this.addSurroundingIncidents()
+    
     if (this.extent) {
       this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));
     }
   }
 
-  onWatchlist (): boolean {
+  onWatchlist(): boolean {
     return this.watchlistService.getWatchlist().includes(this.incident.fireYear + ':' + this.incident.incidentNumberLabel)
   }
 
-  addToWatchlist () {
+  addToWatchlist() {
     this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
-  removeFromWatchlist () {
+  removeFromWatchlist() {
     this.watchlistService.removeFromWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
   }
 
-  displaySizeType (incidentSizeDetail: string) {
+  displaySizeType(incidentSizeDetail: string) {
     if (incidentSizeDetail && incidentSizeDetail.includes('estimated')) {
       return '(Estimated)'
     }
@@ -139,7 +150,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
     return ((window.innerWidth < 768 && window.innerHeight < 1024) || (window.innerWidth < 1024 && window.innerHeight < 768))
   }
 
-  convertToMobileFormat (dateString) {
+  convertToMobileFormat(dateString) {
     // Should probably be MMM for month formats to prevent long strings
     const formattedDate = moment(dateString, "dddd, MMMM D, YYYY [at] h:mm:ss A").format("MMMM D, YYYY");
     return formattedDate
@@ -158,9 +169,19 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   backToMap() {
-    setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
-    }, 100);
+    if (this.incident && this.incident.longitude && this.incident.latitude) {
+      setTimeout(() => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.incident.longitude, latitude: this.incident.latitude} });
+      }, 100);
+    }
+  }
+
+  back() {
+    if (this.params && this.params['source'] && this.params['source'][0]){
+      if (this.params['source'][0] === "map") this.backToMap()
+      else this.router.navigate(this.params['source']);
+    }
+    else this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
 
   shareContent() {
@@ -174,4 +195,25 @@ export class IncidentHeaderPanel implements AfterViewInit {
     }
   }
 
+  async addSurroundingIncidents() {
+    // now fetch the rest of the incidents in the area and display on map
+    try {
+      const locationData = new LocationData()
+      locationData.latitude = Number(this.incident.latitude);
+      locationData.longitude = Number(this.incident.longitude);
+      locationData.radius = 10;
+      const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+      const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
+      if (incidents?.collection && incidents?.collection?.length > 0) {
+        for (const item of incidents.collection) {
+          const location = [Number(item.latitude), Number(item.longitude)]
+          const colorToDisplay = setDisplayColor(item.stageOfControlCode)
+          L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
+        }
+      }
+    } catch (err) {
+      console.error('Could not retrieve surrounding incidents for area restriction')
+    }
+
+  }
 }

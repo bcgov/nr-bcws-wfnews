@@ -100,6 +100,7 @@ jobs:
           APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
           APPLICATION_ENVIRONMENT: ${{ vars.DEFAULT_APPLICATION_ENVIRONMENT }}
           BASE_URL: ${{ vars.BASE_URL }}
+          BC_WILDFIRE_RESPONSE_PAGE: ${{ vars.BC_WILDFIRE_RESPONSE_PAGE }}
           BC_WILDFIRE_SUPPORT_PAGE: ${{ vars.BC_WILDFIRE_SUPPORT_PAGE }}
           BUILD_NUMBER: ${{ github.run_number }}
           BURN_REGISTRATION_LINE: ${{ vars.BURN_REGISTRATION_LINE }}
@@ -133,6 +134,10 @@ jobs:
           WFNEWS_API_KEY: ${{ secrets.API_KEY }}
           WFNEWS_API_URL: ${{ vars.WFNEWS_API_URL }}
           WILDFIRE_INFORMATION_LINE: ${{ vars.WILDFIRE_INFORMATION_LINE }}
+          EVAC_DEFAULT_URL: ${{ vars.EVAC_DEFAULT_URL }}
+          CURRENT_RESTRICTIONS_URL: ${{ vars.CURRENT_RESTRICTIONS_URL }}
+          REC_SITE_TRAILS_CLOSURES_URL: ${{ vars.REC_SITE_TRAILS_CLOSURES_URL }}
+          PARKS_CLOSURES_URL: ${{ vars.PARKS_CLOSURES_URL }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

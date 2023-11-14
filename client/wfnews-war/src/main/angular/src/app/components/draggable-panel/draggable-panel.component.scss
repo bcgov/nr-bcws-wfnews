@@ -1,94 +1,220 @@
 .draggable-panel {
-    background-color: #ffffff;
-    height: 50vh;
-    width: 100%;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    cursor: grab;
-    border-top: 1px solid #ccc;
-    z-index: 100000000 !important;
-    border-radius: 20px;
+  background-color: #ffffff;
+  height: calc(40vh - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 56px) !important;
+  min-height: 320px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  cursor: grab;
+  border-top: 1px solid #ccc;
+  z-index: 100000000 !important;
+  border-radius: 20px;
+  min-height: 260px;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
 }
 
 .panel-container {
+  font-weight: 600;
+  overflow: auto;
+  height: 90%;
+  border-radius: 20px;
+
+  .draggable-panel-title{
+    background-color: white;
+    position: sticky;
+    top: 0;
+    font-size: 18px;
+    color: #242424;
+    padding: 12px 20px;
+    border-bottom: 1px solid #DEDEDE;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .preview-title{
+      display: flex;
+      align-items: center; 
+    }
+  }
+
+  .criteria-title{
+    font-size: 18px;
+    color: #242424;
+    padding: 16px 20px 0 20px
+  }
+
+  .identify-card-title{
+    color: var(--grays-gray-1, #242424);
+    font-family: 'Noto Sans', Arial, 'sans serif';
+    font-size: 20px;
+    font-style: normal;
     font-weight: 600;
-    padding: 10px;
-    overflow: auto;
-    height: 90%;
-    border-radius: 20px;
+    line-height: normal;
+    padding-bottom: 4px;
+  }
 
-    .draggable-panel-title{
-      font-size: 18px;
-      color: #242424;
-      padding: 20px 10px;
-      border-bottom: 1px solid #DEDEDE;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .widget-card{
+    padding: 8px 20px 0 20px;
+  }
 
-    .criteria-title{
-      font-size: 18px;
-      color: #242424;
-      padding: 20px 10px;
-    }
+  .widget-row{
+    display: flex;
+    padding: 12px;
+    align-items: center;
+    border-radius: 8px;
+    background: #F2F2F6;
+    display: flex;
+    justify-content: space-between;
+  }
 
-    .widget-card{
-      padding: 8px;
-    }
+  .left-content {
+    display: flex;
+    align-items: center;
+  }
 
-    .widget-row{
-      display: flex;
-      padding: 12px;
-      align-items: center;
-      border-radius: 8px;
-      background: #F2F2F6;
-      display: flex;
-      justify-content: space-between;
-    }
+  .incident-icon{
+    width: 16px;
+    height: 16px;
+    margin-right: 12px;
+  }
 
-    .left-content {
-      display: flex;
-      align-items: center;
-    }
+  .incident-icon-title{
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+  }
 
-    .incident-icon{
+  .circle-icon{
+    &.active-wildfires-holding{
+      background-color: #ffff00;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
       margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
+      }
     }
-
-    .circle-icon{
-      &.active-wildfires-holding{
-          background-color: #ffff00;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
+    &.active-wildfires-out-of-control{
+      background-color: #FF0000;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
       }
-      &.active-wildfires-out-of-control{
-          background-color: #FF0000;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
+    }
+    &.active-wildfires-under-control{
+      background-color: #98E600;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
       }
-      &.active-wildfires-under-control{
-          background-color: #98E600;
-          border: 1px solid black;
-          border-radius: 50%;
-          width: 18px;
-          height: 18px;
-          margin-right: 12px;
-      }
-      &.bcws-activefires-publicview-inactive{
-        background-color: #5C6671;
-        border: 1px solid black;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        margin-right: 12px;
+    }
+    &.bcws-activefires-publicview-inactive{
+      background-color: #5C6671;
+      border: 1px solid black;
+      border-radius: 50%;
+      width: 16px;
+      height: 16px;
+      margin-right: 12px;
+      &.list{
+        width: 22px; 
+        height: 22px;
       }
     }
   }
+
+  .identify-card{
+    display: flex;
+    margin: 16px 20px 24px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    flex: 1 0 0;
+    align-self: stretch;
+    min-height: 25vh;
+
+    .identify-card-item{
+      display: inline-flex;
+      color: var(--grays-gray-2, #484848);
+      font-family: 'Noto Sans', Arial, 'sans serif';
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px; /* 146.667% */
+      letter-spacing: -0.408px;
+      align-items: center;
+    }
+
+    .description-section{
+      padding-top: 12px;
+    }
+
+    .identify-card-description{
+      color: var(--grays-gray-2, #484848);
+      /* Body/Body 2 */
+      font-family: 'Noto Sans', Arial, 'sans serif';
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px; /* 146.667% */
+      letter-spacing: -0.408px;
+      padding-bottom: 24px;
+    }
+  }
+
+  .button-row{
+    position:sticky;
+    bottom:0;
+    background-color: white;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 24px 20px 0 20px;
+    align-items: center;
+    // border-top: 1px solid #DEDEDE;
+    .divider{
+      height: 1px;
+      background-color: #DEDEDE;
+      margin-bottom:24px;
+    }
+    
+    .buttons{
+      display: flex;
+      gap: 16px;
+      .mobile-button{
+        width: 100%;
+        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color:#000;
+        background-color: #F5F5F5;
+        padding: 8px;
+      }
+      .mobile-button-primary{
+        width: 100%;
+        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: #FDFDFD;
+        background-color: #036;
+        padding: 8px;
+      }
+    }
+  }
+}

@@ -20,7 +20,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   public messages: any;
   public offLineMessages: any;
   offLine: boolean = false;
-
   public constructor(
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
@@ -31,10 +30,14 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   }
 
   ngOnInit(): void {
-    // run background task
-    const background = this.backgroundListener();
-    // run when user comes back to app without sending app to background explicitlyng
-    const listener = this.runBackground();
+    if(this.reportOfFirePage.currentPage.instance.id === 'first-page') {
+      App.removeAllListeners();
+      // run background task
+      (async () => {
+          const background = await this.backgroundListener();
+      })();
+    }
+    
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -43,19 +46,19 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
-    this.offLine = !window.navigator.onLine;    
+    this.offLine = !window.navigator.onLine;   
   }
 
   async backgroundListener (){
-    App.addListener('appStateChange', async () => {
+    App.addListener('appStateChange', async ({ isActive }) => {
+      if (isActive) return;
       // The app state has been changed to inactive.
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this
         setInterval(function () {
-          console.log('set interval')
           // Invoke function every minute while app is in background
-          self.runBackground();
+            self.checkStoredRoF();
         }, 60000);
         BackgroundTask.finish({ taskId });
       });
@@ -66,7 +69,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     this.reportOfFirePage.selectPage('call-page',null,false);
   }
 
-  async runBackground() {
+  async checkStoredRoF() {
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
@@ -81,7 +84,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
 
  triggerLocationServiceCheck (){
   // re-check if user's device has gone offline since view was initialised and route to offline if so
-    this.checkOnline().then((result) => {
+  this.commonUtilityService.checkOnline().then((result) => {
       if(!result) this.nextId = 'disclaimer-page'
    })
 
@@ -108,17 +111,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
         this.cdr.detectChanges()
       }
     );
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
   }
 
 }

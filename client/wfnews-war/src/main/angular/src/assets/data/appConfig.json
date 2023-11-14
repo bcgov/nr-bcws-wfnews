@@ -55,6 +55,7 @@
             "scriptsHash": "60875027"
         },
         "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
+        "bcWildfireResponsePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools",
         "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
         "appStoreUrl": "https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008",
         "googlePlayUrl": "https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US",
@@ -77,7 +78,11 @@
             },
             "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
         },
-        "wfdmProxy": "wfdmProxy.jsp"
+        "wfdmProxy": "wfdmProxy.jsp",
+        "currentRestrictions": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions",
+        "recSiteTrailsClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
+        "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire"
+
     },
 
     "rest": {

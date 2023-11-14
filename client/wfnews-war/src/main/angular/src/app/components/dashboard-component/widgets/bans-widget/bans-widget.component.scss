@@ -1,14 +1,13 @@
 @import '../../../../../styles/variables';
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 768px) {
+@media (min-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     height: 640px;
-    //max-width: 700px;
     max-height: 640px;
     padding: var(--24, 24px);
     flex-direction: column;
@@ -29,6 +28,53 @@
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
+  }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1250px) {
+  .container {
+    overflow: hidden;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    padding: 20px;
+    display: flex;
+    height: 640px;
+    max-height: 640px;
+    max-width: 850px;
+    padding: var(--24, 24px);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1 0 0;
+    border-radius: 20px;
+    background: #FFF;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .widget-title {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+  }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 21.79px;
   }
 }
 
@@ -54,6 +100,14 @@
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
+  }
+
+  .button-label {
+    position: relative;
+    top: -3px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21.79px;
   }
 }
 
@@ -121,8 +175,7 @@
 
 .button-icon {
   position: relative;
-  top: 2px;
-  left: -6px;
+  top: 4px;
 }
 
 .map-overlay {

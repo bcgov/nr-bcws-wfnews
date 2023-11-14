@@ -14,6 +14,10 @@ import { WildfiresListHeaderComponent } from './components/wildfires-list-header
 import { CanDeactivateGuard } from './components/common/guards/unsaved-changes.guard';
 import { ReportOfFirePage } from './components/report-of-fire/report-of-fire.component';
 import { Dashboard } from './components/dashboard-component/dashboard.component';
+import { FullDetailsComponent } from './components/full-details/full-details.component';
+import { SavedComponent } from '@app/components/saved/saved.component';
+import { MoreComponent } from '@app/components/more/more.component';
+import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -21,17 +25,21 @@ const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
 const PANEL_ROUTES: Routes = [
 	// { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
   { path: 'unauthorized', component: UnauthorizedPageComponent, pathMatch: 'full', outlet: 'root' },
-  { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.DASHBOARD, pathMatch: 'full',},
-  { path: ResourcesRoutes.DASHBOARD, component: Dashboard, pathMatch: 'full',},
-  { path: ResourcesRoutes.ACTIVEWILDFIREMAP, component: ActiveWildfireMapComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.WILDFIRESLIST, component: WildfiresListHeaderComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.ROF, component: ReportOfFirePage, pathMatch: 'full',},
-  { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard],},
+  { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.DASHBOARD, pathMatch: 'full'},
+  { path: ResourcesRoutes.DASHBOARD, component: Dashboard, pathMatch: 'full'},
+  { path: ResourcesRoutes.ACTIVEWILDFIREMAP, component: ActiveWildfireMapComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.WILDFIRESLIST, component: WildfiresListHeaderComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.ROF, component: ReportOfFirePage, pathMatch: 'full'},
+  { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard]},
   { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard], canDeactivate: [CanDeactivateGuard]},
   { path: ResourcesRoutes.PUBLIC_INCIDENT, component: PublicIncidentPage, pathMatch: 'full'},
-  { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full',},
-  { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full',}
+  { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.FULL_DETAILS, component: FullDetailsComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.SAVED, component: SavedComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.CONTACT_US, component: ContactWidgetDialogComponent, pathMatch: 'full'}
 ];
 
 

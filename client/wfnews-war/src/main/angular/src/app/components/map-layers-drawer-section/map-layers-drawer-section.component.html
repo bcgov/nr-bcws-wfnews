@@ -1,0 +1,60 @@
+<div class="header">
+  <div class="heading">Map Layers</div>
+  <div class="clear-all" (click)="clearAll(true)">Clear All</div>
+</div>
+<div class="sections">
+  <div class="section">
+    <div class="subheading">
+      Wildfires
+    </div>
+    <checkbox-button (click)="updateLayers()" [(checked)]="wildfireOfNote">Wildfire of Note</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="outOfControlWildfire">Out of Control Wildfire</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="beingHeldWildfire">Being Held Wildfire</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="underControlWildfire">Under Control Wildfire</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="declaredOutWildfire">Declared Out Wildfire</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="firePerimeters">Fire Perimeter</checkbox-button>
+  </div>
+
+  <div class="section">
+    <div class="subheading">
+      Alerts
+    </div>
+    <checkbox-button (click)="updateLayers()" [(checked)]="evacuationOrders">Evacuation Orders</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="areaRestrictions">Area Restrictions</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="bansAndProhibitions">Fire Bans and Prohibitions</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="dangerRating">Fire Danger Ratings</checkbox-button>
+  </div>
+
+  <div class="section">
+    <div class="subheading">
+      Environment
+    </div>
+    <checkbox-button (click)="updateLayers()" [(checked)]="smokeForecast">Smoke Forecast</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="currentWeather">Current Weather</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="currentPrecipitationRadar">Current Precipitation Radar</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="hourlyPrecipitationForecast">Precipitation Forecast, Hourly</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="activeWeatherStations">Active Weather Stations</checkbox-button>
+  </div>
+
+  <div class="section">
+    <div class="subheading">
+      Routes and Access
+    </div>
+    <checkbox-button (click)="updateLayers()" [(checked)]="roadEvents">Road Events</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="closedRecreationSites">Closed Recreation Sites</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="protectedLandsAccessRestrictions">Protected Lands Access Restrictions</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="forestServiceRoads">Forest Service Roads</checkbox-button>
+  </div>
+
+  <div class="section">
+    <div class="subheading">
+      Local Authorities
+    </div>
+    <checkbox-button (click)="updateLayers()" [(checked)]="indianReserves">Indian Reserve</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="treatyLand">First Nations Treaty Land</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="municipalities">Municipalities</checkbox-button>
+    <checkbox-button (click)="updateLayers()" [(checked)]="regionalDistricts">Regional Districts</checkbox-button>
+  </div>
+</div>
+
+

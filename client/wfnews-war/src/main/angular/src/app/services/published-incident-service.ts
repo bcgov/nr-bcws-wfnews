@@ -29,7 +29,7 @@ export class PublishedIncidentService {
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
-  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, location: LocationData | null = null, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], fireCentreCode: number | null = null, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
+  public fetchPublishedIncidentsList (pageNum: number = 0, rowCount: number = 10, location: LocationData | null = null, searchText: string | null = null, fireOfNote = false, stageOfControl: string[] = [], fireCentreCode: number | null = null, bbox: string | null = null, orderBy: string = 'lastUpdatedTimestamp%20DESC'): Observable<any> {
     let url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&orderBy=${orderBy}`;
 
     if (searchText && searchText.length) {
@@ -50,6 +50,10 @@ export class PublishedIncidentService {
 
     if (fireCentreCode) {
       url += `&fireCentreCode=${fireCentreCode}`
+    }
+
+    if (bbox) {
+      url += `&bbox=${bbox}`
     }
 
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
@@ -116,6 +120,13 @@ export class PublishedIncidentService {
   public fetchAttachmentBytes (incidentNumber, attachmentGuid): Observable<any> {
     let url  = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} });
+  }
+
+  /********** Stats Data ***********/
+
+  public fetchStatistics (fireYear: number, fireCentre: string = "BC"): Observable<any> {
+    const url = `${this.appConfigService.getConfig().rest['wfnews']}/statistics?fireYear=${fireYear}${fireCentre ? ('&fireCentre=' + fireCentre) : ''}`
+    return this.httpClient.get<any>(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 
   /********** Situation Report ************/

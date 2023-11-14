@@ -3,29 +3,67 @@
     <div>
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
-    <div>
+    <div *ngIf="!hideOnMobileView()">
       <mat-tab-group mat-stretch-tabs [headerPosition]="above">
-        <mat-tab label="Overview">
-          <incident-info-panel *ngIf="!hideOnMobileView()"[incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
+        <mat-tab label="Details">
+          <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
+        </mat-tab>
+        <mat-tab label="Response">
+          <incident-overview-panel [incident]="incident"></incident-overview-panel>
+        </mat-tab>
+        <mat-tab label="Gallery">
+          <ng-template matTabContent>
+            <incident-gallery-panel [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
+          </ng-template>
+        </mat-tab>
+        <mat-tab label="Maps">
+          <incident-maps-panel [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div *ngIf="hideOnMobileView()">
+      <mat-tab-group mat-stretch-tabs-mobile [headerPosition]="above">
+        <mat-tab label="Details">
           <incident-info-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel-mobile>
         </mat-tab>
-        <mat-tab label="Details">
-          <incident-overview-panel *ngIf="!hideOnMobileView()" [incident]="incident"></incident-overview-panel>
+        <mat-tab label="Response">
           <incident-overview-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" ></incident-overview-panel-mobile>
         </mat-tab>
         <mat-tab label="Gallery">
           <ng-template matTabContent>
-            <incident-gallery-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel>
             <incident-gallery-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showImageWarning]="showImageWarning"></incident-gallery-panel-mobile>
           </ng-template>
         </mat-tab>
         <mat-tab label="Maps">
-          <incident-maps-panel *ngIf="!hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel>
           <incident-maps-panel-mobile *ngIf="hideOnMobileView()" [incident]="incident" [showMapsWarning]="showMapsWarning"></incident-maps-panel-mobile>
         </mat-tab>
       </mat-tab-group>
+      <div class="content-panel-stack">
+        <h1>Contact Us</h1>
+        <div>
+            <div class="contact-info"><img class="icon-bottom" src="/assets/images/centre.png"
+                    alt="centre" />{{incident.fireCentreName}}</div>
+            <div class="contact-info"> <img class="icon-bottom"
+                    src="/assets/images/svg-icons/carbon_email.svg"
+                    alt="carbon_email" />{{incident.contactEmailAddress}}</div>
+            <div class="contact-info"><img class="icon-bottom"
+                    src="/assets/images/svg-icons/carbon_phone.svg"
+                    alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
+        </div>
+        <div class="contact-buttons">
+            <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
+                <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
+                    alt="carbon_phone" />
+                Call Us
+            </button>
+            <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
+                <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"
+                    alt="carbon_email" />
+                Email Us
+            </button>
+        </div>
     </div>
-    <scroll-to-top-button hasTabs="true"></scroll-to-top-button>
+    </div>
   </div>
 </div>
 <div *ngIf="!isLoading && loadingFailed" class="page-container">

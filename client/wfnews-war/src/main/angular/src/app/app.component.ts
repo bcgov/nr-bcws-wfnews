@@ -63,9 +63,17 @@ export const ICON = {
   REGIONAL_DISTRICTS: 'regional-districts',
   BROWN_SQUARE: 'brown-square',
   INDIAN_RESERVE: 'indian-reserve',
+  BACK_ICON_PANEL: 'back-icon-panel',
+  FIRE_NOTE: 'fire-note',
   LOCATION_DISABLED: 'location-disabled',
   LOCATION_ENABLED: 'location-enabled',
-
+  CALENDAR: 'calendar',
+  ZOOM_IN: 'zoom-in',
+  AGENCY: 'agency',
+  CARBON_GAUGE: 'carbon-gauge',
+  CARBON_CALENDAR: 'carbon-calendar',
+  ARROW_LEFT: 'carbon-calendar',
+  CARBON_LAYER: 'carbon-layer'
 };
 
 @Component({
@@ -217,7 +225,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
       new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
       new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
-      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router)
+      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Contact Us', '/' + ResourcesRoutes.CONTACT_US, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }
 
@@ -529,12 +538,48 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/indian-reserve.svg")
     );
     this.matIconRegistry.addSvgIcon(
+      ICON.BACK_ICON_PANEL,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/back-icon-panel.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.FIRE_NOTE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/fire-note.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
       ICON.LOCATION_DISABLED,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/location-disabled.svg")
     );
     this.matIconRegistry.addSvgIcon(
       ICON.LOCATION_ENABLED,
       this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/location-enabled.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CALENDAR,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/calendar.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ZOOM_IN,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/zoom-in.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.ARROW_LEFT,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/arrow-left.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_CALENDAR,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_calendar.svg")
+      );
+    this.matIconRegistry.addSvgIcon(
+      ICON.AGENCY,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_finance.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_GAUGE,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_gauge.svg")
+    );
+    this.matIconRegistry.addSvgIcon(
+      ICON.CARBON_LAYER,
+      this.domSanitizer.bypassSecurityTrustResourceUrl("assets/images/svg-icons/carbon_layers.svg")
     );
   }
 
@@ -568,11 +613,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
         break;
       case 'reportOfFire':
         this.router.navigate([ResourcesRoutes.ROF]);
-        this.activeMenuItem = '';
         break;
       case 'saved':
+        this.router.navigate([ResourcesRoutes.SAVED]);
         break;
       case 'more':
+        this.router.navigate([ResourcesRoutes.MORE]);
         break;
       default:
         this.router.navigate([ResourcesRoutes.DASHBOARD]);
@@ -581,5 +627,25 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   checkScreenWidth(): void {
     this.showMobileNavigationBar = window.innerWidth < 768;
+  }
+
+  openLink(link: string) {
+    if (link === 'Disclaimer') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
+    }
+    else if (link === 'Privacy') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
+    }
+    else if (link === 'Copyright') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
+
+  disclaimerText() {
+    if (screen.width <= 1200) {
+      return 'Legal';
+    } else {
+      return 'Disclaimer and Legal Links';
+    }
   }
 }

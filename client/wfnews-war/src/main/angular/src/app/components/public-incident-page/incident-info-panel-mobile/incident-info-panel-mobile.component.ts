@@ -1,45 +1,48 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { IncidentInfoPanel } from '../incident-info-panel/incident-info-panel.component';
+import { ResourcesRoutes, convertToDateYear } from '@app/utils';
 
 @Component({
   selector: 'incident-info-panel-mobile',
   templateUrl: './incident-info-panel-mobile.component.html',
   styleUrls: ['./incident-info-panel-mobile.component.scss']
 })
-export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel {
+export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implements OnInit {
+  mobileEvacOrders = [];
+  mobileEvacAlerts = [];
+  convertToDateYear = convertToDateYear;
 
-  getTooltipText() {
-    return `What is a Hectare?
-
-    A hectare is a unit of area equal to 10,000 square meters or around 2.5 acres of land.
-    `;
+  ngOnInit(): void {
+    this.populateOrdersAndAlerts()
   }
 
-  navigateToMap(){
-    //to do, need to wait for the mobile map screen ticket
+  populateOrdersAndAlerts() {
+    if (this.evacOrders) {
+      for (const evac of this.evacOrders) {
+        if (evac.orderAlertStatus === 'Order') this.mobileEvacOrders.push(evac)
+        else if (evac.orderAlertStatus === 'Alert') this.mobileEvacAlerts.push(evac)
+        else console.error('Could not determine orderAlertStatus for mobile evacuations')
+      }
+    }
+
   }
 
-  navigateToEvac(evac){
+  navigateToMap() {
+    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP])
+  }
+
+  navigateToEvac(evac) {
     //to do. need to wait for the screen design
   }
 
-  navigateToAreaRestriction(area){
-    //to do. need to wait for the screen design
+  navigateToAreaRestriction(area) {
+    if (area && area.protRsSysID) 
+      this.route.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: area.protRsSysID, source: [ResourcesRoutes.PUBLIC_INCIDENT] }});
   }
 
-  scrollToSection(event,sectionId) {
+  scrollToSection(sectionId) {
     const section = document.getElementById(sectionId);
-    section.scrollIntoView({ behavior: 'smooth' });
+    if (section) section.scrollIntoView({ behavior: 'smooth' });
   }
 
-  callFireCentre(phoneNumber:string) {
-    const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ""));
-    window.open(`tel:${parsedPhoneNumber}`, '_system');
-  }
-
-  emailFireCentre(recipientEmail:string) {
-    const mailtoUrl = `mailto:${recipientEmail}`;
-    window.location.href = mailtoUrl;
-  }
-  
 }

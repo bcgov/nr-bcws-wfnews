@@ -90,6 +90,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 		.antMatchers(HttpMethod.OPTIONS, "/publicExternalUri/**")
 		.antMatchers(HttpMethod.GET, "/publicExternalUri/**")
 		.antMatchers(HttpMethod.GET, "/publicSituationReport/**")
+		.antMatchers(HttpMethod.GET, "/statistics/**")
 		.antMatchers(HttpMethod.OPTIONS, "/mail/**")
 		.antMatchers(HttpMethod.POST, "/mail/**")
 		.antMatchers(HttpMethod.GET, "/")

@@ -8,6 +8,7 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/l
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -22,19 +23,21 @@ export class AreaRestrictionListComponent implements OnInit {
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public searchTimer
+  public searchingComplete = false
   public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
 
   public locationData: LocationData
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, protected router: Router ) {}
 
   ngOnInit(): void {
     this.search()
   }
 
   async search(location: LocationData | null = null) {
+    this.searchingComplete = false
     const userLocation = await this.commonUtilityService.getCurrentLocationPromise()
 
     const whereString = this.searchText && this.searchText.length > 0 ? `NAME LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%'` : null
@@ -70,6 +73,7 @@ export class AreaRestrictionListComponent implements OnInit {
         this.selectedSortValue = ''
       }
       this.dataSource.data = areaRestrictionData
+      this.searchingComplete = true
       this.cdr.detectChanges()
     });
   }

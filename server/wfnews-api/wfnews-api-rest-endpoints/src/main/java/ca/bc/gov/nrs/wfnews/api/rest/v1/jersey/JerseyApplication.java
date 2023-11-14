@@ -19,6 +19,7 @@ import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicPublishedIncidentEn
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublicSituationReportEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.PublishedIncidentEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.SituationReportEndpointImpl;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.StatisticsEndpointImpl;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl.TopLevelEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.jersey.JerseyResourceConfig;
 import io.swagger.v3.jaxrs2.integration.JaxrsOpenApiContextBuilder;
@@ -52,6 +53,7 @@ public class JerseyApplication extends JerseyResourceConfig {
 		register(MailEndpointImpl.class);
 		register(SituationReportEndpointImpl.class);
 		register(PublicSituationReportEndpointImpl.class);
+		register(StatisticsEndpointImpl.class);
 		register(GZIPWriterInterceptor.class);
 		//EncodingFilter.enableFor(this, GZipEncoder.class);
 

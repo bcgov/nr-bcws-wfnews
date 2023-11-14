@@ -3,7 +3,6 @@ import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
-import { ActiveWildfireMapComponent } from '@app/components/active-wildfire-map/active-wildfire-map.component';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -115,13 +114,28 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   addSelectedIncidentPanels (smk) {
     const self = this;
     const identified = smk.$viewer.identified;
-    // let mobileCompRef = self.makeComponent(ActiveWildfireMapComponent);
-    this.selectIncidents.emit(identified.featureSet)
+    let map = smk.$viewer.map;
+    let delayTimer; // Variable to store the timeout ID
+    
+    // Function to handle the timeout logic
+    function handleTimeout() {
+      self.selectIncidents.emit(identified.featureSet);
+    }
+    
+    // Set a timeout to emit selectIncidents event after 500 milliseconds
+    delayTimer = setTimeout(handleTimeout, 500);
+    
+    // Listen for the zoomend event
+    map.on('zoomend', () => {
+      // Clear the timeout to prevent the selectIncidents event from being emitted
+      clearTimeout(delayTimer);
+    });
+    
 
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
-        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'bcws-activefires-publicview-inactive', 'fire-perimeters'].includes(feature.layerId)) {
+        if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
           feature.properties.createContent = function (el) {
             self.zone.run(function () {
               let compRef = self.makeComponent(IncidentIdentifyPanelComponent);

@@ -1,0 +1,51 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  padding-bottom: 24px;
+
+  .heading {
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+
+  .clear-all {
+    color: #0860f0;
+    text-align: right;
+    cursor: pointer;
+
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+  }
+}
+
+.sections {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  align-self: stretch;
+  margin-bottom: 24px;
+}
+
+.section {
+  width: calc(100% - 20px);
+  display: grid;
+  gap: 8px;
+
+  .subheading {
+    color: #484848;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
