@@ -26,6 +26,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
   map: any;
   smkApi: SmkApi;
   isOffLine: boolean;
+  currentLocation: any;
   public constructor(
     private reportOfFirePage: ReportOfFirePage,
     private commonUtilityService : CommonUtilityService,
@@ -294,8 +295,18 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       }));
   }
 
+  async useMyCurrentLocation() {
+    this.currentLocation = await this.commonUtilityService.getCurrentLocationPromise()
+  }
 
-submitRof(){
+async submitRof(){
+  await this.commonUtilityService.checkOnline().then(async (result) => {
+    if(!result) {
+      await this.useMyCurrentLocation()
+      this.reportOfFire.fireLocation = [ this.currentLocation.coords.latitude, this.currentLocation.coords.longitude ]
+    }
+  })
+
   const rofResource: ReportOfFireType = {
     fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
     phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
