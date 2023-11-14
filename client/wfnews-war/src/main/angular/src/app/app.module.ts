@@ -211,6 +211,8 @@ import { RoadEventLegendComponent } from './components/legend-panels/road-event-
 import { LocalAuthoritiesLegendComponent } from './components/legend-panels/local-authorities-layers/local-authorities-legend.component';
 import { PrecipRadarLegendComponent } from './components/legend-panels/precip-radar-layers/precip-radar-legend.component';
 import { PrecipForecastLegendComponent } from './components/legend-panels/precip-forecast-layers/precip-forecast-legend.component';
+import { RecSiteLegendComponent } from './components/legend-panels/rec-site-layers/rec-site-legend.component';
+import { ProtectedLandsLegendComponent } from './components/legend-panels/protected-lands-layers/protected-lands-legend.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -363,7 +365,9 @@ export const DATE_FORMATS = {
         RoadEventLegendComponent,
         LocalAuthoritiesLegendComponent,
         PrecipRadarLegendComponent,
-        PrecipForecastLegendComponent
+        PrecipForecastLegendComponent,
+        RecSiteLegendComponent,
+        ProtectedLandsLegendComponent
     ],
     imports: [
         MatSortModule,
