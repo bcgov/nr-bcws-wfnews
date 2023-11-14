@@ -372,6 +372,19 @@ export function convertToDateTimeTimeZone(date) {
     return convertedDate;
 }
 
+export function convertToDateTime(date) {
+    // e.g. July 19, 2022 at 10:22 am
+    const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+    let convertedDate: string;
+    convertedDate = date ? new Date(date).toLocaleTimeString("en-US", updateOptions) : 'Pending'
+    if (convertedDate !== 'Pending') {
+        // add full stops and lowercase
+        convertedDate = convertedDate.replace("AM", "am")
+        convertedDate = convertedDate.replace("PM", "pm")
+    }
+    return convertedDate;
+}
+
 export function setDisplayColor(stageOfControlCode: string) {
     let colorToDisplay;
     switch (stageOfControlCode) {

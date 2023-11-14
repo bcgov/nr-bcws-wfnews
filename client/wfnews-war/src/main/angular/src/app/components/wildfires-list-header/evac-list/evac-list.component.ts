@@ -8,6 +8,7 @@ import { FilterByLocationDialogComponent, LocationData } from '../filter-by-loca
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-evac-list',
@@ -31,7 +32,7 @@ export class EvacListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall)
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog, protected router: Router ) {}
 
   ngOnInit(): void {
     this.search()
