@@ -20,10 +20,16 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    padding-bottom: 12px;
   }
 }
 
+.spacer {
+  padding: 12px;
+}
+
 .legend-accordion {
+  background-color: #ffffff;
   justify-content: space-between;
   align-items: flex-start;
   align-self: stretch;
@@ -41,6 +47,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding: 12px;
   }
   &-icon {
     width: 24px !important;
@@ -54,5 +61,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
+    padding: 12px;
   }
 }
