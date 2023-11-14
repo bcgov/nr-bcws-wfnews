@@ -42,7 +42,7 @@ export class RoFDisclaimerPage extends RoFPage {
       this.currentBrowser = 'Unknown Browser';
     }
 
-    if (this.currentBrowser === 'Unknown Browser' ) {
+    if (this.currentBrowser !== 'Unknown Browser' ) {
       this.commonUtilityService.checkOnline().then((result) => {
         if(!result) {
           this.message = 'Offline reporting is only available in the BC Wildfire Service app which you can find on the Apple App Store or Google Play Store.'
