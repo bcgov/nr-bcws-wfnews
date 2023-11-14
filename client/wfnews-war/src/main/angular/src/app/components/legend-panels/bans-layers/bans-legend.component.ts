@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { checkLayerVisible } from '@app/utils';
 
 @Component({
   selector: 'wfnews-bans-legend',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./bans-legend.component.scss']
 })
 export class BansLegendComponent {
+  public checkLayerVisible = checkLayerVisible
+  
   constructor() {}
 }

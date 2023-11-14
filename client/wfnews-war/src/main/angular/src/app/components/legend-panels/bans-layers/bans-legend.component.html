@@ -1,7 +1,7 @@
 <div class="legend-panel">
   <div class="legend-panel-title">Fire Bans</div>
   <mat-accordion multi>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('bans-and-prohibitions-cat1')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Category 1" class="legend-accordion-icon" src="/assets/images/category1ban.png" >
@@ -10,7 +10,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">Any fire smaller than 0.5 metres high by 0.5 metres wide.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('bans-and-prohibitions-cat2')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Category 2" class="legend-accordion-icon" src="/assets/images/category2ban.png" >
@@ -22,7 +22,7 @@
         <li>Stubble or grass burning over an area greater than 0.2 hectares</li>
       </ul>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('bans-and-prohibitions-cat3')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Category 3" class="legend-accordion-icon" src="/assets/images/category3ban.png" >

@@ -1,16 +1,16 @@
 <div class="legend-holder">
   <!-- Legend panels. Show the active feature layer on top-->
-  <wfnews-map-legend></wfnews-map-legend>
-  <wfnews-fire-legend></wfnews-fire-legend>
-  <wfnews-evac-legend></wfnews-evac-legend>
-  <wfnews-bans-legend></wfnews-bans-legend>
-  <wfnews-area-restriction-legend></wfnews-area-restriction-legend>
-  <wfnews-danger-rating-legend></wfnews-danger-rating-legend>
-  <wfnews-smoke-legend></wfnews-smoke-legend>
-  <wfnews-road-event-legend></wfnews-road-event-legend>
-  <wfnews-local-authorities-legend></wfnews-local-authorities-legend>
-  <wfnews-precip-radar-legend></wfnews-precip-radar-legend>
-  <wfnews-precip-forecast-legend></wfnews-precip-forecast-legend>
-  <wfnews-rec-site-legend></wfnews-rec-site-legend>
-  <wfnews-protected-lands-legend></wfnews-protected-lands-legend>
+  <wfnews-map-legend *ngIf="checkLayerVisible('bc-fire-centres')"></wfnews-map-legend>
+  <wfnews-fire-legend *ngIf="checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
+  <wfnews-evac-legend *ngIf="checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>
+  <wfnews-bans-legend *ngIf="checkLayerVisible(['bans-and-prohibitions-cat1', 'bans-and-prohibitions-cat2', 'bans-and-prohibitions-cat3'])"></wfnews-bans-legend>
+  <wfnews-area-restriction-legend *ngIf="checkLayerVisible('area-restrictions')"></wfnews-area-restriction-legend>
+  <wfnews-danger-rating-legend *ngIf="checkLayerVisible('danger-rating')"></wfnews-danger-rating-legend>
+  <wfnews-smoke-legend *ngIf="checkLayerVisible('hourly-currentforecast-firesmoke')"></wfnews-smoke-legend>
+  <wfnews-road-event-legend *ngIf="checkLayerVisible('drive-bc-active-events')"></wfnews-road-event-legend>
+  <wfnews-local-authorities-legend *ngIf="checkLayerVisible(['abms-municipalities', 'abms-regional-districts', 'clab-indian-reserves', 'fnt-treaty-land'])"></wfnews-local-authorities-legend>
+  <wfnews-precip-radar-legend *ngIf="checkLayerVisible('radar-1km-rrai--radarurpprecipr14-linear')"></wfnews-precip-radar-legend>
+  <wfnews-precip-forecast-legend *ngIf="checkLayerVisible('precipitation')"></wfnews-precip-forecast-legend>
+  <wfnews-rec-site-legend *ngIf="checkLayerVisible('closed-recreation-sites')"></wfnews-rec-site-legend>
+  <wfnews-protected-lands-legend *ngIf="checkLayerVisible('protected-lands-access-restrictions')"></wfnews-protected-lands-legend>
 </div>

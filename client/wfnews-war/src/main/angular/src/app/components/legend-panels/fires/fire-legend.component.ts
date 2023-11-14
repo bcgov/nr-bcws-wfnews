@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { checkLayerVisible } from '@app/utils';
 
 @Component({
   selector: 'wfnews-fire-legend',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./fire-legend.component.scss']
 })
 export class FireLegendComponent {
+  public checkLayerVisible = checkLayerVisible
+  
   constructor() {}
 }

@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input } from '@angular/core'
+import { checkLayerVisible } from '@app/utils'
 
 @Component({
   selector: 'wfnews-base-legend',
@@ -7,5 +8,8 @@ import { Component, Input } from '@angular/core';
 })
 export class BaseLegendComponent {
   @Input() public featureLayerID: string
+
+  public checkLayerVisible = checkLayerVisible
+  
   constructor() {}
 }

@@ -2,7 +2,7 @@
 <div class="legend-panel">
   <div class="legend-panel-title">Wildfires</div>
   <mat-accordion multi>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('active-wildfires-fire-of-note')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Fire of Note" class="legend-accordion-icon" src="/assets/images/svg-icons/fire-note.svg" >
@@ -11,7 +11,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">A wildfire that is highly visible or poses a potential threat to public safety.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('active-wildfires-out-of-control')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Out of Control" class="legend-accordion-icon" src="/assets/images/svg-icons/out-of-control.svg" >
@@ -20,7 +20,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">A wildfire that is continuing to spread and is not responding to suppression efforts.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('active-wildfires-holding')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Being Held" class="legend-accordion-icon" src="/assets/images/svg-icons/being-held.svg" >
@@ -29,7 +29,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">A wildfire that is not likely to spread beyond predetermined boundaries under current conditions.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('active-wildfires-under-control')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Under Control" class="legend-accordion-icon" src="/assets/images/svg-icons/under-control.svg" >
@@ -38,7 +38,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">A wildfire that will not spread any further due to suppression efforts.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('active-wildfires-out')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Declared Out" class="legend-accordion-icon" src="/assets/images/svg-icons/out-fire.svg" >
@@ -47,7 +47,7 @@
       </mat-expansion-panel-header>
       <p class="legend-accordion-content">A wildfire that is extinguished. Suppression efforts are complete.</p>
     </mat-expansion-panel>
-    <mat-expansion-panel class="legend-accordion">
+    <mat-expansion-panel *ngIf="checkLayerVisible('fire-perimeters')" class="legend-accordion">
       <mat-expansion-panel-header>
         <mat-panel-title class="legend-accordion-title">
           <img alt="Fire Perimeter" class="legend-accordion-icon" src="/assets/images/svg-icons/fire-perimetre-legend.svg" >

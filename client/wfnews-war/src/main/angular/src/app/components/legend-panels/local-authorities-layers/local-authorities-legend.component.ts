@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { checkLayerVisible } from '@app/utils';
 
 @Component({
   selector: 'wfnews-local-authorities-legend',
@@ -6,5 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./local-authorities-legend.component.scss']
 })
 export class LocalAuthoritiesLegendComponent {
+  public checkLayerVisible = checkLayerVisible
+
   constructor() {}
 }
