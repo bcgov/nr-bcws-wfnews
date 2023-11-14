@@ -23,30 +23,32 @@
 
   .info {
     color: var(--Grey-6---666, #666);
-    /* Body 1 */
+    display: flex !important;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 21px;
-    /* 131.25% */
   }
 
-  .map-button {
-    width: 100%;
-    display: flex;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
-    border: 1px solid grey !important;
-    color: #000;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-  }
+}
+
+.map-button {
+  width: 100%;
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  flex: 1 0 0;
+  border: 1px solid grey !important;
+  color: #000;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
 }
 
 .info-container {
@@ -63,6 +65,7 @@
   font-weight: 400;
   line-height: 21px;
   margin-bottom: 10px;
+  display: flex !important
 }
 
 .full-details-header {
@@ -143,6 +146,14 @@
     font-weight: 400;
     line-height: 21px;
   }
+}
+
+h4 {
+  color: var(--Black-2, #484848);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .wilfire-of-note-panel {
@@ -315,6 +326,7 @@ hr {
   border-radius: 8px;
   border: 1px solid var(--grays-gray-8, #E4E4E4);
   background: #FFF;
+  z-index: 1000;
   /* Card Shadow */
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.10);
 
