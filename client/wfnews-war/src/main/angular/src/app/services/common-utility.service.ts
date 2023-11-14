@@ -146,9 +146,17 @@ export class CommonUtilityService {
     }
 
     checkLocationServiceStatus(): Promise<boolean> {
-      return Geolocation.getCurrentPosition()
-      .then(() => Promise.resolve(true))
-      .catch(() => Promise.resolve(false));
+      const timeoutDuration = 1000; // 1 seconds limit
+    
+      const timeoutPromise = new Promise<boolean>((resolve) => {
+        setTimeout(() => resolve(false), timeoutDuration);
+      });
+    
+      const locationPromise = Geolocation.getCurrentPosition()
+        .then(() => Promise.resolve(true))
+        .catch(() => Promise.resolve(false));
+    
+      return Promise.race([timeoutPromise, locationPromise]);
     }
 
     pingSerivce(): Observable<any> {
