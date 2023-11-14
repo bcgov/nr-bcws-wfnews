@@ -14,7 +14,7 @@ export class WFMapService {
     identifyDoneCallback;
 
     constructor(protected appConfigService: AppConfigService) {
-        
+
     }
 
     setHandler( id, method, handler ): Promise<any> {
@@ -38,27 +38,6 @@ export class WFMapService {
 
         const SMK = window[ 'SMK' ];
 
-        const toggleHideListButton = (display) => {
-            const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--hide-list');
-            hideListButtonElement[0]["style"]["display"] = display;
-            const hideDetailsPanel = document.getElementById('panel-details');
-            if (display === 'none') {
-              hideDetailsPanel.style.width = '0px'
-              //hideDetailsPanel.style.visibility = 'hidden'
-              //hideDetailsPanel.style.display = 'none'
-            }
-        }
-
-        const toggleShowListButton = (display) => {
-            const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-            hideListButtonElement[0]["style"]["display"] = display;
-            const hideDetailsPanel = document.getElementById('panel-details');
-            if (display === 'none') {
-              hideDetailsPanel.style.width = '50vw'
-              //hideDetailsPanel.style.visibility = 'visible'
-              //hideDetailsPanel.style.display = 'block'
-            }
-        }
         return this.patch()
             .then( function() {
                 try {
@@ -70,24 +49,6 @@ export class WFMapService {
                             {
                                 type: 'baseMaps',
                                 choices: baseMapIds
-                            },
-                            {
-                                type: "bespoke",
-                                instance: "show-list",
-                                title: "Show list menu",
-                                position: "toolbar",
-                                enabled: true,
-                                order: 0,
-                                icon: "arrow_forward"
-                            },
-                            {
-                                type: "bespoke",
-                                instance: "hide-list",
-                                title: "Hide list menu",
-                                position: "toolbar",
-                                enabled: true,
-                                order: 1,
-                                icon: "arrow_back"
                             },
                             {
                                 type: "bespoke",
@@ -103,20 +64,6 @@ export class WFMapService {
                         ]
                     } );
 
-                SMK.HANDLER.set('BespokeTool--show-list', 'triggered', (smk, tool) => {
-                    toggleHideListButton("flex");
-                    toggleShowListButton("none");
-                    option.toggleAccordion.emit();
-                    SMK.MAP[1].$viewer.mapResized();
-                });
-
-                SMK.HANDLER.set('BespokeTool--hide-list', 'triggered', (smk, tool) => {
-                    toggleHideListButton("none");
-                    toggleShowListButton("flex");
-                    option.toggleAccordion.emit();
-                    SMK.MAP[1].$viewer.mapResized();
-                });
-
                 SMK.HANDLER.set('BespokeTool--full-extent', 'triggered', (smk, tool) => {
                     zoomToProvince()
                 });
@@ -129,17 +76,17 @@ export class WFMapService {
                     baseUrl: self.smkBaseUrl,
                     ...option
                 });
-            } 
+            }
             catch (error) {
                 console.error("Error occurred during SMK initialization:", error);
                 throw error
-            } 
+            }
         })
         .catch(function (error) {
             console.error("Error occurred during patching:", error);
             throw error; // Re-throw the error to propagate it to the caller
         });
-        
+
     }
 
     public patch(): Promise<any> {
