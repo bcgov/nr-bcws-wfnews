@@ -146,6 +146,7 @@ export const mapConfig = (
             type: 'measure',
             enabled: 'desktop',
             unit: 'kilometers',
+            position: "actionbar",
             order: 5
         },
         {

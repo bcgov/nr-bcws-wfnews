@@ -13,7 +13,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   @Output() layersChangedEvent = new EventEmitter<boolean>();
 
   activeWeatherStations = false;
-  airQuality = false; // TODO: add air quality layer
   areaRestrictions = false;
   bansAndProhibitions = false;
   beingHeldWildfire = false;
@@ -48,7 +47,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
 
   clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;
-    this.airQuality = false; // TODO: add air quality layer
     this.areaRestrictions = false;
     this.bansAndProhibitions = false;
     this.beingHeldWildfire = false;

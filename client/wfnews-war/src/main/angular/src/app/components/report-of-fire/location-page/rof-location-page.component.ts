@@ -135,7 +135,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
 
     connector()
     
-    this.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         this.addOfflineLayer();
       }
@@ -216,7 +216,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   loadMapConfig(){
-    this.checkOnline().then((result) => {
+    this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         this.mapConfigService.getReportOfFireOfflineMapConfig().then((cfg) => {
           let turf = window['turf'],
@@ -283,17 +283,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
       }
     }
         
-  }
-
-  async checkOnline() {
-    try {
-      await this.commonUtilityService.pingSerivce().toPromise();
-      this.cdr.detectChanges();
-      return true;
-    } catch (error) {
-      this.cdr.detectChanges();
-      return false;
-    }
   }
 }
 

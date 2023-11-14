@@ -225,7 +225,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
       new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
       new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
-      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router)
+      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Contact Us', '/' + ResourcesRoutes.CONTACT_US, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }
 
@@ -626,5 +627,25 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   checkScreenWidth(): void {
     this.showMobileNavigationBar = window.innerWidth < 768;
+  }
+
+  openLink(link: string) {
+    if (link === 'Disclaimer') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
+    }
+    else if (link === 'Privacy') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
+    }
+    else if (link === 'Copyright') {
+      window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
+    }
+  }
+
+  disclaimerText() {
+    if (screen.width <= 1200) {
+      return 'Legal';
+    } else {
+      return 'Disclaimer and Legal Links';
+    }
   }
 }
