@@ -1,0 +1,58 @@
+::ng-deep .sliding-drawer .content {
+  background-color: #f5f6f9;
+}
+
+.legend-holder {
+  display: flex;
+  flex-direction: column;
+  align-self: stretch;
+  background-color: #f5f6f9;
+  gap: 24px;
+}
+
+.legend-panel {
+  background-color: #f5f6f9;
+  &-title {
+    align-self: stretch;
+    color: var(--grays-gray-1, #242424);
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+}
+
+.legend-accordion {
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+  color: var(--grays-gray-1, #242424);
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  box-shadow: none !important;
+  &-title {
+    color: var(--grays-gray-1, #242424);
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  &-icon {
+    width: 24px !important;
+    height: 24px !important;
+    padding-right: 12px !important;
+  }
+  &-content {
+    color: var(--grays-gray-2, #484848);
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+}

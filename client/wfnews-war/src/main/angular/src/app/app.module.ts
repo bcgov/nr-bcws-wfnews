@@ -199,6 +199,13 @@ import { SavedComponent } from './components/saved/saved.component';
 import { MoreComponent } from './components/more/more.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
+import { MapLegendComponent } from './components/legend-panels/other-layers/map-legend.component';
+import { FireLegendComponent } from './components/legend-panels/fires/fire-legend.component';
+import { BaseLegendComponent } from './components/legend-panels/base-legend.component';
+import { EvacLegendComponent } from './components/legend-panels/evac-layers/evac-legend.component';
+import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
+import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
+import { DangerRatingLegendComponent } from './components/legend-panels/danger-rating-layers/danger-rating-legend.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -339,7 +346,14 @@ export const DATE_FORMATS = {
         LinkButtonComponent,
         SavedComponent,
         MoreComponent,
-        BansFullDetailsComponent
+        BansFullDetailsComponent,
+        BaseLegendComponent,
+        MapLegendComponent,
+        FireLegendComponent,
+        EvacLegendComponent,
+        BansLegendComponent,
+        AreaRestrictionLegendComponent,
+        DangerRatingLegendComponent
     ],
     imports: [
         MatSortModule,
