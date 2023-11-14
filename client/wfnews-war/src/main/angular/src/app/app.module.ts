@@ -206,6 +206,8 @@ import { EvacLegendComponent } from './components/legend-panels/evac-layers/evac
 import { BansLegendComponent } from './components/legend-panels/bans-layers/bans-legend.component';
 import { AreaRestrictionLegendComponent } from './components/legend-panels/area-restriction-layers/area-restriction-legend.component';
 import { DangerRatingLegendComponent } from './components/legend-panels/danger-rating-layers/danger-rating-legend.component';
+import { SmokeLegendComponent } from './components/legend-panels/smoke-layers/smoke-legend.component';
+import { RoadEventLegendComponent } from './components/legend-panels/road-event-layers/road-event-legend.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -353,7 +355,9 @@ export const DATE_FORMATS = {
         EvacLegendComponent,
         BansLegendComponent,
         AreaRestrictionLegendComponent,
-        DangerRatingLegendComponent
+        DangerRatingLegendComponent,
+        SmokeLegendComponent,
+        RoadEventLegendComponent
     ],
     imports: [
         MatSortModule,
