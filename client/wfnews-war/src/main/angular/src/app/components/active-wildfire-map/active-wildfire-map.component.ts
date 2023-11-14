@@ -139,6 +139,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2) {
         this.filteredOptions = [];
         self.searchLayerGroup.clearLayers();
+        // search addresses
         this.placeData.searchAddresses(val).then(function (results) {
           if (results) {
             results.forEach((result) => {
@@ -147,6 +148,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             self.filteredOptions = self.sortedAddressList;
           }
         });
+        // search incidents
+
+        // search evac orders
       }
     });
 
@@ -351,21 +355,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   clearSearchLocationControl() {
     this.searchByLocationControl.reset();
     this.clearMyLocation()
-  }
-
-  get activeFireCount(): Promise<number> {
-    if (this.activeFireCountPromise) {
-      return this.activeFireCountPromise;
-    }
-    this.activeFireCountPromise = this.publishedIncidentService.getActiveFireCount()
-      .then((resp: any) => {
-        return resp || 0
-      }).catch((e) => {
-        console.error('COUNTSTATS-FAIL');
-        return 'loading...';
-      });
-
-    return this.activeFireCountPromise;
   }
 
   initMap(smk: any) {
@@ -606,26 +595,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       this.resizeBoxElement.style.top = window.innerHeight - 50 + 'px'
     }
     this.resizeBoxElement.style.height = `${window.innerHeight - this.lastPointerPosition + 20}px`
-  }
-
-  openLink(link: string) {
-    if (link === 'Disclaimer') {
-      window.open('https://www2.gov.bc.ca/gov/content/home/disclaimer', "_blank");
-    }
-    else if (link === 'Privacy') {
-      window.open('https://www2.gov.bc.ca/gov/content/home/privacy', "_blank");
-    }
-    else if (link === 'Copyright') {
-      window.open('https://www2.gov.bc.ca/gov/content/home/copyright', "_blank");
-    }
-  }
-
-  disclaimerText() {
-    if (screen.width <= 1200) {
-      return 'Legal';
-    } else {
-      return 'Disclaimer and Legal Links';
-    }
   }
 
   isChecked(layer: SelectedLayer) {
