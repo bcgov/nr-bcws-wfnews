@@ -188,12 +188,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         // set timeout to load smk features to load
         setTimeout(() => {
           const pan = this.panToLocation(long, lat);
-          // identify?
-          if (params['identify'] && params['identify'] === 'true') {
-            this.identify([long, lat])
-          }
-          // turn on area restriction layer if accessing from area restrictions full details
+          // turn on layers
           if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
+          if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
+          if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
+          if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
+          // identify
+          setTimeout(() => {
+            if (params['identify']) {
+              this.identify([long, lat])
+            }
+          }, 2000)
         }, 1000)
       }});
     }

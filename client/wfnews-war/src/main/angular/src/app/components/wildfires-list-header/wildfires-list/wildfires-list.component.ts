@@ -233,7 +233,7 @@ export class WildFiresListComponent extends CollectionComponent implements OnCha
 
   viewMap(incident: any) {
     setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: incident.longitude, latitude: incident.latitude} });
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {wildfires: true, identify: true, longitude: incident.longitude, latitude: incident.latitude} });
     }, 100);
   }
 

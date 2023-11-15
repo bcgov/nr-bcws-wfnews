@@ -140,7 +140,7 @@ export class EvacListComponent implements OnInit {
 
   viewMap(evac: any) {
     setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: evac.longitude, latitude: evac.latitude} });
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {evac: true, identify: true, longitude: evac.longitude, latitude: evac.latitude} });
     }, 100);
   }
 

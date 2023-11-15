@@ -104,7 +104,7 @@ export class BansListComponent implements OnInit {
 
   viewMap(ban: any) {
     setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: ban.longitude, latitude: ban.latitude} });
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {bans: true, identify: true, longitude: ban.longitude, latitude: ban.latitude} });
     }, 100);
   }
 

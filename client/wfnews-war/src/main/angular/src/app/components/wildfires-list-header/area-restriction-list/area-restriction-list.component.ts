@@ -117,7 +117,7 @@ export class AreaRestrictionListComponent implements OnInit {
 
   viewMap(restriction: any) {
     setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: restriction.longitude, latitude: restriction.latitude} });
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {areaRestriction: true, identify: true, longitude: restriction.longitude, latitude: restriction.latitude} });
     }, 100);
   }
 
