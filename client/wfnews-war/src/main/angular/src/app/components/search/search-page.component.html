@@ -9,6 +9,30 @@
         </button>
       </div>
     </div>
+    <div class="results-panel" *ngIf="recentData?.length > 0 && allResultData?.length === 0">
+      <div class="header">
+        <img alt="recent searches" class="header-icon" src="/assets/images/svg-icons/clock.svg" >
+        <div class="header-title">Recent</div>
+      </div>
+      <div *ngFor="let item of recentData; let i = index" class="result-card" [mat-dialog-close]="item">
+        <div class="result-card-icon-holder">
+          <div class="result-card-icon-holder-icon">
+            <img *ngIf="item.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+            <img *ngIf="item.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+            <img *ngIf="item.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+            <img *ngIf="item.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+          </div>
+          <div class="result-card-icon-holder-dist">{{item.distance}}</div>
+        </div>
+        <div class="result-card-info">
+          <div class="result-card-title">{{item.title}}</div>
+          <div class="result-card-subtitle">{{item.subtitle}}</div>
+        </div>
+        <div class="result-card-icon-holder-close-icon">
+          <img alt="close" (click)="removeFromRecent(item, i)" class="close-icon" src="/assets/images/svg-icons/carbon_cancel.svg" >
+        </div>
+      </div>
+    </div>
     <div class="results-panel">
       <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>
       <div *ngIf="addressSearchComplete || evacSearchComplete || incidentSearchComplete; else loading" class="result-panel-cards">

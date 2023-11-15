@@ -19,12 +19,6 @@ export class GeocoderAddress {
   streetType: GeocoderDefaults
 }
 
-export class SearchData {
-  // result data for the map page. I expect this will just be
-  // the latitude and longitude to jump to, if an address, or a redirect
-  // to be implemented in later tickets
-}
-
 export class SearchResult {
   public id: any // index or some other id back to source data
   public type: string
@@ -41,7 +35,7 @@ export class SearchResult {
   styleUrls: ['./search-page.component.scss']
 })
 export class SearchPageComponent {
-  public searchData: SearchData
+  public searchData: SearchResult
   public searchText: string
 
   public addressSearchComplete = true
@@ -50,13 +44,24 @@ export class SearchPageComponent {
 
   // list container. If we wind up not using the separate containers, we can toss them
   public allResultData: SearchResult[] = []
+  public recentData: SearchResult[] = []
 
   private searchTimeout
   private userLocation
   private userLocationChecked = false
 
-  constructor (private dialogRef: MatDialogRef<SearchPageComponent>, @Inject(MAT_DIALOG_DATA) public data: SearchData, private agolService: AGOLService, private commonUtilityService: CommonUtilityService, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef) {
-    this.searchData = data || new SearchData
+  constructor (private dialogRef: MatDialogRef<SearchPageComponent>, @Inject(MAT_DIALOG_DATA) public data: SearchResult, private agolService: AGOLService, private commonUtilityService: CommonUtilityService, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef) {
+    this.searchData = data || new SearchResult
+
+    // fetch local storage for recent data
+    if (localStorage.getItem('recent-search') != null) {
+      try {
+        this.recentData = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+      } catch (err) {
+        console.error(err)
+        // carry on with the empty array
+      }
+    }
   }
 
   search () {
@@ -204,5 +209,20 @@ export class SearchPageComponent {
 
   sort () {
     this.allResultData.sort((a, b) => a.distance > b.distance ? 1 : a.distance < b.distance ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+  }
+
+  removeFromRecent (item: SearchResult, index: number) {
+    if (localStorage.getItem('recent-search') != null) {
+      try {
+        this.recentData = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+        // remove the item from the list
+        this.recentData.splice(index, 1)
+        localStorage.setItem('recent-search', JSON.stringify(this.recentData))
+      } catch (err) {
+        console.error(err)
+        // ignore, clear data
+        this.recentData = []
+      }
+    }
   }
 }
