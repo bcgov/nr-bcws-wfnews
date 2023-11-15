@@ -1,62 +1,57 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [(selectedIndex)]="tabIndex" (selectedTabChange)="onTabChanged($event);">
         <mat-tab label="Legend">
-            <div class="panel-header">Wildfire Stages of Control</div>
+          <section>
+            <wfnews-fire-legend *ngIf="selectedPanel === 'wildfire-stage-of-control' && checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
+            <wfnews-evac-legend *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>
+            <wfnews-bans-legend *ngIf="selectedPanel === 'bans-and-prohibitions' && checkLayerVisible(['bans-and-prohibitions-cat1', 'bans-and-prohibitions-cat2', 'bans-and-prohibitions-cat3'])"></wfnews-bans-legend>
+            <wfnews-area-restriction-legend *ngIf="selectedPanel === 'area-restrictions' && checkLayerVisible('area-restrictions')"></wfnews-area-restriction-legend>
+            <wfnews-danger-rating-legend *ngIf="selectedPanel === 'fire-danger' && checkLayerVisible('danger-rating')"></wfnews-danger-rating-legend>
+            <wfnews-smoke-legend *ngIf="selectedPanel === 'smoke-forecast' && checkLayerVisible('hourly-currentforecast-firesmoke')"></wfnews-smoke-legend>
+            <wfnews-road-event-legend *ngIf="selectedPanel === 'routes-impacted' && checkLayerVisible('drive-bc-active-events')"></wfnews-road-event-legend>
+            <wfnews-local-authorities-legend *ngIf="selectedPanel === 'local-authorities' && checkLayerVisible(['abms-municipalities', 'abms-regional-districts', 'clab-indian-reserves', 'fnt-treaty-land'])"></wfnews-local-authorities-legend>
 
-            <section>
-                <h1>LEGEND & DEFINITIONS</h1>
-                <article>
-                    <p class="paragraph-format">
-                        The BC Wildfire Service uses stages of control to report on wildfire progress.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="black">
-                        <div class="fire-icon-container">
-                          <img class="icon" height="24" width="24" src="/assets/images/local_fire_department.png" alt="local_fire_department">
-                        </div>
-                        Wildfire of Note
-                    </h2>
-                    <p class="paragraph-format">
-                        This wildfire is highly visible or poses a potential threat to public safety.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="red">Out of Control</h2>
-                    <p class="paragraph-format">
-                        This wildfire is continuing to spread and is not responding to suppression efforts.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="yellow">Being Held</h2>
-                    <p class="paragraph-format">
-                        This wildfire is not likely to spread beyond predetermined boundaries under current conditions.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="green">Under Control</h2>
-                    <p class="paragraph-format">
-                        This wildfire will not spread any further due to suppression efforts.
-                    </p>
-                </article>
-                <article>
-                    <h2 class="grey">Out</h2>
-                    <p class="paragraph-format">
-                        This wildfire is extinguished.  Suppression efforts are complete.
-                    </p>
-                </article>
-            </section>
-            <section>
-                <h1>MORE INFORMATION</h1>
-                <article>
-                    <p>
-                        <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control" target="_blank" rel="noopener">Wildfire Stages of Control</a>
-                    </p>
-                    <p>
-                        <a href="https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed" target="_blank" rel="noopener">Plan, Prepare, Stay Informed</a>
-                    </p>
-                </article>
-            </section>
-        </mat-tab>
+            <wfnews-fire-legend *ngIf="selectedPanel !== 'wildfire-stage-of-control'checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
+            <wfnews-evac-legend *ngIf="selectedPanel !== 'evacuation-orders-and-alerts' && checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>
+            <wfnews-bans-legend *ngIf="selectedPanel !== 'bans-and-prohibitions' && checkLayerVisible(['bans-and-prohibitions-cat1', 'bans-and-prohibitions-cat2', 'bans-and-prohibitions-cat3'])"></wfnews-bans-legend>
+            <wfnews-area-restriction-legend *ngIf="selectedPanel !== 'area-restrictions' && checkLayerVisible('area-restrictions')"></wfnews-area-restriction-legend>
+            <wfnews-danger-rating-legend *ngIf="selectedPanel !== 'fire-danger' && checkLayerVisible('danger-rating')"></wfnews-danger-rating-legend>
+            <wfnews-smoke-legend *ngIf="selectedPanel !== 'smoke-forecast' && checkLayerVisible('hourly-currentforecast-firesmoke')"></wfnews-smoke-legend>
+            <wfnews-road-event-legend *ngIf="selectedPanel !== 'routes-impacted' && checkLayerVisible('drive-bc-active-events')"></wfnews-road-event-legend>
+            <wfnews-local-authorities-legend *ngIf="selectedPanel !== 'local-authorities' && checkLayerVisible(['abms-municipalities', 'abms-regional-districts', 'clab-indian-reserves', 'fnt-treaty-land'])"></wfnews-local-authorities-legend>
+
+            <wfnews-map-legend *ngIf="checkLayerVisible('bc-fire-centres')"></wfnews-map-legend>
+            <wfnews-precip-radar-legend *ngIf="checkLayerVisible('radar-1km-rrai--radarurpprecipr14-linear')"></wfnews-precip-radar-legend>
+            <wfnews-precip-forecast-legend *ngIf="checkLayerVisible('precipitation')"></wfnews-precip-forecast-legend>
+            <wfnews-rec-site-legend *ngIf="checkLayerVisible('closed-recreation-sites')"></wfnews-rec-site-legend>
+            <wfnews-protected-lands-legend *ngIf="checkLayerVisible('protected-lands-access-restrictions')"></wfnews-protected-lands-legend>
+          </section>
+          <section>
+            <h1>More Information</h1>
+            <article *ngIf="selectedPanel === 'wildfire-stage-of-control'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/management-strategies/stages-of-control')"><div class="link-container"><span>Wildfire Stages of Control</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'wildfire-stage-of-control'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed')"><div class="link-container"><span>Plan, Prepare, Stay Informed</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'" (click)="openlink('https://www.emergencyinfobc.gov.bc.ca/')"><div class="link-container"><span>Current Evacuation Advisory Information</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance')"><div class="link-container"><span>Evacuee Guidance</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'" (click)="openlink('https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems')"><div class="link-container"><span>Local Government System in B.C</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'evacuation-orders-and-alerts'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts')"><div class="link-container"><span>B.C. Emergency Alerts</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'area-restrictions'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions')"><div class="link-container"><span>Current Restrictions Information</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'area-restrictions'" (click)="openlink('http://www.sitesandtrailsbc.ca/closures.aspx')"><div class="link-container"><span>Recreation Sites and Trails Closures</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg" ></div></article>
+            <article *ngIf="selectedPanel === 'area-restrictions'" (click)="openlink('https://bcparks.ca/wildfire/')"><div class="link-container"><span>BC Parks Closures</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'bans-and-prohibitions'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions')"><div class="link-container"><span >Current Fire Bans and Restrictions</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'bans-and-prohibitions'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/forest-use-restrictions')"><div class="link-container"><span>Learn more about Forest Use Restrictions</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'bans-and-prohibitions'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions/open-burning')"><div class="link-container"><span>Learn more about Open Burning</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'smoke-forecast'" (click)="openlink('https://www2.gov.bc.ca/gov/content/environment/air-land-water/air/air-quality/aqhi')"><div class="link-container"><span>BC Air Quality Health Index</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'smoke-forecast'" (click)="openlink('https://firesmoke.ca/forecasts/')"><div class="link-container"><span>Smoke Forecast Map</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'smoke-forecast'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/air-quality')"><div class="link-container"><span>Wildfires and Air Quality</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'fire-danger'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger')"><div class="link-container"><span>Learn more about Fire Danger Rating</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'routes-impacted'" (click)="openlink('https://www.drivebc.ca/#mapView&ll=53.461646%2C-119.621042&z=6')"><div class="link-container"><span>Drive BC Road Conditions</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'routes-impacted'" (click)="openlink('https://www2.gov.bc.ca/gov/content/industry/natural-resource-use/resource-roads/local-road-safety-information')"><div class="link-container"><span>Resource Road Safety Information</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'routes-impacted'" (click)="openlink('https://www.tranbc.ca/current-travel-advisories/')"><div class="link-container"><span>TranBC: Current Road Advisories and Information</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'local-authorities'" (click)="openlink('https://www.emergencyinfobc.gov.bc.ca/')"><div class="link-container"><span>Current Evacuation Advisory Information</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'local-authorities'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance')"><div class="link-container"><span>Evacuee Guidance</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'local-authorities'" (click)="openlink('https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems')"><div class="link-container"><span>Local Government System in B.C</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+            <article *ngIf="selectedPanel === 'local-authorities'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts')"><div class="link-container"><span>B.C. Emergency Alerts</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
+        </section>
+    </mat-tab>
     <mat-tab label="Wildfires List">
         <div class="wildfire-list-toggle-title" style="display:flex">
             <div style="width: 80%">Choose Wildfires to display</div>
@@ -111,6 +106,5 @@
         </div>
       </div>
     </mat-tab>
-
 </mat-tab-group>
 <ng-template #listIdentifyContainer></ng-template>
