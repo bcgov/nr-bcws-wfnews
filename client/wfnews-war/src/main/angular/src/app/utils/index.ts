@@ -405,4 +405,8 @@ export function getResponseTypeTitle(code: string) {
     else if (code === 'FULL') return 'Full Response'
 }
 
-
+export function convertToStandardDateString(value: string) {
+  if (value) {
+    return moment(value).format('MMM Do YYYY h:mm:ss a')
+  }
+}
