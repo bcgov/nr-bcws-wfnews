@@ -92,6 +92,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLocationEnabled: boolean;
   isMapLoaded = false;
   isAllLayersOpen = false;
+  isLegendOpen = false;
   refreshAllLayers = false;
   isDataSourcesOpen = false;
 
@@ -609,7 +610,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   openAllLayers() {
-    this.isAllLayersOpen = true;
+    this.isAllLayersOpen = !this.isAllLayersOpen;
+    this.isLegendOpen = false;
   }
 
   handleLayerChange() {
@@ -621,6 +623,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     if (!isVisible) {
       this.isDataSourcesOpen = false;
     }
+  }
+
+  showLegend () {
+    this.isLegendOpen = !this.isLegendOpen;
+    this.isAllLayersOpen = false;
   }
 
   openSearchPage () {
