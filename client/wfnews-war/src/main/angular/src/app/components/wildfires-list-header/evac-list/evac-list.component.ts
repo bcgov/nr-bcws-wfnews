@@ -8,6 +8,8 @@ import { FilterByLocationDialogComponent, LocationData } from '../filter-by-loca
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { ResourcesRoutes } from '@app/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-evac-list',
@@ -31,7 +33,7 @@ export class EvacListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall)
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, private router: Router, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
@@ -84,7 +86,9 @@ export class EvacListComponent implements OnInit {
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
             issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED),
-            distance: distance
+            distance: distance,
+            latitude: element.centroid.y,
+            longitude: element.centroid.x
           })
         }
       }
@@ -134,10 +138,13 @@ export class EvacListComponent implements OnInit {
     }
   }
 
-  viewMap(ban: any) {
+  viewMap(evac: any) {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: evac.longitude, latitude: evac.latitude} });
+    }, 100);
   }
 
-  showDetails(ban: any) {
+  showDetails(evac: any) {
 
   }
 

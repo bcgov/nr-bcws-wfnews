@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
 import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -62,7 +63,9 @@ export class AreaRestrictionListComponent implements OnInit {
               fireCentre: element.attributes.FIRE_CENTRE_NAME,
               fireZone: element.attributes.FIRE_ZONE_NAME,
               bulletinUrl: element.attributes.BULLETIN_URL,
-              distance: distance
+              distance: distance,
+              latitude: element.centroid.y,
+              longitude: element.centroid.x
           })
         }
       }
@@ -112,10 +115,13 @@ export class AreaRestrictionListComponent implements OnInit {
     }
   }
 
-  viewMap(ban: any) {
+  viewMap(restriction: any) {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: restriction.longitude, latitude: restriction.latitude} });
+    }, 100);
   }
 
-  showDetails(ban: any) {
+  showDetails(restriction: any) {
 
   }
 

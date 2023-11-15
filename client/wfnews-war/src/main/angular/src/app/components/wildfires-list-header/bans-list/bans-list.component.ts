@@ -6,6 +6,8 @@ import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/l
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
+import { ResourcesRoutes } from '@app/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-bans-list',
@@ -30,7 +32,7 @@ export class BansListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, private router: Router, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
@@ -65,7 +67,7 @@ export class BansListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getBansAndProhibitions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
+    this.agolService.getBansAndProhibitions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: true, returnGeometry: false}).subscribe(bans => {
       const banData = []
       if (bans && bans.features) {
         for (const element of bans.features) {
@@ -75,7 +77,9 @@ export class BansListComponent implements OnInit {
             type: element.attributes.TYPE,
             details: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
             issuedOn: this.convertToDate(element.attributes.ACCESS_STATUS_EFFECTIVE_DATE),
-            bulletinUrl: element.attributes.BULLETIN_URL
+            bulletinUrl: element.attributes.BULLETIN_URL,
+            latitude: element.centroid.y,
+            longitude: element.centroid.x
           })
         }
       }
@@ -99,6 +103,9 @@ export class BansListComponent implements OnInit {
   }
 
   viewMap(ban: any) {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {identify: true, longitude: ban.longitude, latitude: ban.latitude} });
+    }, 100);
   }
 
   showDetails(ban: any) {
