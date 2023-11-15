@@ -53,12 +53,19 @@
                     <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
+            <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
             <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
                 <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+            </button>
+            <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
+              <img alt="search" class="icon" src="/assets/images/svg-icons/search.svg" >
             </button>
             <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
+            </button>
+            <button mat-button class="legend-button button" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
+              <img alt="Legend" class="button-icon legend-icon" src="/assets/images/svg-icons/legend.svg" ><span class="button-label legend-label">Legend</span>
             </button>
         </div>
       </div>
@@ -73,5 +80,8 @@
             </div>
         </div>
         <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
+      </mobile-sliding-drawer>
+      <mobile-sliding-drawer [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
+        <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
       </mobile-sliding-drawer>
 </div>

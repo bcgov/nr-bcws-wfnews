@@ -1,0 +1,14 @@
+<svg width="28" height="20" viewBox="0 0 28 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Precip Radar 9" clip-path="url(#clip0_2979_91497)">
+<path id="Vector" d="M28 0.625H0V19.375H28V0.625Z" fill="url(#paint0_linear_2979_91497)"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_2979_91497" x1="0.388889" y1="9.60938" x2="28" y2="9.60938" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FE8C23"/>
+<stop offset="1" stop-color="#FE5B1B"/>
+</linearGradient>
+<clipPath id="clip0_2979_91497">
+<rect width="28" height="18.75" fill="white" transform="translate(0 0.625)"/>
+</clipPath>
+</defs>
+</svg>
