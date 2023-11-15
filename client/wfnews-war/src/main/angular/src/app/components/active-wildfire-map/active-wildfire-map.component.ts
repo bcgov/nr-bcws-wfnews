@@ -187,13 +187,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         const lat = Number(params['latitude']);
         // set timeout to load smk features to load
         setTimeout(() => {
-        const pan = this.panToLocation(long, lat);
-        // turn on area restriction layer if accessing from area restrictions full details
-        if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
-      }, 1000)
-
-  }});
-}
+          const pan = this.panToLocation(long, lat);
+          // turn on layers
+          if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
+          if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
+          if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
+          if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
+          // identify
+          setTimeout(() => {
+            if (params['identify']) {
+              this.identify([long, lat])
+            }
+          }, 2000)
+        }, 1000)
+      }});
+    }
 
   panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
@@ -204,7 +212,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:10)
+      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
     });
   }
 
@@ -657,7 +665,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           const SMK = window['SMK']
           for (const smkMap in SMK.MAP) {
             if (Object.hasOwn(SMK.MAP, smkMap)) {
-              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 15)
+              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
+
+              if (this.searchData.type !== 'address') {
+                this.identify(this.searchData.location)
+              }
               break
             }
           }
@@ -682,5 +694,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         this.searchData = null
       }
     });
+  }
+
+  identify (location: number[]) {
+    const SMK = window['SMK']
+    const turf = window['turf']
+    const point = turf.point(location)
+    const buffered = turf.buffer(point, 1, { units:'meters' })
+    const bbox = turf.bbox(buffered)
+    const poly = turf.bboxPolygon(bbox)
+
+    for (const smkMap in SMK.MAP) {
+      if (Object.hasOwn(SMK.MAP, smkMap)) {
+        SMK.MAP[smkMap].$viewer.identifyFeatures({ map: { latitude: location[1], longitude: location[0]}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
+        break
+      }
+    }
   }
 }

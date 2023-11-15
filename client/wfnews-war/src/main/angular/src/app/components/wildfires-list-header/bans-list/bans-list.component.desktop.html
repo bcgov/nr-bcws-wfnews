@@ -49,22 +49,22 @@
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="searchingComplete; else loading" class="table-wrapper">
-    <table mat-table [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
+    <table mat-table matSort [matSortActive]="selectedSortValue" [matSortDirection]="selectedSortOrder" (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Bans and Restrictions Table">
 
       <ng-container matColumnDef="fireCentre">
-        <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}} </td>
       </ng-container>
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Type </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.type}} </td>
       </ng-container>
       <ng-container matColumnDef="details">
-        <th mat-header-cell *matHeaderCellDef> Details </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Details </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.details}} </td>
       </ng-container>
       <ng-container matColumnDef="issuedOn">
-        <th mat-header-cell *matHeaderCellDef> Issued On </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued On </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef = "fullDetails">
