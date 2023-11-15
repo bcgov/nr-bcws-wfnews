@@ -28,18 +28,25 @@ export class RoFDisclaimerPage extends RoFPage {
     const userAgent = window.navigator.userAgent.toLowerCase();
 
     // Check for the presence of certain keywords in the user agent to determine the browser
-    if (userAgent.includes('chrome')) {
-      this.currentBrowser = 'Google Chrome';
-    } else if (userAgent.includes('firefox')) {
-      this.currentBrowser = 'Mozilla Firefox';
-    } else if (userAgent.includes('safari') && !userAgent.includes('chrome')) {
-      this.currentBrowser = 'Apple Safari';
-    } else if (userAgent.includes('edge')) {
-      this.currentBrowser = 'Microsoft Edge';
-    } else if (userAgent.includes('trident') || userAgent.includes('msie')) {
-      this.currentBrowser = 'Internet Explorer';
-    } else {
-      this.currentBrowser = 'Unknown Browser';
+    switch (true) {
+      case userAgent.includes('chrome'):
+        this.currentBrowser = 'Google Chrome';
+        break;
+      case userAgent.includes('firefox'):
+        this.currentBrowser = 'Mozilla Firefox';
+        break;
+      case userAgent.includes('safari') && !userAgent.includes('chrome'):
+        this.currentBrowser = 'Apple Safari';
+        break;
+      case userAgent.includes('edge'):
+        this.currentBrowser = 'Microsoft Edge';
+        break;
+      case userAgent.includes('trident') || userAgent.includes('msie'):
+        this.currentBrowser = 'Internet Explorer';
+        break;
+      default:
+        this.currentBrowser = 'Unknown Browser';
+        break;
     }
 
     if (this.currentBrowser !== 'Unknown Browser' ) {

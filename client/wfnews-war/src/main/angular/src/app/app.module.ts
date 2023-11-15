@@ -368,7 +368,7 @@ export const DATE_FORMATS = {
         PrecipRadarLegendComponent,
         PrecipForecastLegendComponent,
         RecSiteLegendComponent,
-        ProtectedLandsLegendComponent
+        ProtectedLandsLegendComponent,
         SearchPageComponent
     ],
     imports: [
