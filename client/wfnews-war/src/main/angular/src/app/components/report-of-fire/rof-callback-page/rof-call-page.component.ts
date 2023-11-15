@@ -34,7 +34,7 @@ export class RofCallPage extends RoFPage {
   }
 
   call(){
-    const rofPhoneNumber = this.appConfig.getConfig().externalAppConfig['contactInformation']['rofPhoneNumber'];
+    const rofPhoneNumber = this.appConfig.getConfig().externalAppConfig['contactInformation']['rofPhoneNumber'].toString();
     const phoneNumber = 'tel:' + rofPhoneNumber;
     window.open(phoneNumber, '_blank');
   }
