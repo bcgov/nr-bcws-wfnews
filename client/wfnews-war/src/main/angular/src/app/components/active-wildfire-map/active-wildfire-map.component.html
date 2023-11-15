@@ -53,8 +53,12 @@
                     <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
+            <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
             <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
                 <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+            </button>
+            <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
+              <img alt="search" class="icon" src="/assets/images/svg-icons/search.svg" >
             </button>
             <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>

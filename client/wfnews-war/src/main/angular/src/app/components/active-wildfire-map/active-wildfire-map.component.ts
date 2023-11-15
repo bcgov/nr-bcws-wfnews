@@ -16,6 +16,9 @@ import { PublishedIncidentService } from '../../services/published-incident-serv
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
+import { SearchResult, SearchPageComponent } from '../search/search-page.component';
+import { Observable } from 'rxjs';
+import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
 
 export type SelectedLayer =
@@ -93,6 +96,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   refreshAllLayers = false;
   isDataSourcesOpen = false;
 
+  public searchData: SearchResult
+
   showPanel: boolean;
 
   wildfireLayerIds: string[] = [
@@ -105,6 +110,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
+  private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
+
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,
@@ -116,6 +123,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
+    private breakpointObserver: BreakpointObserver
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -620,5 +628,59 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   showLegend () {
     this.isLegendOpen = !this.isLegendOpen;
     this.isAllLayersOpen = false;
+  }
+
+  openSearchPage () {
+    const dialogRef = this.dialog.open(SearchPageComponent, {
+      width: '450px',
+      height: '650px',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      data: this.searchData
+    });
+
+    const smallDialogSubscription = this.isExtraSmall.subscribe(size => {
+      if (size.matches) {
+        dialogRef.updateSize('100%', '100%');
+      } else {
+        dialogRef.updateSize('450px', '650px');
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
+      smallDialogSubscription.unsubscribe();
+      if ((result as boolean) !== false) {
+        this.searchData = result as SearchResult
+        // we have a selected result returned. Zoom to the provided lat long
+        // trigger identify? Turn on layers?
+        this.mapConfigService.getMapConfig().then(() => {
+          const SMK = window['SMK']
+          for (const smkMap in SMK.MAP) {
+            if (Object.hasOwn(SMK.MAP, smkMap)) {
+              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 15)
+              break
+            }
+          }
+        })
+        // then add to the most recent search list
+        let recentSearches: SearchResult[] = []
+        if (localStorage.getItem('recent-search') != null) {
+          try {
+            recentSearches = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+          } catch (err) {
+            console.error(err)
+            // carry on with the empty array
+          }
+        }
+
+        recentSearches.unshift(this.searchData)
+        if (recentSearches.length > 4) {
+          recentSearches = recentSearches.slice(0, 4)
+        }
+        localStorage.setItem('recent-search', JSON.stringify(recentSearches))
+      } else {
+        this.searchData = null
+      }
+    });
   }
 }

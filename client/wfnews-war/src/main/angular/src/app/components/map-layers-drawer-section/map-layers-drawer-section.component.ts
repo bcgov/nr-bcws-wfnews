@@ -23,7 +23,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   declaredOutWildfire = false;
   evacuationOrders = false;
   firePerimeters = false;
-  forestServiceRoads = false;
   hourlyPrecipitationForecast = false;
   indianReserves = false;
   municipalities = false;
@@ -57,7 +56,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
     this.declaredOutWildfire = false;
     this.evacuationOrders = false;
     this.firePerimeters = false;
-    this.forestServiceRoads = false;
     this.hourlyPrecipitationForecast = false;
     this.indianReserves = false;
     this.municipalities = false;
@@ -108,9 +106,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
         case 'bans-and-prohibitions-cat3':
         case 'bans-and-prohibitions-highlight':
           this.bansAndProhibitions = true;
-          break;
-        case 'bc-fsr':
-          this.forestServiceRoads = true;
           break;
         case 'clab-indian-reserves':
           this.indianReserves = true;
@@ -185,7 +180,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       { itemId: 'bans-and-prohibitions-cat2', visible: this.bansAndProhibitions },
       { itemId: 'bans-and-prohibitions-cat3', visible: this.bansAndProhibitions },
       { itemId: 'bans-and-prohibitions-highlight', visible: this.bansAndProhibitions },
-      { itemId: 'bc-fsr', visible: this.forestServiceRoads },
       { itemId: 'clab-indian-reserves', visible: this.indianReserves },
       { itemId: 'closed-recreation-sites', visible: this.closedRecreationSites },
       { itemId: 'current-conditions--default', visible: this.currentWeather },

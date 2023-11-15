@@ -213,6 +213,7 @@ import { PrecipRadarLegendComponent } from './components/legend-panels/precip-ra
 import { PrecipForecastLegendComponent } from './components/legend-panels/precip-forecast-layers/precip-forecast-legend.component';
 import { RecSiteLegendComponent } from './components/legend-panels/rec-site-layers/rec-site-legend.component';
 import { ProtectedLandsLegendComponent } from './components/legend-panels/protected-lands-layers/protected-lands-legend.component';
+import { SearchPageComponent } from './components/search/search-page.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -368,6 +369,7 @@ export const DATE_FORMATS = {
         PrecipForecastLegendComponent,
         RecSiteLegendComponent,
         ProtectedLandsLegendComponent
+        SearchPageComponent
     ],
     imports: [
         MatSortModule,

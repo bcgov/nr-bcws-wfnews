@@ -424,3 +424,9 @@ export function checkLayerVisible (layerId: string | string[]) {
   // and if the smk layers haven't loaded yet, just return false
   } else return false
 }
+
+export function convertToStandardDateString(value: string) {
+  if (value) {
+    return moment(value).format('MMM Do YYYY h:mm:ss a')
+  }
+}
