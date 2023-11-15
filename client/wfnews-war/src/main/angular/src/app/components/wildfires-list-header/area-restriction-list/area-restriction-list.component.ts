@@ -20,7 +20,7 @@ import { ResourcesRoutes } from '@app/utils';
 export class AreaRestrictionListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
   public selectedSortValue = ''
-  public selectedSortOrder = 'DESC'
+  public selectedSortOrder = 'desc'
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Name', code: 'name'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public searchTimer
@@ -70,8 +70,8 @@ export class AreaRestrictionListComponent implements OnInit {
         }
       }
       if (this.selectedSortValue !== '') {
-        this.selectedSortOrder = this.selectedSortOrder === 'ASC' ? 'DESC' : 'ASC'
-        const sortVal = this.selectedSortOrder === 'ASC' ? 1 : -1
+        this.selectedSortOrder = this.selectedSortOrder === 'asc' ? 'desc' : 'asc'
+        const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1
         areaRestrictionData.sort((a,b) =>(a[this.selectedSortValue] > b[this.selectedSortValue]) ? sortVal : ((b[this.selectedSortValue] > a[this.selectedSortValue]) ? sortVal * -1 : 0))
         this.selectedSortValue = ''
       }
@@ -126,7 +126,8 @@ export class AreaRestrictionListComponent implements OnInit {
   }
 
   sortData (event: any) {
-    this.cdr.detectChanges()
+    this.selectedSortValue = event.active
+    this.search()
   }
 
   searchByText() {

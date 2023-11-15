@@ -42,18 +42,18 @@
 </div>
 <p class ="results-count" >{{dataSource ? dataSource.data.length : 0}} Results</p>
 <div *ngIf="searchingComplete; else loading" class="table-wrapper">
-    <table mat-table [dataSource]="dataSource" aria-label="Area Restrictions Table">
+    <table mat-table matSort [matSortActive]="selectedSortValue" [matSortDirection]="selectedSortOrder" (matSortChange)="sortData($event)" [dataSource]="dataSource" aria-label="Area Restrictions Table">
 
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.name}} </td>
       </ng-container>
       <ng-container matColumnDef="issuedOn">
-        <th mat-header-cell *matHeaderCellDef> Issued On </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Issued On </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.issuedOn}} </td>
       </ng-container>
       <ng-container matColumnDef="fireCentre">
-        <th mat-header-cell *matHeaderCellDef> Fire Centre </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fire Centre </th>
         <td style="cursor: pointer;" mat-cell *matCellDef="let element" (click)="alert('todo!')"> {{element.fireCentre}} </td>
       </ng-container>
       <ng-container matColumnDef="distance">
