@@ -1,12 +1,11 @@
-import { ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { MapConfigService } from '@app/services/map-config.service';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { MapConfigService } from '@app/services/map-config.service';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
+import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -297,12 +296,15 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   zoomIn(level?: number) {
     let long;
     let lat;
-    if (this.identifyIncident && this.identifyIncident.longitude && this.identifyIncident.latitude) {
+    if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
       long = Number(this.identifyIncident.longitude);
       lat = Number(this.identifyIncident.latitude);
-    } else if (this.identifyItem && this.identifyItem._identifyPoint.longitude && this.identifyItem._identifyPoint.latitude) {
+    } else if (this.identifyItem?._identifyPoint?.longitude && this.identifyItem?._identifyPoint?.latitude) {
       long = Number(this.identifyItem._identifyPoint.longitude);
       lat = Number(this.identifyItem._identifyPoint.latitude);
+    } else if (this.identifyItem?.geometry?.coordinates) {
+      long = Number(this.identifyItem.geometry.coordinates[0]);
+      lat = Number(this.identifyItem.geometry.coordinates[1]);
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
