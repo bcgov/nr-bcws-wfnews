@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from "@angular/core"
+import { ChangeDetectorRef, Component, Inject, OnInit } from "@angular/core"
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 import { AGOLService } from "@app/services/AGOL-service"
 import { CommonUtilityService } from "@app/services/common-utility.service"
@@ -34,7 +34,7 @@ export class SearchResult {
   templateUrl: './search-page.component.html',
   styleUrls: ['./search-page.component.scss']
 })
-export class SearchPageComponent {
+export class SearchPageComponent implements OnInit {
   public searchData: SearchResult
   public searchText: string
 
@@ -45,6 +45,8 @@ export class SearchPageComponent {
   // list container. If we wind up not using the separate containers, we can toss them
   public allResultData: SearchResult[] = []
   public recentData: SearchResult[] = []
+  public fonData: SearchResult[] = []
+  public evacData: SearchResult[] = []
 
   private searchTimeout
   private userLocation
@@ -52,7 +54,10 @@ export class SearchPageComponent {
 
   constructor (private dialogRef: MatDialogRef<SearchPageComponent>, @Inject(MAT_DIALOG_DATA) public data: SearchResult, private agolService: AGOLService, private commonUtilityService: CommonUtilityService, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef) {
     this.searchData = data || new SearchResult
+  }
 
+  async ngOnInit(): Promise<void> {
+    await this.checkUserLocation()
     // fetch local storage for recent data
     if (localStorage.getItem('recent-search') != null) {
       try {
@@ -62,6 +67,56 @@ export class SearchPageComponent {
         // carry on with the empty array
       }
     }
+
+    // pre-load fires of note for the province
+    this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise().then(incidents => {
+      if (incidents && incidents.collection) {
+        for (const element of incidents.collection) {
+          const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : ''
+
+          this.fonData.push({
+            id: element.incidentNumberLabel,
+            type: 'incident',
+            title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
+            subtitle: element.fireCentreName,
+            distance: distance,
+            relevance: 4,
+            location: [element.longitude, element.latitude]
+          })
+
+          this.fonData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+        }
+      }
+    })
+
+    // pre-load evacuations
+    this.agolService.getEvacOrders(null, null, { returnCentroid: this.userLocation !== null, returnGeometry: false}).toPromise().then(evacs => {
+      if (evacs && evacs.features) {
+        for (const element of evacs.features) {
+          let distance = null
+          if (this.userLocation) {
+            const currentLat = Number(this.userLocation.coords.latitude);
+            const currentLong = Number(this.userLocation.coords.longitude);
+
+            if (element.centroid) {
+              distance = (Math.round(haversineDistance(element.centroid.y, currentLat, element.centroid.x, currentLong) / 1000)).toFixed(0)
+            }
+          }
+
+          this.evacData.push({
+            id: element.attributes.EMRG_OAA_SYSID,
+            type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
+            title: element.attributes.EVENT_NAME,
+            subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
+            distance: distance,
+            relevance: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1 : 2,
+            location: [element.centroid.y, element.centroid.x]
+          })
+        }
+
+        this.evacData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.id.localeCompare(b.id))
+      }
+    })
   }
 
   search () {
@@ -139,11 +194,10 @@ export class SearchPageComponent {
     await this.checkUserLocation()
 
     // limited load or keep paging/fetching?
-    const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.userLocation, this.searchText).toPromise()
+    const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(1, 10, this.userLocation, this.searchText).toPromise()
 
     if (incidents && incidents.collection) {
       for (const element of incidents.collection) {
-        console.log(element)
         const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : ''
 
         this.allResultData.push({
@@ -184,8 +238,6 @@ export class SearchPageComponent {
           }
         }
 
-
-
         this.allResultData.push({
           id: element.attributes.EMRG_OAA_SYSID,
           type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
@@ -208,7 +260,7 @@ export class SearchPageComponent {
   }
 
   sort () {
-    this.allResultData.sort((a, b) => a.distance > b.distance ? 1 : a.distance < b.distance ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+    this.allResultData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
   }
 
   removeFromRecent (item: SearchResult, index: number) {
