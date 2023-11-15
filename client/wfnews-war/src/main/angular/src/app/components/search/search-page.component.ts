@@ -32,6 +32,7 @@ export class SearchResult {
   public subtitle: string
   public distance: string
   public relevance: number
+  public location: number[]
 }
 
 @Component({
@@ -111,7 +112,8 @@ export class SearchPageComponent {
             title: `${address.streetQualifier} ${address.civicNumber} ${address.streetName} ${address.streetType}`.trim() || address.localityName,
             subtitle: address.localityName,
             distance: this.userLocation ? (Math.round(haversineDistance(address.loc[1], this.userLocation.coords.latitude, address.loc[0], this.userLocation.coords.longitude) / 1000)).toFixed(0) : '',
-            relevance: /^\d/.test(this.searchText.trim()) ? 4 : 1
+            relevance: /^\d/.test(this.searchText.trim()) ? 4 : 1,
+            location: address.loc
           })
         }
 
@@ -145,7 +147,8 @@ export class SearchPageComponent {
           title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
           subtitle: element.fireCentreName,
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) ? 3 : 4
+          relevance: /^\d/.test(this.searchText.trim()) ? 3 : 4,
+          location: [element.longitude, element.latitude]
         })
       }
     }
@@ -187,7 +190,8 @@ export class SearchPageComponent {
           relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
                    : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
                    : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
-                   : 2
+                   : 2,
+          location: [element.centroid.y, element.centroid.x]
         })
       }
 

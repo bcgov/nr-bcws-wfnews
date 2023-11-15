@@ -12,7 +12,7 @@
     <div class="results-panel">
       <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>
       <div *ngIf="addressSearchComplete || evacSearchComplete || incidentSearchComplete; else loading" class="result-panel-cards">
-        <div *ngFor="let item of allResultData" class="result-card">
+        <div *ngFor="let item of allResultData" class="result-card" [mat-dialog-close]="item">
           <div class="result-card-icon-holder">
             <div class="result-card-icon-holder-icon">
               <img *ngIf="item.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >

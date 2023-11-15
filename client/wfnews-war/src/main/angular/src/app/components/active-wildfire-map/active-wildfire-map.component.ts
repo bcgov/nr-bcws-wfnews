@@ -16,7 +16,7 @@ import { PublishedIncidentService } from '../../services/published-incident-serv
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
 import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
-import { SearchData, SearchPageComponent } from '../search/search-page.component';
+import { SearchResult, SearchPageComponent } from '../search/search-page.component';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 
@@ -95,7 +95,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   refreshAllLayers = false;
   isDataSourcesOpen = false;
 
-  public searchData: SearchData
+  public searchData: SearchResult
 
   showPanel: boolean;
 
@@ -640,10 +640,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: SearchData | boolean) => {
+    dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
       smallDialogSubscription.unsubscribe();
       if ((result as boolean) !== false) {
-        this.searchData = result as SearchData
+        this.searchData = result as SearchResult
+        // we have a selected result returned. Zoom to the provided lat long
+        // or navigate to the full details page?
+        this.mapConfigService.getMapConfig().then(() => {
+          const SMK = window['SMK']
+          for (const smkMap in SMK.MAP) {
+            if (Object.hasOwn(SMK.MAP, smkMap)) {
+              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 15)
+              break
+            }
+          }
+        })
       } else {
         this.searchData = null
       }
