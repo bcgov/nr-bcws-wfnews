@@ -1,6 +1,7 @@
 <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="center" [(selectedIndex)]="tabIndex" (selectedTabChange)="onTabChanged($event);">
         <mat-tab label="Legend">
           <section>
+            <!-- Show the selected feature layer on the top -->
             <wfnews-fire-legend *ngIf="selectedPanel === 'wildfire-stage-of-control' && checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
             <wfnews-evac-legend *ngIf="selectedPanel === 'evacuation-orders-and-alerts' && checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>
             <wfnews-bans-legend *ngIf="selectedPanel === 'bans-and-prohibitions' && checkLayerVisible(['bans-and-prohibitions-cat1', 'bans-and-prohibitions-cat2', 'bans-and-prohibitions-cat3'])"></wfnews-bans-legend>
@@ -9,8 +10,8 @@
             <wfnews-smoke-legend *ngIf="selectedPanel === 'smoke-forecast' && checkLayerVisible('hourly-currentforecast-firesmoke')"></wfnews-smoke-legend>
             <wfnews-road-event-legend *ngIf="selectedPanel === 'routes-impacted' && checkLayerVisible('drive-bc-active-events')"></wfnews-road-event-legend>
             <wfnews-local-authorities-legend *ngIf="selectedPanel === 'local-authorities' && checkLayerVisible(['abms-municipalities', 'abms-regional-districts', 'clab-indian-reserves', 'fnt-treaty-land'])"></wfnews-local-authorities-legend>
-
-            <wfnews-fire-legend *ngIf="selectedPanel !== 'wildfire-stage-of-control'checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
+            <!-- Show the rest below -->
+            <wfnews-fire-legend *ngIf="selectedPanel !== 'wildfire-stage-of-control' && checkLayerVisible(['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'])"></wfnews-fire-legend>
             <wfnews-evac-legend *ngIf="selectedPanel !== 'evacuation-orders-and-alerts' && checkLayerVisible('evacuation-orders-and-alerts-wms')"></wfnews-evac-legend>
             <wfnews-bans-legend *ngIf="selectedPanel !== 'bans-and-prohibitions' && checkLayerVisible(['bans-and-prohibitions-cat1', 'bans-and-prohibitions-cat2', 'bans-and-prohibitions-cat3'])"></wfnews-bans-legend>
             <wfnews-area-restriction-legend *ngIf="selectedPanel !== 'area-restrictions' && checkLayerVisible('area-restrictions')"></wfnews-area-restriction-legend>
@@ -18,7 +19,7 @@
             <wfnews-smoke-legend *ngIf="selectedPanel !== 'smoke-forecast' && checkLayerVisible('hourly-currentforecast-firesmoke')"></wfnews-smoke-legend>
             <wfnews-road-event-legend *ngIf="selectedPanel !== 'routes-impacted' && checkLayerVisible('drive-bc-active-events')"></wfnews-road-event-legend>
             <wfnews-local-authorities-legend *ngIf="selectedPanel !== 'local-authorities' && checkLayerVisible(['abms-municipalities', 'abms-regional-districts', 'clab-indian-reserves', 'fnt-treaty-land'])"></wfnews-local-authorities-legend>
-
+            <!-- All other layers appear below the feature layers -->
             <wfnews-map-legend *ngIf="checkLayerVisible('bc-fire-centres')"></wfnews-map-legend>
             <wfnews-precip-radar-legend *ngIf="checkLayerVisible('radar-1km-rrai--radarurpprecipr14-linear')"></wfnews-precip-radar-legend>
             <wfnews-precip-forecast-legend *ngIf="checkLayerVisible('precipitation')"></wfnews-precip-forecast-legend>
