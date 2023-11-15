@@ -645,7 +645,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if ((result as boolean) !== false) {
         this.searchData = result as SearchResult
         // we have a selected result returned. Zoom to the provided lat long
-        // or navigate to the full details page?
+        // trigger identify? Turn on layers?
         this.mapConfigService.getMapConfig().then(() => {
           const SMK = window['SMK']
           for (const smkMap in SMK.MAP) {
@@ -655,6 +655,22 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             }
           }
         })
+        // then add to the most recent search list
+        let recentSearches: SearchResult[] = []
+        if (localStorage.getItem('recent-search') != null) {
+          try {
+            recentSearches = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+          } catch (err) {
+            console.error(err)
+            // carry on with the empty array
+          }
+        }
+
+        recentSearches.unshift(this.searchData)
+        if (recentSearches.length > 4) {
+          recentSearches = recentSearches.slice(0, 4)
+        }
+        localStorage.setItem('recent-search', JSON.stringify(recentSearches))
       } else {
         this.searchData = null
       }
