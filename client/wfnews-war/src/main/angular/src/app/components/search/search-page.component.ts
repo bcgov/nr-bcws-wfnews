@@ -31,6 +31,7 @@ export class SearchResult {
   public title: string
   public subtitle: string
   public distance: string
+  public relevance: number
 }
 
 @Component({
@@ -66,7 +67,7 @@ export class SearchPageComponent {
     this.searchTimeout = setTimeout(() => {
       // Using searchText, search for the Incidents, Evacs, etc
       // Can be async, populate lists as they come in
-      if (this.searchText.length > 3) {
+      if (this.searchText.length >= 3) {
         this.allResultData = []
 
         this.searchAddress()
@@ -109,12 +110,12 @@ export class SearchPageComponent {
             type: 'address',
             title: `${address.streetQualifier} ${address.civicNumber} ${address.streetName} ${address.streetType}`.trim() || address.localityName,
             subtitle: address.localityName,
-            distance: this.userLocation ? (Math.round(haversineDistance(address.loc[1], this.userLocation.coords.latitude, address.loc[0], this.userLocation.coords.longitude) / 1000)).toFixed(0) + ' km' : ''
+            distance: this.userLocation ? (Math.round(haversineDistance(address.loc[1], this.userLocation.coords.latitude, address.loc[0], this.userLocation.coords.longitude) / 1000)).toFixed(0) : '',
+            relevance: /^\d/.test(this.searchText.trim()) ? 4 : 1
           })
         }
 
-        // sort
-        this.allResultData.sort((a, b) => a.title > b.title ? 1 : a.title < b.title ? -1 : 0)
+        this.sort()
 
         this.addressSearchComplete = true
         this.cdr.detectChanges()
@@ -136,19 +137,20 @@ export class SearchPageComponent {
     if (incidents && incidents.collection) {
       for (const element of incidents.collection) {
         console.log(element)
-        const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) + ' km' : ''
+        const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : ''
 
         this.allResultData.push({
           id: element.incidentNumberLabel,
           type: 'incident',
           title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
           subtitle: element.fireCentreName,
-          distance: distance
+          distance: distance,
+          relevance: /^\d/.test(this.searchText.trim()) ? 3 : 4
         })
       }
     }
 
-    this.allResultData.sort((a, b) => a.title > b.title ? 1 : a.title < b.title ? -1 : 0)
+    this.sort()
 
     this.incidentSearchComplete = true
     this.cdr.detectChanges()
@@ -174,19 +176,29 @@ export class SearchPageComponent {
           }
         }
 
+
+
         this.allResultData.push({
           id: element.attributes.EMRG_OAA_SYSID,
           type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
           title: element.attributes.EVENT_NAME,
           subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
-          distance: distance
+          distance: distance,
+          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
+                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
+                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
+                   : 2
         })
       }
-      // sort
-      this.allResultData.sort((a, b) => a.title > b.title ? 1 : a.title < b.title ? -1 : 0)
+
+      this.sort()
 
       this.evacSearchComplete = true
       this.cdr.detectChanges()
     }
+  }
+
+  sort () {
+    this.allResultData.sort((a, b) => a.distance > b.distance ? 1 : a.distance < b.distance ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
   }
 }
