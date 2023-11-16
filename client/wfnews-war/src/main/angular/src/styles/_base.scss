@@ -575,11 +575,22 @@ iframe#login-iframe {
     height: auto!important;
 }
 
+.search-icon {
+  position: relative;
+  padding-right: 5px;
+  top: 8px;
+}
+
+.search-data {
+  display: flex;
+  flex-direction: column;
+}
+
 .location-option {
     font-size: 12px;
     line-height: 1.3;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     padding: 3px 0 5px 0;
 }
 .location-option .mat-icon{

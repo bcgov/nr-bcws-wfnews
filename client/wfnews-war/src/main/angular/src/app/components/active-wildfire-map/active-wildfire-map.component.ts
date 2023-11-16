@@ -20,6 +20,7 @@ import { SearchResult, SearchPageComponent } from '../search/search-page.compone
 import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AGOLService } from '@app/services/AGOL-service';
+import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 
 
 export type SelectedLayer =
@@ -54,6 +55,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @ViewChild('RoutesImpacted') routesImpactedPanel: MatExpansionPanel;
 
   @ViewChildren("locationOptions") locationOptions: QueryList<ElementRef>;
+  @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
 
   incidentsServiceUrl: string;
   mapConfig = null;
@@ -91,6 +93,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredIndianReserve: any[];
 
   isLocationEnabled: boolean;
+  public userLocation;
   isMapLoaded = false;
   isAllLayersOpen = false;
   isLegendOpen = false;
@@ -139,9 +142,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      if (val.length > 2) {
+      if (val.length > 2 || this.isLocationEnabled) {
         this.filteredOptions = [];
         this.searchLayerGroup.clearLayers();
+        this.inputAutoComplete.openPanel();
         // search addresses
         this.placeData.searchAddresses(val).then((results) => {
           if (results) {
@@ -162,26 +166,32 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           }
         });
         // search incidents
-        this.publishedIncidentService.fetchPublishedIncidentsList(1, 10, null, val).toPromise().then(incidents => {
-          if (incidents && incidents.collection) {
-            for (const element of incidents.collection) {
-              this.filteredOptions.push({
-                id: element.incidentNumberLabel,
-                type: 'incident',
-                title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
-                subtitle: element.fireCentreName,
-                distance: '0',
-                relevance: /^\d/.test(val.trim()) ? 3 : 4,
-                location: [Number(element.longitude), Number(element.latitude)]
-              })
+        let searchFon = 0;
+        while (searchFon < 2) {
+          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.isLocationEnabled ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.isLocationEnabled ? null : val, Boolean(searchFon).valueOf()).toPromise().then(incidents => {
+            if (incidents && incidents.collection) {
+              for (const element of incidents.collection) {
+                this.filteredOptions.push({
+                  id: element.incidentNumberLabel,
+                  type: 'incident',
+                  title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
+                  subtitle: element.fireCentreName,
+                  distance: '0',
+                  relevance: /^\d/.test(val.trim()) ? 3 : 4,
+                  location: [Number(element.longitude), Number(element.latitude)]
+                })
+              }
+              this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.cdr.markForCheck()
+
+              console.log(this.filteredOptions)
             }
-            this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
-            this.cdr.markForCheck()
-          }
-        })
+          })
+          searchFon++;
+        }
 
         // search evac orders
-        this.agolService.getEvacOrders(val, null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
+        this.agolService.getEvacOrders(this.isLocationEnabled ? null : val, this.isLocationEnabled ? { x: this.userLocation.coords.longitude, y: this.userLocation.coords.latitude, radius: 50 } : null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             for (const element of evacs.features) {
               this.filteredOptions.push({
@@ -417,6 +427,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   clearSearchLocationControl() {
     this.searchByLocationControl.reset();
+    this.isLocationEnabled = false;
     this.clearMyLocation()
   }
 
@@ -565,9 +576,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
     this.searchText = undefined;
     try {
-      const location = await this.commonUtilityService.getCurrentLocationPromise();
-      const long = location.coords.longitude;
-      const lat = location.coords.latitude;
+      this.userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+      const long = this.userLocation.coords.longitude;
+      const lat = this.userLocation.coords.latitude;
       if (lat && long) {
         this.showAreaHighlight([long, lat], 50);
         this.showLocationMarker({
