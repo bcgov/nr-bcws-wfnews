@@ -10,5 +10,5 @@ import { EvacListComponent } from "./evac-list.component";
   })
 
 export class EvacListComponentDesktop extends EvacListComponent {
-    columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"];
+    columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap"];
 }
