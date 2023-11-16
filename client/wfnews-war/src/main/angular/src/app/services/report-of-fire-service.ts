@@ -19,7 +19,8 @@ export type ReportOfFireType = {
     assetsAtRisk?: string[],
     signsOfResponse?: string[],
     otherInfo?: string,
-    submittedTimestamp?: string
+    submittedTimestamp?: string,
+    visibleFlame?: string[]
   };
 
 @Injectable({
