@@ -290,6 +290,7 @@
         </div>
     </div>
 
+    <!-- preview panel: evac orders and alers -->
     <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'evacuation-orders-and-alerts-wms' ">
         <div class="panel-container" >
             <div class="draggable-panel-title">
@@ -330,7 +331,7 @@
             <div class="button-row">
                 <div class="divider"></div>
                 <div class="buttons">
-                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn(null,true)" >
                         <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
                         Zoom to
                     </button>
@@ -441,7 +442,7 @@
             <div class="button-row">
                 <div class="divider"></div>
                 <div class="buttons">
-                    <button mat-flat-button class="mobile-button" (click)="zoomIn()" >
+                    <button mat-flat-button class="mobile-button" (click)="zoomIn(null,true)" >
                         <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
                         Zoom to
                     </button>

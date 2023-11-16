@@ -6,6 +6,7 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { AGOLService } from '@app/services/AGOL-service';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -36,6 +37,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   allowBackToIncidentsPanel: boolean;
   identifyItem: any;
   identifyIncident: any = {};
+  map: any;
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
@@ -56,7 +58,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     protected cdr: ChangeDetectorRef,
     protected http: HttpClient,
     private mapConfigService: MapConfigService,
-    private router: Router
+    private router: Router,
+    private agolService: AGOLService
   ) {
   }
 
@@ -121,7 +124,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         })
       }else {
         //identify anything other than incident
-        this.zoomIn(8)
+        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions')){
+          this.zoomIn(8,true);
+        } else{
+          this.zoomIn(8)
+        }
       }
       console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
@@ -207,6 +214,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   }
 
   closePanel() {
+    this.showPanel = false;
+    this.allowBackToIncidentsPanel = false;
+    this.identifyIncident = {};
     if (this.marker) {
       this.marker.remove()
       this.marker = null
@@ -219,10 +229,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     SMK.MAP[1].$viewer.identified.clear();
     SMK.MAP[1].$sidepanel.setExpand(0)
     this.cdr.detectChanges();
-
-    this.showPanel = false;
-    this.allowBackToIncidentsPanel = false;
-    this.identifyIncident = {};
   }
 
 
@@ -293,7 +299,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
-  zoomIn(level?: number) {
+  zoomIn(level?: number, polygon?: boolean) {
     let long;
     let lat;
     if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
@@ -316,6 +322,38 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
           }
         }
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
+        const layerId = this.identifyItem.layerId
+        if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){
+          const location = [Number(this.identifyItem._identifyPoint.latitude), Number(this.identifyItem._identifyPoint.longitude)];
+          if (layerId.includes('bans-and-prohibitions')){
+            viewer.panToFeature(window['turf'].point([long, lat]), 5)
+
+            this.agolService.getBansAndProhibitionsById(this.identifyItem.properties.PROT_BAP_SYSID,{ returnGeometry: false, returnCentroid: false,returnExtent: true }).toPromise().then(
+              (response) => {
+                if (response?.extent) {
+                  viewer.map.fitBounds(new L.LatLngBounds([response.extent.ymin, response.extent.xmin], [response.extent.ymax, response.extent.xmax]));
+                }
+              }
+            )
+          }
+          else if (layerId.includes('evacuation-orders-and-alerts')){
+            this.agolService.getEvacOrdersByEventNumber(this.identifyItem.properties.EVENT_NUMBER,{ returnGeometry: false, returnCentroid: false,returnExtent: true }).toPromise().then(
+              (response) => {
+                if (response?.extent) {
+                  viewer.map.fitBounds(new L.LatLngBounds([response.extent.ymin, response.extent.xmin], [response.extent.ymax, response.extent.xmax]));
+                }
+              }
+            )
+          }
+          else if (layerId.includes('area-restrictions')){
+            this.agolService.getAreaRestrictionsByID(this.identifyItem.properties.PROT_RA_SYSID,{ returnGeometry: false, returnCentroid: false,returnExtent: true }).toPromise().then(
+              (response) => {
+                viewer.map.fitBounds(new L.LatLngBounds([response.extent.ymin, response.extent.xmin], [response.extent.ymax, response.extent.xmax]));
+              }
+            )
+          }
+            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));  
+        }
       })
     }
   }
