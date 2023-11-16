@@ -11,15 +11,11 @@
               <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
               <!-- Autocomplete will be updated to also support incidents/evacs -->
               <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                  <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
-                      [value]="option">
-                      <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
-                          <div *ngIf="option.address !== ''">
-                              <div><span class="address">{{option.address}}</span></div>
-                              <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
-                          </div>
-                          <div *ngIf="option.address === ''">
-                              <div><span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span></div>
+                  <mat-option class="location-mat-option" *ngFor="let option of filteredOptions" [value]="option">
+                      <div class="location-option" #locationOptions [attr.data-loc-long]="option.location[0]" [attr.data-loc-lat]="option.location[1]">
+                          <div>
+                              <div><span class="address">{{option.title}}</span></div>
+                              <div class="locality">{{option.subtitle}}</div>
                           </div>
                       </div>
                   </mat-option>
