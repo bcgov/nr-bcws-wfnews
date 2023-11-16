@@ -1,7 +1,8 @@
 <ng-container [formGroup]="contactForm">
     <!-- Mobile Mode -->
     <div class="mobile-container">
-      <div class="title">Contact Information</div>
+      <div class="title">Contact Information<mat-icon class="icon" *ngIf="isMobileView()" [color]="closeColor"
+        (mouseover)="closeColor = 'warn'" (mouseout)="closeColor = null" (click)="close()" style="cursor: pointer;">close</mat-icon></div>
       <div class="text">
         <p>Select a wildfire to view contact information associated with a specific incident.</p>
         <p>Submit general feedback and questions using this form and we will get back to you as soon as possible.</p>
