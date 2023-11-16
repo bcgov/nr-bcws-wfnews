@@ -42,7 +42,6 @@ export class SearchPageComponent implements OnInit {
   public evacSearchComplete = true
   public incidentSearchComplete = true
 
-  // list container. If we wind up not using the separate containers, we can toss them
   public allResultData: SearchResult[] = []
   public recentData: SearchResult[] = []
   public fonData: SearchResult[] = []
