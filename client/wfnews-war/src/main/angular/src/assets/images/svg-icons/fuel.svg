@@ -1,0 +1,25 @@
+<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Fuel">
+<g id="Group">
+<g id="Clip path group">
+<mask id="mask0_2262_37152" style="mask-type:luminance" maskUnits="userSpaceOnUse" x="1" y="1" width="22" height="22">
+<g id="a">
+<path id="Vector" d="M22.0303 22.0299V1.96999H1.97031V22.0299H22.0303Z" fill="white" stroke="white" stroke-width="1.3"/>
+</g>
+</mask>
+<g mask="url(#mask0_2262_37152)">
+<g id="Group_2">
+<path id="Vector_2" d="M12.1881 13.2363C11.4095 14.0149 11.4095 15.2774 12.1881 16.0565L13.3118 17.1798L10.7839 19.708C10.3282 20.1637 9.5892 20.1638 9.13334 19.708L4.22656 14.8015L8.73605 10.2917C8.89068 10.1372 9.01334 9.95369 9.09701 9.75173C9.18067 9.54978 9.22371 9.33331 9.22366 9.11472V7.56333C9.22382 7.12176 9.39921 6.69831 9.71131 6.38594L11.2199 4.87777L15.8833 9.54112L14.6539 10.7705L12.1881 13.2363Z" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M12.1797 16.0464L12.6845 16.5508L15.0778 14.1575L14.2874 11.1385" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_4" d="M14.9937 8.65112L16.02 7.62484C16.5674 7.07712 17.2326 6.66161 17.965 6.41L21.2194 5.29027L20.4856 3.36412L16.2899 4.6428C15.4909 4.88638 14.7641 5.32279 14.1736 5.91355L13.2148 6.87224" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_5" d="M6.89123 17.4674L3.72266 20.636" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_6" d="M5.11388 15.6888L1.94531 18.8574" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_7" d="M6.16151 16.7366H6.16016" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_8" d="M7.94141 18.5156V18.5143" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_9" d="M19.4943 12.5438C18.3043 10.9992 20.6023 8.54248 20.6023 8.54248C20.6023 8.54248 22.9005 10.9993 21.7102 12.5439C21.1199 13.3099 20.0845 13.3099 19.4943 12.5438Z" stroke="#242424" stroke-width="1.3" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

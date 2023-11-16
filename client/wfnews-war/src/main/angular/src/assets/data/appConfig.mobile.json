@@ -41,7 +41,21 @@
         "evacDefaultUrl": "#{EVAC_DEFAULT_URL}#",
         "currentRestrictions": "#{CURRENT_RESTRICTIONS_URL}#",
         "recSiteTrailsClosures": "#{REC_SITE_TRAILS_CLOSURES_URL}#",
-        "parksClosures": "#{PARKS_CLOSURES_URL}#"
+        "parksClosures": "#{PARKS_CLOSURES_URL}#",
+        "localAuthoritiesUrl": "#{LOCAL_AUTHORITIES_URL}#",
+        "wildfirePreparednessUrl": "#{WILDFIRE_PREPAREDNESS_URL}",
+        "buildEmergencyKitUrl": "#{EMERGENCY_KIT_URL}",
+        "preparedBCUrl": "#{PREPARED_BC_URL}",
+        "preparedBCTwitter": "#{PREPARED_BC_TWITTER}",
+        "preparedBCFacebook": "#{PREPARED_BC_FACEBOOK}",
+        "embcUrl": "#{EMBC_URL}",
+        "embcTwitter": "#{EMBC_TWITTER}",
+        "evacGuidanceUrl": "#{EVAC_GUIDANCE_URL}",
+        "localGovUrl": "#{LOCAL_GOV_URL}",
+        "emergencyAlertUrl": "#{EMERGENCY_ALERT_URL}",
+        "driveBCUrl": "{DRIVE_BC_URL}",
+        "evacServicesUrl": "{EVAC_SERVICES_URL}"
+       
     },
 
     "mapIcons": {
