@@ -277,7 +277,7 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-name {
-    width: 30%;
+    width: 44%;
     font-size: 15px !important;
     font-weight: 600 !important;
     line-height: 16px !important;
@@ -286,25 +286,21 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-issuedOn {
-    width: 10%;
+    width: 18%;
 }
 
 .mat-column-fireCentre {
-    width: 20%;
+    width: 18%;
     text-wrap: nowrap;
     text-overflow: ellipsis;
 }
 
 .mat-column-distance {
-    width: 10%;
-}
-
-.mat-column-details {
-    width: 10%;
+    width: 15%;
 }
 
 .mat-column-viewMap {
-    width: 15%;
+    width: 8%;
 }
 
 .cell-label {

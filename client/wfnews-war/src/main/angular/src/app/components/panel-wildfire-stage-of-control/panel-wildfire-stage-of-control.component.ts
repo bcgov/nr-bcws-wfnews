@@ -19,7 +19,7 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, convertToFireCentreDescription, snowPlowHelper } from '../../utils';
+import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, checkLayerVisible, convertToFireCentreDescription, snowPlowHelper } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
@@ -29,8 +29,10 @@ const delay = t => new Promise(resolve => setTimeout(resolve, t));
 export class PanelWildfireStageOfControlComponent extends CollectionComponent implements OnChanges, OnInit, OnDestroy {
   @ViewChild('listIdentifyContainer', { read: ViewContainerRef }) listIdentifyContainer: ViewContainerRef;
   @Input() collection: PagedCollection
+  @Input() selectedPanel: string
 
   public snowPlowHelper = snowPlowHelper
+  public checkLayerVisible = checkLayerVisible
 
   activeWildfiresInd = true;
   outWildfiresInd = false;
@@ -66,6 +68,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   public readonly url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
 
+  private cdrScan
+
   public convertToDateWithDayOfWeek = DateTimeConvert;
   public convertToStageOfControlDescription = StageOfControlConvert;
   public convertToFireCentreDescription = convertToFireCentreDescription;
@@ -84,7 +88,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     if ((document.getElementsByClassName('identify-panel').item(0) as HTMLElement)?.style?.display) {
       (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
     }
-    
+
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
       if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
@@ -98,6 +102,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     clearInterval(this.mapPanProgressBar)
     clearInterval(this.markerAnimation)
     clearTimeout(this.ignorePanDebounce)
+    clearInterval(this.cdrScan)
   }
 
   initModels() {
@@ -126,21 +131,15 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   bindMapEvents() {
     this.initInterval = setInterval(() => {
       try {
-        //TODO: REMOVE THIS LOGGING STATEMENT
-        console.warn('... Attempting to bind map events ...')
         const SMK = window['SMK'];
         this.viewer = null;
         for (const smkMap in SMK.MAP) {
           if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
             this.viewer = SMK.MAP[smkMap].$viewer;
           }
-          //TODO: REMOVE THIS LOGGING STATEMENT
-          console.warn('... SMK Map property ' + smkMap + ' has been added to viewer ...')
         }
         this.map = this.viewer.map;
         if (!this.highlightLayer) {
-          //TODO: REMOVE THIS LOGGING STATEMENT
-          console.warn('... Adding highlight layer ...')
           this.highlightLayer = window['L'].layerGroup().addTo(this.map);
           this.map.on('zoomend', () => {
             this.mapEventHandler(false);
@@ -211,6 +210,10 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     setTimeout(() => {
       this.bindMapEvents()
     }, 3000)
+
+    this.cdrScan = setInterval(() => {
+      this.cdr.markForCheck()
+    }, 5000)
   }
 
   async useMyCurrentLocation() {
@@ -491,5 +494,24 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
 
   onClickBookmark(event: Event) {
     event.stopPropagation()
+  }
+
+  openlink (url: string) {
+    this.snowplow('outbound_click', url)
+    window.open(url, '_blank')
+  }
+
+  async snowplow (action: string, link: string, area: string | null = null) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
+    const snowPlowPackage = {
+      action: action.toLowerCase(),
+      text: link
+    }
+
+    if (area) {
+      snowPlowPackage['area'] = area
+    }
+
+    this.snowPlowHelper(url, snowPlowPackage)
   }
 }

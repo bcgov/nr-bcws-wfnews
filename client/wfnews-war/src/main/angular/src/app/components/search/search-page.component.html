@@ -1,0 +1,96 @@
+<div class="dialog">
+  <div class="dialog-panel">
+    <div class="search-panel">
+      <div class="field search-input">
+        <mat-icon class="search-icon" matSuffix [mat-dialog-close]="false">arrow_back_ios</mat-icon>
+        <input matInput class="search-input" aria-label="Search Here" placeholder="Search Here" [(ngModel)]="searchText" (ngModelChange)="search()">
+        <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="clearSearch(); $event.stopPropagation()" matTooltip="Clear">
+          <span class="button-wrapper"><mat-icon>close</mat-icon></span>
+        </button>
+      </div>
+    </div>
+    <div class="home-sections" *ngIf="allResultData?.length === 0">
+      <div class="home-panel" *ngIf="recentData?.length > 0 && allResultData?.length === 0">
+        <div class="header">
+          <img alt="recent searches" class="header-icon" src="/assets/images/svg-icons/clock.svg" >
+          <div class="header-title">Recent</div>
+        </div>
+        <div *ngFor="let item of recentData; let i = index" class="result-card" [mat-dialog-close]="item">
+          <div class="result-card-icon-holder">
+            <div class="result-card-icon-holder-icon">
+              <img *ngIf="item.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+              <img *ngIf="item.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img *ngIf="item.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+              <img *ngIf="item.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+            </div>
+            <div class="result-card-icon-holder-dist">{{item.distance ? item.distance + 'km' : ''}}</div>
+          </div>
+          <div class="result-card-info">
+            <div class="result-card-title">{{item.title}}</div>
+            <div class="result-card-subtitle">{{item.subtitle}}</div>
+          </div>
+          <div class="result-card-icon-holder-close-icon">
+            <img alt="close" (click)="removeFromRecent(item, i)" class="close-icon" src="/assets/images/svg-icons/carbon_cancel.svg" >
+          </div>
+        </div>
+      </div>
+      <div class="home-panel" *ngIf="fonData?.length > 0 && allResultData?.length === 0">
+        <div class="header">
+          <img alt="Wildfires of note" class="header-icon" src="/assets/images/svg-icons/fire-note.svg" >
+          <div class="header-title">Wildfires of Note</div>
+        </div>
+        <div *ngFor="let item of fonData; let i = index" class="result-card" [mat-dialog-close]="item">
+          <div class="result-card-icon-holder">
+            <div class="result-card-icon-holder-icon">
+              <img alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+            </div>
+            <div class="result-card-icon-holder-dist">{{item.distance ? item.distance + 'km' : ''}}</div>
+          </div>
+          <div class="result-card-info">
+            <div class="result-card-title">{{item.title}}</div>
+            <div class="result-card-subtitle">{{item.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="home-panel" *ngIf="evacData?.length > 0 && allResultData?.length === 0">
+        <div class="header">
+          <img alt="Evacuation orders and alerts" class="header-icon" src="/assets/images/svg-icons/carbon_bullhorn.svg" >
+          <div class="header-title">Evacuation orders and alerts</div>
+        </div>
+        <div *ngFor="let item of evacData; let i = index" class="result-card" [mat-dialog-close]="item">
+          <div class="result-card-icon-holder">
+            <div class="result-card-icon-holder-icon">
+              <img *ngIf="item.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+              <img *ngIf="item.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+            </div>
+            <div class="result-card-icon-holder-dist">{{item.distance ? item.distance + 'km' : ''}}</div>
+          </div>
+          <div class="result-card-info">
+            <div class="result-card-title">{{item.title}}</div>
+            <div class="result-card-subtitle">{{item.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="results-panel">
+      <ng-template #loading><mat-spinner [diameter]="40" class="spinner-position"></mat-spinner></ng-template>
+      <div *ngIf="addressSearchComplete || evacSearchComplete || incidentSearchComplete; else loading" class="result-panel-cards">
+        <div *ngFor="let item of allResultData" class="result-card" [mat-dialog-close]="item">
+          <div class="result-card-icon-holder">
+            <div class="result-card-icon-holder-icon">
+              <img *ngIf="item.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+              <img *ngIf="item.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+              <img *ngIf="item.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+              <img *ngIf="item.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+            </div>
+            <div class="result-card-icon-holder-dist">{{item.distance ? item.distance + 'km' : ''}}</div>
+          </div>
+          <div class="result-card-info">
+            <div class="result-card-title">{{item.title}}</div>
+            <div class="result-card-subtitle">{{item.subtitle}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
