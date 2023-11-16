@@ -81,7 +81,20 @@
         "wfdmProxy": "wfdmProxy.jsp",
         "currentRestrictions": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions",
         "recSiteTrailsClosures": "http://www.sitesandtrailsbc.ca/closures.aspx",
-        "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire"
+        "parksClosures": "https://bcparks.ca/active-advisories/?type=wildfire",
+        "localAuthoritiesUrl": "https://www.civicinfo.bc.ca/directories",
+        "wildfirePreparednessUrl": "https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/preparedbc/preparedbc-guides/wildfire_preparedness_guide.pdf",
+        "buildEmergencyKitUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/build-an-emergency-kit-and-grab-and-go-bag",
+        "preparedBCUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc",
+        "preparedBCFacebook": "https://www.facebook.com/PreparedBC",
+        "preparedBCTwitter": "https://twitter.com/PreparedBC",
+        "embcUrl": "https://www.emergencyinfobc.gov.bc.ca/",
+        "embcTwitter": "http://www.twitter.com/emergencyinfobc",
+        "evacGuidanceUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance",
+        "localGovUrl": "https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems",
+        "emergencyAlertUrl": "https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts",
+        "driveBCUrl": "https://www.drivebc.ca/mobile/index.html",
+        "evacServicesUrl": "https://ess.gov.bc.ca/"
 
     },
 
