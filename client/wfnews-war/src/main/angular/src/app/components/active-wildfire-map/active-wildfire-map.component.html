@@ -7,16 +7,22 @@
         <div class="identify-panel"></div>
         <div class="search-row">
           <div class="search-bar">
-              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
+              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" #inputAutoComplete class="search-location">
               <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
               <!-- Autocomplete will be updated to also support incidents/evacs -->
               <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
                   <mat-option class="location-mat-option" *ngFor="let option of filteredOptions" [value]="option">
                       <div class="location-option" #locationOptions [attr.data-loc-long]="option.location[0]" [attr.data-loc-lat]="option.location[1]">
-                          <div>
-                              <div><span class="address">{{option.title}}</span></div>
-                              <div class="locality">{{option.subtitle}}</div>
-                          </div>
+                        <div class="search-icon">
+                          <img *ngIf="option.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+                          <img *ngIf="option.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+                          <img *ngIf="option.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+                          <img *ngIf="option.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+                        </div>
+                        <div class="search-data">
+                          <div><span class="address">{{option.title}}</span></div>
+                          <div class="locality">{{option.subtitle}}</div>
+                        </div>
                       </div>
                   </mat-option>
               </mat-autocomplete>
