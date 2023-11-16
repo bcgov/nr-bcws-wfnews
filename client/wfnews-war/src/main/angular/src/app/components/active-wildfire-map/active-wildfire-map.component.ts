@@ -114,6 +114,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
+  public sliderButtonHold = false
+
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
   constructor(
@@ -775,5 +777,28 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break
       }
     }
+  }
+
+  slideLayerButtons (slide: number) {
+    const layerButtons = document.getElementById('layer-buttons')
+    const mapContainer = document.getElementById('map-container')
+    if (layerButtons && mapContainer && this.sliderButtonHold) {
+      layerButtons.scrollLeft += slide
+    }
+
+    if (this.sliderButtonHold) {
+      setTimeout(() => this.slideLayerButtons(slide), 100)
+    }
+  }
+
+  showLeftLayerScroller (): boolean {
+    const layerButtons = document.getElementById('layer-buttons')
+    return layerButtons?.scrollLeft > 0
+  }
+
+  showRightLayerScroller (): boolean {
+    const layerButtons = document.getElementById('layer-buttons')
+    const mapContainer = document.getElementById('map-container')
+    return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 }
