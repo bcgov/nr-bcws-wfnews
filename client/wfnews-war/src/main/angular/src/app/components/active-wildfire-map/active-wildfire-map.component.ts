@@ -147,7 +147,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2 || this.isLocationEnabled) {
         this.filteredOptions = [];
         this.searchLayerGroup.clearLayers();
-        this.inputAutoComplete.openPanel();
+        if(!this.isMobileView) this.inputAutoComplete.openPanel();
         // search addresses
         this.placeData.searchAddresses(val).then((results) => {
           if (results) {
