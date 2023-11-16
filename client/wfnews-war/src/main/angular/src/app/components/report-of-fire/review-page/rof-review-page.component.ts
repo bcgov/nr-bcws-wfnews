@@ -321,7 +321,8 @@ async submitRof(){
     assetsAtRisk: this.reportOfFire.assetsAtRisk,
     signsOfResponse: this.reportOfFire.signsOfResponse,
     otherInfo: this.reportOfFire.otherInfo,
-    submittedTimestamp: new Date().getTime().toString()
+    submittedTimestamp: new Date().getTime().toString(),
+    visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
   }
 
   try {   

@@ -1,37 +1,28 @@
 <div class="container">
     <div class="bottom">
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
-            <panel-wildfire-stage-of-control-container-desktop
-                *ngIf="selectedPanel === 'wildfire-stage-of-control'"></panel-wildfire-stage-of-control-container-desktop>
-            <panel-evacuation-orders-and-alerts
-                *ngIf="selectedPanel === 'evacuation-orders-and-alerts'"></panel-evacuation-orders-and-alerts>
-            <panel-area-restrictions *ngIf="selectedPanel === 'area-restrictions'"></panel-area-restrictions>
-            <panel-bans-prohibitions *ngIf="selectedPanel === 'bans-and-prohibitions'"></panel-bans-prohibitions>
-            <panel-smoke-forecast *ngIf="selectedPanel === 'smoke-forecast'"></panel-smoke-forecast>
-            <panel-fire-danger *ngIf="selectedPanel === 'fire-danger'"></panel-fire-danger>
-            <panel-road-conditions *ngIf="selectedPanel === 'routes-impacted'"></panel-road-conditions>
-            <panel-local-authority *ngIf="selectedPanel === 'local-authorities'"></panel-local-authority>
+            <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
         </div>
         <div class="map">
-
         <div class="identify-panel"></div>
-
         <div class="search-row">
           <div class="search-bar">
-              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" class="search-location">
+              <input type="text" placeholder="Search" aria-label="Search" matInput [formControl]="searchByLocationControl" [matAutocomplete]="auto" #inputAutoComplete class="search-location">
               <button matSuffix mat-icon-button aria-label="Clear" class="input-clear-button" (click)="clearSearchLocationControl()"><mat-icon>close</mat-icon></button>
               <!-- Autocomplete will be updated to also support incidents/evacs -->
               <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
-                  <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
-                      [value]="option">
-                      <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
-                          <div *ngIf="option.address !== ''">
-                              <div><span class="address">{{option.address}}</span></div>
-                              <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
-                          </div>
-                          <div *ngIf="option.address === ''">
-                              <div><span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span></div>
-                          </div>
+                  <mat-option class="location-mat-option" *ngFor="let option of filteredOptions" [value]="option">
+                      <div class="location-option" #locationOptions [attr.data-loc-long]="option.location[0]" [attr.data-loc-lat]="option.location[1]">
+                        <div class="search-icon">
+                          <img *ngIf="option.type === 'address'" alt="search" class="icon" src="/assets/images/svg-icons/location-pin.svg" >
+                          <img *ngIf="option.type === 'incident'" alt="search" class="icon" src="/assets/images/svg-icons/fire-search-icon-grey.svg" >
+                          <img *ngIf="option.type === 'order'" alt="search" class="icon" src="/assets/images/svg-icons/order-filled-grey.svg" >
+                          <img *ngIf="option.type === 'alert'" alt="search" class="icon" src="/assets/images/svg-icons/alert-filled-grey.svg" >
+                        </div>
+                        <div class="search-data">
+                          <div><span class="address">{{option.title}}</span></div>
+                          <div class="locality">{{option.subtitle}}</div>
+                        </div>
                       </div>
                   </mat-option>
               </mat-autocomplete>
@@ -53,17 +44,24 @@
                     <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
             </div>
+            <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
             <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
                 <img alt="All Layers" src="../../../assets/images/svg-icons/carbon_layers.svg">
+            </button>
+            <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
+              <img alt="search" class="icon" src="/assets/images/svg-icons/search.svg" >
             </button>
             <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>
+            <button mat-button class="legend-button button" *ngIf="isMapLoaded && isMobileView()" (click)="showLegend()">
+              <img alt="Legend" class="button-icon legend-icon" src="/assets/images/svg-icons/legend.svg" ><span class="button-label legend-label">Legend</span>
+            </button>
         </div>
       </div>
-      <wfnews-draggable-panel *ngIf=" isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
-      <mobile-sliding-drawer [(isVisible)]="isAllLayersOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
+      <wfnews-draggable-panel *ngIf="isMobileView() && showPanel" [incidentRefs]="incidentRefs"></wfnews-draggable-panel>
+      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isAllLayersOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Map Settings'">
         <div *ngIf="!isDataSourcesOpen">
             <map-type-picker></map-type-picker>
             <hr class="drawer-section-divider">
@@ -73,5 +71,8 @@
             </div>
         </div>
         <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
+      </mobile-sliding-drawer>
+      <mobile-sliding-drawer [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
+        <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
       </mobile-sliding-drawer>
 </div>

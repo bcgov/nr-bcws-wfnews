@@ -34,13 +34,6 @@ export class FireCauseWidget implements AfterViewInit {
       this.publishedIncidentService.fetchStatistics(currentFireYear() - 1, fireCentre).toPromise(),
       this.publishedIncidentService.fetchStatistics(currentFireYear(), fireCentre).toPromise()
     ]).then(([previousYearStats, stats]) => {
-      // fire counts
-      const currentYearActive = stats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
-      const previousYearActive = previousYearStats.reduce((n, { activeBeingHeldFires, activeOutOfControlFires, activeUnderControlFires }) => n + activeBeingHeldFires + activeOutOfControlFires + activeUnderControlFires, 0) || 0
-      const currentYearOut = stats.reduce((n, { outFires }) => n + outFires, 0) || 0
-      // If this is a yearly totals sum, then we need to include outfires
-      const totalFires = currentYearActive + previousYearActive + (this.yearly ? currentYearOut : 0)
-
       // counts by cause code
       const currentYearHuman = stats.reduce((n, { activeHumanCausedFires }) => n + activeHumanCausedFires, 0) || 0
       const previousYearHuman = previousYearStats.reduce((n, { activeHumanCausedFires }) => n + activeHumanCausedFires, 0) || 0
@@ -53,6 +46,11 @@ export class FireCauseWidget implements AfterViewInit {
       const currentYearUnknown = stats.reduce((n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires, 0) || 0
       const previousYearUnknown = previousYearStats.reduce((n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires, 0) || 0
       const unknownOut = stats.reduce((n, { extinguishedUnknownCausedFires }) => n + extinguishedUnknownCausedFires, 0) || 0
+
+      const totalCurrentYear = currentYearHuman + currentYearNatural + currentYearUnknown
+      const totalPreviousYear = previousYearHuman + previousYearNatural + previousYearUnknown
+      const totalOut = humanOut + naturalOut + unknownOut
+      const totalFires = totalCurrentYear + totalPreviousYear + Number(this.yearly ? totalOut : 0)
 
       // If this is a yearly totals sum, then we need to include outfires
       this.lightningFires = currentYearNatural + previousYearNatural + (this.yearly ? naturalOut : 0)

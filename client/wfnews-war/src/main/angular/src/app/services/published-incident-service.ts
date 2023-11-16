@@ -56,6 +56,8 @@ export class PublishedIncidentService {
       url += `&bbox=${bbox}`
     }
 
+    url += '&newFires=false'
+
     return this.httpClient.get(url, { headers: { apikey: this.appConfigService.getConfig().application['wfnewsApiKey']} })
   }
 

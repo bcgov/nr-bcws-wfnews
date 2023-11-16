@@ -405,4 +405,37 @@ export function getResponseTypeTitle(code: string) {
     else if (code === 'FULL') return 'Full Response'
 }
 
+export function checkLayerVisible (layerId: string | string[]): boolean {
+  const smk = window['SMK']
+  let layerFound = false
+  // check for any of the layers being present in the group.
+  // visibility will be handled by the sub component
+  // could likely avoid the loop and just get smk.MAP[length]
+  for (const smkMapRef in smk.MAP) {
+    if (Object.hasOwn(smk.MAP, smkMapRef)) {
+      const smkMap = smk.MAP[smkMapRef]
+      if (smkMap?.$viewer?.visibleLayer) {
+        if (Array.isArray(layerId)) {
+          let result = false
+          for (const layer of layerId) {
+            result = Object.hasOwn(smkMap?.$viewer?.visibleLayer, layer)
+            if (result) break
+          }
+          layerFound = result
+        } else {
+          // only a single layer, so turf the panel if it isnt turned on
+          layerFound = smkMap?.$viewer?.visibleLayer && Object.hasOwn(smkMap?.$viewer?.visibleLayer, layerId)
+        }
+      // and if the smk layers haven't loaded yet, just return false
+      }
+    }
+  }
 
+  return layerFound
+}
+
+export function convertToStandardDateString(value: string) {
+  if (value) {
+    return moment(value).format('MMM Do YYYY h:mm:ss a')
+  }
+}

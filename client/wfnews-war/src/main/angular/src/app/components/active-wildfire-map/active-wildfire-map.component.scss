@@ -493,6 +493,10 @@ mat-panel-title {
   }
 }
 
+.search-fab {
+  bottom: 77px;
+}
+
 .search-row {
   display: flex;
   position: absolute;
@@ -561,4 +565,31 @@ mat-panel-title {
 
 .button-icon {
   position: relative;
+}
+
+.legend-button {
+  position: absolute;
+  bottom: 20px;
+  display: inline-flex;
+  padding: 9px 24px 9px 16px;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  left: 20px;
+}
+
+.legend-label {
+  right: -7px;
+}
+
+.legend-icon {
+  top: 4px;
+}
+
+::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 220px) !important;
+  max-width: 400px !important;
 }

@@ -10,5 +10,5 @@ import { BansListComponent } from "./bans-list.component";
   })
 
 export class BansListComponentDesktop extends BansListComponent {
-    columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
+    columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap"];
 }
