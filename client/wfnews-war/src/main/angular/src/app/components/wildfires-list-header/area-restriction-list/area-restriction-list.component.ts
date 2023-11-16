@@ -25,7 +25,7 @@ export class AreaRestrictionListComponent implements OnInit {
   public searchText
   public searchTimer
   public searchingComplete = false
-  public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap", "details"];
+  public columnsToDisplay = ["name", "issuedOn", "fireCentre", "distance", "viewMap"];
 
   public locationData: LocationData
 

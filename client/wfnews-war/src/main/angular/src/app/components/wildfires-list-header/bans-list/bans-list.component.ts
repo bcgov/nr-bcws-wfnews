@@ -26,7 +26,7 @@ export class BansListComponent implements OnInit {
   public category3 = true
   public searchTimer
   public searchingComplete = false
-  public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
+  public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap"];
 
   public locationData: LocationData
 

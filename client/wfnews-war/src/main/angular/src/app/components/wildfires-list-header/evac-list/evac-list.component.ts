@@ -27,7 +27,7 @@ export class EvacListComponent implements OnInit {
   public order = true
   public alert = true
   public searchingComplete = false
-  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"]
+  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap"]
 
   public locationData: LocationData
 
