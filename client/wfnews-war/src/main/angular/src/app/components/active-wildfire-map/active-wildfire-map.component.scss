@@ -585,3 +585,11 @@ mat-panel-title {
 .legend-icon {
   top: 4px;
 }
+
+::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  overflow-y: auto;
+  max-height: calc(100vh - 220px) !important;
+  max-width: 400px !important;
+}
