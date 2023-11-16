@@ -151,7 +151,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               // apply a slight debounce to clear the identify and destroy the panel
               setTimeout(() => {
                 const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
-                identifyPanel.remove();
+                if (identifyPanel) {
+                  identifyPanel.remove();
+                }
                 // use smk.$viewer.identified to reset the form?
               }, 200);
             })
