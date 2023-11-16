@@ -53,7 +53,7 @@
             <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
               <img alt="search" class="icon" src="/assets/images/svg-icons/search.svg" >
             </button>
-            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
+            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="clickedMyLocation ? clearMyLocation() : useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>

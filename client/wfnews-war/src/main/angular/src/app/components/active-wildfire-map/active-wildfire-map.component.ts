@@ -115,6 +115,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public snowPlowHelper = snowPlowHelper
 
   public sliderButtonHold = false
+  public clickedMyLocation = false
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
@@ -563,6 +564,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   async useMyCurrentLocation() {
+    this.clickedMyLocation = true;
     this.snowPlowHelper(this.url, {
       action: 'find_my_location'
     })
@@ -626,6 +628,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   clearMyLocation() {
     this.smkApi.showFeature('near-me-highlight3x');
     this.smkApi.showFeature('my-location')
+    this.clickedMyLocation = false
   }
 
   searchTextUpdated() {
