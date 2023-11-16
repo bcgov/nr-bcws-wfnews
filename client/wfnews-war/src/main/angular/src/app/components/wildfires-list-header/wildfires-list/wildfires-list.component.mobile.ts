@@ -48,7 +48,7 @@ export class WildFiresListComponentMobile {
   async search() {
     if (this.keepPaging) {
       this.page += 1
-      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, this.lastLocation, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters?.fireOfNoteInd, this.filters?.stagesOfControl || null, this.filters?.fireCentre || null, null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
+      this.publishedIncidentService.fetchPublishedIncidentsList(this.page, this.rowCount, this.lastLocation, this.searchText === '' && this.searchText.length ? null : this.searchText, this.filters ? this.filters.fireOfNoteInd : true, this.filters?.stagesOfControl || ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'], this.filters?.fireCentre || null, null, this.filters?.sortColumn ? `${this.filters.sortColumn}%20${this.filters.sortDirection}` : 'lastUpdatedTimestamp%20DESC').subscribe(incidents => {
         const incidentData = []
         if (incidents && incidents.collection) {
           this.totalRowCount = incidents.totalRowCount
