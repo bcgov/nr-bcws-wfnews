@@ -42,7 +42,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       this.clearAll(false);
       this.loadLayers();
     }
-  } 
+  }
 
   clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;
@@ -83,7 +83,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           this.wildfireOfNote = true;
           break;
         case 'active-wildfires-heatmap':
-          this.wildfireOfNote = true;
+          this.outOfControlWildfire = true;
           break;
         case 'active-wildfires-holding':
           this.beingHeldWildfire = true;
@@ -157,7 +157,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           break;
       }
     });
-    
+
     this.triggerRefreshChange.emit(false);
     this.cdr.detectChanges();
   }

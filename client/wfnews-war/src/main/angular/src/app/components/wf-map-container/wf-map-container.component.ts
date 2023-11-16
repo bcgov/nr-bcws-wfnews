@@ -116,26 +116,29 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const identified = smk.$viewer.identified;
     let map = smk.$viewer.map;
     let delayTimer; // Variable to store the timeout ID
-    
+
     // Function to handle the timeout logic
     function handleTimeout() {
       self.selectIncidents.emit(identified.featureSet);
     }
-    
+
     // Set a timeout to emit selectIncidents event after 500 milliseconds
     delayTimer = setTimeout(handleTimeout, 500);
-    
+
     // Listen for the zoomend event
     map.on('zoomend', () => {
       // Clear the timeout to prevent the selectIncidents event from being emitted
       clearTimeout(delayTimer);
     });
-    
 
+    let lastFeature
+    let featureCount = 0
     for (const fid in identified.featureSet) {
       if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
         if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
+          featureCount++
+          lastFeature = feature
           feature.properties.createContent = function (el) {
             self.zone.run(function () {
               let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
@@ -155,6 +158,11 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           }
         }
       }
+    }
+
+    if (lastFeature && featureCount === 1) {
+      // force the call from the list view (should auto-trigger but wont if identify called from list view)
+      lastFeature.properties.createContent()
     }
   }
 

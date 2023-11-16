@@ -114,13 +114,6 @@ import { MapLayersDataSourceDrawerSectionComponent } from './components/map-laye
 import { MapLayersDrawerSectionComponent } from './components/map-layers-drawer-section/map-layers-drawer-section.component';
 import { MapTypePickerComponent } from './components/map-type-picker/map-type-picker.component';
 import { MessageDialogComponent } from './components/message-dialog/message-dialog.component';
-import { PanelAreaRestrictionsComponent } from './components/panel-area-restrictions/panel-area-restrictions.component';
-import { PanelBansAndProhibitionsComponent } from './components/panel-bans-prohibitions/panel-bans-prohibitions.component';
-import { PanelEvacuationOrdersAndAlertsComponent } from './components/panel-evacuation-orders-and-alerts/panel-evacuation-orders-and-alerts.component';
-import { PanelFireDangerComponent } from './components/panel-fire-danger/panel-fire-danger.component';
-import { PanelLocalAuthorityComponent } from './components/panel-local-authority/panel-local-authority.component';
-import { PanelRoadConditionsComponent } from './components/panel-road-conditions/panel-road-conditions.component';
-import { PanelSmokeForecastComponent } from './components/panel-smoke-forecast/panel-smoke-forecast.component';
 import { PanelWildfireStageOfControlComponentDesktop } from './components/panel-wildfire-stage-of-control/panel-wildfire-stage-of-control.component.desktop';
 import { ImagePanelComponent } from './components/public-incident-page/incident-gallery-panel/image-panel/image-panel.component';
 import { IncidentGalleryAllMediaMobileComponent } from './components/public-incident-page/incident-gallery-panel/incident-gallery-all-media-mobile/incident-gallery-all-media-mobile.component';
@@ -232,11 +225,6 @@ export const DATE_FORMATS = {
         WFMapContainerComponent,
         ActiveWildfireMapComponent,
         PanelWildfireStageOfControlComponentDesktop,
-        PanelEvacuationOrdersAndAlertsComponent,
-        PanelBansAndProhibitionsComponent,
-        PanelSmokeForecastComponent,
-        PanelAreaRestrictionsComponent,
-        PanelFireDangerComponent,
         WfAdminPanelComponentDesktop,
         SingleSelectDirective,
         AdminContainerDesktop,
@@ -265,12 +253,10 @@ export const DATE_FORMATS = {
         WeatherPanelComponent,
         WildfirewResourcesComponent,
         ResourcePanelComponent,
-        PanelRoadConditionsComponent,
         ErrorPageComponent,
         WildFiresListComponentDesktop,
         WildfiresListContainerDesktop,
         IncidentIdentifyPanelComponent,
-        PanelLocalAuthorityComponent,
         PanelWildfireStageOfControlContainerDesktop,
         PublicIncidentPage,
         IncidentGalleryPanel,
