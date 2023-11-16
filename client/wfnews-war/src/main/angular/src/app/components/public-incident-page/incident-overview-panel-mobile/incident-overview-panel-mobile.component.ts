@@ -19,7 +19,7 @@ export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel 
   }
 
   navToLearnMore() {
-    let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'].toString();
+    let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'] as unknown as string;
     window.open(responseUrl, "_blank")
   }
 }
