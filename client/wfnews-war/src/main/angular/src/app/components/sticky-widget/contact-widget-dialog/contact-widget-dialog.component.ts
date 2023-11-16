@@ -3,6 +3,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { ResourcesRoutes, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -19,11 +21,14 @@ export class ContactWidgetDialogComponent implements OnInit {
     // could also pass in as a data object
     @Input() public pageMode = true
 
+    isMobileView = isMobileView
+
     constructor (
       private dialogRef: MatDialogRef<ContactWidgetDialogComponent>,
       private snackbarService: MatSnackBar,
       private appConfig: AppConfigService,
-      private httpClient: HttpClient
+      private httpClient: HttpClient,
+      private router: Router
     ) {}
 
     ngOnInit() {
@@ -58,7 +63,6 @@ export class ContactWidgetDialogComponent implements OnInit {
      }
 
     onSubmit() {
-        this.dialogRef.close();
         const url = `${this.appConfig.getConfig().rest['wfnews']}/mail`;
 
         this.httpClient.post(url, {
@@ -73,9 +77,16 @@ export class ContactWidgetDialogComponent implements OnInit {
         }).catch(err => {
           this.snackbarService.open('Your request could not be processed at this time. Please try again later.', null, { duration: 10000, panelClass: 'snackbar-error' });
         })
+
+        if (this.pageMode) this.close()
+        else this.dialogRef.close();
     }
 
     openMoreInfo (type: string, url: string) {
       window.open(`${type === 'tel' ? 'tel:' : ''}${this.contactInformationConfig[url]}`, type === 'tel' ? '_self' : '_blank')
+    }
+
+    close () {
+      this.router.navigate([ResourcesRoutes.MORE]);
     }
 }
