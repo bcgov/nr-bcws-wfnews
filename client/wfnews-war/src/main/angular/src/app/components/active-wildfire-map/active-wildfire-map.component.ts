@@ -19,6 +19,7 @@ import { SmkApi } from '../../utils/smk';
 import { SearchResult, SearchPageComponent } from '../search/search-page.component';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
+import { AGOLService } from '@app/services/AGOL-service';
 
 
 export type SelectedLayer =
@@ -66,7 +67,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   placeData: PlaceData;
   searchByLocationControl = new UntypedFormControl();
-  filteredOptions: any[];
+  public filteredOptions: SearchResult[] = []
   SMK: any;
   leafletInstance: any;
   searchLocationsLayerGroup: any;
@@ -123,7 +124,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private agolService: AGOLService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -139,19 +141,66 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
       if (val.length > 2) {
         this.filteredOptions = [];
-        self.searchLayerGroup.clearLayers();
+        this.searchLayerGroup.clearLayers();
         // search addresses
-        this.placeData.searchAddresses(val).then(function (results) {
+        this.placeData.searchAddresses(val).then((results) => {
           if (results) {
-            results.forEach((result) => {
-              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
-            });
-            self.filteredOptions = self.sortedAddressList;
+            const sortedResults = this.commonUtilityService.sortAddressList(results, val);
+            for (const result of sortedResults) {
+              this.filteredOptions.push({
+                id: result.loc,
+                type: 'address',
+                title: `${result.streetQualifier} ${result.civicNumber} ${result.streetName} ${result.streetType}`.trim() || result.localityName,
+                subtitle: result.localityName,
+                distance: '0',
+                relevance: /^\d/.test(val.trim()) ? 4 : 1,
+                location: result.loc
+              })
+            }
+            this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+            this.cdr.markForCheck()
           }
         });
         // search incidents
+        this.publishedIncidentService.fetchPublishedIncidentsList(1, 10, null, val).toPromise().then(incidents => {
+          if (incidents && incidents.collection) {
+            for (const element of incidents.collection) {
+              this.filteredOptions.push({
+                id: element.incidentNumberLabel,
+                type: 'incident',
+                title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
+                subtitle: element.fireCentreName,
+                distance: '0',
+                relevance: /^\d/.test(val.trim()) ? 3 : 4,
+                location: [Number(element.longitude), Number(element.latitude)]
+              })
+            }
+            this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+            this.cdr.markForCheck()
+          }
+        })
 
         // search evac orders
+        this.agolService.getEvacOrders(val, null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
+          if (evacs && evacs.features) {
+            for (const element of evacs.features) {
+              this.filteredOptions.push({
+                id: element.attributes.EMRG_OAA_SYSID,
+                type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
+                title: element.attributes.EVENT_NAME,
+                subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
+                distance: '0',
+                relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
+                        : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
+                        : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
+                        : 2,
+                location: [element.centroid.y, element.centroid.x]
+              })
+            }
+            this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+            this.cdr.markForCheck()
+          }
+        })
       }
     });
 
@@ -187,13 +236,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         const lat = Number(params['latitude']);
         // set timeout to load smk features to load
         setTimeout(() => {
-        const pan = this.panToLocation(long, lat);
-        // turn on area restriction layer if accessing from area restrictions full details
-        if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
-      }, 1000)
-
-  }});
-}
+          const pan = this.panToLocation(long, lat);
+          // turn on layers
+          if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
+          if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
+          if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
+          if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
+          // identify
+          setTimeout(() => {
+            if (params['identify']) {
+              this.identify([long, lat])
+            }
+          }, 2000)
+        }, 1000)
+      }});
+    }
 
   panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
@@ -204,7 +261,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           viewer = SMK.MAP[smkMap].$viewer;
         }
       }
-      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:10)
+      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
     });
   }
 
@@ -262,7 +319,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       shadowSize: [41, 41]
     };
 
-    this.highlight({ loc: [lat, long] }, largerIcon);
+    this.highlight({ location: [long, lat] }, largerIcon);
   }
 
   onLocationOptionOut(event) {
@@ -273,7 +330,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     if (!long || !lat) return;
 
-    this.highlight({ loc: [lat, long] });
+    this.highlight({ location: [long, lat] });
   }
 
   highlight(place, iconSettings?) {
@@ -293,7 +350,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       "type": "Feature",
       "geometry": {
         "type": "Point",
-        "coordinates": place.loc
+        "coordinates": place.location
       }
     };
 
@@ -308,7 +365,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     this.leaflet.geoJson(geojsonFeature, {
       pointToLayer: function (feature, latlng) {
-        // [0] [-123.5082451, 48.4207067]
         let marker = self.leaflet.marker(latlng, { icon: starIcon });
         self.markers[self.serializeLatLng(latlng)] = marker;
         return marker;
@@ -333,7 +389,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     this.filteredOptions.forEach((result) => {
       const first = this.serializeLatLng({ lat: latLng[0], lng: latLng[1] });
-      const second = this.serializeLatLng({ lat: result.loc[0], lng: result.loc[1] });
+      const second = this.serializeLatLng({ lat: result.location[0], lng: result.location[1] });
       if (first != second) {
         self.highlight(result);
       }
@@ -347,10 +403,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     })
     const self = this;
     self.searchLayerGroup.clearLayers();
-    let locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
+    let locationControlValue = selectedOption.title;
     this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
     this.highlight(selectedOption);
-    this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.loc), 8);
+    this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
+    if (selectedOption.type !== 'address') {
+      setTimeout(() => {
+        console.log('IDENTIFY', selectedOption)
+        this.identify(selectedOption.location)
+      }, 1000)
+    }
   }
 
   clearSearchLocationControl() {
@@ -657,7 +719,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           const SMK = window['SMK']
           for (const smkMap in SMK.MAP) {
             if (Object.hasOwn(SMK.MAP, smkMap)) {
-              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 15)
+              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
+
+              if (this.searchData.type !== 'address') {
+                this.identify(this.searchData.location)
+              }
               break
             }
           }
@@ -682,5 +748,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         this.searchData = null
       }
     });
+  }
+
+  identify (location: number[]) {
+    const SMK = window['SMK']
+    const turf = window['turf']
+    const point = turf.point(location)
+    const buffered = turf.buffer(point, 1, { units:'meters' })
+    const bbox = turf.bbox(buffered)
+    const poly = turf.bboxPolygon(bbox)
+
+    for (const smkMap in SMK.MAP) {
+      if (Object.hasOwn(SMK.MAP, smkMap)) {
+        SMK.MAP[smkMap].$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
+        break
+      }
+    }
   }
 }
