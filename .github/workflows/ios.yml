@@ -131,7 +131,9 @@ jobs:
           EMBC_TWITTER: ${{ vars.EMBC_TWITTER }}
           EVAC_GUIDANCE_URL: ${{ vars.EVAC_GUIDANCE_URL }}
           LOCAL_GOV_URL: ${{ vars.LOCAL_GOV_URL }}
-          EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}    
+          EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}  
+          DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
+          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}    
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

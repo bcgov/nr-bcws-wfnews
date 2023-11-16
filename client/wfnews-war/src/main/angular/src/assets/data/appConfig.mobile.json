@@ -52,7 +52,10 @@
         "embcTwitter": "#{EMBC_TWITTER}",
         "evacGuidanceUrl": "#{EVAC_GUIDANCE_URL}",
         "localGovUrl": "#{LOCAL_GOV_URL}",
-        "emergencyAlertUrl": "#{EMERGENCY_ALERT_URL}"
+        "emergencyAlertUrl": "#{EMERGENCY_ALERT_URL}",
+        "driveBCUrl": "{DRIVE_BC_URL}",
+        "evacServicesUrl": "{EVAC_SERVICES_URL}"
+       
     },
 
     "mapIcons": {

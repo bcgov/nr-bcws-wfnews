@@ -92,7 +92,9 @@
         "embcTwitter": "http://www.twitter.com/emergencyinfobc",
         "evacGuidanceUrl": "https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance",
         "localGovUrl": "https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems",
-        "emergencyAlertUrl": "https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts"
+        "emergencyAlertUrl": "https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts",
+        "driveBCUrl": "https://www.drivebc.ca/mobile/index.html",
+        "evacServicesUrl": "https://ess.gov.bc.ca/"
 
     },
 

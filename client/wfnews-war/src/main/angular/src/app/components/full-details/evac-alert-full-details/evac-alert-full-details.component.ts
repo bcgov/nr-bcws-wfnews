@@ -8,7 +8,7 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { AppConfigService } from '@wf1/core-ui';
 import { Router } from '@angular/router';
 
-export class EvacAlert {
+export class EvacData {
   public name: string;
   public issuedDate: string;
   public bulletinUrl: string;
@@ -24,9 +24,12 @@ export class EvacAlert {
 })
 export class EvacAlertFullDetailsComponent implements OnInit {
   @Input() id: string
-  public evacData: EvacAlert;
+  public evacData: EvacData;
   public incident: SimpleIncident | null
   public map: any;
+  public localAuthoritiesUrl: string;
+  public wildfirePreparednessUrl: string;
+  public buildEmergencyKitUrl: string;
 
   convertToDateTime = convertToDateTime;
 
@@ -84,7 +87,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
       } else {
         const colorToDisplay = setDisplayColor(this.incident.stageOfControlCode)
-        L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
+        L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
       }
     }
 
@@ -118,12 +121,13 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     const response = await this.agolService.getEvacOrdersByID(this.id, options).toPromise()
     if (response?.features[0]?.attributes) {
       const evac = response.features[0]
-      
-      this.evacData = new EvacAlert
+
+      this.evacData = new EvacData
 
       this.evacData.name = evac.attributes.EVENT_NAME;
       this.evacData.issuingAgency = evac.attributes.ISSUING_AGENCY;
       this.evacData.issuedDate = evac.attributes.DATE_MODIFIED;
+      this.evacData.bulletinUrl = evac.attributes.BULLETIN_URL;
       this.evacData.centroidLatitude = evac.centroid.y;
       this.evacData.centroidLongitude = evac.centroid.x;
 
@@ -145,28 +149,21 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   navToMap() {
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.evacData.centroidLongitude, latitude: this.evacData.centroidLatitude, evacuationAlert: true } });
-    }, 300);
+    }, 200);
   }
+
 
   navToIncident(incident: SimpleIncident) {
     this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
       { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.FULL_DETAILS] } })
   }
 
-  findContactInfo() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['localAuthoritiesUrl'] as unknown as string, '_blank')
-  }
-
-  downloadPDF() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['wildfirePreparednessUrl'] as unknown as string, '_blank')
-  }
-
-  buildYourKit() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['buildEmergencyKitUrl'] as unknown as string, '_blank')
+  openLink(link: string) {
+    window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
   }
 
   navToBulletinUrl() {
-    if(this.evacData && this.evacData.bulletinUrl) window.open(this.evacData.bulletinUrl)
+    if (this.evacData && this.evacData.bulletinUrl) window.open(this.evacData.bulletinUrl)
   }
 
 
