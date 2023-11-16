@@ -132,8 +132,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       }
       console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
-      SMK.MAP[1].$viewer.identified.clear();
-      SMK.MAP[1].$sidepanel.setExpand( 0 )
+      const map = SMK?.MAP?.[1];
+  
+      if (map) {
+        map.$viewer.identified.clear();
+        map.$sidepanel.setExpand(0);
+      }
       this.removeIdentity = true;
 
     }
@@ -226,8 +230,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       clearInterval(this.markerAnimation)
     }
     const SMK = window['SMK'];
-    SMK.MAP[1].$viewer.identified.clear();
-    SMK.MAP[1].$sidepanel.setExpand(0)
+    const map = SMK?.MAP?.[1];
+
+    if (map) {
+      map.$viewer.identified.clear();
+      map.$sidepanel.setExpand(0);
+    }
     this.cdr.detectChanges();
   }
 
