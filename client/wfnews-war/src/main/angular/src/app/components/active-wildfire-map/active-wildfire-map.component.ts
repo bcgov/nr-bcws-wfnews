@@ -114,6 +114,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public isMobileView = mobileView
   public snowPlowHelper = snowPlowHelper
 
+  public sliderButtonHold = false
+  public clickedMyLocation = false
+
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
   constructor(
@@ -145,7 +148,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (val.length > 2 || this.isLocationEnabled) {
         this.filteredOptions = [];
         this.searchLayerGroup.clearLayers();
-        this.inputAutoComplete.openPanel();
+        if(!this.isMobileView) this.inputAutoComplete.openPanel();
         // search addresses
         this.placeData.searchAddresses(val).then((results) => {
           if (results) {
@@ -561,6 +564,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   async useMyCurrentLocation() {
+    this.clickedMyLocation = true;
     this.snowPlowHelper(this.url, {
       action: 'find_my_location'
     })
@@ -624,6 +628,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   clearMyLocation() {
     this.smkApi.showFeature('near-me-highlight3x');
     this.smkApi.showFeature('my-location')
+    this.clickedMyLocation = false
   }
 
   searchTextUpdated() {
@@ -775,5 +780,28 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         break
       }
     }
+  }
+
+  slideLayerButtons (slide: number) {
+    const layerButtons = document.getElementById('layer-buttons')
+    const mapContainer = document.getElementById('map-container')
+    if (layerButtons && mapContainer && this.sliderButtonHold) {
+      layerButtons.scrollLeft += slide
+    }
+
+    if (this.sliderButtonHold) {
+      setTimeout(() => this.slideLayerButtons(slide), 100)
+    }
+  }
+
+  showLeftLayerScroller (): boolean {
+    const layerButtons = document.getElementById('layer-buttons')
+    return layerButtons?.scrollLeft > 0
+  }
+
+  showRightLayerScroller (): boolean {
+    const layerButtons = document.getElementById('layer-buttons')
+    const mapContainer = document.getElementById('map-container')
+    return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 }
