@@ -132,8 +132,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       }
       console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
-      SMK.MAP[1].$viewer.identified.clear();
-      SMK.MAP[1].$sidepanel.setExpand( 0 )
+      const map = SMK?.MAP?.[1];
+  
+      if (map) {
+        map.$viewer.identified.clear();
+        map.$sidepanel.setExpand(0);
+      }
       this.removeIdentity = true;
 
     }
@@ -226,8 +230,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       clearInterval(this.markerAnimation)
     }
     const SMK = window['SMK'];
-    SMK.MAP[1].$viewer.identified.clear();
-    SMK.MAP[1].$sidepanel.setExpand(0)
+    const map = SMK?.MAP?.[1];
+
+    if (map) {
+      map.$viewer.identified.clear();
+      map.$sidepanel.setExpand(0);
+    }
     this.cdr.detectChanges();
   }
 
@@ -375,6 +383,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
+    console.log(item)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -386,8 +395,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       } else if (this.identifyItem.layerId.startsWith('bans-and-prohibitions') && item.properties.PROT_BAP_SYSID){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.properties.PROT_BAP_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       } else if (this.identifyItem.layerId === 'danger-rating'){
-        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
-      } else if (item.layerId === 'active-wildfires-fire-of-note' || item.layerId === 'active-wildfires-out-of-control'
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} })
+      } else if (this.identifyItem.layerId === 'evacuation-orders-and-alerts-wms'){
+        let type = null;
+        if (item.properties.ORDER_ALERT_STATUS === 'Alert') type = "evac-alert";
+        else if (item.properties.ORDER_ALERT_STATUS  === 'Order') type = "evac-order";
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: item.properties.EMRG_OAA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP] } });
+      }
+      else if (item.layerId === 'active-wildfires-fire-of-note' || item.layerId === 'active-wildfires-out-of-control'
       || item.layerId === 'active-wildfires-holding' || item.layerId === 'active-wildfires-under-control' && (item.properties.fire_year && item.properties.incident_number_label)) {
       this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
         { queryParams: { fireYear: item.properties.fire_year, incidentNumber: item.properties.incident_number_label, source: [ResourcesRoutes.ACTIVEWILDFIREMAP] } })

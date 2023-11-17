@@ -138,6 +138,19 @@ jobs:
           CURRENT_RESTRICTIONS_URL: ${{ vars.CURRENT_RESTRICTIONS_URL }}
           REC_SITE_TRAILS_CLOSURES_URL: ${{ vars.REC_SITE_TRAILS_CLOSURES_URL }}
           PARKS_CLOSURES_URL: ${{ vars.PARKS_CLOSURES_URL }}
+          LOCAL_AUTHORTIES_URL: ${{ vars.LOCAL_AUTHORTIES_URL }}
+          WILDFIRE_PREPAREDNESS_URL: ${{ vars.WILDFIRE_PREPAREDNESS_URL }}\
+          EMERGENCY_KIT_URL: ${{ vars.EMERGENCY_KIT_URL }}
+          PREPARED_BC_FACEBOOK: ${{ vars.PREPARED_BC_FACEBOOK }}
+          PREPARED_BC_TWITTER: ${{ vars.PREPARED_BC_TWITTER }}
+          PREPARED_BC_URL: ${{ vars.PREPARED_BC_URL }}
+          EMBC_URL: ${{ vars.EMBC_URL }}
+          EMBC_TWITTER: ${{ vars.EMBC_TWITTER }}
+          EVAC_GUIDANCE_URL: ${{ vars.EVAC_GUIDANCE_URL }}
+          LOCAL_GOV_URL: ${{ vars.LOCAL_GOV_URL }}
+          EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}
+          DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
+          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }} 
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

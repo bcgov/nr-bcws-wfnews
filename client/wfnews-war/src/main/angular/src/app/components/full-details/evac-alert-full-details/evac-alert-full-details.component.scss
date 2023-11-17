@@ -1,0 +1,13 @@
+@import '../full-details.component.scss';
+
+.alert-panel { 
+    display: flex;
+    padding: 8px 16px;
+    align-items: center;
+    align-content: center;
+    flex-wrap: wrap;
+    border-radius: 4px; 
+    border: 1px solid var(--yellows-yellow-6, #F3D999);
+    background: var(--yellows-yellow-6, #FCF3D4);
+    color: #7C5D11;
+}
