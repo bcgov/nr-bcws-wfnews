@@ -45,14 +45,17 @@
                         </mat-option>
                     </mat-autocomplete>
                 </div>
-            <div (click)="useUserLocation()" class="location-button">
-                <button mat-flat-button>
+            <div (click)="useUserLocation()" [class]="'location-button-box' + (locationData.useUserLocation ? '-selected' : '')">
+                <button mat-flat-button class="location-button">
                     <img src="../../../assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
                     <span >Use your location</span>
+                    <span (click)="useUserLocation(); $event.stopPropagation();" *ngIf="locationData.useUserLocation">
+                        <mat-icon class="location-clear">close</mat-icon>
+                    </span>
                 </button>
             </div>
-            <div (click)="chooseOnMap()" class="location-button">
-                <button mat-flat-button>
+            <div (click)="chooseOnMap()" class="location-button-box">
+                <button mat-flat-button class="location-button">
                     <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                 </button>
@@ -102,8 +105,8 @@
                 <div class="header-text-1">Notification Radius</div>
                 <div class="header-text-2">You will receive notifications based on the selected radius.</div>
             </div>
-            <div (click)="chooseRadiusOnMap()" class="location-button" style="width: 100%;">
-                <button mat-flat-button>
+            <div (click)="chooseRadiusOnMap()" class="location-button-box" style="width: 100%;">
+                <button mat-flat-button class="location-button">
                     <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                 </button>

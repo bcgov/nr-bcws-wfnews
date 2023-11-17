@@ -208,6 +208,7 @@ import { RecSiteLegendComponent } from './components/legend-panels/rec-site-laye
 import { ProtectedLandsLegendComponent } from './components/legend-panels/protected-lands-layers/protected-lands-legend.component';
 import { SearchPageComponent } from './components/search/search-page.component';
 import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
+import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -357,7 +358,8 @@ export const DATE_FORMATS = {
         RecSiteLegendComponent,
         ProtectedLandsLegendComponent,
         SearchPageComponent,
-        AddSavedLocationComponent
+        AddSavedLocationComponent,
+        notificatinoMapComponent,
     ],
     imports: [
         MatSortModule,

@@ -161,7 +161,7 @@
     }
   }
 
-  .location-button{
+  .location-button-box{
     border-radius: 20px;
     border: 1px solid #C4C4C4;
     background: #FFF;
@@ -171,17 +171,41 @@
     align-content: center;
     display: flex;
 
-    button{
-        display: flex;
+    &-selected {
+        border-radius: 20px;
+        border: 2px solid #38598A !important;
+        background-color: #E9F0F8 !important;
+        color: #242424 !important;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 21.79px;
+        width: 100%;
+        margin: 12px 0;
         align-items: center;
-        img{
-            vertical-align: bottom;
-            height: 20px;
-            width: 20px;
-            padding-right: 8px;
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        .mat-mdc-unelevated-button:not(:disabled) {
+            background-color: #E9F0F8 !important;
         }
     }
   }
+
+.location-button{
+    display: flex;
+    align-items: center;
+    img{
+        vertical-align: bottom;
+        height: 20px;
+        width: 20px;
+        padding-right: 8px;
+    }
+}
+
+.location-clear{
+    vertical-align: bottom;
+    padding-left: 5px;
+}
 
 .divider{
     background: #DEDEDE;
@@ -239,4 +263,8 @@
 .save-button-section{
     width: 100%;
     text-align: right;
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+    background-color: none !important;
 }

@@ -302,11 +302,19 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
             dialogRef = this.dialog.open(DialogExitComponent, {
             autoFocus: false,
             width: '500px',
+            data: {
+              confirmButton: 'Exit',
+              text: 'If you exit, your report will not be saved or submitted.'
+            }
           });
         }else {
           dialogRef = this.dialog.open(DialogExitComponent, {
           autoFocus: false,
           width: '80vw',
+          data: {
+            confirmButton: 'Exit',
+            text: 'If you exit, your report will not be saved or submitted.'
+          }
         });
       }
         

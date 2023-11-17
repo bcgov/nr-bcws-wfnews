@@ -1,0 +1,31 @@
+.content{
+
+}
+.button-container {
+    justify-content: space-between;
+    gap: 32px;
+    display: flex;
+    padding: 24px 20px;
+    align-items: center;
+    .notification-map-button {
+        display: flex;
+        padding: 8px 32px;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        border-radius: 5px;
+        border: 1px solid var(--grays-gray-6, #C4C4C4);
+        background: var(--grays-gray-10, #F5F5F5);
+        color: var(--grays-black, #000);
+        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .notification-map-button-primary{
+        @extend .notification-map-button;
+        background: var(--blues-blue-2, #036);
+        color: #FFF;
+    }
+} 

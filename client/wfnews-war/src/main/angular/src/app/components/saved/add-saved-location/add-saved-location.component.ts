@@ -1,8 +1,14 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
+import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
+import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
+import { ResourcesRoutes } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
 
 @Component({
@@ -10,17 +16,20 @@ import { debounceTime } from 'rxjs/operators';
   templateUrl: './add-saved-location.component.html',
   styleUrls: ['./add-saved-location.component.scss']
 })
-export class AddSavedLocationComponent {
+export class AddSavedLocationComponent implements OnInit{
   searchText = undefined;
   public filteredOptions = [];
-  private sortedAddressList: string[] = []
-  public locationData = new LocationData
-  private placeData: PlaceData
+  private sortedAddressList: string[] = [];
+  public locationData = new LocationData;
+  private placeData: PlaceData;
+  currentLocation: any;
+
 
 
   public searchByLocationControl = new UntypedFormControl
 
-  constructor( private commonUtilityService: CommonUtilityService) {
+  constructor( private commonUtilityService: CommonUtilityService,protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
+    ) {
     this.locationData = new LocationData
     this.placeData = new PlaceData();
     let self = this;
@@ -49,6 +58,15 @@ export class AddSavedLocationComponent {
     });
   }
 
+
+  ngOnInit(): void {
+    this.useMyCurrentLocation()
+  }
+
+  async useMyCurrentLocation() {
+    this.currentLocation = await this.commonUtilityService.getCurrentLocationPromise()
+  }
+
   onLocationSelected(selectedOption) {
     const locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
     this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
@@ -58,11 +76,44 @@ export class AddSavedLocationComponent {
     this.locationData.searchText = this.searchText
   }
 
-  useUserLocation(){
+  async useUserLocation () {
+
+    this.commonUtilityService.checkLocationServiceStatus().then(async (enabled) => {
+      if (!enabled) {
+        let dialogRef = this.dialog.open(DialogLocationComponent, {
+          autoFocus: false,
+          width: '80vw',
+        });
+      }else {
+        this.locationData.useUserLocation = !this.locationData.useUserLocation
+
+        if (this.locationData.useUserLocation) {
+          this.searchText = undefined
+    
+          const location = await this.commonUtilityService.getCurrentLocationPromise()
+          this.locationData.latitude = location.coords.latitude
+          this.locationData.longitude = location.coords.longitude
+          this.searchText = this.locationData.latitude.toString() + ', ' + this.locationData.longitude.toString()
+        } else {
+          this.searchText = null
+        }
+    
+        this.locationData.searchText = this.searchText
+      }
+    });
+    this.cdr.detectChanges()
 
   }
 
   chooseOnMap(){
+    let dialogRef = this.dialog.open(notificatinoMapComponent, {
+      autoFocus: false,
+      minWidth: '100vw',
+      height: '100vh',
+      data:{
+        currentLocation: this.currentLocation
+      }
+    });
 
   }
 
@@ -75,7 +126,20 @@ export class AddSavedLocationComponent {
   }
 
   leavePage(){
-    
+    let dialogRef = this.dialog.open(DialogExitComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        confirmButton: 'Back',
+        text: 'If you exit now, your progress will be lost.'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['exit']) {
+        this.router.navigateByUrl('/saved')
+      }
+    });
   }
 
   onToggleChangeActiveWildfires(event:any, pushNotifications:boolean){
