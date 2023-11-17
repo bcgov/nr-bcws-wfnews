@@ -159,6 +159,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   openLink(link: string) {
+    // Temporary alert to check if links are configured
+    window.alert(this.appConfigService.getConfig().externalAppConfig[link])
     window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
   }
 
