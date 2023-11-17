@@ -446,7 +446,7 @@
                         <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
                         Zoom to
                     </button>
-                    <button (click)="enterFullDetail()" mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
                         Full Details
                     </button>
                 </div>

@@ -20,6 +20,7 @@ export enum ResourcesRoutes {
     PUBLIC_INCIDENT = 'incidents',
     FULL_DETAILS = 'full-details',
     SAVED = 'saved',
+    ADD_LOCATION = 'add-location',
     MORE = 'more',
     CONTACT_US = 'contact-us'
 }
