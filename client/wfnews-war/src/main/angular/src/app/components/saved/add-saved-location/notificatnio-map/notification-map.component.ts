@@ -35,11 +35,9 @@ export class notificatinoMapComponent implements OnInit, AfterViewInit  {
       subdomains:['mt0','mt1','mt2','mt3']
     }).addTo(this.map);
 
-    if (this.data.currentLocation) {
-      this.map.setView([this.data.currentLocation.coords.latitude,this.data.currentLocation.coords.longitude],10);
-      
-       // Add a draggable marker with a location_pin icon
-      this.notificationLocationMarker = L.marker([this.data.currentLocation.coords.latitude,this.data.currentLocation.coords.longitude], {
+    if (this.data.title === 'Choose location on the map') {
+      // set notification location on map
+      const markerOptions = {
         icon: L.icon({
           iconUrl: "/assets/images/svg-icons/location_pin.svg",
           iconSize: [32, 32],
@@ -47,14 +45,39 @@ export class notificatinoMapComponent implements OnInit, AfterViewInit  {
           popupAnchor: [0, -32],
         }),
         draggable: false
-      }).addTo(this.map);
+      };
+      
+      if (this.data.currentLocation && this.data.currentLocation.coords) {
+        // Use current location coordinates
+        const coords = this.data.currentLocation.coords;
+        this.map.setView([coords.latitude, coords.longitude], 10);
+        this.notificationLocationMarker = L.marker([coords.latitude, coords.longitude], markerOptions).addTo(this.map);
+      } else {
+        // location service off. Use BC center coordinates
+        const bcCenter = [53.7267, -127.6476]; // Center coordinates of British Columbia
+        const zoomLevel = 5;
+        this.map.setView(bcCenter, zoomLevel);
+        this.notificationLocationMarker = L.marker(bcCenter, markerOptions).addTo(this.map);
+      }
 
       this.map.on('drag', (event: any) => {
         const mapCenter = this.map.getCenter();
         this.notificationLocationMarker.setLatLng(mapCenter);
         console.log(this.notificationLocationMarker._latlng)
       });
+    }
 
+    else if (this.data.title === 'Notification Radius') {
+      // set radius on map
+      const markerOptions = {
+        icon: L.icon({
+          iconUrl: "/assets/images/svg-icons/location_pin_radius.svg",
+          iconSize: [32, 32],
+          iconAnchor: [16, 32],
+          popupAnchor: [0, -32],
+        }),
+        draggable: false
+      };
     }
   }
 
@@ -63,6 +86,6 @@ export class notificatinoMapComponent implements OnInit, AfterViewInit  {
   }
 
   saveLocation() {
-    this.dialogRef.close({exit: true});
+    this.dialogRef.close({exit: true, location:this.notificationLocationMarker._latlng});
   }  
 }

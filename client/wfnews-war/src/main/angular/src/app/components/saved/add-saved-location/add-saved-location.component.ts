@@ -5,11 +5,23 @@ import { Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
-import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
-import { ResourcesRoutes } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
+
+export class LocationData {
+  public latitude: number
+  public longitude: number
+  public radius: number = 50
+  public searchText: string
+  public useUserLocation = false
+  public chooseLocationOnMap = false
+  public pushNotificationsWildfires = true;
+  public pushNotificationsFireBans = true;
+  public inAppNotificationsWildfires = true;
+  public inAppNotificationsFireBans = true;
+}
+
 
 @Component({
   selector: 'wfnews-add-saved-location',
@@ -23,7 +35,7 @@ export class AddSavedLocationComponent implements OnInit{
   public locationData = new LocationData;
   private placeData: PlaceData;
   currentLocation: any;
-
+  radiusDistance:number;
 
 
   public searchByLocationControl = new UntypedFormControl
@@ -77,7 +89,6 @@ export class AddSavedLocationComponent implements OnInit{
   }
 
   async useUserLocation () {
-
     this.commonUtilityService.checkLocationServiceStatus().then(async (enabled) => {
       if (!enabled) {
         let dialogRef = this.dialog.open(DialogLocationComponent, {
@@ -85,7 +96,7 @@ export class AddSavedLocationComponent implements OnInit{
           width: '80vw',
         });
       }else {
-        this.locationData.useUserLocation = !this.locationData.useUserLocation
+        this.locationData.useUserLocation = true
 
         if (this.locationData.useUserLocation) {
           this.searchText = undefined
@@ -111,18 +122,56 @@ export class AddSavedLocationComponent implements OnInit{
       minWidth: '100vw',
       height: '100vh',
       data:{
-        currentLocation: this.currentLocation
+        currentLocation: this.currentLocation,
+        title: 'Choose location on the map'
       }
     });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['exit'] && result['location']) {
+        this.locationData.chooseLocationOnMap = true
+        this.locationData.latitude=Number(result['location'].lat);
+        this.locationData.longitude=Number(result['location'].lng);
+        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString(); 
+      }
+    });
+  }
 
+  closeLocationOnMap(event: Event): void {
+    event.stopPropagation();
+    this.locationData.chooseLocationOnMap = false;
+    this.locationData.latitude = null;
+    this.locationData.longitude = null;
+  }
+
+  closeUserLocation(event :Event): void{
+    event.stopPropagation();
+    this.locationData.useUserLocation = false;
+    this.locationData.latitude = null;
+    this.locationData.longitude = null;
   }
 
   chooseRadiusOnMap(){
-
+    let dialogRef = this.dialog.open(notificatinoMapComponent, {
+      autoFocus: false,
+      minWidth: '100vw',
+      height: '100vh',
+      data:{
+        currentLocation: this.currentLocation,
+        title: 'Notification Radius'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['exit'] && result['location']) {
+        this.locationData.chooseLocationOnMap = true
+        this.locationData.latitude=Number(result['location'].lat);
+        this.locationData.longitude=Number(result['location'].lng);
+        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString(); 
+      }
+    });
   }
 
   saveLocation(){
-
+    console.log(this.locationData.radius)
   }
 
   leavePage(){
@@ -145,17 +194,24 @@ export class AddSavedLocationComponent implements OnInit{
   onToggleChangeActiveWildfires(event:any, pushNotifications:boolean){
     if(pushNotifications){
       //Push notifications
+      this.locationData.pushNotificationsWildfires = event.checked;
     } else{
       //In-App notifications
+      this.locationData.inAppNotificationsWildfires = event.checked;
     }
   }
 
   onToggleChangeFireBans(event:any, pushNotifications:boolean){
     if(pushNotifications){
       //Push notifications
+      this.locationData.pushNotificationsFireBans = event.checked;
     } else{
       //In-App notifications
+      this.locationData.inAppNotificationsFireBans = event.checked;
     }
   }
 
+  toggleButton(distance: number) {
+    this.locationData.radius = distance
+  }
 }

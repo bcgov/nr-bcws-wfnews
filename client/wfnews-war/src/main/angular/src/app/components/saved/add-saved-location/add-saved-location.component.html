@@ -49,15 +49,18 @@
                 <button mat-flat-button class="location-button">
                     <img src="../../../assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
                     <span >Use your location</span>
-                    <span (click)="useUserLocation(); $event.stopPropagation();" *ngIf="locationData.useUserLocation">
+                    <span (click)="closeUserLocation($event)" *ngIf="locationData.useUserLocation">
                         <mat-icon class="location-clear">close</mat-icon>
                     </span>
                 </button>
             </div>
-            <div (click)="chooseOnMap()" class="location-button-box">
+            <div (click)="chooseOnMap()" [class]="'location-button-box' + (locationData.chooseLocationOnMap ? '-selected' : '')">
                 <button mat-flat-button class="location-button">
                     <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
+                    <span (click)="closeLocationOnMap($event)" *ngIf="locationData.chooseLocationOnMap">
+                        <mat-icon class="location-clear">close</mat-icon>
+                    </span>
                 </button>
             </div>
         </div>
@@ -77,11 +80,11 @@
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Active Wildfires & Evacuations</div>
-                <mat-slide-toggle (change)="onToggleChangeActiveWildfires($event,true)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,true)" color="primary"></mat-slide-toggle>
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Fire Bans & Area Restrictions</div>
-                <mat-slide-toggle (change)="onToggleChangeFireBans($event,true)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,true)" color="primary"></mat-slide-toggle>
             </div>
         </div>
         <div class="divider"></div>
@@ -92,11 +95,11 @@
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Active Wildfires & Evacuations</div>
-                <mat-slide-toggle (change)="onToggleChangeActiveWildfires($event,false)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,false)" color="primary"></mat-slide-toggle>
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Fire Bans & Area Restrictions</div>
-                <mat-slide-toggle (change)="onToggleChangeFireBans($event,false)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,false)" color="primary"></mat-slide-toggle>
             </div>
         </div>
         <div class="divider"></div>
@@ -113,12 +116,12 @@
             </div>
             <div class="distance-button-container">
                 <div class="button-row">
-                  <button mat-flat-button class="button">Within 25km</button>
-                  <button mat-flat-button class="button">Within 50km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===25" (click)="toggleButton(25)">Within 25km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===50" (click)="toggleButton(50)">Within 50km</button>
                 </div>
                 <div class="button-row">
-                  <button mat-flat-button class="button">Within 75km</button>
-                  <button mat-flat-button class="button">Within 100km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===75" (click)="toggleButton(75)">Within 75km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===100" (click)="toggleButton(100)">Within 100km</button>
                 </div>
               </div>
         </div>

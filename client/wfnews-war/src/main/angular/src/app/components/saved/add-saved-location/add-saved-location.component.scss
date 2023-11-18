@@ -248,6 +248,11 @@
         border: 1px solid #C4C4C4;
         background: #FFF;
     }
+    .button.active {
+        /* Your styles for the active state */
+        background: var(--blues-blue-9, #E9F0F8);
+        border: 2px solid var(--blues-blue-3, #38598A);
+    }
 }
 
 .save-button{
