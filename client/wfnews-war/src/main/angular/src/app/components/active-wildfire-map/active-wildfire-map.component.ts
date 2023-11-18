@@ -244,6 +244,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
+      console.log('PARAMS', params)
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
@@ -321,6 +322,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     let long = window.jQuery(event.currentTarget).data("loc-long");
     let lat = window.jQuery(event.currentTarget).data("loc-lat");
 
+    this.removeMarker([lat, long]);
+
+    if (!long || !lat) return;
+
+    let largerIcon = {
+      iconSize: [40, 38],
+      shadowAnchor: [4, 62],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    };
+
+    this.highlight({ location: [long, lat] }, largerIcon);
+  }
+
+  addMarker(long: number, lat: number) {
     this.removeMarker([lat, long]);
 
     if (!long || !lat) return;
@@ -727,18 +743,26 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
       smallDialogSubscription.unsubscribe();
+      this.searchLayerGroup.clearLayers();this.searchLayerGroup.clearLayers();this.searchLayerGroup.clearLayers();
       if ((result as boolean) !== false) {
         this.searchData = result as SearchResult
         // we have a selected result returned. Zoom to the provided lat long
-        // trigger identify? Turn on layers?
+        // identify if it's a feature, show a marker for addresses
         this.mapConfigService.getMapConfig().then(() => {
           const SMK = window['SMK']
           for (const smkMap in SMK.MAP) {
             if (Object.hasOwn(SMK.MAP, smkMap)) {
               SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
-
               if (this.searchData.type !== 'address') {
+                // if we have an evac order or alert, turn on that layer
+                console.log('TYPE', this.searchData.type)
+                if (['order', 'alert'].includes(this.searchData.type.toLowerCase())) {
+                  this.onSelectLayer('evacuation-orders-and-alerts')
+                }
+
                 this.identify(this.searchData.location)
+              } else {
+                this.addMarker(this.searchData.location[0], this.searchData.location[1])
               }
               break
             }

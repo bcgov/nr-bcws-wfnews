@@ -2,11 +2,11 @@
 @import "notosans-fontface/scss/notosans-fontface";
 
 :host {
-  font-family: 'Noto Sans', Arial, 'sans serif';
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
 .rof{
-  height: 100vh; 
+  height: 100vh;
   background-color: white !important;
   max-width: 850px;
   margin: auto;
@@ -26,7 +26,7 @@
       height: 6vh !important;
     }
   }
-  
+
   ::ng-deep.mat-button-toggle-label-content {
     line-height: 20px !important;
     color: #000;
@@ -338,7 +338,7 @@
     .mat-mdc-checkbox{
       span{
         color: #242424;
-        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
         font-size: 17px;
         font-style: normal;
         font-weight: 400;
@@ -358,7 +358,7 @@
   }
   &-review-header {
     color: #000;
-    font-family: "BC Sans", "Noto Sans", Arial, "sans serif";
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -374,7 +374,7 @@
 
 .page-content{
   padding: 0 32px;
-  font-family: 'Noto Sans', Arial, 'sans serif';
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
   font-size: 16px;
   font-weight: 400;
