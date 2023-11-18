@@ -149,7 +149,7 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 
 			text.append("<h3>" + emailBodyHeader + "</h3>");
 
-			text.append(message + " " + e.getMessage());
+			text.append(message + " " + (e != null ? e.getMessage() : ""));
 			
 			mimeMessage.setContent(text.toString(), "text/html");
 			logger.info("Send Email to " + rawToEmailAddresses);
@@ -230,9 +230,10 @@ public class EmailNotificationServiceImpl implements EmailNotificationService {
 	}
 
 	private String extractExceptionClassName(Exception e) {
-		if(e==null) {
+		if(e == null) {
 			return null;
 		}
+
 		if(e.getCause() == null) {
 			logger.debug("Exception e.getClass().getName(): {}", e.getClass().getName());
 			return e.getClass().getName();

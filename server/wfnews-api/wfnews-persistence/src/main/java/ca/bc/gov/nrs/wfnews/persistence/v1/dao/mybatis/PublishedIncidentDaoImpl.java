@@ -251,7 +251,7 @@ public class PublishedIncidentDaoImpl extends BaseDao implements
 			results.setResults(dtos);
 			results.setPageRowCount(dtos.size());
 			results.setTotalRowCount(totalRowCount);
-			results.setPageNumber(pageNumber == null ? 0 : pageNumber.intValue());
+			results.setPageNumber(pageNumber.intValue());
 
 		} catch (RuntimeException e) {
 			handleException(e);

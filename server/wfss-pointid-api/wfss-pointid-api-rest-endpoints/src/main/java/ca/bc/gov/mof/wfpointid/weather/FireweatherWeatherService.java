@@ -51,7 +51,6 @@ public class FireweatherWeatherService extends WeatherService {
 			completeStation(hourstamp, hourlyDuration, dailyDuration, station, resource);
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			throw new ServiceErrorException(Messages.ERROR_WEATHER_DATA, ex);
 		}
 		return createResource(pt, station);
@@ -100,7 +99,6 @@ public class FireweatherWeatherService extends WeatherService {
 			}
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			throw new ServiceErrorException(Messages.ERROR_WEATHER_DATA, ex);
 		}
 		return createResource(pt, station);
@@ -113,7 +111,6 @@ public class FireweatherWeatherService extends WeatherService {
 	}
 
 	public static WeatherHourly[] convertHourlies(List<Weather> resource, String endHour) {
-		LOG.debug(String.format("Converting %d hourlies", resource.size()));
 		return resource.stream().map(from->{
 			WeatherHourly weather = convertWeatherBase(new WeatherHourly(), from);
 			weather.setHour(WeatherHour.fromMillis(from.getWeatherTimestamp()));
@@ -124,7 +121,6 @@ public class FireweatherWeatherService extends WeatherService {
 	}
 
 	public static WeatherDaily[] convertDailies(List<DailyWeather> resource, String endDay) {
-		LOG.debug(String.format("Converting %d dailies before %s", resource.size(), endDay));
 		return resource.stream().map(from->{
 			WeatherDaily weather = convertWeatherBase(new WeatherDaily(), from);
 			weather.setBuildupIndex(from.getBuildUpIndex());
@@ -139,7 +135,6 @@ public class FireweatherWeatherService extends WeatherService {
 	}
 
 	static  WeatherDaily[] fillDailies(WeatherDaily[] sparse, TimeRange range) {
-		LOG.debug(String.format("Filling missing dailies for %s to %s, %d days", range.getStartStamp(), range.getEndStamp(), range.getDuration()));
 		WeatherDaily[] result = new WeatherDaily[range.getDuration()];
 		for(WeatherDaily report: sparse) {
 			LOG.debug(String.format("Placing daily %s at %d-1", report.getDay(), report.getIndex()));
@@ -157,7 +152,6 @@ public class FireweatherWeatherService extends WeatherService {
 	}
 	
 	static  WeatherHourly[] fillHourlies(WeatherHourly[] sparse, TimeRange range) {
-		LOG.debug(String.format("Filling missing hourlies for %s to %s, %d days", range.getStartStamp(), range.getEndStamp(), range.getDuration()));
 		WeatherHourly[] result = new WeatherHourly[range.getDuration()];
 		for(WeatherHourly report: sparse) {
 			LOG.debug(String.format("Placing hourly %s at %d-1", report.getHour(), report.getIndex()));

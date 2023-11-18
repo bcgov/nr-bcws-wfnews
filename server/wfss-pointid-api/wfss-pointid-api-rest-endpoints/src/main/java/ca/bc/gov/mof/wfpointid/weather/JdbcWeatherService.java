@@ -79,7 +79,6 @@ public class JdbcWeatherService extends WeatherService {
 			stn.setDaily(daily);
 		}
 		catch (Exception ex) {
-			ex.printStackTrace();
 			throw new ServiceErrorException(Messages.ERROR_WEATHER_DATA, ex);
 		}
 		finally {
