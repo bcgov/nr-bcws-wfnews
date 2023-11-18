@@ -24,6 +24,17 @@
     flex-direction: row;
   }
 
+  .widget-title {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+  }
+
   .stat-box-data {
     color: #242424;
     font-feature-settings: 'clig' off, 'liga' off;
@@ -79,20 +90,6 @@
     gap: 8px;
     border-radius: 60px;
     position: relative;
-  }
-
-  .widget-header {
-    color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 34px; /* 130.769% */
-    letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
-    width: 100%;
-    padding-bottom: 16px;
   }
 }
 
@@ -155,6 +152,17 @@
     margin-left: 8px;
   }
 
+  .widget-title {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
+  }
+
   .evac-card-text {
     color: var(--grays-gray-3, #666);
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
@@ -176,20 +184,6 @@
     border-radius: 60px;
     position: relative;
   }
-
-  .widget-header {
-    color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 26px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 34px; /* 130.769% */
-    letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
-    width: 100%;
-    padding-bottom: 16px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -203,6 +197,17 @@
     gap: 12px;
     flex: 1 0 0;
     background: #FFF;
+  }
+
+  .widget-title {
+    color: #242424;
+    font-feature-settings: 'clig' off, 'liga' off;
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 34px; /* 130.769% */
+    letter-spacing: 0.35px;
   }
 
   .stat-text {
@@ -270,20 +275,6 @@
     height: 32px;
     width: 32px;
   }
-
-  .widget-header {
-    color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 34px; /* 130.769% */
-    letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
-    width: 100%;
-    padding-bottom: 16px;
-  }
 }
 
 .spinner-position {
@@ -348,13 +339,20 @@
 }
 
 .link {
-  color: var(--blues-blue-5, var(--Medium-Blue, #146FB4));
+  color: #242424;
   font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
   line-height: 21px; /* 131.25% */
   text-decoration: none;
+  margin-right: 7px;
+  border-radius: 20px;
+  border: 1px solid #C4C4C4;
+  background-color: transparent;
+  margin-left: auto;
+  width: 151px;
+  text-align: center;
 }
 
 .evac-card-holder {
@@ -366,4 +364,11 @@
 
 .blue-background {
   background-color: var(--blues-blue-10, #F5F6F9);
+}
+
+.widget-header {
+  border-bottom: 1px solid #C4C4C4;
+  width: 100%;
+  padding-bottom: 16px;
+  display: flex;
 }

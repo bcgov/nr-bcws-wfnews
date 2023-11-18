@@ -1,6 +1,7 @@
 <div class="container">
   <div class="widget-header">
-    <span>Evacuations</span>
+    <span class="widget-title">Evacuations</span>
+    <a class="link" routerLink="../list" [queryParams]="{tab: 1}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="Order" /></a>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div class="content" *ngIf="startupComplete; else loading">
@@ -39,9 +40,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="footer">
-      <a class="link" routerLink="../list" [queryParams]="{tab: 1}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow.svg" alt="Order" /></a>
     </div>
   </div>
 </div>

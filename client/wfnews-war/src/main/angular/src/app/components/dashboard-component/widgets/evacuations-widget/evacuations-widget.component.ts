@@ -18,7 +18,7 @@ export class EvacuationsWidget implements AfterViewInit {
   ngAfterViewInit (): void {
     this.agolService.getEvacOrders(null, null, { returnCentroid: false, returnGeometry: false})
     .toPromise().then(evacs => {
-      if (evacs && evacs.features) {
+      if (evacs?.features) {
 
         this.evacOrders = evacs.features.filter(e => e.attributes.ORDER_ALERT_STATUS === 'Order').length
         this.evacAlerts = evacs.features.filter(e => e.attributes.ORDER_ALERT_STATUS === 'Alert').length
