@@ -73,7 +73,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.removeIdentity = false;
       this.showPanel = false;
       this.identifyIncident = null;
-    
+
       const incidentRefs = changes?.incidentRefs?.currentValue;
       if (incidentRefs) {
         this.currentIncidentRefs = incidentRefs;
@@ -130,10 +130,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
           this.zoomIn(8)
         }
       }
-      console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
-      const map = SMK?.MAP?.[1];
-  
+      const map = SMK?.MAP?.[1]; // may not always be 1
+
       if (map) {
         map.$viewer.identified.clear();
         map.$sidepanel.setExpand(0);
@@ -183,7 +182,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.marker.on('add',function(){
         const icon: any = document.querySelector('.animated-icon')
         icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-  
+
         this.markerAnimation = setInterval(() => {
           icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
           icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
@@ -360,7 +359,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
               }
             )
           }
-            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));  
+            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));
         }
       })
     }
