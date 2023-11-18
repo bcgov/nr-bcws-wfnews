@@ -108,9 +108,6 @@ public class NotificationSettingsDaoImpl extends BaseDao implements Notification
 				if(count==0) {
 					throw new DaoException("Record not updated: "+count);
 				}	
-				if(count==0) {
-					throw new DaoException("Record not updated: "+count);
-				}
 	
 			} catch (RuntimeException e) {
 				handleException(e);
