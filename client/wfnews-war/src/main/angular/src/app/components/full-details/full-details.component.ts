@@ -4,6 +4,7 @@ import { ResourcesRoutes } from '@app/utils';
 import { AreaRestriction } from './area-restrictions-full-details/area-restrictions-full-details.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { EvacData } from './evac-alert-full-details/evac-alert-full-details.component';
+import { BanProhibition } from './bans-full-details/bans-full-details.component';
 
 @Component({
   selector: 'wfnews-full-details',
@@ -13,11 +14,11 @@ import { EvacData } from './evac-alert-full-details/evac-alert-full-details.comp
 export class FullDetailsComponent implements OnInit, OnDestroy {
   public params: ParamMap
 
-  constructor(private router: ActivatedRoute, private route: Router, private agolService: AGOLService) {
+  constructor(private router:Router, private route: ActivatedRoute, private agolService: AGOLService) {
   }
 
   ngOnInit(): void {
-    this.router.queryParams.subscribe((params: ParamMap) => {
+    this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params
     })
     if (document.getElementById('mobile-navigation-bar')) document.getElementById('mobile-navigation-bar').style.display = 'none';
@@ -35,7 +36,7 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
         return 'Wildfire Danger Rating'
       case 'bans-prohibitions':
         return 'Fire Bans'
-      case 'evac-alert': 
+      case 'evac-alert':
       case 'evac-order':
         return 'Evacuation Notice'
     }
@@ -43,64 +44,49 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
 
   back() {
     if (this.params && this.params['source']) {
-      this.route.navigate(this.params['source']);
+      this.router.navigate(this.params['source']);
     }
-    else this.route.navigate([ResourcesRoutes.DASHBOARD]);
+    else this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
 
   async exit() {
     try {
       // if exiting from area restriction full details retrieve the restriction's location to display as centred on the wildfire map
       if ((this.params['type']) === 'area-restriction' && this.params['id']) {
-        let restrictionData = null;
         const id = this.params['id']
         const response = await this.agolService.getAreaRestrictionsByID(id, { returnCentroid: true }).toPromise()
         if (response?.features[0]?.attributes) {
           const areaRestriction = response.features[0]
 
-          restrictionData = new AreaRestriction
-
-          restrictionData.centroidLatitude = areaRestriction.centroid.y;
-          restrictionData.centroidLongitude = areaRestriction.centroid.x;
-
+          if (areaRestriction?.centroid?.y && areaRestriction?.centroid?.x) {
+            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { areaRestriction: true, identify: true, longitude: areaRestriction.centroid.x, latitude: areaRestriction.centroid.y } }), 100);
+          }
         } else {
           console.error('Area Restriction ' + id + ' could not be retrieved')
         }
-        if (restrictionData && restrictionData.centroidLongitude && restrictionData.centroidLatitude) {
-          setInterval(() => {
-            this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: restrictionData.centroidLongitude, latitude: restrictionData.centroidLatitude, areaRestriction: true } });
-          }, 100);
-
-        }
-        else this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
-      }
-      else if (((this.params['type']) === 'evac-alert' || (this.params['type']) === 'evac-order') && this.params['id']) {
-        let evacData = null;
-        const id = this.params['id']
-        const response = await this.agolService.getEvacOrdersByID(id, { returnCentroid: true }).toPromise()
+      } else if (((this.params['type']) === 'evac-alert' || (this.params['type']) === 'evac-order') && this.params['id']) {
+        const response = await this.agolService.getEvacOrdersByID(this.params['id'], { returnCentroid: true }).toPromise()
         if (response?.features[0]?.attributes) {
-          const areaRestriction = response.features[0]
-
-          evacData = new EvacData
-
-          evacData.centroidLatitude = areaRestriction.centroid.y;
-          evacData.centroidLongitude = areaRestriction.centroid.x;
-
+          const evac = response.features[0]
+          if (evac?.centroid?.y && evac?.centroid?.x) {
+            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { evac: true, identify: true, longitude: evac.centroid?.x, latitude: evac.centroid?.y } }), 100)
+          }
         } else {
-          console.error('Area Restriction ' + id + ' could not be retrieved')
+          console.error('Evac ' + this.params['id'] + ' could not be retrieved')
         }
-        if (evacData && evacData.centroidLongitude && evacData.centroidLatitude) {
-          setInterval(() => {
-            this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: evacData.centroidLongitude, latitude: evacData.centroidLatitude } });
-          }, 100);
-
+      } else if ((this.params['type']) === 'bans-prohibitions' && this.params['id']) {
+        const response = await this.agolService.getBansAndProhibitionsById(this.params['id'], { returnGeometry: false, returnCentroid: true, returnExtent: false }).toPromise().catch(err => console.error(err))
+        // could also do response length === 1
+        if (response?.features[0]?.attributes) {
+          const ban = response.features[0]
+          if (ban?.centroid?.y && ban?.centroid?.x) {
+            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { bans: true, identify: true, longitude: ban.centroid.x, latitude: ban.centroid.y } }), 100);
+          }
         }
-        else this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
       }
     } catch (error) {
       console.error('Exiting full details failed with error: ' + error)
-      this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
     }
-
+    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
   }
 }

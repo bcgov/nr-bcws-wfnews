@@ -244,6 +244,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
+      console.log('PARAMS', params)
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
@@ -755,7 +756,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
               if (this.searchData.type !== 'address') {
                 // if we have an evac order or alert, turn on that layer
                 console.log('TYPE', this.searchData.type)
-                if (['order', 'alert'].includes(this.searchData.type.toLocaleLowerCase())) {
+                if (['order', 'alert'].includes(this.searchData.type.toLowerCase())) {
                   this.onSelectLayer('evacuation-orders-and-alerts')
                 }
 

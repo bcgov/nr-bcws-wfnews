@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
@@ -14,7 +14,7 @@ import { AGOLService } from '@app/services/AGOL-service';
   styleUrls: ['./draggable-panel.component.scss']
 })
 
-export class DraggablePanelComponent implements OnInit, OnChanges {
+export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   resizeHeight: string = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
   currentIncidentRefs: any[];
@@ -63,6 +63,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   ) {
   }
 
+  ngOnDestroy(): void {
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+  }
 
   ngOnInit(): void {
 
@@ -91,7 +96,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     if (this.markerAnimation) {
       clearInterval(this.markerAnimation)
     }
-    console.log(this.currentIncidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs
@@ -382,7 +386,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(item)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
