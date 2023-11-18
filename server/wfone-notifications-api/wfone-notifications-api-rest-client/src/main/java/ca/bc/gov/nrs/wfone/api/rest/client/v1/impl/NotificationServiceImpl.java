@@ -332,7 +332,6 @@ public class NotificationServiceImpl extends BaseRestServiceClient implements No
 			throw new WildfireResourceServiceException(e);
 			
 		} catch (Throwable t) {
-			t.printStackTrace();
 			throw new WildfireResourceServiceException(t);
 		}
 

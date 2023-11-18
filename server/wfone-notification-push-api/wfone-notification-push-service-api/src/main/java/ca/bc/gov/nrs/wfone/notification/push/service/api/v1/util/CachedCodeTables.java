@@ -15,7 +15,7 @@ import ca.bc.gov.nrs.wfone.common.persistence.dao.DaoException;
 public class CachedCodeTables {
 
 	// 8 hrs
-	private static final long DEFAULT_CACHE_VALIDITY_MILLIS = 8 * 60 * 60 * 1000;
+	private static final long DEFAULT_CACHE_VALIDITY_MILLIS = 8L * 60L * 60L * 1000L;
 
 	private CodeTableDao codeTableDao;
 	private List<CodeTableConfig> codeTableConfigs = new ArrayList<>();

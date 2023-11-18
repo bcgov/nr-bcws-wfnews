@@ -49,7 +49,7 @@ public class WildfireFireweatherServiceImpl extends BaseRestServiceClient implem
 	private static final Logger logger = LoggerFactory.getLogger(WildfireFireweatherServiceImpl.class);
 	
 	public static final String CLIENT_VERSION = "1";
-	private static final long STATION_CACHE_MAX_AGE = 1000*60*60*24;
+	private static final long STATION_CACHE_MAX_AGE = 1000L * 60L * 60L * 24L;
 	
 	private Clock clock = Clock.systemUTC();
 	
