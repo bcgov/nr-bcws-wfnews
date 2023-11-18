@@ -138,49 +138,17 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
       await this.populateIncident(areaRestriction.geometry.rings)
     } else {
-      // What happens when this fails?
+      console.error('Could not populate area restriction by ID: ' + this.id)
     }
   }
 
   async populateIncident(restrictionPolygon: [][]) {
-    const turf = window['turf']
-
-    const poly: number[][] = restrictionPolygon[0]
-    const polyArray: Array<number>[] = [];
-
-    for (let item of poly) {
-      polyArray.push(item)
+    try {
+        this.incident = await this.publishedIncidentService.populateIncidentByPoint(restrictionPolygon)
+    } catch(error) {
+      console.error('Error while populaiting associated incident for area restriction: ' + error)
     }
-
-    const multiPolyArray = [polyArray];
-    const bufferedPolygon = turf.polygon(multiPolyArray)
-    const buffer = turf.buffer(bufferedPolygon, 10, {
-      units: 'kilometers'
-    });
-
-    const bbox = turf.bbox(buffer)
-    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-
-    // find incidents within the area restriction polygon
-    // If we're only expecting 1, why fetch 1000 and only use the first?
-    // what happens if there are more than one?
-    this.incident = null
-    const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).toPromise()
-    if (incidents?.collection && incidents?.collection?.length === 1) {
-      const firstIncident = incidents.collection[0]
-      const fireName = firstIncident.incidentName.replace("Fire", "").trim()
-
-      this.incident = new SimpleIncident
-
-      this.incident.discoveryDate = convertToDateYear(firstIncident.discoveryDate)
-      this.incident.incidentName = fireName + " Wildfire"
-      this.incident.fireOfNoteInd = firstIncident.fireOfNoteInd
-      this.incident.stageOfControlCode = firstIncident.stageOfControlCode
-      this.incident.stageOfControlIcon = getStageOfControlIcon(firstIncident.stageOfControlCode)
-      this.incident.stageOfControlLabel = getStageOfControlLabel(firstIncident.stageOfControlCode)
-    } else {
-      // what happens when this fails?
-    }
+    
   }
 
   navToMap() {

@@ -3,7 +3,7 @@
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
             <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
         </div>
-        <div class="map">
+        <div id="map-container" class="map">
         <div class="identify-panel"></div>
         <div class="search-row">
           <div class="search-bar">
@@ -31,7 +31,8 @@
       </div>
             <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
             <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
-                <mat-button-toggle-group class="layer-buttons disable-scrollbars" multiple="false">
+              <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button" (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()" (mouseup)="sliderButtonHold = false"><img alt="left" src="../../../assets/images/svg-icons/chevron-left.svg"></button>
+                <mat-button-toggle-group id="layer-buttons" class="layer-buttons disable-scrollbars" multiple="false">
                     <map-toggle-button labelText="Wildfires" value="wildfire-stage-of-control" [checked]="isChecked('wildfire-stage-of-control')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/wildfire.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Evacuations" value="evacuation-orders-and-alerts" [checked]="isChecked('evacuation-orders-and-alerts')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_bullhorn.svg'"></map-toggle-button>
                     <map-toggle-button labelText="Fire Bans" value="bans-and-prohibitions" [checked]="isChecked('bans-and-prohibitions')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_error.svg'"></map-toggle-button>
@@ -43,6 +44,7 @@
                     <map-toggle-button labelText="Road Events" value="routes-impacted" [checked]="isChecked('routes-impacted')" (changeEvent)="onSelectLayer($event.value)" [labelIconPath]="'../../../assets/images/svg-icons/carbon_car-front.svg'"></map-toggle-button>
                     <map-toggle-button *ngIf="isMobileView()" labelText="All Layers" value="all-layers" (changeEvent)="openAllLayers()" [labelIconPath]="'../../../assets/images/svg-icons/carbon_layers.svg'"></map-toggle-button>
                 </mat-button-toggle-group>
+                <button *ngIf="!isMobileView() && showRightLayerScroller()" mat-fab class="layer-scroll-button right" (mousedown)="sliderButtonHold = true; slideLayerButtons(40); $event.stopPropagation()" (mouseup)="sliderButtonHold = false"><img alt="right" src="../../../assets/images/svg-icons/chevron-right.svg"></button>
             </div>
             <!-- worth noting, SMK can support these buttons embedded directly, no need to overlay -->
             <button mat-fab class="mat-white-40 all-layers-btn" *ngIf="isMapLoaded && isMobileView()" (click)="openAllLayers()">
@@ -51,7 +53,7 @@
             <button mat-fab class="mat-white-48 search-fab right-20" *ngIf="isMapLoaded && isMobileView()" (click)="openSearchPage()">
               <img alt="search" class="icon" src="/assets/images/svg-icons/search.svg" >
             </button>
-            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="useMyCurrentLocation()">
+            <button mat-fab class="mat-white-48 bottom-20 right-20" *ngIf="isMapLoaded && isMobileView()" (click)="clickedMyLocation ? clearMyLocation() : useMyCurrentLocation()">
                 <mat-icon svgIcon="location-enabled" *ngIf="isLocationEnabled"></mat-icon>
                 <mat-icon svgIcon="location-disabled" *ngIf="!isLocationEnabled"></mat-icon>
             </button>

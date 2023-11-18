@@ -57,14 +57,14 @@
 				<dependency>
 						<groupId>com.amazonaws</groupId>
 						<artifactId>aws-java-sdk-s3</artifactId>
-						<version>1.12.227</version>
+						<version>1.12.261</version>
 				</dependency>
 
 				<!-- https://mvnrepository.com/artifact/org.json/json -->
 				<dependency>
 						<groupId>org.json</groupId>
 						<artifactId>json</artifactId>
-						<version>20220320</version>
+						<version>20231013</version>
 				</dependency>
 
 				<dependency>

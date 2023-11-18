@@ -1,10 +1,11 @@
-.wfnews-area-restrictionsfull-details {
-  max-width: 850px;
+#mobile-navigation-bar {
+  display: none;
 }
+
 
 .title-panel {
   display: flex;
-  padding: 24px 24px 32px 24px;
+  padding: 24px 24px 24px 24px;
   flex-direction: column;
   align-items: flex-start;
   gap: 16px;
@@ -23,31 +24,83 @@
 
   .info {
     color: var(--Grey-6---666, #666);
-    /* Body 1 */
+    display: flex !important;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 21px;
-    /* 131.25% */
+    margin-bottom: 8px;
   }
 
-  .map-button {
-    width: 100%;
-    display: flex;
-    padding: 8px;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-    flex: 1 0 0;
-    border: 1px solid grey !important;
-    color: #000;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
+}
+
+.map-button {
+  width: 100%;
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  flex: 1 0 0;
+  border: 1px solid grey !important;
+  color: #000;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+
+  ::ng-deep .mdc-button__label {
+    bottom: 3px;
   }
 }
+
+.link-button {
+  width: 100%;
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  flex: 1 0 0;
+  border: 1px solid grey !important;
+  color: #000;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+  margin-bottom: 16px;
+
+  ::ng-deep .mdc-button__label {
+    bottom: 3px;
+  }
+}
+
+.link-button-no-icon {
+  width: 100%;
+  display: flex;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  border-radius: 6px;
+  flex: 1 0 0;
+  border: 1px solid grey !important;
+  color: #000;
+  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
 
 .info-container {
   display: flex;
@@ -62,7 +115,18 @@
   font-style: normal;
   font-weight: 400;
   line-height: 21px;
-  margin-bottom: 10px;
+  margin: 0px 0px 24px 0px;
+  display: flex !important
+}
+
+.incident-info {
+  color: var(--Grey-6---666, #666);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  margin: 0px 0px 16px 0px;
+  display: flex !important
 }
 
 .full-details-header {
@@ -112,7 +176,6 @@
 }
 
 .fire-info-container {
-  margin-top: 10px;
   position: relative;
   display: flex;
   padding: 16px;
@@ -122,7 +185,6 @@
   border-radius: 8px;
   border: 1px solid var(--grays-gray-7, #DEDEDE);
   background: var(--White, #FDFDFD);
-  /* Card Shadow 2 */
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
 
   .break {
@@ -142,7 +204,26 @@
     font-style: normal;
     font-weight: 400;
     line-height: 21px;
+    margin-bottom: 4px;
   }
+}
+
+h4 {
+  color: var(--Black-2, #484848);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0px 0px 16px 0px;
+}
+
+.full-details-tertiary-title {
+  color: var(--Black-2, #484848);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  margin: 0px 0px 16px 0px;
 }
 
 .wilfire-of-note-panel {
@@ -176,7 +257,6 @@
   font-style: normal;
   font-weight: 600;
   line-height: 39px;
-  /* 150% */
   letter-spacing: 0.35px;
 }
 
@@ -187,6 +267,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: 33px;
+  margin: 0px 0px 16px 0px;
 }
 
 .restriction-info {
@@ -206,8 +287,6 @@
 .links {
   position: relative;
   padding-bottom: 120px;
-  margin-right: 20px;
-  margin-left: 20px;
 
   p {
     display: flex;
@@ -230,50 +309,45 @@
   &.active-wildfires-holding {
     display: inline-block;
     background-color: #ffff00;
-    border: 1px solid black;
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    margin-right: 12px;
+    margin: 0px 10px 0px 4px;
   }
 
   &.active-wildfires-out-of-control {
     display: inline-block;
     background-color: #FF0000;
-    border: 1px solid black;
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    margin-right: 12px;
+    margin: 0px 10px 0px 4px;
   }
 
   &.active-wildfires-under-control {
     display: inline-block;
     background-color: #98E600;
-    border: 1px solid black;
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    margin-right: 12px;
+    margin: 0px 10px 0px 4px;
   }
 
   &.bcws-activefires-publicview-inactive {
     display: inline-block;
     background-color: #5C6671;
-    border: 1px solid black;
     border-radius: 50%;
     width: 16px;
     height: 16px;
-    margin-right: 12px;
+    margin: 0px 10px 0px 4px;
   }
 }
 
 hr {
-  margin-left: 20px;
-  margin-right: 20px;
   background-color: #DDD;
   height: 1px;
   border: 0;
+  margin: 0px 20px 0px 20px;
 }
 
 .arrow-button {
@@ -294,10 +368,17 @@ hr {
 
 .icon {
   position: relative;
-  top: 4px;
   margin-right: 8px;
-  height: 20px;
-  width: 20px;
+  height: 24px;
+  width: 24px;
+}
+
+.tertiary-icon {
+  position: relative;
+  margin-right: 8px;
+  height: 24px;
+  width: 24px;
+  top: 5px;
 }
 
 .bulletin {
@@ -315,6 +396,7 @@ hr {
   border-radius: 8px;
   border: 1px solid var(--grays-gray-8, #E4E4E4);
   background: #FFF;
+  z-index: 1000;
   /* Card Shadow */
   box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.10);
 

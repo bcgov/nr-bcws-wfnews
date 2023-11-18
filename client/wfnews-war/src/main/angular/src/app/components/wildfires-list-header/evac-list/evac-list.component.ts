@@ -33,7 +33,7 @@ export class EvacListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall)
 
-  constructor ( private agolService: AGOLService, private router: Router, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, protected router: Router, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()

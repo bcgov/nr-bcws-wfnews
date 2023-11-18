@@ -2,9 +2,23 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SituationReport } from '@app/components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
+import { convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { AppConfigService, TokenService } from "@wf1/core-ui";
 import { Observable, of } from 'rxjs';
 import { concatMap, map } from 'rxjs/operators';
+
+export class SimpleIncident {
+  public incidentName: string;
+  public incidentNumber: string;
+  public discoveryDate: string
+  public stageOfControlCode: string;
+  public stageOfControlLabel: string;
+  public stageOfControlIcon: string;
+  public fireOfNoteInd: boolean;
+  public fireCentreName: string;
+  public fireYear: string;
+  public incidentNumberLabel: string;
+}
 
 @Injectable({
     providedIn: 'root'
@@ -171,5 +185,49 @@ export class PublishedIncidentService {
       }
     }
     return this.httpClient.delete<SituationReport>(url, headers)
+  }
+
+  async populateIncidentByPoint(restrictionPolygon: [][]) {
+    let incident: SimpleIncident = null;
+    
+    const turf = window['turf']
+
+    const poly: number[][] = restrictionPolygon[0]
+    const polyArray: Array<number>[] = [];
+
+    for (let item of poly) {
+      polyArray.push(item)
+    }
+
+    const multiPolyArray = [polyArray];
+    const bufferedPolygon = turf.polygon(multiPolyArray)
+    const buffer = turf.buffer(bufferedPolygon, 10, {
+      units: 'kilometers'
+    });
+
+    const bbox = turf.bbox(buffer)
+    const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
+
+    // find incidents within the area restriction polygon
+    const incidents = await this.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).toPromise()
+    if (incidents?.collection && incidents?.collection?.length === 1) {
+      const firstIncident = incidents.collection[0]
+      const fireName = firstIncident.incidentName.replace("Fire", "").trim()
+
+      incident = new SimpleIncident
+
+      incident.discoveryDate = convertToDateYear(firstIncident.discoveryDate)
+      incident.incidentName = fireName + " Wildfire"
+      incident.fireOfNoteInd = firstIncident.fireOfNoteInd
+      incident.stageOfControlCode = firstIncident.stageOfControlCode
+      incident.stageOfControlIcon = getStageOfControlIcon(firstIncident.stageOfControlCode)
+      incident.stageOfControlLabel = getStageOfControlLabel(firstIncident.stageOfControlCode)
+      incident.fireCentreName = firstIncident.fireCentreName
+      incident.fireYear = firstIncident.fireYear
+      incident.incidentNumberLabel = firstIncident.incidentNumberLabel
+      return incident;
+    } else {
+      console.error('Could not fetch associated incident')
+    }
   }
 }

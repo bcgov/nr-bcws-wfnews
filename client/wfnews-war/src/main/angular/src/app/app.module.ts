@@ -192,6 +192,8 @@ import { SavedComponent } from './components/saved/saved.component';
 import { MoreComponent } from './components/more/more.component';
 import { BansFullDetailsComponent } from './components/full-details/bans-full-details/bans-full-details.component';
 import { DangerRatingFullDetailsComponent } from './components/full-details/danger-rating-full-details/danger-rating-full-details.component';
+import { EvacAlertFullDetailsComponent } from './components/full-details/evac-alert-full-details/evac-alert-full-details.component';
+import { EvacOtherInfoComponent } from './components/full-details/evac-other-info/evac-other-info.component';
 import { MapLegendComponent } from './components/legend-panels/other-layers/map-legend.component';
 import { FireLegendComponent } from './components/legend-panels/fires/fire-legend.component';
 import { BaseLegendComponent } from './components/legend-panels/base-legend.component';
@@ -209,6 +211,7 @@ import { ProtectedLandsLegendComponent } from './components/legend-panels/protec
 import { SearchPageComponent } from './components/search/search-page.component';
 import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
 import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
+import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -343,6 +346,9 @@ export const DATE_FORMATS = {
         SavedComponent,
         MoreComponent,
         BansFullDetailsComponent,
+        EvacAlertFullDetailsComponent,
+        EvacOrderFullDetailsComponent,
+        EvacOtherInfoComponent,
         BaseLegendComponent,
         MapLegendComponent,
         FireLegendComponent,
