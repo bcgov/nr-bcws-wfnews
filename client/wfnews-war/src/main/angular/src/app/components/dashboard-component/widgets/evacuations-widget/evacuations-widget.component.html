@@ -6,31 +6,37 @@
   <div class="content" *ngIf="startupComplete; else loading">
     <div class="counts-box">
       <div class="stat-box">
-        <span class="stat-box-label">Total Evacuation Orders</span>
         <div class="stat-text">
           <img height="36" width="36" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" class="stat-box-icon" />
-          <span class="stat-box-data">{{evacOrders}}</span>
+          <span class="stat-box-data">{{evacOrders}} Orders</span>
         </div>
       </div>
       <div class="stat-box">
-        <span class="stat-box-label">Total Evacuation Alerts</span>
         <div class="stat-text">
           <img height="36" width="36" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" class="stat-box-icon" />
-          <span class="stat-box-data">{{evacAlerts}}</span>
+          <span class="stat-box-data">{{evacAlerts}} Alerts</span>
         </div>
       </div>
     </div>
     <div class="evac-list-box">
       <div class="evac-list-title">Recent Notices</div>
-      <div class="evac-card" *ngFor="let evac of evacList">
-        <div class="evac-card-content">
-          <img *ngIf="evac.status === 'Order'" height="22" width="22" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" />
-          <img *ngIf="evac.status === 'Alert'" height="22" width="22" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" />
-          <span class="evac-card-title">{{evac.name}}</span>
-        </div>
-        <div class="evac-card-content">
-          <img height="22" width="22" src="/assets/images/svg-icons/calendar-pin.svg" alt="issued on" />
-          <span class="evac-card-text">{{evac.issuedOn}}</span>
+      <div class="evac-card-holder">
+        <div *ngFor="let evac of evacList; let i = index">
+          <div [class]="(i % 2 === 0 ? 'blue-background ' : '') + 'evac-card'" >
+            <div class="evac-card-content">
+              <img *ngIf="evac.status === 'Order'" height="22" width="22" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" />
+              <img *ngIf="evac.status === 'Alert'" height="22" width="22" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" />
+              <span class="evac-card-title">{{evac.name}}</span>
+            </div>
+            <div class="evac-card-content">
+              <img height="22" width="22" src="/assets/images/svg-icons/calendar-pin.svg" alt="issued on" />
+              <span class="evac-card-text">Issued on {{evac.issuedOn}}</span>
+            </div>
+            <div class="evac-card-content">
+              <img height="22" width="22" src="/assets/images/svg-icons/local_authority.svg" alt="issued by" />
+              <span class="evac-card-text">Issued by {{evac.agency}}</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>

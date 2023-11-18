@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
+import { isMobileView } from "@app/utils"
 
 @Component({
   selector: 'resources-widget',
@@ -9,6 +10,8 @@ import { PublishedIncidentService } from "@app/services/published-incident-servi
 export class ResourcesWidget implements AfterViewInit {
   public startupComplete = false
   public situationReport
+
+  public isMobileView = isMobileView
 
   constructor(private publishedIncidentService: PublishedIncidentService) { }
 

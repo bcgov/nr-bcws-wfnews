@@ -5,11 +5,10 @@
   .container {
     overflow: hidden;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    padding: 20px;
+    padding: 24px;
     display: flex;
     width: auto;
     min-height: 640px;
-    padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
@@ -17,6 +16,15 @@
     border-radius: 20px;
     background: #FFF;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .chart-box-title {
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 
   .chart-box-content {
@@ -153,6 +161,15 @@
     border-radius: 20px;
     background: #FFF;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+  }
+
+  .chart-box-title {
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
   }
 
   .chart-box-content {
@@ -312,6 +329,16 @@
     border-bottom: 1px solid #DEDEDE;
   }
 
+  .chart-box-title {
+    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: 0em;
+    text-align: left;
+    margin-top: 5px;
+  }
+
   .chart-percent {
     color: var(--grays-gray-1, #242424);
     text-align: center;
@@ -332,6 +359,7 @@
     height: 65px;
     position: relative;
     top: 60px;
+    left: -20px;
     width: 185px;
   }
 
@@ -350,12 +378,12 @@
 
   .stat-text {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
 
   .stat-box-icon {
     display: flex;
-    padding: 12px;
+    padding: 6px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -363,10 +391,10 @@
     border-radius: 60px;
     background: var(--Summary-Blue, #DFE5F1);
     position: relative;
-    top: -5px;
+    top: 0px;
     height: 24px;
     width: 24px;
-    margin-left: auto;
+    margin-left: 0;
   }
 
   .stat-box-data {
@@ -378,6 +406,7 @@
     font-weight: 500;
     line-height: normal;
     letter-spacing: 0.35px;
+    margin-left: auto;
   }
 
   .stat-box-label {
@@ -476,15 +505,6 @@
   position: relative;
   top: 2px;
   left: -6px;
-}
-
-.chart-box-title {
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 27px;
-  letter-spacing: 0em;
-  text-align: left;
 }
 
 .stat-box-label {
