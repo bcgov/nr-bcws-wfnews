@@ -514,4 +514,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  decode (string: string): string {
+    return decodeURIComponent(escape(string));
+  }
 }
