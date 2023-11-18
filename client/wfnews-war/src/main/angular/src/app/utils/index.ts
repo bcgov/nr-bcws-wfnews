@@ -422,11 +422,9 @@ export function checkLayerVisible (layerId: string | string[]): boolean {
   const smk = window['SMK']
   let layerFound = false
   // check for any of the layers being present in the group.
-  // visibility will be handled by the sub component
-  // could likely avoid the loop and just get smk.MAP[length]
   for (const smkMapRef in smk.MAP) {
     if (Object.hasOwn(smk.MAP, smkMapRef)) {
-      const smkMap = smk.MAP[smkMapRef]
+      const smkMap = getActiveMap(smk)
       if (smkMap?.$viewer?.visibleLayer) {
         if (Array.isArray(layerId)) {
           let result = false
@@ -451,4 +449,8 @@ export function convertToStandardDateString(value: string) {
   if (value) {
     return moment(value).format('MMM Do YYYY h:mm:ss a')
   }
+}
+
+export function getActiveMap(smk) {
+  return smk.MAP[Object.keys(smk.MAP)[Object.keys(smk.MAP).length - 1]]
 }

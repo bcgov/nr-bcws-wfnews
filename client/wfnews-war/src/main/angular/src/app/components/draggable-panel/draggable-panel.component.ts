@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Simp
 import { Router } from '@angular/router';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getActiveMap, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -197,13 +197,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       }
     )
 
-    let viewer = null;
     const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
+    let viewer = getActiveMap(SMK).$viewer;
     this.marker.addTo(viewer.map)
   }
 
@@ -326,12 +321,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
         const SMK = window['SMK'];
-        let viewer = null;
-        for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            viewer = SMK.MAP[smkMap].$viewer;
-          }
-        }
+        const viewer = getActiveMap(SMK).$viewer;
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
         const layerId = this.identifyItem.layerId
         if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){

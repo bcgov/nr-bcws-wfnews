@@ -19,7 +19,7 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, checkLayerVisible, convertToFireCentreDescription, snowPlowHelper } from '../../utils';
+import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, checkLayerVisible, convertToFireCentreDescription, getActiveMap, snowPlowHelper } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
@@ -90,13 +90,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        if (this.highlightLayer && this.highlightLayer._leaflet_id) {
-          SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
-        }
-      }
-    }
+    getActiveMap(SMK).$viewer.map.removeLayer(this.highlightLayer);
 
     clearInterval(this.initInterval)
     clearInterval(this.mapPanProgressBar)
@@ -132,13 +126,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.initInterval = setInterval(() => {
       try {
         const SMK = window['SMK'];
-        this.viewer = null;
-        for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            this.viewer = SMK.MAP[smkMap].$viewer;
-          }
-        }
-        this.map = this.viewer.map;
+        this.viewer = getActiveMap(SMK)?.$viewer;
+        this.map = this.viewer?.map;
         if (!this.highlightLayer) {
           this.highlightLayer = window['L'].layerGroup().addTo(this.map);
           this.map.on('zoomend', () => {
@@ -246,12 +235,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.loading = true
     try {
       const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-      }
+      let viewer = getActiveMap(SMK).$viewer;
       const map = viewer.map;
       const bounds = map.getBounds();
       bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
@@ -326,12 +310,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     const SMK = window['SMK'];
-    this.viewer = null;
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        this.viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
+    this.viewer = getActiveMap(SMK).$viewer;
     this.map = this.viewer.map;
 
     if (this.lastPanned !== incident.incidentName) {

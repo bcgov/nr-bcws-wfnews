@@ -14,7 +14,7 @@ import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
-import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { getActiveMap, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
 import { SearchResult, SearchPageComponent } from '../search/search-page.component';
 import { Observable } from 'rxjs';
@@ -269,13 +269,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-      }
-      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
+      getActiveMap(SMK).$viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
     });
   }
 
@@ -314,7 +308,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   get searchLayerGroup() {
-    if (!this.searchLocationsLayerGroup) this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(this.SMK.MAP[1].$viewer.map);
+    if (!this.searchLocationsLayerGroup) this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(getActiveMap(this.SMK).$viewer.map);
     return this.searchLocationsLayerGroup;
   }
 
@@ -435,7 +429,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     let locationControlValue = selectedOption.title;
     this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
     this.highlight(selectedOption);
-    this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
+    getActiveMap(this.SMK).$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
     if (selectedOption.type !== 'address') {
       setTimeout(() => {
         console.log('IDENTIFY', selectedOption)
@@ -750,22 +744,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         // identify if it's a feature, show a marker for addresses
         this.mapConfigService.getMapConfig().then(() => {
           const SMK = window['SMK']
-          for (const smkMap in SMK.MAP) {
-            if (Object.hasOwn(SMK.MAP, smkMap)) {
-              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
-              if (this.searchData.type !== 'address') {
-                // if we have an evac order or alert, turn on that layer
-                console.log('TYPE', this.searchData.type)
-                if (['order', 'alert'].includes(this.searchData.type.toLowerCase())) {
-                  this.onSelectLayer('evacuation-orders-and-alerts')
-                }
+          getActiveMap(SMK).$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
 
-                this.identify(this.searchData.location)
-              } else {
-                this.addMarker(this.searchData.location[0], this.searchData.location[1])
-              }
-              break
+          if (this.searchData.type !== 'address') {
+            // if we have an evac order or alert, turn on that layer
+            if (['order', 'alert'].includes(this.searchData.type.toLowerCase())) {
+              this.onSelectLayer('evacuation-orders-and-alerts')
             }
+
+            this.identify(this.searchData.location)
+          } else {
+            this.addMarker(this.searchData.location[0], this.searchData.location[1])
           }
         })
         // then add to the most recent search list
@@ -798,12 +787,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const bbox = turf.bbox(buffered)
     const poly = turf.bboxPolygon(bbox)
 
-    for (const smkMap in SMK.MAP) {
-      if (Object.hasOwn(SMK.MAP, smkMap)) {
-        SMK.MAP[smkMap].$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
-        break
-      }
-    }
+    getActiveMap(SMK).$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
   }
 
   slideLayerButtons (slide: number) {
