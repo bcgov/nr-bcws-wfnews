@@ -197,8 +197,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       }
     )
 
-    const SMK = window['SMK'];
-    let viewer = getActiveMap(SMK).$viewer;
+    let viewer = getActiveMap().$viewer;
     this.marker.addTo(viewer.map)
   }
 
@@ -320,8 +319,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
-        const SMK = window['SMK'];
-        const viewer = getActiveMap(SMK).$viewer;
+        const viewer = getActiveMap().$viewer;
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
         const layerId = this.identifyItem.layerId
         if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){

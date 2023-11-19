@@ -89,8 +89,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
     }
 
-    const SMK = window['SMK'];
-    getActiveMap(SMK).$viewer.map.removeLayer(this.highlightLayer);
+    getActiveMap().$viewer.map.removeLayer(this.highlightLayer);
 
     clearInterval(this.initInterval)
     clearInterval(this.mapPanProgressBar)
@@ -234,8 +233,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     // Fetch the maps bounding box
     this.loading = true
     try {
-      const SMK = window['SMK'];
-      let viewer = getActiveMap(SMK).$viewer;
+      let viewer = getActiveMap().$viewer;
       const map = viewer.map;
       const bounds = map.getBounds();
       bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
@@ -309,8 +307,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       this.ignorePanDebounce = null
     }
 
-    const SMK = window['SMK'];
-    this.viewer = getActiveMap(SMK).$viewer;
+    this.viewer = getActiveMap().$viewer;
     this.map = this.viewer.map;
 
     if (this.lastPanned !== incident.incidentName) {

@@ -179,8 +179,7 @@ export class IncidentIdentifyPanelComponent {
     const lat = Number(this.incident.latitude);
 
     this.mapConfigService.getMapConfig().then(() => {
-      const SMK = window['SMK'];
-      getActiveMap(SMK).$viewer.panToFeature(window['turf'].point([long, lat]), 15)
+      getActiveMap().$viewer.panToFeature(window['turf'].point([long, lat]), 15)
     })
 
   }

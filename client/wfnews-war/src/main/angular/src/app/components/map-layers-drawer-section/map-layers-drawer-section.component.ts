@@ -75,7 +75,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   }
 
   loadLayers() {
-    const smkApi = new SmkApi(getActiveMap(window['SMK']));
+    const smkApi = new SmkApi(getActiveMap());
     const visibleLayers = smkApi.getVisibleLayers();
 
     Object.keys(visibleLayers).forEach((layerId) => {
@@ -164,7 +164,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   }
 
   updateLayers() {
-    const smkApi = new SmkApi(getActiveMap(window['SMK']));
+    const smkApi = new SmkApi(getActiveMap());
 
     const layers = [
       { itemId: 'abms-municipalities', visible: this.municipalities },

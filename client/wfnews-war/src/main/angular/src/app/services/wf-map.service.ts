@@ -530,13 +530,25 @@ export class WFMapService {
     }
 
     setBaseMap( mapId: string ) {
-      const SMK = window['SMK'];
-      getActiveMap(SMK).$viewer.setBasemap( mapId );
+        const SMK = window['SMK'];
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
+            }
+        }
+        viewer.setBasemap( mapId );
     }
 
     getBaseMap() {
-      const SMK = window['SMK'];
-      return getActiveMap(SMK).$viewer.currentBasemap;
+        const SMK = window['SMK'];
+        let viewer = null;
+        for (const smkMap in SMK.MAP) {
+            if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+              viewer = SMK.MAP[smkMap].$viewer;
+            }
+        }
+        return viewer?.currentBasemap;
     }
 }
 
@@ -611,6 +623,5 @@ function zoomToProvince() {
 }
 
 function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
-  const SMK = window['SMK'];
-  getActiveMap(SMK).$viewer.panToFeature(geom, zoomLevel)
+  getActiveMap().$viewer.panToFeature(geom, zoomLevel)
 }

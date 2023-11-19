@@ -451,6 +451,7 @@ export function convertToStandardDateString(value: string) {
   }
 }
 
-export function getActiveMap(smk) {
-  return smk.MAP[Object.keys(smk.MAP)[Object.keys(smk.MAP).length - 1]]
+export function getActiveMap(smk: any | null = null) {
+  let SMK = smk || window['SMK']
+  return SMK.MAP[Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]]
 }
