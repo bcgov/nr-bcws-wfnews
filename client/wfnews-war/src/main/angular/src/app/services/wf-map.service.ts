@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { getActiveMap } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 export type Smk = any
@@ -618,16 +619,9 @@ function encodeUrl( url, data ) {
 }
 
 function zoomToProvince() {
-    zoomToGeometry( window[ 'turf' ].bboxPolygon( [-136.3, 49, -116, 60.2] ))
+  zoomToGeometry( window[ 'turf' ].bboxPolygon( [-136.3, 49, -116, 60.2] ))
 }
 
-function zoomToGeometry( geom: any, zoomLevel: number|boolean = 12 ) {
-    const SMK = window['SMK'];
-    let viewer = null;
-    for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-    }
-    viewer.panToFeature(geom, zoomLevel)
+function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
+  getActiveMap().$viewer.panToFeature(geom, zoomLevel)
 }

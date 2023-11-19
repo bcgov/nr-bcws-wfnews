@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getActiveMap, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -14,7 +14,7 @@ import { AGOLService } from '@app/services/AGOL-service';
   styleUrls: ['./draggable-panel.component.scss']
 })
 
-export class DraggablePanelComponent implements OnInit, OnChanges {
+export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   resizeHeight: string = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
   currentIncidentRefs: any[];
@@ -63,6 +63,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   ) {
   }
 
+  ngOnDestroy(): void {
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+  }
 
   ngOnInit(): void {
 
@@ -73,7 +78,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.removeIdentity = false;
       this.showPanel = false;
       this.identifyIncident = null;
-    
+
       const incidentRefs = changes?.incidentRefs?.currentValue;
       if (incidentRefs) {
         this.currentIncidentRefs = incidentRefs;
@@ -91,7 +96,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     if (this.markerAnimation) {
       clearInterval(this.markerAnimation)
     }
-    console.log(this.currentIncidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs
@@ -130,10 +134,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
           this.zoomIn(8)
         }
       }
-      console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
-      const map = SMK?.MAP?.[1];
-  
+      const map = SMK?.MAP?.[1]; // may not always be 1
+
       if (map) {
         map.$viewer.identified.clear();
         map.$sidepanel.setExpand(0);
@@ -183,7 +186,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.marker.on('add',function(){
         const icon: any = document.querySelector('.animated-icon')
         icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-  
+
         this.markerAnimation = setInterval(() => {
           icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
           icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
@@ -194,13 +197,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       }
     )
 
-    let viewer = null;
-    const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
+    let viewer = getActiveMap().$viewer;
     this.marker.addTo(viewer.map)
   }
 
@@ -322,13 +319,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
-        const SMK = window['SMK'];
-        let viewer = null;
-        for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            viewer = SMK.MAP[smkMap].$viewer;
-          }
-        }
+        const viewer = getActiveMap().$viewer;
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
         const layerId = this.identifyItem.layerId
         if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){
@@ -360,7 +351,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
               }
             )
           }
-            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));  
+            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));
         }
       })
     }
@@ -383,7 +374,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(item)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -512,4 +502,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
+  decode (string: string): string {
+    return decodeURIComponent(escape(string));
+  }
 }

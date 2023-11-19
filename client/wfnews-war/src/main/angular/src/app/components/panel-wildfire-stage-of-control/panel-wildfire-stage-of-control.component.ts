@@ -11,7 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AppConfigService, TokenService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { PagedCollection } from '../../conversion/models';
+import { AreaRestrictionsOption, EvacOrderOption, PagedCollection } from '../../conversion/models';
 import { ApplicationStateService } from '../../services/application-state.service';
 import { CommonUtilityService } from '../../services/common-utility.service';
 import { WatchlistService } from '../../services/watchlist-service';
@@ -19,10 +19,13 @@ import { haversineDistance } from '../../services/wfnews-map.service/util';
 import { RootState } from '../../store';
 import { searchWildfires } from '../../store/wildfiresList/wildfiresList.action';
 import { LOAD_WILDFIRES_COMPONENT_ID } from '../../store/wildfiresList/wildfiresList.stats';
-import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, checkLayerVisible, convertToFireCentreDescription, snowPlowHelper } from '../../utils';
+import { convertToDateWithDayOfWeek as DateTimeConvert, convertToStageOfControlDescription as StageOfControlConvert, checkLayerVisible, convertToFireCentreDescription, getActiveMap, snowPlowHelper } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { PanelWildfireStageOfControlComponentModel } from './panel-wildfire-stage-of-control.component.model';
+import { AGOLService } from '@app/services/AGOL-service';
+import { MapConfigService } from '@app/services/map-config.service';
+import moment from 'moment';
 const delay = t => new Promise(resolve => setTimeout(resolve, t));
 
 @Directive()
@@ -40,6 +43,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   newFires = false;
   currentLat: number;
   currentLong: number;
+
+  public areaRestrictions : AreaRestrictionsOption[] = []
+  public evacOrders : EvacOrderOption[] = []
 
   private zone: NgZone;
   private componentRef: ComponentRef<any>;
@@ -74,7 +80,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
   public convertToStageOfControlDescription = StageOfControlConvert;
   public convertToFireCentreDescription = convertToFireCentreDescription;
 
-  constructor(protected injector: Injector, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: UntypedFormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
+  constructor(protected injector: Injector, private mapConfigService: MapConfigService, private agolService: AGOLService, protected componentFactoryResolver: ComponentFactoryResolver, router: Router, route: ActivatedRoute, sanitizer: DomSanitizer, store: Store<RootState>, fb: UntypedFormBuilder, dialog: MatDialog, applicationStateService: ApplicationStateService, tokenService: TokenService, snackbarService: MatSnackBar, overlay: Overlay, cdr: ChangeDetectorRef, appConfigService: AppConfigService, http: HttpClient, watchlistService: WatchlistService, commonUtilityService?: CommonUtilityService) {
     super(router, route, sanitizer, store, fb, dialog, applicationStateService, tokenService, snackbarService, overlay, cdr, appConfigService, http, watchlistService, commonUtilityService);
     this.zone = this.injector.get(NgZone)
   }
@@ -89,14 +95,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
     }
 
-    const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        if (this.highlightLayer && this.highlightLayer._leaflet_id) {
-          SMK.MAP[smkMap].$viewer.map.removeLayer(this.highlightLayer);
-        }
-      }
-    }
+    getActiveMap().$viewer.map.removeLayer(this.highlightLayer);
 
     clearInterval(this.initInterval)
     clearInterval(this.mapPanProgressBar)
@@ -132,13 +131,8 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.initInterval = setInterval(() => {
       try {
         const SMK = window['SMK'];
-        this.viewer = null;
-        for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            this.viewer = SMK.MAP[smkMap].$viewer;
-          }
-        }
-        this.map = this.viewer.map;
+        this.viewer = getActiveMap(SMK)?.$viewer;
+        this.map = this.viewer?.map;
         if (!this.highlightLayer) {
           this.highlightLayer = window['L'].layerGroup().addTo(this.map);
           this.map.on('zoomend', () => {
@@ -214,6 +208,9 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     this.cdrScan = setInterval(() => {
       this.cdr.markForCheck()
     }, 5000)
+
+    this.getAreaRestrictions();
+    this.getEvacOrders();
   }
 
   async useMyCurrentLocation() {
@@ -245,13 +242,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     // Fetch the maps bounding box
     this.loading = true
     try {
-      const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-      }
+      let viewer = getActiveMap().$viewer;
       const map = viewer.map;
       const bounds = map.getBounds();
       bbox = `${bounds._northEast.lng},${bounds._northEast.lat},${bounds._southWest.lng},${bounds._southWest.lat}`
@@ -325,13 +316,7 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       this.ignorePanDebounce = null
     }
 
-    const SMK = window['SMK'];
-    this.viewer = null;
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        this.viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
+    this.viewer = getActiveMap().$viewer;
     this.map = this.viewer.map;
 
     if (this.lastPanned !== incident.incidentName) {
@@ -513,5 +498,64 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
     }
 
     this.snowPlowHelper(url, snowPlowPackage)
+  }
+
+  convertToDate(value: string) {
+    if (value) {
+      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+    }
+  }
+
+  getEvacOrders () {
+    this.agolService.getEvacOrders(null, null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.evacOrders.push({
+            eventName: element.attributes.EVENT_NAME,
+            eventType: element.attributes.EVENT_TYPE,
+            orderAlertStatus: element.attributes.ORDER_ALERT_STATUS,
+            issuingAgency: element.attributes.ISSUING_AGENCY,
+            preOcCode: element.attributes.PREOC_CODE,
+            emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
+            centroid: element.centroid,
+            issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED),
+          })
+        }
+      }
+    })
+  }
+
+  getAreaRestrictions () {
+    this.agolService.getAreaRestrictions(null, null, { returnCentroid: true, returnGeometry: false}).subscribe(response => {
+      if (response.features) {
+        for (const element of response.features) {
+          this.areaRestrictions.push({
+            protRsSysID: element.attributes.PROT_RA_SYSID,
+            name: element.attributes.NAME,
+            accessStatusEffectiveDate: element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+            fireCentre: element.attributes.FIRE_CENTRE_NAME,
+            fireZone: element.attributes.FIRE_ZONE_NAME,
+            bulletinUrl: element.attributes.BULLETIN_URL,
+            centroid: element.centroid
+          })
+        }
+      }
+    })
+  }
+
+  zoomToEvac (evac) {
+    this.snowplow(`${evac.orderAlertStatus}_list_click`, `${evac.emrgOAAsysID}:${evac.eventName}`, evac.issuingAgency)
+    this.mapConfigService.getMapConfig().then(() => {
+      const viewer = getActiveMap().$viewer;
+      viewer.panToFeature(window['turf'].point([evac.centroid.x, evac.centroid.y]), 12)
+    })
+  }
+
+  zoomToArea (area) {
+    this.snowplow('area_restriction_map_click', `${area.protRsSysID}:${area.name}`)
+    this.mapConfigService.getMapConfig().then(() => {
+      const viewer = getActiveMap().$viewer;
+      viewer.panToFeature(window['turf'].point([area.centroid.x, area.centroid.y]), 12)
+    })
   }
 }

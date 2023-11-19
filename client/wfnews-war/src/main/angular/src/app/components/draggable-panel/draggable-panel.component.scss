@@ -31,10 +31,10 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    
+
     .preview-title{
       display: flex;
-      align-items: center; 
+      align-items: center;
     }
   }
 
@@ -46,7 +46,7 @@
 
   .identify-card-title{
     color: var(--grays-gray-1, #242424);
-    font-family: 'Noto Sans', Arial, 'sans serif';
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -71,6 +71,7 @@
   .left-content {
     display: flex;
     align-items: center;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   }
 
   .incident-icon{
@@ -94,7 +95,7 @@
       height: 16px;
       margin-right: 12px;
       &.list{
-        width: 22px; 
+        width: 22px;
         height: 22px;
       }
     }
@@ -106,7 +107,7 @@
       height: 16px;
       margin-right: 12px;
       &.list{
-        width: 22px; 
+        width: 22px;
         height: 22px;
       }
     }
@@ -118,7 +119,7 @@
       height: 16px;
       margin-right: 12px;
       &.list{
-        width: 22px; 
+        width: 22px;
         height: 22px;
       }
     }
@@ -130,7 +131,7 @@
       height: 16px;
       margin-right: 12px;
       &.list{
-        width: 22px; 
+        width: 22px;
         height: 22px;
       }
     }
@@ -149,7 +150,7 @@
     .identify-card-item{
       display: inline-flex;
       color: var(--grays-gray-2, #484848);
-      font-family: 'Noto Sans', Arial, 'sans serif';
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
@@ -165,7 +166,7 @@
     .identify-card-description{
       color: var(--grays-gray-2, #484848);
       /* Body/Body 2 */
-      font-family: 'Noto Sans', Arial, 'sans serif';
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
@@ -189,13 +190,13 @@
       background-color: #DEDEDE;
       margin-bottom:24px;
     }
-    
+
     .buttons{
       display: flex;
       gap: 16px;
       .mobile-button{
         width: 100%;
-        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -206,7 +207,7 @@
       }
       .mobile-button-primary{
         width: 100%;
-        font-family: 'Noto Sans', Arial, 'sans serif';
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;

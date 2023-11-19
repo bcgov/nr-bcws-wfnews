@@ -32,7 +32,7 @@ export class BansListComponent implements OnInit {
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private router: Router, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, protected router: Router, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
@@ -106,10 +106,6 @@ export class BansListComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {bans: true, identify: true, longitude: ban.longitude, latitude: ban.latitude} });
     }, 100);
-  }
-
-  showDetails(ban: any) {
-
   }
 
   openLocationFilter () {

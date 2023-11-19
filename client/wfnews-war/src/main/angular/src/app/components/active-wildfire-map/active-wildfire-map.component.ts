@@ -14,7 +14,7 @@ import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
-import { isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { getActiveMap, isMobileView, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
 import { SearchResult, SearchPageComponent } from '../search/search-page.component';
 import { Observable } from 'rxjs';
@@ -185,9 +185,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 })
               }
               this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              // what happens on mobile? Identify?
+              if (isMobileView()) {
+                this.identify([this.userLocation.coords.longitude, this.userLocation.coords.latitude], 50000)
+              }
               this.cdr.markForCheck()
-
-              console.log(this.filteredOptions)
             }
           })
           searchFon++;
@@ -267,14 +269,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   panToLocation(long, lat, noZoom?) {
     this.mapConfigService.getMapConfig().then(() => {
-      const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-      }
-      viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
+      getActiveMap().$viewer.panToFeature(window['turf'].point([long, lat]), noZoom? null:12)
     });
   }
 
@@ -313,7 +308,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   get searchLayerGroup() {
-    if (!this.searchLocationsLayerGroup) this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(this.SMK.MAP[1].$viewer.map);
+    if (!this.searchLocationsLayerGroup) this.searchLocationsLayerGroup = this.leaflet.layerGroup().addTo(getActiveMap(this.SMK).$viewer.map);
     return this.searchLocationsLayerGroup;
   }
 
@@ -321,6 +316,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     let long = window.jQuery(event.currentTarget).data("loc-long");
     let lat = window.jQuery(event.currentTarget).data("loc-lat");
 
+    this.removeMarker([lat, long]);
+
+    if (!long || !lat) return;
+
+    let largerIcon = {
+      iconSize: [40, 38],
+      shadowAnchor: [4, 62],
+      popupAnchor: [1, -34],
+      shadowSize: [41, 41]
+    };
+
+    this.highlight({ location: [long, lat] }, largerIcon);
+  }
+
+  addMarker(long: number, lat: number) {
     this.removeMarker([lat, long]);
 
     if (!long || !lat) return;
@@ -419,7 +429,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     let locationControlValue = selectedOption.title;
     this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
     this.highlight(selectedOption);
-    this.SMK.MAP[1].$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
+    getActiveMap(this.SMK).$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
     if (selectedOption.type !== 'address') {
       setTimeout(() => {
         console.log('IDENTIFY', selectedOption)
@@ -727,21 +737,23 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
     dialogRef.afterClosed().subscribe((result: SearchResult | boolean) => {
       smallDialogSubscription.unsubscribe();
+      this.searchLayerGroup.clearLayers();this.searchLayerGroup.clearLayers();this.searchLayerGroup.clearLayers();
       if ((result as boolean) !== false) {
         this.searchData = result as SearchResult
         // we have a selected result returned. Zoom to the provided lat long
-        // trigger identify? Turn on layers?
+        // identify if it's a feature, show a marker for addresses
         this.mapConfigService.getMapConfig().then(() => {
-          const SMK = window['SMK']
-          for (const smkMap in SMK.MAP) {
-            if (Object.hasOwn(SMK.MAP, smkMap)) {
-              SMK.MAP[smkMap].$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
+          getActiveMap().$viewer.panToFeature(window['turf'].point([this.searchData.location[0], this.searchData.location[1]]), 10)
 
-              if (this.searchData.type !== 'address') {
-                this.identify(this.searchData.location)
-              }
-              break
+          if (this.searchData.type !== 'address') {
+            // if we have an evac order or alert, turn on that layer
+            if (['order', 'alert'].includes(this.searchData.type.toLowerCase())) {
+              this.onSelectLayer('evacuation-orders-and-alerts')
             }
+
+            this.identify(this.searchData.location)
+          } else {
+            this.addMarker(this.searchData.location[0], this.searchData.location[1])
           }
         })
         // then add to the most recent search list
@@ -766,20 +778,14 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  identify (location: number[]) {
-    const SMK = window['SMK']
+  identify (location: number[], buffer: number = 1) {
     const turf = window['turf']
     const point = turf.point(location)
-    const buffered = turf.buffer(point, 1, { units:'meters' })
+    const buffered = turf.buffer(point, buffer, { units:'meters' })
     const bbox = turf.bbox(buffered)
     const poly = turf.bboxPolygon(bbox)
 
-    for (const smkMap in SMK.MAP) {
-      if (Object.hasOwn(SMK.MAP, smkMap)) {
-        SMK.MAP[smkMap].$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
-        break
-      }
-    }
+    getActiveMap().$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
   }
 
   slideLayerButtons (slide: number) {

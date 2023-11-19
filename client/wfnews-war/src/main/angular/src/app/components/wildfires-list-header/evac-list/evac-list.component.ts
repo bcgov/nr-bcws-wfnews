@@ -144,10 +144,6 @@ export class EvacListComponent implements OnInit {
     }, 100);
   }
 
-  showDetails(evac: any) {
-
-  }
-
   sortData (event: any) {
     this.selectedSortValue = event.active
     this.search()

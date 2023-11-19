@@ -931,7 +931,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		}
 
 		// force to jpeg rather than jpg
-		if (mimeType == "image/jpg")
+		if (mimeType.equals("image/jpg"))
 			mimeType = "image/jpeg";
 		String fileSubType = mimeType.split("/")[1];
 

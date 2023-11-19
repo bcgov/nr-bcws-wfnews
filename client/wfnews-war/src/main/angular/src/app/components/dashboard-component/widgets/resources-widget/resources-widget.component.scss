@@ -105,6 +105,11 @@
     font-weight: 400;
     line-height: 21.79px;
   }
+
+  .button-icon {
+    position: relative;
+    top: 4px;
+  }
 }
 
 @media (min-width: 768px) and (max-width: 1250px) {
@@ -212,6 +217,11 @@
     font-weight: 400;
     line-height: 21.79px;
   }
+
+  .button-icon {
+    position: relative;
+    top: 4px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -222,7 +232,7 @@
     flex: 1 0 0;
     background: #FFF;
     max-width: 1480px;
-    width: calc(100vw - 104px);
+    width: calc(100vw - 47px);
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
@@ -234,9 +244,9 @@
     color: #242424;
     font-feature-settings: 'clig' off, 'liga' off;
     font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-    font-size: 22px;
+    font-size: 20px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 600;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
   }
@@ -315,6 +325,11 @@
     font-weight: 400;
     line-height: 21.79px;
   }
+
+  .button-icon {
+    position: relative;
+    top: 2px;
+  }
 }
 
 .widget-header {
@@ -336,9 +351,4 @@
   border: 1px solid #C4C4C4;
   background-color: transparent;
   margin-left: auto;
-}
-
-.button-icon {
-  position: relative;
-  top: 4px;
 }

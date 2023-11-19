@@ -82,8 +82,6 @@ public class PointIdEndpoints
 		LOG.debug("controller="+this);
 		LOG.debug("nearbyService="+nearbyService);
 		
-		LOG.debug(String.format("request /nearby lon=%s lat=%s radius=%s", lon, lat, radius));
-		
 		checkParametersLonLat(lon, lat);
 		if (radius != null) {
 			Parameter.number("radius", radius).checkRange(0, Integer.parseInt(param.getMaxAllowedRadius()));
@@ -177,8 +175,6 @@ public class PointIdEndpoints
 			throw new NotFoundException();
 		}
 		
-		LOG.debug(String.format("request /weather lon=%s lat=%s hour=%s", lon, lat, hourstamp));
-		
 		checkParametersLonLat(lon, lat);
 		if (Objects.nonNull(hourstamp)) {
 			Parameter.string("hour", hourstamp)
@@ -219,8 +215,6 @@ public class PointIdEndpoints
 			throw new NotFoundException();
 		}
 		
-		LOG.debug(String.format("request /weatherStation code=%s duration=%s", code, duration));
-		
 		Integer parsedCode = (int) Parameter.integer("code", code)
 			.checkRange(0, Integer.MAX_VALUE)
 			.get();
@@ -258,8 +252,7 @@ public class PointIdEndpoints
 			
 			throw new NotFoundException();
 		}
-		
-		LOG.debug(String.format("request /ownership lon=%s lat=%s", lon, lat));
+	
 		checkParametersLonLat(lon, lat);
 		
 		return service.queryOwnership(lon, lat);
@@ -290,7 +283,6 @@ public class PointIdEndpoints
 			throw new NotFoundException();
 		}
 		
-		LOG.debug(String.format("request /geography lon=%s lat=%s", lon, lat));
 		checkParametersLonLat(lon, lat);
 		
 		return service.queryGeography(lon, lat);

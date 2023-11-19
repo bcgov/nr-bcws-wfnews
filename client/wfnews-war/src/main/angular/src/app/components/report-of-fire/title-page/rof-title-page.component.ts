@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit } from "@angular/core";
+import { Component, ChangeDetectionStrategy, ChangeDetectorRef, OnInit, OnDestroy } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
 import { MatDialog } from "@angular/material/dialog";
@@ -14,12 +14,14 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RoFTitlePage extends RoFPage implements OnInit {
+export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   public imageUrl: string
   public closeButton: boolean
   public messages: any;
   public offLineMessages: any;
   offLine: boolean = false;
+  private intervalRef
+
   public constructor(
     protected dialog: MatDialog,
     private commonUtilityService: CommonUtilityService,
@@ -37,7 +39,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
           const background = await this.backgroundListener();
       })();
     }
-    
+
   }
 
   initialize (data: any, index: number, reportOfFire: ReportOfFire) {
@@ -46,7 +48,13 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     this.closeButton = data.closeButton;
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
-    this.offLine = !window.navigator.onLine;   
+    this.offLine = !window.navigator.onLine;
+  }
+
+  ngOnDestroy(): void {
+    if (this.intervalRef) {
+      clearInterval(this.intervalRef)
+    }
   }
 
   async backgroundListener (){
@@ -56,7 +64,12 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this
-        setInterval(function () {
+        if (this.intervalRef) {
+          clearInterval(this.intervalRef)
+          this.intervalRef = null
+        }
+
+        this.intervalRef = setInterval(function () {
           // Invoke function every minute while app is in background
             self.checkStoredRoF();
         }, 60000);
@@ -99,7 +112,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       }
     });
   }
-  
+
   checkOnlineStatus() {
     this.commonUtilityService.pingSerivce().subscribe(
       () => {

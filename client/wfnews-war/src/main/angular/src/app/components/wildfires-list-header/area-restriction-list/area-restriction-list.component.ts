@@ -121,10 +121,6 @@ export class AreaRestrictionListComponent implements OnInit {
     }, 100);
   }
 
-  showDetails(restriction: any) {
-
-  }
-
   sortData (event: any) {
     this.selectedSortValue = event.active
     this.search()

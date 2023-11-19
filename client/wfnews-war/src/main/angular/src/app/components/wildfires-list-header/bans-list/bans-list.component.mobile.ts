@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { BansListComponent } from "./bans-list.component";
+import { ResourcesRoutes } from "@app/utils";
 
 @Component({
     selector: 'wf-bans-list-mobile',
@@ -8,5 +9,9 @@ import { BansListComponent } from "./bans-list.component";
   })
 
 export class BansListComponentMobile extends BansListComponent {
-
+  navigateToFullDetails(item: any) {
+    if (item.id) {
+      this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.id, source: [ResourcesRoutes.WILDFIRESLIST] } });
+    }
+  }
 }

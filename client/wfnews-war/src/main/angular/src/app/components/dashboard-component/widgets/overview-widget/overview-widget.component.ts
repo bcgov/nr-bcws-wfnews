@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit } from 
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { HttpClient } from "@angular/common/http"
+import { isMobileView } from "@app/utils"
 
 @Component({
   selector: 'overview-widget',
@@ -52,8 +53,9 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         boxZoom: false,
         trackResize: false,
         scrollWheelZoom: false,
-        maxZoom: 5
-      }).setView(location, 5)
+        maxZoom: !isMobileView() ? 4 : 5
+      }).setView(location, !isMobileView() ? 4 : 5)
+
       // configure map data
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
