@@ -11,6 +11,7 @@ import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.
 import { LocationStrategy, PathLocationStrategy } from "@angular/common";
 import offlineMapJson from '../../../../assets/maps/british-columbia.json'
 import * as L from 'leaflet'
+import { getActiveMap } from "@app/utils";
 
 
 
@@ -35,7 +36,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   isEditMode: boolean = false;
   distance: number;
   public constructor(
-    private mapConfigService: MapConfigService,        
+    private mapConfigService: MapConfigService,
     private cdr: ChangeDetectorRef,
     private commonUtilityService: CommonUtilityService,
     private elementRef: ElementRef,
@@ -134,7 +135,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
     }
 
     connector()
-    
+
     this.commonUtilityService.checkOnline().then((result) => {
       if(!result) {
         this.addOfflineLayer();
@@ -246,7 +247,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
           this.cdr.detectChanges()
         })
       }
-    })    
+    })
   }
 
   editMode() {
@@ -260,7 +261,7 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   addOfflineLayer(){
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) { 
+      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
         const geoJsonData = offlineMapJson
         const offlineLyaer = L.geoJson(geoJsonData,{
           style:{
@@ -272,17 +273,17 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
           zoom:6,
           subdomains:['mt0','mt1','mt2','mt3']
         })
-        SMK.MAP[1].$viewer.map
-        offlineLyaer.addTo(SMK.MAP[1].$viewer.map);
-        (SMK.MAP[1].$viewer.map).setZoom(5)
+        getActiveMap(SMK).$viewer.map
+        offlineLyaer.addTo(getActiveMap(SMK).$viewer.map);
+        (getActiveMap(SMK).$viewer.map).setZoom(5)
         const offlineUrl = '/assets/offline-maps/{z}/{y}/{x}.jpg'
         L.tileLayer(offlineUrl, {
           zoom: 5,
           subdomains:['mt0','mt1','mt2','mt3']
-        }).addTo(SMK.MAP[1].$viewer.map);
+        }).addTo(getActiveMap(SMK).$viewer.map);
       }
     }
-        
+
   }
 }
 
