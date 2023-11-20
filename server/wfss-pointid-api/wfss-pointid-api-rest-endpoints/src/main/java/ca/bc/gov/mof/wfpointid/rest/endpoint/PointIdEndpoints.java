@@ -76,8 +76,6 @@ public class PointIdEndpoints
 			@ApiParam("The longitude of the point used to calculate.") @RequestParam("lat") String lat, 
 			@ApiParam("The latitude of the point used to calculate.") @RequestParam("lon") String lon, 
 			@ApiParam("The radius used to calculate what is near by.") @RequestParam(value = "radius", required = false) String radius) throws ParameterException, ServiceBusyException, ServiceErrorException  
-	{
-		LOG.info("/nearby lat:"+lat+" lon:"+lon+" radius:"+radius);
 		
 		LOG.debug("controller="+this);
 		LOG.debug("nearbyService="+nearbyService);

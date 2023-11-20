@@ -87,6 +87,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
+          name = "YOUTUBE_API_KEY",
+          value = var.YOUTUBE_API_KEY
+        },
+        {
           name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
           value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
@@ -295,6 +299,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
           value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
+        },
+        {
+          name = "YOUTUBE_API_KEY",
+          value = var.YOUTUBE_API_KEY
         },
         {
           name  = "WEBADE-OAUTH2_TOKEN_URL",

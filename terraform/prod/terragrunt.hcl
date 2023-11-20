@@ -36,6 +36,7 @@ locals {
   cloudfront_header = get_env("CLOUDFRONT_HEADER")
   #server env vars
   WEBADE-OAUTH2_TOKEN_CLIENT_URL = get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")
+  YOUTUBE_API_KEY = get_env("YOUTUBE_API_KEY")
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
   WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET")
   WFDM_REST_URL = get_env("WFDM_REST_URL")
@@ -148,6 +149,7 @@ generate "test_tfvars" {
     gov_certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/c127327c-295a-4afd-8545-5b47c4891b91"
     gov_api_certificate_arn = "arn:aws:acm:us-east-1:598317316742:certificate/c9661e46-ee96-40f2-8fe7-de9e0cf1497b"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
+    YOUTUBE_API_KEY = "${local.YOUTUBE_API_KEY}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"
     WFDM_REST_URL ="${local.WFDM_REST_URL}"

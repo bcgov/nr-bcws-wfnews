@@ -485,6 +485,11 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   default = ""
 }
 
+variable "YOUTUBE_API_KEY" {
+  type = string
+  default = ""
+}
+
 variable "WEBADE_OAUTH2_REST_CLIENT_ID" {
   type    = string
   default = ""
