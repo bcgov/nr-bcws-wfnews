@@ -95,7 +95,11 @@ export class PanelWildfireStageOfControlComponent extends CollectionComponent im
       (document.getElementsByClassName('identify-panel').item(0) as HTMLElement).style.display = 'none';
     }
 
-    getActiveMap().$viewer.map.removeLayer(this.highlightLayer);
+    try {
+      getActiveMap().$viewer.map.removeLayer(this.highlightLayer);
+    } catch(err) {
+      console.error('Ignoring highlight layer clear. This may occur from the mobile side destruction', err)
+    }
 
     clearInterval(this.initInterval)
     clearInterval(this.mapPanProgressBar)
