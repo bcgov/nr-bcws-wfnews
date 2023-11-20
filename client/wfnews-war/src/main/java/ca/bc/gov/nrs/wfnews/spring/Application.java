@@ -24,6 +24,10 @@ public class Application implements WebApplicationInitializer {
         ServletRegistration.Dynamic dispatcher = servletContext.addServlet("checkToken", dispatcherServlet);
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/checkToken.jsp");
+
+        ServletRegistration.Dynamic youtubeDispatcher = servletContext.addServlet("youtube", dispatcherServlet);
+        youtubeDispatcher.setLoadOnStartup(1);
+        youtubeDispatcher.addMapping("/youtube.jsp");
     }
 
     @Override
