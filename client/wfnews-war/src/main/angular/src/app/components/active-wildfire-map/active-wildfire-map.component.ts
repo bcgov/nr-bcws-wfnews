@@ -259,7 +259,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
           // identify
           setTimeout(() => {
-            if (params['identify']) {
+            if (params['identify'] && long && lat) {
               this.identify([long, lat])
             }
           }, 2000)
@@ -432,7 +432,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     getActiveMap(this.SMK).$viewer.panToFeature(window['turf'].point(selectedOption.location), 12);
     if (selectedOption.type !== 'address') {
       setTimeout(() => {
-        console.log('IDENTIFY', selectedOption)
         this.identify(selectedOption.location)
       }, 1000)
     }
