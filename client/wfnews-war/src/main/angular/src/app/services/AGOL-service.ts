@@ -49,7 +49,7 @@ export class AGOLService {
       url += '/'
     }
     // append query. Only search for Fire events
-    url += `query?where=EVENT_TYPE='fire'${where ? (' AND ' + where) : ''}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+    url += `query?where=EVENT_TYPE='fire'${where ? (' AND (' + where + ')') : ''}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${options && options.returnGeometry ? true : false}&returnCentroid=${options && options.returnCentroid ? true : false}&returnExtentOnly=${options && options.returnExtent ? true : false}&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
 
     if (location) {
       if (location.radius) {
