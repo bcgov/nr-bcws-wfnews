@@ -32,7 +32,7 @@ public class YouTubeController {
 			String channelId = System.getenv("YOUTUBE_CHANNEL_ID");
 			
 			// call youtube API, fetch latest video data
-			HttpRequest apiRequest = HttpRequest.newBuilder(new URI("https://www.googleapis.com/youtube/v3/search?channelId=" + channelId + "&maxResults=5&part=id,snippet&type=video&key=" + apiKey)).GET().build();
+			HttpRequest apiRequest = HttpRequest.newBuilder(new URI("https://www.googleapis.com/youtube/v3/search?channelId=" + channelId + "&maxResults=10&part=id,snippet&type=video&order=date&key=" + apiKey)).GET().build();
 			HttpResponse<String> apiResponse = HttpClient.newBuilder().build()
 			.send(apiRequest, BodyHandlers.ofString());
 			result = apiResponse.body();
