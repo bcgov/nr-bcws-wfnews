@@ -490,6 +490,11 @@ variable "YOUTUBE_API_KEY" {
   default = ""
 }
 
+variable "YOUTUBE_CHANNEL_ID" {
+  type = string
+  default = ""
+}
+
 variable "WEBADE_OAUTH2_REST_CLIENT_ID" {
   type    = string
   default = ""

@@ -66,6 +66,9 @@ on:
       YOUTUBE_API_KEY:
         required: true
         type: string
+      YOUTUBE_CHANNEL_ID:
+        required: true
+        type: string
       WFDM_REST_URL:
         required: true
         type: string
@@ -221,6 +224,7 @@ jobs:
           WEBADE_OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
           YOUTUBE_API_KEY: ${{inputs.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{inputs.YOUTUBE_CHANNEL_ID}}
           WEBADE_OAUTH2_WFONE_NOTIFICATIONS_API_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFONE_NOTIFICATIONS_REST_CLIENT_SECRET}}
 
           WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
