@@ -53,7 +53,48 @@
             <article *ngIf="selectedPanel === 'local-authorities'" (click)="openlink('https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/emergency-alerts')"><div class="link-container"><span>B.C. Emergency Alerts</span><img alt="link" class="icon" src="/assets/images/svg-icons/link.svg"></div></article>
         </section>
     </mat-tab>
-    <mat-tab label="Wildfires List">
+    <mat-tab label="List">
+      <div *ngIf="selectedPanel === 'evacuation-orders-and-alerts'">
+        <div class="current-list">
+          <h3>Evacuation Orders and Alerts</h3>
+          <div *ngIf="evacOrders.length === 0" class="paragraph-format">There are no current Evacuation Orders or Alerts</div>
+          <div class="evac-list-box">
+            <div class="evac-card-holder">
+              <div *ngFor="let evac of evacOrders; let i = index">
+                <div [class]="(i % 2 === 0 ? 'blue-background ' : '') + 'evac-card'" (mouseup)="zoomToEvac(evac)">
+                  <div class="evac-card-content">
+                    <img *ngIf="evac.orderAlertStatus === 'Order'" height="22" width="22" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order" />
+                    <img *ngIf="evac.orderAlertStatus === 'Alert'" height="22" width="22" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Alert" />
+                    <span class="evac-card-title">{{evac.eventName}}</span>
+                  </div>
+                  <div class="evac-card-content">
+                    <img height="22" width="22" src="/assets/images/svg-icons/calendar-pin.svg" alt="issued on" />
+                    <span class="evac-card-text">Issued on {{evac.issuedOn}}</span>
+                  </div>
+                  <div class="evac-card-content">
+                    <img height="22" width="22" src="/assets/images/svg-icons/local_authority.svg" alt="issued by" />
+                    <span class="evac-card-text">Issued by {{evac.issuingAgency}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div *ngIf="selectedPanel === 'area-restrictions'">
+        <div class="current-list">
+          <h3>Area Restrictions</h3>
+          <article>
+            <div class="restriction-list" *ngFor="let area of areaRestrictions">
+              <div class="label" (mouseup)="zoomToArea(area)">{{area.name}}</div>
+              <div *ngIf="area.bulletinUrl" style="margin-left: auto;"><a (click)="snowplow('area_restriction_outbound_click', area.bulletinUrl)" [href]="area.bulletinUrl"><mat-icon>link</mat-icon></a></div>
+            </div>
+            <div *ngIf="areaRestrictions.length === 0" class="paragraph-format">There are no current Area Restrictions</div>
+          </article>
+        </div>
+      </div>
+      <div *ngIf="selectedPanel !== 'evacuation-orders-and-alerts' && selectedPanel !== 'area-restrictions'">
         <div class="wildfire-list-toggle-title" style="display:flex">
             <div style="width: 80%">Choose Wildfires to display</div>
             <div>{{collection? collection.totalRowCount: 0}} Results</div>
@@ -105,6 +146,7 @@
           <span class="paging-control {{isFirstPage}}" (click)="onPageChange(-1)"><mat-icon>chevron_left</mat-icon>Back</span>
           <span class="paging-control {{isLastPage}}" (click)="onPageChange(0)">Next<mat-icon>chevron_right</mat-icon></span>
         </div>
+      </div>
       </div>
     </mat-tab>
 </mat-tab-group>

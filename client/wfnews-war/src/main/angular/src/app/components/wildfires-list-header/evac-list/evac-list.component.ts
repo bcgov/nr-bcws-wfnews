@@ -68,7 +68,7 @@ export class EvacListComponent implements OnInit {
     this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: userLocation !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
-        for (const element of evacs.features) {
+        for (const element of evacs.features.filter(e => e.attributes.EVENT_TYPE.toLowerCase() === 'fire')) {
           let distance = null
           if (userLocation) {
               const currentLat = Number(userLocation.coords.latitude);
@@ -142,10 +142,6 @@ export class EvacListComponent implements OnInit {
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {evac: true, identify: true, longitude: evac.longitude, latitude: evac.latitude} });
     }, 100);
-  }
-
-  showDetails(evac: any) {
-
   }
 
   sortData (event: any) {

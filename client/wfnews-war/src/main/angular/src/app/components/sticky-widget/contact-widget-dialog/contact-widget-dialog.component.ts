@@ -78,7 +78,7 @@ export class ContactWidgetDialogComponent implements OnInit {
           this.snackbarService.open('Your request could not be processed at this time. Please try again later.', null, { duration: 10000, panelClass: 'snackbar-error' });
         })
 
-        if (this.pageMode) this.close()
+        if (this.pageMode) this.reset();
         else this.dialogRef.close();
     }
 
@@ -88,5 +88,9 @@ export class ContactWidgetDialogComponent implements OnInit {
 
     close () {
       this.router.navigate([ResourcesRoutes.MORE]);
+    }
+
+    reset () {
+      this.contactForm.reset();
     }
 }

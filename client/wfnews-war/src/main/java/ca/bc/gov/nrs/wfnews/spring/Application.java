@@ -16,14 +16,15 @@ import java.util.EnumSet;
 public class Application implements WebApplicationInitializer {
     private void newAppServlet(ServletContext servletContext) {
         AnnotationConfigWebApplicationContext dispatcherContext = new AnnotationConfigWebApplicationContext();
-    
         dispatcherContext.register(DispatcherConfig.class);
         
-        DispatcherServlet dispatcherServlet = new DispatcherServlet(dispatcherContext);
-        
-        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("checkToken", dispatcherServlet);
+        ServletRegistration.Dynamic dispatcher = servletContext.addServlet("checkToken", new DispatcherServlet(dispatcherContext));
         dispatcher.setLoadOnStartup(1);
         dispatcher.addMapping("/checkToken.jsp");
+
+        ServletRegistration.Dynamic youtubeDispatcher = servletContext.addServlet("youtube", new DispatcherServlet(dispatcherContext));
+        youtubeDispatcher.setLoadOnStartup(1);
+        youtubeDispatcher.addMapping("/youtube.jsp");
     }
 
     @Override
