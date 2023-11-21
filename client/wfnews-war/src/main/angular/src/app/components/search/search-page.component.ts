@@ -50,6 +50,7 @@ export class SearchPageComponent implements OnInit {
   private searchTimeout
   private userLocation
   private userLocationChecked = false
+  private userLocationDenied = false
 
   constructor (private dialogRef: MatDialogRef<SearchPageComponent>, @Inject(MAT_DIALOG_DATA) public data: SearchResult, private agolService: AGOLService, private commonUtilityService: CommonUtilityService, private publishedIncidentService: PublishedIncidentService, private cdr: ChangeDetectorRef) {
     this.searchData = data || new SearchResult
@@ -146,9 +147,12 @@ export class SearchPageComponent implements OnInit {
   }
 
   async checkUserLocation () {
-    if (!this.userLocationChecked) {
-      this.userLocation = await this.commonUtilityService.getCurrentLocationPromise()
-      this.userLocationChecked = true
+    if (!this.userLocationChecked && !this.userLocationDenied) {
+      this.userLocation = await this.commonUtilityService.getCurrentLocationPromise().catch(err => {
+        this.userLocationDenied = true
+        console.error('location services not available:', err)
+      })
+      if (this.userLocation) this.userLocationChecked = true
     }
   }
 
@@ -247,7 +251,7 @@ export class SearchPageComponent implements OnInit {
                    : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
                    : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
                    : 2,
-          location: [element.centroid.y, element.centroid.x]
+          location: [element.centroid.x, element.centroid.y]
         })
       }
 

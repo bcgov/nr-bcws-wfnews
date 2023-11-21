@@ -27,6 +27,7 @@ public class HealthCheckUtils {
 		}
 		Method checkHealth = ReflectionUtils.findMethod(o.getClass(), "getHealthCheck", String.class);
 		try {
+			if (checkHealth == null) throw new RuntimeException("Cannot start health check service");
 			return (HealthCheckResponseRsrc) checkHealth.invoke(o, getCallstack());
 		} catch (InvocationTargetException ex) {
 			Throwable targetEx = ex.getTargetException();

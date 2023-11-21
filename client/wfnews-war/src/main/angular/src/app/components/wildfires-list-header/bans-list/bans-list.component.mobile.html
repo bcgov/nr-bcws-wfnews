@@ -14,7 +14,7 @@
 </div>
 <div *ngIf="searchingComplete; else loading">
 <div *ngFor="let item of dataSource.data" class="panel-card-container">
-  <div class="panel-card">
+  <div class="panel-card" (click)="navigateToFullDetails(item)">
     <div class="card-header">{{item.type}}</div>
     <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentre}} Fire Centre</div>
     <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/ban-icon.svg'" alt="Issued On Icon" height="16" width="16" />{{item.details}}</div>

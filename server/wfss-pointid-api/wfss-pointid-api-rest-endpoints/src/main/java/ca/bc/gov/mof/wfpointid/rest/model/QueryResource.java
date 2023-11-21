@@ -4,13 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public abstract class QueryResource extends ErrorResource {
-	private static SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	private SimpleDateFormat jsonDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 	
 	double lat;
 	double lon;
 	private String timestamp;
 	
-	public QueryResource() {
+	protected QueryResource() {
 		timestamp = jsonDateFormat.format(new Date());
 	}
 	

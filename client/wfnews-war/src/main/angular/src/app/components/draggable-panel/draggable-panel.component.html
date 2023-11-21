@@ -57,7 +57,7 @@
                     <div class="widget-row" (click)="openPreviewPanel(areaRestriction)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
-                        {{areaRestriction.properties.NAME}}
+                        {{decode(areaRestriction.properties.NAME)}}
                         </div>
                         <div class="right-content">
                             <mat-icon svgIcon='arrow'></mat-icon>
@@ -233,7 +233,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- preview panel: incident -->
     <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyIncident">
         <div class="panel-container" >
@@ -248,7 +248,7 @@
                     <ng-template #fireIcon>
                         <img class="incident-icon-title" src="/assets/images/svg-icons/report.svg">
                     </ng-template>
-                    {{displayItemTitle(identifyItem)}} 
+                    {{displayItemTitle(identifyItem)}}
                 </span>
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
@@ -371,7 +371,7 @@
                     <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Protected Lands
                 </span>
-                
+
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'bc-fsr'">
                     <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Forest Service Roads
@@ -385,7 +385,7 @@
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div class="identify-card">
-                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{identifyItem.properties.NAME}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{decode(identifyItem.properties.NAME)}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Fire Ban on {{identifyItem.title}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">{{identifyItem.properties.PROJECT_NAME}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.title}}</div>
@@ -488,5 +488,5 @@
             </div>
         </div>
     </div>
-    
+
 </div>

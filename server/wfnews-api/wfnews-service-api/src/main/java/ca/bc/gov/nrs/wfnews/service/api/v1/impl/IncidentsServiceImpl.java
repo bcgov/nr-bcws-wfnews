@@ -626,7 +626,7 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 						}
 					}
 					if (daoOrderByString.length() > 0) {
-						if (split.length > 1) {
+						if (split != null && split.length > 1) {
 							String direction = split[1];
 							if (direction.equalsIgnoreCase("desc") || direction.equalsIgnoreCase("descending")) {
 								daoDirection = "DESC";
