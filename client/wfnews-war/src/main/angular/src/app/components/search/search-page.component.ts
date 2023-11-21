@@ -110,7 +110,7 @@ export class SearchPageComponent implements OnInit {
             subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
             distance: distance,
             relevance: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1 : 2,
-            location: [element.centroid.y, element.centroid.x]
+            location: [element.centroid.x, element.centroid.y]
           })
         }
 
