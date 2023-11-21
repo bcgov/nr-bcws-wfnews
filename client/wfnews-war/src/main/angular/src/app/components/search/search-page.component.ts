@@ -61,7 +61,7 @@ export class SearchPageComponent implements OnInit {
     // fetch local storage for recent data
     if (localStorage.getItem('recent-search') != null) {
       try {
-        this.recentData = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+        this.recentData = (JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]).filter(r => r.type && r.type !== null)
       } catch (err) {
         console.error(err)
         // carry on with the empty array
