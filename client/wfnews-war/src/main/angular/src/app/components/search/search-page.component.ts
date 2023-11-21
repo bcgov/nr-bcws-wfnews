@@ -24,7 +24,7 @@ export class SearchResult {
   public type: string
   public title: string
   public subtitle: string
-  public distance: string
+  public distance: string | null
   public relevance: number
   public location: number[]
 }
@@ -105,7 +105,7 @@ export class SearchPageComponent implements OnInit {
 
           this.evacData.push({
             id: element.attributes.EMRG_OAA_SYSID,
-            type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
+            type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() || 'alert',
             title: element.attributes.EVENT_NAME,
             subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
             distance: distance,
@@ -114,7 +114,7 @@ export class SearchPageComponent implements OnInit {
           })
         }
 
-        this.evacData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.id.localeCompare(b.id))
+        this.evacData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.id > b.id ? 1 : a.id < b.id ? -1 : 0)
       }
     })
   }
