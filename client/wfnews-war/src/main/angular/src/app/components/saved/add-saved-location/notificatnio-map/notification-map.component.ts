@@ -71,6 +71,7 @@ export class notificatinoMapComponent implements OnInit, AfterViewInit  {
 
     else if (this.data.title === 'Notification Radius') {
       // set radius on map
+      this.map.dragging.disable();
       const markerOptions = {
         icon: L.icon({
           iconUrl: "/assets/images/svg-icons/location_pin_radius.svg",

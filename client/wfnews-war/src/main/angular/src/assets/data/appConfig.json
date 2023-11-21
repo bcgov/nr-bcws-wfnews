@@ -110,7 +110,8 @@
         "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
         "causecodes": "causeCodes/token.jsp",
         "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
-        "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof"
+        "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof",
+        "notification-api": "https://wfone-notifications-api.bcwildfireservices.com"
     },
 
     "webade": {

@@ -13,7 +13,7 @@
         <div class="section-frame-1">
             <span class="header-text-1">Name</span>
             <div class="input-section">
-                <input type="text" matInput >
+                <input type="text" matInput [(ngModel)]="notificationName" (ngModelChange)="onNotificationNameChange()">
             </div>
         </div>
 
@@ -127,7 +127,7 @@
         </div>
         <div class="divider"></div>
         <div class="save-button-section">
-            <button class="save-button" mat-raised-button color="primary" (click)="saveLocation()">
+            <button class="save-button" mat-raised-button color="primary" (click)="saveLocation()" [disabled] = "disableSaveButton()">
                 Save
             </button>
         </div>

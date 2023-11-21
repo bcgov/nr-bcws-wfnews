@@ -6,10 +6,12 @@ import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { NotificationService, VmNotificationDetail, VmNotificationPreferences } from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { debounceTime } from 'rxjs/operators';
 
 export class LocationData {
+  public notificationName : string;
   public latitude: number
   public longitude: number
   public radius: number = 50
@@ -36,11 +38,11 @@ export class AddSavedLocationComponent implements OnInit{
   private placeData: PlaceData;
   currentLocation: any;
   radiusDistance:number;
-
-
+  notificationName:string;
   public searchByLocationControl = new UntypedFormControl
 
   constructor( private commonUtilityService: CommonUtilityService,protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService,
     ) {
     this.locationData = new LocationData
     this.placeData = new PlaceData();
@@ -173,7 +175,29 @@ export class AddSavedLocationComponent implements OnInit{
   }
 
   saveLocation(){
-    console.log(this.locationData.radius)
+    return this.notificationService.updateUserNotificationPreferences(this.locationData)
+        .then( () => {
+            this.cdr.detectChanges();
+            console.log('save notification success')
+        } )
+        .catch( e => {
+            console.warn('saveNotificationPreferences fail',e)
+            this.cdr.detectChanges()
+        } 
+    )
+
+  }
+
+  disableSaveButton() {
+  // To Save, a user must:
+  // Choose a name
+  // Choose a location
+  // Choose a radius
+    if ((this.locationData.notificationName && this.locationData.notificationName.length) && this.locationData.latitude && this.locationData.longitude && this.locationData.radius) {
+      return false;
+    } else{
+      return true;
+    }
   }
 
   leavePage(){
@@ -215,5 +239,10 @@ export class AddSavedLocationComponent implements OnInit{
 
   toggleButton(distance: number) {
     this.locationData.radius = distance
+  }
+
+  onNotificationNameChange() {
+    this.locationData.notificationName = this.notificationName;
+    console.log(this.locationData)
   }
 }
