@@ -108,8 +108,8 @@
                 <div class="header-text-1">Notification Radius</div>
                 <div class="header-text-2">You will receive notifications based on the selected radius.</div>
             </div>
-            <div (click)="chooseRadiusOnMap()" class="location-button-box" style="width: 100%;">
-                <button mat-flat-button class="location-button">
+            <div class="location-button-box" style="width: 100%;">
+                <button mat-flat-button class="location-button" [disabled] = "!locationData.latitude || !locationData.longitude" (click)="chooseRadiusOnMap()">
                     <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
                     <span >Choose on map</span>
                 </button>

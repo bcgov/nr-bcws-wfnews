@@ -212,6 +212,8 @@ import { SearchPageComponent } from './components/search/search-page.component';
 import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
 import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
+import { MatSliderModule } from '@angular/material/slider';  
+
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -437,7 +439,7 @@ export const DATE_FORMATS = {
         NgxMaskModule.forRoot(),
         IonicStorageModule.forRoot(),
         IonicModule.forRoot(),
-
+        MatSliderModule
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER

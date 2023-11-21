@@ -157,7 +157,9 @@ export class AddSavedLocationComponent implements OnInit{
       height: '100vh',
       data:{
         currentLocation: this.currentLocation,
-        title: 'Notification Radius'
+        title: 'Notification Radius',
+        lat: this.locationData.latitude,
+        long: this.locationData.longitude
       }
     });
     dialogRef.afterClosed().subscribe(result => {

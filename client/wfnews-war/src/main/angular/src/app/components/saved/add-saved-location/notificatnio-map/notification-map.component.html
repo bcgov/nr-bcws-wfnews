@@ -3,6 +3,12 @@
         <span>{{data.title}}</span>
     </div>
     <div id="map"></div>
+    <div class="slider-container" *ngIf="data.title === 'Notification Radius'">
+        <label>{{ itemHeight.value }}km</label>
+        <mat-slider min="25" max="100" step="25" tickInterval="1000" value="25" (input)="updateRadius($event)">
+          <input matSliderThumb #itemHeight>
+        </mat-slider>
+    </div>
     <div class="button-container">
         <button mat-flat-button class="notification-map-button" (click)="close()">Cancel</button>
         <button mat-flat-button class="notification-map-button-primary" (click)="saveLocation()">Confirm</button>

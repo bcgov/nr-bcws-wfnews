@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import * as L from 'leaflet'
 
@@ -9,11 +9,13 @@ import * as L from 'leaflet'
   styleUrls: ['./notification-map.component.scss']
 })
 export class notificatinoMapComponent implements OnInit, AfterViewInit  {
+  @ViewChild('itemHeight') itemHeightSlider;
   map: any;
   notificationLocationMarker: any;
-
-
-  constructor(private dialogRef: MatDialogRef<notificatinoMapComponent>, @Inject(MAT_DIALOG_DATA) public data)
+  radiusValue: number = 25;
+  radiusCircle: any;
+  
+  constructor(private dialogRef: MatDialogRef<notificatinoMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
   { }
 
   ngOnInit(): void {
@@ -78,14 +80,64 @@ export class notificatinoMapComponent implements OnInit, AfterViewInit  {
         }),
         draggable: false
       };
+      
+      const center = [this.data.lat, this.data.long]; // Center coordinates of British Columbia
+      this.map.setView(center, 10);
+      this.notificationLocationMarker = L.marker(center, markerOptions).addTo(this.map);
+
+      // Add circle around the marker
+      const radius = 25000; // Set the radius in meters
+      const circleOptions = {
+        color: '#548ADB',   // Color of the circle
+        opacity: 0.9,        // Opacity of the circle
+        fillColor: '#548ADB', // Fill color of the circle
+        fillOpacity: 0.2,  // Fill opacity of the circle
+      };
+      this.radiusCircle = L.circle(center, {
+        radius: radius,
+        ...circleOptions,
+      }).addTo(this.map);
     }
   }
+
+  formatLabel(value: number) {
+    if (value >= 1000) {
+        return Math.round(value / 1000) + 'k';
+    }
+
+    return value;
+}
 
   close() {
     this.dialogRef.close({exit: false});
   }
 
+  updateRadius(event) {
+    // Remove existing circle if present
+    if (this.map.hasLayer(this.radiusCircle)) {
+      this.map.removeLayer(this.radiusCircle);
+    }
+
+    // Add new circle with updated radius
+    if (this.itemHeightSlider && this.itemHeightSlider.nativeElement) {
+      const radius = Number(this.itemHeightSlider.nativeElement.value) * 1000; // Convert km to meters
+      const circleOptions = {
+        color: '#548ADB',
+        opacity: 0.9,
+        fillColor: '#548ADB',
+        fillOpacity: 0.2,
+      };
+  
+      this.radiusCircle = L.circle(this.notificationLocationMarker.getLatLng(), {
+        radius: radius,
+        ...circleOptions,
+      }).addTo(this.map);
+      console.log(radius)
+      this.cdr.detectChanges();
+    }
+  }
+
   saveLocation() {
     this.dialogRef.close({exit: true, location:this.notificationLocationMarker._latlng});
-  }  
+  }
 }
