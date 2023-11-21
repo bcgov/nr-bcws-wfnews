@@ -455,3 +455,7 @@ export function getActiveMap(smk: any | null = null) {
   let SMK = smk || window['SMK']
   return SMK.MAP[Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]]
 }
+
+export function openLink(link: string) {
+    window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
+  }
