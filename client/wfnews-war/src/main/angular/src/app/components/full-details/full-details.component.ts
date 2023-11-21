@@ -43,10 +43,14 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    if (this.params && this.params['source']) {
-      this.router.navigate(this.params['source']);
+    try {
+      if (this.params && this.params['source']) {
+        this.router.navigate(this.params['source']);
+      } else throw new Error('No previous screen to route too')
+    } catch (err) {
+      console.error(err);
+      this.router.navigate([ResourcesRoutes.DASHBOARD]);
     }
-    else this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
 
   async exit() {
