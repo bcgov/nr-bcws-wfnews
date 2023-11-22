@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
-import { notificatinoMapComponent } from '@app/components/saved/add-saved-location/notificatnio-map/notification-map.component';
+import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { NotificationService, VmNotificationDetail, VmNotificationPreferences } from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
@@ -119,7 +119,7 @@ export class AddSavedLocationComponent implements OnInit{
   }
 
   chooseOnMap(){
-    let dialogRef = this.dialog.open(notificatinoMapComponent, {
+    let dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
       height: '100vh',
@@ -153,7 +153,7 @@ export class AddSavedLocationComponent implements OnInit{
   }
 
   chooseRadiusOnMap(){
-    let dialogRef = this.dialog.open(notificatinoMapComponent, {
+    let dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
       height: '100vh',
