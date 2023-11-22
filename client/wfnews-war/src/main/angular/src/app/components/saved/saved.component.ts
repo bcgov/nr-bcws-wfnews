@@ -9,12 +9,15 @@ import { ResourcesRoutes } from '@app/utils';
 })
 
 export class SavedComponent {
+  public savedLocations: any = [];
+  public savedWildfires: any = [];
 
   constructor(
     protected router: Router,
   ) {
   }
-  openAddLocationPage(){
+
+  addNewLocation() {
     this.router.navigate([ResourcesRoutes.ADD_LOCATION]);
   }
 }
