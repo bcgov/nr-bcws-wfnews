@@ -161,6 +161,7 @@
 
     .description-section{
       padding-top: 12px;
+      width: 100%;
     }
 
     .identify-card-description{
@@ -218,4 +219,15 @@
       }
     }
   }
+}
+
+.small-padding {
+  padding-bottom: 14px !important;
+  display: flex;
+}
+
+.reading {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: auto;
 }
