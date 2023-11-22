@@ -512,18 +512,19 @@
 
               <span class="preview-title">
                   <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="weather station">
-                  ACtive Weather Stations
+                  Active Weather Stations
               </span>
               <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
           </div>
           <div class="identify-card">
               <div class="identify-card-title">{{identifyItem.title}} Weather Station</div>
               <div class="description-section" *ngIf="identifyItem?.data?.validHour">
-                <div class="identify-card-description">Last Reading: {{identifyItem.data.validHour.hour}}</div>
-                <div class="identify-card-description">Temperature: {{identifyItem.data.validHour.temp}}°C</div>
-                <div class="identify-card-description">Humidity: {{identifyItem.data.validHour.relativeHumidity}}%</div>
-                <div class="identify-card-description">Wind Speed: {{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</div>
-                <div class="identify-card-description">Precipitation: {{identifyItem.data.validHour.precipitation}} mm</div>
+                <div class="identify-card-description small-padding">Last Reading: <span class="reading">{{convertStationHour(identifyItem.data.validHour.hour)}}</span></div>
+                <div class="identify-card-description small-padding">Temperature: <span class="reading">{{identifyItem.data.validHour.temp}}°C</span></div>
+                <div class="identify-card-description small-padding">Humidity: <span class="reading">{{identifyItem.data.validHour.relativeHumidity}}%</span></div>
+                <div class="identify-card-description small-padding">Wind Speed: <span class="reading">{{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</span></div>
+                <div class="identify-card-description small-padding">Precipitation (last hour): <span class="reading">{{identifyItem.data.validHour.precipitation}}mm</span></div>
+                <div class="identify-card-description small-padding">Precipitation (72-hours): <span class="reading">{{getPrecipitation(identifyItem)}}</span></div>
               </div>
               <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
                 <div class="identify-card-description">No current weather reading found for this station</div>

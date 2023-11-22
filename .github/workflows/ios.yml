@@ -134,7 +134,9 @@ jobs:
           LOCAL_GOV_URL: ${{ vars.LOCAL_GOV_URL }}
           EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}  
           DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
-          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}    
+          EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}  
+          YOUTUBE_API_KEY: ${{vars.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{vars.YOUTUBE_CHANNEL_ID}}  
 
       - name: Setup Node.js
         uses: actions/setup-node@v3

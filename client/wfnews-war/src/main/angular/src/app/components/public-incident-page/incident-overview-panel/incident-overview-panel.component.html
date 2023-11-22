@@ -2,8 +2,8 @@
   <div class="header-row">
     <h4>Response Information</h4>
   </div>
-  <div class="content-panel" style="border-bottom: none">
-    <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || '<p>For more information on this incident, please contact the information officers assigned.</p>'" (ready)="onReady($event)"></ckeditor>
+  <div class="content-panel" style="border-bottom: none" *ngIf="incident?.incidentOverview">
+    <ckeditor id="ck-doc" [editor]="Editor" [data]="incident.incidentOverview || ''" (ready)="onReady($event)"></ckeditor>
   </div>
   <div class="content-panel" *ngIf="incident.responseTypeCode">
     <div>
@@ -125,5 +125,5 @@
     </ng-template>
   </div>
 
-  
+
 </div>

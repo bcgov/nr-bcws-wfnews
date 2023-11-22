@@ -163,8 +163,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
       this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
-
-      console.log(this.weatherStations)
     }
   }
 
@@ -505,7 +503,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  decode (string: string): string {
-    return decodeURIComponent(escape(string));
+  decode (text: string): string {
+    return decodeURIComponent(escape(text));
+  }
+
+  convertStationHour (name: string) {
+    return name.substring(0, 4) + '-' +name.substring(4, 6) + '-' + name.substring(6, 8) + ' ' + name.substring(8, 10) + ':00';
+  }
+
+  getPrecipitation(station: any): string {
+    const precip = (station?.data?.hourly?.reduce((n, {precipitation}) => n + Number(precipitation), 0) || 0);
+    return `${precip.toFixed(1)}mm`;
   }
 }
