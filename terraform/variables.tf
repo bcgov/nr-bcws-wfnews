@@ -525,6 +525,11 @@ variable "FIRE_REPORT_API_URL" {
   default = ""
 }
 
+variable "NOTIFICATION_API_URL" {
+  type = string
+  default = ""
+}
+
 variable "WFIM_CLIENT_URL" {
   type    = string
   default = ""
