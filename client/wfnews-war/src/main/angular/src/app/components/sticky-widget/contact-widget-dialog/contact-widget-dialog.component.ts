@@ -93,4 +93,8 @@ export class ContactWidgetDialogComponent implements OnInit {
     reset () {
       this.contactForm.reset();
     }
+
+    trimSpace (text: string): string {
+      return text.replace(/ /g,'').replace('-', '');
+    }
 }
