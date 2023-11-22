@@ -31,7 +31,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   convertToDateTime = convertToDateTime;
   openLink = openLink;
 
-  constructor(private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, private router: Router) {
+  constructor(private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, protected router: Router) {
 
   }
 
@@ -153,7 +153,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   navToIncident(incident: SimpleIncident) {
     this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
-      { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.FULL_DETAILS] } })
+      { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.FULL_DETAILS], sourceId: this.id, sourceType: "evac-alert" } })
   }
 
   navToBulletinUrl() {
