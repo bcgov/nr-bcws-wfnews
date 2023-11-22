@@ -163,8 +163,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
       this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
-
-      console.log(this.weatherStations)
     }
   }
 
@@ -514,7 +512,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   getPrecipitation(station: any): string {
-    const precip = station.data.hourly.reduce((n, precipitation) => n + precipitation, 0) || 0
-    return `${station.data.validHour.precipitation}mm in the last hour.` + (precip > 0 ? ` ${precip}mm over 72 hours` : '')
+    const precip = (station?.data?.hourly?.reduce((n, {precipitation}) => n + Number(precipitation), 0) || 0);
+    return `${precip.toFixed(1)}mm`;
   }
 }
