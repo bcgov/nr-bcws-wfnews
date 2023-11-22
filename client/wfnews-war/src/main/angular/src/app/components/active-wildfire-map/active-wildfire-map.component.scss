@@ -472,6 +472,13 @@ mat-panel-title {
   z-index: 1000;
 }
 
+.legend-btn {
+  position: fixed;
+  right: 20px;
+  margin-top: 62px;
+  z-index: 1000;
+}
+
 .drawer-footer {
   margin-bottom: calc(24px + env(safe-area-inset-bottom));
   direction: rtl;
@@ -575,25 +582,6 @@ mat-panel-title {
 
 .button-icon {
   position: relative;
-}
-
-.legend-button {
-  position: absolute;
-  bottom: 20px;
-  display: inline-flex;
-  padding: 9px 24px 9px 16px;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  left: 20px;
-}
-
-.legend-label {
-  right: -7px;
-}
-
-.legend-icon {
-  top: 4px;
 }
 
 ::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {
