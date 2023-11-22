@@ -834,11 +834,6 @@ variable "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   default = ""
 }
 
-variable "WFARCGIS_QUEUESIZE" {
-  type    = string
-  default = ""
-}
-
 variable "POINTID_WEBADE_OAUTH2_CLIENT_ID" {
   type    = string
   default = ""
@@ -855,11 +850,6 @@ variable "POINTID_WEBADE_OAUTH2_CLIENT_SCOPES" {
 }
 
 variable "FIREWEATHER_BASEURL" {
-  type    = string
-  default = ""
-}
-
-variable "FIREWEATHER_QUEUESIZE" {
   type    = string
   default = ""
 }
