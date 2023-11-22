@@ -33,6 +33,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  weatherStations: any[];
   showPanel: boolean;
   allowBackToIncidentsPanel: boolean;
   identifyItem: any;
@@ -135,7 +136,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
       const SMK = window['SMK'];
-      const map = SMK?.MAP?.[1]; // may not always be 1
+      const map = getActiveMap(SMK);
 
       if (map) {
         map.$viewer.identified.clear();
@@ -143,8 +144,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.removeIdentity = true;
 
-    }
-    else if (this.currentIncidentRefs.length >= 1) {
+    } else if (this.currentIncidentRefs.length >= 1) {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
@@ -162,6 +162,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredMunicipalities = this.currentIncidentRefs.filter(item => item.layerId === 'abms-municipalities');
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
+      this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
+
+      console.log(this.weatherStations)
     }
   }
 

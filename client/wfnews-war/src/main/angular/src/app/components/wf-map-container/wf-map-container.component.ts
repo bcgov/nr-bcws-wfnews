@@ -175,6 +175,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       smk.$viewer.identified.add('weather-stations', [{
           type: 'Feature',
           title: station.stationName,
+          data: station,
           properties: {
               code: station.stationCode,
               createContent: function (el) {
