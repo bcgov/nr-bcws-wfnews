@@ -16,7 +16,7 @@
         <img class="data-content-image" src="/assets/images/firecentres.png" alt="Fire Centres">
       </div>
       <div class="data-content-chart">
-        <div class="data-content-chart-label">Hectares Burned by Regional Fire Centre</div>
+        <div class="data-content-chart-label">{{(viewWildfireCounts ? 'Total Wildfires' : 'Hectares Burned')}} by Regional Fire Centre</div>
         <div class="data-content-chart-container">
           <ngx-charts-bar-vertical
             class="vertical-chart"

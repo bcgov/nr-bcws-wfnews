@@ -231,6 +231,21 @@
                     </div>
                 </div>
             </div>
+
+            <div *ngIf="weatherStations?.length">
+              <div class="criteria-title">Wildfire Services Weather Station</div>
+              <div *ngFor="let station of weatherStations" class="widget-card">
+                  <div class="widget-row" (click)="openPreviewPanel(station)">
+                      <div class="left-content">
+                          <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="nearby weather station">
+                          {{station.title}} Weather Station
+                      </div>
+                      <div class="right-content">
+                          <mat-icon svgIcon='arrow'></mat-icon>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
 
@@ -489,4 +504,31 @@
         </div>
     </div>
 
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'weather-stations'">
+      <div class="panel-container" >
+          <div class="draggable-panel-title">
+              <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+              <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+              <span class="preview-title">
+                  <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="weather station">
+                  ACtive Weather Stations
+              </span>
+              <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+          </div>
+          <div class="identify-card">
+              <div class="identify-card-title">{{identifyItem.title}} Weather Station</div>
+              <div class="description-section" *ngIf="identifyItem?.data?.validHour">
+                <div class="identify-card-description">Last Reading: {{identifyItem.data.validHour.hour}}</div>
+                <div class="identify-card-description">Temperature: {{identifyItem.data.validHour.temp}}°C</div>
+                <div class="identify-card-description">Humidity: {{identifyItem.data.validHour.relativeHumidity}}%</div>
+                <div class="identify-card-description">Wind Speed: {{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</div>
+                <div class="identify-card-description">Precipitation: {{identifyItem.data.validHour.precipitation}} mm</div>
+              </div>
+              <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
+                <div class="identify-card-description">No current weather reading found for this station</div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>

@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService, SimpleIncident } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateTime } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime, openLink } from '@app/utils';
 import L from 'leaflet';
 import { setDisplayColor } from "../../../utils"
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -27,11 +27,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   public evacData: EvacData;
   public incident: SimpleIncident | null
   public map: any;
-  public localAuthoritiesUrl: string;
-  public wildfirePreparednessUrl: string;
-  public buildEmergencyKitUrl: string;
 
   convertToDateTime = convertToDateTime;
+  openLink = openLink;
 
   constructor(private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, private router: Router) {
 
@@ -156,12 +154,6 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   navToIncident(incident: SimpleIncident) {
     this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
       { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.FULL_DETAILS] } })
-  }
-
-  openLink(link: string) {
-    // Temporary alert to check if links are configured
-    window.alert(this.appConfigService.getConfig().externalAppConfig[link])
-    window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
   }
 
   navToBulletinUrl() {
