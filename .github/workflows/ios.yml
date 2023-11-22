@@ -112,7 +112,7 @@ jobs:
           WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
           WFDM_API_URL: ${{ vars.WFDM_REST_URL }}
           FIRE_REPORT_API_URL: ${{ vars.FIRE_REPORT_API_URL }}
-          NOTIFICATION_API_URL: ${{ var.NOTIFICATION_API_URL }}
+          NOTIFICATION_API_URL: ${{ vars.NOTIFICATION_API_URL }}
           WFDM_PROXY: ${{ vars.WFDM_PROXY }}
           WFIM_API_URL: ${{ vars.WFIM_CLIENT_URL }}
           WFNEWS_API_KEY: ${{ secrets.API_KEY }}
