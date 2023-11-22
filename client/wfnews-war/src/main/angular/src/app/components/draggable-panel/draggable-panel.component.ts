@@ -505,7 +505,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  decode (string: string): string {
-    return decodeURIComponent(escape(string));
+  decode (text: string): string {
+    return decodeURIComponent(escape(text));
+  }
+
+  convertStationHour (name: string) {
+    return name.substring(0, 4) + '-' +name.substring(4, 6) + '-' + name.substring(6, 8) + ' ' + name.substring(8, 10) + ':00';
+  }
+
+  getPrecipitation(station: any): string {
+    const precip = station.data.hourly.reduce((n, precipitation) => n + precipitation, 0) || 0
+    return `${station.data.validHour.precipitation}mm in the last hour.` + (precip > 0 ? ` ${precip}mm over 72 hours` : '')
   }
 }
