@@ -43,14 +43,20 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   }
 
   back() {
-    if (this.params && this.params['source']) {
-      this.router.navigate(this.params['source']);
+    try {
+      if (this.params && this.params['source']) {
+        this.router.navigate(this.params['source']);
+      } else throw new Error('No previous screen to route too')
+    } catch (err) {
+      console.error(err);
+      this.router.navigate([ResourcesRoutes.DASHBOARD]);
     }
-    else this.router.navigate([ResourcesRoutes.DASHBOARD]);
   }
 
   async exit() {
-    try {
+    this.router.navigate([ResourcesRoutes.DASHBOARD]);
+    // decision to make close button go back to dashboard always. Keeping previous code as I expect this might change
+    /*try {
       // if exiting from area restriction full details retrieve the restriction's location to display as centred on the wildfire map
       if ((this.params['type']) === 'area-restriction' && this.params['id']) {
         const id = this.params['id']
@@ -87,6 +93,6 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
     } catch (error) {
       console.error('Exiting full details failed with error: ' + error)
     }
-    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
+    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);*/
   }
 }

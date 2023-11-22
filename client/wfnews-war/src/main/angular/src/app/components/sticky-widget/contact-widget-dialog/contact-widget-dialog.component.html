@@ -47,7 +47,7 @@
           <div class="phone-number-box-number">1 (800) 663-5555 or *5555</div>
         </div>
         <div class="phone-number-box-icon">
-          <img (click)="openMoreInfo('tel', 'rofPhoneNumber')" height="24" width="24" src="/assets/images/svg-icons/phone-blue.svg" alt="phone" />
+          <a [href]="'tel:+' + trimSpace(contactInformationConfig['rofPhoneNumber'])"><img  height="24" width="24" src="/assets/images/svg-icons/phone-blue.svg" alt="phone" /></a>
         </div>
       </div>
       <div class="phone-number-box">

@@ -33,6 +33,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  weatherStations: any[];
   showPanel: boolean;
   allowBackToIncidentsPanel: boolean;
   identifyItem: any;
@@ -124,18 +125,18 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
             this.addMarker(this.identifyIncident)
           };
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         })
       }else {
         //identify anything other than incident
-        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions')){
+        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions') || this.identifyItem.layerId.includes('weather-stations')){
           this.zoomIn(8,true);
         } else{
           this.zoomIn(8)
         }
       }
       const SMK = window['SMK'];
-      const map = SMK?.MAP?.[1]; // may not always be 1
+      const map = getActiveMap(SMK);
 
       if (map) {
         map.$viewer.identified.clear();
@@ -143,8 +144,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       }
       this.removeIdentity = true;
 
-    }
-    else if (this.currentIncidentRefs.length >= 1) {
+    } else if (this.currentIncidentRefs.length >= 1) {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
@@ -162,6 +162,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredMunicipalities = this.currentIncidentRefs.filter(item => item.layerId === 'abms-municipalities');
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
+      this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
+
+      console.log(this.weatherStations)
     }
   }
 
@@ -233,7 +236,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       map.$viewer.identified.clear();
       map.$sidepanel.setExpand(0);
     }
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
 
@@ -363,7 +366,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         // capture the identify panel list;
     this.identifyItem = item;
     this.currentIncidentRefs = [item];
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
     this.handleLayersSelection();
   }
 
