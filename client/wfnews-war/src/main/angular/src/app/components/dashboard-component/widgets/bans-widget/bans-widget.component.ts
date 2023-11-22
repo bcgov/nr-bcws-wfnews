@@ -49,8 +49,8 @@ export class BansWidget implements OnInit, AfterViewInit {
       boxZoom: false,
       trackResize: false,
       scrollWheelZoom: false,
-      maxZoom: !isMobileView() ? 4 : 5
-      }).setView(location, !isMobileView() ? 4 : 5)
+      maxZoom: 10
+      }).setView(location, 10)
       // configure map data
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -87,6 +87,7 @@ export class BansWidget implements OnInit, AfterViewInit {
         opacity: 0.5
       }).addTo(this.map)
 
+      this.map.fitBounds( bounds )
       this.cdr.detectChanges()
     })
   }
