@@ -8,14 +8,14 @@ import * as L from 'leaflet'
   templateUrl: './notification-map.component.html',
   styleUrls: ['./notification-map.component.scss']
 })
-export class notificatinoMapComponent implements OnInit, AfterViewInit  {
+export class notificationMapComponent implements OnInit, AfterViewInit  {
   @ViewChild('itemHeight') itemHeightSlider;
   map: any;
   notificationLocationMarker: any;
   radiusValue: number = 25;
   radiusCircle: any;
   
-  constructor(private dialogRef: MatDialogRef<notificatinoMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
+  constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
   { }
 
   ngOnInit(): void {
