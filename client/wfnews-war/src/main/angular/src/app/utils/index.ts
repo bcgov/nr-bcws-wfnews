@@ -458,3 +458,7 @@ export function getActiveMap(smk: any | null = null) {
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
 }
+
+export function openLink(link: string) {
+    window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
+  }
