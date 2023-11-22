@@ -38,7 +38,7 @@ export function AbmsMunicipalitiesLayerConfig(ls: layerSettings) {
               url: '/assets/images/legend_municipalities.png',
               width: 20,
               height: 20
-            },
+            }
         }
     ];
 }
