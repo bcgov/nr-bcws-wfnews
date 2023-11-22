@@ -300,7 +300,10 @@ mat-panel-title {
     }
 
     .map {
-      height: calc(100% - 10vh) !important;
+      // was height: calc(100% - 10vh) !important;
+      // NEVER use calc with 2 % or vh values as it will never work properly accross any other screen.
+      // One value must always be a fixed value!
+      height: calc(100% - 90px) !important;
 
       .identify-panel {
         height: 100% !important;
