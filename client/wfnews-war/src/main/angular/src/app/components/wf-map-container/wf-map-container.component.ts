@@ -172,9 +172,18 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const self = this;
     this.pointIdService.fetchNearestWeatherStation(this.lastClickedLocation.map.latitude, this.lastClickedLocation.map.longitude)
     .then(function (station) {
+
+      for (const hours of station.hourly) {
+        if (hours.temp !== null) {
+          station.validHour = hours;
+          break;
+        }
+      }
+
       smk.$viewer.identified.add('weather-stations', [{
           type: 'Feature',
           title: station.stationName,
+          data: station,
           properties: {
               code: station.stationCode,
               createContent: function (el) {

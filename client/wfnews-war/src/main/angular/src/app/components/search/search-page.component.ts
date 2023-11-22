@@ -24,7 +24,7 @@ export class SearchResult {
   public type: string
   public title: string
   public subtitle: string
-  public distance: string
+  public distance: string | null
   public relevance: number
   public location: number[]
 }
@@ -61,7 +61,7 @@ export class SearchPageComponent implements OnInit {
     // fetch local storage for recent data
     if (localStorage.getItem('recent-search') != null) {
       try {
-        this.recentData = JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
+        this.recentData = (JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]).filter(r => r.type && r.type !== null)
       } catch (err) {
         console.error(err)
         // carry on with the empty array
@@ -105,16 +105,16 @@ export class SearchPageComponent implements OnInit {
 
           this.evacData.push({
             id: element.attributes.EMRG_OAA_SYSID,
-            type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase(),
+            type: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() || 'alert',
             title: element.attributes.EVENT_NAME,
             subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
             distance: distance,
             relevance: (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1 : 2,
-            location: [element.centroid.y, element.centroid.x]
+            location: [element.centroid.x, element.centroid.y]
           })
         }
 
-        this.evacData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.id.localeCompare(b.id))
+        this.evacData.sort((a, b) => Number(a.distance || 0) > Number(b.distance || 0) ? 1 : Number(a.distance || 0) < Number(b.distance || 0) ? -1 : 0 || a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.id > b.id ? 1 : a.id < b.id ? -1 : 0)
       }
     })
   }
@@ -174,8 +174,8 @@ export class SearchPageComponent implements OnInit {
             type: 'address',
             title: `${address.streetQualifier} ${address.civicNumber} ${address.streetName} ${address.streetType}`.trim() || address.localityName,
             subtitle: address.localityName,
-            distance: this.userLocation ? (Math.round(haversineDistance(address.loc[1], this.userLocation.coords.latitude, address.loc[0], this.userLocation.coords.longitude) / 1000)).toFixed(0) : '',
-            relevance: /^\d/.test(this.searchText.trim()) ? 4 : 1,
+            distance: this.userLocation ? (Math.round(haversineDistance(address.loc[1], this.userLocation.coords.latitude, address.loc[0], this.userLocation.coords.longitude) / 1000)).toFixed(0) : null,
+            relevance: /^\d/.test(this.searchText.trim()) ? 1 : 4,
             location: address.loc
           })
         }
@@ -201,7 +201,7 @@ export class SearchPageComponent implements OnInit {
 
     if (incidents && incidents.collection) {
       for (const element of incidents.collection) {
-        const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : ''
+        const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : null
 
         this.allResultData.push({
           id: element.incidentNumberLabel,
@@ -209,7 +209,7 @@ export class SearchPageComponent implements OnInit {
           title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
           subtitle: element.fireCentreName,
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) ? 3 : 4,
+          relevance: /^\d/.test(this.searchText.trim()) ? 4 : 3,
           location: [element.longitude, element.latitude]
         })
       }
@@ -247,10 +247,10 @@ export class SearchPageComponent implements OnInit {
           title: element.attributes.EVENT_NAME,
           subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
-                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
-                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
-                   : 2,
+          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1
+                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 2
+                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
+                   : 3,
           location: [element.centroid.x, element.centroid.y]
         })
       }
