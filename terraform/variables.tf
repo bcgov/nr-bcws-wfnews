@@ -759,7 +759,7 @@ variable "WFGS_URL" {
   default = ""
 }
 
-variable "POINTID_MAX_ALLOWED_RADIUS" {
+variable "MAX_ALLOWED_RADIUS" {
   type    = string
   default = ""
 }
