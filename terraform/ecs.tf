@@ -107,6 +107,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.FIRE_REPORT_API_URL
         },
         {
+          name = "NOTIFICATION_API_URL",
+          value = var.NOTIFICATION_API_URL
+        },
+        {
           name  = "WFIM_CLIENT_URL",
           value = var.WFIM_CLIENT_URL
         },
@@ -335,6 +339,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "FIRE_REPORT_API_URL",
           value = var.FIRE_REPORT_API_URL
+        },
+        {
+          name = "NOTIFICATION_API_URL",
+          value = var.NOTIFICATION_API_URL
         },
         {
           name  = "ORG_UNIT_URL",
@@ -1058,6 +1066,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           {
             name = "FIRE_REPORT_API_URL",
             value = var.FIRE_REPORT_API_URL
+          },
+          {
+            name = "NOTIFICATION_API_URL",
+            value = var.NOTIFICATION_API_URL
           },
           {
             name  = "WFIM_CLIENT_URL",
