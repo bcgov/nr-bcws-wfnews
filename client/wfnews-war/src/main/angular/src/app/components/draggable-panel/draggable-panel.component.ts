@@ -125,11 +125,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
             this.addMarker(this.identifyIncident)
           };
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         })
       }else {
         //identify anything other than incident
-        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions')){
+        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions') || this.identifyItem.layerId.includes('weather-stations')){
           this.zoomIn(8,true);
         } else{
           this.zoomIn(8)
@@ -236,7 +236,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       map.$viewer.identified.clear();
       map.$sidepanel.setExpand(0);
     }
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
 
@@ -366,7 +366,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         // capture the identify panel list;
     this.identifyItem = item;
     this.currentIncidentRefs = [item];
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
     this.handleLayersSelection();
   }
 
