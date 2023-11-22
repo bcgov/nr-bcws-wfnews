@@ -143,12 +143,18 @@
       fireReportUri = fireReportUri.substring(0, fireReportUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String notificationUri = EnvironmentVariable.getVariable("NOTIFICATION_API_URL"); 
+    if (notificationUri != null && notificationUri.endsWith("/")) {
+      notificationUri = notificationUri.substring(0, notificationUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
+      json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 

@@ -18,6 +18,7 @@ import { FullDetailsComponent } from './components/full-details/full-details.com
 import { SavedComponent } from '@app/components/saved/saved.component';
 import { MoreComponent } from '@app/components/more/more.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
+import { AddSavedLocationComponent } from '@app/components/saved/add-saved-location/add-saved-location.component';
 // Components
 
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
@@ -38,6 +39,7 @@ const PANEL_ROUTES: Routes = [
   { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full'},
   { path: ResourcesRoutes.FULL_DETAILS, component: FullDetailsComponent, pathMatch: 'full'},
   { path: ResourcesRoutes.SAVED, component: SavedComponent, pathMatch: 'full'},
+  { path: ResourcesRoutes.ADD_LOCATION, component: AddSavedLocationComponent, pathMatch: 'full'},
   { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full'},
   { path: ResourcesRoutes.CONTACT_US, component: ContactWidgetDialogComponent, pathMatch: 'full'}
 ];

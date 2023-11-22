@@ -20,6 +20,7 @@ export enum ResourcesRoutes {
     PUBLIC_INCIDENT = 'incidents',
     FULL_DETAILS = 'full-details',
     SAVED = 'saved',
+    ADD_LOCATION = 'add-location',
     MORE = 'more',
     CONTACT_US = 'contact-us'
 }
@@ -453,7 +454,10 @@ export function convertToStandardDateString(value: string) {
 
 export function getActiveMap(smk: any | null = null) {
   let SMK = smk || window['SMK']
-  return SMK.MAP[Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]]
+  const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]
+  if (key) return SMK.MAP[key]
+  // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
+  else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
 }
 
 export function openLink(link: string) {

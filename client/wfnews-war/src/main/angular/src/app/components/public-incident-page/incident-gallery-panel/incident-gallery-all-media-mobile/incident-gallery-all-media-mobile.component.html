@@ -1,9 +1,9 @@
 <div class="content-panel-stack" *ngIf="displayVideosAndImages && displayVideosAndImages.length; else showDisclaimer">
 <div class="media" *ngFor="let item of displayVideosAndImages">
-    <div *ngIf="item.type==='image'">
+    <div *ngIf="item?.type==='image'">
       <image-panel [item]="item" [settings]="settings" [onBeforeSlide]="onBeforeSlide" [onInit]="onInit" [i]="i"></image-panel>
     </div>
-     <div *ngIf="item.type==='video'">
+     <div *ngIf="item?.type==='video'">
       <video-panel [item]="item"></video-panel>
     </div>
   </div>
