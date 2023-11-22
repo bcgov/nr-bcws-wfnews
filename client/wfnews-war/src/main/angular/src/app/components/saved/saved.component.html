@@ -1,4 +1,33 @@
-<p>saved page not implemented!</p>
-<div>
-    <button (click)="openAddLocationPage()">+Add New</button>
+<div class="header">
+    <div class="content">
+        Saved
+    </div>
+</div>
+<div class="section">
+    <div class="section-header-row">
+        <span class="section-header">Saved Locations</span>
+        <span class="section-button" (click)="addNewLocation()">
+            <img src="/assets/images/svg-icons/Type.svg" class="button-icon" >
+            Add new
+        </span>
+    </div>
+    <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
+        <div class="add-location-content">
+            <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <span>Add a saved location</span>
+        </div>
+    </div>
+</div>
+
+<div class="large-divider"></div>
+
+<div class="section">
+    <div class="section-header-row">
+        <span class="section-header">Saved Wildfires</span>
+    </div>
+    <div class="section-card-wildfires" *ngIf="!savedWildfires.length">
+        <div class="saved-wildfires-content">
+            <span>You haven't saved any Wildfires yet</span>
+        </div>
+    </div>
 </div>
