@@ -36,7 +36,13 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
                     title: 'More Information',
                     value: 'See Here',
                 }
-            ]
+            ],
+            legend: {
+              title: ' ',
+              url: '/assets/images/category1ban.png',
+              width: 20,
+              height: 20
+            }
         },
         {
           type: 'wms',
@@ -72,7 +78,13 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
                   title: 'More Information',
                   value: 'See Here',
               }
-          ]
+          ],
+          legend: {
+            title: ' ',
+            url: '/assets/images/category2ban.png',
+            width: 20,
+            height: 20
+          }
       },
       {
         type: 'wms',
@@ -108,7 +120,13 @@ export function BansAndProhibitionsLayerConfig(ls: layerSettings) {
                 title: 'More Information',
                 value: 'See Here',
             }
-        ]
+        ],
+        legend: {
+          title: ' ',
+          url: '/assets/images/category3ban.png',
+          width: 20,
+          height: 20
+        }
     }
 
     ];

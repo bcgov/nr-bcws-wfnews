@@ -53,8 +53,8 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         boxZoom: false,
         trackResize: false,
         scrollWheelZoom: false,
-        maxZoom: !isMobileView() ? 4 : 5
-      }).setView(location, !isMobileView() ? 4 : 5)
+        maxZoom: 10
+      }).setView(location, 10)
 
       // configure map data
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -79,6 +79,8 @@ export class OverviewWidget implements OnInit, AfterViewInit {
       L.geoJSON(holding, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: holdIcon })}}).addTo(this.map)
       L.geoJSON(outOfControl, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: oocIcon })}}).addTo(this.map)
       L.geoJSON(firesOfNote, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: fonIcon })}}).addTo(this.map)
+
+      this.map.fitBounds( bounds )
 
       this.cdr.detectChanges()
     })

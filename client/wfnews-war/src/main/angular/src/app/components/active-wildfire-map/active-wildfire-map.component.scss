@@ -303,7 +303,9 @@ mat-panel-title {
       // was height: calc(100% - 10vh) !important;
       // NEVER use calc with 2 % or vh values as it will never work properly accross any other screen.
       // One value must always be a fixed value!
-      height: calc(100% - 90px) !important;
+      // additionally, this is a vh calc, not a height%, otherwise heights will be different across
+      // devices
+      height: calc(100vh - 90px) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -470,6 +472,13 @@ mat-panel-title {
   z-index: 1000;
 }
 
+.legend-btn {
+  position: fixed;
+  right: 20px;
+  margin-top: 62px;
+  z-index: 1000;
+}
+
 .drawer-footer {
   margin-bottom: calc(24px + env(safe-area-inset-bottom));
   direction: rtl;
@@ -497,7 +506,11 @@ mat-panel-title {
 }
 
 .search-fab {
-  bottom: 77px;
+  bottom: 137px !important;
+}
+
+.bottom-77 {
+  bottom: 77px !important;
 }
 
 .search-row {
@@ -569,25 +582,6 @@ mat-panel-title {
 
 .button-icon {
   position: relative;
-}
-
-.legend-button {
-  position: absolute;
-  bottom: 20px;
-  display: inline-flex;
-  padding: 9px 24px 9px 16px;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  left: 20px;
-}
-
-.legend-label {
-  right: -7px;
-}
-
-.legend-icon {
-  top: 4px;
 }
 
 ::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {

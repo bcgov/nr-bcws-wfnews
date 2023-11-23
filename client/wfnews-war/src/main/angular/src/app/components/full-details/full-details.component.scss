@@ -351,7 +351,6 @@ hr {
 }
 
 .arrow-button {
-  position: absolute;
   display: flex;
   right: 10px;
   bottom: 10px;
@@ -360,10 +359,7 @@ hr {
   padding: 6px;
   border-radius: 64px;
   background: var(--Grey-2-EEE, #EEE);
-
-  &:hover {
-    cursor: pointer;
-  }
+  cursor: pointer;
 }
 
 .icon {
