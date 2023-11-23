@@ -626,7 +626,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
+    this.showMobileNavigationBar = window.innerWidth < 768
   }
 
   openLink(link: string) {

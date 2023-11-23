@@ -3,6 +3,8 @@ package ca.bc.gov.mof.wfpointid.weather.util;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+import org.springframework.security.access.method.P;
+
 /**
  * Functions for working wth Wildfire Weather database daystamps.
  * 
@@ -75,8 +77,12 @@ public class WeatherDay {
 	
 	public static String addDays(String daystamp, int days) {
 		Calendar cal = fromDaystamp(daystamp);
-		cal.add(Calendar.DAY_OF_MONTH, days);
-		return toDaystamp(cal);
+		if (cal != null) {
+			cal.add(Calendar.DAY_OF_MONTH, days);
+			return toDaystamp(cal);
+		} else {
+			return "";
+		}
 	}
 
 	/**
@@ -100,7 +106,11 @@ public class WeatherDay {
 	}
 	
 	public static Calendar fromDaystamp(String daystamp) {
-		return fromDaystamp(daystamp, TZ_GMT);
+		Calendar cal = fromDaystamp(daystamp, TZ_GMT);
+		if (cal == null) {
+			// should throw
+			return Calendar.getInstance();
+		} else return cal;
 	}
 	
     public static Calendar fromDaystamp(String daystamp, TimeZone zone) {
@@ -140,7 +150,7 @@ public class WeatherDay {
 	
 	private static long toMillis(String hourstamp) {
 		Calendar cal = fromDaystamp(hourstamp, TZ_PST);
-		return cal.getTimeInMillis();
+		return cal == null ? 0 : cal.getTimeInMillis();
 	}
 	
 	public static long toMillisStart(String daystamp) {

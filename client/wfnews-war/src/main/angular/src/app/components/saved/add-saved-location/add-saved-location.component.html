@@ -1,0 +1,135 @@
+<div class="container">
+    <div class="title-section">
+        <img height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
+        <span class="title">Add Saved Location</span>
+    </div>
+    <div class ="content-section">
+        <div class="section-frame">
+            <img class="header-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <span class="header-text"> Details</span>
+        </div>
+        <div class="divider"></div>
+
+        <div class="section-frame-1">
+            <span class="header-text-1">Name</span>
+            <div class="input-section">
+                <input type="text" matInput [(ngModel)]="notificationName" (ngModelChange)="onNotificationNameChange()">
+            </div>
+        </div>
+
+        <div class="section-frame-1" style="padding-top: 8px;">
+            <span class="header-text-1">Choose Location</span>
+            <div class="search-panel">
+                <div class="search-input">
+                    <img class="search-icon"src="/assets/images/svg-icons/search.svg">
+                <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Find Address" placeholder="Find Address" [(ngModel)]="searchText">
+                <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText = null; locationData.useUserLocation = false; locationData.searchText = null; $event.stopPropagation()" matTooltip="Clear">
+                    <span class="button-wrapper"><mat-icon>close</mat-icon></span>
+                </button>
+                    <mat-autocomplete class="location-results" #auto="matAutocomplete" (optionSelected)="onLocationSelected($event.option.value)">
+                        <mat-option class="location-mat-option" *ngFor="let option of filteredOptions"
+                            [value]="option">
+                            <div class="location-option" #locationOptions [attr.data-loc-long]="option.loc[1]" [attr.data-loc-lat]="option.loc[0]">
+                                <div *ngIf="option.address !== ''">
+                                    <div>
+                                        <span class="address">{{option.address}}</span>
+                                    </div>
+                                    <div class="locality">{{option.localityName}} ({{option.localityType}})</div>
+                                </div>
+                                <div *ngIf="option.address === ''">
+                                    <div>
+                                        <span class="address">{{option.localityName}}</span> <span> ({{option.localityType}})</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-option>
+                    </mat-autocomplete>
+                </div>
+            <div (click)="useUserLocation()" [class]="'location-button-box' + (locationData.useUserLocation ? '-selected' : '')">
+                <button mat-flat-button class="location-button">
+                    <img src="../../../assets/images/svg-icons/location-button-blue.svg" alt="Use your location" />
+                    <span >Use your location</span>
+                    <span (click)="closeUserLocation($event)" *ngIf="locationData.useUserLocation">
+                        <mat-icon class="location-clear">close</mat-icon>
+                    </span>
+                </button>
+            </div>
+            <div (click)="chooseOnMap()" [class]="'location-button-box' + (locationData.chooseLocationOnMap ? '-selected' : '')">
+                <button mat-flat-button class="location-button">
+                    <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
+                    <span >Choose on map</span>
+                    <span (click)="closeLocationOnMap($event)" *ngIf="locationData.chooseLocationOnMap">
+                        <mat-icon class="location-clear">close</mat-icon>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="large-divider"></div>
+
+    <div class ="content-section" style="padding:0">
+        <div class="section-frame">
+            <img class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
+            <span class="header-text">Notification Settings</span>
+        </div>
+        <div class="divider"></div>
+        <div class="section-frame-2">
+            <div class="section-frame-2-row">
+                <div class="header-text-1">Push notifications</div>
+                <div class="header-text-2">Push notifications will appear on your device, even when the app is closed.</div>
+            </div>
+            <div class="section-frame-2-row section-frame-2-row-toggle">
+                <div class="header-text-1">Active Wildfires & Evacuations</div>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,true)" color="primary"></mat-slide-toggle>
+            </div>
+            <div class="section-frame-2-row section-frame-2-row-toggle">
+                <div class="header-text-1">Fire Bans & Area Restrictions</div>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,true)" color="primary"></mat-slide-toggle>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-frame-2">
+            <div class="section-frame-2-row">
+                <div class="header-text-1">In-App notifications</div>
+                <div class="header-text-2">In-App notifications are only visible when the BC Wildfire App is open.</div>
+            </div>
+            <div class="section-frame-2-row section-frame-2-row-toggle">
+                <div class="header-text-1">Active Wildfires & Evacuations</div>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,false)" color="primary"></mat-slide-toggle>
+            </div>
+            <div class="section-frame-2-row section-frame-2-row-toggle">
+                <div class="header-text-1">Fire Bans & Area Restrictions</div>
+                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,false)" color="primary"></mat-slide-toggle>
+            </div>
+        </div>
+        <div class="divider"></div>
+        <div class="section-frame-2">
+            <div class="section-frame-2-row">
+                <div class="header-text-1">Notification Radius</div>
+                <div class="header-text-2">You will receive notifications based on the selected radius.</div>
+            </div>
+            <div class="location-button-box" style="width: 100%;">
+                <button mat-flat-button class="location-button" [disabled] = "!locationData.latitude || !locationData.longitude" (click)="chooseRadiusOnMap()">
+                    <img src="../../../assets/images/svg-icons/carbon_map.svg" alt="Choose on map" />
+                    <span >Choose on map</span>
+                </button>
+            </div>
+            <div class="distance-button-container">
+                <div class="button-row">
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===25" (click)="toggleButton(25)">Within 25km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===50" (click)="toggleButton(50)">Within 50km</button>
+                </div>
+                <div class="button-row">
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===75" (click)="toggleButton(75)">Within 75km</button>
+                  <button mat-flat-button class="button" [class.active]="locationData.radius===100" (click)="toggleButton(100)">Within 100km</button>
+                </div>
+              </div>
+        </div>
+        <div class="divider"></div>
+        <div class="save-button-section">
+            <button class="save-button" mat-raised-button color="primary" (click)="saveLocation()" [disabled] = "disableSaveButton()">
+                Save
+            </button>
+        </div>
+    </div>
+</div>

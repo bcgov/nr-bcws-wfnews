@@ -2,6 +2,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, OnInit } from 
 import * as L from 'leaflet'
 import { AppConfigService } from "@wf1/core-ui"
 import { HttpClient } from "@angular/common/http"
+import { isMobileView } from "@app/utils"
 
 @Component({
   selector: 'overview-widget',
@@ -52,8 +53,9 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         boxZoom: false,
         trackResize: false,
         scrollWheelZoom: false,
-        maxZoom: 5
-      }).setView(location, 5)
+        maxZoom: 10
+      }).setView(location, 10)
+
       // configure map data
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -77,6 +79,8 @@ export class OverviewWidget implements OnInit, AfterViewInit {
       L.geoJSON(holding, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: holdIcon })}}).addTo(this.map)
       L.geoJSON(outOfControl, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: oocIcon })}}).addTo(this.map)
       L.geoJSON(firesOfNote, { pointToLayer: function(feature, latlng) { return L.marker(latlng, { icon: fonIcon })}}).addTo(this.map)
+
+      this.map.fitBounds( bounds )
 
       this.cdr.detectChanges()
     })

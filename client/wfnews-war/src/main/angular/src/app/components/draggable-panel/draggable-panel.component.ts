@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getActiveMap, setDisplayColor } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -14,7 +14,7 @@ import { AGOLService } from '@app/services/AGOL-service';
   styleUrls: ['./draggable-panel.component.scss']
 })
 
-export class DraggablePanelComponent implements OnInit, OnChanges {
+export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   resizeHeight: string = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
   currentIncidentRefs: any[];
@@ -33,6 +33,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  weatherStations: any[];
   showPanel: boolean;
   allowBackToIncidentsPanel: boolean;
   identifyItem: any;
@@ -63,6 +64,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
   ) {
   }
 
+  ngOnDestroy(): void {
+    if (this.markerAnimation) {
+      clearInterval(this.markerAnimation)
+    }
+  }
 
   ngOnInit(): void {
 
@@ -73,7 +79,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.removeIdentity = false;
       this.showPanel = false;
       this.identifyIncident = null;
-    
+
       const incidentRefs = changes?.incidentRefs?.currentValue;
       if (incidentRefs) {
         this.currentIncidentRefs = incidentRefs;
@@ -91,7 +97,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     if (this.markerAnimation) {
       clearInterval(this.markerAnimation)
     }
-    console.log(this.currentIncidentRefs)
     if (returnFromPreiviewPanel && this.storedIncidentRefs) {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs
@@ -120,28 +125,26 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
             this.addMarker(this.identifyIncident)
           };
 
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
         })
       }else {
         //identify anything other than incident
-        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions')){
+        if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions') || this.identifyItem.layerId.includes('weather-stations')){
           this.zoomIn(8,true);
         } else{
           this.zoomIn(8)
         }
       }
-      console.log('REMOVING IDENTIY')
       const SMK = window['SMK'];
-      const map = SMK?.MAP?.[1];
-  
+      const map = getActiveMap(SMK);
+
       if (map) {
         map.$viewer.identified.clear();
         map.$sidepanel.setExpand(0);
       }
       this.removeIdentity = true;
 
-    }
-    else if (this.currentIncidentRefs.length >= 1) {
+    } else if (this.currentIncidentRefs.length >= 1) {
       // multiple features within clicked area
       this.identifyItem = null;
       this.showPanel = true;
@@ -159,6 +162,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       this.filteredMunicipalities = this.currentIncidentRefs.filter(item => item.layerId === 'abms-municipalities');
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
+      this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
     }
   }
 
@@ -183,7 +187,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     this.marker.on('add',function(){
         const icon: any = document.querySelector('.animated-icon')
         icon.style.backgroundColor = setDisplayColor(incident.stageOfControlCode);
-  
+
         this.markerAnimation = setInterval(() => {
           icon.style.width = icon.style.width === "10px" ? "20px" : "10px"
           icon.style.height = icon.style.height === "10px" ? "20px" : "10px"
@@ -194,13 +198,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       }
     )
 
-    let viewer = null;
-    const SMK = window['SMK'];
-    for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-        viewer = SMK.MAP[smkMap].$viewer;
-      }
-    }
+    let viewer = getActiveMap().$viewer;
     this.marker.addTo(viewer.map)
   }
 
@@ -236,7 +234,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       map.$viewer.identified.clear();
       map.$sidepanel.setExpand(0);
     }
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
 
@@ -322,13 +320,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
-        const SMK = window['SMK'];
-        let viewer = null;
-        for (const smkMap in SMK.MAP) {
-          if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-            viewer = SMK.MAP[smkMap].$viewer;
-          }
-        }
+        const viewer = getActiveMap().$viewer;
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
         const layerId = this.identifyItem.layerId
         if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){
@@ -360,7 +352,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
               }
             )
           }
-            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));  
+            viewer.map.fitBounds( new L.LatLngBounds([54.08803632921587,-129.0428584607425],[60.09553581317895,-119.02438001754507]));
         }
       })
     }
@@ -372,7 +364,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
         // capture the identify panel list;
     this.identifyItem = item;
     this.currentIncidentRefs = [item];
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
     this.handleLayersSelection();
   }
 
@@ -394,8 +386,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
       } else if (this.identifyItem.layerId.startsWith('bans-and-prohibitions') && item.properties.PROT_BAP_SYSID){
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'bans-prohibitions', id: item.properties.PROT_BAP_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
       } else if (this.identifyItem.layerId === 'danger-rating'){
-        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} });
-      } else if (item.layerId === 'active-wildfires-fire-of-note' || item.layerId === 'active-wildfires-out-of-control'
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'danger-rating', id: item.properties.DANGER_RATING_DESC, location: JSON.stringify(location), source: [ResourcesRoutes.ACTIVEWILDFIREMAP]} })
+      } else if (this.identifyItem.layerId === 'evacuation-orders-and-alerts-wms'){
+        let type = null;
+        if (item.properties.ORDER_ALERT_STATUS === 'Alert') type = "evac-alert";
+        else if (item.properties.ORDER_ALERT_STATUS  === 'Order') type = "evac-order";
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: item.properties.EMRG_OAA_SYSID, source: [ResourcesRoutes.ACTIVEWILDFIREMAP] } });
+      }
+      else if (item.layerId === 'active-wildfires-fire-of-note' || item.layerId === 'active-wildfires-out-of-control'
       || item.layerId === 'active-wildfires-holding' || item.layerId === 'active-wildfires-under-control' && (item.properties.fire_year && item.properties.incident_number_label)) {
       this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
         { queryParams: { fireYear: item.properties.fire_year, incidentNumber: item.properties.incident_number_label, source: [ResourcesRoutes.ACTIVEWILDFIREMAP] } })
@@ -505,4 +503,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges {
     }
   }
 
+  decode (text: string): string {
+    return decodeURIComponent(escape(text));
+  }
+
+  convertStationHour (name: string) {
+    return name.substring(0, 4) + '-' +name.substring(4, 6) + '-' + name.substring(6, 8) + ' ' + name.substring(8, 10) + ':00';
+  }
+
+  getPrecipitation(station: any): string {
+    const precip = (station?.data?.hourly?.reduce((n, {precipitation}) => n + Number(precipitation), 0) || 0);
+    return `${precip.toFixed(1)}mm`;
+  }
 }

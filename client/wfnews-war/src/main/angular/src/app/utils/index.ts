@@ -20,6 +20,7 @@ export enum ResourcesRoutes {
     PUBLIC_INCIDENT = 'incidents',
     FULL_DETAILS = 'full-details',
     SAVED = 'saved',
+    ADD_LOCATION = 'add-location',
     MORE = 'more',
     CONTACT_US = 'contact-us'
 }
@@ -372,6 +373,19 @@ export function convertToDateTimeTimeZone(date) {
     return convertedDate;
 }
 
+export function convertToDateTime(date) {
+    // e.g. July 19, 2022 at 10:22 am
+    const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
+    let convertedDate: string;
+    convertedDate = date ? new Date(date).toLocaleTimeString("en-US", updateOptions) : 'Pending'
+    if (convertedDate !== 'Pending') {
+        // add full stops and lowercase
+        convertedDate = convertedDate.replace("AM", "am")
+        convertedDate = convertedDate.replace("PM", "pm")
+    }
+    return convertedDate;
+}
+
 export function setDisplayColor(stageOfControlCode: string) {
     let colorToDisplay;
     switch (stageOfControlCode) {
@@ -409,11 +423,9 @@ export function checkLayerVisible (layerId: string | string[]): boolean {
   const smk = window['SMK']
   let layerFound = false
   // check for any of the layers being present in the group.
-  // visibility will be handled by the sub component
-  // could likely avoid the loop and just get smk.MAP[length]
   for (const smkMapRef in smk.MAP) {
     if (Object.hasOwn(smk.MAP, smkMapRef)) {
-      const smkMap = smk.MAP[smkMapRef]
+      const smkMap = getActiveMap(smk)
       if (smkMap?.$viewer?.visibleLayer) {
         if (Array.isArray(layerId)) {
           let result = false
@@ -439,3 +451,15 @@ export function convertToStandardDateString(value: string) {
     return moment(value).format('MMM Do YYYY h:mm:ss a')
   }
 }
+
+export function getActiveMap(smk: any | null = null) {
+  let SMK = smk || window['SMK']
+  const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]
+  if (key) return SMK.MAP[key]
+  // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
+  else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
+}
+
+export function openLink(link: string) {
+    window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
+  }

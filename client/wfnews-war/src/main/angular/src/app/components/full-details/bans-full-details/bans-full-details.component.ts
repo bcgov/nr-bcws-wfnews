@@ -18,6 +18,9 @@ export class BanProhibition {
   public centroidLongitude: string
   public centroidLatitude: string
   public fireCentre: string
+  public isCat1: boolean = false
+  public isCat2: boolean = false
+  public isCat3: boolean = false
 }
 
 @Component({
@@ -146,11 +149,14 @@ export class BansFullDetailsComponent implements OnInit {
       this.banData.id = ban.attributes.PROT_BAP_SYSID
       this.banData.type = ban.attributes.TYPE
       this.banData.description = ban.attributes.ACCESS_PROHIBITION_DESCRIPTION
-      this.banData.fireCentre = ban.attributes.FIRE_CENTRE_NAME + " Fire Centre";
-      this.banData.issuedDate = convertToDateYear(ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE);
-      this.banData.bulletinUrl = ban.attributes.BULLETIN_URL;
-      this.banData.centroidLatitude = ban.centroid.y;
-      this.banData.centroidLongitude = ban.centroid.x;
+      this.banData.fireCentre = ban.attributes.FIRE_CENTRE_NAME + " Fire Centre"
+      this.banData.issuedDate = convertToDateYear(ban.attributes.ACCESS_STATUS_EFFECTIVE_DATE)
+      this.banData.bulletinUrl = ban.attributes.BULLETIN_URL
+      this.banData.centroidLatitude = ban.centroid.y
+      this.banData.centroidLongitude = ban.centroid.x
+      this.banData.isCat1 = this.banData.description.includes('1') || this.banData.description.toLowerCase().includes('campfires')
+      this.banData.isCat2 = this.banData.description.includes('2')
+      this.banData.isCat3 = this.banData.description.includes('3')
     } else {
       // What happens when this fails?
     }

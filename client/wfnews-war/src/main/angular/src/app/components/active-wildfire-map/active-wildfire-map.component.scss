@@ -62,11 +62,11 @@
 
   @media (min-width: 768px) {
     .layers-container {
-      margin-top: 65px;
+      position: relative;
+      margin-top: 60px;
       margin-left: 8px;
       .layer-buttons {
         display: flex;
-        flex-wrap: wrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         z-index: 1000;
@@ -300,7 +300,12 @@ mat-panel-title {
     }
 
     .map {
-      height: calc(100% - 10vh) !important;
+      // was height: calc(100% - 10vh) !important;
+      // NEVER use calc with 2 % or vh values as it will never work properly accross any other screen.
+      // One value must always be a fixed value!
+      // additionally, this is a vh calc, not a height%, otherwise heights will be different across
+      // devices
+      height: calc(100vh - 90px) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -467,6 +472,13 @@ mat-panel-title {
   z-index: 1000;
 }
 
+.legend-btn {
+  position: fixed;
+  right: 20px;
+  margin-top: 62px;
+  z-index: 1000;
+}
+
 .drawer-footer {
   margin-bottom: calc(24px + env(safe-area-inset-bottom));
   direction: rtl;
@@ -494,14 +506,18 @@ mat-panel-title {
 }
 
 .search-fab {
-  bottom: 77px;
+  bottom: 137px !important;
+}
+
+.bottom-77 {
+  bottom: 77px !important;
 }
 
 .search-row {
   display: flex;
   position: absolute;
   left: -20px;
-  top: 7px;
+  top: 12px;
   z-index: 1000;
 
   .search-bar {
@@ -514,11 +530,12 @@ mat-panel-title {
     input {
       margin-top: 0 !important;
       display: flex;
-      width: 368px;
+      width: 185px;
+      min-width: unset !important;
       align-items: flex-end;
       gap: 12px;
       flex-shrink: 0;
-      height: 36px;
+      height: 30px;
       border-radius: 20px;
       background: #FFF;
       box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
@@ -551,13 +568,13 @@ mat-panel-title {
   border: 1px solid #C4C4C4;
   background-color: #ffffff;
   margin-left: auto;
-  height: 36px !important;
+  height: 34px !important;
   box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
 
 .button-label {
   position: relative;
-  top: -3px;
+  top: -1px;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
@@ -567,29 +584,25 @@ mat-panel-title {
   position: relative;
 }
 
-.legend-button {
-  position: absolute;
-  bottom: 20px;
-  display: inline-flex;
-  padding: 9px 24px 9px 16px;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  left: 20px;
-}
-
-.legend-label {
-  right: -7px;
-}
-
-.legend-icon {
-  top: 4px;
-}
-
 ::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow-y: auto;
   max-height: calc(100vh - 220px) !important;
   max-width: 400px !important;
+}
+
+.layer-scroll-button {
+  position: absolute;
+  background: white !important;
+  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+  width: 30px;
+  height: 30px;
+  z-index: 2000 !important;
+  padding-top: 4px;
+  top: 1px;
+  &.right {
+    right: 10px;
+    top: 1px;
+  }
 }

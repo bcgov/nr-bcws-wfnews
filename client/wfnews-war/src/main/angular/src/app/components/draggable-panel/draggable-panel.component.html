@@ -57,7 +57,7 @@
                     <div class="widget-row" (click)="openPreviewPanel(areaRestriction)">
                         <div class="left-content">
                             <img class="incident-icon-title" src="/assets/images/svg-icons/area-restriction.svg" alt="Area Restrictions">
-                        {{areaRestriction.properties.NAME}}
+                        {{decode(areaRestriction.properties.NAME)}}
                         </div>
                         <div class="right-content">
                             <mat-icon svgIcon='arrow'></mat-icon>
@@ -231,9 +231,24 @@
                     </div>
                 </div>
             </div>
+
+            <div *ngIf="weatherStations?.length">
+              <div class="criteria-title">Wildfire Services Weather Station</div>
+              <div *ngFor="let station of weatherStations" class="widget-card">
+                  <div class="widget-row" (click)="openPreviewPanel(station)">
+                      <div class="left-content">
+                          <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="nearby weather station">
+                          {{station.title}} Weather Station
+                      </div>
+                      <div class="right-content">
+                          <mat-icon svgIcon='arrow'></mat-icon>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
     </div>
-    
+
     <!-- preview panel: incident -->
     <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyIncident">
         <div class="panel-container" >
@@ -248,7 +263,7 @@
                     <ng-template #fireIcon>
                         <img class="incident-icon-title" src="/assets/images/svg-icons/report.svg">
                     </ng-template>
-                    {{displayItemTitle(identifyItem)}} 
+                    {{displayItemTitle(identifyItem)}}
                 </span>
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
@@ -371,7 +386,7 @@
                     <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Protected Lands
                 </span>
-                
+
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'bc-fsr'">
                     <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Forest Service Roads
@@ -385,7 +400,7 @@
                 <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
             </div>
             <div class="identify-card">
-                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{identifyItem.properties.NAME}}</div>
+                <div class="identify-card-title" *ngIf="identifyItem.layerId === 'area-restrictions'">{{decode(identifyItem.properties.NAME)}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">Fire Ban on {{identifyItem.title}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">{{identifyItem.properties.PROJECT_NAME}}</div>
                 <div class="identify-card-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">{{identifyItem.title}}</div>
@@ -446,7 +461,7 @@
                         <mat-icon class="incident-icon-title" svgIcon='zoom-in'></mat-icon>
                         Zoom to
                     </button>
-                    <button (click)="enterFullDetail()" mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()" *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">
                         Full Details
                     </button>
                 </div>
@@ -488,5 +503,33 @@
             </div>
         </div>
     </div>
-    
+
+    <div  class="draggable-panel" *ngIf="showPanel && identifyItem && identifyItem.layerId === 'weather-stations'">
+      <div class="panel-container" >
+          <div class="draggable-panel-title">
+              <mat-icon svgIcon="back-icon-panel" *ngIf="allowBackToIncidentsPanel" (click) = "backToIdentifyPanel()"></mat-icon>
+              <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
+
+              <span class="preview-title">
+                  <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="weather station">
+                  Active Weather Stations
+              </span>
+              <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
+          </div>
+          <div class="identify-card">
+              <div class="identify-card-title">{{identifyItem.title}} Weather Station</div>
+              <div class="description-section" *ngIf="identifyItem?.data?.validHour">
+                <div class="identify-card-description small-padding">Last Reading: <span class="reading">{{convertStationHour(identifyItem.data.validHour.hour)}}</span></div>
+                <div class="identify-card-description small-padding">Temperature: <span class="reading">{{identifyItem.data.validHour.temp}}°C</span></div>
+                <div class="identify-card-description small-padding">Humidity: <span class="reading">{{identifyItem.data.validHour.relativeHumidity}}%</span></div>
+                <div class="identify-card-description small-padding">Wind Speed: <span class="reading">{{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</span></div>
+                <div class="identify-card-description small-padding">Precipitation (last hour): <span class="reading">{{identifyItem.data.validHour.precipitation}}mm</span></div>
+                <div class="identify-card-description small-padding">Precipitation (72-hours): <span class="reading">{{getPrecipitation(identifyItem)}}</span></div>
+              </div>
+              <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
+                <div class="identify-card-description">No current weather reading found for this station</div>
+              </div>
+          </div>
+      </div>
+  </div>
 </div>

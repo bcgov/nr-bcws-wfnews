@@ -485,6 +485,16 @@ variable "WEBADE-OAUTH2_TOKEN_URL" {
   default = ""
 }
 
+variable "YOUTUBE_API_KEY" {
+  type = string
+  default = ""
+}
+
+variable "YOUTUBE_CHANNEL_ID" {
+  type = string
+  default = ""
+}
+
 variable "WEBADE_OAUTH2_REST_CLIENT_ID" {
   type    = string
   default = ""
@@ -512,6 +522,11 @@ variable "WFDM_REST_URL" {
 
 variable "FIRE_REPORT_API_URL" {
   type  = string
+  default = ""
+}
+
+variable "NOTIFICATION_API_URL" {
+  type = string
   default = ""
 }
 
@@ -744,7 +759,7 @@ variable "WFGS_URL" {
   default = ""
 }
 
-variable "POINTID_MAX_ALLOWED_RADIUS" {
+variable "MAX_ALLOWED_RADIUS" {
   type    = string
   default = ""
 }
@@ -819,11 +834,6 @@ variable "WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES" {
   default = ""
 }
 
-variable "WFARCGIS_QUEUESIZE" {
-  type    = string
-  default = ""
-}
-
 variable "POINTID_WEBADE_OAUTH2_CLIENT_ID" {
   type    = string
   default = ""
@@ -840,11 +850,6 @@ variable "POINTID_WEBADE_OAUTH2_CLIENT_SCOPES" {
 }
 
 variable "FIREWEATHER_BASEURL" {
-  type    = string
-  default = ""
-}
-
-variable "FIREWEATHER_QUEUESIZE" {
   type    = string
   default = ""
 }

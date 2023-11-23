@@ -20,7 +20,7 @@
     <button onclick="window.open('https://bcparks.ca/active-advisories/', '_blank')" mat-button class="panel-button">BC Parks Active Advisories</button>
   </div>
   <hr>
-  <div class="info-container">
+  <div class="info-container" *ngIf="banData.isCat1">
     <div class="full-details-secondary-title">Category 1 (Campfires)</div>
     <img class="image-size" src="../../../assets/images/CampFireSize.svg" alt="Category 1" />
     <p class="info">A campfire is defined as:</p>
@@ -30,8 +30,8 @@
     </ul>
   </div>
   <hr>
-  <div class="info-container">
-    <div class="full-details-secondary-title">Category 2</div>
+  <div class="info-container" *ngIf="banData.isCat2">
+    <div class="full-details-secondary-title">Category 2 Open Burning</div>
     <img class="image-size" src="../../../assets/images/Category 2 Size.svg" alt="Category 2" />
     <p class="info">This category refers to fires, other than a campfire, that burn:</p>
     <ul>
@@ -41,8 +41,8 @@
     </ul>
   </div>
   <hr>
-  <div class="info-container">
-    <div class="full-details-secondary-title">Category 3</div>
+  <div class="info-container" *ngIf="banData.isCat3">
+    <div class="full-details-secondary-title">Category 3 Open Burning</div>
     <img class="image-size" src="../../../assets/images/Category 3 Image.svg" alt="Category 3" />
     <p class="info">This category means an open fire that burns</p>
     <ul>

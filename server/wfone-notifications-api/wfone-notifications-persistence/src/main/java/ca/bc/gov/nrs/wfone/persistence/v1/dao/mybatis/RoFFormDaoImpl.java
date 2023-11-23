@@ -27,9 +27,6 @@ public class RoFFormDaoImpl extends BaseDao implements RoFFormDao {
 	public void insert(RoFFormDto dto) throws DaoException {
 		logger.debug("<insert");
 
-        if (this.mapper == null){
-            logger.debug("<inserter");
-        }
 		try {
 
 			Map<String, Object> parameters = new HashMap<String, Object>();

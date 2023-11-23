@@ -74,9 +74,22 @@
       json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
       json.append("\"recSiteTrailsClosures\":\"").append("http://www.sitesandtrailsbc.ca/closures.aspx").append("\",");
       json.append("\"parksClosures\":\"").append("https://bcparks.ca/active-advisories/?type=wildfire").append("\",");
+      json.append("\"localAuthoritiesUrl\":\"").append("https://www.civicinfo.bc.ca/directories").append("\",");
+      json.append("\"wildfirePreparednessUrl\":\"").append("https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/preparedbc/preparedbc-guides/wildfire_preparedness_guide.pdf").append("\",");
+      json.append("\"buildEmergencyKitUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/build-an-emergency-kit-and-grab-and-go-bag").append("\",");
+      json.append("\"preparedBCUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc").append("\",");
+      json.append("\"preparedBCFacebook\":\"").append("https://www.facebook.com/PreparedBC").append("\",");
+      json.append("\"preparedBCTwitter\":\"").append("https://twitter.com/PreparedBC").append("\",");
+      json.append("\"embcUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
+      json.append("\"embcTwitter\":\"").append("http://www.twitter.com/emergencyinfobc").append("\",");
+      json.append("\"evacGuidanceUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance").append("\",");
+      json.append("\"localGovUrl\":\"").append("https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems").append("\",");
+      json.append("\"emergencyAlertUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts").append("\",");
+      json.append("\"driveBCUrl\":\"").append("https://www.drivebc.ca/mobile/index.html").append("\",");
+      json.append("\"evacServicesUrl\":\"").append("https://ess.gov.bc.ca").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
-      json.append("\"rofPhoneNumber\":\\"").append("1 800 663-5555").append("\",");
+      json.append("\"rofPhoneNumber\":\"1 800 663-5555").append("\",");
       json.append("\"reportAWildfirePhone\":\"1 800 663-5555 or *5555 on a cell\",");
       json.append("\"wildFireInformationLine\":\"1 888 336-7378\",");
       json.append("\"burnRegistrationLine\":\"1 888 797-1717\",");
@@ -130,12 +143,18 @@
       fireReportUri = fireReportUri.substring(0, fireReportUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String notificationUri = EnvironmentVariable.getVariable("NOTIFICATION_API_URL"); 
+    if (notificationUri != null && notificationUri.endsWith("/")) {
+      notificationUri = notificationUri.substring(0, notificationUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
+      json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 

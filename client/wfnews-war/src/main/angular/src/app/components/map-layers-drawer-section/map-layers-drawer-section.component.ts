@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { getActiveMap } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
 
 @Component({
@@ -74,7 +75,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   }
 
   loadLayers() {
-    const smkApi = new SmkApi(window['SMK'].MAP[1]);
+    const smkApi = new SmkApi(getActiveMap());
     const visibleLayers = smkApi.getVisibleLayers();
 
     Object.keys(visibleLayers).forEach((layerId) => {
@@ -163,7 +164,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   }
 
   updateLayers() {
-    const smkApi = new SmkApi(window['SMK'].MAP[1]);
+    const smkApi = new SmkApi(getActiveMap());
 
     const layers = [
       { itemId: 'abms-municipalities', visible: this.municipalities },

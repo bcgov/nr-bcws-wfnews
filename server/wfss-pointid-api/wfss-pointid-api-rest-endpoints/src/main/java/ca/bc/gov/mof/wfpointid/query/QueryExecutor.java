@@ -70,6 +70,7 @@ public class QueryExecutor {
 				Thread.sleep(pollInterval);
 			}
 		} catch (InterruptedException e) {	
+			// not ideal, why can't this be logged out properly?
 			e.printStackTrace();
 		}
 	}

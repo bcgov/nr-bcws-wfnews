@@ -87,6 +87,14 @@ resource "aws_ecs_task_definition" "wfnews_server" {
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
         {
+          name = "YOUTUBE_API_KEY",
+          value = var.YOUTUBE_API_KEY
+        },
+        {
+          name = "YOUTUBE_CHANNEL_ID",
+          value = var.YOUTUBE_CHANNEL_ID
+        },
+        {
           name  = "WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET",
           value = var.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET
         },
@@ -97,6 +105,10 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         {
           name = "FIRE_REPORT_API_URL",
           value = var.FIRE_REPORT_API_URL
+        },
+        {
+          name = "NOTIFICATION_API_URL",
+          value = var.NOTIFICATION_API_URL
         },
         {
           name  = "WFIM_CLIENT_URL",
@@ -297,6 +309,14 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET
         },
         {
+          name = "YOUTUBE_API_KEY",
+          value = var.YOUTUBE_API_KEY
+        },
+        {
+          name = "YOUTUBE_CHANNEL_ID",
+          value = var.YOUTUBE_CHANNEL_ID
+        },
+        {
           name  = "WEBADE-OAUTH2_TOKEN_URL",
           value = var.WEBADE-OAUTH2_TOKEN_URL
         },
@@ -319,6 +339,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name = "FIRE_REPORT_API_URL",
           value = var.FIRE_REPORT_API_URL
+        },
+        {
+          name = "NOTIFICATION_API_URL",
+          value = var.NOTIFICATION_API_URL
         },
         {
           name  = "ORG_UNIT_URL",
@@ -771,7 +795,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = "${tostring(var.POINTID_MAX_ALLOWED_RADIUS)}"
+            value = "${tostring(var.MAX_ALLOWED_RADIUS)}"
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
@@ -830,10 +854,6 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
           },
           {
-            name  = "WFARCGIS_QUEUESIZE",
-            value = "${tostring(var.WFARCGIS_QUEUESIZE)}"
-          },
-          {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
             value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
           },
@@ -848,10 +868,6 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           {
             name  = "FIREWEATHER_BASEURL",
             value = "${var.FIREWEATHER_BASEURL}"
-          },
-          {
-            name  = "FIREWEATHER_QUEUESIZE",
-            value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
             name  = "FIREWEATHER_STATIONS_KEY",
@@ -1042,6 +1058,10 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           {
             name = "FIRE_REPORT_API_URL",
             value = var.FIRE_REPORT_API_URL
+          },
+          {
+            name = "NOTIFICATION_API_URL",
+            value = var.NOTIFICATION_API_URL
           },
           {
             name  = "WFIM_CLIENT_URL",

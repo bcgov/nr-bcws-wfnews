@@ -1,0 +1,114 @@
+<div class="title-panel">
+  <div class="full-details-title">Evacuation Alert for {{evacData.name}}</div>
+  <div class="alert-panel"><img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg"
+      alt="evacuation_alert" />Alert</div>
+  <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
+    public safety concern or avoid interference with fire control.</p>
+  <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/map.svg"
+      alt="Map" />View on Map</button>
+</div>
+<hr>
+<div class="info-container">
+  <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Issued on
+    {{convertToDateTime(evacData.issuedDate)}}</div>
+  <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg" alt="Location Pin" />Issued by
+    {{evacData.issuingAgency}}</div>
+  <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />Fire Evacuation
+    Orders and Alerts Layer</div>
+</div>
+<hr>
+<div class="info-container" *ngIf="incident">
+  <div class="full-details-secondary-title">Associated Wildfire</div>
+  <div class="fire-info-container">
+    <div class="wildfire-title">{{incident.incidentName}}<img class="wildfire-title-icon"
+        src="/assets/images/svg-icons/bookmark.svg" alt="Calendar" /></div>
+    <hr class="break">
+    <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
+        src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
+      of Note</div>
+    <div class="info"><span class="circle-icon {{incident.stageOfControlIcon}}"></span>{{incident.stageOfControlLabel}}
+    </div>
+    <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
+        alt="Location Pin" />{{incident.fireCentreName}}</div>
+    <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
+      on {{incident.discoveryDate}}<img (click)="navToIncident(incident)" class="arrow-button"
+        src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+  </div>
+</div>
+<br>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Connect with Local Authorities</div>
+  <div class="full-details-tertiary-title"><img class="tertiary-icon" src="/assets/images/svg-icons/local_authority.svg"
+      alt="local_authority" />{{evacData.issuingAgency}}</div>
+  <p class="info">Evacuation notices are authorized and implemented by local authorities. The local
+    authority for this
+    evacuation notice is Central Coast Regional District. Please contact them or visit their website for more details.
+  </p>
+  <div class="full-details-tertiary-title">Contact information</div>
+  <p class="info">
+    Local Authorities are the best information sources related to evacuations. Search Civic Info’s directory to find
+    local authority contact and website information.
+  </p>
+  <button (click)="openLink('localAuthoritiesUrl')" mat-button class="link-button"><img class="tertiary-icon"
+      src="/assets/images/svg-icons/search.svg" alt="search" />Find Contact Information</button>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">Get Prepared</div>
+  <div class="full-details-tertiary-title">Prepare your home</div>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/fuel.svg" alt="local_authority" />Ensure your vehicle
+    has fuel. The tank should always be at least half-full.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/patio_furniture.svg" alt="patio_furniture" />Move
+    patio furniture, cushions and door mats indoors.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/curtains.svg" alt="curtains" />Take down flammable
+    curtains and window treatments.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/hose.svg" alt="hose" />Connect
+    garden hoses and fill large containers with water, such as pools, hot tubs and garbage cans.
+    This can assist firefighters and help slow advancing flames.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/home_black.svg" alt="home_black" />Ensure
+    your house number is visible. This will help firefighters locate your home quickly.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/garage.svg" alt="garage" />Disconnect automatic garage
+    door openers so doors can be opened by hand if you lose power.</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/door.svg" alt="door" />Close
+    all windows, vents, doors and other openings in the house with duct tape and/or precut pieces of
+    plywood. Close and latch gates, but do not lock them.</p>
+  <div class="full-details-tertiary-title">Read the Wildfire Preparedness Guide</div>
+  <p class="info">This guide will help you prepare your household, protect your property and learn what to do if a
+    wildfire is close to your community.</p>
+  <button (click)="openLink('wildfirePreparednessUrl')" mat-button class="link-button"><img class="tertiary-icon"
+      src="/assets/images/svg-icons/carbon_download.svg" alt="download" />Download PDF</button>
+  <div class="full-details-tertiary-title">Prepare your Emergency Kit</div>
+  <p class="info">Make an emergency kit and a grab-and-go bag so you are ready to leave on short notice. Open the link
+    below for a basic supply list.</p>
+  <button (click)="openLink('buildEmergencyKitUrl')" mat-button class="link-button-no-icon">Build Your Kit</button>
+</div>
+<hr>
+<div class="info-container">
+  <div class="full-details-secondary-title">What to expect if an evacuation alert becomes an order</div>
+  <div class="full-details-tertiary-title">Leave Home</div>
+  <p class="info">Travel to a designated reception centre for supports, following the routes specified by local
+    authorities. Talk to your local authorities to find out what organizations and resources are available in your area
+    for animals during an emergency.</p>
+  <div class="full-details-tertiary-title">At the Reception Centre</div>
+  <p class="info">When you arrive at a reception centre, there will be Emergency Support Service responders who will
+    assess your needs. A number of resources will be available:</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/information.svg" alt="information" />Information about
+    the emergency</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/supplies.svg" alt="supplies" />Referrals for food,
+    clothing and shelter suppliers</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/family.svg" alt="family" />Help with finding and
+    re-uniting with family</p>
+  <p class="info"><img class="icon" src="/assets/images/svg-icons/advice.svg" alt="advice" />Advice on recovery</p>
+  <p class="info">Intake can take time and you may need to wait in line, dress for the weather if possible. If you have
+    access to a mobile phone, you can register as an evacuee in advance to help speed up the process.</p>
+  <div class="full-details-tertiary-title">Returning Home</div>
+  <p class="info">Local authorities will advise when it is safe to return home.</p>
+</div>
+<hr>
+<div *ngIf="evacData.bulletinUrl" class="bulletin">
+  <p>Open the information bulletin for more details</p>
+  <button (click)="navToBulletinUrl()">Go to<img class="bulletin-link-icon"
+      src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
+</div>
+<wfnews-evac-other-info></wfnews-evac-other-info>
