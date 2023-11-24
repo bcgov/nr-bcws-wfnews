@@ -645,9 +645,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 				String client = webadeOauth2ClientId;
 				String secret = webadeOauth2ClientSecret;
 
-				logger.info("ouathApiUrl = " + ouathApiUrl);
-				logger.info("client = " + client);
-				logger.info("secret = " + secret);
+				logger.error("ouathApiUrl = " + ouathApiUrl);
+				logger.error("client = " + client);
+				logger.error("secret = " + secret);
 
 				// create a token
 				HttpResponse<JsonNode> tokenResponse = Unirest.get(ouathApiUrl)
