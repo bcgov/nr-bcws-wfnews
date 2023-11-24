@@ -68,6 +68,11 @@
                 line-height: normal;
             }
         }
+        .saved-location-content{
+            @extend .add-location-content;
+            width: 100%;
+            padding: 16px;
+        }
 
         .saved-wildfires-content{
             padding: 72px 0;
@@ -78,6 +83,37 @@
                 font-style: normal;
                 font-weight: 500;
                 line-height: normal;
+            }
+        }
+
+        .saved-location-content-1{
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            align-self: stretch;
+        }
+
+        .saved-location-details {
+            display: flex;
+            gap: 10px;
+        }
+
+        .saved-location-detail {
+            display: flex;
+            flex-direction: column;
+            span{
+                color: var(--Gray-1, #242424);
+                font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+                font-size: 16px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+            }
+            .location-coordinates{
+                color: var(--grays-gray-3, #666);
+                font-size: 15px;
+                font-style: normal;
+                font-weight: 400;
             }
         }
     }
@@ -108,6 +144,8 @@
     height: 12px;
     width: -webkit-fill-available;
 }
+
+
 
 // :host ::ng-deep .mat-mdc-tab.mdc-tab--active{
 //     font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;

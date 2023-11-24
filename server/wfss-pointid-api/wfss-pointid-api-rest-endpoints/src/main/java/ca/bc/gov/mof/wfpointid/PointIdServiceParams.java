@@ -34,7 +34,7 @@ public class PointIdServiceParams {
 	@Value("${WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}")
 	private String wfArcGisLayer_Fire_Centre_Boundaries;
 	
-	@Value("${WFARCGIS_QUEUESIZE}")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer wfArcGisLayer_queueSize;
 	
 	@Value("${MAX_ALLOWED_RADIUS}")
@@ -76,7 +76,7 @@ public class PointIdServiceParams {
 	@Value("${FIREWEATHER_BASEURL}")
 	private String fireweatherBaseUrl;
 	
-	@Value("${FIREWEATHER_QUEUESIZE}")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer fireweather_queueSize;
 	
 	@Value("${WFNEWS_BASEURL}")
