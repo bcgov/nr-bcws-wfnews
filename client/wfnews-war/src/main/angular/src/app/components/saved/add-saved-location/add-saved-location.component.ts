@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
-import { NotificationService, VmNotificationDetail, VmNotificationPreferences } from '@app/services/notification.service';
+import { NotificationService } from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
 import { debounceTime } from 'rxjs/operators';
 
@@ -41,8 +42,8 @@ export class AddSavedLocationComponent implements OnInit{
   notificationName:string;
   public searchByLocationControl = new UntypedFormControl
 
-  constructor( private commonUtilityService: CommonUtilityService,protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
-    private notificationService: NotificationService,
+  constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService, protected snackbarService: MatSnackBar
     ) {
     this.locationData = new LocationData
     this.placeData = new PlaceData();
@@ -169,20 +170,26 @@ export class AddSavedLocationComponent implements OnInit{
         this.locationData.chooseLocationOnMap = true
         this.locationData.latitude=Number(result['location'].lat);
         this.locationData.longitude=Number(result['location'].lng);
-        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString(); 
+      }
+      if (result['radius']) {
+        this.locationData.radius = result['radius']
       }
     });
   }
 
   saveLocation(){
-    return this.notificationService.updateUserNotificationPreferences(this.locationData)
+    console.log(this.locationData)
+    this.notificationService.updateUserNotificationPreferences(this.locationData)
         .then( () => {
             this.cdr.detectChanges();
             console.log('save notification success')
+            this.router.navigateByUrl('/saved')
         } )
         .catch( e => {
             console.warn('saveNotificationPreferences fail',e)
             this.cdr.detectChanges()
+            this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+
         } 
     )
 
@@ -243,6 +250,5 @@ export class AddSavedLocationComponent implements OnInit{
 
   onNotificationNameChange() {
     this.locationData.notificationName = this.notificationName;
-    console.log(this.locationData)
   }
 }

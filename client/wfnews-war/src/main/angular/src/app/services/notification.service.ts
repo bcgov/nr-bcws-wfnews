@@ -55,46 +55,57 @@ export interface VmCoordinates {
 })
 
 export class NotificationService {
-  constructor(private appConfigService: AppConfigService, private httpClient: HttpClient, private capacitorService: CapacitorService) {  }
+  constructor(private appConfigService: AppConfigService, private http: HttpClient, private capacitorService: CapacitorService) {  }
 
-    public updateUserNotificationPreferences(notificationSettings) {
+    public updateUserNotificationPreferences(notificationSettings): Promise<any> {
         return this.capacitorService.deviceProperties.then(p => {
+                console.log("device properties:'",p)
                 const url = `${this.appConfigService.getConfig().rest['notification-api']}/notificationSettings/${p.deviceId}`
                 let headers = new HttpHeaders({
                     'apikey': this.appConfigService.getConfig().application['wfnewsApiKey'],
                 })
                 const token = this.capacitorService.getNotificationToken();
                 const notificationSettingRsrc = convertToNotificationSettingRsrc(notificationSettings)
+                notificationSettingRsrc.subscriberGuid = p.deviceId
                 notificationSettingRsrc.notificationToken = token
                 notificationSettingRsrc.deviceType = p.isAndroidPlatform ? 'android' : 'ios'
 
-                return this.httpClient.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
-        })
+                return this.http.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
+            })
     }
 }
 
-export function convertToNotificationSettingRsrc(np: VmNotificationPreferences): NotificationSettingRsrc {
+
+export function convertToNotificationSettingRsrc(np: any): NotificationSettingRsrc {
+    let notificationTopics = [];
+    if (np.pushNotificationsFireBans) {
+        notificationTopics.push("British_Columbia_Bans_and_Prohibition_Areas");
+        notificationTopics.push("British_Columbia_Area_Restrictions");
+    }
+    if (np.pushNotificationsWildfires) {
+        notificationTopics.push("BCWS_ActiveFires_PublicView");
+        notificationTopics.push("Evacuation_Orders_and_Alerts");
+    }
     return {
         '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notificationSettings',
-        notifications: np.notificationDetails.map( nd => {
-            return {
+        notifications: [
+            {
                 '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notification',
-                notificationName: nd.name,
-                notificationType: nd.type,
-                radius: nd.radius,
-                topics: nd.preferences,
+                notificationName: np.notificationName,
+                notificationType: 'nearme',
+                radius: np.radius,
                 point: {
                     type: 'Point',
-                    coordinates: [ nd.locationCoords.long, nd.locationCoords.lat ],
+                    coordinates: [np.longitude, np.latitude],
                     crs: null
                 },
-                activeIndicator: nd.active
+                activeIndicator: true,
+                topics:notificationTopics
             }
-        } ),
+        ],
         notificationToken: null,
-        subscriberToken: np.subscriberToken || 'subscriberToken',
-        subscriberGuid: np.subscriberGuid,
+        subscriberToken: 'subscriberTpken',
+        subscriberGuid: null,
         deviceType: null,
-    } as NotificationSettingRsrc;
+    } as unknown as NotificationSettingRsrc;
 }
-

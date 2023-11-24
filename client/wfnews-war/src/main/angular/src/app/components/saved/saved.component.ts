@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
 
@@ -8,7 +8,7 @@ import { ResourcesRoutes } from '@app/utils';
   styleUrls: ['./saved.component.scss']
 })
 
-export class SavedComponent {
+export class SavedComponent implements OnInit {
   public savedLocations: any = [];
   public savedWildfires: any = [];
 
@@ -17,6 +17,9 @@ export class SavedComponent {
   ) {
   }
 
+  ngOnInit(): void {
+      // Fetch the notificationSettings.
+  }
   addNewLocation() {
     this.router.navigate([ResourcesRoutes.ADD_LOCATION]);
   }
