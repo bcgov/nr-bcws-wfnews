@@ -152,8 +152,8 @@ jobs:
           EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}
           DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
           EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }} 
-          YOUTUBE_API_KEY: ${{vars.YOUTUBE_API_KEY}}
-          YOUTUBE_CHANNEL_ID: ${{vars.YOUTUBE_CHANNEL_ID}}
+          YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
