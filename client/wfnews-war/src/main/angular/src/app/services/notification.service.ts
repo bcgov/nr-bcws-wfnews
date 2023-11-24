@@ -73,6 +73,16 @@ export class NotificationService {
                 return this.http.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
             })
     }
+
+    public getUserNotificationPreferences(): Promise<any> {
+        return this.capacitorService.deviceProperties.then(p => {
+                const url = `${this.appConfigService.getConfig().rest['notification-api']}/notificationSettings/${p.deviceId}`
+                let headers = new HttpHeaders({
+                    'apikey': this.appConfigService.getConfig().application['wfnewsApiKey'],
+                })
+                return this.http.get(url, { headers }).toPromise()
+            })
+    }
 }
 
 
