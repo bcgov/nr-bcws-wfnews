@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NotificationService } from '@app/services/notification.service';
 import { ResourcesRoutes } from '@app/utils';
+import { SpatialUtilsService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-saved',
@@ -16,14 +17,17 @@ export class SavedComponent implements OnInit {
   constructor(
     protected router: Router,
     private notificationService: NotificationService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    protected spatialUtilService: SpatialUtilsService,
   ) {
   }
 
   ngOnInit(): void {
       // Fetch the notificationSettings.
       this.notificationService.getUserNotificationPreferences().then(response =>{
-        this.savedLocations = response.notifications;
+        if (response.notifications){
+          this.savedLocations = response.notifications;
+        }
         this.cdr.detectChanges()
       }). catch(error => {
         console.log(error)
@@ -32,5 +36,9 @@ export class SavedComponent implements OnInit {
   }
   addNewLocation() {
     this.router.navigate([ResourcesRoutes.ADD_LOCATION]);
+  }
+
+  getFormattedCoords(coords): string {
+    return this.spatialUtilService.formatCoordinates([coords[0],coords[1]]);
   }
 }
