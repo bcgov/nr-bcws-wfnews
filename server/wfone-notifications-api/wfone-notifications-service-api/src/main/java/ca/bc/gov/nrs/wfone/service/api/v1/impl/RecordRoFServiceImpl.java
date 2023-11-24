@@ -692,7 +692,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		} catch (DaoException daoe) {
 			logger.error("Failed to connect to DB", daoe);
 		} catch (Exception e) {
-			logger.error("Error creating WFIM document," + webadeOauth2ClientUrl + "," + webadeOauth2ClientId + "," + webadeOauth2ClientSecret, e);
+			logger.error("Error creating WFIM document", e);
 		} finally {
 			try {
 				transactionManager.commit(transactionStatus);
