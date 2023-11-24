@@ -79,6 +79,7 @@ jobs:
           AGOL_FIRE_CENTRES: ${{ vars.AGOL_FIRE_CENTRES }}
           AGOL_PERIMETRES: ${{ vars.AGOL_PERIMETRES }}
           AGOL_URL: ${{ vars.AGOL_URL }}
+          API_KEY: ${{ secrets.API_KEY }}
           APP_STORE_URL: ${{ vars.APP_STORE_URL }}
           APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
           APPLICATION_ENVIRONMENT: ${{ vars.DEFAULT_APPLICATION_ENVIRONMENT }}
