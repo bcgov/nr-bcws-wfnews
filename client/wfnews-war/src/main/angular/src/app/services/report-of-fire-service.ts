@@ -1,11 +1,12 @@
 import { Injectable } from "@angular/core";
-import { Photo } from "@capacitor/camera";
+import { GalleryPhoto, Photo } from "@capacitor/camera";
 import { AppConfigService } from "@wf1/core-ui";
 import { CommonUtilityService } from "./common-utility.service";
 import { Storage } from '@ionic/storage-angular';
 import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
+import { Filesystem } from '@capacitor/filesystem';
 
 export type ReportOfFireType = {
   fullName?: string,
@@ -22,7 +23,10 @@ export type ReportOfFireType = {
   signsOfResponse?: string[],
   otherInfo?: string,
   submittedTimestamp?: string,
-  visibleFlame?: string[]
+  visibleFlame?: string[],
+  image1?: Photo | GalleryPhoto,
+  image2?: Photo | GalleryPhoto,
+  image3?: Photo | GalleryPhoto
 };
 
 @Injectable({
@@ -38,7 +42,7 @@ export class ReportOfFireService {
   longitude: number
   latitude: number
 
-  async saveReportOfFire(reportOfFire: ReportOfFireType, image1: Photo, image2: Photo, image3: Photo): Promise<any> {
+  async saveReportOfFire(reportOfFire: ReportOfFireType): Promise<any> {
 
     let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
     let resource = JSON.stringify(reportOfFire)
@@ -50,9 +54,9 @@ export class ReportOfFireService {
       const formData = new FormData()
       formData.append('resource', resource)
 
-      if (image1 !== null && image1 !== undefined && image1.webPath) formData.append('image1', await this.convertToBase64(image1))
-      if (image2 !== null && image2 !== undefined && image2.webPath) formData.append('image2', await this.convertToBase64(image2))
-      if (image3 !== null && image3 !== undefined && image3.webPath) formData.append('image3', await this.convertToBase64(image3))
+      if (reportOfFire.image1 !== null && reportOfFire.image1 !== undefined && reportOfFire.image1) formData.append('image1', await this.convertToBase64(reportOfFire.image1))
+      if (reportOfFire.image2 !== null && reportOfFire.image2 !== undefined && reportOfFire.image2) formData.append('image2', await this.convertToBase64(reportOfFire.image2))
+      if (reportOfFire.image3 !== null && reportOfFire.image3 !== undefined && reportOfFire.image3) formData.append('image3', await this.convertToBase64(reportOfFire.image3))
 
       // if the device is offline save RoF in storage
       await (this.commonUtilityService.checkOnlineStatus().then(result => {
@@ -67,9 +71,9 @@ export class ReportOfFireService {
       if (this.submittedOffline) return;
 
       let response = await fetch(rofUrl, {
-         method: 'POST',
-         body: formData
-       });
+        method: 'POST',
+        body: formData
+      });
       if (response.ok) {
         // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
@@ -108,22 +112,39 @@ export class ReportOfFireService {
 
 
 
-  async convertToBase64(image: Photo) {
+  async convertToBase64(image: Photo | GalleryPhoto) {
     let base64;
+
+    if (image.path) {
+      // read binary data (base64 encoded) from plugins that return File URIs, such as
+      // the Camera.
+      const contents = await Filesystem.readFile({
+        path: image.path,
+      });
+
+      base64 = image.path;
+    }
+
     // if the webPath is already a base64 string, return it
-    if (image.webPath !== null && image.webPath.startsWith("data:image")) {
+    if (image.webPath && image.webPath.startsWith("data:image")) {
       base64 = image.webPath;
     }
-    else {
+    // if it does not have base64 string convert it to one
+    else if (image.webPath) {
       await this.blobToBase64(image.webPath).then(result => {
         base64 = result;
       })
+    }
+    // if it does not have a webPath return the dataUrl which should be a base64 string
+    else {
+      image = image as Photo;
+      if (image.dataUrl) base64 = image.dataUrl;
     }
 
     // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
     if (base64 && base64.startsWith("data:image/jpeg")) {
       await this.checkExifGPS(base64).then((response) => {
-        base64 = response
+        base64 = response;
       });
     }
 

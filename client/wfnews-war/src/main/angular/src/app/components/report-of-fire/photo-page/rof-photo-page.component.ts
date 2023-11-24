@@ -1,9 +1,10 @@
 import { Component, ChangeDetectionStrategy, ChangeDetectorRef, ElementRef } from "@angular/core";
 import { RoFPage } from "../rofPage";
 import { ReportOfFire } from "../reportOfFireModel";
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Camera, CameraResultType, CameraSource, GalleryPhoto, Photo, CameraPluginPermissions } from '@capacitor/camera';
 import { CommonUtilityService } from "@app/services/common-utility.service";
 import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
+import { Capacitor } from "@capacitor/core";
 
 @Component({
   selector: 'rof-photo-page',
@@ -15,7 +16,7 @@ export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
   captureUrl:any;
   isCaptured: boolean;
-  images: Photo[] = [];
+  images: (Photo | GalleryPhoto)[] = [];
   isFullScreen: boolean = false;
   isEditMode: boolean = false;
   public constructor(
@@ -41,38 +42,60 @@ export class RoFPhotoPage extends RoFPage {
       saveToGallery: false,
       webUseInput: true,
       width: undefined,
-    }).then((url) => {
-      const img: Photo = {
-        format: "",
-        saved: false
-      }
-      img.webPath = url.dataUrl;
-      img.format = url.format;
-      
-      this.images.push(img)
-      this.changeDetector.detectChanges()
-      })
+    });
+    this.images.push(image);
+    this.changeDetector.detectChanges();
   }
 
   async addFromCameraRoll() {
-    const photos = await Camera.pickImages({
-      quality: 100,
-      limit: 3 - this.images.length
-    }).then((url) =>{
-      if(url.photos) {
-        url.photos = url.photos.splice(0,3-this.images.length)
-        url.photos.forEach(photo => {
-          const img: Photo = {
-            format: "",
-            saved: false
-          }
-          img.webPath = photo.webPath;
-          img.format = photo.format;
-          this.images.push(img)
-          this.changeDetector.detectChanges()
-        });
+    const isNativePlatform = Capacitor.isNativePlatform();
+    if (!isNativePlatform) {
+      const photos = await Camera.pickImages({
+        quality: 100,
+        limit: 3 - this.images.length
+      })
+      photos.photos.map((image) => {
+        this.images.push(image);
+        this.changeDetector.detectChanges();
+      })
+      return;
+    }
+
+    // This is specific to iOS but should work for Android. If not we may need to check specifically for platform.
+    const currentPermissions = await Camera.checkPermissions();
+    if (currentPermissions?.photos === 'granted') {
+      // All permissions are granted and we should be able to get everything we need
+      const photos = await Camera.pickImages({
+        quality: 100,
+        limit: 3 - this.images.length
+      })
+      photos.photos.map((image) => {
+        this.images.push(image);
+      })
+    } else if (currentPermissions?.photos == 'limited') {
+      // They have a limited amount of images selected to share and only those will provide exif
+      const imagesLeft = 3 - this.images.length;
+      if (imagesLeft) {
+        // iOS 14+ Only: Allows the user to update their limited photo library selection. On iOS 15+ returns all the
+        // limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns
+        // an empty array.
+        const photos = await Camera.pickLimitedLibraryPhotos();
+        photos.photos.slice(0, imagesLeft).map((image) => {
+          this.images.push(image);
+        })
       }
-    })
+    }
+
+    // The permission is denied and we need to ask for it. This is what the capacitor code should look like based on
+    // documentation, but it doesn't work from my experience on iOS. If this doesn't work we may need to have a prompt
+    // to explain the steps and redirect to settings like we do for location.
+    try {
+      const permissionStatus = await Camera.requestPermissions();
+      console.log('camera permissions', permissionStatus)
+    } catch (error) {
+      console.log('permission error', error)
+    }
+    this.cdr.detectChanges();
   }
 
   deleteImage(index:number) {

@@ -322,11 +322,14 @@ async submitRof(){
     signsOfResponse: this.reportOfFire.signsOfResponse,
     otherInfo: this.reportOfFire.otherInfo,
     submittedTimestamp: new Date().getTime().toString(),
-    visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
+    visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
+    image1: this.reportOfFire.image1,
+    image2: this.reportOfFire.image2,
+    image3: this.reportOfFire.image3,
   }
 
   try {   
-    const response = this.reportOfFireService.saveReportOfFire(rofResource, this.reportOfFire.image1, this.reportOfFire.image2, this.reportOfFire.image3);
+    const response = this.reportOfFireService.saveReportOfFire(rofResource);
     this.next();
   } catch (err) {
      this.snackbarService.open(

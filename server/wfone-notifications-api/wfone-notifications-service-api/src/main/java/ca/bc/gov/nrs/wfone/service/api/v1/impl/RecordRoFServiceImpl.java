@@ -950,7 +950,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		metaOwner.setMetadataValue("HQK");
 		
 		// set coordinates for image if not set by now
-		if (lat == null && lng == null) {
+		if (form != null && lat == null && lng == null) {
 			JSONObject rof = new JSONObject(form);
 			lat = rof.optJSONArray("fireLocation").getDouble(0);
 			lng = rof.optJSONArray("fireLocation").getDouble(1);
