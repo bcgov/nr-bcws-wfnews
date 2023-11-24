@@ -645,10 +645,6 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 				String client = webadeOauth2ClientId;
 				String secret = webadeOauth2ClientSecret;
 
-				logger.error("ouathApiUrl = " + ouathApiUrl);
-				logger.error("client = " + client);
-				logger.error("secret = " + secret);
-
 				// create a token
 				HttpResponse<JsonNode> tokenResponse = Unirest.get(ouathApiUrl)
 						.header("Authorization", "Basic " + Base64.getEncoder().encodeToString((client + ":" + secret).getBytes()))
@@ -696,7 +692,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		} catch (DaoException daoe) {
 			logger.error("Failed to connect to DB", daoe);
 		} catch (Exception e) {
-			logger.error("Error creating WFIM document", e);
+			logger.error("Error creating WFIM document," + webadeOauth2ClientUrl + "," + webadeOauth2ClientId + "," + webadeOauth2ClientSecret, e);
 		} finally {
 			try {
 				transactionManager.commit(transactionStatus);
