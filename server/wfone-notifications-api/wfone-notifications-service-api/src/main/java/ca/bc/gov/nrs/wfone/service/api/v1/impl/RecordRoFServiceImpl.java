@@ -952,8 +952,10 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		// set coordinates for image if not set by now
 		if (form != null && lat == null && lng == null) {
 			JSONObject rof = new JSONObject(form);
-			lat = rof.optJSONArray("fireLocation").getDouble(0);
-			lng = rof.optJSONArray("fireLocation").getDouble(1);
+			if (rof.has("fireLocation") && rof.optJSONArray("fireLocation") != null) {
+				lat = rof.optJSONArray("fireLocation").getDouble(0);
+				lng = rof.optJSONArray("fireLocation").getDouble(1);
+			}
 		}
 		
 
