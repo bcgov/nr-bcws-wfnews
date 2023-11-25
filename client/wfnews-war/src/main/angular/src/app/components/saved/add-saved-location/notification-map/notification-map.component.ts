@@ -65,7 +65,6 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
       this.map.on('drag', (event: any) => {
         const mapCenter = this.map.getCenter();
         this.notificationLocationMarker.setLatLng(mapCenter);
-        console.log(this.notificationLocationMarker._latlng)
       });
     }
 
@@ -133,12 +132,17 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         radius: radius,
         ...circleOptions,
       }).addTo(this.map);
-      console.log(radius)
       this.cdr.detectChanges();
     }
   }
 
   saveLocation() {
-    this.dialogRef.close({exit: true, location:this.notificationLocationMarker._latlng});
+    const radiusValue = this.itemHeightSlider?.nativeElement.value;
+
+    this.dialogRef.close({
+        exit: true,
+        location: this.notificationLocationMarker._latlng,
+        radius: radiusValue ? Number(radiusValue) : undefined
+    });
   }
 }

@@ -127,7 +127,7 @@
         </div>
         <div class="divider"></div>
         <div class="save-button-section">
-            <button class="save-button" mat-raised-button color="primary" (click)="saveLocation()" [disabled] = "disableSaveButton()">
+            <button class="save-button" (click)="saveLocation()" [disabled] = "disableSaveButton()" [ngClass]="{'disabled-button': disableSaveButton()}">
                 Save
             </button>
         </div>

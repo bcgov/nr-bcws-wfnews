@@ -185,7 +185,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
             if(url.startsWith(wfdmProxy.toString())) {
                 return true; // if the request is from Document Service proxy
             }
-            if (url.startsWith(config.rest['wfnews']) || url.includes('wfss-pointid-api')) {
+            if (url.startsWith(config.rest['wfnews']) || url.includes('wfss-pointid-api') || url.includes ('publicmobile-api') || url.includes ('notifications-api')) {
                 return false; // if the request is from wfnews-server, no need to hanldeLogin
             }
             for (let endpoint in config.rest) {
