@@ -91,63 +91,71 @@ export class ReportOfFireService {
   }
 
   async blobToBase64(url): Promise<string> {
-    return new Promise(async (resolve, _) => {
-      // do a request to the blob uri
-      const response = await fetch(url);
-
-      // response has a method called .blob() to get the blob file
-      let blob = await response.blob();
-
-      // instantiate a file reader
-      const fileReader = new FileReader();
-
-      // read the file
-      fileReader.readAsDataURL(blob);
-
-      fileReader.onloadend = function () {
-        resolve(fileReader.result as string); // Here is the base64 string
-      }
-    });
+    try {
+      return new Promise(async (resolve, _) => {
+        // do a request to the blob uri
+        const response = await fetch(url);
+  
+        // response has a method called .blob() to get the blob file
+        let blob = await response.blob();
+  
+        // instantiate a file reader
+        const fileReader = new FileReader();
+  
+        // read the file
+        fileReader.readAsDataURL(blob);
+  
+        fileReader.onloadend = function () {
+          resolve(fileReader.result as string); // Here is the base64 string
+        }
+      });
+    }catch(error) {
+      console.error('Error converting Blob to base64 string', error)
+    }
+    
   };
 
 
 
   async convertToBase64(image: Photo | GalleryPhoto) {
     let base64;
-
-    if (image.path) {
-      // read binary data (base64 encoded) from plugins that return File URIs, such as
-      // the Camera.
-      const contents = await Filesystem.readFile({
-        path: image.path,
-      });
-
-      base64 = image.path;
+    try {
+      if (image.path) {
+        // read binary data (base64 encoded) from plugins that return File URIs, such as
+        // the Camera.
+        const contents = await Filesystem.readFile({
+          path: image.path,
+        });
+  
+        base64 = image.path;
+      }
+  
+      // if the webPath is already a base64 string, return it
+      if (image.webPath && image.webPath.startsWith("data:image")) {
+        base64 = image.webPath;
+      }
+      // if it does not have base64 string convert it to one
+      else if (image.webPath) {
+        await this.blobToBase64(image.webPath).then(result => {
+          base64 = result;
+        })
+      }
+      // if it does not have a webPath return the dataUrl which should be a base64 string
+      else {
+        image = image as Photo;
+        if (image.dataUrl) base64 = image.dataUrl;
+      }
+  
+      // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
+      if (base64 && base64.startsWith("data:image/jpeg")) {
+        await this.checkExifGPS(base64).then((response) => {
+          base64 = response;
+        });
+      }
+    }catch (error) {
+      console.error('Error converting image to base64 string', error)
     }
-
-    // if the webPath is already a base64 string, return it
-    if (image.webPath && image.webPath.startsWith("data:image")) {
-      base64 = image.webPath;
-    }
-    // if it does not have base64 string convert it to one
-    else if (image.webPath) {
-      await this.blobToBase64(image.webPath).then(result => {
-        base64 = result;
-      })
-    }
-    // if it does not have a webPath return the dataUrl which should be a base64 string
-    else {
-      image = image as Photo;
-      if (image.dataUrl) base64 = image.dataUrl;
-    }
-
-    // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
-    if (base64 && base64.startsWith("data:image/jpeg")) {
-      await this.checkExifGPS(base64).then((response) => {
-        base64 = response;
-      });
-    }
-
+    
     return base64;
 
   }

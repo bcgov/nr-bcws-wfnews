@@ -5,15 +5,15 @@
     <p class="info">People in this area are at risk and should leave the area immediately. Local authorities will not
         ask you to leave without good reason. Failing to leave puts you and others at risk.</p>
     <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon"
-            src="/assets/images/svg-icons/map.svg" alt="Map" />Go to Map</button>
+            src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
 </div>
 <hr>
 <div class="info-container">
     <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
             alt="Calendar" />Issued on
         {{convertToDateTime(evacData.issuedDate)}}</div>
-    <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
-            alt="Location Pin" />Issued by
+    <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/local_authority.svg"
+            alt="local_authority" />Issued by
         {{evacData.issuingAgency}}</div>
     <div class="incident-info"><img class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />Fire
         Evacuation
@@ -96,8 +96,7 @@
         Supports will not be available if you travel to a non-designated location.</p>
     <div class="full-details-tertiary-title">Routes and Safety</div>
     <p class="info">Follow the routes specified by local authorities. Avoid shortcuts – they could lead to a blocked or
-        dangerous area. Do not attempt to drive through a wildfire. Do not attempt to drive through areas that may be
-        affected by downed power lines or stay at least 10 metres away to avoid injury.</p>
+        dangerous area. Do not attempt to drive through a wildfire.</p>
     <p class="info">Do not attempt to drive through areas that may be affected by downed power lines or stay at least 10
         metres away to avoid injury.</p>
     <div class="full-details-tertiary-title">If you have pets</div>

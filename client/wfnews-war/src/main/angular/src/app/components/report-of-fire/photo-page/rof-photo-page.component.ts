@@ -14,7 +14,7 @@ import { Capacitor } from "@capacitor/core";
 })
 export class RoFPhotoPage extends RoFPage {
   public disableNext: boolean = true;
-  captureUrl:any;
+  captureUrl: any;
   isCaptured: boolean;
   images: (Photo | GalleryPhoto)[] = [];
   isFullScreen: boolean = false;
@@ -25,88 +25,97 @@ export class RoFPhotoPage extends RoFPage {
     private commonUtilityService: CommonUtilityService,
     private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef
-    ) {
+  ) {
     super()
   }
 
-  initialize (data: any, index: number, reportOfFire: ReportOfFire) {
+  initialize(data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
   }
 
-  async takePhoto(){
-    const image = await Camera.getPhoto({
-      quality: 100,
-      allowEditing: false,
-      resultType: CameraResultType.DataUrl,
-      source: CameraSource.Camera,
-      saveToGallery: false,
-      webUseInput: true,
-      width: undefined,
-    });
-    this.images.push(image);
-    this.changeDetector.detectChanges();
+  async takePhoto() {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 100,
+        allowEditing: false,
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+        saveToGallery: false,
+        webUseInput: true,
+        width: undefined,
+      });
+      this.images.push(image);
+      this.changeDetector.detectChanges();
+    } catch (error) {
+      console.error('Error taking photos', error)
+    }
   }
 
   async addFromCameraRoll() {
-    const isNativePlatform = Capacitor.isNativePlatform();
-    if (!isNativePlatform) {
-      const photos = await Camera.pickImages({
-        quality: 100,
-        limit: 3 - this.images.length
-      })
-      photos.photos.map((image) => {
-        this.images.push(image);
-        this.changeDetector.detectChanges();
-      })
-      return;
-    }
+    try {
+      const isNativePlatform = Capacitor.isNativePlatform();
+      if (!isNativePlatform) {
+        const photos = await Camera.pickImages({
+          quality: 100,
+          limit: 3 - this.images.length
+        })
+        photos.photos.map((image) => {
+          this.images.push(image);
+          this.changeDetector.detectChanges();
+        })
+        return;
+      }
 
-    // This is specific to iOS but should work for Android. If not we may need to check specifically for platform.
-    const currentPermissions = await Camera.checkPermissions();
-    if (currentPermissions?.photos === 'granted') {
-      // All permissions are granted and we should be able to get everything we need
-      const photos = await Camera.pickImages({
-        quality: 100,
-        limit: 3 - this.images.length
-      })
-      photos.photos.map((image) => {
-        this.images.push(image);
-      })
-    } else if (currentPermissions?.photos == 'limited') {
-      // They have a limited amount of images selected to share and only those will provide exif
-      const imagesLeft = 3 - this.images.length;
-      if (imagesLeft) {
-        // iOS 14+ Only: Allows the user to update their limited photo library selection. On iOS 15+ returns all the
-        // limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns
-        // an empty array.
-        const photos = await Camera.pickLimitedLibraryPhotos();
-        photos.photos.slice(0, imagesLeft).map((image) => {
+      // This is specific to iOS but should work for Android. If not we may need to check specifically for platform.
+      const currentPermissions = await Camera.checkPermissions();
+      if (currentPermissions?.photos === 'granted') {
+        // All permissions are granted and we should be able to get everything we need
+        const photos = await Camera.pickImages({
+          quality: 100,
+          limit: 3 - this.images.length
+        })
+        photos.photos.map((image) => {
           this.images.push(image);
         })
+      } else if (currentPermissions?.photos == 'limited') {
+        // They have a limited amount of images selected to share and only those will provide exif
+        const imagesLeft = 3 - this.images.length;
+        if (imagesLeft) {
+          // iOS 14+ Only: Allows the user to update their limited photo library selection. On iOS 15+ returns all the
+          // limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns
+          // an empty array.
+          const photos = await Camera.pickLimitedLibraryPhotos();
+          photos.photos.slice(0, imagesLeft).map((image) => {
+            this.images.push(image);
+          })
+        }
       }
+
+      // The permission is denied and we need to ask for it. This is what the capacitor code should look like based on
+      // documentation, but it doesn't work from my experience on iOS. If this doesn't work we may need to have a prompt
+      // to explain the steps and redirect to settings like we do for location.
+      try {
+        const permissionStatus = await Camera.requestPermissions();
+        console.log('camera permissions', permissionStatus)
+      } catch (error) {
+        console.log('permission error', error)
+      }
+      this.cdr.detectChanges();
+    } catch (error) {
+      console.log('Error adding from camera roll', error)
     }
 
-    // The permission is denied and we need to ask for it. This is what the capacitor code should look like based on
-    // documentation, but it doesn't work from my experience on iOS. If this doesn't work we may need to have a prompt
-    // to explain the steps and redirect to settings like we do for location.
-    try {
-      const permissionStatus = await Camera.requestPermissions();
-      console.log('camera permissions', permissionStatus)
-    } catch (error) {
-      console.log('permission error', error)
-    }
-    this.cdr.detectChanges();
   }
 
-  deleteImage(index:number) {
-    if(index >= 0 && index < this.images.length) {
-      this.images.splice(index,1);
+  deleteImage(index: number) {
+    if (index >= 0 && index < this.images.length) {
+      this.images.splice(index, 1);
     }
   }
 
   enterImageFullScreen(index: number) {
 
-    if(!this.isFullScreen && !this.commonUtilityService.isIPhone()){
+    if (!this.isFullScreen && !this.commonUtilityService.isIPhone()) {
       const imgElement = this.el.nativeElement.querySelectorAll('.imagecontainer')[index];
       if (imgElement) {
         if (imgElement.requestFullscreen) {
@@ -123,9 +132,9 @@ export class RoFPhotoPage extends RoFPage {
     }
   }
 
-  exitImageFullScreen(){
-    if(this.isFullScreen){
-      document.exitFullscreen();  
+  exitImageFullScreen() {
+    if (this.isFullScreen) {
+      document.exitFullscreen();
       this.isFullScreen = !this.isFullScreen;
     }
   }
@@ -148,8 +157,8 @@ export class RoFPhotoPage extends RoFPage {
 
   previousPage() {
     this.commonUtilityService.checkOnline().then((result) => {
-      if(!result) {
-        this.reportOfFirePage.selectPage('distance-page',null,false);
+      if (!result) {
+        this.reportOfFirePage.selectPage('distance-page', null, false);
         this.reportOfFirePage.currentStep--;
       } else {
         this.previous();
