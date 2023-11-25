@@ -145,33 +145,35 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      if (val.length > 2 || this.isLocationEnabled) {
+      if (val.length > 2 || this.clickedMyLocation) {
         this.filteredOptions = [];
         this.searchLayerGroup.clearLayers();
         if(!this.isMobileView()) this.inputAutoComplete.openPanel();
         // search addresses
-        this.placeData.searchAddresses(val).then((results) => {
-          if (results) {
-            const sortedResults = this.commonUtilityService.sortAddressList(results, val);
-            for (const result of sortedResults) {
-              this.filteredOptions.push({
-                id: result.loc,
-                type: 'address',
-                title: `${result.streetQualifier} ${result.civicNumber} ${result.streetName} ${result.streetType}`.trim() || result.localityName,
-                subtitle: result.localityName,
-                distance: '0',
-                relevance: /^\d/.test(val.trim()) ? 4 : 1,
-                location: result.loc
-              })
+        if (val.length > 2) {
+          this.placeData.searchAddresses(val).then((results) => {
+            if (results) {
+              const sortedResults = this.commonUtilityService.sortAddressList(results, val);
+              for (const result of sortedResults) {
+                this.filteredOptions.push({
+                  id: result.loc,
+                  type: 'address',
+                  title: `${result.streetQualifier} ${result.civicNumber} ${result.streetName} ${result.streetType}`.trim() || result.localityName,
+                  subtitle: result.localityName,
+                  distance: '0',
+                  relevance: /^\d/.test(val.trim()) ? 4 : 1,
+                  location: result.loc
+                })
+              }
+              this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.cdr.markForCheck()
             }
-            this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
-            this.cdr.markForCheck()
-          }
-        });
+          });
+        }
         // search incidents
         let searchFon = 0;
         while (searchFon < 2) {
-          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.isLocationEnabled ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.isLocationEnabled ? null : val, Boolean(searchFon).valueOf()).toPromise().then(incidents => {
+          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.clickedMyLocation && this?.userLocation?.coords ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.clickedMyLocation ? null : val, Boolean(searchFon).valueOf()).toPromise().then(incidents => {
             if (incidents && incidents.collection) {
               for (const element of incidents.collection) {
                 this.filteredOptions.push({
@@ -196,7 +198,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         }
 
         // search evac orders
-        this.agolService.getEvacOrders(this.isLocationEnabled ? null : val, this.isLocationEnabled ? { x: this.userLocation.coords.longitude, y: this.userLocation.coords.latitude, radius: 50 } : null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
+        this.agolService.getEvacOrders(this.clickedMyLocation ? null : val, this.clickedMyLocation && this?.userLocation?.coords ? { x: this.userLocation.coords.longitude, y: this.userLocation.coords.latitude, radius: 50 } : null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             for (const element of evacs.features) {
               this.filteredOptions.push({
@@ -217,7 +219,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           }
         })
       }
-    });
+    })
 
     App.addListener('resume', () => {
       this.updateLocationEnabledVariable();
@@ -251,7 +253,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         const lat = Number(params['latitude']);
         // set timeout to load smk features to load
         setTimeout(() => {
-          const pan = this.panToLocation(long, lat);
+          this.panToLocation(long, lat);
           // turn on layers
           if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
           if (params['bans']) this.onSelectLayer('bans-and-prohibitions')

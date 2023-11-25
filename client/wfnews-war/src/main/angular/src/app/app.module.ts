@@ -213,6 +213,7 @@ import { AddSavedLocationComponent } from './components/saved/add-saved-location
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { MatSliderModule } from '@angular/material/slider';  
+import { NotificationService } from '@app/services/notification.service';
 
 
 
@@ -508,7 +509,8 @@ export const DATE_FORMATS = {
         WatchlistService,
         PointIdService,
         CanDeactivateGuard,
-        ReportOfFireService
+        ReportOfFireService,
+        NotificationService
     ],
     bootstrap: [
         AppComponent
