@@ -59,14 +59,18 @@ export class ReportOfFireService {
       if (reportOfFire.image3 !== null && reportOfFire.image3 !== undefined && reportOfFire.image3) formData.append('image3', await this.convertToBase64(reportOfFire.image3))
 
       // if the device is offline save RoF in storage
-      await (this.commonUtilityService.checkOnlineStatus().then(result => {
-        let self = this
-        if (!result) {
-          this.submitToStorage(formData)
-          self.submittedOffline = true;
-          ;
-        }
-      }));
+      try {
+        await (this.commonUtilityService.checkOnlineStatus().then(result => {
+          let self = this
+          if (!result) {
+            this.submitToStorage(formData)
+            self.submittedOffline = true;
+            ;
+          }
+        }));
+      }catch(error) {
+        console.error('Error checking online status for ROF submission', error)
+      }
 
       if (this.submittedOffline) return;
 
