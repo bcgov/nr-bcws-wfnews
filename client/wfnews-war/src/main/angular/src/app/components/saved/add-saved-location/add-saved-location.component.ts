@@ -41,6 +41,7 @@ export class AddSavedLocationComponent implements OnInit{
   radiusDistance:number;
   notificationName:string;
   public searchByLocationControl = new UntypedFormControl
+  savedLocation : any;
 
   constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
     private notificationService: NotificationService, protected snackbarService: MatSnackBar
@@ -177,22 +178,32 @@ export class AddSavedLocationComponent implements OnInit{
     });
   }
 
-  saveLocation(){
-    console.log(this.locationData)
-    this.notificationService.updateUserNotificationPreferences(this.locationData)
-        .then( () => {
-            this.cdr.detectChanges();
-            console.log('save notification success')
-            this.router.navigateByUrl('/saved')
-        } )
-        .catch( e => {
-            console.warn('saveNotificationPreferences fail',e)
-            this.cdr.detectChanges()
-            this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-
-        } 
-    )
-
+  saveLocation() {
+    this.fetchSavedLocation().then(() => {
+      this.notificationService.updateUserNotificationPreferences(this.locationData, this.savedLocation)
+        .then(() => {
+          this.cdr.detectChanges();
+          console.log('save notification success');
+          this.router.navigateByUrl('/saved');
+        })
+        .catch(e => {
+          console.warn('saveNotificationPreferences fail', e);
+          this.cdr.detectChanges();
+          this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+        });
+    });
+  }
+  
+  fetchSavedLocation(): Promise<any> {
+    return this.notificationService.getUserNotificationPreferences()
+      .then(response => {
+        if (response.notifications) {
+          this.savedLocation = response.notifications;
+        }
+      })
+      .catch(err => {
+        console.error('error on fetch notifications', err);
+      });
   }
 
   disableSaveButton() {
