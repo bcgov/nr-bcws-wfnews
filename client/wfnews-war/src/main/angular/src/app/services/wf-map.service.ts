@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getActiveMap } from '@app/utils';
+import { getActiveMap, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 export type Smk = any
@@ -379,35 +379,49 @@ export class WFMapService {
                 SMK.TYPE.Viewer.leaflet.prototype.cancelIdentify = false;
                 SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
-                SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
-                  if (this.identifyState && JSON.stringify(this.identifyState.location) === JSON.stringify(location) && JSON.stringify(this.identifyState.area) === JSON.stringify(area)) {
-                    return;
+                const updatedIdentify = function( location, area ) {
+                  const vw = getActiveMap().$viewer
+                  if (vw.identifyState && JSON.stringify(vw.identifyState.location) === JSON.stringify(location) && JSON.stringify(vw.identifyState.area) === JSON.stringify(area)) {
+                    return
                   }
 
-                  this.identifyState = { location, area }
-                  sleep(500).then(() => {
-                    const vw = this;
-                    if (this.cancelIdentify) {
-                      this.cancelIdentify = false;
-                      return;
-                    }
+                  vw.identifyState = { location, area }
 
-                    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
-                    if ( self.identifyCallback ) {
-                      self.identifyCallback( location, area );
-                    }
+                  if (vw.cancelIdentify) {
+                    vw.cancelIdentify = false;
+                    return
+                  }
 
-                    return Promise.resolve()
-                        .then( function() {
-                            return origIdentifyFeatures.call( vw, location, area );
-                        } )
-                        .then( function() {
-                            if ( self.identifyDoneCallback ) {
-                              self.identifyDoneCallback( location, area );
-                            }
-                        } );
-                  });
+                  (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
+                  if ( self.identifyCallback ) {
+                    self.identifyCallback( location, area );
+                  }
+
+                  return Promise.resolve()
+                      .then( function() {
+                          return origIdentifyFeatures.call( vw, location, area );
+                      } )
+                      .then( function() {
+                          if ( self.identifyDoneCallback ) {
+                            self.identifyDoneCallback( location, area );
+                          }
+                      } ).catch(err => {
+                        console.error(err)
+                      });
                 };
+
+                // if mobile view, then implement the sleep handler
+                // to prevent double-click identify
+                if (isMobileView()) {
+                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
+                    sleep(500).then(() => updatedIdentify(location, area)).catch(err => {
+                        console.error('Failure during identify handler: ', err);
+                        self.identifyDoneCallback(location, area);
+                      });
+                  }
+                } else {
+                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = updatedIdentify
+                }
 
                 SMK.TYPE.Layer[ 'wms' ].prototype.canMergeWith = function( other ) {
                     return this.config.combiningClass && this.config.combiningClass === other.config.combiningClass;
