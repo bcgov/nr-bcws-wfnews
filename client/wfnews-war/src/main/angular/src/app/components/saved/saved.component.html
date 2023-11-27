@@ -17,20 +17,53 @@
             <span>Add a saved location</span>
         </div>
     </div>
-    <div class="section-card" *ngIf="savedLocations.length">
-        <div class="saved-location-content" *ngFor="let location of savedLocations">
-            <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
-            <span>Add a saved location</span> -->
-            <div class="saved-location-content-1">
-                <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
-                <div class="saved-location-details">
-                    <div class="saved-location-detail">
-                        <span>{{location.notificationName}}</span>
-                        <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
+    <div *ngIf="savedLocations.length">
+        <div *ngFor="let location of savedLocations">
+            <div class="section-card">
+                <div class="saved-location-content">
+                    <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                    <span>Add a saved location</span> -->
+                    <div class="saved-location-content-1">
+                        <div class="saved-location-details">
+                            <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                            <div class="saved-location-detail">
+                                <span>{{location.notificationName}}</span>
+                                <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
+                            </div>
+                        </div>
+                        <div class="saved-location-detail">
+                            <span>{{location.radius}}km</span>
+                            <span class="location-coordinates">Radius</span>
+                        </div>
                     </div>
-                    <div class="saved-location-detail">
-                        <span>{{location.radius}}km</span>
-                        <span class="location-coordinates">Radius</span>
+                    <div class="divider"></div>
+                    <div class="saved-location-content-2">
+                        <div class="saved-location-details-2">
+                            <img class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
+                            <div>
+                                <div *ngIf="location.fireCentre">
+                                    <div class="fire-bans">
+                                        {{location.fireCentre}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="saved-location-details-2">
+                            <img class="bans-icon" src="/assets/images/svg-icons/ban-grey.svg">
+                            <div>
+                                <div *ngIf="location.bans && location.bans.length > 0 ; else noBans">
+                                    <div *ngFor="let ban of location.bans" class="fire-bans">
+                                        Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
+                                    </div>
+                                </div>
+                                <ng-template #noBans class="fire-bans">
+                                    No fire bans in effect
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="arrow-button" (click)="enterDetail(location)">
+                            <img class="location-icon" src="/assets/images/svg-icons/arrow-blue.svg">
+                        </div>
                     </div>
                 </div>
             </div>
