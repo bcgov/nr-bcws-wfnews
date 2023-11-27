@@ -376,9 +376,21 @@ export class WFMapService {
                         } );
                 };
 
+                SMK.TYPE.Viewer.leaflet.prototype.cancelIdentify = false;
+                SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
                 SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
+                  if (this.identifyState && JSON.stringify(this.identifyState.location) === JSON.stringify(location) && JSON.stringify(this.identifyState.area) === JSON.stringify(area)) {
+                    return;
+                  }
+
+                  this.identifyState = { location, area }
+                  sleep(500).then(() => {
                     const vw = this;
+                    if (this.cancelIdentify) {
+                      this.cancelIdentify = false;
+                      return;
+                    }
 
                     (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
                     if ( self.identifyCallback ) {
@@ -394,6 +406,7 @@ export class WFMapService {
                               self.identifyDoneCallback( location, area );
                             }
                         } );
+                  });
                 };
 
                 SMK.TYPE.Layer[ 'wms' ].prototype.canMergeWith = function( other ) {
@@ -624,4 +637,8 @@ function zoomToProvince() {
 
 function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
   getActiveMap().$viewer.panToFeature(geom, zoomLevel)
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
