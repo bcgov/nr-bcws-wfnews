@@ -65,7 +65,7 @@ export class SavedComponent implements OnInit {
         for (const innerIndex in bans.features) {
           const element = bans.features[innerIndex];  
           this.savedLocations[outerIndex].bans.push(element);
-          this.cdr.detectChanges()
+          this.cdr.markForCheck()
         }
       });
     });
@@ -93,7 +93,7 @@ export class SavedComponent implements OnInit {
           if (response.features) {
             const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
             this.savedLocations[outerIndex].fireCentre = fireCentre;
-            this.cdr.detectChanges()
+            this.cdr.markForCheck()
           }
         }
       ).catch (error => {
@@ -115,7 +115,7 @@ export class SavedComponent implements OnInit {
         for (const innerIndex in result.features) {
           const element = result.features[innerIndex];  
           this.savedLocations[outerIndex].evacs.push(element);
-          this.cdr.detectChanges()
+          this.cdr.markForCheck()
         }
       });
     });
@@ -135,7 +135,7 @@ export class SavedComponent implements OnInit {
         this.savedLocations[outerIndex].wildfires = [];
         result.collection.forEach(element => {
           this.savedLocations[outerIndex].wildfires.push(element);
-          this.cdr.detectChanges()
+          this.cdr.markForCheck()
         });
       })
     });

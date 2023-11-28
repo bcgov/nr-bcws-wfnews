@@ -48,6 +48,11 @@ export interface VmCoordinates {
     long: number;
     lat: number;
   }
+
+  export interface BoundingBox {
+    latitude: number;
+    longitude: number;
+  }
   
 
 @Injectable({
@@ -88,7 +93,7 @@ export class NotificationService {
             })
     }
 
-    public getFireCentreByLocation(bbox): Promise<any> {
+    public getFireCentreByLocation(bbox: BoundingBox[]): Promise<any> {
         const formattedString = bbox.map(pair => `${pair.longitude}%20${pair.latitude}`).join('%2C');
 
         let url = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()

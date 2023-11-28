@@ -182,13 +182,13 @@ export class AddSavedLocationComponent implements OnInit{
     this.fetchSavedLocation().then(() => {
       this.notificationService.updateUserNotificationPreferences(this.locationData, this.savedLocation)
         .then(() => {
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
           console.log('save notification success');
           this.router.navigateByUrl('/saved');
         })
         .catch(e => {
           console.warn('saveNotificationPreferences fail', e);
-          this.cdr.detectChanges();
+          this.cdr.markForCheck();
           this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
         });
     });

@@ -174,7 +174,7 @@ export class AGOLService {
   }
 
   getAreaRestrictionsWfs () {
-    const url = 'c?service=wfs&version=1.1.0&request=GetFeature&typename=WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP&outputFormat=application/json&SRSName=urn:x-ogc:def:crs:EPSG:4326'
+    const url = 'https://openmaps.gov.bc.ca/geo/pub/WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP/ows?service=wfs&version=1.1.0&request=GetFeature&typename=WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP&outputFormat=application/json&SRSName=urn:x-ogc:def:crs:EPSG:4326'
     let headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin','*');
     headers.append('Accept','*/*');
