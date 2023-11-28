@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { getActiveMap } from '@app/utils';
+import { getActiveMap, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 export type Smk = any
@@ -376,25 +376,52 @@ export class WFMapService {
                         } );
                 };
 
+                SMK.TYPE.Viewer.leaflet.prototype.cancelIdentify = false;
+                SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
-                SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
-                    const vw = this;
+                const updatedIdentify = function( location, area ) {
+                  const vw = getActiveMap().$viewer
+                  if (vw.identifyState && JSON.stringify(vw.identifyState.location) === JSON.stringify(location) && JSON.stringify(vw.identifyState.area) === JSON.stringify(area)) {
+                    return
+                  }
 
-                    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
-                    if ( self.identifyCallback ) {
-                      self.identifyCallback( location, area );
-                    }
+                  vw.identifyState = { location, area }
 
-                    return Promise.resolve()
-                        .then( function() {
-                            return origIdentifyFeatures.call( vw, location, area );
-                        } )
-                        .then( function() {
-                            if ( self.identifyDoneCallback ) {
-                              self.identifyDoneCallback( location, area );
-                            }
-                        } );
+                  if (vw.cancelIdentify) {
+                    vw.cancelIdentify = false;
+                    return
+                  }
+
+                  (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
+                  if ( self.identifyCallback ) {
+                    self.identifyCallback( location, area );
+                  }
+
+                  return Promise.resolve()
+                      .then( function() {
+                          return origIdentifyFeatures.call( vw, location, area );
+                      } )
+                      .then( function() {
+                          if ( self.identifyDoneCallback ) {
+                            self.identifyDoneCallback( location, area );
+                          }
+                      } ).catch(err => {
+                        console.error(err)
+                      });
                 };
+
+                // if mobile view, then implement the sleep handler
+                // to prevent double-click identify
+                if (isMobileView()) {
+                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
+                    sleep(500).then(() => updatedIdentify(location, area)).catch(err => {
+                        console.error('Failure during identify handler: ', err);
+                        self.identifyDoneCallback(location, area);
+                      });
+                  }
+                } else {
+                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = updatedIdentify
+                }
 
                 SMK.TYPE.Layer[ 'wms' ].prototype.canMergeWith = function( other ) {
                     return this.config.combiningClass && this.config.combiningClass === other.config.combiningClass;
@@ -624,4 +651,8 @@ function zoomToProvince() {
 
 function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
   getActiveMap().$viewer.panToFeature(geom, zoomLevel)
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
