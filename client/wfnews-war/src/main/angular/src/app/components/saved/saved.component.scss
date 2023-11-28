@@ -176,6 +176,23 @@
     right: 0;
 }
 
+.nearBy-badge{
+    display: flex;
+    border-radius: 4px;
+    border: 1px solid var(--Light-Red, #E03B57);
+    background: #FDF0F3;
+    padding: 6px 12px;
+    margin-top: 14px;
+    span{
+        color: #3A0813;
+        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+}
+
 
 
 // :host ::ng-deep .mat-mdc-tab.mdc-tab--active{

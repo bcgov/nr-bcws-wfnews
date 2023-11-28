@@ -24,7 +24,7 @@
                     <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                     <span>Add a saved location</span> -->
                     <div class="saved-location-content-1">
-                        <div class="saved-location-details">
+                        <div class="saved-location-details-2">
                             <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                             <div class="saved-location-detail">
                                 <span>{{location.notificationName}}</span>
@@ -36,6 +36,28 @@
                             <span class="location-coordinates">Radius</span>
                         </div>
                     </div>
+                    <div *ngIf="location.evacs && location.evacs.length > 0">
+                        <div class="nearBy-badge">
+                            <div>
+                                <img src="/assets/images/svg-icons/evac-red.svg">
+                            </div>
+                            <span>
+                                Evacuation Nearby
+                            </span>
+                        </div>
+                    </div>
+
+                    <div *ngIf="location.wildfires && location.wildfires.length > 0">
+                        <div class="nearBy-badge">
+                            <div>
+                                <img src="/assets/images/svg-icons/wildfire-red.svg">
+                            </div>
+                            <span>
+                                Wildfire Nearby
+                            </span>
+                        </div>
+                    </div>
+
                     <div class="divider"></div>
                     <div class="saved-location-content-2">
                         <div class="saved-location-details-2">
