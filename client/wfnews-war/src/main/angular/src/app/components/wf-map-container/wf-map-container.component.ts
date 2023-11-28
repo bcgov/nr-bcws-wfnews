@@ -3,6 +3,7 @@ import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
+import { getActiveMap, isMobileView } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -73,8 +74,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         fullScreen: self.fullScreen
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
-        const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-        // hideListButtonElement[0]["style"]["display"] = 'none';
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
@@ -88,6 +87,38 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         self.wfMap.setIdentifyDoneCallback(() => {
           self.addSelectedIncidentPanels(smk);
         })
+
+        let map = smk.$viewer.map;
+        // listen for single clicks
+        let doubleClick = false
+        let identifyExecute = false
+
+        if (isMobileView()) {
+          map.on('click', () => {
+            doubleClick = false
+            // pause/prevent identify until we know...
+            if (!identifyExecute) {
+              setTimeout(() => {
+                identifyExecute = true
+                if (!doubleClick) {
+                  const vw = getActiveMap().$viewer
+                  const state = vw.identifyState
+                  vw.identifyState = null;
+                  vw.cancelIdentify = false;
+                  vw.identifyFeatures(state.location, state.area)
+                }
+                identifyExecute = false
+              }, 500);
+            }
+          })
+
+          // listen for double clicks, specifically for
+          // cancelling out identify
+          map.on('dblclick', () => {
+            getActiveMap().$viewer.cancelIdentify = true;
+            doubleClick = true
+          })
+        }
 
         return smk;
       })
