@@ -305,7 +305,7 @@ mat-panel-title {
       // One value must always be a fixed value!
       // additionally, this is a vh calc, not a height%, otherwise heights will be different across
       // devices
-      height: calc(100vh - 90px) !important;
+      height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 90px) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -574,7 +574,7 @@ mat-panel-title {
 
 .button-label {
   position: relative;
-  top: -1px;
+  top: -2px;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
