@@ -17,6 +17,25 @@
             <span>Add a saved location</span>
         </div>
     </div>
+    <div class="section-card" *ngIf="savedLocations.length">
+        <div class="saved-location-content" *ngFor="let location of savedLocations">
+            <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <span>Add a saved location</span> -->
+            <div class="saved-location-content-1">
+                <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                <div class="saved-location-details">
+                    <div class="saved-location-detail">
+                        <span>{{location.notificationName}}</span>
+                        <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
+                    </div>
+                    <div class="saved-location-detail">
+                        <span>{{location.radius}}km</span>
+                        <span class="location-coordinates">Radius</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="large-divider"></div>

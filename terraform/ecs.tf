@@ -795,7 +795,7 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           },
           {
             name  = "MAX_ALLOWED_RADIUS",
-            value = "${tostring(var.POINTID_MAX_ALLOWED_RADIUS)}"
+            value = "${tostring(var.MAX_ALLOWED_RADIUS)}"
           },
           {
             name  = "ASYNC_JOB_INTERVAL",
@@ -854,10 +854,6 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
             value = "${var.WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}"
           },
           {
-            name  = "WFARCGIS_QUEUESIZE",
-            value = "${tostring(var.WFARCGIS_QUEUESIZE)}"
-          },
-          {
             name  = "WEBADE_OAUTH2_CLIENT_ID",
             value = "${var.POINTID_WEBADE_OAUTH2_CLIENT_ID}"
           },
@@ -872,10 +868,6 @@ resource "aws_ecs_task_definition" "wfss_pointid" {
           {
             name  = "FIREWEATHER_BASEURL",
             value = "${var.FIREWEATHER_BASEURL}"
-          },
-          {
-            name  = "FIREWEATHER_QUEUESIZE",
-            value = "${tostring(var.FIREWEATHER_QUEUESIZE)}"
           },
           {
             name  = "FIREWEATHER_STATIONS_KEY",

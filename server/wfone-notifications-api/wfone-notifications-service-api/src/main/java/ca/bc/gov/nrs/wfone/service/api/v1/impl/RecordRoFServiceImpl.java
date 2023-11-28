@@ -826,7 +826,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		try {
 			FileDetailsRsrc uploadedFile = uploadFileToDocumentManagement(
 					"rof-img-" + count + "_" + form.getReportOfFireCacheGuid(),
-					(byte[]) image.getAttachment());
+					(byte[]) image.getAttachment(), form.getReportOfFire());
 			attachmentList.add(uploadedFile);
 		} catch (Exception ex) {
 			handlePushError(mapper, form, rofFormData, ex, "push image to WFDM");
@@ -852,7 +852,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 	 * @throws ImageProcessingException
 	 * @throws MetadataException
 	 */
-	private FileDetailsRsrc uploadFileToDocumentManagement(String name, byte[] image)
+	private FileDetailsRsrc uploadFileToDocumentManagement(String name, byte[] image, String form)
 			throws FileServiceException, ValidationException, IOException, ImageProcessingException, MetadataException {
 		FileDetailsRsrc fileDetails = new FileDetailsRsrc();
 		MultipartData data = new MultipartData();
@@ -948,6 +948,19 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		FileMetadataRsrc metaOwner = new FileMetadataRsrc();
 		metaOwner.setMetadataName("Owner");
 		metaOwner.setMetadataValue("HQK");
+		
+		// set coordinates for image if not set by now
+		if (form != null && lat == null && lng == null) {
+			JSONObject rof = new JSONObject(form);
+			if (rof.has("form") && rof.optString("form") != null) {
+				String rofString = rof.optString("form");
+				JSONObject rofForm = new JSONObject(rofString);
+				if (rofForm != null && rofForm.optJSONArray("fireLocation") != null) {
+					lat = rofForm.optJSONArray("fireLocation").getDouble(0);
+					lng = rofForm.optJSONArray("fireLocation").getDouble(1);
+				}				
+			}
+		}
 
 		List<FileMetadataRsrc> meta = new ArrayList<>();
 		meta.add(metaOwner);
