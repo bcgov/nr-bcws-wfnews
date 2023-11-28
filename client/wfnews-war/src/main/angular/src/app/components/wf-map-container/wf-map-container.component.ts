@@ -103,9 +103,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
                 if (!doubleClick) {
                   const vw = getActiveMap().$viewer
                   const state = vw.identifyState
+                  vw.identifyFeatures(state?.location, state?.area)
                   vw.identifyState = null;
                   vw.cancelIdentify = false;
-                  vw.identifyFeatures(state.location, state.area)
                 }
                 identifyExecute = false
               }, 500);
