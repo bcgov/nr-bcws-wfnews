@@ -95,8 +95,7 @@ export class NotificationService {
 
     public getFireCentreByLocation(bbox: BoundingBox[]): Promise<any> {
         const formattedString = bbox.map(pair => `${pair.longitude}%20${pair.latitude}`).join('%2C');
-
-        let url = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
+        let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'].toString()
         url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG%3A4326&typename=pub%3AWHSE_LEGAL_ADMIN_BOUNDARIES.DRP_MOF_FIRE_CENTRES_SP&outputformat=application%2Fjson&cql_filter=INTERSECTS(GEOMETRY%2CSRID%3D4326%3BPOLYGON%20(("
         url += formattedString +')))'
         return this.http.get(url).toPromise()
