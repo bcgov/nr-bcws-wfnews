@@ -84,7 +84,7 @@
                             </div>
                         </div>
                         <div class="arrow-button" (click)="enterDetail(location)">
-                            <img class="location-icon" src="/assets/images/svg-icons/arrow-blue.svg">
+                            <img class="arrow-icon" src="/assets/images/svg-icons/arrow-blue.svg">
                         </div>
                     </div>
                 </div>
@@ -106,23 +106,23 @@
     </div>
     <div *ngIf="wildFireWatchlist.length" class="saved-wildfires">
         <div class="info-container" *ngFor="let wildFire of wildFireWatchlist">
-            <div class="fire-info-container">
-            <div class="wildfire-title">{{wildFire.incidentName}}<img class="wildfire-title-icon"
-                src="/assets/images/svg-icons/bookmark-blue.svg" alt="Calendar" /></div>
-            <hr class="break">
-            <div *ngIf="wildFire.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
-                src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
-                of Note</div>
-            <div class="info"><span class="circle-icon {{wildFire.stageOfControlCode}}"></span>{{convertToStageOfControlDescription(wildFire.stageOfControlCode)}}
-            </div>
-            <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
-                alt="Location Pin" />{{wildFire.fireCentreName}}</div>
-            <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
-                on {{convertToDateYear(wildFire.discoveryDate)}}
-                <div class="wildfire-arrow-button">
-                    <img class="location-icon" src="/assets/images/svg-icons/forward-arrow-grey.svg">
+            <div class="fire-info-container" (click)="navigatToWildfireFullDetail(wildFire)">
+                <div class="wildfire-title">{{wildFire.incidentName}}<img class="wildfire-title-icon"
+                    src="/assets/images/svg-icons/bookmark-blue.svg" alt="Calendar"(click)="deleteFromWatchList($event, wildFire)" /></div>
+                <hr class="break">
+                <div *ngIf="wildFire.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
+                    src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
+                    of Note</div>
+                <div class="info"><span class="circle-icon {{wildFire.stageOfControlCode}}"></span>{{convertToStageOfControlDescription(wildFire.stageOfControlCode)}}
                 </div>
-            </div>
+                <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
+                    alt="Location Pin" />{{wildFire.fireCentreName}}</div>
+                <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
+                    on {{convertToDateYear(wildFire.discoveryDate)}}
+                    <div class="wildfire-arrow-button">
+                        <img class="arrow-icon-grey" src="/assets/images/svg-icons/forward-arrow-grey.svg">
+                    </div>
+                </div>
             </div>
         </div>
     </div>

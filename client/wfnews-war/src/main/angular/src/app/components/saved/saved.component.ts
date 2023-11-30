@@ -1,5 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConfirmatinoDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
@@ -30,7 +32,8 @@ export class SavedComponent implements OnInit {
     protected spatialUtilService: SpatialUtilsService,
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
-    private watchlistService: WatchlistService
+    private watchlistService: WatchlistService,
+    protected dialog: MatDialog
   ) {
   }
 
@@ -168,7 +171,31 @@ export class SavedComponent implements OnInit {
         }
       }
     this.cdr.detectChanges()
-    console.log(this.wildFireWatchlist)
+  }
+
+  navigatToWildfireFullDetail(wildFire: any) {
+    this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
+      { queryParams: { fireYear: wildFire.fireYear, incidentNumber: wildFire.incidentNumberLabel, source: [ResourcesRoutes.SAVED] } })
+  }
+
+  deleteFromWatchList(event: Event, wildFire: any) {
+    event.stopPropagation();
+    let dialogRef = this.dialog.open(ConfirmatinoDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        text: 'Are you sure you want to remove this Wildfire from your Saved Wildfires?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['confirm']) {
+        this.wildFireWatchlist = this.wildFireWatchlist.filter(item => !(item.fireYear === wildFire.fireYear && item.incidentNumberLabel === wildFire.incidentNumberLabel));
+        this.watchlistService.removeFromWatchlist(wildFire.fireYear,wildFire.incidentNumberLabel);
+        this.cdr.markForCheck();
+      }
+    });
+
   }
 
 }
