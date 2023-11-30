@@ -14,6 +14,7 @@ export type ReportOfFireType = {
   consentToCall?: boolean,
   estimatedDistance?: number,
   fireLocation?: number[],
+  deviceLocation?: number[],
   fireSize?: string,
   rateOfSpread?: string,
   burning?: string[],
@@ -42,21 +43,27 @@ export class ReportOfFireService {
   longitude: number
   latitude: number
 
-  async saveReportOfFire(reportOfFire: ReportOfFireType): Promise<any> {
+  async saveReportOfFire(reportOfFire: ReportOfFireType, image1: Photo | GalleryPhoto, image2: Photo | GalleryPhoto, image3: Photo | GalleryPhoto): Promise<any> {
 
     let rofUrl = this.appConfigService.getConfig().rest['fire-report-api']
     let resource = JSON.stringify(reportOfFire)
 
-    this.latitude = reportOfFire.fireLocation[0];
-    this.longitude = reportOfFire.fireLocation[1];
+    // if the device's location is not populated use the fire location to set image GPS coordinates
+    if (reportOfFire?.deviceLocation) {
+      this.latitude = reportOfFire.deviceLocation[0];
+      this.longitude = reportOfFire.deviceLocation[1];
+    } else if (reportOfFire?.fireLocation) {
+      this.latitude = reportOfFire.fireLocation[0];
+      this.longitude = reportOfFire.fireLocation[1];
+    }
 
     try {
       const formData = new FormData()
       formData.append('resource', resource)
 
-      if (reportOfFire.image1 !== null && reportOfFire.image1 !== undefined && reportOfFire.image1) formData.append('image1', await this.convertToBase64(reportOfFire.image1))
-      if (reportOfFire.image2 !== null && reportOfFire.image2 !== undefined && reportOfFire.image2) formData.append('image2', await this.convertToBase64(reportOfFire.image2))
-      if (reportOfFire.image3 !== null && reportOfFire.image3 !== undefined && reportOfFire.image3) formData.append('image3', await this.convertToBase64(reportOfFire.image3))
+      if (image1) formData.append('image1', await this.convertToBase64(image1))
+      if (image2) formData.append('image2', await this.convertToBase64(image2))
+      if (image3) formData.append('image3', await this.convertToBase64(image3))
 
       // if the device is offline save RoF in storage
       try {
@@ -68,7 +75,7 @@ export class ReportOfFireService {
             ;
           }
         }));
-      }catch(error) {
+      } catch (error) {
         console.error('Error checking online status for ROF submission', error)
       }
 
@@ -99,24 +106,24 @@ export class ReportOfFireService {
       return new Promise(async (resolve, _) => {
         // do a request to the blob uri
         const response = await fetch(url);
-  
+
         // response has a method called .blob() to get the blob file
         let blob = await response.blob();
-  
+
         // instantiate a file reader
         const fileReader = new FileReader();
-  
+
         // read the file
         fileReader.readAsDataURL(blob);
-  
+
         fileReader.onloadend = function () {
           resolve(fileReader.result as string); // Here is the base64 string
         }
       });
-    }catch(error) {
+    } catch (error) {
       console.error('Error converting Blob to base64 string', error)
     }
-    
+
   };
 
 
@@ -130,10 +137,10 @@ export class ReportOfFireService {
         const contents = await Filesystem.readFile({
           path: image.path,
         });
-  
+
         base64 = image.path;
       }
-  
+
       // if the webPath is already a base64 string, return it
       if (image.webPath && image.webPath.startsWith("data:image")) {
         base64 = image.webPath;
@@ -149,17 +156,17 @@ export class ReportOfFireService {
         image = image as Photo;
         if (image.dataUrl) base64 = image.dataUrl;
       }
-  
+
       // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
       if (base64 && base64.startsWith("data:image/jpeg")) {
         await this.checkExifGPS(base64).then((response) => {
           base64 = response;
         });
       }
-    }catch (error) {
+    } catch (error) {
       console.error('Error converting image to base64 string', error)
     }
-    
+
     return base64;
 
   }
