@@ -1,10 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes } from '@app/utils';
+import { WatchlistService } from '@app/services/watchlist-service';
+import { ResourcesRoutes, convertToDateYear, convertToStageOfControlDescription } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 
 @Component({
@@ -17,6 +20,10 @@ export class SavedComponent implements OnInit {
   public savedLocations: any = [];
   public savedWildfires: any = [];
   public distanceInKm: number = 1;
+  public wildFireWatchlist: any[] = [];
+  convertToStageOfControlDescription = convertToStageOfControlDescription
+  convertToDateYear = convertToDateYear
+
 
   constructor(
     protected router: Router,
@@ -24,8 +31,9 @@ export class SavedComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     protected spatialUtilService: SpatialUtilsService,
     private agolService: AGOLService,
-    private publishedIncidentService: PublishedIncidentService
-
+    private publishedIncidentService: PublishedIncidentService,
+    private watchlistService: WatchlistService,
+    protected dialog: MatDialog
   ) {
   }
 
@@ -44,7 +52,10 @@ export class SavedComponent implements OnInit {
         console.error(error)
       }
     )
+
+    this.loadWatchlist();
   }
+
   addNewLocation() {
     this.router.navigate([ResourcesRoutes.ADD_LOCATION]);
   }
@@ -145,4 +156,46 @@ export class SavedComponent implements OnInit {
   enterDetail(location) {
     console.log('detail not implemented ')
   }
+
+  async loadWatchlist () {
+      this.wildFireWatchlist = []
+      const watchlistItems = this.watchlistService.getWatchlist()
+      for (const item of watchlistItems) {
+        const fireYear = item.split(':')[0]
+        const incidentNumber = item.split(':')[1]
+        const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise()
+        if (incident) {
+          const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          incident.lastUpdatedTimestamp = new Date(incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
+          this.wildFireWatchlist.push(incident)
+        }
+      }
+    this.cdr.detectChanges()
+  }
+
+  navigatToWildfireFullDetail(wildFire: any) {
+    this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
+      { queryParams: { fireYear: wildFire.fireYear, incidentNumber: wildFire.incidentNumberLabel, source: [ResourcesRoutes.SAVED] } })
+  }
+
+  deleteFromWatchList(event: Event, wildFire: any) {
+    event.stopPropagation();
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        text: 'Are you sure you want to remove this Wildfire from your Saved Wildfires?'
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['confirm']) {
+        this.wildFireWatchlist = this.wildFireWatchlist.filter(item => !(item.fireYear === wildFire.fireYear && item.incidentNumberLabel === wildFire.incidentNumberLabel));
+        this.watchlistService.removeFromWatchlist(wildFire.fireYear,wildFire.incidentNumberLabel);
+        this.cdr.markForCheck();
+      }
+    });
+
+  }
+
 }
