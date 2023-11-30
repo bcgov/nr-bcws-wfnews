@@ -74,8 +74,8 @@ export class SavedComponent implements OnInit {
       )
       .subscribe(bans => {
         this.savedLocations[outerIndex].bans = [];
-        for (const innerIndex in bans.features) {
-          const element = bans.features[innerIndex];  
+        for (const innerIndex in bans?.features) {
+          const element = bans?.features[innerIndex];  
           this.savedLocations[outerIndex].bans.push(element);
           this.cdr.markForCheck()
         }
@@ -92,8 +92,8 @@ export class SavedComponent implements OnInit {
       )
       .subscribe(dangerRatings => {
         this.savedLocations[outerIndex].dangerRatings = [];
-        for (const innerIndex in dangerRatings.features) {
-          const element = dangerRatings.features[innerIndex];  
+        for (const innerIndex in dangerRatings?.features) {
+          const element = dangerRatings?.features[innerIndex];  
           this.savedLocations[outerIndex].dangerRatings.push(element);
           this.cdr.markForCheck()
         }
@@ -142,8 +142,8 @@ export class SavedComponent implements OnInit {
       )
       .subscribe(result => {
         this.savedLocations[outerIndex].evacs = [];
-        for (const innerIndex in result.features) {
-          const element = result.features[innerIndex];  
+        for (const innerIndex in result?.features) {
+          const element = result?.features[innerIndex];  
           this.savedLocations[outerIndex].evacs.push(element);
           this.cdr.markForCheck()
         }
