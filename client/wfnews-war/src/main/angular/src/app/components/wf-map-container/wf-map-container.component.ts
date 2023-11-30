@@ -88,38 +88,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           self.addSelectedIncidentPanels(smk);
         })
 
-        let map = smk.$viewer.map;
-        // listen for single clicks
-        let doubleClick = false
-        let identifyExecute = false
-
-        if (isMobileView()) {
-          map.on('click', () => {
-            doubleClick = false
-            // pause/prevent identify until we know...
-            if (!identifyExecute) {
-              setTimeout(() => {
-                identifyExecute = true
-                if (!doubleClick) {
-                  const vw = getActiveMap().$viewer
-                  const state = vw.identifyState
-                  vw.identifyFeatures(state?.location, state?.area)
-                  vw.identifyState = null;
-                  vw.cancelIdentify = false;
-                }
-                identifyExecute = false
-              }, 500);
-            }
-          })
-
-          // listen for double clicks, specifically for
-          // cancelling out identify
-          map.on('dblclick', () => {
-            getActiveMap().$viewer.cancelIdentify = true;
-            doubleClick = true
-          })
-        }
-
         return smk;
       })
     }).catch(function (e) {
