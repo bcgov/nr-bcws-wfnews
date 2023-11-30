@@ -17,6 +17,7 @@
             <span>Add a saved location</span>
         </div>
     </div>
+<<<<<<< Updated upstream
     <div *ngIf="savedLocations.length">
         <div *ngFor="let location of savedLocations">
             <div class="section-card">
@@ -35,6 +36,18 @@
                             <span>{{location.radius}}km</span>
                             <span class="location-coordinates">Radius</span>
                         </div>
+=======
+    <div class="section-card" *ngIf="savedLocations.length">
+        <div class="saved-location-content" *ngFor="let location of savedLocations" (click)="navToFullDetails(location)">
+            <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <span>Add a saved location</span> -->
+            <div class="saved-location-content-1">
+                <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                <div class="saved-location-details">
+                    <div class="saved-location-detail">
+                        <span>{{location.notificationName}}</span>
+                        <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
+>>>>>>> Stashed changes
                     </div>
                     <div *ngIf="location.evacs && location.evacs.length > 0">
                         <div class="nearBy-badge">

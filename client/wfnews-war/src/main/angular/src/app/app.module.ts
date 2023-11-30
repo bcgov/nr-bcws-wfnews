@@ -214,6 +214,7 @@ import { notificationMapComponent } from '@app/components/saved/add-saved-locati
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { MatSliderModule } from '@angular/material/slider';  
 import { NotificationService } from '@app/services/notification.service';
+import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 
 
 
@@ -369,6 +370,7 @@ export const DATE_FORMATS = {
         SearchPageComponent,
         AddSavedLocationComponent,
         notificationMapComponent,
+        SavedLocationFullDetailsComponent,
     ],
     imports: [
         MatSortModule,

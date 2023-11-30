@@ -52,6 +52,7 @@ export class PointIdService {
   }
 
   fetchNearestWeatherStation(latitude: number, longitude: number): Promise<WeatherStationConditions> {
+    console.log(this.baseAPIUrl)
     return this.fetch(`${this.baseAPIUrl}/weather?lat=${latitude.toFixed(3)}&lon=${longitude.toFixed(3)}&duration=3`)
       .then(function (resp: WeatherStationResult) {
         return resp.stations[0]

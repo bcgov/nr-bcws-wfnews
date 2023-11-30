@@ -53,6 +53,7 @@ export class SavedComponent implements OnInit {
     return this.spatialUtilService.formatCoordinates([coords[0],coords[1]]);
   }
 
+<<<<<<< Updated upstream
   getFireBans(locations) {
     locations.forEach((location, outerIndex) => {
       this.agolService.getBansAndProhibitions(
@@ -145,4 +146,10 @@ export class SavedComponent implements OnInit {
   enterDetail(location) {
     console.log('detail not implemented ')
   }
+=======
+  navToFullDetails(location: any){
+    this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { type: 'saved-location', name: location.notificationName} });
+  }
+
+>>>>>>> Stashed changes
 }
