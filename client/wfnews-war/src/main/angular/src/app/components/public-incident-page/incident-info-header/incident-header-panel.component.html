@@ -59,7 +59,7 @@
     </div>
     <div *ngIf="isMobileView()">
       <div class="contact-buttons">
-        <button mat-button class="mobile-buttons">
+        <button mat-button class="mobile-buttons" (click)="addToWatchlist()">
             <img class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
                 alt="bookmark" />
             Save
