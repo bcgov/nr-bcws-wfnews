@@ -46,6 +46,7 @@ export class SavedComponent implements OnInit {
           this.getFireCentre(this.savedLocations);
           this.getEvacs(this.savedLocations);
           this.getWildfires(this.savedLocations);
+          this.getDangerRatings(this.savedLocations);
         }
         this.cdr.detectChanges()
       }). catch(error => {
@@ -76,6 +77,24 @@ export class SavedComponent implements OnInit {
         for (const innerIndex in bans.features) {
           const element = bans.features[innerIndex];  
           this.savedLocations[outerIndex].bans.push(element);
+          this.cdr.markForCheck()
+        }
+      });
+    });
+  }
+
+  getDangerRatings(locations) {
+    locations.forEach((location, outerIndex) => {
+      this.agolService.getDangerRatings(
+        null,
+        { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: 0.1 },
+        { returnCentroid: true, returnGeometry: false }
+      )
+      .subscribe(dangerRatings => {
+        this.savedLocations[outerIndex].dangerRatings = [];
+        for (const innerIndex in dangerRatings.features) {
+          const element = dangerRatings.features[innerIndex];  
+          this.savedLocations[outerIndex].dangerRatings.push(element);
           this.cdr.markForCheck()
         }
       });

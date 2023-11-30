@@ -58,6 +58,31 @@
                         </div>
                     </div>
 
+                    <div *ngIf="location.dangerRatings && location.dangerRatings.length > 0">
+                        <div class="danger-rating-badge">
+                            <div *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Extreme'" class="left-content">
+                                <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-extreme.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                            </div>
+                            <div *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'High'" class="left-content">
+                                <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-high.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                            </div>
+                            <div *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Moderate'" class="left-content">
+                                <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-moderate.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                            </div>
+                            <div *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Low'" class="left-content">
+                                <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-low.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                            </div>
+                            <div *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Very Low'" class="left-content">
+                                <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-very-low.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="divider"></div>
                     <div class="saved-location-content-2">
                         <div class="saved-location-details-2">

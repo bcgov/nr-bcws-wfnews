@@ -63,7 +63,7 @@
         "AGOLevacOrders": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/",
         "AGOLareaRestrictions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0",
         "AGOLBansAndProhibitions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/",
-
+        "AGOLDangerRatings": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Danger_Rating/FeatureServer/0/",
         "AGOLperimetres": "https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/",
         "AGOLactiveFirest": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/",
         "evacDefaultUrl": "https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023",

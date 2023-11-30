@@ -205,6 +205,20 @@
     }
 }
 
+.danger-rating-badge{
+    display: flex;
+    padding: 6px 12px;
+    margin-top: 14px;
+    .incident-icon-title{
+        width: 18px;
+        height: 18px;
+        vertical-align: top;
+    }
+    span{
+        padding-left: 9px;
+    }
+}
+
 .saved-wildfires{
     width: 100vw;
 }
