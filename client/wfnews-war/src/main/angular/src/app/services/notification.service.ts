@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { AppConfigService, TokenService } from "@wf1/core-ui";
+import { AppConfigService } from "@wf1/core-ui";
 
 export interface NotificationSettingRsrc {
     deviceType: string;
