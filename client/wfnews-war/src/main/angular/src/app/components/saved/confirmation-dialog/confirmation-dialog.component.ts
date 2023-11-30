@@ -1,6 +1,5 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { CapacitorService } from '@app/services/capacitor-service';
 
 
 @Component({
@@ -8,8 +7,8 @@ import { CapacitorService } from '@app/services/capacitor-service';
   templateUrl: './confirmation-dialog.component.html',
   styleUrls: ['./confirmation-dialog.component.scss']
 })
-export class ConfirmatinoDialogComponent {
-  constructor(private dialogRef: MatDialogRef<ConfirmatinoDialogComponent>, private capacitorService: CapacitorService, @Inject(MAT_DIALOG_DATA) public data)
+export class ConfirmationDialogComponent {
+  constructor(private dialogRef: MatDialogRef<ConfirmationDialogComponent>, @Inject(MAT_DIALOG_DATA) public data)
   { }
 
   closeDialog() {

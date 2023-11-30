@@ -214,7 +214,7 @@ import { notificationMapComponent } from '@app/components/saved/add-saved-locati
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { MatSliderModule } from '@angular/material/slider';  
 import { NotificationService } from '@app/services/notification.service';
-import { ConfirmatinoDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -370,7 +370,7 @@ export const DATE_FORMATS = {
         SearchPageComponent,
         AddSavedLocationComponent,
         notificationMapComponent,
-        ConfirmatinoDialogComponent,
+        ConfirmationDialogComponent,
     ],
     imports: [
         MatSortModule,

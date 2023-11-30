@@ -1,7 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ConfirmatinoDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
@@ -180,7 +180,7 @@ export class SavedComponent implements OnInit {
 
   deleteFromWatchList(event: Event, wildFire: any) {
     event.stopPropagation();
-    let dialogRef = this.dialog.open(ConfirmatinoDialogComponent, {
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       autoFocus: false,
       width: '80vw',
       data: {
