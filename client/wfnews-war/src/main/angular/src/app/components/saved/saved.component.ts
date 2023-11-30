@@ -4,7 +4,8 @@ import { LocationData } from '@app/components/wildfires-list-header/filter-by-lo
 import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes } from '@app/utils';
+import { WatchlistService } from '@app/services/watchlist-service';
+import { ResourcesRoutes, convertToDateYear, convertToStageOfControlDescription } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 
 @Component({
@@ -17,6 +18,10 @@ export class SavedComponent implements OnInit {
   public savedLocations: any = [];
   public savedWildfires: any = [];
   public distanceInKm: number = 1;
+  public wildFireWatchlist: any[] = [];
+  convertToStageOfControlDescription = convertToStageOfControlDescription
+  convertToDateYear = convertToDateYear
+
 
   constructor(
     protected router: Router,
@@ -24,8 +29,8 @@ export class SavedComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     protected spatialUtilService: SpatialUtilsService,
     private agolService: AGOLService,
-    private publishedIncidentService: PublishedIncidentService
-
+    private publishedIncidentService: PublishedIncidentService,
+    private watchlistService: WatchlistService
   ) {
   }
 
@@ -44,7 +49,10 @@ export class SavedComponent implements OnInit {
         console.error(error)
       }
     )
+
+    this.loadWatchlist();
   }
+
   addNewLocation() {
     this.router.navigate([ResourcesRoutes.ADD_LOCATION]);
   }
@@ -145,4 +153,22 @@ export class SavedComponent implements OnInit {
   enterDetail(location) {
     console.log('detail not implemented ')
   }
+
+  async loadWatchlist () {
+      this.wildFireWatchlist = []
+      const watchlistItems = this.watchlistService.getWatchlist()
+      for (const item of watchlistItems) {
+        const fireYear = item.split(':')[0]
+        const incidentNumber = item.split(':')[1]
+        const incident = await this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise()
+        if (incident) {
+          const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+          incident.lastUpdatedTimestamp = new Date(incident.lastUpdatedTimestamp).toLocaleTimeString("en-US", options);
+          this.wildFireWatchlist.push(incident)
+        }
+      }
+    this.cdr.detectChanges()
+    console.log(this.wildFireWatchlist)
+  }
+
 }
