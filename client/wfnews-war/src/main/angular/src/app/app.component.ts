@@ -139,6 +139,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   };
 
   ngOnInit() {
+    if (this.isMobileView()) {
+      window.screen.orientation['lock']('portrait');
+      // unlock if the view changes?
+      //window.screen.orientation.unlock();
+    }
+
     this.wfMapService.patch();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
