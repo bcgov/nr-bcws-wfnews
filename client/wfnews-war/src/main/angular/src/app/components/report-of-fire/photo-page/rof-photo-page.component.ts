@@ -53,8 +53,8 @@ export class RoFPhotoPage extends RoFPage {
 
   async addFromCameraRoll() {
     try {
-      const isNativePlatform = Capacitor.isNativePlatform();
-      if (!isNativePlatform) {
+      // const isNativePlatform = Capacitor.isNativePlatform();
+      // if (false) {
         const photos = await Camera.pickImages({
           quality: 100,
           limit: 3 - this.images.length
@@ -64,7 +64,7 @@ export class RoFPhotoPage extends RoFPage {
           this.changeDetector.detectChanges();
         })
         return;
-      }
+      // }
 
       // This is specific to iOS but should work for Android. If not we may need to check specifically for platform.
       const currentPermissions = await Camera.checkPermissions();
