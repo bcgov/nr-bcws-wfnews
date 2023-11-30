@@ -85,10 +85,10 @@
 
                     <div class="divider"></div>
                     <div class="saved-location-content-2">
-                        <div class="saved-location-details-2">
+                        <div class="saved-location-details-2" *ngIf="location.fireCentre">
                             <img class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
                             <div>
-                                <div *ngIf="location.fireCentre">
+                                <div>
                                     <div class="fire-bans">
                                         {{location.fireCentre}}
                                     </div>
