@@ -48,6 +48,11 @@ export interface VmCoordinates {
     long: number;
     lat: number;
   }
+
+  export interface BoundingBox {
+    latitude: number;
+    longitude: number;
+  }
   
 
 @Injectable({
@@ -57,7 +62,7 @@ export interface VmCoordinates {
 export class NotificationService {
   constructor(private appConfigService: AppConfigService, private http: HttpClient, private capacitorService: CapacitorService) {  }
 
-    public updateUserNotificationPreferences(notificationSettings): Promise<any> {
+    public updateUserNotificationPreferences(notificationSettings, savedNotification): Promise<any> {
         return this.capacitorService.deviceProperties.then(p => {
                 console.log("device properties:'",p)
                 const url = `${this.appConfigService.getConfig().rest['notification-api']}/notificationSettings/${p.deviceId}`
@@ -69,7 +74,11 @@ export class NotificationService {
                 notificationSettingRsrc.subscriberGuid = p.deviceId
                 notificationSettingRsrc.notificationToken = token
                 notificationSettingRsrc.deviceType = p.isAndroidPlatform ? 'android' : 'ios'
-
+                if (savedNotification.length) {
+                    savedNotification.forEach(notification => {
+                        notificationSettingRsrc.notifications.push(notification)
+                    });
+                }
                 return this.http.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
             })
     }
@@ -82,6 +91,15 @@ export class NotificationService {
                 })
                 return this.http.get(url, { headers }).toPromise()
             })
+    }
+
+    public getFireCentreByLocation(bbox: BoundingBox[]): Promise<any> {
+        const formattedString = bbox.map(pair => `${pair.longitude}%20${pair.latitude}`).join('%2C');
+        let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'].toString()
+        url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG%3A4326&typename=pub%3AWHSE_LEGAL_ADMIN_BOUNDARIES.DRP_MOF_FIRE_CENTRES_SP&outputformat=application%2Fjson&cql_filter=INTERSECTS(GEOMETRY%2CSRID%3D4326%3BPOLYGON%20(("
+        url += formattedString +')))'
+        return this.http.get(url).toPromise()
+
     }
 }
 
