@@ -182,7 +182,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
                   subtitle: element.fireCentreName,
                   distance: '0',
-                  relevance: /^\d/.test(val.trim()) ? 4 : 3,
+                  relevance: /^\d/.test(val.trim()) ? 2 : 1,
                   location: [Number(element.longitude), Number(element.latitude)]
                 })
               }
@@ -211,11 +211,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 title: element.attributes.EVENT_NAME,
                 subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
                 distance: '0',
-                relevance: /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1
-                        : /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 2
-                        : /^\d/.test(val.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
-                        : 2,
-                location: [element.centroid.y, element.centroid.x]
+                relevance: /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                        : /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'alert' ? 3
+                        : /^\d/.test(val.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                        : 3,
+                location: [element.centroid.x, element.centroid.y]
               })
             }
             this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
