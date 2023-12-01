@@ -65,7 +65,6 @@ export class SavedComponent implements OnInit {
     return this.spatialUtilService.formatCoordinates([coords[0],coords[1]]);
   }
 
-<<<<<<< Updated upstream
   getFireBans(locations) {
     locations.forEach((location, outerIndex) => {
       this.agolService.getBansAndProhibitions(

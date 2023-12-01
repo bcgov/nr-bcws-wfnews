@@ -52,10 +52,16 @@ export class PointIdService {
   }
 
   fetchNearestWeatherStation(latitude: number, longitude: number): Promise<WeatherStationConditions> {
-    console.log(this.baseAPIUrl)
     return this.fetch(`${this.baseAPIUrl}/weather?lat=${latitude.toFixed(3)}&lon=${longitude.toFixed(3)}&duration=3`)
       .then(function (resp: WeatherStationResult) {
         return resp.stations[0]
       })
+  }
+
+  fetchNearby(latitude: number, longitude: number, radius: number): Promise<WeatherStationConditions> {
+    return this.fetch(`${this.baseAPIUrl}/radius?lat=${latitude.toFixed(3)}&lon=${longitude.toFixed(3)}&radius=${radius}`)
+      .then(response => {
+        return response;
+      });
   }
 }
