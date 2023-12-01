@@ -135,7 +135,7 @@ export class AddSavedLocationComponent implements OnInit{
           const location = await this.commonUtilityService.getCurrentLocationPromise()
           this.locationData.latitude = location.coords.latitude
           this.locationData.longitude = location.coords.longitude
-          this.searchText = this.locationData.latitude.toString() + ', ' + this.locationData.longitude.toString()
+          this.searchText = this.locationData.latitude.toFixed(2).toString() + ', ' + this.locationData.longitude.toFixed(2).toString();
         } else {
           this.searchText = null
         }
