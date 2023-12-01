@@ -215,6 +215,29 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 			WebAdeAuthentication webAdeAuthentication, FactoryContext factoryContext) throws DaoException {
 
 		PublishedIncidentResource result = null;
+
+		// if the incident is "out", strip out all of the extra published details
+		if (publishedIncident.getStageOfControlCode().equalsIgnoreCase("OUT")) {
+			publishedIncident.setAviationResourceCount(null);
+			publishedIncident.setCrewResourceCount(null);
+			publishedIncident.setFireOfNoteInd(false);
+			publishedIncident.setWildfireCrewResourcesInd(false);
+			publishedIncident.setWildfireAviationResourceInd(false);
+			publishedIncident.setHeavyEquipmentResourcesInd(false);
+			publishedIncident.setIncidentMgmtCrewRsrcInd(false);
+			publishedIncident.setStructureProtectionRsrcInd(false);
+			publishedIncident.setIncidentOverview(null);
+			publishedIncident.setResourceDetail(null);
+			publishedIncident.setWildfireCrewResourcesDetail(null);
+			publishedIncident.setWildfireAviationResourceDetail(null);
+			publishedIncident.setHeavyEquipmentResourcesDetail(null);
+			publishedIncident.setIncidentMgmtCrewRsrcDetail(null);
+			publishedIncident.setStructureProtectionRsrcDetail(null);
+			publishedIncident.setHeavyEquipmentResourceCount(null);
+			publishedIncident.setIncidentManagementResourceCount(null);
+			publishedIncident.setStructureProtectionResourceCount(null);
+		}
+
 		PublishedIncidentDto dto = new PublishedIncidentDto(publishedIncident);
 		try {
 			dto.setUpdateDate(new Date());
