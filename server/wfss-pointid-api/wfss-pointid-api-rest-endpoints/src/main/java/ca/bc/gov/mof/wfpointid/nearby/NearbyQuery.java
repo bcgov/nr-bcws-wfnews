@@ -109,8 +109,7 @@ public class NearbyQuery {
 		featureTypeListWithRings = new String[] { 	param.getWfArcGisLayer_Area_Restrictions(),				//	"British_Columbia_Area_Restrictions",
 													param.getWfArcGisLayer_Bans_and_Prohibition_Areas(),	//  "British_Columbia_Bans_and_Prohibition_Areas",
 													param.getWfArcGisLayer_Danger_Rating(),					//	"British_Columbia_Danger_Rating",
-													param.getWfArcGisLayer_Evacuation_Orders_Alerts(),		//	"Evacuation_Orders_and_Alerts",
-													param.getWfArcGisLayer_Fire_Centre_Boundaries()	 };		//	"British_Columbia_Fire_Centre_Boundaries"
+													param.getWfArcGisLayer_Evacuation_Orders_Alerts() };	//	"Evacuation_Orders_and_Alerts",
 		
 		NEARBY = new DataRequestDef[] {	
 				
@@ -191,16 +190,6 @@ public class NearbyQuery {
 											item("FIRE_CENTRE_NAME", "FIRE_CENTRE_NAME"), // FireCentre old
 											item("BULLETIN_URL", "BULLETIN_URL") // OLD "URL"
 											} ),
-				// British_Columbia_Fire_Centre_Boundaries
-				request(NearbyService.PROVIDER_WF_ARCGIS, ArcgisDataProvider.TYPE_BCFC_BOUNDRS, param.getWfArcGisLayer_Fire_Centre_Boundaries(),
-									NearbyQuery.GEOMETRY, 100000,  
-									new DataItemDef[] { item("OBJECTID" ,  "OBJECTID"),
-														item("rings",     "rings"),
-														item("HEADQUARTERS",  "HEADQUARTERS"),
-														item("FIRE_CENTRE",  "FIRE_CENTRE"),
-														item("FIRE_CENTRE_CODE", "FIRE_CENTRE_CODE"),
-														item("HEADQUARTERS", "HEADQUARTERS")
-														} ),
 				DataRequestDef.request(NearbyService.PROVIDER_WF_FIREWEATHER, param.getFireweatherStationsKey(),
 						100000, new DataItemDef[]{ 
 								DataItemDef.item("stationCode"),
