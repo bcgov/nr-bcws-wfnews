@@ -21,6 +21,7 @@ import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NotificationService } from '@app/services/notification.service';
 
 
 export type SelectedLayer =
@@ -131,7 +132,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
     private breakpointObserver: BreakpointObserver,
-    private agolService: AGOLService
+    private agolService: AGOLService,
+    private notificationService: NotificationService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -467,6 +469,30 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.notificationService.getUserNotificationPreferences().then(response =>{
+      const SMK = window['SMK']
+      for (const smkMap in SMK.MAP) {
+        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)){
+          const savedLocationMarker = {
+            icon: L.divIcon({
+              className: 'custom-icon-class',
+              html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
+                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
+                  </div>`,              
+              iconSize: [32, 32],
+              iconAnchor: [16, 32],
+              popupAnchor: [0, -32],
+            }),
+            draggable: false
+          };
+          for (const item of response?.notifications) {
+            const marker = L.marker([item.point.coordinates[1], item.point.coordinates[0]], savedLocationMarker).addTo(getActiveMap(this.SMK).$viewer.map);            
+          }   
+        }
+      }
+      }) .catch(error=>{
+        console.error(error)
+    })
     this.cdr.detectChanges();
   }
 
