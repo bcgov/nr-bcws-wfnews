@@ -477,13 +477,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.isMapLoaded = true;
     this.notificationService.getUserNotificationPreferences().then(response =>{
       const SMK = window['SMK']
-      const map = getActiveMap(this.SMK).$viewer.map;
+      const map = getActiveMap(SMK).$viewer.map;
 
       map.on('zoomend', () => {
         this.updateSavedLocationLabelVisibility();
       });
       for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)){
+        if (Object.hasOwn(SMK.MAP, smkMap)){
           const savedLocationMarker = {
             icon: L.divIcon({
               className: 'custom-icon-class',
@@ -534,19 +534,19 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const map = getActiveMap(this.SMK).$viewer.map;
   
     // Iterate over the array of markers and remove them from the map
-    this.savedLocationlabelsToShow.forEach(label => {
+    for (const label of this.savedLocationlabelsToShow) {
       map.removeLayer(label);
-    });
+    }
     this.savedLocationlabelsToShow = [];
   }
 
   private addAllSavedLocationLabels() {
     const map = getActiveMap(this.SMK).$viewer.map;
     if (this.savedLocationlabelsToShow?.length === 0) {
-      this.savedLocationlabels.forEach(label => {
+      for (const label of this.savedLocationlabels) {
         label.addTo(getActiveMap(this.SMK).$viewer.map);
-        this.savedLocationlabelsToShow.push(label)
-      })
+        this.savedLocationlabelsToShow.push(label);
+      }
     }
   }
 
