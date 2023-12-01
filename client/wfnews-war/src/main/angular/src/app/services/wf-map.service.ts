@@ -380,6 +380,7 @@ export class WFMapService {
                 SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
                 SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
+                  var vw = this;
                   (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
                   if ( self.identifyCallback ) {
                     self.identifyCallback( location, area );
@@ -387,7 +388,7 @@ export class WFMapService {
 
                   return Promise.resolve()
                       .then( function() {
-                          return origIdentifyFeatures.call( this, location, area );
+                          return origIdentifyFeatures.call( vw, location, area );
                       } )
                       .then( function() {
                           if ( self.identifyDoneCallback ) {
