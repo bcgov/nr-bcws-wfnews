@@ -12,6 +12,14 @@
     padding-right: env(safe-area-inset-right);
 }
 
+::ng-deep .body .nav-items {
+  width: 100vw;
+}
+
+::ng-deep .body .nav-items a.nav-item .label {
+  min-width: 105px !important;
+}
+
 .container-fluid {
 	padding-left: 0;
 	padding-right: 0;

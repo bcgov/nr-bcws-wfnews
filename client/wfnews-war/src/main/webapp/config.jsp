@@ -51,7 +51,7 @@
 
     String agolAreaRestrictions = EnvironmentVariable.getVariable("AGOL_AREA_RESTRICTIONS");
     String agolBansAndProhibitions = EnvironmentVariable.getVariable("AGOL_BANS_AND_PROHIBITIONS");
-    String agolDangerRatings: EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
+    String agolDangerRatings = EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
 
     // External Application Section
     json.append("\"externalAppConfig\":{");

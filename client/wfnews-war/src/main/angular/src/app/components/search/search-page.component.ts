@@ -208,7 +208,7 @@ export class SearchPageComponent implements OnInit {
           title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
           subtitle: element.fireCentreName,
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) ? 4 : 3,
+          relevance: /^\d/.test(this.searchText.trim()) ? 2 : 1,
           location: [element.longitude, element.latitude]
         })
       }
@@ -246,9 +246,9 @@ export class SearchPageComponent implements OnInit {
           title: element.attributes.EVENT_NAME,
           subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1
-                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 2
-                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
+          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'alert' ? 3
+                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
                    : 3,
           location: [element.centroid.x, element.centroid.y]
         })

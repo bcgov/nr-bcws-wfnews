@@ -140,9 +140,16 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   ngOnInit() {
     if (this.isMobileView()) {
-      window.screen.orientation['lock']('portrait');
-      // unlock if the view changes?
-      //window.screen.orientation.unlock();
+      if (typeof (window.screen.orientation as any).lock === 'function') {
+        const lock = (window.screen.orientation as any).lock('portrait');
+        (lock as Promise<any>).then(() => {
+          console.log('Orientation locked to Portrait');
+        }).catch(err => {
+          console.error('Failed to lock device orientation: ', err);
+        })
+      } else {
+        console.error('Failed to lock device orientation')
+      }
     }
 
     this.wfMapService.patch();
