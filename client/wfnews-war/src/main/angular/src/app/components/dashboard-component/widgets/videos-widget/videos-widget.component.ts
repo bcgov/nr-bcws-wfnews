@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http"
 import { AfterViewInit, Component } from "@angular/core"
 import { PublishedIncidentService } from "@app/services/published-incident-service"
 import { convertToYoutubeId } from "@app/utils"
+import { AppConfigService } from "@wf1/core-ui"
 
 @Component({
   selector: 'videos-widget',
@@ -14,11 +15,12 @@ export class VideosWidget implements AfterViewInit {
 
   convertToYoutubeId = convertToYoutubeId
 
-  constructor(private publishedIncidentService: PublishedIncidentService, private http: HttpClient) { }
+  constructor(private publishedIncidentService: PublishedIncidentService, private http: HttpClient, protected appConfigService: AppConfigService) { }
 
   ngAfterViewInit (): void {
     // attempt to fetch via the youtube API
-    this.http.get('/youtube.jsp').toPromise().then(data => {
+
+    this.http.get(this.appConfigService.getConfig().application.baseUrl.toString() + 'youtube.jsp').toPromise().then(data => {
       if ((data as any)?.items && (data as any)?.items.length > 0) {
         const videos = (data as any).items
         for (let video of videos) {

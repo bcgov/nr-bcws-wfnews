@@ -507,6 +507,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 19 */ { itemId: 'bans-and-prohibitions-cat1', visible: false },
       /* 20 */ { itemId: 'bans-and-prohibitions-cat2', visible: false },
       /* 21 */ { itemId: 'bans-and-prohibitions-cat3', visible: false },
+      /* 22 */ { itemId: 'active-wildfires-fire-of-note', visible: true }, // Always on
+      /* 23 */ { itemId: 'active-wildfires-out-of-control', visible: true }, // Always on
+      /* 24 */ { itemId: 'active-wildfires-holding', visible: true }, // Always on
+      /* 25 */ { itemId: 'active-wildfires-under-control', visible: true }, // Always on
 
       // Not in a feature but need to be cleared
       { itemId: 'bc-fsr', visible: false },
@@ -514,7 +518,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       { itemId: 'precipitation', visible: false },
       { itemId: 'protected-lands-access-restrictions', visible: false },
       { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
-      { itemId: 'weather-stations', visible: false },
+      { itemId: 'weather-stations', visible: false }
     ];
 
     switch (this.selectedLayer) {
@@ -562,6 +566,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
       case 'all-layers':
         break;
+
+      default:
+        layers[0].visible = true;
+        layers[22].visible = true;
+        layers[23].visible = true;
+        layers[24].visible = true;
+        layers[25].visible = true;
     }
 
     // initialize smkApi if undefined
