@@ -92,6 +92,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  savedLocationlabelsToShow : any[] = [];
+  savedLocationlabels : any[] = [];
 
   isLocationEnabled: boolean;
   public userLocation;
@@ -471,6 +473,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.isMapLoaded = true;
     this.notificationService.getUserNotificationPreferences().then(response =>{
       const SMK = window['SMK']
+      const map = getActiveMap(this.SMK).$viewer.map;
+
+      map.on('zoomend', () => {
+        this.updateSavedLocationLabelVisibility();
+      });
       for (const smkMap in SMK.MAP) {
         if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)){
           const savedLocationMarker = {
@@ -486,7 +493,19 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             draggable: false
           };
           for (const item of response?.notifications) {
-            const marker = L.marker([item.point.coordinates[1], item.point.coordinates[0]], savedLocationMarker).addTo(getActiveMap(this.SMK).$viewer.map);            
+            const marker = L.marker([item.point.coordinates[1], item.point.coordinates[0]], savedLocationMarker).addTo(getActiveMap(this.SMK).$viewer.map);
+            const label = L.marker([item.point.coordinates[1], item.point.coordinates[0]], {
+              icon: L.divIcon({
+                  className: 'marker-label',
+                  html: `<div class="custom-marker" 
+                  style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
+                  ${item.notificationName}
+                </div>`,   
+                })
+            });
+            label.addTo(getActiveMap(this.SMK).$viewer.map);
+            this.savedLocationlabels.push(label);
+            this.savedLocationlabelsToShow.push(label);
           }   
         }
       }
@@ -494,6 +513,37 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         console.error(error)
     })
     this.cdr.detectChanges();
+  }
+
+  private updateSavedLocationLabelVisibility() {
+    // showing the savedLocation label only start with zoom level 5
+    const map = getActiveMap(this.SMK).$viewer.map;
+    const currentZoom = map.getZoom();
+    if (currentZoom < 5) {
+      this.removeAllSavedLocationLabels()
+    } else {
+      this.addAllSavedLocationLabels()
+    }
+  }
+
+  private removeAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+  
+    // Iterate over the array of markers and remove them from the map
+    this.savedLocationlabelsToShow.forEach(label => {
+      map.removeLayer(label);
+    });
+    this.savedLocationlabelsToShow = [];
+  }
+
+  private addAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+    if (this.savedLocationlabelsToShow?.length === 0) {
+      this.savedLocationlabels.forEach(label => {
+        label.addTo(getActiveMap(this.SMK).$viewer.map);
+        this.savedLocationlabelsToShow.push(label)
+      })
+    }
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
