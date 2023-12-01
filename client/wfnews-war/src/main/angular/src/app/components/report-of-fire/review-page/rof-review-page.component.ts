@@ -313,6 +313,7 @@ async submitRof(){
     consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, "Yes") ? true : false,
     estimatedDistance: this.reportOfFire.estimatedDistance,
     fireLocation: this.reportOfFire.fireLocation,
+    deviceLocation: this.reportOfFire.deviceLocation,
     fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
     rateOfSpread: this.reportOfFire.rateOfSpread,
     burning: this.reportOfFire.burning,
@@ -323,13 +324,10 @@ async submitRof(){
     otherInfo: this.reportOfFire.otherInfo,
     submittedTimestamp: new Date().getTime().toString(),
     visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
-    image1: this.reportOfFire.image1,
-    image2: this.reportOfFire.image2,
-    image3: this.reportOfFire.image3,
   }
 
   try {   
-    const response = this.reportOfFireService.saveReportOfFire(rofResource);
+    const response = this.reportOfFireService.saveReportOfFire(rofResource, this.reportOfFire.image1, this.reportOfFire.image2, this.reportOfFire.image3);
     this.next();
   } catch (err) {
      this.snackbarService.open(

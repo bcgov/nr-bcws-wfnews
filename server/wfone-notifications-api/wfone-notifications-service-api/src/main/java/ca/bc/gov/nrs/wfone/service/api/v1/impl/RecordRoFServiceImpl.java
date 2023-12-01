@@ -950,12 +950,16 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		metaOwner.setMetadataValue("HQK");
 		
 		// set coordinates for image if not set by now
+		// device location should be attached to ROF. If for some reason it is not, use fire's location
 		if (form != null && lat == null && lng == null) {
 			JSONObject rof = new JSONObject(form);
 			if (rof.has("form") && rof.optString("form") != null) {
 				String rofString = rof.optString("form");
 				JSONObject rofForm = new JSONObject(rofString);
-				if (rofForm != null && rofForm.optJSONArray("fireLocation") != null) {
+				if (rofForm != null && rofForm.optJSONArray("deviceLocation") != null) {
+					lat = rofForm.optJSONArray("deviceLocation").getDouble(0);
+					lng = rofForm.optJSONArray("deviceLocation").getDouble(1);
+				} else if (rofForm != null && rofForm.optJSONArray("fireLocation") != null) {
 					lat = rofForm.optJSONArray("fireLocation").getDouble(0);
 					lng = rofForm.optJSONArray("fireLocation").getDouble(1);
 				}				

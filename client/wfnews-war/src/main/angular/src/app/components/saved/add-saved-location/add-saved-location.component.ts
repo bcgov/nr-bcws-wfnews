@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
@@ -41,9 +41,13 @@ export class AddSavedLocationComponent implements OnInit{
   radiusDistance:number;
   notificationName:string;
   public searchByLocationControl = new UntypedFormControl
+  savedLocation : any;
+  locationToEditOrDelete;
+  isEdit : boolean;
+
 
   constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
-    private notificationService: NotificationService, protected snackbarService: MatSnackBar
+    private notificationService: NotificationService, protected snackbarService: MatSnackBar, private route: ActivatedRoute
     ) {
     this.locationData = new LocationData
     this.placeData = new PlaceData();
@@ -75,7 +79,31 @@ export class AddSavedLocationComponent implements OnInit{
 
 
   ngOnInit(): void {
-    this.useMyCurrentLocation()
+    this.useMyCurrentLocation();
+    this.route.queryParams.subscribe(params => {
+      if (params){
+        const location = JSON.parse(params.location);
+        this.locationToEditOrDelete = location
+        this.isEdit = true;
+        this.locationData.notificationName = this.locationToEditOrDelete.notificationName
+        this.locationData.searchText = this.locationToEditOrDelete.point.coordinates[1] + ',' + this.locationToEditOrDelete.point.coordinates[0]
+        if (this.locationToEditOrDelete.topics.length) {
+          if (this.locationToEditOrDelete.topics.includes("BCWS_ActiveFires_PublicView") && this.locationToEditOrDelete.topics.includes("Evacuation_Orders_and_Alerts")) {
+            this.locationData.pushNotificationsWildfires = true;
+          }
+          if (this.locationToEditOrDelete.topics.includes("British_Columbia_Bans_and_Prohibition_Areas") && this.locationToEditOrDelete.topics.includes("British_Columbia_Area_Restrictions")) {
+            this.locationData.pushNotificationsFireBans = true;
+          }
+        }
+        else{
+          this.locationData.pushNotificationsFireBans = false
+          this.locationData.pushNotificationsWildfires = false
+        }
+        this.locationData.radius = this.locationToEditOrDelete.radius
+        this.locationData.latitude = this.locationToEditOrDelete.point.coordinates[1]
+        this.locationData.longitude = this.locationToEditOrDelete.point.coordinates[0]
+      }
+    });
   }
 
   async useMyCurrentLocation() {
@@ -177,22 +205,40 @@ export class AddSavedLocationComponent implements OnInit{
     });
   }
 
-  saveLocation(){
-    console.log(this.locationData)
-    this.notificationService.updateUserNotificationPreferences(this.locationData)
-        .then( () => {
-            this.cdr.detectChanges();
-            console.log('save notification success')
-            this.router.navigateByUrl('/saved')
-        } )
-        .catch( e => {
-            console.warn('saveNotificationPreferences fail',e)
-            this.cdr.detectChanges()
-            this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
-
-        } 
-    )
-
+  saveLocation() {
+    this.fetchSavedLocation().then(() => {
+      if (this.isEdit) {
+        this.savedLocation
+        this.savedLocation = this.savedLocation.filter(item => 
+          item.notificationName !== this.locationToEditOrDelete.notificationName &&
+          item.point.coordinates[0] !== this.locationToEditOrDelete.point.coordinates[0] &&
+          item.point.coordinates[1] !== this.locationToEditOrDelete.point.coordinates[1]
+          );
+      }
+      this.notificationService.updateUserNotificationPreferences(this.locationData, this.savedLocation)
+        .then(() => {
+          this.cdr.markForCheck();
+          console.log('save notification success');
+          this.router.navigateByUrl('/saved');
+        })
+        .catch(e => {
+          console.warn('saveNotificationPreferences fail', e);
+          this.cdr.markForCheck();
+          this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+        });
+    });
+  }
+  
+  fetchSavedLocation(): Promise<any> {
+    return this.notificationService.getUserNotificationPreferences()
+      .then(response => {
+        if (response.notifications) {
+          this.savedLocation = response.notifications;
+        }
+      })
+      .catch(err => {
+        console.error('error on fetch notifications', err);
+      });
   }
 
   disableSaveButton() {

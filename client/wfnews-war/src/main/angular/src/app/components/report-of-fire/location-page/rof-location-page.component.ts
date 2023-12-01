@@ -144,6 +144,10 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   }
 
   confirmLocation() {
+    if(this.location && this.location.coords && this.location.coords.latitude && this.location.coords.longitude) {
+      this.reportOfFire.deviceLocation[0] = this.location.coords.latitude;
+      this.reportOfFire.deviceLocation[1] = this.location.coords.longitude;
+    }
     if (this.distance) {
       this.reportOfFire.estimatedDistance = this.distance * 1000;
     }
