@@ -379,19 +379,8 @@ export class WFMapService {
                 SMK.TYPE.Viewer.leaflet.prototype.cancelIdentify = false;
                 SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
-                const updatedIdentify = function( location, area ) {
-                  const vw = getActiveMap().$viewer
-                  if (vw.identifyState && JSON.stringify(vw.identifyState.location) === JSON.stringify(location) && JSON.stringify(vw.identifyState.area) === JSON.stringify(area)) {
-                    return
-                  }
-
-                  vw.identifyState = { location, area }
-
-                  if (vw.cancelIdentify) {
-                    vw.cancelIdentify = false;
-                    return
-                  }
-
+                SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
+                  var vw = this;
                   (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
                   if ( self.identifyCallback ) {
                     self.identifyCallback( location, area );
@@ -409,19 +398,6 @@ export class WFMapService {
                         console.error(err)
                       });
                 };
-
-                // if mobile view, then implement the sleep handler
-                // to prevent double-click identify
-                if (isMobileView()) {
-                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
-                    sleep(500).then(() => updatedIdentify(location, area)).catch(err => {
-                        console.error('Failure during identify handler: ', err);
-                        self.identifyDoneCallback(location, area);
-                      });
-                  }
-                } else {
-                  SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = updatedIdentify
-                }
 
                 SMK.TYPE.Layer[ 'wms' ].prototype.canMergeWith = function( other ) {
                     return this.config.combiningClass && this.config.combiningClass === other.config.combiningClass;

@@ -391,6 +391,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         {
           name  = "AGOL_BANS_AND_PROHIBITIONS",
           value = var.agolBansAndProhibitions
+        },
+        {
+          name = "AGOL_DANGER_RATINGS",
+          value = var.agolDangerRatings
         }
 
       ]
