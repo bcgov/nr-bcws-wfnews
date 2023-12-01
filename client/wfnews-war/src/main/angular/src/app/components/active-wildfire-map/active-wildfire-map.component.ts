@@ -173,9 +173,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         // search incidents
         let searchFon = 0;
         while (searchFon < 2) {
-          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.clickedMyLocation && this?.userLocation?.coords ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.clickedMyLocation ? null : val, Boolean(searchFon).valueOf()).toPromise().then(incidents => {
+          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.clickedMyLocation && this?.userLocation?.coords ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.clickedMyLocation ? null : val, Boolean(searchFon).valueOf(), ['OUT_CNTRL','HOLDING','UNDR_CNTRL']).toPromise().then(incidents => {
             if (incidents && incidents.collection) {
-              for (const element of incidents.collection) {
+              for (const element of incidents.collection.filter(e => e.stageOfControlCode !== 'OUT')) {
                 this.filteredOptions.push({
                   id: element.incidentNumberLabel,
                   type: 'incident',
