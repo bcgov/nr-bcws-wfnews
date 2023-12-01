@@ -161,7 +161,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   title: `${result.streetQualifier} ${result.civicNumber} ${result.streetName} ${result.streetType}`.trim() || result.localityName,
                   subtitle: result.localityName,
                   distance: '0',
-                  relevance: /^\d/.test(val.trim()) ? 4 : 1,
+                  relevance: /^\d/.test(val.trim()) ? 1 : 4,
                   location: result.loc
                 })
               }
@@ -182,7 +182,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
                   subtitle: element.fireCentreName,
                   distance: '0',
-                  relevance: /^\d/.test(val.trim()) ? 3 : 4,
+                  relevance: /^\d/.test(val.trim()) ? 4 : 3,
                   location: [Number(element.longitude), Number(element.latitude)]
                 })
               }
@@ -198,7 +198,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         }
 
         // search evac orders
-        this.agolService.getEvacOrders(this.clickedMyLocation ? null : val, this.clickedMyLocation && this?.userLocation?.coords ? { x: this.userLocation.coords.longitude, y: this.userLocation.coords.latitude, radius: 50 } : null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
+        let whereString = null
+        if (val?.length > 0) {
+          whereString = `EVENT_NAME LIKE '%${val}%' OR ORDER_ALERT_STATUS LIKE '%${val}%' OR ISSUING_AGENCY LIKE '%${val}%'`
+        }
+        this.agolService.getEvacOrders(this.clickedMyLocation ? null : whereString, this.clickedMyLocation && this?.userLocation?.coords ? { x: this.userLocation?.coords?.longitude, y: this.userLocation?.coords?.latitude, radius: 50 } : null, { returnCentroid: true, returnGeometry: false}).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             for (const element of evacs.features) {
               this.filteredOptions.push({
@@ -207,9 +211,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 title: element.attributes.EVENT_NAME,
                 subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
                 distance: '0',
-                relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
-                        : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
-                        : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
+                relevance: /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1
+                        : /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 2
+                        : /^\d/.test(val.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
                         : 2,
                 location: [element.centroid.y, element.centroid.x]
               })
