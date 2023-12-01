@@ -31,61 +31,61 @@ public class PointIdServiceParams {
 	@Value("${WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}")
 	private String wfArcGisLayer_Evacuation_Orders_Alerts;
 	
-	@Value("value")
+	@Value("${WFARCGIS_LAYER_FIRE_CENTRE_BOUNDARIES}")
 	private String wfArcGisLayer_Fire_Centre_Boundaries;
 	
-	@Value("100000")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer wfArcGisLayer_queueSize;
 	
-	@Value("value")
+	@Value("${MAX_ALLOWED_RADIUS}")
 	private String maxAllowedRadius;
 	
-	@Value("value")
+	@Value("${ASYNC_JOB_INTERVAL}")
 	private String asyncJobInterval;
 	
-	@Value("value")
+	@Value("${ASYNC_JOB_REF_LAT}")
 	private String asyncJobRefLat;
 	
-	@Value("value")
+	@Value("${ASYNC_JOB_REF_LONG}")
 	private String asyncJobRefLon;
 	
-	@Value("value")
+	@Value("${ASYNC_JOB_REF_RADIUS}")
 	private String asyncJobRefRadius;
 	
-	@Value("value")
+	@Value("${DATABASE_WEATHER_URL}")
 	private String weatherJdbcUrl;
 	
-	@Value("value")
+	@Value("${DATABASE_WEATHER_USER}")
 	private String weatherUser;
 	
-	@Value("value")
+	@Value("${DATABASE_WEATHER_PWD}")
 	private String weatherPwd;
 	
-	@Value("value")
+	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 	
-	@Value("value")
+	@Value("${WEBADE_OAUTH2_CLIENT_SECRET}")
 	private String webadeOauth2ClientSecret;
 	
-	@Value("value")
+	@Value("${WEBADE_OAUTH2_TOKEN_URL}")
 	private String webadeOauth2TokenUrl;
 	
-	@Value("value")
+	@Value("${WEBADE_OAUTH2_CLIENT_SCOPES}")
 	private String webadeOauth2ClientScopes;
 	
-	@Value("value")
+	@Value("${FIREWEATHER_BASEURL}")
 	private String fireweatherBaseUrl;
 	
-	@Value("10000")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer fireweather_queueSize;
 	
-	@Value("value")
+	@Value("${WFNEWS_BASEURL}")
 	private String wfnewsBaseUrl;
 	
-	@Value("10000")
+	@Value("${WFNEWS_QUEUESIZE}")
 	private Integer wfnewsQueueSize;
 
-	@Value("value")
+	@Value("${FIREWEATHER_STATIONS_KEY}")
 	private String fireweatherStationsKey;
 
 	public PointIdServiceParams() {
