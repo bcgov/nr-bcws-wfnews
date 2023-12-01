@@ -71,6 +71,7 @@ locals {
   syncIntervalMinutes = get_env("syncIntervalMinutes")
   agolAreaRestrictions = get_env("agolAreaRestrictions")
   agolBansAndProhibitions = get_env("agolBansAndProhibitions")
+  agolDangerRatings = get_env("agolDangerRatings")
   MAX_RECEIVED_COUNT = get_env("MAX_RECEIVED_COUNT")
   VISIBILITY_TIMEOUT_SECONDS = get_env("VISIBILITY_TIMEOUT_SECONDS")
   ACCEPTED_IPS = get_env("ACCEPTED_IPS")
@@ -157,6 +158,7 @@ generate "test_tfvars" {
     syncIntervalMinutes = "${local.syncIntervalMinutes}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
+    agolDangerRatings = "${local.agolDangerRatings}"
     WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
     MAX_RECEIVED_COUNT = "${local.MAX_RECEIVED_COUNT}"
     VISIBILITY_TIMEOUT_SECONDS = "${local.VISIBILITY_TIMEOUT_SECONDS}"
