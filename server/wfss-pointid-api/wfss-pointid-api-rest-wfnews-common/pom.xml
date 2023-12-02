@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-=======
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
->>>>>>> c5d07028305d043c7e934b1546173ea79d240472
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>wfss-pointid-api-rest-wfnews-common</artifactId>
 	<name>wfss-pointid-api-rest-wfnews-common</name>
@@ -106,7 +102,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<<<<<<< HEAD
 		<dependency>
 			<groupId>javax.xml.bind</groupId>
 			<artifactId>jaxb-api</artifactId>
@@ -170,8 +165,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-=======
->>>>>>> c5d07028305d043c7e934b1546173ea79d240472
 
 		<!-- Logging -->
 		<dependency>

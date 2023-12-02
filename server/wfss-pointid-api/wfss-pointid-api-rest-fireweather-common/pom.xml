@@ -67,7 +67,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-<<<<<<< HEAD
 		<dependency>
 			<groupId>org.geotools</groupId>
 			<artifactId>gt-referencing</artifactId>
@@ -100,8 +99,6 @@
 			</exclusions>
 		</dependency>
 
-=======
->>>>>>> c5d07028305d043c7e934b1546173ea79d240472
 
 		<!-- Logging -->
 		<dependency>
