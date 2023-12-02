@@ -166,6 +166,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 })
               }
               this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.pushTextMatchToFront(val)
+
               this.cdr.markForCheck()
             }
           });
@@ -187,6 +189,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 })
               }
               this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.pushTextMatchToFront(val)
               // what happens on mobile? Identify?
               if (isMobileView()) {
                 this.identify([this.userLocation.coords.longitude, this.userLocation.coords.latitude], 50000)
@@ -219,6 +222,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
               })
             }
             this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+            this.pushTextMatchToFront(val)
             this.cdr.markForCheck()
           }
         })
@@ -228,6 +232,23 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     App.addListener('resume', () => {
       this.updateLocationEnabledVariable();
     });
+  }
+
+  pushTextMatchToFront(val: string) {
+    const matches: SearchResult[] = []
+    for (const result of this.filteredOptions) {
+      if (result.type === 'address' && result.title.toLowerCase().includes(val.toLowerCase())) {
+        matches.push(result)
+        const index = this.filteredOptions.indexOf(result);
+        if (index) {
+          this.filteredOptions.splice(index, 1)
+        }
+      }
+    }
+
+    if (matches.length > 0) {
+      this.filteredOptions = matches.concat(this.filteredOptions)
+    }
   }
 
   async ngAfterViewInit() {
