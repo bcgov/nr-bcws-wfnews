@@ -21,6 +21,7 @@ import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NotificationService } from '@app/services/notification.service';
 
 
 export type SelectedLayer =
@@ -91,6 +92,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  savedLocationlabelsToShow : any[] = [];
+  savedLocationlabels : any[] = [];
 
   isLocationEnabled: boolean;
   public userLocation;
@@ -131,7 +134,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
     private breakpointObserver: BreakpointObserver,
-    private agolService: AGOLService
+    private agolService: AGOLService,
+    private notificationService: NotificationService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -471,7 +475,79 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.notificationService.getUserNotificationPreferences().then(response =>{
+      const SMK = window['SMK']
+      const map = getActiveMap(SMK).$viewer.map;
+
+      map.on('zoomend', () => {
+        this.updateSavedLocationLabelVisibility();
+      });
+      for (const smkMap in SMK.MAP) {
+        if (Object.hasOwn(SMK.MAP, smkMap)){
+          const savedLocationMarker = {
+            icon: L.divIcon({
+              className: 'custom-icon-class',
+              html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
+                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
+                  </div>`,              
+              iconSize: [32, 32],
+              iconAnchor: [16, 32],
+              popupAnchor: [0, -32],
+            }),
+            draggable: false
+          };
+          for (const item of response?.notifications) {
+            const marker = L.marker([item.point.coordinates[1], item.point.coordinates[0]], savedLocationMarker).addTo(getActiveMap(this.SMK).$viewer.map);
+            const label = L.marker([item.point.coordinates[1], item.point.coordinates[0]], {
+              icon: L.divIcon({
+                  className: 'marker-label',
+                  html: `<div class="custom-marker" 
+                  style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
+                  ${item.notificationName}
+                </div>`,   
+                })
+            });
+            label.addTo(getActiveMap(this.SMK).$viewer.map);
+            this.savedLocationlabels.push(label);
+            this.savedLocationlabelsToShow.push(label);
+          }   
+        }
+      }
+      }) .catch(error=>{
+        console.error(error)
+    })
     this.cdr.detectChanges();
+  }
+
+  private updateSavedLocationLabelVisibility() {
+    // showing the savedLocation label only start with zoom level 5
+    const map = getActiveMap(this.SMK).$viewer.map;
+    const currentZoom = map.getZoom();
+    if (currentZoom < 5) {
+      this.removeAllSavedLocationLabels()
+    } else {
+      this.addAllSavedLocationLabels()
+    }
+  }
+
+  private removeAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+  
+    // Iterate over the array of markers and remove them from the map
+    for (const label of this.savedLocationlabelsToShow) {
+      map.removeLayer(label);
+    }
+    this.savedLocationlabelsToShow = [];
+  }
+
+  private addAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+    if (this.savedLocationlabelsToShow?.length === 0) {
+      for (const label of this.savedLocationlabels) {
+        label.addTo(getActiveMap(this.SMK).$viewer.map);
+        this.savedLocationlabelsToShow.push(label);
+      }
+    }
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
