@@ -61,12 +61,12 @@
                     <div *ngIf="location.dangerRatings && location.dangerRatings.length > 0">
                         <div class="danger-rating-badge">
                             <div class="left-content">
-                                <img *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Extreme'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-extreme.svg" alt="Fire Danger">
-                                <img *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'High'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-high.svg" alt="Fire Danger">
-                                <img *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Moderate'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-moderate.svg" alt="Fire Danger">
-                                <img *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Low'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-low.svg" alt="Fire Danger">
-                                <img *ngIf = "location.dangerRatings[0].attributes.DANGER_RATING_DESC === 'Very Low'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-very-low.svg" alt="Fire Danger">
-                                <span>{{location.dangerRatings[0].attributes.DANGER_RATING_DESC}} Fire Danger Rating</span>
+                                <img *ngIf = "location.dangerRatings === 'Extreme'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-extreme.svg" alt="Fire Danger">
+                                <img *ngIf = "location.dangerRatings === 'High'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-high.svg" alt="Fire Danger">
+                                <img *ngIf = "location.dangerRatings === 'Moderate'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-moderate.svg" alt="Fire Danger">
+                                <img *ngIf = "location.dangerRatings === 'Low'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-low.svg" alt="Fire Danger">
+                                <img *ngIf = "location.dangerRatings  === 'Very Low'" class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-very-low.svg" alt="Fire Danger">
+                                <span>{{location.dangerRatings}} Fire Danger Rating</span>
                             </div>
                         </div>
                     </div>

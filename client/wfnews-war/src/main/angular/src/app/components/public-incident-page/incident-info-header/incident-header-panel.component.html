@@ -59,10 +59,12 @@
     </div>
     <div *ngIf="isMobileView()">
       <div class="contact-buttons">
-        <button mat-button class="mobile-buttons" (click)="addToWatchlist()">
-            <img class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
+        <button mat-button class="mobile-buttons" [class.on-watchlist]="onWatchlist()" (click)="addToWatchlist()">
+            <img *ngIf="!onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark.svg"
                 alt="bookmark" />
-            Save
+            <img *ngIf="onWatchlist()" class="icon-contact" src="/assets/images/svg-icons/bookmark-blue.svg"
+            alt="bookmark" />
+            {{ onWatchlist() ? 'Saved' : 'Save' }}
         </button>
         <button mat-button class="mobile-buttons" (click)="openContactUsWindow()">
             Contact Us

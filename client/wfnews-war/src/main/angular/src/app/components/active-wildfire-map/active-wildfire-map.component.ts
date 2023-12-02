@@ -21,6 +21,7 @@ import { Observable } from 'rxjs';
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { NotificationService } from '@app/services/notification.service';
 
 
 export type SelectedLayer =
@@ -91,6 +92,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
+  savedLocationlabelsToShow : any[] = [];
+  savedLocationlabels : any[] = [];
 
   isLocationEnabled: boolean;
   public userLocation;
@@ -131,7 +134,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected cdr: ChangeDetectorRef,
     protected snackbarService: MatSnackBar,
     private breakpointObserver: BreakpointObserver,
-    private agolService: AGOLService
+    private agolService: AGOLService,
+    private notificationService: NotificationService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -161,11 +165,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   title: `${result.streetQualifier} ${result.civicNumber} ${result.streetName} ${result.streetType}`.trim() || result.localityName,
                   subtitle: result.localityName,
                   distance: '0',
-                  relevance: /^\d/.test(val.trim()) ? 4 : 1,
+                  relevance: /^\d/.test(val.trim()) ? 1 : 4,
                   location: result.loc
                 })
               }
               this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.pushTextMatchToFront(val)
+
               this.cdr.markForCheck()
             }
           });
@@ -173,20 +179,21 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         // search incidents
         let searchFon = 0;
         while (searchFon < 2) {
-          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.clickedMyLocation && this?.userLocation?.coords ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.clickedMyLocation ? null : val, Boolean(searchFon).valueOf()).toPromise().then(incidents => {
+          this.publishedIncidentService.fetchPublishedIncidentsList(1, 50, this.clickedMyLocation && this?.userLocation?.coords ? { longitude: this.userLocation.coords.longitude, latitude: this.userLocation.coords.latitude, radius: 50, searchText: null, useUserLocation: false } : null, this.clickedMyLocation ? null : val, Boolean(searchFon).valueOf(), ['OUT_CNTRL','HOLDING','UNDR_CNTRL']).toPromise().then(incidents => {
             if (incidents && incidents.collection) {
-              for (const element of incidents.collection) {
+              for (const element of incidents.collection.filter(e => e.stageOfControlCode !== 'OUT')) {
                 this.filteredOptions.push({
                   id: element.incidentNumberLabel,
                   type: 'incident',
                   title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
                   subtitle: element.fireCentreName,
                   distance: '0',
-                  relevance: /^\d/.test(val.trim()) ? 3 : 4,
+                  relevance: /^\d/.test(val.trim()) ? 2 : 1,
                   location: [Number(element.longitude), Number(element.latitude)]
                 })
               }
               this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+              this.pushTextMatchToFront(val)
               // what happens on mobile? Identify?
               if (isMobileView()) {
                 this.identify([this.userLocation.coords.longitude, this.userLocation.coords.latitude], 50000)
@@ -198,7 +205,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         }
 
         // search evac orders
-        this.agolService.getEvacOrders(this.clickedMyLocation ? null : val, this.clickedMyLocation && this?.userLocation?.coords ? { x: this.userLocation.coords.longitude, y: this.userLocation.coords.latitude, radius: 50 } : null, { returnCentroid: false, returnGeometry: false}).toPromise().then(evacs => {
+        let whereString = null
+        if (val?.length > 0) {
+          whereString = `EVENT_NAME LIKE '%${val}%' OR ORDER_ALERT_STATUS LIKE '%${val}%' OR ISSUING_AGENCY LIKE '%${val}%'`
+        }
+        this.agolService.getEvacOrders(this.clickedMyLocation ? null : whereString, this.clickedMyLocation && this?.userLocation?.coords ? { x: this.userLocation?.coords?.longitude, y: this.userLocation?.coords?.latitude, radius: 50 } : null, { returnCentroid: true, returnGeometry: false}).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             for (const element of evacs.features) {
               this.filteredOptions.push({
@@ -207,14 +218,15 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 title: element.attributes.EVENT_NAME,
                 subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
                 distance: '0',
-                relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
-                        : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 1
-                        : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 3
-                        : 2,
-                location: [element.centroid.y, element.centroid.x]
+                relevance: /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                        : /^\d/.test(val.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'alert' ? 3
+                        : /^\d/.test(val.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                        : 3,
+                location: [element.centroid.x, element.centroid.y]
               })
             }
             this.filteredOptions.sort((a, b) => a.relevance > b.relevance ? 1 : a.relevance < b.relevance ? -1 : 0 || a.title.localeCompare(b.title))
+            this.pushTextMatchToFront(val)
             this.cdr.markForCheck()
           }
         })
@@ -224,6 +236,23 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     App.addListener('resume', () => {
       this.updateLocationEnabledVariable();
     });
+  }
+
+  pushTextMatchToFront(val: string) {
+    const matches: SearchResult[] = []
+    for (const result of this.filteredOptions) {
+      if (result.type === 'address' && result.title.toLowerCase().includes(val.toLowerCase())) {
+        matches.push(result)
+        const index = this.filteredOptions.indexOf(result);
+        if (index) {
+          this.filteredOptions.splice(index, 1)
+        }
+      }
+    }
+
+    if (matches.length > 0) {
+      this.filteredOptions = matches.concat(this.filteredOptions)
+    }
   }
 
   async ngAfterViewInit() {
@@ -467,7 +496,79 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     this.selectedLayer = selectedLayer.value as SelectedLayer || 'wildfire-stage-of-control';
     this.onSelectLayer(this.selectedLayer);
     this.isMapLoaded = true;
+    this.notificationService.getUserNotificationPreferences().then(response =>{
+      const SMK = window['SMK']
+      const map = getActiveMap(SMK).$viewer.map;
+
+      map.on('zoomend', () => {
+        this.updateSavedLocationLabelVisibility();
+      });
+      for (const smkMap in SMK.MAP) {
+        if (Object.hasOwn(SMK.MAP, smkMap)){
+          const savedLocationMarker = {
+            icon: L.divIcon({
+              className: 'custom-icon-class',
+              html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
+                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
+                  </div>`,              
+              iconSize: [32, 32],
+              iconAnchor: [16, 32],
+              popupAnchor: [0, -32],
+            }),
+            draggable: false
+          };
+          for (const item of response?.notifications) {
+            const marker = L.marker([item.point.coordinates[1], item.point.coordinates[0]], savedLocationMarker).addTo(getActiveMap(this.SMK).$viewer.map);
+            const label = L.marker([item.point.coordinates[1], item.point.coordinates[0]], {
+              icon: L.divIcon({
+                  className: 'marker-label',
+                  html: `<div class="custom-marker" 
+                  style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
+                  ${item.notificationName}
+                </div>`,   
+                })
+            });
+            label.addTo(getActiveMap(this.SMK).$viewer.map);
+            this.savedLocationlabels.push(label);
+            this.savedLocationlabelsToShow.push(label);
+          }   
+        }
+      }
+      }) .catch(error=>{
+        console.error(error)
+    })
     this.cdr.detectChanges();
+  }
+
+  private updateSavedLocationLabelVisibility() {
+    // showing the savedLocation label only start with zoom level 5
+    const map = getActiveMap(this.SMK).$viewer.map;
+    const currentZoom = map.getZoom();
+    if (currentZoom < 5) {
+      this.removeAllSavedLocationLabels()
+    } else {
+      this.addAllSavedLocationLabels()
+    }
+  }
+
+  private removeAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+  
+    // Iterate over the array of markers and remove them from the map
+    for (const label of this.savedLocationlabelsToShow) {
+      map.removeLayer(label);
+    }
+    this.savedLocationlabelsToShow = [];
+  }
+
+  private addAllSavedLocationLabels() {
+    const map = getActiveMap(this.SMK).$viewer.map;
+    if (this.savedLocationlabelsToShow?.length === 0) {
+      for (const label of this.savedLocationlabels) {
+        label.addTo(getActiveMap(this.SMK).$viewer.map);
+        this.savedLocationlabelsToShow.push(label);
+      }
+    }
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
