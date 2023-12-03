@@ -184,7 +184,9 @@ export class SavedComponent implements OnInit {
   }
 
   navToFullDetails(location: any){
-    this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { type: 'saved-location', name: location.notificationName} });
+    if(location?.notificationName && location?.point && location?.point?.coordinates) {
+      this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { type: 'saved-location', name: location.notificationName, latitude: location.point.coordinates[1], longitude: location.point.coordinates[0]} });
+    }
   }
 
   async loadWatchlist () {

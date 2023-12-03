@@ -8,7 +8,7 @@
                     <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                     <div *ngIf="location.address" class="saved-location-detail">
                         <span>{{location.notificationName}}</span>
-                        <span class="location-coordinates">{{location.address}}</span>
+                        <span class="saved-detail">{{location.address}}</span>
                     </div>
                     <div *ngIf="!location.address" class="saved-location-detail">
                         <span>{{location.notificationName}}</span>
@@ -16,7 +16,7 @@
                 </div>
                 <div class="saved-location-detail">
                     <span>{{location.radius}}km</span>
-                    <span class="location-coordinates">Radius</span>
+                    <span class="saved-detail">Radius</span>
                 </div>
             </div>
             <div class="divider"></div>
@@ -45,9 +45,9 @@
     <button (click)="navToMap()" mat-button class="map-button"><img class="icon" src="/assets/images/svg-icons/map.svg"
             alt="Map" />View on Map</button>
     <div class="action-buttons">
-        <button (click)="delete()" mat-button class="mobile-button"><img class="icon"
+        <button (click)="delete()" mat-button class="mobile-button"><img class="icon-top"
                 src="/assets/images/svg-icons/delete.svg" alt="Delete" />Delete</button>
-        <button (click)="edit()" mat-button class="mobile-button"><img class="icon"
+        <button (click)="edit()" mat-button class="mobile-button"><img class="icon-top"
                 src="/assets/images/svg-icons/edit.svg" alt="Edit" />Edit</button>
     </div>
 </div>
@@ -57,19 +57,27 @@
     <div class="section-card">
         <div class="saved-location-content">
             <div class="saved-location-content-1">
-                <div class="saved-location-details-2">
-                    <img class="location-icon" src="/assets/images/svg-icons/carbon_partly-cloudy.svg">
+                <div class="saved-location-details-3">
                     <div class="saved-location-detail">
-                        <span>Current Weather</span>
-                        <span class="location-coordinates">Today at {{stationHour}}</span>
-                        <div class="divider"></div>
-                        <span class="location-coordinates">Weather Station: {{stationName}}</span>
-                        <span class="location-coordinates"><img class="icon"
+                        <div class="saved-detail">
+                            <div class="saved-title">
+                                <img class="location-icon"
+                                    src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
+                            </div>
+                            <div class="saved-subtitle">Today at {{stationHour}}</div>
+                            <img (click)="navigateToWeather()" class="arrow-button"
+                                src="/assets/images/svg-icons/forward-arrow-grey.svg">
+                        </div>
+                    </div>
+                    <div class="divider-2"></div>
+                    <div class="saved-location-detail">
+                        <span class="saved-detail">Weather Station: {{stationName}}</span>
+                        <span class="saved-detail"><img class="icon-top"
                                 src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
-                        <span class="location-coordinates"><img class="icon"
+                        <span class="saved-detail"><img class="icon-top"
                                 src="/assets/images/svg-icons/carbon_humidity.svg">Humidity:
                             {{station.relativeHumidity}}%</span>
-                        <span class="location-coordinates"><img class="icon"
+                        <span class="saved-detail"><img class="icon-top"
                                 src="/assets/images/svg-icons/carbon_windy-strong.svg">Wind: {{station.windSpeed}}
                             km/h</span>
                     </div>
@@ -81,20 +89,23 @@
         <div class="saved-location-content">
             <div class="saved-location-content-1">
                 <div class="saved-location-details-3">
-                    <div class="fire-bans"> <img class="icon" src="/assets/images/svg-icons/ban-icon.svg">
-                        Current Fire Bans </div>
-                    <div class="divider"></div>
-                    <div class="saved-location-details-2">
-                        <div>
-                            <div *ngIf="fireBans && fireBans.length > 0 ; else noBans">
-                                <div *ngFor="let ban of fireBans" class="fire-bans">
-                                    Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
-                                </div>
+                    <div class="saved-location-detail">
+                        <div class="saved-detail">
+                            <div class="saved-title">
+                                <img class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
                             </div>
-                            <ng-template #noBans class="fire-bans">
-                                No bans in effect
-                            </ng-template>
                         </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="saved-location-detail">
+                        <div *ngIf="fireBans && fireBans.length > 0 ; else noBans">
+                            <div *ngFor="let ban of fireBans" class="saved-detail">
+                                Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
+                            </div>
+                        </div>
+                        <ng-template #noBans class="saved-detail">
+                            No bans in effect
+                        </ng-template>
                     </div>
                 </div>
             </div>
@@ -103,37 +114,38 @@
     <div class="section-card">
         <div class="saved-location-content">
             <div class="saved-location-content-1">
-                <div class="saved-location-details-2">
-                    <img class="location-icon" src="/assets/images/svg-icons/fire-danger.svg">
+                <div class="saved-location-details-3">
                     <div class="saved-location-detail">
-                        <span>Danger Rating</span>
+                        <div class="saved-title">
+                            <img class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
+                        </div>
                         <div class="divider"></div>
-                        <div *ngIf="dangerRatingLabel === 'Extreme'" class="left-content">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-extreme.svg"
+                        <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-extreme.svg"
                                 alt="Fire Danger">
-                            <span class="location-coordinates">{{dangerRatingLabel}} Fire Danger</span>
+                            {{dangerRatingLabel}} Fire Danger
                         </div>
-                        <div *ngIf="dangerRatingLabel === 'High'" class="left-content">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-high.svg"
+                        <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-high.svg"
                                 alt="Fire Danger">
-                            <span class="location-coordinates">{{dangerRatingLabel}} Fire Danger</span>
+                            {{dangerRatingLabel}} Fire Danger
                         </div>
-                        <div *ngIf="dangerRatingLabel === 'Moderate'" class="left-content">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-moderate.svg"
+                        <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-moderate.svg"
                                 alt="Fire Danger">
-                            <span class="location-coordinates">{{dangerRatingLabel}} Fire Danger</span>
+                            {{dangerRatingLabel}} Fire Danger
                         </div>
-                        <div *ngIf="dangerRatingLabel === 'Low'" class="left-content">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-low.svg"
+                        <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-low.svg"
                                 alt="Fire Danger">
-                            <span class="location-coordinates">{{dangerRatingLabel}} Fire Danger</span>
+                            {{dangerRatingLabel}} Fire Danger
                         </div>
-                        <div *ngIf="dangerRatingLabel === 'Very Low'" class="left-content">
-                            <img class="incident-icon-title" src="/assets/images/svg-icons/fire-danger-very-low.svg"
+                        <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-very-low.svg"
                                 alt="Fire Danger">
-                            <span class="location-coordinates">{{dangerRatingLabel}} Fire Danger</span>
+                            {{dangerRatingLabel}} Fire Danger
                         </div>
-                        <span class="location-coordinates">{{displayDangerRatingDes(dangerRatingLabel)}}</span>
+                        <span class="saved-detail">{{displayDangerRatingDes(dangerRatingLabel)}}</span>
                     </div>
                 </div>
             </div>
@@ -161,8 +173,8 @@
             on {{convertToDateTimeTimeZone(item.attributes.DATE_MODIFIED)}}
         </div>
         <div class="subtitle">
-            <img class="icon" src="/assets/images/svg-icons/issuing_agency.svg"
-                alt="issuing_agency" />Issued by {{item.attributes.ISSUING_AGENCY}}
+            <img class="icon" src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
+            {{item.attributes.ISSUING_AGENCY}}
             <img (click)="navigateToEvac(item)" class="arrow-button-order"
                 src="/assets/images/svg-icons/forward-arrow-red.svg">
         </div>
@@ -198,19 +210,19 @@
         <div class="fire-info-container">
             <div class="wildfire-title">{{incident.incidentName}} Wildfire<img class="wildfire-title-icon"
                     src="/assets/images/svg-icons/bookmark.svg" alt="Calendar" /></div>
-            <hr class="break">
-            <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img
-                    class="wilfire-of-note-panel-icon" src="/assets/images/local_fire_department.png"
-                    alt="Fire Of Note" />Wildfire
+            <div class="divider-2"></div>
+            <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
+                    src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
                 of Note</div>
-            <span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
-            {{getStageOfControlLabel(incident.stageOfControlCode)}}
+            <div class="info"><span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
+                {{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
             <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
                     alt="Location Pin" />{{incident.fireCentreName}}</div>
-            <div class="info"><img class="icon"
-                    src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered on
-                {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"class="arrow-button"
-                    src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+            <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
+                    alt="Calendar" />Discovered on
+                {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
+                    class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
         </div>
     </div>
 </div>
+<div class="bottom"></div>

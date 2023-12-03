@@ -59,7 +59,7 @@ export class PointIdService {
   }
 
   fetchNearby(latitude: number, longitude: number, radius: number): Promise<WeatherStationConditions> {
-    return this.fetch(`${this.baseAPIUrl}/radius?lat=${latitude.toFixed(3)}&lon=${longitude.toFixed(3)}&radius=${radius}`)
+    return this.fetch(`${this.baseAPIUrl}/nearby?lat=${latitude.toFixed(3)}&lon=${longitude.toFixed(3)}&radius=${radius}`)
       .then(response => {
         return response;
       });
