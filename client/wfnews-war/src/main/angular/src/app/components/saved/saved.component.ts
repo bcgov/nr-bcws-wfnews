@@ -183,6 +183,12 @@ export class SavedComponent implements OnInit {
     console.log('detail not implemented ')
   }
 
+  navToFullDetails(location: any){
+    if(location?.notificationName && location?.point && location?.point?.coordinates) {
+      this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { type: 'saved-location', name: location.notificationName, latitude: location.point.coordinates[1], longitude: location.point.coordinates[0]} });
+    }
+  }
+
   async loadWatchlist () {
       this.wildFireWatchlist = []
       const watchlistItems = this.watchlistService.getWatchlist()

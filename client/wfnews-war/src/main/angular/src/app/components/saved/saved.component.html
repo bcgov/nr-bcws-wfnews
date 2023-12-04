@@ -20,7 +20,7 @@
     <div *ngIf="savedLocations.length">
         <div *ngFor="let location of savedLocations">
             <div class="section-card">
-                <div class="saved-location-content">
+                <div class="saved-location-content" (click)="navToFullDetails(location)">
                     <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                     <span>Add a saved location</span> -->
                     <div class="saved-location-content-1">

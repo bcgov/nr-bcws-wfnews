@@ -1,5 +1,6 @@
 import { AfterContentInit, ChangeDetectorRef, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from "@angular/core"
 import { RoFTitlePage } from "./title-page/rof-title-page.component";
+import { Location } from '@angular/common'
 import { RoFPermissionsPage } from "./permissions-page/rof-permissions-page.component";
 import { RoFSimpleQuestionPage } from "./simple-question-page/rof-simple-question-page.component";
 import { RoFContactPage } from "./contact-page/rof-contact-page.component";
@@ -7,7 +8,6 @@ import { RoFLocationPage } from "./location-page/rof-location-page.component";
 import { RoFPhotoPage } from "./photo-page/rof-photo-page.component";
 import { ReportOfFire } from "./reportOfFireModel";
 import { RoFComplexQuestionPage } from "./complex-question-page/rof-complex-question-page.component";
-
 import ConfigJson from './report-of-fire.config.json';
 import { RoFCommentsPage } from "./comment-page/rof-comments-page.component";
 import { RoFReviewPage } from "./review-page/rof-review-page.component";
@@ -52,7 +52,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
-  constructor(private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, protected dialog: MatDialog) {
+  constructor(private locationService: Location, private router: Router, protected cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, protected dialog: MatDialog) {
     this.pageComponents = [];
   }
 
@@ -295,7 +295,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.isEditMode = false;
       this.cdr.detectChanges();
     } else if (this.currentPage.instance.id === 'final-page') {
-      this.router.navigateByUrl('/map')   
+      //this.router.navigateByUrl('/map')
+      this.locationService.back()
      } else {
         let dialogRef;
         if (window.innerWidth >= 850) {
@@ -317,10 +318,11 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
           }
         });
       }
-        
+
         dialogRef.afterClosed().subscribe(result => {
           if (result['exit']) {
-            this.router.navigateByUrl('/dashboard')
+            //this.router.navigateByUrl('/dashboard')
+            this.locationService.back()
           }
         });
     }
