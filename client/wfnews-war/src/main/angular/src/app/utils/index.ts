@@ -22,7 +22,8 @@ export enum ResourcesRoutes {
     SAVED = 'saved',
     ADD_LOCATION = 'add-location',
     MORE = 'more',
-    CONTACT_US = 'contact-us'
+    CONTACT_US = 'contact-us',
+    SAVED_LOCATION = 'saved-location'
 }
 
 export const FireCentres = [
@@ -462,4 +463,19 @@ export function getActiveMap(smk: any | null = null) {
 
 export function openLink(link: string) {
     window.open(this.appConfigService.getConfig().externalAppConfig[link] as unknown as string, '_blank')
+  }
+
+  export function  displayDangerRatingDes(danger) {
+    switch (danger) {
+      case 'Extreme':
+        return "Extremely dry forest fuels and the fire risk is very serious. New fires will start easily, spread rapidly, and challenge fire suppression efforts."
+      case 'High':
+        return "Forest fuels are very dry and the fire risk is serious.  Extreme caution must be used in any forest activities."
+      case 'Moderate':
+        return "Forest fuels are drying and there is an increased risk of surface fires starting. Carry out any forest activities with caution."
+      case 'Low':
+        return "Fires may start easily and spread quickly but there will be minimal involvement of deeper fuel layers or larger fuels."
+      case 'Very Low':
+        return "Dry forest fuels are at a very low risk of catching fire."
+    }
   }
