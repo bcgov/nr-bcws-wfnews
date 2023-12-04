@@ -32,7 +32,10 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   navigateToEvac(evac) {
-    //to do. need to wait for the screen design
+    let type = null;
+    if (evac.orderAlertStatus=== 'Alert') type = "evac-alert";
+    else if (evac.orderAlertStatus  === 'Order') type = "evac-order";
+    this.route.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: evac.emrgOAAsysID, source: [ResourcesRoutes.PUBLIC_INCIDENT] } });
   }
 
   navigateToAreaRestriction(area) {

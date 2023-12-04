@@ -1,0 +1,228 @@
+<div class="saved-header"><img (click)="backToSaved()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
+        class="back-icon" />Back</div>
+<div class="section">
+    <div class="section-card">
+        <div class="saved-location-content">
+            <div class="saved-location-content-1">
+                <div class="saved-location-details-2">
+                    <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                    <div *ngIf="location.address" class="saved-location-detail">
+                        <span>{{location.notificationName}}</span>
+                        <span class="saved-detail">{{location.address}}</span>
+                    </div>
+                    <div *ngIf="!location.address" class="saved-location-detail">
+                        <span>{{location.notificationName}}</span>
+                    </div>
+                </div>
+                <div class="saved-location-detail">
+                    <span>{{location.radius}}km</span>
+                    <span class="saved-detail">Radius</span>
+                </div>
+            </div>
+            <div class="divider"></div>
+            <div class="saved-location-content-2">
+                <div class="saved-location-details-2">
+                    <img class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
+                    <div>
+                        <div class="fire-bans">
+                            {{fireCentre}}
+                        </div>
+                    </div>
+                </div>
+                <div class="saved-location-details-2">
+                    <img class="bans-icon" src="/assets/images/svg-icons/location-button-grey.svg">
+                    <div>
+                        <div *ngIf="fireCentre">
+                            <div class="fire-bans">
+                                {{getFormattedCoords(location.point.coordinates)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button (click)="navToMap()" mat-button class="map-button"><img class="icon" src="/assets/images/svg-icons/map.svg"
+            alt="Map" />View on Map</button>
+    <div class="action-buttons">
+        <button (click)="delete()" mat-button class="mobile-button"><img class="icon-top"
+                src="/assets/images/svg-icons/delete.svg" alt="Delete" />Delete</button>
+        <button (click)="edit()" mat-button class="mobile-button"><img class="icon-top"
+                src="/assets/images/svg-icons/edit.svg" alt="Edit" />Edit</button>
+    </div>
+</div>
+<div class="break"></div>
+<div class="section">
+    <div class="section-title">Conditions</div>
+    <div class="section-card">
+        <div class="saved-location-content">
+            <div class="saved-location-content-1">
+                <div class="saved-location-details-3">
+                    <div class="saved-location-detail">
+                        <div class="saved-detail">
+                            <div class="saved-title">
+                                <img class="location-icon"
+                                    src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
+                            </div>
+                            <div class="saved-subtitle">Today at {{stationHour}}</div>
+                            <img (click)="navigateToWeather()" class="arrow-button"
+                                src="/assets/images/svg-icons/forward-arrow-grey.svg">
+                        </div>
+                    </div>
+                    <div class="divider-2"></div>
+                    <div class="saved-location-detail">
+                        <span class="saved-detail">Weather Station: {{stationName}}</span>
+                        <span class="saved-detail"><img class="icon-top"
+                                src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
+                        <span class="saved-detail"><img class="icon-top"
+                                src="/assets/images/svg-icons/carbon_humidity.svg">Humidity:
+                            {{station.relativeHumidity}}%</span>
+                        <span class="saved-detail"><img class="icon-top"
+                                src="/assets/images/svg-icons/carbon_windy-strong.svg">Wind: {{station.windSpeed}}
+                            km/h</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-card">
+        <div class="saved-location-content">
+            <div class="saved-location-content-1">
+                <div class="saved-location-details-3">
+                    <div class="saved-location-detail">
+                        <div class="saved-detail">
+                            <div class="saved-title">
+                                <img class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider"></div>
+                    <div class="saved-location-detail">
+                        <div *ngIf="fireBans && fireBans.length > 0 ; else noBans">
+                            <div *ngFor="let ban of fireBans" class="saved-detail">
+                                Fire Ban on {{ban.attributes.ACCESS_PROHIBITION_DESCRIPTION}}
+                            </div>
+                        </div>
+                        <ng-template #noBans class="saved-detail">
+                            No bans in effect
+                        </ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="section-card">
+        <div class="saved-location-content">
+            <div class="saved-location-content-1">
+                <div class="saved-location-details-3">
+                    <div class="saved-location-detail">
+                        <div class="saved-title">
+                            <img class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
+                        </div>
+                        <div class="divider"></div>
+                        <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-extreme.svg"
+                                alt="Fire Danger">
+                            {{dangerRatingLabel}} Fire Danger
+                        </div>
+                        <div *ngIf="dangerRatingLabel === 'High'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-high.svg"
+                                alt="Fire Danger">
+                            {{dangerRatingLabel}} Fire Danger
+                        </div>
+                        <div *ngIf="dangerRatingLabel === 'Moderate'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-moderate.svg"
+                                alt="Fire Danger">
+                            {{dangerRatingLabel}} Fire Danger
+                        </div>
+                        <div *ngIf="dangerRatingLabel === 'Low'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-low.svg"
+                                alt="Fire Danger">
+                            {{dangerRatingLabel}} Fire Danger
+                        </div>
+                        <div *ngIf="dangerRatingLabel === 'Very Low'" class="saved-detail">
+                            <img class="danger-icon" src="/assets/images/svg-icons/fire-danger-very-low.svg"
+                                alt="Fire Danger">
+                            {{dangerRatingLabel}} Fire Danger
+                        </div>
+                        <span class="saved-detail">{{displayDangerRatingDes(dangerRatingLabel)}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="section-title">Evacuations Nearby</div>
+    <div class="saved-location-content" *ngIf="!evacOrders && !evacAlerts">
+        <div class="saved-location-content-1">
+            <div class="saved-location-details-2">
+                <div class="saved-location-detail">
+                    <span>There are no Evacuations near this location</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-card-order" *ngFor="let item of evacOrders">
+        <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-order.svg"
+                alt="evacuation-order" />
+            Evacuation Order for {{item.attributes.EVENT_NAME}}</div>
+        <div class="divider"></div>
+        <div class="subtitle">
+            <img class="icon" src="/assets/images/svg-icons/calendar.svg" alt="calendar" />Issued
+            on {{convertToDateTimeTimeZone(item.attributes.DATE_MODIFIED)}}
+        </div>
+        <div class="subtitle">
+            <img class="icon" src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
+            {{item.attributes.ISSUING_AGENCY}}
+            <img (click)="navigateToEvac(item)" class="arrow-button-order"
+                src="/assets/images/svg-icons/forward-arrow-red.svg">
+        </div>
+    </div>
+    <div class="info-card-alert" *ngFor="let item of evacAlerts">
+        <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-alert.svg"
+                alt="evacuation-alert" />Evacuation Alert for {{item.attributes.EVENT_NAME}}</div>
+        <div class="divider"></div>
+        <div class="subtitle">
+            <img class="icon" src="/assets/images/svg-icons/calendar.svg" alt="calendar" />Issued
+            on {{convertToDateTimeTimeZone(item.attributes.DATE_MODIFIED)}}
+        </div>
+        <div class="subtitle"><img class="icon" src="/assets/images/svg-icons/issuing_agency.svg"
+                alt="issuing_agency" />Issued by
+            {{item.attributes.ISSUING_AGENCY}}
+            <img (click)="navigateToEvac(item)" class="arrow-button-alert"
+                src="/assets/images/svg-icons/forward-arrow-yellow.svg">
+        </div>
+    </div>
+</div>
+<div class="section">
+    <div class="section-title">Wildfires Nearby</div>
+    <div class="saved-location-content" *ngIf="!nearbyWildfires">
+        <div class="saved-location-content-1">
+            <div class="saved-location-details-2">
+                <div class="saved-location-detail">
+                    <span>There are no Wildfires near this location</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="info-container" *ngFor="let incident of nearbyWildfires">
+        <div class="fire-info-container">
+            <div class="wildfire-title">{{incident.incidentName}} Wildfire<img class="wildfire-title-icon"
+                    src="/assets/images/svg-icons/bookmark.svg" alt="Calendar" /></div>
+            <div class="divider-2"></div>
+            <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
+                    src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
+                of Note</div>
+            <div class="info"><span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
+                {{getStageOfControlLabel(incident.stageOfControlCode)}}</div>
+            <div class="info"><img class="icon" src="/assets/images/svg-icons/location-pin.svg"
+                    alt="Location Pin" />{{incident.fireCentreName}}</div>
+            <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
+                    alt="Calendar" />Discovered on
+                {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
+                    class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+        </div>
+    </div>
+</div>
+<div class="bottom"></div>
