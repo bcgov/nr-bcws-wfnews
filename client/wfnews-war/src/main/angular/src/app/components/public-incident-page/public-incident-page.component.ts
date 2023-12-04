@@ -146,7 +146,8 @@ export class PublicIncidentPage implements OnInit {
   }
 
   async getEvacOrders() {
-    return this.agolService.getEvacOrdersByEventNumber(this.incidentNumber, { returnCentroid: true, returnGeometry: false }).toPromise().then(response => {
+    return this.agolService.getEvacOrders(null, {x: Number(this.incident.longitude), y: Number(this.incident.latitude), radius:0.1}, 
+    { returnCentroid: true, returnGeometry: false }).toPromise().then(response => {
       if (response.features) {
         for (const element of response.features) {
           this.evacOrders.push({
