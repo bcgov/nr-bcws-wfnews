@@ -51,6 +51,7 @@
 
     String agolAreaRestrictions = EnvironmentVariable.getVariable("AGOL_AREA_RESTRICTIONS");
     String agolBansAndProhibitions = EnvironmentVariable.getVariable("AGOL_BANS_AND_PROHIBITIONS");
+    String agolDangerRatings = EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
 
     // External Application Section
     json.append("\"externalAppConfig\":{");
@@ -68,6 +69,7 @@
       json.append("\"AGOLevacOrders\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/").append("\",");
       json.append("\"AGOLareaRestrictions\":\"").append(agolAreaRestrictions).append("\",");
       json.append("\"AGOLBansAndProhibitions\":\"").append(agolBansAndProhibitions).append("\",");
+      json.append("\"AGOLDangerRatings\":\"").append(agolDangerRatings).append("\",");
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");

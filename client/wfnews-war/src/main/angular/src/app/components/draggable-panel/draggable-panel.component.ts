@@ -163,6 +163,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
       this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
+      console.log('this.filteredDangerRatings')
+      console.log(this.filteredDangerRatings)
     }
   }
 
@@ -375,6 +377,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
   enterFullDetail() {
     const item = this.identifyItem
+    console.log(item)
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()

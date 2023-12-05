@@ -213,6 +213,9 @@ import { AddSavedLocationComponent } from './components/saved/add-saved-location
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
 import { MatSliderModule } from '@angular/material/slider';  
+import { NotificationService } from '@app/services/notification.service';
+import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 
 
 
@@ -368,6 +371,8 @@ export const DATE_FORMATS = {
         SearchPageComponent,
         AddSavedLocationComponent,
         notificationMapComponent,
+        SavedLocationFullDetailsComponent,
+        ConfirmationDialogComponent,
     ],
     imports: [
         MatSortModule,
@@ -508,7 +513,8 @@ export const DATE_FORMATS = {
         WatchlistService,
         PointIdService,
         CanDeactivateGuard,
-        ReportOfFireService
+        ReportOfFireService,
+        NotificationService
     ],
     bootstrap: [
         AppComponent

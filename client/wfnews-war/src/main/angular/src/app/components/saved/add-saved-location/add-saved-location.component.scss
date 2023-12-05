@@ -263,7 +263,18 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+    background: var(--blues-blue-2, #036);
+    color: #FFF;
+    border: 1px solid var(--blues-blue-2, #036);
 }
+
+.disabled-button {
+    @extend .save-button;
+    background: gray;
+    color: var(--grays-black, #000);
+    border: 1px solid var(--grays-gray-6, #C4C4C4);
+}
+
 
 .save-button-section{
     width: 100%;

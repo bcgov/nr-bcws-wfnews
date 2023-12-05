@@ -25,6 +25,7 @@
         "AGOLevacOrders": "#{AGOL_EVAC_ORDERS}#",
         "AGOLareaRestrictions": "#{AGOL_AREA_RESTRICTIONS}#",
         "AGOLBansAndProhibitions": "#{AGOL_BANS_AND_PROHIBITIONS}#",
+        "AGOLDangerRatings": "#{AGOL_DANGER_RATINGS}#",
         "AGOLperimetres": "#{AGOL_PERIMETRES}#",
         "AGOLactiveFirest": "#{AGOL_ACTIVE_FIRES}#",
         "contactInformation": {

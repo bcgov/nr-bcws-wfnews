@@ -70,10 +70,9 @@ export class SearchPageComponent implements OnInit {
 
     // pre-load fires of note for the province
     this.publishedIncidentService.fetchPublishedIncidents(0, 9999, true, false).toPromise().then(incidents => {
-      if (incidents && incidents.collection) {
-        for (const element of incidents.collection) {
+      if (incidents?.collection) {
+        for (const element of incidents.collection.filter(e => e.stageOfControlCode !== 'OUT')) {
           const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : ''
-
           this.fonData.push({
             id: element.incidentNumberLabel,
             type: 'incident',
@@ -91,7 +90,7 @@ export class SearchPageComponent implements OnInit {
 
     // pre-load evacuations
     this.agolService.getEvacOrders(null, null, { returnCentroid: this.userLocation !== null, returnGeometry: false}).toPromise().then(evacs => {
-      if (evacs && evacs.features) {
+      if (evacs?.features) {
         for (const element of evacs.features) {
           let distance = null
           if (this.userLocation) {
@@ -199,8 +198,8 @@ export class SearchPageComponent implements OnInit {
     // limited load or keep paging/fetching?
     const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(1, 10, this.userLocation, this.searchText).toPromise()
 
-    if (incidents && incidents.collection) {
-      for (const element of incidents.collection) {
+    if (incidents?.collection) {
+      for (const element of incidents.collection.filter(e => e.stageOfControlCode !== 'OUT')) {
         const distance = this.userLocation ? (Math.round(haversineDistance(element.latitude, this.userLocation.coords.latitude, element.longitude, this.userLocation.coords.longitude) / 1000)).toFixed(0) : null
 
         this.allResultData.push({
@@ -209,7 +208,7 @@ export class SearchPageComponent implements OnInit {
           title: element.incidentName === element.incidentNumberLabel ? element.incidentName : `${element.incidentName} (${element.incidentNumberLabel})`,
           subtitle: element.fireCentreName,
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) ? 4 : 3,
+          relevance: /^\d/.test(this.searchText.trim()) ? 2 : 1,
           location: [element.longitude, element.latitude]
         })
       }
@@ -229,7 +228,7 @@ export class SearchPageComponent implements OnInit {
     const whereString = `(EVENT_NAME LIKE '%${this.searchText}%' OR ORDER_ALERT_STATUS LIKE '%${this.searchText}%' OR ISSUING_AGENCY LIKE '%${this.searchText}%')`
 
     const evacs = await this.agolService.getEvacOrders(whereString, null, { returnCentroid: this.userLocation !== null, returnGeometry: false}).toPromise()
-    if (evacs && evacs.features) {
+    if (evacs?.features) {
       for (const element of evacs.features) {
         let distance = null
         if (this.userLocation) {
@@ -247,9 +246,9 @@ export class SearchPageComponent implements OnInit {
           title: element.attributes.EVENT_NAME,
           subtitle: '', // Fire Centre would mean loading incident as well... evacs can cross centres
           distance: distance,
-          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 1
-                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Alert' ? 2
-                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'Order' ? 2
+          relevance: /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
+                   : /^\d/.test(this.searchText.trim()) && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'alert' ? 3
+                   : /^\d/.test(this.searchText.trim()) === false && (element.attributes.ORDER_ALERT_STATUS as string).toLowerCase() === 'order' ? 2
                    : 3,
           location: [element.centroid.x, element.centroid.y]
         })

@@ -12,6 +12,14 @@
     padding-right: env(safe-area-inset-right);
 }
 
+::ng-deep .body .nav-items {
+  width: 100vw;
+}
+
+::ng-deep .body .nav-items a.nav-item .label {
+  min-width: 105px !important;
+}
+
 .container-fluid {
 	padding-left: 0;
 	padding-right: 0;
@@ -300,7 +308,10 @@
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.24px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FCFCFC;
   }
 
   .icon{
@@ -312,8 +323,12 @@
   .active {
     color: white;
     fill: white;
-    background-color: #123262;; /* Set the background color to blue for active items */
+    background-color: #036; /* Set the background color to blue for active items */
     border-radius: 8.832px;
+  }
+
+  .text-active {
+    color: #04224E
   }
 
   .hide {

@@ -9,13 +9,14 @@ import org.slf4j.LoggerFactory;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 
 public class JsonTransformer implements Transformer {
 
 	private static final Logger logger = LoggerFactory
 			.getLogger(JsonTransformer.class);
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private ObjectMapper mapper = new ObjectMapper().registerModule(new Jdk8Module());
 	
 	@Override
 	public Object unmarshall(byte[] input, Class<?> clazz) throws TransformerException {

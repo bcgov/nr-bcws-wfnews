@@ -86,6 +86,7 @@ jobs:
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
+          agolDangerRatings: ${{vars.AGOL_DANGER_RATINGS}}
           agolUrl: ${{vars.AGOL_URL}}
           ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY }}

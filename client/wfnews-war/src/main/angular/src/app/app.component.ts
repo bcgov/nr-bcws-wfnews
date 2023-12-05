@@ -139,6 +139,19 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   };
 
   ngOnInit() {
+    if (this.isMobileView()) {
+      if (typeof (window.screen.orientation as any).lock === 'function') {
+        const lock = (window.screen.orientation as any).lock('portrait');
+        (lock as Promise<any>).then(() => {
+          console.log('Orientation locked to Portrait');
+        }).catch(err => {
+          console.error('Failed to lock device orientation: ', err);
+        })
+      } else {
+        console.error('Failed to lock device orientation')
+      }
+    }
+
     this.wfMapService.patch();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
@@ -222,10 +235,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   initAppMenu() {
     this.appMenu = [
-      new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
-      new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
-      new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
-      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
+      new RouterLink('Map View', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
+      new RouterLink('List View', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
+      new RouterLink('Saved', '/' + ResourcesRoutes.SAVED, 'local_fire_department', 'collapsed', this.router),
+      new RouterLink('Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Report a Fire', '/' + ResourcesRoutes.ROF, 'links', 'collapsed', this.router),
       new RouterLink('Contact Us', '/' + ResourcesRoutes.CONTACT_US, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }

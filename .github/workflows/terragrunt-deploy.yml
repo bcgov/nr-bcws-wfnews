@@ -111,6 +111,7 @@ jobs:
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
+          agolDangerRatings: ${{vars.AGOL_DANGER_RATINGS}}
           agolUrl: ${{vars.AGOL_URL}}
           ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY }}
@@ -156,8 +157,8 @@ jobs:
           WEBADE-OAUTH2_CHECK_TOKEN_URL: ${{vars.WEBADE_OAUTH2_CHECK_TOKEN_URL}}
           WEBADE-OAUTH2_TOKEN_CLIENT_URL: ${{vars.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE-OAUTH2_TOKEN_URL: ${{vars.WEBADE_OAUTH2_TOKEN_URL}}
-          YOUTUBE_API_KEY: ${{vars.YOUTUBE_API_KEY}}
-          YOUTUBE_CHANNEL_ID: ${{vars.YOUTUBE_CHANNEL_ID}}
+          YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}
           WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
           FIRE_REPORT_API_URL: ${{vars.FIRE_REPORT_API_URL}}
           NOTIFICATION_API_URL: ${{vars.NOTIFICATION_API_URL}}

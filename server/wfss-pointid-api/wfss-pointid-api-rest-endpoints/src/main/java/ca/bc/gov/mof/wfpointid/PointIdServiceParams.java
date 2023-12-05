@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PointIdServiceParams {
 	
-	@Value("${WFGS_URL}}")
+	@Value("${WFGS_URL}")
 	private String wfGeoserverURL;
 	
 	@Value("${BCGW_URL}")

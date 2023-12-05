@@ -274,5 +274,14 @@
       background: #FFF;
       height: 40px;
   }
+
+  .mobile-buttons.on-watchlist {
+    /* Add your additional styling for the button when onWatchlist is true */
+    /* For example, change background color or add a border */
+    background: var(--blues-blue-11, #F5F6F9);
+    font-weight: 500;
+    color: #10294E;
+    /* Add any other styles as needed */
+  }
 }
 

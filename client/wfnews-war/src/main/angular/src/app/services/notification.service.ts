@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { AppConfigService, TokenService } from "@wf1/core-ui";
+import { AppConfigService } from "@wf1/core-ui";
 
 export interface NotificationSettingRsrc {
     deviceType: string;
@@ -48,6 +48,11 @@ export interface VmCoordinates {
     long: number;
     lat: number;
   }
+
+  export interface BoundingBox {
+    latitude: number;
+    longitude: number;
+  }
   
 
 @Injectable({
@@ -55,46 +60,89 @@ export interface VmCoordinates {
 })
 
 export class NotificationService {
-  constructor(private appConfigService: AppConfigService, private httpClient: HttpClient, private capacitorService: CapacitorService) {  }
+  constructor(private appConfigService: AppConfigService, private http: HttpClient, private capacitorService: CapacitorService) {  }
 
-    public updateUserNotificationPreferences(notificationSettings) {
+    public updateUserNotificationPreferences(notificationSettings, savedNotification): Promise<any> {
         return this.capacitorService.deviceProperties.then(p => {
+                console.log("device properties:'",p)
                 const url = `${this.appConfigService.getConfig().rest['notification-api']}/notificationSettings/${p.deviceId}`
                 let headers = new HttpHeaders({
                     'apikey': this.appConfigService.getConfig().application['wfnewsApiKey'],
                 })
                 const token = this.capacitorService.getNotificationToken();
                 const notificationSettingRsrc = convertToNotificationSettingRsrc(notificationSettings)
+                notificationSettingRsrc.subscriberGuid = p.deviceId
                 notificationSettingRsrc.notificationToken = token
                 notificationSettingRsrc.deviceType = p.isAndroidPlatform ? 'android' : 'ios'
+                if (savedNotification.length) {
+                    savedNotification.forEach(notification => {
+                        notificationSettingRsrc.notifications.push(notification)
+                    });
+                }
+                return this.http.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
+            })
+    }
 
-                return this.httpClient.put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers }).toPromise()
-        })
+    public getUserNotificationPreferences(): Promise<any> {
+        return this.capacitorService.deviceProperties.then(p => {
+                const url = `${this.appConfigService.getConfig().rest['notification-api']}/notificationSettings/${p.deviceId}`
+                let headers = new HttpHeaders({
+                    'apikey': this.appConfigService.getConfig().application['wfnewsApiKey'],
+                })
+                return this.http.get(url, { headers }).toPromise()
+            })
+    }
+
+    public getFireCentreByLocation(bbox: BoundingBox[]): Promise<any> {
+        const formattedString = bbox.map(pair => `${pair.longitude}%20${pair.latitude}`).join('%2C');
+        let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'].toString()
+        url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG%3A4326&typename=pub%3AWHSE_LEGAL_ADMIN_BOUNDARIES.DRP_MOF_FIRE_CENTRES_SP&outputformat=application%2Fjson&cql_filter=INTERSECTS(GEOMETRY%2CSRID%3D4326%3BPOLYGON%20(("
+        url += formattedString +')))'
+        return this.http.get(url).toPromise()
+
+    }
+
+    public getDangerRatingByLocation(bbox: BoundingBox[]): Promise<any> {
+        const formattedString = bbox.map(pair => `${pair.longitude}%20${pair.latitude}`).join('%2C');
+        let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'].toString()
+        url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG%3A4326&typename=pub%3AWHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP&outputformat=application%2Fjson&cql_filter=INTERSECTS(SHAPE%2CSRID%3D4326%3BPOLYGON%20(("
+        url += formattedString +')))'
+        return this.http.get(url).toPromise()
+
     }
 }
 
-export function convertToNotificationSettingRsrc(np: VmNotificationPreferences): NotificationSettingRsrc {
+
+export function convertToNotificationSettingRsrc(np: any): NotificationSettingRsrc {
+    let notificationTopics = [];
+    if (np.pushNotificationsFireBans) {
+        notificationTopics.push("British_Columbia_Bans_and_Prohibition_Areas");
+        notificationTopics.push("British_Columbia_Area_Restrictions");
+    }
+    if (np.pushNotificationsWildfires) {
+        notificationTopics.push("BCWS_ActiveFires_PublicView");
+        notificationTopics.push("Evacuation_Orders_and_Alerts");
+    }
     return {
         '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notificationSettings',
-        notifications: np.notificationDetails.map( nd => {
-            return {
+        notifications: [
+            {
                 '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notification',
-                notificationName: nd.name,
-                notificationType: nd.type,
-                radius: nd.radius,
-                topics: nd.preferences,
+                notificationName: np.notificationName,
+                notificationType: 'nearme',
+                radius: np.radius,
                 point: {
                     type: 'Point',
-                    coordinates: [ nd.locationCoords.long, nd.locationCoords.lat ],
+                    coordinates: [np.longitude, np.latitude],
                     crs: null
                 },
-                activeIndicator: nd.active
+                activeIndicator: true,
+                topics:notificationTopics
             }
-        } ),
+        ],
         notificationToken: null,
-        subscriberToken: np.subscriberToken || 'subscriberToken',
-        subscriberGuid: np.subscriberGuid,
+        subscriberToken: 'subscriberTpken',
+        subscriberGuid: null,
         deviceType: null,
-    } as NotificationSettingRsrc;
+    } as unknown as NotificationSettingRsrc;
 }
-

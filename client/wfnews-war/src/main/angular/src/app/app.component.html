@@ -23,7 +23,7 @@
       (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
 
-    <div *ngIf="!isMobileView()" class="header-row">
+    <div *ngIf="!isMobileView() && !isAdminPage()" class="header-row">
       <div>
           <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
           <mat-menu #menu="matMenu">
@@ -55,35 +55,35 @@
             <ng-template #dashboardOther>
               <img class="icon" src="/assets/images/svg-icons/dashboard.svg" >
             </ng-template>
-            Dashboard
+            <span [class]="router.url === '/dashboard' ? 'text-active' : ''">Dashboard</span>
           </li>
           <li (click)="setActive('map')">
             <mat-icon svgIcon="map" class="icon active" *ngIf="router.url === '/map'; else mapOther"></mat-icon>
             <ng-template #mapOther>
               <mat-icon svgIcon="map" class="icon"></mat-icon>
             </ng-template>
-            Map
+            <span [class]="router.url === '/map' ? 'text-active' : ''">Map</span>
           </li>
           <li (click)="setActive('saved')">
             <img *ngIf="router.url === '/saved'; else savedOther" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
             <ng-template #savedOther>
               <img class="icon" src="/assets/images/svg-icons/saved.svg" >
             </ng-template>
-            Saved
+            <span [class]="router.url === '/saved' ? 'text-active' : ''">Saved</span>
           </li>
           <li (click)="setActive('reportOfFire')">
             <img *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
             <ng-template #reportOfFireOther>
-              <img class="icon" src="/assets/images/svg-icons/wildfire-white.svg" >
+              <img class="icon" src="/assets/images/svg-icons/rof-icon-white.svg" >
             </ng-template>
-            Report
+            <span [class]="router.url === '/reportOfFire' ? 'text-active' : ''">Report</span>
           </li>
           <li (click)="setActive('more')">
             <img *ngIf="router.url === '/more'; else moreOther" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
             <ng-template #moreOther>
               <img class="icon" src="/assets/images/svg-icons/more.svg" >
             </ng-template>
-            More
+            <span [class]="router.url === '/more' ? 'text-active' : ''">More</span>
           </li>
         </ul>
     </div>

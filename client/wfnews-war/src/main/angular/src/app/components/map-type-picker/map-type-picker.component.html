@@ -1,21 +1,21 @@
 <div class="map-type-picker">
   <div class="header">Map type</div>
   <div class="map-type-container">
-    <div class="map-type" (click)="onSelect('default')">
-      <img class="map-type-image" [ngClass]="{'selected': isSelected('default')}" src="assets/images/default-map.png" alt="default">
-      <div class="map-type-name" [ngClass]="{'selected': isSelected('default')}">Default</div>
+    <div class="map-type" (click)="onSelect('navigation')">
+      <img class="map-type-image" [ngClass]="{'selected': isSelected('navigation')}" src="assets/images/default-map.png" alt="default">
+      <div class="map-type-name" [ngClass]="{'selected': isSelected('navigation')}">Default</div>
     </div>
-    <div class="map-type" (click)="onSelect('satellite')">
-      <img class="map-type-image" [ngClass]="{'selected': isSelected('satellite')}" src="assets/images/satellite-map.png" alt="satellite">
-      <div class="map-type-name" [ngClass]="{'selected': isSelected('satellite')}">Satellite</div>
+    <div class="map-type" (click)="onSelect('imagery')">
+      <img class="map-type-image" [ngClass]="{'selected': isSelected('imagery')}" src="assets/images/satellite-map.png" alt="satellite">
+      <div class="map-type-name" [ngClass]="{'selected': isSelected('imagery')}">Satellite</div>
     </div>
-    <div class="map-type" (click)="onSelect('terrain')">
-      <img class="map-type-image" [ngClass]="{'selected': isSelected('terrain')}" src="assets/images/terrain-map.png" alt="terrain">
-      <div class="map-type-name" [ngClass]="{'selected': isSelected('terrain')}">Terrain</div>
+    <div class="map-type" (click)="onSelect('topography')">
+      <img class="map-type-image" [ngClass]="{'selected': isSelected('topography')}" src="assets/images/terrain-map.png" alt="terrain">
+      <div class="map-type-name" [ngClass]="{'selected': isSelected('topography')}">Terrain</div>
     </div>
-    <div class="map-type" (click)="onSelect('dark')">
-      <img class="map-type-image" [ngClass]="{'selected': isSelected('dark')}" src="assets/images/dark-map.png" alt="dark">
-      <div class="map-type-name" [ngClass]="{'selected': isSelected('dark')}">Dark</div>
+    <div class="map-type" (click)="onSelect('night')">
+      <img class="map-type-image" [ngClass]="{'selected': isSelected('night')}" src="assets/images/dark-map.png" alt="dark">
+      <div class="map-type-name" [ngClass]="{'selected': isSelected('night')}">Dark</div>
     </div>
   </div>
 </div>

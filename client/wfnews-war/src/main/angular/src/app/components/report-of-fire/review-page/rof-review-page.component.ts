@@ -313,6 +313,7 @@ async submitRof(){
     consentToCall: equalsIgnoreCase(this.reportOfFire.consentToCall, "Yes") ? true : false,
     estimatedDistance: this.reportOfFire.estimatedDistance,
     fireLocation: this.reportOfFire.fireLocation,
+    deviceLocation: this.reportOfFire.deviceLocation,
     fireSize: this.nullEmptyStrings(this.reportOfFire.fireSize),
     rateOfSpread: this.reportOfFire.rateOfSpread,
     burning: this.reportOfFire.burning,
@@ -322,7 +323,7 @@ async submitRof(){
     signsOfResponse: this.reportOfFire.signsOfResponse,
     otherInfo: this.reportOfFire.otherInfo,
     submittedTimestamp: new Date().getTime().toString(),
-    visibleFlame: new Array<string>(this.reportOfFire.visibleFlame)
+    visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
   }
 
   try {   

@@ -1,7 +1,7 @@
 <div class="container">
     <div class="title-section">
         <img height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
-        <span class="title">Add Saved Location</span>
+        <span class="title">{{ isEdit ? 'Edit Saved Location' : 'Add Saved Location' }}</span>
     </div>
     <div class ="content-section">
         <div class="section-frame">
@@ -13,7 +13,7 @@
         <div class="section-frame-1">
             <span class="header-text-1">Name</span>
             <div class="input-section">
-                <input type="text" matInput [(ngModel)]="notificationName" (ngModelChange)="onNotificationNameChange()">
+                <input type="text" matInput [(ngModel)]="locationData.notificationName">
             </div>
         </div>
 
@@ -80,11 +80,11 @@
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Active Wildfires & Evacuations</div>
-                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,true)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="locationData.pushNotificationsWildfires" (change)="onToggleChangeActiveWildfires($event,true)" color="primary"></mat-slide-toggle>
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Fire Bans & Area Restrictions</div>
-                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,true)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="locationData.pushNotificationsFireBans" (change)="onToggleChangeFireBans($event,true)" color="primary"></mat-slide-toggle>
             </div>
         </div>
         <div class="divider"></div>
@@ -95,11 +95,11 @@
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Active Wildfires & Evacuations</div>
-                <mat-slide-toggle [checked]="true" (change)="onToggleChangeActiveWildfires($event,false)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="locationData.inAppNotificationsWildfires" (change)="onToggleChangeActiveWildfires($event,false)" color="primary"></mat-slide-toggle>
             </div>
             <div class="section-frame-2-row section-frame-2-row-toggle">
                 <div class="header-text-1">Fire Bans & Area Restrictions</div>
-                <mat-slide-toggle [checked]="true" (change)="onToggleChangeFireBans($event,false)" color="primary"></mat-slide-toggle>
+                <mat-slide-toggle [checked]="locationData.inAppNotificationsFireBans" (change)="onToggleChangeFireBans($event,false)" color="primary"></mat-slide-toggle>
             </div>
         </div>
         <div class="divider"></div>
@@ -127,7 +127,7 @@
         </div>
         <div class="divider"></div>
         <div class="save-button-section">
-            <button class="save-button" mat-raised-button color="primary" (click)="saveLocation()" [disabled] = "disableSaveButton()">
+            <button class="save-button" (click)="saveLocation()" [disabled] = "disableSaveButton()" [ngClass]="{'disabled-button': disableSaveButton()}">
                 Save
             </button>
         </div>

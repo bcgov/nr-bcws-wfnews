@@ -75,6 +75,7 @@ jobs:
           AGOL_ACTIVE_FIRES: ${{ vars.AGOL_ACTIVE_FIRES }}
           AGOL_AREA_RESTRICTIONS: ${{ vars.AGOL_AREA_RESTRICTIONS }}
           AGOL_BANS_AND_PROHIBITIONS: ${{ vars.AGOL_BANS_AND_PROHIBITIONS }}
+          AGOL_DANGER_RATINGS: ${{ vars.AGOL_DANGER_RATINGS }}
           AGOL_EVAC_ORDERS: ${{ vars.AGOL_EVAC_ORDERS }}
           AGOL_FIRE_CENTRES: ${{ vars.AGOL_FIRE_CENTRES }}
           AGOL_PERIMETRES: ${{ vars.AGOL_PERIMETRES }}
@@ -123,7 +124,7 @@ jobs:
           REC_SITE_TRAILS_CLOSURES_URL: ${{ vars.REC_SITE_TRAILS_CLOSURES_URL }}
           PARKS_CLOSURES_URL: ${{ vars.PARKS_CLOSURES_URL }}
           LOCAL_AUTHORITIES_URL: ${{ vars.LOCAL_AUTHORITIES_URL }}
-          WILDFIRE_PREPAREDNESS_URL: ${{ vars.WILDFIRE_PREPAREDNESS_URL }}\
+          WILDFIRE_PREPAREDNESS_URL: ${{ vars.WILDFIRE_PREPAREDNESS_URL }}
           EMERGENCY_KIT_URL: ${{ vars.EMERGENCY_KIT_URL }}
           PREPARED_BC_FACEBOOK: ${{ vars.PREPARED_BC_FACEBOOK }}
           PREPARED_BC_TWITTER: ${{ vars.PREPARED_BC_TWITTER }}
@@ -135,8 +136,8 @@ jobs:
           EMERGENCY_ALERT_URL: ${{ vars.EMERGENCY_ALERT_URL }}  
           DRIVE_BC_URL: ${{ vars.DRIVE_BC_URL}}  
           EVAC_SERVICES_URL: ${{ vars.EVAC_SERVICES_URL }}  
-          YOUTUBE_API_KEY: ${{vars.YOUTUBE_API_KEY}}
-          YOUTUBE_CHANNEL_ID: ${{vars.YOUTUBE_CHANNEL_ID}}  
+          YOUTUBE_API_KEY: ${{secrets.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{secrets.YOUTUBE_CHANNEL_ID}}  
 
       - name: Setup Node.js
         uses: actions/setup-node@v3
@@ -161,6 +162,7 @@ jobs:
         working-directory: ${{ env.ANGULAR_DIRECTORY }}
         run: |
           export NODE_OPTIONS="--max_old_space_size=4096"
+          npm cache clean --force
           npm install --legacy-peer-deps
 
       - name: Prepare app for build
