@@ -209,7 +209,7 @@ export class PublishedIncidentService {
     const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
 
     // find incidents within the area restriction polygon
-    const incidents = await this.fetchPublishedIncidentsList(0, 1, null, null, null, stageOfControlCodes, null, bbox).toPromise()
+    const incidents = await this.fetchPublishedIncidentsList(0, 1, null, null, true, stageOfControlCodes, null, bbox).toPromise()
     if (incidents?.collection && incidents?.collection?.length === 1) {
       const firstIncident = incidents.collection[0]
       const fireName = firstIncident.incidentName.replace("Fire", "").trim()
