@@ -42,7 +42,7 @@
                             <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Alert'" class="incident-icon-title" src="/assets/images/svg-icons/evacuation-alert.svg" alt="Order">
                             <img *ngIf="evac.properties.ORDER_ALERT_STATUS === 'Order'" class="incident-icon-title" src="/assets/images/svg-icons/evacuation-order.svg" alt="Order">
 
-                        Evacuation {{evac.properties.ORDER_ALERT_STATUS}} for {{evac.properties.ORDER_ALERT_NAME}}
+                        Evacuation {{evac.properties.ORDER_ALERT_STATUS}} for {{evac.properties.EVENT_NAME}}
                         </div>
                         <div class="right-content">
                             <mat-icon svgIcon='arrow'></mat-icon>
