@@ -15,7 +15,7 @@ export const mapConfig = (
         location: {
             extent: [-136.3, 49, -116, 60.2],
         },
-        baseMap: 'topographic',
+        baseMap: 'navigation',
         minZoom: 4,
     },
     tools: [
