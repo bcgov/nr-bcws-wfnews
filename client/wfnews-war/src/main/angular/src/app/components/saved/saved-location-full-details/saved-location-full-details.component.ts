@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PointIdService } from '@app/services/point-id.service';
-import { ResourcesRoutes, displayDangerRatingDes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, convertToDateTimeTimeZone } from '@app/utils';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { ResourcesRoutes, convertToDateTimeTimeZone, convertToDateYear, displayDangerRatingDes, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { AGOLService } from '@app/services/AGOL-service';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -28,6 +28,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   public evacOrders: any[] = [];
   public evacAlerts: any[] = [];
   public nearbyWildfires: any[];
+  public evacsPopulated: boolean;
 
   displayDangerRatingDes = displayDangerRatingDes
   convertToDateYear = convertToDateYear
@@ -41,34 +42,37 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params
     })
-    await this.fetchSavedLocation()
-    await this.fetchWeather()
-    await this.fetchFireBans()
-    this.fetchDangerRating()
-    await this.fetchEvacs()
-    await this.fetchNearbyWildfires()
-    this.getFireCentre(this.location)
+    this.notificationService.getUserNotificationPreferences().then(response => {
+      if (response) {
+        this.location = this.fetchSavedLocation(response)
+        this.fetchWeather(this.location)
+        this.fetchFireBans(this.location)
+        this.fetchDangerRating(this.location)
+        this.fetchEvacs(this.location)
+        this.fetchNearbyWildfires(this.location)
+        this.getFireCentre(this.location)
+      }
+    });
   }
 
-  async fetchSavedLocation() {
-    if (this.params && this.params['name']) {
-      await this.notificationService.getUserNotificationPreferences().then(response => {
-        if (response.notifications) {
-          for (const item of response.notifications) {
-            if (item?.notificationName === this.params['name'] && item?.point?.coordinates[0] === this.params['latitude']
-              && item?.point?.coordinates[1] === this.params['longitude'])
-            this.location = item;
-          }
-        }
-        this.cdr.detectChanges()
-      }).catch(error => {
-        console.error(error)
-      })
 
+  fetchSavedLocation(notificationSettings) {
+    try {
+      if (this.params && this.params['name']) {
+        for (const item of notificationSettings?.notifications) {
+          if (item?.notificationName === this.params['name']
+            && item?.point?.coordinates[0] as number == this.params['longitude']
+              && item?.point?.coordinates[1] as number == this.params['latitude'])
+                return item;
+
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching saved location', error)
     }
 
   }
@@ -111,10 +115,10 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
 
-  async fetchWeather() {
-    if (this.location && this.location.point && this.location.point.coordinates) {
+  fetchWeather(location) {
+    if (location && location.point && location.point.coordinates) {
       try {
-        await this.pointIdService.fetchNearestWeatherStation(this.location.point.coordinates[1], this.location.point.coordinates[0])
+        this.pointIdService.fetchNearestWeatherStation(location.point.coordinates[1], location.point.coordinates[0])
           .then(response => {
             if (response?.stationName) this.stationName = response.stationName;
             for (const hours of response?.hourly) {
@@ -135,10 +139,10 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  async fetchFireBans() {
+  fetchFireBans(location) {
     try {
-      if (this.location && this.location.point && this.location.point.coordinates && this.location.radius)
-        await this.agolService.getBansAndProhibitions(null, { x: this.location.point.coordinates[0], y: this.location.point.coordinates[1], radius: this.location.radius }).toPromise().then(bans => {
+      if (location && location.point && location.point.coordinates && location.radius)
+        this.agolService.getBansAndProhibitions(null, { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: location.radius }).toPromise().then(bans => {
           if (bans && bans.features) {
             this.fireBans = []
             for (const item of bans.features) {
@@ -153,10 +157,10 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  fetchDangerRating() {
+  fetchDangerRating(location) {
     try {
-      if (this.location && this.location.point && this.location.point.coordinates && this.location.radius) {
-        this.pointIdService.fetchNearby(this.location.point.coordinates[1], this.location.point.coordinates[0], this.location.radius).then(response => {
+      if (location && location.point && location.point.coordinates && location.radius) {
+        this.pointIdService.fetchNearby(location.point.coordinates[1], location.point.coordinates[0], location.radius).then(response => {
           if (response && response.features && response.features[0]
             && response.features[0].British_Columbia_Danger_Rating && response.features[0].British_Columbia_Danger_Rating
             && response.features[0].British_Columbia_Danger_Rating[0] && response.features[0].British_Columbia_Danger_Rating[0].label) {
@@ -170,14 +174,15 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  async fetchEvacs() {
+  fetchEvacs(location) {
     try {
-      if (this.location && this.location.point && this.location.point.coordinates && this.location.radius)
-        await this.agolService.getEvacOrders(null, { x: this.location.point.coordinates[0], y: this.location.point.coordinates[1], radius: this.location.radius }).toPromise().then(evacs => {
+      if (location && location.point && location.point.coordinates && location.radius)
+        this.agolService.getEvacOrders(null, { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: location.radius }).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             this.evacOrders = []
             this.evacAlerts = []
             for (const item of evacs.features) {
+              this.evacsPopulated = true;
               if (item.attributes.ORDER_ALERT_STATUS === 'Alert') {
                 this.evacAlerts.push(item)
               } else if (item.attributes.ORDER_ALERT_STATUS === 'Order') {
@@ -194,13 +199,13 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  async fetchNearbyWildfires() {
+  async fetchNearbyWildfires(location) {
     try {
-      if (this.location && this.location.point && this.location.point.coordinates && this.location.radius) {
+      if (location && location.point && location.point.coordinates && location.radius) {
         const locationData = new LocationData()
-        locationData.latitude = Number(this.location.point.coordinates[1]);
-        locationData.longitude = Number(this.location.point.coordinates[0]);
-        locationData.radius = this.location.radius;
+        locationData.latitude = Number(location.point.coordinates[1]);
+        locationData.longitude = Number(location.point.coordinates[0]);
+        locationData.radius = location.radius;
         const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
         const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
         if (incidents?.collection && incidents?.collection?.length > 0) {
