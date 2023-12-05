@@ -1,12 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { NotificationRsrc, NotificationService } from '@app/services/notification.service';
+import { AGOLService } from '@app/services/AGOL-service';
+import { NotificationService } from '@app/services/notification.service';
 import { PointIdService } from '@app/services/point-id.service';
-import { ResourcesRoutes, displayDangerRatingDes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel, convertToDateTimeTimeZone } from '@app/utils';
+import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { ResourcesRoutes, convertToDateTimeTimeZone, convertToDateYear, displayDangerRatingDes, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
-import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { AGOLService } from '@app/services/AGOL-service';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -199,7 +199,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
-  fetchNearbyWildfires(location) {
+  async fetchNearbyWildfires(location) {
     try {
       if (location && location.point && location.point.coordinates && location.radius) {
         const locationData = new LocationData()
@@ -207,13 +207,13 @@ export class SavedLocationFullDetailsComponent implements OnInit {
         locationData.longitude = Number(location.point.coordinates[0]);
         locationData.radius = location.radius;
         const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-        const incidents = this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
-        // if (incidents?.collection && incidents?.collection?.length > 0) {
-        //   this.nearbyWildfires = []
-        //   for (const item of incidents.collection) {
-        //     this.nearbyWildfires.push(item)
-        //   }
-        // }
+        const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
+        if (incidents?.collection && incidents?.collection?.length > 0) {
+          this.nearbyWildfires = []
+          for (const item of incidents.collection) {
+            this.nearbyWildfires.push(item)
+          }
+        }
       }
     } catch (err) {
       console.error('Could not retrieve surrounding incidents for saved location', err)
