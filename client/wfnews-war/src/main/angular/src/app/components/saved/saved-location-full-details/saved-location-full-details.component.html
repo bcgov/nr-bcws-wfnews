@@ -11,7 +11,7 @@
                         <span class="saved-detail">{{location.address}}</span>
                     </div>
                     <div *ngIf="!location.address" class="saved-location-detail">
-                        <span>{{location.notificationName}}</span>
+                        <span class="saved-title-top">{{location.notificationName}}</span>
                     </div>
                 </div>
                 <div class="saved-location-detail">
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-    <button (click)="navToMap()" mat-button class="map-button"><img class="icon" src="/assets/images/svg-icons/map.svg"
+    <button (click)="navToMap()" mat-button class="map-button"><img class="icon-top" src="/assets/images/svg-icons/map.svg"
             alt="Map" />View on Map</button>
     <div class="action-buttons">
         <button (click)="delete()" mat-button class="mobile-button"><img class="icon-top"
@@ -154,10 +154,10 @@
 </div>
 <div class="section">
     <div class="section-title">Evacuations Nearby</div>
-    <div class="saved-location-content" *ngIf="!evacOrders && !evacAlerts">
+    <div class="saved-location-content" *ngIf="!evacsPopulated">
         <div class="saved-location-content-1">
             <div class="saved-location-details-2">
-                <div class="saved-location-detail">
+                <div class="saved-location-detail-2">
                     <span>There are no Evacuations near this location</span>
                 </div>
             </div>
@@ -200,7 +200,7 @@
     <div class="saved-location-content" *ngIf="!nearbyWildfires">
         <div class="saved-location-content-1">
             <div class="saved-location-details-2">
-                <div class="saved-location-detail">
+                <div class="saved-location-detail-2">
                     <span>There are no Wildfires near this location</span>
                 </div>
             </div>
