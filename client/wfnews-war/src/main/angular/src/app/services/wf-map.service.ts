@@ -4,7 +4,10 @@ import { AppConfigService } from '@wf1/core-ui';
 import * as esriLeaflet from 'esri-leaflet'
 import * as esriVector from 'esri-leaflet-vector'
 
-// import * as nightStyle from '../../assets/data/vector-basemap-night-style.json';
+import * as nightStyle from '../../assets/data/vector-basemap-night.json';
+import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
+import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
+import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
@@ -135,59 +138,65 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    const bcOption = {
-                      maxNativeZoom: 17,
-                      maxZoom: 30
-                    }
-
-                    /* Optionally, instead of ESRI topo we can use the BC tileserver from DataBC?
-                    defineWmsBasemap( 'bc-topo', 'BC Topographic', [
-                        {
-                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/web_mercator_cache/MapServer/tile/{z}/{y}/{x}",
-                            option: bcOption
-                        }
-                    ] )
-
-                    defineWmsBasemap( 'bc-roads', 'BC Roads', [
-                        {
-                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/roads_wm/MapServer/tile/{z}/{y}/{x}",
-                            option: bcOption
-                        }
-                    ] ) */
-
-                    /*  This one seems to fail. May need the key that is used in agol
-                    defineEsriVectoLayer('night', 'Night', [
+                    defineEsriVectoLayer('topography', 'Topography', [
                       {
+                        id: 'topography',
+                        type: 'vector',
                         url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
                         style: function(style) {
-                          return nightStyle;
-                        }
-                      }
-                    ]); */
-
-                    defineEsriVectoLayer('bc_basemap', 'BC BaseMap', [
-                      {
-                        url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
-                        style: function(style) {
-                          console.log('STYLE', style)
-                          return style;
+                          return topoStyle;
                         }
                       }
                     ]);
 
-                    defineEsriBasemap( 'topographic', 'Topographic', [
-                        { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                    ] );
+                    defineEsriVectoLayer('navigation', 'Navigation', [
+                      {
+                        id: 'navigation',
+                        type: 'vector',
+                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        style: function(style) {
+                          return navStyle;
+                        }
+                      }
+                    ]);
 
                     const imageryOption = {
                         maxZoom: 30
                     };
 
-                    defineEsriBasemap( 'imagery', 'Imagery', [
-                        { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
-                        { id: 'ImageryTransportation', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                        { id: 'ImageryLabels', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                    ] );
+                    defineEsriVectoLayer('imagery', 'Imagery', [
+                      {
+                        id: 'imagery',
+                        type: 'vector',
+                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        style: function(style) {
+                          return satelliteStyle;
+                        }
+                      },
+                      { id: 'Imagery', type: 'tile', url: null, style: null }
+                    ]);
+
+                    defineEsriVectoLayer('night', 'Night', [
+                      {
+                        id: 'night',
+                        type: 'vector',
+                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        style: function(style) {
+                          return nightStyle;
+                        }
+                      }
+                    ]);
+
+                    defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
+                      {
+                        id: 'bc-basemap',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
+                        style: function(style) {
+                          return style;
+                        }
+                      }
+                    ]);
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -608,7 +617,7 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
     };
 }
 
-function defineEsriVectoLayer(id: string, title: string, baseMaps: { url: string, style: any }[]) {
+function defineEsriVectoLayer(id: string, title: string, baseMaps: { id: string, url: string, style: any, type: string }[]) {
   order += 1
     baseMapIds.push( id )
     window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
@@ -624,16 +633,21 @@ function defineEsriVectoLayer(id: string, title: string, baseMaps: { url: string
             }
           };
           return baseMaps.map((bm) => {
-            const layer = L.esri.Vector.vectorTileLayer(bm.url, {
-              style: bm.style
-            });
-            layer.bringToBack = () => { console.log('Not implemented') }
-            layer._leaflet_id = id;
-            layer.id = id;
+            if (bm.type === 'vector') {
+                const layer = L.esri.Vector.vectorTileLayer(bm.url, {
+                style: bm.style
+                });
+                layer.bringToBack = () => { return }
+                layer._leaflet_id = id;
+                layer.id = id;
 
-            console.log(layer)
-
-            return layer;
+                return layer;
+            } else {
+                const orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options );
+                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone({ maxNativeZoom: 20, maxZoom: 30, wfnewsId: id }));
+                L.esri.BasemapLayer.TILES[ bm.id ].options = {...orig, wfnewsId: id};
+                return bmly;
+            }
           });
         }
     }
