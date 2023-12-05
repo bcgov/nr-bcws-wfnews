@@ -85,39 +85,46 @@ export class SavedComponent implements OnInit {
 
   getDangerRatings(locations) {
     locations.forEach((location, outerIndex) => {
-      this.agolService.getDangerRatings(
-        null,
-        { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: 0.1 },
-        { returnCentroid: true, returnGeometry: false }
+      const rectangleCoordinates = this.bboxHelper(location)
+      this.notificationService.getDangerRatingByLocation(
+        rectangleCoordinates
       )
-      .subscribe(dangerRatings => {
-        this.savedLocations[outerIndex].dangerRatings = [];
-        for (const innerIndex in dangerRatings?.features) {
-          const element = dangerRatings?.features[innerIndex];  
-          this.savedLocations[outerIndex].dangerRatings.push(element);
+      .then(dangerRatings => {
+        if (dangerRatings.features) {
+          const element = dangerRatings.features[0].properties.DANGER_RATING_DESC;
+          this.savedLocations[outerIndex].dangerRatings = (element)
           this.cdr.markForCheck()
         }
+      }).catch (error => {
+        console.error('can not get danger rating', error)
       });
     });
   }
 
-  getFireCentre(locations) {
+  bboxHelper(location){
     const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
     const distanceInDegrees = this.distanceInKm * degreesPerPixel;
+    let latitude = location.point.coordinates[1];
+    let longitude = location.point.coordinates[0];
+    const minLongitude = longitude - distanceInDegrees;
+    const maxLongitude = longitude + distanceInDegrees;
+    const minLatitude = latitude - distanceInDegrees;
+    const maxLatitude = latitude + distanceInDegrees;
+    const rectangleCoordinates = [
+      { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
+      { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
+      { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
+      { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
+      { latitude: maxLatitude, longitude: minLongitude }  // Closing the polygon
+    ];
+    return rectangleCoordinates
+  }
+  
+  getFireCentre(locations) {
+    // const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
+    // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
     locations.forEach((location, outerIndex) => {
-      let latitude = location.point.coordinates[1];
-      let longitude = location.point.coordinates[0];
-      const minLongitude = longitude - distanceInDegrees;
-      const maxLongitude = longitude + distanceInDegrees;
-      const minLatitude = latitude - distanceInDegrees;
-      const maxLatitude = latitude + distanceInDegrees;
-      const rectangleCoordinates = [
-        { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
-        { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
-        { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
-        { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
-        { latitude: maxLatitude, longitude: minLongitude }  // Closing the polygon
-      ];
+      const rectangleCoordinates = this.bboxHelper(location)
       this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
         response => {
           if (response.features) {
@@ -174,6 +181,12 @@ export class SavedComponent implements OnInit {
 
   enterDetail(location) {
     console.log('detail not implemented ')
+  }
+
+  navToFullDetails(location: any){
+    if(location?.notificationName && location?.point && location?.point?.coordinates) {
+      this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { type: 'saved-location', name: location.notificationName, latitude: location.point.coordinates[1], longitude: location.point.coordinates[0]} });
+    }
   }
 
   async loadWatchlist () {

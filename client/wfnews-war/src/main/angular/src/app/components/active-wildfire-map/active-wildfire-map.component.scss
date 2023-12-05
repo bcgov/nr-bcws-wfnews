@@ -574,7 +574,7 @@ mat-panel-title {
 
 .button-label {
   position: relative;
-  top: -2px;
+  top: 0px;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
@@ -605,4 +605,8 @@ mat-panel-title {
     right: 10px;
     top: 1px;
   }
+}
+
+.search-fab-icon {
+  margin-top: 3px;
 }

@@ -15,6 +15,6 @@ export class Dashboard {
   }
 
   offseason () {
-    return new Date().getMonth() < 3 || new Date().getMonth() > 10
+    return new Date().getMonth() < 3 || new Date().getMonth() > 9
   }
 }

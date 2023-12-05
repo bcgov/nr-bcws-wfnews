@@ -5,7 +5,7 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
         {
             type: 'wms',
             id: 'evacuation-orders-and-alerts-wms',
-            title: 'Fire Evacuation Orders and Alerts',
+            title: 'Evacuation Orders and Alerts',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
             styleName: '6885',
@@ -44,7 +44,7 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
         {
             type: 'wms',
             id: 'evacuation-orders-and-alerts-wms-highlight',
-            title: 'Fire Evacuation Orders and Alerts',
+            title: 'Evacuation Orders and Alerts',
             serviceUrl: ls.openmapsBaseUrl,
             layerName: 'pub:WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
             opacity: 0.8,

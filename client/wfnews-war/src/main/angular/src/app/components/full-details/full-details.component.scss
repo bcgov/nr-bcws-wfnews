@@ -351,9 +351,9 @@ hr {
 }
 
 .arrow-button {
-  display: flex;
-  right: 10px;
-  bottom: 10px;
+  position: absolute;
+  right: 5px;
+  bottom: 5px;
   width: 20px;
   height: 20px;
   padding: 6px;
