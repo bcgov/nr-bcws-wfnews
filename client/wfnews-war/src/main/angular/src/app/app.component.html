@@ -23,7 +23,7 @@
       (supportLinkClick)="navigateToBcSupport()"
     ></wf-header>
 
-    <div *ngIf="!isMobileView()" class="header-row">
+    <div *ngIf="!isMobileView() && !isAdminPage()" class="header-row">
       <div>
           <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
           <mat-menu #menu="matMenu">
