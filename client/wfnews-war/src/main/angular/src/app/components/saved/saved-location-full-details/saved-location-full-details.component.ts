@@ -7,6 +7,9 @@ import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AGOLService } from '@app/services/AGOL-service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -28,6 +31,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   public evacOrders: any[] = [];
   public evacAlerts: any[] = [];
   public nearbyWildfires: any[];
+  public userAllNotificationsPreferences: any;
 
   displayDangerRatingDes = displayDangerRatingDes
   convertToDateYear = convertToDateYear
@@ -37,7 +41,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private notificationService: NotificationService, private cdr: ChangeDetectorRef,
     private router: Router, private spatialUtilService: SpatialUtilsService, private pointIdService: PointIdService,
-    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService) {
+    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService, protected dialog: MatDialog, protected snackbarService: MatSnackBar
+    ) {
 
   }
 
@@ -57,10 +62,11 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   async fetchSavedLocation() {
     if (this.params && this.params['name']) {
       await this.notificationService.getUserNotificationPreferences().then(response => {
+        this.userAllNotificationsPreferences = response.notifications;
         if (response.notifications) {
           for (const item of response.notifications) {
-            if (item?.notificationName === this.params['name'] && item?.point?.coordinates[0] === this.params['latitude']
-              && item?.point?.coordinates[1] === this.params['longitude'])
+            if (item?.notificationName === this.params['name'] && item?.point?.coordinates[1] === Number(this.params['latitude'])
+              && item?.point?.coordinates[0] === Number(this.params['longitude']))
             this.location = item;
           }
         }
@@ -223,10 +229,43 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   delete() {
-    // to be implemented
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: 'Delete saved location',
+        text: "You won't be able to undo this action"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['confirm']) {
+          const locations = this.userAllNotificationsPreferences.filter(item => 
+            item.notificationName !== this.location.notificationName &&
+            item.point.coordinates[0] !== this.location.point.coordinates[0] &&
+            item.point.coordinates[1] !== this.location.point.coordinates[1]
+            );
+        
+        this.notificationService.updateUserNotificationPreferences(null, locations)
+          .then(() => {
+            this.cdr.markForCheck();
+            this.router.navigateByUrl('/saved');
+          })
+          .catch(e => {
+            console.warn('saveNotificationPreferences fail', e);
+            this.cdr.markForCheck();
+            this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+          });
+
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   edit() {
+    this.router.navigate([ResourcesRoutes.ADD_LOCATION],{
+      queryParams: {location: JSON.stringify(this.location)}
+    });
     // to be implemented
   }
 
