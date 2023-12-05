@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { getActiveMap, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
+import * as esriLeaflet from 'esri-leaflet'
+import * as esriVector from 'esri-leaflet-vector'
+
+// import * as nightStyle from '../../assets/data/vector-basemap-night-style.json';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
@@ -131,6 +135,46 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
+                    const bcOption = {
+                      maxNativeZoom: 17,
+                      maxZoom: 30
+                    }
+
+                    /* Optionally, instead of ESRI topo we can use the BC tileserver from DataBC?
+                    defineWmsBasemap( 'bc-topo', 'BC Topographic', [
+                        {
+                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/web_mercator_cache/MapServer/tile/{z}/{y}/{x}",
+                            option: bcOption
+                        }
+                    ] )
+
+                    defineWmsBasemap( 'bc-roads', 'BC Roads', [
+                        {
+                            url: "https://maps.gov.bc.ca/arcserver/rest/services/Province/roads_wm/MapServer/tile/{z}/{y}/{x}",
+                            option: bcOption
+                        }
+                    ] ) */
+
+                    /*  This one seems to fail. May need the key that is used in agol
+                    defineEsriVectoLayer('night', 'Night', [
+                      {
+                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        style: function(style) {
+                          return nightStyle;
+                        }
+                      }
+                    ]); */
+
+                    defineEsriVectoLayer('bc_basemap', 'BC BaseMap', [
+                      {
+                        url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
+                        style: function(style) {
+                          console.log('STYLE', style)
+                          return style;
+                        }
+                      }
+                    ]);
+
                     defineEsriBasemap( 'topographic', 'Topographic', [
                         { id: 'Topographic', option: { ...topographicOption, ...option2x } }
                     ] );
@@ -144,22 +188,6 @@ export class WFMapService {
                         { id: 'ImageryTransportation', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
                         { id: 'ImageryLabels', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
                     ] );
-
-
-                    const streetsOption = {
-                        maxNativeZoom: 19,
-                        maxZoom: 30
-                    };
-
-                    const bcOption = {
-                        maxNativeZoom: 17,
-                        maxZoom: 30
-                    };
-
-                    const lightGrayOption = {
-                        maxNativeZoom: 16,
-                        maxZoom: 30
-                    };
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -578,6 +606,37 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
             } );
         }
     };
+}
+
+function defineEsriVectoLayer(id: string, title: string, baseMaps: { url: string, style: any }[]) {
+  order += 1
+    baseMapIds.push( id )
+    window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
+        title,
+        order,
+        create: function () {
+          const L = window[ 'L' ];
+
+          L.esri = {
+            ...esriLeaflet,
+            Vector: {
+              ...esriVector
+            }
+          };
+          return baseMaps.map((bm) => {
+            const layer = L.esri.Vector.vectorTileLayer(bm.url, {
+              style: bm.style
+            });
+            layer.bringToBack = () => { console.log('Not implemented') }
+            layer._leaflet_id = id;
+            layer.id = id;
+
+            console.log(layer)
+
+            return layer;
+          });
+        }
+    }
 }
 
 function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: { [key: string]: any } }[] ) {
