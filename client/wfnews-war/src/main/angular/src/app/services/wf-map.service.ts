@@ -140,6 +140,8 @@ export class WFMapService {
 
                     defineEsriVectoLayer('topography', 'Topography', [
                       {
+                        id: 'topography',
+                        type: 'vector',
                         url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
                         style: function(style) {
                           return topoStyle;
@@ -149,6 +151,8 @@ export class WFMapService {
 
                     defineEsriVectoLayer('navigation', 'Navigation', [
                       {
+                        id: 'navigation',
+                        type: 'vector',
                         url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
                         style: function(style) {
                           return navStyle;
@@ -156,17 +160,26 @@ export class WFMapService {
                       }
                     ]);
 
+                    const imageryOption = {
+                        maxZoom: 30
+                    };
+
                     defineEsriVectoLayer('imagery', 'Imagery', [
                       {
+                        id: 'imagery',
+                        type: 'vector',
                         url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
                         style: function(style) {
                           return satelliteStyle;
                         }
-                      }
+                      },
+                      { id: 'Imagery', type: 'tile', url: null, style: null }
                     ]);
 
                     defineEsriVectoLayer('night', 'Night', [
                       {
+                        id: 'night',
+                        type: 'vector',
                         url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
                         style: function(style) {
                           return nightStyle;
@@ -174,29 +187,16 @@ export class WFMapService {
                       }
                     ]);
 
-                    defineEsriVectoLayer('bc_basemap', 'BC BaseMap', [
+                    defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
                       {
+                        id: 'bc-basemap',
+                        type: 'vector',
                         url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
                         style: function(style) {
                           return style;
                         }
                       }
                     ]);
-
-                    // ESRI topo imagerly layer is going out of service
-                    //defineEsriBasemap( 'topographic', 'Topographic', [
-                    //    { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                    //] );
-
-                    const imageryOption = {
-                        maxZoom: 30
-                    };
-
-                    defineEsriBasemap( 'imagery-tiles', 'Imagery Tiles', [
-                        { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
-                        { id: 'ImageryTransportation', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                        { id: 'ImageryLabels', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                    ] );
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -617,7 +617,7 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
     };
 }
 
-function defineEsriVectoLayer(id: string, title: string, baseMaps: { url: string, style: any }[]) {
+function defineEsriVectoLayer(id: string, title: string, baseMaps: { id: string, url: string, style: any, type: string }[]) {
   order += 1
     baseMapIds.push( id )
     window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
@@ -633,14 +633,21 @@ function defineEsriVectoLayer(id: string, title: string, baseMaps: { url: string
             }
           };
           return baseMaps.map((bm) => {
-            const layer = L.esri.Vector.vectorTileLayer(bm.url, {
-              style: bm.style
-            });
-            layer.bringToBack = () => { return }
-            layer._leaflet_id = id;
-            layer.id = id;
+            if (bm.type === 'vector') {
+                const layer = L.esri.Vector.vectorTileLayer(bm.url, {
+                style: bm.style
+                });
+                layer.bringToBack = () => { return }
+                layer._leaflet_id = id;
+                layer.id = id;
 
-            return layer;
+                return layer;
+            } else {
+                const orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options );
+                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone({ maxNativeZoom: 20, maxZoom: 30, wfnewsId: id }));
+                L.esri.BasemapLayer.TILES[ bm.id ].options = {...orig, wfnewsId: id};
+                return bmly;
+            }
           });
         }
     }

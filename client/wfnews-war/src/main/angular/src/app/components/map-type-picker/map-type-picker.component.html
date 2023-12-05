@@ -5,9 +5,9 @@
       <img class="map-type-image" [ngClass]="{'selected': isSelected('navigation')}" src="assets/images/default-map.png" alt="default">
       <div class="map-type-name" [ngClass]="{'selected': isSelected('navigation')}">Default</div>
     </div>
-    <div class="map-type" (click)="onSelect('imagery-tiles')">
-      <img class="map-type-image" [ngClass]="{'selected': isSelected('imagery-tiles')}" src="assets/images/satellite-map.png" alt="satellite">
-      <div class="map-type-name" [ngClass]="{'selected': isSelected('imagery-tiles')}">Satellite</div>
+    <div class="map-type" (click)="onSelect('imagery')">
+      <img class="map-type-image" [ngClass]="{'selected': isSelected('imagery')}" src="assets/images/satellite-map.png" alt="satellite">
+      <div class="map-type-name" [ngClass]="{'selected': isSelected('imagery')}">Satellite</div>
     </div>
     <div class="map-type" (click)="onSelect('topography')">
       <img class="map-type-image" [ngClass]="{'selected': isSelected('topography')}" src="assets/images/terrain-map.png" alt="terrain">
