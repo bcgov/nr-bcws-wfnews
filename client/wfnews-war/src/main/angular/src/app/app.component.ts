@@ -224,6 +224,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
               ...ev,
+              identify:true,
+              notification:true,
               // coords: notification.notification.data.coords,
               // radius: notification.notification.data.radius,
               // messageId: notification.notification.data.messageId,
