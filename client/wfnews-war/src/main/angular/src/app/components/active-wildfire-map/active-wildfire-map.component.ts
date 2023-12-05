@@ -22,6 +22,8 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/l
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@app/services/notification.service';
+import { CapacitorService } from '@app/services/capacitor-service';
+import { PushNotification } from '@capacitor/push-notifications';
 
 
 export type SelectedLayer =
@@ -102,6 +104,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLegendOpen = false;
   refreshAllLayers = false;
   isDataSourcesOpen = false;
+  notificationState = 0
+
 
   public searchData: SearchResult
 
@@ -135,7 +139,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected snackbarService: MatSnackBar,
     private breakpointObserver: BreakpointObserver,
     private agolService: AGOLService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    protected capacitorService: CapacitorService,
+
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -922,5 +928,60 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const layerButtons = document.getElementById('layer-buttons')
     const mapContainer = document.getElementById('map-container')
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
+  }
+
+  
+
+  onPushNotificationClick() {
+    let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]
+    this.notificationState += 1
+    this.capacitorService.handleLocationPushNotification( n )
+  }
+
+  testNotifications = [
+    makeLocation( {
+        latitude: 49.709814, // lemon creek
+        longitude: -117.470736,
+        radius: 20,
+        featureId: 'N50155', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+    makeLocation( {
+        latitude: 48.507955, // OUT - beaver lake
+        longitude: -123.393515,
+        radius: 20,
+        featureId: 'V60164', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+    makeLocation( {
+        latitude: 48.463259, // uvic
+        longitude: -123.312635,
+        radius: 20,
+        featureId: 'V65055', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+  ]
+}
+
+function makeLocation( loc ): PushNotification {
+  return {
+      title: `Near Me Notification for [${ loc.featureId }]`,
+      // subtitle?: string;
+      body: `There is a new active fire [${ loc.featureId }] within your saved location, tap here to view the current situation`,
+      id: '1',
+      // badge?: number;
+      // notification?: any;
+      data: {
+          type: 'location',
+          coords: `[ ${ loc.latitude }, ${ loc.longitude } ]`,
+          radius: '' + loc.radius,
+          messageID: loc.featureId,
+          topicKey: loc.featureType
+      }
+      // click_action?: string;
+      // link?: string;
   }
 }
