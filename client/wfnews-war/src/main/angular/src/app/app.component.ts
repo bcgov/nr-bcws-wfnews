@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -14,6 +14,8 @@ import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
 import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from './utils';
+import { CapacitorService, LocationNotification } from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 
 export const ICON = {
@@ -130,7 +132,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected tokenService: TokenService,
     protected cdr: ChangeDetectorRef,
     protected dialog: MatDialog,
-    protected wfMapService:WFMapService
+    protected wfMapService:WFMapService,
+    protected capacitorService: CapacitorService,
+    protected commonUtilityService: CommonUtilityService,
+    protected zone: NgZone
+
   ) {
   }
 
@@ -203,6 +209,29 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     this.checkScreenWidth();
+
+    this.capacitorService.initialized.then(() => {
+      this.commonUtilityService.preloadGeolocation();
+      setTimeout(() => {
+        this.zone.run( () => {
+            this.router.navigate([ResourcesRoutes.LANDING])
+        } )
+      }, 1000);
+
+    })
+
+    this.capacitorService.locationNotifications.subscribe( (ev: LocationNotification) => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+              ...ev,
+              // coords: notification.notification.data.coords,
+              // radius: notification.notification.data.radius,
+              // messageId: notification.notification.data.messageId,
+              // topic: notification.notification.data.topic,
+              time: Date.now()
+          }
+      } );
+    } )
   }
 
   isIncidentsPage () {
