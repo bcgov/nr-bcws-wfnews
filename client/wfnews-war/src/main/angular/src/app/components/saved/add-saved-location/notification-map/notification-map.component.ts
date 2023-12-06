@@ -12,6 +12,8 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
   @ViewChild('itemHeight') itemHeightSlider;
   map: any;
   notificationLocationMarker: any;
+  xNotificationLocationMarker: any;
+
   radiusValue: number = 25;
   radiusCircle: any;
   
@@ -40,11 +42,25 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
     if (this.data.title === 'Choose location on the map') {
       // set notification location on map
       const markerOptions = {
-        icon: L.icon({
-          iconUrl: "/assets/images/svg-icons/location_pin.svg",
+        icon: L.divIcon({
+          className: 'custom-icon-class',
+          html: `<div class="custom-marker" style="margin-top:-24px">
+                <img src="/assets/images/svg-icons/location_pin.svg"/>
+              </div>`,    
           iconSize: [32, 32],
-          iconAnchor: [16, 32],
-          popupAnchor: [0, -32],
+
+        }),
+        draggable: false
+      };
+
+      const xMarkerOptions = {
+        icon: L.divIcon({
+          className: 'custom-icon-class',
+          html: `<div class="custom-marker" style="text-align:center">
+                <img src="/assets/images/svg-icons/x-icon.svg"/>
+              </div>`,   
+          iconSize: [20, 20],
+
         }),
         draggable: false
       };
@@ -54,17 +70,22 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         const coords = this.data.currentLocation.coords;
         this.map.setView([coords.latitude, coords.longitude], 10);
         this.notificationLocationMarker = L.marker([coords.latitude, coords.longitude], markerOptions).addTo(this.map);
+        this.xNotificationLocationMarker = L.marker([coords.latitude, coords.longitude], xMarkerOptions).addTo(this.map);
+
       } else {
         // location service off. Use BC center coordinates
         const bcCenter = [53.7267, -127.6476]; // Center coordinates of British Columbia
         const zoomLevel = 5;
         this.map.setView(bcCenter, zoomLevel);
         this.notificationLocationMarker = L.marker(bcCenter, markerOptions).addTo(this.map);
+        this.xNotificationLocationMarker = L.marker(bcCenter, xMarkerOptions).addTo(this.map);
+
       }
 
       this.map.on('drag', (event: any) => {
         const mapCenter = this.map.getCenter();
         this.notificationLocationMarker.setLatLng(mapCenter);
+        this.xNotificationLocationMarker.setLatLng(mapCenter);
       });
     }
 
