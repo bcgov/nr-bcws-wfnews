@@ -216,6 +216,7 @@ export class SavedComponent implements OnInit {
       autoFocus: false,
       width: '80vw',
       data: {
+        title: 'Confirmation',
         text: 'Are you sure you want to remove this Wildfire from your Saved Wildfires?'
       }
     });

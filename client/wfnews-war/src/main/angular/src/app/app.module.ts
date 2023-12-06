@@ -216,6 +216,7 @@ import { MatSliderModule } from '@angular/material/slider';
 import { NotificationService } from '@app/services/notification.service';
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 
 
 
@@ -373,6 +374,7 @@ export const DATE_FORMATS = {
         notificationMapComponent,
         SavedLocationFullDetailsComponent,
         ConfirmationDialogComponent,
+        WildfireNotificationDialogComponent
     ],
     imports: [
         MatSortModule,
