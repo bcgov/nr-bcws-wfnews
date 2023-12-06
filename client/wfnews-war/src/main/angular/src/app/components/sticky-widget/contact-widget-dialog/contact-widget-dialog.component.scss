@@ -318,7 +318,12 @@ button:disabled {
   }
 }
 
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: var(--grays-gray-10, #F5F5F5);
+}
+
 @media (max-width: 768px) {
+
   .contact-widget-dialog-container {
     display: none;
   }
@@ -384,7 +389,8 @@ button:disabled {
       .mat-mdc-form-field {
         width: 100% !important;
         border-radius: 3px !important;
-        background: var(--grays-gray-10, #F5F5F5) !important;
+        // background: var(--grays-gray-10, red) !important;
+
       }
     }
 
