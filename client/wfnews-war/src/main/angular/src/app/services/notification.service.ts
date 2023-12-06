@@ -115,17 +115,17 @@ export class NotificationService {
 
 export function convertToNotificationSettingRsrc(np: any): NotificationSettingRsrc {
     let notificationTopics = [];
-    if (np.pushNotificationsFireBans) {
+    if (np?.pushNotificationsFireBans) {
         notificationTopics.push("British_Columbia_Bans_and_Prohibition_Areas");
         notificationTopics.push("British_Columbia_Area_Restrictions");
     }
-    if (np.pushNotificationsWildfires) {
+    if (np?.pushNotificationsWildfires) {
         notificationTopics.push("BCWS_ActiveFires_PublicView");
         notificationTopics.push("Evacuation_Orders_and_Alerts");
     }
     return {
         '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notificationSettings',
-        notifications: [
+        notifications: np? [
             {
                 '@type': 'http://notifications.wfone.nrs.gov.bc.ca/v1/notification',
                 notificationName: np.notificationName,
@@ -139,7 +139,7 @@ export function convertToNotificationSettingRsrc(np: any): NotificationSettingRs
                 activeIndicator: true,
                 topics:notificationTopics
             }
-        ],
+        ] : [],
         notificationToken: null,
         subscriberToken: 'subscriberTpken',
         subscriberGuid: null,

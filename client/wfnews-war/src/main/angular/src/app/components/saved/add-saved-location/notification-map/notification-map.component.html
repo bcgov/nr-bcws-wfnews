@@ -2,15 +2,21 @@
     <div class="header-container">
         <span>{{data.title}}</span>
     </div>
-    <div id="map" class="location-map"></div>
-    <div class="button-container">
+    <div id="map" class="location-map" [ngClass] = "data.title === 'Notification Radius'? 'slider-map': null"></div>
+    <div class="button-container" [ngClass] = "data.title === 'Notification Radius'? 'slider-container': null">
         <div class="slider-container" *ngIf="data.title === 'Notification Radius'">
-            <label>{{ itemHeight.value }}km</label>
-            <mat-slider min="25" max="100" step="25" tickInterval="1000" value="25" (input)="updateRadius($event)">
-              <input matSliderThumb #itemHeight>
-            </mat-slider>
+            <div class="slider-label">
+                <label>{{ itemHeight.value }}km</label>
+            </div>
+            <div class="slider">
+                <mat-slider min="25" max="100" step="25" tickInterval="1000" value="25" (input)="updateRadius($event)">
+                    <input matSliderThumb #itemHeight>
+                </mat-slider>
+            </div>
         </div>
-        <button mat-flat-button class="notification-map-button" (click)="close()">Cancel</button>
-        <button mat-flat-button class="notification-map-button-primary" (click)="saveLocation()">Confirm</button>
+        <div class="button-row">
+            <button mat-flat-button class="notification-map-button" (click)="close()">Cancel</button>
+            <button mat-flat-button class="notification-map-button-primary" (click)="saveLocation()">Confirm</button>
+        </div>
     </div>
 </div>
