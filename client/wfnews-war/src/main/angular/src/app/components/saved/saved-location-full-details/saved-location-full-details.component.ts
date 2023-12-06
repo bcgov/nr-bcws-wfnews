@@ -43,7 +43,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   constructor(private route: ActivatedRoute, private notificationService: NotificationService, private cdr: ChangeDetectorRef,
     private router: Router, private spatialUtilService: SpatialUtilsService, private pointIdService: PointIdService,
     private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService, protected dialog: MatDialog, protected snackbarService: MatSnackBar
-    ) {
+  ) {
 
   }
 
@@ -55,12 +55,12 @@ export class SavedLocationFullDetailsComponent implements OnInit {
       if (response) {
         this.userAllNotificationsPreferences = response.notifications;
         this.location = this.fetchSavedLocation(response)
+        this.getFireCentre(this.location)
         this.fetchWeather(this.location)
         this.fetchFireBans(this.location)
         this.fetchDangerRating(this.location)
         this.fetchEvacs(this.location)
         this.fetchNearbyWildfires(this.location)
-        this.getFireCentre(this.location)
       }
     });
   }
@@ -72,8 +72,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
         for (const item of notificationSettings?.notifications) {
           if (item?.notificationName === this.params['name']
             && item?.point?.coordinates[0] as number == this.params['longitude']
-              && item?.point?.coordinates[1] as number == this.params['latitude'])
-                return item;
+            && item?.point?.coordinates[1] as number == this.params['latitude'])
+            return item;
 
         }
       }
@@ -245,12 +245,12 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result['confirm']) {
-          const locations = this.userAllNotificationsPreferences.filter(item => 
-            item.notificationName !== this.location.notificationName &&
-            item.point.coordinates[0] !== this.location.point.coordinates[0] &&
-            item.point.coordinates[1] !== this.location.point.coordinates[1]
-            );
-        
+        const locations = this.userAllNotificationsPreferences.filter(item =>
+          item.notificationName !== this.location.notificationName &&
+          item.point.coordinates[0] !== this.location.point.coordinates[0] &&
+          item.point.coordinates[1] !== this.location.point.coordinates[1]
+        );
+
         this.notificationService.updateUserNotificationPreferences(null, locations)
           .then(() => {
             this.cdr.markForCheck();
@@ -268,8 +268,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   edit() {
-    this.router.navigate([ResourcesRoutes.ADD_LOCATION],{
-      queryParams: {location: JSON.stringify(this.location)}
+    this.router.navigate([ResourcesRoutes.ADD_LOCATION], {
+      queryParams: { location: JSON.stringify(this.location) }
     });
     // to be implemented
   }
@@ -279,17 +279,29 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   navigateToEvac(item) {
-    if (item && item.attributes && item.attributes.EMRG_OAA_SYSID && item.attributes.ORDER_ALERT_STATUS) {
+    if (item && item.attributes && item.attributes.EMRG_OAA_SYSID && item.attributes.ORDER_ALERT_STATUS
+      && this.location && this.location.notificationName && this.location.point) {
       let type: string = "";
       if (item.attributes.ORDER_ALERT_STATUS === 'Alert') type = "evac-alert";
       else if (item.attributes.ORDER_ALERT_STATUS === 'Order') type = "evac-order";
-      this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: item.attributes.EMRG_OAA_SYSID, source: [ResourcesRoutes.SAVED_LOCATION] } });
+      this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+        queryParams: {
+          type: type, id: item.attributes.EMRG_OAA_SYSID, source: [ResourcesRoutes.SAVED_LOCATION],
+          sourceName: this.location.notificationName, sourceLongitude: this.location.point.coordinates[0], sourceLatitude: this.location.point.coordinates[1]
+        }
+      });
     }
   }
 
   navigateToFullDetails(incident) {
-    if (incident && incident.fireYear && incident.incidentNumberLabel) {
-      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.SAVED_LOCATION] } })
+    if (incident && incident.fireYear && incident.incidentNumberLabel
+      && this.location && this.location.notificationName && this.location.point) {
+      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+        queryParams: {
+          fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel,
+          source: [ResourcesRoutes.SAVED_LOCATION], sourceName: this.location.notificationName, sourceLongitude: this.location.point.coordinates[0], sourceLatitude: this.location.point.coordinates[1]
+        }
+      })
     }
 
   }

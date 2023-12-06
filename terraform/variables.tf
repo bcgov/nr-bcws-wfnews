@@ -891,11 +891,6 @@ variable "WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD" {
   default = ""
 }
 
-variable "WFONE_NOTIFICATIONS_API_DATASOURCE_URL" {
-  type    = string
-  default = ""
-}
-
 variable "WFONE_NOTIFICATIONS_API_DATASOURCE_USER" {
   type    = string
   default = ""
