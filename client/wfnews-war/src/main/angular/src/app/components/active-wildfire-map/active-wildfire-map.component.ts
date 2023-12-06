@@ -14,7 +14,7 @@ import { CommonUtilityService } from '../../services/common-utility.service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { PlaceData } from '../../services/wfnews-map.service/place-data';
-import { getActiveMap, isMobileView, isMobileView as mobileView, snowPlowHelper } from '../../utils';
+import { ResourcesRoutes, getActiveMap, isMobileView, isMobileView as mobileView, snowPlowHelper } from '../../utils';
 import { SmkApi } from '../../utils/smk';
 import { SearchResult, SearchPageComponent } from '../search/search-page.component';
 import { Observable } from 'rxjs';
@@ -22,6 +22,9 @@ import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/l
 import { AGOLService } from '@app/services/AGOL-service';
 import { MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { NotificationService } from '@app/services/notification.service';
+import { CapacitorService } from '@app/services/capacitor-service';
+import { PushNotification } from '@capacitor/push-notifications';
+import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 
 
 export type SelectedLayer =
@@ -102,6 +105,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   isLegendOpen = false;
   refreshAllLayers = false;
   isDataSourcesOpen = false;
+  notificationState = 0;
+  wildfireYear = new Date().getFullYear().toString();
+
+
 
   public searchData: SearchResult
 
@@ -135,7 +142,9 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     protected snackbarService: MatSnackBar,
     private breakpointObserver: BreakpointObserver,
     private agolService: AGOLService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    protected capacitorService: CapacitorService,
+
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -281,8 +290,52 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
         // set timeout to load smk features to load
-        setTimeout(() => {
-          this.panToLocation(long, lat);
+        setTimeout(async () => {
+          let fireIsOutOrNotFound = false;
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
+            //wildfire notification
+            try {
+              const result = await this.publishedIncidentService.fetchPublishedIncident(params['featureId'], this.wildfireYear).toPromise();
+                  if (result?.stageOfControlCode === 'OUT') {
+                    fireIsOutOrNotFound = true;
+                    let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+                      autoFocus: false,
+                      width: '80vw',
+                      data: {
+                        title: "This wildfire is Out",
+                        text: "The wildfire is extinguished. To find this wildfire on the map, turn on the 'Out Wildfires' map layer."
+                      }
+                    });
+                    dialogRef.afterClosed().subscribe(action => {
+                      if (action['fullDetail']) {
+                        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
+                          { queryParams: { 
+                            fireYear: result.fireYear, 
+                            incidentNumber: result.incidentNumberLabel, 
+                            source: [ResourcesRoutes.ACTIVEWILDFIREMAP] 
+                          } })
+                      }
+                    });
+                  } else{
+                    this.panToLocation(long, lat);
+                  }
+            } catch(error) {
+              fireIsOutOrNotFound = true;
+              console.error('Error fetching published incident:', error);
+              let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+                autoFocus: false,
+                width: '80vw',
+                data: {
+                  title: "Wildfire not found",
+                  text: "The wildfire you're looking for may have been a duplicate or entered in error, and has now been removed.",
+                  text2: "For more information, contact fireinfo@gov.bc.ca or call 1 888 336-7378 (3FOREST)"
+                }
+              });
+            }
+          }
+          else{
+            this.panToLocation(long, lat);
+          }
           // turn on layers
           if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
           if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
@@ -291,9 +344,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           // identify
           setTimeout(() => {
             if (params['identify'] && long && lat) {
-              this.identify([long, lat])
+              if (!fireIsOutOrNotFound){
+                this.identify([long, lat])
+              }
             }
           }, 2000)
+
         }, 1000)
       }});
     }
@@ -922,5 +978,60 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const layerButtons = document.getElementById('layer-buttons')
     const mapContainer = document.getElementById('map-container')
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
+  }
+
+  
+
+  onPushNotificationClick() {
+    let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]
+    this.notificationState += 1
+    this.capacitorService.handleLocationPushNotification( n )
+  }
+
+  testNotifications = [
+    makeLocation( {
+        latitude: 49.709814, // lemon creek
+        longitude: -117.470736,
+        radius: 20,
+        featureId: 'N50155', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+    makeLocation( {
+        latitude: 48.507955, // OUT - beaver lake
+        longitude: -123.393515,
+        radius: 20,
+        featureId: 'V60164', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+    makeLocation( {
+        latitude: 48.463259, // uvic
+        longitude: -123.312635,
+        radius: 20,
+        featureId: 'V65055', //FIRE_NUMBER
+        featureType: 'BCWS_ActiveFires_PublicView',
+        fireYear: 2022
+    } ),
+  ]
+}
+
+function makeLocation( loc ): PushNotification {
+  return {
+      title: `Near Me Notification for [${ loc.featureId }]`,
+      // subtitle?: string;
+      body: `There is a new active fire [${ loc.featureId }] within your saved location, tap here to view the current situation`,
+      id: '1',
+      // badge?: number;
+      // notification?: any;
+      data: {
+          type: 'location',
+          coords: `[ ${ loc.latitude }, ${ loc.longitude } ]`,
+          radius: '' + loc.radius,
+          messageID: loc.featureId,
+          topicKey: loc.featureType
+      }
+      // click_action?: string;
+      // link?: string;
   }
 }
