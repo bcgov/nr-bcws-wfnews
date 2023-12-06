@@ -43,8 +43,8 @@ export class ContactWidgetDialogComponent implements OnInit {
         this.contactForm = new UntypedFormGroup({
             name: new UntypedFormControl('', [Validators.required]),
             email: new UntypedFormControl('', [Validators.required, Validators.email]),
-            subject: new UntypedFormControl('', [Validators.required]),
-            message: new UntypedFormControl('', [Validators.required, Validators.maxLength(500)])
+            subject: new UntypedFormControl('',),
+            message: new UntypedFormControl('', [Validators.maxLength(500)])
         });
     }
 
