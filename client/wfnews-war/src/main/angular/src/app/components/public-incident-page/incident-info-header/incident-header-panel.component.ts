@@ -127,9 +127,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   addToWatchlist() {
-    if (this.onWatchlist()){
+    if (this.onWatchlist()) {
       this.removeFromWatchlist();
-    }else{
+    } else {
       this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
     }
   }
@@ -185,7 +185,17 @@ export class IncidentHeaderPanel implements AfterViewInit {
       if (this.params['source'][0] === "map") this.backToMap()
       else if (this.params['source'][0] === "full-details"
         && this.params['sourceId'] && this.params['sourceType'])
-        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: this.params['sourceType'] , id: this.params['sourceId'] } });
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: this.params['sourceType'], id: this.params['sourceId'] } });
+      else if (this.params['source'] == 'saved-location' && this.params['sourceName']
+        && this.params['sourceLongitude'] && this.params['sourceLatitude']) {
+        this.router.navigate([ResourcesRoutes.SAVED_LOCATION],
+          {
+            queryParams: {
+              type: 'saved-location', name: this.params['sourceName'],
+              longitude: this.params['sourceLongitude'], latitude: this.params['sourceLatitude']
+            }
+          });
+      }
       else this.router.navigate(this.params['source']);
     }
     else this.router.navigate([ResourcesRoutes.DASHBOARD]);

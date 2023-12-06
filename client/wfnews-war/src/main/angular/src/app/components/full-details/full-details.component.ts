@@ -14,7 +14,7 @@ import { BanProhibition } from './bans-full-details/bans-full-details.component'
 export class FullDetailsComponent implements OnInit, OnDestroy {
   public params: ParamMap
 
-  constructor(private router:Router, private route: ActivatedRoute, private agolService: AGOLService) {
+  constructor(private router: Router, private route: ActivatedRoute, private agolService: AGOLService) {
   }
 
   ngOnInit(): void {
@@ -45,7 +45,16 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
   back() {
     try {
       if (this.params && this.params['source']) {
-        this.router.navigate(this.params['source']);
+        if (this.params['source'] == 'saved-location' && this.params['sourceName']
+          && this.params['sourceLongitude'] && this.params['sourceLatitude']) {
+          this.router.navigate([ResourcesRoutes.SAVED_LOCATION],
+            {
+              queryParams: {
+                type: 'saved-location', name: this.params['sourceName'],
+                longitude: this.params['sourceLongitude'], latitude: this.params['sourceLatitude']
+              }
+            });
+        } else this.router.navigate(this.params['source']);
       } else throw new Error('No previous screen to route too')
     } catch (err) {
       console.error(err);
