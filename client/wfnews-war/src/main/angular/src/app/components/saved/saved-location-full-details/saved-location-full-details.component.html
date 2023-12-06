@@ -1,6 +1,6 @@
 <div class="saved-header"><img (click)="backToSaved()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
         class="back-icon" />Back</div>
-<div class="section">
+<div class="section" *ngIf="location">
     <div class="section-card">
         <div class="saved-location-content">
             <div class="saved-location-content-1">
@@ -32,18 +32,16 @@
                 <div class="saved-location-details-2">
                     <img class="bans-icon" src="/assets/images/svg-icons/location-button-grey.svg">
                     <div>
-                        <div *ngIf="fireCentre">
-                            <div class="fire-bans">
-                                {{getFormattedCoords(location.point.coordinates)}}
-                            </div>
+                        <div class="fire-bans">
+                            {{getFormattedCoords(location.point.coordinates)}}
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <button (click)="navToMap()" mat-button class="map-button"><img class="icon-top" src="/assets/images/svg-icons/map.svg"
-            alt="Map" />View on Map</button>
+    <button (click)="navToMap()" mat-button class="map-button"><img class="icon-top"
+            src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
     <div class="action-buttons">
         <button (click)="delete()" mat-button class="mobile-button"><img class="icon-top"
                 src="/assets/images/svg-icons/delete.svg" alt="Delete" />Delete</button>
@@ -65,7 +63,7 @@
                                     src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
                             </div>
                             <div class="saved-subtitle">Today at {{stationHour}}</div>
-                            <img (click)="navigateToWeather()" class="arrow-button"
+                            <img (click)="navigateToWeather()" class="arrow-button-bottom"
                                 src="/assets/images/svg-icons/forward-arrow-grey.svg">
                         </div>
                     </div>

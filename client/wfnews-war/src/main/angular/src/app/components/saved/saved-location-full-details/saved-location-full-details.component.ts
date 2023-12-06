@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { ResourcesRoutes, convertToDateTimeTimeZone, convertToDateYear, displayDangerRatingDes, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
+import { AGOLService } from '@app/services/AGOL-service';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -28,6 +31,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   public evacOrders: any[] = [];
   public evacAlerts: any[] = [];
   public nearbyWildfires: any[];
+  public userAllNotificationsPreferences: any;
   public evacsPopulated: boolean;
 
   displayDangerRatingDes = displayDangerRatingDes
@@ -38,7 +42,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private notificationService: NotificationService, private cdr: ChangeDetectorRef,
     private router: Router, private spatialUtilService: SpatialUtilsService, private pointIdService: PointIdService,
-    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService) {
+    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService, protected dialog: MatDialog, protected snackbarService: MatSnackBar
+  ) {
 
   }
 
@@ -48,13 +53,14 @@ export class SavedLocationFullDetailsComponent implements OnInit {
     })
     this.notificationService.getUserNotificationPreferences().then(response => {
       if (response) {
+        this.userAllNotificationsPreferences = response.notifications;
         this.location = this.fetchSavedLocation(response)
+        this.getFireCentre(this.location)
         this.fetchWeather(this.location)
         this.fetchFireBans(this.location)
         this.fetchDangerRating(this.location)
         this.fetchEvacs(this.location)
         this.fetchNearbyWildfires(this.location)
-        this.getFireCentre(this.location)
       }
     });
   }
@@ -66,8 +72,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
         for (const item of notificationSettings?.notifications) {
           if (item?.notificationName === this.params['name']
             && item?.point?.coordinates[0] as number == this.params['longitude']
-              && item?.point?.coordinates[1] as number == this.params['latitude'])
-                return item;
+            && item?.point?.coordinates[1] as number == this.params['latitude'])
+            return item;
 
         }
       }
@@ -228,10 +234,43 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   delete() {
-    // to be implemented
+    let dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: 'Delete saved location',
+        text: "You won't be able to undo this action"
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result['confirm']) {
+        const locations = this.userAllNotificationsPreferences.filter(item =>
+          item.notificationName !== this.location.notificationName &&
+          item.point.coordinates[0] !== this.location.point.coordinates[0] &&
+          item.point.coordinates[1] !== this.location.point.coordinates[1]
+        );
+
+        this.notificationService.updateUserNotificationPreferences(null, locations)
+          .then(() => {
+            this.cdr.markForCheck();
+            this.router.navigateByUrl('/saved');
+          })
+          .catch(e => {
+            console.warn('saveNotificationPreferences fail', e);
+            this.cdr.markForCheck();
+            this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+          });
+
+        this.cdr.markForCheck();
+      }
+    });
   }
 
   edit() {
+    this.router.navigate([ResourcesRoutes.ADD_LOCATION], {
+      queryParams: { location: JSON.stringify(this.location) }
+    });
     // to be implemented
   }
 
@@ -240,17 +279,29 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   navigateToEvac(item) {
-    if (item && item.attributes && item.attributes.EMRG_OAA_SYSID && item.attributes.ORDER_ALERT_STATUS) {
+    if (item && item.attributes && item.attributes.EMRG_OAA_SYSID && item.attributes.ORDER_ALERT_STATUS
+      && this.location && this.location.notificationName && this.location.point) {
       let type: string = "";
       if (item.attributes.ORDER_ALERT_STATUS === 'Alert') type = "evac-alert";
       else if (item.attributes.ORDER_ALERT_STATUS === 'Order') type = "evac-order";
-      this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: item.attributes.EMRG_OAA_SYSID, source: [ResourcesRoutes.SAVED_LOCATION] } });
+      this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+        queryParams: {
+          type: type, id: item.attributes.EMRG_OAA_SYSID, source: [ResourcesRoutes.SAVED_LOCATION],
+          sourceName: this.location.notificationName, sourceLongitude: this.location.point.coordinates[0], sourceLatitude: this.location.point.coordinates[1]
+        }
+      });
     }
   }
 
   navigateToFullDetails(incident) {
-    if (incident && incident.fireYear && incident.incidentNumberLabel) {
-      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel, source: [ResourcesRoutes.SAVED_LOCATION] } })
+    if (incident && incident.fireYear && incident.incidentNumberLabel
+      && this.location && this.location.notificationName && this.location.point) {
+      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
+        queryParams: {
+          fireYear: incident.fireYear, incidentNumber: incident.incidentNumberLabel,
+          source: [ResourcesRoutes.SAVED_LOCATION], sourceName: this.location.notificationName, sourceLongitude: this.location.point.coordinates[0], sourceLatitude: this.location.point.coordinates[1]
+        }
+      })
     }
 
   }

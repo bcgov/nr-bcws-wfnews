@@ -29,6 +29,7 @@
     display: flex;
     padding: 24px 20px;
     align-items: center;
+    flex-direction: column;
     .notification-map-button {
         display: flex;
         padding: 8px 32px;
@@ -60,22 +61,33 @@
 
 .slider-container {
     background-color: white;
-    width: 100vw;
-    right: 10px;
-    position:absolute;
-    bottom: 84px;
-    left: 0px;
-    z-index: 99999999999999;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    width: 80vw;
     border-radius: 30px 30px 0px 0px;
     box-shadow: 0px -10px 15px -5px rgba(0, 0, 0, 0.23);
+    padding: 0 20px; /* Adjust padding as needed */
+    width: 95vw;
+    
+    .slider-label{
+        display: flex;
+        align-items: center;
 
+        color: var(--light-labels-1-primary, #000);
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .slider{
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
     mat-slider{
-        width: 80vw;
+        width: 90vw;
     }
     label {
         padding: 12px 0;
@@ -89,4 +101,19 @@
     min-height: 250px !important;
     max-height: 600px !important;
     height: 80vh !important;
+}
+
+.button-row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.slider-button-container {
+    padding-top: 0;
+}
+
+.slider-map {
+    max-height: 500px !important;
+
 }

@@ -7,6 +7,7 @@
         font-style: normal;
         font-weight: 600;
         line-height: normal;
+        text-align: center;
     }
     p{
         color: #6E6E6E;
@@ -18,7 +19,7 @@
     }
     .button-group{
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
         // gap: 16px;
@@ -46,14 +47,20 @@
         color: #FFF;
         background: #123262;
     }
-
-    .delete{
-        color: #FFF;
-        background: #B93237;
-    }
-
     .secondary{
         color: #000;
         background: #F5F5F5;
+    }
+
+    .out-icon{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 8px;
+        align-self: stretch;
+        img{
+            width: 68px;
+            height: 68px;
+        }
     }
 }
