@@ -309,10 +309,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                     dialogRef.afterClosed().subscribe(action => {
                       if (action['fullDetail']) {
                         this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
-                          { queryParams: { 
-                            fireYear: result.fireYear, 
-                            incidentNumber: result.incidentNumberLabel, 
-                            source: [ResourcesRoutes.ACTIVEWILDFIREMAP] 
+                          { queryParams: {
+                            fireYear: result.fireYear,
+                            incidentNumber: result.incidentNumberLabel,
+                            source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
                           } })
                       }
                     });
@@ -566,7 +566,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
               className: 'custom-icon-class',
               html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
                     <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
-                  </div>`,              
+                  </div>`,
               iconSize: [32, 32],
               iconAnchor: [16, 32],
               popupAnchor: [0, -32],
@@ -578,16 +578,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             const label = L.marker([item.point.coordinates[1], item.point.coordinates[0]], {
               icon: L.divIcon({
                   className: 'marker-label',
-                  html: `<div class="custom-marker" 
+                  html: `<div class="custom-marker"
                   style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
                   ${item.notificationName}
-                </div>`,   
+                </div>`,
                 })
             });
             label.addTo(getActiveMap(this.SMK).$viewer.map);
             this.savedLocationlabels.push(label);
             this.savedLocationlabelsToShow.push(label);
-          }   
+          }
         }
       }
       }) .catch(error=>{
@@ -609,7 +609,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   private removeAllSavedLocationLabels() {
     const map = getActiveMap(this.SMK).$viewer.map;
-  
+
     // Iterate over the array of markers and remove them from the map
     for (const label of this.savedLocationlabelsToShow) {
       map.removeLayer(label);
@@ -655,6 +655,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
       /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
       /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
+      /* 12 */ { itemId: 'bc-fire-centres-labels', visible: true }, // Always on
       /* 13 */ { itemId: 'prescribed-fire', visible: false },
       /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
       /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
@@ -980,7 +981,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 
-  
+
 
   onPushNotificationClick() {
     let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]
