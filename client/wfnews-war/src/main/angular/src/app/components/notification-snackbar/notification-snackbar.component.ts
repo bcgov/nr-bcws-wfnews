@@ -8,7 +8,23 @@ export type NotificationConfig = {
 
 @Component( {
     selector: 'wfone-notification-snackbar',
-    template: '',
+    template: `
+        <div matSnackBarActions>
+            <span matSnackBarAction matSnackBarLabel class="snackbar"
+                (click)="snackBarRef.dismissWithAction()"
+            >
+                <span class="icon"></span>
+                <span class="content">
+                    <div class="title">{{ title }}</div>
+                    <div class="body">{{ body }}</div>
+                </span>
+                <span class="close"
+                    (click)="snackBarRef.dismiss(); $event.stopPropagation()"
+                >
+                </span>
+            </span>
+        </div>
+        `,
     styleUrls: [ './notification-snackbar.component.scss' ]
 } )
 export class NotificationSnackbarComponent {

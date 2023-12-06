@@ -3,7 +3,7 @@ import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Simp
 import { Router } from '@angular/router';
 import { MapConfigService } from '@app/services/map-config.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, getActiveMap, setDisplayColor } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, getActiveMap, setDisplayColor,convertToDateTime } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -48,6 +48,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     "fire-perimeters",
   ];
   convertToDateYear = convertToDateYear;
+  convertToDateTime = convertToDateTime
   private marker: any
   private markerAnimation
   removeIdentity = false;
@@ -407,11 +408,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   convertTimeStamp(time) {
     const options: Intl.DateTimeFormatOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     return new Date(time).toLocaleTimeString("en-US", options)
-  }
-
-  convertIrregularTimeStamp(time) {
-    const date = new Date(time);
-    return this.convertTimeStamp(date);
   }
 
   displayEvacTitle(item) {
