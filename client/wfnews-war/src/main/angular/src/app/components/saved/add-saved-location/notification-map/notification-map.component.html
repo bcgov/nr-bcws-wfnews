@@ -3,7 +3,7 @@
         <span>{{data.title}}</span>
     </div>
     <div id="map" class="location-map" [ngClass] = "data.title === 'Notification Radius'? 'slider-map': null"></div>
-    <div class="button-container" [ngClass] = "data.title === 'Notification Radius'? 'slider-container': null">
+    <div class="button-container" [ngClass] = "data.title === 'Notification Radius'? 'button-contin': null">
         <div class="slider-container" *ngIf="data.title === 'Notification Radius'">
             <div class="slider-label">
                 <label>{{ itemHeight.value }}km</label>
