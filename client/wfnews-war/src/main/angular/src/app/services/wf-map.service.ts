@@ -178,7 +178,6 @@ export class WFMapService {
                         type: 'vector',
                         url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
                         style: function(style) {
-                          console.log(style)
                           return nightStyle;
                         }
                       }
@@ -195,9 +194,9 @@ export class WFMapService {
                       }
                     ]);
 
-                    defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
+                    /*defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
                       { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                  ] );
+                    ] );*/
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -701,29 +700,4 @@ function zoomToProvince() {
 
 function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
   getActiveMap().$viewer.panToFeature(geom, zoomLevel)
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-// Reorder layers with vector on bottom
-function fixZOrder(vectorLayer) {
-  const map = getActiveMap().$viewer.map
-  const layers = []
-  getActiveMap().$viewer.map.eachLayer((layer) => {
-    layers.push(layer)
-    try {
-      map.removeLayer(layer)
-    } catch (err) {
-      console.log(err)
-    }
-  })
-  // turn off all layers, then re-add them?
-  vectorLayer.addTo(map)
-  for (const layer of layers) {
-    if (layer._leaflet_id !== vectorLayer._leaflet_id) {
-      layer.addTo(map)
-    }
-  }
 }
