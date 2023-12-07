@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointIdService, WeatherDailyCondition, WeatherHourlyCondition, WeatherStationConditions } from '@app/services/point-id.service';
-import { readableDate, readableHour } from '@app/utils';
+import { ResourcesRoutes, readableDate, readableHour } from '@app/utils';
 
 @Component({
   selector: 'wfnews-saved-location-weather-details',
@@ -11,6 +11,7 @@ import { readableDate, readableHour } from '@app/utils';
 export class SavedLocationWeatherDetailsComponent implements OnInit {
   latitude: number;
   longitude: number;
+  name: string;
   params: ParamMap;
   station: WeatherStationConditions;
   daily: WeatherDailyCondition;
@@ -19,16 +20,17 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
   readableHour = readableHour;
 
 
-  constructor(private route: ActivatedRoute, private pointIdService: PointIdService) { }
+  constructor(private route: ActivatedRoute, private pointIdService: PointIdService, private router: Router) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params: ParamMap) => {
       this.params = params
     })
 
-    if (this.params && this.params['latitude'] && this.params['longitude']){
+    if (this.params && this.params['latitude'] && this.params['longitude'] && this.params['name']){
       this.latitude = this.params['latitude']
       this.longitude = this.params['longitude']
+      this.name = this.params['name']
       this.fetchWeather(this.latitude, this.longitude)
     }
   }
@@ -44,6 +46,7 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
   }
 
   backToSaved() {
+    this.router.navigate([ResourcesRoutes.SAVED_LOCATION],  { queryParams: { name: this.name, latitude: this.latitude, longitude: this.longitude} });
 
   }
 
