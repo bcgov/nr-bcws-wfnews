@@ -124,7 +124,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
               id: 'bc-fire-centres',
               isVisible: true,
               class: 'smk-inline-legend',
-              alwaysShowLegend: true
+              alwaysShowLegend: false
             },
             {
               id: 'bc-fire-centres-labels',
@@ -144,7 +144,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
               id: 'bc-fire-zones',
               isVisible: true,
               class: 'smk-inline-legend',
-              alwaysShowLegend: true
+              alwaysShowLegend: false
             },
             {
               id: 'bc-fire-zones-labels',

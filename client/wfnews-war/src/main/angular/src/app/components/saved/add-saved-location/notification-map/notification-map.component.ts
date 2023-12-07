@@ -14,7 +14,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
   notificationLocationMarker: any;
   radiusValue: number = 25;
   radiusCircle: any;
-  
+
   constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
   { }
 
@@ -25,9 +25,9 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
   ngAfterViewInit(): void {
     this.loadMap()
   }
-  
+
   loadMap() {
-    
+
     this.map = L.map('map',{
       zoomControl: false,
     });
@@ -48,7 +48,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         }),
         draggable: false
       };
-      
+
       if (this.data.currentLocation && this.data.currentLocation.coords) {
         // Use current location coordinates
         const coords = this.data.currentLocation.coords;
@@ -75,15 +75,15 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         icon: L.divIcon({
           className: 'custom-icon-class',
           html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
-                <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
-              </div>`,              
+                <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;margin-left: 1px;position: relative;top: 3px;" />
+              </div>`,
           iconSize: [32, 32],
           iconAnchor: [16, 32],
           popupAnchor: [0, -32],
         }),
         draggable: false
       };
-      
+
       const center = [this.data.lat, this.data.long]; // Center coordinates of British Columbia
       this.map.setView(center, 10);
       this.notificationLocationMarker = L.marker(center, markerOptions).addTo(this.map);
@@ -130,7 +130,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         fillColor: '#548ADB',
         fillOpacity: 0.2,
       };
-  
+
       this.radiusCircle = L.circle(this.notificationLocationMarker.getLatLng(), {
         radius: radius,
         ...circleOptions,
