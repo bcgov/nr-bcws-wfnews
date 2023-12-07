@@ -13,7 +13,7 @@ import { DisclaimerDialogComponent } from './components/disclaimer-dialog/discla
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
-import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from './utils';
+import { ResourcesRoutes, isMobileView, isMobileView as mobileView, snowPlowHelper } from './utils';
 import { CapacitorService, LocationNotification } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 
@@ -210,30 +210,30 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
     this.checkScreenWidth();
 
-    this.capacitorService.initialized.then(() => {
-      this.commonUtilityService.preloadGeolocation();
-      setTimeout(() => {
-        this.zone.run( () => {
-            this.router.navigate([ResourcesRoutes.LANDING])
-        } )
-      }, 1000);
+    // This breaks desktop. Do not do this if not in mobile!!!
+    // Also, we won't know which page people are coming in from, so forcing to
+    // the landing page is a bad idea in general...
+    if (isMobileView()) {
+      this.capacitorService.initialized.then(() => {
+        this.commonUtilityService.preloadGeolocation();
+        //setTimeout(() => {
+        //  this.zone.run(() => {
+        //      this.router.navigate([ResourcesRoutes.LANDING])
+        //  })
+        //}, 1000);
+      })
 
-    })
-
-    this.capacitorService.locationNotifications.subscribe( (ev: LocationNotification) => {
-      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+      this.capacitorService.locationNotifications.subscribe((ev: LocationNotification) => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
-              ...ev,
-              identify:true,
-              notification:true,
-              // coords: notification.notification.data.coords,
-              // radius: notification.notification.data.radius,
-              // messageId: notification.notification.data.messageId,
-              // topic: notification.notification.data.topic,
-              time: Date.now()
+            ...ev,
+            identify:true,
+            notification:true,
+            time: Date.now()
           }
-      } );
-    } )
+        });
+      })
+    }
   }
 
   isIncidentsPage () {

@@ -15,7 +15,12 @@ export class MapTypePickerComponent {
   }
 
   getMapType() {
-    return this.mapService.getBaseMap()?.find((basemap) => !!basemap.options.wfnewsId)?.options?.wfnewsId;
+    const basemap = this.mapService.getBaseMap()
+    if (Array.isArray(basemap) && basemap.length > 0) {
+      return this.mapService.getBaseMap()[0].id;
+    } else {
+      return '';
+    }
   }
 
   onSelect(mapTypeId) {
