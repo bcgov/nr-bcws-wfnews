@@ -46,6 +46,7 @@
 
     .section-card {
         width: calc(100vw - 48px);
+        max-width: 830px;
         margin-top: 16px;
         margin-bottom: 24px;
         border-radius: 10px;
@@ -111,7 +112,7 @@
             font-style: normal;
             font-weight: 600;
             line-height: normal;
-            
+
         }
 
         .saved-title-2 {
@@ -123,7 +124,7 @@
             font-style: normal;
             font-weight: 600;
             line-height: normal;
-            
+
         }
 
         .saved-subtitle {
@@ -195,7 +196,7 @@
         font-size: 16px;
         font-style: normal;
         font-weight: 500;
-        line-height: normal; 
+        line-height: normal;
     }
 
 }
@@ -531,4 +532,10 @@
 
 .bottom {
     height: 140px;
+}
+
+.desktop-container {
+  background-color: white !important;
+  max-width: 850px;
+  margin: auto;
 }

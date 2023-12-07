@@ -11,7 +11,7 @@ export class MapTypePickerComponent {
   constructor(protected mapService: WFMapService) { }
 
   isSelected(mapType: string) {
-    return mapType?.toUpperCase() === this.getMapType()?.toUpperCase();;
+    return mapType?.toUpperCase() === this.getMapType()?.toUpperCase();
   }
 
   getMapType() {

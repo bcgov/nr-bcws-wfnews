@@ -115,9 +115,40 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false
         },
         {
-            id: 'bc-fire-centres',
-            isVisible: true,
-            class: 'smk-inline-legend'
+          id: "fire-centre-group",
+          type: "group",
+          title: "BC Wildfire Centres",
+          isVisible: true,
+          items: [
+            {
+              id: 'bc-fire-centres',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'bc-fire-centres-labels',
+              isVisible: true,
+              alwaysShowLegend: false
+            }
+          ]
+        },
+        {
+          id: "fire-zone-group",
+          type: "group",
+          title: "BC Wildfire Zones",
+          isVisible: true,
+          items: [
+            {
+              id: 'bc-fire-zones',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'bc-fire-zones-labels',
+              isVisible: true,
+              alwaysShowLegend: false
+            }
+          ]
         },
         //{
         //    id: 'prescribed-fire',

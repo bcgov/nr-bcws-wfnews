@@ -49,6 +49,7 @@
     }
     .section-card{
         width: calc(100vw - 48px);
+        max-width: 830px;
         margin-top: 16px;
         margin-bottom: 24px;
         border-radius: 10px;
@@ -230,7 +231,7 @@
     flex-direction: column;
     align-self: stretch;
 }
-  
+
 .full-details-secondary-title {
     position: relative;
     color: var(--Black-1, #242424);
@@ -252,7 +253,7 @@
     border: 1px solid var(--grays-gray-7, #DEDEDE);
     background: var(--White, #FDFDFD);
     box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
-  
+
     .break {
       border: 0;
       clear: both;
@@ -263,7 +264,7 @@
       margin-left: 0px !important;
       margin-bottom: 16px;
     }
-  
+
     .info {
         color: var(--Grey-6---666, #666);
         font-size: 16px;
@@ -288,7 +289,7 @@
     font-weight: 600;
     line-height: normal;
     margin-bottom: 8px;
-  
+
     &-icon {
       position: absolute;
       top: 20px;
@@ -314,7 +315,7 @@
     background: var(--reds-red-7, #FEF1F2);
     color: #98273B;
     margin-bottom: 12px;
-  
+
     &-icon {
       position: relative;
       margin-right: 8px;
@@ -332,7 +333,7 @@
       height: 16px;
       margin: 0px 10px 0px 4px;
     }
-  
+
     &.OUT_CNTRL {
       display: inline-block;
       background-color: #FF0000;
@@ -341,7 +342,7 @@
       height: 16px;
       margin: 0px 10px 0px 4px;
     }
-  
+
     &.UNDR_CNTRL {
       display: inline-block;
       background-color: #98E600;
@@ -350,7 +351,7 @@
       height: 16px;
       margin: 0px 10px 0px 4px;
     }
-  
+
     &.OUT {
       display: inline-block;
       background-color: #5C6671;
@@ -366,7 +367,7 @@
     bottom: 10px;
     right: 10px;
     border-radius: 64px;
-    background: var(--Grey-2-EEE, #EEE);  
+    background: var(--Grey-2-EEE, #EEE);
 }
     .arrow-icon-grey{
         @extend .arrow-icon;
@@ -377,8 +378,12 @@
     width: 24px;
     height: 24px;
 }
-  
-  
+
+.desktop-container {
+  background-color: white !important;
+  max-width: 850px;
+  margin: auto;
+}
 
 
 // :host ::ng-deep .mat-mdc-tab.mdc-tab--active{

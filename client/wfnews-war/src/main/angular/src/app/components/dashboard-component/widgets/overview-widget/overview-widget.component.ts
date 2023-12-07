@@ -25,7 +25,6 @@ export class OverviewWidget implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit (): void {
-    console.log('After View Init')
     // load the incident points from the API
     const url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident/features?stageOfControl=`
     Promise.all([

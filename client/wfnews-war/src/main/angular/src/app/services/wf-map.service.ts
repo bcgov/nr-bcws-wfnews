@@ -142,7 +142,7 @@ export class WFMapService {
                       {
                         id: 'topography',
                         type: 'vector',
-                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
                         style: function(style) {
                           return topoStyle;
                         }
@@ -153,22 +153,18 @@ export class WFMapService {
                       {
                         id: 'navigation',
                         type: 'vector',
-                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
                         style: function(style) {
                           return navStyle;
                         }
                       }
                     ]);
 
-                    const imageryOption = {
-                        maxZoom: 30
-                    };
-
                     defineEsriVectoLayer('imagery', 'Imagery', [
                       {
                         id: 'imagery',
                         type: 'vector',
-                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
                         style: function(style) {
                           return satelliteStyle;
                         }
@@ -180,7 +176,7 @@ export class WFMapService {
                       {
                         id: 'night',
                         type: 'vector',
-                        url: 'https://basemaps.arcgis.com/arcgis/rest/services/World_Basemap_v2/VectorTileServer',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
                         style: function(style) {
                           return nightStyle;
                         }
@@ -197,6 +193,10 @@ export class WFMapService {
                         }
                       }
                     ]);
+
+                    /*defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
+                      { id: 'Topographic', option: { ...topographicOption, ...option2x } }
+                    ] );*/
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -619,23 +619,23 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
 
 function defineEsriVectoLayer(id: string, title: string, baseMaps: { id: string, url: string, style: any, type: string }[]) {
   order += 1
-    baseMapIds.push( id )
+  baseMapIds.push( id )
     window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
         title,
         order,
         create: function () {
           const L = window[ 'L' ];
 
-          L.esri = {
+          /*L.esri = {
             ...esriLeaflet,
             Vector: {
               ...esriVector
             }
-          };
+          };*/
           return baseMaps.map((bm) => {
             if (bm.type === 'vector') {
-                const layer = L.esri.Vector.vectorTileLayer(bm.url, {
-                style: bm.style
+                const layer = esriVector.vectorTileLayer(bm.url, {
+                  style: bm.style
                 });
                 layer.bringToBack = () => { return }
                 layer._leaflet_id = id;
@@ -700,8 +700,4 @@ function zoomToProvince() {
 
 function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
   getActiveMap().$viewer.panToFeature(geom, zoomLevel)
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
 }
