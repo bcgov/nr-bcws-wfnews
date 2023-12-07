@@ -115,9 +115,7 @@ export const mapConfig = (
             type: 'baseMaps',
             enabled: true,
             showTitle: false,
-            showPanel: false,
-            choices: [
-            ],
+            showPanel: true,
             position: 'shortcut-menu',
             mapStyle: {
                 width: '60px',
