@@ -514,4 +514,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     const precip = (station?.data?.hourly?.reduce((n, {precipitation}) => n + Number(precipitation), 0) || 0);
     return `${precip.toFixed(1)}mm`;
   }
+
+  formatDate(timestamp : string): string {
+    const date = new Date(timestamp.slice(0, 10));
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    };
+  
+    const formattedDate: string = date.toLocaleDateString('en-US', options);
+    return formattedDate;
+  }
 }

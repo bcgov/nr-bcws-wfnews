@@ -223,7 +223,7 @@ import { WeatherHistoryOptionsDialogComponent } from './components/weather/weath
 import { GoogleChartsModule } from 'angular-google-charts';
 import { GoogleChartsService } from './services/google-charts.service';
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
-
+import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -385,6 +385,7 @@ export const DATE_FORMATS = {
         WeatherHistoryComponent,
         WeatherHistoryOptionsDialogComponent,
         BaseDialogComponent,
+        NotificationSnackbarComponent
     ],
     imports: [
         MatSortModule,

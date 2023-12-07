@@ -378,6 +378,7 @@ export function convertToDateTimeTimeZone(date) {
 
 export function convertToDateTime(date) {
     // e.g. July 19, 2022 at 10:22 am
+    console.log(date)
     const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     let convertedDate: string;
     convertedDate = date ? new Date(date).toLocaleTimeString("en-US", updateOptions) : 'Pending'
