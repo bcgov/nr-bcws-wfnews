@@ -342,13 +342,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
           if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
           // identify
-          setTimeout(() => {
+          // setTimeout(() => {
             if (params['identify'] && long && lat) {
-              if (!fireIsOutOrNotFound){
+              // if (!fireIsOutOrNotFound){
                 this.identify([long, lat])
-              }
+              // }
             }
-          }, 2000)
+          // }, 2000)
 
         }, 1000)
       }});
@@ -988,12 +988,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   testNotifications = [
     makeLocation( {
-        latitude: 49.709814, // lemon creek
-        longitude: -117.470736,
+        latitude: 48.461763, // uvic fire
+        longitude: -123.31067,
         radius: 20,
-        featureId: 'N50155', //FIRE_NUMBER
+        featureId: 'V65425', //FIRE_NUMBER
         featureType: 'BCWS_ActiveFires_PublicView',
-        fireYear: 2022
+        fireYear: 2023
     } ),
     makeLocation( {
         latitude: 48.507955, // OUT - beaver lake
