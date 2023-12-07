@@ -39,6 +39,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   identifyItem: any;
   identifyIncident: any = {};
   map: any;
+  private previousZoom: number;
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
@@ -89,7 +90,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  handleLayersSelection(returnFromPreiviewPanel?: boolean){
+  handleLayersSelection(returnFromPreiviewPanel: boolean = false, openPreviewPanel: boolean = false){
     if (this.marker) {
       this.marker.remove()
       this.marker = null
@@ -102,7 +103,23 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs
     }
-    if (this.currentIncidentRefs.length === 1){
+
+    // re-check for the identified incidents, in case the
+    // list has been modified while loading external data (weather)
+    if (!openPreviewPanel && !returnFromPreiviewPanel) {
+      try {
+        const identFeatureSet = getActiveMap().$viewer.identified.featureSet;
+        const identifiedIncidents = Object.keys(identFeatureSet).map(key => identFeatureSet[key]);
+
+        if (identifiedIncidents?.length !== this.currentIncidentRefs?.length) {
+          this.currentIncidentRefs = identifiedIncidents;
+        }
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    if (this.currentIncidentRefs.length === 1) {
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.currentIncidentRefs[0];
@@ -120,7 +137,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         // identify an incident
         this.publishedIncidentService.fetchPublishedIncident(incidentNumber, fireYear).toPromise().then(async result => {
           this.identifyIncident = result;
-          this.zoomIn(8)
+          this.zoomIn(getActiveMap().$viewer.map._zoom)
 
           if (this.identifyIncident){
             this.addMarker(this.identifyIncident)
@@ -128,12 +145,12 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
           this.cdr.markForCheck();
         })
-      }else {
+      } else {
         //identify anything other than incident
         if (this.identifyItem.layerId.includes('bans-and-prohibitions') || this.identifyItem.layerId.includes('evacuation-orders-and-alerts') || this.identifyItem.layerId.includes('area-restrictions') || this.identifyItem.layerId.includes('weather-stations')){
-          this.zoomIn(8,true);
+          this.zoomIn(getActiveMap().$viewer.map._zoom, true);
         } else{
-          this.zoomIn(8)
+          this.zoomIn(getActiveMap().$viewer.map._zoom)
         }
       }
       const SMK = window['SMK'];
@@ -164,8 +181,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
       this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
-      console.log('this.filteredDangerRatings')
-      console.log(this.filteredDangerRatings)
     }
   }
 
@@ -309,6 +324,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   zoomIn(level?: number, polygon?: boolean) {
+    this.previousZoom = getActiveMap().$viewer.map._zoom
     let long;
     let lat;
     if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
@@ -325,7 +341,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.mapConfigService.getMapConfig().then(() => {
         const viewer = getActiveMap().$viewer;
         viewer.panToFeature(window['turf'].point([long, lat]), level ? level : 12)
-        const layerId = this.identifyItem.layerId
+        const layerId = this.identifyItem?.layerId
         if (polygon && (layerId.includes('bans-and-prohibitions') || layerId.includes('evacuation-orders-and-alerts') || layerId.includes('area-restrictions'))){
           const location = [Number(this.identifyItem._identifyPoint.latitude), Number(this.identifyItem._identifyPoint.longitude)];
           if (layerId.includes('bans-and-prohibitions')){
@@ -368,17 +384,18 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     this.identifyItem = item;
     this.currentIncidentRefs = [item];
     this.cdr.markForCheck();
-    this.handleLayersSelection();
+    this.handleLayersSelection(false, true);
   }
 
   backToIdentifyPanel() {
+    this.zoomIn(this.previousZoom)
     this.allowBackToIncidentsPanel = false;
     this.handleLayersSelection(true)
   }
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(item)
+
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -522,7 +539,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       month: 'long',
       day: 'numeric'
     };
-  
+
     const formattedDate: string = date.toLocaleDateString('en-US', options);
     return formattedDate;
   }

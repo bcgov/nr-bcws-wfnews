@@ -179,7 +179,6 @@ loadMoreVideos(e: HTMLElement) {
       this.displayLoadMoreVideos = true
       this.displayVideosStub = this.allVideosStub.slice(0, 10);
     }
-    console.log(this.displayLoadMoreVideos)
   }
 
   setPrimaryToTop: any = (collection: any) => {
@@ -191,10 +190,10 @@ loadMoreVideos(e: HTMLElement) {
           index = collection.indexOf(item)
        }
     }
-    if (itemToBeSpliced !== null && index !== null) { 
+    if (itemToBeSpliced !== null && index !== null) {
       collection.unshift(itemToBeSpliced)
       delete collection[index + 1]
-    } 
+    }
     return collection;
   }
 }

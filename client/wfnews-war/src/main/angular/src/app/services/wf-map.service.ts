@@ -374,7 +374,6 @@ export class WFMapService {
                 };
 
                 SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function( feature, zoomIn ) {
-                    // console.log('panToFeature')
                     const turf = window[ 'turf' ]; const L = window[ 'L' ];
 
                     let bounds;
