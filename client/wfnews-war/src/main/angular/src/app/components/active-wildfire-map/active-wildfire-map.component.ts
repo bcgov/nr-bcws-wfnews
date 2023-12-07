@@ -655,7 +655,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
       /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
       /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
-      /* 12 */ { itemId: 'bc-fire-centres-labels', visible: true }, // Always on
       /* 13 */ { itemId: 'prescribed-fire', visible: false },
       /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
       /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
@@ -669,6 +668,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 23 */ { itemId: 'active-wildfires-out-of-control', visible: true }, // Always on
       /* 24 */ { itemId: 'active-wildfires-holding', visible: true }, // Always on
       /* 25 */ { itemId: 'active-wildfires-under-control', visible: true }, // Always on
+      /* 26 */ { itemId: 'bc-fire-centres-labels', visible: true }, // Always on
 
       // Not in a feature but need to be cleared
       { itemId: 'bc-fsr', visible: false },
