@@ -54,8 +54,6 @@ export class WeatherHistoryOptionsDialogComponent implements AfterViewInit {
         protected changeDetector: ChangeDetectorRef,
     ) {}
 
-    ngOnInit() {}
-
     ngAfterViewInit(): void {    
         this.selectedMetric = this.data.chartDataSources.map( function ( d ) {
             return d.property

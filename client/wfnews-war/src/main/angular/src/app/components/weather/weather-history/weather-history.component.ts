@@ -148,10 +148,6 @@ export class WeatherHistoryComponent implements OnInit {
 
         opts.includedSources = []
 
-        console.log('currentCondition')
-        console.log(opts)
-        console.log(this.currentCondition)
-
         if (this.currentCondition) {
             Object.keys(this.currentCondition).forEach(function (p) {
                 if (self.weatherStation.hourly.map(function (c) { return c[p] }).some(function (v) { return v }))

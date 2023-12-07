@@ -510,8 +510,6 @@ export function openLink(link: string) {
   }
 
   export function getCurrentCondition( conditions: WeatherStationConditions ): WeatherHourlyCondition {
-    console.log('conditions')
-    console.log(conditions)
     if ( !conditions || !conditions.hourly ) return
     return conditions.hourly.find( function ( hc ) {
         return hc.temp != null
