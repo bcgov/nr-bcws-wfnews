@@ -112,8 +112,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         const identifiedIncidents = Object.keys(identFeatureSet).map(key => identFeatureSet[key]);
 
         if (identifiedIncidents?.length !== this.currentIncidentRefs?.length) {
-          console.log('Reloading incidents')
-          console.log(this.currentIncidentRefs, identifiedIncidents)
           this.currentIncidentRefs = identifiedIncidents;
         }
       } catch (err) {
@@ -380,7 +378,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openPreviewPanel(item) {
-    console.log('Opening preview panel')
     this.allowBackToIncidentsPanel = true;
     this.storedIncidentRefs = this.currentIncidentRefs
         // capture the identify panel list;

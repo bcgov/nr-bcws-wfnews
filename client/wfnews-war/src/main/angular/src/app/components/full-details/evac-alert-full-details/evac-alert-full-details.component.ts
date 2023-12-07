@@ -139,7 +139,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     try {
       this.incident = await this.publishedIncidentService.populateIncidentByPoint(polygon)
     } catch (error) {
-      console.log('Caught error while populating associated incident for evacuation: ' + error)
+      console.error('Caught error while populating associated incident for evacuation: ' + error)
     }
   }
 

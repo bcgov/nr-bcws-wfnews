@@ -99,12 +99,12 @@ export class RoFPhotoPage extends RoFPage {
         console.log('camera permissions', permissionStatus)
       } catch (error) {
         alert(error)
-        console.log('permission error', error)
+        console.error('permission error', error)
       }
       this.cdr.detectChanges();
     } catch (error) {
       alert(error)
-      console.log('Error adding from camera roll', error)
+      console.error('Error adding from camera roll', error)
     }
 
   }
