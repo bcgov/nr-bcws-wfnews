@@ -50,8 +50,17 @@
   }
 }
 
-.resource-container {
-  display: flex;
-  flex-flow: column;
-  padding: 22px;
+@media (min-width: 1250px) {
+  .resource-container {
+    display: flex;
+    flex-flow: column;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resource-container {
+    display: flex;
+    flex-flow: column;
+  }
 }
