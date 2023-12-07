@@ -457,7 +457,11 @@ export function convertToStandardDateString(value: string) {
 export function getActiveMap(smk: any | null = null) {
   let SMK = smk || window['SMK']
   const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]
-  if (key) return SMK.MAP[key]
+  if (key) {
+    const map = SMK.MAP[key]
+    map.$viewer.map._layersMaxZoom = 20
+    return map
+  }
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
 }

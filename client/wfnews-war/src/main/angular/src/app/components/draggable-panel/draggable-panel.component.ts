@@ -102,7 +102,21 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       // clicked back from preiview panel
       this.currentIncidentRefs = this.storedIncidentRefs
     }
-    if (this.currentIncidentRefs.length === 1){
+
+    // re-check for the identified incidents, in case the
+    // list has been modified while loading external data (weather)
+    try {
+      const identFeatureSet = getActiveMap().$viewer.identified.featureSet;
+      const identifiedIncidents = Object.keys(identFeatureSet).map(key => identFeatureSet[key]);
+
+      if (identifiedIncidents?.length !== this.currentIncidentRefs?.length) {
+        this.currentIncidentRefs = identifiedIncidents;
+      }
+    } catch (err) {
+      console.error(err)
+    }
+
+    if (this.currentIncidentRefs.length === 1) {
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.currentIncidentRefs[0];
@@ -164,8 +178,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.filteredFirstNationsTreatyLand = this.currentIncidentRefs.filter(item => item.layerId === 'fnt-treaty-land');
       this.filteredIndianReserve = this.currentIncidentRefs.filter(item => item.layerId === 'clab-indian-reserves');
       this.weatherStations = this.currentIncidentRefs.filter(item => item.layerId === 'weather-stations');
-      console.log('this.filteredDangerRatings')
-      console.log(this.filteredDangerRatings)
     }
   }
 
@@ -378,7 +390,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
   enterFullDetail() {
     const item = this.identifyItem
-    console.log(item)
+
     if (item && item.layerId && item.properties) {
       // swtich?
       const location = new LocationData()
@@ -522,7 +534,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       month: 'long',
       day: 'numeric'
     };
-  
+
     const formattedDate: string = date.toLocaleDateString('en-US', options);
     return formattedDate;
   }
