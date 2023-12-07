@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { GoogleCharts } from 'google-charts';
 
 @Injectable()
 export class GoogleChartsService {
