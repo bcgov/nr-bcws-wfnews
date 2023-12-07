@@ -276,7 +276,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   navigateToWeather() {
-    // to be implemented
+    if (this.location && this.location.point && this.location.point.coordinates) {
+      this.router.navigate([ResourcesRoutes.WEATHER_DETAILS], { queryParams: { latitude: this.location.point.coordinates[1], longitude: this.location.point.coordinates[0], name: this.location.notificationName } })
+    }
   }
 
   navigateToEvac(item) {
@@ -311,5 +313,3 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
 
 }
-
-
