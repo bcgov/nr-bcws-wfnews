@@ -514,4 +514,33 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     const precip = (station?.data?.hourly?.reduce((n, {precipitation}) => n + Number(precipitation), 0) || 0);
     return `${precip.toFixed(1)}mm`;
   }
+
+  formatDate(inputDate) {
+    // Parse the input date string
+    const parsedDate = new Date(inputDate);
+  
+    // Define months for formatting
+    const months = [
+      "January", "February", "March", "April",
+      "May", "June", "July", "August",
+      "September", "October", "November", "December"
+    ];
+  
+    // Extract components
+    const month = months[parsedDate.getMonth()];
+    const day = parsedDate.getDate();
+    const year = parsedDate.getFullYear();
+    let hours = parsedDate.getHours();
+    const minutes = parsedDate.getMinutes();
+    const ampm = hours >= 12 ? 'pm' : 'am';
+  
+    // Convert hours to 12-hour format
+    hours = hours % 12;
+    hours = hours ? hours : 12; // The hour '0' should be '12'
+  
+    // Format the date string
+    const formattedDate = `${month} ${day}, ${year} at ${hours}:${minutes < 10 ? '0' : ''}${minutes} ${ampm}`;
+  
+    return formattedDate;
+  }
 }
