@@ -1,4 +1,4 @@
-<div class="container">
+<div [class]="isMobileView() ? 'container' : 'desktop-container'">
     <div class="title-section">
         <img height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
         <span class="title">{{ isEdit ? 'Edit Saved Location' : 'Add Saved Location' }}</span>

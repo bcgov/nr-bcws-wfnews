@@ -12,6 +12,7 @@ export function WildfiresInactiveLayerConfig(ls: layerSettings) {
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT",
           titleAttribute: "incident_name",
           popupTemplate: '@wf-incident-feature',
+          maxZoom: 30,
           attributes: [
             {
                 name: "incident_name",

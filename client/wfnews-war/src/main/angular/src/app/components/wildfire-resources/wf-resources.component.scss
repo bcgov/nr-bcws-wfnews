@@ -4,7 +4,7 @@
   font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
   padding: 20px;
   background-color: white;
-  max-width: 1500px;
+  max-width: 1080px;
   margin: auto;
 }
 
@@ -50,8 +50,17 @@
   }
 }
 
-.resource-container {
-  display: flex;
-  flex-flow: column;
-  padding: 22px;
+@media (min-width: 1250px) {
+  .resource-container {
+    display: flex;
+    flex-flow: column;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .resource-container {
+    display: flex;
+    flex-flow: column;
+  }
 }

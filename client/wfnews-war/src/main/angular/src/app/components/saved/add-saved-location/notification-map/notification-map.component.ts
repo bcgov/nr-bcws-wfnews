@@ -16,7 +16,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
 
   radiusValue: number = 25;
   radiusCircle: any;
-  
+
   constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
   { }
 
@@ -27,9 +27,9 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
   ngAfterViewInit(): void {
     this.loadMap()
   }
-  
+
   loadMap() {
-    
+
     this.map = L.map('map',{
       zoomControl: false,
     });
@@ -64,7 +64,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         }),
         draggable: false
       };
-      
+
       if (this.data.currentLocation && this.data.currentLocation.coords) {
         // Use current location coordinates
         const coords = this.data.currentLocation.coords;
@@ -94,14 +94,14 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
       this.map.dragging.disable();
       const markerOptions = {
         icon: L.icon({
-          iconUrl: "/assets/images/svg-icons/blue-white-location-icon.svg",              
+          iconUrl: "/assets/images/svg-icons/blue-white-location-icon.svg",
           iconSize: [32, 32],
           iconAnchor: [16, 32],
           popupAnchor: [0, -32],
         }),
         draggable: false
       };
-      
+
       const center = [this.data.lat, this.data.long]; // Center coordinates of British Columbia
       this.map.setView(center, 10);
       this.notificationLocationMarker = L.marker(center, markerOptions).addTo(this.map);
@@ -148,7 +148,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         fillColor: '#548ADB',
         fillOpacity: 0.2,
       };
-  
+
       this.radiusCircle = L.circle(this.notificationLocationMarker.getLatLng(), {
         radius: radius,
         ...circleOptions,

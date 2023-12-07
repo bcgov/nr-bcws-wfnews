@@ -9,6 +9,7 @@ import { notificationMapComponent } from '@app/components/saved/add-saved-locati
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { NotificationService } from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
+import { isMobileView } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
 
 export class LocationData {
@@ -45,6 +46,7 @@ export class AddSavedLocationComponent implements OnInit{
   locationToEditOrDelete;
   isEdit : boolean;
 
+  isMobileView = isMobileView
 
   constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
     private notificationService: NotificationService, protected snackbarService: MatSnackBar, private route: ActivatedRoute
@@ -62,7 +64,7 @@ export class AddSavedLocationComponent implements OnInit{
           this.searchText = this.locationData?.searchText || undefined;
           return;
       }
-  
+
       if (val.length > 2) {
         this.filteredOptions = [];
         this.placeData.searchAddresses(val).then(function (results) {
@@ -131,7 +133,7 @@ export class AddSavedLocationComponent implements OnInit{
 
         if (this.locationData.useUserLocation) {
           this.searchText = undefined
-    
+
           const location = await this.commonUtilityService.getCurrentLocationPromise()
           this.locationData.latitude = location.coords.latitude
           this.locationData.longitude = location.coords.longitude
@@ -139,7 +141,7 @@ export class AddSavedLocationComponent implements OnInit{
         } else {
           this.searchText = null
         }
-    
+
         this.locationData.searchText = this.searchText
       }
     });
@@ -162,7 +164,7 @@ export class AddSavedLocationComponent implements OnInit{
         this.locationData.chooseLocationOnMap = true
         this.locationData.latitude=Number(result['location'].lat);
         this.locationData.longitude=Number(result['location'].lng);
-        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString(); 
+        // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString();
       }
     });
   }
@@ -209,7 +211,7 @@ export class AddSavedLocationComponent implements OnInit{
     this.fetchSavedLocation().then(() => {
       if (this.isEdit) {
         this.savedLocation
-        this.savedLocation = this.savedLocation.filter(item => 
+        this.savedLocation = this.savedLocation.filter(item =>
           item.notificationName !== this.locationToEditOrDelete.notificationName &&
           item.point.coordinates[0] !== this.locationToEditOrDelete.point.coordinates[0] &&
           item.point.coordinates[1] !== this.locationToEditOrDelete.point.coordinates[1]
@@ -228,7 +230,7 @@ export class AddSavedLocationComponent implements OnInit{
         });
     });
   }
-  
+
   fetchSavedLocation(): Promise<any> {
     return this.notificationService.getUserNotificationPreferences()
       .then(response => {
