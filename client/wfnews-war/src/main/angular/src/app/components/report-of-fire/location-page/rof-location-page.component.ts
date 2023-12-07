@@ -94,7 +94,6 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
   initMap(smk: any) {
     this.smkApi = new SmkApi(smk);
 
-    console.log('initMap')
     const L = window[ 'L' ]
     const T = window[ 'turf' ]
 

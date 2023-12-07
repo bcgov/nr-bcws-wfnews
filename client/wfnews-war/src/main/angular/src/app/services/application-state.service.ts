@@ -1,7 +1,9 @@
 import { Injectable, Injector } from '@angular/core';
-import { TokenService} from '@wf1/core-ui';
+import { TokenService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
 import { ROLES_UI } from '../shared/scopes/scopes';
+import { Router } from "@angular/router";
+import { MatDialog } from '@angular/material/dialog';
 
 @Injectable({
     providedIn: 'root'
@@ -9,24 +11,40 @@ import { ROLES_UI } from '../shared/scopes/scopes';
 export class ApplicationStateService {
 
     tokenService: TokenService;
+    private weatherHistoryOptions: WeatherHistoryOptions = {
+        historyLength: 72,
+        chartDataSources: [
+            {
+                property: 'temp',
+                title: 'Temperature',
+            },
+            {
+                property: 'relativeHumidity',
+                title: 'Relative Humidity',
+            },
+        ],
+        includedSources: []
+    }
 
-    constructor(private injector: Injector
+    constructor(private injector: Injector,
+        private router: Router,
+        private dialog: MatDialog
     ) {
 
     }
 
     getDevice(): WfDevice {
-        if ( window.innerWidth < 768 || ( window.innerWidth >= 768 && window.innerHeight < 450 ) ) {
-return 'mobile';
-}
+        if (window.innerWidth < 768 || (window.innerWidth >= 768 && window.innerHeight < 450)) {
+            return 'mobile';
+        }
 
         return 'desktop';
     }
 
-    getOrientation(): 'landscape'|'portrait' {
-        if ( window.innerWidth > window.innerHeight ) {
-return 'landscape';
-}
+    getOrientation(): 'landscape' | 'portrait' {
+        if (window.innerWidth > window.innerHeight) {
+            return 'landscape';
+        }
 
         return 'portrait';
     }
@@ -61,7 +79,26 @@ return 'landscape';
     }
 
     public isAdminPageAccessable(): boolean {
-      return this.doesUserHaveScopes([ROLES_UI.ADMIN]) || this.doesUserHaveScopes([ROLES_UI.IM_ADMIN])
+        return this.doesUserHaveScopes([ROLES_UI.ADMIN]) || this.doesUserHaveScopes([ROLES_UI.IM_ADMIN])
     }
 
+    public getWeatherHistoryOptions(): WeatherHistoryOptions {
+        return this.weatherHistoryOptions
+    }
+
+    public setWeatherHistoryOptions(opt: WeatherHistoryOptions) {
+        return this.weatherHistoryOptions = opt
+    }
+
+}
+
+export interface WeatherHistoryOptions {
+    historyLength: number // hours
+    chartDataSources: {
+        property: string
+        title: string
+    }[],
+    includedSources: {
+        property: string
+    }[]
 }

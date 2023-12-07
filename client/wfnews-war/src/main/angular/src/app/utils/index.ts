@@ -3,6 +3,7 @@ import { EffectSources } from '@ngrx/effects';
 import { SortDirection } from '@wf1/core-ui';
 import * as moment from 'moment';
 import { PagingInfoRequest } from '../store/application/application.state';
+import { WeatherHourlyCondition, WeatherStationConditions } from '@app/services/point-id.service';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -23,7 +24,8 @@ export enum ResourcesRoutes {
     ADD_LOCATION = 'add-location',
     MORE = 'more',
     CONTACT_US = 'contact-us',
-    SAVED_LOCATION = 'saved-location'
+    SAVED_LOCATION = 'saved-location',
+    WEATHER_DETAILS = 'weather-details'
 }
 
 export const FireCentres = [
@@ -376,7 +378,6 @@ export function convertToDateTimeTimeZone(date) {
 
 export function convertToDateTime(date) {
     // e.g. July 19, 2022 at 10:22 am
-    console.log(date)
     const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     let convertedDate: string;
     convertedDate = date ? new Date(date).toLocaleTimeString("en-US", updateOptions) : 'Pending'
@@ -454,10 +455,41 @@ export function convertToStandardDateString(value: string) {
   }
 }
 
+export function readableDate(date) {
+    // e.g. Tue Dec 05 2023
+    let arr = date.slice(0, 4)
+    const year = arr
+
+    arr = date.slice(4, 6)
+    const month = arr
+
+    arr = date.slice(6, 8)
+    const day = arr
+
+    // Months are zero-based indexes in JS Date, so remember to decrement
+    const formattedDate = new Date(year, month - 1, day)
+    return formattedDate.toDateString()
+}
+
+export function readableHour(hourString) {
+
+    //e.g. 2023-10-04 at 24:00
+    let year = hourString.slice(0, 4)
+    let day = hourString.slice(4, 6)
+    let month = hourString.slice(6, 8)
+    let hour = hourString.slice(-2)
+
+    return year + "-" + day + "-" + month + " at " + hour + ":00"
+}
+
 export function getActiveMap(smk: any | null = null) {
   let SMK = smk || window['SMK']
   const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]
-  if (key) return SMK.MAP[key]
+  if (key) {
+    const map = SMK.MAP[key]
+    map.$viewer.map._layersMaxZoom = 20
+    return map
+  }
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
 }
@@ -480,3 +512,10 @@ export function openLink(link: string) {
         return "Dry forest fuels are at a very low risk of catching fire."
     }
   }
+
+  export function getCurrentCondition( conditions: WeatherStationConditions ): WeatherHourlyCondition {
+    if ( !conditions || !conditions.hourly ) return
+    return conditions.hourly.find( function ( hc ) {
+        return hc.temp != null
+    } )
+}
