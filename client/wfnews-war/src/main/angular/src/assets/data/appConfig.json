@@ -111,7 +111,7 @@
         "causecodes": "causeCodes/token.jsp",
         "pointId": "https://wfss-pointid-api.dev.bcwildfireservices.com",
         "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof",
-        "notification-api": "https://publicmobile-api-int.bcwildfireservices.com/notifications-api"
+        "notification-api": "https://wfone-notifications-api.dev.bcwildfireservices.com"
     },
 
     "webade": {
