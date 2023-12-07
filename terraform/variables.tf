@@ -986,11 +986,6 @@ variable "WFONE_MONITORS_NAME_MAP" {
   }))
 }
 
-variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
-  type    = string
-  default = ""
-}
-
 variable "WFONE_NOTIFICATIONS_PUSH_MAX_CONNECTIONS" {
   type    = number
   default = 25
