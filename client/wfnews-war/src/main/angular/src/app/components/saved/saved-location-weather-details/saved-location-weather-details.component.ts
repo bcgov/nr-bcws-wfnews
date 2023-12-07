@@ -1,0 +1,50 @@
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { PointIdService, WeatherDailyCondition, WeatherHourlyCondition, WeatherStationConditions } from '@app/services/point-id.service';
+import { readableDate, readableHour } from '@app/utils';
+
+@Component({
+  selector: 'wfnews-saved-location-weather-details',
+  templateUrl: './saved-location-weather-details.component.html',
+  styleUrls: ['./saved-location-weather-details.component.scss']
+})
+export class SavedLocationWeatherDetailsComponent implements OnInit {
+  latitude: number;
+  longitude: number;
+  params: ParamMap;
+  station: WeatherStationConditions;
+  daily: WeatherDailyCondition;
+  hourly: WeatherHourlyCondition;
+  readableDate = readableDate;
+  readableHour = readableHour;
+
+
+  constructor(private route: ActivatedRoute, private pointIdService: PointIdService) { }
+
+  ngOnInit(): void {
+    this.route.queryParams.subscribe((params: ParamMap) => {
+      this.params = params
+    })
+
+    if (this.params && this.params['latitude'] && this.params['longitude']){
+      this.latitude = this.params['latitude']
+      this.longitude = this.params['longitude']
+      this.fetchWeather(this.latitude, this.longitude)
+    }
+  }
+
+  fetchWeather(latitude: number, longitude: number) {
+    if (latitude && longitude) {
+      this.pointIdService.fetchNearestWeatherStation(Number(latitude), Number(longitude)).then(response => {
+        this.station = response;
+        if (response.daily) this.daily = response.daily[0];
+        if (response.hourly) this.hourly = response.hourly[0];
+      });
+    }
+  }
+
+  backToSaved() {
+
+  }
+
+}

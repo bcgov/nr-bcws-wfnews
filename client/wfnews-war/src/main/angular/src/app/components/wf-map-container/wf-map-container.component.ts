@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, E
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
-import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
+import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 import { getActiveMap, isMobileView } from '@app/utils';
 
 let mapIndexAuto = 0;

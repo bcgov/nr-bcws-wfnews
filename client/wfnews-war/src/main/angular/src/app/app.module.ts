@@ -147,7 +147,7 @@ import { RoFTitlePage } from './components/report-of-fire/title-page/rof-title-p
 import { SignOutPageComponent } from './components/sign-out-page/sign-out-page.component';
 import { ContactWidgetDialogComponent } from './components/sticky-widget/contact-widget-dialog/contact-widget-dialog.component';
 import { StickyWidgetComponent } from './components/sticky-widget/sticky-widget.component';
-import { WeatherPanelComponent } from './components/weather-panel/weather-panel.component';
+import { WeatherPanelComponent } from './components/weather/weather-panel/weather-panel.component';
 import { AdminEditDashboard } from './components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
 import { WfAdminPanelComponentDesktop } from './components/wf-admin-panel/wf-admin-panel.component.desktop';
 import { WFMapContainerComponent } from './components/wf-map-container/wf-map-container.component';
@@ -217,6 +217,12 @@ import { NotificationService } from '@app/services/notification.service';
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
+import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-location-weather-details/saved-location-weather-details.component';
+import { WeatherHistoryComponent } from './components/weather/weather-history/weather-history.component';
+import { WeatherHistoryOptionsDialogComponent } from './components/weather/weather-history-options-dialog/weather-history-options-dialog.component';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { GoogleChartsService } from './services/google-charts.service';
+import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 
 
 
@@ -374,7 +380,11 @@ export const DATE_FORMATS = {
         notificationMapComponent,
         SavedLocationFullDetailsComponent,
         ConfirmationDialogComponent,
-        WildfireNotificationDialogComponent
+        WildfireNotificationDialogComponent,
+        SavedLocationWeatherDetailsComponent,
+        WeatherHistoryComponent,
+        WeatherHistoryOptionsDialogComponent,
+        BaseDialogComponent,
     ],
     imports: [
         MatSortModule,
@@ -446,7 +456,8 @@ export const DATE_FORMATS = {
         NgxMaskModule.forRoot(),
         IonicStorageModule.forRoot(),
         IonicModule.forRoot(),
-        MatSliderModule
+        MatSliderModule,
+        GoogleChartsModule
     ],
     providers: [
         // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
@@ -516,7 +527,8 @@ export const DATE_FORMATS = {
         PointIdService,
         CanDeactivateGuard,
         ReportOfFireService,
-        NotificationService
+        NotificationService,
+        GoogleChartsService
     ],
     bootstrap: [
         AppComponent
