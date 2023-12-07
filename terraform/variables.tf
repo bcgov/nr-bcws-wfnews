@@ -891,11 +891,6 @@ variable "WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD" {
   default = ""
 }
 
-variable "WFONE_NOTIFICATIONS_API_DATASOURCE_URL" {
-  type    = string
-  default = ""
-}
-
 variable "WFONE_NOTIFICATIONS_API_DATASOURCE_USER" {
   type    = string
   default = ""
@@ -989,11 +984,6 @@ variable "WFONE_MONITORS_NAME_MAP" {
   type = map(object({
     EXPIRE_HOURS = number
   }))
-}
-
-variable "WFONE_PM_SQS_S3_BUCKET_NAME" {
-  type    = string
-  default = ""
 }
 
 variable "WFONE_NOTIFICATIONS_PUSH_MAX_CONNECTIONS" {

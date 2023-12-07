@@ -1160,7 +1160,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           },
           {
             name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_URL
+            value = "jdbc:postgresql://${aws_db_instance.wfnews_pgsqlDB.endpoint}/${aws_db_instance.wfnews_pgsqlDB.name}"
           },
           {
             name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_USERNAME",
