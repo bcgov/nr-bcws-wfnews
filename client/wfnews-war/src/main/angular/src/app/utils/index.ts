@@ -378,7 +378,6 @@ export function convertToDateTimeTimeZone(date) {
 
 export function convertToDateTime(date) {
     // e.g. July 19, 2022 at 10:22 am
-    console.log(date)
     const updateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' }
     let convertedDate: string;
     convertedDate = date ? new Date(date).toLocaleTimeString("en-US", updateOptions) : 'Pending'
@@ -486,7 +485,11 @@ export function readableHour(hourString) {
 export function getActiveMap(smk: any | null = null) {
   let SMK = smk || window['SMK']
   const key = Object.keys(SMK.MAP)[Object.keys(SMK.MAP).length - 1]
-  if (key) return SMK.MAP[key]
+  if (key) {
+    const map = SMK.MAP[key]
+    map.$viewer.map._layersMaxZoom = 20
+    return map
+  }
   // Sort of a fail-safe if the object doesn't have a key to force-retry with the window SMK object
   else return window['SMK'].MAP[Object.keys( window['SMK'].MAP)[Object.keys( window['SMK'].MAP).length - 1]]
 }

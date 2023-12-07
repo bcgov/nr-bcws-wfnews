@@ -94,7 +94,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
 
 
     retrieveErrorHandlingInstructions(response, processedRequest, requestId): ErrorHandlingInstructions {
-        console.log("ERROR HANDLE", response, processedRequest);
+        console.error("ERROR HANDLE", response, processedRequest);
         if (response.url && response.url.endsWith("codeTables")) {
             return this.createErrorHandlingInstructions(null, null, `Unable to initialize application (${response.status}). ${response.url}`);
         } else if (response.status === 0) {

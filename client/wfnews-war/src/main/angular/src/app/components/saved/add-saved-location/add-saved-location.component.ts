@@ -220,7 +220,6 @@ export class AddSavedLocationComponent implements OnInit{
       this.notificationService.updateUserNotificationPreferences(this.locationData, this.savedLocation)
         .then(() => {
           this.cdr.markForCheck();
-          console.log('save notification success');
           this.router.navigateByUrl('/saved');
         })
         .catch(e => {
