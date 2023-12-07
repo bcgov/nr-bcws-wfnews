@@ -123,13 +123,11 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             {
               id: 'bc-fire-centres',
               isVisible: true,
-              class: 'smk-inline-legend',
               alwaysShowLegend: false
             },
             {
               id: 'bc-fire-centres-labels',
               isVisible: true,
-              class: 'smk-inline-legend',
               alwaysShowLegend: false
             }
           ]
@@ -143,13 +141,11 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             {
               id: 'bc-fire-zones',
               isVisible: true,
-              class: 'smk-inline-legend',
               alwaysShowLegend: false
             },
             {
               id: 'bc-fire-zones-labels',
               isVisible: true,
-              class: 'smk-inline-legend',
               alwaysShowLegend: false
             }
           ]

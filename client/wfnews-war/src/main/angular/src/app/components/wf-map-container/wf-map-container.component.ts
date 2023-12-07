@@ -75,6 +75,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
 
+        // enforce a max zoom setting, in case we're using cluster/heatmapping
+        smk.$viewer.map._layersMaxZoom = 20;
+
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
           // If the layer is visible only

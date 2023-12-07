@@ -17,6 +17,7 @@ export const mapConfig = (
         },
         baseMap: 'navigation',
         minZoom: 4,
+        maxZoom: 30
     },
     tools: [
         {

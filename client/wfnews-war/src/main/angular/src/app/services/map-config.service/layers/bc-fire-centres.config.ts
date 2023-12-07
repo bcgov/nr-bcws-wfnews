@@ -23,7 +23,13 @@ export function FireCentresLayerConfig(ls: layerSettings) {
           isQueryable: false,
           titleAttribute: 'MOF_FIRE_CENTRE_NAME',
           geometryAttribute: 'GEOMETRY',
-          attribution: 'Copyright 117 DataBC, Government of British Columbia'
+          attribution: 'Copyright 117 DataBC, Government of British Columbia',
+          legend: {
+            title: ' ',
+            url: '',
+            width: 0,
+            height: 0
+          }
         },
         {
           type: 'wms',
@@ -37,7 +43,13 @@ export function FireCentresLayerConfig(ls: layerSettings) {
           isQueryable: false,
           titleAttribute: 'MOF_FIRE_CENTRE_NAME',
           geometryAttribute: 'GEOMETRY',
-          attribution: 'Copyright 117 DataBC, Government of British Columbia'
+          attribution: 'Copyright 117 DataBC, Government of British Columbia',
+          legend: {
+            title: ' ',
+            url: '',
+            width: 0,
+            height: 0
+          }
         },
         {
           type: 'wms',
@@ -51,7 +63,13 @@ export function FireCentresLayerConfig(ls: layerSettings) {
           isQueryable: false,
           titleAttribute: 'MOF_FIRE_CENTRE_NAME',
           geometryAttribute: 'GEOMETRY',
-          attribution: 'Copyright 117 DataBC, Government of British Columbia'
+          attribution: 'Copyright 117 DataBC, Government of British Columbia',
+          legend: {
+            title: ' ',
+            url: '',
+            width: 0,
+            height: 0
+          }
         },
         {
           type: 'wms',
@@ -65,7 +83,13 @@ export function FireCentresLayerConfig(ls: layerSettings) {
           isQueryable: false,
           titleAttribute: 'MOF_FIRE_CENTRE_NAME',
           geometryAttribute: 'GEOMETRY',
-          attribution: 'Copyright 117 DataBC, Government of British Columbia'
+          attribution: 'Copyright 117 DataBC, Government of British Columbia',
+          legend: {
+            title: ' ',
+            url: '',
+            width: 0,
+            height: 0
+          }
         }
     ];
 }

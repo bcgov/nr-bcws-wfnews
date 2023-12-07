@@ -565,7 +565,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             icon: L.divIcon({
               className: 'custom-icon-class',
               html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
-                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
+                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;margin-left: 1px;position: relative;top: 3px;" />
                   </div>`,
               iconSize: [32, 32],
               iconAnchor: [16, 32],
