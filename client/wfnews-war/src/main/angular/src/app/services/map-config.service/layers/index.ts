@@ -21,6 +21,7 @@ import { SmokeForecastLayerConfig } from './hourly-currentforecast-firesmoke.con
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { WeatherLayerConfig } from './weather.config';
+import { BasemapLayerConfig } from './basemap.config';
 
 export interface layerSettings {
     openmapsBaseUrl: string;
@@ -58,6 +59,7 @@ export function LayerConfig( mapServices: MapServices, serviceStatus: MapService
     ...FntTreatyLandLayerConfig( ls ),
     ...AbmsMunicipalitiesLayerConfig( ls ),
     ...AbmsRegionalDistrictsLayerConfig( ls ),
-    ...ProtectedLandsAccessRestrictionsLayerConfig( ls )
+    ...ProtectedLandsAccessRestrictionsLayerConfig( ls ),
+    ...BasemapLayerConfig( ls )
 	];
 }

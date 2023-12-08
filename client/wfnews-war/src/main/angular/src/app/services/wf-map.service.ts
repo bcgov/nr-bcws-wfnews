@@ -138,7 +138,7 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    defineEsriVectoLayer('topography', 'Topography', [
+                    defineEsriVectoLayer('topography', 'BC Topography', [
                       {
                         id: 'topography',
                         type: 'vector',
