@@ -107,6 +107,10 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false
         },
         {
+          id: 'bc-hillshade',
+          isVisible: true
+        },
+        {
           id: "fire-centre-group",
           type: "group",
           title: "BC Wildfire Centres",
