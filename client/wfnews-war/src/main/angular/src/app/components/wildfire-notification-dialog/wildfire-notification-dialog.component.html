@@ -1,6 +1,6 @@
 <div class="content">
     <div class="title"> {{data.title}} </div>
-    <div class="out-icon">
+    <div class="out-icon" *ngIf="data.title === 'This wildfire is Out'">
         <img src="/assets/images/svg-icons/carbon_crop-growth-gray.svg" >
     </div>
     <p>{{data.text}}</p>
