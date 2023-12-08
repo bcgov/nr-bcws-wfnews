@@ -20,7 +20,7 @@
 
 .section {
     display: flex;
-    padding: 24px 16px;
+    padding: 24px 8px;
     flex-direction: column;
     align-items: center;
     align-self: stretch;
@@ -221,13 +221,13 @@
 }
 
 .saved-wildfires{
-    width: 100vw;
+    width: 100%;
 }
 
 
 .info-container {
     display: flex;
-    padding: 24px 24px 10px 24px;
+    padding: 24px 0px 10px 0px;
     flex-direction: column;
     align-self: stretch;
 }

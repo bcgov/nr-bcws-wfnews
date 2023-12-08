@@ -289,6 +289,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
+
         // set timeout to load smk features to load
         setTimeout(async () => {
           let fireIsOutOrNotFound = false;
@@ -337,18 +338,28 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             this.panToLocation(long, lat);
           }
           // turn on layers
-          if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
-          if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
-          if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
-          if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
+          if (params['featureType'] === 'British_Columbia_Area_Restrictions') this.onSelectLayer('area-restrictions')
+          if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas') this.onSelectLayer('bans-and-prohibitions')
+          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') this.onSelectLayer('evacuation-orders-and-alerts')
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') this.onSelectLayer('wildfire-stage-of-control')
           // identify
-          // setTimeout(() => {
-            if (params['identify'] && long && lat) {
-              // if (!fireIsOutOrNotFound){
+          setTimeout(() => {
+            if (long && lat) {
+              if (!fireIsOutOrNotFound){
+                this.showPanel = true;
+                let xxx = JSON.stringify(params);
+                let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+                  autoFocus: false,
+                  width: '80vw',
+                  data: {
+                    title: "TEST PURPOSE",
+                    text: xxx,
+                  }
+                });
                 this.identify([long, lat])
-              // }
+              }
             }
-          // }, 2000)
+          }, 5000)
 
         }, 1000)
       }});
@@ -540,6 +551,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   onSelectIncidents(incidentRefs){
+    console.log(incidentRefs)
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
     if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
