@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { PointIdService, WeatherDailyCondition, WeatherHourlyCondition, WeatherStationConditions } from '@app/services/point-id.service';
-import { ResourcesRoutes, readableDate, readableHour } from '@app/utils';
+import { ResourcesRoutes, isMobileView, readableDate, readableHour } from '@app/utils';
 
 @Component({
   selector: 'wfnews-saved-location-weather-details',
@@ -18,6 +18,7 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
   hourly: WeatherHourlyCondition;
   readableDate = readableDate;
   readableHour = readableHour;
+  isMobileView = isMobileView;
 
 
   constructor(private route: ActivatedRoute, private pointIdService: PointIdService, private router: Router) { }

@@ -26,9 +26,9 @@
             font-style: normal;
             font-weight: 600;
             line-height: normal;
-    
+
         }
-    
+
         .section-detail {
             color: var(--grays-gray-3, #666);
             font-size: 15px;
@@ -37,7 +37,7 @@
             line-height: 22px;
             letter-spacing: -0.408px;
             margin: 16px 0px;
- 
+
         }
 
         .divider {
@@ -46,10 +46,16 @@
             margin: 14px 0;
             width: 100%;
         }
-        
+
     }
-    
+
     .bottom {
         height: 140px;
     }
+}
+
+.desktop-container {
+  background-color: white !important;
+  max-width: 850px;
+  margin: auto;
 }
