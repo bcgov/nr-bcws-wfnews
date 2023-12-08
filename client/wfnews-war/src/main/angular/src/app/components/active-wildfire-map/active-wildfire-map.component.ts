@@ -337,29 +337,61 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           else{
             this.panToLocation(long, lat);
           }
+          this.cdr.detectChanges();
           // turn on layers
-          if (params['featureType'] === 'British_Columbia_Area_Restrictions') this.onSelectLayer('area-restrictions')
-          if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas') this.onSelectLayer('bans-and-prohibitions')
-          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') this.onSelectLayer('evacuation-orders-and-alerts')
-          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') this.onSelectLayer('wildfire-stage-of-control')
+          const smkApi = new SmkApi(getActiveMap());
+          if (params['featureType'] === 'British_Columbia_Area_Restrictions'){
+            this.onSelectLayer('area-restrictions');
+            const layers = [
+              { itemId: 'area-restrictions', visible: true },
+              { itemId: 'area-restrictions-highlight', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas'){
+            this.onSelectLayer('bans-and-prohibitions');
+            const layers = [
+              { itemId: 'bans-and-prohibitions-cat1', visible: true },
+              { itemId: 'bans-and-prohibitions-cat2', visible: true },
+              { itemId: 'bans-and-prohibitions-cat3', visible: true },
+              { itemId: 'bans-and-prohibitions-highlight', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') {
+            this.onSelectLayer('evacuation-orders-and-alerts')
+            const layers = [
+              { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: true },
+              { itemId: 'evacuation-orders-and-alerts-wms', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
+            this.onSelectLayer('wildfire-stage-of-control');
+            const layers = [
+              { itemId: 'active-wildfires-fire-of-note', visible: true },
+              { itemId: 'active-wildfires-holding', visible: true },
+              { itemId: 'active-wildfires-out-of-control', visible: true },
+              { itemId: 'active-wildfires-under-control', visible: true},
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
           // identify
           setTimeout(() => {
             if (long && lat) {
               if (!fireIsOutOrNotFound){
                 this.showPanel = true;
-                let xxx = JSON.stringify(params);
-                let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
-                  autoFocus: false,
-                  width: '80vw',
-                  data: {
-                    title: "TEST PURPOSE",
-                    text: xxx,
-                  }
-                });
-                this.identify([long, lat])
+                this.mapConfigService.getMapConfig().then(() => {     
+                  this.identify([long, lat])
+                })
+
               }
             }
-          }, 5000)
+          }, 2000)
 
         }, 1000)
       }});
@@ -962,6 +994,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const buffered = turf.buffer(point, buffer, { units:'meters' })
     const bbox = turf.bbox(buffered)
     const poly = turf.bboxPolygon(bbox)
+/*
+    let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: "TEST PURPOSE",
+        text: JSON.stringify(turf) +' | ' + JSON.stringify(point) + ' | ' + JSON.stringify(buffer) + ' | ' + bbox + ' | ' + JSON.stringify(poly),
+        text2: location[1] + ' | ' + location[0]
+      }
+    });
+*/
 
     getActiveMap().$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
   }
