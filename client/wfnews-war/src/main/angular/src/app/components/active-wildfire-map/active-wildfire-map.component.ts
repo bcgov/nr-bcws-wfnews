@@ -356,7 +356,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             if (long && lat) {
               if (!fireIsOutOrNotFound){
-                debugger
                 this.showPanel = true;
                 
                 this.identify([long, lat])
