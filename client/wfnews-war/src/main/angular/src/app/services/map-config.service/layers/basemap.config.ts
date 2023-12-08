@@ -9,7 +9,7 @@ export function BasemapLayerConfig(ls: layerSettings) {
           isQueryable: false,
           attribution: 'Copyright 117 DataBC, Government of British Columbia',
           serviceUrl: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Hillshade/MapServer',
-          opacity: 0.5
+          opacity: 1.0
         }
     ];
 }
