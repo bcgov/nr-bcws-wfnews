@@ -289,6 +289,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
+
         // set timeout to load smk features to load
         setTimeout(async () => {
           let fireIsOutOrNotFound = false;
@@ -309,10 +310,10 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                     dialogRef.afterClosed().subscribe(action => {
                       if (action['fullDetail']) {
                         this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
-                          { queryParams: { 
-                            fireYear: result.fireYear, 
-                            incidentNumber: result.incidentNumberLabel, 
-                            source: [ResourcesRoutes.ACTIVEWILDFIREMAP] 
+                          { queryParams: {
+                            fireYear: result.fireYear,
+                            incidentNumber: result.incidentNumberLabel,
+                            source: [ResourcesRoutes.ACTIVEWILDFIREMAP]
                           } })
                       }
                     });
@@ -336,16 +337,58 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           else{
             this.panToLocation(long, lat);
           }
+          this.cdr.detectChanges();
           // turn on layers
-          if (params['areaRestriction']) this.onSelectLayer('area-restrictions')
-          if (params['bans']) this.onSelectLayer('bans-and-prohibitions')
-          if (params['evac']) this.onSelectLayer('evacuation-orders-and-alerts')
-          if (params['wildfires']) this.onSelectLayer('wildfire-stage-of-control')
+          const smkApi = new SmkApi(getActiveMap());
+          if (params['featureType'] === 'British_Columbia_Area_Restrictions'){
+            this.onSelectLayer('area-restrictions');
+            const layers = [
+              { itemId: 'area-restrictions', visible: true },
+              { itemId: 'area-restrictions-highlight', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas'){
+            this.onSelectLayer('bans-and-prohibitions');
+            const layers = [
+              { itemId: 'bans-and-prohibitions-cat1', visible: true },
+              { itemId: 'bans-and-prohibitions-cat2', visible: true },
+              { itemId: 'bans-and-prohibitions-cat3', visible: true },
+              { itemId: 'bans-and-prohibitions-highlight', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') {
+            this.onSelectLayer('evacuation-orders-and-alerts')
+            const layers = [
+              { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: true },
+              { itemId: 'evacuation-orders-and-alerts-wms', visible: true },
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
+            this.onSelectLayer('wildfire-stage-of-control');
+            const layers = [
+              { itemId: 'active-wildfires-fire-of-note', visible: true },
+              { itemId: 'active-wildfires-holding', visible: true },
+              { itemId: 'active-wildfires-out-of-control', visible: true },
+              { itemId: 'active-wildfires-under-control', visible: true},
+            ]
+            smkApi.setDisplayContextItemsVisible(...layers);   
+          }
+
           // identify
           setTimeout(() => {
-            if (params['identify'] && long && lat) {
+            if (long && lat) {
               if (!fireIsOutOrNotFound){
-                this.identify([long, lat])
+                this.showPanel = true;
+                this.mapConfigService.getMapConfig().then(() => {     
+                  this.identify([long, lat])
+                })
+
               }
             }
           }, 2000)
@@ -562,11 +605,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       for (const smkMap in SMK.MAP) {
         if (Object.hasOwn(SMK.MAP, smkMap)){
           const savedLocationMarker = {
-            icon: L.divIcon({
-              className: 'custom-icon-class',
-              html: `<div class="custom-marker" style="border-radius: 83.158px; border: 3px solid var(--grays-white, #FDFDFD); background: var(--blues-blue-4, #1A5A96);">
-                    <img src="/assets/images/svg-icons/location_pin_radius.svg" style="height: 21px; width: 25px;" />
-                  </div>`,              
+            icon: L.icon({
+              iconUrl: "/assets/images/svg-icons/blue-white-location-icon.svg",
               iconSize: [32, 32],
               iconAnchor: [16, 32],
               popupAnchor: [0, -32],
@@ -578,16 +618,16 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             const label = L.marker([item.point.coordinates[1], item.point.coordinates[0]], {
               icon: L.divIcon({
                   className: 'marker-label',
-                  html: `<div class="custom-marker" 
+                  html: `<div class="custom-marker"
                   style="margin-top: -20px; margin-left: 25px; height: 1.2em; text-wrap: nowrap; display:flex; align-items: center; justify-content: left; text-align: center; color: #000; font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif; font-size: 16px; font-style: normal; font-weight: 600;">
                   ${item.notificationName}
-                </div>`,   
+                </div>`,
                 })
             });
             label.addTo(getActiveMap(this.SMK).$viewer.map);
             this.savedLocationlabels.push(label);
             this.savedLocationlabelsToShow.push(label);
-          }   
+          }
         }
       }
       }) .catch(error=>{
@@ -609,7 +649,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   private removeAllSavedLocationLabels() {
     const map = getActiveMap(this.SMK).$viewer.map;
-  
+
     // Iterate over the array of markers and remove them from the map
     for (const label of this.savedLocationlabelsToShow) {
       map.removeLayer(label);
@@ -668,6 +708,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       /* 23 */ { itemId: 'active-wildfires-out-of-control', visible: true }, // Always on
       /* 24 */ { itemId: 'active-wildfires-holding', visible: true }, // Always on
       /* 25 */ { itemId: 'active-wildfires-under-control', visible: true }, // Always on
+      /* 26 */ { itemId: 'bc-fire-centres-labels', visible: true }, // Always on
 
       // Not in a feature but need to be cleared
       { itemId: 'bc-fsr', visible: false },
@@ -953,6 +994,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const buffered = turf.buffer(point, buffer, { units:'meters' })
     const bbox = turf.bbox(buffered)
     const poly = turf.bboxPolygon(bbox)
+/*
+    let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: "TEST PURPOSE",
+        text: JSON.stringify(turf) +' | ' + JSON.stringify(point) + ' | ' + JSON.stringify(buffer) + ' | ' + bbox + ' | ' + JSON.stringify(poly),
+        text2: location[1] + ' | ' + location[0]
+      }
+    });
+*/
 
     getActiveMap().$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
   }
@@ -980,7 +1032,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 
-  
+
 
   onPushNotificationClick() {
     let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]
@@ -990,12 +1042,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   testNotifications = [
     makeLocation( {
-        latitude: 49.709814, // lemon creek
-        longitude: -117.470736,
+        latitude: 48.461763, // uvic fire
+        longitude: -123.31067,
         radius: 20,
-        featureId: 'N50155', //FIRE_NUMBER
+        featureId: 'V65425', //FIRE_NUMBER
         featureType: 'BCWS_ActiveFires_PublicView',
-        fireYear: 2022
+        fireYear: 2023
     } ),
     makeLocation( {
         latitude: 48.507955, // OUT - beaver lake

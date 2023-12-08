@@ -30,7 +30,7 @@ export function FntTreatyLandLayerConfig(ls: layerSettings) {
               url: '/assets/images/legend_treaty_land.png',
               width: 20,
               height: 20
-            },
+            }
         }
     ];
 }

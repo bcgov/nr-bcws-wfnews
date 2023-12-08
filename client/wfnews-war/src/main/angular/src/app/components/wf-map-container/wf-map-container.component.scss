@@ -114,6 +114,17 @@
         }
     }
 
+    .smk-base-map-sample {
+      height: 80px !important;
+      width: 280px !important;
+    }
+
+    .smk-active {
+      background-color: unset !important;
+      border: 2px solid #548ADB !important;
+      border-radius: 6px !important;
+    }
+
     .smk-layers-panel .smk-panel {
         .smk-display .smk-item {
             flex-wrap: wrap;

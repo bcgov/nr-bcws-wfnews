@@ -3,7 +3,7 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { NotificationService } from '@app/services/notification.service';
 import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateTimeTimeZone, convertToDateYear, displayDangerRatingDes, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
+import { ResourcesRoutes, convertToDateTimeTimeZone, convertToDateYear, displayDangerRatingDes, getStageOfControlIcon, getStageOfControlLabel, isMobileView } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 import { LocationData } from '../add-saved-location/add-saved-location.component';
 import { AGOLService } from '@app/services/AGOL-service';
@@ -39,6 +39,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   getStageOfControlIcon = getStageOfControlIcon
   getStageOfControlLabel = getStageOfControlLabel
   convertToDateTimeTimeZone = convertToDateTimeTimeZone
+  isMobileView = isMobileView
 
   constructor(private route: ActivatedRoute, private notificationService: NotificationService, private cdr: ChangeDetectorRef,
     private router: Router, private spatialUtilService: SpatialUtilsService, private pointIdService: PointIdService,
@@ -275,7 +276,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   navigateToWeather() {
-    // to be implemented
+    if (this.location && this.location.point && this.location.point.coordinates) {
+      this.router.navigate([ResourcesRoutes.WEATHER_DETAILS], { queryParams: { latitude: this.location.point.coordinates[1], longitude: this.location.point.coordinates[0], name: this.location.notificationName } })
+    }
   }
 
   navigateToEvac(item) {
@@ -310,5 +313,3 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
 
 }
-
-

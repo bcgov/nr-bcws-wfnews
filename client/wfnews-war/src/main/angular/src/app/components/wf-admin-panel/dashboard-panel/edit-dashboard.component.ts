@@ -44,7 +44,6 @@ export class AdminEditDashboard implements OnInit {
     this.situationReport = new SituationReport
     this.publishedIncidentService.fetchSituationReportList(0, 9999, true).toPromise()
     .then(results => {
-      console.log(results)
       if (results && results.collection) {
         if (results.collection.length > 1) {
           results.collection.sort((a,b) =>(a.situationReportDate > b.situationReportDate) ? 1 : ((b.situationReportDate > a.situationReportDate) ? -1 : 0))
@@ -96,7 +95,7 @@ export class AdminEditDashboard implements OnInit {
         this.previousSituationReport.publishedInd = false
         this.previousSituationReport.archivedInd = true;
         (this.previousSituationReport as any)['@type'] = 'SituationReportResource';
-        
+
         await this.publishedIncidentService.updateSituationReport(this.previousSituationReport).toPromise();
       } catch (err) {
         this.snackbarService.open('Failed to un-publish previous report. Please wait a moment and try again. If the issue persist contact support: ' + JSON.stringify(err), 'OK', { duration: 100000, panelClass: 'snackbar-error' });

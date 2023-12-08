@@ -1,9 +1,9 @@
 <div class="content">
     <div class="title"> {{data.title}} </div>
-    <div class="out-icon">
+    <div class="out-icon" *ngIf="data.title === 'This wildfire is Out'">
         <img src="/assets/images/svg-icons/carbon_crop-growth-gray.svg" >
     </div>
-    <p>{{data.text}}</p>
+    <p style="overflow: auto;">{{data.text}}</p>
     <p>{{data.text2}}</p>
     <div class="button-group">
         <button *ngIf= "data.title === 'This wildfire is Out'" class="btn-block primary" (click)="goToDetail()">See full details</button>

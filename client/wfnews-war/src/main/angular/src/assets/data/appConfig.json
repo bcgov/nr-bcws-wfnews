@@ -45,7 +45,7 @@
             "url": "http://localhost:11200/pub/wfnrof"
         },
         "pointId": {
-            "url": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
+            "url": "https://wfss-pointid-api.dev.bcwildfireservices.com",
             "#url": "https://testapps.nrs.gov.bc.ca/pub/wfss/v1",
             "#url": "https://wfss-pointid-api-dev-160-secure-c9737f-dev.apps.silver.devops.gov.bc.ca/wfss-pointid-api"
         },
@@ -111,7 +111,7 @@
         "causecodes": "causeCodes/token.jsp",
         "pointId": "https://wfss-pointid-api.dev.bcwildfireservices.com",
         "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof",
-        "notification-api": "https://publicmobile-api-int.bcwildfireservices.com/notifications-api"
+        "notification-api": "https://wfone-notifications-api.dev.bcwildfireservices.com"
     },
 
     "webade": {

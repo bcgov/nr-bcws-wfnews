@@ -20,7 +20,12 @@
 }
 
 .container {
-    padding-bottom: 15vh;
+}
+
+.desktop-container {
+  background-color: white !important;
+  max-width: 850px;
+  margin: auto;
 }
 .content-section {
     display: flex;
@@ -29,7 +34,7 @@
     align-items: flex-start;
     gap: 16px;
     align-self: stretch;
-    
+    padding-bottom: 100px;
     .section-frame{
         display: flex;
         align-items: center;
@@ -81,7 +86,7 @@
         font-weight: 400;
         line-height: normal;
         padding-top: 4px;
-    } 
+    }
     .input-section{
         padding-top: 8px;
         input{
@@ -233,7 +238,7 @@
         flex: 1 0 0;
         flex-wrap: wrap;
     }
-    
+
     .button {
         display: flex;
         height: 36px;

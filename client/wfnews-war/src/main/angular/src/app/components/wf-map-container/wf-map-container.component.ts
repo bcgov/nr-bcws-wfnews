@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, E
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
-import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
+import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 import { getActiveMap, isMobileView } from '@app/utils';
 
 let mapIndexAuto = 0;
@@ -75,6 +75,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
 
+        // enforce a max zoom setting, in case we're using cluster/heatmapping
+        smk.$viewer.map._layersMaxZoom = 20;
+
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
           // If the layer is visible only
@@ -133,10 +136,10 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     let lastFeature
     let featureCount = 0
     for (const fid in identified.featureSet) {
-      if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
+      if (Object.hasOwn(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
+        featureCount++
         if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
-          featureCount++
           lastFeature = feature
           feature.properties.createContent = function (el) {
             self.zone.run(function () {

@@ -1,9 +1,9 @@
 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="20" height="20" fill="#F5F5F5"/>
+<rect width="20" height="20" fill="none"/>
 <g id="Wildfire Full Details">
-<rect width="6952" height="4487" transform="translate(-1798 -708)" fill="#EEEEEE"/>
+<rect width="6952" height="4487" transform="translate(-1798 -708)" fill="none"/>
 <g id="Full Wildfire with Evacuations" clip-path="url(#clip0_733_8205)">
-<rect width="390" height="4133.53" transform="translate(-40 -530)" fill="#FDFDFD"/>
+<rect width="390" height="4133.53" transform="translate(-40 -530)" fill="none"/>
 <g id="Content">
 <g id="Frame 626386">
 <g id="Frame 22">
@@ -19,7 +19,7 @@
 </g>
 <defs>
 <clipPath id="clip0_733_8205">
-<rect width="390" height="4133.53" fill="white" transform="translate(-40 -530)"/>
+<rect width="390" height="4133.53" fill="none" transform="translate(-40 -530)"/>
 </clipPath>
 </defs>
 </svg>

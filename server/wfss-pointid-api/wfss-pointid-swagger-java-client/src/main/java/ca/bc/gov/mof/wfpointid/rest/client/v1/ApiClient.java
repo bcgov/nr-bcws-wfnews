@@ -75,7 +75,7 @@ import okio.Okio;
 
 public class ApiClient {
 
-	private String basePath = "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api";
+	private String basePath = "https://wfss-pointid-api.dev.bcwildfireservices.com";
 //	private String basePath = "https://wfss-pointid-api-dev-52-secure-fytirg.pathfinder.gov.bc.ca/wfss-pointid-api";
 	
     private boolean debugging = false;
@@ -154,7 +154,7 @@ public class ApiClient {
     /**
      * Set base path
      *
-     * @param basePath Base path of the URL (e.g https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api
+     * @param basePath Base path of the URL (e.g https://wfss-pointid-api.dev.bcwildfireservices.com
      * @return An instance of OkHttpClient
      */
     public ApiClient setBasePath(String basePath) {

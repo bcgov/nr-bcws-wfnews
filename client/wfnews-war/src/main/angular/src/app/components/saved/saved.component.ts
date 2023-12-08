@@ -7,7 +7,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
-import { ResourcesRoutes, convertToDateYear, convertToStageOfControlDescription } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, convertToStageOfControlDescription, isMobileView } from '@app/utils';
 import { SpatialUtilsService } from '@wf1/core-ui';
 
 @Component({
@@ -23,7 +23,7 @@ export class SavedComponent implements OnInit {
   public wildFireWatchlist: any[] = [];
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToDateYear = convertToDateYear
-
+  isMobileView = isMobileView
 
   constructor(
     protected router: Router,
@@ -75,7 +75,7 @@ export class SavedComponent implements OnInit {
       .subscribe(bans => {
         this.savedLocations[outerIndex].bans = [];
         for (const innerIndex in bans?.features) {
-          const element = bans?.features[innerIndex];  
+          const element = bans?.features[innerIndex];
           this.savedLocations[outerIndex].bans.push(element);
           this.cdr.markForCheck()
         }
@@ -119,7 +119,7 @@ export class SavedComponent implements OnInit {
     ];
     return rectangleCoordinates
   }
-  
+
   getFireCentre(locations) {
     // const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
     // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
@@ -139,7 +139,7 @@ export class SavedComponent implements OnInit {
     });
   }
 
-  
+
   getEvacs(locations) {
     locations.forEach((location, outerIndex) => {
       this.agolService.getEvacOrders(
@@ -150,7 +150,7 @@ export class SavedComponent implements OnInit {
       .subscribe(result => {
         this.savedLocations[outerIndex].evacs = [];
         for (const innerIndex in result?.features) {
-          const element = result?.features[innerIndex];  
+          const element = result?.features[innerIndex];
           this.savedLocations[outerIndex].evacs.push(element);
           this.cdr.markForCheck()
         }

@@ -329,12 +329,12 @@ button:disabled {
   }
 
   .icon {
-    position: absolute;
+    position: sticky;
     right: 32px;
   }
   .mobile-container {
     display: flex;
-    padding: 32px;
+    padding: 0 32px 32px 32px;
     flex-direction: column;
     align-items: center;
     gap: 16px;
