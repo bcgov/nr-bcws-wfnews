@@ -337,6 +337,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           else{
             this.panToLocation(long, lat);
           }
+          this.cdr.detectChanges();
           // turn on layers
           if (params['featureType'] === 'British_Columbia_Area_Restrictions') this.onSelectLayer('area-restrictions')
           if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas') this.onSelectLayer('bans-and-prohibitions')
@@ -356,10 +357,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                     text: xxx,
                   }
                 });
-                this.identify([long, lat])
+                this.mapConfigService.getMapConfig().then(() => {        
+                    this.identify([long, lat])
+                })
+
               }
             }
-          }, 5000)
+          }, 2000)
 
         }, 1000)
       }});
@@ -963,6 +967,17 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     const buffered = turf.buffer(point, buffer, { units:'meters' })
     const bbox = turf.bbox(buffered)
     const poly = turf.bboxPolygon(bbox)
+/*
+    let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: "TEST PURPOSE",
+        text: JSON.stringify(turf) +' | ' + JSON.stringify(point) + ' | ' + JSON.stringify(buffer) + ' | ' + bbox + ' | ' + JSON.stringify(poly),
+        text2: location[1] + ' | ' + location[0]
+      }
+    });
+*/
 
     getActiveMap().$viewer.identifyFeatures({ map: { latitude: Number(location[1]), longitude: Number(location[0])}, screen: {x: window.innerWidth / 2, y: window.innerHeight / 2}}, poly)
   }
