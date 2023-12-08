@@ -136,10 +136,10 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     let lastFeature
     let featureCount = 0
     for (const fid in identified.featureSet) {
-      if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
+      if (Object.hasOwn(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
+        featureCount++
         if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
-          featureCount++
           lastFeature = feature
           feature.properties.createContent = function (el) {
             self.zone.run(function () {
