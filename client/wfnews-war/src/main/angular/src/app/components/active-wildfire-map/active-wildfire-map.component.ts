@@ -289,9 +289,20 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
       if (params && params['longitude'] && params['latitude']) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
+
         // set timeout to load smk features to load
         setTimeout(async () => {
           let fireIsOutOrNotFound = false;
+          let xxx = JSON.stringify(params);
+          // let temp = JSON.parse(params.toString())
+          let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+            autoFocus: false,
+            width: '80vw',
+            data: {
+              title: "TEST PURPOSE",
+              text: xxx,
+            }
+          });
           if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
             //wildfire notification
             try {
