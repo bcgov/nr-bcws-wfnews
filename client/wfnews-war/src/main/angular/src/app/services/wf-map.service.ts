@@ -362,6 +362,7 @@ export class WFMapService {
                         self.map.invalidateSize( { animate: false } );
                     }, 500 );
                 };
+
                 const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;
                 SMK.TYPE.Viewer.leaflet.prototype.initialize = function(smk) {
                     // Call the existing initializer
@@ -577,6 +578,18 @@ export class WFMapService {
             }
         }
         viewer.setBasemap( mapId );
+
+        try {
+          if (mapId === 'topography') {
+            // turn on hillshade
+            viewer.displayContext.layers.setItemVisible('bc-hillshade', true);
+          } else {
+            // turn off hillshade
+            viewer.displayContext.layers.setItemVisible('bc-hillshade', false);
+          }
+        } catch(err) {
+          console.error('hillshade failed to load on init')
+        }
     }
 
     getBaseMap() {
