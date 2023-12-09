@@ -107,15 +107,18 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     // re-check for the identified incidents, in case the
     // list has been modified while loading external data (weather)
     if (!openPreviewPanel && !returnFromPreiviewPanel) {
-      try {
-        const identFeatureSet = getActiveMap().$viewer.identified.featureSet;
-        const identifiedIncidents = Object.keys(identFeatureSet).map(key => identFeatureSet[key]);
+              // open preiview for notification
+      if (!(this.currentIncidentRefs.length === 1 && this.currentIncidentRefs[0].notification)) {
+        try {
+          const identFeatureSet = getActiveMap().$viewer.identified.featureSet;
+          const identifiedIncidents = Object.keys(identFeatureSet).map(key => identFeatureSet[key]);
 
-        if (identifiedIncidents?.length !== this.currentIncidentRefs?.length) {
-          this.currentIncidentRefs = identifiedIncidents;
+          if (identifiedIncidents?.length !== this.currentIncidentRefs?.length) {
+            this.currentIncidentRefs = identifiedIncidents;
+          }
+        } catch (err) {
+          console.error(err)
         }
-      } catch (err) {
-        console.error(err)
       }
     }
 
