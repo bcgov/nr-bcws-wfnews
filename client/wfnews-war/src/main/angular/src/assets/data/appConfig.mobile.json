@@ -30,6 +30,7 @@
         "AGOLactiveFirest": "#{AGOL_ACTIVE_FIRES}#",
         "contactInformation": {
             "reportAWildfirePhone": "#{REPORT_A_WILDFIRE_PHONE_LINE}#",
+            "rofPhoneNumber": "#{ROF_PHONE_LINE}#",
             "wildFireInformationLine": "#{WILDFIRE_INFORMATION_LINE}#",
             "burnRegistrationLine": "#{BURN_REGISTRATION_LINE}#",
             "socialMedia": {
