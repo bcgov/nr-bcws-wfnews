@@ -292,11 +292,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
         // set timeout to load smk features to load
         setTimeout(async () => {
+          let result = null;
           let fireIsOutOrNotFound = false;
           if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
             //wildfire notification
             try {
-              const result = await this.publishedIncidentService.fetchPublishedIncident(params['featureId'], this.wildfireYear).toPromise();
+              result = await this.publishedIncidentService.fetchPublishedIncident(params['featureId'], this.wildfireYear).toPromise();
                   if (result?.stageOfControlCode === 'OUT') {
                     fireIsOutOrNotFound = true;
                     let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
@@ -337,47 +338,22 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           else{
             this.panToLocation(long, lat);
           }
-          this.cdr.detectChanges();
           // turn on layers
-          const smkApi = new SmkApi(getActiveMap());
           if (params['featureType'] === 'British_Columbia_Area_Restrictions'){
             this.onSelectLayer('area-restrictions');
-            const layers = [
-              { itemId: 'area-restrictions', visible: true },
-              { itemId: 'area-restrictions-highlight', visible: true },
-            ]
-            smkApi.setDisplayContextItemsVisible(...layers);   
           }
 
           if (params['featureType'] === 'British_Columbia_Bans_and_Prohibition_Areas'){
             this.onSelectLayer('bans-and-prohibitions');
-            const layers = [
-              { itemId: 'bans-and-prohibitions-cat1', visible: true },
-              { itemId: 'bans-and-prohibitions-cat2', visible: true },
-              { itemId: 'bans-and-prohibitions-cat3', visible: true },
-              { itemId: 'bans-and-prohibitions-highlight', visible: true },
-            ]
-            smkApi.setDisplayContextItemsVisible(...layers);   
           }
 
           if (params['featureType'] === 'Evacuation_Orders_and_Alerts') {
             this.onSelectLayer('evacuation-orders-and-alerts')
-            const layers = [
-              { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: true },
-              { itemId: 'evacuation-orders-and-alerts-wms', visible: true },
-            ]
-            smkApi.setDisplayContextItemsVisible(...layers);   
+
           }
 
           if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
             this.onSelectLayer('wildfire-stage-of-control');
-            const layers = [
-              { itemId: 'active-wildfires-fire-of-note', visible: true },
-              { itemId: 'active-wildfires-holding', visible: true },
-              { itemId: 'active-wildfires-out-of-control', visible: true },
-              { itemId: 'active-wildfires-under-control', visible: true},
-            ]
-            smkApi.setDisplayContextItemsVisible(...layers);   
           }
 
           // identify
@@ -385,9 +361,46 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             if (long && lat) {
               if (!fireIsOutOrNotFound){
                 this.showPanel = true;
-                this.mapConfigService.getMapConfig().then(() => {     
-                  this.identify([long, lat])
-                })
+                if (result) {
+                  let id = null; 
+                  if (result.fireOfNoteInd) {
+                    id = 'active-wildfires-fire-of-note'
+                  }
+                  else {
+                    if (result.stageOfControlCode === 'OUT_CNTRL') {
+                      id = 'active-wildfires-out-of-control';
+                    } else if (result.stageOfControlCode === 'HOLDING') {
+                        id = 'active-wildfires-holding';
+                    } else if (result.stageOfControlCode === 'UNDR_CNTRL') {
+                        id = 'active-wildfires-under-control';
+                    }
+                  }
+                  this.incidentRefs = [
+                    {
+                      notification:true,
+                      geometry: {
+                        coordinates:[long,lat]
+                      },
+                      layerId: id,
+                      properties: {
+                        fire_year: result.fireYear,
+                        incident_name: result.incidentName,
+                        incident_number_label: result.incidentNumberLabel
+                      },
+                      title: result.incidentName,
+                      type: 'Feature',
+                      _identifyPoint: {
+                        latitude: Number(result.latitude),
+                        longitude: Number(result.longitude)
+                      }
+                    }
+                  ]
+                  this.cdr.detectChanges();
+
+                }
+                // this.mapConfigService.getMapConfig().then(() => {     
+                //   this.identify([long, lat])
+                // })
 
               }
             }
