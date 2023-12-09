@@ -596,7 +596,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   onSelectIncidents(incidentRefs){
-    console.log(incidentRefs)
     this.showPanel = true;
     this.incidentRefs = Object.keys(incidentRefs).map(key => incidentRefs[key]);
     if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
