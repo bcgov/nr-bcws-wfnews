@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { DialogLocationComponent } from '@app/components/report-of-fire/dialog-location/dialog-location.component';
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { NotificationService } from '@app/services/notification.service';
 import { PlaceData } from '@app/services/wfnews-map.service/place-data';
@@ -49,7 +50,7 @@ export class AddSavedLocationComponent implements OnInit{
   isMobileView = isMobileView
 
   constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
-    private notificationService: NotificationService, protected snackbarService: MatSnackBar, private route: ActivatedRoute
+    private notificationService: NotificationService, protected snackbarService: MatSnackBar, private route: ActivatedRoute, private capacitor: CapacitorService
     ) {
     this.locationData = new LocationData
     this.placeData = new PlaceData();
@@ -79,6 +80,9 @@ export class AddSavedLocationComponent implements OnInit{
     });
   }
 
+  isWebDevice() {
+    return this.capacitor.isWebPlatform
+  }
 
   ngOnInit(): void {
     this.useMyCurrentLocation();
@@ -210,7 +214,6 @@ export class AddSavedLocationComponent implements OnInit{
   saveLocation() {
     this.fetchSavedLocation().then(() => {
       if (this.isEdit) {
-        this.savedLocation
         this.savedLocation = this.savedLocation.filter(item =>
           item.notificationName !== this.locationToEditOrDelete.notificationName &&
           item.point.coordinates[0] !== this.locationToEditOrDelete.point.coordinates[0] &&

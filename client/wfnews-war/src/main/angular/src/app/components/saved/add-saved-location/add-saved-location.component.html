@@ -68,6 +68,7 @@
     <div class="large-divider"></div>
 
     <div class ="content-section" style="padding:0">
+      <div *ngIf="!isWebDevice()">
         <div class="section-frame">
             <img class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
             <span class="header-text">Notification Settings</span>
@@ -103,6 +104,7 @@
             </div>
         </div>
         <div class="divider"></div>
+      </div>
         <div class="section-frame-2">
             <div class="section-frame-2-row">
                 <div class="header-text-1">Notification Radius</div>
