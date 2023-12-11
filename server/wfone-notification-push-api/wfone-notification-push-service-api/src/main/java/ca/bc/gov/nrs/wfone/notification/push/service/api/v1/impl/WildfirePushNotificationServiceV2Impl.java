@@ -75,10 +75,10 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 	static {
 		Map<String, String> result = new HashMap<>();
-		result.put(NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS, "There is a new burn prohibition in [%s] Fire Centre, near your saved location. Tap for more info..");
-		result.put(NotificationTopics.EVACUATION_ORDERS_AND_ALERTS, "There is a new evacuation order or alert issued by [%s] near your saved location. Tap for more info..");
-		result.put(NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS, "There is a new area restriction for [%s] near your saved location. Tap for more info..");
-		result.put(NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW, "There is a new wildfire [%s]) near your saved location. Tap for more info..");
+		result.put(NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS, "There is a new burn prohibition in [%s] Fire Centre near your saved location [%s]. Tap for more info.");
+		result.put(NotificationTopics.EVACUATION_ORDERS_AND_ALERTS, "There is a new evacuation order or alert issued by [%s] near your saved location [%s]. Tap for more info.");
+		result.put(NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS, "There is a new area restriction for [%s] near your saved location [%s]. Tap for more info.");
+		result.put(NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW, "There is a new wildfire [%s]) near your saved location [%s]. Tap for more info.");
 		TOPIC_MESSAGE_BODIES = Collections.unmodifiableMap(result);
 	}
 
@@ -270,7 +270,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		keyValueMapForPN.put("topicKey", topicKey);
 		keyValueMapForPN.put("messageID", messageInformation.getMessageId());
 
-		String title = "Notification for \"" + notificationDto.getNotificationName() + "\"";
+		String incidentType = getIncidentType(notificationDto);
+		String title = "New \"" + incidentType +"\"";
 		if (StringUtils.isNotBlank(pushNotificationPrefix)) {
 			title = pushNotificationPrefix + title;
 		}
@@ -280,6 +281,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 		expireTimestamp = expirations.get(topicKey);
 		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId());
+		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId(), notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
 		++pushRecordsCount.toProcess;
@@ -418,6 +420,23 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		notificationPushItemDto.setItemIdentifier(itemIdentifier);
 
 		return notificationPushItemDto;
+	}
+
+	private String getIncidentType(NotificationDto notificationDto) {
+		String topic = notificationDto.getTopic();
+	
+		switch (topic) {
+			case NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS:
+				return "ban or prohibition";
+			case NotificationTopics.EVACUATION_ORDERS_AND_ALERTS:
+				return "evacuation order or alert";
+			case NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS:
+				return "area restriction";
+			case NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW:
+				return "wildfire";
+			default:
+				return "incident";
+		}
 	}
 
 	public void setWfonePushItemExpireHoursBan(String wfonePushItemExpireHoursBan) {

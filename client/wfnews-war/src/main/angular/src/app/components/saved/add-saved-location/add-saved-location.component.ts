@@ -87,7 +87,7 @@ export class AddSavedLocationComponent implements OnInit{
   ngOnInit(): void {
     this.useMyCurrentLocation();
     this.route.queryParams.subscribe(params => {
-      if (params){
+      if (params && params.location){
         const location = JSON.parse(params.location);
         this.locationToEditOrDelete = location
         this.isEdit = true;
