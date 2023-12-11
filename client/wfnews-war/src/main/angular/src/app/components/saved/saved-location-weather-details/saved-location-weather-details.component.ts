@@ -39,10 +39,12 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
   fetchWeather(latitude: number, longitude: number) {
     if (latitude && longitude) {
       this.pointIdService.fetchNearestWeatherStation(Number(latitude), Number(longitude)).then(response => {
-        this.station = response;
-        if (response.daily) this.daily = response.daily[0];
-        if (response.hourly) this.hourly = response.hourly[0];
-      });
+        if (response) {
+          this.station = response;
+          if (response.daily) this.daily = response.daily[0];
+          if (response.hourly) this.hourly = response.hourly[0];
+        }
+      }).catch(err => console.error('Failed to fetch weather data: ' + err));
     }
   }
 

@@ -46,7 +46,7 @@
 
     .section-card {
         width: calc(100vw - 48px);
-        max-width: 830px;
+        max-width: 1470px;
         margin-top: 16px;
         margin-bottom: 24px;
         border-radius: 10px;
@@ -274,7 +274,6 @@
     position: absolute;
     display: flex;
     right: 10px;
-    bottom: 10px;
     width: 20px;
     height: 20px;
     padding: 6px;
@@ -444,7 +443,7 @@
 
 .fire-info-container {
     position: relative;
-    max-width: 830px;
+    max-width: 1470px;
     display: flex;
     padding: 16px;
     flex-direction: column;
@@ -537,6 +536,6 @@
 
 .desktop-container {
   background-color: white !important;
-  max-width: 850px;
+  max-width: 1500px;
   margin: auto;
 }
