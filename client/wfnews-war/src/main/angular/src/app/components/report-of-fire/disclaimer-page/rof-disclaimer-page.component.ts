@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class RoFDisclaimerPage extends RoFPage {
 
   public constructor(
     private commonUtilityService: CommonUtilityService,
+    private capacitor: CapacitorService
     ) {
     super();
   }
@@ -29,6 +31,9 @@ export class RoFDisclaimerPage extends RoFPage {
 
     // Check for the presence of certain keywords in the user agent to determine the browser
     switch (true) {
+      case this.capacitor.isWebPlatform :
+        this.currentBrowser = 'web browser'
+        break;
       case userAgent.includes('chrome'):
         this.currentBrowser = 'Google Chrome';
         break;
@@ -49,7 +54,7 @@ export class RoFDisclaimerPage extends RoFPage {
         break;
     }
 
-    if (this.currentBrowser !== 'Unknown Browser' ) {
+    if (this.currentBrowser !== 'Unknown Browser') {
       this.commonUtilityService.checkOnline().then((result) => {
         if(!result) {
           this.message = 'Offline reporting is only available in the BC Wildfire Service app which you can find on the Apple App Store or Google Play Store.'
