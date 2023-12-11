@@ -41,7 +41,6 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
       this.pointIdService.fetchNearestWeatherStation(Number(latitude), Number(longitude)).then(response => {
         if (response) {
           this.station = response;
-          console.log(response)
           if (response.daily) this.daily = response.daily[0];
           if (response.hourly) this.hourly = response.hourly[0];
         }
