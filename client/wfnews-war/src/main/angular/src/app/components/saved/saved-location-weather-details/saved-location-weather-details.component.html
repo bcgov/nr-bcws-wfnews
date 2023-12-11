@@ -11,8 +11,9 @@
           <div class="section-title">Hourly Indices</div>
           <div class="section-detail">Temperature: {{hourly.temp}}° C</div>
           <div class="section-detail">Relative Humidity: {{hourly.relativeHumidity}}%</div>
+          <div class="section-detail">Precipitation: {{hourly.precipitation}}mm</div>
           <div class="section-detail">Wind Speed: {{hourly.windSpeed}} km/h</div>
-          <div class="section-detail">Wind Direction: {{hourly.windDirection}}°</div>
+          <div class="section-detail">Wind Direction: {{hourly.windDirection}}° {{hourly.windCardinalDir}}</div>
           <div class="section-detail">Fine Fuel Moisture Code: {{hourly.fineFuelMoistureCode}}</div>
           <div class="section-detail">Initial Spread Index: {{hourly.initialSpreadIndex}}</div>
           <div class="section-detail">Fire Weather Index: {{hourly.fireWeatherIndex}}</div>
@@ -24,12 +25,12 @@
           <div class="section-detail">Date: {{readableDate(daily.day)}}</div>
           <div class="section-detail">Temperature: {{daily.temp}}° C</div>
           <div class="section-detail">Relative Humidity: {{daily.relativeHumidity}}%</div>
+          <div class="section-detail">Precipitation: {{daily.precipitation}}mm</div>
           <div class="section-detail">Wind Speed: {{daily.windSpeed}} km/h</div>
-          <div class="section-detail">Wind Direction: {{daily.windDirection}}°</div>
+          <div class="section-detail">Wind Direction: {{daily.windDirection}}° {{hourly.windCardinalDir}}</div>
           <div class="section-detail">Fine Fuel Moisture Code: {{daily.fineFuelMoistureCode}}</div>
           <div class="section-detail">Initial Spread Index: {{daily.initialSpreadIndex}}</div>
           <div class="section-detail">Fire Weather Index: {{daily.fireWeatherIndex}}</div>
-          <div class="section-detail">Recorded: {{readableHour(hourly.hour)}}</div>
           <div class="divider"></div>
       </div>
       <div class="section">

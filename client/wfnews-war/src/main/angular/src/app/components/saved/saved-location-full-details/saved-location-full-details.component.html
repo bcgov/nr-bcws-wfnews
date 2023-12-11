@@ -71,14 +71,9 @@
                       <div class="divider-2"></div>
                       <div class="saved-location-detail">
                           <span class="saved-detail">Weather Station: {{stationName}}</span>
-                          <span class="saved-detail"><img class="icon-top"
-                                  src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
-                          <span class="saved-detail"><img class="icon-top"
-                                  src="/assets/images/svg-icons/carbon_humidity.svg">Humidity:
-                              {{station.relativeHumidity}}%</span>
-                          <span class="saved-detail"><img class="icon-top"
-                                  src="/assets/images/svg-icons/carbon_windy-strong.svg">Wind: {{station.windSpeed}}
-                              km/h</span>
+                          <span class="saved-detail"><img alt="temperature" class="icon-top" src="/assets/images/svg-icons/carbon_temperature-celsius.svg">{{station.temp}}° C</span>
+                          <span class="saved-detail"><img alt="Relative Humidity" class="icon-top" src="/assets/images/svg-icons/carbon_humidity.svg">Precipitation: {{station.precipitation}}mm | Humidity: {{station.relativeHumidity}}%</span>
+                          <span class="saved-detail"><img alt="Wind speed" class="icon-top" src="/assets/images/svg-icons/carbon_windy-strong.svg">Wind: {{station.windSpeed}}km/h {{station.windCardinalDir}}</span>
                       </div>
                   </div>
               </div>
