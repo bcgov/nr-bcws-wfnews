@@ -35,10 +35,13 @@ locals {
   cloudfront_header = get_env("CLOUDFRONT_HEADER")
   #server env vars
   WEBADE-OAUTH2_TOKEN_CLIENT_URL = get_env("WEBADE-OAUTH2_TOKEN_CLIENT_URL")
+  YOUTUBE_API_KEY = get_env("YOUTUBE_API_KEY")
+  YOUTUBE_CHANNEL_ID = get_env("YOUTUBE_CHANNEL_ID")
   WEBADE-OAUTH2_TOKEN_URL = get_env("WEBADE-OAUTH2_TOKEN_URL")
   WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET = get_env("WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET")
   WFDM_REST_URL = get_env("WFDM_REST_URL")
   FIRE_REPORT_API_URL = get_env("FIRE_REPORT_API_URL")
+  NOTIFICATION_API_URL = get_env("NOTIFICATION_API_URL")
   WFIM_CLIENT_URL = get_env("WFIM_CLIENT_URL")
   WFIM_REST_URL = get_env("WFIM_REST_URL")
   WFIM_CODE_TABLES_URL = get_env("WFIM_CODE_TABLES_URL")
@@ -68,6 +71,7 @@ locals {
   syncIntervalMinutes = get_env("syncIntervalMinutes")
   agolAreaRestrictions = get_env("agolAreaRestrictions")
   agolBansAndProhibitions = get_env("agolBansAndProhibitions")
+  agolDangerRatings = get_env("agolDangerRatings")
   MAX_RECEIVED_COUNT = get_env("MAX_RECEIVED_COUNT")
   VISIBILITY_TIMEOUT_SECONDS = get_env("VISIBILITY_TIMEOUT_SECONDS")
   ACCEPTED_IPS = get_env("ACCEPTED_IPS")
@@ -120,10 +124,13 @@ generate "test_tfvars" {
     sns_email_targets = "${local.sns_email_targets}"
     certificate_arn = "${get_env("BCWILDFIRE_CERT_ARN")}"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
+    YOUTUBE_API_KEY = "${local.YOUTUBE_API_KEY}"
+    YOUTUBE_CHANNEL_ID = "${local.YOUTUBE_CHANNEL_ID}"
     WEBADE-OAUTH2_TOKEN_URL ="${local.WEBADE-OAUTH2_TOKEN_URL}"
     WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET ="${local.WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}"
     WFDM_REST_URL ="${local.WFDM_REST_URL}"
     FIRE_REPORT_API_URL ="${local.FIRE_REPORT_API_URL}"
+    NOTIFICATION_API_URL ="${local.NOTIFICATION_API_URL}"
     WFIM_CLIENT_URL ="${local.WFIM_CLIENT_URL}"
     WFIM_REST_URL ="${local.WFIM_REST_URL}"
     WFIM_CODE_TABLES_URL ="${local.WFIM_CODE_TABLES_URL}"
@@ -151,6 +158,7 @@ generate "test_tfvars" {
     syncIntervalMinutes = "${local.syncIntervalMinutes}"
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
+    agolDangerRatings = "${local.agolDangerRatings}"
     WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
     MAX_RECEIVED_COUNT = "${local.MAX_RECEIVED_COUNT}"
     VISIBILITY_TIMEOUT_SECONDS = "${local.VISIBILITY_TIMEOUT_SECONDS}"

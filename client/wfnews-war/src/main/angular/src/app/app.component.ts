@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, HostListener, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -13,7 +13,9 @@ import { DisclaimerDialogComponent } from './components/disclaimer-dialog/discla
 import { ApplicationStateService } from './services/application-state.service';
 import { UpdateService } from './services/update.service';
 import { WFMapService } from './services/wf-map.service';
-import { ResourcesRoutes, isMobileView as mobileView, snowPlowHelper } from './utils';
+import { ResourcesRoutes, isMobileView, isMobileView as mobileView, snowPlowHelper } from './utils';
+import { CapacitorService, LocationNotification } from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 
 export const ICON = {
@@ -130,7 +132,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected tokenService: TokenService,
     protected cdr: ChangeDetectorRef,
     protected dialog: MatDialog,
-    protected wfMapService:WFMapService
+    protected wfMapService:WFMapService,
+    protected capacitorService: CapacitorService,
+    protected commonUtilityService: CommonUtilityService,
+    protected zone: NgZone
+
   ) {
   }
 
@@ -139,6 +145,19 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   };
 
   ngOnInit() {
+    if (this.isMobileView()) {
+      if (typeof (window.screen.orientation as any).lock === 'function') {
+        const lock = (window.screen.orientation as any).lock('portrait');
+        (lock as Promise<any>).then(() => {
+          console.log('Orientation locked to Portrait');
+        }).catch(err => {
+          console.error('Failed to lock device orientation: ', err);
+        })
+      } else {
+        console.error('Failed to lock device orientation')
+      }
+    }
+
     this.wfMapService.patch();
     this.addCustomMaterialIcons();
     this.updateService.checkForUpdates();
@@ -190,6 +209,31 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
 
     this.checkScreenWidth();
+
+    // This breaks desktop. Do not do this if not in mobile!!!
+    // Also, we won't know which page people are coming in from, so forcing to
+    // the landing page is a bad idea in general...
+    if (isMobileView()) {
+      this.capacitorService.initialized.then(() => {
+        this.commonUtilityService.preloadGeolocation();
+        //setTimeout(() => {
+        //  this.zone.run(() => {
+        //      this.router.navigate([ResourcesRoutes.LANDING])
+        //  })
+        //}, 1000);
+      })
+
+      this.capacitorService.locationNotifications.subscribe((ev: LocationNotification) => {
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+          queryParams: {
+            ...ev,
+            identify:true,
+            notification:true,
+            time: Date.now()
+          }
+        });
+      })
+    }
   }
 
   isIncidentsPage () {
@@ -222,10 +266,12 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   initAppMenu() {
     this.appMenu = [
-      new RouterLink('Wildfire Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
-      new RouterLink('Wildfires Map', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
-      new RouterLink('Wildfires List', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
-      new RouterLink('Wildfire Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Dashboard', '/' + ResourcesRoutes.DASHBOARD, 'bar_chart', 'collapsed', this.router),
+      new RouterLink('Map View', '/' + ResourcesRoutes.ACTIVEWILDFIREMAP, 'map', 'collapsed', this.router),
+      new RouterLink('List View', '/' + ResourcesRoutes.WILDFIRESLIST, 'local_fire_department', 'collapsed', this.router),
+      new RouterLink('Saved', '/' + ResourcesRoutes.SAVED, 'local_fire_department', 'collapsed', this.router),
+      new RouterLink('Resources', '/' + ResourcesRoutes.RESOURCES, 'links', 'collapsed', this.router),
+      new RouterLink('Report a Fire', '/' + ResourcesRoutes.ROF, 'links', 'collapsed', this.router),
       new RouterLink('Contact Us', '/' + ResourcesRoutes.CONTACT_US, 'links', 'collapsed', this.router)
     ] as unknown as WfMenuItems;
   }
@@ -626,7 +672,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   }
 
   checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
+    this.showMobileNavigationBar = window.innerWidth < 768
   }
 
   openLink(link: string) {

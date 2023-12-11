@@ -2,7 +2,8 @@ import { ChangeDetectorRef, Component, ComponentFactoryResolver, ComponentRef, E
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
-import { WeatherPanelComponent } from '../weather-panel/weather-panel.component';
+import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
+import { getActiveMap, isMobileView } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -73,8 +74,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         fullScreen: self.fullScreen
       }).then(function (smk) {
         self.mapInitialized.emit(smk);
-        const hideListButtonElement = document.getElementsByClassName('smk-tool-BespokeTool--show-list');
-        // hideListButtonElement[0]["style"]["display"] = 'none';
+
+        // enforce a max zoom setting, in case we're using cluster/heatmapping
+        smk.$viewer.map._layersMaxZoom = 20;
 
         smk.$viewer.handlePick(3, function (location) {
           self.lastClickedLocation = location
@@ -116,26 +118,29 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const identified = smk.$viewer.identified;
     let map = smk.$viewer.map;
     let delayTimer; // Variable to store the timeout ID
-    
+
     // Function to handle the timeout logic
     function handleTimeout() {
       self.selectIncidents.emit(identified.featureSet);
     }
-    
+
     // Set a timeout to emit selectIncidents event after 500 milliseconds
     delayTimer = setTimeout(handleTimeout, 500);
-    
+
     // Listen for the zoomend event
     map.on('zoomend', () => {
       // Clear the timeout to prevent the selectIncidents event from being emitted
       clearTimeout(delayTimer);
     });
-    
 
+    let lastFeature
+    let featureCount = 0
     for (const fid in identified.featureSet) {
-      if (Object.prototype.hasOwnProperty.call(identified.featureSet, fid)) {
+      if (Object.hasOwn(identified.featureSet, fid)) {
         const feature = identified.featureSet[fid];
+        featureCount++
         if (['active-wildfires-fire-of-note', 'active-wildfires-out-of-control', 'active-wildfires-holding', 'active-wildfires-under-control', 'active-wildfires-out', 'fire-perimeters'].includes(feature.layerId)) {
+          lastFeature = feature
           feature.properties.createContent = function (el) {
             self.zone.run(function () {
               let compRef = self.makeComponent(IncidentIdentifyPanelComponent);
@@ -148,7 +153,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               // apply a slight debounce to clear the identify and destroy the panel
               setTimeout(() => {
                 const identifyPanel = (document.getElementsByClassName('smk-panel').item(0) as HTMLElement)
-                identifyPanel.remove();
+                if (identifyPanel) {
+                  identifyPanel.remove();
+                }
                 // use smk.$viewer.identified to reset the form?
               }, 200);
             })
@@ -156,15 +163,29 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
         }
       }
     }
+
+    if (lastFeature && featureCount === 1) {
+      // force the call from the list view (should auto-trigger but wont if identify called from list view)
+      lastFeature.properties.createContent()
+    }
   }
 
   addNearbyWeatherStation (smk) {
     const self = this;
     this.pointIdService.fetchNearestWeatherStation(this.lastClickedLocation.map.latitude, this.lastClickedLocation.map.longitude)
     .then(function (station) {
+
+      for (const hours of station.hourly) {
+        if (hours.temp !== null) {
+          station.validHour = hours;
+          break;
+        }
+      }
+
       smk.$viewer.identified.add('weather-stations', [{
           type: 'Feature',
           title: station.stationName,
+          data: station,
           properties: {
               code: station.stationCode,
               createContent: function (el) {

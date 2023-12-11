@@ -62,7 +62,6 @@ export class FiresOfNoteWidget  implements AfterViewInit {
   }
 
   viewIncident (incident) {
-    console.log(incident)
     window.open('/incidents?fireYear=' + incident.fireYear + '&incidentNumber=' + incident.incidentNumberLabel, '_blank')
   }
 }

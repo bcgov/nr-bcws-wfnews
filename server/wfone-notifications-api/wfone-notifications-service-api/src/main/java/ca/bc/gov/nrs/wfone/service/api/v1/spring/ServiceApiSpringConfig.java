@@ -173,7 +173,7 @@ public class ServiceApiSpringConfig {
 	}
 	
 	public long emailFrequency() {
-		long result = 10*1000*60;
+		long result = 10L * 1000L * 60L;
 
 		if(emailFrequency!=null) {
 
@@ -184,7 +184,7 @@ public class ServiceApiSpringConfig {
 	}
 	
 	public long emailErrorFrequency() {
-		long result = 10*1000*60;
+		long result = 10L * 1000L * 60L;
 
 		if(emailErrorFrequency!=null) {
 

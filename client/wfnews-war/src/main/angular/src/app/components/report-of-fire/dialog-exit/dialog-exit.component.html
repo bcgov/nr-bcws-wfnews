@@ -1,8 +1,8 @@
 <div class="content">
     <div class="title"> Are you sure you want to leave? </div>
-    <p>If you exit, your report will not be saved or submitted..</p>
+    <p>{{data.text}}</p>
     <div class="button-group">
         <button class="btn-block secondary" (click)="closeDialog()"> Cancel </button>
-        <button class="btn-block primary" (click)="exitReport()"> Exit </button>
+        <button class="btn-block primary" (click)="exitReport()">{{data.confirmButton}}</button>
     </div>
 </div>

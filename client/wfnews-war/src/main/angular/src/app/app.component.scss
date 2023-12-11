@@ -12,6 +12,14 @@
     padding-right: env(safe-area-inset-right);
 }
 
+::ng-deep .body .nav-items {
+  width: 100vw;
+}
+
+::ng-deep .body .nav-items a.nav-item .label {
+  min-width: 105px !important;
+}
+
 .container-fluid {
 	padding-left: 0;
 	padding-right: 0;
@@ -272,11 +280,11 @@
     z-index: 1000000;
     width: 100%;
     background-color: #FCFCFC;
-    height: 45px;
+    height: 70px;
     box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.14);
     padding-top: 8px;
     padding-bottom: 12px;
-    display: block !important;
+    display: block;
   }
 
   .mobile-navigation-bar ul{
@@ -294,13 +302,16 @@
     }
     text-align: center;
     color: #242424;
-    font-family: 'Noto Sans', Arial, 'sans serif';
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 12px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
     letter-spacing: -0.24px;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #FCFCFC;
   }
 
   .icon{
@@ -312,8 +323,12 @@
   .active {
     color: white;
     fill: white;
-    background-color: #123262;; /* Set the background color to blue for active items */
+    background-color: #036; /* Set the background color to blue for active items */
     border-radius: 8.832px;
+  }
+
+  .text-active {
+    color: #04224E
   }
 
   .hide {

@@ -5,7 +5,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         {
           type: 'vector',
           id: 'active-wildfires-fire-of-note',
-          title: 'BC Wildfires - Active Fires - Fire of Note',
+          title: 'Wildfires of Note',
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=FIRE_OF_NOTE",
@@ -34,7 +34,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         {
           type: 'vector',
           id: 'active-wildfires-out-of-control',
-          title: 'BC Wildfires - Active Fires - Out of Control',
+          title: 'Out of Control Wildfires',
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=OUT_CNTRL",
@@ -61,7 +61,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         {
           type: 'vector',
           id: 'active-wildfires-holding',
-          title: 'BC Wildfires - Active Fires - Being Held',
+          title: 'Being Held Wildfires',
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=HOLDING",
@@ -88,7 +88,7 @@ export function ActiveWildfiresLayerConfig(ls: layerSettings, key: string) {
         {
           type: 'vector',
           id: 'active-wildfires-under-control',
-          title: 'BC Wildfires - Active Fires - Under Control',
+          title: 'Under Control Wildfires',
           isQueryable: true,
           useClustering: false,
           dataUrl: ls.wfnewsUrl + "/publicPublishedIncident/features?stageOfControl=UNDR_CNTRL",

@@ -1,0 +1,10 @@
+<div class="content">
+    <div class="title"> {{data.title}} </div>
+    <p>{{data.text}}</p>
+    <div class="button-group">
+        <button class="btn-block secondary" (click)="closeDialog()"> Cancel </button>
+        <button class="btn-block" [ngClass]="{'primary': data.title !== 'Delete saved location', 'delete': data.title === 'Delete saved location'}" (click)="confirm()">
+            {{ data.title === 'Delete saved location' ? 'Delete' : 'Confirm' }}
+          </button>
+    </div>
+</div>

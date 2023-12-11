@@ -94,7 +94,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
 
 
     retrieveErrorHandlingInstructions(response, processedRequest, requestId): ErrorHandlingInstructions {
-        console.log("ERROR HANDLE", response, processedRequest);
+        console.error("ERROR HANDLE", response, processedRequest);
         if (response.url && response.url.endsWith("codeTables")) {
             return this.createErrorHandlingInstructions(null, null, `Unable to initialize application (${response.status}). ${response.url}`);
         } else if (response.status === 0) {
@@ -185,7 +185,7 @@ export class WfnewsInterceptor extends AuthenticationInterceptor implements Http
             if(url.startsWith(wfdmProxy.toString())) {
                 return true; // if the request is from Document Service proxy
             }
-            if (url.startsWith(config.rest['wfnews']) || url.includes('wfss-pointid-api')) {
+            if (url.startsWith(config.rest['wfnews']) || url.includes('wfss-pointid-api') || url.includes ('publicmobile-api') || url.includes ('notifications-api')) {
                 return false; // if the request is from wfnews-server, no need to hanldeLogin
             }
             for (let endpoint in config.rest) {

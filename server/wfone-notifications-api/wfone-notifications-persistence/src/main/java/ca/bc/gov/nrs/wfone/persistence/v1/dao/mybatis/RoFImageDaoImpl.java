@@ -27,9 +27,6 @@ public class RoFImageDaoImpl extends BaseDao implements RoFImageDao {
  	public void insert(RoFImageDto dto) throws DaoException {
  		logger.debug("<insert");
 
-         if (this.mapper == null){
-             logger.debug("<inserter");
-         }
  		try {
 
  			Map<String, Object> parameters = new HashMap<String, Object>();

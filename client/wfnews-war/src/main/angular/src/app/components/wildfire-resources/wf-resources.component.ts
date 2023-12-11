@@ -2,7 +2,7 @@ import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppConfigService } from '@wf1/core-ui';
 import { ResourcePanel } from '../../models/ResourcePanel';
-import { snowPlowHelper } from '../../utils';
+import { isMobileView, snowPlowHelper } from '../../utils';
 
 @Component({
   selector: 'wf-resources',
@@ -12,6 +12,8 @@ import { snowPlowHelper } from '../../utils';
 export class WildfirewResourcesComponent implements OnInit, AfterViewInit{
   public url;
   public snowPlowHelper = snowPlowHelper
+
+  isMobileView = isMobileView
 
   constructor(protected appConfigService: AppConfigService,
     protected router: Router) {

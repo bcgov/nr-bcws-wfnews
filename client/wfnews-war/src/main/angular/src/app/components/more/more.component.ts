@@ -10,7 +10,7 @@ import { ResourcesRoutes } from '@app/utils';
 export class MoreComponent {
 
   constructor(private router: Router) {
-    
+
   }
 
   navigate(menu){
@@ -22,7 +22,7 @@ export class MoreComponent {
         this.router.navigate([ResourcesRoutes.RESOURCES]);
         break;
       case 'contact-us' :
-        // contact-us component has not implemented yet
+        this.router.navigate([ResourcesRoutes.CONTACT_US]);
         break;
       case 'blog':
         window.open('https://blog.gov.bc.ca/bcwildfire/', '_blank');

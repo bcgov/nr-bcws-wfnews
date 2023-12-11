@@ -1,27 +1,37 @@
 <ng-container [formGroup]="contactForm">
     <!-- Mobile Mode -->
     <div class="mobile-container">
-      <div class="title">Contact Information</div>
+      <div class="header" *ngIf="isMobileView()">
+        <div class="label">
+          Contact Us
+        </div>
+        <mat-icon class="icon" [color]="closeColor"
+          (mouseover)="closeColor = 'warn'" (mouseout)="closeColor = null" (click)="close()" style="cursor: pointer;">
+          close
+        </mat-icon>
+      </div>
+      <div class="title">Contact Information
+      </div>
       <div class="text">
         <p>Select a wildfire to view contact information associated with a specific incident.</p>
         <p>Submit general feedback and questions using this form and we will get back to you as soon as possible.</p>
       </div>
       <div class="form">
         <mat-form-field class="item-full-width" floatLabel="always" appearance="outline">
-          <mat-label class="label required">Name<span style="color: red">*</span></mat-label>
+          <mat-label class="label required">Name<span style="color: red"></span></mat-label>
           <input matInput type="text" formControlName="name" aria-label="Name" />
         </mat-form-field>
         <mat-form-field class="item-full-width" floatLabel="always" appearance="outline">
-            <mat-label class="label required">Email<span style="color: red">*</span></mat-label>
+            <mat-label class="label required">Email<span style="color: red"></span></mat-label>
             <input  matInput type="text" formControlName="email" aria-label="Email" />
             <mat-error style="font-size: 15px; padding-top: 7px; ">{{ mailErrorMessages }}</mat-error>
         </mat-form-field>
         <mat-form-field class="item-full-width" floatLabel="always" appearance="outline">
-          <mat-label class="label">Subject<span style="color: red">*</span></mat-label>
+          <mat-label class="label">Subject</mat-label>
           <input matInput type="text" formControlName="subject" aria-label="Subject" />
         </mat-form-field>
         <mat-form-field class="item-full-width" floatLabel="always" appearance="outline">
-          <mat-label class="label">Message<span style="color: red">*</span></mat-label>
+          <mat-label class="label">Message</mat-label>
           <textarea rows="3" style="height:auto;" matInput formControlName="message" aria-label="Message" maxlength="500"></textarea>
         </mat-form-field>
       </div>
@@ -46,7 +56,7 @@
           <div class="phone-number-box-number">1 (800) 663-5555 or *5555</div>
         </div>
         <div class="phone-number-box-icon">
-          <img (click)="openMoreInfo('tel', 'reportAWildfirePhone')" height="24" width="24" src="/assets/images/svg-icons/phone-blue.svg" alt="phone" />
+          <img (click)="openMoreInfo('tel', 'rofPhoneNumber')" height="24" width="24" src="/assets/images/svg-icons/phone-blue.svg" alt="phone" />
         </div>
       </div>
       <div class="phone-number-box">
@@ -98,13 +108,13 @@
                         </div>
                         <div class="row">
                             <div class="field">
-                                <mat-label class="label">Subject<span style="color: red">*</span></mat-label>
+                                <mat-label class="label">Subject</mat-label>
                                 <input matInput type="text" formControlName="subject" aria-label="Subject" />
                             </div>
                         </div>
                         <div class="row">
                             <div class="field">
-                                <mat-label class="label">Message<span style="color: red">*</span></mat-label>
+                                <mat-label class="label">Message</mat-label>
                                 <textarea rows="3" style="height:auto;" matInput formControlName="message" aria-label="Message" maxlength="500"></textarea>
                             </div>
                         </div>
@@ -117,7 +127,7 @@
                     <div class="contact-info">
                         <div class="title">Report a Wildfire</div>
                         <div class="detail">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM94 416c-7.033 0-13.057-4.873-14.616-11.627l-14.998-65a15 15 0 0 1 8.707-17.16l69.998-29.999a15 15 0 0 1 17.518 4.289l30.997 37.885c48.944-22.963 88.297-62.858 110.781-110.78l-37.886-30.997a15.001 15.001 0 0 1-4.289-17.518l30-69.998a15 15 0 0 1 17.16-8.707l65 14.998A14.997 14.997 0 0 1 384 126c0 160.292-129.945 290-290 290z"/></svg><a style="color: #1A5A96;text-decoration:none;" href="tel:{{contactInformationConfig['reportAWildfirePhone']}}">{{contactInformationConfig['reportAWildfirePhone']}}</a>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M400 32H48C21.49 32 0 53.49 0 80v352c0 26.51 21.49 48 48 48h352c26.51 0 48-21.49 48-48V80c0-26.51-21.49-48-48-48zM94 416c-7.033 0-13.057-4.873-14.616-11.627l-14.998-65a15 15 0 0 1 8.707-17.16l69.998-29.999a15 15 0 0 1 17.518 4.289l30.997 37.885c48.944-22.963 88.297-62.858 110.781-110.78l-37.886-30.997a15.001 15.001 0 0 1-4.289-17.518l30-69.998a15 15 0 0 1 17.16-8.707l65 14.998A14.997 14.997 0 0 1 384 126c0 160.292-129.945 290-290 290z"/></svg><a style="color: #1A5A96;text-decoration:none;" href="tel:{{contactInformationConfig['rofPhoneNumber']}}">{{contactInformationConfig['reportAWildfirePhone']}}</a>
                         </div>
                     </div>
                     <div class="contact-info">

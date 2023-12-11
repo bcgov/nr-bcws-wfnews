@@ -1,74 +1,76 @@
-<div class="title-panel">
-  <div class="full-details-title">Fire Ban on {{banData.description}}</div>
-  <p class="info">Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres depending on local fire hazards or dangers, forecasted weather conditions and the type and level of fire activity occurring.</p>
-  <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
-</div>
-<hr>
-<div class="info-container">
-  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Issued on {{banData.issuedDate}}</div>
-  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg" alt="Location Pin" />{{banData.fireCentre}}</div>
-  <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />BC Wildfire Fire Bans and Prohibitions Layer</div>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Other Burning Restrictions</div>
-  <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/authorities.svg" alt="Calendar" />Talk to your Local Authority</div>
-  <p class="info">Local governments may have their own fire bans in place that are enforced in your region. Always check with local government authorities for open burning restrictions.</p>
-  <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/campfire.svg" alt="Calendar" />Campgrounds</div>
-  <p class="info">Before lighting a campfire it is also important to check the campfire policy for the campground you are staying in. For BC Parks campgrounds, see Active Advisories page or search for the campground you’re interested in.</p>
-  <button onclick="window.open('https://bcparks.ca/active-advisories/', '_blank')" mat-button class="panel-button">BC Parks Active Advisories</button>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Category 1 (Campfires)</div>
-  <img class="image-size" src="../../../assets/images/CampFireSize.svg" alt="Category 1" />
-  <p class="info">A campfire is defined as:</p>
-  <ul>
-    <li>Any fire no larger than 0.5 metres high by 0.5 metres wide (a fire larger than this is considered a Category 2 fire).</li>
-    <li>Used by any person for recreational purposes or by a First Nation for a ceremonial purpose.</li>
-  </ul>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Category 2</div>
-  <img class="image-size" src="../../../assets/images/Category 2 Size.svg" alt="Category 2" />
-  <p class="info">This category refers to fires, other than a campfire, that burn:</p>
-  <ul>
-    <li>Material in one pile not exceeding 2 metres in height and 3 metres in width</li>
-    <li>Material concurrently in 2 piles each not exceeding 2 metres in height and 3 metres in width</li>
-    <li>Stubble or grass over an area that does not exceed 0.2 hectares</li>
-  </ul>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Category 3</div>
-  <img class="image-size" src="../../../assets/images/Category 3 Image.svg" alt="Category 3" />
-  <p class="info">This category means an open fire that burns</p>
-  <ul>
-    <li>Material concurrently in 3 or more piles each not exceeding 2 metres in height and 3 metres in width</li>
-    <li>Material in one or more piles each exceeding 2 metres in height or 3 metres in width</li>
-    <li>One or more windrows, none of which exceed 200 metres in length or 15 metres in width</li>
-    <li>Stubble or grass over an area exceeding 0.2 hectares</li>
-  </ul>
-</div>
-<hr>
-<div class="info-container">
-  <div class="full-details-secondary-title">Related Topics</div>
-  <p class="info">Links will open in your internet browser.</p>
-</div>
-<div class="links">
-  <div class="links-relative">
-    <p>Current Fire Bans and Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+<div *ngIf="banData">
+  <div class="title-panel">
+    <div class="full-details-title">Fire Ban on {{banData.description}} Open Burning</div>
+    <p class="info">Decisions on when and where to implement fire bans and restrictions are made by B.C.’s regional fire centres depending on local fire hazards or dangers, forecasted weather conditions and the type and level of fire activity occurring.</p>
+    <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/map.svg" alt="Map" />View on Map</button>
   </div>
-  <div class="links-relative">
-    <p>Forest Use Restrictions<img (click)="navToForestUseRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  <hr>
+  <div class="info-container">
+    <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Issued on {{banData.issuedDate}}</div>
+    <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg" alt="Location Pin" />{{banData.fireCentre}}</div>
+    <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg" alt="Layers" />BC Wildfire Fire Bans and Prohibitions Layer</div>
   </div>
-  <div class="links-relative">
-    <p>Open Burning<img (click)="navToOpenBurning()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+  <hr>
+  <div class="info-container">
+    <div class="full-details-secondary-title">Other Burning Restrictions</div>
+    <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/authorities.svg" alt="Calendar" />Talk to your Local Authority</div>
+    <p class="info">Local governments may have their own fire bans in place that are enforced in your region. Always check with local government authorities for open burning restrictions.</p>
+    <div class="info-container-section-title"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/campfire.svg" alt="Calendar" />Campgrounds</div>
+    <p class="info">Before lighting a campfire it is also important to check the campfire policy for the campground you are staying in. For BC Parks campgrounds, see Active Advisories page or search for the campground you’re interested in.</p>
+    <button onclick="window.open('https://bcparks.ca/active-advisories/', '_blank')" mat-button class="panel-button">BC Parks Active Advisories</button>
   </div>
+  <hr>
+  <div class="info-container" *ngIf="banData.isCat1">
+    <div class="full-details-secondary-title">Category 1 (Campfires)</div>
+    <img class="image-size" src="../../../assets/images/CampFireSize.svg" alt="Category 1" />
+    <p class="info">A campfire is defined as:</p>
+    <ul>
+      <li>Any fire no larger than 0.5 metres high by 0.5 metres wide (a fire larger than this is considered a Category 2 fire).</li>
+      <li>Used by any person for recreational purposes or by a First Nation for a ceremonial purpose.</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="info-container" *ngIf="banData.isCat2">
+    <div class="full-details-secondary-title">Category 2 Open Burning</div>
+    <img class="image-size" src="../../../assets/images/Category 2 Size.svg" alt="Category 2" />
+    <p class="info">This category refers to fires, other than a campfire, that burn:</p>
+    <ul>
+      <li>Material in one pile not exceeding 2 metres in height and 3 metres in width</li>
+      <li>Material concurrently in 2 piles each not exceeding 2 metres in height and 3 metres in width</li>
+      <li>Stubble or grass over an area that does not exceed 0.2 hectares</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="info-container" *ngIf="banData.isCat3">
+    <div class="full-details-secondary-title">Category 3 Open Burning</div>
+    <img class="image-size" src="../../../assets/images/Category 3 Image.svg" alt="Category 3" />
+    <p class="info">This category means an open fire that burns</p>
+    <ul>
+      <li>Material concurrently in 3 or more piles each not exceeding 2 metres in height and 3 metres in width</li>
+      <li>Material in one or more piles each exceeding 2 metres in height or 3 metres in width</li>
+      <li>One or more windrows, none of which exceed 200 metres in length or 15 metres in width</li>
+      <li>Stubble or grass over an area exceeding 0.2 hectares</li>
+    </ul>
+  </div>
+  <hr>
+  <div class="info-container">
+    <div class="full-details-secondary-title">Related Topics</div>
+    <p class="info">Links will open in your internet browser.</p>
+  </div>
+  <div class="links">
+    <div class="links-relative">
+      <p>Current Fire Bans and Restrictions<img (click)="navToCurrentRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    </div>
+    <div class="links-relative">
+      <p>Forest Use Restrictions<img (click)="navToForestUseRestrictions()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    </div>
+    <div class="links-relative">
+      <p>Open Burning<img (click)="navToOpenBurning()" height="20" width="20" class="link-icon" src="/assets/images/svg-icons/launch.svg" alt="Launch" /></p>
+    </div>
+  </div>
+  <div class="bulletin">
+    <p>Open the information bulletin for more details</p>
+    <button (click)="navToBulletinUrl()">Go to<img height="20" width="20" class="bulletin-link-icon" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
+  </div>
+  <div class="spacer"></div>
 </div>
-<div class="bulletin">
-  <p>Open the information bulletin for more details</p>
-  <button (click)="navToBulletinUrl()">Go to<img height="20" width="20" class="bulletin-link-icon" src="/assets/images/svg-icons/fluent_open.svg" alt="Launch" /></button>
-</div>
-<div class="spacer"></div>

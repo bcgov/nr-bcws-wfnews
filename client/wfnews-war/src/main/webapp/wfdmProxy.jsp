@@ -18,10 +18,9 @@
   try {
       String baseUrl = EnvironmentVariable.getVariable("WFDM_API_URL");
 
-      logger.info("Proxying WFDM bytes request for document {} to WFDM instance {}", documentId, baseUrl);
+      //logger.info("Proxying WFDM bytes request for document {} to WFDM instance {}", documentId, baseUrl);
       URL url = new URL(new URL(baseUrl), String.format("documents/%s/bytes", URLEncoder.encode(documentId)));
-
-      logger.info("Proxying WFDM bytes request to {}", url.toString());
+      //logger.info("Proxying WFDM bytes request to {}", url.toString());
 
       // Setup connection
       HttpURLConnection urlConn = (HttpURLConnection) url.openConnection();

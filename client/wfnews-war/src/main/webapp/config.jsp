@@ -51,6 +51,7 @@
 
     String agolAreaRestrictions = EnvironmentVariable.getVariable("AGOL_AREA_RESTRICTIONS");
     String agolBansAndProhibitions = EnvironmentVariable.getVariable("AGOL_BANS_AND_PROHIBITIONS");
+    String agolDangerRatings = EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
 
     // External Application Section
     json.append("\"externalAppConfig\":{");
@@ -61,19 +62,33 @@
         json.append("\"url\":\"").append(properties.getProperty("externalAppConfig.pointId.url", "")).append("\"");
       json.append("},");
       json.append("\"bcWildFireSupportPage\":\"").append(properties.getProperty("bcWildFireSupportPage", "")).append("\",");
-      json.append("\"bcWildfireResponsePage\":\"").append(properties.getProperty("bcWildfireResponsePage", "")).append("\",");
+      json.append("\"bcWildfireResponsePage\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools").append("\",");
       json.append("\"appStoreUrl\":\"").append(properties.getProperty("appStoreUrl", "")).append("\",");
       json.append("\"googlePlayUrl\":\"").append(properties.getProperty("googlePlayUrl", "")).append("\",");
       json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
       json.append("\"AGOLevacOrders\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/").append("\",");
       json.append("\"AGOLareaRestrictions\":\"").append(agolAreaRestrictions).append("\",");
       json.append("\"AGOLBansAndProhibitions\":\"").append(agolBansAndProhibitions).append("\",");
+      json.append("\"AGOLDangerRatings\":\"").append(agolDangerRatings).append("\",");
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
       json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
       json.append("\"recSiteTrailsClosures\":\"").append("http://www.sitesandtrailsbc.ca/closures.aspx").append("\",");
       json.append("\"parksClosures\":\"").append("https://bcparks.ca/active-advisories/?type=wildfire").append("\",");
+      json.append("\"localAuthoritiesUrl\":\"").append("https://www.civicinfo.bc.ca/directories").append("\",");
+      json.append("\"wildfirePreparednessUrl\":\"").append("https://www2.gov.bc.ca/assets/gov/public-safety-and-emergency-services/emergency-preparedness-response-recovery/embc/preparedbc/preparedbc-guides/wildfire_preparedness_guide.pdf").append("\",");
+      json.append("\"buildEmergencyKitUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/build-an-emergency-kit-and-grab-and-go-bag").append("\",");
+      json.append("\"preparedBCUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc").append("\",");
+      json.append("\"preparedBCFacebook\":\"").append("https://www.facebook.com/PreparedBC").append("\",");
+      json.append("\"preparedBCTwitter\":\"").append("https://twitter.com/PreparedBC").append("\",");
+      json.append("\"embcUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
+      json.append("\"embcTwitter\":\"").append("http://www.twitter.com/emergencyinfobc").append("\",");
+      json.append("\"evacGuidanceUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/evacuation-recovery/evacuee-guidance").append("\",");
+      json.append("\"localGovUrl\":\"").append("https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/systems").append("\",");
+      json.append("\"emergencyAlertUrl\":\"").append("https://www2.gov.bc.ca/gov/content/safety/public-safety/emergency-alerts").append("\",");
+      json.append("\"driveBCUrl\":\"").append("https://www.drivebc.ca/mobile/index.html").append("\",");
+      json.append("\"evacServicesUrl\":\"").append("https://ess.gov.bc.ca").append("\",");
 	  
 	  json.append("\"contactInformation\":{");
       json.append("\"rofPhoneNumber\":\"1 800 663-5555\",");
@@ -130,12 +145,18 @@
       fireReportUri = fireReportUri.substring(0, fireReportUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String notificationUri = EnvironmentVariable.getVariable("NOTIFICATION_API_URL"); 
+    if (notificationUri != null && notificationUri.endsWith("/")) {
+      notificationUri = notificationUri.substring(0, notificationUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
+      json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
       json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
     json.append("},");
 

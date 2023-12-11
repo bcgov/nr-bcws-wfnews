@@ -1,5 +1,13 @@
 import { Injectable } from '@angular/core';
+import { getActiveMap, isMobileView } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
+import * as esriLeaflet from 'esri-leaflet'
+import * as esriVector from 'esri-leaflet-vector'
+
+import * as nightStyle from '../../assets/data/vector-basemap-night.json';
+import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
+import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
+import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
 
 export type Smk = any
 export type SmkPromise = Promise< Smk >
@@ -130,35 +138,65 @@ export class WFMapService {
                         maxZoom: 30
                     }
 
-                    defineEsriBasemap( 'topographic', 'Topographic', [
-                        { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                    ] );
+                    defineEsriVectoLayer('topography', 'BC Topography', [
+                      {
+                        id: 'topography',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
+                        style: function(style) {
+                          return topoStyle;
+                        }
+                      }
+                    ]);
 
-                    const imageryOption = {
-                        maxZoom: 30
-                    };
+                    defineEsriVectoLayer('navigation', 'Navigation', [
+                      {
+                        id: 'navigation',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
+                        style: function(style) {
+                          return navStyle;
+                        }
+                      }
+                    ]);
 
-                    defineEsriBasemap( 'imagery', 'Imagery', [
-                        { id: 'Imagery', option: { maxNativeZoom: 20, ...imageryOption/*, ...option2x*/ } },
-                        { id: 'ImageryTransportation', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                        { id: 'ImageryLabels', option: { maxNativeZoom: 19, ...imageryOption, ...option2x } },
-                    ] );
+                    defineEsriVectoLayer('imagery', 'Imagery', [
+                      {
+                        id: 'imagery',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
+                        style: function(style) {
+                          return satelliteStyle;
+                        }
+                      },
+                      { id: 'Imagery', type: 'tile', url: null, style: null }
+                    ]);
 
+                    defineEsriVectoLayer('night', 'Night', [
+                      {
+                        id: 'night',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
+                        style: function(style) {
+                          return nightStyle;
+                        }
+                      }
+                    ]);
 
-                    const streetsOption = {
-                        maxNativeZoom: 19,
-                        maxZoom: 30
-                    };
+                    defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
+                      {
+                        id: 'bc-basemap',
+                        type: 'vector',
+                        url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
+                        style: function(style) {
+                          return style;
+                        }
+                      }
+                    ]);
 
-                    const bcOption = {
-                        maxNativeZoom: 17,
-                        maxZoom: 30
-                    };
-
-                    const lightGrayOption = {
-                        maxNativeZoom: 16,
-                        maxZoom: 30
-                    };
+                    /*defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
+                      { id: 'Topographic', option: { ...topographicOption, ...option2x } }
+                    ] );*/
 
                     smk.destroy();
                     temp.parentElement.removeChild( temp );
@@ -324,6 +362,7 @@ export class WFMapService {
                         self.map.invalidateSize( { animate: false } );
                     }, 500 );
                 };
+
                 const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;
                 SMK.TYPE.Viewer.leaflet.prototype.initialize = function(smk) {
                     // Call the existing initializer
@@ -336,7 +375,6 @@ export class WFMapService {
                 };
 
                 SMK.TYPE.Viewer.leaflet.prototype.panToFeature = function( feature, zoomIn ) {
-                    // console.log('panToFeature')
                     const turf = window[ 'turf' ]; const L = window[ 'L' ];
 
                     let bounds;
@@ -375,24 +413,27 @@ export class WFMapService {
                         } );
                 };
 
+                SMK.TYPE.Viewer.leaflet.prototype.cancelIdentify = false;
+                SMK.TYPE.Viewer.leaflet.prototype.identifyState = null;
                 const origIdentifyFeatures = SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures;
                 SMK.TYPE.Viewer.leaflet.prototype.identifyFeatures = function( location, area ) {
-                    const vw = this;
+                  var vw = this;
+                  (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
+                  if ( self.identifyCallback ) {
+                    self.identifyCallback( location, area );
+                  }
 
-                    (document.getElementsByClassName('smk-sidepanel').item(0) as HTMLElement).style.removeProperty('width');
-                    if ( self.identifyCallback ) {
-                      self.identifyCallback( location, area );
-                    }
-
-                    return Promise.resolve()
-                        .then( function() {
-                            return origIdentifyFeatures.call( vw, location, area );
-                        } )
-                        .then( function() {
-                            if ( self.identifyDoneCallback ) {
-                              self.identifyDoneCallback( location, area );
-                            }
-                        } );
+                  return Promise.resolve()
+                      .then( function() {
+                          return origIdentifyFeatures.call( vw, location, area );
+                      } )
+                      .then( function() {
+                          if ( self.identifyDoneCallback ) {
+                            self.identifyDoneCallback( location, area );
+                          }
+                      } ).catch(err => {
+                        console.error(err)
+                      });
                 };
 
                 SMK.TYPE.Layer[ 'wms' ].prototype.canMergeWith = function( other ) {
@@ -537,6 +578,18 @@ export class WFMapService {
             }
         }
         viewer.setBasemap( mapId );
+
+        try {
+          if (mapId === 'topography') {
+            // turn on hillshade
+            viewer.displayContext.layers.setItemVisible('bc-hillshade', true);
+          } else {
+            // turn off hillshade
+            viewer.displayContext.layers.setItemVisible('bc-hillshade', false);
+          }
+        } catch(err) {
+          console.error('hillshade failed to load on init')
+        }
     }
 
     getBaseMap() {
@@ -574,6 +627,42 @@ function defineEsriBasemap( id: string, title: string, baseMaps: { id: string; o
             } );
         }
     };
+}
+
+function defineEsriVectoLayer(id: string, title: string, baseMaps: { id: string, url: string, style: any, type: string }[]) {
+  order += 1
+  baseMapIds.push( id )
+    window[ 'SMK' ].TYPE.Viewer.prototype.basemap[ id ] = {
+        title,
+        order,
+        create: function () {
+          const L = window[ 'L' ];
+
+          /*L.esri = {
+            ...esriLeaflet,
+            Vector: {
+              ...esriVector
+            }
+          };*/
+          return baseMaps.map((bm) => {
+            if (bm.type === 'vector') {
+                const layer = esriVector.vectorTileLayer(bm.url, {
+                  style: bm.style
+                });
+                layer.bringToBack = () => { return }
+                layer._leaflet_id = id;
+                layer.id = id;
+
+                return layer;
+            } else {
+                const orig = clone( L.esri.BasemapLayer.TILES[ bm.id ].options );
+                const bmly = window[ 'L' ].esri.basemapLayer( bm.id, clone({ maxNativeZoom: 20, maxZoom: 30, wfnewsId: id }));
+                L.esri.BasemapLayer.TILES[ bm.id ].options = {...orig, wfnewsId: id};
+                return bmly;
+            }
+          });
+        }
+    }
 }
 
 function defineWmsBasemap( id, title: string, baseMaps: { url: string; option?: { [key: string]: any } }[] ) {
@@ -618,16 +707,9 @@ function encodeUrl( url, data ) {
 }
 
 function zoomToProvince() {
-    zoomToGeometry( window[ 'turf' ].bboxPolygon( [-136.3, 49, -116, 60.2] ))
+  zoomToGeometry( window[ 'turf' ].bboxPolygon( [-136.3, 49, -116, 60.2] ))
 }
 
-function zoomToGeometry( geom: any, zoomLevel: number|boolean = 12 ) {
-    const SMK = window['SMK'];
-    let viewer = null;
-    for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-    }
-    viewer.panToFeature(geom, zoomLevel)
+function zoomToGeometry( geom: any, zoomLevel: number | boolean = 12 ) {
+  getActiveMap().$viewer.panToFeature(geom, zoomLevel)
 }

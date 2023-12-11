@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { getActiveMap } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
 
 @Component({
@@ -23,7 +24,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   declaredOutWildfire = false;
   evacuationOrders = false;
   firePerimeters = false;
-  forestServiceRoads = false;
   hourlyPrecipitationForecast = false;
   indianReserves = false;
   municipalities = false;
@@ -43,7 +43,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       this.clearAll(false);
       this.loadLayers();
     }
-  } 
+  }
 
   clearAll(updateLayers: boolean) {
     this.activeWeatherStations = false;
@@ -57,7 +57,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
     this.declaredOutWildfire = false;
     this.evacuationOrders = false;
     this.firePerimeters = false;
-    this.forestServiceRoads = false;
     this.hourlyPrecipitationForecast = false;
     this.indianReserves = false;
     this.municipalities = false;
@@ -76,7 +75,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   }
 
   loadLayers() {
-    const smkApi = new SmkApi(window['SMK'].MAP[1]);
+    const smkApi = new SmkApi(getActiveMap());
     const visibleLayers = smkApi.getVisibleLayers();
 
     Object.keys(visibleLayers).forEach((layerId) => {
@@ -85,7 +84,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           this.wildfireOfNote = true;
           break;
         case 'active-wildfires-heatmap':
-          this.wildfireOfNote = true;
+          this.outOfControlWildfire = true;
           break;
         case 'active-wildfires-holding':
           this.beingHeldWildfire = true;
@@ -108,9 +107,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
         case 'bans-and-prohibitions-cat3':
         case 'bans-and-prohibitions-highlight':
           this.bansAndProhibitions = true;
-          break;
-        case 'bc-fsr':
-          this.forestServiceRoads = true;
           break;
         case 'clab-indian-reserves':
           this.indianReserves = true;
@@ -162,13 +158,13 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           break;
       }
     });
-    
+
     this.triggerRefreshChange.emit(false);
     this.cdr.detectChanges();
   }
 
   updateLayers() {
-    const smkApi = new SmkApi(window['SMK'].MAP[1]);
+    const smkApi = new SmkApi(getActiveMap());
 
     const layers = [
       { itemId: 'abms-municipalities', visible: this.municipalities },
@@ -185,7 +181,6 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       { itemId: 'bans-and-prohibitions-cat2', visible: this.bansAndProhibitions },
       { itemId: 'bans-and-prohibitions-cat3', visible: this.bansAndProhibitions },
       { itemId: 'bans-and-prohibitions-highlight', visible: this.bansAndProhibitions },
-      { itemId: 'bc-fsr', visible: this.forestServiceRoads },
       { itemId: 'clab-indian-reserves', visible: this.indianReserves },
       { itemId: 'closed-recreation-sites', visible: this.closedRecreationSites },
       { itemId: 'current-conditions--default', visible: this.currentWeather },

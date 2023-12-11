@@ -1,0 +1,226 @@
+.dialog {
+  height: 100%;
+  width: 100%;
+}
+
+.dialog-footer {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.dialog-panel {
+  padding: 16px;
+  overflow: auto;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.dialog-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DEDEDE;
+  display: flex;
+}
+
+.dialog-title {
+  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 22px;
+  letter-spacing: 0em;
+  text-align: left;
+}
+
+.footer-button {
+  width: 100%;
+}
+
+.footer-button-disabled {
+  width: 100%;
+  background-color: #DEDEDE !important;
+}
+
+.right-align {
+  margin-left: auto;
+}
+
+.search-icon {
+  position: relative !important;
+  top: 5px;
+  left: 7px;
+}
+
+.search-input {
+  border-radius: 20px !important;
+  border: 1px solid #a7a9ac !important;
+  padding: 0 5px;
+  height: 35px;
+  line-height: 35px;
+  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-size: 15px;
+  position: relative;
+}
+
+.mat-mdc-input-element {
+  background-color: transparent;
+  border: none !important;
+  padding: 0 5px;
+  border-radius: 20px;
+  height: 35px;
+  outline: none !important;
+  box-shadow: none !important;
+  &:focus {
+    outline: none !important;
+    ;
+    box-shadow: none !important;
+  }
+}
+
+.search-panel {
+  padding-top: 32px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #DEDEDE;
+}
+
+.input-clear-button{
+  position: absolute;
+  background-color: transparent;
+  border: none;
+  top: 5px;
+  right: 0px;
+  .button-wrapper{
+      padding: 0;
+      min-width: 0;
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      line-height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+  }
+  mat-icon{
+      transform: translateX(-5px);
+  }
+}
+
+.spinner-position {
+  position: relative;
+  left: calc(50% - 40px);
+  top: calc(50% - 40px);
+}
+
+.home-sections {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  background-color: #f5f5f5;
+}
+
+.home-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin-bottom: 12px;
+  background-color: #ffffff;
+}
+
+.results-panel {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  padding: 5px;
+  padding-bottom: 8px;
+  &-icon {
+    position: relative;
+    padding-right: 4px;
+  }
+  &-title {
+    color: var(--grays-gray-1, #242424);
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 22px; /* 169.231% */
+    letter-spacing: -0.408px;
+  }
+}
+
+.close-icon {
+  margin-left: auto;
+}
+
+.results-panel-cards {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-card {
+  display: flex;
+  width: 100%;
+  padding: 4px 172px 8px 5px;
+  align-items: flex-start;
+  gap: 8px;
+  border-bottom: 1px solid #F1F1F1;
+  margin-bottom: 12px;
+  &-icon-holder {
+    display: flex;
+    width: 28px;
+    flex-direction: column;
+    align-items: center;
+    flex-shrink: 0;
+    &-close-icon {
+      border-radius: 62.5px;
+      display: flex;
+      padding: 3.75px;
+      margin-left: auto;
+      position: relative;
+      right: 12px;
+      cursor: pointer;
+    }
+    &-icon {
+      border-radius: 62.5px;
+      background: var(--Grey-2-EEE, #EEE);
+      display: flex;
+      padding: 3.75px;
+      align-items: flex-start;
+      gap: 5px;
+    }
+    &-dist {
+      color: #7D7D7D;
+      text-align: center;
+      font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+      font-size: 8px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      letter-spacing: -0.408px;
+    }
+  }
+  &-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: -4px;
+  }
+  &-title {
+    color: #242424;
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 157.143% */
+    letter-spacing: -0.408px;
+  }
+  &-subtitle {
+    color: #7D7D7D;
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 157.143% */
+    letter-spacing: -0.408px;
+  }
+}

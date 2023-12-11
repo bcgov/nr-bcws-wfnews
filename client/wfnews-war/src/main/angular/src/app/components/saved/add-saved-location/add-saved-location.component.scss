@@ -1,0 +1,291 @@
+:host {
+    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  }
+.title-section {
+    display: flex;
+    padding: 10px 20px 10px 20px;
+    align-items: flex-start;
+    gap: 75px;
+    border-top: 1px solid #E7E7E7;
+    border-bottom: 1px solid #E7E7E7;
+    background: #FFF;
+    .title{
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        color: var(--light-labels-1-primary, #000);
+        text-align: center;
+    }
+}
+
+.container {
+}
+
+.desktop-container {
+  background-color: white !important;
+  max-width: 850px;
+  margin: auto;
+}
+.content-section {
+    display: flex;
+    padding: 24px 16px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    align-self: stretch;
+    padding-bottom: 100px;
+    .section-frame{
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        align-self: stretch;
+        .header-icon{
+            padding: 6.653px;
+            border-radius: 83.158px;
+            background: var(--blues-blue-8, #DFE5EE);
+            height: 20px;
+            width: 20px;
+        }
+    }
+    .header-text{
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .section-frame-1{
+        @extend .section-frame;
+        display: inline;
+    }
+    .section-frame-2{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        align-self: stretch;
+        .section-frame-2-row{
+            padding-bottom: 16px;
+        }
+        .section-frame-2-row-toggle{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+    }
+    .header-text-1{
+        @extend .header-text;
+        font-size: 16px;
+    }
+    .header-text-2 {
+        color: var(--grays-gray-3, #666);
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        padding-top: 4px;
+    }
+    .input-section{
+        padding-top: 8px;
+        input{
+            font-family: 'BCSans', 'Noto Sans', Verdana, Arial, sans-serif;
+            border: none;
+            width: 100%;
+            padding: 8px;
+            display: flex;
+            border-radius: 3px;
+            background: #F5F5F5;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: 400;
+            color: var(--light-theme-rest-foreground-default-foreground-242424, #242424);
+        }
+    }
+}
+
+.search-panel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.search-input {
+    border-radius: 20px !important;
+    border: 1px solid #C4C4C4;
+    background: #FFF;
+    padding: 0 5px;
+    height: 35px;
+    line-height: 35px;
+    font-family: "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-size: 15px;
+    position: relative;
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    position: relative !important;
+    top: 5px;
+    left: 5px;
+}
+
+.input-clear-button{
+    position: absolute;
+    background-color: transparent;
+    border: none;
+    top: 5px;
+    right: 0px;
+    .button-wrapper{
+        padding: 0;
+        min-width: 0;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        line-height: 40px;
+        border-radius: 50%;
+        cursor: pointer;
+    }
+    mat-icon{
+        transform: translateX(-5px);
+    }
+  }
+
+  .mat-mdc-input-element {
+    background-color: transparent;
+    border: none !important;
+    padding: 0 5px;
+    border-radius: 20px;
+    height: 35px;
+    outline: none !important;
+    box-shadow: none !important;
+    &:focus {
+      outline: none !important;
+      ;
+      box-shadow: none !important;
+    }
+  }
+
+  .location-button-box{
+    border-radius: 20px;
+    border: 1px solid #C4C4C4;
+    background: #FFF;
+    margin: 12px 0;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    display: flex;
+
+    &-selected {
+        border-radius: 20px;
+        border: 2px solid #38598A !important;
+        background-color: #E9F0F8 !important;
+        color: #242424 !important;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 21.79px;
+        width: 100%;
+        margin: 12px 0;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
+        display: flex;
+        .mat-mdc-unelevated-button:not(:disabled) {
+            background-color: #E9F0F8 !important;
+        }
+    }
+  }
+
+.location-button{
+    display: flex;
+    align-items: center;
+    img{
+        vertical-align: bottom;
+        height: 20px;
+        width: 20px;
+        padding-right: 8px;
+    }
+}
+
+.location-clear{
+    vertical-align: bottom;
+    padding-left: 5px;
+}
+
+.divider{
+    background: #DEDEDE;
+    height: 1px;
+    width: -webkit-fill-available;
+}
+
+.large-divider{
+    background: #F1F1F1;
+    height: 8px;
+    width: -webkit-fill-available;
+}
+
+.distance-button-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    .button-row {
+        display: flex;
+        padding-bottom: 8px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 8px;
+        flex: 1 0 0;
+        flex-wrap: wrap;
+    }
+
+    .button {
+        display: flex;
+        height: 36px;
+        padding: 8px 16px;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        gap: 8px;
+        flex: 1 0 0;
+        flex-wrap: wrap;
+        border-radius: 20px;
+        border: 1px solid #C4C4C4;
+        background: #FFF;
+    }
+    .button.active {
+        /* Your styles for the active state */
+        background: var(--blues-blue-9, #E9F0F8);
+        border: 2px solid var(--blues-blue-3, #38598A);
+    }
+}
+
+.save-button{
+    border-radius: 6px;
+    padding: 8px 29px;
+    color: #FFF;
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    background: var(--blues-blue-2, #036);
+    color: #FFF;
+    border: 1px solid var(--blues-blue-2, #036);
+}
+
+.disabled-button {
+    @extend .save-button;
+    background: gray;
+    color: var(--grays-black, #000);
+    border: 1px solid var(--grays-gray-6, #C4C4C4);
+}
+
+
+.save-button-section{
+    width: 100%;
+    text-align: right;
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+    background-color: none !important;
+}

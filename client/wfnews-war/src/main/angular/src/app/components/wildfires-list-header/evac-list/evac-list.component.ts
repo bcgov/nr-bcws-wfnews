@@ -8,6 +8,8 @@ import { FilterByLocationDialogComponent, LocationData } from '../filter-by-loca
 import { BreakpointObserver, BreakpointState, Breakpoints } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { ResourcesRoutes } from '@app/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-evac-list',
@@ -18,20 +20,20 @@ import { Observable } from 'rxjs';
 export class EvacListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
   public selectedSortValue = ''
-  public selectedSortOrder = 'DESC'
+  public selectedSortOrder = 'desc'
   public sortOptions = [{ description: 'Name', code: 'name'}, { description: 'Status', code: 'status'}, { description: 'Agency', code: 'agency'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public searchTimer
   public order = true
   public alert = true
   public searchingComplete = false
-  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap", "details"]
+  public columnsToDisplay = ["name", "status", "issuedOn", "agency", "distance", "viewMap"]
 
   public locationData: LocationData
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall)
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, protected router: Router, private cdr: ChangeDetectorRef, private commonUtilityService: CommonUtilityService, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
@@ -66,7 +68,7 @@ export class EvacListComponent implements OnInit {
     this.agolService.getEvacOrders(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: userLocation !== null, returnGeometry: false}).subscribe(evacs => {
       const evacData = []
       if (evacs && evacs.features) {
-        for (const element of evacs.features) {
+        for (const element of evacs.features.filter(e => e.attributes.EVENT_TYPE.toLowerCase() === 'fire')) {
           let distance = null
           if (userLocation) {
               const currentLat = Number(userLocation.coords.latitude);
@@ -84,13 +86,15 @@ export class EvacListComponent implements OnInit {
             preOcCode: element.attributes.PREOC_CODE,
             emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
             issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED),
-            distance: distance
+            distance: distance,
+            latitude: element.centroid.y,
+            longitude: element.centroid.x
           })
         }
       }
       if (this.selectedSortValue !== '') {
-        this.selectedSortOrder = this.selectedSortOrder === 'ASC' ? 'DESC' : 'ASC'
-        const sortVal = this.selectedSortOrder === 'ASC' ? 1 : -1
+        this.selectedSortOrder = this.selectedSortOrder === 'asc' ? 'desc' : 'asc'
+        const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1
         evacData.sort((a,b) =>(a[this.selectedSortValue] > b[this.selectedSortValue]) ? sortVal : ((b[this.selectedSortValue] > a[this.selectedSortValue]) ? sortVal * -1 : 0))
         this.selectedSortValue = ''
       }
@@ -134,15 +138,15 @@ export class EvacListComponent implements OnInit {
     }
   }
 
-  viewMap(ban: any) {
-  }
-
-  showDetails(ban: any) {
-
+  viewMap(evac: any) {
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {evac: true, identify: true, longitude: evac.longitude, latitude: evac.latitude} });
+    }, 100);
   }
 
   sortData (event: any) {
-    this.cdr.detectChanges()
+    this.selectedSortValue = event.active
+    this.search()
   }
 
   searchByText() {

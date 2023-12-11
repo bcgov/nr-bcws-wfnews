@@ -15,8 +15,9 @@ export const mapConfig = (
         location: {
             extent: [-136.3, 49, -116, 60.2],
         },
-        baseMap: 'topographic',
+        baseMap: 'navigation',
         minZoom: 4,
+        maxZoom: 30
     },
     tools: [
         {
@@ -114,9 +115,7 @@ export const mapConfig = (
             type: 'baseMaps',
             enabled: true,
             showTitle: false,
-            showPanel: false,
-            choices: [
-            ],
+            showPanel: true,
             position: 'shortcut-menu',
             mapStyle: {
                 width: '60px',

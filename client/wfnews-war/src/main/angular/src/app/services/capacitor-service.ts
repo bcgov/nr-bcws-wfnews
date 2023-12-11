@@ -40,6 +40,16 @@ export interface ReportOfFireNotification {
     body: string
 }
 
+export interface DeviceProperties {
+    isIOSPlatform: boolean;
+    isAndroidPlatform: boolean;
+    isWebPlatform: boolean;
+    isMobilePlatform: boolean;
+    deviceId: string;
+    isTwitterInstalled: boolean;
+}
+
+
 const UPDATE_AFTER_INACTIVE_MILLIS = 1000 * 60 // 1 minute
 const REFRESH_INTERVAL_ACTIVE_MILLIS = 5 * 1000 * 60 // 5 minutes
 
@@ -68,6 +78,8 @@ export class CapacitorService {
     rofNotificationsDelay = 5000
     notificationSnackbarPromise = Promise.resolve()
     registeredForNotifications = false
+    private devicePropertiesPromise: Promise<DeviceProperties>
+
 
     constructor(
         private zone: NgZone,
@@ -470,5 +482,50 @@ export class CapacitorService {
           } catch (error) {
             console.error('Error getting device info:', error);
           }
+    }
+
+    get deviceProperties(): Promise<DeviceProperties> {
+        if ( !this.devicePropertiesPromise ) this.devicePropertiesPromise = Device.getInfo()
+            .then( devInfo => {
+                console.log(devInfo)
+
+                return Device.getId()
+                    .then( deviceId => {
+                        console.log(deviceId)
+
+                        let p = devInfo && devInfo.platform,
+                            prop: DeviceProperties = {
+                                isIOSPlatform: p == 'ios',
+                                isAndroidPlatform: p == 'android',
+                                isWebPlatform: p != 'ios' && p != 'android',
+                                isMobilePlatform: p == 'ios' || p == 'android' || !!environment['is_mobile_platform'],
+                                deviceId: deviceId.identifier,
+                                isTwitterInstalled: false,
+                            }
+                        const scheme = prop.isIOSPlatform ? 'twitter://' : 'com.twitter.android';
+                        return AppLauncher.canOpenUrl( { url: scheme } )
+                            .then( canOpen => {
+                                prop.isTwitterInstalled = canOpen.value
+                                return prop
+                            } )
+                            .catch( e => {
+                                console.warn(e)
+                                return prop
+                            } )
+                    } )
+            } )
+            .catch( e => {
+                console.warn(e)
+                return {
+                    isIOSPlatform: false,
+                    isAndroidPlatform: false,
+                    isWebPlatform: false,
+                    isMobilePlatform: false,
+                    deviceId: '',
+                    isTwitterInstalled: false
+                }
+            } )
+
+        return this.devicePropertiesPromise
     }
 }

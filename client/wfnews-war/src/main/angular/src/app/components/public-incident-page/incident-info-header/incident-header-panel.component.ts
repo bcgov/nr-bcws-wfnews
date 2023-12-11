@@ -116,7 +116,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
 
     // fetch incidents in surrounding area and add to map
     this.addSurroundingIncidents()
-    
+
     if (this.extent) {
       this.map.fitBounds(new L.LatLngBounds([this.extent.ymin, this.extent.xmin], [this.extent.ymax, this.extent.xmax]));
     }
@@ -127,7 +127,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   addToWatchlist() {
-    this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
+    if (this.onWatchlist()) {
+      this.removeFromWatchlist();
+    } else {
+      this.watchlistService.saveToWatchlist(this.incident.fireYear, this.incident.incidentNumberLabel)
+    }
   }
 
   removeFromWatchlist() {
@@ -171,14 +175,27 @@ export class IncidentHeaderPanel implements AfterViewInit {
   backToMap() {
     if (this.incident && this.incident.longitude && this.incident.latitude) {
       setTimeout(() => {
-        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {longitude: this.incident.longitude, latitude: this.incident.latitude} });
+        this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.incident.longitude, latitude: this.incident.latitude } });
       }, 100);
     }
   }
 
   back() {
-    if (this.params && this.params['source'] && this.params['source'][0]){
+    if (this.params && this.params['source'] && this.params['source'][0]) {
       if (this.params['source'][0] === "map") this.backToMap()
+      else if (this.params['source'][0] === "full-details"
+        && this.params['sourceId'] && this.params['sourceType'])
+        this.router.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: this.params['sourceType'], id: this.params['sourceId'] } });
+      else if (this.params['source'] == 'saved-location' && this.params['sourceName']
+        && this.params['sourceLongitude'] && this.params['sourceLatitude']) {
+        this.router.navigate([ResourcesRoutes.SAVED_LOCATION],
+          {
+            queryParams: {
+              type: 'saved-location', name: this.params['sourceName'],
+              longitude: this.params['sourceLongitude'], latitude: this.params['sourceLatitude']
+            }
+          });
+      }
       else this.router.navigate(this.params['source']);
     }
     else this.router.navigate([ResourcesRoutes.DASHBOARD]);

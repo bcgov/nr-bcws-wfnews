@@ -79,7 +79,8 @@ public class WeatherHour {
 	 * @return null if the hour is invalid (e.g. has values out of range)
 	 */
 	private static Calendar fromHourstamp(String hourstamp) {
-		return fromHourstamp(hourstamp, TZ_GMT);
+		Calendar val = fromHourstamp(hourstamp, TZ_GMT);
+		return val == null ? Calendar.getInstance() : val;
 	}
 
 	static Calendar fromHourstamp(String hourstamp, TimeZone zone) {
@@ -124,7 +125,7 @@ public class WeatherHour {
 	
 	private static long toMillis(String hourstamp) {
 		Calendar cal = fromHourstamp(hourstamp, TZ_PST);
-		return cal.getTimeInMillis();
+		return cal == null ? 0 : cal.getTimeInMillis();
 	}
 	
 	/**

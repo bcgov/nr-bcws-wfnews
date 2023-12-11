@@ -3,32 +3,29 @@ import { MapServices } from '.';
 export function LayerDisplayConfig(mapServices: MapServices) {
     return [
         {
-          id: "fire-group",
-          type: "group",
-          title: "BC Wildfires - Active Fires",
+          id: 'active-wildfires-fire-of-note',
           isVisible: true,
-          items: [
-            {
-              id: 'active-wildfires-fire-of-note',
-              isVisible: true,
-              alwaysShowLegend: false
-            },
-            {
-              id: 'active-wildfires-out-of-control',
-              isVisible: true,
-              alwaysShowLegend: false
-            },
-            {
-              id: 'active-wildfires-holding',
-              isVisible: true,
-              alwaysShowLegend: false
-            },
-            {
-              id: 'active-wildfires-under-control',
-              isVisible: true,
-              alwaysShowLegend: false
-            }
-          ]
+          alwaysShowLegend: false
+        },
+        {
+          id: 'active-wildfires-out-of-control',
+          isVisible: true,
+          alwaysShowLegend: false
+        },
+        {
+          id: 'active-wildfires-holding',
+          isVisible: true,
+          alwaysShowLegend: false
+        },
+        {
+          id: 'active-wildfires-under-control',
+          isVisible: true,
+          alwaysShowLegend: false
+        },
+        {
+          id: 'active-wildfires-out',
+          isVisible: false,
+          class: 'smk-inline-legend'
         },
         {
             id: 'evacuation-orders-and-alerts-wms',
@@ -85,11 +82,6 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             class: 'smk-inline-legend'
         },
         {
-            id: 'active-wildfires-out',
-            isVisible: false,
-            class: 'smk-inline-legend'
-        },
-        {
             id: 'protected-lands-access-restrictions',
             isVisible: false
         },
@@ -115,9 +107,44 @@ export function LayerDisplayConfig(mapServices: MapServices) {
             isVisible: false
         },
         {
-            id: 'bc-fire-centres',
-            isVisible: true,
-            class: 'smk-inline-legend'
+          id: 'bc-hillshade',
+          isVisible: true
+        },
+        {
+          id: "fire-centre-group",
+          type: "group",
+          title: "BC Wildfire Centres",
+          isVisible: true,
+          items: [
+            {
+              id: 'bc-fire-centres',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'bc-fire-centres-labels',
+              isVisible: true,
+              alwaysShowLegend: false
+            }
+          ]
+        },
+        {
+          id: "fire-zone-group",
+          type: "group",
+          title: "BC Wildfire Zones",
+          isVisible: true,
+          items: [
+            {
+              id: 'bc-fire-zones',
+              isVisible: true,
+              alwaysShowLegend: false
+            },
+            {
+              id: 'bc-fire-zones-labels',
+              isVisible: true,
+              alwaysShowLegend: false
+            }
+          ]
         },
         //{
         //    id: 'prescribed-fire',

@@ -5,7 +5,7 @@ import { AGOLService } from '../../services/AGOL-service';
 import { MapConfigService } from '../../services/map-config.service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { WatchlistService } from '../../services/watchlist-service';
-import { ResourcesRoutes, convertFireNumber, convertToFireCentreDescription } from '../../utils';
+import { ResourcesRoutes, convertFireNumber, convertToFireCentreDescription, getActiveMap } from '../../utils';
 
 
 @Component({
@@ -179,14 +179,7 @@ export class IncidentIdentifyPanelComponent {
     const lat = Number(this.incident.latitude);
 
     this.mapConfigService.getMapConfig().then(() => {
-      const SMK = window['SMK'];
-      let viewer = null;
-      for (const smkMap in SMK.MAP) {
-        if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
-          viewer = SMK.MAP[smkMap].$viewer;
-        }
-      }
-      viewer.panToFeature(window['turf'].point([long, lat]), 15)
+      getActiveMap().$viewer.panToFeature(window['turf'].point([long, lat]), 15)
     })
 
   }

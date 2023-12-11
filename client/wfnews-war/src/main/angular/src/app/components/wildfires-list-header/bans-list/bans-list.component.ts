@@ -6,6 +6,8 @@ import { BreakpointState, Breakpoints, BreakpointObserver } from '@angular/cdk/l
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { FilterByLocationDialogComponent, LocationData } from '../filter-by-location/filter-by-location-dialog.component';
+import { ResourcesRoutes } from '@app/utils';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'wf-bans-list',
@@ -16,7 +18,7 @@ import { FilterByLocationDialogComponent, LocationData } from '../filter-by-loca
 export class BansListComponent implements OnInit {
   public dataSource = new MatTableDataSource<any>();
   public selectedSortValue = ''
-  public selectedSortOrder = 'DESC'
+  public selectedSortOrder = 'desc'
   public sortOptions = [{ description: 'Fire Centre', code: 'fireCentre'}, { description: 'Type', code: 'type'}, { description: 'Details', code: 'details'}, { description: 'Issued On', code: 'issuedOn'}]
   public searchText
   public category1 = true
@@ -24,13 +26,13 @@ export class BansListComponent implements OnInit {
   public category3 = true
   public searchTimer
   public searchingComplete = false
-  public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap", "fullDetails"];
+  public columnsToDisplay = ["fireCentre", "type", "details", "issuedOn", "viewMap"];
 
   public locationData: LocationData
 
   private isExtraSmall: Observable<BreakpointState> = this.breakpointObserver.observe(Breakpoints.XSmall);
 
-  constructor ( private agolService: AGOLService, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
+  constructor ( private agolService: AGOLService, protected router: Router, private cdr: ChangeDetectorRef, private breakpointObserver: BreakpointObserver, private dialog: MatDialog ) {}
 
   ngOnInit(): void {
     this.search()
@@ -65,7 +67,7 @@ export class BansListComponent implements OnInit {
     if (whereString.endsWith(' AND ()')) whereString = whereString.substring(0, whereString.length - 7)
     if (whereString === '') whereString = null
 
-    this.agolService.getBansAndProhibitions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: false, returnGeometry: false}).subscribe(bans => {
+    this.agolService.getBansAndProhibitions(whereString, location ? { x: location.longitude, y: location.latitude, radius: location.radius} : null, { returnCentroid: true, returnGeometry: false}).subscribe(bans => {
       const banData = []
       if (bans && bans.features) {
         for (const element of bans.features) {
@@ -75,14 +77,16 @@ export class BansListComponent implements OnInit {
             type: element.attributes.TYPE,
             details: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
             issuedOn: this.convertToDate(element.attributes.ACCESS_STATUS_EFFECTIVE_DATE),
-            bulletinUrl: element.attributes.BULLETIN_URL
+            bulletinUrl: element.attributes.BULLETIN_URL,
+            latitude: element.centroid.y,
+            longitude: element.centroid.x
           })
         }
       }
 
       if (this.selectedSortValue !== '') {
-        this.selectedSortOrder = this.selectedSortOrder === 'ASC' ? 'DESC' : 'ASC'
-        const sortVal = this.selectedSortOrder === 'ASC' ? 1 : -1
+        this.selectedSortOrder = this.selectedSortOrder === 'asc' ? 'desc' : 'asc'
+        const sortVal = this.selectedSortOrder === 'asc' ? 1 : -1
         banData.sort((a,b) =>(a[this.selectedSortValue] > b[this.selectedSortValue]) ? sortVal : ((b[this.selectedSortValue] > a[this.selectedSortValue]) ? sortVal * -1 : 0))
         this.selectedSortValue = ''
       }
@@ -99,10 +103,9 @@ export class BansListComponent implements OnInit {
   }
 
   viewMap(ban: any) {
-  }
-
-  showDetails(ban: any) {
-
+    setTimeout(() => {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: {bans: true, identify: true, longitude: ban.longitude, latitude: ban.latitude} });
+    }, 100);
   }
 
   openLocationFilter () {
@@ -134,7 +137,8 @@ export class BansListComponent implements OnInit {
   }
 
   sortData (event: any) {
-    this.cdr.detectChanges()
+    this.selectedSortValue = event.active
+    this.search()
   }
 
   searchByText() {

@@ -318,20 +318,51 @@ button:disabled {
   }
 }
 
+::ng-deep .mat-mdc-text-field-wrapper {
+  background: var(--grays-gray-10, #F5F5F5);
+}
+
 @media (max-width: 768px) {
+
   .contact-widget-dialog-container {
     display: none;
   }
 
+  .icon {
+    position: sticky;
+    right: 32px;
+  }
   .mobile-container {
     display: flex;
-    padding: 32px;
+    padding: 0 32px 32px 32px;
     flex-direction: column;
     align-items: center;
     gap: 16px;
     align-self: stretch;
 
+    .header {
+      width: 100vw;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      color: var(--light-labels-1-primary, #000);
+      font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: normal;
+      border-top: 1px solid #E7E7E7;
+      border-bottom: 1px solid #E7E7E7;
+      background: #FFF;
+      padding: 10px 0;
+      .label{
+        margin: auto;
+      }
+    }
+
     .title {
+      display: flex;
       align-self: stretch;
       color: #000;
       font-feature-settings: 'clig' off, 'liga' off;
@@ -358,7 +389,8 @@ button:disabled {
       .mat-mdc-form-field {
         width: 100% !important;
         border-radius: 3px !important;
-        background: var(--grays-gray-10, #F5F5F5) !important;
+        // background: var(--grays-gray-10, red) !important;
+
       }
     }
 
@@ -381,7 +413,7 @@ button:disabled {
       cursor: pointer;
       &-disabled {
         border-radius: 5px;
-        background: grey;
+        background: #DFDFDF;
         display: flex;
         height: 40px;
         padding: 8px;
@@ -389,7 +421,7 @@ button:disabled {
         align-items: center;
         gap: 8px;
         align-self: stretch;
-        color: black;
+        color: #000;
         font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
         font-size: 16px;
         font-style: normal;

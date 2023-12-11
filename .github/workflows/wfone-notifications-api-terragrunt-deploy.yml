@@ -63,10 +63,19 @@ on:
       WEBADE-OAUTH2_TOKEN_URL:
         required: true
         type: string
+      YOUTUBE_API_KEY:
+        required: true
+        type: string
+      YOUTUBE_CHANNEL_ID:
+        required: true
+        type: string
       WFDM_REST_URL:
         required: true
         type: string
       FIRE_REPORT_API_URL:
+        required: true
+        type: string
+      NOTIFICATION_API_URL:
         required: true
         type: string
       WFIM_CODE_TABLES_URL:
@@ -217,10 +226,13 @@ jobs:
           WEBADE_OAUTH2_CHECK_TOKEN_URL: ${{inputs.WEBADE_OAUTH2_CHECK_TOKEN_URL}}
           WEBADE_OAUTH2_TOKEN_CLIENT_URL: ${{inputs.WEBADE_OAUTH2_TOKEN_CLIENT_URL}}
           WEBADE_OAUTH2_TOKEN_URL: ${{inputs.WEBADE-OAUTH2_TOKEN_URL}}
+          YOUTUBE_API_KEY: ${{inputs.YOUTUBE_API_KEY}}
+          YOUTUBE_CHANNEL_ID: ${{inputs.YOUTUBE_CHANNEL_ID}}
           WEBADE_OAUTH2_WFONE_NOTIFICATIONS_API_REST_CLIENT_SECRET: ${{secrets.WEBADE_OAUTH2_WFONE_NOTIFICATIONS_REST_CLIENT_SECRET}}
 
           WFDM_REST_URL: ${{inputs.WFDM_REST_URL}}
           FIRE_REPORT_API_URL: ${{inputs.FIRE_REPORT_API_URL}}
+          NOTIFICATION_API_URL: ${{inputs.NOTIFICATION_API_URL}}
           WFIM_CODE_TABLES_URL: ${{inputs.WFIM_CODE_TABLES_URL}}
           
         run: terragrunt apply --terragrunt-non-interactive -auto-approve
