@@ -107,8 +107,8 @@
       </div>
         <div class="section-frame-2">
             <div class="section-frame-2-row">
-                <div class="header-text-1">Notification Radius</div>
-                <div class="header-text-2">You will receive notifications based on the selected radius.</div>
+                <div class="header-text-1">{{!isWebDevice() ? 'Notification Radius' : 'Wildfire Event Radius'}}</div>
+                <div class="header-text-2">{{!isWebDevice() ? 'You will receive notifications based on the selected radius' : 'You will see nearby events based on the selected radius'}}</div>
             </div>
             <div class="location-button-box" style="width: 100%;">
                 <button mat-flat-button class="location-button" [disabled] = "!locationData.latitude || !locationData.longitude" (click)="chooseRadiusOnMap()">
