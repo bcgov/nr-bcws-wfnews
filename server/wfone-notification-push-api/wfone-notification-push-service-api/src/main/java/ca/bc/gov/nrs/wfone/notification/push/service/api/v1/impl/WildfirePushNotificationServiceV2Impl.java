@@ -270,7 +270,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		keyValueMapForPN.put("topicKey", topicKey);
 		keyValueMapForPN.put("messageID", messageInformation.getMessageId());
 
-		String incidentType = getIncidentType(notificationDto);
+		String incidentType = getIncidentType(messageInformation);
 		String title = "New \"" + incidentType +"\"";
 		if (StringUtils.isNotBlank(pushNotificationPrefix)) {
 			title = pushNotificationPrefix + title;
@@ -280,7 +280,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		Date expireTimestamp = null;
 
 		expireTimestamp = expirations.get(topicKey);
-		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId());
 		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId(), notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
@@ -422,8 +421,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return notificationPushItemDto;
 	}
 
-	private String getIncidentType(NotificationDto notificationDto) {
-		String topic = notificationDto.getTopic();
+	private String getIncidentType(MessageInformation messageInformation) {
+		String topic = messageInformation.getTopic();
 	
 		switch (topic) {
 			case NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS:
