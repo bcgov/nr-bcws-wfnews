@@ -425,13 +425,13 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		String topic = messageInformation.getTopic();
 	
 		switch (topic) {
-			case NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS:
+			case "British_Columbia_Bans_and_Prohibition_Areas":
 				return "ban or prohibition";
-			case NotificationTopics.EVACUATION_ORDERS_AND_ALERTS:
+			case "Evacuation_Orders_and_Alerts":
 				return "evacuation order or alert";
-			case NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS:
+			case "British_Columbia_Area_Restrictions":
 				return "area restriction";
-			case NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW:
+			case "BCWS_ActiveFires_PublicView":
 				return "wildfire";
 			default:
 				return "incident";
