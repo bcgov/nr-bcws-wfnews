@@ -93,32 +93,38 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   getFireCentre(location) {
-    const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
-    const distanceInDegrees = this.distanceInKm * degreesPerPixel;
-    let latitude = location.point.coordinates[1];
-    let longitude = location.point.coordinates[0];
-    const minLongitude = longitude - distanceInDegrees;
-    const maxLongitude = longitude + distanceInDegrees;
-    const minLatitude = latitude - distanceInDegrees;
-    const maxLatitude = latitude + distanceInDegrees;
-    const rectangleCoordinates = [
-      { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
-      { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
-      { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
-      { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
-      { latitude: maxLatitude, longitude: minLongitude }  // Closing the polygon
-    ];
-    this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
-      response => {
-        if (response.features) {
-          const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
-          this.fireCentre = fireCentre;
-          this.cdr.markForCheck()
+    try {
+      const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
+      const distanceInDegrees = this.distanceInKm * degreesPerPixel;
+      let latitude = location.point.coordinates[1];
+      let longitude = location.point.coordinates[0];
+      const minLongitude = longitude - distanceInDegrees;
+      const maxLongitude = longitude + distanceInDegrees;
+      const minLatitude = latitude - distanceInDegrees;
+      const maxLatitude = latitude + distanceInDegrees;
+      const rectangleCoordinates = [
+        { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
+        { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
+        { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
+        { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
+        { latitude: maxLatitude, longitude: minLongitude }  // Closing the polygon
+      ];
+      this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
+        response => {
+          if (response.features) {
+            const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
+            this.fireCentre = fireCentre;
+            this.cdr.markForCheck()
+          }
         }
-      }
-    ).catch(error => {
-      console.error('Could not retrieve fire centre for saved location', error)
-    })
+      ).catch(error => {
+        alert(error)
+        console.error('Could not retrieve fire centre for saved location', error)
+      })
+    } catch (error) {
+      alert(error)
+    }
+
   }
 
 
