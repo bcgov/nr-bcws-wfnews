@@ -7,10 +7,10 @@
   <div class="section">
       <div class="section-header-row">
           <span class="section-header">Saved Locations</span>
-          <span class="section-button" (click)="addNewLocation()">
-              <img src="/assets/images/svg-icons/Type.svg" class="button-icon" >
-              Add new
-          </span>
+        <span class="section-button" (click)="addNewLocation()" *ngIf="savedLocations?.length < 3">
+            <img src="/assets/images/svg-icons/Type.svg" class="button-icon">
+            Add new
+        </span>
       </div>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content">
