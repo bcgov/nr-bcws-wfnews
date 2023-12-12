@@ -135,12 +135,12 @@ export class SavedComponent implements OnInit {
             }
           }
         ).catch(error => {
-          alert(error)
+          alert(JSON.stringify(error))
           console.error('can not get fire centre', error)
         })
       });
     } catch (error) {
-      alert(error)
+      alert(JSON.stringify(error))
     }
   }
 

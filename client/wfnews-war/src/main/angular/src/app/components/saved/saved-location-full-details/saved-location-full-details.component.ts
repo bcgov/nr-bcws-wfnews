@@ -118,11 +118,11 @@ export class SavedLocationFullDetailsComponent implements OnInit {
           }
         }
       ).catch(error => {
-        alert(error)
+        alert(JSON.stringify(error))
         console.error('Could not retrieve fire centre for saved location', error)
       })
     } catch (error) {
-      alert(error)
+      alert(JSON.stringify(error))
     }
 
   }
