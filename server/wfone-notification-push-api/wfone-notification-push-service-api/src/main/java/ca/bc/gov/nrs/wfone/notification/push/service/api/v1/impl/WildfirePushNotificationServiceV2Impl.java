@@ -271,7 +271,7 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		keyValueMapForPN.put("messageID", messageInformation.getMessageId());
 
 		String incidentType = getIncidentType(messageInformation);
-		String title = "New \"" + incidentType +"\"";
+		String title = "New " + incidentType;
 		if (StringUtils.isNotBlank(pushNotificationPrefix)) {
 			title = pushNotificationPrefix + title;
 		}
