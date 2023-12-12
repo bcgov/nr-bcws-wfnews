@@ -270,8 +270,8 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		keyValueMapForPN.put("topicKey", topicKey);
 		keyValueMapForPN.put("messageID", messageInformation.getMessageId());
 
-		String incidentType = getIncidentType(notificationDto);
-		String title = "New \"" + incidentType +"\"";
+		String incidentType = getIncidentType(messageInformation);
+		String title = "New " + incidentType;
 		if (StringUtils.isNotBlank(pushNotificationPrefix)) {
 			title = pushNotificationPrefix + title;
 		}
@@ -280,7 +280,6 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		Date expireTimestamp = null;
 
 		expireTimestamp = expirations.get(topicKey);
-		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId());
 		body = ((isTest) ? "TEST: " : "") + String.format(TOPIC_MESSAGE_BODIES.get(topicKey), messageInformation.getMessageId(), notificationDto.getNotificationName());
 
 		com.google.firebase.messaging.Message message = prepareNearMePushNotification(title, body, notificationSettingsDto.getNotificationToken(), keyValueMapForPN);
@@ -422,17 +421,17 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 		return notificationPushItemDto;
 	}
 
-	private String getIncidentType(NotificationDto notificationDto) {
-		String topic = notificationDto.getTopic();
+	private String getIncidentType(MessageInformation messageInformation) {
+		String topic = messageInformation.getTopic();
 	
 		switch (topic) {
-			case NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS:
+			case "British_Columbia_Bans_and_Prohibition_Areas":
 				return "ban or prohibition";
-			case NotificationTopics.EVACUATION_ORDERS_AND_ALERTS:
+			case "Evacuation_Orders_and_Alerts":
 				return "evacuation order or alert";
-			case NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS:
+			case "British_Columbia_Area_Restrictions":
 				return "area restriction";
-			case NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW:
+			case "BCWS_ActiveFires_PublicView":
 				return "wildfire";
 			default:
 				return "incident";
