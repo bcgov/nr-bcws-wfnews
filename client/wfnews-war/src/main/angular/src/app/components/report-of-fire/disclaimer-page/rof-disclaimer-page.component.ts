@@ -3,6 +3,8 @@ import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { CapacitorService } from '@app/services/capacitor-service';
+import { MatDialog } from '@angular/material/dialog';
+import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
 
 
 @Component({
@@ -18,7 +20,8 @@ export class RoFDisclaimerPage extends RoFPage {
 
   public constructor(
     private commonUtilityService: CommonUtilityService,
-    private capacitor: CapacitorService
+    private capacitor: CapacitorService,
+    protected dialog: MatDialog,
     ) {
     super();
   }
@@ -53,6 +56,16 @@ export class RoFDisclaimerPage extends RoFPage {
         this.currentBrowser = 'Unknown Browser';
         break;
     }
+
+    let dialogRef = this.dialog.open(WildfireNotificationDialogComponent, {
+      autoFocus: false,
+      width: '80vw',
+      data: {
+        title: "TEST PURPOSE",
+        text: JSON.stringify(userAgent),
+        text2:  this.currentBrowser,
+      }
+    });
 
     if (this.currentBrowser !== 'Unknown Browser') {
       this.commonUtilityService.checkOnline().then((result) => {
