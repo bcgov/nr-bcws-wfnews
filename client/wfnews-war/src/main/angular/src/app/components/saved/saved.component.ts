@@ -128,6 +128,7 @@ export class SavedComponent implements OnInit {
       // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
       locations.forEach((location, outerIndex) => {
         const rectangleCoordinates = this.bboxHelper(location)
+        this.errorUrl = this.notificationService.getFireCentreUrlByLocation(rectangleCoordinates)
         this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
           response => {
             if (response.features) {
@@ -140,7 +141,6 @@ export class SavedComponent implements OnInit {
           this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
           console.error('can not get fire centre', error)
         })
-        this.errorUrl = this.notificationService.getFireCentreUrlByLocation(rectangleCoordinates)
       });
     } catch (error) {
       this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
