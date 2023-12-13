@@ -7,9 +7,9 @@ body {
 }
 
 :root {
-    --sat: env(safe-area-inset-top);
+    --sat: env(safe-area-inset-top, 20px);
     --sar: env(safe-area-inset-right);
-    --sab: env(safe-area-inset-bottom);
+    --sab: env(safe-area-inset-bottom, 20px);
     --sal: env(safe-area-inset-left);
 }
 

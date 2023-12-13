@@ -7,6 +7,7 @@ import { setDisplayColor } from "../../../utils"
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AppConfigService } from '@wf1/core-ui';
 import { Router } from '@angular/router';
+import { WatchlistService } from '@app/services/watchlist-service';
 
 export class EvacData {
   public name: string;
@@ -31,8 +32,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   convertToDateTime = convertToDateTime;
   openLink = openLink;
 
-  constructor(private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, protected router: Router) {
-
+  constructor(private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private appConfigService: AppConfigService, private cdr: ChangeDetectorRef, protected router: Router, private watchlistService: WatchlistService) {
   }
 
   async ngOnInit(): Promise<void> {
@@ -158,6 +158,16 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   navToBulletinUrl() {
     if (this.evacData && this.evacData.bulletinUrl) window.open(this.evacData.bulletinUrl)
+  }
+
+  onWatchlist(incident): boolean {
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
+  }
+
+  addToWatchlist(incident) {
+    if (!this.onWatchlist(incident)) {
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
+    }
   }
 
 
