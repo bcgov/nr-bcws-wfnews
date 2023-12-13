@@ -969,7 +969,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_api" {
           },
           {
             name  = "DATASOURCE_PASSWORD",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
+            value = var.WFONE_DB_PASS
           },
           {
             name  = "DATASOURCE_URL",
@@ -1156,7 +1156,7 @@ resource "aws_ecs_task_definition" "wfone_notifications_push_api" {
           },
           {
             name  = "WFONE_DB_PASS",
-            value = var.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD
+            value = var.WFONE_DB_PASS
           },
           {
             name  = "WFONE_PUSH_NOTIFICATION_DATASOURCE_URL",

@@ -864,11 +864,6 @@ variable "FIREWEATHER_STATIONS_KEY" {
   default = ""
 }
 
-variable "WFNEWS_BASEURL" {
-  type    = string
-  default = ""
-}
-
 variable "WFNEWS_QUEUESIZE" {
   type    = string
   default = ""
@@ -882,11 +877,6 @@ variable "WEBADE_OAUTH2_CLIENT_SECRET" {
 # WFONE-NOTIFICATIONS-API Environment Variables
 
 variable "WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS" {
-  type    = string
-  default = ""
-}
-
-variable "WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD" {
   type    = string
   default = ""
 }

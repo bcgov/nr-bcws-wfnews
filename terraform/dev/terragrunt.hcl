@@ -90,7 +90,6 @@ locals {
   # WFONE_NOTIFICATIONS_API
   WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS = get_env("WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS")
   WFONE_NOTIFICATIONS_API_DATASOURCE_USER = get_env("WFONE_NOTIFICATIONS_API_DATASOURCE_USER")
-  WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD = get_env("WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD")
   WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL = get_env("WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL")
   WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL = get_env("WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL")
   WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED = get_env("WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED")
@@ -113,12 +112,15 @@ generate "dev_tfvars" {
   if_exists         = "overwrite"
   disable_signature = true
   contents          = <<-EOF
+
+
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     cloudfront_header = "${local.cloudfront_header}"
     app_image = "tomcat:jdk8-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
+
     target_env = "${local.target_env}"
     target_aws_account_id = "718963518348"
     server_image     = "${local.server_image}"
@@ -131,11 +133,12 @@ generate "dev_tfvars" {
     server_cpu_units = "${local.server_cpu_units}"
     server_memory = "${local.server_memory}"
     db_instance_type = "${local.db_instance_type}"
-    db_size="${local.db_size}"
+    db_size = "${local.db_size}"
     logging_level = "${local.logging_level}"
     app_count = "${local.app_count}"
     api_key = "${local.api_key}"
     db_pass = "${local.db_pass}"
+
     alb_name = "${local.alb_name}"
     client_port = 8080
     server_port=8080
@@ -194,7 +197,6 @@ generate "dev_tfvars" {
     LAMBDA_LAYER_KEY = "${local.LAMBDA_LAYER_KEY}"
     WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS = "${local.WFONE_NOTIFICATIONS_API_DATASOURCE_MAX_CONNECTIONS}"
     WFONE_NOTIFICATIONS_API_DATASOURCE_USER = "${local.WFONE_NOTIFICATIONS_API_DATASOURCE_USER}"
-    WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD = "${local.WFONE_NOTIFICATIONS_API_DATASOURCE_PASSWORD}"
     WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL = "${local.WFONE_NOTIFICATIONS_API_EMAIL_ADMIN_EMAIL}"
     WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL = "${local.WFONE_NOTIFICATIONS_API_EMAIL_FROM_EMAIL}"
     WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED = "${local.WFONE_NOTIFICATIONS_API_EMAIL_NOTIFICATIONS_ENABLED}"

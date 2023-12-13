@@ -108,7 +108,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   notificationState = 0;
   wildfireYear = new Date().getFullYear().toString();
 
-
+  safeAreaInsetTopValue
+  safeAreaInsetBottomValue: string;
 
   public searchData: SearchResult
 
@@ -417,6 +418,13 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+       // Get the value of env(safe-area-inset-bottom)
+       const safeAreaInsetBottom = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-inset-bottom"));
+       const safeAreaInsetTop= parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-inset-top"));
+
+       // Set the value in the component property
+       this.safeAreaInsetBottomValue = isNaN(safeAreaInsetBottom) ? 'N/A' : `${safeAreaInsetBottom}px`;
+       this.safeAreaInsetTopValue = isNaN(safeAreaInsetTop) ? 'N/A' : `${safeAreaInsetTop}px`;
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
     this.showAccordion = true;

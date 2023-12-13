@@ -15,6 +15,13 @@ on:
     
 jobs:
 
+  call-lambda-zip:
+    uses: ./.github/workflows/lambda-zip.yml
+    secrets: inherit
+    with:
+      ENVIRONMENT: DEV
+      REGISTRY: ${{ vars.REGISTRY }}
+
   tag-images:
     runs-on: ubuntu-22.04
     environment: TEST
@@ -62,12 +69,31 @@ jobs:
           docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:main ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
           docker push ${{env.REGISTRY}}/${{github.repository_owner}}/${{ vars.NGINX_IMAGE }}:${{ env.IMAGE_TAG }}
 
+      - name: Tag notifications-api image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:main ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notifications-api:${{ env.IMAGE_TAG }}
+
+      - name: Tag notification-push-api image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:main ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+
+      - name: Tag wfss-pointid-api image
+        run: |
+          docker pull ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:main
+          docker tag ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:main ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+          docker push ${{env.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
+
       - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
         id: get-release-tag
       
 
+        
   terragrunt-deploy-test:
-    needs: tag-images
+    needs: [tag-images, call-lambda-zip]
     uses: ./.github/workflows/terragrunt-deploy.yml
     with:
       DEFAULT_APPLICATION_ENVIRONMENT: TEST
@@ -75,25 +101,34 @@ jobs:
       IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
       TARGET_ENV: test
 
+      MAX_RECEIVED_COUNT: 10
       VISIBILITY_TIMEOUT_SECONDS: 100
-      ACCEPTED_IPS: ""
       PUSH_NOTIFICATION_AWS_USER: ""
       EVENT_BRIDGE_ARN: ""
       WFNEWS_URL: ""
-      SECRET_NAME: ""
       BAN_PROHIBITION_MONITOR_KEY: ""
       ACTIVE_FIRE_MONITOR_KEY: ""
       AREA_RESTRICTIONS_MONITOR_KEY: ""
       EVACUATION_MONITOR_KEY: ""
       LAMBDA_LAYER_KEY: ""
 
-    secrets:
-      API_KEY: ${{ secrets.API_KEY_TEST }}
-      CLOUDFRONT_HEADER: ${{ secrets.CLOUDFRONT_HEADER_TEST }}
-      DB_PASS: ${{ secrets.TEST_DB_PASS }}
-      LICENSE_PLATE: ${{ secrets.LICENSE_PLATE }}
-      SMTP_PASSWORD: ${{ secrets.TEST_SMTP_PASSWORD }}
-      SNS_EMAIL_TARGETS: ${{ secrets.SNS_EMAIL_TARGETS_TEST }}
-      TFC_TEAM_TOKEN: ${{ secrets.TFC_TEAM_TOKEN }}
-      WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET: ${{ secrets.TEST_WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET }}
-      WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET: ${{ secrets.TEST_WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}}
+    secrets: inherit
+
+  ios-deploy:
+    uses: ./.github/workflows/ios.yml
+    needs: [tag-images]
+    with:
+      build_environment: TEST
+      upload_to_app_store: true
+      skip_slack_notification: false
+    secrets: inherit
+
+  android-deploy:
+    uses: ./.github/workflows/android.yml
+    needs: [tag-images]
+    with:
+      build_environment: TEST
+      upload_to_play_store: true
+      increment_version_number: true
+      skip_slack_notification: false
+    secrets: inherit
