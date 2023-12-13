@@ -54,7 +54,15 @@ export class FullDetailsComponent implements OnInit, OnDestroy {
                 longitude: this.params['sourceLongitude'], latitude: this.params['sourceLatitude']
               }
             });
-        } else this.router.navigate(this.params['source']);
+        } else if (this.params['source'] == 'incidents' && this.params['sourceYear']
+        && this.params['sourceNumber']) {
+        this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT],
+          {
+            queryParams: {
+              fireYear: this.params['sourceYear'], incidentNumber: this.params['sourceNumber']
+            }
+          });
+      } else this.router.navigate(this.params['source']);
       } else throw new Error('No previous screen to route too')
     } catch (err) {
       console.error(err);

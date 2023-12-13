@@ -32,15 +32,29 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   navigateToEvac(evac) {
-    let type = null;
-    if (evac.orderAlertStatus=== 'Alert') type = "evac-alert";
-    else if (evac.orderAlertStatus  === 'Order') type = "evac-order";
-    this.route.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: type, id: evac.emrgOAAsysID, source: [ResourcesRoutes.PUBLIC_INCIDENT] } });
+    if (evac && this.incident) {
+      let type = null;
+      if (evac.orderAlertStatus === 'Alert') type = "evac-alert";
+      else if (evac.orderAlertStatus === 'Order') type = "evac-order";
+      this.route.navigate([ResourcesRoutes.FULL_DETAILS],
+        {
+          queryParams: {
+            type: type, id: evac.emrgOAAsysID, source: [ResourcesRoutes.PUBLIC_INCIDENT],
+            sourceYear: this.incident.fireYear, sourceNumber: this.incident.incidentNumberLabel ? this.incident.incidentNumberLabel : this.incident.incidentNumber
+          }
+        });
+    }
   }
 
   navigateToAreaRestriction(area) {
-    if (area && area.protRsSysID) 
-      this.route.navigate([ResourcesRoutes.FULL_DETAILS], { queryParams: { type: 'area-restriction', id: area.protRsSysID, source: [ResourcesRoutes.PUBLIC_INCIDENT] }});
+    if (area && area.protRsSysID && this.incident)
+      this.route.navigate([ResourcesRoutes.FULL_DETAILS],
+        {
+          queryParams: {
+            type: 'area-restriction', id: area.protRsSysID, source: [ResourcesRoutes.PUBLIC_INCIDENT],
+            sourceYear: this.incident.fireYear, sourceNumber: this.incident.incidentNumberLabel ? this.incident.incidentNumberLabel : this.incident.incidentNumber
+          }
+        });
   }
 
   scrollToSection(sectionId) {
