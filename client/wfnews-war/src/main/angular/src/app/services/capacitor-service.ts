@@ -315,7 +315,7 @@ export class CapacitorService {
     showNotificationSnackbar( title: string, body: string ) {
         let cfg: MatSnackBarConfig<NotificationConfig> = {
             data: { title, body },
-            // duration: 20 * 1000,
+            duration: 10 * 1000,
             verticalPosition: 'top'
         }
 
