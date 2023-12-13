@@ -419,12 +419,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
        // Get the value of env(safe-area-inset-bottom)
-       const safeAreaInsetBottom = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-inset-bottom"));
-       const safeAreaInsetTop= parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--safe-area-inset-top"));
-
-       // Set the value in the component property
-       this.safeAreaInsetBottomValue = isNaN(safeAreaInsetBottom) ? 'N/A' : `${safeAreaInsetBottom}px`;
-       this.safeAreaInsetTopValue = isNaN(safeAreaInsetTop) ? 'N/A' : `${safeAreaInsetTop}px`;
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
     this.showAccordion = true;
@@ -1053,7 +1047,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 
-
+  isSafeAreaNotDetectable() {
+    const deviceInfo = navigator.userAgent
+    if (this.capacitorService.isWebPlatform && /iPhone|Pixel/.test(deviceInfo) && /Chrome|Safari/.test(deviceInfo)) {
+      return true
+    }
+  }
 
   onPushNotificationClick() {
     let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]
