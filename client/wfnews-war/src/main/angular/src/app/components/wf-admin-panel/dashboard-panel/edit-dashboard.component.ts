@@ -44,12 +44,12 @@ export class AdminEditDashboard implements OnInit {
     this.situationReport = new SituationReport
     this.publishedIncidentService.fetchSituationReportList(0, 9999, true).toPromise()
     .then(results => {
-      if (results && results.collection) {
+      if (results?.collection) {
         if (results.collection.length > 1) {
           results.collection.sort((a,b) =>(a.situationReportDate > b.situationReportDate) ? 1 : ((b.situationReportDate > a.situationReportDate) ? -1 : 0))
         }
 
-        this.previousSituationReport = results.collection[0]
+        this.previousSituationReport = results.collection[results.collection.length - 1]
 
         this.situationReport.aviationCount = this.previousSituationReport.aviationCount
         this.situationReport.crewCount = this.previousSituationReport.crewCount
@@ -59,7 +59,7 @@ export class AdminEditDashboard implements OnInit {
         this.situationReport.situationOverview = this.previousSituationReport.situationOverview
       }
 
-      this.cdr.detectChanges()
+      this.cdr.markForCheck()
     }).catch(err => {
       this.snackbarService.open('Failed to load Situation Report. If the issue persist contact support: ' + JSON.stringify(err), 'OK', { duration: 100000, panelClass: 'snackbar-error' });
     })

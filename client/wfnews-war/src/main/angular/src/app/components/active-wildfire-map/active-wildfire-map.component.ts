@@ -418,7 +418,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-       // Get the value of env(safe-area-inset-bottom)
     this.url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1)
     this.snowPlowHelper(this.url)
     this.showAccordion = true;
