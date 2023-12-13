@@ -69,8 +69,8 @@ env:
   REPOSITORY: ghcr.io
 
 jobs:
-  deploy:
-    name: Deploy
+  plan:
+    name: Plan
     runs-on: ubuntu-22.04
     environment: ${{ inputs.DEFAULT_APPLICATION_ENVIRONMENT }}
     permissions:
