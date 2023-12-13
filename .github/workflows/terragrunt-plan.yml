@@ -28,35 +28,7 @@ on:
         required: false
         type: number
         default: 10
-      PUSH_NOTIFICATION_AWS_USER:
-        required: false
-        type: string
-        default: ""
-      EVENT_BRIDGE_ARN:
-        required: false
-        type: string
-        default: ""
       WFNEWS_URL:
-        required: false
-        type: string
-        default: ""
-      BAN_PROHIBITION_MONITOR_KEY:
-        required: false
-        type: string
-        default: ""
-      ACTIVE_FIRE_MONITOR_KEY:
-        required: false
-        type: string
-        default: ""
-      AREA_RESTRICTIONS_MONITOR_KEY:
-        required: false
-        type: string
-        default: ""
-      EVACUATION_MONITOR_KEY:
-        required: false
-        type: string
-        default: ""
-      LAMBDA_LAYER_KEY:
         required: false
         type: string
         default: ""
@@ -176,14 +148,14 @@ jobs:
           MAX_RECEIVED_COUNT: ${{inputs.MAX_RECEIVED_COUNT }}
           VISIBILITY_TIMEOUT_SECONDS: ${{inputs.VISIBILITY_TIMEOUT_SECONDS }}
           ACCEPTED_IPS: ${{vars.ACCEPTED_IPS }}
-          PUSH_NOTIFICATION_AWS_USER: ${{inputs.PUSH_NOTIFICATION_AWS_USER }}
-          EVENT_BRIDGE_ARN: ${{inputs.EVENT_BRIDGE_ARN }}
+          PUSH_NOTIFICATION_AWS_USER: ""
+          EVENT_BRIDGE_ARN: ""
           SECRET_NAME: ${{secrets.DB_LAMBDA_SECRET_NAME }}
-          BAN_PROHIBITION_MONITOR_KEY: ${{inputs.BAN_PROHIBITION_MONITOR_KEY }}
-          ACTIVE_FIRE_MONITOR_KEY: ${{inputs.ACTIVE_FIRE_MONITOR_KEY }}
-          AREA_RESTRICTIONS_MONITOR_KEY: ${{inputs.AREA_RESTRICTIONS_MONITOR_KEY }}
-          EVACUATION_MONITOR_KEY: ${{inputs.EVACUATION_MONITOR_KEY }}
-          LAMBDA_LAYER_KEY: ${{inputs.LAMBDA_LAYER_KEY }}
+          BAN_PROHIBITION_MONITOR_KEY: ""
+          ACTIVE_FIRE_MONITOR_KEY: ""
+          AREA_RESTRICTIONS_MONITOR_KEY: ""
+          EVACUATION_MONITOR_KEY: ""
+          LAMBDA_LAYER_KEY: ""
 
           # POINTID API VARIABLES
           DATABASE_WEATHER_URL: ${{ vars.DATABASE_WEATHER_URL }}
