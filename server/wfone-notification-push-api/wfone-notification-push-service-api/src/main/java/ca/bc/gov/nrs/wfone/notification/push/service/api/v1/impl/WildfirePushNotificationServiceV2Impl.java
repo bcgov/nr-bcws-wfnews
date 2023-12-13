@@ -75,10 +75,10 @@ public class WildfirePushNotificationServiceV2Impl implements WildfirePushNotifi
 
 	static {
 		Map<String, String> result = new HashMap<>();
-		result.put(NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS, "There is a new burn prohibition in [%s] Fire Centre near your saved location [%s]. Tap for more info.");
-		result.put(NotificationTopics.EVACUATION_ORDERS_AND_ALERTS, "There is a new evacuation order or alert issued by [%s] near your saved location [%s]. Tap for more info.");
-		result.put(NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS, "There is a new area restriction for [%s] near your saved location [%s]. Tap for more info.");
-		result.put(NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW, "There is a new wildfire [%s] near your saved location [%s]. Tap for more info.");
+		result.put(NotificationTopics.BRITISH_COLUMBIA_BANS_AND_PROHIBITION_AREAS, "There is a new burn prohibition in %s Fire Centre near your saved location %s. Tap for more info.");
+		result.put(NotificationTopics.EVACUATION_ORDERS_AND_ALERTS, "There is a new evacuation order or alert issued by %s near your saved location %s. Tap for more info.");
+		result.put(NotificationTopics.BRITISH_COLUMBIA_AREA_RESTRICTIONS, "There is a new area restriction for %s near your saved location %s. Tap for more info.");
+		result.put(NotificationTopics.BCWF_ACTIVEFIRES_PUBLIVIEW, "There is a new wildfire %s near your saved location %s. Tap for more info.");
 		TOPIC_MESSAGE_BODIES = Collections.unmodifiableMap(result);
 	}
 
