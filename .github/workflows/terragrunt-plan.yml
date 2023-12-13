@@ -102,7 +102,7 @@ jobs:
         with:
           terragrunt_version: ${{ env.TG_VERSION }}
       
-      - name: Terragrunt Apply
+      - name: Terragrunt Plan
         working-directory: ${{env.TG_SRC_PATH}}/${{ inputs.TARGET_ENV }}
         env:
           # AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID }}
