@@ -93,7 +93,6 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   getFireCentre(location) {
-    try {
       const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
       const distanceInDegrees = this.distanceInKm * degreesPerPixel;
       let latitude = location.point.coordinates[1];
@@ -118,12 +117,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
           }
         }
       ).catch(error => {
-        alert(JSON.stringify(error))
         console.error('Could not retrieve fire centre for saved location', error)
       })
-    } catch (error) {
-      alert(JSON.stringify(error))
-    }
 
   }
 

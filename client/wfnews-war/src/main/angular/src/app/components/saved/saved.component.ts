@@ -21,6 +21,7 @@ export class SavedComponent implements OnInit {
   public savedWildfires: any = [];
   public distanceInKm: number = 1;
   public wildFireWatchlist: any[] = [];
+  public errorString: string;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToDateYear = convertToDateYear
   isMobileView = isMobileView
@@ -135,12 +136,12 @@ export class SavedComponent implements OnInit {
             }
           }
         ).catch(error => {
-          alert(JSON.stringify(error))
+          this.errorString = JSON.stringify(error)
           console.error('can not get fire centre', error)
         })
       });
     } catch (error) {
-      alert(JSON.stringify(error))
+      this.errorString = JSON.stringify(error)
     }
   }
 
