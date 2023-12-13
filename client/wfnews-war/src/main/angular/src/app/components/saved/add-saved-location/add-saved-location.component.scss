@@ -218,6 +218,14 @@
     width: -webkit-fill-available;
 }
 
+.divider-with-margin{
+    background: #DEDEDE;
+    height: 1px;
+    width: -webkit-fill-available;
+    margin-top: 16px;
+    margin-bottom: 32px;
+}
+
 .large-divider{
     background: #F1F1F1;
     height: 8px;
