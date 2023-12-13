@@ -109,7 +109,7 @@
   margin: 0 auto;
   padding-top: 0em;
   padding-right: 0;
-  padding-bottom: calc(1em + env(safe-area-inset-bottom));
+  padding-bottom: calc(1em + env(safe-area-inset-bottom, 20px));
   padding-left: 0;
   list-style: none;
   display: flex;
@@ -147,10 +147,10 @@
   padding: 8px 0px;
   align-items: center;
   width: calc(100% - 64px);
-  bottom: calc(3em + env(safe-area-inset-bottom));
+  bottom: calc(3em + env(safe-area-inset-bottom, 20px));
   position: fixed;
   @media (max-height: 699px){
-    bottom: calc(2em + env(safe-area-inset-bottom));
+    bottom: calc(2em + env(safe-area-inset-bottom, 20px));
   }
   .rof-button {
     padding:0 32px;
