@@ -3,15 +3,7 @@
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
             <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
         </div>
-        <div id="map-container" class="map">
-          <div style="position: absolute; z-index: 99999999999999999999;">
-            <div>
-              Value of safe-area-inset-bottom: {{ safeAreaInsetBottomValue }}
-            </div>
-            <div>
-              Value of safe-area-inset-top: {{ safeAreaInsetTopValue }}
-            </div>
-          </div>
+        <div id="map-container" class="map" [class.map01]="isSafeAreaNotDetectable()">
         <div class="identify-panel"></div>
         <div class="search-row">
           <div class="search-bar">
