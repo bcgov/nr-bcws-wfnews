@@ -7,6 +7,7 @@ import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfCo
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { setDisplayColor } from '@app/utils';
+import { WatchlistService } from '@app/services/watchlist-service';
 
 export class AreaRestriction {
   public name: string;
@@ -43,7 +44,12 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   public getStageOfControlLabel = getStageOfControlLabel;
   public getStageOfControlIcon = getStageOfControlIcon;
 
-  constructor(private cdr: ChangeDetectorRef, private appConfigService: AppConfigService, private agolService: AGOLService, private publishedIncidentService: PublishedIncidentService, private route: Route) { }
+  constructor(private cdr: ChangeDetectorRef, private appConfigService: AppConfigService,
+    private agolService: AGOLService,
+    private publishedIncidentService: PublishedIncidentService,
+    private route: Route,
+    private watchlistService: WatchlistService
+  ) { }
 
   async ngOnInit(): Promise<void> {
     await this.populateAreaRestrictionByID({ returnGeometry: true, returnCentroid: true, returnExtent: false })
@@ -171,6 +177,16 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
   navToBulletinUrl() {
     window.open(this.restrictionData.bulletinUrl, '_blank')
+  }
+
+  onWatchlist(incident): boolean {
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
+  }
+
+  addToWatchlist(incident) {
+    if (!this.onWatchlist(incident)) {
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
+    }
   }
 
 }

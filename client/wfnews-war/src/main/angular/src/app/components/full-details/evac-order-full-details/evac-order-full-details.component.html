@@ -24,8 +24,8 @@
     <div class="info-container" *ngIf="incident">
         <div class="full-details-secondary-title">Associated Wildfire</div>
         <div class="fire-info-container">
-            <div class="wildfire-title">{{incident.incidentName}}<img class="wildfire-title-icon"
-                    src="/assets/images/svg-icons/bookmark.svg" alt="Calendar" /></div>
+            <div class="wildfire-title">{{incident.incidentName}}<img class="wildfire-title-icon" (click)="addToWatchlist(incident)"
+                [src]="onWatchlist(incident) ? '/assets/images/svg-icons/bookmark-blue.svg' : '/assets/images/svg-icons/bookmark.svg'" alt="Calendar" /></div>
             <hr class="break">
             <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
                     src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
