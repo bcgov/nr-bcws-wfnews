@@ -213,7 +213,7 @@ mat-panel-title {
   }
 
   .container {
-    height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top)) !important;
+    height: calc(100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)) !important;
     overflow: hidden;
   }
 
@@ -305,7 +305,7 @@ mat-panel-title {
       // One value must always be a fixed value!
       // additionally, this is a vh calc, not a height%, otherwise heights will be different across
       // devices
-      height: calc(100vh - env(safe-area-inset-bottom) - env(safe-area-inset-top) - 90px) !important;
+      height: calc(100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) - 90px) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -480,7 +480,7 @@ mat-panel-title {
 }
 
 .drawer-footer {
-  margin-bottom: calc(24px + env(safe-area-inset-bottom));
+  margin-bottom: calc(24px + env(safe-area-inset-bottom, 20px));
   direction: rtl;
 
   button {
