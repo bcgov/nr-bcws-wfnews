@@ -686,7 +686,7 @@ wf-admin-incident-desktop{
 mat-snack-bar-container{
   height: 100%;
   @media (max-width: 768px) {
-    margin-bottom: calc(12vh + env(safe-area-inset-bottom)) !important
+    margin-bottom: calc(12vh + env(safe-area-inset-bottom, 20px)) !important
   }
   .mdc-snackbar__surface {
     box-shadow: none !important;
