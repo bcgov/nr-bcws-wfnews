@@ -102,6 +102,9 @@
     <if test="published != null &amp;&amp; published == true">
       AND PUBLISHED_IND = 'Y'
     </if>
+		<if test="published != null &amp;&amp; published == false">
+      AND PUBLISHED_IND = 'N'
+    </if>
 		ORDER BY CREATED_TIMESTAMP
 		<if test="offset != null and pageRowCount != null">
 	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
@@ -115,7 +118,10 @@
 		 WHERE REPORT_GUID IS NOT NULL
 		   AND REPORT_GUID != ''
 		  <if test="published != null &amp;&amp; published == true">
-				AND PUBLISHED_IND = #{published, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+				AND PUBLISHED_IND = 'Y'
 		  </if>
+			<if test="published != null &amp;&amp; published == false">
+      AND PUBLISHED_IND = 'N'
+    </if>
 	</select>
 </mapper>
