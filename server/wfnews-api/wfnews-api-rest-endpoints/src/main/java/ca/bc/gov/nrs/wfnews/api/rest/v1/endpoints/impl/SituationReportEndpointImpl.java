@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.net.URI;
-import java.util.Date;
 
 import javax.ws.rs.core.EntityTag;
 import javax.ws.rs.core.Response;
@@ -20,8 +19,6 @@ import ca.bc.gov.nrs.common.service.NotFoundException;
 import ca.bc.gov.nrs.common.service.ValidationFailureException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.SituationReportEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.ExternalUriResource;
-import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.PublishedIncidentResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.SituationReportResource;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
