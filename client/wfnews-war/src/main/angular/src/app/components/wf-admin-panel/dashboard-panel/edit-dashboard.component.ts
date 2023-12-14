@@ -46,7 +46,7 @@ export class AdminEditDashboard implements OnInit {
     .then(results => {
       if (results?.collection) {
         if (results.collection.length > 1) {
-          results.collection.sort((a,b) =>(a.createdTimestamp > b.createdTimestamp) ? 1 : ((b.createdTimestamp > a.createdTimestamp) ? -1 : 0))
+          results.collection.sort((a,b) => (new Date(a.situationReportDate) > new Date(b.situationReportDate)) ? -1 : ((new Date(b.situationReportDate) > new Date(a.situationReportDate)) ? 1 : 0))
         }
 
         this.previousSituationReport = results.collection[0]
