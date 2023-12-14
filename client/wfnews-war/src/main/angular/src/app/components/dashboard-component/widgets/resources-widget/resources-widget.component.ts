@@ -20,8 +20,8 @@ export class ResourcesWidget implements AfterViewInit {
     .then(sitrep => {
       if (sitrep?.collection?.length > 0) {
         const validReports = sitrep.collection.filter(r => r.publishedInd && !r.archivedInd)
-        validReports.sort((a,b) =>(a.createdTimestamp > b.createdTimestamp) ? 1 : ((b.createdTimestamp > a.createdTimestamp) ? -1 : 0))
-        this.situationReport = validReports[validReports.length - 1]
+        validReports.sort((a,b) => (new Date(a.situationReportDate) > new Date(b.situationReportDate)) ? -1 : ((new Date(b.situationReportDate) > new Date(a.situationReportDate)) ? 1 : 0))
+        this.situationReport = validReports[0]
       }
 
       this.startupComplete = true
