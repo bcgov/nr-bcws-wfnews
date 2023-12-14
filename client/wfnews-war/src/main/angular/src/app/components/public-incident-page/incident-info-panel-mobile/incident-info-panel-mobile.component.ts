@@ -28,7 +28,11 @@ export class IncidentInfoPanelMobileComponent extends IncidentInfoPanel implemen
   }
 
   navigateToMap() {
-    this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP])
+    if (this.incident) {
+      setTimeout(() => {
+        this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.incident.longitude, latitude: this.incident.latitude } });
+      }, 200);
+    }
   }
 
   navigateToEvac(evac) {
