@@ -16,10 +16,9 @@ export class ResourcesWidget implements AfterViewInit {
   constructor(private publishedIncidentService: PublishedIncidentService) { }
 
   ngAfterViewInit (): void {
-    this.publishedIncidentService.fetchSituationReportList(0, 9999, true, true).toPromise()
+    this.publishedIncidentService.fetchSituationReportList(0, 10, true, true).toPromise()
     .then(sitrep => {
       if (sitrep?.collection?.length > 0) {
-        console.log(sitrep.collection)
         const validReports = sitrep.collection.filter(r => r.publishedInd && !r.archivedInd)
         validReports.sort((a,b) =>(a.createdTimestamp > b.createdTimestamp) ? 1 : ((b.createdTimestamp > a.createdTimestamp) ? -1 : 0))
         this.situationReport = validReports[validReports.length - 1]
