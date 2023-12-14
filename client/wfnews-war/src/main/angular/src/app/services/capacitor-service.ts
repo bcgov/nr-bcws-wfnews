@@ -245,7 +245,7 @@ export class CapacitorService {
                 let sb = this.showNotificationSnackbar( notification.title, notification.body )
 
                 sb.onAction().subscribe( () => {
-                    this.emitRofNotification( notification.title, notification.body )
+                    this.emitLocationNotification(notification.body )
                 } )
 
                 sb.afterDismissed().subscribe( () => {
