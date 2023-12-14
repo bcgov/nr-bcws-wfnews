@@ -42,11 +42,11 @@ export class AdminEditDashboard implements OnInit {
 
   ngOnInit () {
     this.situationReport = new SituationReport
-    this.publishedIncidentService.fetchSituationReportList(0, 9999, true).toPromise()
+    this.publishedIncidentService.fetchSituationReportList(0, 9999, true, true).toPromise()
     .then(results => {
-      if (results && results.collection) {
+      if (results?.collection) {
         if (results.collection.length > 1) {
-          results.collection.sort((a,b) =>(a.situationReportDate > b.situationReportDate) ? 1 : ((b.situationReportDate > a.situationReportDate) ? -1 : 0))
+          results.collection.sort((a,b) => (new Date(a.situationReportDate) > new Date(b.situationReportDate)) ? -1 : ((new Date(b.situationReportDate) > new Date(a.situationReportDate)) ? 1 : 0))
         }
 
         this.previousSituationReport = results.collection[0]
@@ -57,9 +57,24 @@ export class AdminEditDashboard implements OnInit {
         this.situationReport.incidentTeamCount = this.previousSituationReport.incidentTeamCount
         this.situationReport.structureProtectionCount = this.previousSituationReport.structureProtectionCount
         this.situationReport.situationOverview = this.previousSituationReport.situationOverview
+
+        // If we have more than 1 published report returned
+        // that means an archive process failed. Un-publish all reports except
+        // the latest one
+        const publishedReports = results.collection.filter(r => r.publishedInd)
+        if (publishedReports.length > 1) {
+          publishedReports.sort((a,b) => (new Date(a.situationReportDate) > new Date(b.situationReportDate)) ? -1 : ((new Date(b.situationReportDate) > new Date(a.situationReportDate)) ? 1 : 0))
+          for (const report of publishedReports) {
+            if (report.reportGuid !== this.previousSituationReport.reportGuid) {
+              report.publishedInd = false
+              report.archivedInd = true
+              this.publishedIncidentService.updateSituationReport(report).toPromise().catch(err => console.error(`Failed to unpublish report: ${err}`))
+            }
+          }
+        }
       }
 
-      this.cdr.detectChanges()
+      this.cdr.markForCheck()
     }).catch(err => {
       this.snackbarService.open('Failed to load Situation Report. If the issue persist contact support: ' + JSON.stringify(err), 'OK', { duration: 100000, panelClass: 'snackbar-error' });
     })
@@ -85,7 +100,7 @@ export class AdminEditDashboard implements OnInit {
     const result = await dialogRef.afterClosed().toPromise()
     if (!result?.publish) {
       this.publishDisabled = false
-      this.cdr.detectChanges()
+      this.cdr.markForCheck()
       return
     }
 

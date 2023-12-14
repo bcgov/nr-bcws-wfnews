@@ -1,7 +1,7 @@
 @import '../../../styles/variables';
 
 :host {
-    display: flex;
+    display: block;
     font-family: $font-family-main;
     font-size: 0.8rem;
 
@@ -13,7 +13,7 @@
         position: relative;
 
         .icon {
-            background-image: url( '../../../assets/images/logo/wildfire-one-logo.png' );
+            background-image: url( '../../../assets/images/logo/BC-Wildfire-Icon.png' );
             background-repeat: no-repeat;
             background-size: 40px;
             background-position: center;

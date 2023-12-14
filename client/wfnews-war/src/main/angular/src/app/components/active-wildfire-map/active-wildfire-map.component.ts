@@ -108,7 +108,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   notificationState = 0;
   wildfireYear = new Date().getFullYear().toString();
 
-
+  safeAreaInsetTopValue
+  safeAreaInsetBottomValue: string;
 
   public searchData: SearchResult
 
@@ -1045,7 +1046,12 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     return layerButtons?.scrollLeft < (layerButtons.scrollWidth - mapContainer.scrollWidth)
   }
 
-
+  isSafeAreaNotDetectable() {
+    const deviceInfo = navigator.userAgent
+    if (this.capacitorService.isWebPlatform && /iPhone|Pixel/.test(deviceInfo) && /Chrome|Safari/.test(deviceInfo)) {
+      return true
+    }
+  }
 
   onPushNotificationClick() {
     let n = this.testNotifications[ this.notificationState % this.testNotifications.length ]

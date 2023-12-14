@@ -50,9 +50,9 @@
 				#{dto.heavyEquipmentCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
 				#{dto.structureProtectionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
         #{dto.situationOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-        #{dto.situationReportDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+        #{dto.situationReportDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				#{dto.publishedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
-				#{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				#{dto.createdTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				#{dto.archivedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				#{dto.revisionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
 				#{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -71,9 +71,9 @@
 				HEAVY_EQUIPMENT_COUNT =      #{dto.heavyEquipmentCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
 				STRUCTURE_PROTECTION_COUNT = #{dto.structureProtectionCount, javaType=java.lang.Long, jdbcType=NUMERIC, mode=IN},
         SITUATION_OVERVIEW =         #{dto.situationOverview, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
-				SITUATION_REPORT_DATE =	     #{dto.situationReportDate, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				SITUATION_REPORT_DATE =	     #{dto.situationReportDate, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
         PUBLISHED_IND =              #{dto.publishedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
-				CREATED_TIMESTAMP =          #{dto.createdTimestamp, javaType=java.util.Date, jdbcType=DATE, mode=IN},
+				CREATED_TIMESTAMP =          #{dto.createdTimestamp, javaType=java.util.Date, jdbcType=TIMESTAMP, mode=IN},
 				ARCHIVED_IND =               #{dto.archivedInd, javaType=java.lang.Boolean, jdbcType=VARCHAR, mode=IN},
 				REVISION_COUNT =             REVISION_COUNT + 1,
 				CREATE_USER =                #{dto.createUser, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN},
@@ -100,8 +100,12 @@
      WHERE REPORT_GUID IS NOT NULL
 		   AND REPORT_GUID != ''
     <if test="published != null &amp;&amp; published == true">
-      AND PUBLISHED_IND = #{published, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+      AND PUBLISHED_IND = 'Y'
     </if>
+		<if test="published != null &amp;&amp; published == false">
+      AND PUBLISHED_IND = 'N'
+    </if>
+		ORDER BY CREATED_TIMESTAMP
 		<if test="offset != null and pageRowCount != null">
 	    OFFSET #{offset, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS
 	    FETCH NEXT #{pageRowCount, javaType=java.lang.Integer, jdbcType=INTEGER, mode=IN} ROWS ONLY
@@ -114,7 +118,10 @@
 		 WHERE REPORT_GUID IS NOT NULL
 		   AND REPORT_GUID != ''
 		  <if test="published != null &amp;&amp; published == true">
-				AND PUBLISHED_IND = #{published, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
+				AND PUBLISHED_IND = 'Y'
 		  </if>
+			<if test="published != null &amp;&amp; published == false">
+      AND PUBLISHED_IND = 'N'
+    </if>
 	</select>
 </mapper>

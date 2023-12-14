@@ -3,7 +3,7 @@
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
             <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
         </div>
-        <div id="map-container" class="map">
+        <div id="map-container" class="map" [class.map01]="isSafeAreaNotDetectable()">
         <div class="identify-panel"></div>
         <div class="search-row">
           <div class="search-bar">

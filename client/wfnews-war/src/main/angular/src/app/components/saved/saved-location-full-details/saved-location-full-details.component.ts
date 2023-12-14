@@ -10,6 +10,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { WatchlistService } from '@app/services/watchlist-service';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -43,7 +44,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private notificationService: NotificationService, private cdr: ChangeDetectorRef,
     private router: Router, private spatialUtilService: SpatialUtilsService, private pointIdService: PointIdService,
-    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService, protected dialog: MatDialog, protected snackbarService: MatSnackBar
+    private publishedIncidentService: PublishedIncidentService, private agolService: AGOLService, protected dialog: MatDialog, protected snackbarService: MatSnackBar,
+    private watchlistService: WatchlistService
   ) {
 
   }
@@ -93,7 +95,6 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   getFireCentre(location) {
-    try {
       const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
       const distanceInDegrees = this.distanceInKm * degreesPerPixel;
       let latitude = location.point.coordinates[1];
@@ -118,12 +119,8 @@ export class SavedLocationFullDetailsComponent implements OnInit {
           }
         }
       ).catch(error => {
-        alert(JSON.stringify(error))
         console.error('Could not retrieve fire centre for saved location', error)
       })
-    } catch (error) {
-      alert(JSON.stringify(error))
-    }
 
   }
 
@@ -315,7 +312,14 @@ export class SavedLocationFullDetailsComponent implements OnInit {
 
   }
 
+  onWatchlist(incident): boolean {
+    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
+  }
 
-
+  addToWatchlist(incident) {
+    if (!this.onWatchlist(incident)) {
+      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
+    }
+  }
 
 }

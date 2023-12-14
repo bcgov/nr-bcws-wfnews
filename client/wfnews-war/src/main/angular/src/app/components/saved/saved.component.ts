@@ -21,6 +21,8 @@ export class SavedComponent implements OnInit {
   public savedWildfires: any = [];
   public distanceInKm: number = 1;
   public wildFireWatchlist: any[] = [];
+  public errorString: string;
+  public errorUrl: string;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToDateYear = convertToDateYear
   isMobileView = isMobileView
@@ -126,6 +128,7 @@ export class SavedComponent implements OnInit {
       // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
       locations.forEach((location, outerIndex) => {
         const rectangleCoordinates = this.bboxHelper(location)
+        this.errorUrl = this.notificationService.getFireCentreUrlByLocation(rectangleCoordinates)
         this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
           response => {
             if (response.features) {
@@ -135,12 +138,12 @@ export class SavedComponent implements OnInit {
             }
           }
         ).catch(error => {
-          alert(JSON.stringify(error))
+          this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
           console.error('can not get fire centre', error)
         })
       });
     } catch (error) {
-      alert(JSON.stringify(error))
+      this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
     }
   }
 

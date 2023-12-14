@@ -30,9 +30,9 @@ export class SituationWidget implements AfterViewInit {
     .then(sitrep => {
       if (sitrep?.collection?.length > 0) {
         const validReports = sitrep.collection.filter(r => r.publishedInd && !r.archivedInd)
-        validReports.sort((a,b) => (a.situationReportDate > b.situationReportDate) ? 1 : (a.situationReportDate < b.situationReportDate) ? -1 : 0)
-        this.situationReport = validReports[validReports.length - 1]
-        this.situationReport.situationReportDate = moment(new Date(this.situationReport.situationReportDate)).format('MMM Do YYYY h:mm:ss a')
+        validReports.sort((a,b) => (new Date(a.situationReportDate) > new Date(b.situationReportDate)) ? -1 : ((new Date(b.situationReportDate) > new Date(a.situationReportDate)) ? 1 : 0))
+        this.situationReport = validReports[0]
+        this.situationReport.situationReportDate = moment(new Date(this.situationReport.createdTimestamp + 86000000)).format('MMM Do YYYY')
       }
 
       this.startupComplete = true
