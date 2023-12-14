@@ -84,7 +84,7 @@ jobs:
       - name: Tag wfss-pointid-api image
         run: |
           docker pull ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:main
-          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:main ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfone-notification-push-api:${{ env.IMAGE_TAG }}
+          docker tag ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:main ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
           docker push ${{vars.REGISTRY}}/${{github.repository_owner}}/nr-bcws-wfnews-wfss-pointid-api:${{ env.IMAGE_TAG }}
 
       - run: echo ::set-output name=tag-value::${{ env.IMAGE_TAG }}
