@@ -98,7 +98,10 @@ export class NotificationService {
         let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'] as string
         url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG%3A4326&typename=pub%3AWHSE_LEGAL_ADMIN_BOUNDARIES.DRP_MOF_FIRE_CENTRES_SP&outputformat=application%2Fjson&cql_filter=INTERSECTS(GEOMETRY%2CSRID%3D4326%3BPOLYGON%20(("
         url += formattedString + ')))'
-        return this.http.get(url).toPromise()
+        let headers = new HttpHeaders();
+        headers.append('Access-Control-Allow-Origin','*');
+        headers.append('Accept','*/*');
+        return this.http.get(url, { headers }).toPromise()
 
     }
 

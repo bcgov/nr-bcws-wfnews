@@ -313,6 +313,10 @@ mat-panel-title {
         display: none;
       }
     }
+    .map01 {
+      height: calc(100vh - 110px - 90px) !important;
+
+    }
   }
 
   .divider {

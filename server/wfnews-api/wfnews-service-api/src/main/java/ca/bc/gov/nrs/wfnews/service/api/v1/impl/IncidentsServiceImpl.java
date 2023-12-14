@@ -877,6 +877,8 @@ public class IncidentsServiceImpl extends BaseEndpointsImpl implements Incidents
 				dto.setCreateDate(new Date());
 				dto.setUpdateDate(new Date());
 				dto.setRevisionCount(Long.valueOf(0));
+				if (dto.getSituationReportDate() == null)
+					dto.setSituationReportDate(new Date());
 				if (dto.getCreatedTimestamp() == null)
 					dto.setCreatedTimestamp(new Date());
 				if (webAdeAuthentication != null && webAdeAuthentication.getUserId() != null)
