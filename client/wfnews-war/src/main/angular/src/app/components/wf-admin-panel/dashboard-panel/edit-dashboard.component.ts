@@ -42,14 +42,14 @@ export class AdminEditDashboard implements OnInit {
 
   ngOnInit () {
     this.situationReport = new SituationReport
-    this.publishedIncidentService.fetchSituationReportList(0, 9999, true).toPromise()
+    this.publishedIncidentService.fetchSituationReportList(0, 9999, true, true).toPromise()
     .then(results => {
       if (results?.collection) {
         if (results.collection.length > 1) {
-          results.collection.sort((a,b) =>(a.situationReportDate > b.situationReportDate) ? 1 : ((b.situationReportDate > a.situationReportDate) ? -1 : 0))
+          results.collection.sort((a,b) =>(a.createdTimestamp > b.createdTimestamp) ? 1 : ((b.createdTimestamp > a.createdTimestamp) ? -1 : 0))
         }
 
-        this.previousSituationReport = results.collection[results.collection.length - 1]
+        this.previousSituationReport = results.collection[0]
 
         this.situationReport.aviationCount = this.previousSituationReport.aviationCount
         this.situationReport.crewCount = this.previousSituationReport.crewCount
@@ -85,7 +85,7 @@ export class AdminEditDashboard implements OnInit {
     const result = await dialogRef.afterClosed().toPromise()
     if (!result?.publish) {
       this.publishDisabled = false
-      this.cdr.detectChanges()
+      this.cdr.markForCheck()
       return
     }
 

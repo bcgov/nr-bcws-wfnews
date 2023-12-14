@@ -245,7 +245,7 @@ export class CapacitorService {
                 let sb = this.showNotificationSnackbar( notification.title, notification.body )
 
                 sb.onAction().subscribe( () => {
-                    this.emitRofNotification( notification.title, notification.body )
+                    this.emitLocationNotification(notification.body )
                 } )
 
                 sb.afterDismissed().subscribe( () => {
@@ -315,7 +315,7 @@ export class CapacitorService {
     showNotificationSnackbar( title: string, body: string ) {
         let cfg: MatSnackBarConfig<NotificationConfig> = {
             data: { title, body },
-            // duration: 20 * 1000,
+            duration: 10 * 1000,
             verticalPosition: 'top'
         }
 
