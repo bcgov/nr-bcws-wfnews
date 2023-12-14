@@ -329,7 +329,8 @@ export class CapacitorService {
     showNotificationSnackbar( title: string, body: string ) {
         let cfg: MatSnackBarConfig<NotificationConfig> = {
             data: { title, body },
-            duration: 10 * 1000,
+            // need to change back to 10 sec. Using 60 sec for testing purpose in case QA missed it.
+            duration: 60 * 1000,
             verticalPosition: 'top'
         }
 
