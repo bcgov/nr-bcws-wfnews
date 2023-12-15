@@ -25,6 +25,10 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   db_subnet_group_name            = aws_db_subnet_group.wfnews_db_subnet_group.name
   enabled_cloudwatch_logs_exports = ["postgresql"]
   parameter_group_name            = "wfnews-manual"
+
+  lifecycle {
+    prevent_destroy = true
+  }
 }
 
 /*
