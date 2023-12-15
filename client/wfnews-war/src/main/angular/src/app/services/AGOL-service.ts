@@ -70,6 +70,32 @@ export class AGOLService {
     return this.http.get<any>(encodeURI(url), {headers})
   }
 
+  getFireZoneBoundaries (where: string | null, location: { x: number, y: number, radius: number | null} | null = null, options: AgolOptions = null): Observable<any> {
+    let url = this.appConfigService.getConfig().externalAppConfig['AGOLfireZoneBoundaries'].toString()
+    if (!url.endsWith('/')) {
+      url += '/'
+    }
+    url += `query?where=1=1&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=false&returnCentroid=true&returnExtentOnly=false&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`
+
+    if (location) {
+      if (location.radius) {
+        const turf = window['turf']
+        const point = turf.point([location.x, location.y])
+        const buffered = turf.buffer(point, location.radius, { units:'kilometers' })
+        const bbox = turf.bbox(buffered)
+
+        url += `&geometry=${bbox}`
+      } else {
+        url += `&geometry=${location.x - 1},${location.y - 1},${location.x + 1},${location.y + 1}`
+      }
+    }
+
+    let headers = new HttpHeaders();
+    headers.append('Access-Control-Allow-Origin','*');
+    headers.append('Accept','*/*');
+    return this.http.get<any>(encodeURI(url), {headers})
+  }
+
   getEvacOrdersByID (id: string, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
     if (!url.endsWith('/')) {

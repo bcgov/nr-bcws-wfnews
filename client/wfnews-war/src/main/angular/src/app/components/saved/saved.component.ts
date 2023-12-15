@@ -5,6 +5,7 @@ import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { NotificationService } from '@app/services/notification.service';
+import { PointIdService } from '@app/services/point-id.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
 import { ResourcesRoutes, convertToDateYear, convertToStageOfControlDescription, isMobileView } from '@app/utils';
@@ -34,7 +35,8 @@ export class SavedComponent implements OnInit {
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
-    protected dialog: MatDialog
+    protected dialog: MatDialog, 
+    private pointIdService: PointIdService
   ) {
   }
 
@@ -87,17 +89,15 @@ export class SavedComponent implements OnInit {
   getDangerRatings(locations) {
     try {
       locations.forEach((location, outerIndex) => {
-        const rectangleCoordinates = this.bboxHelper(location)
-        this.notificationService.getDangerRatingByLocation(
-          rectangleCoordinates
-        )
-          .subscribe(dangerRatings => {
-            if (dangerRatings.features) {
-              const element = dangerRatings.features[0].properties.DANGER_RATING_DESC;
-              this.savedLocations[outerIndex].dangerRatings = (element)
-              this.cdr.markForCheck()
+        if (location && location.point && location.point.coordinates && location.radius) {
+          this.pointIdService.fetchNearby(location.point.coordinates[1], location.point.coordinates[0], location.radius).then(response => {
+            if (response && response.features && response.features[0]
+              && response.features[0].British_Columbia_Danger_Rating && response.features[0].British_Columbia_Danger_Rating
+              && response.features[0].British_Columbia_Danger_Rating[0] && response.features[0].British_Columbia_Danger_Rating[0].label) {
+              this.savedLocations[outerIndex].dangerRatings = response.features[0].British_Columbia_Danger_Rating[0].label;
             }
-          })
+          });
+        }
       });
     } catch (error) {
       console.error('can not get danger rating', error)
@@ -125,21 +125,20 @@ export class SavedComponent implements OnInit {
   }
 
   getFireCentre(locations) {
-      // const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
-      // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
-      try {
-        locations.forEach((location, outerIndex) => {
-          const rectangleCoordinates = this.bboxHelper(location)
-          this.notificationService.getFireCentreByLocation(rectangleCoordinates).subscribe(
+    try {
+      locations.forEach((location, outerIndex) => {
+        if (location.point) {
+          this.agolService.getFireZoneBoundaries(null, { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: null }).subscribe(
             response => {
               if (response.features) {
-                const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
+                const fireCentre = response.features[0].attributes.FIRE_CENTRE;
                 this.savedLocations[outerIndex].fireCentre = fireCentre;
                 this.cdr.markForCheck()
               }
             })
-        });    
-    }catch (error) {
+        }
+      })
+    } catch (error) {
       console.error('can not get fire centre', error)
     }
   }
