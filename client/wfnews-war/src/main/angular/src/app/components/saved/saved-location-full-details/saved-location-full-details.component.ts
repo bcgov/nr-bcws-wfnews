@@ -176,7 +176,6 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   fetchEvacs(location) {
     try {
       if (location && location.point && location.point.coordinates && location.radius)
-      this.agolService.getFireZoneBoundaries(null, { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: location.radius }).toPromise();
         this.agolService.getEvacOrders(null, { x: location.point.coordinates[0], y: location.point.coordinates[1], radius: location.radius }).toPromise().then(evacs => {
           if (evacs && evacs.features) {
             this.evacOrders = []
