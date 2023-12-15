@@ -22,7 +22,6 @@ export class SavedComponent implements OnInit {
   public distanceInKm: number = 1;
   public wildFireWatchlist: any[] = [];
   public errorString: string;
-  public errorUrl: string;
   convertToStageOfControlDescription = convertToStageOfControlDescription
   convertToDateYear = convertToDateYear
   isMobileView = isMobileView
@@ -86,21 +85,24 @@ export class SavedComponent implements OnInit {
   }
 
   getDangerRatings(locations) {
-    locations.forEach((location, outerIndex) => {
-      const rectangleCoordinates = this.bboxHelper(location)
-      this.notificationService.getDangerRatingByLocation(
-        rectangleCoordinates
-      )
-        .then(dangerRatings => {
-          if (dangerRatings.features) {
-            const element = dangerRatings.features[0].properties.DANGER_RATING_DESC;
-            this.savedLocations[outerIndex].dangerRatings = (element)
-            this.cdr.markForCheck()
-          }
-        }).catch(error => {
-          console.error('can not get danger rating', error)
-        });
-    });
+    try {
+      locations.forEach((location, outerIndex) => {
+        const rectangleCoordinates = this.bboxHelper(location)
+        this.notificationService.getDangerRatingByLocation(
+          rectangleCoordinates
+        )
+          .subscribe(dangerRatings => {
+            if (dangerRatings.features) {
+              const element = dangerRatings.features[0].properties.DANGER_RATING_DESC;
+              this.savedLocations[outerIndex].dangerRatings = (element)
+              this.cdr.markForCheck()
+            }
+          })
+      });
+    } catch (error) {
+      console.error('can not get danger rating', error)
+    }
+
   }
 
   bboxHelper(location) {
@@ -123,27 +125,22 @@ export class SavedComponent implements OnInit {
   }
 
   getFireCentre(locations) {
-    try {
       // const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
       // const distanceInDegrees = this.distanceInKm * degreesPerPixel;
-      locations.forEach((location, outerIndex) => {
-        const rectangleCoordinates = this.bboxHelper(location)
-        this.errorUrl = this.notificationService.getFireCentreUrlByLocation(rectangleCoordinates)
-        this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
-          response => {
-            if (response.features) {
-              const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
-              this.savedLocations[outerIndex].fireCentre = fireCentre;
-              this.cdr.markForCheck()
-            }
-          }
-        ).catch(error => {
-          this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
-          console.error('can not get fire centre', error)
-        })
-      });
-    } catch (error) {
-      this.errorString = JSON.stringify(error, ["message", "arguments", "type", "name"])
+      try {
+        locations.forEach((location, outerIndex) => {
+          const rectangleCoordinates = this.bboxHelper(location)
+          this.notificationService.getFireCentreByLocation(rectangleCoordinates).subscribe(
+            response => {
+              if (response.features) {
+                const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
+                this.savedLocations[outerIndex].fireCentre = fireCentre;
+                this.cdr.markForCheck()
+              }
+            })
+        });    
+    }catch (error) {
+      console.error('can not get fire centre', error)
     }
   }
 
