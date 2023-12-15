@@ -243,7 +243,7 @@ export class CapacitorService {
 
         this.notificationSnackbarPromise = this.notificationSnackbarPromise.then( () => {
             return new Promise( ( res, rej ) => {
-                let sb = this.showNotificationSnackbar( notification.title, notification.body )
+                let sb = this.showNotificationSnackbar(notification)
 
                 sb.onAction().subscribe( () => {
                     this.emitLocationNotification(notification.body )
@@ -276,7 +276,7 @@ export class CapacitorService {
 
         this.notificationSnackbarPromise = this.notificationSnackbarPromise.then( () => {
             return new Promise( ( res, rej ) => {
-                let sb = this.showNotificationSnackbar( notification.title, notification.body )
+                let sb = this.showNotificationSnackbar(notification)
 
                 sb.onAction().subscribe( () => {
                     let c = JSON.parse(notification.data['coords']),
@@ -326,9 +326,9 @@ export class CapacitorService {
         }, this.locationNotificationsDelay );
     }
 
-    showNotificationSnackbar( title: string, body: string ) {
-        let cfg: MatSnackBarConfig<NotificationConfig> = {
-            data: { title, body },
+    showNotificationSnackbar( notification: any) {
+        let cfg: MatSnackBarConfig<any> = {
+            data: {notification},
             // need to change back to 10 sec. Using 60 sec for testing purpose in case QA missed it.
             duration: 60 * 1000,
             verticalPosition: 'top'
