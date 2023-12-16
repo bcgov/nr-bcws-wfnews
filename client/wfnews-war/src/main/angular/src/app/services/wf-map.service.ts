@@ -470,7 +470,6 @@ export class WFMapService {
                     return fetch( url, {
                         method: 'GET',
                         headers: this.config.header,
-                        mode: 'cors'
                     } )
                     .then( function( res ) {
                         return res.blob();
