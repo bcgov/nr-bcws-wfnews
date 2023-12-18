@@ -22,6 +22,7 @@
     "test": "ng test",
     "lint": "ng lint WFNEWS",
     "lint-fix": "ng lint WFNEWS --fix",
+    "prettier": "npx prettier . --write",
     "e2e": "ng e2e",
     "cr": "npm run lint && npm start.prod",
     "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
