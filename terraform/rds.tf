@@ -25,7 +25,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   tags                            = local.common_tags
   db_subnet_group_name            = aws_db_subnet_group.wfnews_db_subnet_group.name
   enabled_cloudwatch_logs_exports = ["postgresql"]
-  parameter_group_name            = "wfnews-manual"
+  parameter_group_name            = "wfnews-manual-postgres15"
 
   lifecycle {
     prevent_destroy = true
