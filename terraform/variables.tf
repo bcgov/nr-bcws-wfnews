@@ -469,6 +469,12 @@ variable "db_multi_az" {
   type        = bool
 }
 
+variable "db_postgres_version" {
+  description = "Which version of Postgres to use"
+  default     = "15.4"
+  type        = string
+}
+
 variable "sns_email_targets" {
   description = "Emails to use for SNS"
   default     = ""
