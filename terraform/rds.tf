@@ -10,6 +10,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   engine                          = "postgres"
   engine_version                  = var.db_postgres_version
   auto_minor_version_upgrade      = false
+  allow_major_version_upgrade     = true
   db_name                         = "wfnews${var.target_env}"
   instance_class                  = var.db_instance_type
   multi_az                        = var.db_multi_az
