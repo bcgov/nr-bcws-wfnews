@@ -3,26 +3,24 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { AttachmentResource } from '@wf1/incidents-rest-api/model/attachmentResource';
 
 export class DialogData {
-    public attachment: AttachmentResource;
+  public attachment: AttachmentResource;
 }
 
 @Component({
-    selector: 'upload-video-dialog',
-    templateUrl: 'upload-video-dialog.component.html',
-    styleUrls: ['./upload-video-dialog.component.scss']
+  selector: 'upload-video-dialog',
+  templateUrl: 'upload-video-dialog.component.html',
+  styleUrls: ['./upload-video-dialog.component.scss'],
 })
 export class UploadVideoDialogComponent {
-  public title = ''
+  public title = '';
   public url = '';
 
-    constructor (
-      public dialogRef: MatDialogRef<UploadVideoDialogComponent>
-    ) {}
+  constructor(public dialogRef: MatDialogRef<UploadVideoDialogComponent>) {}
 
-    returnResult () {
-      return {
-        title: this.title,
-        url: this.url
-      }
-    }
+  returnResult() {
+    return {
+      title: this.title,
+      url: this.url,
+    };
+  }
 }

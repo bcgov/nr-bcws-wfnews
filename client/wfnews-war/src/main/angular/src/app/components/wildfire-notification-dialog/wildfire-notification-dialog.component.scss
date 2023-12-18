@@ -1,66 +1,65 @@
-.content{
-    padding: 24px;
-    .title{
-        color: #242424;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        text-align: center;
+.content {
+  padding: 24px;
+  .title {
+    color: #242424;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+  }
+  p {
+    color: #6e6e6e;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .button-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    // gap: 16px;
+    // align-self: stretch;
+    button {
+      border-radius: 5px;
+      padding: 8px;
     }
-    p{
-        color: #6E6E6E;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: normal;
-    }
-    .button-group{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        // gap: 16px;
-        // align-self: stretch;
-        button {
-            border-radius: 5px;
-            padding: 8px;
+  }
 
-        }
-    }
+  .btn-block {
+    flex-grow: 1;
+    margin: 5px;
+    height: 38px;
+    width: calc(80vw - 48px);
+    border-radius: 5px;
+    border: 1px solid #c7c7c7;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  .primary {
+    color: #fff;
+    background: #123262;
+  }
+  .secondary {
+    color: #000;
+    background: #f5f5f5;
+  }
 
-    .btn-block{
-        flex-grow: 1;
-        margin: 5px;
-        height: 38px;
-        width: calc(80vw - 48px);
-        border-radius: 5px;
-        border: 1px solid #C7C7C7;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
+  .out-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+    img {
+      width: 68px;
+      height: 68px;
     }
-    .primary{
-        color: #FFF;
-        background: #123262;
-    }
-    .secondary{
-        color: #000;
-        background: #F5F5F5;
-    }
-
-    .out-icon{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        align-self: stretch;
-        img{
-            width: 68px;
-            height: 68px;
-        }
-    }
+  }
 }

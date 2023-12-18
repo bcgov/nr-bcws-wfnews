@@ -1,6 +1,6 @@
 {
   "name": "wildfire",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "license": "MIT",
   "engines": {
     "node": "^14.20.0 || ^16.13.0 || ^18.10.0"
@@ -20,7 +20,9 @@
     "build": "ng build --source-map",
     "build.prod": "ng build --source-map --configuration production --base-href / && replace-in-file /ngsw:/g ngsw:wfimi: dist/ngsw-worker.js --verbose --isRegex",
     "test": "ng test",
-    "lint": "ng lint",
+    "test-headless": "ng test --no-watch --no-progress --browsers=ChromeHeadless",
+    "lint": "ng lint WFNEWS",
+    "lint-fix": "ng lint WFNEWS --fix",
     "e2e": "ng e2e",
     "cr": "npm run lint && npm start.prod",
     "mavenbuild": "node --max_old_space_size=4096 node_modules/@angular/cli/bin/ng build --configuration production --output-path ../../../target/angular --base-href / && replace-in-file /ngsw:/g ngsw:wfnewsi: dist/ngsw-worker.js --verbose --isRegex",
@@ -164,6 +166,7 @@
     "karma-coverage-istanbul-reporter": "3.0.2",
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
+    "prettier": "3.1.1",
     "protractor": "7.0.0",
     "replace-in-file": "3.4.2",
     "ts-node": "10.9.1",

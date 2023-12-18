@@ -9,7 +9,7 @@
 
   border-radius: 6px;
   border: 1px solid #dedede;
-  background: #F5F6F9;
+  background: #f5f6f9;
 
   .labels {
     display: flex;
@@ -22,17 +22,19 @@
     .text {
       align-self: stretch;
       color: #000;
-      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
       line-height: normal;
     }
-    
+
     .subtext {
       align-self: stretch;
-      color: #7D7D7D;
-      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      color: #7d7d7d;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 16px;
       font-style: normal;
       font-weight: 400;
@@ -41,7 +43,7 @@
   }
 
   .icon {
-    background-color: #548ADB;
+    background-color: #548adb;
     width: 24px;
     height: 24px;
     -webkit-mask-image: url("../../../../assets/images/svg-icons/launch.svg");

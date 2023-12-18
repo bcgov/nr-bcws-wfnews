@@ -2,7 +2,6 @@
   display: none;
 }
 
-
 .title-panel {
   display: flex;
   padding: 24px 24px 24px 24px;
@@ -13,7 +12,9 @@
 
   .full-details-title {
     color: var(--Black-1, #242424);
-    font-feature-settings: 'clig' off, 'liga' off;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
     font-size: 26px;
     font-style: normal;
     font-weight: 600;
@@ -31,7 +32,6 @@
     line-height: 21px;
     margin-bottom: 8px;
   }
-
 }
 
 .map-button {
@@ -45,7 +45,7 @@
   flex: 1 0 0;
   border: 1px solid grey !important;
   color: #000;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -68,7 +68,7 @@
   flex: 1 0 0;
   border: 1px solid grey !important;
   color: #000;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -92,7 +92,7 @@
   flex: 1 0 0;
   border: 1px solid grey !important;
   color: #000;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -100,7 +100,6 @@
   cursor: pointer;
   margin-bottom: 16px;
 }
-
 
 .info-container {
   display: flex;
@@ -116,7 +115,7 @@
   font-weight: 400;
   line-height: 21px;
   margin: 0px 0px 24px 0px;
-  display: flex !important
+  display: flex !important;
 }
 
 .incident-info {
@@ -126,7 +125,7 @@
   font-weight: 400;
   line-height: 21px;
   margin: 0px 0px 16px 0px;
-  display: flex !important
+  display: flex !important;
 }
 
 .full-details-header {
@@ -183,8 +182,8 @@
   align-items: flex-start;
   align-self: stretch;
   border-radius: 8px;
-  border: 1px solid var(--grays-gray-7, #DEDEDE);
-  background: var(--White, #FDFDFD);
+  border: 1px solid var(--grays-gray-7, #dedede);
+  background: var(--White, #fdfdfd);
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
 
   .break {
@@ -192,7 +191,7 @@
     clear: both;
     display: flex;
     width: 99%;
-    background-color: #DDD;
+    background-color: #ddd;
     height: 1px;
     margin-left: 0px !important;
     margin-bottom: 16px;
@@ -238,9 +237,9 @@ h4 {
   font-weight: 500;
   line-height: normal;
   border-radius: 4px;
-  border: 1px solid var(--reds-red-8, #FBE3E3);
-  background: var(--reds-red-7, #FEF1F2);
-  color: #98273B;
+  border: 1px solid var(--reds-red-8, #fbe3e3);
+  background: var(--reds-red-7, #fef1f2);
+  color: #98273b;
 
   &-icon {
     position: relative;
@@ -252,7 +251,9 @@ h4 {
 
 .full-details-name {
   color: var(--Black-1, #242424);
-  font-feature-settings: 'clig' off, 'liga' off;
+  font-feature-settings:
+    "clig" off,
+    "liga" off;
   font-size: 26px;
   font-style: normal;
   font-weight: 600;
@@ -295,8 +296,8 @@ h4 {
     gap: 8px;
     align-self: stretch;
     border-radius: 6px;
-    border: 1px solid var(--grays-gray-7, #DEDEDE);
-    background: var(--blues-blue-11, #F5F6F9);
+    border: 1px solid var(--grays-gray-7, #dedede);
+    background: var(--blues-blue-11, #f5f6f9);
   }
 
   &-relative {
@@ -317,7 +318,7 @@ h4 {
 
   &.active-wildfires-out-of-control {
     display: inline-block;
-    background-color: #FF0000;
+    background-color: #ff0000;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -326,7 +327,7 @@ h4 {
 
   &.active-wildfires-under-control {
     display: inline-block;
-    background-color: #98E600;
+    background-color: #98e600;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -335,7 +336,7 @@ h4 {
 
   &.bcws-activefires-publicview-inactive {
     display: inline-block;
-    background-color: #5C6671;
+    background-color: #5c6671;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -344,7 +345,7 @@ h4 {
 }
 
 hr {
-  background-color: #DDD;
+  background-color: #ddd;
   height: 1px;
   border: 0;
   margin: 0px 20px 0px 20px;
@@ -358,7 +359,7 @@ hr {
   height: 20px;
   padding: 6px;
   border-radius: 64px;
-  background: var(--Grey-2-EEE, #EEE);
+  background: var(--Grey-2-EEE, #eee);
   cursor: pointer;
 }
 
@@ -390,11 +391,11 @@ hr {
   right: 16px;
   bottom: 94px;
   border-radius: 8px;
-  border: 1px solid var(--grays-gray-8, #E4E4E4);
-  background: #FFF;
+  border: 1px solid var(--grays-gray-8, #e4e4e4);
+  background: #fff;
   z-index: 1000;
   /* Card Shadow */
-  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.10);
+  box-shadow: 0px 0px 25px 0px rgba(0, 0, 0, 0.1);
 
   p {
     color: var(--blues-blue-2, #036);
@@ -446,7 +447,7 @@ hr {
 
 .info-container-section-title {
   color: var(--Black-2, #484848);
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
@@ -465,7 +466,7 @@ hr {
   border: 1px solid grey !important;
 
   color: #000;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -479,8 +480,8 @@ hr {
 }
 
 li {
-  color: #5B5B5B;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  color: #5b5b5b;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

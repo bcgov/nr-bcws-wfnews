@@ -4,10 +4,10 @@ import { checkLayerVisible } from '@app/utils';
 @Component({
   selector: 'wfnews-bans-legend',
   templateUrl: './bans-legend.component.html',
-  styleUrls: ['./bans-legend.component.scss']
+  styleUrls: ['./bans-legend.component.scss'],
 })
 export class BansLegendComponent {
-  public checkLayerVisible = checkLayerVisible
-  
+  public checkLayerVisible = checkLayerVisible;
+
   constructor() {}
 }

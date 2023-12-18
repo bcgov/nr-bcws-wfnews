@@ -1,55 +1,55 @@
 @mixin mat-fab-($name, $background-colour, $colour) {
-    button.mat-mdc-fab.mat-#{$name} {
-        background-color: $background-colour;
-        color: $colour;
+  button.mat-mdc-fab.mat-#{$name} {
+    background-color: $background-colour;
+    color: $colour;
 
-        &:not([disabled]).intermediate-action {
-            background-color: $colour-intermediate-action;
-        }
+    &:not([disabled]).intermediate-action {
+      background-color: $colour-intermediate-action;
     }
+  }
 }
-@include mat-fab-('primary', $colour-button-primary, $colour-white);
+@include mat-fab-("primary", $colour-button-primary, $colour-white);
 
 @mixin mat-fab-px-($name, $size, $background-colour, $colour) {
-    button.mat-mdc-fab.mat-#{$name}-#{$size} {
-        background-color: $background-colour;
-        color: $colour;
-        width: $size + px;
-        height: $size + px;
-        .mat-button-wrapper {
-            padding: calc($size / 6) + px;
-        }
-        
-        &:not([disabled]).intermediate-action {
-            background-color: $colour-intermediate-action;
-        }
+  button.mat-mdc-fab.mat-#{$name}-#{$size} {
+    background-color: $background-colour;
+    color: $colour;
+    width: $size + px;
+    height: $size + px;
+    .mat-button-wrapper {
+      padding: calc($size / 6) + px;
     }
+
+    &:not([disabled]).intermediate-action {
+      background-color: $colour-intermediate-action;
+    }
+  }
 }
-@include mat-fab-px-('white', 48, $colour-white, $colour-fab-icon-grey);
-@include mat-fab-px-('white', 40, $colour-white, $colour-fab-icon-grey);
+@include mat-fab-px-("white", 48, $colour-white, $colour-fab-icon-grey);
+@include mat-fab-px-("white", 40, $colour-white, $colour-fab-icon-grey);
 
 button.mat-mdc-mini-fab.bottom-right {
-    position: absolute;
-    bottom: 24px;
-    right: 24px;
-    z-index: 1000;
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  z-index: 1000;
 }
 
 @mixin bottom-($pixels) {
-    button.mat-mdc-fab.bottom-#{$pixels} {
-        position: absolute;
-        bottom: $pixels + px;
-        z-index: 1000;
-    }
+  button.mat-mdc-fab.bottom-#{$pixels} {
+    position: absolute;
+    bottom: $pixels + px;
+    z-index: 1000;
+  }
 }
 @include bottom-(20);
 @include bottom-(80);
 
 @mixin right-($pixels) {
-    button.mat-mdc-fab.right-#{$pixels} {
-        position: absolute;
-        right: $pixels + px;
-        z-index: 1000;
-    }
+  button.mat-mdc-fab.right-#{$pixels} {
+    position: absolute;
+    right: $pixels + px;
+    z-index: 1000;
+  }
 }
 @include right-(20);

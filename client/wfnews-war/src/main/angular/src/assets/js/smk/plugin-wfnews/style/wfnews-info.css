@@ -1,51 +1,50 @@
 .wfml-info-content {
-    display: table;
-    width: 100%;
+  display: table;
+  width: 100%;
 }
 
 .leaflet-tooltip .wfml-info-content,
-.wfml-feature-set
-{
-    width: 300px;
+.wfml-feature-set {
+  width: 300px;
 }
 
 .wfml-info-title {
-    display: table-caption;
-    font-weight: bold;
-    font-style: italic;
-    text-align: center;
-    background-color: #cccccc;
+  display: table-caption;
+  font-weight: bold;
+  font-style: italic;
+  text-align: center;
+  background-color: #cccccc;
 }
 .wfml-info-line {
-    display: table-row;
+  display: table-row;
 }
 
-.wfml-info-line:nth-child( 2n) {
-    background-color: #f4f4f4;
+.wfml-info-line:nth-child(2n) {
+  background-color: #f4f4f4;
 }
 
 .wfml-info-name {
-    display: table-cell;
-    vertical-align: top;
-    padding-right: 0.5ex;
-    width: 8em;
-    font-size: 10px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  display: table-cell;
+  vertical-align: top;
+  padding-right: 0.5ex;
+  width: 8em;
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .wfml-info-value {
-    display: table-cell;
-    vertical-align: top;
-    font-weight: bold;
-    padding-left: 4px;
-    white-space: break-spaces;
+  display: table-cell;
+  vertical-align: top;
+  font-weight: bold;
+  padding-left: 4px;
+  white-space: break-spaces;
 }
 
 .wfml-info-action {
-    cursor: pointer;
-    color: blue;
-    text-decoration: underline;
-    font-weight: bold;
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+  font-weight: bold;
 }

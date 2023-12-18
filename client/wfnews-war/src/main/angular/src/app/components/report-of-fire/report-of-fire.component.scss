@@ -1,11 +1,11 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 :host {
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
-.rof{
+.rof {
   height: 100vh;
   background-color: white !important;
   max-width: 850px;
@@ -14,7 +14,7 @@
   ::ng-deep.mat-button-toggle-button {
     height: 81px !important;
     @media (max-width: 1023px) and (max-height: 700px) {
-        height: 8.5vh !important;
+      height: 8.5vh !important;
     }
     @media (min-width: 1024px) and (max-height: 780px) and (min-height: 650px) {
       height: 8vh !important;
@@ -32,7 +32,7 @@
     color: #000;
     text-align: center;
     font-size: 19px;
-    @media (max-height: 700px){
+    @media (max-height: 700px) {
       font-size: 2.2vh;
     }
     font-style: normal;
@@ -42,34 +42,33 @@
   }
 }
 
-.mobile-header{
+.mobile-header {
   display: flex;
   justify-content: space-between;
-  padding:13px 32px 0 20px;
+  padding: 13px 32px 0 20px;
   align-items: center;
   position: sticky !important;
-  top:0;
+  top: 0;
   background-color: white;
-  z-index:9999;
+  z-index: 9999;
   font-weight: 600;
   font-size: 18px;
-  .skip{
-    color:#7A7A7A;
+  .skip {
+    color: #7a7a7a;
   }
 }
-
 
 @media (max-width: 768px) {
   .header-container {
     padding: 0px !important;
   }
-  .title{
-    color:black !important
+  .title {
+    color: black !important;
   }
 }
 
 @media (max-height: 675px) {
-  .rof-text-primary-header{
+  .rof-text-primary-header {
     font-size: 3.85vh !important;
     margin: 10px 0px !important;
   }
@@ -81,14 +80,14 @@
 }
 
 @media (max-width: 400px) and (min-width: 350px) {
-  .rof-text-secondary-header{
+  .rof-text-secondary-header {
     font-size: 2vh !important;
     transform: scale(1);
   }
 }
 
 @media (max-width: 349px) {
-  .rof-text-secondary-header{
+  .rof-text-secondary-header {
     font-size: 1.8vh !important;
     transform: scale(1);
   }
@@ -122,12 +121,12 @@
   .ProgressBar-icon {
     width: 12px;
     height: 12px;
-    background-color: #D9D9D9;
+    background-color: #d9d9d9;
     border-radius: 50%;
     max-width: 100%;
     z-index: 10;
     position: relative;
-    transition: all .25s ease-out;
+    transition: all 0.25s ease-out;
   }
 }
 
@@ -139,7 +138,6 @@
 }
 
 .rof-button-container {
-
   max-width: 780px;
   justify-content: space-between;
   gap: 12px;
@@ -149,21 +147,21 @@
   width: calc(100% - 64px);
   bottom: calc(3em + env(safe-area-inset-bottom, 20px));
   position: fixed;
-  @media (max-height: 699px){
+  @media (max-height: 699px) {
     bottom: calc(2em + env(safe-area-inset-bottom, 20px));
   }
   .rof-button {
-    padding:0 32px;
+    padding: 0 32px;
     height: 43px;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
     line-height: normal;
-    background-color: #F5F5F5;
-    border: solid 1px #B0B0B0;
+    background-color: #f5f5f5;
+    border: solid 1px #b0b0b0;
     border-radius: 6px;
     &-primary {
-      padding:0 32px;
+      padding: 0 32px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -173,8 +171,8 @@
       background-color: #123262;
       flex-direction: row-reverse;
       border-radius: 6px;
-      &-review{
-        padding:0 32px;
+      &-review {
+        padding: 0 32px;
         height: 43px;
         font-size: 20px;
         font-style: normal;
@@ -185,10 +183,9 @@
         flex-direction: none;
         border-radius: 6px;
       }
-
     }
     &-disabled {
-      padding:0 32px;
+      padding: 0 32px;
       height: 43px;
       font-size: 20px;
       font-style: normal;
@@ -199,7 +196,7 @@
       border-radius: 6px;
     }
   }
-  .flow-buttons{
+  .flow-buttons {
     padding-bottom: 500px !important;
   }
 }
@@ -214,22 +211,22 @@
     width: calc(50vw - 30px);
     height: 81px;
     margin-bottom: 0px !important;
-    background-color: #F1F1F1;
-    @media (max-height: 800px) and (min-height: 700px){
+    background-color: #f1f1f1;
+    @media (max-height: 800px) and (min-height: 700px) {
       height: 8vh;
       font-size: 2.2vh !important;
     }
-    @media (max-height: 699px){
-       height: 7dvh;
+    @media (max-height: 699px) {
+      height: 7dvh;
       font-size: 2.2dvh !important;
-     }
+    }
   }
   .mat-flat-button {
     border: none;
     border-radius: 8px;
     background: #f1f1f1;
     height: 81px;
-    @media (max-height: 700px){
+    @media (max-height: 700px) {
       height: 9vh;
     }
     padding: 0;
@@ -241,11 +238,11 @@
     color: #000 !important;
     text-align: center !important;
     font-size: 19px !important;
-    @media (max-height: 800px) and (min-height: 700px){
+    @media (max-height: 800px) and (min-height: 700px) {
       height: 10dvh;
       font-size: 2.2dvh !important;
     }
-    @media (max-height: 699px){
+    @media (max-height: 699px) {
       height: 9dvh;
       font-size: 2.2dvh !important;
     }
@@ -264,10 +261,10 @@
   margin: 20px 0;
   border: none;
   .mat-icon {
-    color: #548ADB;
+    color: #548adb;
     margin-right: 8px;
   }
-  .mat-button-toggle{
+  .mat-button-toggle {
     margin-bottom: 24px;
     border: none;
     border-radius: 8px;
@@ -291,9 +288,9 @@
     background-color: #f1f1f1;
   }
   .mat-button-toggle-checked {
-    background-color: #DFE5EE !important;
+    background-color: #dfe5ee !important;
     border-radius: 8px;
-    border: 3px solid #4169A4;
+    border: 3px solid #4169a4;
   }
   .mat-button-toggle-button {
     border-radius: 8px;
@@ -335,10 +332,11 @@
     .selected {
       font-weight: 500;
     }
-    .mat-mdc-checkbox{
-      span{
+    .mat-mdc-checkbox {
+      span {
         color: #242424;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 17px;
         font-style: normal;
         font-weight: 400;
@@ -353,7 +351,7 @@
   &-subheader-black {
     font-size: 17px;
     font-weight: 600;
-    color:#242424;
+    color: #242424;
     margin: 20px 0px;
   }
   &-review-header {
@@ -372,7 +370,7 @@
   height: calc(100vh - 125px);
 }
 
-.page-content{
+.page-content {
   padding: 0 32px;
   font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-style: normal;
@@ -380,19 +378,19 @@
   font-weight: 400;
   line-height: normal;
   letter-spacing: -0.32px;
-  .rof-text-title{
+  .rof-text-title {
     font-size: 32px;
     font-weight: 600;
   }
 }
 
-.divider{
+.divider {
   border-top: 1px solid #ccc;
   width: 100%;
 }
 
-.question-mark{
+.question-mark {
   vertical-align: baseline;
-  color:#548ADB;
+  color: #548adb;
   margin-right: 8px;
 }

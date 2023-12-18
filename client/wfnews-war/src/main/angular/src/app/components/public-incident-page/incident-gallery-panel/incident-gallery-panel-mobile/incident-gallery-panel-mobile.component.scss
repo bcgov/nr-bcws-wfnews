@@ -1,85 +1,79 @@
-.panel{
-
-    .content-panel {
-        padding:24px;
-        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
-            h1 {
-                font-size: 22px;
-                width: 90%;
-                height: 33px;
-                background-color: rgba(255, 255, 255, 0);
-                box-sizing: border-box;
-                font-weight: 500;
-                color: #333333;
-                text-align: left;
-                line-height: 33px;
-            }
-
-            h4 {
-                font-size: 16px;
-                height: 24px;
-                background-color: rgba(255, 255, 255, 0);
-                box-sizing: border-box;
-                font-weight: 500;
-                color: #333333;
-                text-align: left;
-                line-height: 24px;
-            }
-
-            .header-row {
-
-                .h1{
-                        width: 256px;
-                        height: 33px;
-                        background-color: rgba(255, 255, 255, 0);
-                        box-sizing: border-box;
-                        font-weight: 500;
-                        color: #333333;
-                        text-align: right;
-                        line-height: 33px;
-                }
-
-
-            }
-
-            .divider {
-                border-bottom: 1px lightgray solid;
-                padding-top: 7px;
-                padding-bottom: 7px;
-            }
-
+.panel {
+  .content-panel {
+    padding: 24px;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    h1 {
+      font-size: 22px;
+      width: 90%;
+      height: 33px;
+      background-color: rgba(255, 255, 255, 0);
+      box-sizing: border-box;
+      font-weight: 500;
+      color: #333333;
+      text-align: left;
+      line-height: 33px;
     }
+
+    h4 {
+      font-size: 16px;
+      height: 24px;
+      background-color: rgba(255, 255, 255, 0);
+      box-sizing: border-box;
+      font-weight: 500;
+      color: #333333;
+      text-align: left;
+      line-height: 24px;
+    }
+
+    .header-row {
+      .h1 {
+        width: 256px;
+        height: 33px;
+        background-color: rgba(255, 255, 255, 0);
+        box-sizing: border-box;
+        font-weight: 500;
+        color: #333333;
+        text-align: right;
+        line-height: 33px;
+      }
+    }
+
+    .divider {
+      border-bottom: 1px lightgray solid;
+      padding-top: 7px;
+      padding-bottom: 7px;
+    }
+  }
 }
 
-
 :host ::ng-deep .mat-mdc-tab {
-    height: 3rem !important;
-    flex-basis: 0;
-    flex-grow: 1;
+  height: 3rem !important;
+  flex-basis: 0;
+  flex-grow: 1;
 }
 
 :host ::ng-deep .mat-tab-content {
-    color: #003366 !important;
+  color: #003366 !important;
 }
 
 /* Styles for the active tab label */
-:host ::ng-deep .mat-mdc-tab.mdc-tab--active{
-    box-sizing: border-box;
-    background-color: #edeef1 !important;
-    color: #fdfdfd !important;
+:host ::ng-deep .mat-mdc-tab.mdc-tab--active {
+  box-sizing: border-box;
+  background-color: #edeef1 !important;
+  color: #fdfdfd !important;
 }
 
 /* Styles for the ink bar */
 :host ::ng-deep .mat-ink-bar {
-    display: none !important;
+  display: none !important;
 }
 
-:host ::ng-deep .mat-mdc-tab-header, .mat-mdc-tab-nav-bar {
-    border-bottom: 0;
-    border: 1px solid #003366;
-    box-sizing: border-box;
-    border-radius: 5px;
-
+:host ::ng-deep .mat-mdc-tab-header,
+.mat-mdc-tab-nav-bar {
+  border-bottom: 0;
+  border: 1px solid #003366;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 
 ::ng-deep.mat-mdc-tab.mdc-tab--active:not(.mat-tab-disabled),
@@ -90,5 +84,3 @@
 ::ng-deep.mat-mdc-tab-body-content {
   overflow: hidden !important;
 }
-
-

@@ -1,10 +1,10 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     height: 640px;
@@ -15,20 +15,22 @@
     gap: 12px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
   }
@@ -37,7 +39,7 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     height: 640px;
@@ -49,20 +51,22 @@
     gap: 12px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
   }
@@ -71,31 +75,32 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     height: 750px;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
     flex: 1 0 0;
-    background: #FFF;
+    background: #fff;
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
   }
 }
-
 
 .spinner-position {
   position: relative;
@@ -117,7 +122,7 @@
   align-self: stretch;
   flex-wrap: wrap;
   color: var(--Black-2, #484848);
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -147,7 +152,7 @@
 
 .link {
   color: #242424;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -167,7 +172,7 @@
 .link-icon {
   padding: 10px;
   border-radius: 50px;
-  background-color: #EEE;
+  background-color: #eee;
   cursor: pointer;
   margin-left: auto;
 }

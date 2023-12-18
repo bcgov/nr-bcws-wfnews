@@ -1,21 +1,21 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
-.call-page-content{
-    padding-top: 8px;
+.call-page-content {
+  padding-top: 8px;
 }
 
-.rof-button-container{
-    position: inherit;
-    width: auto;
-    padding: 4rem 1rem;
+.rof-button-container {
+  position: inherit;
+  width: auto;
+  padding: 4rem 1rem;
 }
 
-.location-detail{
-    background-color: #F5F5F5;
-    border-radius: 8px;
-    padding: 8px 12px;
-    margin-top: 12px;
-    .rof-text-review-header{
-        margin-top: 0;
-    }
+.location-detail {
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  margin-top: 12px;
+  .rof-text-review-header {
+    margin-top: 0;
+  }
 }

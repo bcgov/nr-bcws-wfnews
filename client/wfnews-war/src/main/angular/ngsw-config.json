@@ -1,39 +1,30 @@
 {
-    "index": "index.html",
-    "assetGroups": [
-        {
-            "name": "wfnews",
-            "installMode": "prefetch",
-            "resources": {
-                "files": [
-                    "/favicon.ico",
-                    "/index.html",
-                    "/*.css",
-                    "/*.js"
-                ]
-            }
-        },
-        {
-            "name": "assets",
-            "installMode": "lazy",
-            "updateMode": "prefetch",
-            "resources": {
-                "files": [
-                    "/assets/**"
-                ]
-            }
-        }
-    ],
-    "dataGroups": [
-        {
-            "name": "attachments",
-            "urls": [
-                "/**/wfdm-document-management-api/documents/*"
-            ],
-            "cacheConfig": {
-                "maxSize": 100,
-                "maxAge": "10d"
-            }
-        }
-    ]
+  "index": "index.html",
+  "assetGroups": [
+    {
+      "name": "wfnews",
+      "installMode": "prefetch",
+      "resources": {
+        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
+      }
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "resources": {
+        "files": ["/assets/**"]
+      }
+    }
+  ],
+  "dataGroups": [
+    {
+      "name": "attachments",
+      "urls": ["/**/wfdm-document-management-api/documents/*"],
+      "cacheConfig": {
+        "maxSize": 100,
+        "maxAge": "10d"
+      }
+    }
+  ]
 }
