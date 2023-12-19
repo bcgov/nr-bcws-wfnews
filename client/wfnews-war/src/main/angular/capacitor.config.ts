@@ -6,9 +6,6 @@ const config: CapacitorConfig = {
   webDir: 'dist/wfnews',
   server: {
     androidScheme: 'https',
-  },
-  ios: {
-    scheme: 'BCWildfire'
   }
   
 };
