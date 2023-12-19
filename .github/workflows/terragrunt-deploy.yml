@@ -123,6 +123,7 @@ jobs:
           DB_INSTANCE_TYPE: ${{vars.DB_INSTANCE_TYPE}}
           DB_PASS: ${{ secrets.WFONE_DB_PASS }}
           DB_SIZE: ${{ vars.DB_SIZE }}
+          DB_POSTGRES_VERSION: ${{ vars.DB_POSTGRES_VERSION }}
           DEFAULT_APPLICATION_ENVIRONMENT: ${{inputs.DEFAULT_APPLICATION_ENVIRONMENT}}
           drivebcBaseUrl: ${{vars.DRIVEBC_BASE_URL}}
           GITHUB_RELEASE_NAME: ${{ github.event.release.name }}
