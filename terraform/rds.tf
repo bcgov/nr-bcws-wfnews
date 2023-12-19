@@ -8,8 +8,9 @@ resource "aws_db_subnet_group" "wfnews_db_subnet_group" {
 resource "aws_db_instance" "wfnews_pgsqlDB" {
   identifier                      = "wfnews${var.target_env}"
   engine                          = "postgres"
-  engine_version                  = "13.10"
+  engine_version                  = var.db_postgres_version
   auto_minor_version_upgrade      = false
+  allow_major_version_upgrade     = true
   db_name                         = "wfnews${var.target_env}"
   instance_class                  = var.db_instance_type
   multi_az                        = var.db_multi_az
@@ -24,7 +25,7 @@ resource "aws_db_instance" "wfnews_pgsqlDB" {
   tags                            = local.common_tags
   db_subnet_group_name            = aws_db_subnet_group.wfnews_db_subnet_group.name
   enabled_cloudwatch_logs_exports = ["postgresql"]
-  parameter_group_name            = "wfnews-manual"
+  parameter_group_name            = "wfnews-manual-postgres15"
 
   lifecycle {
     prevent_destroy = true

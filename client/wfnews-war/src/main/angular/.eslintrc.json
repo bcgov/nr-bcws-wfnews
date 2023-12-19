@@ -53,7 +53,8 @@
         "id-match": "off",
         "no-trailing-spaces": "off",
         "no-underscore-dangle": "off",
-        "valid-typeof": "error"
+        "valid-typeof": "error",
+        "jsdoc/newline-after-description": "off"
       }
     },
     {

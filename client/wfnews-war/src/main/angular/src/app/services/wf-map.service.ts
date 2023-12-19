@@ -42,7 +42,7 @@ export class WFMapService {
     }
 
     changeBasemapCacheToken() {
-        changeBasemapCacheToken()
+        changeCacheToken()
     }
 
     createSMK(option: any) {
@@ -709,7 +709,7 @@ function defineEsriVectoLayer(id: string, title: string, baseMaps: { id: string,
     }
 }
 
-function changeBasemapCacheToken() {
+function changeCacheToken() {
     baseMapCacheToken = Math.trunc(Math.random() * 1e10)
 }
 
