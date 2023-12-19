@@ -34,7 +34,7 @@ def firebase_pods
   pod 'Firebase/Messaging'
 end
 
-target 'BCWildfire' do
+target 'App' do
   capacitor_pods
   firebase_pods
   # Add your Pods here
