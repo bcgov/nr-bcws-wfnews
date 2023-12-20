@@ -91,6 +91,8 @@
     "angular2-uuid": "1.1.1",
     "assert": "2.0.0",
     "capacitor-native-settings": "^5.0.1",
+    "cordova-plugin-advanced-http": "^3.3.1",
+    "cordova-plugin-file": "^8.0.1",
     "cordova-plugin-screen-orientation": "^3.0.4",
     "core-js": "2.5.7",
     "crypto-browserify": "^3.12.0",
