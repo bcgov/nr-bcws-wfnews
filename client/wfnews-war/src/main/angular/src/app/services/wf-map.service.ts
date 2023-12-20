@@ -8,9 +8,10 @@ import * as nightStyle from '../../assets/data/vector-basemap-night.json';
 import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
 import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
 import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
-import { HTTP, HTTPResponse } from "@ionic-native/http/ngx";
 import { HttpClient } from '@angular/common/http';
 import { CapacitorService } from '@app/services/capacitor-service';
+import { CapacitorHttp } from '@capacitor/core';
+
 
 export type Smk = any
 export type SmkPromise = Promise<Smk>
@@ -24,7 +25,7 @@ export class WFMapService {
     identifyCallback;
     identifyDoneCallback;
 
-    constructor(protected appConfigService: AppConfigService, private httpClient: HttpClient, private http: HTTP, private capacitorService: CapacitorService) {
+    constructor(protected appConfigService: AppConfigService, private httpClient: HttpClient, private capacitorService: CapacitorService) {
 
     }
 
@@ -498,7 +499,10 @@ export class WFMapService {
                             .then( function ( data: any )    {
                                 console.log('parse ok')
                                 // console.log( data )
-        
+                                if (data.data) {
+                                    // from capacitor http
+                                    data = data.data
+                                }
                                 if ( !data ) throw new Error( 'no features' )
                                 if ( !data.features || data.features.length == 0 ) throw new Error( 'no features' )
                                 console.log('feature count',data.features.length)
@@ -613,16 +617,27 @@ export class WFMapService {
         return viewer?.currentBasemap;
     }
 
-    httpGet( url: string, params?: any, headers?: any ): Promise<any> {
-        return this.capacitorService.isMobile.then( b => {
-            if ( b ) return this.http.get( url, params, headers )
-                .then( function( resp ) {
-                    if ( resp.error ) throw resp.error
-                    return JSON.parse( resp.data )
-                } )
-
-            return this.httpClient.get( url, { params: params, headers: headers } ).toPromise()
-        } )
+    httpGet(url: string, params?: any, headers?: any): Promise<any> {
+        return this.capacitorService.isMobile.then(isMobile => {
+            if (!isMobile) {
+                // return this.http.get(url, params, headers)
+                const options = {
+                    url : url,
+                    headers: headers,
+                    params: params
+                }
+                const resp =  CapacitorHttp.get(options)
+                    console.log('CAPACTIORHTTP!!!!!!!!!')
+                    return resp
+            } else {
+                const requestOptions = {
+                    params: params,
+                    headers: headers
+                };
+                const resp = this.httpClient.get(url, requestOptions).toPromise();
+                return resp
+            }
+        });
     }
 }
 
