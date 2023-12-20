@@ -8,7 +8,7 @@ import * as L from 'leaflet'
   templateUrl: './notification-map.component.html',
   styleUrls: ['./notification-map.component.scss']
 })
-export class notificationMapComponent implements OnInit, AfterViewInit  {
+export class notificationMapComponent implements OnInit, AfterViewInit {
   @ViewChild('itemHeight') itemHeightSlider;
   map: any;
   notificationLocationMarker: any;
@@ -17,11 +17,10 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
   radiusValue: number = 25;
   radiusCircle: any;
 
-  constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data)
-  { }
+  constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit(): void {
-      // this.loadMap()
+    // this.loadMap()
   }
 
   ngAfterViewInit(): void {
@@ -30,13 +29,13 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
 
   loadMap() {
 
-    this.map = L.map('map',{
-      zoomControl: false,
+    this.map = L.map('map', {
+        zoomControl: false,
     });
 
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
       zoom: 5,
-      subdomains:['mt0','mt1','mt2','mt3']
+      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
     }).addTo(this.map);
 
     if (this.data.title === 'Choose location on the map') {
@@ -46,7 +45,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
           className: 'custom-icon-class',
           html: `<div class="custom-marker" style="margin-top:-24px">
                 <img src="/assets/images/svg-icons/location_pin.svg"/>
-              </div>`,    
+              </div>`,
           iconSize: [32, 32],
 
         }),
@@ -58,7 +57,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
           className: 'custom-icon-class',
           html: `<div class="custom-marker" style="text-align:center">
                 <img src="/assets/images/svg-icons/x-icon.svg"/>
-              </div>`,   
+              </div>`,
           iconSize: [20, 20],
 
         }),
@@ -91,7 +90,6 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
 
     else if (this.data.title === 'Notification Radius') {
       // set radius on map
-      this.map.dragging.disable();
       const markerOptions = {
         icon: L.icon({
           iconUrl: "/assets/images/svg-icons/blue-white-location-icon.svg",
@@ -103,7 +101,8 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
       };
 
       const center = [this.data.lat, this.data.long]; // Center coordinates of British Columbia
-      this.map.setView(center, 10);
+
+      this.map.setView(center, 9);
       this.notificationLocationMarker = L.marker(center, markerOptions).addTo(this.map);
 
       // Add circle around the marker
@@ -123,14 +122,14 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
 
   formatLabel(value: number) {
     if (value >= 1000) {
-        return Math.round(value / 1000) + 'k';
+      return Math.round(value / 1000) + 'k';
     }
 
     return value;
-}
+  }
 
   close() {
-    this.dialogRef.close({exit: false});
+    this.dialogRef.close({ exit: false });
   }
 
   updateRadius(event) {
@@ -149,6 +148,19 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
         fillOpacity: 0.2,
       };
 
+      let zoomLevel;
+
+      switch (radius) {
+        case 25000: zoomLevel = 9;
+          break;
+        case 50000: zoomLevel = 8;
+          break;
+        default: zoomLevel = 7;
+          break;
+      }
+
+      this.map.setView(this.notificationLocationMarker.getLatLng(), zoomLevel);
+
       this.radiusCircle = L.circle(this.notificationLocationMarker.getLatLng(), {
         radius: radius,
         ...circleOptions,
@@ -161,9 +173,9 @@ export class notificationMapComponent implements OnInit, AfterViewInit  {
     const radiusValue = this.itemHeightSlider?.nativeElement.value;
 
     this.dialogRef.close({
-        exit: true,
-        location: this.notificationLocationMarker._latlng,
-        radius: radiusValue ? Number(radiusValue) : undefined
+      exit: true,
+      location: this.notificationLocationMarker._latlng,
+      radius: radiusValue ? Number(radiusValue) : undefined
     });
   }
 }
