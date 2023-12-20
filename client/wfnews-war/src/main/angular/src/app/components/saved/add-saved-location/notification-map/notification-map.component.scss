@@ -51,6 +51,10 @@
         background: var(--blues-blue-2, #036);
         color: #FFF;
     }
+
+    @media screen and (max-height: 715px) {
+        gap: 0px;
+    }
 }
 .leaflet-marker-icon{
     padding: 10px;
@@ -67,6 +71,7 @@
     padding: 0 20px; /* Adjust padding as needed */
     width: 95vw;
     margin-top: -24px;
+    z-index: 2;
     .slider-label{
         display: flex;
         align-items: center;
@@ -95,12 +100,37 @@
         text-align: center;
         width: -webkit-fill-available;
     }
+
+    @media screen and (max-height: 684px) and (min-height: 665px) {
+        margin-top: -48px;
+    }
+
+    @media screen and (max-height: 664px) and (min-height: 645px) {
+        margin-top: -60px;
+    }
+
+    @media screen and (max-height: 644px) and (min-height: 620px) {
+        margin-top: -80px;
+    }
+
+    @media screen and (max-height: 619px) and (min-height: 570px) {
+        margin-top: -100px;
+    }
+
+    @media screen and (max-height: 569px) and (min-height: 500px) {
+        margin-top: -110px;
+    }
+
+    @media screen and (max-height: 500px) {
+        margin-top: -115px;
+    }
 }
 
 .location-map {
     min-height: 250px !important;
     max-height: 600px !important;
     height: 80vh !important;
+    z-index: 1;
 }
 
 .button-row {

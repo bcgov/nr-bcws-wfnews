@@ -530,7 +530,7 @@ export const DATE_FORMATS = {
         CanDeactivateGuard,
         ReportOfFireService,
         NotificationService,
-        GoogleChartsService,
+        GoogleChartsService, 
         HTTP
     ],
     bootstrap: [
