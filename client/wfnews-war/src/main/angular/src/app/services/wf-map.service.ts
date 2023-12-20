@@ -105,7 +105,7 @@ export class WFMapService {
     }
 
     public patch(): Promise<any> {
-        var service = this;
+        let service = this;
         try {
             const self = this;
 
@@ -477,14 +477,14 @@ export class WFMapService {
 
                         SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function ( area, view, option ) {
                             // console.log('getFeaturesInArea')
-                            var self = this
+                            let self = this
         
-                            var extraFilter = this.config.where || ''
+                            let extraFilter = this.config.where || ''
                             if ( extraFilter ) extraFilter = ' AND ' + extraFilter
         
-                            var polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[ 0 ].map( function ( c ) { return c.join( ' ' ) } ).join( ',' ) + '))'
+                            let polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[ 0 ].map( function ( c ) { return c.join( ' ' ) } ).join( ',' ) + '))'
         
-                            var data = {
+                            let data = {
                                 service:        "WFS",
                                 version:        '1.1.0',
                                 request:        "GetFeature",
