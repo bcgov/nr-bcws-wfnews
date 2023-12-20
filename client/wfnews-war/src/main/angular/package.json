@@ -92,6 +92,7 @@
     "assert": "2.0.0",
     "capacitor-native-settings": "^5.0.1",
     "cordova-plugin-screen-orientation": "^3.0.4",
+    "cordova-plugin-advanced-http": "^3.3.1",
     "core-js": "2.5.7",
     "crypto-browserify": "^3.12.0",
     "d3-ease": "^3.0.1",
@@ -134,7 +135,9 @@
     "tslib": "2.0.0",
     "vanilla-text-mask": "5.1.1",
     "video.js": "7.15.4",
-    "zone.js": "0.11.4"
+    "zone.js": "0.11.4",
+    "@ionic-native/core": "^5.36.0",
+    "@ionic-native/http": "^5.36.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "15.2.8",
