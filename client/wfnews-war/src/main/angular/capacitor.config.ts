@@ -5,8 +5,9 @@ const config: CapacitorConfig = {
   appName: 'BC Wildfire',
   webDir: 'dist/wfnews',
   server: {
-    androidScheme: 'https'
+    androidScheme: 'https',
   }
+  
 };
 
 export default config;
