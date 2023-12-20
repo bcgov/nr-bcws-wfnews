@@ -8,6 +8,9 @@ import * as nightStyle from '../../assets/data/vector-basemap-night.json';
 import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
 import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
 import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
+import { HTTP, HTTPResponse } from "@ionic-native/http/ngx";
+import { HttpClient } from '@angular/common/http';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 export type Smk = any
 export type SmkPromise = Promise<Smk>
@@ -21,7 +24,7 @@ export class WFMapService {
     identifyCallback;
     identifyDoneCallback;
 
-    constructor(protected appConfigService: AppConfigService) {
+    constructor(protected appConfigService: AppConfigService, private httpClient: HttpClient, private http: HTTP, private capacitorService: CapacitorService) {
 
     }
 
@@ -102,6 +105,7 @@ export class WFMapService {
     }
 
     public patch(): Promise<any> {
+        var service = this;
         try {
             const self = this;
 
@@ -471,70 +475,48 @@ export class WFMapService {
                             return this.config.combiningClass && this.config.combiningClass === other.config.combiningClass;
                         };
 
-                        SMK.TYPE.Layer['wms']['leaflet'].prototype.getFeaturesInArea = function (area, view, option) {
-                            const self = this;
-
-                            let extraFilter = this.config.where || '';
-                            if (extraFilter) {
-                                extraFilter = ' AND ' + extraFilter;
+                        SMK.TYPE.Layer[ 'wms' ]['leaflet'].prototype.getFeaturesInArea = function ( area, view, option ) {
+                            // console.log('getFeaturesInArea')
+                            var self = this
+        
+                            var extraFilter = this.config.where || ''
+                            if ( extraFilter ) extraFilter = ' AND ' + extraFilter
+        
+                            var polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[ 0 ].map( function ( c ) { return c.join( ' ' ) } ).join( ',' ) + '))'
+        
+                            var data = {
+                                service:        "WFS",
+                                version:        '1.1.0',
+                                request:        "GetFeature",
+                                srsName:        'EPSG:4326',
+                                typename:       this.config.layerName,
+                                outputformat:   "application/json",
+                                cql_filter:     'INTERSECTS(' + (this.config.geometryAttribute||'GEOMETRY') + ',' + polygon + ')' + extraFilter
                             }
-
-                            const polygon = 'SRID=4326;POLYGON ((' + area.geometry.coordinates[0].map(function (c) {
-                                return c.join(' ');
-                            }).join(',') + '))';
-
-                            const data = {
-                                service: 'WFS',
-                                version: '1.1.0',
-                                request: 'GetFeature',
-                                srsName: 'EPSG:4326',
-                                typename: this.config.layerName,
-                                outputformat: 'application/json',
-                                cql_filter: 'INTERSECTS(' + (this.config.geometryAttribute || 'GEOMETRY') + ',' + polygon + ')' + extraFilter
-                            };
-
-                            const url = encodeUrl(this.config.serviceUrl, data);
-
-                            return fetch(url, {
-                                method: 'GET',
-                                headers: this.config.header,
-                                mode: 'cors'
-                            })
-                                .then(function (res) {
-                                    return res.blob();
-                                })
-                                .then(function (blob) {
-                                    return new Promise((res, rej) => {
-                                        const reader = new FileReader();
-                                        reader.onload = function () {
-                                            try {
-                                                res(JSON.parse(reader.result.toString()));
-                                            } catch (e) {
-                                                rej(e);
-                                            }
-                                        };
-                                        reader.readAsBinaryString(blob);
-                                    });
-                                })
-                                .then(function (data: any) {
-                                    if (!data) {
-                                        throw new Error('no features');
-                                    }
-                                    if (!data.features || data.features.length == 0) {
-                                        throw new Error('no features');
-                                    }
-
-                                    return data.features.map(function (f, i) {
-                                        if (self.config.titleAttribute) {
-                                            f.title = f.properties[self.config.titleAttribute];
-                                        } else {
-                                            f.title = 'Feature #' + (i + 1);
-                                        }
-
-                                        return f;
-                                    });
-                                });
-                        };
+        
+                            return service.httpGet( this.config.serviceUrl, data )
+                            .then( function ( data: any )    {
+                                console.log('parse ok')
+                                // console.log( data )
+        
+                                if ( !data ) throw new Error( 'no features' )
+                                if ( !data.features || data.features.length == 0 ) throw new Error( 'no features' )
+                                console.log('feature count',data.features.length)
+        
+                                return data.features.map( function ( f, i ) {
+                                    if ( self.config.titleAttribute )
+                                        f.title = f.properties[ self.config.titleAttribute ]
+                                    else
+                                        f.title = 'Feature #' + ( i + 1 )
+        
+                                    return f
+                                } )
+                            } )
+                            .then( function ( features ) {
+                                console.log('features returned',features.length)
+                                return features
+                            } )
+                        }
 
                         SMK.TYPE.Layer['wms-time-cql']['leaflet'].prototype.initLegends =
                             SMK.TYPE.Layer['wms']['leaflet'].prototype.initLegends = function () {
@@ -629,6 +611,18 @@ export class WFMapService {
             }
         }
         return viewer?.currentBasemap;
+    }
+
+    httpGet( url: string, params?: any, headers?: any ): Promise<any> {
+        return this.capacitorService.isMobile.then( b => {
+            if ( b ) return this.http.get( url, params, headers )
+                .then( function( resp ) {
+                    if ( resp.error ) throw resp.error
+                    return JSON.parse( resp.data )
+                } )
+
+            return this.httpClient.get( url, { params: params, headers: headers } ).toPromise()
+        } )
     }
 }
 
