@@ -111,7 +111,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
         { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
         { latitude: maxLatitude, longitude: minLongitude }  // Closing the polygon
       ];
-      this.notificationService.getFireCentreByLocation(rectangleCoordinates).subscribe(
+      this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
         response => {
           if (response.features) {
             const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
