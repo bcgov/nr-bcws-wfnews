@@ -619,7 +619,7 @@ export class WFMapService {
 
     httpGet(url: string, params?: any, headers?: any): Promise<any> {
         return this.capacitorService.isMobile.then(isMobile => {
-            if (!isMobile) {
+            if (isMobile) {
                 // return this.http.get(url, params, headers)
                 const options = {
                     url : url,
