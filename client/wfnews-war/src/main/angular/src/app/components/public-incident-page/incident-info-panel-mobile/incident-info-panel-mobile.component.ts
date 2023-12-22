@@ -70,7 +70,7 @@ type = 'evac-order';
   }
 
   navigateToAreaRestriction(area) {
-    if (area && area.protRsSysID && this.incident) {
+    if (area?.protRsSysID && this.incident) {
 this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
         queryParams: {
           type: 'area-restriction',

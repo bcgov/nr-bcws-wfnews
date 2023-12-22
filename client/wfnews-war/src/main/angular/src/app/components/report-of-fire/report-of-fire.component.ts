@@ -45,6 +45,8 @@ enum PageOperation {
   providers: [CommonUtilityService],
 })
 export class ReportOfFirePage implements OnInit, AfterContentInit {
+  @ViewChild('dynamic', { static: true, read: ViewContainerRef })
+
   public reportOfFire: ReportOfFire;
   public pageComponents: Array<ComponentRef<any>> = [];
   public currentPage: ComponentRef<any>;
@@ -55,7 +57,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   public progressSteps = [];
   public currentStep = 0;
 
-  @ViewChild('dynamic', { static: true, read: ViewContainerRef })
   private dynamicContainer!: ViewContainerRef;
 
   constructor(
@@ -226,7 +227,7 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
     this.dynamicContainer.insert(this.currentPage.hostView);
 
     // reload the map in location-page to pick up the distance && compass changes from previous step
-    if (pageId == 'location-page') {
+    if (pageId === 'location-page') {
       const locationPageComponent = this.currentPage
         .instance as RoFLocationPage;
       if (locationPageComponent.mapConfig) {

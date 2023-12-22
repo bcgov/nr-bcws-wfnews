@@ -18,8 +18,6 @@ import { DomSanitizer } from '@angular/platform-browser';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BaseDialogComponent implements AfterViewInit {
-  mobile: boolean;
-
   @Input() title: string;
   @Input() canGoBack = false;
   @Input() showBack = true;
@@ -29,6 +27,8 @@ export class BaseDialogComponent implements AfterViewInit {
 
   @Output() goBack = new EventEmitter<any>();
   @Output() accepted = new EventEmitter<any>();
+
+  mobile: boolean;
 
   constructor(
     public dialogRef: MatDialogRef<BaseDialogComponent>,

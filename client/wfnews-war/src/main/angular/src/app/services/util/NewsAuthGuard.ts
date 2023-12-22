@@ -33,7 +33,7 @@ export class NewsAuthGuard extends AuthGuard {
     if (!window.navigator.onLine) {
       return of(false);
     }
-    if (route.data && route.data.scopes && route.data.scopes.length > 0) {
+    if (route?.data?.scopes?.length > 0) {
       return this.getTokenInfo(route);
     } else {
       return of(true);

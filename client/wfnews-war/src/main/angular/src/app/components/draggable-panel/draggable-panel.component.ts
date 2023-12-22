@@ -28,8 +28,9 @@ import { AGOLService } from '@app/services/AGOL-service';
   styleUrls: ['./draggable-panel.component.scss'],
 })
 export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
-  resizeHeight = '10vh'; // Initial height of the panel
   @Input() incidentRefs: any[];
+
+  resizeHeight = '10vh'; // Initial height of the panel
   currentIncidentRefs: any[];
   storedIncidentRefs: any[];
   filteredWildfires: any[];
@@ -52,7 +53,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   identifyItem: any;
   identifyIncident: any = {};
   map: any;
-  private previousZoom: number;
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
@@ -63,9 +63,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
+  removeIdentity = false;
+
+  private previousZoom: number;
   private marker: any;
   private markerAnimation;
-  removeIdentity = false;
 
   constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -448,10 +450,6 @@ return 'Unknown';
             layerId.includes('evacuation-orders-and-alerts') ||
             layerId.includes('area-restrictions'))
         ) {
-          const location = [
-            Number(this.identifyItem._identifyPoint.latitude),
-            Number(this.identifyItem._identifyPoint.longitude),
-          ];
           if (layerId.includes('bans-and-prohibitions')) {
             viewer.panToFeature(window['turf'].point([long, lat]), 5);
 

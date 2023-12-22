@@ -61,7 +61,7 @@ export class ImageCardPanel implements OnInit, OnChanges {
   }
 
   get isPrimary() {
-    if (!Object.prototype.hasOwnProperty.call(this.attachment, 'primaryInd')) {
+    if (!Object.hasOwn(this.attachment, 'primaryInd')) {
       (this.attachment as any).primaryInd = false;
     }
 

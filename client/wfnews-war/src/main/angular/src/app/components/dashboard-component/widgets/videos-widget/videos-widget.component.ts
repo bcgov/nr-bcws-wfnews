@@ -70,7 +70,7 @@ export class VideosWidget implements AfterViewInit {
               );
               for (const video of allVideos) {
                 if (
-                  this.videos.filter((v) => v.externalUri == video.externalUri)
+                  this.videos.filter((v) => v.externalUri === video.externalUri)
                     .length === 0
                 ) {
                   this.videos.push({

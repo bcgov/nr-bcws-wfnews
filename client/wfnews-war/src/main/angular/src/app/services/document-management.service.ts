@@ -100,13 +100,13 @@ fileName = file.name;
     return new Promise((res, rej) => {
       req.subscribe(
         (ev) => {
-          if (ev.type == HttpEventType.UploadProgress) {
+          if (ev.type === HttpEventType.UploadProgress) {
             onProgress(
               Math.round((100 * ev.loaded) / ev.total),
               ev.loaded,
               ev.total,
             );
-          } else if (ev.type == HttpEventType.Sent) {
+          } else if (ev.type === HttpEventType.Sent) {
           } else if (ev instanceof HttpResponse) {
             onProgress(100, file.size, file.size);
             res(ev.body as FileDetailsRsrc);

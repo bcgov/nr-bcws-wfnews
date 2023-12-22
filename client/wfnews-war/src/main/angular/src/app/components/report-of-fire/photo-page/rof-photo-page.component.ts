@@ -12,7 +12,6 @@ import {
   CameraSource,
   GalleryPhoto,
   Photo,
-  CameraPluginPermissions,
 } from '@capacitor/camera';
 import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';

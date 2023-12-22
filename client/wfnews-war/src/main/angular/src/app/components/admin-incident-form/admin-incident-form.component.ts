@@ -2,7 +2,6 @@ import {
   ChangeDetectorRef,
   Directive,
   EventEmitter,
-  HostListener,
   Input,
   OnChanges,
   OnInit,

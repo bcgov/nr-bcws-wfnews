@@ -199,8 +199,8 @@ opts.includedSources.push({ property: p });
       .toPromise()
       .then(function(result) {
         if (!result) {
-return;
-}
+          return;
+        }
 
         self.applicationStateService.setWeatherHistoryOptions(result);
         self.showChart();

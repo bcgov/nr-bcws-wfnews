@@ -44,8 +44,7 @@ export class WfnewsInterceptor
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
     const processedRequest = req;
-    let requestId;
-    requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, '');
+    const requestId = `WFNEWSUI${UUID.UUID().toUpperCase()}`.replace(/-/g, '');
 
     if (this.isUrlSecured(req.url)) {
       if (!this.tokenService) {
@@ -190,7 +189,7 @@ export class WfnewsInterceptor
         null,
         `Server Error (${response.status}).`,
       );
-    } else if (response.status == 401) {
+    } else if (response.status === 401) {
       let message = '';
       if (
         response.error &&
@@ -205,7 +204,7 @@ export class WfnewsInterceptor
       }
 
       return this.createErrorHandlingInstructions(null, null, message);
-    } else if (response.status == 403) {
+    } else if (response.status === 403) {
       let message = '';
       if (
         response.error &&

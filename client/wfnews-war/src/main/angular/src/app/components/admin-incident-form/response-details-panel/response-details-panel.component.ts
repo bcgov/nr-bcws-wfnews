@@ -110,15 +110,11 @@ export class ResponseDetailsPanel implements OnInit {
   }
 
   structureProtectionCommentsValue() {
-    //if (structure && structure > 0) {
     return `Structure protection is responding to this incident.`;
-    //}
   }
 
   incidentTeamCommentsValue() {
-    //if (structure && structure > 0) {
     return 'An Incident Management Team has been assigned to this wildfire.';
-    //}
   }
 
   crewsValueChange() {

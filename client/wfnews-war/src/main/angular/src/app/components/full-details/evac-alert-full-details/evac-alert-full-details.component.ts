@@ -138,12 +138,12 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         .toPromise();
       if (incidents?.collection && incidents?.collection?.length > 0) {
         for (const item of incidents.collection) {
-          const location = [Number(item.latitude), Number(item.longitude)];
+          const incidentLocation = [Number(item.latitude), Number(item.longitude)];
           if (item.fireOfNoteInd) {
-            L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+            L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
           } else {
             const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-            L.circleMarker(location, {
+            L.circleMarker(incidentLocation, {
               radius: 5,
               fillOpacity: 1,
               color: 'black',
@@ -220,9 +220,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   navToBulletinUrl() {
-    if (this.evacData && this.evacData.bulletinUrl) {
-window.open(this.evacData.bulletinUrl);
-}
+    if (this.evacData?.bulletinUrl) {
+      window.open(this.evacData.bulletinUrl);
+    }
   }
 
   onWatchlist(incident): boolean {

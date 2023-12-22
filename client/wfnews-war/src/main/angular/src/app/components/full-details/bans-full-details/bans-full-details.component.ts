@@ -3,10 +3,9 @@ import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, setDisplayColor } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
-import { setDisplayColor } from '@app/utils';
 import { HttpClient } from '@angular/common/http';
 
 export class BanProhibition {
@@ -174,12 +173,12 @@ export class BansFullDetailsComponent implements OnInit {
           .toPromise();
         if (incidents?.collection && incidents?.collection?.length > 0) {
           for (const item of incidents.collection) {
-            const location = [Number(item.latitude), Number(item.longitude)];
+            const incidentLocation = [Number(item.latitude), Number(item.longitude)];
             if (item.fireOfNoteInd) {
-              L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+              L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
             } else {
               const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-              L.circleMarker(location, {
+              L.circleMarker(incidentLocation, {
                 radius: 5,
                 fillOpacity: 1,
                 color: 'black',
