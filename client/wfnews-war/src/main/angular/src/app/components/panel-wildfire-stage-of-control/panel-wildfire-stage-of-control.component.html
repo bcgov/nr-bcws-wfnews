@@ -99,10 +99,14 @@
             <div>{{collection? collection.totalRowCount: 0}} Results</div>
         </div>
         <div class="wildfire-checkboxs">
-            <mat-checkbox aria-label="active" (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
-            <mat-checkbox aria-label="out" (change)="stageOfControlChanges($event)" [(ngModel)]="outWildfiresInd">Out Wildfires</mat-checkbox>
-            <mat-checkbox aria-label="new" (change)="stageOfControlChanges($event)" [(ngModel)]="newFires">New Wildfires</mat-checkbox>
-            <mat-checkbox aria-label="fire-of-note" (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Wildfires of Note</mat-checkbox>
+            <div class="row">
+              <mat-checkbox aria-label="active" (change)="stageOfControlChanges($event)" [(ngModel)]="activeWildfiresInd">Active Wildfires</mat-checkbox>
+              <mat-checkbox aria-label="new" (change)="stageOfControlChanges($event)" [(ngModel)]="newFires">New Wildfires</mat-checkbox>
+            </div>
+            <div class="row">
+              <mat-checkbox aria-label="out" (change)="stageOfControlChanges($event)" [(ngModel)]="outWildfiresInd">Out Wildfires</mat-checkbox>
+              <mat-checkbox aria-label="fire-of-note" (change)="stageOfControlChanges($event)" [(ngModel)]="wildfiresOfNoteInd">Wildfires of Note</mat-checkbox>
+            </div>
         </div>
         <div *ngIf="loading">
           <mat-spinner style="margin: auto;" *ngIf="!loaded" [diameter]="50"></mat-spinner>
