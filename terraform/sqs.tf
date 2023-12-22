@@ -63,7 +63,7 @@ resource "aws_sqs_queue" "queues" {
         "sqs:DeleteMessage"
       ],
       "Condition": {
-        "ArnLike": {"aws:SourceArn":"arn:aws:iam::${var.target_aws_account_id}:*/*"}
+        "ArnLike": {"aws:SourceArn":"arn:aws:*::${var.target_aws_account_id}:*/*"}
       },
       "Resource": "arn:aws:sqs:*:${var.target_aws_account_id}:wfnews-${each.key}-queue-${var.target_env}"
     }

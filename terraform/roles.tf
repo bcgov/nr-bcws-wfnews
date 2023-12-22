@@ -223,9 +223,9 @@ resource "aws_iam_role_policy" "wfnews_task_execution_sns_policy" {
   EOF
 }
 
-resource "aws_iam_role_policy" "wfnews_task_execution_sqs_policy" {
-  name   = "wfnews_task_execution_sqs_policy_${var.target_env}"
-  role   = aws_iam_role.wfnews_ecs_task_execution_role.id
+resource "aws_iam_role_policy" "wfnews_sqs_policy" {
+  name   = "wfnews_sqs_policy_${var.target_env}"
+  role   = aws_iam_role.wfnews_app_container_role.id
   policy = <<-EOF
   {
     "Version": "2012-10-17",
