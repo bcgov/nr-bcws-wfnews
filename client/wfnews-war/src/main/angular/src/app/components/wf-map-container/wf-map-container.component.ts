@@ -146,15 +146,15 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     const self = this;
     const identified = smk.$viewer.identified;
     const map = smk.$viewer.map;
-    let delayTimer; // Variable to store the timeout ID
 
+    // Variable to store the timeout ID
     // Function to handle the timeout logic
     function handleTimeout() {
       self.selectIncidents.emit(identified.featureSet);
     }
 
     // Set a timeout to emit selectIncidents event after 500 milliseconds
-    delayTimer = setTimeout(handleTimeout, 500);
+    const delayTimer = setTimeout(handleTimeout, 500);
 
     // Listen for the zoomend event
     map.on('zoomend', () => {

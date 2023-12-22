@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { getActiveMap } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
-
 import * as nightStyle from '../../assets/data/vector-basemap-night.json';
 import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
 import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
@@ -710,7 +709,7 @@ f.title = 'Feature #' + (i + 1);
     const SMK = window['SMK'];
     let viewer = null;
     for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+      if (Object.hasOwn(SMK.MAP, smkMap)) {
         viewer = SMK.MAP[smkMap].$viewer;
       }
     }
@@ -733,7 +732,7 @@ f.title = 'Feature #' + (i + 1);
     const SMK = window['SMK'];
     let viewer = null;
     for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+      if (Object.hasOwn(SMK.MAP, smkMap)) {
         viewer = SMK.MAP[smkMap].$viewer;
       }
     }

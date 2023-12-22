@@ -76,6 +76,20 @@ export class PanelWildfireStageOfControlComponent
   public areaRestrictions: AreaRestrictionsOption[] = [];
   public evacOrders: EvacOrderOption[] = [];
 
+  public isFirstPage: string;
+  public isLastPage: string;
+
+  public loading = true;
+  public tabIndex = 0;
+
+  public readonly url =
+    this.appConfigService.getConfig().application.baseUrl.toString() +
+    this.router.url.slice(1);
+
+  public convertToDateWithDayOfWeek = DateTimeConvert;
+  public convertToStageOfControlDescription = StageOfControlConvert;
+  public convertToFireCentreDescription = convertToFireCentreDescription;
+
   private zone: NgZone;
   private componentRef: ComponentRef<any>;
   private mapPanProgressBar;
@@ -93,23 +107,8 @@ export class PanelWildfireStageOfControlComponent
   private mapEventDebounce;
   private ignorePan = true;
   private ignorePanDebounce;
-
   private marker: any;
-  public isFirstPage: string;
-  public isLastPage: string;
-
-  public loading = true;
-  public tabIndex = 0;
-
-  public readonly url =
-    this.appConfigService.getConfig().application.baseUrl.toString() +
-    this.router.url.slice(1);
-
   private cdrScan;
-
-  public convertToDateWithDayOfWeek = DateTimeConvert;
-  public convertToStageOfControlDescription = StageOfControlConvert;
-  public convertToFireCentreDescription = convertToFireCentreDescription;
 
   constructor(
     protected injector: Injector,

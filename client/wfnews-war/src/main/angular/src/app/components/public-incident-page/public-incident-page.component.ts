@@ -43,7 +43,7 @@ export class PublicIncidentPage implements OnInit {
 
   ngOnInit() {
     this.router.queryParams.subscribe((params: ParamMap) => {
-      const responseUrl = this.appConfigService
+      this.appConfigService
         .getConfig()
         .externalAppConfig['bcWildfireResponsePage'].toString();
       if (params && params['incidentNumber'] && params['fireYear']) {
@@ -146,7 +146,7 @@ this.incident.incidentSizeEstimatedHa =
       .fetchPublishedIncidentAttachments(this.incident.incidentNumberLabelFull)
       .toPromise()
       .then((results) => {
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection?.length > 0) {
           this.showImageWarning = true;
           this.cdr.detectChanges();
         }
@@ -240,7 +240,7 @@ this.incident.incidentSizeEstimatedHa =
       .fetchExternalUri(this.incident.incidentNumberLabel)
       .toPromise()
       .then((results) => {
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection?.length > 0) {
           for (const uri of results.collection) {
             if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
               this.evacOrders.push({

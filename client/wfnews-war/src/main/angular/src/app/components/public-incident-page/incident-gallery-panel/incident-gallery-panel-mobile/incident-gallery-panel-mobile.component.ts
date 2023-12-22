@@ -20,20 +20,22 @@ export class IncidentGalleryPanelMobileComponent implements OnInit {
   allVideosStub: any[];
   displayImagesStub: any[];
   displayVideosStub: any[];
+  displayLoadMore = false;
+  displayLoadMoreImages = false;
+  displayLoadMoreVideos = false;
+
+  convertToMobileFormat = convertToMobileFormat;
+  convertToYoutubeId = convertToYoutubeId;
+
+  private lightGallery!: LightGallery;
+  private refreshGallery = false;
+
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
     private appConfigService: AppConfigService,
     private cdr: ChangeDetectorRef,
     private router: ActivatedRoute,
   ) {}
-
-  displayLoadMore = false;
-  displayLoadMoreImages = false;
-  displayLoadMoreVideos = false;
-  private lightGallery!: LightGallery;
-  private refreshGallery = false;
-  convertToMobileFormat = convertToMobileFormat;
-  convertToYoutubeId = convertToYoutubeId;
 
   ngAfterViewChecked(): void {
     if (this.refreshGallery && this.lightGallery) {

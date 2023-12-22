@@ -48,7 +48,6 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     sortParam: 'attachmentTitle',
     sortDirection: 'DESC',
   };
-  private loaded = false;
   public uploadProgress = 0;
   public uploadStatus = '';
   public statusBar;
@@ -62,6 +61,7 @@ export class MapsPanel extends BaseComponent implements OnInit, OnChanges {
     'delete',
   ];
   public attachments: AttachmentResource[] = [];
+  private loaded = false;
 
   constructor(
     protected router: Router,

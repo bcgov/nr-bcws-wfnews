@@ -15,6 +15,7 @@ import {
   findFireCentreByName,
   convertToYoutubeId,
   isMobileView,
+  getResponseTypeDescription
 } from '../../../utils';
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
@@ -22,7 +23,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { getResponseTypeDescription } from '../../../utils';
 
 @Component({
   selector: 'incident-info-panel',
@@ -36,7 +36,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   @Input() public areaRestrictions: AreaRestrictionsOption[] = [];
 
   showWarning: boolean;
-
+  public primaryMedia = null;
   public convertToFireCentreDescription = convertToFireCentreDescription;
   public findFireCentreByName = findFireCentreByName;
   public convertToYoutubeId = convertToYoutubeId;
@@ -52,7 +52,6 @@ export class IncidentInfoPanel implements AfterViewInit {
     private http: HttpClient,
     protected route: Router,
   ) {}
-  public primaryMedia = null;
 
   handleImageFallback(href: string) {
     const imgComponent = document.getElementById('primary-image-container');
@@ -189,7 +188,7 @@ console.error(error);
       .toPromise()
       .then((results) => {
         let setMedia = false;
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection?.length > 0) {
           for (const uri of results.collection) {
             if (
               uri.primaryInd &&
@@ -222,11 +221,7 @@ console.error(error);
             .toPromise()
             .then((results) => {
               // Loop through the attachments, for each one, create a ref, and set href to the bytes
-              if (
-                results &&
-                results.collection &&
-                results.collection.length > 0
-              ) {
+              if (results?.collection?.length > 0) {
                 for (const attachment of results.collection) {
                   // do a mime type check here
                   if (attachment.primary) {

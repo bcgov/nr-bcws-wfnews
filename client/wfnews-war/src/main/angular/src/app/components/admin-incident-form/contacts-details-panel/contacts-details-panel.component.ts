@@ -31,7 +31,7 @@ export class ContactsDetailsPanel implements OnInit {
 
   setDefaultContactInfo(value) {
     const control = this.formGroup.get('contact');
-    if (Object.prototype.hasOwnProperty.call(this.contacts, value)) {
+    if (Object.hasOwn(this.contacts, value)) {
       control.patchValue({
         phoneNumber: this.contacts[value].phone,
         emailAddress: this.contacts[value].url,

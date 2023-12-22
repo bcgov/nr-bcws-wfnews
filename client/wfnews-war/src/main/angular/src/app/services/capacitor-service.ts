@@ -352,10 +352,10 @@ this.inactiveStart = Date.now();
 return;
 }
 
-        this.isIOSPlatform = devInfo.platform == 'ios';
-        this.isAndroidPlatform = devInfo.platform == 'android';
+        this.isIOSPlatform = devInfo.platform === 'ios';
+        this.isAndroidPlatform = devInfo.platform === 'android';
         this.isWebPlatform =
-          devInfo.platform != 'ios' && devInfo.platform != 'android';
+          devInfo.platform !== 'ios' && devInfo.platform !== 'android';
 
         return Device.getId();
       })
@@ -514,11 +514,7 @@ return Promise.reject(Error('navigator.compass not available'));
   get deviceProperties(): Promise<DeviceProperties> {
     if (!this.devicePropertiesPromise) {
 this.devicePropertiesPromise = Device.getInfo()
-        .then((devInfo) => {
-          console.log(devInfo);
-
-          return Device.getId().then((deviceId) => {
-            console.log(deviceId);
+        .then((devInfo) => Device.getId().then((deviceId) => {
 
             const p = devInfo && devInfo.platform;
               const prop: DeviceProperties = {
@@ -544,8 +540,7 @@ this.devicePropertiesPromise = Device.getInfo()
                 console.warn(e);
                 return prop;
               });
-          });
-        })
+          }))
         .catch((e) => {
           console.warn(e);
           return {

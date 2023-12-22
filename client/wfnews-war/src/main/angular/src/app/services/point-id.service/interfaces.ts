@@ -31,13 +31,13 @@ export interface WeatherDailyCondition {
 }
 
 export interface WeatherStation {
+  [key: string]: any;
   stationCode: string;
   stationName: string;
   lat?: string;
   lon?: string;
   elevation: string;
   distance: string;
-  [key: string]: any;
 }
 
 export interface WeatherStationConditions extends WeatherStation {
@@ -46,6 +46,6 @@ export interface WeatherStationConditions extends WeatherStation {
 }
 
 export interface WeatherStationResult {
-  stations: WeatherStationConditions[];
   [key: string]: any;
+  stations: WeatherStationConditions[];
 }

@@ -54,7 +54,6 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
   backRouteLabel: string = null;
   summaryString: string = null;
   isConnected = true;
-  protected model: BaseComponentModel;
   public viewModel: BaseComponentModel;
   isLoading: boolean;
   componentId = '';
@@ -70,6 +69,7 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
   unsavedChangesMessage = 'Unsaved Changes';
 
   isUnsaved = false;
+
   getElementInnerText = getElementInnerText;
   isElementTruncated = isElementTruncated;
 
@@ -89,6 +89,8 @@ export class BaseComponent implements OnInit, OnChanges, AfterViewInit {
     previousLabel: 'Back',
     nextLabel: 'Next',
   };
+
+  protected model: BaseComponentModel;
 
   constructor(
     protected router: Router,

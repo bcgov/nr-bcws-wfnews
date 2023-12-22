@@ -88,7 +88,7 @@ export class RoFComplexQuestionPage extends RoFPage {
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
-      if (this.notSureButton && this.notSureButton.checked) {
+      if (this.notSureButton?.checked) {
         this.notSureButton.checked = false;
         if (this.allowMultiSelect) {
           this.reportOfFire[this.updateAttribute] = this.reportOfFire[
@@ -105,8 +105,8 @@ export class RoFComplexQuestionPage extends RoFPage {
         Array.isArray(this.reportOfFire[this.updateAttribute]) &&
         this.reportOfFire[this.updateAttribute].includes(value)
       ) {
-        const index = this.reportOfFire[this.updateAttribute].indexOf(value);
-        this.reportOfFire[this.updateAttribute].splice(index, 1);
+        const idx = this.reportOfFire[this.updateAttribute].indexOf(value);
+        this.reportOfFire[this.updateAttribute].splice(idx, 1);
       } else {
         this.reportOfFire[this.updateAttribute] = value;
       }
@@ -121,7 +121,7 @@ export class RoFComplexQuestionPage extends RoFPage {
 
     if (value === null) {
       this.notSureButton.checked = true;
-      if (this.allowMultiSelect == true) {
+      if (this.allowMultiSelect === true) {
         this.reportOfFire[this.updateAttribute] = ['I\'m not sure'];
       } else {
         this.reportOfFire[this.updateAttribute] = 'I\'m not sure';

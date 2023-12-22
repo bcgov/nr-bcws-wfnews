@@ -46,7 +46,7 @@ export class IncidentIdentifyPanelComponent {
     this.identifiedFeatures = [];
     let count = 1; // index counter for the next/previous buttons
     for (const fid in identifyList) {
-      if (Object.prototype.hasOwnProperty.call(identifyList, fid)) {
+      if (Object.hasOwn(identifyList, fid)) {
         const feature = identifyList[fid];
         if (
           [
@@ -232,7 +232,7 @@ export class IncidentIdentifyPanelComponent {
       .fetchExternalUri(this.incident.incidentNumberLabel)
       .toPromise()
       .then((results) => {
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection?.length > 0) {
           for (const uri of results.collection) {
             if (uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
               this.evacOrders.push({

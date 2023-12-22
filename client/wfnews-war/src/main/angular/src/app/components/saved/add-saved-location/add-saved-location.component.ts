@@ -35,9 +35,7 @@ export class LocationData {
 export class AddSavedLocationComponent implements OnInit {
   searchText = undefined;
   public filteredOptions = [];
-  private sortedAddressList: string[] = [];
   public locationData = new LocationData();
-  private placeData: PlaceData;
   currentLocation: any;
   radiusDistance: number;
   notificationName: string;
@@ -45,8 +43,10 @@ export class AddSavedLocationComponent implements OnInit {
   savedLocation: any;
   locationToEditOrDelete;
   isEdit: boolean;
-
   isMobileView = isMobileView;
+
+  private placeData: PlaceData;
+  private sortedAddressList: string[] = [];
 
   constructor(
     private commonUtilityService: CommonUtilityService,

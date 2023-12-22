@@ -43,7 +43,7 @@ export class VideoGalleryPanel
     sortParam: 'attachmentTitle',
     sortDirection: 'DESC',
   };
-  private loaded = false;
+
   public uploadProgress = 0;
   public uploadStatus = '';
   public statusBar;
@@ -58,6 +58,8 @@ export class VideoGalleryPanel
     totalPageCount: null,
     collection: [],
   };
+
+  private loaded = false;
 
   constructor(
     protected router: Router,
@@ -281,7 +283,7 @@ return 0;
    */
   async removePrimaryFlags(guid: string) {
     for (const attachment of this.attachments) {
-      const isPrimary = (attachment as any).primaryInd as Boolean;
+      const isPrimary = (attachment as any).primaryInd as boolean;
       if (isPrimary) {
         (attachment as any).primaryInd = false;
         await this.incidentAttachmentService

@@ -48,7 +48,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    const runPreviouslySubmitted = this.ionViewDidEnter();
+    this.ionViewDidEnter();
   }
 
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
@@ -309,7 +309,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
         this.reportOfFire.estimatedDistance / distanceInPixels;
       const offSet = metersPerPixel * 35;
       const angleInRadians = ((direction + 180) * Math.PI) / 180;
-      // calculates a new latitude value by adding a offset (in meters) to the initial latitude, considering the angle and the Earth's radius
+      // calculates a new latitude value by adding a offset (in meters) to the initial latitude,
+      // considering the angle and the Earth's radius
       const newLatitude =
         initialFirePoint.lat +
         (offSet * Math.cos(angleInRadians)) / ((Math.PI * 6378137) / 180);
@@ -362,9 +363,9 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
 
   findLabelByValue(pageId: string, valueToFind: string) {
     if (pageId && valueToFind) {
-      const page = this.reportOfFirePages.find((page) => page.id === pageId);
+      const page = this.reportOfFirePages.find((page: { id: string }) => page.id === pageId);
       const button = page.buttons.find(
-        (button) => button.value === valueToFind,
+        (button: { value: string }) => button.value === valueToFind,
       );
       if (valueToFind === 'I\'m not sure') {
         return 'I\'m not sure';
@@ -426,7 +427,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
     };
 
     try {
-      const response = this.reportOfFireService.saveReportOfFire(
+      this.reportOfFireService.saveReportOfFire(
         rofResource,
         this.reportOfFire.image1,
         this.reportOfFire.image2,
