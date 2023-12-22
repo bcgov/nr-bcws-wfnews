@@ -6,7 +6,7 @@
     "typeRoots": [
       "node_modules/@types"
     ],
-    "baseUrl": "./src",
+    "baseUrl": "./client/wfnews-war/src/main/angular/src",
     "paths": {
       "@app/*": ["app/*"],
       "os": ["./node_modules/os-browserify"],
