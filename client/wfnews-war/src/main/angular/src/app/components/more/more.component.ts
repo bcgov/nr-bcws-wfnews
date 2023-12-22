@@ -5,23 +5,20 @@ import { ResourcesRoutes } from '@app/utils';
 @Component({
   selector: 'wfnews-more',
   templateUrl: './more.component.html',
-  styleUrls: ['./more.component.scss']
+  styleUrls: ['./more.component.scss'],
 })
 export class MoreComponent {
+  constructor(private router: Router) {}
 
-  constructor(private router: Router) {
-
-  }
-
-  navigate(menu){
-    switch (menu){
-      case 'wildfire-list' :
+  navigate(menu) {
+    switch (menu) {
+      case 'wildfire-list':
         this.router.navigate([ResourcesRoutes.WILDFIRESLIST]);
         break;
-      case 'resources' :
+      case 'resources':
         this.router.navigate([ResourcesRoutes.RESOURCES]);
         break;
-      case 'contact-us' :
+      case 'contact-us':
         this.router.navigate([ResourcesRoutes.CONTACT_US]);
         break;
       case 'blog':
@@ -37,6 +34,5 @@ export class MoreComponent {
         window.open('https://twitter.com/BCGovFireInfo', '_blank');
         break;
     }
-
   }
 }

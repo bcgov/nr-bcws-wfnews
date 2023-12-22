@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 ::ng-deep #core-interface-container {
   .mobile .incident-detail {
     .info-card {
@@ -8,7 +8,7 @@
 }
 
 .fire-icon {
-  background: #AA1D3E;
+  background: #aa1d3e;
   color: white;
   border-radius: 50%;
   margin-left: 8px;

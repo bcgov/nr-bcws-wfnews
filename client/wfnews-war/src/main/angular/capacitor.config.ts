@@ -1,13 +1,12 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: 'ca.bc.gov.WildfireInformation',
-  appName: 'BC Wildfire',
-  webDir: 'dist/wfnews',
+  appId: "ca.bc.gov.WildfireInformation",
+  appName: "BC Wildfire",
+  webDir: "dist/wfnews",
   server: {
-    androidScheme: 'https',
-  }
-  
+    androidScheme: "https",
+  },
 };
 
 export default config;

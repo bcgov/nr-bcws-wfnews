@@ -27,7 +27,8 @@
   padding: 0 5px;
   height: 35px;
   line-height: 35px;
-  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial",
+    "sans-serif";
   font-size: 15px;
   margin-right: 5px;
   margin-left: 5px;
@@ -35,15 +36,15 @@
 
 .filter-button {
   margin-right: 7px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   background-color: white !important;
   height: 36px;
   width: 36px;
   box-shadow: none !important;
   &-selected {
     margin-right: 7px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     height: 36px;
     width: 36px;
     box-shadow: none !important;
@@ -76,23 +77,23 @@
   }
 }
 
-.input-clear-button{
+.input-clear-button {
   position: relative;
   background-color: transparent;
   border: none;
   top: 5px;
-  .button-wrapper{
-      padding: 0;
-      min-width: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      line-height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }
 
@@ -102,7 +103,7 @@
 }
 
 .panel-card {
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
   cursor: pointer;
 }
 
@@ -170,8 +171,8 @@
   line-height: 22px;
   letter-spacing: 0em;
   text-align: left;
-  color: #98273B;
-  background: #FEF1F2;
+  color: #98273b;
+  background: #fef1f2;
 }
 
 .soc-icon-adjust {
@@ -181,7 +182,7 @@
 
 .list-button {
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;

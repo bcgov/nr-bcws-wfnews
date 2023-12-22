@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 .map-toggle {
@@ -6,7 +6,7 @@
   padding-bottom: 2px;
   .map-toggle-button {
     background: transparent;
-  
+
     .map-toggle-button-label {
       display: flex;
       align-items: center;
@@ -15,42 +15,45 @@
         padding-right: 8px;
       }
     }
-  
+
     ::ng-deep .mat-button-toggle-button {
       border-radius: 20px;
       background: $colour-white;
       border: 2px solid transparent;
       padding: 2px 16px 2px 8px;
-      box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
-      
+      box-shadow:
+        0 1px 2px rgba(60, 64, 67, 0.3),
+        0 1px 3px 1px rgba(60, 64, 67, 0.15);
+
       ::ng-deep .mat-button-toggle-label-content {
         line-height: 19px;
         font-size: 16px;
         font-weight: 400;
-        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         padding: 0;
         vertical-align: middle;
       }
     }
   }
-  
+
   .mat-button-toggle-checked {
     ::ng-deep .mat-button-toggle-button {
-      border: 2px solid #38598A !important;
-      background-color: #E9F0F8;
+      border: 2px solid #38598a !important;
+      background-color: #e9f0f8;
       img {
-        filter: invert(53%) sepia(46%) saturate(717%) hue-rotate(179deg) brightness(90%) contrast(89%);
+        filter: invert(53%) sepia(46%) saturate(717%) hue-rotate(179deg)
+          brightness(90%) contrast(89%);
       }
     }
-    
+
     ::ng-deep .mat-button-toggle-label-content {
       line-height: 19px;
       font-size: 16px;
       font-weight: 400;
-      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       color: #242424 !important;
     }
   }
 }
-
-

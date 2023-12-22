@@ -1,16 +1,16 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     height: 386px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     max-width: 1480px;
     width: calc(100vw - 104px);
     padding: var(--24, 24px);
@@ -34,8 +34,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
@@ -47,7 +49,7 @@
   .button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     background-color: transparent;
     margin-left: auto;
     width: 250px;
@@ -69,13 +71,13 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     height: 386px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     max-width: 850px;
     width: calc(100% - 47px);
     padding: var(--24, 24px);
@@ -99,8 +101,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
@@ -112,7 +116,7 @@
   .button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     background-color: transparent;
     margin-left: auto;
     width: 250px;
@@ -134,11 +138,11 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     height: 386px;
     flex: 1 0 0;
-    background: #FFF;
+    background: #fff;
     width: calc(100vw - 53px);
     flex-direction: column;
     align-items: flex-start;
@@ -159,8 +163,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -171,7 +177,7 @@
   .button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     background-color: transparent;
     margin-left: auto;
     &-label {
@@ -190,8 +196,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
@@ -208,8 +216,8 @@
 
 .video-card {
   border-radius: 20px;
-  border: 1px solid var(--Grey-3-DDD, #DDD);
-  background: #F5F6F9;
+  border: 1px solid var(--Grey-3-DDD, #ddd);
+  background: #f5f6f9;
   display: flex;
   height: 100%;
   min-width: 260px;
@@ -225,7 +233,7 @@
     overflow: hidden;
     color: var(--Black-2, #484848);
     text-overflow: ellipsis;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 600;
@@ -234,7 +242,7 @@
 }
 
 .widget-header {
-  border-bottom: 1px solid #C4C4C4;
+  border-bottom: 1px solid #c4c4c4;
   width: 100%;
   padding-bottom: 16px;
   display: flex;

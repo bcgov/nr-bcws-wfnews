@@ -1,5 +1,5 @@
-import {RouterModule, Routes} from '@angular/router';
-import {UnauthorizedPageComponent} from '@wf1/core-ui';
+import { RouterModule, Routes } from '@angular/router';
+import { UnauthorizedPageComponent } from '@wf1/core-ui';
 import { ActiveWildfireMapComponent } from './components/active-wildfire-map/active-wildfire-map.component';
 import { AdminContainerDesktop } from './containers/admin/admin-container.component.desktop';
 import { ResourcesRoutes } from './utils';
@@ -26,28 +26,92 @@ import { SavedLocationWeatherDetailsComponent } from './components/saved/saved-l
 const PROFILE_SCOPES = [[ROLES_UI.ADMIN, ROLES_UI.IM_ADMIN]];
 
 const PANEL_ROUTES: Routes = [
-	// { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
-  { path: 'unauthorized', component: UnauthorizedPageComponent, pathMatch: 'full', outlet: 'root' },
-  { path: ResourcesRoutes.LANDING, redirectTo: ResourcesRoutes.DASHBOARD, pathMatch: 'full'},
-  { path: ResourcesRoutes.DASHBOARD, component: Dashboard, pathMatch: 'full'},
-  { path: ResourcesRoutes.ACTIVEWILDFIREMAP, component: ActiveWildfireMapComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.WILDFIRESLIST, component: WildfiresListHeaderComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.RESOURCES, component: WildfirewResourcesComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.ROF, component: ReportOfFirePage, pathMatch: 'full'},
-  { path: ResourcesRoutes.ADMIN, data:{scopes: PROFILE_SCOPES}, component: AdminContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard]},
-  { path: ResourcesRoutes.ADMIN_INCIDENT, data:{scopes: PROFILE_SCOPES}, component: IncidentContainerDesktop, pathMatch: 'full', canActivate: [NewsAuthGuard], canDeactivate: [CanDeactivateGuard]},
-  { path: ResourcesRoutes.PUBLIC_INCIDENT, component: PublicIncidentPage, pathMatch: 'full'},
-  { path: ResourcesRoutes.SIGN_OUT, component: SignOutPageComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.ERROR_PAGE, component: ErrorPageComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.FULL_DETAILS, component: FullDetailsComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.WEATHER_DETAILS, component: SavedLocationWeatherDetailsComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.SAVED, component: SavedComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.SAVED_LOCATION, component: SavedLocationFullDetailsComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.ADD_LOCATION, component: AddSavedLocationComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full'},
-  { path: ResourcesRoutes.CONTACT_US, component: ContactWidgetDialogComponent, pathMatch: 'full'},
-
+  // { path: '', component: ActionsPanelComponent, pathMatch: 'full', canActivate: [AuthGuard] },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedPageComponent,
+    pathMatch: 'full',
+    outlet: 'root',
+  },
+  {
+    path: ResourcesRoutes.LANDING,
+    redirectTo: ResourcesRoutes.DASHBOARD,
+    pathMatch: 'full',
+  },
+  { path: ResourcesRoutes.DASHBOARD, component: Dashboard, pathMatch: 'full' },
+  {
+    path: ResourcesRoutes.ACTIVEWILDFIREMAP,
+    component: ActiveWildfireMapComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.WILDFIRESLIST,
+    component: WildfiresListHeaderComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.RESOURCES,
+    component: WildfirewResourcesComponent,
+    pathMatch: 'full',
+  },
+  { path: ResourcesRoutes.ROF, component: ReportOfFirePage, pathMatch: 'full' },
+  {
+    path: ResourcesRoutes.ADMIN,
+    data: { scopes: PROFILE_SCOPES },
+    component: AdminContainerDesktop,
+    pathMatch: 'full',
+    canActivate: [NewsAuthGuard],
+  },
+  {
+    path: ResourcesRoutes.ADMIN_INCIDENT,
+    data: { scopes: PROFILE_SCOPES },
+    component: IncidentContainerDesktop,
+    pathMatch: 'full',
+    canActivate: [NewsAuthGuard],
+    canDeactivate: [CanDeactivateGuard],
+  },
+  {
+    path: ResourcesRoutes.PUBLIC_INCIDENT,
+    component: PublicIncidentPage,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.SIGN_OUT,
+    component: SignOutPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.ERROR_PAGE,
+    component: ErrorPageComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.FULL_DETAILS,
+    component: FullDetailsComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.WEATHER_DETAILS,
+    component: SavedLocationWeatherDetailsComponent,
+    pathMatch: 'full',
+  },
+  { path: ResourcesRoutes.SAVED, component: SavedComponent, pathMatch: 'full' },
+  {
+    path: ResourcesRoutes.SAVED_LOCATION,
+    component: SavedLocationFullDetailsComponent,
+    pathMatch: 'full',
+  },
+  {
+    path: ResourcesRoutes.ADD_LOCATION,
+    component: AddSavedLocationComponent,
+    pathMatch: 'full',
+  },
+  { path: ResourcesRoutes.MORE, component: MoreComponent, pathMatch: 'full' },
+  {
+    path: ResourcesRoutes.CONTACT_US,
+    component: ContactWidgetDialogComponent,
+    pathMatch: 'full',
+  },
 ];
-
 
 export const ROUTING = RouterModule.forRoot(PANEL_ROUTES, {});

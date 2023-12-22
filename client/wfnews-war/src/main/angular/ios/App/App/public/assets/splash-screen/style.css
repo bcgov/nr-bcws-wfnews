@@ -1,157 +1,154 @@
 .splash-screen {
-    position: fixed;
-    z-index: 999999;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    padding: 0;
-    background-color: #003366;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  position: fixed;
+  z-index: 999999;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 0;
+  background-color: #003366;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .splash-screen.hide {
-    opacity: 0;
-    transition: opacity 1s linear;
+  opacity: 0;
+  transition: opacity 1s linear;
 }
 
 .splash-screen .centered {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .splash-screen .centered .logo-row {
 }
 
 .splash-screen .centered .logo-row .bc-wildfire-service-logo {
-    display: inline-block;
-    background-image: url( './bc-wildfire-service-logo.png' );
-    background-size: auto 75px;
-    background-position: left center;
-    background-repeat: no-repeat;
-    height: 75px;
-    width: calc( 75px * 3.75 );
-    margin: 0 10px;
+  display: inline-block;
+  background-image: url("./bc-wildfire-service-logo.png");
+  background-size: auto 75px;
+  background-position: left center;
+  background-repeat: no-repeat;
+  height: 75px;
+  width: calc(75px * 3.75);
+  margin: 0 10px;
 }
 .splash-screen.device-mobile .centered .logo-row .bc-wildfire-service-logo {
-    background-size: auto 30px;
-    height: 30px;
-    width: calc( 30px * 3.75 );
-    margin: 0 10px;
+  background-size: auto 30px;
+  height: 30px;
+  width: calc(30px * 3.75);
+  margin: 0 10px;
 }
-
 
 .splash-screen .centered .logo-row .wildfire-one-logo {
-    display: inline-block;
-    background-image: url( './wildfire-one-logo.png' );
-    background-size: auto 75px;
-    background-position: center;
-    background-repeat: no-repeat;
-    height: 75px;
-    width: calc( 75px * 4 );
-    margin: 0 10px;
+  display: inline-block;
+  background-image: url("./wildfire-one-logo.png");
+  background-size: auto 75px;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 75px;
+  width: calc(75px * 4);
+  margin: 0 10px;
 }
 .splash-screen.device-mobile .centered .logo-row .wildfire-one-logo {
-    background-size: auto 30px;
-    height: 30px;
-    width: calc( 30px * 4 );
-    margin: 0 10px;
+  background-size: auto 30px;
+  height: 30px;
+  width: calc(30px * 4);
+  margin: 0 10px;
 }
-
 
 .splash-screen .centered .separator {
-    border-bottom: 2px solid #E3A82B;
-    height: 2px;
-    width: 64px;
-    margin-top: 32px;
-    margin-bottom: 32px;
+  border-bottom: 2px solid #e3a82b;
+  height: 2px;
+  width: 64px;
+  margin-top: 32px;
+  margin-bottom: 32px;
 }
 .splash-screen.device-mobile .centered .separator {
-    width: 32px;
-    margin-top: 22px;
-    margin-bottom: 22px;
+  width: 32px;
+  margin-top: 22px;
+  margin-bottom: 22px;
 }
-
 
 .splash-screen .centered .title {
-    font-size: 34px;
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
-    color: white;
-    letter-spacing: 0.21em;
+  font-size: 34px;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  color: white;
+  letter-spacing: 0.21em;
 }
 .splash-screen.device-mobile .centered .title {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .splash-screen .footer {
-    position: absolute;
-    bottom: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding-bottom: 40px;
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 40px;
 }
 
 .splash-screen .footer .spinner {
-    font-size: 10px;
-    margin: 50px auto;
-    text-indent: -9999em;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: #e3a82b;
-    background: linear-gradient(to right, #e3a82b 60%, #003366 60%);
-    position: relative;
-    animation: load3 1.4s infinite linear;
-    transform: translateZ(0);
+  font-size: 10px;
+  margin: 50px auto;
+  text-indent: -9999em;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: #e3a82b;
+  background: linear-gradient(to right, #e3a82b 60%, #003366 60%);
+  position: relative;
+  animation: load3 1.4s infinite linear;
+  transform: translateZ(0);
 }
 .splash-screen.device-mobile .footer .spinner {
-    width: 56px;
-    height: 56px;
-    margin-bottom: 8px;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 8px;
 }
 
 .splash-screen .footer .spinner:after {
-    background: #003366;
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    content: '';
-    margin: auto;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    right: 0;
+  background: #003366;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  content: "";
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 .splash-screen.device-mobile .footer .spinner:after {
-    width: 50px;
-    height: 50px;
+  width: 50px;
+  height: 50px;
 }
 
 @keyframes load3 {
-    0% {
-        transform: rotate(0deg);
-    }
-    100% {
-        transform: rotate(360deg);
-    }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .splash-screen .footer .status {
-    font-size: 20px;
-    font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
-    color: white;
-    letter-spacing: 0.21em;
-    padding-top: 16px;
+  font-size: 20px;
+  font-family: "BCSans", "Noto Sans", Verdana, Arial, sans-serif;
+  color: white;
+  letter-spacing: 0.21em;
+  padding-top: 16px;
 }
 .splash-screen.device-mobile .footer .status {
-    font-size: 15px;
-    padding-top: 0;
+  font-size: 15px;
+  padding-top: 0;
 }

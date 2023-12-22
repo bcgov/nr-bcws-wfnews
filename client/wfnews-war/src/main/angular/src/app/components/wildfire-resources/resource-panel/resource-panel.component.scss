@@ -2,7 +2,7 @@
   border: 1px solid #e9eff5;
   border-radius: 3px;
   background: white;
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   margin-bottom: 40px;
   .title {
     color: black;
@@ -16,7 +16,7 @@
     flex-wrap: wrap;
     width: 100%;
   }
-  .panel-container> * {
+  .panel-container > * {
     flex: 1 1 275px;
   }
   .resource-info {
@@ -44,5 +44,3 @@
     }
   }
 }
-
-

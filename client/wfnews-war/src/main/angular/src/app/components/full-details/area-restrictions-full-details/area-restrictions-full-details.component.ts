@@ -3,7 +3,12 @@ import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService, AgolOptions } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateYear, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
+import {
+  ResourcesRoutes,
+  convertToDateYear,
+  getStageOfControlIcon,
+  getStageOfControlLabel,
+} from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { setDisplayColor } from '@app/utils';
@@ -22,7 +27,7 @@ export class AreaRestriction {
 export class SimpleIncident {
   public incidentName: string;
   public incidentNumber: string;
-  public discoveryDate: string
+  public discoveryDate: string;
   public stageOfControlCode: string;
   public stageOfControlLabel: string;
   public stageOfControlIcon: string;
@@ -32,33 +37,42 @@ export class SimpleIncident {
 @Component({
   selector: 'wfnews-area-restrictions-full-details',
   templateUrl: './area-restrictions-full-details.component.html',
-  styleUrls: ['./area-restrictions-full-details.component.scss']
+  styleUrls: ['./area-restrictions-full-details.component.scss'],
 })
 export class AreaRestrictionsFullDetailsComponent implements OnInit {
-  @Input() id: string
+  @Input() id: string;
 
-  public restrictionData: AreaRestriction | null
-  public incident: SimpleIncident | null
+  public restrictionData: AreaRestriction | null;
+  public incident: SimpleIncident | null;
   public map: any;
 
   public getStageOfControlLabel = getStageOfControlLabel;
   public getStageOfControlIcon = getStageOfControlIcon;
 
-  constructor(private cdr: ChangeDetectorRef, private appConfigService: AppConfigService,
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private appConfigService: AppConfigService,
     private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
-    private watchlistService: WatchlistService
-  ) { }
+    private watchlistService: WatchlistService,
+  ) {}
 
   async ngOnInit(): Promise<void> {
-    await this.populateAreaRestrictionByID({ returnGeometry: true, returnCentroid: true, returnExtent: false })
-    this.initMap()
+    await this.populateAreaRestrictionByID({
+      returnGeometry: true,
+      returnCentroid: true,
+      returnExtent: false,
+    });
+    this.initMap();
   }
 
   async initMap() {
     // Create map and append data to the map component
-    const location = [Number(this.restrictionData.centroidLatitude), Number(this.restrictionData.centroidLongitude)]
+    const location = [
+      Number(this.restrictionData.centroidLatitude),
+      Number(this.restrictionData.centroidLongitude),
+    ];
 
     // this code is duplicated in a few places now. Might make sense to move into
     // a specific component or util factory class
@@ -69,124 +83,190 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       doubleClickZoom: false,
       boxZoom: false,
       trackResize: false,
-      scrollWheelZoom: false
-    }).setView(location, 9)
+      scrollWheelZoom: false,
+    }).setView(location, 9);
     // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(this.map)
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(this.map);
 
-    const databcUrl = this.appConfigService.getConfig()['mapServices']['openmapsBaseUrl'].toString()
-    L.tileLayer.wms(databcUrl, {
-      layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
-      format: 'image/png',
-      transparent: true,
-      version: '1.1.1',
-      opacity: 0.5
-    }).addTo(this.map)
+    const databcUrl = this.appConfigService
+      .getConfig()
+      ['mapServices']['openmapsBaseUrl'].toString();
+    L.tileLayer
+      .wms(databcUrl, {
+        layers: 'WHSE_LAND_AND_NATURAL_RESOURCE.PROT_RESTRICTED_AREAS_SP ',
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        opacity: 0.5,
+      })
+      .addTo(this.map);
 
     const fireOfNoteIcon = L.icon({
-      iconUrl: "/assets/images/local_fire_department.png",
+      iconUrl: '/assets/images/local_fire_department.png',
       iconSize: [35, 35],
       shadowAnchor: [4, 62],
       popupAnchor: [1, -34],
-      shadowSize: [41, 41]
+      shadowSize: [41, 41],
     });
     if (this.incident) {
       if (this.incident.fireOfNoteInd) {
         L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
       } else {
-        const colorToDisplay = setDisplayColor(this.incident.stageOfControlCode)
-        L.circleMarker(location, { radius: 15, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
+        const colorToDisplay = setDisplayColor(
+          this.incident.stageOfControlCode,
+        );
+        L.circleMarker(location, {
+          radius: 15,
+          fillOpacity: 1,
+          color: 'black',
+          fillColor: colorToDisplay,
+        }).addTo(this.map);
       }
     }
 
     // now fetch the rest of the incidents in the area and display on map
     try {
-      const locationData = new LocationData()
+      const locationData = new LocationData();
       locationData.latitude = Number(this.restrictionData.centroidLatitude);
       locationData.longitude = Number(this.restrictionData.centroidLongitude);
       locationData.radius = 10;
       const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-      const incidents = await this.publishedIncidentService.fetchPublishedIncidentsList(0, 9999, locationData, null, null, stageOfControlCodes).toPromise()
+      const incidents = await this.publishedIncidentService
+        .fetchPublishedIncidentsList(
+          0,
+          9999,
+          locationData,
+          null,
+          null,
+          stageOfControlCodes,
+        )
+        .toPromise();
       if (incidents?.collection && incidents?.collection?.length > 0) {
         for (const item of incidents.collection) {
-          const location = [Number(item.latitude), Number(item.longitude)]
+          const location = [Number(item.latitude), Number(item.longitude)];
           if (item.fireOfNoteInd) {
             L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
           } else {
-            const colorToDisplay = setDisplayColor(item.stageOfControlCode)
-            L.circleMarker(location, { radius: 5, fillOpacity: 1, color: 'black', fillColor: colorToDisplay }).addTo(this.map)
+            const colorToDisplay = setDisplayColor(item.stageOfControlCode);
+            L.circleMarker(location, {
+              radius: 5,
+              fillOpacity: 1,
+              color: 'black',
+              fillColor: colorToDisplay,
+            }).addTo(this.map);
           }
         }
       }
     } catch (err) {
-      console.error('Could not retrieve surrounding incidents for area restriction')
+      console.error(
+        'Could not retrieve surrounding incidents for area restriction',
+      );
     }
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 
   async populateAreaRestrictionByID(options: AgolOptions = null) {
-    this.restrictionData = null
-    const response = await this.agolService.getAreaRestrictionsByID(this.id, options).toPromise()
+    this.restrictionData = null;
+    const response = await this.agolService
+      .getAreaRestrictionsByID(this.id, options)
+      .toPromise();
     // could also do response length === 1
     if (response?.features[0]?.attributes) {
-      const areaRestriction = response.features[0]
+      const areaRestriction = response.features[0];
 
-      this.restrictionData = new AreaRestriction
+      this.restrictionData = new AreaRestriction();
 
-      this.restrictionData.name = areaRestriction.attributes.NAME.replace("Area Restriction", "").trim() + " Restricted Area"
-      this.restrictionData.fireCentre = areaRestriction.attributes.FIRE_CENTRE_NAME + " Fire Centre";
-      this.restrictionData.issuedDate = convertToDateYear(areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE);
-      this.restrictionData.bulletinUrl = areaRestriction.attributes.BULLETIN_URL;
+      this.restrictionData.name =
+        areaRestriction.attributes.NAME.replace('Area Restriction', '').trim() +
+        ' Restricted Area';
+      this.restrictionData.fireCentre =
+        areaRestriction.attributes.FIRE_CENTRE_NAME + ' Fire Centre';
+      this.restrictionData.issuedDate = convertToDateYear(
+        areaRestriction.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
+      );
+      this.restrictionData.bulletinUrl =
+        areaRestriction.attributes.BULLETIN_URL;
       this.restrictionData.centroidLatitude = areaRestriction.centroid.y;
       this.restrictionData.centroidLongitude = areaRestriction.centroid.x;
 
-      await this.populateIncident(areaRestriction.geometry.rings)
+      await this.populateIncident(areaRestriction.geometry.rings);
     } else {
-      console.error('Could not populate area restriction by ID: ' + this.id)
+      console.error('Could not populate area restriction by ID: ' + this.id);
     }
   }
 
   async populateIncident(restrictionPolygon: [][]) {
     try {
-        this.incident = await this.publishedIncidentService.populateIncidentByPoint(restrictionPolygon)
-    } catch(error) {
-      console.error('Error while populaiting associated incident for area restriction: ' + error)
+      this.incident =
+        await this.publishedIncidentService.populateIncidentByPoint(
+          restrictionPolygon,
+        );
+    } catch (error) {
+      console.error(
+        'Error while populaiting associated incident for area restriction: ' +
+          error,
+      );
     }
-    
   }
 
   navToMap() {
     setTimeout(() => {
-      this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { longitude: this.restrictionData.centroidLongitude, latitude: this.restrictionData.centroidLatitude, areaRestriction: true } });
+      this.route.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+        queryParams: {
+          longitude: this.restrictionData.centroidLongitude,
+          latitude: this.restrictionData.centroidLatitude,
+          areaRestriction: true,
+        },
+      });
     }, 200);
   }
 
   navToCurrentRestrictions() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank')
+    window.open(
+      this.appConfigService.getConfig().externalAppConfig[
+        'currentRestrictions'
+      ] as unknown as string,
+      '_blank',
+    );
   }
 
   navToRecClosures() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['recSiteTrailsClosures'] as unknown as string, '_blank')
+    window.open(
+      this.appConfigService.getConfig().externalAppConfig[
+        'recSiteTrailsClosures'
+      ] as unknown as string,
+      '_blank',
+    );
   }
 
   navToParksClosures() {
-    window.open(this.appConfigService.getConfig().externalAppConfig['parksClosures'] as unknown as string, '_blank')
+    window.open(
+      this.appConfigService.getConfig().externalAppConfig[
+        'parksClosures'
+      ] as unknown as string,
+      '_blank',
+    );
   }
 
   navToBulletinUrl() {
-    window.open(this.restrictionData.bulletinUrl, '_blank')
+    window.open(this.restrictionData.bulletinUrl, '_blank');
   }
 
   onWatchlist(incident): boolean {
-    return this.watchlistService.getWatchlist().includes(incident.fireYear + ':' + incident.incidentNumberLabel)
+    return this.watchlistService
+      .getWatchlist()
+      .includes(incident.fireYear + ':' + incident.incidentNumberLabel);
   }
 
   addToWatchlist(incident) {
     if (!this.onWatchlist(incident)) {
-      this.watchlistService.saveToWatchlist(incident.fireYear, incident.incidentNumberLabel)
+      this.watchlistService.saveToWatchlist(
+        incident.fireYear,
+        incident.incidentNumberLabel,
+      );
     }
   }
-
 }

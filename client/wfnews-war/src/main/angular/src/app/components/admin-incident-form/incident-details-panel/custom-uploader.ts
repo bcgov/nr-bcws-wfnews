@@ -1,10 +1,9 @@
-
 export class CustomImageUploader {
-  private loader
-  private reader
+  private loader;
+  private reader;
 
-  constructor( loader ) {
-    this.loader = loader
+  constructor(loader) {
+    this.loader = loader;
   }
 
   // Starts the upload process.
@@ -13,28 +12,28 @@ export class CustomImageUploader {
   // and use URL's to our aws bucket to fetch, to save on size.
   upload() {
     return new Promise((resolve, reject) => {
-      const reader = this.reader = new window.FileReader()
+      const reader = (this.reader = new window.FileReader());
 
       reader.addEventListener('load', () => {
-        resolve({ default: reader.result })
-      })
+        resolve({ default: reader.result });
+      });
 
-      reader.addEventListener('error', err => {
-        reject(err)
-      })
+      reader.addEventListener('error', (err) => {
+        reject(err);
+      });
 
       reader.addEventListener('abort', () => {
-        reject()
-      })
+        reject();
+      });
 
-      this.loader.file.then(file => {
-        reader.readAsDataURL(file)
-      })
-    })
+      this.loader.file.then((file) => {
+        reader.readAsDataURL(file);
+      });
+    });
   }
 
   // Aborts the upload process.
   abort() {
-    this.reader.abort()
+    this.reader.abort();
   }
 }

@@ -1,8 +1,8 @@
 {
-	"appId": "ca.bc.gov.WildfireInformation",
-	"appName": "WFNEWS",
-	"webDir": "dist/wfnews",
-	"server": {
-		"androidScheme": "https"
-	}
+  "appId": "ca.bc.gov.WildfireInformation",
+  "appName": "WFNEWS",
+  "webDir": "dist/wfnews",
+  "server": {
+    "androidScheme": "https"
+  }
 }
