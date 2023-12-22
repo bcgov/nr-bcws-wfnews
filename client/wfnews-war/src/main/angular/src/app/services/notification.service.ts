@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { HTTP } from "@ionic-native/http/ngx";
+import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from "@wf1/core-ui";
 
 
@@ -62,7 +62,7 @@ export interface BoundingBox {
 })
 
 export class NotificationService {
-    constructor(private appConfigService: AppConfigService, private httpClient: HttpClient, private capacitorService: CapacitorService, private http: HTTP) { }
+    constructor(private appConfigService: AppConfigService, private httpClient: HttpClient, private capacitorService: CapacitorService) { }
 
     public updateUserNotificationPreferences(notificationSettings, savedNotification): Promise<any> {
         return this.capacitorService.deviceProperties.then(p => {
@@ -100,18 +100,19 @@ export class NotificationService {
         let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'] as string
         url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG:4326&typename=pub:WHSE_LEGAL_ADMIN_BOUNDARIES.DRP_MOF_FIRE_CENTRES_SP&outputformat=application/json&cql_filter=INTERSECTS(GEOMETRY,SRID=4326;POLYGON(("
         url += formattedString + ')))'
-        let headers = new HttpHeaders();
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Accept', '*/*');
-        return this.capacitorService.isMobile.then( b => {
-            if ( b ) return this.http.get( url, null, {'Access-Control-Allow-Origin': '*', 'Accept': '*/*'} )
-                .then( function( resp ) {
-                    if ( resp.error ) throw resp.error
-                    return JSON.parse( resp.data )
-                } )
-
-            return this.httpClient.get( url, { params: null, headers: headers } ).toPromise()
-        } )
+        return this.capacitorService.isMobile.then(isMobile => {
+            if (isMobile) {
+                const options = {
+                    url : url,
+                    params: null
+                }
+                const resp =  CapacitorHttp.get(options)
+                    return resp
+            } else {
+                const resp = this.httpClient.get( url ).toPromise();
+                return resp
+            }
+        });
     }
 
     public getDangerRatingByLocation(bbox: BoundingBox[]): Promise<any> {
@@ -119,18 +120,19 @@ export class NotificationService {
         let url = (this.appConfigService.getConfig() as any).mapServices['openmapsBaseUrl'] as string
         url += "?service=WFS&version=1.1.0&request=GetFeature&srsName=EPSG:4326&typename=pub:WHSE_LAND_AND_NATURAL_RESOURCE.PROT_DANGER_RATING_SP&outputformat=application/json&cql_filter=INTERSECTS(SHAPE,SRID=4326;POLYGON(("
         url += formattedString + ')))'
-        let headers = new HttpHeaders();
-        headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Accept', '*/*');
-        return this.capacitorService.isMobile.then( b => {
-            if ( b ) return this.http.get( url, null, {'Access-Control-Allow-Origin': '*', 'Accept': '*/*'} )
-                .then( function( resp ) {
-                    if ( resp.error ) throw resp.error
-                    return JSON.parse( resp.data )
-                } )
-
-            return this.httpClient.get( url, { params: null, headers: headers } ).toPromise()
-        } )
+        return this.capacitorService.isMobile.then(isMobile => {
+            if (isMobile) {
+                const options = {
+                    url : url,
+                    params: null
+                }
+                const resp =  CapacitorHttp.get(options)
+                    return resp
+            } else {
+                const resp = this.httpClient.get( url ).toPromise();
+                return resp
+            }
+        });
 
     }
 }

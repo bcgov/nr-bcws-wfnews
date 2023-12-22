@@ -16,7 +16,7 @@ import { Browser } from '@capacitor/browser';
 import { PushNotificationSchema, PushNotifications } from '@capacitor/push-notifications';
 import { AppLauncher } from '@capacitor/app-launcher';
 
-import { NotificationConfig, NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
+import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 import { ResourcesRoutes } from '@app/utils';
 
 export interface CompassHeading {
