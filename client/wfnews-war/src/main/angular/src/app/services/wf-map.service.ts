@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { getActiveMap, isMobileView } from '@app/utils';
+import { getActiveMap} from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
-import * as esriLeaflet from 'esri-leaflet'
 import * as esriVector from 'esri-leaflet-vector'
 
 import * as nightStyle from '../../assets/data/vector-basemap-night.json';
