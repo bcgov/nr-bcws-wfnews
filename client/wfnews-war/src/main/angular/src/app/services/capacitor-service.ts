@@ -543,4 +543,8 @@ export class CapacitorService {
 
         return this.devicePropertiesPromise
     }
+
+    get isMobile(): Promise<boolean> {
+        return this.deviceProperties.then( p => p.isMobilePlatform )
+    }
 }

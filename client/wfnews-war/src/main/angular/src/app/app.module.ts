@@ -224,6 +224,7 @@ import { GoogleChartsModule } from 'angular-google-charts';
 import { GoogleChartsService } from './services/google-charts.service';
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
+import { HTTP } from '@ionic-native/http/ngx';
 
 
 // Copied from im-external.module  TODO: consolidate in one place
@@ -529,7 +530,8 @@ export const DATE_FORMATS = {
         CanDeactivateGuard,
         ReportOfFireService,
         NotificationService,
-        GoogleChartsService
+        GoogleChartsService, 
+        HTTP
     ],
     bootstrap: [
         AppComponent

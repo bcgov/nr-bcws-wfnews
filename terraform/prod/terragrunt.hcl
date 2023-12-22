@@ -11,6 +11,7 @@ locals {
   github_release_name = get_env("GITHUB_RELEASE_NAME")
   db_pass = get_env("DB_PASS")
   db_size = get_env("DB_SIZE")
+  db_postgres_version = get_env("DB_POSTGRES_VERSION")
   server_image = get_env("SERVER_IMAGE")
   client_image = get_env("CLIENT_IMAGE")
   liquibase_image = get_env("LIQUIBASE_IMAGE")
@@ -133,6 +134,7 @@ generate "test_tfvars" {
     server_memory = "${local.server_memory}"
     db_instance_type = "${local.db_instance_type}"
     db_size = "${local.db_size}"
+    db_postgres_version = "${local.db_postgres_version}"
     app_count = "${local.app_count}"
     logging_level = "${local.logging_level}"
     api_key = "${local.api_key}"
