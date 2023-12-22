@@ -68,6 +68,10 @@ mat-tab-group {
         margin-right: 1rem;
     }
     border-bottom: 1px solid #dddddd;
+    .row {
+      display: inline-grid;
+      gap: 8px;
+    }
 }
 
 .mat-mdc-raised-button {
@@ -385,6 +389,11 @@ section {
   background-color: #355992;
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.65);
   transition: all 1s;
+}
+
+::ng-deep .mat-mdc-checkbox-touch-target{
+  height: 18px !important;
+  width: 18px !important;
 }
 
 .restriction-list {
