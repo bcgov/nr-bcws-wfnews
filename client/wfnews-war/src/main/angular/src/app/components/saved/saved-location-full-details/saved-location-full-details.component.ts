@@ -113,6 +113,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
       ];
       this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
         response => {
+          if (response.data) {
+            response = response.data
+          }
           if (response.features) {
             const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
             this.fireCentre = fireCentre;

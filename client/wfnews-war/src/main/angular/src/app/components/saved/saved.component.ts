@@ -92,6 +92,9 @@ export class SavedComponent implements OnInit {
           rectangleCoordinates
         )
           .then(dangerRatings => {
+            if (dangerRatings.data) {
+              dangerRatings = dangerRatings.data
+            }
             if (dangerRatings.features) {
               const element = dangerRatings.features[0].properties.DANGER_RATING_DESC;
               this.savedLocations[outerIndex].dangerRatings = (element)
@@ -132,6 +135,10 @@ export class SavedComponent implements OnInit {
           const rectangleCoordinates = this.bboxHelper(location)
           this.notificationService.getFireCentreByLocation(rectangleCoordinates).then(
             response => {
+              if (response.data) {
+                response = response.data;
+              }
+              console.log(response)
               if (response.features) {
                 const fireCentre = response.features[0].properties.MOF_FIRE_CENTRE_NAME;
                 this.savedLocations[outerIndex].fireCentre = fireCentre;
