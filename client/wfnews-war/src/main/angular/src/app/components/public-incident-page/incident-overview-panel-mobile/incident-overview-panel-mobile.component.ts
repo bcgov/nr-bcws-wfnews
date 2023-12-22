@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { convertToDateYear, getResponseTypeDescription, getResponseTypeTitle } from "../../../utils";
+import {
+  convertToDateYear,
+  getResponseTypeDescription,
+  getResponseTypeTitle,
+} from '../../../utils';
 import { IncidentOverviewPanel } from '../incident-overview-panel/incident-overview-panel.component';
 
 @Component({
   selector: 'incident-overview-panel-mobile',
   templateUrl: './incident-overview-panel-mobile.component.html',
-  styleUrls: ['./incident-overview-panel-mobile.component.scss']
+  styleUrls: ['./incident-overview-panel-mobile.component.scss'],
 })
 export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel {
   getResponseTypeTitle = getResponseTypeTitle;
@@ -13,13 +17,19 @@ export class IncidentOverviewPanelMobileComponent extends IncidentOverviewPanel 
   convertToDateYear = convertToDateYear;
 
   getResponseImage(code: string): string {
-    if (code === 'MONITOR') return "/assets/images/svg-icons/monitored_response.svg"
-    else if (code === 'MODIFIED') return "/assets/images/svg-icons/modified_response.svg"
-    else if (code === 'FULL') return "/assets/images/svg-icons/full_response.svg"
+    if (code === 'MONITOR') {
+return '/assets/images/svg-icons/monitored_response.svg';
+} else if (code === 'MODIFIED') {
+return '/assets/images/svg-icons/modified_response.svg';
+} else if (code === 'FULL') {
+return '/assets/images/svg-icons/full_response.svg';
+}
   }
 
   navToLearnMore() {
-    let responseUrl = this.appConfigService.getConfig().externalAppConfig['bcWildfireResponsePage'] as unknown as string;
-    window.open(responseUrl, "_blank")
+    const responseUrl = this.appConfigService.getConfig().externalAppConfig[
+      'bcWildfireResponsePage'
+    ] as unknown as string;
+    window.open(responseUrl, '_blank');
   }
 }

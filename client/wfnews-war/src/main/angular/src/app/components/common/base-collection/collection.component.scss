@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 
 .table-wrapper {
   width: calc(100% - 2 * var(--wf1-gutter-space));
@@ -11,7 +11,7 @@
     width: 100%;
     display: table;
 
-    ::ng-deep .mat-sort-header-content{
+    ::ng-deep .mat-sort-header-content {
       text-align: left;
       font-weight: 600;
     }
@@ -26,7 +26,8 @@
       }
     }
 
-    td, th {
+    td,
+    th {
       word-wrap: break-word;
       vertical-align: middle;
       overflow: hidden;
@@ -39,7 +40,7 @@
       font-weight: 600;
       font-family: $font-family-emphasis;
     }
-    td{
+    td {
       white-space: nowrap;
     }
 
@@ -64,14 +65,12 @@
         line-height: 12px;
       }
     }
-
   }
 
   input {
     border-radius: $wf1-border-radius;
     border: 1px solid $colour-light-grey;
   }
-
 }
 .top-summary,
 .bottom-summary {
@@ -101,18 +100,18 @@
     font-family: $font-family-main;
     line-height: 35px;
 
-    ::ng-deep .ms-search{
+    ::ng-deep .ms-search {
       width: calc(100% - 7px);
       border-radius: $wf1-border-radius;
       font-family: $font-family-main;
       font-size: $font-size;
-      >input{
+      > input {
         width: inherit;
         font-family: $font-family-main;
         font-size: $font-size;
         &:focus {
           outline: none;
-          box-shadow: 0 0 4px #3E7FFF;
+          box-shadow: 0 0 4px #3e7fff;
         }
       }
     }
@@ -131,20 +130,19 @@
       font-size: $font-size;
       color: inherit;
 
-      span.placeholder{
+      span.placeholder {
         color: #6a6a6a;
       }
 
-      > div.icon-caret{
+      > div.icon-caret {
         margin-top: -5px;
         border-width: 9px 6px 0 6px;
 
-        &.open{
+        &.open {
           border-width: 0 6px 9px 6px;
         }
       }
     }
-
 
     select.mat-mdc-input-element {
       background-color: $colour-white;
@@ -159,14 +157,13 @@
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3E7FFF;
+        box-shadow: 0 0 4px #3e7fff;
       }
     }
   }
-
 }
 
-.summary-buttons{
+.summary-buttons {
   margin: 0 var(--wf1-gutter-space);
   flex: 0;
   display: flex;
@@ -188,7 +185,7 @@
   justify-content: flex-start;
 }
 
-.top-filter{
+.top-filter {
   margin: 0 var(--wf1-gutter-space);
   .search-and-filters {
     //.field{
@@ -201,7 +198,7 @@
 .top-filter,
 .wf1-resources-header-bar,
 .table-search-header {
-  ::ng-deep .ms-drop{
+  ::ng-deep .ms-drop {
     ul > li.hide-radio label {
       text-overflow: ellipsis;
       overflow-x: hidden;
@@ -212,44 +209,44 @@
     }
   }
 
-  .main-header-button{
+  .main-header-button {
     margin-right: var(--wf1-gutter-space);
-    mat-icon{
+    mat-icon {
       margin-right: 10px;
     }
   }
 
-  .search-and-filters{
+  .search-and-filters {
     flex: 1;
     display: flex;
     flex-flow: row wrap;
 
-    .field{
+    .field {
       flex: 0 0 170px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       min-width: 0;
 
-      .label{
+      .label {
         font-family: $font-family-emphasis;
         font-weight: $font-weight-emphasis;
         padding: 5px 1.5px;
       }
 
-      &.search-input{
+      &.search-input {
         width: 312px;
         flex-basis: 312px;
       }
 
-      &.filter-radio-group{
+      &.filter-radio-group {
         width: auto !important;
         flex-basis: auto;
       }
 
-      ::ng-deep .mat-mdc-radio-group{
+      ::ng-deep .mat-mdc-radio-group {
         display: flex;
-        .mat-mdc-radio-button{
+        .mat-mdc-radio-button {
           height: 35px;
           display: flex;
 
@@ -262,22 +259,23 @@
         }
       }
 
-      input.search-input{
+      input.search-input {
         //width: 297px;
       }
     }
 
-    &>*{
+    & > * {
       flex: 0 0 225px;
       width: 0;
       margin: 6px;
     }
 
-    &>select.mat-mdc-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
+    & > select.mat-mdc-input-element {
+      //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
       max-width: 150px;
     }
 
-    mat-icon{
+    mat-icon {
       margin-right: 10px;
     }
   }
@@ -296,22 +294,22 @@
     margin-bottom: 0;
     -webkit-appearance: menulist;
 
-    &.none-selected{
+    &.none-selected {
       color: #6a6a6a;
     }
   }
-  ::ng-deep .ms-search{
+  ::ng-deep .ms-search {
     width: calc(100% - 7px);
     border-radius: $wf1-border-radius;
     font-family: $font-family-main;
     font-size: $font-size;
-    >input{
+    > input {
       width: inherit;
       font-family: $font-family-main;
       font-size: $font-size;
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3E7FFF;
+        box-shadow: 0 0 4px #3e7fff;
       }
     }
   }
@@ -329,20 +327,19 @@
     font-size: $font-size;
     color: inherit;
 
-    span.placeholder{
+    span.placeholder {
       color: #6a6a6a;
     }
 
-    > div.icon-caret{
+    > div.icon-caret {
       margin-top: -5px;
       border-width: 9px 6px 0 6px;
 
-      &.open{
+      &.open {
         border-width: 0 6px 9px 6px;
       }
     }
   }
-
 
   textarea,
   input,
@@ -358,14 +355,14 @@
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 4px #3E7FFF;
+      box-shadow: 0 0 4px #3e7fff;
     }
   }
 
   input[readonly="true"],
   select[readonly="true"],
   input:disabled,
-  select:disabled{
+  select:disabled {
     background-color: $colour-white !important;
   }
 
@@ -377,13 +374,11 @@
 }
 
 .mat-mdc-table {
-
   .mat-mdc-header-cell {
     color: $colour-black;
     font-weight: $font-weight-emphasis;
     font-size: $font-size;
     padding: 5px 5px;
-
   }
 
   .mat-mdc-cell {
@@ -391,7 +386,6 @@
     font-weight: $font-weight;
     font-size: $font-size;
     padding: 5px 5px;
-
 
     div:not(.mat-badge) {
       white-space: nowrap;
@@ -417,18 +411,17 @@
     background-color: $colour-table-background-odd;
   }
 
-  .mat-mdc-row{
-    &:hover{
+  .mat-mdc-row {
+    &:hover {
       background-color: $colour-table-background-hover;
     }
 
-    &.hover-pointer:hover{
+    &.hover-pointer:hover {
       cursor: pointer;
     }
 
-    .hover-pointer:hover{
+    .hover-pointer:hover {
       cursor: pointer;
     }
   }
 }
-

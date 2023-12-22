@@ -17,7 +17,7 @@
   }
 
   .info-panel {
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 5px;
     width: 40%;
     display: flex;
@@ -34,11 +34,11 @@
       padding: 5px 0;
       mat-icon {
         cursor: pointer;
-        font-size: 20px
+        font-size: 20px;
       }
     }
 
-    .checkbox-label{
+    .checkbox-label {
       padding-left: 4px;
     }
 

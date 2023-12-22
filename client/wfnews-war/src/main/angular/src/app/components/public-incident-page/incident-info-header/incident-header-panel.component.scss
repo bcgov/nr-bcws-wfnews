@@ -1,6 +1,6 @@
-@media print{
+@media print {
   :host {
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   }
   app-root {
     display: block;
@@ -10,7 +10,7 @@
 }
 
 :host {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
 .header-container {
@@ -22,7 +22,7 @@
 .header-container.mobile {
   display: block;
 }
-.header-container> * {
+.header-container > * {
   flex: 1 1 350px;
 }
 
@@ -44,7 +44,7 @@
 }
 
 .incident-details {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding: 24px;
   padding-bottom: 0px;
   .header {
@@ -68,10 +68,10 @@
         border-radius: 50%;
         margin-right: 8px;
         margin-left: 8px;
-        .fire-icon{
-          width:14.4px;
-          height:18px;
-          color: #FFFFFF;
+        .fire-icon {
+          width: 14.4px;
+          height: 18px;
+          color: #ffffff;
         }
       }
     }
@@ -143,9 +143,9 @@
   h4 {
     color: #003366;
   }
-  .header-content{
+  .header-content {
     padding-top: 16px;
-    color:#6e6e6e;
+    color: #6e6e6e;
     font-size: 14px;
     display: flex;
     justify-content: space-between;
@@ -162,7 +162,7 @@
       padding-top: 7px;
       padding-bottom: 7px;
     }
-    .mobile-button{
+    .mobile-button {
       border-radius: 5px;
       border: 1px solid #6e6e6e;
       background-color: #fdfdfd;
@@ -195,8 +195,8 @@
     gap: 8px;
     flex: 1 0 0;
     border-radius: 5px;
-    border: 1px solid var(--grays-gray-6, #C4C4C4);
-    background: #FFF;
+    border: 1px solid var(--grays-gray-6, #c4c4c4);
+    background: #fff;
     height: 52px;
     font-size: 16px;
     font-style: normal;
@@ -219,21 +219,21 @@
   .header-container {
     padding: 0px !important;
   }
-  .title{
-    color:black !important
+  .title {
+    color: black !important;
   }
 }
 
-.mobile-header{
+.mobile-header {
   height: 50px;
   display: flex;
   justify-content: space-between;
-  padding:0 24px;
+  padding: 0 24px;
   align-items: center;
   position: sticky !important;
-  top:0;
+  top: 0;
   background-color: white;
-  z-index:9999;
+  z-index: 9999;
 }
 
 :host ::ng-deep .mat-mdc-tab-header {
@@ -244,7 +244,7 @@
   background-color: #f3f6f9;
   @media (max-width: 768px) {
     background-color: white !important;
-    top:50px;
+    top: 50px;
   }
 }
 
@@ -263,25 +263,24 @@
   align-self: stretch;
 
   .mobile-buttons {
-      display: flex;
-      padding: 8px 24px;
-      justify-content: center;
-      align-items: center;
-      gap: 8px;
-      flex: 1 0 0;
-      border-radius: 5px;
-      border: 1px solid var(--grays-gray-6, #C4C4C4);
-      background: #FFF;
-      height: 40px;
+    display: flex;
+    padding: 8px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    flex: 1 0 0;
+    border-radius: 5px;
+    border: 1px solid var(--grays-gray-6, #c4c4c4);
+    background: #fff;
+    height: 40px;
   }
 
   .mobile-buttons.on-watchlist {
     /* Add your additional styling for the button when onWatchlist is true */
     /* For example, change background color or add a border */
-    background: var(--blues-blue-11, #F5F6F9);
+    background: var(--blues-blue-11, #f5f6f9);
     font-weight: 500;
-    color: #10294E;
+    color: #10294e;
     /* Add any other styles as needed */
   }
 }
-

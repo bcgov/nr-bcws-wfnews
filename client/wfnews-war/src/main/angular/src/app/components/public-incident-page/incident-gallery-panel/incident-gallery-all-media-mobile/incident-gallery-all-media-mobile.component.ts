@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'incident-gallery-all-media-mobile',
   templateUrl: './incident-gallery-all-media-mobile.component.html',
-  styleUrls: ['./incident-gallery-all-media-mobile.component.scss']
+  styleUrls: ['./incident-gallery-all-media-mobile.component.scss'],
 })
-export class IncidentGalleryAllMediaMobileComponent  {
+export class IncidentGalleryAllMediaMobileComponent {
   @Input() public incident;
   @Input() public displayMediaStub;
   @Input() public allImagesAndVideosStub;
@@ -19,9 +19,4 @@ export class IncidentGalleryAllMediaMobileComponent  {
     this.displayMediaStub = this.allImagesAndVideosStub;
     e.remove();
   }
-
 }
-
-
-
-  

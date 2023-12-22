@@ -1,5 +1,5 @@
 :host {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
 .spacer-bottom {
@@ -85,7 +85,7 @@
       flex-direction: row;
       flex-wrap: wrap;
     }
-    .content-panel-stack> * {
+    .content-panel-stack > * {
       flex: 1 1 350px;
     }
     .content-panel-body {
@@ -153,9 +153,9 @@
   display: none !important;
 }
 
-@media print{
+@media print {
   :host {
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   }
   app-root {
     display: block;
@@ -175,9 +175,7 @@
   }
 }
 
-
 @media (min-width: 768px) and (max-width: 1023px) {
-
   .panel {
     padding: 15px;
     .content-panel {
@@ -185,7 +183,7 @@
         margin-left: -8px;
         margin-right: -8px;
       }
-      .content-panel-stack> * {
+      .content-panel-stack > * {
         padding-left: 8px;
         padding-right: 8px;
       }

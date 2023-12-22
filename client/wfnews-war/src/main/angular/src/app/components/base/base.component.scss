@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 
 .page-width-container {
   display: block;
@@ -36,8 +36,6 @@
       padding-left: 20px;
       padding-right: 20px;
     }
-
-
   }
 
   .wf1-resources-header-bar {
@@ -49,7 +47,7 @@
     //  margin-top: var(--wf1-gutter-space);
     //}
 
-    h1{
+    h1 {
       margin-top: var(--wf1-gutter-space);
       //white-space: nowrap;
       text-overflow: ellipsis;
@@ -81,10 +79,9 @@
         margin-left: 10px;
       }
     }
-
   }
 
-  .table-search-header .search-and-filters{
+  .table-search-header .search-and-filters {
     .input-clear-button {
       margin-left: 278px;
       position: relative;
@@ -92,7 +89,7 @@
       line-height: 0;
       height: 0;
       width: 0;
-      ::ng-deep .mat-button-wrapper{
+      ::ng-deep .mat-button-wrapper {
         display: flex;
         border-radius: 20%;
         background-color: $colour-lighter-grey;

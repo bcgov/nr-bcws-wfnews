@@ -1,28 +1,28 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
-.text-container{
+.text-container {
   margin: 20px 0px;
-  background-color: #F5F5F5 !important;
+  background-color: #f5f5f5 !important;
   width: calc(100vw - 60px);
   height: calc(100dvh - 450px);
   border-radius: 3px;
   min-height: 150px;
   max-width: 790px;
-  @media all and (min-width: 768px) and (orientation:portrait) {
+  @media all and (min-width: 768px) and (orientation: portrait) {
     height: calc(100dvh - 440px);
   }
-  @media all and (min-width: 1024px) and (orientation:landscape) {
+  @media all and (min-width: 1024px) and (orientation: landscape) {
     height: calc(100dvh - 440px);
   }
-  .text-area{
+  .text-area {
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    color:#242424;
+    color: #242424;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     width: 100%;
     border: none;
-    background-color: #F5F5F5 !important;
+    background-color: #f5f5f5 !important;
     height: calc(100vh - 500px);
     min-height: 100px;
   }
@@ -30,7 +30,7 @@
     border-bottom: 1px solid #ccc;
     margin-top: 10px;
   }
-  .word-count{
+  .word-count {
     margin-top: 10px;
     text-align: end;
   }
@@ -41,20 +41,18 @@
   margin-right: -4px;
 }
 
-
 @media screen and (max-width: 380px) {
   .review-icon {
     padding-right: 12px !important;
     margin-right: -4px;
     transform: translate(-15px);
-
   }
 }
 
-::ng-deep .mat-mdc-form-field-subscript-wrapper{
-  display:none !important
+::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
 }
 
 ::ng-deep .mat-mdc-form-field-underline {
-  display: none !important
+  display: none !important;
 }

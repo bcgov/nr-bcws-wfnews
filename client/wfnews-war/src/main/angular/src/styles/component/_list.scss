@@ -1,26 +1,23 @@
 .wf1-list-container {
-    
-    &__header {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-        display:flex;
-        align-items: center;
-        justify-content: center;
+    position: relative;
+    min-height: 52px;
 
-        position: relative;
-        min-height: 52px;
+    &__actions {
+      position: absolute;
+      right: 0;
 
-        &__actions {
-            position: absolute;
-            right: 0;
-
-            &--left {
-                left: 0;
-            }
-        }
-        
-        &__title {
-            font-size: 1.15rem;
-        }
+      &--left {
+        left: 0;
+      }
     }
 
+    &__title {
+      font-size: 1.15rem;
+    }
+  }
 }

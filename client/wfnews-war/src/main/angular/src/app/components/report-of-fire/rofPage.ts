@@ -1,6 +1,6 @@
-import { Component } from "@angular/core"
-import { ReportOfFire } from "./reportOfFireModel"
-import {v4 as uuidv4} from 'uuid';
+import { Component } from '@angular/core';
+import { ReportOfFire } from './reportOfFireModel';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * This is the default page component used for the ROF screens
@@ -11,7 +11,7 @@ import {v4 as uuidv4} from 'uuid';
 
 @Component({
   selector: 'rof-page',
-  template: '<div></div>'
+  template: '<div></div>',
 })
 export class RoFPage {
   public id: string;
@@ -31,7 +31,7 @@ export class RoFPage {
   public showProgress: boolean;
   public allowMultiSelect: boolean;
 
-  initialize (data: any, index: number, reportOfFire: ReportOfFire) {
+  initialize(data: any, index: number, reportOfFire: ReportOfFire) {
     this.allowExit = data.allowExit;
     this.allowSkip = data.allowSkip;
     this.isStartPage = data.isStartPage || false;
@@ -50,19 +50,19 @@ export class RoFPage {
     this.skipId = data.skipId || null;
   }
 
-  previous () {
+  previous() {
     // stub used for instantiation of extended components
   }
 
-  next () {
+  next() {
     // stub used for instantiation of extended components
   }
 
-  skip () {
+  skip() {
     // stub used for instantiation of extended components
   }
 
-  close () {
+  close() {
     // stub used for instantiation of extended components
   }
 }

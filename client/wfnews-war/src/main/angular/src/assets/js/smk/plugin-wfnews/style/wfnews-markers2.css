@@ -1,19 +1,23 @@
-.nrof-label, .rof-label, .incident-label {
-    padding: 0px 1px 0px 1px !important;
-    font-weight: bold;
-    opacity: 1 !important;
-    height: 16px;
-    text-align: center;
-    margin: 0 auto 0 auto;
+.nrof-label,
+.rof-label,
+.incident-label {
+  padding: 0px 1px 0px 1px !important;
+  font-weight: bold;
+  opacity: 1 !important;
+  height: 16px;
+  text-align: center;
+  margin: 0 auto 0 auto;
 }
 
-.nrof-icon, .rof-icon, .incident-icon {
-    background-position: center;
-    background-repeat: no-repeat;
-    width: 20px;
-    height: 20px;
-    background-size: cover;
-    margin: 0 auto 0 auto;
+.nrof-icon,
+.rof-icon,
+.incident-icon {
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 20px;
+  height: 20px;
+  background-size: cover;
+  margin: 0 auto 0 auto;
 }
 
 /*  -----------------------------------------------------
@@ -21,136 +25,144 @@
 */
 
 .wfim-rof .rof-label {
-    position: absolute;
-    bottom: 20px;
-    left: -100px;
-    right: -100px;
-    height: unset;
+  position: absolute;
+  bottom: 20px;
+  left: -100px;
+  right: -100px;
+  height: unset;
 
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .wfim-rof .rof-label .wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fafa9f;
-    padding: 0 3px;
-    border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #fafa9f;
+  padding: 0 3px;
+  border-radius: 3px;
 }
 
 .wfim-rof .rof-label .wrap .status {
-    display: none;
-    font-weight: normal;
-    font-size: 11px;
+  display: none;
+  font-weight: normal;
+  font-size: 11px;
 }
 .wfim-rof.rof-status .rof-label .wrap .status {
-    display: block;
+  display: block;
 }
 
 .wfim-rof .rof-label .wrap .label {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .wfim-rof .rof-label .wrap .label .attachments {
-    margin-right: 4px;
+  margin-right: 4px;
 }
 
 .wfim-rof.rof-status-received .rof-icon {
-    background-image: url( 'rof_draft.png' );
+  background-image: url("rof_draft.png");
 }
 .wfim-rof.rof-status-received .rof-label .wrap {
-    background-color: #b6ff49;
+  background-color: #b6ff49;
 }
 
 .wfim-rof.rof-status-draft .rof-icon {
-    background-image: url( 'rof_draft.png' );
+  background-image: url("rof_draft.png");
 }
 
 .wfim-rof.rof-type-general.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-general.rof-status-acknowledged .rof-icon,
 .wfim-rof.rof-type-general.rof-status-assigned-to-incident .rof-icon,
 .wfim-rof.rof-type-general.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_general.png' );
+  background-image: url("rof_general.png");
 }
 
 .wfim-rof.rof-type-general.rof-assigned.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-general.rof-assigned.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-general.rof-assigned.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-general.rof-assigned.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-general.rof-assigned.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_general_assign.png' );
+  background-image: url("rof_general_assign.png");
 }
 
 .wfim-rof.rof-type-general.rof-cancelled.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-general.rof-cancelled.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-general.rof-cancelled.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-general.rof-cancelled.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-general.rof-cancelled.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_general_cancel.png' );
+  background-image: url("rof_general_cancel.png");
 }
 
 .wfim-rof.rof-type-interface.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-interface.rof-status-acknowledged .rof-icon,
 .wfim-rof.rof-type-interface.rof-status-assigned-to-incident .rof-icon,
 .wfim-rof.rof-type-interface.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_interface.png' );
+  background-image: url("rof_interface.png");
 }
 
 .wfim-rof.rof-type-interface.rof-assigned.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-interface.rof-assigned.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-interface.rof-assigned.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-interface.rof-assigned.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-interface.rof-assigned.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_interface_assign.png' );
+  background-image: url("rof_interface_assign.png");
 }
 
 .wfim-rof.rof-type-interface.rof-cancelled.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-interface.rof-cancelled.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-interface.rof-cancelled.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-interface.rof-cancelled.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-interface.rof-cancelled.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_interface_cancel.png' );
+  background-image: url("rof_interface_cancel.png");
 }
 
 .wfim-rof.rof-type-campfire.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-campfire.rof-status-acknowledged .rof-icon,
 .wfim-rof.rof-type-campfire.rof-status-assigned-to-incident .rof-icon,
 .wfim-rof.rof-type-campfire.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_campfire.png' );
+  background-image: url("rof_campfire.png");
 }
 
 .wfim-rof.rof-type-campfire.rof-assigned.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-campfire.rof-assigned.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-campfire.rof-assigned.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-campfire.rof-assigned.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-campfire.rof-assigned.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_campfire_assign.png' );
+  background-image: url("rof_campfire_assign.png");
 }
 
 .wfim-rof.rof-type-campfire.rof-cancelled.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-campfire.rof-cancelled.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-campfire.rof-cancelled.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-campfire.rof-cancelled.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-campfire.rof-cancelled.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_campfire_cancel.png' );
+  background-image: url("rof_campfire_cancel.png");
 }
 
 .wfim-rof.rof-type-cigarette.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-status-acknowledged .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-status-assigned-to-incident .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_cigarette.png' );
+  background-image: url("rof_cigarette.png");
 }
 
 .wfim-rof.rof-type-cigarette.rof-assigned.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-assigned.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-cigarette.rof-assigned.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-cigarette.rof-assigned.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-assigned.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_cigarette_assign.png' );
+  background-image: url("rof_cigarette_assign.png");
 }
 
 .wfim-rof.rof-type-cigarette.rof-cancelled.rof-status-submitted .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-cancelled.rof-status-acknowledged .rof-icon,
-.wfim-rof.rof-type-cigarette.rof-cancelled.rof-status-assigned-to-incident .rof-icon,
+.wfim-rof.rof-type-cigarette.rof-cancelled.rof-status-assigned-to-incident
+  .rof-icon,
 .wfim-rof.rof-type-cigarette.rof-cancelled.rof-status-cancelled .rof-icon {
-    background-image: url( 'rof_cigarette_cancel.png' );
+  background-image: url("rof_cigarette_cancel.png");
 }
 
 /* .rof-icon-regular-cancelled {
@@ -164,92 +176,96 @@
 } */
 
 .wfim-rof.rof-blinking {
-    animation: blink-animation 1s infinite ease-in-out;
+  animation: blink-animation 1s infinite ease-in-out;
 }
 @keyframes blink-animation {
-    25% {
-        opacity: 1;
-    }
-    50% {
-        opacity: 0;
-    }
-    75% {
-        opacity: 1;
-    }
+  25% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 1;
+  }
 }
 
 .wfim-rof .attachments {
-    display: none;
+  display: none;
 }
 .wfim-rof.rof-attachments .attachments {
-    display: inline;
-    font-size: 14px;
+  display: inline;
+  font-size: 14px;
 }
 
 .rof-tooltip .wfml-info-title {
-    background-color: #fafa9f;
-    /* z-index: 3000; */
+  background-color: #fafa9f;
+  /* z-index: 3000; */
 }
 
 .rof-tooltip.rof-status-received .wfml-info-title {
-    background-color: #b6ff49;
+  background-color: #b6ff49;
 }
-
-
 
 .rof-cluster-unack {
-	background-clip: padding-box;
-    /* z-index: 3000 !important; */
+  background-clip: padding-box;
+  /* z-index: 3000 !important; */
 }
 .rof-cluster-unack div {
-	width: 24px;
-	height: 24px;
-	margin-left: 5px;
-	margin-top: 5px;
+  width: 24px;
+  height: 24px;
+  margin-left: 5px;
+  margin-top: 5px;
 
-	text-align: center;
-    border: yellow solid 8px;
-	border-radius: 19px;
-	font: 14px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  text-align: center;
+  border: yellow solid 8px;
+  border-radius: 19px;
+  font:
+    14px "Helvetica Neue",
+    Arial,
+    Helvetica,
+    sans-serif;
 
-    background-color: #4b4bff;
-    color: white;
-    z-index: 3000;
+  background-color: #4b4bff;
+  color: white;
+  z-index: 3000;
 }
 .rof-cluster-unack span {
-	line-height: 24px;
+  line-height: 24px;
 }
 
 .rof-cluster {
-	background-clip: padding-box;
-    /* z-index: 2999 !important; */
+  background-clip: padding-box;
+  /* z-index: 2999 !important; */
 }
 .rof-cluster div {
-	width: 30px;
-	height: 30px;
-	margin-left: 5px;
-	margin-top: 5px;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
 
-	text-align: center;
-	border-radius: 15px;
-	font: 14px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  text-align: center;
+  border-radius: 15px;
+  font:
+    14px "Helvetica Neue",
+    Arial,
+    Helvetica,
+    sans-serif;
 
-    background-color: #4b4bff;
-    color: white;
+  background-color: #4b4bff;
+  color: white;
 }
 .rof-cluster span {
-	line-height: 30px;
+  line-height: 30px;
 }
 
-
-
 .incident-tooltip .wfml-info-title {
-    background-color: #fabf4f;
+  background-color: #fabf4f;
 }
 
 .incident-icon {
-    background-image: url( 'incident-not-set.svg' );
-    background-position: center;
+  background-image: url("incident-not-set.svg");
+  background-position: center;
 }
 
 /*
@@ -257,40 +273,40 @@ Fire incidents (Styled on Stage of Control)
 */
 .incident-icon.incident-type-fire.incident-soc-under-control,
 .incident-icon.incident-type-nuisance-fire.incident-soc-under-control {
-    background-image: url( 'incident-under-control.svg' );
+  background-image: url("incident-under-control.svg");
 }
 
 .incident-icon.incident-type-fire.incident-soc-being-held,
 .incident-icon.incident-type-nuisance-fire.incident-soc-being-held {
-    background-image: url( 'incident-being-held.svg' );
+  background-image: url("incident-being-held.svg");
 }
 .incident-icon.incident-type-fire.incident-soc-out,
 .incident-icon.incident-type-nuisance-fire.incident-soc-out {
-    background-image: url( 'incident-out.svg'  );
+  background-image: url("incident-out.svg");
 }
 .incident-icon.incident-type-fire.incident-soc-out-of-control,
 .incident-icon.incident-type-nuisance-fire.incident-soc-out-of-control {
-    background-image: url( 'incident-out-of-control.svg' );
+  background-image: url("incident-out-of-control.svg");
 }
 
 /*
 Agency Assist incidents (Styled on status)
 */
 .incident-icon.incident-type-agency-assist.incident-status-active {
-    background-image: url( 'incident-agency-assist-active.svg' );
+  background-image: url("incident-agency-assist-active.svg");
 }
 .incident-icon.incident-type-agency-assist.incident-status-completed {
-    background-image: url( 'incident-agency-assist-completed.svg' );
+  background-image: url("incident-agency-assist-completed.svg");
 }
 
 /*
 Field Activity incidents (Styled on status)
 */
 .incident-icon.incident-type-field-activity.incident-status-active {
-    background-image: url( 'incident-field-training-active.svg' );
+  background-image: url("incident-field-training-active.svg");
 }
 .incident-icon.incident-type-field-activity.incident-status-completed {
-    background-image: url( 'incident-field-training-completed.svg' );
+  background-image: url("incident-field-training-completed.svg");
 }
 
 /*
@@ -299,21 +315,19 @@ Other non-fire incidents (Styled on status)
 .incident-icon.incident-type-smoke-chase.incident-status-active,
 .incident-icon.incident-type-other.incident-status-active,
 .incident-icon.incident-type-duplicate.incident-status-active,
-.incident-icon.incident-type-entered-in-error.incident-status-active
-{
-    background-image: url( 'incident-under-control.svg' );
+.incident-icon.incident-type-entered-in-error.incident-status-active {
+  background-image: url("incident-under-control.svg");
 }
 
 .incident-icon.incident-type-smoke-chase.incident-status-completed,
 .incident-icon.incident-type-other.incident-status-completed,
 .incident-icon.incident-type-duplicate.incident-status-completed,
-.incident-icon.incident-type-entered-in-error.incident-status-completed
-{
-    background-image: url( 'incident-out.svg' );
+.incident-icon.incident-type-entered-in-error.incident-status-completed {
+  background-image: url("incident-out.svg");
 }
 
 .wfim-incident {
-    text-align: center;
+  text-align: center;
 }
 
 /* .incident-img {
@@ -323,213 +337,224 @@ Other non-fire incidents (Styled on status)
     margin-top: 0px;
 } */
 .incident-label {
-    background-color: #fabf4f;
-    white-space: nowrap;
-    display: inline-block;
+  background-color: #fabf4f;
+  white-space: nowrap;
+  display: inline-block;
 }
 .incident-cluster {
-	background-clip: padding-box;
+  background-clip: padding-box;
 }
 .incident-cluster div {
-	width: 30px;
-	height: 30px;
-	margin-left: 5px;
-	margin-top: 5px;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  margin-top: 5px;
 
-	text-align: center;
-	font: 14px "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-weight: bold;
+  text-align: center;
+  font:
+    14px "Helvetica Neue",
+    Arial,
+    Helvetica,
+    sans-serif;
+  font-weight: bold;
 
-    background-color: #fabf4f;
-    color: black;
+  background-color: #fabf4f;
+  color: black;
 }
 .incident-cluster span {
-	line-height: 30px;
+  line-height: 30px;
 }
 
-
-
 .wfim-cluster span {
-    position: absolute;
-    left: 0;
-    top: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 
-    display: block;
-	width: 40px;
-	height: 40px;
-    color: white;
-	font: 13px "Helvetica Neue", Arial, Helvetica, sans-serif;
-	line-height: 40px;
-    text-align: center;
-    text-shadow: 1px 0 1px #000, 0 -1px 1px #000, 0 1px 1px #000, -1px 0 1px #000, -1px -1px 1px #000, -1px 1px 1px #000, 1px -1px 1px #000, 1px 1px 1px #000;
-    font-weight: bold;
+  display: block;
+  width: 40px;
+  height: 40px;
+  color: white;
+  font:
+    13px "Helvetica Neue",
+    Arial,
+    Helvetica,
+    sans-serif;
+  line-height: 40px;
+  text-align: center;
+  text-shadow:
+    1px 0 1px #000,
+    0 -1px 1px #000,
+    0 1px 1px #000,
+    -1px 0 1px #000,
+    -1px -1px 1px #000,
+    -1px 1px 1px #000,
+    1px -1px 1px #000,
+    1px 1px 1px #000;
+  font-weight: bold;
 }
 
 .wfim-cluster .rof-cluster {
-    position: absolute;
-    left: 0;
-    top: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 
-	width: 30px;
-	height: 30px;
-    margin: 5px;
-	border-radius: 15px;
-    background-color: #4b4bff;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border-radius: 15px;
+  background-color: #4b4bff;
 }
 
 .wfim-cluster .rof-cluster-unack {
-	width: 22px;
-	height: 22px;
-    border: yellow solid 4px;
+  width: 22px;
+  height: 22px;
+  border: yellow solid 4px;
 }
 
 .wfim-cluster .incident-cluster {
-    position: absolute;
-    left: 0;
-    top: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
 
-	width: 30px;
-	height: 30px;
-    margin: 5px;
-    border-radius: 2px;
-    background-color: #fabf4f;
+  width: 30px;
+  height: 30px;
+  margin: 5px;
+  border-radius: 2px;
+  background-color: #fabf4f;
 }
 
-
-
 .wfim-fire-resource {
-    border-radius: 10px;
-    border: 2px solid black;
-    background-color: white;
+  border-radius: 10px;
+  border: 2px solid black;
+  background-color: white;
 }
 
 .wfim-fire-resource.wfim-fire-resource-status-active {
-    background-color: #FFFF00
+  background-color: #ffff00;
 }
 
 .wfim-fire-resource.wfim-fire-resource-status-lost {
-    background-color: #ff0000
+  background-color: #ff0000;
 }
 
 .wfim-fire-resource.wfim-fire-resource-status-station {
-    background-color: #FFFFFF
+  background-color: #ffffff;
 }
 
 .wfim-fire-resource.wfim-fire-resource-status-ground {
-    background-color: #808080
+  background-color: #808080;
 }
 
 .wfim-fire-resource-labels {
-    display: flex;
-    flex-direction: column-reverse;
-    justify-content: flex-end;
-    position: absolute;
-    bottom: 14px;
-    left: -100%;
-    font-size: 11px;
-    line-height: 8px;
-    pointer-events: none;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+  position: absolute;
+  bottom: 14px;
+  left: -100%;
+  font-size: 11px;
+  line-height: 8px;
+  pointer-events: none;
 }
 
 .wfim-fire-resource-labels span {
-    display: inline-block;
-    border-radius: 3px;
-    padding: 2px 2px;
-    background-color: #000000;
-    color: #ffffff;
-    width: fit-content;
-    margin-top: 2px;
-    pointer-events: auto;
-    white-space: nowrap;
+  display: inline-block;
+  border-radius: 3px;
+  padding: 2px 2px;
+  background-color: #000000;
+  color: #ffffff;
+  width: fit-content;
+  margin-top: 2px;
+  pointer-events: auto;
+  white-space: nowrap;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-status-active {
-    background-color: #FFFF00;
-    color: #000000;
+  background-color: #ffff00;
+  color: #000000;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-status-lost {
-    background-color: #ff0000;
-    color: #000000;
+  background-color: #ff0000;
+  color: #000000;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-status-station {
-    background-color: #000000;
-    color: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-status-ground {
-    background-color: #808080;
-    color: #ffffff;
+  background-color: #808080;
+  color: #ffffff;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-alert-red {
-    color: #ff0000;
-    font-weight: bold;
+  color: #ff0000;
+  font-weight: bold;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-alert-yellow {
-    color: #ffff00;
-    font-weight: bold;
+  color: #ffff00;
+  font-weight: bold;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-alert-blue {
-    color: #80B4FF;
-    font-weight: bold;
+  color: #80b4ff;
+  font-weight: bold;
 }
 
 .wfim-fire-resource-labels .wfim-fire-resource-alert-green {
-    color: #00ff00;
-    font-weight: bold;
+  color: #00ff00;
+  font-weight: bold;
 }
 
 .wfim-fire-resource-arrow {
-    background: url( "direction-arrow.png" ) no-repeat center;
-    width: 320px;
-    height: 34px;
-    margin-left:-155px;
-    margin-top:-12px;
+  background: url("direction-arrow.png") no-repeat center;
+  width: 320px;
+  height: 34px;
+  margin-left: -155px;
+  margin-top: -12px;
 }
 
 .wfim-resource-track {
-    border-radius: 6px;
-    border: 1px solid #000000;
-    background-color: #ffff00;
+  border-radius: 6px;
+  border: 1px solid #000000;
+  background-color: #ffff00;
 }
 
-
 .nrof-label {
-    width: 65px;
+  width: 65px;
 }
 
 div.wfim-nrof-active .nrof-icon {
-    background-image: url( 'nrof_light.svg' );
+  background-image: url("nrof_light.svg");
 }
 
 div.wfim-nrof-expired .nrof-icon {
-    background-image: url( 'nrof_dark.svg' );
+  background-image: url("nrof_dark.svg");
 }
 
 path.wfim-nrof {
-    stroke-width: 1px;
-    stroke: #d40000;
-    fill-opacity: 0.3;
+  stroke-width: 1px;
+  stroke: #d40000;
+  fill-opacity: 0.3;
 }
 
 path.wfim-nrof-active {
-    fill: url(#nrof-stripes-light);
+  fill: url(#nrof-stripes-light);
 }
 
 path.wfim-nrof-expired {
-    fill: url(#nrof-stripes-dark);
+  fill: url(#nrof-stripes-dark);
 }
 
 .nrof-tooltip .wfml-info-title,
 .nrof-label {
-    color: black;
-    background-color: pink;
+  color: black;
+  background-color: pink;
 }
 
 .leaflet-tooltip {
-    opacity: 1 !important;
+  opacity: 1 !important;
 }

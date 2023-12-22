@@ -17,7 +17,7 @@
 
 .dialog-header {
   padding-bottom: 10px;
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
   display: flex;
 }
 
@@ -36,7 +36,7 @@
 
 .footer-button-disabled {
   width: 100%;
-  background-color: #DEDEDE !important;
+  background-color: #dedede !important;
 }
 
 .right-align {
@@ -69,7 +69,6 @@
   box-shadow: none !important;
   &:focus {
     outline: none !important;
-    ;
     box-shadow: none !important;
   }
 }
@@ -77,12 +76,12 @@
 .search-panel {
   padding-top: 10px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
 }
 
 .radius-button {
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 12px;
   font-weight: 400;
   line-height: 21.79px;
@@ -91,8 +90,8 @@
   margin-top: 15px;
   &-selected {
     border-radius: 20px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     color: #242424 !important;
     font-size: 12px;
     font-weight: 400;
@@ -106,7 +105,7 @@
 .list-button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 14px;
   font-weight: 400;
   line-height: 21.79px;
@@ -115,8 +114,8 @@
   &-selected {
     margin-right: 7px;
     border-radius: 20px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     color: #242424 !important;
     font-size: 16px;
     font-weight: 400;
@@ -130,24 +129,24 @@
   margin: 0px 0px 0px 7px;
 }
 
-.input-clear-button{
+.input-clear-button {
   position: absolute;
   background-color: transparent;
   border: none;
   top: 5px;
   right: 0px;
-  .button-wrapper{
-      padding: 0;
-      min-width: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      line-height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }
 
@@ -161,7 +160,7 @@
   border: none;
   top: 6px;
   position: absolute;
-  .button-wrapper{
+  .button-wrapper {
     padding: 0;
     min-width: 0;
     width: 40px;
@@ -174,7 +173,7 @@
     top: -6px;
     left: 6px;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }

@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .search {
   display: flex;
@@ -26,26 +26,25 @@
     font-size: 1rem;
     background-color: $colour-white;
     color: $colour-light-grey;
-    border-radius: .375rem;
-    padding: .125rem .25rem;
+    border-radius: 0.375rem;
+    padding: 0.125rem 0.25rem;
     text-align: center;
     user-select: none;
   }
 
   &__input {
     flex-grow: 1;
-    div.mat-mdc-text-field-wrapper
- {
+    div.mat-mdc-text-field-wrapper {
       padding-bottom: 0;
       div.mdc-line-ripple {
-        bottom: .25rem;
+        bottom: 0.25rem;
       }
       div.mat-mdc-form-text-infix {
-        border-top-width: .5rem;
+        border-top-width: 0.5rem;
       }
       span.mat-mdc-floating-label-wrapper {
         font-size: small;
-        top: -.35rem;
+        top: -0.35rem;
       }
     }
 
@@ -66,5 +65,4 @@
     width: 1.2rem;
     height: 1.8rem;
   }
-
 }

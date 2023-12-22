@@ -1,5 +1,5 @@
-@use '@angular/material' as mat;
-@import '@angular/material/theming';
+@use "@angular/material" as mat;
+@import "@angular/material/theming";
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
@@ -18,14 +18,23 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$core-map-app-primary: mat.define-palette(mat.$blue-gray-palette, 900, 500, 900);
-$core-map-app-accent:  mat.define-palette(mat.$gray-palette, 400, 300, 800);
+$core-map-app-primary: mat.define-palette(
+  mat.$blue-gray-palette,
+  900,
+  500,
+  900
+);
+$core-map-app-accent: mat.define-palette(mat.$gray-palette, 400, 300, 800);
 
 // The warn palette is optional (defaults to red).
-$core-map-app-warn:    mat.define-palette(mat.$red-palette, 800, 400, A700);
+$core-map-app-warn: mat.define-palette(mat.$red-palette, 800, 400, A700);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$core-map-app-theme: mat.define-light-theme($core-map-app-primary, $core-map-app-accent, $core-map-app-warn);
+$core-map-app-theme: mat.define-light-theme(
+  $core-map-app-primary,
+  $core-map-app-accent,
+  $core-map-app-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -38,5 +47,5 @@ $custom-typography: mat.define-typography-config(
   $font-family: '"Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif',
   $headline-6: mat.define-typography-level(32px, 32px, 700),
   $headline-5: mat.define-typography-level(32px, 48px, 700),
-  $body-2: mat.define-typography-level(16px, 24px, 500)
+  $body-2: mat.define-typography-level(16px, 24px, 500),
 );

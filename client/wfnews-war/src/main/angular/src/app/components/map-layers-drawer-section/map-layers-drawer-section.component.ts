@@ -1,11 +1,19 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 import { getActiveMap } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
 
 @Component({
   selector: 'map-layers-section',
   templateUrl: './map-layers-drawer-section.component.html',
-  styleUrls: ['./map-layers-drawer-section.component.scss']
+  styleUrls: ['./map-layers-drawer-section.component.scss'],
 })
 export class MapLayersDrawerSectionComponent implements OnChanges {
   @Input() mapInitialized: boolean;
@@ -172,28 +180,64 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
       { itemId: 'active-wildfires-fire-of-note', visible: this.wildfireOfNote },
       { itemId: 'active-wildfires-heatmap', visible: this.wildfireOfNote },
       { itemId: 'active-wildfires-holding', visible: this.beingHeldWildfire },
-      { itemId: 'active-wildfires-out-of-control', visible: this.outOfControlWildfire },
+      {
+        itemId: 'active-wildfires-out-of-control',
+        visible: this.outOfControlWildfire,
+      },
       { itemId: 'active-wildfires-out', visible: this.declaredOutWildfire },
-      { itemId: 'active-wildfires-under-control', visible: this.underControlWildfire },
+      {
+        itemId: 'active-wildfires-under-control',
+        visible: this.underControlWildfire,
+      },
       { itemId: 'area-restrictions-highlight', visible: this.areaRestrictions },
       { itemId: 'area-restrictions', visible: this.areaRestrictions },
-      { itemId: 'bans-and-prohibitions-cat1', visible: this.bansAndProhibitions },
-      { itemId: 'bans-and-prohibitions-cat2', visible: this.bansAndProhibitions },
-      { itemId: 'bans-and-prohibitions-cat3', visible: this.bansAndProhibitions },
-      { itemId: 'bans-and-prohibitions-highlight', visible: this.bansAndProhibitions },
+      {
+        itemId: 'bans-and-prohibitions-cat1',
+        visible: this.bansAndProhibitions,
+      },
+      {
+        itemId: 'bans-and-prohibitions-cat2',
+        visible: this.bansAndProhibitions,
+      },
+      {
+        itemId: 'bans-and-prohibitions-cat3',
+        visible: this.bansAndProhibitions,
+      },
+      {
+        itemId: 'bans-and-prohibitions-highlight',
+        visible: this.bansAndProhibitions,
+      },
       { itemId: 'clab-indian-reserves', visible: this.indianReserves },
-      { itemId: 'closed-recreation-sites', visible: this.closedRecreationSites },
+      {
+        itemId: 'closed-recreation-sites',
+        visible: this.closedRecreationSites,
+      },
       { itemId: 'current-conditions--default', visible: this.currentWeather },
       { itemId: 'danger-rating', visible: this.dangerRating },
       { itemId: 'drive-bc-active-events', visible: this.roadEvents },
-      { itemId: 'evacuation-orders-and-alerts-wms-highlight', visible: this.evacuationOrders },
-      { itemId: 'evacuation-orders-and-alerts-wms', visible: this.evacuationOrders },
+      {
+        itemId: 'evacuation-orders-and-alerts-wms-highlight',
+        visible: this.evacuationOrders,
+      },
+      {
+        itemId: 'evacuation-orders-and-alerts-wms',
+        visible: this.evacuationOrders,
+      },
       { itemId: 'fire-perimeters', visible: this.firePerimeters },
       { itemId: 'fnt-treaty-land', visible: this.treatyLand },
-      { itemId: 'hourly-currentforecast-firesmoke', visible: this.smokeForecast },
+      {
+        itemId: 'hourly-currentforecast-firesmoke',
+        visible: this.smokeForecast,
+      },
       { itemId: 'precipitation', visible: this.hourlyPrecipitationForecast },
-      { itemId: 'protected-lands-access-restrictions', visible: this.protectedLandsAccessRestrictions },
-      { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: this.currentPrecipitationRadar },
+      {
+        itemId: 'protected-lands-access-restrictions',
+        visible: this.protectedLandsAccessRestrictions,
+      },
+      {
+        itemId: 'radar-1km-rrai--radarurpprecipr14-linear',
+        visible: this.currentPrecipitationRadar,
+      },
       { itemId: 'weather-stations', visible: this.activeWeatherStations },
     ];
 

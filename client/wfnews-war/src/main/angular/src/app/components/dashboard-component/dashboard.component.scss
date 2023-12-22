@@ -1,4 +1,4 @@
-@import '../../../styles/variables';
+@import "../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 768px) and (max-width: 1250px) {
@@ -9,15 +9,15 @@
   .list-button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     font-size: 16px;
     font-weight: 400;
     line-height: 21.79px;
     &-selected {
       margin-right: 7px;
       border-radius: 20px;
-      border: 2px solid #38598A !important;
-      background-color: #E9F0F8 !important;
+      border: 2px solid #38598a !important;
+      background-color: #e9f0f8 !important;
       color: #242424 !important;
       font-size: 16px;
       font-weight: 400;
@@ -30,15 +30,15 @@
   .list-button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     font-size: 16px;
     font-weight: 400;
     line-height: 21.79px;
     &-selected {
       margin-right: 7px;
       border-radius: 20px;
-      border: 2px solid #38598A !important;
-      background-color: #E9F0F8 !important;
+      border: 2px solid #38598a !important;
+      background-color: #e9f0f8 !important;
       color: #242424 !important;
       font-size: 16px;
       font-weight: 400;
@@ -49,9 +49,9 @@
 
 .container {
   overflow: hidden;
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding: 20px;
-  background-color: #FDFDFD;
+  background-color: #fdfdfd;
   max-width: 1500px;
   margin: auto;
 }
@@ -68,10 +68,10 @@
     box-sizing: border-box;
     min-width: 363px;
     h1 {
-        font-size: 22px;
-        font-weight: 500;
-        margin-bottom: 0;
-        padding-bottom: 0;
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
   }
   .title-button-container {
@@ -102,11 +102,9 @@
 }
 
 .content {
-
 }
 
 .tabs {
-
 }
 
 .panel-container {
@@ -119,7 +117,7 @@
   justify-content: center;
   padding-bottom: 100px;
 }
-.panel-container> * {
+.panel-container > * {
   flex: 1 1 48.996%;
 }
 
@@ -130,24 +128,24 @@
 @media screen and (max-width: 768px) {
   .tab-button {
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     font-size: 14px;
     font-weight: 400;
     line-height: 21.79px;
     z-index: 100;
     width: 50%;
-    font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
+    font-family: "Noto Sans", "BCSans", Verdana, Arial, sans-serif !important;
     &-selected {
       border-radius: 20px;
-      border: 2px solid #1A5A96 !important;
-      background-color: #1A5A96 !important;
-      color: #FDFDFD !important;
+      border: 2px solid #1a5a96 !important;
+      background-color: #1a5a96 !important;
+      color: #fdfdfd !important;
       font-size: 14px;
       font-weight: 400;
       line-height: 21.79px;
       z-index: 200;
       width: 50%;
-      font-family: 'Noto Sans', 'BCSans', Verdana, Arial, sans-serif !important;
+      font-family: "Noto Sans", "BCSans", Verdana, Arial, sans-serif !important;
     }
   }
 
@@ -158,15 +156,15 @@
   .list-button {
     margin-right: 7px;
     border-radius: 20px;
-    border: 1px solid #C4C4C4;
+    border: 1px solid #c4c4c4;
     font-size: 14px;
     font-weight: 400;
     line-height: 21.79px;
     &-selected {
       margin-right: 7px;
       border-radius: 20px;
-      border: 2px solid #38598A !important;
-      background-color: #E9F0F8 !important;
+      border: 2px solid #38598a !important;
+      background-color: #e9f0f8 !important;
       color: #242424 !important;
       font-size: 14px;
       font-weight: 400;

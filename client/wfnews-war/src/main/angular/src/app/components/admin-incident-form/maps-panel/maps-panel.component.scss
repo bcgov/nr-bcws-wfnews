@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 ::ng-deep #core-interface-container {
   .mobile .incident-detail {
     .info-card {
@@ -7,30 +7,31 @@
   }
 }
 
-div{
+div {
   margin-left: 2%;
   margin-right: 2%;
 }
 
-p.dashboard-title{
+p.dashboard-title {
   font-size: 35px;
-  margin-bottom: .5%;
+  margin-bottom: 0.5%;
 }
 
-p.active-incidents, p.datetime{
+p.active-incidents,
+p.datetime {
   display: inline-block;
 }
 
-p.datetime{
+p.datetime {
   float: right;
-  vertical-align:center;
+  vertical-align: center;
 }
 
-tr{
+tr {
   font-weight: normal;
 }
 
-table{
+table {
   border: 1;
   width: 96%;
   margin-left: 2%;
@@ -38,23 +39,23 @@ table{
 }
 
 td {
-  padding-top:.5%;
-  padding-bottom:.5%;
-  padding-right:.5%;
-  padding-left:.5%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-right: 0.5%;
+  padding-left: 0.5%;
   width: 25%;
 }
 
-table tr:nth-child(even) td{
+table tr:nth-child(even) td {
   background-color: white;
 }
 
-.block{
-  width:15%;
+.block {
+  width: 15%;
   display: inline-block;
 }
 
-.input-clear-button{
+.input-clear-button {
   margin-bottom: 8px;
   margin-left: 278px;
   position: absolute;
@@ -66,18 +67,18 @@ table tr:nth-child(even) td{
   background-color: #f2f2f2;
 }
 
-.fire-type-radio-button-group{
+.fire-type-radio-button-group {
   margin-top: 13px !important;
   flex-basis: auto !important;
   width: auto !important;
 
   .radio-group {
-      margin-top: 10px;
-      display: flex;
+    margin-top: 10px;
+    display: flex;
 
-      .radio-button {
-          margin-left: 5px;
-      }
+    .radio-button {
+      margin-left: 5px;
+    }
   }
 }
 
@@ -92,7 +93,7 @@ table tr:nth-child(even) td{
     width: 100%;
     display: table;
 
-    ::ng-deep .mat-sort-header-content{
+    ::ng-deep .mat-sort-header-content {
       text-align: left;
     }
 
@@ -106,7 +107,8 @@ table tr:nth-child(even) td{
       }
     }
 
-    td, th {
+    td,
+    th {
       word-wrap: break-word;
       vertical-align: middle;
       overflow: hidden;
@@ -118,7 +120,7 @@ table tr:nth-child(even) td{
     th {
       font-family: $font-family-emphasis;
     }
-    td{
+    td {
       white-space: nowrap;
     }
 
@@ -143,14 +145,12 @@ table tr:nth-child(even) td{
         line-height: 12px;
       }
     }
-
   }
 
   input {
     border-radius: $wf1-border-radius;
     border: 1px solid $colour-light-grey;
   }
-
 }
 .top-summary,
 .bottom-summary {
@@ -180,18 +180,18 @@ table tr:nth-child(even) td{
     font-family: $font-family-main;
     line-height: 35px;
 
-    ::ng-deep .ms-search{
+    ::ng-deep .ms-search {
       width: calc(100% - 7px);
       border-radius: $wf1-border-radius;
       font-family: $font-family-main;
       font-size: $font-size;
-      >input{
+      > input {
         width: inherit;
         font-family: $font-family-main;
         font-size: $font-size;
         &:focus {
           outline: none;
-          box-shadow: 0 0 4px #3E7FFF;
+          box-shadow: 0 0 4px #3e7fff;
         }
       }
     }
@@ -210,20 +210,19 @@ table tr:nth-child(even) td{
       font-size: $font-size;
       color: inherit;
 
-      span.placeholder{
+      span.placeholder {
         color: #6a6a6a;
       }
 
-      > div.icon-caret{
+      > div.icon-caret {
         margin-top: -5px;
         border-width: 9px 6px 0 6px;
 
-        &.open{
+        &.open {
           border-width: 0 6px 9px 6px;
         }
       }
     }
-
 
     select.mat-mdc-input-element {
       background-color: $colour-white;
@@ -238,14 +237,13 @@ table tr:nth-child(even) td{
 
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3E7FFF;
+        box-shadow: 0 0 4px #3e7fff;
       }
     }
   }
-
 }
 
-.summary-buttons{
+.summary-buttons {
   margin: 0 var(--wf1-gutter-space);
   flex: 0;
   display: flex;
@@ -267,7 +265,7 @@ table tr:nth-child(even) td{
   justify-content: space-between;
 }
 
-.top-filter{
+.top-filter {
   margin: 0 var(--wf1-gutter-space);
   .search-and-filters {
     //.field{
@@ -280,7 +278,7 @@ table tr:nth-child(even) td{
 .top-filter,
 .wf1-resources-header-bar,
 .table-search-header {
-  ::ng-deep .ms-drop{
+  ::ng-deep .ms-drop {
     ul > li.hide-radio label {
       text-overflow: ellipsis;
       overflow-x: hidden;
@@ -291,44 +289,44 @@ table tr:nth-child(even) td{
     }
   }
 
-  .main-header-button{
+  .main-header-button {
     margin-right: var(--wf1-gutter-space);
-    mat-icon{
+    mat-icon {
       margin-right: 10px;
     }
   }
 
-  .search-and-filters{
+  .search-and-filters {
     flex: 1;
     display: flex;
     flex-flow: row wrap;
 
-    .field{
+    .field {
       flex: 0 0 150px;
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       min-width: 0;
 
-      .label{
+      .label {
         font-family: $font-family-emphasis;
         font-weight: $font-weight-emphasis;
         padding: 5px 1.5px;
       }
 
-      &.search-input{
+      &.search-input {
         width: 312px;
         flex-basis: 312px;
       }
 
-      &.filter-radio-group{
+      &.filter-radio-group {
         width: auto !important;
         flex-basis: auto;
       }
 
-      ::ng-deep .mat-mdc-radio-group{
+      ::ng-deep .mat-mdc-radio-group {
         display: flex;
-        .mat-mdc-radio-button{
+        .mat-mdc-radio-button {
           height: 35px;
           display: flex;
 
@@ -341,22 +339,23 @@ table tr:nth-child(even) td{
         }
       }
 
-      input.search-input{
+      input.search-input {
         //width: 297px;
       }
     }
 
-    &>*{
+    & > * {
       flex: 0 0 150px;
       width: 0;
       margin: 6px;
     }
 
-    &>select.mat-mdc-input-element { //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
+    & > select.mat-mdc-input-element {
+      //fix for firefox flex basis issue https://github.com/philipwalton/flexbugs/issues/41
       max-width: 150px;
     }
 
-    mat-icon{
+    mat-icon {
       margin-right: 10px;
     }
   }
@@ -375,22 +374,22 @@ table tr:nth-child(even) td{
     margin-bottom: 0;
     -webkit-appearance: menulist;
 
-    &.none-selected{
+    &.none-selected {
       color: #6a6a6a;
     }
   }
-  ::ng-deep .ms-search{
+  ::ng-deep .ms-search {
     width: calc(100% - 7px);
     border-radius: $wf1-border-radius;
     font-family: $font-family-main;
     font-size: $font-size;
-    >input{
+    > input {
       width: inherit;
       font-family: $font-family-main;
       font-size: $font-size;
       &:focus {
         outline: none;
-        box-shadow: 0 0 4px #3E7FFF;
+        box-shadow: 0 0 4px #3e7fff;
       }
     }
   }
@@ -408,20 +407,19 @@ table tr:nth-child(even) td{
     font-size: $font-size;
     color: inherit;
 
-    span.placeholder{
+    span.placeholder {
       color: #6a6a6a;
     }
 
-    > div.icon-caret{
+    > div.icon-caret {
       margin-top: -5px;
       border-width: 9px 6px 0 6px;
 
-      &.open{
+      &.open {
         border-width: 0 6px 9px 6px;
       }
     }
   }
-
 
   textarea,
   input,
@@ -437,14 +435,14 @@ table tr:nth-child(even) td{
 
     &:focus {
       outline: none;
-      box-shadow: 0 0 4px #3E7FFF;
+      box-shadow: 0 0 4px #3e7fff;
     }
   }
 
   input[readonly="true"],
   select[readonly="true"],
   input:disabled,
-  select:disabled{
+  select:disabled {
     background-color: $opacity-light-grey !important;
   }
 
@@ -456,13 +454,11 @@ table tr:nth-child(even) td{
 }
 
 .mat-mdc-table {
-
   .mat-mdc-header-cell {
     color: $colour-black;
     font-weight: $font-weight-emphasis;
     font-size: $font-size;
     padding: 5px 5px;
-
   }
 
   .mat-mdc-cell {
@@ -470,7 +466,6 @@ table tr:nth-child(even) td{
     font-weight: $font-weight;
     font-size: $font-size;
     padding: 5px 5px;
-
 
     div:not(.mat-badge) {
       white-space: nowrap;
@@ -496,16 +491,16 @@ table tr:nth-child(even) td{
     background-color: $colour-table-background-odd;
   }
 
-  .mat-mdc-row{
-    &:hover{
+  .mat-mdc-row {
+    &:hover {
       background-color: $colour-table-background-hover;
     }
 
-    &.hover-pointer:hover{
+    &.hover-pointer:hover {
       cursor: pointer;
     }
 
-    .hover-pointer:hover{
+    .hover-pointer:hover {
       cursor: pointer;
     }
   }
@@ -519,5 +514,5 @@ table tr:nth-child(even) td{
 .primary-button {
   margin-left: auto;
   background: #003366;
-  color: white
+  color: white;
 }

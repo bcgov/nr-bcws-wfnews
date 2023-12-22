@@ -1,40 +1,40 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
 .simple-toggle {
-    width: 100%;
-    margin: 20px 0;
+  width: 100%;
+  margin: 20px 0;
+  border: none;
+  line-height: normal !important;
+  .mat-icon {
+    color: #548adb;
+    margin-right: 8px;
+  }
+  .mat-button-toggle {
+    margin-bottom: 24px;
     border: none;
-    line-height: normal !important; 
-    .mat-icon {
-        color: #548ADB;
-        margin-right: 8px;
+    border-radius: 8px;
+    height: 81px;
+    @media (max-height: 800px) and (min-height: 700px) {
+      height: 9dvh;
     }
-    .mat-button-toggle{
-        margin-bottom: 24px;
-        border: none;
-        border-radius: 8px;
-        height: 81px;
-        @media (max-height: 800px) and (min-height: 700px){
-            height: 9dvh;
-        }
-        @media (max-height: 699px){
-            height: 8dvh;
-        }
+    @media (max-height: 699px) {
+      height: 8dvh;
     }
+  }
 
-    .mat-button-toggle-appearance-standard {
-        color: rgba(0, 0, 0, 0.87);
-        background-color: #f1f1f1;
-        margin-top: 3px;
-        box-sizing: border-box;
-    }
-    .mat-button-toggle-checked {
-        background-color: #DFE5EE !important;
-        border-radius: 8px;
-        border: 3px solid #4169A4;
-        bottom: 3px;
-    }
-    .mat-button-toggle-button {
-        border-radius: 8px;
-    }
+  .mat-button-toggle-appearance-standard {
+    color: rgba(0, 0, 0, 0.87);
+    background-color: #f1f1f1;
+    margin-top: 3px;
+    box-sizing: border-box;
+  }
+  .mat-button-toggle-checked {
+    background-color: #dfe5ee !important;
+    border-radius: 8px;
+    border: 3px solid #4169a4;
+    bottom: 3px;
+  }
+  .mat-button-toggle-button {
+    border-radius: 8px;
+  }
 }

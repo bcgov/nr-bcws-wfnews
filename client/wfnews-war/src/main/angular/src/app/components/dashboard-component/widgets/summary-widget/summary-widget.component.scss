@@ -1,10 +1,10 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     max-height: 912px;
     flex-direction: column;
@@ -12,7 +12,7 @@
     gap: 12px;
     flex: 1 0 0;
     align-self: stretch;
-    background: transparent
+    background: transparent;
   }
 
   .spinner-position {
@@ -30,7 +30,7 @@
     flex: 1 0 0;
     align-self: stretch;
   }
-  .content> * {
+  .content > * {
     flex: 1 0 247px;
   }
 
@@ -46,8 +46,9 @@
     gap: 32px;
     align-self: stretch;
     border-radius: var(--16, 16px);
-    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
-    border: 1.5px solid #DEDEDE;
+    background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
+      linear-gradient(0deg, #dedede, #dedede);
+    border: 1.5px solid #dedede;
     height: 218px;
     max-height: 218px;
     max-width: 322px;
@@ -62,7 +63,7 @@
     align-items: center;
     gap: 8px;
     border-radius: 60px;
-    background: var(--Summary-Blue, #DFE5F1);
+    background: var(--Summary-Blue, #dfe5f1);
     position: relative;
     top: -5px;
     width: 48px;
@@ -71,8 +72,10 @@
 
   .stat-box-data {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 48px;
     font-style: normal;
     font-weight: 500;
@@ -82,7 +85,7 @@
 
   .stat-box-label {
     color: var(--Black-2, #484848);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -93,7 +96,7 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     max-height: 912px;
     max-width: 850px;
@@ -102,7 +105,7 @@
     gap: 12px;
     flex: 1 0 0;
     align-self: stretch;
-    background: transparent
+    background: transparent;
   }
 
   .spinner-position {
@@ -120,7 +123,7 @@
     flex: 1 0 0;
     align-self: stretch;
   }
-  .content> * {
+  .content > * {
     flex: 1 0 247px;
   }
 
@@ -136,8 +139,9 @@
     gap: 32px;
     align-self: stretch;
     border-radius: var(--16, 16px);
-    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
-    border: 1.5px solid #DEDEDE;
+    background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
+      linear-gradient(0deg, #dedede, #dedede);
+    border: 1.5px solid #dedede;
     height: 218px;
     max-height: 218px;
     min-width: 175px;
@@ -151,7 +155,7 @@
     align-items: center;
     gap: 8px;
     border-radius: 60px;
-    background: var(--Summary-Blue, #DFE5F1);
+    background: var(--Summary-Blue, #dfe5f1);
     position: relative;
     top: -5px;
     width: 48px;
@@ -160,8 +164,10 @@
 
   .stat-box-data {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 48px;
     font-style: normal;
     font-weight: 500;
@@ -171,7 +177,7 @@
 
   .stat-box-label {
     color: var(--Black-2, #484848);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -182,7 +188,7 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     max-height: 912px;
     flex-direction: column;
@@ -190,7 +196,7 @@
     gap: 12px;
     flex: 1 0 0;
     align-self: stretch;
-    background: transparent
+    background: transparent;
   }
 
   .spinner-position {
@@ -208,7 +214,7 @@
     flex: 1 0 0;
     align-self: stretch;
   }
-  .content> * {
+  .content > * {
     flex: 1 0 247px;
   }
 
@@ -224,8 +230,9 @@
     gap: 24px;
     align-self: stretch;
     border-radius: var(--16, 16px);
-    background: linear-gradient(0deg, #F5F6F9, #F5F6F9), linear-gradient(0deg, #DEDEDE, #DEDEDE);
-    border: 1.5px solid #DEDEDE;
+    background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
+      linear-gradient(0deg, #dedede, #dedede);
+    border: 1.5px solid #dedede;
     height: 218px;
     max-height: 128px;
     min-width: 175px;
@@ -239,7 +246,7 @@
     align-items: center;
     gap: 8px;
     border-radius: 60px;
-    background: var(--Summary-Blue, #DFE5F1);
+    background: var(--Summary-Blue, #dfe5f1);
     position: relative;
     top: -5px;
     width: 36px;
@@ -248,8 +255,10 @@
 
   .stat-box-data {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 32px;
     font-style: normal;
     font-weight: 500;
@@ -259,7 +268,7 @@
 
   .stat-box-label {
     color: var(--Black-2, #484848);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;

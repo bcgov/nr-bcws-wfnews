@@ -1,12 +1,12 @@
 export interface InfoPluginSettings {
-    /**
-     * Enable/Disable info option
-     */
-    info: boolean;
-    infoData: any;
+  /**
+   * Enable/Disable info option
+   */
+  info: boolean;
+  infoData: any;
 }
 
 export const infoSettings: InfoPluginSettings = {
-    info: true,
-    infoData: {}
+  info: true,
+  infoData: {},
 };

@@ -1,10 +1,10 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     width: auto;
@@ -15,20 +15,22 @@
     gap: 12px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
     display: flex;
@@ -39,8 +41,8 @@
     height: 7px !important;
     border-radius: 50px;
     --mdc-linear-progress-track-height: 7px;
-    --mdc-linear-progress-active-indicator-color: #146FB4;
-    --mdc-linear-progress-track-color: #C4C4C4;
+    --mdc-linear-progress-active-indicator-color: #146fb4;
+    --mdc-linear-progress-track-color: #c4c4c4;
   }
 
   .progress-bar-mobile {
@@ -50,8 +52,11 @@
   .data-box {
     &-title {
       color: var(--grays-gray-2, #484848);
-      font-feature-settings: 'clig' off, 'liga' off;
-      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-feature-settings:
+        "clig" off,
+        "liga" off;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 22px;
       font-style: normal;
       font-weight: 600;
@@ -68,7 +73,7 @@
         gap: 64px;
         align-self: stretch;
         border-radius: var(--16, 16px);
-        background: var(--blues-blue-10, #F5F6F9);
+        background: var(--blues-blue-10, #f5f6f9);
         margin-bottom: 16px;
         &-count-box {
           display: flex;
@@ -79,7 +84,8 @@
         &-count-holder {
           &-title {
             color: var(--grays-gray-3, #666);
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 18px;
             font-style: normal;
             font-weight: 600;
@@ -87,8 +93,14 @@
           }
           &-data {
             color: var(--Black-1, #242424);
-            font-feature-settings: 'cv11' on, 'cv01' on, 'ss01' on, 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "cv11" on,
+              "cv01" on,
+              "ss01" on,
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 48px;
             font-style: normal;
             font-weight: 600;
@@ -104,8 +116,11 @@
           flex: 1 0 0;
           &-value {
             color: var(--Black-1, #242424);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 32px;
             font-style: normal;
             font-weight: 700;
@@ -123,7 +138,7 @@
     align-items: center;
     align-self: stretch;
     color: var(--Grey-1, #666);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
@@ -136,7 +151,7 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     width: auto;
@@ -148,20 +163,22 @@
     gap: 12px;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
     display: flex;
@@ -172,8 +189,8 @@
     height: 7px !important;
     border-radius: 50px;
     --mdc-linear-progress-track-height: 7px;
-    --mdc-linear-progress-active-indicator-color: #146FB4;
-    --mdc-linear-progress-track-color: #C4C4C4;
+    --mdc-linear-progress-active-indicator-color: #146fb4;
+    --mdc-linear-progress-track-color: #c4c4c4;
   }
 
   .progress-bar-mobile {
@@ -183,8 +200,11 @@
   .data-box {
     &-title {
       color: var(--grays-gray-2, #484848);
-      font-feature-settings: 'clig' off, 'liga' off;
-      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-feature-settings:
+        "clig" off,
+        "liga" off;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 22px;
       font-style: normal;
       font-weight: 600;
@@ -201,7 +221,7 @@
         gap: 64px;
         align-self: stretch;
         border-radius: var(--16, 16px);
-        background: var(--blues-blue-10, #F5F6F9);
+        background: var(--blues-blue-10, #f5f6f9);
         margin-bottom: 16px;
         &-count-box {
           display: flex;
@@ -212,7 +232,8 @@
         &-count-holder {
           &-title {
             color: var(--grays-gray-3, #666);
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 18px;
             font-style: normal;
             font-weight: 600;
@@ -220,8 +241,14 @@
           }
           &-data {
             color: var(--Black-1, #242424);
-            font-feature-settings: 'cv11' on, 'cv01' on, 'ss01' on, 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "cv11" on,
+              "cv01" on,
+              "ss01" on,
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 48px;
             font-style: normal;
             font-weight: 600;
@@ -237,8 +264,11 @@
           flex: 1 0 0;
           &-value {
             color: var(--Black-1, #242424);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 32px;
             font-style: normal;
             font-weight: 700;
@@ -256,7 +286,7 @@
     align-items: center;
     align-self: stretch;
     color: var(--Grey-1, #666);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 15px;
     font-style: normal;
     font-weight: 400;
@@ -269,26 +299,28 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     height: 640px;
     flex-direction: column;
     align-items: flex-start;
     gap: 12px;
     flex: 1 0 0;
-    background: #FFF;
+    background: #fff;
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
     line-height: 34px; /* 130.769% */
     letter-spacing: 0.35px;
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
     display: flex;
@@ -303,8 +335,8 @@
     height: 7px !important;
     border-radius: 50px;
     --mdc-linear-progress-track-height: 7px;
-    --mdc-linear-progress-active-indicator-color: #146FB4;
-    --mdc-linear-progress-track-color: #C4C4C4;
+    --mdc-linear-progress-active-indicator-color: #146fb4;
+    --mdc-linear-progress-track-color: #c4c4c4;
     position: relative;
     top: -35px;
   }
@@ -312,8 +344,11 @@
   .data-box {
     &-title {
       color: var(--grays-gray-2, #484848);
-      font-feature-settings: 'clig' off, 'liga' off;
-      font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-feature-settings:
+        "clig" off,
+        "liga" off;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 18px;
       font-style: normal;
       font-weight: 600;
@@ -330,7 +365,7 @@
         gap: 64px;
         align-self: stretch;
         border-radius: var(--16, 16px);
-        background: var(--blues-blue-10, #F5F6F9);
+        background: var(--blues-blue-10, #f5f6f9);
         margin-bottom: 16px;
         &-count-box {
           display: flex;
@@ -341,7 +376,8 @@
         &-count-holder {
           &-title {
             color: var(--grays-gray-3, #242424);
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 18px;
             font-style: normal;
             font-weight: 500;
@@ -351,8 +387,14 @@
           }
           &-data {
             color: var(--Black-1, #666);
-            font-feature-settings: 'cv11' on, 'cv01' on, 'ss01' on, 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "cv11" on,
+              "cv01" on,
+              "ss01" on,
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 18px;
             font-style: normal;
             font-weight: 400;
@@ -370,8 +412,11 @@
           top: -60px;
           &-value {
             color: var(--Black-1, #242424);
-            font-feature-settings: 'clig' off, 'liga' off;
-            font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+            font-feature-settings:
+              "clig" off,
+              "liga" off;
+            font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+              sans-serif;
             font-size: 28px;
             font-style: normal;
             font-weight: 500;
@@ -389,7 +434,7 @@
     align-items: center;
     align-self: stretch;
     color: var(--Grey-1, #666);
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 13px;
     font-style: normal;
     font-weight: 400;
@@ -423,7 +468,7 @@
 .button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   background-color: transparent;
   margin-left: auto;
 }
@@ -447,8 +492,8 @@
   top: 2px;
   left: -6px;
   border-radius: 64px;
-  border: 1px solid #DDDDDD;
-  background-color: #FFFFFF;
+  border: 1px solid #dddddd;
+  background-color: #ffffff;
   padding: 8px;
   cursor: pointer;
 }

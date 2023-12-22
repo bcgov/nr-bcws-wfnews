@@ -1,10 +1,13 @@
-import {ActivatedRouteSnapshot, DetachedRouteHandle, RouteReuseStrategy} from '@angular/router';
+import {
+  ActivatedRouteSnapshot,
+  DetachedRouteHandle,
+  RouteReuseStrategy,
+} from '@angular/router';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class CustomReuseStrategy implements RouteReuseStrategy {
-
-  handlers: {[key: string]: DetachedRouteHandle} = {};
+  handlers: { [key: string]: DetachedRouteHandle } = {};
 
   shouldDetach(route: ActivatedRouteSnapshot): boolean {
     //console.debug('CustomReuseStrategy:shouldDetach', route);
@@ -24,14 +27,16 @@ export class CustomReuseStrategy implements RouteReuseStrategy {
   retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
     //console.debug('CustomReuseStrategy:retrieve', route);
     if (!route.routeConfig) {
- return null; 
-}
+      return null;
+    }
     return this.handlers[route.routeConfig.path];
   }
 
-  shouldReuseRoute(future: ActivatedRouteSnapshot, curr: ActivatedRouteSnapshot): boolean {
+  shouldReuseRoute(
+    future: ActivatedRouteSnapshot,
+    curr: ActivatedRouteSnapshot,
+  ): boolean {
     //console.debug('CustomReuseStrategy:shouldReuseRoute', future, curr);
     return future.routeConfig === curr.routeConfig;
   }
-
 }

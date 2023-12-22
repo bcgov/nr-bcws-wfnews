@@ -1,7 +1,7 @@
 .header {
-  border-top: 1px solid var(--grays-gray-7, #DEDEDE);
-  border-bottom: 1px solid var(--grays-gray-7, #DEDEDE);
-  background: var(--blues-blue-11, #F5F6F9);
+  border-top: 1px solid var(--grays-gray-7, #dedede);
+  border-bottom: 1px solid var(--grays-gray-7, #dedede);
+  background: var(--blues-blue-11, #f5f6f9);
 
   .content {
     display: flex;
@@ -11,7 +11,7 @@
     gap: 16px;
     align-self: stretch;
     color: #000;
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -37,7 +37,7 @@
 
   .section-header {
     color: var(--Gray-1, #242424);
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -46,7 +46,7 @@
 
   .section-button {
     color: var(--grays-gray-2, #484848);
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -59,8 +59,8 @@
     margin-top: 16px;
     margin-bottom: 24px;
     border-radius: 10px;
-    border: 1px solid var(--grays-gray-7, #DEDEDE);
-    background: var(--blues-blue-11, #F5F6F9);
+    border: 1px solid var(--grays-gray-7, #dedede);
+    background: var(--blues-blue-11, #f5f6f9);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -119,7 +119,7 @@
 
     .fire-bans {
       color: var(--grays-gray-3, #666);
-      font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+      font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
@@ -131,7 +131,7 @@
 
       span {
         color: var(--Gray-1, #242424);
-        font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -153,8 +153,7 @@
 
   .section-card-wildfires {
     @extend .section-card;
-    background-color: var(--grays-white, #FDFDFD);
-    ;
+    background-color: var(--grays-white, #fdfdfd);
   }
 }
 
@@ -167,7 +166,7 @@
 .location-icon {
   padding: 6.653px;
   border-radius: 83.158px;
-  background: var(--blues-blue-8, #DFE5EE);
+  background: var(--blues-blue-8, #dfe5ee);
   height: 24px;
   width: 24px;
   vertical-align: middle;
@@ -179,17 +178,17 @@
   justify-content: flex-end;
   align-items: flex-start;
   border-radius: 64px;
-  background: var(--blues-blue-8, #DFE5EE);
+  background: var(--blues-blue-8, #dfe5ee);
 }
 
 .large-divider {
-  background: var(--Grey-2-EEE, #EEE);
+  background: var(--Grey-2-EEE, #eee);
   height: 12px;
   width: -webkit-fill-available;
 }
 
 .divider {
-  background: #DEDEDE;
+  background: #dedede;
   height: 1px;
   margin: 14px 0;
 }
@@ -199,21 +198,21 @@
   bottom: 0;
   right: 0;
   border-radius: 64px;
-  background: var(--Grey-2-EEE, #EEE);
+  background: var(--Grey-2-EEE, #eee);
   cursor: pointer;
 }
 
 .nearBy-badge {
   display: flex;
   border-radius: 4px;
-  border: 1px solid var(--Light-Red, #E03B57);
-  background: #FDF0F3;
+  border: 1px solid var(--Light-Red, #e03b57);
+  background: #fdf0f3;
   padding: 6px 12px;
   margin-top: 14px;
 
   span {
-    color: #3A0813;
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    color: #3a0813;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 500;
@@ -241,7 +240,6 @@
   width: 100%;
 }
 
-
 .info-container {
   display: flex;
   padding: 24px 0px 10px 0px;
@@ -268,8 +266,8 @@
   align-items: flex-start;
   align-self: stretch;
   border-radius: 8px;
-  border: 1px solid var(--grays-gray-7, #DEDEDE);
-  background: var(--White, #FDFDFD);
+  border: 1px solid var(--grays-gray-7, #dedede);
+  background: var(--White, #fdfdfd);
   box-shadow: 0px 0px 11px 0px rgba(0, 0, 0, 0.07);
 
   .break {
@@ -277,7 +275,7 @@
     clear: both;
     display: flex;
     width: 99%;
-    background-color: #DDD;
+    background-color: #ddd;
     height: 1px;
     margin-left: 0px !important;
     margin-bottom: 16px;
@@ -330,9 +328,9 @@
   font-weight: 500;
   line-height: normal;
   border-radius: 4px;
-  border: 1px solid var(--reds-red-8, #FBE3E3);
-  background: var(--reds-red-7, #FEF1F2);
-  color: #98273B;
+  border: 1px solid var(--reds-red-8, #fbe3e3);
+  background: var(--reds-red-7, #fef1f2);
+  color: #98273b;
   margin-bottom: 12px;
 
   &-icon {
@@ -355,7 +353,7 @@
 
   &.OUT_CNTRL {
     display: inline-block;
-    background-color: #FF0000;
+    background-color: #ff0000;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -364,7 +362,7 @@
 
   &.UNDR_CNTRL {
     display: inline-block;
-    background-color: #98E600;
+    background-color: #98e600;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -373,7 +371,7 @@
 
   &.OUT {
     display: inline-block;
-    background-color: #5C6671;
+    background-color: #5c6671;
     border-radius: 50%;
     width: 16px;
     height: 16px;
@@ -386,13 +384,13 @@
   bottom: 10px;
   right: 10px;
   border-radius: 64px;
-  background: var(--Grey-2-EEE, #EEE);
+  background: var(--Grey-2-EEE, #eee);
   cursor: pointer;
 }
 
 .arrow-icon-grey {
   @extend .arrow-icon;
-  background: var(--Grey-2-EEE, #EEE);
+  background: var(--Grey-2-EEE, #eee);
 }
 
 .wildfire-title-icon {
@@ -405,7 +403,6 @@
   max-width: 1500px;
   margin: auto;
 }
-
 
 // :host ::ng-deep .mat-mdc-tab.mdc-tab--active{
 //     font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif !important;

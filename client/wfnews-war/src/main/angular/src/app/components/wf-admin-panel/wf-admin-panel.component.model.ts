@@ -1,15 +1,14 @@
-import {DomSanitizer} from "@angular/platform-browser";
-import { BaseComponentModel } from "../base/base.component.model";
+import { DomSanitizer } from '@angular/platform-browser';
+import { BaseComponentModel } from '../base/base.component.model';
 
 export class WfAdminPanelComponentModel extends BaseComponentModel {
+  constructor(protected sanitizer: DomSanitizer) {
+    super(sanitizer);
+  }
 
-    constructor(protected sanitizer: DomSanitizer) {
-        super(sanitizer);
-
-    }
-
-    public clone(): WfAdminPanelComponentModel {
-        let clonedModel: WfAdminPanelComponentModel = new WfAdminPanelComponentModel(this.sanitizer);
-        return clonedModel;
-    }
+  public clone(): WfAdminPanelComponentModel {
+    const clonedModel: WfAdminPanelComponentModel =
+      new WfAdminPanelComponentModel(this.sanitizer);
+    return clonedModel;
+  }
 }
