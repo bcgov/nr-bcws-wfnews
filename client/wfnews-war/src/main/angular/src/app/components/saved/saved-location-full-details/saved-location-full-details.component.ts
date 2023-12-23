@@ -90,9 +90,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
         for (const item of notificationSettings?.notifications) {
           if (
             item?.notificationName === this.params['name'] &&
-            (item?.point?.coordinates[0] as number) ===
-              this.params['longitude'] &&
-            (item?.point?.coordinates[1] as number) === this.params['latitude']
+            Number(item?.point?.coordinates[0]) ===
+              Number(this.params['longitude']) &&
+              Number(item?.point?.coordinates[1]) === Number(this.params['latitude'])
           ) {
 return item;
 }
