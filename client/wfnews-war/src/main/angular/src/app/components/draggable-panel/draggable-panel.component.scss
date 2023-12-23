@@ -1,6 +1,9 @@
 .draggable-panel {
   background-color: #ffffff;
-  height: calc(40vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) - 56px) !important;
+  height: calc(
+    40vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px) -
+      56px
+  ) !important;
   min-height: 320px;
   width: 100%;
   position: absolute;
@@ -20,31 +23,31 @@
   height: 90%;
   border-radius: 20px;
 
-  .draggable-panel-title{
+  .draggable-panel-title {
     background-color: white;
     position: sticky;
     top: 0;
     font-size: 18px;
     color: #242424;
     padding: 12px 20px;
-    border-bottom: 1px solid #DEDEDE;
+    border-bottom: 1px solid #dedede;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
-    .preview-title{
+    .preview-title {
       display: flex;
       align-items: center;
     }
   }
 
-  .criteria-title{
+  .criteria-title {
     font-size: 18px;
     color: #242424;
-    padding: 16px 20px 0 20px
+    padding: 16px 20px 0 20px;
   }
 
-  .identify-card-title{
+  .identify-card-title {
     color: var(--grays-gray-1, #242424);
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 20px;
@@ -54,16 +57,16 @@
     padding-bottom: 4px;
   }
 
-  .widget-card{
+  .widget-card {
     padding: 8px 20px 0 20px;
   }
 
-  .widget-row{
+  .widget-row {
     display: flex;
     padding: 12px;
     align-items: center;
     border-radius: 8px;
-    background: #F2F2F6;
+    background: #f2f2f6;
     display: flex;
     justify-content: space-between;
   }
@@ -74,70 +77,70 @@
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   }
 
-  .incident-icon{
+  .incident-icon {
     width: 16px;
     height: 16px;
     margin-right: 12px;
   }
 
-  .incident-icon-title{
+  .incident-icon-title {
     width: 24px;
     height: 24px;
     margin-right: 12px;
   }
 
-  .circle-icon{
-    &.active-wildfires-holding{
+  .circle-icon {
+    &.active-wildfires-holding {
       background-color: #ffff00;
       border: 1px solid black;
       border-radius: 50%;
       width: 16px;
       height: 16px;
       margin-right: 12px;
-      &.list{
+      &.list {
         width: 22px;
         height: 22px;
       }
     }
-    &.active-wildfires-out-of-control{
-      background-color: #FF0000;
+    &.active-wildfires-out-of-control {
+      background-color: #ff0000;
       border: 1px solid black;
       border-radius: 50%;
       width: 16px;
       height: 16px;
       margin-right: 12px;
-      &.list{
+      &.list {
         width: 22px;
         height: 22px;
       }
     }
-    &.active-wildfires-under-control{
-      background-color: #98E600;
+    &.active-wildfires-under-control {
+      background-color: #98e600;
       border: 1px solid black;
       border-radius: 50%;
       width: 16px;
       height: 16px;
       margin-right: 12px;
-      &.list{
+      &.list {
         width: 22px;
         height: 22px;
       }
     }
-    &.bcws-activefires-publicview-inactive{
-      background-color: #5C6671;
+    &.bcws-activefires-publicview-inactive {
+      background-color: #5c6671;
       border: 1px solid black;
       border-radius: 50%;
       width: 16px;
       height: 16px;
       margin-right: 12px;
-      &.list{
+      &.list {
         width: 22px;
         height: 22px;
       }
     }
   }
 
-  .identify-card{
+  .identify-card {
     display: flex;
     margin: 16px 20px 24px 20px;
     flex-direction: column;
@@ -147,10 +150,11 @@
     align-self: stretch;
     min-height: 25vh;
 
-    .identify-card-item{
+    .identify-card-item {
       display: inline-flex;
       color: var(--grays-gray-2, #484848);
-      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
@@ -159,15 +163,16 @@
       align-items: center;
     }
 
-    .description-section{
+    .description-section {
       padding-top: 12px;
       width: 100%;
     }
 
-    .identify-card-description{
+    .identify-card-description {
       color: var(--grays-gray-2, #484848);
       /* Body/Body 2 */
-      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
       font-size: 15px;
       font-style: normal;
       font-weight: 400;
@@ -177,43 +182,45 @@
     }
   }
 
-  .button-row{
-    position:sticky;
-    bottom:0;
+  .button-row {
+    position: sticky;
+    bottom: 0;
     background-color: white;
     justify-content: space-between;
     gap: 16px;
     padding: 24px 20px 0 20px;
     align-items: center;
     // border-top: 1px solid #DEDEDE;
-    .divider{
+    .divider {
       height: 1px;
-      background-color: #DEDEDE;
-      margin-bottom:24px;
+      background-color: #dedede;
+      margin-bottom: 24px;
     }
 
-    .buttons{
+    .buttons {
       display: flex;
       gap: 16px;
-      .mobile-button{
+      .mobile-button {
         width: 100%;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        color:#000;
-        background-color: #F5F5F5;
+        color: #000;
+        background-color: #f5f5f5;
         padding: 8px;
       }
-      .mobile-button-primary{
+      .mobile-button-primary {
         width: 100%;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
         line-height: normal;
-        color: #FDFDFD;
+        color: #fdfdfd;
         background-color: #036;
         padding: 8px;
       }

@@ -1,19 +1,28 @@
-import { AfterViewInit, Directive, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  AfterViewInit,
+  Directive,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import * as moment from 'moment';
 import { searchIncidents } from '../../store/incidents/incidents.action';
-import { initIncidentsPaging, SEARCH_INCIDENTS_COMPONENT_ID } from '../../store/incidents/incidents.stats';
+import {
+  initIncidentsPaging,
+  SEARCH_INCIDENTS_COMPONENT_ID,
+} from '../../store/incidents/incidents.stats';
 import { FireCentres, ResourcesRoutes } from '../../utils';
 import { CollectionComponent } from '../common/base-collection/collection.component';
 import { WfAdminPanelComponentModel } from './wf-admin-panel.component.model';
 
 @Directive()
-export class WfAdminPanelComponent extends CollectionComponent implements OnChanges, AfterViewInit {
-
+export class WfAdminPanelComponent
+  extends CollectionComponent
+  implements OnChanges, AfterViewInit {
   public currentYearString;
   public currentDateTimeString;
 
-  displayLabel = "Simple Incidents Search"
-  selectedFireCentreCode = "";
+  displayLabel = 'Simple Incidents Search';
+  selectedFireCentreCode = '';
   fireOfNotePublishedInd = true;
   fireCentreOptions = FireCentres;
 
@@ -24,7 +33,7 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
 
   loadPage() {
     this.componentId = SEARCH_INCIDENTS_COMPONENT_ID;
-    this.getCurrentYearString()
+    this.getCurrentYearString();
     this.updateView();
     this.initSortingAndPaging(initIncidentsPaging);
     this.config = this.getPagingConfig();
@@ -33,15 +42,22 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
   }
 
   doSearch() {
-    this.getCurrentYearString()
-    this.store.dispatch(searchIncidents(this.componentId, {
-      pageNumber: this.config.currentPage,
-      pageRowCount: this.config.itemsPerPage,
-      sortColumn: this.currentSort,
-      sortDirection: this.currentSortDirection,
-      query: this.searchText
-    },
-      this.selectedFireCentreCode, this.fireOfNotePublishedInd, this.displayLabel));
+    this.getCurrentYearString();
+    this.store.dispatch(
+      searchIncidents(
+        this.componentId,
+        {
+          pageNumber: this.config.currentPage,
+          pageRowCount: this.config.itemsPerPage,
+          sortColumn: this.currentSort,
+          sortDirection: this.currentSortDirection,
+          query: this.searchText,
+        },
+        this.selectedFireCentreCode,
+        this.fireOfNotePublishedInd,
+        this.displayLabel,
+      ),
+    );
   }
 
   onChangeFilters() {
@@ -57,51 +73,70 @@ export class WfAdminPanelComponent extends CollectionComponent implements OnChan
     this.doSearch();
   }
 
-
   getViewModel(): WfAdminPanelComponentModel {
-    return <WfAdminPanelComponentModel>this.viewModel;
+    return this.viewModel as WfAdminPanelComponentModel;
   }
-
 
   ngAfterViewInit() {
     super.ngAfterViewInit();
   }
 
   ngOnchanges(changes: SimpleChanges) {
-    super.ngOnChanges(changes)
+    super.ngOnChanges(changes);
   }
 
   getCurrentYearString() {
-    let currentYear = new Date().getFullYear()
+    let currentYear = new Date().getFullYear();
     if (new Date().getMonth() < 3) {
-      currentYear -= 1
+      currentYear -= 1;
     }
-    this.currentYearString = currentYear.toString() + "/" + (currentYear + 1).toString();
+    this.currentYearString =
+      currentYear.toString() + '/' + (currentYear + 1).toString();
     const todaysDate: Date = new Date();
     const options: Intl.DateTimeFormatOptions = {
-      day: "numeric", month: "long", year: "numeric",
-      hour: "numeric", minute: "2-digit"
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
     };
-    const weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+    const weekdays = [
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ];
     const todayString = weekdays[todaysDate.getDay()];
-    const liveDateTime: string = (todayString + " " + todaysDate.toLocaleDateString("en-US", options)).replace(" at ", " - ");
-    this.currentDateTimeString = liveDateTime
+    const liveDateTime: string = (
+      todayString +
+      ' ' +
+      todaysDate.toLocaleDateString('en-US', options)
+    ).replace(' at ', ' - ');
+    this.currentDateTimeString = liveDateTime;
   }
 
   convertToDate(value: string) {
     if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss')
+      return moment(value).format('YYYY-MM-DD HH:mm:ss');
     }
   }
 
   selectIncident(incident: any) {
     setTimeout(() => {
-      this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], { queryParams: { wildFireYear: incident.wildfireYear, incidentNumberSequence: incident.incidentNumberSequence } });
+      this.router.navigate([ResourcesRoutes.ADMIN_INCIDENT], {
+        queryParams: {
+          wildFireYear: incident.wildfireYear,
+          incidentNumberSequence: incident.incidentNumberSequence,
+        },
+      });
     }, 100);
   }
 
   fireTypeChange(event: any) {
-    this.fireOfNotePublishedInd = event.value === 'note'
-    this.doSearch()
+    this.fireOfNotePublishedInd = event.value === 'note';
+    this.doSearch();
   }
 }

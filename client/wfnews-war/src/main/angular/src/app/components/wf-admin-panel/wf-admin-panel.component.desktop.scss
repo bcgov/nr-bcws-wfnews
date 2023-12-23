@@ -1,107 +1,108 @@
-div{
-    margin-left: 2%;
-    margin-right: 2%;
+div {
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
-p.dashboard-title{
-    font-size: 35px;
-    margin-bottom: .5%;
+p.dashboard-title {
+  font-size: 35px;
+  margin-bottom: 0.5%;
 }
 
-p.active-incidents, p.datetime{
-    display: inline-block;
+p.active-incidents,
+p.datetime {
+  display: inline-block;
 }
 
-p.datetime{
-    float: right;
-    vertical-align:center;
+p.datetime {
+  float: right;
+  vertical-align: center;
 }
 
-tr{
-    font-weight: normal;
+tr {
+  font-weight: normal;
 }
 
-table{
-    border: 1;
-    width: 96%;
-    margin-left: 2%;
-    margin-right: 2%;
+table {
+  border: 1;
+  width: 96%;
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
 td {
-    padding-top:.5%;
-    padding-bottom:.5%;
-    padding-right:.5%;
-    padding-left:.5%;
-    width: 25%;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-right: 0.5%;
+  padding-left: 0.5%;
+  width: 25%;
+}
+
+table tr:nth-child(even) td {
+  background-color: white;
+}
+
+.block {
+  width: 15%;
+  display: inline-block;
+}
+
+.input-clear-button {
+  margin-bottom: 8px;
+  margin-left: 278px;
+  position: absolute;
+  line-height: 24px;
+  height: 24px;
+  width: 24px;
+  font-size: 15px;
+  border-radius: 20%;
+  background-color: #f2f2f2;
+  border: none;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
   }
-
-table tr:nth-child(even) td{
-    background-color: white;
+  mat-icon {
+    transform: translateX(-5px);
+  }
 }
 
-.block{
-    width:15%;
-    display: inline-block;
-}
+.fire-type-radio-button-group {
+  margin-top: 13px !important;
+  flex-basis: auto !important;
+  width: auto !important;
 
-.input-clear-button{
-    margin-bottom: 8px;
-    margin-left: 278px;
-    position: absolute;
-    line-height: 24px;
-    height: 24px;
-    width: 24px;
-    font-size: 15px;
-    border-radius: 20%;
-    background-color: #f2f2f2;
-    border: none;
-    .button-wrapper{
-        padding: 0;
-        min-width: 0;
-        width: 40px;
-        height: 40px;
-        flex-shrink: 0;
-        line-height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
+  .radio-group {
+    margin-top: 10px;
+    display: flex;
+
+    .radio-button {
+      margin-left: 5px;
     }
-    mat-icon{
-        transform: translateX(-5px);
-    }
-}
-
-.fire-type-radio-button-group{
-    margin-top: 13px !important;
-    flex-basis: auto !important;
-    width: auto !important;
-
-    .radio-group {
-        margin-top: 10px;
-        display: flex;
-
-        .radio-button {
-            margin-left: 5px;
-        }
-    }
+  }
 }
 
 .mat-column-fireNumber {
-    width: 20%;
+  width: 20%;
 }
 
 .mat-column-fireName {
-    width: 20%;
+  width: 20%;
 }
 
 .mat-column-fireCentre {
-    width: 20%;
+  width: 20%;
 }
 
 .mat-column-wildFireOfNote {
-    width: 20%;
+  width: 20%;
 }
 
 .mat-column-lastPublished {
-    width: 20%;
+  width: 20%;
 }

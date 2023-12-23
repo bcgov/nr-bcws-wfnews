@@ -21,23 +21,23 @@
   border-radius: 20px !important;
 }
 
-.input-clear-button{
+.input-clear-button {
   position: relative;
   background-color: transparent;
   border: none;
   top: 5px;
-  .button-wrapper{
-      padding: 0;
-      min-width: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      line-height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }
 
@@ -55,15 +55,15 @@
 
 .filter-button {
   margin-right: 7px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   background-color: white !important;
   height: 36px;
   width: 36px;
   box-shadow: none;
   &-selected {
     margin-right: 7px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     height: 36px;
     width: 36px;
     box-shadow: none !important;
@@ -84,17 +84,14 @@
 .mat-mdc-input-element {
   background-color: transparent;
   border: none !important;
-  ;
   padding: 0 5px;
   border-radius: 20px;
   height: 35px;
   outline: none !important;
-  ;
   box-shadow: none !important;
 
   &:focus {
     outline: none !important;
-    ;
     box-shadow: none !important;
   }
 }
@@ -104,10 +101,11 @@
   top: 5px;
 }
 
-.panel-card-container {}
+.panel-card-container {
+}
 
 .panel-card {
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
 }
 
 .card-header {

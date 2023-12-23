@@ -1,4 +1,4 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
 #compass-container {
   max-width: 262px;
@@ -19,11 +19,11 @@
 }
 
 .compass-hand-image {
-  max-width:16px;
-  position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%, -50%);
+  max-width: 16px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 1000;
 }
 
@@ -44,7 +44,7 @@
   letter-spacing: -0.02em;
   text-align: center;
   color: #565656;
-  margin-bottom: 10px !important
+  margin-bottom: 10px !important;
 }
 
 @media screen and (max-height: 850px) and (min-height: 656px) {
@@ -60,7 +60,7 @@
     font-size: 16px;
   }
   .compass-hand-image {
-    height: 120px
+    height: 120px;
   }
 }
 
@@ -77,25 +77,25 @@
     font-size: 16px;
   }
   .compass-hand-image {
-    height: 120px
+    height: 120px;
   }
-} 
+}
 
-@media screen and (max-height: 585px) and (min-height: 510px){
+@media screen and (max-height: 585px) and (min-height: 510px) {
   #compass-container #compass-face-image {
     height: 80%;
     width: 80%;
-  } 
+  }
   .compass-heading {
     font-size: 20px;
     padding-top: 1px;
     line-height: 15x;
-  } 
+  }
   .location {
     font-size: 12px;
   }
   .compass-hand-image {
-    height: 100px
+    height: 100px;
   }
 }
 
@@ -103,17 +103,17 @@
   #compass-container #compass-face-image {
     height: 75%;
     width: 75%;
-  } 
+  }
   .compass-heading {
     font-size: 20px;
     padding-top: 10px;
     line-height: 10px;
-  } 
+  }
   .location {
     font-size: 12px;
   }
   .compass-hand-image {
-    height: 95px
+    height: 95px;
   }
 }
 
@@ -121,22 +121,21 @@
   #compass-container #compass-face-image {
     height: 70%;
     width: 70%;
-  } 
+  }
   .compass-heading {
     font-size: 18px;
     padding-top: 5px;
     line-height: 5px;
-  } 
+  }
   .location {
     font-size: 10px;
   }
   .compass-hand-image {
-    height: 90px
+    height: 90px;
   }
 }
 
-
-@media screen and (max-height: 460px)  {
+@media screen and (max-height: 460px) {
   #compass-container {
     min-height: 100px !important;
     min-width: 100px !important;
@@ -144,18 +143,16 @@
   #compass-container #compass-face-image {
     height: 60%;
     width: 60%;
-  } 
+  }
   .compass-heading {
     font-size: 14px;
     padding-top: 10px;
     line-height: 5px;
-  } 
+  }
   .location {
     font-size: 8px;
   }
   .compass-hand-image {
-    height: 80px
+    height: 80px;
   }
 }
-
-  

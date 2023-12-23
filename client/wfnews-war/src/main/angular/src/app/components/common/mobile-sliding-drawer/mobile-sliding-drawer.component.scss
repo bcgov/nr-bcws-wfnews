@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 .sliding-drawer-boundary {
@@ -25,13 +25,13 @@
     left: 0;
     cursor: grab;
     background-color: $colour-white;
-    border-top: 1px solid #DEDEDE;
+    border-top: 1px solid #dedede;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.23);
 
     .header {
-      border-bottom: 1px solid #DEDEDE;
+      border-bottom: 1px solid #dedede;
       padding-top: 6px !important;
       padding-bottom: 14px;
       padding-left: 20px;
@@ -44,7 +44,7 @@
         margin: auto;
         border-radius: 100px;
         opacity: 0.4;
-        background-color: #79747E;
+        background-color: #79747e;
       }
 
       .title {
@@ -53,7 +53,8 @@
         line-height: 20px;
         font-weight: 600;
         font-style: normal;
-        font-family: 'Noto Sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto Sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         text-align: center;
         color: #484848;
         display: flex;
@@ -84,7 +85,7 @@
   .fullscreen {
     border-radius: 0;
     .header {
-      border-top: 1px solid #DEDEDE;
+      border-top: 1px solid #dedede;
       padding-top: 10px;
       padding-bottom: 10px;
 
@@ -99,7 +100,6 @@
         visibility: hidden;
       }
     }
-
   }
 }
 

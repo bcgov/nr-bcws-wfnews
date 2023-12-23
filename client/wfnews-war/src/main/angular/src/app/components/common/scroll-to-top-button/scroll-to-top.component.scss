@@ -1,14 +1,16 @@
 .animations {
-    transition: visibility 0s linear 0.33s, opacity 0.33s linear;
+  transition:
+    visibility 0s linear 0.33s,
+    opacity 0.33s linear;
 }
 
 .hide {
-    opacity: 0;
-    visibility: hidden;
+  opacity: 0;
+  visibility: hidden;
 }
 
 .show {
-    opacity: 1;
-    visibility: visible;
-    transition-delay: 0s;
+  opacity: 1;
+  visibility: visible;
+  transition-delay: 0s;
 }

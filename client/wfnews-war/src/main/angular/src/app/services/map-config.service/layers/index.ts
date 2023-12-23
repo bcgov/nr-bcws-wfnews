@@ -24,42 +24,48 @@ import { WeatherLayerConfig } from './weather.config';
 import { BasemapLayerConfig } from './basemap.config';
 
 export interface layerSettings {
-    openmapsBaseUrl: string;
-    drivebcBaseUrl: string;
-    wfnewsUrl: string;
+  openmapsBaseUrl: string;
+  drivebcBaseUrl: string;
+  wfnewsUrl: string;
+}
+export function LayerConfig(
+  mapServices: MapServices,
+  serviceStatus: MapServiceStatus,
+  appConfigService: AppConfigService,
+) {
+  const ls: layerSettings = {
+    openmapsBaseUrl: mapServices['openmapsBaseUrl'],
+    drivebcBaseUrl: mapServices['drivebcBaseUrl'],
+    wfnewsUrl: mapServices['wfnews'],
+  };
 
-};
-export function LayerConfig( mapServices: MapServices, serviceStatus: MapServiceStatus, appConfigService: AppConfigService ) {
-    const ls: layerSettings = {
-        openmapsBaseUrl: mapServices[ 'openmapsBaseUrl' ],
-        drivebcBaseUrl: mapServices[ 'drivebcBaseUrl' ],
-        wfnewsUrl: mapServices[ 'wfnews' ]
-    };
-
-	return [
-		...ActiveWildfiresLayerConfig( ls, appConfigService.getConfig().application['wfnewsApiKey'] ),
-		...AreaRestrictionsLayerConfig( ls ),
-		...BansAndProhibitionsLayerConfig( ls ),
-		...FireCentresLayerConfig( ls ),
-		...WildfiresInactiveLayerConfig( ls ),
-		...ClosedRecreationSitesLayerConfig( ls ),
-		...DangerRatingLayerConfig( ls ),
-		...DriveBCEventsLayerConfig( ls ),
-		...EvacuationOrdersLayerConfig( ls ),
-		...FirePerimetersLayerConfig( ls ),
-		...SmokeForecastLayerConfig( ls ),
+  return [
+    ...ActiveWildfiresLayerConfig(
+      ls,
+      appConfigService.getConfig().application['wfnewsApiKey'],
+    ),
+    ...AreaRestrictionsLayerConfig(ls),
+    ...BansAndProhibitionsLayerConfig(ls),
+    ...FireCentresLayerConfig(ls),
+    ...WildfiresInactiveLayerConfig(ls),
+    ...ClosedRecreationSitesLayerConfig(ls),
+    ...DangerRatingLayerConfig(ls),
+    ...DriveBCEventsLayerConfig(ls),
+    ...EvacuationOrdersLayerConfig(ls),
+    ...FirePerimetersLayerConfig(ls),
+    ...SmokeForecastLayerConfig(ls),
     // Hiding temporarily as the dataset is reconfigured
     // ...PrescribedFireLayerConfig( ls ),
-		...WeatherLayerConfig( ls ),
-    ...WeatherStationsLayerConfig( ls ),
-    ...PrecipitationLayerConfig( ls ),
-    ...ForestServiceRoadsLayerConfig( ls ),
-    ...ActiveWildfiresHeatmapLayerConfig( ls ),
-    ...CLABIndianReservesLayerConfig( ls ),
-    ...FntTreatyLandLayerConfig( ls ),
-    ...AbmsMunicipalitiesLayerConfig( ls ),
-    ...AbmsRegionalDistrictsLayerConfig( ls ),
-    ...ProtectedLandsAccessRestrictionsLayerConfig( ls ),
-    ...BasemapLayerConfig( ls )
-	];
+    ...WeatherLayerConfig(ls),
+    ...WeatherStationsLayerConfig(ls),
+    ...PrecipitationLayerConfig(ls),
+    ...ForestServiceRoadsLayerConfig(ls),
+    ...ActiveWildfiresHeatmapLayerConfig(ls),
+    ...CLABIndianReservesLayerConfig(ls),
+    ...FntTreatyLandLayerConfig(ls),
+    ...AbmsMunicipalitiesLayerConfig(ls),
+    ...AbmsRegionalDistrictsLayerConfig(ls),
+    ...ProtectedLandsAccessRestrictionsLayerConfig(ls),
+    ...BasemapLayerConfig(ls),
+  ];
 }

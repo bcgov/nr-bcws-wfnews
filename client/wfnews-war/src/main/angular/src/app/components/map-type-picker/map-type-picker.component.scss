@@ -40,18 +40,19 @@
         border: 2px solid transparent;
 
         &.selected {
-          border: 2px solid #548ADB;
+          border: 2px solid #548adb;
         }
       }
       .map-type-name {
-        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 400;
         line-height: normal;
 
         &.selected {
-          color: #548ADB;
+          color: #548adb;
         }
       }
     }

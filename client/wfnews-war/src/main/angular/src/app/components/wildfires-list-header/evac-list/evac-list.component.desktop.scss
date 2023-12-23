@@ -1,15 +1,15 @@
-.header-row{
-    display: flex;
-    margin: 0;
+.header-row {
+  display: flex;
+  margin: 0;
 }
 
-.table-search-header{
+.table-search-header {
   background-color: white !important;
   border-top: none !important;
   display: block !important;
   padding-left: 10px;
-  .label{
-      font-size: 15px;
+  .label {
+    font-size: 15px;
   }
 }
 
@@ -17,17 +17,17 @@
   border-radius: 20px !important;
 }
 
-.stage-of-control{
-    margin-left: auto;
-    height: 50%;
-    margin-top: auto;
+.stage-of-control {
+  margin-left: auto;
+  height: 50%;
+  margin-top: auto;
 }
 
-.mat-mdc-row:hover .mat-mdc-cell{
+.mat-mdc-row:hover .mat-mdc-cell {
   background-color: #c4cdd2;
 }
 
-.my-location-button{
+.my-location-button {
   border: 1px solid #a7a9ac;
   border-radius: 5px;
   width: 100%;
@@ -45,55 +45,55 @@
   }
 }
 
-
 p.results-count {
-    text-align: right;
-    margin-right: 2%;
-    font-size: 18px;
+  text-align: right;
+  margin-right: 2%;
+  font-size: 18px;
 }
 
-p.dashboard-title{
-    font-size: 24px;
-    margin-bottom: .5%;
+p.dashboard-title {
+  font-size: 24px;
+  margin-bottom: 0.5%;
 }
 
-p.active-incidents, p.datetime{
-    display: inline-block;
+p.active-incidents,
+p.datetime {
+  display: inline-block;
 }
 
-p.datetime{
-    float: right;
-    vertical-align:center;
+p.datetime {
+  float: right;
+  vertical-align: center;
 }
 
-tr{
-    font-weight: normal;
+tr {
+  font-weight: normal;
 }
 
-.table-wrapper{
-    border: none;
+.table-wrapper {
+  border: none;
 }
 
-table{
-    border: 1;
-    width: 96%;
+table {
+  border: 1;
+  width: 96%;
 }
 
 td {
-    padding-top:.5%;
-    padding-bottom:.5%;
-    padding-right:.5%;
-    padding-left:.5%;
-    width: 25%;
-  }
-
-table tr:nth-child(even) td{
-    background-color: white;
+  padding-top: 0.5%;
+  padding-bottom: 0.5%;
+  padding-right: 0.5%;
+  padding-left: 0.5%;
+  width: 25%;
 }
 
-.block{
-    width:15%;
-    display: inline-block;
+table tr:nth-child(even) td {
+  background-color: white;
+}
+
+.block {
+  width: 15%;
+  display: inline-block;
 }
 
 .filter-clear {
@@ -106,7 +106,7 @@ table tr:nth-child(even) td{
   border: none;
   right: -40px;
   top: 12px;
-  .button-wrapper{
+  .button-wrapper {
     padding: 0;
     min-width: 0;
     width: 40px;
@@ -119,40 +119,40 @@ table tr:nth-child(even) td{
     top: -6px;
     left: 6px;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }
 
-.input-clear-button{
-    margin-bottom: 8px;
-    margin-left: 278px;
-    position: absolute;
-    line-height: 24px;
-    height: 24px;
-    width: 24px;
-    font-size: 15px;
-    border-radius: 20%;
-    background-color: transparent;
-    border: none;
-    .button-wrapper{
-        padding: 0;
-        min-width: 0;
-        width: 40px;
-        height: 40px;
-        flex-shrink: 0;
-        line-height: 40px;
-        border-radius: 50%;
-        cursor: pointer;
-    }
-    mat-icon{
-        transform: translateX(-5px);
-    }
+.input-clear-button {
+  margin-bottom: 8px;
+  margin-left: 278px;
+  position: absolute;
+  line-height: 24px;
+  height: 24px;
+  width: 24px;
+  font-size: 15px;
+  border-radius: 20%;
+  background-color: transparent;
+  border: none;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  mat-icon {
+    transform: translateX(-5px);
+  }
 }
 
 .cell-button {
   width: 107px !important;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 12px;
   font-weight: 600;
   line-height: 19px;
@@ -161,20 +161,20 @@ table tr:nth-child(even) td{
 }
 
 .filter-checkbox-group {
-    margin-top: 13px !important;
-    flex-basis: auto !important;
-    width: auto !important;
-    .mat-label{
-        font-size: 15px;
-    }
+  margin-top: 13px !important;
+  flex-basis: auto !important;
+  width: auto !important;
+  .mat-label {
+    font-size: 15px;
+  }
 
-    .checkbox-group {
-        display: flex;
+  .checkbox-group {
+    display: flex;
 
-        .mat-mdc-checkbox {
-            border: none;
-        }
+    .mat-mdc-checkbox {
+      border: none;
     }
+  }
 }
 
 .rounded-select {
@@ -193,18 +193,18 @@ table tr:nth-child(even) td{
 .filter-button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
   &-selected {
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     color: #242424 !important;
     height: 36px;
     width: 36px;
     border-radius: 20px;
-    .button-wrapper{
+    .button-wrapper {
       padding: 0;
       min-width: 0;
       width: 40px;
@@ -216,7 +216,7 @@ table tr:nth-child(even) td{
       cursor: pointer;
     }
   }
-  .button-wrapper{
+  .button-wrapper {
     padding: 0;
     min-width: 0;
     width: 40px;
@@ -246,7 +246,8 @@ table tr:nth-child(even) td{
   padding: 0 5px;
   height: 35px;
   line-height: 35px;
-  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "Noto sans", "BCSans", "Open Sans", "Verdana", "Arial",
+    "sans-serif";
   font-size: 15px;
   margin-right: 5px;
   margin-left: 20px;
@@ -280,24 +281,24 @@ table tr:nth-child(even) td{
 }
 
 .mat-column-name {
-    width: 23%;
-    font-size: 15px !important;
-    font-weight: 600 !important;
-    line-height: 16px !important;
-    letter-spacing: -0.02em !important;
-    text-align: left !important;
+  width: 23%;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+  line-height: 16px !important;
+  letter-spacing: -0.02em !important;
+  text-align: left !important;
 }
 
 .mat-column-status {
-    width: 12%;
+  width: 12%;
 }
 
 .mat-column-issuedOn {
-    width: 18%;
+  width: 18%;
 }
 
 .mat-column-agency {
-    width: 24%;
+  width: 24%;
 }
 
 .mat-column-distance {

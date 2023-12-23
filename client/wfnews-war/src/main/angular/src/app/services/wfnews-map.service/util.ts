@@ -11,16 +11,19 @@ export function toLatLon(lonLat: LonLat): LatLon {
   return [lonLat[1], lonLat[0]];
 }
 
-export function encodeUrl(url: string, data: { [key: string]: string | number | boolean }): string {
+export function encodeUrl(
+  url: string,
+  data: { [key: string]: string | number | boolean },
+): string {
   if (!data) {
     return url;
   }
 
   const params = Object.keys(data)
-    .filter(function (k) {
+    .filter(function(k) {
       return data[k];
     })
-    .map(function (k) {
+    .map(function(k) {
       return `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`;
     })
     .join('&');
@@ -36,8 +39,11 @@ export function encodeUrl(url: string, data: { [key: string]: string | number | 
   return `${url}?${params}`;
 }
 
-
-export function fetchJsonP(url: string, data: { [key: string]: string | number | boolean }, opt = { timeout: 10000 }): { response: Promise<any>; abort: () => void } {
+export function fetchJsonP(
+  url: string,
+  data: { [key: string]: string | number | boolean },
+  opt = { timeout: 10000 },
+): { response: Promise<any>; abort: () => void } {
   data['_'] = Math.round(Math.random() * 1e10);
 
   const cbfn = `callback_${data['_']}`;
@@ -46,7 +52,7 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
   let id;
   let cancel;
   const req = encodeUrl(url, data);
-  const promise = new Promise(function (res, rej) {
+  const promise = new Promise(function(res, rej) {
     function cleanup() {
       if (id) {
         clearTimeout(id);
@@ -60,12 +66,12 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
       window[cbfn] = null;
     }
 
-    window[cbfn] = function (payload) {
+    window[cbfn] = function(payload) {
       cleanup();
       res(payload);
     };
 
-    cancel = function () {
+    cancel = function() {
       cleanup();
       rej(new Error('cancelled'));
     };
@@ -83,7 +89,7 @@ export function fetchJsonP(url: string, data: { [key: string]: string | number |
 
   return {
     response: promise,
-    abort: cancel
+    abort: cancel,
   };
 }
 
@@ -109,7 +115,6 @@ export function direction(start: LonLat, end: LonLat): string {
   return DIRECTION[Math.floor((bearing + 382.5) / 45) % 8];
 }
 
-
 const TIME_FORMAT = Intl.DateTimeFormat('en-CA', {
   timeZone: undefined,
   hour12: false,
@@ -119,18 +124,18 @@ const TIME_FORMAT = Intl.DateTimeFormat('en-CA', {
   hour: 'numeric',
   minute: 'numeric',
   second: 'numeric',
-  timeZoneName: 'short'
+  timeZoneName: 'short',
 });
 const DATE_FORMAT = Intl.DateTimeFormat('en-CA', {
   timeZone: undefined,
   hour12: false,
   year: 'numeric',
   month: 'numeric',
-  day: 'numeric'
+  day: 'numeric',
 });
 const CAD_FORMAT = Intl.NumberFormat('en-CA', {
   style: 'currency',
-  currency: 'CAD'
+  currency: 'CAD',
 });
 
 export interface NumberFormat {
@@ -143,9 +148,7 @@ export interface UnitWithFormat {
 }
 
 export class Translate {
-  constructor(
-    private spatialUtils: SpatialUtilsService
-  ) { }
+  constructor(private spatialUtils: SpatialUtilsService) {}
 
   parseCoordinate(val: string): LonLat {
     const c = this.spatialUtils.parseCoordinates(val);
@@ -168,7 +171,7 @@ export class Translate {
         sign = /[SWsw]$/.test(val) ? -1 : 1;
         val = val.replace(/[NSEWnsew]$/, '');
       }
-      val.split(/[°DMSdms'"\s]+/).forEach(part => {
+      val.split(/[°DMSdms'"\s]+/).forEach((part) => {
         const partVal = parseFloat(part);
         if (!isNaN(partVal)) {
           result += partVal / divisor;
@@ -178,7 +181,6 @@ export class Translate {
 
       return result * sign;
     }
-
   }
 
   formatCoordinate(lonLat: LonLat): string {
@@ -200,7 +202,9 @@ export class Translate {
       return;
     }
     const s = '' + val;
-    return new Date(`${s.substring(0, 4)}-${s.substring(4, 6)}-${s.substring(6, 8)}`);
+    return new Date(
+      `${s.substring(0, 4)}-${s.substring(4, 6)}-${s.substring(6, 8)}`,
+    );
   }
   parseIsoDateTime(val): Date {
     if (!val) {
@@ -220,7 +224,12 @@ export class Translate {
     if (!val) {
       return val;
     }
-    const date = new Date(val.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)/, (m, day, month, year) => `${year}-${month}-${day}`));
+    const date = new Date(
+      val.replace(
+        /(\d\d)\/(\d\d)\/(\d\d\d\d)/,
+        (m, day, month, year) => `${year}-${month}-${day}`,
+      ),
+    );
     if (isNaN(date.getTime())) {
       return null;
     }
@@ -258,19 +267,32 @@ export class Translate {
     const s = Math.sign(rounded);
     const i = Math.floor(a);
     const f = a - i;
-    return (s * i).toLocaleString() + f.toFixed(numberFormat.fractionPlaces).substr(1);
+    return (
+      (s * i).toLocaleString() +
+      f.toFixed(numberFormat.fractionPlaces).substr(1)
+    );
   }
 
   formatUnit(val: number, unit: string, numberFormat?: NumberFormat): string {
     if (val == null) {
       return '';
     }
-    return `<span>${this.formatNumber(val, numberFormat)}\u202F<span class="unit">${unit}</span></span>`;
+    return `<span>${this.formatNumber(
+      val,
+      numberFormat,
+    )}\u202F<span class="unit">${unit}</span></span>`;
   }
 
-  formatAndConvertUnit(val: number, unit: string, outputUnit: string | UnitWithFormat) {
+  formatAndConvertUnit(
+    val: number,
+    unit: string,
+    outputUnit: string | UnitWithFormat,
+  ) {
     if (typeof outputUnit === 'object') {
-      this.formatUnit(this.convertUnit(val, unit, outputUnit.unit), outputUnit.unit);
+      this.formatUnit(
+        this.convertUnit(val, unit, outputUnit.unit),
+        outputUnit.unit,
+      );
     } else {
       this.formatUnit(this.convertUnit(val, unit, outputUnit), outputUnit);
     }
@@ -284,9 +306,15 @@ export class Translate {
     }
   }
 
-  formatAngle(val?: number, numberFormat?: NumberFormat): string | undefined | null {
+  formatAngle(
+    val?: number,
+    numberFormat?: NumberFormat,
+  ): string | undefined | null {
     if (val) {
-      return `<span>${this.formatNumber(val, numberFormat)}<span class="unit">°</span></span>`;
+      return `<span>${this.formatNumber(
+        val,
+        numberFormat,
+      )}<span class="unit">°</span></span>`;
     } else {
       return val as undefined | null;
     }
@@ -295,11 +323,24 @@ export class Translate {
   /**
    * Converts and formats a value as two different units, the second in parentheses.
    */
-  formatMultipleUnits(val: number, unit: string, standardUnit: string | UnitWithFormat, otherUnit: string | UnitWithFormat): string {
+  formatMultipleUnits(
+    val: number,
+    unit: string,
+    standardUnit: string | UnitWithFormat,
+    otherUnit: string | UnitWithFormat,
+  ): string {
     if (val == null) {
       return '';
     }
-    return `${this.formatAndConvertUnit(val, unit, standardUnit)} <span class='alternate-unit'>(${this.formatAndConvertUnit(val, unit, otherUnit)})</span>`;
+    return `${this.formatAndConvertUnit(
+      val,
+      unit,
+      standardUnit,
+    )} <span class='alternate-unit'>(${this.formatAndConvertUnit(
+      val,
+      unit,
+      otherUnit,
+    )})</span>`;
   }
 
   convertUnit(val: number, unitFrom: string, unitTo: string = 'm'): number {
@@ -322,7 +363,9 @@ export class Translate {
       return;
     }
 
-    const result = zoneName.match(/^(.+?) (?:Fire )?Zone(?: [(](.+?)[)])?(?: - (\w\d))?$/);
+    const result = zoneName.match(
+      /^(.+?) (?:Fire )?Zone(?: [(](.+?)[)])?(?: - (\w\d))?$/,
+    );
     if (!result) {
       return zoneName;
     }
@@ -346,7 +389,12 @@ export class Translate {
     return result[1];
   }
 
-  formatIndicator(value: boolean | null, tString = '✔️ Yes', fString = '❌ No', nString = '❓ Unknown'): string {
+  formatIndicator(
+    value: boolean | null,
+    tString = '✔️ Yes',
+    fString = '❌ No',
+    nString = '❓ Unknown',
+  ): string {
     if (value === undefined || value === null) {
       return nString;
     } else if (value) {
@@ -368,7 +416,9 @@ export class Translate {
 
   formatPhoneHtml(phoneNumber: string): string {
     if (phoneNumber) {
-      return `<a href="tel:${encodeURIComponent(phoneNumber)}">${phoneNumber}</a>`;
+      return `<a href="tel:${encodeURIComponent(
+        phoneNumber,
+      )}">${phoneNumber}</a>`;
     } else {
       return null;
     }
@@ -376,12 +426,13 @@ export class Translate {
 
   formatEmailHtml(emailAddress: string): string {
     if (emailAddress) {
-      return `<a href="mailto:${encodeURIComponent(emailAddress)}">${emailAddress}</a>`;
+      return `<a href="mailto:${encodeURIComponent(
+        emailAddress,
+      )}">${emailAddress}</a>`;
     } else {
       return null;
     }
   }
-
 }
 
 /**
@@ -398,18 +449,18 @@ export class Translate {
  */
 export function haversineDistance(lat1, lat2, lon1, lon2) {
   const R = 6371e3; // metres
-  const φ1 = lat1 * Math.PI / 180; // φ, λ in radians
-  const φ2 = lat2 * Math.PI / 180;
-  const Δφ = (lat2 - lat1) * Math.PI/180;
-  const Δλ = (lon2 - lon1) * Math.PI/180;
+  const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
 
-  const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
-            Math.cos(φ1)   * Math.cos(φ2)   *
-            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
   const d = R * c; // in metres
-  return d
+  return d;
 }
 
 const metersPerUnit = {
@@ -494,127 +545,5 @@ const metersPerUnit = {
   'Lat-83': 110946.25736872235,
   dd: 111118.97383794768,
   degrees: 111118.97383794768,
-  '150kilometers': 150000
+  '150kilometers': 150000,
 };
-
-
-
-// const FORMATTERS = {
-//     // Convert everyhting to floats then format consistently.
-//     DD: (val)=> sexagesimalFraction(unSexagesimal(val), 1, (sign, components)=>`${sign<0?"-":""}${components[0].toFixed(3)}°`),
-//     DM: (val)=> sexagesimalFraction(unSexagesimal(val), 2, (sign, components)=>`${sign<0?"-":""}${components[0]}° ${components[1].toFixed(3)}′`),
-//     DMS: (val)=> sexagesimalFraction(unSexagesimal(val), 3, (sign, components)=>`${sign<0?"-":""}${components[0]}° ${components[1]}′ ${components[2].toFixed(3)}″`),
-//     DDLat: (val)=> sexagesimalFraction(unSexagesimal(val), 1, (sign, components)=>`${components[0].toFixed(3)}°${latDir(sign)}`),
-//     DMLat: (val)=> sexagesimalFraction(unSexagesimal(val), 2, (sign, components)=>`${components[0]}° ${components[1].toFixed(3)}′${latDir(sign)}`),
-//     DMSLat: (val)=> sexagesimalFraction(unSexagesimal(val), 3, (sign, components)=>`${components[0]}° ${components[1]}′ ${components[2].toFixed(3)}″${latDir(sign)}`),
-//     DDLon: (val)=> sexagesimalFraction(unSexagesimal(val), 1, (sign, components)=>`${components[0].toFixed(3)}°${lonDir(sign)}`),
-//     DMLon: (val)=> sexagesimalFraction(unSexagesimal(val), 2, (sign, components)=>`${components[0]}° ${components[1].toFixed(3)}′${lonDir(sign)}`),
-//     DMSLon: (val)=> sexagesimalFraction(unSexagesimal(val), 3, (sign, components)=>`${components[0]}° ${components[1]}′ ${components[2].toFixed(3)}″${lonDir(sign)}`),
-//     LatLon: (lat, lon)=>[{value:lat,dir:latDir},{value:lon,dir:lonDir}].map(e=>sexagesimalFraction(unSexagesimal(e.value), 2, (sign, components)=>`${components[0]}° ${components[1].toFixed(3)}′ ${e.dir(sign)}`)).join(" "),
-
-//     // Convert to a date object then format consistently
-//     TimeStampMilli: (val)=> {
-// 	    var date = new Date(val*1)
-//         if(isNaN(date))
-//             return val
-// 	    return TIME_FORMAT.format(date)
-//     },
-//     TimeStampSec: (val)=> {
-// 	    var date = new Date(val*1000)
-//         if(isNaN(date))
-//             return val
-// 	    return TIME_FORMAT.format(date)
-//     },
-//     IsoTime: (val)=> {
-// 	    var date = new Date(val)
-//         if(isNaN(date))
-//             return val
-// 	    return TIME_FORMAT.format(date)
-//     },
-//     IsoDate: (val)=> {
-// 	    var date = new Date(val.toString().replace(/Z$/,""))
-//         if(isNaN(date))
-//             return val
-// 	    return DATE_FORMAT.format(date)
-//     },
-//     IsoDateCompact: (val)=> {
-//         val = val.toString()
-//         val = `${val.substring(0,4)}-${val.substring(4,6)}-${val.substring(6,8)}`
-// 	    var date = new Date(val)
-//         if(isNaN(date))
-//             return val
-// 	    return DATE_FORMAT.format(date)
-//     },
-//     USDate: (val)=> {
-//         // Fix American style mm/dd/yyyy dates.
-// 	    var date = new Date(val.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)/,(m,month,day,year)=>`${year}-${month}-${day}`))
-//         if(isNaN(date))
-//             return val
-// 	    return DATE_FORMAT.format(date)
-//     },
-//     EUDate: (val)=> {
-//         // Fix European style dd/mm/yyyy dates.
-// 	    var date = new Date(val.replace(/(\d\d)\/(\d\d)\/(\d\d\d\d)/,(m,day,month,year)=>`${year}-${month}-${day}`))
-//         if(isNaN(date))
-//             return val
-// 	    return DATE_FORMAT.format(date)
-//     },
-//     LightningPolarityName: (val)=>{
-//         return val?"Positive":"Negative"
-//     },
-//     LightningPolaritySymbol: (val)=>{
-//         return val?"🞣":"⭘"
-//     },
-//     //Use the first value that's neither undefined nor null
-//     FirstPresent: (...vals)=>vals.find(val=>!(val==undefined || val==null)),
-//     Phone: (area, phone, ext)=>{
-//         phone = phone.trim()
-//         if(!phone) {
-//             return "N/A"
-//         } else {
-//             phone = phone.replace(/^(\d{3})(\d{4})$/, "$1-$2")
-//             if (area) phone = `${area}-${phone}`
-//             if (ext) phone = `${phone} (ext ${ext})`
-//             return phone
-//         }
-//     },
-//     Name: (first, last)=>[last,first].filter(name=>name).join(', '),
-
-//     // Display the given value first and the conversion second.
-//     DistM: (dist)=>`${dist}\xa0m (${Math.round(dist*3.28084)}\xa0ft)`,
-//     DistFt: (dist)=>`${dist}\xa0ft (${Math.round(dist/3.28084)}\xa0m)`,
-
-//     ShortenFireZone: (zoneName)=>{
-//         var result = /^(.+?) (?:Fire )?Zone(?: \((.+?)\))?(?: - (\w\d))?$/.exec(zoneName)
-//         if (result) {
-//             if(result[2]) {
-//                 return `${result[1]} (${result[2]})`
-//             } else {
-//                 return result[1]
-//             }
-//         } else {
-//             return zoneName
-//         }
-//     },
-//     ShortenFireCentre: (centreName)=>{
-//         var result = /^(.+?) (?:Fire )?(?:Centre|Center)$/.exec(centreName)
-//         if (result) {
-//             return result[1]
-//         } else {
-//             return centreName
-//         }
-//     },
-
-//     Indicator: (indString) => indicatorText(parseIndicator(indString)),
-//     NegIndicator: (indString) => indicatorText(parseIndicator(indString, true)),
-
-//     DollarValue: (value) => CAD_FORMAT.format(value),
-
-//     IncidentType: (code) => {
-//         return {
-//             "FIRE": "Fire",
-//             "AGY_ASSIST": "Agency Assist",
-//             "FLD_TRAIN": "Field Training"
-//         }[code.toUpperCase()] || code
-//     }
-// }

@@ -1,55 +1,55 @@
 :host {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
 
-.sticky-widget{
-    position: fixed;
-    bottom: 8px;
-    right: 0px;
-    z-index: 1000001;
-    display: flex;
-    transition: 0.5s;
+.sticky-widget {
+  position: fixed;
+  bottom: 8px;
+  right: 0px;
+  z-index: 1000001;
+  display: flex;
+  transition: 0.5s;
 }
 
-.btn{
-    height: 36px;
-    font-size: 15px;
-    line-height: 36px;
-    padding: 0 16px;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    border: none;
-    cursor: pointer;
-    margin: 0 7.5px;
+.btn {
+  height: 36px;
+  font-size: 15px;
+  line-height: 36px;
+  padding: 0 16px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  border: none;
+  cursor: pointer;
+  margin: 0 7.5px;
 }
 
 .btn-fab {
   background-color: white;
   margin-bottom: 10px;
-  color: #1A5A96;
+  color: #1a5a96;
 }
 
 .btn-fab-primary {
-  background-color: #1A5A96;
+  background-color: #1a5a96;
   margin-bottom: 10px;
   color: white;
 }
 
-.contact-btn{
-    background-color: #1A5A96;
-    border: solid 1px #1A5A96;
-    color: #FFFFFF;
+.contact-btn {
+  background-color: #1a5a96;
+  border: solid 1px #1a5a96;
+  color: #ffffff;
 }
 
-.watchlist-btn{
-    color: #1A5A96;
-    background-color: #FFFFFF;
-    border: solid 1px #1A5A96;
+.watchlist-btn {
+  color: #1a5a96;
+  background-color: #ffffff;
+  border: solid 1px #1a5a96;
 }
 
-.btn mat-icon{
-    margin-right: 15px;
+.btn mat-icon {
+  margin-right: 15px;
 }
 
 .watchlist-container {

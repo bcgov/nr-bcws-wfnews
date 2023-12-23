@@ -1,10 +1,9 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
 ::ng-deep.mat-checkbox-layout {
   white-space: normal !important;
 }
 
-
 ::ng-deep .mat-mdc-checkbox .mdc-form-field {
-  align-items: start !important; 
+  align-items: start !important;
 }

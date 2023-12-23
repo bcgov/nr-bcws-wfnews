@@ -1,4 +1,4 @@
-@import '../variables';
+@import "../variables";
 
 .side-panel-container {
   display: flex;
@@ -14,7 +14,7 @@
 
     .side-panel-link-button {
       position: absolute;
-      top: .25rem;
+      top: 0.25rem;
       padding-bottom: 0.5rem;
 
       .mat-mdc-button {
@@ -24,11 +24,11 @@
     }
 
     .side-panel-link-button-right {
-      right: .25rem;
+      right: 0.25rem;
     }
 
     .side-panel-link-button-left {
-      left: .25rem;
+      left: 0.25rem;
     }
 
     .side-panel-title {
@@ -44,7 +44,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .4rem 1rem;
+    padding: 0.4rem 1rem;
     color: $colour-sidebar-toolbar;
     background-color: $colour-sidebar-toolbar-background;
     box-sizing: border-box;
@@ -90,7 +90,10 @@
   }
 
   .side-panel-with-toolbar-and-filter-content {
-    height: calc( 100vh - #{ $wf1-app-header-height } - #{ $wf1-header-plus-toolbar-and-filter-total-height } - .1rem );
+    height: calc(
+      100vh - #{$wf1-app-header-height} - #{$wf1-header-plus-toolbar-and-filter-total-height} -
+        0.1rem
+    );
   }
 
   .side-panel-with-toolbar-and-filter-and-filter-content {
@@ -101,7 +104,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: .4rem 1rem;
+    padding: 0.4rem 1rem;
     background-color: $colour-toolbar-grey;
     height: $wf1-toolbar-height;
     box-sizing: border-box;

@@ -1,124 +1,124 @@
 {
-    "application": {
-        "wfnewsApiKey": "fake-api-key",
-        "acronym": "WFNEWS",
-        "version": "1.0.0-SNAPSHOT",
-        "buildNumber": ".0000",
-        "environment": "LOCAL",
-        "baseUrl": "http://localhost:6200/",
-        "polling": {
-            "mapTool": {
-                "incidentsPolling": 10000,
-                "rofPolling": 5000,
-                "layerRefreshPolling": 5000
-            },
-            "rof": {
-                "refresh": 10000
-            },
-            "nrof": {
-                "refresh": 10000
-            },
-            "audibleAlert": {
-                "unacknowledgedRofPolling": 10000,
-                "alertFrequency": 5000
-            }
-        },
-        "maxListPageSize": {
-            "incidents": 1000,
-            "rofs": 2000,
-            "rofs-table": 500,
-            "incidents-table": 500
-        },
-        "lazyAuthenticate": "true",
-        "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=",
-        "syncIntervalMinutes": 10
+  "application": {
+    "wfnewsApiKey": "fake-api-key",
+    "acronym": "WFNEWS",
+    "version": "1.0.0-SNAPSHOT",
+    "buildNumber": ".0000",
+    "environment": "LOCAL",
+    "baseUrl": "http://localhost:6200/",
+    "polling": {
+      "mapTool": {
+        "incidentsPolling": 10000,
+        "rofPolling": 5000,
+        "layerRefreshPolling": 5000
+      },
+      "rof": {
+        "refresh": 10000
+      },
+      "nrof": {
+        "refresh": 10000
+      },
+      "audibleAlert": {
+        "unacknowledgedRofPolling": 10000,
+        "alertFrequency": 5000
+      }
     },
-
-    "externalAppConfig": {
-        "im": {
-            "url": "http://localhost:6200/pub/wfim/(root:external)"
-        },
-        "rof": {
-            "url": "http://localhost:7200/int/wfrof"
-        },
-        "nrof": {
-            "url": "http://localhost:11200/pub/wfnrof"
-        },
-        "pointId": {
-            "url": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
-            "#url": "https://testapps.nrs.gov.bc.ca/pub/wfss/v1",
-            "#url": "https://wfss-pointid-api-dev-160-secure-c9737f-dev.apps.silver.devops.gov.bc.ca/wfss-pointid-api"
-        },
-        "jasper": {
-            "url": "https://vs1auth.nrs.gov.bc.ca/int/wfjcrs",
-            "themeHash": "B4AF69F",
-            "scriptsHash": "60875027"
-        },
-        "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
-        "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
-        "appStoreUrl": "https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008",
-        "googlePlayUrl": "https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US",
-        "AGOLfireCentres": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=",
-        "AGOLevacOrders": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/",
-        "AGOLareaRestrictions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0",
-        "AGOLBansAndProhibitions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/",
-
-        "AGOLperimetres": "https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/",
-        "AGOLactiveFirest": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/",
-        "evacDefaultUrl": "https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023",
-        "contactInformation": {
-            "rofPhoneNumber": "1 800 663-5555",
-            "reportAWildfirePhone": "1 800 663-5555 or *5555 on a cell",
-            "wildFireInformationLine": "1 888 336-7378",
-            "burnRegistrationLine": "1 888 797-1717",
-            "socialMedia": {
-                "facebook": "https://www.facebook.com/BCForestFireInfo/",
-                "twitter": "https://twitter.com/bcgovfireinfo"
-            },
-            "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
-        },
-        "wfdmProxy": "wfdmProxy.jsp"
+    "maxListPageSize": {
+      "incidents": 1000,
+      "rofs": 2000,
+      "rofs-table": 500,
+      "incidents-table": 500
     },
+    "lazyAuthenticate": "true",
+    "siteminderUrlPrefix": "https://logontest7.gov.bc.ca/clp-cgi/logoff.cgi?returl=",
+    "syncIntervalMinutes": 10
+  },
 
+  "externalAppConfig": {
+    "im": {
+      "url": "http://localhost:6200/pub/wfim/(root:external)"
+    },
+    "rof": {
+      "url": "http://localhost:7200/int/wfrof"
+    },
+    "nrof": {
+      "url": "http://localhost:11200/pub/wfnrof"
+    },
+    "pointId": {
+      "url": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
+      "#url": "https://testapps.nrs.gov.bc.ca/pub/wfss/v1",
+      "#url": "https://wfss-pointid-api-dev-160-secure-c9737f-dev.apps.silver.devops.gov.bc.ca/wfss-pointid-api"
+    },
+    "jasper": {
+      "url": "https://vs1auth.nrs.gov.bc.ca/int/wfjcrs",
+      "themeHash": "B4AF69F",
+      "scriptsHash": "60875027"
+    },
+    "bcWildfirePage": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status",
+    "bcWildFireSupportPage": "https://intranet.gov.bc.ca/bcws/provincial-programs/strategic-initiatives-and-innovation/wildfire-one/wildfire-one-training",
+    "appStoreUrl": "https://apps.apple.com/ca/app/bc-wildfire-service/id1477675008",
+    "googlePlayUrl": "https://play.google.com/store/apps/details?id=ca.bc.gov.WildfireInformation&hl=en_CA&gl=US",
+    "AGOLfireCentres": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=",
+    "AGOLevacOrders": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/Evacuation_Orders_and_Alerts/FeatureServer/0/",
+    "AGOLareaRestrictions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Area_Restrictions/FeatureServer/0",
+    "AGOLBansAndProhibitions": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/test_British_Columbia_Bans_and_Prohibition_Areas/FeatureServer/0/",
+
+    "AGOLperimetres": "https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/",
+    "AGOLactiveFirest": "https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/",
+    "evacDefaultUrl": "https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023",
+    "contactInformation": {
+      "rofPhoneNumber": "1 800 663-5555",
+      "reportAWildfirePhone": "1 800 663-5555 or *5555 on a cell",
+      "wildFireInformationLine": "1 888 336-7378",
+      "burnRegistrationLine": "1 888 797-1717",
+      "socialMedia": {
+        "facebook": "https://www.facebook.com/BCForestFireInfo/",
+        "twitter": "https://twitter.com/bcgovfireinfo"
+      },
+      "moreInformationLink": "https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels#:~:text=Immediately%20call%201%20800%20663,wildfire%20regulations%20in%20British%20Columbia."
+    },
+    "wfdmProxy": "wfdmProxy.jsp"
+  },
+
+  "rest": {
+    "#incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
+    "incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
+    "newsLocal": "http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT",
+    "wfnews": "https://wfnews-server.dev.bcwildfireservices.com",
+    "#wfnews": "http://localhost:1338",
+    "#orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
+    "orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
+    "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
+    "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
+    "causecodes": "causeCodes/token.jsp",
+    "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
+    "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof"
+  },
+
+  "webade": {
+    "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
+    "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
+    "clientId": "WFNEWS-UI",
+    "authScopes": "WFIM.* WFORG.* WFDM.* WFNEWS.*",
+    "enableCheckToken": true,
+    "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
+    "checkTokenUrl": "./assets/data/checktoken-LULI.json"
+  },
+
+  "mapServices": {
+    "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
+    "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
+    "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
+    "#wfnews": "http://localhost:1338",
+    "wfnews": "https://wfnews-server.dev.bcwildfireservices.com"
+  },
+
+  "causeCodeConfig": {
+    "web": {
+      "url": "https://d1apps.vividsolutions.com/wfnews"
+    },
     "rest": {
-        "#incidents": "https://d1wfapi.vividsolutions.com/wfim-incidents-api",
-        "incidents": "https://i1bcwsapi.nrs.gov.bc.ca/wfim-incidents-api",
-        "newsLocal": "http://localhost:8080/wfnews-api-rest-endpoints-1.0.0-SNAPSHOT",
-        "wfnews": "https://wfnews-server.dev.bcwildfireservices.com",
-        "#wfnews": "http://localhost:1338",
-        "#orgunit": "https://d1wfapi.vividsolutions.com/wforg-org-unit-api",
-        "orgunit": "https://i1bcwsapi.nrs.gov.bc.ca/wforg-org-unit-api",
-        "#wfdm": "https://d1wfapi.vividsolutions.com/wfdm-document-management-api",
-        "wfdm": "https://i1bcwsapi.nrs.gov.bc.ca/wfdm-document-management-api",
-        "causecodes": "causeCodes/token.jsp",
-        "pointId": "https://bcwsapi.nrs.gov.bc.ca/wfss-pointid-api",
-        "fire-report-api": "https://wfone-notifications-api.dev.bcwildfireservices.com/rof"
-    },
-
-    "webade": {
-        "#oauth2Url": "https://d1auth.vividsolutions.com/pub/webade-oauth2/oauth/authorize",
-        "oauth2Url": "https://intapps.nrs.gov.bc.ca/ext/oauth2/v1/oauth/authorize",
-        "clientId": "WFNEWS-UI",
-        "authScopes": "WFIM.* WFORG.* WFDM.* WFNEWS.*",
-        "enableCheckToken": true,
-        "#checkTokenUrl": "assets/data/checktoken-INCIDENT_COMMANDER.json",
-        "checkTokenUrl": "./assets/data/checktoken-LULI.json"
-    },
-
-    "mapServices": {
-        "openmapsBaseUrl": "https://test.openmaps.gov.bc.ca/geo/pub/ows",
-        "#openmapsBaseUrl": "https://openmaps.gov.bc.ca/geo/pub/ows",
-        "drivebcBaseUrl": "https://dev-maps.th.gov.bc.ca/geoV05/ows",
-        "#wfnews": "http://localhost:1338",
-        "wfnews": "https://wfnews-server.dev.bcwildfireservices.com"
-    },
-
-    "causeCodeConfig": {
-        "web": {
-            "url": "https://d1apps.vividsolutions.com/wfnews"
-        },
-        "rest": {
-            "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"
-        }
+      "url": "https://d1apps.vividsolutions.com/pub/wfim/wfim-api/v1"
     }
+  }
 }

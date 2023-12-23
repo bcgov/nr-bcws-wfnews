@@ -1,364 +1,364 @@
 {
-    "@type": "http://webade.gov.bc.ca/preferences",
-    "links": [
+  "@type": "http://webade.gov.bc.ca/preferences",
+  "links": [
+    {
+      "rel": "self",
+      "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences?applicationCode=&preferenceSubType=&preferenceSetName=",
+      "method": "GET"
+    },
+    {
+      "rel": "http://webade.gov.bc.ca/createPreference",
+      "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences?applicationCode=&preferenceSubType=&preferenceSetName=",
+      "method": "POST"
+    }
+  ],
+  "preferences": [
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
         {
-            "rel": "self",
-            "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences?applicationCode=&preferenceSubType=&preferenceSetName=",
-            "method": "GET"
-        },
-        {
-            "rel": "http://webade.gov.bc.ca/createPreference",
-            "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences?applicationCode=&preferenceSubType=&preferenceSetName=",
-            "method": "POST"
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/3EF46C4B6436EC7A3728CA434204E5B5",
+          "method": "GET"
         }
-    ],
-    "preferences": [
+      ],
+      "guid": "3EF46C4B6436EC7A3728CA434204E5B5",
+      "applicationCode": "ADAM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "welcome-page-config",
+      "setName": "welcome-page-custom-text",
+      "name": "never-show-again",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "true"
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
         {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/3EF46C4B6436EC7A3728CA434204E5B5",
-                    "method": "GET"
-                }
-            ],
-            "guid": "3EF46C4B6436EC7A3728CA434204E5B5",
-            "applicationCode": "ADAM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "welcome-page-config",
-            "setName": "welcome-page-custom-text",
-            "name": "never-show-again",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "true"
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/D9766C492F26BE23264951DB6C9784EB",
-                    "method": "GET"
-                }
-            ],
-            "guid": "D9766C492F26BE23264951DB6C9784EB",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchIM",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"query\":null,\"sortParam\":\"discoveryDate\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"wildfireYear\":[\"2019\"],\"stageOfControlCode\":[\"OUT_CNTRL\",\"HOLDING\",\"UNDR_CNTRL\"],\"fireCentreOrgUnitIdentifier\":[\"25\"]},\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]},\"componentId\":\"searchIM\",\"columns\":[\"incidentTypeCode\",\"wildfireYear\",\"incidentLabel\",\"fireCentreOrgUnitName\",\"zoneOrgUnitName\",\"stageOfControlCode\",\"latLong\",\"geographicDescription\",\"siteAccessPointTypeCode\",\"incidentSituation.containedPercentage\",\"incidentSituation.fireSizeHectares\",\"incidentStatusCode\"]}"
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/B9E75A1917F1FBF8B9BA836242594D7B",
-                    "method": "GET"
-                }
-            ],
-            "guid": "B9E75A1917F1FBF8B9BA836242594D7B",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchIMMap",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"componentId\":\"searchIMMap\",\"sortParam\":\"discoveryDate\",\"sortDirection\":\"DESC\",\"filters\":{\"wildfireYear\":[\"2019\"],\"stageOfControlCode\":[\"UNDR_CNTRL\"],\"fireCentreOrgUnitIdentifier\":[\"25\"]},\"query\":null,\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]}}"
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/78578E08803F8A25C87CF80A684EFDAD",
-                    "method": "GET"
-                }
-            ],
-            "guid": "78578E08803F8A25C87CF80A684EFDAD",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchNROFMap",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"componentId\":\"searchNROFMap\",\"sortParam\":\"effectiveTimeStamp\",\"sortDirection\":\"DESC\",\"filters\":{\"dismissedInd\":[\"No\"]},\"query\":null}"
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/78FA3A50C5C89C499D20A7802F8178EE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "78FA3A50C5C89C499D20A7802F8178EE",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchROF",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"query\":null,\"sortParam\":\"receivedByUserId\",\"sortDirection\":\"ASC\",\"sortModalVisible\":false,\"filters\":{\"messageStatusCode\":[\"Submitted\",\"Acknowledged\"],\"fireCentreOrgUnitIdentifier\":[\"50\"],\"submittedAsOfTimeStamp\":[\"L30D\"]},\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]},\"componentId\":\"searchROF\",\"columns\":[\"reportOfFireLabel\",\"zoneOrgUnitName\",\"relayedInd\",\"submittedTimestamp\",\"fireCentreOrgUnitName\",\"incidentLabel\",\"receivedByUserId\",\"geographicAreaDescription\"]}"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "WFML-wfim",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"version\":2,\"center\":[49.80243045059615,-117.40676879882814],\"zoom\":12,\"extent\":[[49.70538810115588,-117.61997222900392],[49.899278676933456,-117.19356536865234]],\"layers\":[{\"id\":\"incident\",\"visible\":true},{\"id\":\"rof\",\"visible\":true},{\"id\":\"incident-item\",\"visible\":false},{\"id\":\"rof-item\",\"visible\":false},{\"id\":\"nrof\",\"visible\":true},{\"id\":\"resources-track\",\"visible\":false},{\"id\":\"bc-vehicle-hq-systems\",\"visible\":false},{\"id\":\"bc-vehicle-hq-wx-techs\",\"visible\":false},{\"id\":\"bc-vehicle-hq-camp-co-ord\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-lillooet\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-merritt\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-penticton\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-clearwater\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-kamloops\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-vernon\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-salmon-arm\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-south-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-north-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-fraser\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-mid-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-sunshine-coast\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-pemberton\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-arrow\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-invermere\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-cranbrook\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-kootenay-lake\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-boundary\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-columbia\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-robson-valley\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-dawson-creek\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-fort-st-john\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-prince-george\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-mackenzie\",\"visible\":false},{\"id\":\"bc-vehicle-cariboo-cifac\",\"visible\":false},{\"id\":\"bc-vehicle-north-west-bulkley\",\"visible\":false},{\"id\":\"bc-other-resources-mrb\",\"visible\":false},{\"id\":\"bc-other-resources-tanker-truck\",\"visible\":false},{\"id\":\"bc-other-resources-fire-camp\",\"visible\":false},{\"id\":\"bc-other-resources-guam\",\"visible\":false},{\"id\":\"bc-other-resources-heart-beat\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-other\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-intermediate\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-medium\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-medium-prov\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-light\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-heavy\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-rap-attack\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-patrol\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-crew-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fwb-tanker\",\"visible\":false},{\"id\":\"bc-aircraft-fwb-bird-dog\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-patrol\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-tanker\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-bird-dog\",\"visible\":false},{\"id\":\"in-current-fire-polygons\",\"visible\":false},{\"id\":\"atr-active\",\"visible\":false},{\"id\":\"atr-complete\",\"visible\":false},{\"id\":\"htr-active\",\"visible\":false},{\"id\":\"htr-complete\",\"visible\":false},{\"id\":\"ofts-active\",\"visible\":false},{\"id\":\"ofts-expired\",\"visible\":false},{\"id\":\"ofts-invalid\",\"visible\":false},{\"id\":\"udo-staging-area\",\"visible\":false},{\"id\":\"udo-camp-complex\",\"visible\":false},{\"id\":\"udo-landmark\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-mot-rest-areas-sp\",\"visible\":false},{\"id\":\"udo-fuel-cache\",\"visible\":false},{\"id\":\"udo-tool-cache\",\"visible\":false},{\"id\":\"udo-air-patrol-checkpoint\",\"visible\":false},{\"id\":\"udo-surface-patrol-checkpoint\",\"visible\":false},{\"id\":\"lightning\",\"visible\":false},{\"id\":\"sfms-temperature\",\"visible\":false},{\"id\":\"sfms-relative-humidity\",\"visible\":false},{\"id\":\"sfms-wind-speed\",\"visible\":false},{\"id\":\"sfms-wind-direction\",\"visible\":false},{\"id\":\"sfms-precipitation\",\"visible\":false},{\"id\":\"sfms-danger-rating\",\"visible\":false},{\"id\":\"sfms-fine-fuel-moisture-code\",\"visible\":false},{\"id\":\"sfms-duff-moisture-code\",\"visible\":false},{\"id\":\"sfms-drought-code\",\"visible\":false},{\"id\":\"sfms-initial-spread-index\",\"visible\":false},{\"id\":\"sfms-buildup-index\",\"visible\":false},{\"id\":\"sfms-fire-weather-index\",\"visible\":false},{\"id\":\"udo-hazard\",\"visible\":false},{\"id\":\"wf1-refuse-site\",\"visible\":false},{\"id\":\"whse-human-cultural-economic-emrg-order-and-alert-areas-sp\",\"visible\":false},{\"id\":\"udo-industrial-activity\",\"visible\":false},{\"id\":\"wf1-pipelines\",\"visible\":false},{\"id\":\"wf1-transmissionlines\",\"visible\":false},{\"id\":\"wf1-ci-flnro-radio-tower\",\"visible\":false},{\"id\":\"wf1-ci-other-radio-tower\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-gsr-hospitals-svw\",\"visible\":false},{\"id\":\"aviation-airport\",\"visible\":false},{\"id\":\"aviation-airstrip\",\"visible\":false},{\"id\":\"aviation-hospital-heliport\",\"visible\":false},{\"id\":\"aviation-helipad-heliport\",\"visible\":false},{\"id\":\"aviation-seaplane\",\"visible\":false},{\"id\":\"fw-activereporting-wstn\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-gsr-climate-stations-svw\",\"visible\":false},{\"id\":\"whse-water-management-wls-community-ws-pub-svw\",\"visible\":false},{\"id\":\"wf1-place-names\",\"visible\":false},{\"id\":\"wf1-terrain-names\",\"visible\":false},{\"id\":\"wildfire-org-unit-fire-centre\",\"visible\":true},{\"id\":\"wildfire-org-unit-fire-zone\",\"visible\":true},{\"id\":\"bndy-fire-departments\",\"visible\":true},{\"id\":\"whse-legal-admin-boundaries-abms-regional-districts-sp\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-abms-municipalities-sp\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-areas-spg\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-districts-spg\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-regions-spg\",\"visible\":false},{\"id\":\"wf1-bndy-tfl\",\"visible\":false},{\"id\":\"reg-legal-and-admin-boundaries-rec-tenure-alpine-ski-areas-sp\",\"visible\":false},{\"id\":\"whse-forest-tenure-ften-recreation-poly-svw\",\"visible\":false},{\"id\":\"whse-forest-tenure-ften-managed-licence-poly-svw\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-fnt-treaty-land-sp\",\"visible\":false},{\"id\":\"wf1-fn-title-area\",\"visible\":true},{\"id\":\"whse-admin-boundaries-clab-indian-reserves\",\"visible\":true},{\"id\":\"whse-admin-boundaries-clab-national-parks\",\"visible\":true},{\"id\":\"whse-tantalis-ta-park-ecores-pa-svw\",\"visible\":true},{\"id\":\"whse-tantalis-ta-wildlife-mgmt-areas-svw\",\"visible\":false},{\"id\":\"whse-tantalis-ta-conservancy-areas-svw\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-lands-sp\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp\",\"visible\":false},{\"id\":\"wf1-cadastre\",\"visible\":false},{\"id\":\"wf1-forest-service-road\",\"visible\":false},{\"id\":\"wf1-roads\",\"visible\":true},{\"id\":\"whse-basemapping-gba-railway-tracks-sp\",\"visible\":true},{\"id\":\"wf1-trails\",\"visible\":false},{\"id\":\"whse-basemapping-fwa-stream-networks-sp\",\"visible\":true},{\"id\":\"whse-basemapping-fwa-lakes-poly\",\"visible\":false},{\"id\":\"whse-basemapping-nts-bc-contour-lines-125m\",\"visible\":false},{\"id\":\"whse-basemapping-trim-contour-lines\",\"visible\":false}],\"base\":\"EsriTopo\",\"tools\":{\"time\":{\"present\":\"PT24H/PRESENT\",\"mode\":\"present\"}}}",
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/A6D31A3F360C16B472538810F870744A",
-                    "method": "GET"
-                }
-            ],
-            "guid": "A6D31A3F360C16B472538810F870744A",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchROFMap",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"query\":null,\"sortParam\":\"submittedTimestamp\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"messageStatusCode\":[\"Submitted\"],\"submittedAsOfTimeStamp\":[\"L30D\"]},\"hiddenFilters\":{},\"componentId\":\"searchROFMap\",\"columns\":[],\"audibleAlert\":{\"enabled\":false,\"selectedZoneIds\":[\"51\",\"59\",\"55\",\"56\",\"58\",\"57\",\"52\",\"54\",\"53\"]}}"
-        },
-        {
-            "@type": "http://webade.gov.bc.ca/preference",
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/5A60CC45580BCFC0255C2487F03ECE7E",
-                    "method": "GET"
-                }
-            ],
-            "guid": "5A60CC45580BCFC0255C2487F03ECE7E",
-            "applicationCode": "WFIM",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "setName": "searchNROF",
-            "name": "most.recently.used",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "value": "{\"query\":null,\"sortParam\":\"effectiveTimeStamp\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"fireCentreOrgUnitIdentifier\":[\"2\"]},\"hiddenFilters\":{},\"componentId\":\"searchNROF\",\"columns\":[\"provisionalZoneIdentifier\",\"dismissedInd\",\"provisionalZoneNote\",\"fireCentreOrgUnitName\"]}"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "[\"WFML-wfim-piece-0\",\"WFML-wfim-piece-1\",\"WFML-wfim-piece-2\",\"WFML-wfim-piece-3\",\"WFML-wfim-piece-4\",\"WFML-wfim-piece-5\",\"WFML-wfim-piece-6\"]",
-            "setName": "WFML-wfim-header"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "{\"name\":\"SMK Default Map\",\"viewer\":{\"type\":\"leaflet\",\"device\":\"desktop\",\"deviceAutoBreakpoint\":500,\"themes\":[\"wf\"],\"location\":{\"center\":[-123.41903686523439,48.53843177405046],\"zoom\":11,\"extent\":[-123.81454467773439,48.26354122099329,-123.02352905273439,48.811385499847546]},\"baseMap\":\"imagery\",\"clusterOption\":{\"showCoverageOnHover\":false},\"zoomSnap\":1,\"displayContext\":[{\"id\":\"layers\",\"items\":[{\"id\":\"incidents\",\"type\":\"layer\",\"title\":\"Incidents\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-incident\",\"type\":\"layer\",\"title\":\"Incident (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"rofs\",\"type\":\"layer\",\"title\":\"Reports of Fire\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-rof\",\"type\":\"layer\",\"title\":\"Report of Fire (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"nrofs\",\"type\":\"layer\",\"title\":\"No More Reports of Fire\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-nrof\",\"type\":\"layer\",\"title\":\"No More Report of Fire (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"mobile-resources\",\"type\":\"folder\",\"title\":\"Mobile Resources\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"resource-track\",\"type\":\"layer\",\"title\":\"Track\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"mobile-resources---british-columbia\",\"type\":\"folder\",\"title\":\"British Columbia\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---vehicle\",\"type\":\"folder\",\"title\":\"Vehicle\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---vehicle---hq\",\"type\":\"folder\",\"title\":\"HQ\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-hq-systems\",\"type\":\"layer\",\"title\":\"Systems\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-hq-wx-techs\",\"type\":\"layer\",\"title\":\"Wx Techs\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-hq-camp-co-ord\",\"type\":\"layer\",\"title\":\"Camp Co-Ord\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---kamloops\",\"type\":\"folder\",\"title\":\"Kamloops\",\"isVisible\":true,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-kamloops-lillooet\",\"type\":\"layer\",\"title\":\"Lillooet\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-merritt\",\"type\":\"layer\",\"title\":\"Merritt\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-penticton\",\"type\":\"layer\",\"title\":\"Penticton\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-clearwater\",\"type\":\"layer\",\"title\":\"Clearwater\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-kamloops\",\"type\":\"layer\",\"title\":\"Kamloops\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-vernon\",\"type\":\"layer\",\"title\":\"Vernon\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-salmon-arm\",\"type\":\"layer\",\"title\":\"Salmon Arm\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---coastal\",\"type\":\"folder\",\"title\":\"Coastal\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-coastal-south-island\",\"type\":\"layer\",\"title\":\"South Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-north-island\",\"type\":\"layer\",\"title\":\"North Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-fraser\",\"type\":\"layer\",\"title\":\"Fraser\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-mid-island\",\"type\":\"layer\",\"title\":\"Mid Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-sunshine-coast\",\"type\":\"layer\",\"title\":\"Sunshine Coast\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-pemberton\",\"type\":\"layer\",\"title\":\"Pemberton\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---south-east\",\"type\":\"folder\",\"title\":\"South East\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-south-east-arrow\",\"type\":\"layer\",\"title\":\"Arrow\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-invermere\",\"type\":\"layer\"",
-            "setName": "WFML-wfim-piece-0"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": ",\"title\":\"Invermere\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-cranbrook\",\"type\":\"layer\",\"title\":\"Cranbrook\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-kootenay-lake\",\"type\":\"layer\",\"title\":\"Kootenay Lake\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-boundary\",\"type\":\"layer\",\"title\":\"Boundary\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-columbia\",\"type\":\"layer\",\"title\":\"Columbia\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---prince-george\",\"type\":\"folder\",\"title\":\"Prince George\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-prince-george-robson-valley\",\"type\":\"layer\",\"title\":\"Robson Valley\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-dawson-creek\",\"type\":\"layer\",\"title\":\"Dawson Creek\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-fort-st-john\",\"type\":\"layer\",\"title\":\"Fort St John\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-prince-george\",\"type\":\"layer\",\"title\":\"Prince George\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-mackenzie\",\"type\":\"layer\",\"title\":\"Mackenzie\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---cariboo\",\"type\":\"folder\",\"title\":\"Cariboo\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-cariboo-cifac\",\"type\":\"layer\",\"title\":\"CIFAC\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---north-west\",\"type\":\"folder\",\"title\":\"North West\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-north-west-bulkley\",\"type\":\"layer\",\"title\":\"Bulkley\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"mobile-resources---british-columbia---other\",\"type\":\"folder\",\"title\":\"Other\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---other---resources\",\"type\":\"folder\",\"title\":\"Resources\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-other-resources-mrb\",\"type\":\"layer\",\"title\":\"MRB\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-tanker-truck\",\"type\":\"layer\",\"title\":\"Tanker Truck\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-fire-camp\",\"type\":\"layer\",\"title\":\"Fire Camp\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-guam\",\"type\":\"layer\",\"title\":\"Guam\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-heart-beat\",\"type\":\"layer\",\"title\":\"Heart Beat\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"mobile-resources---british-columbia---aircraft\",\"type\":\"folder\",\"title\":\"Aircraft\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---aircraft---rotary-wing\",\"type\":\"folder\",\"title\":\"Rotary Wing\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-rotary-wing-other\",\"type\":\"layer\",\"title\":\"(Other)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-intermediate\",\"type\":\"layer\",\"title\":\"Intermediate\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-medium\",\"type\":\"layer\",\"title\":\"Medium\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-medium-prov\",\"type\":\"layer\",\"title\":\"Medium (Prov)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-light\",\"type\":\"layer\",\"title\":\"Light\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-heavy\",\"type\":\"layer\",\"title\":\"Heavy\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-rap-attack\",\"type\":\"layer\",\"title\":\"Rap Attack\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fwt\",\"type\":\"folder\",\"title\":\"FWT\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fwt-patrol\",\"type\":\"layer\",\"title\":\"Patrol\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwt-transport\",\"type\":\"layer\",\"title\":",
-            "setName": "WFML-wfim-piece-1"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "\"Transport\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwt-crew-transport\",\"type\":\"layer\",\"title\":\"Crew Transport\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fwb\",\"type\":\"folder\",\"title\":\"FWB\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fwb-tanker\",\"type\":\"layer\",\"title\":\"Tanker\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwb-bird-dog\",\"type\":\"layer\",\"title\":\"Bird Dog\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fixed-wing\",\"type\":\"folder\",\"title\":\"Fixed Wing\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fixed-wing-patrol\",\"type\":\"layer\",\"title\":\"Patrol\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-transport\",\"type\":\"layer\",\"title\":\"Transport\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-tanker\",\"type\":\"layer\",\"title\":\"Tanker\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-bird-dog\",\"type\":\"layer\",\"title\":\"Bird Dog\",\"isVisible\":true,\"isEnabled\":true}]}]}]}]},{\"id\":\"operational-planning\",\"type\":\"folder\",\"title\":\"Operational Planning\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"in-current-fire-polygons\",\"type\":\"layer\",\"title\":\"Fire Perimeter\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"operational-planning---air-tanker-request\",\"type\":\"folder\",\"title\":\"Air Tanker Request\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"atr-active\",\"type\":\"layer\",\"title\":\"Active ATR\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"atr-complete\",\"type\":\"layer\",\"title\":\"Completed ATR\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---heli-tanker-request\",\"type\":\"folder\",\"title\":\"Heli Tanker Request\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"htr-active\",\"type\":\"layer\",\"title\":\"Active HTR\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"htr-complete\",\"type\":\"layer\",\"title\":\"Completed HTR\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---open-burning-registration-ofts\",\"type\":\"folder\",\"title\":\"Open Burning Registration  (OFTS)\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ofts-active\",\"type\":\"layer\",\"title\":\"Active OFTS\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ofts-expired\",\"type\":\"layer\",\"title\":\"Expired OFTS\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ofts-invalid\",\"type\":\"layer\",\"title\":\"Invalid OFTS\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---camps-and-staging-areas\",\"type\":\"folder\",\"title\":\"Camps and Staging Areas\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-camp-complex\",\"type\":\"layer\",\"title\":\"Camp / Complex - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---landmark\",\"type\":\"folder\",\"title\":\"Landmark\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-landmark\",\"type\":\"layer\",\"title\":\"Landmark - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-imagery-and-base-maps-mot-rest-areas-sp\",\"type\":\"layer\",\"title\":\"Highway Rest Stop\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---caches\",\"type\":\"folder\",\"title\":\"Caches\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-fuel-cache\",\"type\":\"layer\",\"title\":\"Fuel Cache - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-tool-cache\",\"type\":\"layer\",\"title\":\"Tool Cache - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---detection\",\"type\":\"folder\",\"title\":\"Detection\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-air-patrol-checkpoint\",\"type\":\"layer\",\"title\":\"Air Patrol Checkpoint - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-surface-patrol-checkpoint\",\"type\":\"layer\",\"title\":\"Surface Patrol Checkpoint - UED\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"fire-weather\",\"type\":\"folder\",\"title\":\"Fire Weather\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"lightning\",\"typ",
-            "setName": "WFML-wfim-piece-2"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "e\":\"layer\",\"title\":\"Lightning\",\"isVisible\":null,\"isEnabled\":true},{\"id\":\"fire-weather---weather\",\"type\":\"folder\",\"title\":\"Weather\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"sfms-temperature\",\"type\":\"layer\",\"title\":\"Temperature - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-relative-humidity\",\"type\":\"layer\",\"title\":\"Relative Humidity - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-wind-speed\",\"type\":\"layer\",\"title\":\"Wind Speed - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-wind-direction\",\"type\":\"layer\",\"title\":\"Wind Direction - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-precipitation\",\"type\":\"layer\",\"title\":\"Precipitation - Daily\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"fire-weather---fire-weather-indices\",\"type\":\"folder\",\"title\":\"Fire Weather Indices\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"sfms-danger-rating\",\"type\":\"layer\",\"title\":\"Danger Rating\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-fine-fuel-moisture-code\",\"type\":\"layer\",\"title\":\"Fine Fuel Moisture Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-duff-moisture-code\",\"type\":\"layer\",\"title\":\"Duff Moisture Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-drought-code\",\"type\":\"layer\",\"title\":\"Drought Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-initial-spread-index\",\"type\":\"layer\",\"title\":\"Initial Spread Index\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-buildup-index\",\"type\":\"layer\",\"title\":\"Buildup Index\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-fire-weather-index\",\"type\":\"layer\",\"title\":\"Fire Weather Index\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"responder-safety\",\"type\":\"folder\",\"title\":\"Responder Safety\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"responder-safety---hazard\",\"type\":\"folder\",\"title\":\"Hazard\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-hazard\",\"type\":\"layer\",\"title\":\"Hazards - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-refuse-site\",\"type\":\"layer\",\"title\":\"Refuse Site\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"human-life-and-safety\",\"type\":\"folder\",\"title\":\"Human Life and Safety\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"human-life-and-safety---evacuations-and-emergency-services\",\"type\":\"folder\",\"title\":\"Evacuations and Emergency Services\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-human-cultural-economic-emrg-order-and-alert-areas-sp\",\"type\":\"layer\",\"title\":\"Evacuation Order and Alert Areas\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-remote-structures\",\"type\":\"layer\",\"title\":\"Remote Structures - UED\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"critical-infrastructure\",\"type\":\"folder\",\"title\":\"Critical Infrastructure\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"critical-infrastructure---energy-utilities-and-facilities\",\"type\":\"folder\",\"title\":\"Energy, Utilities and Facilities\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-pipelines\",\"type\":\"layer\",\"title\":\"Oil and Gas - Pipeline\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-transmissionlines\",\"type\":\"layer\",\"title\":\"Transmission Line\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---communication-and-information-tech\",\"type\":\"folder\",\"title\":\"Communication and Information Tech\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-ci-flnro-radio-tower\",\"type\":\"layer\",\"title\":\"Radio Tower - FLNRO\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-ci-other-radio-tower\",\"type\":\"layer\",\"title\":\"Radio Tower - Other\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---health-care\",\"type\":\"folder\",\"title\":\"Health Care\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-imagery-and-base-maps-gsr-hospitals-svw\",\"type\":\"layer\",\"title\":\"Hospital\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---transportation---aviation\",\"type\":\"folder\",\"t",
-            "setName": "WFML-wfim-piece-3"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "itle\":\"Transportation - Aviation\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"aviation-airport\",\"type\":\"layer\",\"title\":\"Airport\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-airstrip\",\"type\":\"layer\",\"title\":\"Airstrip or Other Facility\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-hospital-heliport\",\"type\":\"layer\",\"title\":\"Hospital Heliport\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-helipad-heliport\",\"type\":\"layer\",\"title\":\"Heliport & Helipad\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-seaplane\",\"type\":\"layer\",\"title\":\"Seaplane Facility\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-airstrip\",\"type\":\"layer\",\"title\":\"Airstrip - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-forward-tanker-base\",\"type\":\"layer\",\"title\":\"Forward Tanker Base - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-helipad\",\"type\":\"layer\",\"title\":\"Helipad - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-medevac\",\"type\":\"layer\",\"title\":\"Medevac - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---weather-infrastructure\",\"type\":\"folder\",\"title\":\"Weather Infrastructure\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"fw-activereporting-wstn\",\"type\":\"layer\",\"title\":\"Weather Station - Active\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-imagery-and-base-maps-gsr-meteorological-stations-svw\",\"type\":\"layer\",\"title\":\"Meteorological Station\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"high-environment-cultural-values\",\"type\":\"folder\",\"title\":\"High Environment Cultural Values\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"high-environment-cultural-values---water\",\"type\":\"folder\",\"title\":\"Water\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-water-management-wls-community-ws-pub-svw\",\"type\":\"layer\",\"title\":\"Community Watershed\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"place-and-terrain-names\",\"type\":\"folder\",\"title\":\"Place and Terrain Names\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"place-and-terrain-names---annotation-labels\",\"type\":\"folder\",\"title\":\"Annotation / Labels\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-place-names\",\"type\":\"layer\",\"title\":\"Place Name\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-terrain-names\",\"type\":\"layer\",\"title\":\"Terrain Name\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"boundaries\",\"type\":\"folder\",\"title\":\"Boundaries\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"boundaries---bc-wildfire\",\"type\":\"folder\",\"title\":\"BC Wildfire\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wildfire-org-unit-fire-centre\",\"type\":\"layer\",\"title\":\"Fire Centre\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"wildfire-org-unit-fire-zone\",\"type\":\"layer\",\"title\":\"Fire Zone\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"response-areas\",\"type\":\"layer\",\"title\":\"Priority Response Areas\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---client-assets\",\"type\":\"folder\",\"title\":\"Client Assets\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"client-asset-points\",\"type\":\"layer\",\"title\":\"Client Asset Points\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"client-asset-lines\",\"type\":\"layer\",\"title\":\"Client Asset Lines\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"client-asset-polygons\",\"type\":\"layer\",\"title\":\"Client Asset Polygons\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---local-government\",\"type\":\"folder\",\"title\":\"Local Government\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bndy-fire-departments\",\"type\":\"layer\",\"title\":\"Fire Department\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-abms-regional-districts-sp\",\"type\":\"layer\",\"title\":\"Regional District\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-abms-municipalities-sp\",\"type\":\"layer\",\"title\":\"Municipality\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---flnro\",\"type\":\"folder\",\"",
-            "setName": "WFML-wfim-piece-4"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "title\":\"FLNRO\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-admin-boundaries-adm-nr-areas-spg\",\"type\":\"layer\",\"title\":\"Natural Resource Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-adm-nr-districts-spg\",\"type\":\"layer\",\"title\":\"Natural Resource District\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-adm-nr-regions-spg\",\"type\":\"layer\",\"title\":\"Natural Resource Region\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---tenures\",\"type\":\"folder\",\"title\":\"Tenures\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-bndy-tfl\",\"type\":\"layer\",\"title\":\"Tree Farm Licence (TFL)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"reg-legal-and-admin-boundaries-rec-tenure-alpine-ski-areas-sp\",\"type\":\"layer\",\"title\":\"Alpine Ski Area \",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-forest-tenure-ften-recreation-poly-svw\",\"type\":\"layer\",\"title\":\"Recreation Area  (RSTBC)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-forest-tenure-ften-managed-licence-poly-svw\",\"type\":\"layer\",\"title\":\"Woodlot (Active or Pending)\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"land-ownership-status\",\"type\":\"folder\",\"title\":\"Land Ownership Status\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"land-ownership-status---first-nations\",\"type\":\"folder\",\"title\":\"First Nations\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-legal-admin-boundaries-fnt-treaty-land-sp\",\"type\":\"layer\",\"title\":\"First Nation Treaty Land\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-fn-title-area\",\"type\":\"layer\",\"title\":\"First Nation Title Area\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-clab-indian-reserves\",\"type\":\"layer\",\"title\":\"Indian Reserve\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"land-ownership-status---parks-and-protected-lands\",\"type\":\"folder\",\"title\":\"Parks and Protected Lands\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-admin-boundaries-clab-national-parks\",\"type\":\"layer\",\"title\":\"National Park (BC)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-park-ecores-pa-svw\",\"type\":\"layer\",\"title\":\"BC Parks and Protected Areas\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-wildlife-mgmt-areas-svw\",\"type\":\"layer\",\"title\":\"Wildlife Management Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-conservancy-areas-svw\",\"type\":\"layer\",\"title\":\"Conservancy Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-lands-sp\",\"type\":\"layer\",\"title\":\"Conservation Land\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp\",\"type\":\"layer\",\"title\":\"Conservation Land (NGO)\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"land-ownership-status---ownership\",\"type\":\"folder\",\"title\":\"Ownership\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-cadastre\",\"type\":\"layer\",\"title\":\"Cadastre\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"transportation-and-trails\",\"type\":\"folder\",\"title\":\"Transportation and Trails\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"transportation-and-trails---roads\",\"type\":\"folder\",\"title\":\"Roads\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-forest-service-road\",\"type\":\"layer\",\"title\":\"Forest Service Road\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-roads\",\"type\":\"layer\",\"title\":\"Road\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"transportation-and-trails---railway\",\"type\":\"folder\",\"title\":\"Railway\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-gba-railway-tracks-sp\",\"type\":\"layer\",\"title\":\"Railway\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"transportation-and-trails---trails-and-trailheads\",\"type\":\"folder\",\"title\":\"Trails and Trailheads\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-trails\",\"type\":\"layer\",\"title\":\"Trail\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"natural-",
-            "setName": "WFML-wfim-piece-5"
-        },
-        {
-            "cacheExpiresMillis": null,
-            "links": [
-                {
-                    "rel": "self",
-                    "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-                    "method": "GET"
-                }
-            ],
-            "guid": "1E5B77AC1F846336F86754697DED6FFE",
-            "flag": "A",
-            "typeCode": "USR",
-            "subTypeCode": "bootstrap-config",
-            "dataTypeCode": "STRING",
-            "sensitiveData": false,
-            "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
-            "quotedETag": null,
-            "unquotedETag": null,
-            "applicationCode": "WFIM",
-            "name": "most.recently.used",
-            "value": "features\",\"type\":\"folder\",\"title\":\"Natural Features\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-fwa-stream-networks-sp\",\"type\":\"layer\",\"title\":\"Rivers & Streams\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-basemapping-fwa-lakes-poly\",\"type\":\"layer\",\"title\":\"Lakes\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"natural-features---contours\",\"type\":\"folder\",\"title\":\"Contours\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-nts-bc-contour-lines-125m\",\"type\":\"layer\",\"title\":\"Contours NTS (80,000 to 500,000)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-basemapping-trim-contour-lines\",\"type\":\"layer\",\"title\":\"Contours TRIM (1 to 80,000)\",\"isVisible\":false,\"isEnabled\":true}]}]}]},{\"id\":\"current-location\",\"items\":[{\"id\":\"CurrentLocationTool\",\"type\":\"group\",\"title\":\"Current Location\",\"isVisible\":true,\"isEnabled\":true,\"class\":\"smk-inline-legend\",\"items\":[{\"id\":\"CurrentLocationTool--current-location\",\"type\":\"layer\",\"title\":\"Current Location\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"identify\",\"items\":[{\"id\":\"IdentifyListTool\",\"type\":\"group\",\"title\":\"Identify Features\",\"isVisible\":false,\"isEnabled\":true,\"class\":\"smk-inline-legend\",\"items\":[{\"id\":\"IdentifyListTool--search-area\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-area\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--search-border-1\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-border-1\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--search-border-2\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-border-2\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--location\",\"type\":\"layer\",\"title\":\"Identify Location\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--edit-search-area\",\"type\":\"layer\",\"title\":\"IdentifyListTool--edit-search-area\",\"isVisible\":true,\"isEnabled\":true}]}]}],\"minZoom\":4},\"version\":{\"app\":\"1.0.0\",\"build\":\".0000\"}}",
-            "setName": "WFML-wfim-piece-6"
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/D9766C492F26BE23264951DB6C9784EB",
+          "method": "GET"
         }
-    ]
+      ],
+      "guid": "D9766C492F26BE23264951DB6C9784EB",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchIM",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"query\":null,\"sortParam\":\"discoveryDate\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"wildfireYear\":[\"2019\"],\"stageOfControlCode\":[\"OUT_CNTRL\",\"HOLDING\",\"UNDR_CNTRL\"],\"fireCentreOrgUnitIdentifier\":[\"25\"]},\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]},\"componentId\":\"searchIM\",\"columns\":[\"incidentTypeCode\",\"wildfireYear\",\"incidentLabel\",\"fireCentreOrgUnitName\",\"zoneOrgUnitName\",\"stageOfControlCode\",\"latLong\",\"geographicDescription\",\"siteAccessPointTypeCode\",\"incidentSituation.containedPercentage\",\"incidentSituation.fireSizeHectares\",\"incidentStatusCode\"]}"
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/B9E75A1917F1FBF8B9BA836242594D7B",
+          "method": "GET"
+        }
+      ],
+      "guid": "B9E75A1917F1FBF8B9BA836242594D7B",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchIMMap",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"componentId\":\"searchIMMap\",\"sortParam\":\"discoveryDate\",\"sortDirection\":\"DESC\",\"filters\":{\"wildfireYear\":[\"2019\"],\"stageOfControlCode\":[\"UNDR_CNTRL\"],\"fireCentreOrgUnitIdentifier\":[\"25\"]},\"query\":null,\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]}}"
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/78578E08803F8A25C87CF80A684EFDAD",
+          "method": "GET"
+        }
+      ],
+      "guid": "78578E08803F8A25C87CF80A684EFDAD",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchNROFMap",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"componentId\":\"searchNROFMap\",\"sortParam\":\"effectiveTimeStamp\",\"sortDirection\":\"DESC\",\"filters\":{\"dismissedInd\":[\"No\"]},\"query\":null}"
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/78FA3A50C5C89C499D20A7802F8178EE",
+          "method": "GET"
+        }
+      ],
+      "guid": "78FA3A50C5C89C499D20A7802F8178EE",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchROF",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"query\":null,\"sortParam\":\"receivedByUserId\",\"sortDirection\":\"ASC\",\"sortModalVisible\":false,\"filters\":{\"messageStatusCode\":[\"Submitted\",\"Acknowledged\"],\"fireCentreOrgUnitIdentifier\":[\"50\"],\"submittedAsOfTimeStamp\":[\"L30D\"]},\"hiddenFilters\":{\"incidentCategoryCode\":[\"FIRE_RESP\"]},\"componentId\":\"searchROF\",\"columns\":[\"reportOfFireLabel\",\"zoneOrgUnitName\",\"relayedInd\",\"submittedTimestamp\",\"fireCentreOrgUnitName\",\"incidentLabel\",\"receivedByUserId\",\"geographicAreaDescription\"]}"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "WFML-wfim",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"version\":2,\"center\":[49.80243045059615,-117.40676879882814],\"zoom\":12,\"extent\":[[49.70538810115588,-117.61997222900392],[49.899278676933456,-117.19356536865234]],\"layers\":[{\"id\":\"incident\",\"visible\":true},{\"id\":\"rof\",\"visible\":true},{\"id\":\"incident-item\",\"visible\":false},{\"id\":\"rof-item\",\"visible\":false},{\"id\":\"nrof\",\"visible\":true},{\"id\":\"resources-track\",\"visible\":false},{\"id\":\"bc-vehicle-hq-systems\",\"visible\":false},{\"id\":\"bc-vehicle-hq-wx-techs\",\"visible\":false},{\"id\":\"bc-vehicle-hq-camp-co-ord\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-lillooet\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-merritt\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-penticton\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-clearwater\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-kamloops\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-vernon\",\"visible\":false},{\"id\":\"bc-vehicle-kamloops-salmon-arm\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-south-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-north-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-fraser\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-mid-island\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-sunshine-coast\",\"visible\":false},{\"id\":\"bc-vehicle-coastal-pemberton\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-arrow\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-invermere\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-cranbrook\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-kootenay-lake\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-boundary\",\"visible\":false},{\"id\":\"bc-vehicle-south-east-columbia\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-robson-valley\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-dawson-creek\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-fort-st-john\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-prince-george\",\"visible\":false},{\"id\":\"bc-vehicle-prince-george-mackenzie\",\"visible\":false},{\"id\":\"bc-vehicle-cariboo-cifac\",\"visible\":false},{\"id\":\"bc-vehicle-north-west-bulkley\",\"visible\":false},{\"id\":\"bc-other-resources-mrb\",\"visible\":false},{\"id\":\"bc-other-resources-tanker-truck\",\"visible\":false},{\"id\":\"bc-other-resources-fire-camp\",\"visible\":false},{\"id\":\"bc-other-resources-guam\",\"visible\":false},{\"id\":\"bc-other-resources-heart-beat\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-other\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-intermediate\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-medium\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-medium-prov\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-light\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-heavy\",\"visible\":false},{\"id\":\"bc-aircraft-rotary-wing-rap-attack\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-patrol\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fwt-crew-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fwb-tanker\",\"visible\":false},{\"id\":\"bc-aircraft-fwb-bird-dog\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-patrol\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-transport\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-tanker\",\"visible\":false},{\"id\":\"bc-aircraft-fixed-wing-bird-dog\",\"visible\":false},{\"id\":\"in-current-fire-polygons\",\"visible\":false},{\"id\":\"atr-active\",\"visible\":false},{\"id\":\"atr-complete\",\"visible\":false},{\"id\":\"htr-active\",\"visible\":false},{\"id\":\"htr-complete\",\"visible\":false},{\"id\":\"ofts-active\",\"visible\":false},{\"id\":\"ofts-expired\",\"visible\":false},{\"id\":\"ofts-invalid\",\"visible\":false},{\"id\":\"udo-staging-area\",\"visible\":false},{\"id\":\"udo-camp-complex\",\"visible\":false},{\"id\":\"udo-landmark\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-mot-rest-areas-sp\",\"visible\":false},{\"id\":\"udo-fuel-cache\",\"visible\":false},{\"id\":\"udo-tool-cache\",\"visible\":false},{\"id\":\"udo-air-patrol-checkpoint\",\"visible\":false},{\"id\":\"udo-surface-patrol-checkpoint\",\"visible\":false},{\"id\":\"lightning\",\"visible\":false},{\"id\":\"sfms-temperature\",\"visible\":false},{\"id\":\"sfms-relative-humidity\",\"visible\":false},{\"id\":\"sfms-wind-speed\",\"visible\":false},{\"id\":\"sfms-wind-direction\",\"visible\":false},{\"id\":\"sfms-precipitation\",\"visible\":false},{\"id\":\"sfms-danger-rating\",\"visible\":false},{\"id\":\"sfms-fine-fuel-moisture-code\",\"visible\":false},{\"id\":\"sfms-duff-moisture-code\",\"visible\":false},{\"id\":\"sfms-drought-code\",\"visible\":false},{\"id\":\"sfms-initial-spread-index\",\"visible\":false},{\"id\":\"sfms-buildup-index\",\"visible\":false},{\"id\":\"sfms-fire-weather-index\",\"visible\":false},{\"id\":\"udo-hazard\",\"visible\":false},{\"id\":\"wf1-refuse-site\",\"visible\":false},{\"id\":\"whse-human-cultural-economic-emrg-order-and-alert-areas-sp\",\"visible\":false},{\"id\":\"udo-industrial-activity\",\"visible\":false},{\"id\":\"wf1-pipelines\",\"visible\":false},{\"id\":\"wf1-transmissionlines\",\"visible\":false},{\"id\":\"wf1-ci-flnro-radio-tower\",\"visible\":false},{\"id\":\"wf1-ci-other-radio-tower\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-gsr-hospitals-svw\",\"visible\":false},{\"id\":\"aviation-airport\",\"visible\":false},{\"id\":\"aviation-airstrip\",\"visible\":false},{\"id\":\"aviation-hospital-heliport\",\"visible\":false},{\"id\":\"aviation-helipad-heliport\",\"visible\":false},{\"id\":\"aviation-seaplane\",\"visible\":false},{\"id\":\"fw-activereporting-wstn\",\"visible\":false},{\"id\":\"whse-imagery-and-base-maps-gsr-climate-stations-svw\",\"visible\":false},{\"id\":\"whse-water-management-wls-community-ws-pub-svw\",\"visible\":false},{\"id\":\"wf1-place-names\",\"visible\":false},{\"id\":\"wf1-terrain-names\",\"visible\":false},{\"id\":\"wildfire-org-unit-fire-centre\",\"visible\":true},{\"id\":\"wildfire-org-unit-fire-zone\",\"visible\":true},{\"id\":\"bndy-fire-departments\",\"visible\":true},{\"id\":\"whse-legal-admin-boundaries-abms-regional-districts-sp\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-abms-municipalities-sp\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-areas-spg\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-districts-spg\",\"visible\":false},{\"id\":\"whse-admin-boundaries-adm-nr-regions-spg\",\"visible\":false},{\"id\":\"wf1-bndy-tfl\",\"visible\":false},{\"id\":\"reg-legal-and-admin-boundaries-rec-tenure-alpine-ski-areas-sp\",\"visible\":false},{\"id\":\"whse-forest-tenure-ften-recreation-poly-svw\",\"visible\":false},{\"id\":\"whse-forest-tenure-ften-managed-licence-poly-svw\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-fnt-treaty-land-sp\",\"visible\":false},{\"id\":\"wf1-fn-title-area\",\"visible\":true},{\"id\":\"whse-admin-boundaries-clab-indian-reserves\",\"visible\":true},{\"id\":\"whse-admin-boundaries-clab-national-parks\",\"visible\":true},{\"id\":\"whse-tantalis-ta-park-ecores-pa-svw\",\"visible\":true},{\"id\":\"whse-tantalis-ta-wildlife-mgmt-areas-svw\",\"visible\":false},{\"id\":\"whse-tantalis-ta-conservancy-areas-svw\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-lands-sp\",\"visible\":false},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp\",\"visible\":false},{\"id\":\"wf1-cadastre\",\"visible\":false},{\"id\":\"wf1-forest-service-road\",\"visible\":false},{\"id\":\"wf1-roads\",\"visible\":true},{\"id\":\"whse-basemapping-gba-railway-tracks-sp\",\"visible\":true},{\"id\":\"wf1-trails\",\"visible\":false},{\"id\":\"whse-basemapping-fwa-stream-networks-sp\",\"visible\":true},{\"id\":\"whse-basemapping-fwa-lakes-poly\",\"visible\":false},{\"id\":\"whse-basemapping-nts-bc-contour-lines-125m\",\"visible\":false},{\"id\":\"whse-basemapping-trim-contour-lines\",\"visible\":false}],\"base\":\"EsriTopo\",\"tools\":{\"time\":{\"present\":\"PT24H/PRESENT\",\"mode\":\"present\"}}}",
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/A6D31A3F360C16B472538810F870744A",
+          "method": "GET"
+        }
+      ],
+      "guid": "A6D31A3F360C16B472538810F870744A",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchROFMap",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"query\":null,\"sortParam\":\"submittedTimestamp\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"messageStatusCode\":[\"Submitted\"],\"submittedAsOfTimeStamp\":[\"L30D\"]},\"hiddenFilters\":{},\"componentId\":\"searchROFMap\",\"columns\":[],\"audibleAlert\":{\"enabled\":false,\"selectedZoneIds\":[\"51\",\"59\",\"55\",\"56\",\"58\",\"57\",\"52\",\"54\",\"53\"]}}"
+    },
+    {
+      "@type": "http://webade.gov.bc.ca/preference",
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/5A60CC45580BCFC0255C2487F03ECE7E",
+          "method": "GET"
+        }
+      ],
+      "guid": "5A60CC45580BCFC0255C2487F03ECE7E",
+      "applicationCode": "WFIM",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "setName": "searchNROF",
+      "name": "most.recently.used",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "value": "{\"query\":null,\"sortParam\":\"effectiveTimeStamp\",\"sortDirection\":\"DESC\",\"sortModalVisible\":false,\"filters\":{\"fireCentreOrgUnitIdentifier\":[\"2\"]},\"hiddenFilters\":{},\"componentId\":\"searchNROF\",\"columns\":[\"provisionalZoneIdentifier\",\"dismissedInd\",\"provisionalZoneNote\",\"fireCentreOrgUnitName\"]}"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "[\"WFML-wfim-piece-0\",\"WFML-wfim-piece-1\",\"WFML-wfim-piece-2\",\"WFML-wfim-piece-3\",\"WFML-wfim-piece-4\",\"WFML-wfim-piece-5\",\"WFML-wfim-piece-6\"]",
+      "setName": "WFML-wfim-header"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "{\"name\":\"SMK Default Map\",\"viewer\":{\"type\":\"leaflet\",\"device\":\"desktop\",\"deviceAutoBreakpoint\":500,\"themes\":[\"wf\"],\"location\":{\"center\":[-123.41903686523439,48.53843177405046],\"zoom\":11,\"extent\":[-123.81454467773439,48.26354122099329,-123.02352905273439,48.811385499847546]},\"baseMap\":\"imagery\",\"clusterOption\":{\"showCoverageOnHover\":false},\"zoomSnap\":1,\"displayContext\":[{\"id\":\"layers\",\"items\":[{\"id\":\"incidents\",\"type\":\"layer\",\"title\":\"Incidents\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-incident\",\"type\":\"layer\",\"title\":\"Incident (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"rofs\",\"type\":\"layer\",\"title\":\"Reports of Fire\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-rof\",\"type\":\"layer\",\"title\":\"Report of Fire (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"nrofs\",\"type\":\"layer\",\"title\":\"No More Reports of Fire\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"temporary-nrof\",\"type\":\"layer\",\"title\":\"No More Report of Fire (Temporary)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"mobile-resources\",\"type\":\"folder\",\"title\":\"Mobile Resources\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"resource-track\",\"type\":\"layer\",\"title\":\"Track\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"mobile-resources---british-columbia\",\"type\":\"folder\",\"title\":\"British Columbia\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---vehicle\",\"type\":\"folder\",\"title\":\"Vehicle\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---vehicle---hq\",\"type\":\"folder\",\"title\":\"HQ\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-hq-systems\",\"type\":\"layer\",\"title\":\"Systems\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-hq-wx-techs\",\"type\":\"layer\",\"title\":\"Wx Techs\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-hq-camp-co-ord\",\"type\":\"layer\",\"title\":\"Camp Co-Ord\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---kamloops\",\"type\":\"folder\",\"title\":\"Kamloops\",\"isVisible\":true,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-kamloops-lillooet\",\"type\":\"layer\",\"title\":\"Lillooet\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-merritt\",\"type\":\"layer\",\"title\":\"Merritt\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-penticton\",\"type\":\"layer\",\"title\":\"Penticton\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-clearwater\",\"type\":\"layer\",\"title\":\"Clearwater\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-kamloops\",\"type\":\"layer\",\"title\":\"Kamloops\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-vernon\",\"type\":\"layer\",\"title\":\"Vernon\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-kamloops-salmon-arm\",\"type\":\"layer\",\"title\":\"Salmon Arm\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---coastal\",\"type\":\"folder\",\"title\":\"Coastal\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-coastal-south-island\",\"type\":\"layer\",\"title\":\"South Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-north-island\",\"type\":\"layer\",\"title\":\"North Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-fraser\",\"type\":\"layer\",\"title\":\"Fraser\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-mid-island\",\"type\":\"layer\",\"title\":\"Mid Island\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-sunshine-coast\",\"type\":\"layer\",\"title\":\"Sunshine Coast\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-coastal-pemberton\",\"type\":\"layer\",\"title\":\"Pemberton\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---south-east\",\"type\":\"folder\",\"title\":\"South East\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-south-east-arrow\",\"type\":\"layer\",\"title\":\"Arrow\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-invermere\",\"type\":\"layer\"",
+      "setName": "WFML-wfim-piece-0"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": ",\"title\":\"Invermere\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-cranbrook\",\"type\":\"layer\",\"title\":\"Cranbrook\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-kootenay-lake\",\"type\":\"layer\",\"title\":\"Kootenay Lake\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-boundary\",\"type\":\"layer\",\"title\":\"Boundary\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-south-east-columbia\",\"type\":\"layer\",\"title\":\"Columbia\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---prince-george\",\"type\":\"folder\",\"title\":\"Prince George\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-prince-george-robson-valley\",\"type\":\"layer\",\"title\":\"Robson Valley\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-dawson-creek\",\"type\":\"layer\",\"title\":\"Dawson Creek\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-fort-st-john\",\"type\":\"layer\",\"title\":\"Fort St John\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-prince-george\",\"type\":\"layer\",\"title\":\"Prince George\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-vehicle-prince-george-mackenzie\",\"type\":\"layer\",\"title\":\"Mackenzie\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---cariboo\",\"type\":\"folder\",\"title\":\"Cariboo\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-cariboo-cifac\",\"type\":\"layer\",\"title\":\"CIFAC\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---vehicle---north-west\",\"type\":\"folder\",\"title\":\"North West\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-vehicle-north-west-bulkley\",\"type\":\"layer\",\"title\":\"Bulkley\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"mobile-resources---british-columbia---other\",\"type\":\"folder\",\"title\":\"Other\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---other---resources\",\"type\":\"folder\",\"title\":\"Resources\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-other-resources-mrb\",\"type\":\"layer\",\"title\":\"MRB\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-tanker-truck\",\"type\":\"layer\",\"title\":\"Tanker Truck\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-fire-camp\",\"type\":\"layer\",\"title\":\"Fire Camp\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-guam\",\"type\":\"layer\",\"title\":\"Guam\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-other-resources-heart-beat\",\"type\":\"layer\",\"title\":\"Heart Beat\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"mobile-resources---british-columbia---aircraft\",\"type\":\"folder\",\"title\":\"Aircraft\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"mobile-resources---british-columbia---aircraft---rotary-wing\",\"type\":\"folder\",\"title\":\"Rotary Wing\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-rotary-wing-other\",\"type\":\"layer\",\"title\":\"(Other)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-intermediate\",\"type\":\"layer\",\"title\":\"Intermediate\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-medium\",\"type\":\"layer\",\"title\":\"Medium\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-medium-prov\",\"type\":\"layer\",\"title\":\"Medium (Prov)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-light\",\"type\":\"layer\",\"title\":\"Light\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-heavy\",\"type\":\"layer\",\"title\":\"Heavy\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-rotary-wing-rap-attack\",\"type\":\"layer\",\"title\":\"Rap Attack\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fwt\",\"type\":\"folder\",\"title\":\"FWT\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fwt-patrol\",\"type\":\"layer\",\"title\":\"Patrol\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwt-transport\",\"type\":\"layer\",\"title\":",
+      "setName": "WFML-wfim-piece-1"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "\"Transport\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwt-crew-transport\",\"type\":\"layer\",\"title\":\"Crew Transport\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fwb\",\"type\":\"folder\",\"title\":\"FWB\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fwb-tanker\",\"type\":\"layer\",\"title\":\"Tanker\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fwb-bird-dog\",\"type\":\"layer\",\"title\":\"Bird Dog\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"mobile-resources---british-columbia---aircraft---fixed-wing\",\"type\":\"folder\",\"title\":\"Fixed Wing\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bc-aircraft-fixed-wing-patrol\",\"type\":\"layer\",\"title\":\"Patrol\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-transport\",\"type\":\"layer\",\"title\":\"Transport\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-tanker\",\"type\":\"layer\",\"title\":\"Tanker\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"bc-aircraft-fixed-wing-bird-dog\",\"type\":\"layer\",\"title\":\"Bird Dog\",\"isVisible\":true,\"isEnabled\":true}]}]}]}]},{\"id\":\"operational-planning\",\"type\":\"folder\",\"title\":\"Operational Planning\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"in-current-fire-polygons\",\"type\":\"layer\",\"title\":\"Fire Perimeter\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"operational-planning---air-tanker-request\",\"type\":\"folder\",\"title\":\"Air Tanker Request\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"atr-active\",\"type\":\"layer\",\"title\":\"Active ATR\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"atr-complete\",\"type\":\"layer\",\"title\":\"Completed ATR\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---heli-tanker-request\",\"type\":\"folder\",\"title\":\"Heli Tanker Request\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"htr-active\",\"type\":\"layer\",\"title\":\"Active HTR\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"htr-complete\",\"type\":\"layer\",\"title\":\"Completed HTR\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---open-burning-registration-ofts\",\"type\":\"folder\",\"title\":\"Open Burning Registration  (OFTS)\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ofts-active\",\"type\":\"layer\",\"title\":\"Active OFTS\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ofts-expired\",\"type\":\"layer\",\"title\":\"Expired OFTS\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ofts-invalid\",\"type\":\"layer\",\"title\":\"Invalid OFTS\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---camps-and-staging-areas\",\"type\":\"folder\",\"title\":\"Camps and Staging Areas\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-camp-complex\",\"type\":\"layer\",\"title\":\"Camp / Complex - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---landmark\",\"type\":\"folder\",\"title\":\"Landmark\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-landmark\",\"type\":\"layer\",\"title\":\"Landmark - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-imagery-and-base-maps-mot-rest-areas-sp\",\"type\":\"layer\",\"title\":\"Highway Rest Stop\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---caches\",\"type\":\"folder\",\"title\":\"Caches\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-fuel-cache\",\"type\":\"layer\",\"title\":\"Fuel Cache - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-tool-cache\",\"type\":\"layer\",\"title\":\"Tool Cache - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"operational-planning---detection\",\"type\":\"folder\",\"title\":\"Detection\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-air-patrol-checkpoint\",\"type\":\"layer\",\"title\":\"Air Patrol Checkpoint - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-surface-patrol-checkpoint\",\"type\":\"layer\",\"title\":\"Surface Patrol Checkpoint - UED\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"fire-weather\",\"type\":\"folder\",\"title\":\"Fire Weather\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"lightning\",\"typ",
+      "setName": "WFML-wfim-piece-2"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "e\":\"layer\",\"title\":\"Lightning\",\"isVisible\":null,\"isEnabled\":true},{\"id\":\"fire-weather---weather\",\"type\":\"folder\",\"title\":\"Weather\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"sfms-temperature\",\"type\":\"layer\",\"title\":\"Temperature - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-relative-humidity\",\"type\":\"layer\",\"title\":\"Relative Humidity - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-wind-speed\",\"type\":\"layer\",\"title\":\"Wind Speed - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-wind-direction\",\"type\":\"layer\",\"title\":\"Wind Direction - Daily\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-precipitation\",\"type\":\"layer\",\"title\":\"Precipitation - Daily\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"fire-weather---fire-weather-indices\",\"type\":\"folder\",\"title\":\"Fire Weather Indices\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"sfms-danger-rating\",\"type\":\"layer\",\"title\":\"Danger Rating\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-fine-fuel-moisture-code\",\"type\":\"layer\",\"title\":\"Fine Fuel Moisture Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-duff-moisture-code\",\"type\":\"layer\",\"title\":\"Duff Moisture Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-drought-code\",\"type\":\"layer\",\"title\":\"Drought Code\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-initial-spread-index\",\"type\":\"layer\",\"title\":\"Initial Spread Index\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-buildup-index\",\"type\":\"layer\",\"title\":\"Buildup Index\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"sfms-fire-weather-index\",\"type\":\"layer\",\"title\":\"Fire Weather Index\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"responder-safety\",\"type\":\"folder\",\"title\":\"Responder Safety\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"responder-safety---hazard\",\"type\":\"folder\",\"title\":\"Hazard\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"ued-hazard\",\"type\":\"layer\",\"title\":\"Hazards - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-refuse-site\",\"type\":\"layer\",\"title\":\"Refuse Site\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"human-life-and-safety\",\"type\":\"folder\",\"title\":\"Human Life and Safety\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"human-life-and-safety---evacuations-and-emergency-services\",\"type\":\"folder\",\"title\":\"Evacuations and Emergency Services\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-human-cultural-economic-emrg-order-and-alert-areas-sp\",\"type\":\"layer\",\"title\":\"Evacuation Order and Alert Areas\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-remote-structures\",\"type\":\"layer\",\"title\":\"Remote Structures - UED\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"critical-infrastructure\",\"type\":\"folder\",\"title\":\"Critical Infrastructure\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"critical-infrastructure---energy-utilities-and-facilities\",\"type\":\"folder\",\"title\":\"Energy, Utilities and Facilities\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-pipelines\",\"type\":\"layer\",\"title\":\"Oil and Gas - Pipeline\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-transmissionlines\",\"type\":\"layer\",\"title\":\"Transmission Line\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---communication-and-information-tech\",\"type\":\"folder\",\"title\":\"Communication and Information Tech\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-ci-flnro-radio-tower\",\"type\":\"layer\",\"title\":\"Radio Tower - FLNRO\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-ci-other-radio-tower\",\"type\":\"layer\",\"title\":\"Radio Tower - Other\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---health-care\",\"type\":\"folder\",\"title\":\"Health Care\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-imagery-and-base-maps-gsr-hospitals-svw\",\"type\":\"layer\",\"title\":\"Hospital\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---transportation---aviation\",\"type\":\"folder\",\"t",
+      "setName": "WFML-wfim-piece-3"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "itle\":\"Transportation - Aviation\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"aviation-airport\",\"type\":\"layer\",\"title\":\"Airport\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-airstrip\",\"type\":\"layer\",\"title\":\"Airstrip or Other Facility\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-hospital-heliport\",\"type\":\"layer\",\"title\":\"Hospital Heliport\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-helipad-heliport\",\"type\":\"layer\",\"title\":\"Heliport & Helipad\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"aviation-seaplane\",\"type\":\"layer\",\"title\":\"Seaplane Facility\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-airstrip\",\"type\":\"layer\",\"title\":\"Airstrip - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-forward-tanker-base\",\"type\":\"layer\",\"title\":\"Forward Tanker Base - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-helipad\",\"type\":\"layer\",\"title\":\"Helipad - UED\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"ued-medevac\",\"type\":\"layer\",\"title\":\"Medevac - UED\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"critical-infrastructure---weather-infrastructure\",\"type\":\"folder\",\"title\":\"Weather Infrastructure\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"fw-activereporting-wstn\",\"type\":\"layer\",\"title\":\"Weather Station - Active\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-imagery-and-base-maps-gsr-meteorological-stations-svw\",\"type\":\"layer\",\"title\":\"Meteorological Station\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"high-environment-cultural-values\",\"type\":\"folder\",\"title\":\"High Environment Cultural Values\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"high-environment-cultural-values---water\",\"type\":\"folder\",\"title\":\"Water\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-water-management-wls-community-ws-pub-svw\",\"type\":\"layer\",\"title\":\"Community Watershed\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"place-and-terrain-names\",\"type\":\"folder\",\"title\":\"Place and Terrain Names\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"place-and-terrain-names---annotation-labels\",\"type\":\"folder\",\"title\":\"Annotation / Labels\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-place-names\",\"type\":\"layer\",\"title\":\"Place Name\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-terrain-names\",\"type\":\"layer\",\"title\":\"Terrain Name\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"boundaries\",\"type\":\"folder\",\"title\":\"Boundaries\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"boundaries---bc-wildfire\",\"type\":\"folder\",\"title\":\"BC Wildfire\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wildfire-org-unit-fire-centre\",\"type\":\"layer\",\"title\":\"Fire Centre\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"wildfire-org-unit-fire-zone\",\"type\":\"layer\",\"title\":\"Fire Zone\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"response-areas\",\"type\":\"layer\",\"title\":\"Priority Response Areas\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---client-assets\",\"type\":\"folder\",\"title\":\"Client Assets\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"client-asset-points\",\"type\":\"layer\",\"title\":\"Client Asset Points\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"client-asset-lines\",\"type\":\"layer\",\"title\":\"Client Asset Lines\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"client-asset-polygons\",\"type\":\"layer\",\"title\":\"Client Asset Polygons\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---local-government\",\"type\":\"folder\",\"title\":\"Local Government\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"bndy-fire-departments\",\"type\":\"layer\",\"title\":\"Fire Department\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-abms-regional-districts-sp\",\"type\":\"layer\",\"title\":\"Regional District\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-abms-municipalities-sp\",\"type\":\"layer\",\"title\":\"Municipality\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---flnro\",\"type\":\"folder\",\"",
+      "setName": "WFML-wfim-piece-4"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "title\":\"FLNRO\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-admin-boundaries-adm-nr-areas-spg\",\"type\":\"layer\",\"title\":\"Natural Resource Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-adm-nr-districts-spg\",\"type\":\"layer\",\"title\":\"Natural Resource District\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-adm-nr-regions-spg\",\"type\":\"layer\",\"title\":\"Natural Resource Region\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"boundaries---tenures\",\"type\":\"folder\",\"title\":\"Tenures\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-bndy-tfl\",\"type\":\"layer\",\"title\":\"Tree Farm Licence (TFL)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"reg-legal-and-admin-boundaries-rec-tenure-alpine-ski-areas-sp\",\"type\":\"layer\",\"title\":\"Alpine Ski Area \",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-forest-tenure-ften-recreation-poly-svw\",\"type\":\"layer\",\"title\":\"Recreation Area  (RSTBC)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-forest-tenure-ften-managed-licence-poly-svw\",\"type\":\"layer\",\"title\":\"Woodlot (Active or Pending)\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"land-ownership-status\",\"type\":\"folder\",\"title\":\"Land Ownership Status\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"land-ownership-status---first-nations\",\"type\":\"folder\",\"title\":\"First Nations\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-legal-admin-boundaries-fnt-treaty-land-sp\",\"type\":\"layer\",\"title\":\"First Nation Treaty Land\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-fn-title-area\",\"type\":\"layer\",\"title\":\"First Nation Title Area\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-admin-boundaries-clab-indian-reserves\",\"type\":\"layer\",\"title\":\"Indian Reserve\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"land-ownership-status---parks-and-protected-lands\",\"type\":\"folder\",\"title\":\"Parks and Protected Lands\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-admin-boundaries-clab-national-parks\",\"type\":\"layer\",\"title\":\"National Park (BC)\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-park-ecores-pa-svw\",\"type\":\"layer\",\"title\":\"BC Parks and Protected Areas\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-wildlife-mgmt-areas-svw\",\"type\":\"layer\",\"title\":\"Wildlife Management Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-tantalis-ta-conservancy-areas-svw\",\"type\":\"layer\",\"title\":\"Conservancy Area\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-lands-sp\",\"type\":\"layer\",\"title\":\"Conservation Land\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-legal-admin-boundaries-wcl-conservation-areas-ngo-sp\",\"type\":\"layer\",\"title\":\"Conservation Land (NGO)\",\"isVisible\":false,\"isEnabled\":true}]},{\"id\":\"land-ownership-status---ownership\",\"type\":\"folder\",\"title\":\"Ownership\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-cadastre\",\"type\":\"layer\",\"title\":\"Cadastre\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"transportation-and-trails\",\"type\":\"folder\",\"title\":\"Transportation and Trails\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"transportation-and-trails---roads\",\"type\":\"folder\",\"title\":\"Roads\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-forest-service-road\",\"type\":\"layer\",\"title\":\"Forest Service Road\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"wf1-roads\",\"type\":\"layer\",\"title\":\"Road\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"transportation-and-trails---railway\",\"type\":\"folder\",\"title\":\"Railway\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-gba-railway-tracks-sp\",\"type\":\"layer\",\"title\":\"Railway\",\"isVisible\":true,\"isEnabled\":true}]},{\"id\":\"transportation-and-trails---trails-and-trailheads\",\"type\":\"folder\",\"title\":\"Trails and Trailheads\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"wf1-trails\",\"type\":\"layer\",\"title\":\"Trail\",\"isVisible\":false,\"isEnabled\":true}]}]},{\"id\":\"natural-",
+      "setName": "WFML-wfim-piece-5"
+    },
+    {
+      "cacheExpiresMillis": null,
+      "links": [
+        {
+          "rel": "self",
+          "href": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+          "method": "GET"
+        }
+      ],
+      "guid": "1E5B77AC1F846336F86754697DED6FFE",
+      "flag": "A",
+      "typeCode": "USR",
+      "subTypeCode": "bootstrap-config",
+      "dataTypeCode": "STRING",
+      "sensitiveData": false,
+      "selfLink": "https://d1api.vividsolutions.com/webade-api/v1/usertypes/GOV/users/A416A1783D964058AF31D381952B2B67/preferences/1E5B77AC1F846336F86754697DED6FFE",
+      "quotedETag": null,
+      "unquotedETag": null,
+      "applicationCode": "WFIM",
+      "name": "most.recently.used",
+      "value": "features\",\"type\":\"folder\",\"title\":\"Natural Features\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-fwa-stream-networks-sp\",\"type\":\"layer\",\"title\":\"Rivers & Streams\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"whse-basemapping-fwa-lakes-poly\",\"type\":\"layer\",\"title\":\"Lakes\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"natural-features---contours\",\"type\":\"folder\",\"title\":\"Contours\",\"isVisible\":false,\"isEnabled\":true,\"class\":null,\"items\":[{\"id\":\"whse-basemapping-nts-bc-contour-lines-125m\",\"type\":\"layer\",\"title\":\"Contours NTS (80,000 to 500,000)\",\"isVisible\":false,\"isEnabled\":true},{\"id\":\"whse-basemapping-trim-contour-lines\",\"type\":\"layer\",\"title\":\"Contours TRIM (1 to 80,000)\",\"isVisible\":false,\"isEnabled\":true}]}]}]},{\"id\":\"current-location\",\"items\":[{\"id\":\"CurrentLocationTool\",\"type\":\"group\",\"title\":\"Current Location\",\"isVisible\":true,\"isEnabled\":true,\"class\":\"smk-inline-legend\",\"items\":[{\"id\":\"CurrentLocationTool--current-location\",\"type\":\"layer\",\"title\":\"Current Location\",\"isVisible\":true,\"isEnabled\":true}]}]},{\"id\":\"identify\",\"items\":[{\"id\":\"IdentifyListTool\",\"type\":\"group\",\"title\":\"Identify Features\",\"isVisible\":false,\"isEnabled\":true,\"class\":\"smk-inline-legend\",\"items\":[{\"id\":\"IdentifyListTool--search-area\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-area\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--search-border-1\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-border-1\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--search-border-2\",\"type\":\"layer\",\"title\":\"IdentifyListTool--search-border-2\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--location\",\"type\":\"layer\",\"title\":\"Identify Location\",\"isVisible\":true,\"isEnabled\":true},{\"id\":\"IdentifyListTool--edit-search-area\",\"type\":\"layer\",\"title\":\"IdentifyListTool--edit-search-area\",\"isVisible\":true,\"isEnabled\":true}]}]}],\"minZoom\":4},\"version\":{\"app\":\"1.0.0\",\"build\":\".0000\"}}",
+      "setName": "WFML-wfim-piece-6"
+    }
+  ]
 }

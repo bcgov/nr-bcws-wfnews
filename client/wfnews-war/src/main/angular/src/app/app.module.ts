@@ -2,7 +2,11 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkTableModule } from '@angular/cdk/table';
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { APP_INITIALIZER, Injector, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -10,7 +14,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef, MatDialogModule as MatMdcDialogModule } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+  MatDialogModule as MatMdcDialogModule,
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -26,7 +35,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from "@angular/material/table";
+import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -34,7 +43,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouteReuseStrategy } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { YouTubePlayerModule } from "@angular/youtube-player";
+import { YouTubePlayerModule } from '@angular/youtube-player';
 import { DialogExitComponent } from '@app/components/report-of-fire/dialog-exit/dialog-exit.component';
 import { RoFReviewPage } from '@app/components/report-of-fire/review-page/rof-review-page.component';
 import { OwlNativeDateTimeModule } from '@busacca/ng-pick-datetime';
@@ -42,13 +51,22 @@ import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { IonicModule } from '@ionic/angular';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { EffectsModule } from '@ngrx/effects';
-import { FullRouterStateSerializer, StoreRouterConnectingModule } from '@ngrx/router-store';
+import {
+  FullRouterStateSerializer,
+  StoreRouterConnectingModule,
+} from '@ngrx/router-store';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { NgxChartsModule } from "@swimlane/ngx-charts";
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 import { AppConfigService, CoreUIModule, TokenService } from '@wf1/core-ui';
-import { ApiModule as IncidentsApiModule, Configuration as IncidentsConfiguration } from '@wf1/incidents-rest-api';
-import { ApiModule as OrgUnitApiModule, OrgUnitConfiguration } from '@wf1/orgunit-rest-api';
+import {
+  ApiModule as IncidentsApiModule,
+  Configuration as IncidentsConfiguration,
+} from '@wf1/incidents-rest-api';
+import {
+  ApiModule as OrgUnitApiModule,
+  OrgUnitConfiguration,
+} from '@wf1/orgunit-rest-api';
 import { WildfireApplicationModule } from '@wf1/wfcc-application-ui';
 import { Configuration as DocumentAPIServiceConfiguration } from '@wf1/wfdm-document-management-api';
 import { LightgalleryModule } from 'lightgallery/angular/13';
@@ -175,11 +193,11 @@ import { SingleSelectDirective } from './directives/singleselect.directive';
 import { WfnewsInterceptor } from './interceptors/wfnews-interceptor';
 import { SafePipe } from './pipes/safe.pipe';
 import { AGOLService } from './services/AGOL-service';
-import { CommonUtilityService } from "./services/common-utility.service";
+import { CommonUtilityService } from './services/common-utility.service';
 import { DocumentManagementService } from './services/document-management.service';
 import { LocalStorageService } from './services/local-storage-service';
 import { MapConfigService } from './services/map-config.service';
-import { PointIdService } from "./services/point-id.service";
+import { PointIdService } from './services/point-id.service';
 import { PublishedIncidentService } from './services/published-incident-service';
 import { ReportOfFireService } from './services/report-of-fire-service';
 import { UpdateService } from './services/update.service';
@@ -212,7 +230,7 @@ import { SearchPageComponent } from './components/search/search-page.component';
 import { AddSavedLocationComponent } from './components/saved/add-saved-location/add-saved-location.component';
 import { notificationMapComponent } from '@app/components/saved/add-saved-location/notification-map/notification-map.component';
 import { EvacOrderFullDetailsComponent } from './components/full-details/evac-order-full-details/evac-order-full-details.component';
-import { MatSliderModule } from '@angular/material/slider';  
+import { MatSliderModule } from '@angular/material/slider';
 import { NotificationService } from '@app/services/notification.service';
 import { SavedLocationFullDetailsComponent } from './components/saved/saved-location-full-details/saved-location-full-details.component';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
@@ -226,317 +244,326 @@ import { BaseDialogComponent } from './components/base-dialog/base-dialog.compon
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { HTTP } from '@ionic-native/http/ngx';
 
-
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
-    fullPickerInput: 'YYYY-MM-DD HH:mm:ss',
-    datePickerInput: 'YYYY-MM-DD',
-    timePickerInput: 'HH:mm:ss',
-    monthYearLabel: 'YYYY-MM',
-    dateA11yLabel: 'YYYY-MMM-DD',
-    monthYearA11yLabel: 'YYYY-MMM',
+  fullPickerInput: 'YYYY-MM-DD HH:mm:ss',
+  datePickerInput: 'YYYY-MM-DD',
+  timePickerInput: 'HH:mm:ss',
+  monthYearLabel: 'YYYY-MM',
+  dateA11yLabel: 'YYYY-MMM-DD',
+  monthYearA11yLabel: 'YYYY-MMM',
 };
 
 @NgModule({
-    declarations: [
-        AppComponent,
-        WFMapContainerComponent,
-        ActiveWildfireMapComponent,
-        PanelWildfireStageOfControlComponentDesktop,
-        WfAdminPanelComponentDesktop,
-        SingleSelectDirective,
-        AdminContainerDesktop,
-        AdminIncidentFormDesktop,
-        IncidentDetailsPanel,
-        ResponseDetailsPanel,
-        ContactsDetailsPanel,
-        EvacOrdersDetailsPanel,
-        AreaRestrictionsDetailsPanel,
-        IncidentContainerDesktop,
-        MapsPanel,
-        MessageDialogComponent,
-        EditMapDialogComponent,
-        UploadMapDialogComponent,
-        SignOutPageComponent,
-        ImageGalleryPanel,
-        EditImageDialogComponent,
-        UploadImageDialogComponent,
-        StickyWidgetComponent,
-        ContactWidgetDialogComponent,
-        PublishDialogComponent,
-        UnsavedChangesDialog,
-        ImageCardPanel,
-        Dashboard,
-        AdminEditDashboard,
-        WeatherPanelComponent,
-        WildfirewResourcesComponent,
-        ResourcePanelComponent,
-        ErrorPageComponent,
-        WildFiresListComponentDesktop,
-        WildfiresListContainerDesktop,
-        IncidentIdentifyPanelComponent,
-        PanelWildfireStageOfControlContainerDesktop,
-        PublicIncidentPage,
-        IncidentGalleryPanel,
-        IncidentHeaderPanel,
-        IncidentInfoPanel,
-        IncidentMapsPanel,
-        IncidentOverviewPanel,
-        SummaryPanel,
-        WildfiresListHeaderComponent,
-        WildFiresListComponentMobile,
-        BansListComponent,
-        BansListComponentDesktop,
-        BansListComponentMobile,
-        AreaRestrictionListComponent,
-        AreaRestrictionListComponentDesktop,
-        AreaRestrictionListComponentMobile,
-        EvacListComponent,
-        EvacListComponentDesktop,
-        EvacListComponentMobile,
-        FilterByLocationDialogComponent,
-        FilterOptionsDialogComponent,
-        SafePipe,
-        VideoGalleryPanel,
-        VideoCardPanel,
-        EditVideoDialogComponent,
-        UploadVideoDialogComponent,
-        DisclaimerDialogComponent,
-        IncidentInfoPanelMobileComponent,
-        IncidentOverviewPanelMobileComponent,
-        IncidentMapsPanelMobileComponent,
-        ContactUsDialogComponent,
-        IncidentGalleryPanelMobileComponent,
-        IncidentGalleryAllMediaMobileComponent,
-        IncidentGalleryImagesMobileComponent,
-        IncidentGalleryVideosMobileComponent,
-        VideoPanelComponent,
-        ImagePanelComponent,
-        ScrollToTopComponent,
-        MapToggleButtonComponent,
-        AlertOrderBannerComponent,
-        ReportOfFirePage,
-        RoFTitlePage,
-        RoFPermissionsPage,
-        RoFSimpleQuestionPage,
-        RoFComplexQuestionPage,
-        RoFContactPage,
-        RoFPhotoPage,
-        RoFLocationPage,
-        RoFCommentsPage,
-        RoFReviewPage,
-        RoFCompassPage,
-        LocationServicesDialogComponent,
-        DialogLocationComponent,
-        RoFDisclaimerPage,
-        RofCallPage,
-        DialogExitComponent,
-        OverviewWidget,
-        SituationWidget,
-        SummaryWidget,
-        ActiveFiresWidget,
-        ResourcesWidget,
-        EvacuationsWidget,
-        BansWidget,
-        FiresOfNoteWidget,
-        FireCauseWidget,
-        BlogWidget,
-        VideosWidget,
-        FireTotalsWidget,
-        HistoricalComparisonWidget,
-        FireCentreStatsWidget,
-        MapToggleButtonComponent,
-        DraggablePanelComponent,
-        MobileSlidingDrawerComponent,
-        MapTypePickerComponent,
-        CheckboxButtonComponent,
-        MapLayersDrawerSectionComponent,
-        MapLayersDataSourceDrawerSectionComponent,
-        FullDetailsComponent,
-        AreaRestrictionsFullDetailsComponent,
-        DangerRatingFullDetailsComponent,
-        LinkButtonComponent,
-        SavedComponent,
-        MoreComponent,
-        BansFullDetailsComponent,
-        EvacAlertFullDetailsComponent,
-        EvacOrderFullDetailsComponent,
-        EvacOtherInfoComponent,
-        BaseLegendComponent,
-        MapLegendComponent,
-        FireLegendComponent,
-        EvacLegendComponent,
-        BansLegendComponent,
-        AreaRestrictionLegendComponent,
-        DangerRatingLegendComponent,
-        SmokeLegendComponent,
-        RoadEventLegendComponent,
-        LocalAuthoritiesLegendComponent,
-        PrecipRadarLegendComponent,
-        PrecipForecastLegendComponent,
-        RecSiteLegendComponent,
-        ProtectedLandsLegendComponent,
-        SearchPageComponent,
-        AddSavedLocationComponent,
-        notificationMapComponent,
-        SavedLocationFullDetailsComponent,
-        ConfirmationDialogComponent,
-        WildfireNotificationDialogComponent,
-        SavedLocationWeatherDetailsComponent,
-        WeatherHistoryComponent,
-        WeatherHistoryOptionsDialogComponent,
-        BaseDialogComponent,
-        NotificationSnackbarComponent
-    ],
-    imports: [
-        MatSortModule,
-        MatProgressSpinnerModule,
-        MatProgressBarModule,
-        MatTableModule,
-        MatSnackBarModule,
-        MatButtonToggleModule,
-        HttpClientModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        CommonModule,
-        CdkTableModule,
-        DragDropModule,
-        FormsModule,
-        ReactiveFormsModule,
-        ROUTING,
-        MatButtonModule,
-        MatDialogModule,
-        MatMdcDialogModule,
-        MatDividerModule,
-        MatIconModule,
-        MatListModule,
-        MatMenuModule,
-        MatRadioModule,
-        MatInputModule,
-        MatCheckboxModule,
-        MatFormFieldModule,
-        MatExpansionModule,
-        MatSelectModule,
-        MatGridListModule,
-        MatCardModule,
-        MatTableModule,
-        MatTabsModule,
-        MatProgressSpinnerModule,
-        OwlDateTimeModule,
-        OwlNativeDateTimeModule,
-        OwlMomentDateTimeModule,
-        CKEditorModule,
-        CoreUIModule.forRoot({ configurationPath: environment.app_config_location }),
-        IncidentsApiModule,
-        OrgUnitApiModule,
-        MatTooltipModule,
-        MatAutocompleteModule,
-        LightgalleryModule,
-        StoreModule.forRoot(rootReducers, {
-            initialState: initialRootState,
-            // metaReducers: metaReducers,
-            runtimeChecks: {
-                strictStateImmutability: false,
-                strictActionImmutability: false,
-            }
-        }),
-        StoreRouterConnectingModule.forRoot({ serializer: FullRouterStateSerializer, stateKey: 'router' }),
-        StoreDevtoolsModule.instrument({
-            maxAge: 25,
-            logOnly: environment.production, // Restrict extension to log-only mode
-        }),
-        EffectsModule.forRoot([]),
-        ServiceWorkerModule.register('wfnews-service-worker.js', { enabled: environment.production, scope: './' }),
-        ScrollingModule,
-        WildfireApplicationModule.forRoot(),
-        MatToolbarModule,
-        MatSlideToggleModule,
-        MatExpansionModule,
-        NgxPaginationModule,
-        NgxChartsModule,
-        YouTubePlayerModule,
-        NgxMaskModule.forRoot(),
-        IonicStorageModule.forRoot(),
-        IonicModule.forRoot(),
-        MatSliderModule,
-        GoogleChartsModule
-    ],
-    providers: [
-        // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
-        // providers have finished initializing.
-        // See https://github.com/ngrx/platform/issues/931 for more information.
-        provideBootstrapEffects(rootEffects),
-        {
-            provide: APP_BASE_HREF,
-            useValue: environment.app_base
-        },
-        {
-            provide: RouteReuseStrategy,
-            useClass: CustomReuseStrategy
-        },
-        AGOLService,
-        TokenService,
-        UpdateService,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: codeTableAndUserPrefFnInit,
-            multi: true,
-            deps: [AppConfigService, HttpClient, Injector]
-        },
+  declarations: [
+    AppComponent,
+    WFMapContainerComponent,
+    ActiveWildfireMapComponent,
+    PanelWildfireStageOfControlComponentDesktop,
+    WfAdminPanelComponentDesktop,
+    SingleSelectDirective,
+    AdminContainerDesktop,
+    AdminIncidentFormDesktop,
+    IncidentDetailsPanel,
+    ResponseDetailsPanel,
+    ContactsDetailsPanel,
+    EvacOrdersDetailsPanel,
+    AreaRestrictionsDetailsPanel,
+    IncidentContainerDesktop,
+    MapsPanel,
+    MessageDialogComponent,
+    EditMapDialogComponent,
+    UploadMapDialogComponent,
+    SignOutPageComponent,
+    ImageGalleryPanel,
+    EditImageDialogComponent,
+    UploadImageDialogComponent,
+    StickyWidgetComponent,
+    ContactWidgetDialogComponent,
+    PublishDialogComponent,
+    UnsavedChangesDialog,
+    ImageCardPanel,
+    Dashboard,
+    AdminEditDashboard,
+    WeatherPanelComponent,
+    WildfirewResourcesComponent,
+    ResourcePanelComponent,
+    ErrorPageComponent,
+    WildFiresListComponentDesktop,
+    WildfiresListContainerDesktop,
+    IncidentIdentifyPanelComponent,
+    PanelWildfireStageOfControlContainerDesktop,
+    PublicIncidentPage,
+    IncidentGalleryPanel,
+    IncidentHeaderPanel,
+    IncidentInfoPanel,
+    IncidentMapsPanel,
+    IncidentOverviewPanel,
+    SummaryPanel,
+    WildfiresListHeaderComponent,
+    WildFiresListComponentMobile,
+    BansListComponent,
+    BansListComponentDesktop,
+    BansListComponentMobile,
+    AreaRestrictionListComponent,
+    AreaRestrictionListComponentDesktop,
+    AreaRestrictionListComponentMobile,
+    EvacListComponent,
+    EvacListComponentDesktop,
+    EvacListComponentMobile,
+    FilterByLocationDialogComponent,
+    FilterOptionsDialogComponent,
+    SafePipe,
+    VideoGalleryPanel,
+    VideoCardPanel,
+    EditVideoDialogComponent,
+    UploadVideoDialogComponent,
+    DisclaimerDialogComponent,
+    IncidentInfoPanelMobileComponent,
+    IncidentOverviewPanelMobileComponent,
+    IncidentMapsPanelMobileComponent,
+    ContactUsDialogComponent,
+    IncidentGalleryPanelMobileComponent,
+    IncidentGalleryAllMediaMobileComponent,
+    IncidentGalleryImagesMobileComponent,
+    IncidentGalleryVideosMobileComponent,
+    VideoPanelComponent,
+    ImagePanelComponent,
+    ScrollToTopComponent,
+    MapToggleButtonComponent,
+    AlertOrderBannerComponent,
+    ReportOfFirePage,
+    RoFTitlePage,
+    RoFPermissionsPage,
+    RoFSimpleQuestionPage,
+    RoFComplexQuestionPage,
+    RoFContactPage,
+    RoFPhotoPage,
+    RoFLocationPage,
+    RoFCommentsPage,
+    RoFReviewPage,
+    RoFCompassPage,
+    LocationServicesDialogComponent,
+    DialogLocationComponent,
+    RoFDisclaimerPage,
+    RofCallPage,
+    DialogExitComponent,
+    OverviewWidget,
+    SituationWidget,
+    SummaryWidget,
+    ActiveFiresWidget,
+    ResourcesWidget,
+    EvacuationsWidget,
+    BansWidget,
+    FiresOfNoteWidget,
+    FireCauseWidget,
+    BlogWidget,
+    VideosWidget,
+    FireTotalsWidget,
+    HistoricalComparisonWidget,
+    FireCentreStatsWidget,
+    MapToggleButtonComponent,
+    DraggablePanelComponent,
+    MobileSlidingDrawerComponent,
+    MapTypePickerComponent,
+    CheckboxButtonComponent,
+    MapLayersDrawerSectionComponent,
+    MapLayersDataSourceDrawerSectionComponent,
+    FullDetailsComponent,
+    AreaRestrictionsFullDetailsComponent,
+    DangerRatingFullDetailsComponent,
+    LinkButtonComponent,
+    SavedComponent,
+    MoreComponent,
+    BansFullDetailsComponent,
+    EvacAlertFullDetailsComponent,
+    EvacOrderFullDetailsComponent,
+    EvacOtherInfoComponent,
+    BaseLegendComponent,
+    MapLegendComponent,
+    FireLegendComponent,
+    EvacLegendComponent,
+    BansLegendComponent,
+    AreaRestrictionLegendComponent,
+    DangerRatingLegendComponent,
+    SmokeLegendComponent,
+    RoadEventLegendComponent,
+    LocalAuthoritiesLegendComponent,
+    PrecipRadarLegendComponent,
+    PrecipForecastLegendComponent,
+    RecSiteLegendComponent,
+    ProtectedLandsLegendComponent,
+    SearchPageComponent,
+    AddSavedLocationComponent,
+    notificationMapComponent,
+    SavedLocationFullDetailsComponent,
+    ConfirmationDialogComponent,
+    WildfireNotificationDialogComponent,
+    SavedLocationWeatherDetailsComponent,
+    WeatherHistoryComponent,
+    WeatherHistoryOptionsDialogComponent,
+    BaseDialogComponent,
+    NotificationSnackbarComponent,
+  ],
+  imports: [
+    MatSortModule,
+    MatProgressSpinnerModule,
+    MatProgressBarModule,
+    MatTableModule,
+    MatSnackBarModule,
+    MatButtonToggleModule,
+    HttpClientModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
+    CdkTableModule,
+    DragDropModule,
+    FormsModule,
+    ReactiveFormsModule,
+    ROUTING,
+    MatButtonModule,
+    MatDialogModule,
+    MatMdcDialogModule,
+    MatDividerModule,
+    MatIconModule,
+    MatListModule,
+    MatMenuModule,
+    MatRadioModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatExpansionModule,
+    MatSelectModule,
+    MatGridListModule,
+    MatCardModule,
+    MatTableModule,
+    MatTabsModule,
+    MatProgressSpinnerModule,
+    OwlDateTimeModule,
+    OwlNativeDateTimeModule,
+    OwlMomentDateTimeModule,
+    CKEditorModule,
+    CoreUIModule.forRoot({
+      configurationPath: environment.app_config_location,
+    }),
+    IncidentsApiModule,
+    OrgUnitApiModule,
+    MatTooltipModule,
+    MatAutocompleteModule,
+    LightgalleryModule,
+    StoreModule.forRoot(rootReducers, {
+      initialState: initialRootState,
+      // metaReducers: metaReducers,
+      runtimeChecks: {
+        strictStateImmutability: false,
+        strictActionImmutability: false,
+      },
+    }),
+    StoreRouterConnectingModule.forRoot({
+      serializer: FullRouterStateSerializer,
+      stateKey: 'router',
+    }),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production, // Restrict extension to log-only mode
+    }),
+    EffectsModule.forRoot([]),
+    ServiceWorkerModule.register('wfnews-service-worker.js', {
+      enabled: environment.production,
+      scope: './',
+    }),
+    ScrollingModule,
+    WildfireApplicationModule.forRoot(),
+    MatToolbarModule,
+    MatSlideToggleModule,
+    MatExpansionModule,
+    NgxPaginationModule,
+    NgxChartsModule,
+    YouTubePlayerModule,
+    NgxMaskModule.forRoot(),
+    IonicStorageModule.forRoot(),
+    IonicModule.forRoot(),
+    MatSliderModule,
+    GoogleChartsModule,
+  ],
+  providers: [
+    // Added provideBootstrapEffects function to handle the ngrx issue that loads effects before APP_INITIALIZER
+    // providers have finished initializing.
+    // See https://github.com/ngrx/platform/issues/931 for more information.
+    provideBootstrapEffects(rootEffects),
+    {
+      provide: APP_BASE_HREF,
+      useValue: environment.app_base,
+    },
+    {
+      provide: RouteReuseStrategy,
+      useClass: CustomReuseStrategy,
+    },
+    AGOLService,
+    TokenService,
+    UpdateService,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: codeTableAndUserPrefFnInit,
+      multi: true,
+      deps: [AppConfigService, HttpClient, Injector],
+    },
 
-        {
-            provide: IncidentsConfiguration,
-            useFactory(appConfig: AppConfigService) {
-                return new IncidentsConfiguration({ basePath: appConfig.getConfig().rest.incidents });
-            },
-            multi: false,
-            deps: [AppConfigService]
-        },
-        {
-            provide: OrgUnitConfiguration,
-            useFactory(appConfig: AppConfigService) {
-                return new OrgUnitConfiguration({ basePath: appConfig.getConfig().rest.orgunit });
-            },
-            multi: false,
-            deps: [AppConfigService]
-        },
-        {
-            provide: DocumentAPIServiceConfiguration,
-            useFactory(appConfig: AppConfigService) {
-                return new DocumentAPIServiceConfiguration({ basePath: appConfig.getConfig().rest.wfdm });
-            },
-            multi: false,
-            deps: [AppConfigService]
-        },
-        {
-            provide: OWL_DATE_TIME_FORMATS,
-            useValue: DATE_FORMATS
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: WfnewsInterceptor,
-            multi: true
-        },
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} },
-        WFMapService,
-        MapConfigService,
-        CommonUtilityService,
-        DocumentManagementService,
-        PublishedIncidentService,
-        LocalStorageService,
-        WatchlistService,
-        PointIdService,
-        CanDeactivateGuard,
-        ReportOfFireService,
-        NotificationService,
-        GoogleChartsService, 
-        HTTP
-    ],
-    bootstrap: [
-        AppComponent
-    ]
+    {
+      provide: IncidentsConfiguration,
+      useFactory(appConfig: AppConfigService) {
+        return new IncidentsConfiguration({
+          basePath: appConfig.getConfig().rest.incidents,
+        });
+      },
+      multi: false,
+      deps: [AppConfigService],
+    },
+    {
+      provide: OrgUnitConfiguration,
+      useFactory(appConfig: AppConfigService) {
+        return new OrgUnitConfiguration({
+          basePath: appConfig.getConfig().rest.orgunit,
+        });
+      },
+      multi: false,
+      deps: [AppConfigService],
+    },
+    {
+      provide: DocumentAPIServiceConfiguration,
+      useFactory(appConfig: AppConfigService) {
+        return new DocumentAPIServiceConfiguration({
+          basePath: appConfig.getConfig().rest.wfdm,
+        });
+      },
+      multi: false,
+      deps: [AppConfigService],
+    },
+    {
+      provide: OWL_DATE_TIME_FORMATS,
+      useValue: DATE_FORMATS,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: WfnewsInterceptor,
+      multi: true,
+    },
+    { provide: MAT_DIALOG_DATA, useValue: {} },
+    { provide: MatDialogRef, useValue: {} },
+    WFMapService,
+    MapConfigService,
+    CommonUtilityService,
+    DocumentManagementService,
+    PublishedIncidentService,
+    LocalStorageService,
+    WatchlistService,
+    PointIdService,
+    CanDeactivateGuard,
+    ReportOfFireService,
+    NotificationService,
+    GoogleChartsService,
+    HTTP,
+  ],
+  bootstrap: [AppComponent],
 })
-
-export class AppModule { }
-
+export class AppModule {}

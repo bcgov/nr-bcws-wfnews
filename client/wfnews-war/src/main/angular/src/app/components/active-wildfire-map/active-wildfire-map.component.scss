@@ -1,5 +1,5 @@
 :host {
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@
 }
 
 .fire-icon {
-  color: #FCBA19;
+  color: #fcba19;
   border-radius: 50%;
   margin-right: 8px;
 }
@@ -100,7 +100,9 @@
 }
 
 //mat-input focused color
-::ng-deep .mat-mdc-form-field-appearance-outline.mat-mdc-focused .mat-mdc-form-field-outline-thick {
+::ng-deep
+  .mat-mdc-form-field-appearance-outline.mat-mdc-focused
+  .mat-mdc-form-field-outline-thick {
   border-right: none;
 }
 
@@ -109,13 +111,17 @@
   box-shadow: none !important;
 }
 
-.mat-accordion mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header,
-.mat-accordion mat-expansion-panel.mat-expansion-panel-spacing .mat-expansion-panel-header {
+.mat-accordion
+  mat-expansion-panel:not(.mat-expanded)
+  .mat-expansion-panel-header,
+.mat-accordion
+  mat-expansion-panel.mat-expansion-panel-spacing
+  .mat-expansion-panel-header {
   border-bottom: none;
 }
 
 mat-expansion-panel-header {
-  background-color: white
+  background-color: white;
 }
 
 mat-panel-title {
@@ -146,7 +152,7 @@ mat-panel-title {
   color: #1c5a97;
   padding: 10px 20px;
   margin-bottom: 10px;
-  background-color: white
+  background-color: white;
 }
 
 @media screen and (max-width: 1300px) {
@@ -181,8 +187,8 @@ mat-panel-title {
     display: none !important;
   }
 
-  ::ng-deep .smk-sidepanel{
-    display: none !important
+  ::ng-deep .smk-sidepanel {
+    display: none !important;
   }
 
   ::ng-deep .menu-bar {
@@ -204,8 +210,8 @@ mat-panel-title {
     flex-direction: column;
   }
 
-  .identify-panel{
-    display: none !important
+  .identify-panel {
+    display: none !important;
   }
 
   .title {
@@ -213,7 +219,9 @@ mat-panel-title {
   }
 
   .container {
-    height: calc(100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)) !important;
+    height: calc(
+      100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
+    ) !important;
     overflow: hidden;
   }
 
@@ -226,7 +234,7 @@ mat-panel-title {
     color: white;
     z-index: 999999;
     position: relative;
-    opacity: 1.0;
+    opacity: 1;
     transition: 0.5s;
 
     .fire-icon {
@@ -246,7 +254,9 @@ mat-panel-title {
       display: none !important; // Hiding this but included style to match other buttons we need to show
       right: 13px !important;
       top: 120px !important;
-      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+      box-shadow:
+        0 1px 2px rgba(60, 64, 67, 0.3),
+        0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
       border-radius: 20px !important;
     }
     top: 22px !important;
@@ -305,7 +315,12 @@ mat-panel-title {
       // One value must always be a fixed value!
       // additionally, this is a vh calc, not a height%, otherwise heights will be different across
       // devices
-      height: calc(100vh - env(safe-area-inset-bottom, 90px) - env(safe-area-inset-top, 90px) - 90px) !important;
+      height: calc(
+        100vh - env(safe-area-inset-bottom, 90px) - env(
+            safe-area-inset-top,
+            90px
+          ) - 90px
+      ) !important;
 
       .identify-panel {
         height: 100% !important;
@@ -315,7 +330,6 @@ mat-panel-title {
     }
     .map01 {
       height: calc(100vh - 110px - 90px) !important;
-
     }
   }
 
@@ -369,32 +383,32 @@ mat-panel-title {
       height: 90%;
       border-radius: 20px;
 
-      .draggable-panel-title{
+      .draggable-panel-title {
         font-size: 18px;
         color: #242424;
         padding: 20px 10px;
-        border-bottom: 1px solid #DEDEDE;
+        border-bottom: 1px solid #dedede;
         display: flex;
         justify-content: space-between;
         align-items: center;
       }
 
-      .criteria-title{
+      .criteria-title {
         font-size: 18px;
         color: #242424;
         padding: 20px 10px;
       }
 
-      .widget-card{
+      .widget-card {
         padding: 8px;
       }
 
-      .widget-row{
+      .widget-row {
         display: flex;
         padding: 12px;
         align-items: center;
         border-radius: 8px;
-        background: #F2F2F6;
+        background: #f2f2f6;
         display: flex;
         justify-content: space-between;
       }
@@ -404,37 +418,37 @@ mat-panel-title {
         align-items: center;
       }
 
-      .incident-icon{
+      .incident-icon {
         margin-right: 12px;
       }
 
-      .circle-icon{
-        &.active-wildfires-holding{
-            background-color: #ffff00;
-            border: 1px solid black;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
+      .circle-icon {
+        &.active-wildfires-holding {
+          background-color: #ffff00;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
         }
-        &.active-wildfires-out-of-control{
-            background-color: #FF0000;
-            border: 1px solid black;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
+        &.active-wildfires-out-of-control {
+          background-color: #ff0000;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
         }
-        &.active-wildfires-under-control{
-            background-color: #98E600;
-            border: 1px solid black;
-            border-radius: 50%;
-            width: 18px;
-            height: 18px;
-            margin-right: 12px;
+        &.active-wildfires-under-control {
+          background-color: #98e600;
+          border: 1px solid black;
+          border-radius: 50%;
+          width: 18px;
+          height: 18px;
+          margin-right: 12px;
         }
-        &.active-wildfires-out{
-          background-color: #5C6671;
+        &.active-wildfires-out {
+          background-color: #5c6671;
           border: 1px solid black;
           border-radius: 50%;
           width: 18px;
@@ -462,7 +476,7 @@ mat-panel-title {
 }
 
 .drawer-section-divider {
-  background-color: #DEDEDE;
+  background-color: #dedede;
   height: 1px;
   border: none;
   margin-top: 24px;
@@ -498,7 +512,7 @@ mat-panel-title {
     align-items: center;
 
     border-radius: 5px;
-    border: 1px solid var(--Grey-2, #A7A7A7);
+    border: 1px solid var(--Grey-2, #a7a7a7);
 
     /* Body 1 */
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -541,11 +555,13 @@ mat-panel-title {
       flex-shrink: 0;
       height: 30px;
       border-radius: 20px;
-      background: #FFF;
-      box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
-      border: 1px solid #C4C4C4;
+      background: #fff;
+      box-shadow:
+        0 1px 2px rgba(60, 64, 67, 0.3),
+        0 1px 3px 1px rgba(60, 64, 67, 0.15);
+      border: 1px solid #c4c4c4;
       &::placeholder {
-        color:#767676;
+        color: #767676;
         font-size: 1rem;
       }
     }
@@ -569,11 +585,13 @@ mat-panel-title {
 .button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   background-color: #ffffff;
   margin-left: auto;
   height: 34px !important;
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+  box-shadow:
+    0 1px 2px rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
 }
 
 .button-label {
@@ -588,7 +606,9 @@ mat-panel-title {
   position: relative;
 }
 
-::ng-deep .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above) .mdc-menu-surface.mat-mdc-autocomplete-panel {
+::ng-deep
+  .cdk-overlay-pane:not(.mat-mdc-autocomplete-panel-above)
+  .mdc-menu-surface.mat-mdc-autocomplete-panel {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow-y: auto;
@@ -599,7 +619,9 @@ mat-panel-title {
 .layer-scroll-button {
   position: absolute;
   background: white !important;
-  box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
+  box-shadow:
+    0 1px 2px rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15) !important;
   width: 30px;
   height: 30px;
   z-index: 2000 !important;
@@ -615,7 +637,7 @@ mat-panel-title {
   margin-top: 3px;
 }
 
-.notification-test-button{
+.notification-test-button {
   position: absolute;
   left: 20px;
   z-index: 1000;

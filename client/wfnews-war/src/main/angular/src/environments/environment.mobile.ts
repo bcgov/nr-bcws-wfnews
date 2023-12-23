@@ -4,11 +4,10 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-	production: true,
-	override_webade_preference_config: '',
-	webade_preference_config: '',
-	app_config_location: '/assets/data/appConfig.mobile.json',
-	app_base: '/',
-    document_management_proxy_auth_url: '/auth'
+  production: true,
+  override_webade_preference_config: '',
+  webade_preference_config: '',
+  app_config_location: '/assets/data/appConfig.mobile.json',
+  app_base: '/',
+  document_management_proxy_auth_url: '/auth',
 };
-

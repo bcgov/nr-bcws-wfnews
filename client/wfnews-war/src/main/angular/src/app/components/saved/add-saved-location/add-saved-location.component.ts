@@ -14,160 +14,199 @@ import { isMobileView } from '@app/utils';
 import { debounceTime } from 'rxjs/operators';
 
 export class LocationData {
-  public notificationName : string;
-  public latitude: number
-  public longitude: number
-  public radius: number = 50
-  public searchText: string
-  public useUserLocation = false
-  public chooseLocationOnMap = false
+  public notificationName: string;
+  public latitude: number;
+  public longitude: number;
+  public radius = 50;
+  public searchText: string;
+  public useUserLocation = false;
+  public chooseLocationOnMap = false;
   public pushNotificationsWildfires = true;
   public pushNotificationsFireBans = true;
   public inAppNotificationsWildfires = true;
   public inAppNotificationsFireBans = true;
 }
 
-
 @Component({
   selector: 'wfnews-add-saved-location',
   templateUrl: './add-saved-location.component.html',
-  styleUrls: ['./add-saved-location.component.scss']
+  styleUrls: ['./add-saved-location.component.scss'],
 })
-export class AddSavedLocationComponent implements OnInit{
+export class AddSavedLocationComponent implements OnInit {
   searchText = undefined;
   public filteredOptions = [];
-  private sortedAddressList: string[] = [];
-  public locationData = new LocationData;
-  private placeData: PlaceData;
+  public locationData = new LocationData();
   currentLocation: any;
-  radiusDistance:number;
-  notificationName:string;
-  public searchByLocationControl = new UntypedFormControl
-  savedLocation : any;
+  radiusDistance: number;
+  notificationName: string;
+  public searchByLocationControl = new UntypedFormControl();
+  savedLocation: any;
   locationToEditOrDelete;
-  isEdit : boolean;
+  isEdit: boolean;
+  isMobileView = isMobileView;
 
-  isMobileView = isMobileView
+  private placeData: PlaceData;
+  private sortedAddressList: string[] = [];
 
-  constructor( private commonUtilityService: CommonUtilityService,  protected dialog: MatDialog, private router: Router, private cdr: ChangeDetectorRef,
-    private notificationService: NotificationService, protected snackbarService: MatSnackBar, private route: ActivatedRoute, private capacitor: CapacitorService
-    ) {
-    this.locationData = new LocationData
+  constructor(
+    private commonUtilityService: CommonUtilityService,
+    protected dialog: MatDialog,
+    private router: Router,
+    private cdr: ChangeDetectorRef,
+    private notificationService: NotificationService,
+    protected snackbarService: MatSnackBar,
+    private route: ActivatedRoute,
+    private capacitor: CapacitorService,
+  ) {
+    this.locationData = new LocationData();
     this.placeData = new PlaceData();
-    let self = this;
+    const self = this;
 
-    this.searchByLocationControl.valueChanges.pipe(debounceTime(200)).subscribe((val:string)=>{
-
-      if(!val) {
+    this.searchByLocationControl.valueChanges
+      .pipe(debounceTime(200))
+      .subscribe((val: string) => {
+        if (!val) {
           this.filteredOptions = [];
           this.locationData.latitude = this.locationData?.latitude || undefined;
-          this.locationData.longitude = this.locationData?.longitude || undefined;
+          this.locationData.longitude =
+            this.locationData?.longitude || undefined;
           this.searchText = this.locationData?.searchText || undefined;
           return;
-      }
+        }
 
-      if (val.length > 2) {
-        this.filteredOptions = [];
-        this.placeData.searchAddresses(val).then(function (results) {
-          if (results) {
-            results.forEach(() => {
-              self.sortedAddressList = self.commonUtilityService.sortAddressList(results, val);
-            });
-            self.filteredOptions = self.sortedAddressList;
-          }
-        });
-      }
-    });
+        if (val.length > 2) {
+          this.filteredOptions = [];
+          this.placeData.searchAddresses(val).then(function(results) {
+            if (results) {
+              results.forEach(() => {
+                self.sortedAddressList =
+                  self.commonUtilityService.sortAddressList(results, val);
+              });
+              self.filteredOptions = self.sortedAddressList;
+            }
+          });
+        }
+      });
   }
 
   isWebDevice() {
-    return this.capacitor.isWebPlatform
+    return this.capacitor.isWebPlatform;
   }
 
   ngOnInit(): void {
     this.useMyCurrentLocation();
-    this.route.queryParams.subscribe(params => {
-      if (params && params.location){
+    this.route.queryParams.subscribe((params) => {
+      if (params && params.location) {
         const location = JSON.parse(params.location);
-        this.locationToEditOrDelete = location
+        this.locationToEditOrDelete = location;
         this.isEdit = true;
-        this.locationData.notificationName = this.locationToEditOrDelete.notificationName
-        this.locationData.searchText = this.locationToEditOrDelete.point.coordinates[1] + ',' + this.locationToEditOrDelete.point.coordinates[0]
+        this.locationData.notificationName =
+          this.locationToEditOrDelete.notificationName;
+        this.locationData.searchText =
+          this.locationToEditOrDelete.point.coordinates[1] +
+          ',' +
+          this.locationToEditOrDelete.point.coordinates[0];
         if (this.locationToEditOrDelete.topics.length) {
-          if (this.locationToEditOrDelete.topics.includes("BCWS_ActiveFires_PublicView") && this.locationToEditOrDelete.topics.includes("Evacuation_Orders_and_Alerts")) {
+          if (
+            this.locationToEditOrDelete.topics.includes(
+              'BCWS_ActiveFires_PublicView',
+            ) &&
+            this.locationToEditOrDelete.topics.includes(
+              'Evacuation_Orders_and_Alerts',
+            )
+          ) {
             this.locationData.pushNotificationsWildfires = true;
           }
-          if (this.locationToEditOrDelete.topics.includes("British_Columbia_Bans_and_Prohibition_Areas") && this.locationToEditOrDelete.topics.includes("British_Columbia_Area_Restrictions")) {
+          if (
+            this.locationToEditOrDelete.topics.includes(
+              'British_Columbia_Bans_and_Prohibition_Areas',
+            ) &&
+            this.locationToEditOrDelete.topics.includes(
+              'British_Columbia_Area_Restrictions',
+            )
+          ) {
             this.locationData.pushNotificationsFireBans = true;
           }
+        } else {
+          this.locationData.pushNotificationsFireBans = false;
+          this.locationData.pushNotificationsWildfires = false;
         }
-        else{
-          this.locationData.pushNotificationsFireBans = false
-          this.locationData.pushNotificationsWildfires = false
-        }
-        this.locationData.radius = this.locationToEditOrDelete.radius
-        this.locationData.latitude = this.locationToEditOrDelete.point.coordinates[1]
-        this.locationData.longitude = this.locationToEditOrDelete.point.coordinates[0]
+        this.locationData.radius = this.locationToEditOrDelete.radius;
+        this.locationData.latitude =
+          this.locationToEditOrDelete.point.coordinates[1];
+        this.locationData.longitude =
+          this.locationToEditOrDelete.point.coordinates[0];
       }
     });
   }
 
   async useMyCurrentLocation() {
-    this.currentLocation = await this.commonUtilityService.getCurrentLocationPromise()
+    this.currentLocation =
+      await this.commonUtilityService.getCurrentLocationPromise();
   }
 
   onLocationSelected(selectedOption) {
-    const locationControlValue = selectedOption.address ? selectedOption.address : selectedOption.localityName;
-    this.searchByLocationControl.setValue(locationControlValue.trim(), { onlySelf: true, emitEvent: false });
-
-    this.locationData.latitude = selectedOption.loc[1]
-    this.locationData.longitude = selectedOption.loc[0]
-    this.locationData.searchText = this.searchText
-  }
-
-  async useUserLocation () {
-    this.commonUtilityService.checkLocationServiceStatus().then(async (enabled) => {
-      if (!enabled) {
-        let dialogRef = this.dialog.open(DialogLocationComponent, {
-          autoFocus: false,
-          width: '80vw',
-        });
-      }else {
-        this.locationData.useUserLocation = true
-
-        if (this.locationData.useUserLocation) {
-          this.searchText = undefined
-
-          const location = await this.commonUtilityService.getCurrentLocationPromise()
-          this.locationData.latitude = location.coords.latitude
-          this.locationData.longitude = location.coords.longitude
-          this.searchText = this.locationData.latitude.toFixed(2).toString() + ', ' + this.locationData.longitude.toFixed(2).toString();
-        } else {
-          this.searchText = null
-        }
-
-        this.locationData.searchText = this.searchText
-      }
+    const locationControlValue = selectedOption.address
+      ? selectedOption.address
+      : selectedOption.localityName;
+    this.searchByLocationControl.setValue(locationControlValue.trim(), {
+      onlySelf: true,
+      emitEvent: false,
     });
-    this.cdr.detectChanges()
 
+    this.locationData.latitude = selectedOption.loc[1];
+    this.locationData.longitude = selectedOption.loc[0];
+    this.locationData.searchText = this.searchText;
   }
 
-  chooseOnMap(){
-    let dialogRef = this.dialog.open(notificationMapComponent, {
+  async useUserLocation() {
+    this.commonUtilityService
+      .checkLocationServiceStatus()
+      .then(async (enabled) => {
+        if (!enabled) {
+          const dialogRef = this.dialog.open(DialogLocationComponent, {
+            autoFocus: false,
+            width: '80vw',
+          });
+        } else {
+          this.locationData.useUserLocation = true;
+
+          if (this.locationData.useUserLocation) {
+            this.searchText = undefined;
+
+            const location =
+              await this.commonUtilityService.getCurrentLocationPromise();
+            this.locationData.latitude = location.coords.latitude;
+            this.locationData.longitude = location.coords.longitude;
+            this.searchText =
+              this.locationData.latitude.toFixed(2).toString() +
+              ', ' +
+              this.locationData.longitude.toFixed(2).toString();
+          } else {
+            this.searchText = null;
+          }
+
+          this.locationData.searchText = this.searchText;
+        }
+      });
+    this.cdr.detectChanges();
+  }
+
+  chooseOnMap() {
+    const dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
       height: '100vh',
-      data:{
+      data: {
         currentLocation: this.currentLocation,
-        title: 'Choose location on the map'
-      }
+        title: 'Choose location on the map',
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result['exit'] && result['location']) {
-        this.locationData.chooseLocationOnMap = true
-        this.locationData.latitude=Number(result['location'].lat);
-        this.locationData.longitude=Number(result['location'].lng);
+        this.locationData.chooseLocationOnMap = true;
+        this.locationData.latitude = Number(result['location'].lat);
+        this.locationData.longitude = Number(result['location'].lng);
         // this.searchText = result['location'].lat.toString() + ', ' + result['location'].lng.toString();
       }
     });
@@ -180,33 +219,33 @@ export class AddSavedLocationComponent implements OnInit{
     this.locationData.longitude = null;
   }
 
-  closeUserLocation(event :Event): void{
+  closeUserLocation(event: Event): void {
     event.stopPropagation();
     this.locationData.useUserLocation = false;
     this.locationData.latitude = null;
     this.locationData.longitude = null;
   }
 
-  chooseRadiusOnMap(){
-    let dialogRef = this.dialog.open(notificationMapComponent, {
+  chooseRadiusOnMap() {
+    const dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
       height: '100vh',
-      data:{
+      data: {
         currentLocation: this.currentLocation,
         title: 'Notification Radius',
         lat: this.locationData.latitude,
-        long: this.locationData.longitude
-      }
+        long: this.locationData.longitude,
+      },
     });
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result['exit'] && result['location']) {
-        this.locationData.chooseLocationOnMap = true
-        this.locationData.latitude=Number(result['location'].lat);
-        this.locationData.longitude=Number(result['location'].lng);
+        this.locationData.chooseLocationOnMap = true;
+        this.locationData.latitude = Number(result['location'].lat);
+        this.locationData.longitude = Number(result['location'].lng);
       }
       if (result['radius']) {
-        this.locationData.radius = result['radius']
+        this.locationData.radius = result['radius'];
       }
     });
   }
@@ -214,88 +253,107 @@ export class AddSavedLocationComponent implements OnInit{
   saveLocation() {
     this.fetchSavedLocation().then(() => {
       if (this.isEdit) {
-        this.savedLocation = this.savedLocation.filter(item =>
-          item.notificationName !== this.locationToEditOrDelete.notificationName &&
-          item.point.coordinates[0] !== this.locationToEditOrDelete.point.coordinates[0] &&
-          item.point.coordinates[1] !== this.locationToEditOrDelete.point.coordinates[1]
-          );
+        this.savedLocation = this.savedLocation.filter(
+          (item) =>
+            item.notificationName !==
+              this.locationToEditOrDelete.notificationName &&
+            item.point.coordinates[0] !==
+              this.locationToEditOrDelete.point.coordinates[0] &&
+            item.point.coordinates[1] !==
+              this.locationToEditOrDelete.point.coordinates[1],
+        );
       }
-      this.notificationService.updateUserNotificationPreferences(this.locationData, this.savedLocation)
+      this.notificationService
+        .updateUserNotificationPreferences(
+          this.locationData,
+          this.savedLocation,
+        )
         .then(() => {
           this.cdr.markForCheck();
           this.router.navigateByUrl('/saved');
         })
-        .catch(e => {
+        .catch((e) => {
           console.warn('saveNotificationPreferences fail', e);
           this.cdr.markForCheck();
-          this.snackbarService.open('Failed to save location: ' + JSON.stringify(e.message), 'OK', { duration: 10000, panelClass: 'snackbar-error' });
+          this.snackbarService.open(
+            'Failed to save location: ' + JSON.stringify(e.message),
+            'OK',
+            { duration: 10000, panelClass: 'snackbar-error' },
+          );
         });
     });
   }
 
   fetchSavedLocation(): Promise<any> {
-    return this.notificationService.getUserNotificationPreferences()
-      .then(response => {
+    return this.notificationService
+      .getUserNotificationPreferences()
+      .then((response) => {
         if (response.notifications) {
           this.savedLocation = response.notifications;
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.error('error on fetch notifications', err);
       });
   }
 
   disableSaveButton() {
-  // To Save, a user must:
-  // Choose a name
-  // Choose a location
-  // Choose a radius
-    if ((this.locationData.notificationName && this.locationData.notificationName.length) && this.locationData.latitude && this.locationData.longitude && this.locationData.radius) {
+    // To Save, a user must:
+    // Choose a name
+    // Choose a location
+    // Choose a radius
+    if (
+      this.locationData.notificationName &&
+      this.locationData.notificationName.length &&
+      this.locationData.latitude &&
+      this.locationData.longitude &&
+      this.locationData.radius
+    ) {
       return false;
-    } else{
+    } else {
       return true;
     }
   }
 
-  leavePage(){
-    let dialogRef = this.dialog.open(DialogExitComponent, {
+  leavePage() {
+    const dialogRef = this.dialog.open(DialogExitComponent, {
       autoFocus: false,
       width: '80vw',
       data: {
         confirmButton: 'Back',
-        text: 'If you exit now, your progress will be lost.'
-      }
+        text: 'If you exit now, your progress will be lost.',
+      },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result['exit']) {
-        this.router.navigateByUrl('/saved')
+        this.router.navigateByUrl('/saved');
       }
     });
   }
 
-  onToggleChangeActiveWildfires(event:any, pushNotifications:boolean){
-    if(pushNotifications){
+  onToggleChangeActiveWildfires(event: any, pushNotifications: boolean) {
+    if (pushNotifications) {
       //Push notifications
       this.locationData.pushNotificationsWildfires = event.checked;
-    } else{
+    } else {
       //In-App notifications
       this.locationData.inAppNotificationsWildfires = event.checked;
     }
   }
 
-  onToggleChangeFireBans(event:any, pushNotifications:boolean){
-    if(pushNotifications){
+  onToggleChangeFireBans(event: any, pushNotifications: boolean) {
+    if (pushNotifications) {
       //Push notifications
       this.locationData.pushNotificationsFireBans = event.checked;
-    } else{
+    } else {
       //In-App notifications
       this.locationData.inAppNotificationsFireBans = event.checked;
     }
   }
 
   toggleButton(distance: number) {
-    this.locationData.radius = distance
+    this.locationData.radius = distance;
   }
 
   onNotificationNameChange() {

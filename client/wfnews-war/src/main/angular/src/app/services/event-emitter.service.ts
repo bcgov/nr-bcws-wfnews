@@ -2,10 +2,9 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventEmitterService {
-
   invokeKeyboardTabFunction = new EventEmitter();
   invokeSideNavAccessLocked = new EventEmitter();
   invokeAndroidBackPressed = new EventEmitter();
@@ -16,7 +15,7 @@ export class EventEmitterService {
     this.invokeKeyboardTabFunction.emit(name);
   }
 
-  sideNavAccessLocked(isLocked: boolean) { 
+  sideNavAccessLocked(isLocked: boolean) {
     this.invokeSideNavAccessLocked.emit(isLocked);
   }
 

@@ -1,10 +1,10 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     height: 416px;
@@ -15,14 +15,16 @@
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 20px;
-    border: 1.5px solid #DEDEDE;
-    background-color: #F5F6F9;
+    border: 1.5px solid #dedede;
+    background-color: #f5f6f9;
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 600;
@@ -34,7 +36,7 @@
 
   .header-icon {
     border-radius: 90px;
-    background: var(--Blue-4, #DFE5EE);
+    background: var(--Blue-4, #dfe5ee);
     padding: var(--16, 16px);
     align-items: center;
   }
@@ -70,7 +72,7 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     height: 416px;
@@ -82,14 +84,16 @@
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 20px;
-    border: 1.5px solid #DEDEDE;
-    background-color: #F5F6F9;
+    border: 1.5px solid #dedede;
+    background-color: #f5f6f9;
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 600;
@@ -101,7 +105,7 @@
 
   .header-icon {
     border-radius: 90px;
-    background: var(--Blue-4, #DFE5EE);
+    background: var(--Blue-4, #dfe5ee);
     padding: var(--16, 16px);
     align-items: center;
   }
@@ -137,7 +141,7 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     display: flex;
     max-height: 416px;
@@ -148,14 +152,16 @@
     flex: 1 0 0;
     align-self: stretch;
     border-radius: 20px;
-    border: 1.5px solid #DEDEDE;
-    background-color: #F5F6F9;
+    border: 1.5px solid #dedede;
+    background-color: #f5f6f9;
   }
 
   .widget-header {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 500;
@@ -169,7 +175,7 @@
 
   .header-icon {
     border-radius: 90px;
-    background: var(--Blue-4, #DFE5EE);
+    background: var(--Blue-4, #dfe5ee);
     padding: var(--16, 16px);
     align-items: center;
     width: 28px;

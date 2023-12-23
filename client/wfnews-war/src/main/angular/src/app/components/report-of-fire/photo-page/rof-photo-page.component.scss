@@ -1,123 +1,120 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 @import "notosans-fontface/scss/notosans-fontface";
 
-.button-group{
+.button-group {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  button {
+    height: 132px;
     display: flex;
+    padding: 12px;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 24px;
-    button{
-        height: 132px;
-        display: flex;
-        padding: 12px;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 8px;
-        flex: 1 0 0;
-        align-self: stretch;
-        border-radius: 8px;
-        background: #F1F1F1;
-        border-width: inherit;
-        @media (min-width: 1024px) and (max-height:735px) {
-            height: 15vh !important;
-        }
-
+    gap: 8px;
+    flex: 1 0 0;
+    align-self: stretch;
+    border-radius: 8px;
+    background: #f1f1f1;
+    border-width: inherit;
+    @media (min-width: 1024px) and (max-height: 735px) {
+      height: 15vh !important;
     }
-    span{
-        color: #000;
-        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-        font-size: 19px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        letter-spacing: -0.38px;
-        @media (max-height: 700px) {
-            font-size: 2.2vh !important;
-        }
+  }
+  span {
+    color: #000;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.38px;
+    @media (max-height: 700px) {
+      font-size: 2.2vh !important;
     }
+  }
 }
 
-.images{
-    display: flex;
-    overflow-x: auto;
-    .image-container{
-        display: inline-block;
-        margin: 24px 10px;
-        .closebutton{
-            color:#FFF;
-            font-size: 17px;
-            font-style: normal;
-            font-weight: 400;
-            position:absolute;
-            right:26px;
-            top:26px;
-        }
+.images {
+  display: flex;
+  overflow-x: auto;
+  .image-container {
+    display: inline-block;
+    margin: 24px 10px;
+    .closebutton {
+      color: #fff;
+      font-size: 17px;
+      font-style: normal;
+      font-weight: 400;
+      position: absolute;
+      right: 26px;
+      top: 26px;
+    }
+  }
+
+  .first-image {
+    margin-left: 0; /* Removes left margin for the first image */
+  }
+
+  .last-image {
+    margin-right: 0; /* Removes right margin for the last image */
+  }
+
+  .image-wrapper {
+    position: relative;
+  }
+
+  .image {
+    height: 25vh;
+    @media (min-width: 1024px) and (max-height: 699px) {
+      height: 20vh;
     }
 
-    .first-image {
-        margin-left: 0; /* Removes left margin for the first image */
+    &-fullScreen {
+      object-fit: contain;
+      user-select: text;
+      box-sizing: border-box !important;
+      min-width: 0px !important;
+      max-width: none !important;
+      min-height: 0px !important;
+      max-height: none !important;
+      width: 100% !important;
+      height: 100% !important;
+      transform: none !important;
+      inset: 0px !important;
+      margin: 0px !important;
     }
+  }
 
-    .last-image {
-        margin-right: 0; /* Removes right margin for the last image */
-    }
-
-    .image-wrapper {
-        position: relative;
-    }
-
-    .image{
-        height: 25vh;
-        @media (min-width: 1024px) and (max-height: 699px){
-            height: 20vh;
-        }
-
-        &-fullScreen {
-            object-fit: contain;
-            user-select: text;
-            box-sizing: border-box !important;
-            min-width: 0px !important;
-            max-width: none !important;
-            min-height: 0px !important;
-            max-height: none !important;
-            width: 100% !important;
-            height: 100% !important;
-            transform: none !important;
-            inset: 0px !important;
-            margin: 0px !important;
-        }
-    }
-
-    .delete-button {
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        background-color: #E6E6E6;
-        color: #242424;
-        border: none;
-        border-radius: 81.579px;
-        padding: 5px 8px;
-        cursor: pointer;
-    }
-
+  .delete-button {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: #e6e6e6;
+    color: #242424;
+    border: none;
+    border-radius: 81.579px;
+    padding: 5px 8px;
+    cursor: pointer;
+  }
 }
 
-.photo-button{
-    &-disabled {
-        color: #939393 !important;
-    }
-    &-enabled {
-       color: #000 !important;
-    }
+.photo-button {
+  &-disabled {
+    color: #939393 !important;
+  }
+  &-enabled {
+    color: #000 !important;
+  }
 }
 
-@media (min-width: 1024px) and (max-height: 735px){
-    .take-photo {
-        display: none;
-    }
+@media (min-width: 1024px) and (max-height: 735px) {
+  .take-photo {
+    display: none;
+  }
 
-    .library-photo {
-        display: none;
-    }
-
+  .library-photo {
+    display: none;
+  }
 }
