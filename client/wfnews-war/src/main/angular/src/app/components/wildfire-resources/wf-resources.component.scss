@@ -2,15 +2,15 @@
   display: flex;
   height: 75px;
   .title {
-    padding:10px;
+    padding: 10px;
     margin-left: 10px;
     box-sizing: border-box;
     min-width: 363px;
     h1 {
-        font-size: 24px;
-        font-weight: normal;
-        margin-bottom: 0;
-        padding-bottom: 0;
+      font-size: 24px;
+      font-weight: normal;
+      margin-bottom: 0;
+      padding-bottom: 0;
     }
   }
   .title-button-container {
@@ -50,7 +50,7 @@
   .container {
     height: calc(100vh - 125px) !important;
     overflow: hidden;
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     background-color: white;
     max-width: 1500px;
@@ -67,7 +67,7 @@
   .container {
     height: calc(100vh - 125px) !important;
     overflow: hidden;
-    font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     padding: 20px;
     background-color: white;
     max-width: 1080px;

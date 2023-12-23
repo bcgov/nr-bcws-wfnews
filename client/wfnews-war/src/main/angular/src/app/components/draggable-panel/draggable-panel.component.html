@@ -439,7 +439,7 @@
                     <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">Issued on {{formatDate(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">Closed on {{convertToDateYear(identifyItem.properties.CLOSURE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">Created on {{convertToDateYear(identifyItem.properties.CREATED_TIME)}}</span>
-                    <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">Effective on {{convertToDateYear(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
+                    <span *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">Effective on {{formatDate(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
 
                 </div>
                 <div class="description-section">

@@ -1,57 +1,54 @@
 .header {
-    display: flex;
-    padding: 10px 20px;
-    align-items: flex-start;
-    gap: 4px;
-    align-self: stretch;
-    border-top: 1px solid #E7E7E7;
-    border-bottom: 1px solid #E7E7E7;
-    background: #FFF;
+  display: flex;
+  padding: 10px 20px;
+  align-items: flex-start;
+  gap: 4px;
+  align-self: stretch;
+  border-top: 1px solid #e7e7e7;
+  border-bottom: 1px solid #e7e7e7;
+  background: #fff;
 }
 
 .back-icon {
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
 }
 
 .content {
-    margin: 24px 16px;
+  margin: 24px 16px;
 
-    .section {
-        width: 100%;
-        .section-title {
-            color: var(--Gray-1, #242424);
-            font-size: 18px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: normal;
-
-        }
-
-        .section-detail {
-            color: var(--grays-gray-3, #666);
-            font-size: 15px;
-            font-style: normal;
-            font-weight: 400;
-            line-height: 22px;
-            letter-spacing: -0.408px;
-            margin: 16px 0px;
-
-        }
-
-        .divider {
-            background: #DEDEDE;
-            height: 1px;
-            margin: 14px 0;
-            width: 100%;
-        }
-
+  .section {
+    width: 100%;
+    .section-title {
+      color: var(--Gray-1, #242424);
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+      line-height: normal;
     }
 
-    .bottom {
-        height: 140px;
+    .section-detail {
+      color: var(--grays-gray-3, #666);
+      font-size: 15px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 22px;
+      letter-spacing: -0.408px;
+      margin: 16px 0px;
     }
+
+    .divider {
+      background: #dedede;
+      height: 1px;
+      margin: 14px 0;
+      width: 100%;
+    }
+  }
+
+  .bottom {
+    height: 140px;
+  }
 }
 
 .desktop-container {

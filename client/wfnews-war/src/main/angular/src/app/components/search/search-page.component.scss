@@ -18,12 +18,13 @@
 
 .dialog-header {
   padding-bottom: 10px;
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
   display: flex;
 }
 
 .dialog-title {
-  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+    "sans-serif";
   font-size: 16px;
   font-weight: 600;
   line-height: 22px;
@@ -37,7 +38,7 @@
 
 .footer-button-disabled {
   width: 100%;
-  background-color: #DEDEDE !important;
+  background-color: #dedede !important;
 }
 
 .right-align {
@@ -56,7 +57,8 @@
   padding: 0 5px;
   height: 35px;
   line-height: 35px;
-  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+  font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+    "sans-serif";
   font-size: 15px;
   position: relative;
 }
@@ -71,7 +73,6 @@
   box-shadow: none !important;
   &:focus {
     outline: none !important;
-    ;
     box-shadow: none !important;
   }
 }
@@ -79,27 +80,27 @@
 .search-panel {
   padding-top: 32px;
   padding-bottom: 10px;
-  border-bottom: 1px solid #DEDEDE;
+  border-bottom: 1px solid #dedede;
 }
 
-.input-clear-button{
+.input-clear-button {
   position: absolute;
   background-color: transparent;
   border: none;
   top: 5px;
   right: 0px;
-  .button-wrapper{
-      padding: 0;
-      min-width: 0;
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      line-height: 40px;
-      border-radius: 50%;
-      cursor: pointer;
+  .button-wrapper {
+    padding: 0;
+    min-width: 0;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    line-height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
   }
-  mat-icon{
-      transform: translateX(-5px);
+  mat-icon {
+    transform: translateX(-5px);
   }
 }
 
@@ -139,7 +140,8 @@
   }
   &-title {
     color: var(--grays-gray-1, #242424);
-    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+      "sans-serif";
     font-size: 13px;
     font-style: normal;
     font-weight: 600;
@@ -163,7 +165,7 @@
   padding: 4px 172px 8px 5px;
   align-items: flex-start;
   gap: 8px;
-  border-bottom: 1px solid #F1F1F1;
+  border-bottom: 1px solid #f1f1f1;
   margin-bottom: 12px;
   &-icon-holder {
     display: flex;
@@ -182,16 +184,17 @@
     }
     &-icon {
       border-radius: 62.5px;
-      background: var(--Grey-2-EEE, #EEE);
+      background: var(--Grey-2-EEE, #eee);
       display: flex;
       padding: 3.75px;
       align-items: flex-start;
       gap: 5px;
     }
     &-dist {
-      color: #7D7D7D;
+      color: #7d7d7d;
       text-align: center;
-      font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+      font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+        "sans-serif";
       font-size: 8px;
       font-style: normal;
       font-weight: 400;
@@ -207,7 +210,8 @@
   }
   &-title {
     color: #242424;
-    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+      "sans-serif";
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -215,8 +219,9 @@
     letter-spacing: -0.408px;
   }
   &-subtitle {
-    color: #7D7D7D;
-    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial", "sans-serif";
+    color: #7d7d7d;
+    font-family: "Noto Sans", "BCSans", "Open Sans", "Verdana", "Arial",
+      "sans-serif";
     font-size: 14px;
     font-style: normal;
     font-weight: 400;

@@ -1,12 +1,18 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import * as L from 'leaflet'
-
+import * as L from 'leaflet';
 
 @Component({
   selector: 'wfnews-notificatino-map',
   templateUrl: './notification-map.component.html',
-  styleUrls: ['./notification-map.component.scss']
+  styleUrls: ['./notification-map.component.scss'],
 })
 export class notificationMapComponent implements OnInit, AfterViewInit {
   @ViewChild('itemHeight') itemHeightSlider;
@@ -14,29 +20,35 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
   notificationLocationMarker: any;
   xNotificationLocationMarker: any;
 
-  radiusValue: number = 25;
+  radiusValue = 25;
   radiusCircle: any;
 
-  constructor(private dialogRef: MatDialogRef<notificationMapComponent>, protected cdr: ChangeDetectorRef, @Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(
+    private dialogRef: MatDialogRef<notificationMapComponent>,
+    protected cdr: ChangeDetectorRef,
+    @Inject(MAT_DIALOG_DATA) public data,
+  ) {}
 
   ngOnInit(): void {
     // this.loadMap()
   }
 
   ngAfterViewInit(): void {
-    this.loadMap()
+    this.loadMap();
   }
 
   loadMap() {
-
     this.map = L.map('map', {
-        zoomControl: false,
+      zoomControl: false,
     });
 
-    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
-      zoom: 5,
-      subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-    }).addTo(this.map);
+    L.tileLayer(
+      'https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',
+      {
+        zoom: 5,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+      },
+    ).addTo(this.map);
 
     if (this.data.title === 'Choose location on the map') {
       // set notification location on map
@@ -47,9 +59,8 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
                 <img src="/assets/images/svg-icons/location_pin.svg"/>
               </div>`,
           iconSize: [32, 32],
-
         }),
-        draggable: false
+        draggable: false,
       };
 
       const xMarkerOptions = {
@@ -59,26 +70,35 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
                 <img src="/assets/images/svg-icons/x-icon.svg"/>
               </div>`,
           iconSize: [20, 20],
-
         }),
-        draggable: false
+        draggable: false,
       };
 
       if (this.data.currentLocation && this.data.currentLocation.coords) {
         // Use current location coordinates
         const coords = this.data.currentLocation.coords;
         this.map.setView([coords.latitude, coords.longitude], 10);
-        this.notificationLocationMarker = L.marker([coords.latitude, coords.longitude], markerOptions).addTo(this.map);
-        this.xNotificationLocationMarker = L.marker([coords.latitude, coords.longitude], xMarkerOptions).addTo(this.map);
-
+        this.notificationLocationMarker = L.marker(
+          [coords.latitude, coords.longitude],
+          markerOptions,
+        ).addTo(this.map);
+        this.xNotificationLocationMarker = L.marker(
+          [coords.latitude, coords.longitude],
+          xMarkerOptions,
+        ).addTo(this.map);
       } else {
         // location service off. Use BC center coordinates
         const bcCenter = [53.7267, -127.6476]; // Center coordinates of British Columbia
         const zoomLevel = 5;
         this.map.setView(bcCenter, zoomLevel);
-        this.notificationLocationMarker = L.marker(bcCenter, markerOptions).addTo(this.map);
-        this.xNotificationLocationMarker = L.marker(bcCenter, xMarkerOptions).addTo(this.map);
-
+        this.notificationLocationMarker = L.marker(
+          bcCenter,
+          markerOptions,
+        ).addTo(this.map);
+        this.xNotificationLocationMarker = L.marker(
+          bcCenter,
+          xMarkerOptions,
+        ).addTo(this.map);
       }
 
       this.map.on('drag', (event: any) => {
@@ -86,35 +106,35 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
         this.notificationLocationMarker.setLatLng(mapCenter);
         this.xNotificationLocationMarker.setLatLng(mapCenter);
       });
-    }
-
-    else if (this.data.title === 'Notification Radius') {
+    } else if (this.data.title === 'Notification Radius') {
       // set radius on map
       const markerOptions = {
         icon: L.icon({
-          iconUrl: "/assets/images/svg-icons/blue-white-location-icon.svg",
+          iconUrl: '/assets/images/svg-icons/blue-white-location-icon.svg',
           iconSize: [32, 32],
           iconAnchor: [16, 32],
           popupAnchor: [0, -32],
         }),
-        draggable: false
+        draggable: false,
       };
 
       const center = [this.data.lat, this.data.long]; // Center coordinates of British Columbia
 
       this.map.setView(center, 9);
-      this.notificationLocationMarker = L.marker(center, markerOptions).addTo(this.map);
+      this.notificationLocationMarker = L.marker(center, markerOptions).addTo(
+        this.map,
+      );
 
       // Add circle around the marker
       const radius = 25000; // Set the radius in meters
       const circleOptions = {
-        color: '#548ADB',   // Color of the circle
-        opacity: 0.9,        // Opacity of the circle
+        color: '#548ADB', // Color of the circle
+        opacity: 0.9, // Opacity of the circle
         fillColor: '#548ADB', // Fill color of the circle
-        fillOpacity: 0.2,  // Fill opacity of the circle
+        fillOpacity: 0.2, // Fill opacity of the circle
       };
       this.radiusCircle = L.circle(center, {
-        radius: radius,
+        radius,
         ...circleOptions,
       }).addTo(this.map);
     }
@@ -151,20 +171,26 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
       let zoomLevel;
 
       switch (radius) {
-        case 25000: zoomLevel = 9;
+        case 25000:
+          zoomLevel = 9;
           break;
-        case 50000: zoomLevel = 8;
+        case 50000:
+          zoomLevel = 8;
           break;
-        default: zoomLevel = 7;
+        default:
+          zoomLevel = 7;
           break;
       }
 
       this.map.setView(this.notificationLocationMarker.getLatLng(), zoomLevel);
 
-      this.radiusCircle = L.circle(this.notificationLocationMarker.getLatLng(), {
-        radius: radius,
-        ...circleOptions,
-      }).addTo(this.map);
+      this.radiusCircle = L.circle(
+        this.notificationLocationMarker.getLatLng(),
+        {
+          radius,
+          ...circleOptions,
+        },
+      ).addTo(this.map);
       this.cdr.detectChanges();
     }
   }
@@ -175,7 +201,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
     this.dialogRef.close({
       exit: true,
       location: this.notificationLocationMarker._latlng,
-      radius: radiusValue ? Number(radiusValue) : undefined
+      radius: radiusValue ? Number(radiusValue) : undefined,
     });
   }
 }

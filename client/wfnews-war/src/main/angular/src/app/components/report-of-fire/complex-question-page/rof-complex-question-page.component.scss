@@ -1,4 +1,4 @@
-@import '../report-of-fire.component.scss';
+@import "../report-of-fire.component.scss";
 
 .rof-toggle-group {
   ::ng-deep.mat-button-toggle-label-content {
@@ -9,37 +9,37 @@
 
 .btn-highlight {
   border-radius: 8px !important;
-  border: 3px solid #4169A4 !important;
-  background-color: #DFE5EE !important;
+  border: 3px solid #4169a4 !important;
+  background-color: #dfe5ee !important;
 }
 
 .btn-icon {
   margin-right: 8px;
 }
 
-.multi-select-class{
+.multi-select-class {
   padding-top: 3px;
   width: auto;
   flex: 0 0 calc(50% - 12px);
   max-width: calc(50% - 12px);
   height: fit-content;
-  .flex-button{
+  .flex-button {
     white-space: normal;
     align-items: center;
   }
 }
 
-.single-select-class{
+.single-select-class {
   width: 100%;
   flex: auto;
 }
 
 .distance-class {
-    width: auto;
-    flex: 0 0 calc(50% - 12px);
-    max-width: calc(50% - 12px);
-    height: fit-content;
-    .flex-button{
-      white-space: nowrap;
-    }
+  width: auto;
+  flex: 0 0 calc(50% - 12px);
+  max-width: calc(50% - 12px);
+  height: fit-content;
+  .flex-button {
+    white-space: nowrap;
+  }
 }

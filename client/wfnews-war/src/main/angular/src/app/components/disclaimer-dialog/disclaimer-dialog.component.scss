@@ -1,65 +1,64 @@
-.dialog-container{
-  .header{
+.dialog-container {
+  .header {
     background-color: #036;
     height: 64px;
-    border-bottom: #FCBA19;
+    border-bottom: #fcba19;
     border-bottom-style: solid;
     border-bottom-width: 2px;
   }
 
-  .dialog-content{
-    margin: 0 !important
+  .dialog-content {
+    margin: 0 !important;
   }
 }
 
-  .panel{
-    padding: 15px;
+.panel {
+  padding: 15px;
 
-    .disclaimer-content{
-        padding-top: 1rem;
-        span{
-            font-size: 20px;
-            font-weight: 700
-        }
-        .text{
-            padding-top: 10px;
-            line-height: 26px;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            div{
-                padding:5px 0
-            }
-            a{
-                color: #0e5fa9;
-                text-decoration: none !important;
-            }
-        }
+  .disclaimer-content {
+    padding-top: 1rem;
+    span {
+      font-size: 20px;
+      font-weight: 700;
     }
-
-    .cancel-button{
-        color: #1A5A96;
-        background-color: #FFFFFF;
-        border: solid 1px #1A5A96;
-        padding: 8px 16px;
-        border-radius: 4px;
-    }
-
-    .download-button{
-        margin-left: 2rem;
-        background-color: #1A5A96;
-        border: solid 1px #1A5A96;
-        color: #FFFFFF;
-        padding: 8px 16px;
-        border-radius: 4px;
-        
+    .text {
+      padding-top: 10px;
+      line-height: 26px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      div {
+        padding: 5px 0;
+      }
+      a {
+        color: #0e5fa9;
+        text-decoration: none !important;
+      }
     }
   }
 
-.button-wrapper{
-    display: flex;
-    margin: 0;
-    background-color: #EEE;
-    border-top: solid 1px #c6c8cb;
-    padding: 16px;
+  .cancel-button {
+    color: #1a5a96;
+    background-color: #ffffff;
+    border: solid 1px #1a5a96;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+
+  .download-button {
+    margin-left: 2rem;
+    background-color: #1a5a96;
+    border: solid 1px #1a5a96;
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 4px;
+  }
+}
+
+.button-wrapper {
+  display: flex;
+  margin: 0;
+  background-color: #eee;
+  border-top: solid 1px #c6c8cb;
+  padding: 16px;
 }

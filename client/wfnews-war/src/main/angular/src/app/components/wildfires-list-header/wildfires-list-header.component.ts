@@ -9,13 +9,12 @@ import { AppConfigService } from '@wf1/core-ui';
 @Component({
   selector: 'app-wildfires-list-header',
   templateUrl: './wildfires-list-header.component.html',
-  styleUrls: ['./wildfires-list-header.component.scss']
+  styleUrls: ['./wildfires-list-header.component.scss'],
 })
 export class WildfiresListHeaderComponent implements OnInit {
+  public selectedTab = 0;
 
-  public selectedTab = 0
-
-  public isMobileView = isMobileView
+  public isMobileView = isMobileView;
 
   constructor(
     protected appConfigService: AppConfigService,
@@ -24,22 +23,21 @@ export class WildfiresListHeaderComponent implements OnInit {
     protected matIconRegistry: MatIconRegistry,
     protected cdr: ChangeDetectorRef,
     protected dialog: MatDialog,
-    protected wfMapService: WFMapService
-  ) {
-  }
+    protected wfMapService: WFMapService,
+  ) {}
 
-  selectTab (tab: number) {
-    this.selectedTab = tab
+  selectTab(tab: number) {
+    this.selectedTab = tab;
     // swap to the desired tab
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params) => {
       if (params && params['tab']) {
-        const tab = params['tab']
-        this.selectTab(Number(tab))
+        const tab = params['tab'];
+        this.selectTab(Number(tab));
       }
-    })
+    });
   }
 }

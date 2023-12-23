@@ -3,9 +3,9 @@ import { Component, Input } from '@angular/core';
 @Component({
   selector: 'incident-gallery-videos-mobile',
   templateUrl: './incident-gallery-videos-mobile.component.html',
-  styleUrls: ['./incident-gallery-videos-mobile.component.scss']
+  styleUrls: ['./incident-gallery-videos-mobile.component.scss'],
 })
-export class IncidentGalleryVideosMobileComponent  {
+export class IncidentGalleryVideosMobileComponent {
   @Input() public incident;
   @Input() public displayVideosStub;
   @Input() public displayLoadMoreVideos;

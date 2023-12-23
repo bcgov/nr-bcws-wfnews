@@ -1,37 +1,48 @@
-import { Component, ChangeDetectionStrategy, ViewChild, ChangeDetectorRef, ViewChildren, QueryList } from "@angular/core";
-import { RoFPage } from "../rofPage";
-import { ReportOfFire } from "../reportOfFireModel";
-import { MatButtonToggle, MatButtonToggleChange } from "@angular/material/button-toggle";
-import { ReportOfFirePage } from "@app/components/report-of-fire/report-of-fire.component";
-import { CommonUtilityService } from "@app/services/common-utility.service";
+import {
+  Component,
+  ChangeDetectionStrategy,
+  ViewChild,
+  ChangeDetectorRef,
+  ViewChildren,
+  QueryList,
+} from '@angular/core';
+import { RoFPage } from '../rofPage';
+import { ReportOfFire } from '../reportOfFireModel';
+import {
+  MatButtonToggle,
+  MatButtonToggleChange,
+} from '@angular/material/button-toggle';
+import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 @Component({
   selector: 'rof-complex-question-page',
   templateUrl: './rof-complex-question-page.component.html',
   styleUrls: ['./rof-complex-question-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RoFComplexQuestionPage extends RoFPage {
   public allowIDontKnowButton: boolean;
   public allowMultiSelect: boolean;
-  public disableNext: boolean = true;
+  public disableNext = true;
   public buttons: Array<any>;
   public highlightedButton: HTMLElement;
-  isEditMode: boolean = false;
-  isPageDirty: boolean = false;
+  isEditMode = false;
+  isPageDirty = false;
   public buttonStates: boolean[] = Array(10).fill(false);
 
   @ViewChild('notSureButton') notSureButton!: MatButtonToggle;
   @ViewChildren('toggleButton') toggleButtons!: QueryList<MatButtonToggle>;
 
-
-  public constructor(private reportOfFirePage: ReportOfFirePage,
+  public constructor(
+    private reportOfFirePage: ReportOfFirePage,
     private cdr: ChangeDetectorRef,
-    private commonUtilityService: CommonUtilityService) {
-    super()
+    private commonUtilityService: CommonUtilityService,
+  ) {
+    super();
   }
 
-  initialize (data: any, index: number, reportOfFire: ReportOfFire) {
+  initialize(data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.allowIDontKnowButton = data.allowIDontKnowButton;
     this.allowMultiSelect = data.allowMultiSelect;
@@ -41,17 +52,21 @@ export class RoFComplexQuestionPage extends RoFPage {
   editMode() {
     this.isPageDirty = false;
     this.isEditMode = true;
-    this.cdr.detectChanges()
+    this.cdr.detectChanges();
   }
 
-  onValChange (value: string, event: MatButtonToggleChange | PointerEvent, index:number) {
+  onValChange(
+    value: string,
+    event: MatButtonToggleChange | PointerEvent,
+    index: number,
+  ) {
     this.isPageDirty = true;
     this.buttonStates.fill(false);
     this.buttonStates[index] = !this.buttonStates[index];
 
     // Handler to ensure single select buttons highlight on click
     // to match the toggle button appearance
-    if ( event instanceof PointerEvent) {
+    if (event instanceof PointerEvent) {
       // middle of the button will return the span, edges will return the button itself
       // which is super annoying, so we need to check that we have an id set
       // const clickedButton = (event.target as HTMLElement).id !== '' ? event.target as HTMLElement : (event.target as HTMLElement).parentElement;
@@ -59,38 +74,45 @@ export class RoFComplexQuestionPage extends RoFPage {
       const clickedElement = event.target as HTMLElement;
       const clickedButton = clickedElement.closest('button');
 
-
       // remove the highlight on the currently selected button
-      if (clickedButton){
+      if (clickedButton) {
         if (this.highlightedButton) {
-          this.highlightedButton.classList.remove("btn-highlight");
+          this.highlightedButton.classList.remove('btn-highlight');
         }
 
         // highlight the new button
-        clickedButton.classList.add("btn-highlight");
+        clickedButton.classList.add('btn-highlight');
         // and store it for later events
-        this.highlightedButton = clickedButton
+        this.highlightedButton = clickedButton;
       }
     }
 
     if (value && this.updateAttribute && this.updateAttribute !== '') {
-      if(this.notSureButton && this.notSureButton.checked) {
+      if (this.notSureButton?.checked) {
         this.notSureButton.checked = false;
         if (this.allowMultiSelect) {
-          this.reportOfFire[this.updateAttribute] = this.reportOfFire[this.updateAttribute].filter(item => item !== "I'm not sure");
+          this.reportOfFire[this.updateAttribute] = this.reportOfFire[
+            this.updateAttribute
+          ].filter((item) => item !== 'I\'m not sure');
         }
       }
-      if (Array.isArray(this.reportOfFire[this.updateAttribute]) && !this.reportOfFire[this.updateAttribute].includes(value)) {
-        this.reportOfFire[this.updateAttribute].push(value)
-      } else if (Array.isArray(this.reportOfFire[this.updateAttribute]) && this.reportOfFire[this.updateAttribute].includes(value)) {
-        const index = this.reportOfFire[this.updateAttribute].indexOf(value);
-        this.reportOfFire[this.updateAttribute].splice(index, 1)
+      if (
+        Array.isArray(this.reportOfFire[this.updateAttribute]) &&
+        !this.reportOfFire[this.updateAttribute].includes(value)
+      ) {
+        this.reportOfFire[this.updateAttribute].push(value);
+      } else if (
+        Array.isArray(this.reportOfFire[this.updateAttribute]) &&
+        this.reportOfFire[this.updateAttribute].includes(value)
+      ) {
+        const idx = this.reportOfFire[this.updateAttribute].indexOf(value);
+        this.reportOfFire[this.updateAttribute].splice(idx, 1);
       } else {
         this.reportOfFire[this.updateAttribute] = value;
       }
     } else {
       if (this.highlightedButton) {
-        this.highlightedButton.classList.remove("btn-highlight");
+        this.highlightedButton.classList.remove('btn-highlight');
       }
       this.reportOfFire[this.updateAttribute] = '';
     }
@@ -99,10 +121,10 @@ export class RoFComplexQuestionPage extends RoFPage {
 
     if (value === null) {
       this.notSureButton.checked = true;
-      if(this.allowMultiSelect == true) {
-        this.reportOfFire[this.updateAttribute] = ["I'm not sure"]  
+      if (this.allowMultiSelect === true) {
+        this.reportOfFire[this.updateAttribute] = ['I\'m not sure'];
       } else {
-        this.reportOfFire[this.updateAttribute] = "I'm not sure"
+        this.reportOfFire[this.updateAttribute] = 'I\'m not sure';
       }
       // Deselect all other buttons
       this.toggleButtons.forEach((button) => {
@@ -110,19 +132,19 @@ export class RoFComplexQuestionPage extends RoFPage {
           button.checked = false;
         }
       });
-    } 
+    }
   }
   backToReview() {
-    this.reportOfFirePage.edit('review-page')
+    this.reportOfFirePage.edit('review-page');
   }
 
   previousPage() {
-    if (this.id === 'distance-page'){
+    if (this.id === 'distance-page') {
       this.reportOfFire.headingDetectionActive = true;
       if (this.reportOfFire.motionSensor === 'yes') {
         this.previous();
-      } else{
-        this.reportOfFirePage.selectPage('callback-page',null,false)
+      } else {
+        this.reportOfFirePage.selectPage('callback-page', null, false);
         this.reportOfFirePage.currentStep--;
       }
     } else {
@@ -133,16 +155,14 @@ export class RoFComplexQuestionPage extends RoFPage {
   nextPage() {
     if (this.id === 'distance-page') {
       this.commonUtilityService.checkOnline().then((result) => {
-        if(!result) {
-          this.reportOfFirePage.selectPage('photo-page',null,false);
+        if (!result) {
+          this.reportOfFirePage.selectPage('photo-page', null, false);
         } else {
           this.next();
         }
-      })
-    }
-    else{
+      });
+    } else {
       this.next();
     }
   }
-
 }

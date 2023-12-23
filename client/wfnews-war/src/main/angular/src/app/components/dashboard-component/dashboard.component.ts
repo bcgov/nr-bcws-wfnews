@@ -1,20 +1,20 @@
-import { Component } from "@angular/core"
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class Dashboard {
-  public selectedTab = 0
+  public selectedTab = 0;
 
-  constructor() { }
+  constructor() {}
 
-  selectTab (tab: number) {
-    this.selectedTab = tab
+  selectTab(tab: number) {
+    this.selectedTab = tab;
   }
 
-  offseason () {
-    return new Date().getMonth() < 3 || new Date().getMonth() > 9
+  offseason() {
+    return new Date().getMonth() < 3 || new Date().getMonth() > 9;
   }
 }

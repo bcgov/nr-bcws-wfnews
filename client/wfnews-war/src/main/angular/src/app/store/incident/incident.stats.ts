@@ -1,13 +1,13 @@
-export const INCIDENT_COMPONENT_ID = "Incident";
+export const INCIDENT_COMPONENT_ID = 'Incident';
 
-export interface IncidentState { 
-    currentIncident?: any;
-    currentIncidentCause?: any
+export interface IncidentState {
+  currentIncident?: any;
+  currentIncidentCause?: any;
 }
 
 export function getDefaultIncidentState(): IncidentState {
-    return {
-        currentIncident: null,
-        currentIncidentCause: null,
-    };
+  return {
+    currentIncident: null,
+    currentIncidentCause: null,
+  };
 }

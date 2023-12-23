@@ -8,9 +8,8 @@ describe('WildfiresListHeaderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ WildfiresListHeaderComponent ]
-    })
-    .compileComponents();
+      declarations: [WildfiresListHeaderComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,15 +1,15 @@
-@import '../../../../../styles/variables';
+@import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
 @media (min-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     max-width: 1480px;
     width: calc(100vw - 104px);
     padding: var(--24, 24px);
@@ -21,8 +21,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
@@ -65,10 +67,11 @@
       flex: 1 0 0;
       align-self: stretch;
       border-radius: var(--16, 16px);
-      background: #F5F6F9;
+      background: #f5f6f9;
       &-label {
         color: var(--grays-gray-2, #484848);
-        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 20px;
         font-style: normal;
         font-weight: 600;
@@ -81,7 +84,7 @@
     }
   }
   .widget-header {
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
     display: flex;
@@ -91,12 +94,12 @@
 @media (min-width: 768px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     flex: 1 0 0;
     border-radius: 20px;
-    background: #FFF;
-    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.10);
+    background: #fff;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
     max-width: 855px;
     padding: var(--24, 24px);
     flex-direction: column;
@@ -107,8 +110,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 26px;
     font-style: normal;
     font-weight: 500;
@@ -151,10 +156,11 @@
       flex: 1 0 0;
       align-self: stretch;
       border-radius: var(--16, 16px);
-      background: #F5F6F9;
+      background: #f5f6f9;
       &-label {
         color: var(--grays-gray-2, #484848);
-        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 20px;
         font-style: normal;
         font-weight: 600;
@@ -167,7 +173,7 @@
     }
   }
   .widget-header {
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
     display: flex;
@@ -177,10 +183,10 @@
 @media (max-width: 768px) {
   .container {
     overflow: hidden;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
     flex: 1 0 0;
-    background: #FFF;
+    background: #fff;
     width: calc(100vw - 48px);
     padding: var(--24, 24px);
     flex-direction: column;
@@ -191,8 +197,10 @@
 
   .widget-title {
     color: #242424;
-    font-feature-settings: 'clig' off, 'liga' off;
-    font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+    font-feature-settings:
+      "clig" off,
+      "liga" off;
+    font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     font-size: 22px;
     font-style: normal;
     font-weight: 600;
@@ -236,10 +244,11 @@
       flex: 1 0 0;
       align-self: stretch;
       border-radius: var(--16, 16px);
-      background: #F5F6F9;
+      background: #f5f6f9;
       &-label {
         color: var(--grays-gray-2, #484848);
-        font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+        font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+          sans-serif;
         font-size: 16px;
         font-style: normal;
         font-weight: 600;
@@ -254,7 +263,7 @@
   }
 
   .widget-header {
-    border-bottom: 1px solid #C4C4C4;
+    border-bottom: 1px solid #c4c4c4;
     width: 100%;
     padding-bottom: 16px;
   }
@@ -268,20 +277,20 @@
 
 .content {
   height: 100%;
-  width: 100%
+  width: 100%;
 }
 
 .button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   background-color: transparent;
   margin-left: auto;
   &-selected {
     margin-right: 7px;
     border-radius: 20px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     color: #242424 !important;
     font-size: 16px;
     font-weight: 400;
@@ -319,13 +328,13 @@
 .message {
   color: var(--Grey-1, #666);
   align-self: stretch;
-  font-family: 'Noto sans', 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 19px; /* 135.714% */
 }
 
-.data-content>*{
+.data-content > * {
   flex: 1 0 42%;
 }

@@ -1,60 +1,60 @@
 .container {
   overflow: hidden;
-  font-family: 'BCSans', 'Open Sans', Verdana, Arial, sans-serif;
+  font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
   padding: 20px;
   background-color: white;
   max-width: 1500px;
   margin: auto;
 }
 
-div{
-    margin-left: 2%;
-    margin-right: 2%;
+div {
+  margin-left: 2%;
+  margin-right: 2%;
 }
 
-.header-row{
-    display: flex;
-    margin: -30px 0px 10px 20px;
+.header-row {
+  display: flex;
+  margin: -30px 0px 10px 20px;
 }
 
-p.dashboard-title{
-    font-size: 28px;
-    font-weight: 600;
-    line-height: 38.15px;
-    margin-bottom: .5%;
+p.dashboard-title {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 38.15px;
+  margin-bottom: 0.5%;
 }
 
-.stage-of-control{
-    margin-left: auto;
-    margin-top: auto;
+.stage-of-control {
+  margin-left: auto;
+  margin-top: auto;
 }
 
 :host ::ng-deep .mat-mdc-tab {
-    color: #003366 !important;
-    font-weight: 400;
-    font-size: 1rem;
+  color: #003366 !important;
+  font-weight: 400;
+  font-size: 1rem;
 }
 
 :host ::ng-deep .mat-ink-bar {
-    background-color: #003366 !important;
+  background-color: #003366 !important;
 }
 
 :host ::ng-deep .mdc-tab--active {
-    font-weight: 700 !important
+  font-weight: 700 !important;
 }
 
 .list-button {
   margin-right: 7px;
   border-radius: 20px;
-  border: 1px solid #C4C4C4;
+  border: 1px solid #c4c4c4;
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
   &-selected {
     margin-right: 7px;
     border-radius: 20px;
-    border: 2px solid #38598A !important;
-    background-color: #E9F0F8 !important;
+    border: 2px solid #38598a !important;
+    background-color: #e9f0f8 !important;
     color: #242424 !important;
     font-size: 16px;
     font-weight: 400;
@@ -72,7 +72,7 @@ p.dashboard-title{
 }
 
 .list-container {
-  border-top: 2px solid #DEDEDE;
+  border-top: 2px solid #dedede;
   margin: 16px -20px 0px -20px;
   padding-top: 10px;
 }
@@ -101,6 +101,6 @@ p.dashboard-title{
   top: 20px;
 }
 
-.mat-mdc-row:hover .mat-mdc-cell{
+.mat-mdc-row:hover .mat-mdc-cell {
   background-color: #c4cdd2;
 }

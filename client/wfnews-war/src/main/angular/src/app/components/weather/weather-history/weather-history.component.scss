@@ -1,48 +1,46 @@
 .near-me-loader {
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 
-    mat-spinner {
-        margin: auto;
-    }
+  mat-spinner {
+    margin: auto;
+  }
 
-    .loading-message {
-        display: flex;
-        justify-content: center;
-    }
+  .loading-message {
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .weather-history-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+
+  .title {
+    color: var(--grays-gray-2, #484848);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
+    position: relative;
 
-    .title {
-        color: var(--grays-gray-2, #484848);
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-        display: flex;
-        position: relative;
-
-        .right {
-            flex-grow: 1;
-            flex-basis: 50%;
-            align-self: flex-end;
-            text-align: right;
-            line-height: 0;
-            height: 24px;
-            width: 24px;
-            position: absolute;
-            right: 12px;
-        }
+    .right {
+      flex-grow: 1;
+      flex-basis: 50%;
+      align-self: flex-end;
+      text-align: right;
+      line-height: 0;
+      height: 24px;
+      width: 24px;
+      position: absolute;
+      right: 12px;
     }
+  }
 
-    .weather-history-chart {
-        flex-grow: 1;
-    }
-
-
+  .weather-history-chart {
+    flex-grow: 1;
+  }
 }

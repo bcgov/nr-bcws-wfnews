@@ -1,31 +1,30 @@
-@import '../full-details.component.scss';
+@import "../full-details.component.scss";
 
 .info-icon {
-    position: relative;
-    bottom: 6px;
-    height: 32px;
-    width: 32px;
-    margin-right: 8px;
-    cursor: pointer;
-
+  position: relative;
+  bottom: 6px;
+  height: 32px;
+  width: 32px;
+  margin-right: 8px;
+  cursor: pointer;
 }
 
 .resource-title {
-    color: var(--Black-1, #242424);
-    font-size: 22px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 33px;
-    margin: 0px;
+  color: var(--Black-1, #242424);
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 33px;
+  margin: 0px;
 }
 
 .info-click {
-    color: var(--Grey-6---666, #666);
-    font-size: 16px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 21px;
-    margin: 0px 0px 24px 0px;
-    display: flex !important;
-    cursor: pointer;
-  }
+  color: var(--Grey-6---666, #666);
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 21px;
+  margin: 0px 0px 24px 0px;
+  display: flex !important;
+  cursor: pointer;
+}

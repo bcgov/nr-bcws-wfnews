@@ -10,15 +10,9 @@
       "@app/*": ["app/*"],
       "os": ["./node_modules/os-browserify"],
       "fs": ["./node_modules/fs-web"],
-      "crypto":["./node_modules/crypto-browserify"]
-    },
+      "crypto": ["./node_modules/crypto-browserify"]
+    }
   },
-  "files": [
-    "main.ts",
-    "globals.ts"
-  ],
-  "include": [
-    "src/**/*.d.ts",
-    "**/*.ts"
-  ]
+  "files": ["main.ts", "globals.ts"],
+  "include": ["src/**/*.d.ts", "**/*.ts"]
 }

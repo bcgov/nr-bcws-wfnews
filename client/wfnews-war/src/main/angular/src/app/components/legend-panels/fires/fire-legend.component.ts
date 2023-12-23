@@ -4,10 +4,10 @@ import { checkLayerVisible } from '@app/utils';
 @Component({
   selector: 'wfnews-fire-legend',
   templateUrl: './fire-legend.component.html',
-  styleUrls: ['./fire-legend.component.scss']
+  styleUrls: ['./fire-legend.component.scss'],
 })
 export class FireLegendComponent {
-  public checkLayerVisible = checkLayerVisible
-  
+  public checkLayerVisible = checkLayerVisible;
+
   constructor() {}
 }
