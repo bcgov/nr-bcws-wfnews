@@ -64,17 +64,17 @@ export class RoFLocationPage extends RoFPage implements AfterViewInit {
 
   get currentHeading() {
     if (!this.hasHeading) {
-return 0;
-}
+      return 0;
+    }
     return this.heading.trueHeading || 0;
   }
   get hasHeading() {
     if (!this.heading) {
-return false;
-}
+      return false;
+    }
     if (this.heading.error) {
-return false;
-}
+      return false;
+    }
     return true;
   }
 
@@ -109,7 +109,6 @@ return false;
     this.smkApi = new SmkApi(smk);
 
     const L = window['L'];
-    const T = window['turf'];
 
     const loc = {
       type: 'Point',
@@ -169,12 +168,7 @@ return false;
   }
 
   confirmLocation() {
-    if (
-      this.location &&
-      this.location.coords &&
-      this.location.coords.latitude &&
-      this.location.coords.longitude
-    ) {
+    if (this.location?.coords?.latitude && this.location?.coords?.longitude) {
       this.reportOfFire.deviceLocation[0] = this.location.coords.latitude;
       this.reportOfFire.deviceLocation[1] = this.location.coords.longitude;
     }
@@ -269,7 +263,7 @@ return false;
             ];
             const dist =
               this.reportOfFire.estimatedDistance &&
-              this.reportOfFire.estimatedDistance != 0
+              this.reportOfFire.estimatedDistance !== 0
                 ? this.reportOfFire.estimatedDistance / 1000
                 : this.distanceEstimateMeter / 1000; //km
             const head = this.reportOfFire.compassHeading;
@@ -290,7 +284,7 @@ return false;
             ];
             const dist =
               this.reportOfFire.estimatedDistance &&
-              this.reportOfFire.estimatedDistance != 0
+              this.reportOfFire.estimatedDistance !== 0
                 ? this.reportOfFire.estimatedDistance / 1000
                 : this.distanceEstimateMeter / 1000; //km
             const head = this.reportOfFire.compassHeading;
@@ -317,7 +311,7 @@ return false;
   addOfflineLayer() {
     const SMK = window['SMK'];
     for (const smkMap in SMK.MAP) {
-      if (Object.prototype.hasOwnProperty.call(SMK.MAP, smkMap)) {
+      if (Object.hasOwn(SMK.MAP, smkMap)) {
         const geoJsonData = offlineMapJson;
         const offlineLyaer = L.geoJson(geoJsonData, {
           style: {

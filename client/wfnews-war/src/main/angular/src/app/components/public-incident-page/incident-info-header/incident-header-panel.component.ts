@@ -13,6 +13,7 @@ import {
   convertToFireCentreDescription,
   convertFireNumber,
   ResourcesRoutes,
+  setDisplayColor
 } from '../../../utils';
 import * as moment from 'moment';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,7 +22,6 @@ import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { setDisplayColor } from '../../../utils';
 
 @Component({
   selector: 'incident-header-panel',
@@ -30,21 +30,17 @@ import { setDisplayColor } from '../../../utils';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IncidentHeaderPanel implements AfterViewInit {
-  public params: ParamMap;
-
   @Input() public incident: any;
   @Input() public evacOrders: EvacOrderOption[] = [];
   @Input() public extent: any;
+
+  public params: ParamMap;
   public defaultEvacURL: string;
+
   convertToFireCentreDescription = convertToFireCentreDescription;
   convertFireNumber = convertFireNumber;
 
   private map: any;
-
-  @HostListener('window:resize', ['$event'])
-  onResize(event) {
-    this.map.invalidateSize();
-  }
 
   constructor(
     private appConfigService: AppConfigService,
@@ -56,6 +52,11 @@ export class IncidentHeaderPanel implements AfterViewInit {
     private route: ActivatedRoute,
   ) {
     /* Empty, just here for injection */
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.map.invalidateSize();
   }
 
   ngOnInit(): void {
@@ -186,9 +187,9 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   displaySizeType(incidentSizeDetail: string) {
-    if (incidentSizeDetail && incidentSizeDetail.includes('estimated')) {
+    if (incidentSizeDetail?.includes('estimated')) {
       return '(Estimated)';
-    } else if (incidentSizeDetail && incidentSizeDetail.includes('mapped')) {
+    } else if (incidentSizeDetail?.includes('mapped')) {
       return '(Mapped)';
     } else {
       return null;
@@ -228,7 +229,7 @@ export class IncidentHeaderPanel implements AfterViewInit {
   }
 
   backToMap() {
-    if (this.incident && this.incident.longitude && this.incident.latitude) {
+    if (this.incident?.longitude && this.incident?.latitude) {
       setTimeout(() => {
         this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
           queryParams: {
@@ -256,7 +257,7 @@ this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           },
         });
 } else if (
-        this.params['source'] == 'saved-location' &&
+        this.params['source'] === 'saved-location' &&
         this.params['sourceName'] &&
         this.params['sourceLongitude'] &&
         this.params['sourceLatitude']

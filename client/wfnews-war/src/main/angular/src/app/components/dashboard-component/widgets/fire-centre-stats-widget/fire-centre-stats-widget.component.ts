@@ -14,11 +14,11 @@ export class FireCentreStatsWidget implements AfterViewInit {
   public fireCentreTotals = [];
   public fireCentreHectares = [];
 
-  private fireCentres = FireCentres;
-
   public colorScheme = {
     domain: ['#DCA237', '#3070AD', '#C66526', '#469C76', '#EEE461', '#C17DA5'],
   };
+
+  private fireCentres = FireCentres;
 
   constructor(private publishedIncidentService: PublishedIncidentService) {}
 

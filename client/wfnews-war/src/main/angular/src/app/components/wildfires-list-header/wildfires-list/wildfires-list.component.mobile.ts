@@ -43,13 +43,13 @@ export class WildFiresListComponentMobile {
   public order = true;
   public alert = true;
 
-  private searchTimer;
-
   public filters: FilterData;
   public lastLocation: LocationData;
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
+  
+  private searchTimer;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);

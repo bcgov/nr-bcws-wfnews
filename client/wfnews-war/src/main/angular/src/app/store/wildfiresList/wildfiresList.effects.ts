@@ -84,7 +84,7 @@ export class WildfiresListEffect {
           const filters = typedaction.payload.filters;
           for (const filter in filters) {
             if (
-              Object.prototype.hasOwnProperty.call(filters, filter) &&
+              Object.hasOwn(filters, filter) &&
               filters[filter] !== undefined
             ) {
               if (filter === 'stageOfControlList') {

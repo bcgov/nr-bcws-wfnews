@@ -42,7 +42,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       App.removeAllListeners();
       // run background task
       (async () => {
-        const background = await this.backgroundListener();
+        await this.backgroundListener();
       })();
     }
   }
@@ -65,8 +65,8 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   async backgroundListener() {
     App.addListener('appStateChange', async ({ isActive }) => {
       if (isActive) {
-return;
-}
+        return;
+      }
       // The app state has been changed to inactive.
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
@@ -111,7 +111,7 @@ this.nextId = 'disclaimer-page';
 
     this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
       if (!enabled) {
-        const dialogRef = this.dialog.open(DialogLocationComponent, {
+        this.dialog.open(DialogLocationComponent, {
           autoFocus: false,
           width: '80vw',
         });

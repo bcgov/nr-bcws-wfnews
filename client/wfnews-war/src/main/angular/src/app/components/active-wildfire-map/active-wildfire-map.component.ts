@@ -250,7 +250,7 @@ this.inputAutoComplete.openPanel();
               )
               .toPromise()
               .then((incidents) => {
-                if (incidents && incidents.collection) {
+                if (incidents?.collection) {
                   for (const element of incidents.collection.filter(
                     (e) => e.stageOfControlCode !== 'OUT',
                   )) {
@@ -313,7 +313,7 @@ this.inputAutoComplete.openPanel();
             )
             .toPromise()
             .then((evacs) => {
-              if (evacs && evacs.features) {
+              if (evacs?.features) {
                 for (const element of evacs.features) {
                   this.filteredOptions.push({
                     id: element.attributes.EMRG_OAA_SYSID,
@@ -712,7 +712,7 @@ return;
         lat: result.location[0],
         lng: result.location[1],
       });
-      if (first != second) {
+      if (first !== second) {
         self.highlight(result);
       }
     });
@@ -853,7 +853,7 @@ return;
     const map = getActiveMap(this.SMK).$viewer.map;
     if (this.savedLocationlabelsToShow?.length === 0) {
       for (const label of this.savedLocationlabels) {
-        label.addTo(getActiveMap(this.SMK).$viewer.map);
+        label.addTo(map);
         this.savedLocationlabelsToShow.push(label);
       }
     }

@@ -54,7 +54,7 @@ export class VideoCardPanel {
   }
 
   get isPrimary() {
-    if (!Object.prototype.hasOwnProperty.call(this.video, 'primaryInd')) {
+    if (!Object.hasOwn(this.video, 'primaryInd')) {
       this.video.primaryInd = false;
     }
 

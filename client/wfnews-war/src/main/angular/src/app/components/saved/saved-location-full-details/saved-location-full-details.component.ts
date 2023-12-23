@@ -88,14 +88,19 @@ export class SavedLocationFullDetailsComponent implements OnInit {
     try {
       if (this.params && this.params['name']) {
         for (const item of notificationSettings?.notifications) {
+          const longitude = Number(this.params['longitude']);
+          const latitude = Number(this.params['latitude']);
+          
+          // Check if name, longitude, and latitude are valid
           if (
             item?.notificationName === this.params['name'] &&
-            (item?.point?.coordinates[0] as number) ==
-              this.params['longitude'] &&
-            (item?.point?.coordinates[1] as number) == this.params['latitude']
+            !isNaN(longitude) &&
+            !isNaN(latitude) &&
+            Number(item?.point?.coordinates[0]) === longitude &&
+            Number(item?.point?.coordinates[1]) === latitude
           ) {
-return item;
-}
+            return item;
+          }
         }
       }
     } catch (error) {

@@ -112,7 +112,7 @@ export class IncidentMapsPanel implements OnInit {
 
     request.subscribe(
       (ev) => {
-        if (ev.type == HttpEventType.Sent) {
+        if (ev.type === HttpEventType.Sent) {
           this.snackbarService.open('Generating PDF. Please wait...', 'Close', {
             duration: 10000,
             panelClass: 'snackbar-info',

@@ -26,24 +26,14 @@ export class IncidentGalleryPanel implements OnInit {
   @Input() public showImageWarning;
 
   public convertToYoutubeId = convertToYoutubeId;
-  public constructor(
-    private publishedIncidentService: PublishedIncidentService,
-    private appConfigService: AppConfigService,
-    private cdr: ChangeDetectorRef,
-    private router: ActivatedRoute,
-  ) {}
 
   currentMediaType: string;
   mediaTypeOptions: string[] = ['All', 'Images', 'Videos'];
   imagesAndVideosStub: any[];
   allImagesAndVideosStub: any[];
-
-  private lightGallery!: LightGallery;
-  private refreshGallery = false;
   public showVideos = true;
   public showImages = true;
   isPreview: boolean;
-
   settings = {
     counter: true,
     plugins: [lgZoom, lgFullscreen, lgThumbnail],
@@ -53,6 +43,16 @@ export class IncidentGalleryPanel implements OnInit {
     actualSize: true,
     thumbnail: true,
   };
+
+  private lightGallery!: LightGallery;
+  private refreshGallery = false;
+
+  public constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    private appConfigService: AppConfigService,
+    private cdr: ChangeDetectorRef,
+    private router: ActivatedRoute,
+  ) {}
 
   ngAfterViewChecked(): void {
     if (this.refreshGallery && this.lightGallery) {
@@ -120,7 +120,7 @@ export class IncidentGalleryPanel implements OnInit {
       .fetchExternalUri(this.incident.incidentNumberLabel)
       .toPromise()
       .then((results) => {
-        if (results && results.collection && results.collection.length > 0) {
+        if (results?.collection?.length > 0) {
           for (const uri of results.collection) {
             if (!uri.externalUriCategoryTag.includes('EVAC-ORDER')) {
               this.allImagesAndVideosStub.push({
@@ -143,11 +143,7 @@ export class IncidentGalleryPanel implements OnInit {
           .toPromise()
           .then((results) => {
             // Loop through the attachments, for each one, create a ref, and set href to the bytes
-            if (
-              results &&
-              results.collection &&
-              results.collection.length > 0
-            ) {
+            if (results?.collection?.length > 0) {
               for (const attachment of results.collection) {
                 // do a mime type check here
                 // Light gallery does not really support direct download on mimetype : image/bmp && image/tiff, which will returns 500 error.

@@ -34,15 +34,15 @@ export interface ReportOfFireType {
   providedIn: 'root',
 })
 export class ReportOfFireService {
+  submittedOffline: boolean;
+  longitude: number;
+  latitude: number;
+
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
     private storage: Storage,
   ) {}
-
-  submittedOffline: boolean;
-  longitude: number;
-  latitude: number;
 
   async saveReportOfFire(
     reportOfFire: ReportOfFireType,
@@ -250,8 +250,8 @@ formData.append('image3', image3);
       // if the base64 string already has GPS metadata return it
       if (tags && tags.GPSLongitude && tags.GPSLatitude) {
         return base64;
-      } // add GPS metadata if not present
-      else {
+      } else {
+        // add GPS metadata if not present
         const gps = {};
         gps[P.GPSIFD.GPSLatitudeRef] = this.latitude < 0 ? 'S' : 'N';
         gps[P.GPSIFD.GPSLatitude] = P.GPSHelper.degToDmsRational(this.latitude);

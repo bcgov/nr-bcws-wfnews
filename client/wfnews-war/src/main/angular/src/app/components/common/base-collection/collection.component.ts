@@ -51,17 +51,17 @@ export class CollectionComponent
     this.currentSortDirection = this.searchState.sortDirection;
 
     const currentSortObj = this.columnsToSortBy.find(
-      (col) => col.def == this.currentSort,
+      (col) => col.def === this.currentSort,
     );
     if (currentSortObj) {
       this.currentSortLabel = currentSortObj.label;
     }
     this.currentPage =
-      this.searchState && this.searchState.pageIndex
+      this.searchState?.pageIndex
         ? this.searchState.pageIndex
         : this.initPagingRequest.pageNumber;
     this.showEntriesSelection = Number(
-      this.searchState && this.searchState.pageSize
+      this.searchState?.pageSize
         ? this.searchState.pageSize
         : this.initPagingRequest.pageRowCount,
     );
@@ -73,7 +73,7 @@ export class CollectionComponent
       id: this.componentId + 'Paginator',
       itemsPerPage: this.showEntriesSelection,
       totalItems:
-        this.collection && this.collection.totalRowCount
+        this.collection?.totalRowCount
           ? this.collection.totalRowCount
           : 0,
     };
@@ -85,12 +85,12 @@ export class CollectionComponent
     if (
       this.isFirstLoad &&
       this.baseRoute &&
-      this.router.url == this.baseRoute
+      this.router.url === this.baseRoute
     ) {
       this.isFirstLoad = false;
       this.router.events.forEach((event) => {
         if (event instanceof NavigationEnd) {
-          if (event.url == this.baseRoute) {
+          if (event.url === this.baseRoute) {
             this.doSearch();
           }
         }
@@ -100,7 +100,7 @@ export class CollectionComponent
 
   ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
-    if (changes.collection && changes.collection.currentValue) {
+    if (changes?.collection?.currentValue) {
       this.updateCollection(changes.collection.currentValue);
       setTimeout(() => {
         this.fixPaginationA11y();
@@ -119,7 +119,7 @@ export class CollectionComponent
 
   fixPaginationA11y() {
     const paginationUlEls = document.getElementsByClassName('ngx-pagination');
-    if (paginationUlEls && paginationUlEls.length) {
+    if (paginationUlEls?.length) {
       const el = paginationUlEls[0] as HTMLUListElement;
       const aEls = el.getElementsByTagName('a');
       for (let i = 0; i < aEls.length; i++) {
@@ -160,7 +160,7 @@ export class CollectionComponent
     this.currentSort = data.active;
     this.currentSortDirection = data.direction;
     const currentSortObj = this.columnsToSortBy.find(
-      (col) => col.def == this.currentSort,
+      (col) => col.def === this.currentSort,
     );
     if (currentSortObj) {
       this.currentSortLabel = currentSortObj.label;
@@ -184,8 +184,8 @@ export class CollectionComponent
   doSort() {
     this.columnsToSortBy = this.columnsToSortBy.map((col) => {
       const newCol = { ...col };
-      newCol.dir = this.currentSortDirection == 'DESC' ? 'ASC' : 'DESC';
-      if (col.def == this.currentSort) {
+      newCol.dir = this.currentSortDirection === 'DESC' ? 'ASC' : 'DESC';
+      if (col.def === this.currentSort) {
         this.currentSortLabel = col.label;
       }
       return newCol;
@@ -199,9 +199,8 @@ export class CollectionComponent
       showNum = 10;
     }
     if (
-      this.collection &&
-      this.collection.totalRowCount &&
-      this.collection.totalRowCount > 0
+      this.collection?.totalRowCount &&
+      this.collection?.totalRowCount > 0
     ) {
       let start = (this.collection.pageNumber - 1) * showNum + 1;
       let end = start + showNum - 1;
@@ -252,7 +251,7 @@ export class CollectionComponent
     const spaceKey = ' ';
     if (
       this.defaultItemActionPermitted(item) &&
-      (event.key == enterKey || event.key == spaceKey)
+      (event.key === enterKey || event.key === spaceKey)
     ) {
       this.doDefaultItemAction(item);
     }

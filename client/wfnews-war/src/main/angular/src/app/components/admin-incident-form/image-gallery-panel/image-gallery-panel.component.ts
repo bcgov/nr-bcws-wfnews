@@ -48,13 +48,15 @@ export class ImageGalleryPanel
     sortParam: 'attachmentTitle',
     sortDirection: 'DESC',
   };
-  private loaded = false;
+
   public uploadProgress = 0;
   public uploadStatus = '';
   public statusBar;
 
   public attachments: AttachmentResource[] = [];
   public externalUriList: any[] = [];
+
+  private loaded = false;
 
   constructor(
     protected router: Router,
@@ -330,7 +332,7 @@ return 0;
    */
   async removePrimaryFlags(guid: string) {
     for (const attachment of this.attachments) {
-      const isPrimary = (attachment as any).primaryInd as Boolean;
+      const isPrimary = (attachment as any).primaryInd as boolean;
       if (isPrimary && attachment.attachmentGuid !== (guid as any).event) {
         (attachment as any).primaryInd = false;
         await this.incidentAttachmentService

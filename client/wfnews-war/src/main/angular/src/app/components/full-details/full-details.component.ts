@@ -1,10 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ParamMap, ActivatedRoute, Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
-import { AreaRestriction } from './area-restrictions-full-details/area-restrictions-full-details.component';
 import { AGOLService } from '@app/services/AGOL-service';
-import { EvacData } from './evac-alert-full-details/evac-alert-full-details.component';
-import { BanProhibition } from './bans-full-details/bans-full-details.component';
 
 @Component({
   selector: 'wfnews-full-details',
@@ -53,7 +50,7 @@ document.getElementById('mobile-navigation-bar').style.display = 'block';
     try {
       if (this.params && this.params['source']) {
         if (
-          this.params['source'] == 'saved-location' &&
+          this.params['source'] === 'saved-location' &&
           this.params['sourceName'] &&
           this.params['sourceLongitude'] &&
           this.params['sourceLatitude']
@@ -67,7 +64,7 @@ document.getElementById('mobile-navigation-bar').style.display = 'block';
             },
           });
         } else if (
-          this.params['source'] == 'incidents' &&
+          this.params['source'] === 'incidents' &&
           this.params['sourceYear'] &&
           this.params['sourceNumber']
         ) {
@@ -91,44 +88,5 @@ throw new Error('No previous screen to route too');
 
   async exit() {
     this.router.navigate([ResourcesRoutes.DASHBOARD]);
-    // decision to make close button go back to dashboard always. Keeping previous code as I expect this might change
-    /*try {
-      // if exiting from area restriction full details retrieve the restriction's location to display as centred on the wildfire map
-      if ((this.params['type']) === 'area-restriction' && this.params['id']) {
-        const id = this.params['id']
-        const response = await this.agolService.getAreaRestrictionsByID(id, { returnCentroid: true }).toPromise()
-        if (response?.features[0]?.attributes) {
-          const areaRestriction = response.features[0]
-
-          if (areaRestriction?.centroid?.y && areaRestriction?.centroid?.x) {
-            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { areaRestriction: true, identify: true, longitude: areaRestriction.centroid.x, latitude: areaRestriction.centroid.y } }), 100);
-          }
-        } else {
-          console.error('Area Restriction ' + id + ' could not be retrieved')
-        }
-      } else if (((this.params['type']) === 'evac-alert' || (this.params['type']) === 'evac-order') && this.params['id']) {
-        const response = await this.agolService.getEvacOrdersByID(this.params['id'], { returnCentroid: true }).toPromise()
-        if (response?.features[0]?.attributes) {
-          const evac = response.features[0]
-          if (evac?.centroid?.y && evac?.centroid?.x) {
-            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { evac: true, identify: true, longitude: evac.centroid?.x, latitude: evac.centroid?.y } }), 100)
-          }
-        } else {
-          console.error('Evac ' + this.params['id'] + ' could not be retrieved')
-        }
-      } else if ((this.params['type']) === 'bans-prohibitions' && this.params['id']) {
-        const response = await this.agolService.getBansAndProhibitionsById(this.params['id'], { returnGeometry: false, returnCentroid: true, returnExtent: false }).toPromise().catch(err => console.error(err))
-        // could also do response length === 1
-        if (response?.features[0]?.attributes) {
-          const ban = response.features[0]
-          if (ban?.centroid?.y && ban?.centroid?.x) {
-            setTimeout(() => this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], { queryParams: { bans: true, identify: true, longitude: ban.centroid.x, latitude: ban.centroid.y } }), 100);
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Exiting full details failed with error: ' + error)
-    }
-    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);*/
   }
 }

@@ -17,12 +17,12 @@ import { AppConfigService } from '@wf1/core-ui';
   styleUrls: ['./contact-widget-dialog.component.scss'],
 })
 export class ContactWidgetDialogComponent implements OnInit {
-  public contactForm: UntypedFormGroup;
-  public contactInformationConfig: any;
-  public closeColor;
   // If used as a dialog, set pageMode to false as an input
   // could also pass in as a data object
   @Input() public pageMode = true;
+  public contactForm: UntypedFormGroup;
+  public contactInformationConfig: any;
+  public closeColor;
 
   isMobileView = isMobileView;
 

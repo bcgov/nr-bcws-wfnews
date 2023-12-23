@@ -1,14 +1,14 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'rof-location-services-dialog',
   templateUrl: './location-services-dialog.component.html',
 })
 export class LocationServicesDialogComponent {
-  locationServicesAlert: String;
+  locationServicesAlert: string;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: String }) {
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { message: string }) {
     this.locationServicesAlert = this.data.message;
   }
 }

@@ -8,7 +8,6 @@ import {
 import * as L from 'leaflet';
 import { AppConfigService } from '@wf1/core-ui';
 import { HttpClient } from '@angular/common/http';
-import { isMobileView } from '@app/utils';
 
 @Component({
   selector: 'bans-widget',

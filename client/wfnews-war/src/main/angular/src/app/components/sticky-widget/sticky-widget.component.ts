@@ -14,11 +14,10 @@ import { ContactWidgetDialogComponent } from './contact-widget-dialog/contact-wi
 export class StickyWidgetComponent implements OnDestroy {
   public showWatchlist = false;
   public watchlist: any[] = [];
-  private closeProgressInterval: any;
   public progressValue = 0;
-
   public isMobileView = mobileView;
-
+  private closeProgressInterval: any;
+  
   constructor(
     protected dialog: MatDialog,
     protected cdr: ChangeDetectorRef,

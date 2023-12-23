@@ -36,8 +36,8 @@ return this.cache[url].result;
 
     Object.keys(this.cache).forEach(function(url) {
       if (now - self.cache[url].ts < MAX_CACHE_AGE) {
-return;
-}
+        return;
+      }
       delete self.cache[url];
     });
 

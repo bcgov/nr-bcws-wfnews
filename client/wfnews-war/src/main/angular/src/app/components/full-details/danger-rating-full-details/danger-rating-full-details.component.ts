@@ -105,12 +105,12 @@ export class DangerRatingFullDetailsComponent implements OnInit {
         .toPromise();
       if (incidents?.collection && incidents?.collection?.length > 0) {
         for (const item of incidents.collection) {
-          const location = [Number(item.latitude), Number(item.longitude)];
+          const incidentLocation = [Number(item.latitude), Number(item.longitude)];
           if (item.fireOfNoteInd) {
-            L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
+            L.marker(incidentLocation, { icon: fireOfNoteIcon }).addTo(this.map);
           } else {
             const colorToDisplay = setDisplayColor(item.stageOfControlCode);
-            L.circleMarker(location, {
+            L.circleMarker(incidentLocation, {
               radius: 5,
               fillOpacity: 1,
               color: 'black',
