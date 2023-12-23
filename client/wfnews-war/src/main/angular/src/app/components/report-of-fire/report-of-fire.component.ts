@@ -46,7 +46,8 @@ enum PageOperation {
 })
 export class ReportOfFirePage implements OnInit, AfterContentInit {
   @ViewChild('dynamic', { static: true, read: ViewContainerRef })
-
+  public dynamicContainer!: ViewContainerRef;
+  
   public reportOfFire: ReportOfFire;
   public pageComponents: Array<ComponentRef<any>> = [];
   public currentPage: ComponentRef<any>;
@@ -56,8 +57,6 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
   public isEditMode = false;
   public progressSteps = [];
   public currentStep = 0;
-
-  private dynamicContainer!: ViewContainerRef;
 
   constructor(
     private locationService: Location,
