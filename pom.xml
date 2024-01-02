@@ -12,7 +12,7 @@
  <properties>
   <sonar.organization>bcgov-sonarcloud</sonar.organization>
   <sonar.host.url>https://sonarcloud.io</sonar.host.url>
-  <sonar.sources>database,docker,lambda,terraform</sonar.sources>
+  <sonar.sources>database,docker,lambda,terraform,client/wfnews-war/src/main/angular/src</sonar.sources>
 </properties>
   
   <modules>
