@@ -28,3 +28,7 @@
 .publish-btn {
   margin: 15px 15px 5px 15px;
 }
+
+::ng-deep .mdc-snackbar__surface{
+  background-color: transparent !important;
+}

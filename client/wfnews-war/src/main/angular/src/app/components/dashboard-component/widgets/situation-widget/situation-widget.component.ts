@@ -47,7 +47,7 @@ export class SituationWidget implements AfterViewInit {
           );
           this.situationReport = validReports[0];
           this.situationReport.situationReportDate = moment(
-            new Date(this.situationReport.createdTimestamp + 86000000),
+            new Date(this.situationReport.createdTimestamp),
           ).format('MMM Do YYYY');
         }
 

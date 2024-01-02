@@ -503,3 +503,7 @@
     }
   }
 }
+
+::ng-deep .mdc-snackbar__surface{
+  background-color: transparent !important;
+}
