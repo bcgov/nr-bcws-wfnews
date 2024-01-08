@@ -54,7 +54,7 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
         result = statsData.get(fireCentre + ":" + fireYear);
       } else {
         result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
-        statsData.put(fireCentre + ":" + fireYear, result);
+        statsData.putIfAbsent(fireCentre + ":" + fireYear, result);
       }
 
       GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
@@ -92,7 +92,7 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
     while (index < 5) {
       try {
         List<StatisticsResource> result = incidentsService.getStatistics("BC", (currentYear - index), getFactoryContext());
-        statsData.put("BC:" + (currentYear - index), result);
+        statsData.putIfAbsent("BC:" + (currentYear - index), result);
       } catch (Exception ex) { // sigh, getStatistics throws "Exception", should be: NotFoundException | ForbiddenException | ConflictException | ValidationFailureExceptionJava | 
         logger.error("Failed to pre-cache statistics data", ex);
       }
