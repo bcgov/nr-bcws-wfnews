@@ -51,9 +51,9 @@
         <ul>
           <li (click)="setActive('dashboard')">
 
-            <img *ngIf="router.url === '/dashboard'; else dashboardOther" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
+            <img alt="icon" *ngIf="router.url === '/dashboard'; else dashboardOther" class="icon active" src="/assets/images/svg-icons/dashboard-highlight.svg" >
             <ng-template #dashboardOther>
-              <img class="icon" src="/assets/images/svg-icons/dashboard.svg" >
+              <img alt="icon" class="icon" src="/assets/images/svg-icons/dashboard.svg" >
             </ng-template>
             <span [class]="router.url === '/dashboard' ? 'text-active' : ''">Dashboard</span>
           </li>
@@ -65,23 +65,23 @@
             <span [class]="router.url === '/map' ? 'text-active' : ''">Map</span>
           </li>
           <li (click)="setActive('saved')">
-            <img *ngIf="router.url === '/saved'; else savedOther" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
+            <img alt="icon" *ngIf="router.url === '/saved'; else savedOther" class="icon active" src="/assets/images/svg-icons/saved-highlight.svg" >
             <ng-template #savedOther>
-              <img class="icon" src="/assets/images/svg-icons/saved.svg" >
+              <img alt="icon" class="icon" src="/assets/images/svg-icons/saved.svg" >
             </ng-template>
             <span [class]="router.url === '/saved' ? 'text-active' : ''">Saved</span>
           </li>
           <li (click)="setActive('reportOfFire')">
-            <img *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
+            <img alt="icon" *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" class="icon active" src="/assets/images/svg-icons/wildfire-white-highlight.svg" >
             <ng-template #reportOfFireOther>
-              <img class="icon" src="/assets/images/svg-icons/rof-icon-white.svg" >
+              <img alt="icon" class="icon" src="/assets/images/svg-icons/rof-icon-white.svg" >
             </ng-template>
             <span [class]="router.url === '/reportOfFire' ? 'text-active' : ''">Report</span>
           </li>
           <li (click)="setActive('more')">
-            <img *ngIf="router.url === '/more'; else moreOther" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
+            <img alt="icon" *ngIf="router.url === '/more'; else moreOther" class="icon active" src="/assets/images/svg-icons/more-highlight.svg" >
             <ng-template #moreOther>
-              <img class="icon" src="/assets/images/svg-icons/more.svg" >
+              <img alt="icon" class="icon" src="/assets/images/svg-icons/more.svg" >
             </ng-template>
             <span [class]="router.url === '/more' ? 'text-active' : ''">More</span>
           </li>

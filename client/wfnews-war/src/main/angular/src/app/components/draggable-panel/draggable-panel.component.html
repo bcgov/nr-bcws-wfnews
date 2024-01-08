@@ -9,7 +9,7 @@
                 <div *ngFor="let wildfire of filteredWildfires" class="widget-card">
                     <div class="widget-row" (click)="openPreviewPanel(wildfire)">
                         <div class="left-content">
-                            <img *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon-title" src="/assets/images/local_fire_department.png"/>
+                            <img alt="icon" *ngIf="wildfire.layerId === 'active-wildfires-fire-of-note'" class="incident-icon-title" src="/assets/images/local_fire_department.png"/>
                             <span class="circle-icon {{wildfire.layerId === 'fire-perimeters' ? convertFirePerimeterFireStatus(wildfire.properties.FIRE_STATUS) : wildfire.layerId }} list"></span>
                             {{displayWildfireName(wildfire)}}
                         </div>
@@ -258,10 +258,10 @@
 
                 <span class="preview-title">
                     <ng-container *ngIf="identifyItem.layerId === 'active-wildfires-fire-of-note'; else fireIcon">
-                        <img class="incident-icon-title" height="24" width="24" src="/assets/images/local_fire_department.png"/>
+                        <img alt="icon" class="incident-icon-title" height="24" width="24" src="/assets/images/local_fire_department.png"/>
                     </ng-container>
                     <ng-template #fireIcon>
-                        <img class="incident-icon-title" src="/assets/images/svg-icons/report.svg">
+                        <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/report.svg">
                     </ng-template>
                     {{displayItemTitle(identifyItem)}}
                 </span>
@@ -274,11 +274,11 @@
                     {{getStageOfControlLabel(identifyIncident.stageOfControlCode)}}
                 </div>
                 <div class="identify-card-item">
-                    <img height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
                     {{identifyIncident.fireCentreName}}
                 </div>
                 <div class="identify-card-item">
-                    <img class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                    <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     Discovered on {{convertToDateYear(identifyIncident.discoveryDate)}}
                 </div>
                 <div class="description-section">
@@ -327,11 +327,11 @@
             <div class="identify-card">
                 <div class="identify-card-title" *ngIf="identifyItem.properties.EVENT_NAME">{{displayEvacTitle(identifyItem)}}</div>
                 <div class="identify-card-item">
-                    <img class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                    <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     Issued on {{formatDate(identifyItem.properties.DATE_MODIFIED)}}
                 </div>
                 <div class="identify-card-item">
-                    <img class="incident-icon" src="/assets/images/svg-icons/carbon_finance.svg">
+                    <img alt="icon" class="incident-icon" src="/assets/images/svg-icons/carbon_finance.svg">
                     Issued by {{identifyItem.properties.ISSUING_AGENCY}}
                 </div>
                 <div class="description-section">
@@ -369,26 +369,26 @@
                     Area Restrictions
                 </span>
                 <span class="preview-title" *ngIf="identifyItem.layerId.includes('bans-and-prohibitions')">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/ban.svg">
+                    <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/ban.svg">
                     Fire Bans
                 </span>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'closed-recreation-sites'">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
+                    <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Closed Recreational Sites
                 </span>
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'drive-bc-active-events'">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/road-event.svg">
+                    <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/road-event.svg">
                     Road Events
                 </span>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions'">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
+                    <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Protected Lands
                 </span>
 
                 <span class="preview-title" *ngIf="identifyItem.layerId === 'bc-fsr'">
-                    <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
+                    <img alt="icon" class="incident-icon-title" src="/assets/images/svg-icons/carbon_layers.svg">
                     Forest Service Roads
                 </span>
 
@@ -421,8 +421,8 @@
                 </div>
 
                 <div class="identify-card-item">
-                    <img *ngIf="showLocationIcon(identifyItem.layerId)" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
-                    <img *ngIf="identifyItem.layerId === 'drive-bc-active-events'" src="/assets/images/svg-icons/carbon_finance.svg" class="incident-icon" >
+                    <img alt="icon" *ngIf="showLocationIcon(identifyItem.layerId)" src="/assets/images/svg-icons/location-pin.svg" class="incident-icon" >
+                    <img alt="icon" *ngIf="identifyItem.layerId === 'drive-bc-active-events'" src="/assets/images/svg-icons/carbon_finance.svg" class="incident-icon" >
 
                     <img *ngIf="identifyItem.layerId === 'protected-lands-access-restrictions' && identifyItem.properties.CAMPFIRE_BAN_IND !== 'N' " class="incident-icon" src="/assets/images/svg-icons/ban.svg" alt="Ban">
 
@@ -435,7 +435,7 @@
 
                 </div>
                 <div class="identify-card-item">
-                    <img *ngIf="showCalendarIcon(identifyItem.layerId)" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
+                    <img alt="icon" *ngIf="showCalendarIcon(identifyItem.layerId)" class="incident-icon" src="/assets/images/svg-icons/calendar.svg">
                     <span *ngIf="identifyItem.layerId === 'area-restrictions' || identifyItem.layerId.includes('bans-and-prohibitions')">Issued on {{formatDate(identifyItem.properties.ACCESS_STATUS_EFFECTIVE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'closed-recreation-sites'">Closed on {{convertToDateYear(identifyItem.properties.CLOSURE_DATE)}}</span>
                     <span *ngIf="identifyItem.layerId === 'drive-bc-active-events'">Created on {{convertToDateYear(identifyItem.properties.CREATED_TIME)}}</span>
