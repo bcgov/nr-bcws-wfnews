@@ -2,6 +2,7 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.impl;
 
 import java.time.Year;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,10 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
   @Autowired
 	private IncidentsService incidentsService;
   private Map<String, List<StatisticsResource>> statsData;
+  private long lastCacheTimestamp;
 
   public StatisticsEndpointImpl() {
+    lastCacheTimestamp = 0L;
     statsData = new HashMap<>();
     loadHistoricalStats();
   }
@@ -40,36 +43,39 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
     
     try {
       
-        if (statsData == null) {
-          statsData = new HashMap<>();
-        }
-        
-        List<StatisticsResource> result;
-        
-        if (!statsData.isEmpty() && statsData.containsKey(fireCentre + ":" + fireYear)) {
-          result = statsData.get(fireCentre + ":" + fireYear);
-        } else {
-          result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
-          statsData.put(fireCentre + ":" + fireYear, result);
-        }
-
-        GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
-          /* do nothing */
-        };
-
-        // static resource doesn't need an eTag
-        response = Response.ok(entity).build();
+      // If the cache is null, or 24+ hours old, clear it
+      if (statsData == null || (lastCacheTimestamp + 86400000) < new Date().getTime()) {
+        statsData = new HashMap<>();
+      }
       
+      List<StatisticsResource> result;
+      
+      if (!statsData.isEmpty() && statsData.containsKey(fireCentre + ":" + fireYear)) {
+        result = statsData.get(fireCentre + ":" + fireYear);
+      } else {
+        result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
+        statsData.put(fireCentre + ":" + fireYear, result);
+      }
+
+      GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
+        /* do nothing */
+      };
+
+      // static resource doesn't need an eTag
+      response = Response.ok(entity).build();
     } catch (NotFoundException e) {
       response = Response.status(Status.NOT_FOUND).build();
     } catch (Throwable t) {
       response = getInternalServerErrorResponse(t);
     }
+
     logResponse(response);
 
 	  return response;
   }
 
+  // Scheduled job to run once a day to clear the cache and pre-populate it with data
+  // based on the typical use case of the last 4 fire seasons.
   @Scheduled(cron = "0 5 * * *")
   private void loadHistoricalStats() {
     logger.info("Starting statistics data pre-cache");
@@ -91,8 +97,15 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
         logger.error("Failed to pre-cache statistics data", ex);
       }
       index += 1;
+
+      // kill switch. If we've iterated earlier than the year 2000, we have no data
+      // so break the loop
+      if (currentYear - index < 2000) {
+        break;
+      }
     }
 
+    lastCacheTimestamp = new Date().getTime();
     logger.info("Statistics pre-cache completed");
   }
 }
