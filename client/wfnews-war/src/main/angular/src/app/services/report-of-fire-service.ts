@@ -115,27 +115,23 @@ return;
   }
 
   async blobToBase64(url): Promise<string> {
-    try {
-      return new Promise(async (resolve, _) => {
-        // do a request to the blob uri
-        const response = await fetch(url);
+    return new Promise(async (resolve, _) => {
+      // do a request to the blob uri
+      const response = await fetch(url);
 
-        // response has a method called .blob() to get the blob file
-        const blob = await response.blob();
+      // response has a method called .blob() to get the blob file
+      const blob = await response.blob();
 
-        // instantiate a file reader
-        const fileReader = new FileReader();
+      // instantiate a file reader
+      const fileReader = new FileReader();
 
-        // read the file
-        fileReader.readAsDataURL(blob);
+      // read the file
+      fileReader.readAsDataURL(blob);
 
-        fileReader.onloadend = function() {
-          resolve(fileReader.result as string); // Here is the base64 string
-        };
-      });
-    } catch (error) {
-      console.error('Error converting Blob to base64 string', error);
-    }
+      fileReader.onloadend = () => {
+        resolve(fileReader.result as string); // Here is the base64 string
+      };
+    });
   }
 
   async convertToBase64(image: Photo | GalleryPhoto) {
@@ -152,7 +148,7 @@ return;
       }
 
       // if the webPath is already a base64 string, return it
-      if (image.webPath && image.webPath.startsWith('data:image')) {
+      if (image?.webPath?.startsWith('data:image')) {
         base64 = image.webPath;
       }
       // if it does not have base64 string convert it to one
@@ -165,12 +161,12 @@ return;
       else {
         image = image as Photo;
         if (image.dataUrl) {
-base64 = image.dataUrl;
-}
+          base64 = image.dataUrl;
+        }
       }
 
       // if not a JPG, metadata will be checked in notifications api and lat/long will be added if not present.
-      if (base64 && base64.startsWith('data:image/jpeg')) {
+      if (base64?.startsWith('data:image/jpeg')) {
         await this.checkExifGPS(base64).then((response) => {
           base64 = response;
         });

@@ -36,7 +36,7 @@ export class HistoricalComparisonWidget implements AfterViewInit {
     // first (current) year fetched has 20 year averages. load the next 5 for counts.cd ..
     let averageHectaresBurned = 0;
     let averageWildfires = 0;
-    while (year >= fireYear - 5) {
+    while (year >= fireYear - 4) {
       const result = await this.publishedIncidentService
         .fetchStatistics(year)
         .toPromise();

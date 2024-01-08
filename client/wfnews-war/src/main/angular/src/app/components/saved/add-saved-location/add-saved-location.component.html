@@ -1,11 +1,11 @@
 <div [class]="isMobileView() ? 'container' : 'desktop-container'">
     <div class="title-section">
-        <img height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
+        <img alt="icon" height="24" width="24" src="/assets/images/svg-icons/back-icon-panel.svg" (click)="leavePage()">
         <span class="title">{{ isEdit ? 'Edit Saved Location' : 'Add Saved Location' }}</span>
     </div>
     <div class ="content-section">
         <div class="section-frame">
-            <img class="header-icon" src="/assets/images/svg-icons/carbon_location.svg">
+            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_location.svg">
             <span class="header-text"> Details</span>
         </div>
         <div class="divider"></div>
@@ -21,7 +21,7 @@
             <span class="header-text-1">Choose Location</span>
             <div class="search-panel">
                 <div class="search-input">
-                    <img class="search-icon"src="/assets/images/svg-icons/search.svg">
+                    <img alt="icon" class="search-icon"src="/assets/images/svg-icons/search.svg">
                 <input [formControl]="searchByLocationControl" matInput [matAutocomplete]="auto" class="search-input" aria-label="Find Address" placeholder="Find Address" [(ngModel)]="searchText">
                 <button mat-mdc-button matSuffix mat-mdc-icon-button class="input-clear-button" *ngIf="searchText" aria-label="Clear" (click)="searchText = null; locationData.useUserLocation = false; locationData.searchText = null; $event.stopPropagation()" matTooltip="Clear">
                     <span class="button-wrapper"><mat-icon>close</mat-icon></span>
@@ -70,7 +70,7 @@
     <div class ="content-section" style="padding:0">
     <div *ngIf="!isWebDevice()">
         <div class="section-frame">
-            <img class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
+            <img alt="icon" class="header-icon" src="/assets/images/svg-icons/carbon_notification.svg">
             <span class="header-text">Notification Settings</span>
         </div>
         <div class="divider-with-margin"></div>

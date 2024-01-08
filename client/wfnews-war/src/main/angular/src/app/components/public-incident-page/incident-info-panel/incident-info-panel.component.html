@@ -32,7 +32,7 @@
           <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewd</div>
           <ng-template #primaryImage>
             <div style="text-align: center;">
-              <img id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
+              <img alt="icon" id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
               <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
                 videoId={{convertToYoutubeId(primaryMedia.href)}}
                 suggestedQuality="highres"

@@ -114,11 +114,11 @@ export class SearchPageComponent implements OnInit {
                 ? 1
                 : Number(a.distance || 0) < Number(b.distance || 0)
                   ? -1
-                  : 0 || a.relevance > b.relevance
+                  : a.relevance > b.relevance
                     ? 1
                     : a.relevance < b.relevance
                       ? -1
-                      : 0 || a.title.localeCompare(b.title),
+                      : a.title.localeCompare(b.title),
             );
           }
         }
@@ -175,11 +175,11 @@ export class SearchPageComponent implements OnInit {
               ? 1
               : Number(a.distance || 0) < Number(b.distance || 0)
                 ? -1
-                : 0 || a.relevance > b.relevance
+                : a.relevance > b.relevance
                   ? 1
                   : a.relevance < b.relevance
                     ? -1
-                    : 0 || a.id > b.id
+                    : a.id > b.id
                       ? 1
                       : a.id < b.id
                         ? -1
@@ -395,11 +395,11 @@ this.userLocationChecked = true;
         ? 1
         : Number(a.distance || 0) < Number(b.distance || 0)
           ? -1
-          : 0 || a.relevance > b.relevance
+          : a.relevance > b.relevance
             ? 1
             : a.relevance < b.relevance
               ? -1
-              : 0 || a.title.localeCompare(b.title),
+              : a.title.localeCompare(b.title),
     );
   }
 

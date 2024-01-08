@@ -10,8 +10,8 @@
       <div class="image-wrapper">
         <div class="imagecontainer">
           <span *ngIf="isFullScreen" class="closebutton" (click)="exitImageFullScreen()">Close</span>
-          <img *ngIf="image.webPath" [src]="image.webPath" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
-          <img *ngIf="image.dataUrl" [src]="image.dataUrl" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
+          <img alt="icon" *ngIf="image.webPath" [src]="image.webPath" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
+          <img alt="icon" *ngIf="image.dataUrl" [src]="image.dataUrl" [class]="'image' + (isFullScreen ? '-fullScreen' : '')" (click)="enterImageFullScreen(i)">
         </div>
         <button class="delete-button" (click)="deleteImage(i)">x</button>
       </div>
