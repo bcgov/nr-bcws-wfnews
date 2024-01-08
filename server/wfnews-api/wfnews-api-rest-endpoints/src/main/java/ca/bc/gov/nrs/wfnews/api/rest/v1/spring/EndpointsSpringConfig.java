@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.support.ResourceBundleMessageSource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import ca.bc.gov.nrs.wfnews.api.rest.v1.parameters.validation.ParameterValidator;
 import ca.bc.gov.nrs.wfnews.service.api.v1.spring.ServiceApiSpringConfig;
@@ -22,6 +23,7 @@ import ca.bc.gov.nrs.wfone.common.checkhealth.CompositeValidator;
 import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
 
 @Configuration
+@EnableScheduling
 @Import({
 	PropertiesSpringConfig.class
 	,ServiceApiSpringConfig.class
