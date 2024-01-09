@@ -7,11 +7,11 @@
         <div class="rof-toggle-group rof-complex-group" style="justify-content: space-between;">
           <div *ngFor="let button of buttons; let i = index" [ngClass]="{'condition-class': true, 'multi-select-class': allowMultiSelect, 'single-select-class': !allowMultiSelect, 'distance-class': id === 'distance-page'}">
             <mat-button-toggle style="width: 100%; box-sizing: border-box;" class="flex-button" *ngIf="allowMultiSelect" #toggleButton (change)="onValChange(button.value, $event, i)" [value]="button.value">
-              <img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" />
+              <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" />
               <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
             </mat-button-toggle>
             <button style="width: 100%; font-size: 19px; font-weight: 600; box-sizing: border-box;" class="flex-button" type="button" [id]="'btn-' + button.value" mat-flat-button *ngIf="!allowMultiSelect" (click)="onValChange(button.value, $event, i)" [class.btn-highlight]="buttonStates[i]">
-              <img [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
+              <img alt="icon" [alt]="button.label" class="btn-icon" *ngIf="button.customIcon" [src]="button.customIcon" height="20" width="20" />
               <mat-icon *ngIf="button.icon">{{ button.icon }}</mat-icon>{{ button.label }}
             </button>
           </div>
@@ -20,12 +20,12 @@
 
       <div class="rof-button-container" *ngIf="!isEditMode">
         <button class="rof-button" mat-flat-button (click)="previousPage()">Previous</button>
-        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="nextPage()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>        
+        <button [class]="'rof-button' + (disableNext ? '-disabled' : '-primary')" [disabled]="disableNext" mat-flat-button color="primary" (click)="nextPage()">Next<mat-icon [svgIcon]="disableNext? 'arrow-forward-disabled' : 'arrow-forward-enabled'" class="left-padding" style="width: 24px; height: 24px;"></mat-icon></button>
       </div>
 
       <div class="rof-button-container" *ngIf="isEditMode">
         <button class="rof-button" mat-flat-button (click)="backToReview()">Cancel</button>
-        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>        
+        <button [class]="'rof-button' + (!isPageDirty ? '-disabled' : '-primary')" [disabled]="!isPageDirty" mat-flat-button color="primary" (click)="backToReview()">Save</button>
       </div>
   </div>
 </div>

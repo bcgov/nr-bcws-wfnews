@@ -56,7 +56,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
         icon: L.divIcon({
           className: 'custom-icon-class',
           html: `<div class="custom-marker" style="margin-top:-24px">
-                <img src="/assets/images/svg-icons/location_pin.svg"/>
+                <img alt="icon" src="/assets/images/svg-icons/location_pin.svg"/>
               </div>`,
           iconSize: [32, 32],
         }),
@@ -67,7 +67,7 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
         icon: L.divIcon({
           className: 'custom-icon-class',
           html: `<div class="custom-marker" style="text-align:center">
-                <img src="/assets/images/svg-icons/x-icon.svg"/>
+                <img alt="icon" src="/assets/images/svg-icons/x-icon.svg"/>
               </div>`,
           iconSize: [20, 20],
         }),

@@ -70,10 +70,10 @@ export class RoFPhotoPage extends RoFPage {
           quality: 100,
           limit: 3 - this.images.length,
         });
-        photos.photos.map((image) => {
+        for (const image of photos.photos) {
           this.images.push(image);
-          this.changeDetector.detectChanges();
-        });
+          this.changeDetector.markForCheck();
+        }
         return;
       }
 
@@ -85,10 +85,11 @@ export class RoFPhotoPage extends RoFPage {
           quality: 100,
           limit: 3 - this.images.length,
         });
-        photos.photos.map((image) => {
+
+        for (const image of photos.photos) {
           this.images.push(image);
-        });
-      } else if (currentPermissions?.photos == 'limited') {
+        }
+      } else if (currentPermissions?.photos === 'limited') {
         // They have a limited amount of images selected to share and only those will provide exif
         const imagesLeft = 3 - this.images.length;
         if (imagesLeft) {
@@ -96,9 +97,9 @@ export class RoFPhotoPage extends RoFPage {
           // limited photos after the picker dismissal. On iOS 14 or if the user gave full access to the photos it returns
           // an empty array.
           const photos = await Camera.pickLimitedLibraryPhotos();
-          photos.photos.slice(0, imagesLeft).map((image) => {
+          for (const image of photos.photos.slice(0, imagesLeft)) {
             this.images.push(image);
-          });
+          }
         }
       }
 

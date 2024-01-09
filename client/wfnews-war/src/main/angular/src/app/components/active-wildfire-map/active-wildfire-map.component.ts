@@ -220,7 +220,7 @@ this.inputAutoComplete.openPanel();
                     ? 1
                     : a.relevance < b.relevance
                       ? -1
-                      : 0 || a.title.localeCompare(b.title),
+                      : a.title.localeCompare(b.title),
                 );
                 this.pushTextMatchToFront(val);
 
@@ -275,7 +275,7 @@ this.inputAutoComplete.openPanel();
                       ? 1
                       : a.relevance < b.relevance
                         ? -1
-                        : 0 || a.title.localeCompare(b.title),
+                        : a.title.localeCompare(b.title),
                   );
                   this.pushTextMatchToFront(val);
                   // what happens on mobile? Identify?
@@ -348,7 +348,7 @@ this.inputAutoComplete.openPanel();
                     ? 1
                     : a.relevance < b.relevance
                       ? -1
-                      : 0 || a.title.localeCompare(b.title),
+                      : a.title.localeCompare(b.title),
                 );
                 this.pushTextMatchToFront(val);
                 this.cdr.markForCheck();
@@ -455,7 +455,7 @@ this.inputAutoComplete.openPanel();
             } catch (error) {
               fireIsOutOrNotFound = true;
               console.error('Error fetching published incident:', error);
-              const dialogRef = this.dialog.open(
+              this.dialog.open(
                 WildfireNotificationDialogComponent,
                 {
                   autoFocus: false,
@@ -783,6 +783,10 @@ return;
         const SMK = window['SMK'];
         const map = getActiveMap(SMK).$viewer.map;
 
+        if (!response.notifications) {
+          return;
+        }
+
         map.on('zoomend', () => {
           this.updateSavedLocationLabelVisibility();
         });
@@ -798,8 +802,8 @@ return;
               }),
               draggable: false,
             };
-            for (const item of response?.notifications) {
-              const marker = L.marker(
+            for (const item of response.notifications) {
+              L.marker(
                 [item.point.coordinates[1], item.point.coordinates[0]],
                 savedLocationMarker,
               ).addTo(getActiveMap(this.SMK).$viewer.map);

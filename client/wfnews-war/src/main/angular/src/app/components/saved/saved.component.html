@@ -8,13 +8,13 @@
       <div class="section-header-row">
           <span class="section-header">Saved Locations</span>
         <span class="section-button" (click)="addNewLocation()" *ngIf="savedLocations?.length < 3">
-            <img src="/assets/images/svg-icons/Type.svg" class="button-icon">
+            <img alt="icon" src="/assets/images/svg-icons/Type.svg" class="button-icon">
             Add new
         </span>
       </div>
       <div class="section-card" *ngIf="!savedLocations.length" (click)="addNewLocation()">
           <div class="add-location-content">
-              <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
               <span>Add a saved location</span>
           </div>
       </div>
@@ -22,11 +22,9 @@
           <div *ngFor="let location of savedLocations">
               <div class="section-card">
                   <div class="saved-location-content" (click)="navToFullDetails(location)">
-                      <!-- <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
-                      <span>Add a saved location</span> -->
                       <div class="saved-location-content-1">
                           <div class="saved-location-details-2">
-                              <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                              <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                               <div class="saved-location-detail">
                                   <span>{{location.notificationName}}</span>
                                   <span class="location-coordinates">{{getFormattedCoords(location.point.coordinates)}}</span>
@@ -40,7 +38,7 @@
                       <div *ngIf="location.evacs && location.evacs.length > 0">
                           <div class="nearBy-badge">
                               <div>
-                                  <img src="/assets/images/svg-icons/evac-red.svg">
+                                  <img alt="icon" src="/assets/images/svg-icons/evac-red.svg">
                               </div>
                               <span>
                                   Evacuation Nearby
@@ -51,7 +49,7 @@
                       <div *ngIf="location.wildfires && location.wildfires.length > 0">
                           <div class="nearBy-badge">
                               <div>
-                                  <img src="/assets/images/svg-icons/wildfire-red.svg">
+                                  <img alt="icon" src="/assets/images/svg-icons/wildfire-red.svg">
                               </div>
                               <span>
                                   Wildfire Nearby
@@ -75,7 +73,7 @@
                       <div class="divider"></div>
                       <div class="saved-location-content-2">
                           <div class="saved-location-details-2" *ngIf="location.fireCentre">
-                              <img class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
+                              <img alt="icon" class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
                               <div>
                                   <div>
                                       <div class="fire-bans">
@@ -85,7 +83,7 @@
                               </div>
                           </div>
                           <div class="saved-location-details-2">
-                              <img class="bans-icon" src="/assets/images/svg-icons/ban-grey.svg">
+                              <img alt="icon" class="bans-icon" src="/assets/images/svg-icons/ban-grey.svg">
                               <div>
                                   <div *ngIf="location.bans && location.bans.length > 0 ; else noBans">
                                       <div *ngFor="let ban of location.bans" class="fire-bans">
@@ -98,7 +96,7 @@
                               </div>
                           </div>
                           <div class="arrow-button" (click)="enterDetail(location)">
-                              <img class="arrow-icon" src="/assets/images/svg-icons/arrow-blue.svg">
+                              <img alt="icon" class="arrow-icon" src="/assets/images/svg-icons/arrow-blue.svg">
                           </div>
                       </div>
                   </div>
@@ -134,7 +132,7 @@
                   <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
                       on {{convertToDateYear(wildFire.discoveryDate)}}
                       <div class="wildfire-arrow-button">
-                          <img class="arrow-icon-grey" src="/assets/images/svg-icons/forward-arrow-grey.svg">
+                          <img alt="icon" class="arrow-icon-grey" src="/assets/images/svg-icons/forward-arrow-grey.svg">
                       </div>
                   </div>
               </div>
