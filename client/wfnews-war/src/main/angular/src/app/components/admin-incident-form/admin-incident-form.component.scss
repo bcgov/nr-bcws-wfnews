@@ -308,3 +308,7 @@ mat-card h3 {
 :host ::ng-deep .ck-editor__editable_inline {
   min-height: calc(100vh - 485px);
 }
+
+::ng-deep .mdc-snackbar__surface{
+  background-color: transparent !important;
+}
