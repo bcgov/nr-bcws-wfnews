@@ -60,11 +60,11 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img class="location-icon"
+                                  <img class="location-icon" alt="icon"
                                       src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
                               </div>
                               <div class="saved-subtitle">Today at {{stationHour}}</div>
-                              <img (click)="navigateToWeather()" class="arrow-button-bottom"
+                              <img (click)="navigateToWeather()" class="arrow-button-bottom" alt="icon"
                                   src="/assets/images/svg-icons/forward-arrow-grey.svg">
                           </div>
                       </div>
@@ -169,7 +169,7 @@
           <div class="subtitle">
               <img class="icon" src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
               {{item.attributes.ISSUING_AGENCY}}
-              <img (click)="navigateToEvac(item)" class="arrow-button-order"
+              <img (click)="navigateToEvac(item)" class="arrow-button-order" alt="icon"
                   src="/assets/images/svg-icons/forward-arrow-red.svg">
           </div>
       </div>
@@ -184,7 +184,7 @@
           <div class="subtitle"><img class="icon" src="/assets/images/svg-icons/issuing_agency.svg"
                   alt="issuing_agency" />Issued by
               {{item.attributes.ISSUING_AGENCY}}
-              <img (click)="navigateToEvac(item)" class="arrow-button-alert"
+              <img (click)="navigateToEvac(item)" class="arrow-button-alert" alt="icon"
                   src="/assets/images/svg-icons/forward-arrow-yellow.svg">
           </div>
       </div>
@@ -215,7 +215,7 @@
               <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
                       alt="Calendar" />Discovered on
                   {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
-                      class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+                      alt="icon" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
           </div>
       </div>
   </div>
