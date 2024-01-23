@@ -159,9 +159,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
           )
           .then((response) => {
             if (response?.stationName) {
-this.stationName = response.stationName;
+              this.stationName = response.stationName;
 }
-            for (const hours of response?.hourly) {
+            for (const hours of response.hourly) {
               if (hours.temp !== null) {
                 this.station = hours;
                 if (this.station?.hour) {
