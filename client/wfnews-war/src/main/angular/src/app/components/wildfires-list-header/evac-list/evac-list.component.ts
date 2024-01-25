@@ -76,8 +76,12 @@ export class EvacListComponent implements OnInit {
 
   async search(location: LocationData | null = null) {
     this.searchingComplete = false;
-    const userLocation =
-      await this.commonUtilityService.getCurrentLocationPromise();
+    let userLocation;
+    try {
+      userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+    } catch (error) {
+      console.error('Error getting current location:', error);
+    }
 
     let whereString = '';
 
@@ -179,7 +183,7 @@ whereString = null;
       width: '380px',
       height: '453px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.locationData,
     });
 

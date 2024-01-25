@@ -133,7 +133,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   refreshAllLayers = false;
   isDataSourcesOpen = false;
   notificationState = 0;
-  wildfireYear = new Date().getFullYear().toString();
+  wildfireYear: string;
 
   safeAreaInsetTopValue;
   safeAreaInsetBottomValue: string;
@@ -422,6 +422,15 @@ this.inputAutoComplete.openPanel();
           if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
             //wildfire notification
             try {
+              const today = new Date();
+              const fiscalYearStart = new Date(today.getFullYear(), 3, 1); // April 1st
+          
+              if (today < fiscalYearStart) {
+                this.wildfireYear = (today.getFullYear() - 1).toString();
+              } else {
+                this.wildfireYear = today.getFullYear().toString();
+              }
+
               result = await this.publishedIncidentService
                 .fetchPublishedIncident(params['featureId'], this.wildfireYear)
                 .toPromise();
@@ -1149,7 +1158,7 @@ return;
       width: '450px',
       height: '650px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.searchData,
     });
 
@@ -1270,17 +1279,6 @@ return;
       layerButtons?.scrollLeft <
       layerButtons.scrollWidth - mapContainer.scrollWidth
     );
-  }
-
-  isSafeAreaNotDetectable() {
-    const deviceInfo = navigator.userAgent;
-    if (
-      this.capacitorService.isWebPlatform &&
-      /iPhone|Pixel/.test(deviceInfo) &&
-      /Chrome|Safari/.test(deviceInfo)
-    ) {
-      return true;
-    }
   }
 
   onPushNotificationClick() {

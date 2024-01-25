@@ -48,7 +48,7 @@ export class WildFiresListComponentMobile {
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
-  
+
   private searchTimer;
 
   private isExtraSmall: Observable<BreakpointState> =
@@ -122,7 +122,7 @@ export class WildFiresListComponentMobile {
       width: '380px',
       height: '453px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.lastLocation,
     });
 
@@ -176,7 +176,7 @@ export class WildFiresListComponentMobile {
       width: '450px',
       height: '650px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.filters,
     });
 

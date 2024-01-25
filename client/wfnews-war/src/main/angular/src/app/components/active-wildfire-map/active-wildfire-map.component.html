@@ -3,7 +3,7 @@
         <div id="panel-details" [ngClass]="showAccordion ? 'details' : 'details close'">
             <desktop-legend-panel [selectedPanel]="selectedPanel"></desktop-legend-panel>
         </div>
-        <div id="map-container" class="map" [class.map01]="isSafeAreaNotDetectable()">
+        <div id="map-container" class="map">
         <div class="identify-panel"></div>
         <div class="search-row">
           <div class="search-bar">
@@ -78,7 +78,7 @@
         </div>
         <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
       </mobile-sliding-drawer>
-      <mobile-sliding-drawer [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
+      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
         <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
       </mobile-sliding-drawer>
 </div>
