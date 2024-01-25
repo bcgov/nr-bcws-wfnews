@@ -1,7 +1,7 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -35,7 +35,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -116,7 +116,7 @@
   padding: 8px 0px;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 10px;
+  gap: 12px;
   align-self: stretch;
   flex-wrap: wrap;
   color: var(--Black-2, #484848);
@@ -125,6 +125,10 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+}
+
+.legend-part {
+  align-self: center;
 }
 
 .icon {
