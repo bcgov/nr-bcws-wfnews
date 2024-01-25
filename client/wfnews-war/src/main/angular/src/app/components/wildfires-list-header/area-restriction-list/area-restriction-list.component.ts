@@ -72,8 +72,12 @@ export class AreaRestrictionListComponent implements OnInit {
 
   async search(location: LocationData | null = null) {
     this.searchingComplete = false;
-    const userLocation =
-      await this.commonUtilityService.getCurrentLocationPromise();
+    let userLocation;
+    try {
+      userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+    } catch (error) {
+      console.error('Error getting current location:', error);
+    }
 
     const whereString =
       this.searchText && this.searchText.length > 0
