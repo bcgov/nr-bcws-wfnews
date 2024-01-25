@@ -7,15 +7,18 @@
   left: 0;
   width: 100%;
   z-index: 100000000 !important;
+  visibility: hidden;
 
   &.show {
     transform: translateY(0%) !important;
     transition: transform 300ms;
+    visibility: visible;
   }
 
   &.hide {
     transform: translateY(100%) !important;
     transition: transform 300ms;
+    visibility: hidden;
   }
 
   .sliding-drawer {
@@ -77,7 +80,7 @@
     }
 
     .filler {
-      height: 100vh;
+      height: 100dvh;
       background: $colour-white;
     }
   }

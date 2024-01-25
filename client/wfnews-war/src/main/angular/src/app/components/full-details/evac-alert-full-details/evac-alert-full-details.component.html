@@ -3,8 +3,7 @@
     <div class="full-details-title">Evacuation Alert for {{evacData.name}}</div>
     <div class="alert-panel"><img class="icon" src="/assets/images/svg-icons/evacuation_alert.svg"
         alt="evacuation_alert" />Alert</div>
-    <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
-      public safety concern or avoid interference with fire control.</p>
+    <p class="info">An evacuation alert is a warning about a potential threat to life and/or property. It is intended to give you time to be ready for a possible evacuation.</p>
     <button (click)="navToMap()" mat-button class="map-button"><img class="tertiary-icon" src="/assets/images/svg-icons/map.svg"
         alt="Map" />View on Map</button>
   </div>
@@ -33,7 +32,7 @@
           alt="Location Pin" />{{incident.fireCentreName}}</div>
       <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg" alt="Calendar" />Discovered
         on {{incident.discoveryDate}}<img (click)="navToIncident(incident)" class="arrow-button"
-          src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+         alt="icon" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
     </div>
   </div>
   <br>

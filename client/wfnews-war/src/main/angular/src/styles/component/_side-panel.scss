@@ -91,7 +91,7 @@
 
   .side-panel-with-toolbar-and-filter-content {
     height: calc(
-      100vh - #{$wf1-app-header-height} - #{$wf1-header-plus-toolbar-and-filter-total-height} -
+      100dvh - #{$wf1-app-header-height} - #{$wf1-header-plus-toolbar-and-filter-total-height} -
         0.1rem
     );
   }

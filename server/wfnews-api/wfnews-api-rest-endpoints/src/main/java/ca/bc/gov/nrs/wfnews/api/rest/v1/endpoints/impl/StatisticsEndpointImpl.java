@@ -28,22 +28,22 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
 		Response response = null;
     
     try {
-      
-        List<StatisticsResource> result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
-        GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
-          /* do nothing */
-        };
+      List<StatisticsResource> result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
 
-        // static resource doesn't need an eTag
-        response = Response.ok(entity).build();
-      
+      GenericEntity<List<StatisticsResource>> entity = new GenericEntity<List<StatisticsResource>>(result) {
+        /* do nothing */
+      };
+
+      // static resource doesn't need an eTag
+      response = Response.ok(entity).build();
     } catch (NotFoundException e) {
       response = Response.status(Status.NOT_FOUND).build();
     } catch (Throwable t) {
       response = getInternalServerErrorResponse(t);
     }
+
     logResponse(response);
 
-	return response;
+	  return response;
   }
 }

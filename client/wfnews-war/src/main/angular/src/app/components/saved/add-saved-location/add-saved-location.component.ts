@@ -196,7 +196,7 @@ export class AddSavedLocationComponent implements OnInit {
     const dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
-      height: '100vh',
+      height: '100dvh',
       data: {
         currentLocation: this.currentLocation,
         title: 'Choose location on the map',
@@ -230,7 +230,7 @@ export class AddSavedLocationComponent implements OnInit {
     const dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
       minWidth: '100vw',
-      height: '100vh',
+      height: '100dvh',
       data: {
         currentLocation: this.currentLocation,
         title: 'Notification Radius',

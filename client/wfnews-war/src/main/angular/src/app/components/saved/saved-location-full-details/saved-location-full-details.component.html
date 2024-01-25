@@ -6,7 +6,7 @@
           <div class="saved-location-content">
               <div class="saved-location-content-1">
                   <div class="saved-location-details-2">
-                      <img class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
+                      <img alt="icon" class="location-icon" src="/assets/images/svg-icons/carbon_location.svg">
                       <div *ngIf="location.address" class="saved-location-detail">
                           <span>{{location.notificationName}}</span>
                           <span class="saved-detail">{{location.address}}</span>
@@ -23,7 +23,7 @@
               <div class="divider"></div>
               <div class="saved-location-content-2">
                   <div class="saved-location-details-2">
-                      <img class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
+                      <img alt="icon" class="bans-icon" src="/assets/images/svg-icons/location-grey.svg">
                       <div>
                           <div class="fire-bans">
                               {{fireCentre}}
@@ -31,7 +31,7 @@
                       </div>
                   </div>
                   <div class="saved-location-details-2">
-                      <img class="bans-icon" src="/assets/images/svg-icons/location-button-grey.svg">
+                      <img alt="icon" class="bans-icon" src="/assets/images/svg-icons/location-button-grey.svg">
                       <div>
                           <div class="fire-bans">
                               {{getFormattedCoords(location.point.coordinates)}}
@@ -60,11 +60,11 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img class="location-icon"
+                                  <img class="location-icon" alt="icon"
                                       src="/assets/images/svg-icons/carbon_partly-cloudy.svg">Current Weather
                               </div>
                               <div class="saved-subtitle">Today at {{stationHour}}</div>
-                              <img (click)="navigateToWeather()" class="arrow-button-bottom"
+                              <img (click)="navigateToWeather()" class="arrow-button-bottom" alt="icon"
                                   src="/assets/images/svg-icons/forward-arrow-grey.svg">
                           </div>
                       </div>
@@ -86,7 +86,7 @@
                       <div class="saved-location-detail">
                           <div class="saved-detail">
                               <div class="saved-title">
-                                  <img class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
+                                  <img alt="icon" class="icon" src="/assets/images/svg-icons/ban-icon.svg">Current Fire Bans
                               </div>
                           </div>
                       </div>
@@ -111,7 +111,7 @@
                   <div class="saved-location-details-3">
                       <div class="saved-location-detail">
                           <div class="saved-title">
-                              <img class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
+                              <img alt="icon" class="icon" src="/assets/images/svg-icons/fire-danger.svg">Danger Rating
                           </div>
                           <div class="divider"></div>
                           <div *ngIf="dangerRatingLabel === 'Extreme'" class="saved-detail">
@@ -169,7 +169,7 @@
           <div class="subtitle">
               <img class="icon" src="/assets/images/svg-icons/issuing_agency.svg" alt="issuing_agency" />Issued by
               {{item.attributes.ISSUING_AGENCY}}
-              <img (click)="navigateToEvac(item)" class="arrow-button-order"
+              <img (click)="navigateToEvac(item)" class="arrow-button-order" alt="icon"
                   src="/assets/images/svg-icons/forward-arrow-red.svg">
           </div>
       </div>
@@ -184,7 +184,7 @@
           <div class="subtitle"><img class="icon" src="/assets/images/svg-icons/issuing_agency.svg"
                   alt="issuing_agency" />Issued by
               {{item.attributes.ISSUING_AGENCY}}
-              <img (click)="navigateToEvac(item)" class="arrow-button-alert"
+              <img (click)="navigateToEvac(item)" class="arrow-button-alert" alt="icon"
                   src="/assets/images/svg-icons/forward-arrow-yellow.svg">
           </div>
       </div>
@@ -215,7 +215,7 @@
               <div class="info"><img class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
                       alt="Calendar" />Discovered on
                   {{convertToDateYear(incident.discoveryDate)}}<img (click)="navigateToFullDetails(incident)"
-                      class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
+                      alt="icon" class="arrow-button" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
           </div>
       </div>
   </div>

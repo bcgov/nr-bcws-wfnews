@@ -29,12 +29,12 @@
               </div>
             </div>
             <div *ngIf = "page.id === 'photo-page' && reportOfFire.image1" class="images">
-              <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.webPath !== undefined"><img class="image" [src]="reportOfFire.image1.webPath"></div>
-              <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.dataUrl !== undefined"><img class="image" [src]="reportOfFire.image1.dataUrl"></div>
-              <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.webPath !== undefined"><img class="image" [src]="reportOfFire.image2.webPath"></div>
-              <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.dataUrl !== undefined"><img class="image" [src]="reportOfFire.image2.dataUrl"></div>
-              <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.webPath !== undefined"><img class="image" [src]="reportOfFire.image3.webPath"></div>
-              <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.dataUrl !== undefined"><img class="image" [src]="reportOfFire.image3.dataUrl"></div>
+              <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.webPath !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image1.webPath"></div>
+              <div *ngIf = "reportOfFire.image1 !== undefined && reportOfFire.image1.dataUrl !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image1.dataUrl"></div>
+              <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.webPath !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image2.webPath"></div>
+              <div *ngIf = "reportOfFire.image2 !== undefined && reportOfFire.image2.dataUrl !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image2.dataUrl"></div>
+              <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.webPath !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image3.webPath"></div>
+              <div *ngIf = "reportOfFire.image3 !== undefined && reportOfFire.image3.dataUrl !== undefined"><img alt="icon" class="image" [src]="reportOfFire.image3.dataUrl"></div>
             </div>
           </div>
           <div *ngIf="twoPartsQuestions(page)" class="item">

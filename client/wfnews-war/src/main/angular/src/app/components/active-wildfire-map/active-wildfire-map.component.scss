@@ -14,7 +14,7 @@
 }
 
 .container {
-  height: calc(100vh - 125px) !important;
+  height: calc(100dvh - 125px) !important;
   overflow: hidden;
 }
 
@@ -220,7 +220,7 @@ mat-panel-title {
 
   .container {
     height: calc(
-      100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
+      100dvh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
     ) !important;
     overflow: hidden;
   }
@@ -316,7 +316,7 @@ mat-panel-title {
       // additionally, this is a vh calc, not a height%, otherwise heights will be different across
       // devices
       height: calc(
-        100vh - env(safe-area-inset-bottom, 90px) - env(
+        100dvh - env(safe-area-inset-bottom, 90px) - env(
             safe-area-inset-top,
             90px
           ) - 90px
@@ -327,9 +327,6 @@ mat-panel-title {
         width: 100% !important;
         display: none;
       }
-    }
-    .map01 {
-      height: calc(100vh - 110px - 90px) !important;
     }
   }
 
@@ -409,7 +406,6 @@ mat-panel-title {
         align-items: center;
         border-radius: 8px;
         background: #f2f2f6;
-        display: flex;
         justify-content: space-between;
       }
 
@@ -612,7 +608,7 @@ mat-panel-title {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow-y: auto;
-  max-height: calc(100vh - 220px) !important;
+  max-height: calc(100dvh - 220px) !important;
   max-width: 400px !important;
 }
 

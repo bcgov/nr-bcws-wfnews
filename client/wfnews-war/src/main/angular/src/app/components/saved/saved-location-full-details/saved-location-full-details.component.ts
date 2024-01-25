@@ -87,10 +87,10 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   fetchSavedLocation(notificationSettings) {
     try {
       if (this.params && this.params['name']) {
-        for (const item of notificationSettings?.notifications) {
+        for (const item of notificationSettings.notifications) {
           const longitude = Number(this.params['longitude']);
           const latitude = Number(this.params['latitude']);
-          
+
           // Check if name, longitude, and latitude are valid
           if (
             item?.notificationName === this.params['name'] &&
@@ -117,38 +117,36 @@ export class SavedLocationFullDetailsComponent implements OnInit {
   }
 
   getFireCentre(location) {
-    try {
-      const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
-      const distanceInDegrees = this.distanceInKm * degreesPerPixel;
-      const latitude = location.point.coordinates[1];
-      const longitude = location.point.coordinates[0];
-      const minLongitude = longitude - distanceInDegrees;
-      const maxLongitude = longitude + distanceInDegrees;
-      const minLatitude = latitude - distanceInDegrees;
-      const maxLatitude = latitude + distanceInDegrees;
-      const rectangleCoordinates = [
-        { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
-        { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
-        { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
-        { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
-        { latitude: maxLatitude, longitude: minLongitude }, // Closing the polygon
-      ];
-      this.notificationService
-        .getFireCentreByLocation(rectangleCoordinates)
-        .then((response) => {
-          if (response.data) {
-            response = response.data;
-          }
-          if (response.features) {
-            const fireCentre =
-              response.features[0].properties.MOF_FIRE_CENTRE_NAME;
-            this.fireCentre = fireCentre;
-            this.cdr.markForCheck();
-          }
-        });
-    } catch (error) {
-      console.error('Could not retrieve fire centre for saved location', error);
-    }
+    const degreesPerPixel = 0.009; // rough estimation of the conversion factor from kilometers to degrees of latitude or longitude
+    const distanceInDegrees = this.distanceInKm * degreesPerPixel;
+    const latitude = location.point.coordinates[1];
+    const longitude = location.point.coordinates[0];
+    const minLongitude = longitude - distanceInDegrees;
+    const maxLongitude = longitude + distanceInDegrees;
+    const minLatitude = latitude - distanceInDegrees;
+    const maxLatitude = latitude + distanceInDegrees;
+    const rectangleCoordinates = [
+      { latitude: maxLatitude, longitude: minLongitude }, // Top-left corner
+      { latitude: maxLatitude, longitude: maxLongitude }, // Top-right corner
+      { latitude: minLatitude, longitude: maxLongitude }, // Bottom-right corner
+      { latitude: minLatitude, longitude: minLongitude }, // Bottom-left corner
+      { latitude: maxLatitude, longitude: minLongitude }, // Closing the polygon
+    ];
+    this.notificationService
+      .getFireCentreByLocation(rectangleCoordinates)
+      .then((response) => {
+        if (response.data) {
+          response = response.data;
+        }
+        if (response.features) {
+          const fireCentre =
+            response.features[0].properties.MOF_FIRE_CENTRE_NAME;
+          this.fireCentre = fireCentre;
+          this.cdr.markForCheck();
+        }
+      }).catch(err => {
+        console.error('Could not retrieve fire centre for saved location', err);
+      });
   }
 
   fetchWeather(location) {
@@ -161,9 +159,9 @@ export class SavedLocationFullDetailsComponent implements OnInit {
           )
           .then((response) => {
             if (response?.stationName) {
-this.stationName = response.stationName;
+              this.stationName = response.stationName;
 }
-            for (const hours of response?.hourly) {
+            for (const hours of response.hourly) {
               if (hours.temp !== null) {
                 this.station = hours;
                 if (this.station?.hour) {
@@ -209,36 +207,26 @@ this.agolService
   }
 
   fetchDangerRating(location) {
-    try {
-      if (
-        location &&
-        location.point &&
-        location.point.coordinates &&
-        location.radius
-      ) {
-        this.pointIdService
-          .fetchNearby(
-            location.point.coordinates[1],
-            location.point.coordinates[0],
-            location.radius,
-          )
-          .then((response) => {
-            if (
-              response &&
-              response.features &&
-              response.features[0] &&
-              response.features[0].British_Columbia_Danger_Rating &&
-              response.features[0].British_Columbia_Danger_Rating &&
-              response.features[0].British_Columbia_Danger_Rating[0] &&
-              response.features[0].British_Columbia_Danger_Rating[0].label
-            ) {
-              this.dangerRatingLabel =
-                response.features[0].British_Columbia_Danger_Rating[0].label;
-            }
-          });
-      }
-    } catch (err) {
-      console.error('Could not retrieve danger rating for saved location', err);
+      if (location?.point?.coordinates && location?.radius) {
+      this.pointIdService
+        .fetchNearby(
+          location.point.coordinates[1],
+          location.point.coordinates[0],
+          location.radius,
+        )
+        .then((response) => {
+          if (
+            response?.features[0] &&
+            response?.features[0].British_Columbia_Danger_Rating &&
+            response?.features[0].British_Columbia_Danger_Rating[0] &&
+            response?.features[0].British_Columbia_Danger_Rating[0].label
+          ) {
+            this.dangerRatingLabel =
+              response.features[0].British_Columbia_Danger_Rating[0].label;
+          }
+        }).catch(err => {
+          console.error('Could not retrieve danger rating for saved location', err);
+        });
     }
   }
 
