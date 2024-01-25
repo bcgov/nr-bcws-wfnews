@@ -352,7 +352,7 @@ export class WildFiresListComponent
       width: '380px',
       height: '453px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.locationData,
     });
 
