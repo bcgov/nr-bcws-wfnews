@@ -1,5 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
+import { CapacitorService } from '@app/services/capacitor-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import {
   convertFireNumber,
@@ -23,6 +25,8 @@ export class FiresOfNoteWidget implements AfterViewInit {
     private publishedIncidentService: PublishedIncidentService,
     private agolService: AGOLService,
     protected cdr: ChangeDetectorRef,
+    protected router: Router,
+    protected capacitorService: CapacitorService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -87,13 +91,23 @@ export class FiresOfNoteWidget implements AfterViewInit {
     return new Date(date).toLocaleDateString();
   }
 
-  viewIncident(incident) {
-    window.open(
-      '/incidents?fireYear=' +
-        incident.fireYear +
-        '&incidentNumber=' +
-        incident.incidentNumberLabel,
-      '_blank',
-    );
+  async viewIncident(incident) {
+    const device = await this.capacitorService.checkDeviceSystem();
+    if (device.operatingSystem === 'ios' && device.platform !== 'web') {
+      // IOS app.
+      const queryParams = {
+        fireYear: incident.fireYear,
+        incidentNumber: incident.incidentNumberLabel,
+      };
+      this.router.navigate(['/incidents'], { queryParams });
+    } else {
+      window.open(
+        '/incidents?fireYear=' +
+          incident.fireYear +
+          '&incidentNumber=' +
+          incident.incidentNumberLabel,
+        '_blank',
+      );
+    }
   }
 }
