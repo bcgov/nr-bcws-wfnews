@@ -57,9 +57,9 @@
             <span [class]="router.url === '/dashboard' ? 'text-active' : ''">Dashboard</span>
           </li>
           <li (click)="setActive('map')">
-            <img alt="map" *ngIf="router.url === '/map'; else mapOther" src="/assets/images/svg-icons/map-highlight.svg" width="41" height="29" >
+            <img alt="map" *ngIf="router.url === '/map'; else mapOther" src="/assets/images/svg-icons/map-nav-highlight.svg" width="41" height="29" >
             <ng-template #mapOther>
-              <img alt="map" src="/assets/images/svg-icons/map.svg" width="41" height="29" >
+              <img alt="map" src="/assets/images/svg-icons/map-nav.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/map' ? 'text-active' : ''">Map</span>
           </li>
