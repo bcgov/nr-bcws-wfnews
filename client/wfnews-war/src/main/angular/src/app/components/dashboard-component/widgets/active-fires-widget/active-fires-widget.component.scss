@@ -1,13 +1,12 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    padding: 24px;
+    padding: var(--24, 24px);
     display: flex;
-    width: auto;
     min-height: 640px;
     flex-direction: column;
     align-items: flex-start;
@@ -54,20 +53,24 @@
     align-items: center;
     gap: 12px;
     flex: 1 0 0;
-  }
 
-  .chart-percent {
-    color: var(--grays-gray-1, #242424);
-    text-align: center;
-    font-feature-settings:
-      "clig" off,
-      "liga" off;
-    font-size: 28.929px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    top: -196px;
+    .pie {
+      height: 180px;
+
+      .chart-percent {
+        color: var(--grays-gray-1, #242424);
+        text-align: center;
+        font-feature-settings:
+          "clig" off,
+          "liga" off;
+        font-size: 28.929px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        position: relative;
+        top: -110px;
+      }
+    }
   }
 
   .chart-data-holder {
@@ -93,6 +96,7 @@
   .stat-text {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
   .widget-header {
@@ -110,6 +114,7 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
   }
 
   .stat-box-icon {
@@ -152,7 +157,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -206,20 +211,24 @@
     align-items: center;
     gap: 12px;
     flex: 1 0 0;
-  }
 
-  .chart-percent {
-    color: var(--grays-gray-1, #242424);
-    text-align: center;
-    font-feature-settings:
-      "clig" off,
-      "liga" off;
-    font-size: 28.929px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    top: -196px;
+    .pie {
+      height: 180px;
+
+      .chart-percent {
+        color: var(--grays-gray-1, #242424);
+        text-align: center;
+        font-feature-settings:
+          "clig" off,
+          "liga" off;
+        font-size: 28.929px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        position: relative;
+        top: -110px;
+      }
+    }
   }
 
   .chart-data-holder {
@@ -245,6 +254,7 @@
   .stat-text {
     display: flex;
     flex-direction: row;
+    align-items: center;
   }
 
   .widget-header {
@@ -262,6 +272,7 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
   }
 
   .stat-box-icon {
@@ -343,6 +354,26 @@
     gap: 12px;
     flex: 1 0 0;
     border-bottom: 1px solid #dedede;
+
+    .pie {
+      position: relative;
+
+      .chart-percent {
+        color: var(--grays-gray-1, #242424);
+        text-align: center;
+        font-feature-settings:
+          "clig" off,
+          "liga" off;
+        font-size: 28.929px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        position: absolute;
+        width: 180px;
+        height: 180px;
+        top: 70px;
+      }
+    }
   }
 
   .chart-box-title {
@@ -353,21 +384,6 @@
     letter-spacing: 0em;
     text-align: left;
     margin-top: 5px;
-  }
-
-  .chart-percent {
-    color: var(--grays-gray-1, #242424);
-    text-align: center;
-    font-feature-settings:
-      "clig" off,
-      "liga" off;
-    font-size: 28.929px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    top: 70px;
-    left: -325px;
   }
 
   .chart-data-holder {
@@ -385,7 +401,6 @@
     display: flex;
     flex-direction: column;
     padding: 0px 20px 0px 20px;
-    gap: 10px;
     align-self: stretch;
     border-radius: var(--16, 16px);
     background: linear-gradient(0deg, #f5f6f9, #f5f6f9),
@@ -393,11 +408,14 @@
     border: 1.5px solid #dedede;
     height: 116px;
     width: calc(50% - 24px);
+    place-content: space-between;
   }
 
   .stat-text {
     display: flex;
     flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
   }
 
   .stat-box-icon {
@@ -455,6 +473,11 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
+  }
+
+  .chart-label {
+    text-align: left;
   }
 }
 
@@ -462,6 +485,11 @@
   border-radius: 20px !important;
   height: 40px;
   padding-left: 10px;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("../../../../../assets/images/svg-icons/carbon_down-arrow.svg") 96% / 10% no-repeat;
 }
 
 .right-align {
@@ -497,6 +525,7 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+  min-width: 120px;
 }
 
 .chart-data {
