@@ -95,10 +95,11 @@ export class PublishedIncidentService {
     bbox: string | null = null,
     orderBy: string = 'lastUpdatedTimestamp%20DESC',
   ): Observable<any> {
-    let url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&orderBy=${orderBy}`;
+    let url = `${this.appConfigService.getConfig().rest['wfnews']}/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&orderBy=${orderBy}`;
 
+    if (fireOfNote !== null) {
+      url += `&fireOfNote=${fireOfNote}`;
+    }
     if (searchText && searchText.length) {
       url += `&searchText=${searchText}`;
     }

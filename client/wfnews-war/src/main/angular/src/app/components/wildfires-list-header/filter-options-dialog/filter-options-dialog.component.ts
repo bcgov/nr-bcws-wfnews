@@ -2,10 +2,10 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export class FilterData {
-  public sortDirection = 'ASC';
+  public sortDirection = 'DESC';
   public sortColumn = 'lastUpdatedTimestamp';
   public stagesOfControl: string[] = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
-  public fireOfNoteInd = true;
+  public fireOfNoteInd = null;
   public fireCentre: number;
 }
 
