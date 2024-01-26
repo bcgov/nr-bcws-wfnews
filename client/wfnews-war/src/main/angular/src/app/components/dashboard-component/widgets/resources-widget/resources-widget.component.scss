@@ -1,7 +1,7 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -10,8 +10,7 @@
     border-radius: 20px;
     background: #fff;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    max-width: 1480px;
-    width: calc(100vw - 104px);
+    max-width: min(1480px, calc(100dvw - 104px));
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
@@ -117,7 +116,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -240,7 +239,6 @@
     display: flex;
     flex: 1 0 0;
     background: #fff;
-    max-width: 1480px;
     width: calc(100vw - 47px);
     padding: var(--24, 24px);
     flex-direction: column;

@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 
@@ -60,7 +62,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .layers-container {
       position: relative;
       margin-top: 60px;
@@ -319,7 +321,7 @@ mat-panel-title {
         100dvh - env(safe-area-inset-bottom, 90px) - env(
             safe-area-inset-top,
             90px
-          ) - 90px
+          ) - $nav-bar-height
       ) !important;
 
       .identify-panel {
