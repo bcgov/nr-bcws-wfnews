@@ -199,7 +199,7 @@ jobs:
         with:
           path: ${{ steps.service_account_json_decode.outputs.filePath }}
 
-      - uses: sparkfabrik/android-build-action@v1.4.0
+      - uses: sparkfabrik/android-build-action@v1.5.0
         name: Build AAB and upload to Play Store
         with:
           build-type: "bundle"
@@ -214,6 +214,7 @@ jobs:
           project-path: "${{ env.ANGULAR_DIRECTORY }}/android/"
           output-path: wfnews-release-${{ steps.vars.outputs.short_sha }}.aab
           release-status: "completed"
+          ruby-version: "3.3"
 
       - uses: actions/upload-artifact@v3
         name: Upload Build Artifact to GitHub

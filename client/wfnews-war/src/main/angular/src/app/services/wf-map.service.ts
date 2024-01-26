@@ -789,7 +789,7 @@ function defineEsriBasemap(
         const orig = clone(L.esri.BasemapLayer.TILES[bm.id].options);
         const bmly = window['L'].esri.basemapLayer(
           bm.id,
-          clone({ ...bm.option, wfnewsId: id } || {}),
+          clone({ ...bm.option, wfnewsId: id }),
         );
         L.esri.BasemapLayer.TILES[bm.id].options = { ...orig, wfnewsId: id };
         return bmly;
@@ -824,7 +824,7 @@ function defineEsriVectoLayer(
               }
             };*/
       return baseMaps.map((bm) => {
-        const opts = clone({ ...bm.option, wfnewsId: id } || {});
+        const opts = clone({ ...bm.option, wfnewsId: id });
         opts.cacheToken = function() {
           return baseMapCacheToken;
         };

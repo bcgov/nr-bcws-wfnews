@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 
@@ -14,7 +16,7 @@
 }
 
 .container {
-  height: calc(100vh - 125px) !important;
+  height: calc(100dvh - 125px) !important;
   overflow: hidden;
 }
 
@@ -60,7 +62,7 @@
     }
   }
 
-  @media (min-width: 768px) {
+  @media (min-width: 769px) {
     .layers-container {
       position: relative;
       margin-top: 60px;
@@ -220,7 +222,7 @@ mat-panel-title {
 
   .container {
     height: calc(
-      100vh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
+      100dvh - env(safe-area-inset-bottom, 20px) - env(safe-area-inset-top, 20px)
     ) !important;
     overflow: hidden;
   }
@@ -316,10 +318,10 @@ mat-panel-title {
       // additionally, this is a vh calc, not a height%, otherwise heights will be different across
       // devices
       height: calc(
-        100vh - env(safe-area-inset-bottom, 90px) - env(
+        100dvh - env(safe-area-inset-bottom, 90px) - env(
             safe-area-inset-top,
             90px
-          ) - 90px
+          ) - $nav-bar-height
       ) !important;
 
       .identify-panel {
@@ -327,9 +329,6 @@ mat-panel-title {
         width: 100% !important;
         display: none;
       }
-    }
-    .map01 {
-      height: calc(100vh - 110px - 90px) !important;
     }
   }
 
@@ -611,7 +610,7 @@ mat-panel-title {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
   overflow-y: auto;
-  max-height: calc(100vh - 220px) !important;
+  max-height: calc(100dvh - 220px) !important;
   max-width: 400px !important;
 }
 

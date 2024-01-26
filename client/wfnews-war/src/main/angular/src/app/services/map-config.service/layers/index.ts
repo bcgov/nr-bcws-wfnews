@@ -22,6 +22,8 @@ import { PrecipitationLayerConfig } from './precipitation.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { WeatherLayerConfig } from './weather.config';
 import { BasemapLayerConfig } from './basemap.config';
+import { FuelTreatmentLayerConfig } from './fuel-treatment';
+import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 
 export interface layerSettings {
   openmapsBaseUrl: string;
@@ -54,8 +56,7 @@ export function LayerConfig(
     ...EvacuationOrdersLayerConfig(ls),
     ...FirePerimetersLayerConfig(ls),
     ...SmokeForecastLayerConfig(ls),
-    // Hiding temporarily as the dataset is reconfigured
-    // ...PrescribedFireLayerConfig( ls ),
+    ...PrescribedFireLayerConfig( ls ),
     ...WeatherLayerConfig(ls),
     ...WeatherStationsLayerConfig(ls),
     ...PrecipitationLayerConfig(ls),
@@ -67,5 +68,6 @@ export function LayerConfig(
     ...AbmsRegionalDistrictsLayerConfig(ls),
     ...ProtectedLandsAccessRestrictionsLayerConfig(ls),
     ...BasemapLayerConfig(ls),
+    ...FuelTreatmentLayerConfig(ls),
   ];
 }

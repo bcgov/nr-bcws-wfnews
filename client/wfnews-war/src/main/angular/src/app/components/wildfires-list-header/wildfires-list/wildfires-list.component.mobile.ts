@@ -48,7 +48,7 @@ export class WildFiresListComponentMobile {
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
-  
+
   private searchTimer;
 
   private isExtraSmall: Observable<BreakpointState> =
@@ -77,7 +77,7 @@ export class WildFiresListComponentMobile {
           this.searchText === '' && this.searchText.length
             ? null
             : this.searchText,
-          this.filters ? this.filters.fireOfNoteInd : true,
+          this.filters ? this.filters.fireOfNoteInd : null,
           this.filters?.stagesOfControl || [
             'OUT_CNTRL',
             'HOLDING',
@@ -122,7 +122,7 @@ export class WildFiresListComponentMobile {
       width: '380px',
       height: '453px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.lastLocation,
     });
 
@@ -176,7 +176,7 @@ export class WildFiresListComponentMobile {
       width: '450px',
       height: '650px',
       maxWidth: '100vw',
-      maxHeight: '100vh',
+      maxHeight: '100dvh',
       data: this.filters,
     });
 

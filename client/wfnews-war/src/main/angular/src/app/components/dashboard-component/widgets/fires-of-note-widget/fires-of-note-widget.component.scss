@@ -1,23 +1,23 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
-    height: 412px;
     flex: 1 0 0;
     border-radius: 20px;
     background: #fff;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    max-width: 1480px;
+    max-width: 1450px;
     width: calc(100vw - 104px);
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
     gap: var(--24, 24px);
     align-self: stretch;
+    height: 412px;
   }
 
   .content {
@@ -105,18 +105,16 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
     display: flex;
-    height: 412px;
     flex: 1 0 0;
     border-radius: 20px;
     background: #fff;
     box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
-    max-width: 850px;
-    width: calc(100% - 47px);
+    max-width: min(850px, calc(100dvw - 104px));
     padding: var(--24, 24px);
     flex-direction: column;
     align-items: flex-start;
@@ -348,7 +346,7 @@
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 21px; /* 131.25% */
+  line-height: 34px; // For better alignment with label
   text-decoration: none;
   margin-right: 7px;
   border-radius: 20px;

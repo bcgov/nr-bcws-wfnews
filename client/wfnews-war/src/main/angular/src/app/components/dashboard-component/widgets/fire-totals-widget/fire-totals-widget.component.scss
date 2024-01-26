@@ -1,7 +1,7 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -102,7 +102,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
