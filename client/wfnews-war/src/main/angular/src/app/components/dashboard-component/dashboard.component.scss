@@ -1,7 +1,7 @@
 @import "../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .widget {
     max-width: 850px;
   }
@@ -26,7 +26,7 @@
   }
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .list-button {
     margin-right: 7px;
     border-radius: 20px;
