@@ -26,6 +26,7 @@
 	</resultMap>
   <select id="fetch" resultMap="StatisticsDtoMap"> 
   SELECT * FROM (
+    <if test="fireCentre == null || fireCentre == 'Cariboo Fire Centre'">
     SELECT
       'Cariboo Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Cariboo Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -47,7 +48,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Cariboo Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Cariboo Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Cariboo Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'Coastal Fire Centre'">
     SELECT
       'Coastal Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Coastal Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -69,7 +74,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Coastal Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Coastal Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Coastal Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'Kamloops Fire Centre'">
     SELECT
       'Kamloops Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Kamloops Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -91,7 +100,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Kamloops Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Kamloops Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Kamloops Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'Northwest Fire Centre'">
     SELECT
       'Northwest Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Northwest Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -113,8 +126,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Northwest Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Northwest Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Northwest Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'Prince George Fire Centre'">
     SELECT
       'Prince George Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Prince George Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -136,7 +152,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Prince George Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Prince George Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Prince George Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'Southeast Fire Centre'">
     SELECT
       'Southeast Fire Centre' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Southeast Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -158,7 +178,11 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Southeast Fire Centre' AND fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Southeast Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_centre_name = 'Southeast Fire Centre' AND fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
-    UNION
+    </if>
+    <if test="fireCentre == null">
+      UNION
+    </if>
+    <if test="fireCentre == null || fireCentre == 'BC'">
     SELECT
       'BC' AS fire_centre_name,
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND stage_of_control_code = 'OUT_CNTRL' AND fire_of_note_ind = 'N') AS activeOutOfControlFires,
@@ -180,6 +204,7 @@
       (SELECT COUNT(*) FROM wfnews.published_incident_detail WHERE fire_year = #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} AND last_updated_timestamp &gt; now() - interval '168 hours' AND stage_of_control_code = 'OUT') AS outFires7Days,
       (SELECT (SUM(incident_size_estimated_ha) / 20) FROM wfnews.published_incident_detail WHERE fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS hectaresBurned20YearAvg,
       (SELECT (COUNT(*) / 20) FROM wfnews.published_incident_detail WHERE fire_year BETWEEN (#{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN} - 20) AND #{fireYear, javaType=java.lang.Integer, jdbcType=NUMERIC, mode=IN}) AS incidentCount20YearAvg
+    </if>
   ) stats
   <if test="fireCentre != null">
     WHERE fire_centre_name = #{fireCentre, javaType=java.lang.String, jdbcType=VARCHAR, mode=IN}
