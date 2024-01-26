@@ -1,7 +1,7 @@
 @import "../../../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 1250px) {
+@media (min-width: 1251px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -33,6 +33,7 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
   }
 
   .progress-bar {
@@ -147,7 +148,7 @@
   }
 }
 
-@media (min-width: 768px) and (max-width: 1250px) {
+@media (min-width: 769px) and (max-width: 1250px) {
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -180,6 +181,7 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
   }
 
   .progress-bar {
@@ -322,6 +324,7 @@
     width: 100%;
     padding-bottom: 16px;
     display: flex;
+    align-items: center;
   }
 
   .progress-bar {
@@ -446,6 +449,11 @@
   border-radius: 20px !important;
   height: 40px;
   padding-left: 10px;
+
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: url("../../../../../assets/images/svg-icons/carbon_down-arrow.svg") 96% / 10% no-repeat;
 }
 
 .right-align {
