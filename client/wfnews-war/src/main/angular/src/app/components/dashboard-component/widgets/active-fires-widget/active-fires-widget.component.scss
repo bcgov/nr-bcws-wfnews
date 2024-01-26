@@ -5,9 +5,8 @@
   .container {
     overflow: hidden;
     font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
-    padding: 24px;
+    padding: var(--24, 24px);
     display: flex;
-    width: auto;
     min-height: 640px;
     flex-direction: column;
     align-items: flex-start;
@@ -54,20 +53,24 @@
     align-items: center;
     gap: 12px;
     flex: 1 0 0;
-  }
 
-  .chart-percent {
-    color: var(--grays-gray-1, #242424);
-    text-align: center;
-    font-feature-settings:
-      "clig" off,
-      "liga" off;
-    font-size: 28.929px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    top: -196px;
+    .pie {
+      height: 180px;
+
+      .chart-percent {
+        color: var(--grays-gray-1, #242424);
+        text-align: center;
+        font-feature-settings:
+          "clig" off,
+          "liga" off;
+        font-size: 28.929px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        position: relative;
+        top: -110px;
+      }
+    }
   }
 
   .chart-data-holder {
@@ -365,11 +368,10 @@
         font-style: normal;
         font-weight: 400;
         line-height: normal;
-
+        position: absolute;
         width: 180px;
         height: 180px;
-        top: -112px;
-        left: 0;
+        top: 70px;
       }
     }
   }
@@ -382,21 +384,6 @@
     letter-spacing: 0em;
     text-align: left;
     margin-top: 5px;
-  }
-
-  .chart-percent {
-    color: var(--grays-gray-1, #242424);
-    text-align: center;
-    font-feature-settings:
-      "clig" off,
-      "liga" off;
-    font-size: 28.929px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    position: relative;
-    top: 70px;
-    left: -325px;
   }
 
   .chart-data-holder {
