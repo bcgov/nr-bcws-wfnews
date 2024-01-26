@@ -12,8 +12,8 @@
     </div>
     <div class="radius-panel">
       <div class="dialog-title">Sort By Direction</div>
-      <button [class]="'radius-button' + (filterData.sortDirection === 'ASC' ? '-selected' : '')" (click)="setSortDirection('ASC')" mat-flat-button ><span class="list-button-label">Ascending</span></button>
       <button [class]="'radius-button' + (filterData.sortDirection === 'DESC' ? '-selected' : '')" (click)="setSortDirection('DESC')" mat-flat-button ><span class="list-button-label">Descending</span></button>
+      <button [class]="'radius-button' + (filterData.sortDirection === 'ASC' ? '-selected' : '')" (click)="setSortDirection('ASC')" mat-flat-button ><span class="list-button-label">Ascending</span></button>
     </div>
     <div class="radius-panel">
       <div class="dialog-title">Filter By Stage of Control</div>

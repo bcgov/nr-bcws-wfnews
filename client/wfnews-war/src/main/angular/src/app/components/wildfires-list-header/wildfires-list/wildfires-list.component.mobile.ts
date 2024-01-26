@@ -77,7 +77,7 @@ export class WildFiresListComponentMobile {
           this.searchText === '' && this.searchText.length
             ? null
             : this.searchText,
-          this.filters ? this.filters.fireOfNoteInd : true,
+          this.filters ? this.filters.fireOfNoteInd : null,
           this.filters?.stagesOfControl || [
             'OUT_CNTRL',
             'HOLDING',
