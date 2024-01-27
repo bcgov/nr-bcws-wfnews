@@ -103,19 +103,6 @@ export const ICON = {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
-
-  //window resize listener
-  @HostListener('window:resize', ['$event'])
-  @HostListener('window:orientationchange', ['$event'])
-  checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
-  }
-
-  public url;
-  public snowPlowHelper = snowPlowHelper;
-  public isMobileView = mobileView;
-  public TOOLTIP_DELAY = 500;
-
   title = 'News';
 
   isLoggedIn = true;
@@ -147,6 +134,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   activeMenuItem = '';
   showMobileNavigationBar = false;
 
+  public url;
+  public snowPlowHelper = snowPlowHelper;
+  public isMobileView = mobileView;
+  public TOOLTIP_DELAY = 500;
+
   constructor(
     protected appConfigService: AppConfigService,
     protected router: Router,
@@ -163,6 +155,18 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected commonUtilityService: CommonUtilityService,
     protected zone: NgZone,
   ) {
+  }
+
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange() {
+    console.log('device orientation changed');
+    this.onSizeChange();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    console.log('window resized');
+    this.onSizeChange();
   }
 
   ngOnInit() {
@@ -446,18 +450,13 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  @HostListener('window:orientationchange', ['$event'])
-  onOrientationChange() {
-    this.onSizeChange();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.onSizeChange();
+  checkScreenWidth(): void {
+    this.showMobileNavigationBar = window.innerWidth < 768;
   }
 
   private onSizeChange() {
     setTimeout(() => {
+      this.checkScreenWidth();
       this.updateMapSize();
       this.initAppMenu();
       this.initFooterMenu();
