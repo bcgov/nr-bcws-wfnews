@@ -103,6 +103,14 @@ export const ICON = {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
+
+  //window resize listener
+  @HostListener('window:resize', ['$event'])
+  @HostListener('window:orientationchange', ['$event'])
+  checkScreenWidth(): void {
+    this.showMobileNavigationBar = window.innerWidth < 768;
+  }
+
   public url;
   public snowPlowHelper = snowPlowHelper;
   public isMobileView = mobileView;
@@ -154,11 +162,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected capacitorService: CapacitorService,
     protected commonUtilityService: CommonUtilityService,
     protected zone: NgZone,
-  ) {}
-
-  private updateMapSize = function() {
-    this.storeViewportSize();
-  };
+  ) {
+  }
 
   ngOnInit() {
     if (this.isMobileView()) {
@@ -922,10 +927,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
-  }
-
   openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open(
@@ -949,4 +950,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       return 'Disclaimer and Legal Links';
     }
   }
+
+  private updateMapSize = function() {
+    this.storeViewportSize();
+  };
 }
