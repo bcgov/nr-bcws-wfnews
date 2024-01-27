@@ -126,9 +126,16 @@
 }
 
 .location-map {
-  min-height: 250px !important;
-  max-height: 600px !important;
-  height: 80vh !important;
+  min-height: 80dvh !important;
+  max-height: 80dvh !important;
+  height: 80dvh !important;
+  z-index: 1;
+}
+
+.location-map-radius {
+  min-height: 70dvh !important;
+  max-height: 70dvh !important;
+  height: 70dvh !important;
   z-index: 1;
 }
 
