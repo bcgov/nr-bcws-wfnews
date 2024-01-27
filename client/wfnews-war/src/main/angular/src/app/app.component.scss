@@ -275,13 +275,13 @@
   }
   .mobile-navigation-bar {
     position: fixed;
-    bottom: env(safe-area-inset-bottom, 20px);
+    bottom: 0;
     z-index: 1000000;
     width: 100%;
     background-color: white;
     box-shadow: 0px 0px 24px 0px rgba(0, 0, 0, 0.14);
     padding-top: 8px;
-    padding-bottom: 8px;
+    padding-bottom: calc(8px + env(safe-area-inset-bottom, 20px));
     display: block;
   }
 
