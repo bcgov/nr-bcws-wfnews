@@ -390,20 +390,26 @@ this.userLocationChecked = true;
   }
 
   sort() {
-    this.allResultData.sort((a, b) =>
-      Number(a.distance || 0) > Number(b.distance || 0)
-        ? 1
-        : Number(a.distance || 0) < Number(b.distance || 0)
-          ? -1
-          : a.relevance > b.relevance
-            ? 1
-            : a.relevance < b.relevance
-              ? -1
-              : a.title.localeCompare(b.title),
-    );
+    this.allResultData.sort((a, b) => {
+      if (a.type === 'incident' && b.type !== 'incident' ||
+          a.type === 'alert' && b.type !== 'alert' ||
+          a.type === 'order' && b.type !== 'order') {
+        return -1;
+      } else if (a.type !== 'incident' && b.type === 'incident' ||
+                 a.type !== 'alert' && b.type === 'alert' ||
+                 a.type !== 'order' && b.type === 'order') {
+        return 1;
+      } else {
+        return (
+          Number(a.distance || 0) - Number(b.distance || 0) ||
+          a.relevance - b.relevance ||
+          a.title.localeCompare(b.title)
+        );
+      }
+    });
   }
 
-  removeFromRecent(item: SearchResult, index: number) {
+  removeFromRecent(index: number) {
     if (localStorage.getItem('recent-search') != null) {
       try {
         this.recentData = JSON.parse(
