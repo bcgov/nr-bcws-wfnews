@@ -50,37 +50,37 @@
     <div class="mobile-navigation-bar" id="mobile-navigation-bar" *ngIf="showMobileNavigationBar">
         <ul>
           <li (click)="setActive('dashboard')">
-            <img alt="dashboard" *ngIf="router.url === '/dashboard'; else dashboardOther" src="/assets/images/svg-icons/dashboard-highlight.svg" >
+            <img alt="dashboard" *ngIf="router.url === '/dashboard'; else dashboardOther" src="/assets/images/svg-icons/dashboard-highlight.svg" width="41" height="29" >
             <ng-template #dashboardOther>
-              <img alt="dashboard" src="/assets/images/svg-icons/dashboard.svg" >
+              <img alt="dashboard" src="/assets/images/svg-icons/dashboard.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/dashboard' ? 'text-active' : ''">Dashboard</span>
           </li>
           <li (click)="setActive('map')">
-            <img alt="map" *ngIf="router.url === '/map'; else mapOther" src="/assets/images/map-highlight.png" >
+            <img alt="map" *ngIf="router.url === '/map'; else mapOther" src="/assets/images/svg-icons/map-nav-highlight.svg" width="41" height="29" >
             <ng-template #mapOther>
-              <img alt="map" src="/assets/images/map.png" >
+              <img alt="map" src="/assets/images/svg-icons/map-nav.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/map' ? 'text-active' : ''">Map</span>
           </li>
           <li (click)="setActive('saved')">
-            <img alt="saved" *ngIf="router.url === '/saved'; else savedOther" src="/assets/images/svg-icons/saved-highlight.svg" >
+            <img alt="saved" *ngIf="router.url === '/saved'; else savedOther" src="/assets/images/svg-icons/saved-highlight.svg" width="41" height="29" >
             <ng-template #savedOther>
-              <img alt="saved" src="/assets/images/svg-icons/saved.svg" >
+              <img alt="saved" src="/assets/images/svg-icons/saved.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/saved' ? 'text-active' : ''">Saved</span>
           </li>
           <li (click)="setActive('reportOfFire')">
-            <img alt="report" *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" src="/assets/images/svg-icons/rof-nav-highlight.svg" >
+            <img alt="report" *ngIf="router.url === '/reportOfFire'; else reportOfFireOther" src="/assets/images/svg-icons/rof-nav-highlight.svg" width="41" height="29" >
             <ng-template #reportOfFireOther>
-              <img alt="report" src="/assets/images/svg-icons/rof-nav.svg" >
+              <img alt="report" src="/assets/images/svg-icons/rof-nav.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/reportOfFire' ? 'text-active' : ''">Report</span>
           </li>
           <li (click)="setActive('more')">
-            <img alt="more" *ngIf="router.url === '/more'; else moreOther" src="/assets/images/svg-icons/more-highlight.svg" >
+            <img alt="more" *ngIf="router.url === '/more'; else moreOther" src="/assets/images/svg-icons/more-highlight.svg" width="41" height="29" >
             <ng-template #moreOther>
-              <img alt="more" src="/assets/images/svg-icons/more.svg" >
+              <img alt="more" src="/assets/images/svg-icons/more.svg" width="41" height="29" >
             </ng-template>
             <span [class]="router.url === '/more' ? 'text-active' : ''">More</span>
           </li>

@@ -285,7 +285,7 @@ this.userLocationChecked = true;
 
     // limited load or keep paging/fetching?
     const incidents = await this.publishedIncidentService
-      .fetchPublishedIncidentsList(1, 10, this.userLocation, this.searchText)
+      .fetchPublishedIncidentsList(1, 10, this.userLocation, this.searchText, null)
       .toPromise();
 
     if (incidents?.collection) {
