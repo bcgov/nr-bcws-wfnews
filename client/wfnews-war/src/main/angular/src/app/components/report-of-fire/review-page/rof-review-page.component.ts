@@ -367,8 +367,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       const button = page.buttons.find(
         (button: { value: string }) => button.value === valueToFind,
       );
-      if (valueToFind === 'I\'m not sure') {
-        return 'I\'m not sure';
+      if (valueToFind === 'Unknown') {
+        return 'Unknown';
       }
       if (button) {
         const label = button.label;
@@ -404,7 +404,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
         ];
       }
     });
-
     const rofResource: ReportOfFireType = {
       fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
       phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
