@@ -83,7 +83,7 @@ this.reportOfFire.headingDetectionActive = true;
     ) {
       if (
         this.reportOfFire[this.updateAttribute] === 'no' ||
-        this.reportOfFire[this.updateAttribute] === 'I\'m not sure'
+        this.reportOfFire[this.updateAttribute] === 'Unknown'
       ) {
         return false;
       }
