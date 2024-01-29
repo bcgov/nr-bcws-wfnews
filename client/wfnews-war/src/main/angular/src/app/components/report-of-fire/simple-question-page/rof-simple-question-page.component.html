@@ -5,7 +5,7 @@
   <mat-button-toggle-group class="simple-toggle" [(ngModel)]="updateAttribute ? reportOfFire[updateAttribute] : localVal" #questionOptions="matButtonToggleGroup" vertical name="questionButtons" aria-label="Question Options">
     <mat-button-toggle value="yes" (change)="onValChange('yes')"><mat-icon>check</mat-icon>Yes</mat-button-toggle>
     <mat-button-toggle value="no" (change)="onValChange('no')"><mat-icon>close</mat-icon>No</mat-button-toggle>
-    <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip" (change)="onValChange('I\'m not sure')"><span class="question-mark">?</span>I'm not sure</mat-button-toggle>
+    <mat-button-toggle *ngIf="allowIDontKnowButton" value="skip" (change)="onValChange('Unknown')"><span class="question-mark">?</span>I'm not sure</mat-button-toggle>
   </mat-button-toggle-group>
 
   <div class="rof-button-container" *ngIf="!isEditMode">
