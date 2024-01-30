@@ -159,13 +159,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
 
   @HostListener('window:orientationchange', ['$event'])
   onOrientationChange() {
-    console.log('device orientation changed');
     this.onSizeChange();
   }
 
   @HostListener('window:resize', ['$event'])
   onResize() {
-    console.log('window resized');
     this.onSizeChange();
   }
 
