@@ -15,10 +15,15 @@
 ::ng-deep .body .nav-items {
   width: 100vw;
 }
+::ng-deep .body .nav-items .nav-item:last-child {
+  border-right: none !important;
+}
 
 ::ng-deep .body .nav-items a.nav-item .label {
   min-width: 106px !important;
   width: calc(100vw / 7 - 1px) !important;
+  position: relative;
+  z-index: 1000;
 }
 
 .container-fluid {
