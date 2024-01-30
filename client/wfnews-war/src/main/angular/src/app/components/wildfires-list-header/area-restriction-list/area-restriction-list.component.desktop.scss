@@ -175,6 +175,7 @@ table tr:nth-child(even) td {
 
   .checkbox-group {
     display: flex;
+    gap: 12px;
 
     .mat-mdc-checkbox {
       border: none;

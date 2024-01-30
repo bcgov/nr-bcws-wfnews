@@ -104,7 +104,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-  handleLayersSelection(
+  async handleLayersSelection(
     returnFromPreiviewPanel: boolean = false,
     openPreviewPanel: boolean = false,
   ) {
@@ -166,19 +166,23 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       }
       if (incidentNumber && fireYear) {
         // identify an incident
-        this.publishedIncidentService
-          .fetchPublishedIncident(incidentNumber, fireYear)
-          .toPromise()
-          .then(async (result) => {
-            this.identifyIncident = result;
-            this.zoomIn(getActiveMap().$viewer.map._zoom);
+        try {
+          const result = await this.publishedIncidentService
+            .fetchPublishedIncident(incidentNumber, fireYear)
+            .toPromise();
 
-            if (this.identifyIncident) {
-              this.addMarker(this.identifyIncident);
-            }
+          this.identifyIncident = result;
+          this.zoomIn(getActiveMap().$viewer.map._zoom);
 
-            this.cdr.markForCheck();
-          });
+          if (this.identifyIncident) {
+            this.addMarker(this.identifyIncident);
+          }
+
+          this.cdr.markForCheck();
+
+        } catch (error) {
+          console.error('Unable to identify', error);
+        }
       } else {
         //identify anything other than incident
         if (
