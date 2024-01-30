@@ -483,7 +483,10 @@
 
 .rounded-select {
   border-radius: 20px !important;
-  height: 40px;
+  border: 1px solid #c4c4c4;
+  color: #242424;
+
+  height: 36px;
   padding-left: 10px;
 
   -webkit-appearance: none;
