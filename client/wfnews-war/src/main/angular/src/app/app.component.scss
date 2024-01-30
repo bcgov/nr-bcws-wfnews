@@ -261,6 +261,12 @@
   display: none;
 }
 
+@media screen and (min-width: 769px) {
+  .mobile-navigation-bar {
+    display: none;
+  }
+}
+
 @media screen and (max-width: 768px) {
   ::ng-deep .menu {
     display: none !important;
