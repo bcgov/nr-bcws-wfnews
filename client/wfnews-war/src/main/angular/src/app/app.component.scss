@@ -17,7 +17,8 @@
 }
 
 ::ng-deep .body .nav-items a.nav-item .label {
-  min-width: 105px !important;
+  min-width: 106px !important;
+  width: calc(100vw / 7 - 1px) !important;
 }
 
 .container-fluid {
