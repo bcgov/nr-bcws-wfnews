@@ -94,7 +94,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
 
   handler(e, self) {
     if (self.reportOfFire?.headingDetectionActive) {
-      if (!e.alpha && !e.webkitCompassHeading || this.checkIfLandscapeMode()) {
+      if ( this.checkIfLandscapeMode()) {
         this.reportOfFire.motionSensor = 'no';
         this.skip();
       } else {
@@ -179,7 +179,7 @@ document.getElementById('location').innerText =
   }
 
   checkIfLandscapeMode() {
-    if (screen.width > screen.height) {
+    if (window.innerWidth > window.innerHeight) {
       return true;
     } else {
       return false;
