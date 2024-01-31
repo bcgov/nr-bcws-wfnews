@@ -179,7 +179,7 @@ document.getElementById('location').innerText =
   }
 
   checkIfLandscapeMode() {
-    if (screen.width > screen.height) {
+    if (window.innerWidth > window.innerHeight) {
       return true;
     } else {
       return false;
