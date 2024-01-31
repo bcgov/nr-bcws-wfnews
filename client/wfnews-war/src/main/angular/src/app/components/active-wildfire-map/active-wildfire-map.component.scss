@@ -62,7 +62,7 @@
     }
   }
 
-  @media (min-width: 769px) {
+  @media (min-width: $desktop-sm-min-width) {
     .layers-container {
       position: relative;
       margin-top: 60px;
@@ -79,7 +79,7 @@
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: $mobile-max-width) {
     .layers-container {
       margin-top: 24px;
       margin-left: 8px;
@@ -184,7 +184,7 @@ mat-panel-title {
   bottom: 0;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $mobile-max-width) {
   ::ng-deep .footer {
     display: none !important;
   }
@@ -245,14 +245,14 @@ mat-panel-title {
   }
 
   ::ng-deep .smk-toolbar {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $mobile-max-width) {
       display: none !important;
     }
     top: 22px !important;
   }
 
   ::ng-deep .smk-actionbar {
-    @media screen and (max-width: 768px) {
+    @media screen and (max-width: $mobile-max-width) {
       display: none !important; // Hiding this but included style to match other buttons we need to show
       right: 13px !important;
       top: 120px !important;

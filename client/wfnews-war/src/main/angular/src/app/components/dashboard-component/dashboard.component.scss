@@ -1,7 +1,7 @@
 @import "../../../styles/variables";
 @import "notosans-fontface/scss/notosans-fontface";
 
-@media (min-width: 769px) and (max-width: 1250px) {
+@media (min-width: $desktop-sm-min-width) and (max-width: $desktop-sm-max-width) {
   .widget {
     max-width: 850px;
   }
@@ -26,7 +26,7 @@
   }
 }
 
-@media (min-width: 1251px) {
+@media (min-width: $desktop-md-min-width) {
   .list-button {
     margin-right: 7px;
     border-radius: 20px;
@@ -125,7 +125,7 @@
   margin: 0px 0px 0px 7px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $mobile-max-width) {
   .tab-button {
     border-radius: 20px;
     border: 1px solid #c4c4c4;
