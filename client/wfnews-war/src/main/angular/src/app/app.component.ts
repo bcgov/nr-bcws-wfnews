@@ -132,7 +132,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   lastSyncValue = undefined;
   tokenSubscription: Subscription;
   activeMenuItem = '';
-  showMobileNavigationBar = false;
 
   public url;
   public snowPlowHelper = snowPlowHelper;
@@ -239,7 +238,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       }, 200);
     }
 
-    this.checkScreenWidth();
 
     // This breaks desktop. Do not do this if not in mobile!!!
     // Also, we won't know which page people are coming in from, so forcing to
@@ -448,13 +446,8 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     }
   }
 
-  checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
-  }
-
   private onSizeChange() {
     setTimeout(() => {
-      this.checkScreenWidth();
       this.updateMapSize();
       this.initAppMenu();
       this.initFooterMenu();
