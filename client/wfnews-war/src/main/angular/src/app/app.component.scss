@@ -1,3 +1,5 @@
+@import "../styles/variables";
+
 ::ng-deep .wfnews-application {
   overflow: hidden;
   position: absolute;
@@ -15,9 +17,15 @@
 ::ng-deep .body .nav-items {
   width: 100vw;
 }
+::ng-deep .body .nav-items .nav-item:last-child {
+  border-right: none !important;
+}
 
 ::ng-deep .body .nav-items a.nav-item .label {
-  min-width: 105px !important;
+  min-width: 106px !important;
+  width: calc(100vw / 7 - 1px) !important;
+  position: relative;
+  z-index: 1000;
 }
 
 .container-fluid {
@@ -255,7 +263,13 @@
   display: none;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (min-width: $desktop-sm-min-width) {
+  .mobile-navigation-bar {
+    display: none;
+  }
+}
+
+@media screen and (max-width: $mobile-max-width) {
   ::ng-deep .menu {
     display: none !important;
     margin-left: auto;

@@ -133,7 +133,7 @@
   }
 }
 
-@media all and (min-width: 769px) and (min-height: 1024px) and (orientation: portrait) {
+@media all and (min-width: $desktop-sm-min-width) and (min-height: 1024px) and (orientation: portrait) {
   .map-container {
     height: 40dvh !important;
   }

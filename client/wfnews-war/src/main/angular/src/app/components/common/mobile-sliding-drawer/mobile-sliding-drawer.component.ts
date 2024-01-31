@@ -16,6 +16,8 @@ export class MobileSlidingDrawerComponent {
   @Input() isVisible: boolean;
   @Output() isVisibleChange = new EventEmitter<boolean>();
 
+  @Input() isGreyBackground: boolean;
+
   @Input() title: string;
 
   @ViewChild('drawerElement')

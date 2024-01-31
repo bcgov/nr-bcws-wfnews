@@ -1,3 +1,5 @@
+@import '../../../styles/variables.scss';
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
@@ -130,7 +132,7 @@
   height: 2px !important;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $mobile-max-width) {
   .hide {
     display: none;
   }

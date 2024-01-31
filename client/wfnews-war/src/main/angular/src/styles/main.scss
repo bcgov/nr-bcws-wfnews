@@ -613,21 +613,6 @@ html {
   cursor: pointer;
 }
 
-@media (min-width: 769px) and (max-width: 1023px) {
-  wf-menu-bar {
-    .nav-items .nav-item {
-      border: none !important;
-    }
-
-    .nav-items .nav-item span {
-      min-width: calc(25vw - 1px) !important;
-    }
-    .nav-items .nav-item:not(:last-child) {
-      border-right: 1px solid var(--wf-menu-bar-divider-color) !important;
-    }
-  }
-}
-
 wf-admin-incident-desktop {
   height: auto !important;
 }
@@ -677,7 +662,7 @@ wf-admin-incident-desktop {
 
 mat-snack-bar-container {
   height: 100%;
-  @media (max-width: 768px) {
+  @media (max-width: $mobile-max-width) {
     margin-bottom: calc(12vh + env(safe-area-inset-bottom, 20px)) !important;
   }
   .mdc-snackbar__surface {
@@ -721,7 +706,7 @@ mat-snack-bar-container {
 }
 
 ::-webkit-scrollbar {
-  @media (max-width: 768px) {
+  @media (max-width: $mobile-max-width) {
     display: none; // Safari and Chrome
   }
 }
