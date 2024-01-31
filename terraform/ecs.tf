@@ -393,6 +393,10 @@ resource "aws_ecs_task_definition" "wfnews_client" {
           value = var.agolBansAndProhibitions
         },
         {
+          name  = "AGOL_EVAC_ORDERS",
+          value = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
+        },
+        {
           name = "AGOL_DANGER_RATINGS",
           value = var.agolDangerRatings
         }
