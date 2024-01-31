@@ -4,14 +4,14 @@ import {
   InjectionToken,
   Type,
 } from '@angular/core';
-import { EffectSources } from '@ngrx/effects';
-import { SortDirection } from '@wf1/core-ui';
-import * as moment from 'moment';
-import { PagingInfoRequest } from '../store/application/application.state';
 import {
   WeatherHourlyCondition,
   WeatherStationConditions,
 } from '@app/services/point-id.service';
+import { EffectSources } from '@ngrx/effects';
+import { SortDirection } from '@wf1/core-ui';
+import * as moment from 'moment';
+import { PagingInfoRequest } from '../store/application/application.state';
 
 declare const window: any;
 export enum ResourcesRoutes {
@@ -436,7 +436,7 @@ export function convertToFireCentreDescription(code: string): string {
 }
 
 export function isMobileView() {
-  return window.innerWidth <= 768;
+  return window.innerWidth < 768;
 }
 
 export async function snowPlowHelper(page: string, data: any = null) {
