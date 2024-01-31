@@ -1,3 +1,5 @@
+@import '../../../../styles/variables';
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
@@ -175,7 +177,7 @@
   }
 }
 
-@media (min-width: 769px) and (max-width: 1023px) {
+@media (min-width: $desktop-sm-min-width) and (max-width: 1023px) {
   .panel {
     padding: 15px;
     .content-panel {
@@ -191,7 +193,7 @@
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $mobile-max-width) {
   .spacer-bottom {
     padding-bottom: 10px !important;
   }

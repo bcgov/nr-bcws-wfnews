@@ -40,7 +40,7 @@
   }
 }
 
-@media (min-width: 1251px) {
+@media (min-width: $desktop-md-min-width) {
   .resource-container {
     display: flex;
     flex-flow: column;
