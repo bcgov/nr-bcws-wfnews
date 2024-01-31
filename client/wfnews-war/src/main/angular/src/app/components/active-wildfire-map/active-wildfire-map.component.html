@@ -78,7 +78,7 @@
         </div>
         <map-layers-datasource-section *ngIf="isDataSourcesOpen"></map-layers-datasource-section>
       </mobile-sliding-drawer>
-      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'">
+      <mobile-sliding-drawer *ngIf="isMobileView()" [(isVisible)]="isLegendOpen" (isVisibleChange)="handleDrawerVisibilityChange($event)" [title]="'Legend'" [isGreyBackground]="true">
         <wfnews-base-legend [featureLayerID]="selectedLayer"></wfnews-base-legend>
       </mobile-sliding-drawer>
 </div>

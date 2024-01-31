@@ -103,19 +103,6 @@ export const ICON = {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
-
-  //window resize listener
-  @HostListener('window:resize', ['$event'])
-  @HostListener('window:orientationchange', ['$event'])
-  checkScreenWidth(): void {
-    this.showMobileNavigationBar = window.innerWidth < 768;
-  }
-
-  public url;
-  public snowPlowHelper = snowPlowHelper;
-  public isMobileView = mobileView;
-  public TOOLTIP_DELAY = 500;
-
   title = 'News';
 
   isLoggedIn = true;
@@ -145,7 +132,11 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   lastSyncValue = undefined;
   tokenSubscription: Subscription;
   activeMenuItem = '';
-  showMobileNavigationBar = false;
+
+  public url;
+  public snowPlowHelper = snowPlowHelper;
+  public isMobileView = mobileView;
+  public TOOLTIP_DELAY = 500;
 
   constructor(
     protected appConfigService: AppConfigService,
@@ -163,6 +154,16 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     protected commonUtilityService: CommonUtilityService,
     protected zone: NgZone,
   ) {
+  }
+
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange() {
+    this.onSizeChange();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize() {
+    this.onSizeChange();
   }
 
   ngOnInit() {
@@ -237,7 +238,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
       }, 200);
     }
 
-    this.checkScreenWidth();
 
     // This breaks desktop. Do not do this if not in mobile!!!
     // Also, we won't know which page people are coming in from, so forcing to
@@ -444,16 +444,6 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
     } else {
       this.lastSyncValue = value.toFixed(0);
     }
-  }
-
-  @HostListener('window:orientationchange', ['$event'])
-  onOrientationChange() {
-    this.onSizeChange();
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.onSizeChange();
   }
 
   private onSizeChange() {

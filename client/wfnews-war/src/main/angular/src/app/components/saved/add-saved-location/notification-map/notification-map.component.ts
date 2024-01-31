@@ -22,12 +22,17 @@ export class notificationMapComponent implements OnInit, AfterViewInit {
 
   radiusValue = 25;
   radiusCircle: any;
+  isNotificationRadius = false;
 
   constructor(
     private dialogRef: MatDialogRef<notificationMapComponent>,
     protected cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) public data,
-  ) {}
+  ) {
+    if (data.title === 'Notification Radius') {
+      this.isNotificationRadius = true;
+    }
+  }
 
   ngOnInit(): void {
     // this.loadMap()
