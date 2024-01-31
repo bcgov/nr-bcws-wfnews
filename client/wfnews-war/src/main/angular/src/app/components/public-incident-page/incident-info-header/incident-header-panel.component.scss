@@ -1,3 +1,5 @@
+@import '../../../../styles/variables';
+
 @media print {
   :host {
     font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
@@ -215,7 +217,7 @@
   line-height: 21px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: $mobile-max-width) {
   .header-container {
     padding: 0px !important;
   }
@@ -242,7 +244,7 @@
   position: sticky;
   position: -webkit-sticky; /* macOS/iOS Safari */
   background-color: #f3f6f9;
-  @media (max-width: 768px) {
+  @media (max-width: $mobile-max-width) {
     background-color: white !important;
     top: 50px;
   }

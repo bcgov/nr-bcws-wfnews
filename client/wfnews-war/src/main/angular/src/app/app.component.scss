@@ -1,3 +1,5 @@
+@import "../styles/variables";
+
 ::ng-deep .wfnews-application {
   overflow: hidden;
   position: absolute;
@@ -261,13 +263,13 @@
   display: none;
 }
 
-@media screen and (min-width: 769px) {
+@media screen and (min-width: $desktop-sm-min-width) {
   .mobile-navigation-bar {
     display: none;
   }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: $mobile-max-width) {
   ::ng-deep .menu {
     display: none !important;
     margin-left: auto;

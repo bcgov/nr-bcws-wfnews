@@ -58,7 +58,7 @@
   }
 }
 
-@media (max-width: 768px) {
+@media (max-width: $mobile-max-width) {
   .header-container {
     padding: 0px !important;
   }

@@ -2,6 +2,8 @@
 @import url("https://cdn.jsdelivr.net/npm/lightgallery@2.0.0-beta.4/css/lg-zoom.css");
 @import url("https://www.lightgalleryjs.com/css/lightgallery-bundle.css");
 @import "lightgallery/scss/lightgallery";
+@import '../../../../styles/variables';
+
 :host {
   font-family: "BCSans", "Open Sans", Verdana, Arial, sans-serif;
 }
@@ -125,7 +127,7 @@ h3 {
   justify-content: space-between;
 }
 
-@media (min-width: 769px) and (max-width: 1023px) {
+@media (min-width: $desktop-sm-min-width) and (max-width: 1023px) {
   .panel {
     padding: 15px;
     .content-panel {
@@ -145,7 +147,7 @@ h3 {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: $mobile-max-width) {
   .panel {
     .content-panel {
       .media-types {

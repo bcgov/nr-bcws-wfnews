@@ -8,7 +8,7 @@
   border-radius: 3px;
   min-height: 150px;
   max-width: 790px;
-  @media all and (min-width: 769px) and (orientation: portrait) {
+  @media all and (min-width: $desktop-sm-min-width) and (orientation: portrait) {
     height: calc(100dvh - 440px);
   }
   @media all and (min-width: 1024px) and (orientation: landscape) {
