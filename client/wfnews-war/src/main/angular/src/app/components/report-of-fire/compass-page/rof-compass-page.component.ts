@@ -181,6 +181,8 @@ document.getElementById('location').innerText =
   checkIfLandscapeMode() {
     if (window.innerWidth > window.innerHeight) {
       return true;
+    } else {
+      return false;
     }
   }
 }
