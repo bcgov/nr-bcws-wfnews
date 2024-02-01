@@ -195,8 +195,12 @@ this.agolService
           .then((bans) => {
             if (bans && bans.features) {
               this.fireBans = [];
-              for (const item of bans.features) {
-                this.fireBans.push(item);
+              for (const item of bans?.features) {
+                const isAttributeAlreadyExists = this.fireBans.some(existingItem => 
+                  existingItem.attributes.ACCESS_PROHIBITION_DESCRIPTION === item.attributes.ACCESS_PROHIBITION_DESCRIPTION);
+                if (!isAttributeAlreadyExists) {
+                  this.fireBans.push(item);
+                }          
               }
             }
           });
