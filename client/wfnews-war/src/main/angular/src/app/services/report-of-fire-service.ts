@@ -105,7 +105,6 @@ return;
           }
         }
       }
-      debugger
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -218,7 +217,6 @@ formData.append('image3', image3);
 
     try {
       // Make an HTTP POST request to your server's API endpoint
-      debugger
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
