@@ -32,7 +32,7 @@
       <img *ngIf="item.stageOfControlCode === 'OUT'" height="10" width="10" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="card-icon image-size soc-icon-adjust">
       {{convertToStageOfControlDescription(item.stageOfControlCode)}}
     </div>
-    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentreName}} Fire Centre</div>
+    <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/location-pin.svg'" alt="Fire Centre Icon" height="16" width="16" />{{item.fireCentreName}}</div>
     <div class="card-item"><img class="card-icon image-size" [src]="'../../../assets/images/svg-icons/calendar-pin.svg'" alt="Issued On Icon" height="16" width="16" />Discovered On {{item.discoveryDate}}</div>
     <div class="padding"></div>
   </div>
