@@ -409,11 +409,6 @@ this.userLocationChecked = true;
     });
   }
 
-  keywordMatchingSort() {
-
-  }
-
-
   removeFromRecent(index: number) {
     if (localStorage.getItem('recent-search') != null) {
       try {
