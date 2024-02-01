@@ -96,7 +96,7 @@ this.reportOfFire.headingDetectionActive = true;
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingSerivce().subscribe(
+    this.commonUtilityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();

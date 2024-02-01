@@ -93,6 +93,19 @@ formData.append('image3', await this.convertToBase64(image3));
 return;
 }
 
+      const storedOfflineReportData = await this.storage.get('offlineReportData');
+      if (storedOfflineReportData) {
+        // in case the device back online right after user store the report into ionic, 
+        // should always check to avoid submit the duplicate one
+        const offlineReport = JSON.parse(storedOfflineReportData);
+        if (offlineReport.resource) {
+          const offlineResource = JSON.parse(offlineReport.resource);
+          if (offlineResource === resource) {
+            await this.storage.remove('offlineReportData');
+          }
+        }
+      }
+      debugger
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -205,6 +218,7 @@ formData.append('image3', image3);
 
     try {
       // Make an HTTP POST request to your server's API endpoint
+      debugger
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -212,7 +226,6 @@ formData.append('image3', image3);
 
       if (response.ok) {
         // Remove the locally stored data if sync is successful
-        await this.storage.create();
         await this.storage.remove('offlineReportData');
         App.removeAllListeners();
         // The server successfully processed the report
