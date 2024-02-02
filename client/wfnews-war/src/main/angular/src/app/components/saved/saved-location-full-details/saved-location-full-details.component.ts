@@ -193,9 +193,9 @@ this.agolService
           })
           .toPromise()
           .then((bans) => {
-            if (bans && bans.features) {
+            if (bans?.features) {
               this.fireBans = [];
-              for (const item of bans?.features) {
+              for (const item of bans.features) {
                 const isAttributeAlreadyExists = this.fireBans.some(existingItem => 
                   existingItem.attributes.ACCESS_PROHIBITION_DESCRIPTION === item.attributes.ACCESS_PROHIBITION_DESCRIPTION);
                 if (!isAttributeAlreadyExists) {

@@ -86,14 +86,14 @@ export class SavedComponent implements OnInit {
         .subscribe((bans) => {
           this.savedLocations[outerIndex].bans = [];
           for (const innerIndex in bans?.features) {
-            if (bans?.features.hasOwnProperty(innerIndex)) {
-              const element = bans?.features[innerIndex];
+            if (Object.hasOwn(bans?.features, innerIndex)) {
+              const element = bans.features[innerIndex];
           
               // Check if the attribute already exists in the savedLocations array
-              const isAttributeAlreadyExists = this.savedLocations[outerIndex].bans.some(existingElement => 
+              const attributePresent = this.savedLocations[outerIndex].bans.some(existingElement => 
                 existingElement.attributes.ACCESS_PROHIBITION_DESCRIPTION === element.attributes.ACCESS_PROHIBITION_DESCRIPTION);
           
-              if (!isAttributeAlreadyExists) {
+              if (!attributePresent) {
                 this.savedLocations[outerIndex].bans.push(element);
                 this.cdr.markForCheck();
               }
