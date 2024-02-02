@@ -93,7 +93,12 @@ formData.append('image3', await this.convertToBase64(image3));
 return;
 }
 
-      const storedOfflineReportData = await this.storage.get('offlineReportData');
+      let storedOfflineReportData;
+      try {
+        storedOfflineReportData = await this.storage.get('offlineReportData');
+      } catch (error) {
+        console.error('An error occurred while retrieving offlineReportData:', error);
+      }
       if (storedOfflineReportData) {
         // in case the device back online right after user store the report into ionic, 
         // should always check to avoid submit the duplicate one
@@ -101,7 +106,11 @@ return;
         if (offlineReport.resource) {
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
-            await this.storage.remove('offlineReportData');
+            try {
+              await this.storage.remove('offlineReportData');
+            } catch (error) {
+              console.error('An error occurred while removing offlineReportData:', error);
+            }
           }
         }
       }
