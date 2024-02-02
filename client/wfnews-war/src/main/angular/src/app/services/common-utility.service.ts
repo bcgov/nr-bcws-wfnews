@@ -289,4 +289,11 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return array.some(existingItem => existingItem.attributes[attributeName] === attributeValue);
   }
 
+  checkIfLandscapeMode() {
+    if (window.innerWidth > window.innerHeight) {
+      return true;
+    } else {
+      return false;
+    }
+  } 
 }

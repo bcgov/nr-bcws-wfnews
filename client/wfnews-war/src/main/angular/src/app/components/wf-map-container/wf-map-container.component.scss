@@ -46,7 +46,6 @@
         height: 30px !important;
         min-width: 118px !important;
         padding: unset !important;
-        padding-left: 16px !important;
       }
     }
   }
@@ -69,7 +68,6 @@
         height: 30px !important;
         min-width: 118px !important;
         padding: unset !important;
-        padding-left: 16px !important;
         margin-top: 180px !important;
       }
     }
@@ -103,6 +101,14 @@
       padding: 5px;
       display: flex;
       align-items: center;
+      line-height: 19px;
+      font-size: 16px;
+      font-weight: 400;
+      font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial,
+        sans-serif;
+      color: #242424 !important;
+      gap: 5px;
+      padding-left: 12px !important;
 
       &.smk-tool-LayersTool::after {
         content: "All Layers";
