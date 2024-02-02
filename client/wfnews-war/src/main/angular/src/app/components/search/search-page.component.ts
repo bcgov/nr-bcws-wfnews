@@ -70,7 +70,7 @@ export class SearchPageComponent implements OnInit {
       try {
         this.recentData = (
           JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
-        ).filter((r) => r.type && r.type !== null);
+        ).filter((r) => r?.type);
       } catch (err) {
         console.error(err);
         // carry on with the empty array
@@ -391,21 +391,21 @@ this.userLocationChecked = true;
 
   sort() {
     this.allResultData.sort((a, b) => {
-      if (a.type === 'incident' && b.type !== 'incident' ||
-          a.type === 'alert' && b.type !== 'alert' ||
-          a.type === 'order' && b.type !== 'order') {
+      if (
+        (a.type === 'incident' && b.type !== 'incident') ||
+        (a.type === 'alert' && b.type !== 'alert') ||
+        (a.type === 'order' && b.type !== 'order')
+      ) {
         return -1;
-      } else if (a.type !== 'incident' && b.type === 'incident' ||
-                 a.type !== 'alert' && b.type === 'alert' ||
-                 a.type !== 'order' && b.type === 'order') {
+      } else if (
+        (a.type !== 'incident' && b.type === 'incident') ||
+        (a.type !== 'alert' && b.type === 'alert') ||
+        (a.type !== 'order' && b.type === 'order')
+      ) {
         return 1;
       } else {
-        return (
-          Number(a.distance || 0) - Number(b.distance || 0) ||
-          a.relevance - b.relevance ||
-          a.title.localeCompare(b.title)
-        );
-      }
+        return a.relevance - b.relevance;
+}
     });
   }
 
