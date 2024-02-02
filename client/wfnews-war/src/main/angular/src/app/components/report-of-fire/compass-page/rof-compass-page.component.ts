@@ -36,7 +36,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   isLandscapeMode(): boolean {
     return this.commonUtilityService.checkIfLandscapeMode();
   }
-  
+
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.compassFaceUrl = data.compassFaceUrl;
@@ -44,7 +44,6 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   }
 
   ngOnInit(): void {
-    this.skip();
     this.getOrientation();
     this.useMyCurrentLocation();
   }
@@ -99,7 +98,7 @@ export class RoFCompassPage extends RoFPage implements OnInit {
 
   handler(e, self) {
     if (self.reportOfFire?.headingDetectionActive) {
-      if (!e.alpha && !e.webkitCompassHeading || this.commonUtilityService.checkIfLandscapeMode()) {
+      if (!e.alpha && !e.webkitCompassHeading) {
         this.reportOfFire.motionSensor = 'no';
         this.skip();
       } else {
