@@ -284,4 +284,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       return false;
     }
   }
+
+  checkIfLandscapeMode() {
+    if (window.innerWidth > window.innerHeight) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
 }

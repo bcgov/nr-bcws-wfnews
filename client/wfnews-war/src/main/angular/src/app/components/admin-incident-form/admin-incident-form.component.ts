@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   Directive,
@@ -15,26 +16,25 @@ import {
   UntypedFormGroup,
   Validators,
 } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
 import {
   IncidentCauseResource,
   WildfireIncidentResource,
 } from '@wf1/incidents-rest-api';
-import * as Editor from '@ckeditor/ckeditor5-build-decoupled-document';
-import { CustomImageUploader } from './incident-details-panel/custom-uploader';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 import { PublishedIncidentService } from '../../services/published-incident-service';
-import { IncidentDetailsPanel } from './incident-details-panel/incident-details-panel.component';
-import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
-import { HttpClient } from '@angular/common/http';
-import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
 import { AreaRestrictionsDetailsPanel } from './area-restrictions-details-panel/area-restrictions-details-panel.component';
+import { ContactsDetailsPanel } from './contacts-details-panel/contacts-details-panel.component';
+import { EvacOrdersDetailsPanel } from './evac-orders-details-panel/evac-orders-details-panel.component';
+import { CustomImageUploader } from './incident-details-panel/custom-uploader';
+import { IncidentDetailsPanel } from './incident-details-panel/incident-details-panel.component';
 import {
   CauseOptionDisclaimer,
   SizeTypeOptionDisclaimer,
 } from './incident-details-panel/incident-details-panel.constants';
+import { PublishDialogComponent } from './publish-dialog/publish-dialog.component';
 
 @Directive()
 export class AdminIncidentForm implements OnInit, OnChanges {
@@ -90,6 +90,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     mapAttachments: [],
     publishedStatus: 'DRAFT',
     responseComments: undefined,
+    responseTypeCode: undefined,
     sizeComments: undefined,
     sizeHectares: 0,
     sizeType: 1,
@@ -267,6 +268,8 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.contact.fireCentre =
                 self.currentAdminIncident.fireCentreOrgUnitIdentifier;
 
+              self.incident.responseTypeCode = self.currentAdminIncident.responseTypeCode;
+
               this.areaRestrictionsDetailsPanel.getAreaRestrictions();
 
               this.http
@@ -378,7 +381,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               console.error(incidentResponseError);
               this.snackbarService.open(
                 'Failed to fetch Incident: ' +
-                  JSON.stringify(incidentResponseError),
+                JSON.stringify(incidentResponseError),
                 'OK',
                 { duration: 10000, panelClass: 'snackbar-error' },
               );
@@ -409,6 +412,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       this.cdr.detectChanges();
       return;
     }
+
     const publishedIncidentResource = {
       contactEmailAddress: this.nullEmptyStrings(
         this.incident.contact.emailAddress,
@@ -439,6 +443,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       publishedIncidentDetailGuid: this.publishedIncidentDetailGuid,
       publishedTimestamp: new Date(),
       resourceDetail: this.nullEmptyStrings(this.incident.responseComments),
+      responseTypeCode: this.nullEmptyStrings(this.incident.responseTypeCode),
       structureProtectionRsrcDetail: this.nullEmptyStrings(
         this.incident.structureProtectionComments,
       ),
