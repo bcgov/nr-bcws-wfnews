@@ -401,7 +401,8 @@ export class ReportOfFirePage implements OnInit, AfterContentInit {
       this.currentPage.instance.id === 'contact-page'
     ) {
       this.reportOfFire.headingDetectionActive = true;
-      if (this.reportOfFire.motionSensor === 'no') {
+
+      if (this.commonUtilityService.checkIfLandscapeMode() || this.reportOfFire.motionSensor === 'no') {
         this.selectPage('distance-page', null, false);
       } else {
         this.currentPage.instance.skip();
