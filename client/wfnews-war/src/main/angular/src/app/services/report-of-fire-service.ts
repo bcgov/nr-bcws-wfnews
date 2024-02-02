@@ -93,6 +93,27 @@ formData.append('image3', await this.convertToBase64(image3));
 return;
 }
 
+      let storedOfflineReportData;
+      try {
+        storedOfflineReportData = await this.storage.get('offlineReportData');
+      } catch (error) {
+        console.error('An error occurred while retrieving offlineReportData:', error);
+      }
+      if (storedOfflineReportData) {
+        // in case the device back online right after user store the report into ionic, 
+        // should always check to avoid submit the duplicate one
+        const offlineReport = JSON.parse(storedOfflineReportData);
+        if (offlineReport.resource) {
+          const offlineResource = JSON.parse(offlineReport.resource);
+          if (offlineResource === resource) {
+            try {
+              await this.storage.remove('offlineReportData');
+            } catch (error) {
+              console.error('An error occurred while removing offlineReportData:', error);
+            }
+          }
+        }
+      }
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -212,7 +233,6 @@ formData.append('image3', image3);
 
       if (response.ok) {
         // Remove the locally stored data if sync is successful
-        await this.storage.create();
         await this.storage.remove('offlineReportData');
         App.removeAllListeners();
         // The server successfully processed the report

@@ -39,7 +39,7 @@ export class RoFContactPage extends RoFPage {
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingSerivce().subscribe(
+    this.commonUtilityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();
