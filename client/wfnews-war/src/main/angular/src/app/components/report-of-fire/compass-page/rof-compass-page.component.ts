@@ -97,6 +97,9 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   }
 
   handler(e, self) {
+    if (this.commonUtilityService.checkIfLandscapeMode()) {
+      this.skip();
+    }
     if (self.reportOfFire?.headingDetectionActive) {
       if (!e.alpha && !e.webkitCompassHeading) {
         this.reportOfFire.motionSensor = 'no';
