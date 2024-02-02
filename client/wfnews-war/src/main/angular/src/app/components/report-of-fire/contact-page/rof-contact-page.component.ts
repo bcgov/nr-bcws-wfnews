@@ -39,7 +39,7 @@ export class RoFContactPage extends RoFPage {
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingSerivce().subscribe(
+    this.commonUtilityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();
@@ -60,7 +60,7 @@ export class RoFContactPage extends RoFPage {
   }
 
   nextPage() {
-    if (this.reportOfFire.motionSensor !== 'no') {
+    if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
       this.next();
     } else {
       this.reportOfFirePage.selectPage('distance-page', null, false);

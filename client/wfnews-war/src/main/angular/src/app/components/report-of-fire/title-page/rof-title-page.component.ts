@@ -122,7 +122,7 @@ this.nextId = 'disclaimer-page';
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingSerivce().subscribe(
+    this.commonUtilityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();

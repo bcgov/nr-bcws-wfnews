@@ -96,7 +96,7 @@ this.reportOfFire.headingDetectionActive = true;
   }
 
   checkOnlineStatus() {
-    this.commonUtilityService.pingSerivce().subscribe(
+    this.commonUtilityService.pingService().subscribe(
       () => {
         this.offLine = false;
         this.cdr.detectChanges();
@@ -118,7 +118,7 @@ this.reportOfFire.headingDetectionActive = true;
   skipPage() {
     if (this.id === 'callback-page') {
       this.reportOfFire.headingDetectionActive = true;
-      if (this.reportOfFire.motionSensor !== 'no') {
+      if (this.reportOfFire.motionSensor !== 'no' && !this.commonUtilityService.checkIfLandscapeMode()) {
         this.skip();
       } else {
         this.reportOfFirePage.selectPage('distance-page', null, false);

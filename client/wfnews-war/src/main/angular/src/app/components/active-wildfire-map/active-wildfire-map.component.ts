@@ -424,7 +424,7 @@ this.inputAutoComplete.openPanel();
             try {
               const today = new Date();
               const fiscalYearStart = new Date(today.getFullYear(), 3, 1); // April 1st
-          
+
               if (today < fiscalYearStart) {
                 this.wildfireYear = (today.getFullYear() - 1).toString();
               } else {
@@ -834,6 +834,7 @@ return;
             }
           }
         }
+        map.invalidateSize();
       })
       .catch((error) => {
         console.error(error);

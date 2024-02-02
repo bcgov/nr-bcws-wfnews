@@ -50,9 +50,7 @@ public class YouTubeController {
 			}
 
 			youtubeResponseCache = result;
-			if (cacheTimestamp == null) {
-				cacheTimestamp = new Date().getTime() + 86400000;
-			}
+			cacheTimestamp = new Date().getTime() + 86400000;
 		}
 
 		logger.debug(">youtubeFetch");
