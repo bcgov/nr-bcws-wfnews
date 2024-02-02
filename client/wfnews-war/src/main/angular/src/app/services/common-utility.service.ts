@@ -177,7 +177,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return Promise.race([timeoutPromise, locationPromise]);
   }
 
-  pingSerivce(): Observable<any> {
+  pingService(): Observable<any> {
     const url = this.appConfigService.getConfig().rest['wfnews'];
     return this.http.get(url);
   }
@@ -208,7 +208,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async checkOnlineStatus(): Promise<boolean> {
     try {
-      await this.pingSerivce().toPromise();
+      await this.pingService().toPromise();
       return true;
     } catch (error) {
       return false;
@@ -278,7 +278,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async checkOnline() {
     try {
-      await this.pingSerivce().toPromise();
+      await this.pingService().toPromise();
       return true;
     } catch (error) {
       return false;

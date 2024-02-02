@@ -385,7 +385,7 @@ export class PublishedIncidentService {
       1,
       null,
       null,
-      true,
+      null,
       stageOfControlCodes,
       null,
       bbox,
