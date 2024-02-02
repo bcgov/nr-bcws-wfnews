@@ -1,4 +1,4 @@
-<div class="page-content" *ngIf="reportOfFire.motionSensor === 'yes'">
+<div class="page-content" *ngIf="reportOfFire.motionSensor === 'yes' && !isLandscapeMode()">
     <div class="rof-text-primary-header">{{ title }}</div>
     <div class="rof-text-secondary-header">{{ message }}</div>
     <div id="compass-container">
