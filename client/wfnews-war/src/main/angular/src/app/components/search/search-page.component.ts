@@ -70,7 +70,7 @@ export class SearchPageComponent implements OnInit {
       try {
         this.recentData = (
           JSON.parse(localStorage.getItem('recent-search')) as SearchResult[]
-        ).filter((r) => r?.type && r?.type !== null);
+        ).filter((r) => r?.type);
       } catch (err) {
         console.error(err);
         // carry on with the empty array
