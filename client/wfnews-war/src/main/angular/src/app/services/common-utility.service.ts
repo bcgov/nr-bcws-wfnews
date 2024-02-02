@@ -284,4 +284,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       return false;
     }
   }
+
+  isAttributePresent(array, attributeName, attributeValue) {
+    return array.some(existingItem => existingItem.attributes[attributeName] === attributeValue);
+  }
+
 }
