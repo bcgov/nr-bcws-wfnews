@@ -38,7 +38,6 @@
   .map {
     flex-grow: 1;
     overflow: hidden;
-    height: 100%;
     position: relative;
 
     .map-container {
@@ -598,7 +597,7 @@ mat-panel-title {
   font-size: 16px;
   font-weight: 400;
   line-height: 21.79px;
-  text-wrap: nowrap;
+  white-space: nowrap;
 }
 
 .button-icon {
