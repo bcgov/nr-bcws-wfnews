@@ -33,6 +33,10 @@ export class RoFCompassPage extends RoFPage implements OnInit {
     super();
   }
 
+  isLandscapeMode(): boolean {
+    return this.commonUtilityService.checkIfLandscapeMode();
+  }
+
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
     super.initialize(data, index, reportOfFire);
     this.compassFaceUrl = data.compassFaceUrl;
@@ -93,8 +97,11 @@ export class RoFCompassPage extends RoFPage implements OnInit {
   }
 
   handler(e, self) {
+    if (this.commonUtilityService.checkIfLandscapeMode()) {
+      this.skip();
+    }
     if (self.reportOfFire?.headingDetectionActive) {
-      if (!e.alpha && !e.webkitCompassHeading || this.checkIfLandscapeMode()) {
+      if (!e.alpha && !e.webkitCompassHeading) {
         this.reportOfFire.motionSensor = 'no';
         this.skip();
       } else {
