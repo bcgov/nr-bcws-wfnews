@@ -35,10 +35,6 @@
   height: 100%;
 }
 
-.header-row {
-  height: 130px;
-}
-
 .main-row {
   height: calc(100% - 130px);
   max-height: calc(100% - 130px);
@@ -357,15 +353,18 @@
   }
 }
 
-.header-row {
-  position: fixed;
-  top: 35px;
-  right: 40px;
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+}
 
+.header-row {
+  display: flex;
+  position: relative;
+  background-color: #003366;
+  align-items: center;
+  border-bottom: 2px solid #FCBA19;
   .disclaimer-dropdown {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
     height: 36px;
     color: var(--blues-bcws-blue-6, #f5f6f9);
     font-family: "BC Sans";
@@ -374,4 +373,8 @@
     font-weight: 400;
     line-height: normal;
   }
+}
+
+wf-header {
+  flex-grow: 1;
 }
