@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { NotificationService } from '@app/services/notification.service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { WatchlistService } from '@app/services/watchlist-service';
@@ -39,6 +40,7 @@ export class SavedComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private watchlistService: WatchlistService,
     protected dialog: MatDialog,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   ngOnInit(): void {
@@ -86,9 +88,20 @@ export class SavedComponent implements OnInit {
         .subscribe((bans) => {
           this.savedLocations[outerIndex].bans = [];
           for (const innerIndex in bans?.features) {
-            const element = bans?.features[innerIndex];
-            this.savedLocations[outerIndex].bans.push(element);
-            this.cdr.markForCheck();
+            if (Object.hasOwn(bans?.features, innerIndex)) {
+              const element = bans.features[innerIndex];
+
+              const attributePresent = this.commonUtilityService.isAttributePresent(
+                this.savedLocations[outerIndex].bans,
+                'ACCESS_PROHIBITION_DESCRIPTION',
+                element.attributes.ACCESS_PROHIBITION_DESCRIPTION
+                );
+          
+              if (!attributePresent) {
+                this.savedLocations[outerIndex].bans.push(element);
+                this.cdr.markForCheck();
+              }
+            }
           }
         });
     });

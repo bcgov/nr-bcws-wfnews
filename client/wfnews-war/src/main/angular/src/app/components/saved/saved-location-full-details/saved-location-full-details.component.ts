@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '@app/components/saved/confirmation-dialog/confirmation-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { WatchlistService } from '@app/services/watchlist-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 @Component({
   selector: 'wfnews-saved-location-full-details',
@@ -62,6 +63,7 @@ export class SavedLocationFullDetailsComponent implements OnInit {
     protected dialog: MatDialog,
     protected snackbarService: MatSnackBar,
     private watchlistService: WatchlistService,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   ngOnInit() {
@@ -193,10 +195,18 @@ this.agolService
           })
           .toPromise()
           .then((bans) => {
-            if (bans && bans.features) {
+            if (bans?.features) {
               this.fireBans = [];
               for (const item of bans.features) {
-                this.fireBans.push(item);
+                const attributePresent = this.commonUtilityService.isAttributePresent(
+                  this.fireBans,
+                  'ACCESS_PROHIBITION_DESCRIPTION',
+                  item.attributes.ACCESS_PROHIBITION_DESCRIPTION
+                );
+
+                if (!attributePresent) {
+                  this.fireBans.push(item);
+                }          
               }
             }
           });
