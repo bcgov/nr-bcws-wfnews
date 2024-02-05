@@ -8,37 +8,30 @@
   <router-outlet></router-outlet>
 </div>
 <ng-template #mainPage>
-  <div>
-    <wf-header
-      class="hide"
-      [config]="applicationConfig"
-      [(state)]="applicationState"
-      [useAppLogo]="false"
-      [useSystemAndUser]="isAdminPage()"
-      [useSupportLink]="isAdminPage()"
-      [useMenu]="true"
-      [useLogoutButton]="isAdminPage()"
-      (bcLogoClick)="navigateToBcWebsite()"
-      (logoutClick)="logOutCurrentUser()"
-      (supportLinkClick)="navigateToBcSupport()"
-    ></wf-header>
+    <div class="header-wrapper">
+      <wf-header class="hide" [config]="applicationConfig" [(state)]="applicationState" [useAppLogo]="false"
+        [useSystemAndUser]="isAdminPage()" [useSupportLink]="isAdminPage()" [useMenu]="true"
+        [useLogoutButton]="isAdminPage()" (bcLogoClick)="navigateToBcWebsite()" (logoutClick)="logOutCurrentUser()"
+        (supportLinkClick)="navigateToBcSupport()"></wf-header>
 
-    <div *ngIf="!isMobileView() && !isAdminPage()" class="header-row">
-      <div>
-          <button mat-button [matMenuTriggerFor]="menu" class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
+      <div *ngIf="!isMobileView() && !isAdminPage()" class="header-row">
+        <div>
+          <button mat-button [matMenuTriggerFor]="menu"
+            class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
           <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="openLink('Disclaimer')">
-                  Disclaimer
-              </button>
-              <button mat-menu-item (click)="openLink('Privacy')">
-                  Privacy
-              </button>
-              <button mat-menu-item (click)="openLink('Copyright')">
-                  Copyright
-              </button>
+            <button mat-menu-item (click)="openLink('Disclaimer')">
+              Disclaimer
+            </button>
+            <button mat-menu-item (click)="openLink('Privacy')">
+              Privacy
+            </button>
+            <button mat-menu-item (click)="openLink('Copyright')">
+              Copyright
+            </button>
           </mat-menu>
+        </div>
       </div>
-  </div>
+    </div>
 
     <wf-menu-bar
       class="hide"
@@ -86,6 +79,5 @@
           </li>
         </ul>
     </div>
-  </div>
 </ng-template>
 </wf-application>
