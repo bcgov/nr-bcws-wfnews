@@ -81,7 +81,7 @@ export class SavedComponent implements OnInit {
           {
             x: location.point.coordinates[0],
             y: location.point.coordinates[1],
-            radius: location.radius,
+            radius: 0.01,
           },
           { returnCentroid: true, returnGeometry: false },
         )
