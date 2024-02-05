@@ -561,7 +561,7 @@ return 'Unknown';
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           queryParams: {
             type: 'area-restriction',
-            id: item.properties.PROT_RA_SYSID,
+            id: Number(item.properties.PROT_RA_SYSID)-1,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
