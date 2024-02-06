@@ -97,6 +97,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   showAccordion: boolean;
   searchText = undefined;
   zone: NgZone;
+  resizeObserver: ResizeObserver;
 
   placeData: PlaceData;
   searchByLocationControl = new UntypedFormControl();
@@ -192,8 +193,8 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           this.filteredOptions = [];
           this.searchLayerGroup.clearLayers();
           if (!this.isMobileView()) {
-this.inputAutoComplete.openPanel();
-}
+            this.inputAutoComplete.openPanel();
+          }
           // search addresses
           if (val.length > 2) {
             this.placeData.searchAddresses(val).then((results) => {
@@ -799,6 +800,13 @@ return;
         map.on('zoomend', () => {
           this.updateSavedLocationLabelVisibility();
         });
+
+        this.resizeObserver = new ResizeObserver(() => {
+          map.invalidateSize();
+        });
+
+        this.resizeObserver.observe(map._container);
+
         for (const smkMap in SMK.MAP) {
           if (Object.hasOwn(SMK.MAP, smkMap)) {
             const savedLocationMarker = {
