@@ -48,7 +48,7 @@ console.error(
   }
 
   navigateToEvac(evac) {
-    if (evac.externalUri) {
+    if (evac?.externalUri) {
       window.open(evac.uri, '_blank');
     } else if (evac && this.incident) {
       let type = null;
