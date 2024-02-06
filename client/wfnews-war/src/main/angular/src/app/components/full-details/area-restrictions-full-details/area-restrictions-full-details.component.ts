@@ -41,6 +41,7 @@ export class SimpleIncident {
 })
 export class AreaRestrictionsFullDetailsComponent implements OnInit {
   @Input() id: string;
+  @Input() name: string;
 
   public restrictionData: AreaRestriction | null;
   public incident: SimpleIncident | null;
@@ -170,9 +171,10 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
   async populateAreaRestrictionByID(options: AgolOptions = null) {
     this.restrictionData = null;
-    const response = await this.agolService
-      .getAreaRestrictionsByID(this.id, options)
-      .toPromise();
+
+  const response = this.name ?
+    await this.agolService.getAreaRestrictionsByName(this.name, options).toPromise() :
+    await this.agolService.getAreaRestrictionsByID(this.id, options).toPromise();
     // could also do response length === 1
     if (response?.features[0]?.attributes) {
       const areaRestriction = response.features[0];

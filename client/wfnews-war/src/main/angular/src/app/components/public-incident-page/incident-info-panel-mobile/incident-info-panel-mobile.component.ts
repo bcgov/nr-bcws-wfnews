@@ -59,6 +59,7 @@ type = 'evac-order';
         queryParams: {
           type,
           id: evac.emrgOAAsysID,
+          name: evac.eventName,
           source: [ResourcesRoutes.PUBLIC_INCIDENT],
           sourceYear: this.incident.fireYear,
           sourceNumber: this.incident.incidentNumberLabel

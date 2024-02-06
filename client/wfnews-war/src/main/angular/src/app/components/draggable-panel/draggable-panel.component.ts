@@ -556,12 +556,13 @@ return 'Unknown';
 
       if (
         this.identifyItem.layerId === 'area-restrictions' &&
-        item.properties.PROT_RA_SYSID
+        item.properties.NAME
       ) {
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           queryParams: {
             type: 'area-restriction',
             id: item.properties.PROT_RA_SYSID,
+            name:item.properties.NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
@@ -598,6 +599,7 @@ type = 'evac-order';
           queryParams: {
             type,
             id: item.properties.EMRG_OAA_SYSID,
+            name: item.properties.EVENT_NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
