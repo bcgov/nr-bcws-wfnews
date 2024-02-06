@@ -164,7 +164,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 1000; // 1 seconds limit
+    const timeoutDuration = 4000; // 4 seconds limit
 
     const timeoutPromise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
@@ -285,12 +285,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
+  isAttributePresent(array, attributeName, attributeValue) {
+    return array.some(existingItem => existingItem.attributes[attributeName] === attributeValue);
+  }
+
   checkIfLandscapeMode() {
     if (window.innerWidth > window.innerHeight) {
       return true;
     } else {
       return false;
     }
-  }
-  
+  } 
 }
