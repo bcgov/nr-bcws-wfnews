@@ -48,7 +48,9 @@ console.error(
   }
 
   navigateToEvac(evac) {
-    if (evac && this.incident) {
+    if (evac.externalUri) {
+      window.open(evac.uri, '_blank');
+    } else if (evac && this.incident) {
       let type = null;
       if (evac.orderAlertStatus === 'Alert') {
 type = 'evac-alert';

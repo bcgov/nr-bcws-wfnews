@@ -246,7 +246,8 @@ this.incident.incidentSizeEstimatedHa =
                 emrgOAAsysID: 0,
                 uri: uri.externalUri,
                 centroid: [0, 0],
-                issuedOn: convertToDateTimeTimeZone(uri.updateDate),
+                issuedOn: convertToDateYear(uri.createdTimestamp),
+                externalUri: true
               });
             }
           }
