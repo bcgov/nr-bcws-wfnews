@@ -9,7 +9,7 @@ import { AreaRestrictionListComponent } from './area-restriction-list.component'
 })
 export class AreaRestrictionListComponentMobile extends AreaRestrictionListComponent {
   navigateToFullDetails(item: any) {
-    if (item.protRsSysID) {
+    if (item.protRsSysID !== undefined && item.protRsSysID !== null) {
       this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
         queryParams: {
           type: 'area-restriction',
