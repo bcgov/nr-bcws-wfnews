@@ -33,7 +33,9 @@ export class FilterOptionsDialogComponent {
   }
 
   setFireOfNoteInd() {
-    this.filterData.fireOfNoteInd = !this.filterData.fireOfNoteInd;
+    // show fires that are not fire of note when this filter is unselected
+    if (this.filterData.fireOfNoteInd) this.filterData.fireOfNoteInd = null;
+    else this.filterData.fireOfNoteInd = true;
   }
 
   setFireCentre(fireCentre: number) {
