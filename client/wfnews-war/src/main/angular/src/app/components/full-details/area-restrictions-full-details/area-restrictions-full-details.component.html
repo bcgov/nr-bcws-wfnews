@@ -1,5 +1,5 @@
 <div class="title-panel">
-  <div class="full-details-title">{{restrictionData.name}}</div>
+  <div class="full-details-title">{{restrictionData?.name}}</div>
   <p class="info">A legal order that prohibits access to certain areas in order to limit the risk of fire, address a
     public safety concern or avoid interference with fire control.</p>
   <button (click)="navToMap()" mat-button class="map-button"><img height="20" width="20" class="tertiary-icon"
@@ -8,9 +8,9 @@
 <hr>
 <div class="info-container">
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
-      alt="Calendar" />Issued on {{restrictionData.issuedDate}}</div>
+      alt="Calendar" />Issued on {{restrictionData?.issuedDate}}</div>
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
-      alt="Location Pin" />{{restrictionData.fireCentre}}</div>
+      alt="Location Pin" />{{restrictionData?.fireCentre}}</div>
   <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_layers.svg"
       alt="Layers" />BC Wildfire Area Restrictions Layer</div>
 </div>
@@ -26,7 +26,7 @@
       of Note</div>
     <div class="info"><span class="circle-icon {{incident.stageOfControlIcon}}"></span>{{incident.stageOfControlLabel}}</div>
     <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/location-pin.svg"
-        alt="Location Pin" />{{restrictionData.fireCentre}}</div>
+        alt="Location Pin" />{{restrictionData?.fireCentre}}</div>
     <div class="info"><img height="20" width="20" class="icon" src="/assets/images/svg-icons/carbon_calendar.svg"
         alt="Calendar" />Discovered on {{incident.discoveryDate}}<img height="20" width="20" class="arrow-button"
         alt="icon" src="/assets/images/svg-icons/forward-arrow-grey.svg"></div>
