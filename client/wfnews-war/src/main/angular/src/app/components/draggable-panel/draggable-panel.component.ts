@@ -454,27 +454,29 @@ return 'Unknown';
             layerId.includes('evacuation-orders-and-alerts') ||
             layerId.includes('area-restrictions'))
         ) {
-          if (layerId.includes('bans-and-prohibitions')) {
-            viewer.panToFeature(window['turf'].point([long, lat]), 5);
+          viewer.panToFeature(window['turf'].point([long, lat]), 5);
 
+          if (layerId.includes('bans-and-prohibitions')) {
             this.agolService
               .getBansAndProhibitionsById(
                 this.identifyItem.properties.PROT_BAP_SYSID,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                if (
+                  response &&
+                  response.features &&
+                  response.features.length > 0 &&
+                  response.features[0].geometry &&
+                  response.features[0].geometry.rings &&
+                  response.features[0].geometry.rings.length > 0
+                ) {
+                  const polygonData = response.features[0].geometry.rings[0];
+                  this.fitPolygonToMap(polygonData, viewer.map);
+
                 }
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
@@ -482,20 +484,21 @@ return 'Unknown';
               .getEvacOrdersByEventNumber(
                 this.identifyItem.properties.EVENT_NUMBER,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                if (
+                  response &&
+                  response.features &&
+                  response.features.length > 0 &&
+                  response.features[0].geometry &&
+                  response.features[0].geometry.rings &&
+                  response.features[0].geometry.rings.length > 0
+                ) {
+                  const polygonData = response.features[0].geometry.rings[0];
+                  this.fitPolygonToMap(polygonData, viewer.map);
                 }
               });
           } else if (layerId.includes('area-restrictions')) {
@@ -503,19 +506,22 @@ return 'Unknown';
               .getAreaRestrictionsByID(
                 this.identifyItem.properties.PROT_RA_SYSID,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                viewer.map.fitBounds(
-                  new L.LatLngBounds(
-                    [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax],
-                  ),
-                );
+                if (
+                  response &&
+                  response.features &&
+                  response.features.length > 0 &&
+                  response.features[0].geometry &&
+                  response.features[0].geometry.rings &&
+                  response.features[0].geometry.rings.length > 0
+                ) {
+                  const polygonData = response.features[0].geometry.rings[0];
+                  this.fitPolygonToMap(polygonData, viewer.map);
+                }
               });
           }
           viewer.map.fitBounds(
@@ -769,4 +775,21 @@ type = 'evac-order';
     const formattedDate: string = date.toLocaleDateString('en-US', options);
     return formattedDate;
   }
+
+  fitPolygonToMap(polygonData: number[][], viewerMap: L.Map): L.Polygon {
+    const swappedPolygonData: number[][] = polygonData.map(([latitude, longitude]) => [longitude, latitude]);
+    const polygonShape = L.polygon(
+      swappedPolygonData,
+      {
+        color: 'black',
+        weight: 3,
+        opacity: 1,
+        fillOpacity: 0
+      })
+      .addTo(viewerMap);
+    const bounds: L.LatLngBounds = polygonShape.getBounds();
+    viewerMap.fitBounds(bounds);
+    return polygonShape;
+  }
+  
 }
