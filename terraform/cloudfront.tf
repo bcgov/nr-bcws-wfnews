@@ -95,6 +95,19 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   }
 
   ordered_cache_behavior {
+    path_pattern           = "/youtube/*"
+    allowed_methods        = ["GET", "OPTIONS", "HEAD"]
+    cached_methods         = ["GET", "OPTIONS", "HEAD"]
+    target_origin_id       = "wfnews_client_${var.target_env}"
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 86400
+    max_ttl                = 86400
+    cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
+  }
+
+  ordered_cache_behavior {
     path_pattern    = "/static/*"
     allowed_methods = ["GET", "HEAD"]
     cached_methods  = ["GET", "HEAD"]

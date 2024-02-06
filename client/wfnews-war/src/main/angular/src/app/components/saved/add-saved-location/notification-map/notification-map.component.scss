@@ -63,7 +63,9 @@
   border-radius: 30px 30px 0px 0px;
   box-shadow: 0px -10px 15px -5px rgba(0, 0, 0, 0.23);
   padding: 0 20px; /* Adjust padding as needed */
-  width: 95vw; /* bad practice. Use fixed values! */
+  min-width: 60vw;
+  width: 100%;
+  max-width: 100dvw;
   margin-top: -24px;
   z-index: 2;
   .slider-label {
@@ -86,7 +88,7 @@
   }
 
   mat-slider {
-    width: 90vw;
+    width: 90%;
   }
   label {
     padding: 12px 0;
@@ -121,16 +123,16 @@
 }
 
 .location-map {
-  min-height: unset !important;
-  max-height: unset !important;
-  height: calc(80dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
+  min-height: 250px !important;
+  height: calc(80vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
+  max-height: calc(80dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
   z-index: 1;
 }
 
 .location-map-radius {
-  min-height: unset !important;
-  max-height: unset !important;
-  height: calc(70dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
+  min-height: 250px !important;
+  height: calc(70vh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
+  max-height: calc(70dvh - env(safe-area-inset-top, 0) - env(safe-area-inset-bottom, 0)) !important;
   z-index: 1;
 }
 
@@ -142,4 +144,9 @@
 
 .slider-button-container {
   padding-top: 0;
+}
+
+::ng-deep .cdk-overlay-container .cdk-overlay-pane {
+  min-width: 60vw !important;
+  max-width: 100dvw !important;
 }
