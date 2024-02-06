@@ -164,7 +164,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 4000; // 4 seconds limit
+    const timeoutDuration = 10000; // 10 seconds limit
 
     const timeoutPromise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
