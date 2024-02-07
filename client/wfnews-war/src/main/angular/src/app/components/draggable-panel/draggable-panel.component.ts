@@ -454,8 +454,9 @@ return 'Unknown';
             layerId.includes('evacuation-orders-and-alerts') ||
             layerId.includes('area-restrictions'))
         ) {
+          viewer.panToFeature(window['turf'].point([long, lat]), 5);
+
           if (layerId.includes('bans-and-prohibitions')) {
-            viewer.panToFeature(window['turf'].point([long, lat]), 5);
 
             this.agolService
               .getBansAndProhibitionsById(
@@ -469,12 +470,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                  viewer.map.fitBounds([
+                    [response.extent.ymin, response.extent.xmin],
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
                 }
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
@@ -490,12 +489,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                  viewer.map.fitBounds([
+                    [response.extent.ymin, response.extent.xmin],
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
                 }
               });
           } else if (layerId.includes('area-restrictions')) {
@@ -510,20 +507,18 @@ return 'Unknown';
               )
               .toPromise()
               .then((response) => {
-                viewer.map.fitBounds(
-                  new L.LatLngBounds(
+                viewer.map.fitBounds([
                     [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax],
-                  ),
-                );
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
               });
           }
-          viewer.map.fitBounds(
-            new L.LatLngBounds(
-              [54.08803632921587, -129.0428584607425],
-              [60.09553581317895, -119.02438001754507],
-            ),
-          );
+          // viewer.map.fitBounds(
+          //   [
+          //     [54.08803632921587, -129.0428584607425],
+          //     [60.09553581317895, -119.02438001754507],
+          //   ]
+          // );
         }
       });
     }
