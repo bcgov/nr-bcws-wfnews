@@ -165,8 +165,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   async populateEvacByID(options: AgolOptions = null) {
     this.evacData = null;
     const response = this.name ?
-    await this.agolService.getEvacOrdersByName(this.name, options).toPromise() :
-    await this.agolService.getEvacOrdersByID(this.id, options).toPromise();
+    await this.agolService.getEvacOrdersByParam(`EVENT_NAME='${this.name}'`, options).toPromise() :
+    await this.agolService.getEvacOrdersByParam(`EMRG_OAA_SYSID='${this.id}'`, options).toPromise();
     if (response?.features[0]?.attributes) {
       const evac = response.features[0];
 
