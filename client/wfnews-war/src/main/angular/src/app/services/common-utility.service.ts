@@ -164,15 +164,23 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 4000; // 4 seconds limit
+    const timeoutDuration = 10000; // 10 seconds limit
 
     const timeoutPromise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
-
-    const locationPromise = Geolocation.getCurrentPosition()
+    
+    let locationPromise = Geolocation.getCurrentPosition()
       .then(() => Promise.resolve(true))
       .catch(() => Promise.resolve(false));
+
+    // resolve for firefox
+    if (window?.navigator?.userAgent?.includes("Firefox") && window?.navigator?.geolocation){
+      window.navigator.geolocation.getCurrentPosition(function(position) {
+        if(position) locationPromise = Promise.resolve(true);
+        else (locationPromise = Promise.resolve(true));
+      });
+    }
 
     return Promise.race([timeoutPromise, locationPromise]);
   }

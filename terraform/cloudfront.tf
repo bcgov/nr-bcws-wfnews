@@ -95,7 +95,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
   }
 
   ordered_cache_behavior {
-    path_pattern           = "/youtube/*"
+    path_pattern           = "/youtube.jsp"
     allowed_methods        = ["GET", "OPTIONS", "HEAD"]
     cached_methods         = ["GET", "OPTIONS", "HEAD"]
     target_origin_id       = "wfnews_client_${var.target_env}"

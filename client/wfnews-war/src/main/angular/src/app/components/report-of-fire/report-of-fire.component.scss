@@ -56,6 +56,9 @@
   .skip {
     color: #7a7a7a;
   }
+  .mobile-header-button {
+    cursor: pointer;
+  }
 }
 
 @media (max-width: $mobile-max-width) {
