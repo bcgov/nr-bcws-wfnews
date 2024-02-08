@@ -500,8 +500,9 @@ return 'Unknown';
               });
           } else if (layerId.includes('area-restrictions')) {
             this.agolService
-              .getAreaRestrictionsByID(
-                this.identifyItem.properties.PROT_RA_SYSID,
+              .getAreaRestrictions(
+                `NAME='${this.identifyItem.properties.NAME}'`,
+                null,
                 {
                   returnGeometry: false,
                   returnCentroid: false,

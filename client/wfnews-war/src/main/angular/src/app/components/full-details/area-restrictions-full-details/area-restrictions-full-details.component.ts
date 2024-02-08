@@ -173,8 +173,8 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     this.restrictionData = null;
 
   const response = this.name ?
-    await this.agolService.getAreaRestrictionsByName(this.name, options).toPromise() :
-    await this.agolService.getAreaRestrictionsByID(this.id, options).toPromise();
+    await this.agolService.getAreaRestrictions(`WNAME='${this.name}'`, null, options).toPromise() :
+    await this.agolService.getAreaRestrictions(`PROT_RA_SYSID='${this.id}'`, null, options).toPromise();
     // could also do response length === 1
     if (response?.features[0]?.attributes) {
       const areaRestriction = response.features[0];
