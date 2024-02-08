@@ -304,4 +304,17 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       return false;
     }
   } 
+
+  
+  hasSQLKeywords(jsonBlob) {
+    const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'ALTER', 'DROP', 'CREATE'];
+
+    for (const keyword of sqlKeywords) {
+        if (jsonBlob.includes(keyword)) {
+            return true;
+        }
+    }
+    return false;
+  }
+  
 }

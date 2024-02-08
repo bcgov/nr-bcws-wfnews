@@ -52,7 +52,10 @@ export class ReportOfFireService {
   ): Promise<any> {
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
     const resource = JSON.stringify(reportOfFire);
-
+    if (this.commonUtilityService.hasSQLKeywords(resource)) {
+      console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
+      return;
+    } 
     // if the device's location is not populated use the fire location to set image GPS coordinates
     if (reportOfFire?.deviceLocation) {
       this.latitude = reportOfFire.deviceLocation[0];
@@ -284,4 +287,6 @@ formData.append('image3', image3);
       console.error('Error checking exif: ' + err);
     }
   }
+
 }
+
