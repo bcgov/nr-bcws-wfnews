@@ -14,7 +14,7 @@
         [useLogoutButton]="isAdminPage()" (bcLogoClick)="navigateToBcWebsite()" (logoutClick)="logOutCurrentUser()"
         (supportLinkClick)="navigateToBcSupport()"></wf-header>
 
-      <div *ngIf="!isMobileView() && !isAdminPage()" class="header-row">
+      <div *ngIf="!isAdminPage()" class="header-row">
         <div>
           <button mat-button [matMenuTriggerFor]="menu"
             class="disclaimer-dropdown">{{disclaimerText()}}<mat-icon>expand_more</mat-icon></button>
