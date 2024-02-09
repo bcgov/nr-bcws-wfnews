@@ -52,6 +52,10 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
                 throw new ValidationException("Potential SQL injection detected");
             }
         }
+        if (document.contains("eval(")) {
+          throw new ValidationException("Potential use of eval statement detected");
+        }
+
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {
@@ -71,12 +75,15 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
 
             if (image1 != null) {
               imageByteArray1 = imageToBytes(image1);
+              checkForEvalStatement(imageByteArray1);
 			      }
             if(image2!=null) {
               imageByteArray2 = imageToBytes(image2);
+              checkForEvalStatement(imageByteArray1);
 			      }
             if(image3!=null) {
               imageByteArray3 = imageToBytes(image3);
+              checkForEvalStatement(imageByteArray1);
 			      }
 
              recordRoFService.createRecord(document, imageByteArray1, imageByteArray2, imageByteArray3);
@@ -179,4 +186,13 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         }
         return arr;
     }
+
+    private void checkForEvalStatement(byte[] imageByteArray) throws ValidationException {
+      if (imageByteArray != null) {
+          String imageString = new String(imageByteArray, StandardCharsets.UTF_8);
+          if (imageString.contains("eval(")) {
+              throw new ValidationException("Potential use of eval statement detected");
+          }
+      }
+  }
 }
