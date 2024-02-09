@@ -359,6 +359,10 @@
 }
 
 .header-row {
+  @media screen and (max-width: $mobile-max-width){
+    display: none;
+  }
+
   display: flex;
   position: relative;
   background-color: #003366;
