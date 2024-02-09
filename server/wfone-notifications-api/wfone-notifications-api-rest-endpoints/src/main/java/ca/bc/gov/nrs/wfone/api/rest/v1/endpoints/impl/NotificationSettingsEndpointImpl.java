@@ -59,10 +59,21 @@ public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl impleme
 		logger.debug("<updateNotificationSettings");
 
 		Response response = null;
+
+		String[] sqlKeywords = {"\\bSELECT\\b", "\\bINSERT\\b", "\\bUPDATE\\b", "\\bDELETE\\b", "\\bALTER\\b", "\\bDROP\\b", "\\bCREATE\\b"};
 		
 		logRequest();
+		
 				
 		try {
+
+			String settingsAsString = notificationSettings.toString();
+
+			for (String keyword : sqlKeywords) {
+				if (settingsAsString.contains(keyword)) {
+					throw new ValidationFailureException("Potential SQL injection detected");
+				}
+			}
 			
 			String optimisticLock = getIfMatchHeader(); 
 
