@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
 import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.NotificationSettingsEndpoint;
 import ca.bc.gov.nrs.wfone.api.rest.v1.resource.NotificationSettingsRsrc;
+import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.common.service.api.ConflictException;
 import ca.bc.gov.nrs.wfone.common.service.api.ForbiddenException;
@@ -60,7 +61,7 @@ public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl impleme
 
 		Response response = null;
 
-		String[] sqlKeywords = {"\\bSELECT\\b", "\\bINSERT\\b", "\\bUPDATE\\b", "\\bDELETE\\b", "\\bALTER\\b", "\\bDROP\\b", "\\bCREATE\\b"};
+		String[] sqlKeywords = SqlUtil.sqlKeywords;
 		
 		logRequest();
 		

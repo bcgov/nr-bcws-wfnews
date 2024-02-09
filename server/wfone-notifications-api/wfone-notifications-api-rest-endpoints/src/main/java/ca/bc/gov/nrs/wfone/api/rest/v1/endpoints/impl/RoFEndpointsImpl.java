@@ -22,6 +22,8 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.RoFEndpoints;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
+import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
+
 
 public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     private static final Logger logger = LoggerFactory.getLogger(RoFEndpointsImpl.class);
@@ -43,7 +45,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         logger.debug("<submitRoFForm");
         Response response = null;
 
-        String[] sqlKeywords = {"\\bSELECT\\b", "\\bINSERT\\b", "\\bUPDATE\\b", "\\bDELETE\\b", "\\bALTER\\b", "\\bDROP\\b", "\\bCREATE\\b"};
+        String[] sqlKeywords = SqlUtil.sqlKeywords;
         // Check if the document contains any SQL keyword
         for (String keyword : sqlKeywords) {
             if (document.contains(keyword)) {
