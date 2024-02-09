@@ -304,4 +304,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       return false;
     }
   } 
+
+  
+  hasSQLKeywords(jsonBlob) {
+    //detect standalone sql words
+    const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
+    const sqlDetected = sqlKeywords.test(jsonBlob);
+    return sqlDetected;
+  }
+  
 }
