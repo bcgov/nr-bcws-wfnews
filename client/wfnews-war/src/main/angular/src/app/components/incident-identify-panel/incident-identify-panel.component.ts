@@ -244,6 +244,7 @@ export class IncidentIdentifyPanelComponent {
                 emrgOAAsysID: 0,
                 uri: uri.externalUri,
                 centroid: [0, 0],
+                externalUri: true
               });
             }
           }
