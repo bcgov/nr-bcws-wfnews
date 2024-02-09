@@ -127,7 +127,7 @@ whereString = null;
         const evacData = [];
         if (evacs && evacs.features) {
           for (const element of evacs.features.filter(
-            (e) => e.attributes.EVENT_TYPE.toLowerCase() === 'fire',
+            (e) => e.attributes.EVENT_TYPE.toLowerCase() === 'wildfire' || e.attributes.EVENT_TYPE.toLowerCase() === 'fire',
           )) {
             let distance = null;
             if (userLocation) {

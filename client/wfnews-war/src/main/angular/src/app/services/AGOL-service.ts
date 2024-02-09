@@ -79,7 +79,7 @@ export class AGOLService {
       url += '/';
     }
     // append query. Only search for Fire events
-    url += `query?where=EVENT_TYPE='fire'${
+    url += `query?where=EVENT_TYPE='Wildfire' OR EVENT_TYPE='fire'${
       where ? ' AND (' + where + ')' : ''
     }&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${
       options && options.returnGeometry ? true : false
