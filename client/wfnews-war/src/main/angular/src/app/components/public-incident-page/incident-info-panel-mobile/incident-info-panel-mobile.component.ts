@@ -48,7 +48,9 @@ console.error(
   }
 
   navigateToEvac(evac) {
-    if (evac && this.incident) {
+    if (evac?.externalUri) {
+      window.open(evac.uri, '_blank');
+    } else if (evac && this.incident) {
       let type = null;
       if (evac.orderAlertStatus === 'Alert') {
 type = 'evac-alert';
@@ -59,6 +61,7 @@ type = 'evac-order';
         queryParams: {
           type,
           id: evac.emrgOAAsysID,
+          name: evac.eventName,
           source: [ResourcesRoutes.PUBLIC_INCIDENT],
           sourceYear: this.incident.fireYear,
           sourceNumber: this.incident.incidentNumberLabel
