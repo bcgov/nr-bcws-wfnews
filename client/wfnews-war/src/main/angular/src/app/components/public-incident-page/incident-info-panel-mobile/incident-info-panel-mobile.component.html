@@ -169,10 +169,15 @@
                     intended to give you time to be ready for a possible evacuation.
                 </div>
                 <div class="info-card-alert" *ngFor="let item of mobileEvacAlerts">
-                    <div class="title"><img class="icon-info-title" src="/assets/images/svg-icons/evacuation-alert.svg"
-                            alt="evacuation-alert" />Evacuation Alert for {{incident.incidentName ?
-                        incident.incidentName :
-                        incident.incidentNumberLabel}}</div>
+                    <div class="title">
+                        <img class="icon-info-title" src="/assets/images/svg-icons/evacuation-alert.svg" alt="evacuation-alert" />
+                        <ng-container *ngIf="!item.externalUri">
+                          Evacuation Alert for {{ incident.incidentName ? incident.incidentName : incident.incidentNumberLabel }}
+                        </ng-container>
+                        <ng-container *ngIf="item.externalUri">
+                          {{ item.eventName }}
+                        </ng-container>
+                    </div>
                     <hr>
                     <div class="subtitle">
                         <img class="icon" height="16" width="16" src="/assets/images/svg-icons/calendar.svg"

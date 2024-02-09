@@ -28,6 +28,8 @@ export class EvacData {
 })
 export class EvacAlertFullDetailsComponent implements OnInit {
   @Input() id: string;
+  @Input() name: string;
+
   public evacData: EvacData;
   public incident: SimpleIncident | null;
   public map: any;
@@ -56,8 +58,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   async initMap() {
     // Create map and append data to the map component
     const location = [
-      Number(this.evacData.centroidLatitude),
-      Number(this.evacData.centroidLongitude),
+      Number(this.evacData?.centroidLatitude),
+      Number(this.evacData?.centroidLongitude),
     ];
 
     this.map = L.map('restrictions-map', {
@@ -162,14 +164,13 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   async populateEvacByID(options: AgolOptions = null) {
     this.evacData = null;
-    const response = await this.agolService
-      .getEvacOrdersByID(this.id, options)
-      .toPromise();
+    const response = this.name ?
+    await this.agolService.getEvacOrdersByParam(`EVENT_NAME='${this.name}'`, options).toPromise() :
+    await this.agolService.getEvacOrdersByParam(`EMRG_OAA_SYSID='${this.id}'`, options).toPromise();
     if (response?.features[0]?.attributes) {
       const evac = response.features[0];
 
       this.evacData = new EvacData();
-
       this.evacData.name = evac.attributes.EVENT_NAME;
       this.evacData.issuingAgency = evac.attributes.ISSUING_AGENCY;
       this.evacData.issuedDate = evac.attributes.DATE_MODIFIED;

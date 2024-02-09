@@ -524,6 +524,15 @@ export function convertToDateYear(date: string): string {
   }
 }
 
+export function convertToDateYearUtc(date: string): string {
+  // e.g. October 23, 2023
+  if (date) {
+    return moment.utc(date).format('MMMM D, YYYY');
+  } else {
+    return null;
+  }
+}
+
 export function getStageOfControlLabel(code: string) {
   if (code.toUpperCase().trim() === 'OUT') {
 return 'Out';
