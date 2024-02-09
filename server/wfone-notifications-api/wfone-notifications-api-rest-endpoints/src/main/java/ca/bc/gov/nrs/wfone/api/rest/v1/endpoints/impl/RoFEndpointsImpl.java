@@ -42,7 +42,14 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     public Response submitRoFForm(String document, FormDataBodyPart image1, FormDataBodyPart image2, FormDataBodyPart image3) throws ValidationException, Exception{
         logger.debug("<submitRoFForm");
         Response response = null;
-        
+
+        String[] sqlKeywords = {"\\bSELECT\\b", "\\bINSERT\\b", "\\bUPDATE\\b", "\\bDELETE\\b", "\\bALTER\\b", "\\bDROP\\b", "\\bCREATE\\b"};
+        // Check if the document contains any SQL keyword
+        for (String keyword : sqlKeywords) {
+            if (document.contains(keyword)) {
+                throw new ValidationException("Potential SQL injection detected");
+            }
+        }
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {

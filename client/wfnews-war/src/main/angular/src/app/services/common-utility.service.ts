@@ -307,14 +307,10 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   
   hasSQLKeywords(jsonBlob) {
-    const sqlKeywords = ['SELECT', 'INSERT', 'UPDATE', 'DELETE', 'ALTER', 'DROP', 'CREATE'];
-
-    for (const keyword of sqlKeywords) {
-        if (jsonBlob.includes(keyword)) {
-            return true;
-        }
-    }
-    return false;
+    //detect standalone sql words
+    const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
+    const sqlDetected = sqlKeywords.test(jsonBlob);
+    return sqlDetected;
   }
   
 }
