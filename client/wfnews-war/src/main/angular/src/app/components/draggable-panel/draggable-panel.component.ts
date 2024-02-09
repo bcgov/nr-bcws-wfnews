@@ -497,8 +497,9 @@ return 'Unknown';
               });
           } else if (layerId.includes('area-restrictions')) {
             this.agolService
-              .getAreaRestrictionsByID(
-                this.identifyItem.properties.PROT_RA_SYSID,
+              .getAreaRestrictions(
+                `NAME='${this.identifyItem.properties.NAME}'`,
+                null,
                 {
                   returnGeometry: false,
                   returnCentroid: false,
@@ -545,12 +546,13 @@ return 'Unknown';
 
       if (
         this.identifyItem.layerId === 'area-restrictions' &&
-        item.properties.PROT_RA_SYSID
+        item.properties.NAME
       ) {
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           queryParams: {
             type: 'area-restriction',
             id: item.properties.PROT_RA_SYSID,
+            name:item.properties.NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
@@ -587,6 +589,7 @@ type = 'evac-order';
           queryParams: {
             type,
             id: item.properties.EMRG_OAA_SYSID,
+            name: item.properties.EVENT_NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
