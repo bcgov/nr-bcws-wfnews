@@ -79,11 +79,11 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
 			      }
             if(image2!=null) {
               imageByteArray2 = imageToBytes(image2);
-              checkForEvalStatement(imageByteArray1);
+              checkForEvalStatement(imageByteArray2);
 			      }
             if(image3!=null) {
               imageByteArray3 = imageToBytes(image3);
-              checkForEvalStatement(imageByteArray1);
+              checkForEvalStatement(imageByteArray3);
 			      }
 
              recordRoFService.createRecord(document, imageByteArray1, imageByteArray2, imageByteArray3);
