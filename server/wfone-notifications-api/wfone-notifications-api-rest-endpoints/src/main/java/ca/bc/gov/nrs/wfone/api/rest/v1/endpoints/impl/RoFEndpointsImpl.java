@@ -23,6 +23,7 @@ import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
+import java.nio.charset.StandardCharsets;
 
 
 public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
