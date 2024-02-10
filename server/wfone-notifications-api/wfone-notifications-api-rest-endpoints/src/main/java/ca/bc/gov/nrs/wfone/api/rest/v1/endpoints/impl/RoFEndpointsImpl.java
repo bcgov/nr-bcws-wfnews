@@ -50,23 +50,17 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         // Check if the document contains any SQL keyword
         for (String keyword : sqlKeywords) {
             if (document.contains(keyword)) {
-                List<Message> errors = new ArrayList<>();
-                errors.add(new Message("Potential use of eval statement detected"));
-                throw new ValidationException(errors);
+                throw new ValidationException("Potential use of sql statement detected");
             }
         }
         if (document.contains("eval(")) {
-          List<Message> errors = new ArrayList<>();
-          errors.add(new Message("Potential use of eval statement detected"));
-          throw new ValidationException(errors);
+          throw new ValidationException("Potential use of eval statement detected");
         }
 
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {
-          List<Message> error = new ArrayList<>();
-          error.add(new Message("Potential use of eval statement detected"));
-			    throw new ValidationException(error);
+			    throw new ValidationException(errors);
 		}
 
         logRequest();
@@ -198,9 +192,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
       if (imageByteArray != null) {
           String imageString = new String(imageByteArray, StandardCharsets.UTF_8);
           if (imageString.contains("eval(")) {
-              List<Message> errors = new ArrayList<>();
-              errors.add(new Message("Potential use of eval statement detected"));
-              throw new ValidationException(errors);
+              throw new ValidationException("Potential use of eval statement detected");
           }
       }
   }

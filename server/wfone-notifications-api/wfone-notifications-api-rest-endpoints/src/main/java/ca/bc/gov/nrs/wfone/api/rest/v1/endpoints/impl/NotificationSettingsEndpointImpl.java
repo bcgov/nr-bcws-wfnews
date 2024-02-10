@@ -17,6 +17,7 @@ import ca.bc.gov.nrs.wfone.common.service.api.ForbiddenException;
 import ca.bc.gov.nrs.wfone.common.service.api.NotFoundException;
 import ca.bc.gov.nrs.wfone.common.service.api.ValidationFailureException;
 import ca.bc.gov.nrs.wfone.service.api.v1.NotificationService;
+import ca.bc.gov.nrs.wfone.api.rest.client.v1.exception.ValidationException;
 
 public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl implements NotificationSettingsEndpoint{
 	
@@ -72,9 +73,7 @@ public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl impleme
 
 			for (String keyword : sqlKeywords) {
 				if (settingsAsString.contains(keyword)) {
-					List<Message> errors = new ArrayList<>();
-					errors.add(new Message("Potential use of eval statement detected"));
-					throw new ValidationFailureException(errors);
+					throw new ValidationException("Potential use of eval statement detected");
 				}
 			}
 			
