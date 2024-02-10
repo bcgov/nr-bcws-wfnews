@@ -72,7 +72,9 @@ public class NotificationSettingsEndpointImpl  extends BaseEndpointsImpl impleme
 
 			for (String keyword : sqlKeywords) {
 				if (settingsAsString.contains(keyword)) {
-					throw new ValidationFailureException("Potential SQL injection detected");
+					List<Message> errors = new ArrayList<>();
+					errors.add(new Message("Potential use of eval statement detected"));
+					throw new ValidationFailureException(errors);
 				}
 			}
 			
