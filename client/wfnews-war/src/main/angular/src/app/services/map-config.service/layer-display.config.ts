@@ -146,11 +146,11 @@ export function LayerDisplayConfig(mapServices: MapServices) {
         },
       ],
     },
-    {
-        id: 'prescribed-fire',
-       isVisible: false,
-       class: 'smk-inline-legend'
-    },
+    //{
+    //    id: 'prescribed-fire',
+    //   isVisible: false,
+    //   class: 'smk-inline-legend'
+    //},
     //{
     //  id: 'active-wildfires-heatmap',
     //  isVisible: false
@@ -180,6 +180,11 @@ export function LayerDisplayConfig(mapServices: MapServices) {
       isVisible: false,
       class: 'smk-inline-legend',
     },
+    //{
+    //  id: 'fuel-treatment',
+    //  isVisible: false,
+    //  class: 'smk-inline-legend',
+    //},
     {
       id: 'fuel-treatment',
       isVisible: false,
