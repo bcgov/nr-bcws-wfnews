@@ -24,6 +24,7 @@ export interface EvacOrderOption {
   noticeType?: string;
   uri?: string;
   issuedOn?: string;
+  externalUri?: boolean;
 }
 
 export interface AreaRestrictionsOption {
