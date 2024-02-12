@@ -185,10 +185,5 @@ export function LayerDisplayConfig(mapServices: MapServices) {
     //  isVisible: false,
     //  class: 'smk-inline-legend',
     //},
-    {
-      id: 'fuel-treatment',
-      isVisible: false,
-      class: 'smk-inline-legend',
-    },
   ];
 }
