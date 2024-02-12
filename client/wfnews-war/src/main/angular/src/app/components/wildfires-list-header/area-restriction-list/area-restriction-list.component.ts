@@ -179,12 +179,6 @@ export class AreaRestrictionListComponent implements OnInit {
     });
   }
 
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('MMM Do YYYY h:mm:ss a');
-    }
-  }
-
   viewMap(restriction: any) {
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
