@@ -110,7 +110,14 @@ export function LayerDisplayConfig(mapServices: MapServices) {
       id: 'bc-hillshade',
       isVisible: true,
     },
+    // use tilecache centres. we can go back to wms and add zones
+    // once the cache is setup
     {
+      id: 'bc-fire-centres',
+      isVisible: true,
+      class: 'smk-inline-legend',
+    },
+    /*{
       id: 'fire-centre-group',
       type: 'group',
       title: 'BC Wildfire Centres',
@@ -145,7 +152,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
           alwaysShowLegend: false,
         },
       ],
-    },
+    }, */
     //{
     //    id: 'prescribed-fire',
     //   isVisible: false,
