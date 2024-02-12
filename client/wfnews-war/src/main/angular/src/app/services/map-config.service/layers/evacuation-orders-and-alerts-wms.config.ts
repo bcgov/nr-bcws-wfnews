@@ -11,7 +11,7 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
         'pub:WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
       styleName: '6885',
       isQueryable: true,
-      where: 'ORDER_ALERT_STATUS <> \'All Clear\' and EVENT_TYPE = \'Fire\'',
+      where: 'ORDER_ALERT_STATUS <> \'All Clear\' and EVENT_TYPE = \'Wildfire\' or EVENT_TYPE = \'Fire\'',
       opacity: 0.65,
       titleAttribute: 'EVENT_NAME',
       popupTemplate:
@@ -51,7 +51,6 @@ export function EvacuationOrdersLayerConfig(ls: layerSettings) {
       layerName:
         'pub:WHSE_HUMAN_CULTURAL_ECONOMIC.EMRG_ORDER_AND_ALERT_AREAS_SP',
       opacity: 0.8,
-      sld: `@${window.location.protocol}//${window.location.host}/assets/js/smk/evacuation-orders-and-alerts-wms-highlight.sld`,
     },
   ];
 }
