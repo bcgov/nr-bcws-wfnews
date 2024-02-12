@@ -750,15 +750,16 @@ type = 'evac-order';
     return `${precip.toFixed(1)}mm`;
   }
 
-  formatDate(timestamp: string): string {
-    const date = new Date(timestamp.slice(0, 10));
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
+  formatDate(timestamp: string | number): string {
+    if (timestamp) {
+      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
+      const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
 
-    const formattedDate: string = date.toLocaleDateString('en-US', options);
-    return formattedDate;
+      return date.toLocaleDateString('en-US', options);
+    } else return '';
   }
 }
