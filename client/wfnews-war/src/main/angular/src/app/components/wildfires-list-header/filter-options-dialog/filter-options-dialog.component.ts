@@ -40,7 +40,7 @@ export class FilterOptionsDialogComponent {
 
   setFireCentre(fireCentre: number) {
     if (this.filterData.fireCentre === fireCentre) {
-      this.filterData.fireCentre = null;
+      this.filterData.fireCentre = undefined ;
       } else {
         this.filterData.fireCentre = fireCentre;
       }
