@@ -29,6 +29,7 @@ export interface layerSettings {
   openmapsBaseUrl: string;
   drivebcBaseUrl: string;
   wfnewsUrl: string;
+  evacOrdersURL: string;
 }
 export function LayerConfig(
   mapServices: MapServices,
@@ -39,6 +40,7 @@ export function LayerConfig(
     openmapsBaseUrl: mapServices['openmapsBaseUrl'],
     drivebcBaseUrl: mapServices['drivebcBaseUrl'],
     wfnewsUrl: mapServices['wfnews'],
+    evacOrdersURL: appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
   };
 
   return [
