@@ -752,7 +752,7 @@ type = 'evac-order';
 
   formatDate(timestamp: string | number): string {
     if (timestamp) {
-      const date = new Date((timestamp + '').slice(0, 10));
+      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
       const options: Intl.DateTimeFormatOptions = {
         year: 'numeric',
         month: 'long',
