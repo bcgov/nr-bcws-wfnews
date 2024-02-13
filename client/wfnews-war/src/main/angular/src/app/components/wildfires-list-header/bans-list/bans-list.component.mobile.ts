@@ -9,7 +9,7 @@ import { ResourcesRoutes } from '@app/utils';
 })
 export class BansListComponentMobile extends BansListComponent {
   navigateToFullDetails(item: any) {
-    if (item.id) {
+    if (item.id !== undefined && item.id !== null) {
       this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
         queryParams: {
           type: 'bans-prohibitions',

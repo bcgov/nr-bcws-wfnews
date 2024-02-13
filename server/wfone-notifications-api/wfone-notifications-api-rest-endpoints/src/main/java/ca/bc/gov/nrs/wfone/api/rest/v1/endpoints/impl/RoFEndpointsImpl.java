@@ -23,6 +23,7 @@ import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
 import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
+import java.nio.charset.StandardCharsets;
 
 
 public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
@@ -49,7 +50,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         // Check if the document contains any SQL keyword
         for (String keyword : sqlKeywords) {
             if (document.contains(keyword)) {
-                throw new ValidationException("Potential SQL injection detected");
+                throw new ValidationException("Potential use of sql statement detected");
             }
         }
         if (document.contains("eval(")) {
@@ -59,7 +60,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {
-			throw new ValidationException(errors);
+			    throw new ValidationException(errors);
 		}
 
         logRequest();

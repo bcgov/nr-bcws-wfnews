@@ -12,6 +12,7 @@ import {
   ResourcesRoutes,
   convertFireNumber,
   convertToStageOfControlDescription,
+  convertToDateTime
 } from '@app/utils';
 import moment from 'moment';
 import { Observable } from 'rxjs';
@@ -48,6 +49,7 @@ export class WildFiresListComponentMobile {
 
   convertFireNumber = convertFireNumber;
   convertToStageOfControlDescription = convertToStageOfControlDescription;
+  convertToDateTime = convertToDateTime;
 
   private searchTimer;
 
@@ -101,7 +103,7 @@ export class WildFiresListComponentMobile {
                 traditionalTerritoryDetail: element.traditionalTerritoryDetail,
                 fireOfNoteInd: element.fireOfNoteInd,
                 fireCentreName: element.fireCentreName,
-                discoveryDate: this.convertToDate(element.discoveryDate),
+                discoveryDate: this.convertToDateTime(element.discoveryDate),
                 fireYear: element.fireYear,
               });
 
@@ -157,12 +159,6 @@ export class WildFiresListComponentMobile {
       this.lastLocation = null;
       this.search();
     }, 1000);
-  }
-
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('YYYY-MM-DD HH:mm:ss');
-    }
   }
 
   viewMap(incident: any) {}
