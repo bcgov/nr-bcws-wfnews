@@ -161,7 +161,6 @@ export class SavedComponent implements OnInit {
             if (response.data) {
               response = response.data;
             }
-            console.(response);
             if (response.features) {
               const fireCentre =
                 response.features[0].properties.MOF_FIRE_CENTRE_NAME;
