@@ -21,7 +21,7 @@ import {
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 
 @Component({
   selector: 'wf-area-restriction-list',
@@ -53,6 +53,7 @@ export class AreaRestrictionListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+  convertToDateTime = convertToDateTime;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -119,7 +120,7 @@ export class AreaRestrictionListComponent implements OnInit {
             areaRestrictionData.push({
               protRsSysID: element.attributes.PROT_RA_SYSID,
               name: element.attributes.NAME,
-              issuedOn: this.convertToDate(
+              issuedOn: this.convertToDateTime(
                 element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
               ),
               fireCentre: element.attributes.FIRE_CENTRE_NAME,
@@ -176,12 +177,6 @@ export class AreaRestrictionListComponent implements OnInit {
       }
       this.search(result as LocationData);
     });
-  }
-
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('MMM Do YYYY h:mm:ss a');
-    }
   }
 
   viewMap(restriction: any) {

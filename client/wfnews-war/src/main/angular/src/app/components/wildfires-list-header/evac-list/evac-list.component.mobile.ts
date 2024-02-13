@@ -10,14 +10,18 @@ import { ResourcesRoutes } from '@app/utils';
 export class EvacListComponentMobile extends EvacListComponent {
   navToFullDetails(item: any) {
     let type: string;
-    if (item && item.status && item.emrgOAAsysID) {
-      if (item.status === 'Alert') {
-type = 'evac-alert';
-} else if (item.status === 'Order') {
-type = 'evac-order';
-} else {
-console.error('Inavlid status for evacuation: ' + item.emrgOAAsysID);
-}
+    if (item && item.status && item.emrgOAAsysID !== undefined && item.emrgOAAsysID !== null) {
+      switch (item.status) {
+          case 'Alert':
+              type = 'evac-alert';
+              break;
+          case 'Order':
+              type = 'evac-order';
+              break;
+          default:
+              console.error('Invalid status for evacuation: ' + item.emrgOAAsysID);
+              break;
+      }
     }
     this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
       queryParams: {

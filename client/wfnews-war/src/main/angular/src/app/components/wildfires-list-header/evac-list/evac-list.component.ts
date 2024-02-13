@@ -20,7 +20,7 @@ import {
 } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 import { Router } from '@angular/router';
 
 @Component({
@@ -57,6 +57,8 @@ export class EvacListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
+
+  convertToDateTime = convertToDateTime;
 
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
@@ -152,7 +154,7 @@ whereString = null;
               agency: element.attributes.ISSUING_AGENCY,
               preOcCode: element.attributes.PREOC_CODE,
               emrgOAAsysID: element.attributes.EMRG_OAA_SYSID,
-              issuedOn: this.convertToDate(element.attributes.DATE_MODIFIED),
+              issuedOn: this.convertToDateTime(element.attributes.DATE_MODIFIED),
               distance,
               latitude: element.centroid.y,
               longitude: element.centroid.x,
@@ -204,12 +206,6 @@ whereString = null;
       }
       this.search(result as LocationData);
     });
-  }
-
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('MMM Do YYYY h:mm:ss a');
-    }
   }
 
   viewMap(evac: any) {

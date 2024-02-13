@@ -110,7 +110,6 @@ export class RoFPhotoPage extends RoFPage {
         const permissionStatus = await Camera.requestPermissions();
         console.log('camera permissions', permissionStatus);
       } catch (error) {
-        alert(error);
         console.error('permission error', error);
       }
       this.cdr.detectChanges();
