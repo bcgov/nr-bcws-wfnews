@@ -566,7 +566,6 @@ export class WFMapService {
 
             SMK.TYPE.Layer['wms']['leaflet'].prototype.getFeaturesInArea =
               function(area, view, option) {
-                // console.log('getFeaturesInArea')
                 const self = this;
 
                 let extraFilter = this.config.where || '';
@@ -603,7 +602,6 @@ extraFilter = ' AND ' + extraFilter;
                   .httpGet(this.config.serviceUrl, data)
                   .then(function(data: any) {
                     console.log('parse ok');
-                    // console.log( data )
                     if (data.data) {
                       // from capacitor http
                       data = data.data;
