@@ -391,22 +391,16 @@ this.userLocationChecked = true;
 
   sort() {
     this.allResultData.sort((a, b) => {
-      if (
-        (a.type === 'incident' && b.type !== 'incident') ||
-        (a.type === 'alert' && b.type !== 'alert') ||
-        (a.type === 'order' && b.type !== 'order')
-      ) {
-        return -1;
-      } else if (
-        (a.type !== 'incident' && b.type === 'incident') ||
-        (a.type !== 'alert' && b.type === 'alert') ||
-        (a.type !== 'order' && b.type === 'order')
-      ) {
-        return 1;
+      const containsTermA = a.title.toLowerCase().includes(this.searchText.toLowerCase());
+      const containsTermB = b.title.toLowerCase().includes(this.searchText.toLowerCase());  
+      if (containsTermA && !containsTermB) {
+          return -1;
+      } else if (!containsTermA && containsTermB) {
+          return 1; 
       } else {
-        return a.relevance - b.relevance;
-}
-    });
+          return 0;
+      }
+  });
   }
 
   removeFromRecent(index: number) {

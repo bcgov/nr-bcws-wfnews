@@ -175,10 +175,10 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       .catch(() => Promise.resolve(false));
 
     // resolve for firefox
-    if (window?.navigator?.userAgent?.includes("Firefox") && window?.navigator?.geolocation){
+    if (window?.navigator?.userAgent?.search("Firefox") && window?.navigator?.geolocation){
       window.navigator.geolocation.getCurrentPosition(function(position) {
         if(position) locationPromise = Promise.resolve(true);
-        else (locationPromise = Promise.resolve(true));
+        else (locationPromise = Promise.resolve(false));
       });
     }
 
