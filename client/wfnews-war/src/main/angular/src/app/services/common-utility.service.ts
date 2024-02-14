@@ -165,26 +165,24 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 10000; // 10 seconds limit
-    let locationPromise;
 
     const timeoutPromise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
     
-    const location = Geolocation.getCurrentPosition()
-      .then(resp => {locationPromise = Promise.resolve(true); alert('geo true');}) 
-       .catch(err => {locationPromise = Promise.resolve(false); alert('geo false');}) 
+    let locationPromise = Geolocation.getCurrentPosition()
+      .then(() => Promise.resolve(true))
+      .catch(() => Promise.resolve(false));
 
     // resolve for firefox
     if (window?.navigator?.userAgent?.search("Firefox") && window?.navigator?.geolocation){
-        window.navigator.geolocation.getCurrentPosition(function(position) {
-        if(position) {locationPromise = Promise.resolve(true); alert('firefox true')}
-        else {locationPromise = Promise.resolve(false); alert('firefox false')}
+      window.navigator.geolocation.getCurrentPosition(function(position) {
+        if(position) locationPromise = Promise.resolve(true);
+        else (locationPromise = Promise.resolve(false));
       });
     }
 
-    const response = Promise.race([timeoutPromise, locationPromise]);
-    return response;
+    return Promise.race([timeoutPromise, locationPromise]);
   }
 
   pingService(): Observable<any> {
