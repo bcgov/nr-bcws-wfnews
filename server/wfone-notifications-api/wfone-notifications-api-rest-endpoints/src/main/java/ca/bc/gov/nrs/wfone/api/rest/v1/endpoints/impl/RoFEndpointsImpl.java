@@ -22,6 +22,9 @@ import ca.bc.gov.nrs.wfone.api.rest.v1.endpoints.RoFEndpoints;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 import ca.bc.gov.nrs.wfone.service.api.v1.RecordRoFService;
 import ca.bc.gov.nrs.wfone.service.api.v1.validation.ModelValidator;
+import ca.bc.gov.nrs.wfone.api.rest.v1.utils.SqlUtil;
+import java.nio.charset.StandardCharsets;
+
 
 public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     private static final Logger logger = LoggerFactory.getLogger(RoFEndpointsImpl.class);
@@ -42,11 +45,22 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     public Response submitRoFForm(String document, FormDataBodyPart image1, FormDataBodyPart image2, FormDataBodyPart image3) throws ValidationException, Exception{
         logger.debug("<submitRoFForm");
         Response response = null;
-        
+
+        String[] sqlKeywords = SqlUtil.sqlKeywords;
+        // Check if the document contains any SQL keyword
+        for (String keyword : sqlKeywords) {
+            if (document.contains(keyword)) {
+                throw new ValidationException("Potential use of sql statement detected");
+            }
+        }
+        if (document.contains("eval(")) {
+          throw new ValidationException("Potential use of eval statement detected");
+        }
+
         PublicReportOfFire prof  = convertToPublicReportOfFire(document);
         List<Message> errors = modelValidator.validatePublicReportOfFire(prof);
         if (!errors.isEmpty()) {
-			throw new ValidationException(errors);
+			    throw new ValidationException(errors);
 		}
 
         logRequest();
@@ -62,12 +76,15 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
 
             if (image1 != null) {
               imageByteArray1 = imageToBytes(image1);
+              checkForEvalStatement(imageByteArray1);
 			      }
             if(image2!=null) {
               imageByteArray2 = imageToBytes(image2);
+              checkForEvalStatement(imageByteArray2);
 			      }
             if(image3!=null) {
               imageByteArray3 = imageToBytes(image3);
+              checkForEvalStatement(imageByteArray3);
 			      }
 
              recordRoFService.createRecord(document, imageByteArray1, imageByteArray2, imageByteArray3);
@@ -170,4 +187,13 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
         }
         return arr;
     }
+
+    private void checkForEvalStatement(byte[] imageByteArray) throws ValidationException {
+      if (imageByteArray != null) {
+          String imageString = new String(imageByteArray, StandardCharsets.UTF_8);
+          if (imageString.contains("eval(")) {
+              throw new ValidationException("Potential use of eval statement detected");
+          }
+      }
+  }
 }

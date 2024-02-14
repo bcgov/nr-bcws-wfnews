@@ -1,5 +1,5 @@
 <div class="top">
-  <a class="link" routerLink="../admin" ><mat-icon svgIcon="back-icon" style="height:13px; width: 15px;"></mat-icon> Back to Dashboard</a>
+  <a class="link" routerLink="../admin" ><mat-icon svgIcon="back-icon" style="height:13px; width: 15px;"></mat-icon> Back to Admin Front Page</a>
   <div class="title">
     <div>
       <h1>Fire Number: <span *ngIf="currentAdminIncident">{{currentAdminIncident.incidentLabel}}</span><span [ngClass]="{'pub-chip': incident.publishedStatus.toLowerCase() === 'published', 'unpub-chip': incident.publishedStatus.toLowerCase() !== 'published'}">{{incident.publishedStatus}}</span></h1>

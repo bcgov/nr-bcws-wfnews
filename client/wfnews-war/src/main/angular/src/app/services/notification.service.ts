@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -63,6 +64,7 @@ export class NotificationService {
     private appConfigService: AppConfigService,
     private httpClient: HttpClient,
     private capacitorService: CapacitorService,
+    private commonUtilityService: CommonUtilityService,
   ) {}
 
   public updateUserNotificationPreferences(
@@ -90,6 +92,12 @@ export class NotificationService {
           notificationSettingRsrc.notifications.push(notification);
         });
       }
+      const notificationSettingsJSON: string = JSON.stringify(notificationSettingRsrc);
+      if (this.commonUtilityService.hasSQLKeywords(notificationSettingsJSON)) {
+        console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
+        return;
+      }
+
       return this.httpClient
         .put<NotificationSettingRsrc>(url, notificationSettingRsrc, { headers })
         .toPromise();

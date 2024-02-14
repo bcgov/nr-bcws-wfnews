@@ -41,6 +41,7 @@ export class SimpleIncident {
 })
 export class AreaRestrictionsFullDetailsComponent implements OnInit {
   @Input() id: string;
+  @Input() name: string;
 
   public restrictionData: AreaRestriction | null;
   public incident: SimpleIncident | null;
@@ -170,9 +171,10 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
   async populateAreaRestrictionByID(options: AgolOptions = null) {
     this.restrictionData = null;
-    const response = await this.agolService
-      .getAreaRestrictionsByID(this.id, options)
-      .toPromise();
+
+  const response = this.name ?
+    await this.agolService.getAreaRestrictions(`NAME='${this.name}'`, null, options).toPromise() :
+    await this.agolService.getAreaRestrictions(`PROT_RA_SYSID='${this.id}'`, null, options).toPromise();
     // could also do response length === 1
     if (response?.features[0]?.attributes) {
       const areaRestriction = response.features[0];
@@ -181,7 +183,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
       this.restrictionData.name =
         areaRestriction.attributes.NAME.replace('Area Restriction', '').trim() +
-        ' Restricted Area';
+        ' Area Restriction';
       this.restrictionData.fireCentre =
         areaRestriction.attributes.FIRE_CENTRE_NAME;
       this.restrictionData.issuedDate = convertToDateYear(

@@ -79,7 +79,7 @@ export class AGOLService {
       url += '/';
     }
     // append query. Only search for Fire events
-    url += `query?where=EVENT_TYPE='fire'${
+    url += `query?where=EVENT_TYPE='Wildfire' OR EVENT_TYPE='fire'${
       where ? ' AND (' + where + ')' : ''
     }&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${
       options && options.returnGeometry ? true : false
@@ -112,7 +112,7 @@ export class AGOLService {
     return this.http.get<any>(encodeURI(url), { headers });
   }
 
-  getEvacOrdersByID(id: string, options: AgolOptions = null): Observable<any> {
+  getEvacOrdersByParam(where: string, options: AgolOptions = null): Observable<any> {
     let url = this.appConfigService
       .getConfig()
       .externalAppConfig['AGOLevacOrders'].toString();
@@ -120,7 +120,7 @@ export class AGOLService {
       url += '/';
     }
     // append query. Only search for Fire events
-    url += `query?where=EMRG_OAA_SYSID=${id}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${
+    url += `query?where=${where}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${
       options && options.returnGeometry ? true : false
     }&returnCentroid=${
       options && options.returnCentroid ? true : false
@@ -128,30 +128,6 @@ export class AGOLService {
       options && options.returnExtent ? true : false
     }&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`;
 
-    const headers = new HttpHeaders();
-    headers.append('Access-Control-Allow-Origin', '*');
-    headers.append('Accept', '*/*');
-    return this.http.get<any>(encodeURI(url), { headers });
-  }
-
-  getAreaRestrictionsByID(
-    sysId: string,
-    options: AgolOptions = null,
-  ): Observable<any> {
-    let url = this.appConfigService
-      .getConfig()
-      .externalAppConfig['AGOLareaRestrictions'].toString();
-    if (!url.endsWith('/')) {
-      url += '/';
-    }
-    // append query
-    url += `query?where=PROT_RA_SYSID=${sysId}&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&units=esriSRUnit_Meter&outFields=*&returnGeometry=${
-      options && options.returnGeometry ? true : false
-    }&returnCentroid=${
-      options && options.returnCentroid ? true : false
-    }&returnExtentOnly=${
-      options && options.returnExtent ? true : false
-    }&featureEncoding=esriDefault&outSR=4326&defaultSR=4326&returnIdsOnly=false&returnQueryGeometry=false&cacheHint=false&returnExceededLimitFeatures=true&sqlFormat=none&f=pjson&token=`;
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Accept', '*/*');

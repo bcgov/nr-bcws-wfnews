@@ -454,8 +454,9 @@ return 'Unknown';
             layerId.includes('evacuation-orders-and-alerts') ||
             layerId.includes('area-restrictions'))
         ) {
+          viewer.panToFeature(window['turf'].point([long, lat]), 5);
+
           if (layerId.includes('bans-and-prohibitions')) {
-            viewer.panToFeature(window['turf'].point([long, lat]), 5);
 
             this.agolService
               .getBansAndProhibitionsById(
@@ -469,12 +470,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                  viewer.map.fitBounds([
+                    [response.extent.ymin, response.extent.xmin],
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
                 }
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
@@ -490,18 +489,17 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.extent) {
-                  viewer.map.fitBounds(
-                    new L.LatLngBounds(
-                      [response.extent.ymin, response.extent.xmin],
-                      [response.extent.ymax, response.extent.xmax],
-                    ),
-                  );
+                  viewer.map.fitBounds([
+                    [response.extent.ymin, response.extent.xmin],
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
                 }
               });
           } else if (layerId.includes('area-restrictions')) {
             this.agolService
-              .getAreaRestrictionsByID(
-                this.identifyItem.properties.PROT_RA_SYSID,
+              .getAreaRestrictions(
+                `NAME='${this.identifyItem.properties.NAME}'`,
+                null,
                 {
                   returnGeometry: false,
                   returnCentroid: false,
@@ -510,20 +508,12 @@ return 'Unknown';
               )
               .toPromise()
               .then((response) => {
-                viewer.map.fitBounds(
-                  new L.LatLngBounds(
+                viewer.map.fitBounds([
                     [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax],
-                  ),
-                );
+                    [response.extent.ymax, response.extent.xmax]
+                ]);
               });
           }
-          viewer.map.fitBounds(
-            new L.LatLngBounds(
-              [54.08803632921587, -129.0428584607425],
-              [60.09553581317895, -119.02438001754507],
-            ),
-          );
         }
       });
     }
@@ -556,12 +546,13 @@ return 'Unknown';
 
       if (
         this.identifyItem.layerId === 'area-restrictions' &&
-        item.properties.PROT_RA_SYSID
+        item.properties.NAME
       ) {
         this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           queryParams: {
             type: 'area-restriction',
             id: item.properties.PROT_RA_SYSID,
+            name:item.properties.NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
@@ -598,6 +589,7 @@ type = 'evac-order';
           queryParams: {
             type,
             id: item.properties.EMRG_OAA_SYSID,
+            name: item.properties.EVENT_NAME,
             source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
           },
         });
@@ -758,15 +750,16 @@ type = 'evac-order';
     return `${precip.toFixed(1)}mm`;
   }
 
-  formatDate(timestamp: string): string {
-    const date = new Date(timestamp.slice(0, 10));
-    const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    };
+  formatDate(timestamp: string | number): string {
+    if (timestamp) {
+      const date = new Date((typeof timestamp === 'string' ? timestamp.slice(0, 10) : timestamp));
+      const options: Intl.DateTimeFormatOptions = {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      };
 
-    const formattedDate: string = date.toLocaleDateString('en-US', options);
-    return formattedDate;
+      return date.toLocaleDateString('en-US', options);
+    } else return '';
   }
 }

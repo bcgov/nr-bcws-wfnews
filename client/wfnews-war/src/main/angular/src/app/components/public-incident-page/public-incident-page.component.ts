@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { convertToDateTimeTimeZone, convertToDateYear } from '@app/utils';
+import { convertToDateTimeTimeZone, convertToDateYear, convertToDateYearUtc } from '@app/utils';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
@@ -246,7 +246,8 @@ this.incident.incidentSizeEstimatedHa =
                 emrgOAAsysID: 0,
                 uri: uri.externalUri,
                 centroid: [0, 0],
-                issuedOn: convertToDateTimeTimeZone(uri.updateDate),
+                issuedOn: convertToDateYearUtc(uri.createdTimestamp),
+                externalUri: true
               });
             }
           }
