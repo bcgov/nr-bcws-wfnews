@@ -103,34 +103,45 @@ export class IncidentMapsPanel implements OnInit {
   }
 
   downloadMap(mapLink, fileName) {
-    const request = this.generateMapRequest(mapLink)
-    this.fetchMapResponse(request, fileName)
+    const request = this.generateMapRequest(mapLink, fileName);
   }
 
-  generateMapRequest(mapLink) {
+  async generateMapRequest(mapLink, fileName) {
     const url = mapLink;
-    let isMobile = false;
+    let response;
 
-    this.capacitorService.isMobile.then(response => {
-      isMobile = response;
-    });
-
-    if (isMobile) {
-      const options = {
-        url,
-        params: null   
-      };
-      const resp = CapacitorHttp.request(options);
-      return resp;
-    } else {
-      const resp = this.httpClient.request(
-        new HttpRequest('GET', url, {
-          reportProgress: true,
-          responseType: 'blob',
-        }),
-      );
-      return resp;
-    }
+    try { 
+      await this.capacitorService.isMobile.then(isMobile => {
+        if (isMobile) {
+          const options = {
+            method: 'GET',
+            url,
+            params: {responseType: 'blob'}   
+          };
+          response = CapacitorHttp.get(options).then(resp => {
+              this.downloadFile(resp.data, fileName);
+              this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+                duration: 10000,
+                panelClass: 'snackbar-success-v2',
+              });
+          });
+        } else {
+          response = this.httpClient.request(
+            new HttpRequest('GET', url, {
+              reportProgress: true,
+              responseType: 'blob',
+            }),
+          );
+          this.fetchMapResponse(response, fileName)
+        }
+      });
+      
+  }catch(error) {
+    this.snackbarService.open('PDF downloaded failed.', 'Close', {
+      duration: 10000,
+      panelClass: 'snackbar-error',
+    })
+  }
   }
 
   fetchMapResponse(request, fileName) {
@@ -162,7 +173,7 @@ export class IncidentMapsPanel implements OnInit {
       fileName += '.pdf';
     }
 
-    const downloadedFile = new Blob([data.body], { type: data.body.type });
+    const downloadedFile = new Blob([data.body], { type: 'application/pdf' }); 
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -172,4 +183,5 @@ export class IncidentMapsPanel implements OnInit {
     a.click();
     document.body.removeChild(a);
   }
+
 }
