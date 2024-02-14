@@ -160,19 +160,43 @@ return;
 
   async convertToBase64(image: Photo | GalleryPhoto) {
     let base64;
+    let content;
+    let mimeType;
     try {
       if (image.path) {
         // read binary data (base64 encoded) from plugins that return File URIs, such as
         // the Camera.
         const contents = await Filesystem.readFile({
           path: image.path,
-        });
+        }).then(result => {
+          content = result.data;
+        })
 
-        base64 = image.path;
+        // Filesystem.readFile returns just the content of the base64 string. Detect mimeType from content
+        const identifier = content.charAt(0)
+        switch(identifier) {
+          case '/': 
+            mimeType = 'jpg';
+            break;
+          case 'i': 
+            mimeType = 'png';
+            break;
+          case 'R': 
+            mimeType = 'gif';
+            break;
+          case 'U': 
+            mimeType = 'webp';
+            break;
+          default: 
+            mimeType = 'jpg';
+            break;
+        }
+
+        base64 = 'data:image/' + mimeType + ';base64,' + content;    
       }
 
       // if the webPath is already a base64 string, return it
-      if (image?.webPath?.startsWith('data:image')) {
+      else if (image?.webPath?.startsWith('data:image')) {
         base64 = image.webPath;
       }
       // if it does not have base64 string convert it to one
