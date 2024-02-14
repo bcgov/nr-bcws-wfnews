@@ -13,6 +13,7 @@ export class HistoricalComparisonWidget implements AfterViewInit {
 
   public wildfireTotals = [];
   public hectareTotals = [];
+  public fireYear: number;
 
   public colorScheme = {
     domain: ['#146FB4', '#146FB4', '#146FB4', '#146FB4', '#146FB4', '#8D8D8D'],
@@ -27,21 +28,21 @@ export class HistoricalComparisonWidget implements AfterViewInit {
   }
 
   async loadHistoricalData() {
-    const fireYear = currentFireYear();
-    const capYear = fireYear - 4;
+    this.fireYear = currentFireYear();
+    const capYear = this.fireYear - 4;
     let totalHectares = 0;
     let totalFires = 0;
-    let year = fireYear;
+    let year = this.fireYear;
 
     // first (current) year fetched has 20 year averages. load the next 5 for counts.cd ..
     let averageHectaresBurned = 0;
     let averageWildfires = 0;
-    while (year >= fireYear - 4) {
+    while (year >= this.fireYear - 4) {
       const result = await this.publishedIncidentService
         .fetchStatistics(year)
         .toPromise();
 
-      if (year === fireYear) {
+      if (year === this.fireYear) {
         averageHectaresBurned = Math.round(result[0].hectaresBurned20YearAvg);
         averageWildfires = Math.round(result[0].incidentCount20YearAvg);
       }

@@ -13,10 +13,13 @@ export class FireTotalsWidget implements AfterViewInit {
   public totalFires = 0;
   public outFires = 0;
   public hectaresBurned = 0;
-
+  public fireYear: number;
+  
   constructor(private publishedIncidentService: PublishedIncidentService) {}
 
   ngAfterViewInit(): void {
+    this.fireYear = currentFireYear();
+
     Promise.all([
       this.publishedIncidentService
         .fetchStatistics(currentFireYear() - 1)
@@ -76,8 +79,4 @@ export class FireTotalsWidget implements AfterViewInit {
       });
   }
 
-  getFireYear() {
-    const now = new Date();
-    return now.getMonth() > 2 ? now.getFullYear() : now.getFullYear() - 1;
-  }
 }

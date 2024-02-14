@@ -1,6 +1,6 @@
 <div class="container">
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
-  <div class="message">Totals for the year refers to wildfire activity between April 1, {{getFireYear()}}, and today's date.</div>
+  <div class="message">Totals for the year refers to wildfire activity between April 1, {{fireYear}}, and today's date.</div>
   <div class="content" *ngIf="startupComplete; else loading">
     <div class="stat-box">
       <img height="48" width="48" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Order" class="stat-box-icon" />

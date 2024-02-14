@@ -52,7 +52,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   @ViewChild('AreaRestrictionsPanel')
   areaRestrictionsDetailsPanel: AreaRestrictionsDetailsPanel;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   public Editor = Editor;
 
   public publishDisabled = false;

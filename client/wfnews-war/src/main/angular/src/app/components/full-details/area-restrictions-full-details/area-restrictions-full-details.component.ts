@@ -183,7 +183,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
 
       this.restrictionData.name =
         areaRestriction.attributes.NAME.replace('Area Restriction', '').trim() +
-        ' Restricted Area';
+        ' Area Restriction';
       this.restrictionData.fireCentre =
         areaRestriction.attributes.FIRE_CENTRE_NAME;
       this.restrictionData.issuedDate = convertToDateYear(

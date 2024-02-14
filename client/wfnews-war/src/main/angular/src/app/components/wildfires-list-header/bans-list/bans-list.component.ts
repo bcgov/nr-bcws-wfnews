@@ -18,7 +18,7 @@ import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime } from '@app/utils';
 import { Router } from '@angular/router';
 
 @Component({
@@ -55,7 +55,7 @@ export class BansListComponent implements OnInit {
   ];
 
   public locationData: LocationData;
-
+  convertToDateTime = convertToDateTime;
   private isExtraSmall: Observable<BreakpointState> =
     this.breakpointObserver.observe(Breakpoints.XSmall);
 
@@ -128,7 +128,7 @@ whereString = null;
               fireCentre: element.attributes.FIRE_CENTRE_NAME,
               type: element.attributes.TYPE,
               details: element.attributes.ACCESS_PROHIBITION_DESCRIPTION,
-              issuedOn: this.convertToDate(
+              issuedOn: this.convertToDateTime(
                 element.attributes.ACCESS_STATUS_EFFECTIVE_DATE,
               ),
               bulletinUrl: element.attributes.BULLETIN_URL,
@@ -155,12 +155,6 @@ whereString = null;
         this.searchingComplete = true;
         this.cdr.detectChanges();
       });
-  }
-
-  convertToDate(value: string) {
-    if (value) {
-      return moment(value).format('MMM Do YYYY h:mm:ss a');
-    }
   }
 
   viewMap(ban: any) {
