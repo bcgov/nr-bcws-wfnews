@@ -163,7 +163,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
-  async checkLocationServiceStatus(): Promise<boolean> {
+  checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 10000; // 10 seconds limit
     let locationPromise;
 
@@ -177,13 +177,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
     // resolve for firefox
     if (window?.navigator?.userAgent?.search("Firefox") && window?.navigator?.geolocation){
-      await window.navigator.geolocation.getCurrentPosition(function(position) {
+        window.navigator.geolocation.getCurrentPosition(function(position) {
         if(position) {locationPromise = Promise.resolve(true); alert('firefox true')}
         else {locationPromise = Promise.resolve(false); alert('firefox false')}
       });
     }
 
-    const response = await Promise.race([timeoutPromise, locationPromise]);
+    const response = Promise.race([timeoutPromise, locationPromise]);
     return response;
   }
 
