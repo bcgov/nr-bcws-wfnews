@@ -113,6 +113,7 @@ whereString = whereString.substring(0, whereString.length - 7);
 whereString = null;
 }
 
+  try {
     this.agolService
       .getEvacOrders(
         whereString,
@@ -178,6 +179,9 @@ whereString = null;
         this.searchingComplete = true;
         this.cdr.detectChanges();
       });
+    }catch(error) {
+      alert(error)
+    }
   }
 
   openLocationFilter() {

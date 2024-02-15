@@ -85,7 +85,6 @@ export class AreaRestrictionListComponent implements OnInit {
         ? `NAME LIKE '%${this.searchText}%' OR FIRE_CENTRE_NAME LIKE '%${this.searchText}%'`
         : null;
 
-    try {
     this.agolService
       .getAreaRestrictions(
         whereString,
@@ -150,9 +149,6 @@ export class AreaRestrictionListComponent implements OnInit {
         this.searchingComplete = true;
         this.cdr.detectChanges();
       });
-    }catch(error) {
-      alert(error)
-    }
   }
 
   openLocationFilter() {
