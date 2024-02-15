@@ -163,6 +163,11 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
+  isAndroid(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /android/i.test(userAgent);
+  }
+
   countdown(timeoutDuration) {
     const promise = new Promise<boolean>((resolve, reject) => {
       setTimeout(() => resolve(false), timeoutDuration);
@@ -171,7 +176,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 3000; // 3 seconds limit
+    const timeoutDuration = 10000; // 10 seconds limit
 
     const timeoutPromise = this.countdown(timeoutDuration);
     
@@ -179,11 +184,11 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       .then(() => Promise.resolve(true))
       .catch(() => Promise.resolve(false));
 
-    // resolve for firefox
-    if (window?.navigator?.userAgent?.search("Firefox") && window?.navigator?.geolocation){
+    // resolve for firefox on android
+    if (this.isAndroid() && window?.navigator?.userAgent?.toLowerCase().indexOf('firefox') > -1 && window?.navigator?.geolocation){
       window.navigator.geolocation.getCurrentPosition(function(position) {
         if(position) locationPromise = Promise.resolve(true);
-        else (locationPromise = Promise.resolve(false));
+        else locationPromise = Promise.resolve(false);
       });
     }
 
