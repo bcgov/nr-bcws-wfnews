@@ -109,7 +109,7 @@ export class AGOLService {
     }
 
     url = encodeURI(url).replaceAll(' ', '%20')
-    alert(url)
+    if (alertBool)alert(url)
 
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
