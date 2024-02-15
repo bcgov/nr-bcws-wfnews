@@ -163,12 +163,17 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
-  checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 10000; // 10 seconds limit
-
-    const timeoutPromise = new Promise<boolean>((resolve) => {
+  countdown(timeoutDuration) {
+    const promise = new Promise<boolean>((resolve, reject) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
+    return promise;
+  }
+
+  checkLocationServiceStatus(): Promise<boolean> {
+    const timeoutDuration = 3000; // 3 seconds limit
+
+    const timeoutPromise = this.countdown(timeoutDuration);
     
     let locationPromise = Geolocation.getCurrentPosition()
       .then(() => Promise.resolve(true))
