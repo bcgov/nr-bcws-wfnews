@@ -98,6 +98,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             // Note, this will move any active tile layer
             // over to the overlay pane on app startup. If the tile
             // is not active, it will not be moved
+            // note: When we disable the tile layer, we can (and should) remove this
             smk.$viewer.map.eachLayer((lyr) => {
               if (lyr?._smk_id === 'bc-fire-centres') {
                 lyr.bringToFront();
@@ -106,15 +107,15 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
                 if (!tileOverlay) {
                   smk.$viewer.map.createPane('tileOverlay');
                   tileOverlay = smk.$viewer.map.getPane('tileOverlay');
-                  tileOverlay.style.zIndex = 650;
+                  //If you want to change the custom pane order,
+                  // set tileOverlay.style.zIndex = ###; to whatever number makes sense
                 }
-                smk.$viewer.displayContext.layers.setItemVisible('bc-fire-centres', false);
-                setTimeout(() => {
-                  smk.$viewer.displayContext.layers.setItemVisible('bc-fire-centres', true);
-                }, 1000);
-                // this will manipulate the dom, but we dont want to do this as it will
-                // reset when a layer is toggled
-                //tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+                // this will move the initially visible layer over on init, as it will
+                // be placed in the default div on app start. Not really a great way to
+                // do this so we should implement a better solution for layer pane order
+                // in smk directly. note that this requires the tile layer to be visible
+                // by default
+                tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
               }
             });
 
