@@ -185,6 +185,7 @@ export class SavedComponent implements OnInit {
             radius: location.radius,
           },
           { returnCentroid: true, returnGeometry: false },
+          false
         )
         .subscribe((result) => {
           this.savedLocations[outerIndex].evacs = [];

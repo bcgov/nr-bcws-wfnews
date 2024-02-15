@@ -20,7 +20,7 @@ export class EvacuationsWidget implements AfterViewInit {
       .getEvacOrders(null, null, {
         returnCentroid: false,
         returnGeometry: false,
-      })
+      }, false)
       .toPromise()
       .then((evacs) => {
         if (evacs?.features) {

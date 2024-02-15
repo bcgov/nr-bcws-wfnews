@@ -311,6 +311,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   }
                 : null,
               { returnCentroid: true, returnGeometry: false },
+              false
             )
             .toPromise()
             .then((evacs) => {
@@ -912,7 +913,7 @@ return;
       /* 10 */ { itemId: 'closed-recreation-sites', visible: false },
       /* 11 */ { itemId: 'drive-bc-active-events', visible: false },
       /* 12 */ { itemId: 'bc-fire-centres', visible: true }, // Always on
-      /* 13 */ // { itemId: 'prescribed-fire', visible: false },
+      /* 13 */ { itemId: 'prescribed-fire', visible: false }, // Currently, we don't display this, but we keep it for consistency in indexing.
       /* 14 */ { itemId: 'hourly-currentforecast-firesmoke', visible: false },
       /* 15 */ { itemId: 'clab-indian-reserves', visible: false },
       /* 16 */ { itemId: 'fnt-treaty-land', visible: false },
