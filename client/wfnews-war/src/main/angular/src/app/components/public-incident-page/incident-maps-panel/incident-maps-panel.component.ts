@@ -15,6 +15,8 @@ import {
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { CapacitorHttp } from '@capacitor/core';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 export class DownloadableMap {
   name: string;
@@ -42,20 +44,19 @@ export class IncidentMapsPanel implements OnInit {
     private appConfigService: AppConfigService,
     protected cdr: ChangeDetectorRef,
     private router: ActivatedRoute,
-  ) {}
+    private capacitorService: CapacitorService
+  ) { }
 
   ngOnInit() {
     const self = this;
     this.loadMaps().then((docs) => {
       self.maps = docs.map((doc) => ({
-          name: doc.attachmentTitle,
-          link: `${
-            this.appConfigService.getConfig().rest['wfnews']
-          }/publicPublishedIncidentAttachment/${
-            self.incident.incidentNumberLabel
+        name: doc.attachmentTitle,
+        link: `${this.appConfigService.getConfig().rest['wfnews']
+          }/publicPublishedIncidentAttachment/${self.incident.incidentNumberLabel
           }/attachments/${doc.attachmentGuid}/bytes`,
-          date: new Date(doc.createdTimestamp).toDateString(),
-        }));
+        date: new Date(doc.createdTimestamp).toDateString(),
+      }));
       this.cdr.detectChanges();
     });
 
@@ -102,14 +103,48 @@ export class IncidentMapsPanel implements OnInit {
   }
 
   downloadMap(mapLink, fileName) {
-    const url = mapLink;
-    const request = this.httpClient.request(
-      new HttpRequest('GET', url, {
-        reportProgress: true,
-        responseType: 'blob',
-      }),
-    );
+    const request = this.generateMapRequest(mapLink, fileName);
+  }
 
+  async generateMapRequest(mapLink, fileName) {
+    const url = mapLink;
+    let response;
+
+    try { 
+      await this.capacitorService.isMobile.then(isMobile => {
+        if (isMobile) {
+          const options = {
+            method: 'GET',
+            url,
+            params: {responseType: 'blob'}   
+          };
+          response = CapacitorHttp.get(options).then(resp => {
+              this.downloadFile(resp.data, fileName);
+              this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+                duration: 10000,
+                panelClass: 'snackbar-success-v2',
+              });
+          });
+        } else {
+          response = this.httpClient.request(
+            new HttpRequest('GET', url, {
+              reportProgress: true,
+              responseType: 'blob',
+            }),
+          );
+          this.fetchMapResponse(response, fileName)
+        }
+      });
+      
+  }catch(error) {
+    this.snackbarService.open('PDF downloaded failed.', 'Close', {
+      duration: 10000,
+      panelClass: 'snackbar-error',
+    })
+  }
+  }
+
+  fetchMapResponse(request, fileName) {
     request.subscribe(
       (ev) => {
         if (ev.type === HttpEventType.Sent) {
@@ -125,12 +160,12 @@ export class IncidentMapsPanel implements OnInit {
           });
         }
       },
-      (err) =>
+      (err) =>{
         this.snackbarService.open('PDF downloaded failed.', 'Close', {
           duration: 10000,
           panelClass: 'snackbar-error',
-        }),
-    );
+        })}
+      );
   }
 
   downloadFile(data: HttpResponse<Blob>, fileName: string) {
@@ -138,7 +173,7 @@ export class IncidentMapsPanel implements OnInit {
       fileName += '.pdf';
     }
 
-    const downloadedFile = new Blob([data.body], { type: data.body.type });
+    const downloadedFile = new Blob([data.body], { type: 'application/pdf' }); 
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -148,4 +183,5 @@ export class IncidentMapsPanel implements OnInit {
     a.click();
     document.body.removeChild(a);
   }
+
 }
