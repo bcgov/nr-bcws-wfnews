@@ -816,13 +816,12 @@ function defineEsriVectoLayer(
     order,
     create() {
       const L = window['L'];
-
       /*L.esri = {
-              ...esriLeaflet,
-              Vector: {
-                ...esriVector
-              }
-            };*/
+        ...esriLeaflet,
+        Vector: {
+          ...esriVector
+        }
+      };*/
       return baseMaps.map((bm) => {
         const opts = clone({ ...bm.option, wfnewsId: id });
         opts.cacheToken = function() {
@@ -836,8 +835,11 @@ function defineEsriVectoLayer(
           });
 
           layer.bringToBack = () => {
-            return;
+            layer._zIndex = 0;
+            return this;
           };
+
+          layer._zIndex = 0;
           layer._leaflet_id = id;
           layer.id = id;
 

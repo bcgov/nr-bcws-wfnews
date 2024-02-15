@@ -94,6 +94,30 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           .then(function(smk) {
             self.mapInitialized.emit(smk);
 
+            // force bc fire centres to the front
+            // Note, this will move any active tile layer
+            // over to the overlay pane on app startup. If the tile
+            // is not active, it will not be moved
+            smk.$viewer.map.eachLayer((lyr) => {
+              if (lyr?._smk_id === 'bc-fire-centres') {
+                lyr.bringToFront();
+                lyr.options.pane = 'tileOverlay';
+                let tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+                if (!tileOverlay) {
+                  smk.$viewer.map.createPane('tileOverlay');
+                  tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+                  tileOverlay.style.zIndex = 650;
+                }
+                smk.$viewer.displayContext.layers.setItemVisible('bc-fire-centres', false);
+                setTimeout(() => {
+                  smk.$viewer.displayContext.layers.setItemVisible('bc-fire-centres', true);
+                }, 1000);
+                // this will manipulate the dom, but we dont want to do this as it will
+                // reset when a layer is toggled
+                //tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+              }
+            });
+
             // enforce a max zoom setting, in case we're using cluster/heatmapping
             smk.$viewer.map._layersMaxZoom = 20;
 
