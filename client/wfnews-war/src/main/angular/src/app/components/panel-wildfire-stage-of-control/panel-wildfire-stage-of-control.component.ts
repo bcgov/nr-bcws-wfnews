@@ -644,7 +644,8 @@ message = err.message;
       .getEvacOrders(null, null, {
         returnCentroid: true,
         returnGeometry: false,
-      })
+      },
+      false)
       .subscribe((response) => {
         if (response.features) {
           for (const element of response.features) {

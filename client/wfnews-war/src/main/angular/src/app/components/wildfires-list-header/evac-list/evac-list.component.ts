@@ -125,8 +125,11 @@ whereString = null;
             }
           : null,
         { returnCentroid: userLocation !== null, returnGeometry: false },
+        true
       )
       .subscribe((evacs) => {
+        alert('evacs')
+        alert(JSON.stringify(evacs))
         const evacData = [];
         if (evacs && evacs.features) {
           for (const element of evacs.features.filter(

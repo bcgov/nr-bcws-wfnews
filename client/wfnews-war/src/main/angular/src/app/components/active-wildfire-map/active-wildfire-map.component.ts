@@ -311,6 +311,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   }
                 : null,
               { returnCentroid: true, returnGeometry: false },
+              false
             )
             .toPromise()
             .then((evacs) => {
