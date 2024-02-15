@@ -161,7 +161,6 @@ export class SavedComponent implements OnInit {
             if (response.data) {
               response = response.data;
             }
-            console.log(response);
             if (response.features) {
               const fireCentre =
                 response.features[0].properties.MOF_FIRE_CENTRE_NAME;
@@ -186,6 +185,7 @@ export class SavedComponent implements OnInit {
             radius: location.radius,
           },
           { returnCentroid: true, returnGeometry: false },
+          false
         )
         .subscribe((result) => {
           this.savedLocations[outerIndex].evacs = [];

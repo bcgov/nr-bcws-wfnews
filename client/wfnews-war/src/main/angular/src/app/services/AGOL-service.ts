@@ -71,6 +71,7 @@ export class AGOLService {
     where: string | null,
     location: { x: number; y: number; radius: number | null } | null = null,
     options: AgolOptions = null,
+    alertBool: boolean = false
   ): Observable<any> {
     let url = this.appConfigService
       .getConfig()
@@ -105,6 +106,8 @@ export class AGOLService {
         },${location.y + 1}`;
       }
     }
+
+    if (alertBool) alert(url)
 
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
