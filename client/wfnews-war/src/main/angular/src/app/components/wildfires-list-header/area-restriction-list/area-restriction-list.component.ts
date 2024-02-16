@@ -151,7 +151,7 @@ export class AreaRestrictionListComponent implements OnInit {
         this.cdr.detectChanges();
       });
     }catch(error) {
-      alert(error)
+      console.error('Error retrieving area restrictions: ' + error)
     }
   }
 

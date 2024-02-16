@@ -253,9 +253,7 @@ this.agolService
             x: location.point.coordinates[0],
             y: location.point.coordinates[1],
             radius: location.radius,
-          }, 
-          null,
-          false)
+          })
           .toPromise()
           .then((evacs) => {
             if (evacs && evacs.features) {
