@@ -79,6 +79,7 @@ export class AGOLService {
     if (!url.endsWith('/')) {
       url += '/';
     }
+
     // append query. Only search for Fire events
     url += `query?where=EVENT_TYPE='Wildfire' OR EVENT_TYPE='fire'${
       where ? ' AND (' + where + ')' : ''
@@ -107,12 +108,13 @@ export class AGOLService {
       }
     }
 
-    if (alertBool) alert(url)
+    url = encodeURI(url).replaceAll(' ', '%20')
+    if (alertBool)alert(url)
 
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Accept', '*/*');
-    return this.http.get<any>(encodeURI(url), { headers });
+    return this.http.get<any>(url, { headers });
   }
 
   getEvacOrdersByParam(where: string, options: AgolOptions = null): Observable<any> {
