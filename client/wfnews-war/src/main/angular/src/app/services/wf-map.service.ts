@@ -151,7 +151,7 @@ export class WFMapService {
                 maxZoom: 30,
               };
 
-              defineEsriVectoLayer('topography', 'BC Topography', [
+              self.defineEsriVectoLayer('topography', 'BC Topography', [
                 {
                   id: 'topography',
                   type: 'vector',
@@ -162,7 +162,7 @@ export class WFMapService {
                 },
               ]);
 
-              defineEsriVectoLayer('navigation', 'Navigation', [
+              self.defineEsriVectoLayer('navigation', 'Navigation', [
                 {
                   id: 'navigation',
                   type: 'vector',
@@ -173,7 +173,7 @@ export class WFMapService {
                 },
               ]);
 
-              defineEsriVectoLayer('imagery', 'Imagery', [
+              self.defineEsriVectoLayer('imagery', 'Imagery', [
                 {
                   id: 'imagery',
                   type: 'vector',
@@ -185,7 +185,7 @@ export class WFMapService {
                 { id: 'Imagery', type: 'tile', url: null, style: null },
               ]);
 
-              defineEsriVectoLayer('night', 'Night', [
+              self.defineEsriVectoLayer('night', 'Night', [
                 {
                   id: 'night',
                   type: 'vector',
@@ -196,7 +196,7 @@ export class WFMapService {
                 },
               ]);
 
-              defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
+              self.defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
                 {
                   id: 'bc-basemap',
                   type: 'vector',
@@ -759,6 +759,90 @@ f.title = 'Feature #' + (i + 1);
       }
     });
   }
+
+  defineEsriVectoLayer(
+    id: string,
+    title: string,
+    baseMaps: {
+      id: string;
+      url: string;
+      style: any;
+      type: string;
+      option?: { [key: string]: any };
+    }[],
+  ) {
+    order += 1;
+    const self = this;
+    baseMapIds.push(id);
+    window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
+      title,
+      order,
+      create() {
+        const L = window['L'];
+        /*L.esri = {
+          ...esriLeaflet,
+          Vector: {
+            ...esriVector
+          }
+        };*/
+        return baseMaps.map((bm) => {
+          const opts = clone({ ...bm.option, wfnewsId: id });
+          opts.cacheToken = () => {
+            return baseMapCacheToken;
+          };
+
+          if (bm.type === 'vector') {
+            const layer = esriVector.vectorTileLayer(bm.url, {
+              style: bm.style,
+              opts,
+            });
+
+            layer.bringToBack = () => {
+              layer._zIndex = 0;
+
+              try {
+                const SMK = window['SMK'];
+                let viewer = null;
+                for (const smkMap in SMK.MAP) {
+                  if (Object.hasOwn(SMK.MAP, smkMap)) {
+                    viewer = SMK.MAP[smkMap].$viewer;
+                  }
+                }
+
+                if (id === 'topography') {
+                  // turn on hillshade
+                  viewer.displayContext.layers.setItemVisible('bc-hillshade', true);
+                } else {
+                  // turn off hillshade
+                  viewer.displayContext.layers.setItemVisible('bc-hillshade', false);
+                }
+              } catch (err) {
+                console.error('hillshade failed to load on init');
+              }
+
+              return this;
+            };
+
+            layer._zIndex = 0;
+            layer._leaflet_id = id;
+            layer.id = id;
+
+            baseMapLayers.push(bm);
+
+            return layer;
+          } else {
+            const orig = clone(L.esri.BasemapLayer.TILES[bm.id].options);
+            const bmly = window['L'].esri.basemapLayer(bm.id, opts);
+            L.esri.BasemapLayer.TILES[bm.id].options = { ...orig, wfnewsId: id };
+
+            baseMapLayers.push(bmly);
+
+            return bmly;
+          }
+        });
+      },
+    };
+  }
 }
 
 function clone(obj) {
@@ -791,66 +875,6 @@ function defineEsriBasemap(
         );
         L.esri.BasemapLayer.TILES[bm.id].options = { ...orig, wfnewsId: id };
         return bmly;
-      });
-    },
-  };
-}
-
-function defineEsriVectoLayer(
-  id: string,
-  title: string,
-  baseMaps: {
-    id: string;
-    url: string;
-    style: any;
-    type: string;
-    option?: { [key: string]: any };
-  }[],
-) {
-  order += 1;
-  baseMapIds.push(id);
-  window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
-    title,
-    order,
-    create() {
-      const L = window['L'];
-
-      /*L.esri = {
-              ...esriLeaflet,
-              Vector: {
-                ...esriVector
-              }
-            };*/
-      return baseMaps.map((bm) => {
-        const opts = clone({ ...bm.option, wfnewsId: id });
-        opts.cacheToken = function() {
-          return baseMapCacheToken;
-        };
-
-        if (bm.type === 'vector') {
-          const layer = esriVector.vectorTileLayer(bm.url, {
-            style: bm.style,
-            opts,
-          });
-
-          layer.bringToBack = () => {
-            return;
-          };
-          layer._leaflet_id = id;
-          layer.id = id;
-
-          baseMapLayers.push(bm);
-
-          return layer;
-        } else {
-          const orig = clone(L.esri.BasemapLayer.TILES[bm.id].options);
-          const bmly = window['L'].esri.basemapLayer(bm.id, opts);
-          L.esri.BasemapLayer.TILES[bm.id].options = { ...orig, wfnewsId: id };
-
-          baseMapLayers.push(bmly);
-
-          return bmly;
-        }
       });
     },
   };
