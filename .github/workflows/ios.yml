@@ -38,7 +38,7 @@ jobs:
       ANGULAR_DIRECTORY: ./client/wfnews-war/src/main/angular
       APP_CONFIG_FILE: ./client/wfnews-war/src/main/angular/src/assets/data/appConfig.mobile.json
 
-    runs-on: macos-latest
+    runs-on: macos-13
 
     environment:
       name: ${{ inputs.build_environment }}
