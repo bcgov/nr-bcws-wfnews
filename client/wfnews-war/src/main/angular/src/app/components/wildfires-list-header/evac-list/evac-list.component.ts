@@ -124,12 +124,8 @@ whereString = null;
               radius: location.radius,
             }
           : null,
-        { returnCentroid: userLocation !== null, returnGeometry: false },
-        true
-      )
+        { returnCentroid: userLocation !== null, returnGeometry: false })
       .subscribe((evacs) => {
-        alert('evacs')
-        alert(JSON.stringify(evacs))
         const evacData = [];
         if (evacs && evacs.features) {
           for (const element of evacs.features.filter(
@@ -183,7 +179,7 @@ whereString = null;
         this.cdr.detectChanges();
       });
     }catch(error) {
-      alert(error)
+      console.error('Error retrieving evac orders: ' + error)
     }
   }
 

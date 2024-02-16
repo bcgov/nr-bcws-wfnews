@@ -129,8 +129,7 @@ export class SearchPageComponent implements OnInit {
       .getEvacOrders(null, null, {
         returnCentroid: this.userLocation !== null,
         returnGeometry: false,
-      },
-      false)
+      })
       .toPromise()
       .then((evacs) => {
         if (evacs?.features) {
@@ -336,8 +335,7 @@ this.userLocationChecked = true;
       .getEvacOrders(whereString, null, {
         returnCentroid: this.userLocation !== null,
         returnGeometry: false,
-      },
-      false)
+      })
       .toPromise();
     if (evacs?.features) {
       for (const element of evacs.features) {
