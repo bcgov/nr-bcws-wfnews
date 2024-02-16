@@ -570,6 +570,22 @@ return 'Unknown';
                 }
               });
           }
+        } else if ( // local authorities
+          layerId === 'abms-regional-districts' ||
+          layerId === 'clab-indian-reserves' ||
+          layerId === 'abms-municipalities'
+        ) {
+          if (this.identifyItem?.geometry?.coordinates.length > 0) {
+            console.log(this.identifyItem?.geometry?.coordinates);
+            let coordinates = [];
+            this.identifyItem.geometry.coordinates.forEach(element => {
+              coordinates.push(...element);
+            });
+            if (coordinates.length) {
+              this.fixPolygonToMap(coordinates);
+            }
+
+          }
         }
       });
     }
