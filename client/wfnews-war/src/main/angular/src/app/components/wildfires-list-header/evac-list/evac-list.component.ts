@@ -124,9 +124,7 @@ whereString = null;
               radius: location.radius,
             }
           : null,
-        { returnCentroid: userLocation !== null, returnGeometry: false },
-        true
-      )
+        { returnCentroid: userLocation !== null, returnGeometry: false })
       .subscribe((evacs) => {
         const evacData = [];
         if (evacs && evacs.features) {

@@ -70,8 +70,7 @@ export class AGOLService {
   getEvacOrders(
     where: string | null,
     location: { x: number; y: number; radius: number | null } | null = null,
-    options: AgolOptions = null,
-    alertBool: boolean = false
+    options: AgolOptions = null
   ): Observable<any> {
     let url = this.appConfigService
       .getConfig()
