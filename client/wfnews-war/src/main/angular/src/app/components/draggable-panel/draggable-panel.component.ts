@@ -55,6 +55,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   map: any;
   highlightPolygon: any;
   pinDrop: any;
+  defaultZoomLevel = 13;
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
@@ -182,7 +183,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
             .toPromise();
 
           this.identifyIncident = result;
-          this.zoomIn(13);
+          this.zoomIn(this.defaultZoomLevel);
 
           if (this.identifyIncident) {
             this.addMarker(this.identifyIncident);
@@ -196,15 +197,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         //identify anything other than incident
         if (
-          this.identifyItem.layerId.includes('bans-and-prohibitions') ||
-          this.identifyItem.layerId.includes('evacuation-orders-and-alerts') ||
-          this.identifyItem.layerId.includes('area-restrictions') ||
-          this.identifyItem.layerId.includes('weather-stations') ||
-          this.identifyItem.layerId.includes('danger-rating')
+          ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'weather-stations', 'danger-rating'].some(str => this.identifyItem.layerId.includes(str))
         ) {
           this.zoomIn(getActiveMap().$viewer.map._zoom, true);
         } else {
-          this.zoomIn(13);
+          this.zoomIn(this.defaultZoomLevel);
         }
       }
       const SMK = window['SMK'];
@@ -467,12 +464,7 @@ return 'Unknown';
           level ? level : 12,
         );
         const layerId = this.identifyItem?.layerId;
-        if (
-          layerId.includes('drive-bc-active-events') ||
-          layerId.includes('bc-fsr') ||
-          layerId.includes('closed-recreation-site')
-        ) {
-
+        if (['drive-bc-active-events', 'bc-fsr', 'closed-recreation-site'].some(str => layerId.includes(str))) {
           const markerOptions = {
             icon: L.divIcon({
               className: 'custom-icon-class',
@@ -485,25 +477,21 @@ return 'Unknown';
           };
 
           const pinDropLocation = [this.identifyItem?.geometry?.coordinates[1],this.identifyItem?.geometry?.coordinates[0]];
-          viewer.panToFeature(
-            window['turf'].point([this.identifyItem?.geometry?.coordinates[0], this.identifyItem?.geometry?.coordinates[1]]),
-            13
-          );
-          if (this.pinDrop) {
-            viewer.map.removeLayer(this.pinDrop);
+          if (pinDropLocation) {
+            viewer.panToFeature(
+              window['turf'].point([this.identifyItem?.geometry?.coordinates[0], this.identifyItem?.geometry?.coordinates[1]]),
+              this.defaultZoomLevel
+            );
+            if (this.pinDrop) {
+              viewer.map.removeLayer(this.pinDrop);
+            }
+  
+            this.pinDrop = L.marker(
+              pinDropLocation,
+              markerOptions,
+            ).addTo(viewer.map);
           }
-
-          this.pinDrop = L.marker(
-            pinDropLocation,
-            markerOptions,
-          ).addTo(viewer.map);
-    
-        } else if (
-          (layerId.includes('bans-and-prohibitions') ||
-            layerId.includes('evacuation-orders-and-alerts') ||
-            layerId.includes('area-restrictions') ||
-            layerId.includes('danger-rating'))
-        ) {
+        } else if (['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
           viewer.panToFeature(window['turf'].point([long, lat]), 5);
 
           if (layerId.includes('bans-and-prohibitions')) {
@@ -518,8 +506,11 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = response.features[0].geometry.rings[0];
-                    this.fixPolygonToMap(polygonData);
+
+                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    if (polygonData.length) {
+                      this.fixPolygonToMap(polygonData);
+                    }
                   }
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
@@ -533,8 +524,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = response.features[0].geometry.rings[0];
-                    this.fixPolygonToMap(polygonData);
+                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    if (polygonData.length) {
+                      this.fixPolygonToMap(polygonData);
+                    }
                   }
               });
           } else if (layerId.includes('area-restrictions')) {
@@ -549,8 +542,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                  const polygonData = response.features[0].geometry.rings[0];
-                  this.fixPolygonToMap(polygonData);
+                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  if (polygonData.length) {
+                    this.fixPolygonToMap(polygonData);
+                  }                
                 }
               });
           } else if (layerId.includes('danger-rating')) {
@@ -565,8 +560,10 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                  const polygonData = response.features[0].geometry.rings[0];
-                  this.fixPolygonToMap(polygonData);
+                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  if (polygonData.length) {
+                    this.fixPolygonToMap(polygonData);
+                  }                
                 }
               });
           }
@@ -576,11 +573,7 @@ return 'Unknown';
           layerId === 'abms-municipalities'
         ) {
           if (this.identifyItem?.geometry?.coordinates.length > 0) {
-            console.log(this.identifyItem?.geometry?.coordinates);
-            let coordinates = [];
-            this.identifyItem.geometry.coordinates.forEach(element => {
-              coordinates.push(...element);
-            });
+            const coordinates = this.extractPolygonData(this.identifyItem.geometry.coordinates);
             if (coordinates.length) {
               this.fixPolygonToMap(coordinates);
             }
@@ -833,6 +826,14 @@ type = 'evac-order';
 
       return date.toLocaleDateString('en-US', options);
     } else return '';
+  }
+
+  extractPolygonData(response) {
+    const polygonData = [];
+    response.forEach(element => {
+      polygonData.push(...element);
+    });
+    return polygonData;
   }
 
   fixPolygonToMap(polygonData: number[][]) {
