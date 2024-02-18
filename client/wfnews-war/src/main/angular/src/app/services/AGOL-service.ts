@@ -70,7 +70,7 @@ export class AGOLService {
   getEvacOrders(
     where: string | null,
     location: { x: number; y: number; radius: number | null } | null = null,
-    options: AgolOptions = null,
+    options: AgolOptions = null
   ): Observable<any> {
     let url = this.appConfigService
       .getConfig()
@@ -78,6 +78,7 @@ export class AGOLService {
     if (!url.endsWith('/')) {
       url += '/';
     }
+
     // append query. Only search for Fire events
     url += `query?where=EVENT_TYPE='Wildfire' OR EVENT_TYPE='fire'${
       where ? ' AND (' + where + ')' : ''
@@ -106,10 +107,12 @@ export class AGOLService {
       }
     }
 
+    url = encodeURI(url).replaceAll(' ', '%20')
+
     const headers = new HttpHeaders();
     headers.append('Access-Control-Allow-Origin', '*');
     headers.append('Accept', '*/*');
-    return this.http.get<any>(encodeURI(url), { headers });
+    return this.http.get<any>(url, { headers });
   }
 
   getEvacOrdersByParam(where: string, options: AgolOptions = null): Observable<any> {

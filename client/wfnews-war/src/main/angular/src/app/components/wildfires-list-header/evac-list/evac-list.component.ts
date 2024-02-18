@@ -113,6 +113,7 @@ whereString = whereString.substring(0, whereString.length - 7);
 whereString = null;
 }
 
+  try {
     this.agolService
       .getEvacOrders(
         whereString,
@@ -123,8 +124,7 @@ whereString = null;
               radius: location.radius,
             }
           : null,
-        { returnCentroid: userLocation !== null, returnGeometry: false },
-      )
+        { returnCentroid: userLocation !== null, returnGeometry: false })
       .subscribe((evacs) => {
         const evacData = [];
         if (evacs && evacs.features) {
@@ -178,6 +178,9 @@ whereString = null;
         this.searchingComplete = true;
         this.cdr.detectChanges();
       });
+    }catch(error) {
+      console.error('Error retrieving evac orders: ' + error)
+    }
   }
 
   openLocationFilter() {
