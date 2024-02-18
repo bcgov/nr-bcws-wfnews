@@ -176,20 +176,24 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocationServiceStatus(): Promise<boolean> {
+    let resolved = false;
+    let locationPromise;
     const timeoutDuration = 10000; // 10 seconds limit
 
     const timeoutPromise = this.countdown(timeoutDuration);
-    
-    let locationPromise = Geolocation.getCurrentPosition()
-      .then(() => Promise.resolve(true))
-      .catch(() => Promise.resolve(false));
 
     // resolve for firefox on android
     if (this.isAndroid() && window?.navigator?.userAgent?.toLowerCase().indexOf('firefox') > -1 && window?.navigator?.geolocation){
       window.navigator.geolocation.getCurrentPosition(function(position) {
+        resolved = true;
         if(position) locationPromise = Promise.resolve(true);
         else locationPromise = Promise.resolve(false);
       });
+    }
+    if (!resolved) {
+      locationPromise = Geolocation.getCurrentPosition()
+      .then(() => Promise.resolve(true))
+      .catch(() => Promise.resolve(false));
     }
 
     return Promise.race([timeoutPromise, locationPromise]);
