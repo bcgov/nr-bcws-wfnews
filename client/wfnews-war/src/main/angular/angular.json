@@ -36,7 +36,7 @@
             ],
             "assets": [
               "src/assets",
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/config.jsp",
               "src/token.jsp",
               "src/manifest.json",
