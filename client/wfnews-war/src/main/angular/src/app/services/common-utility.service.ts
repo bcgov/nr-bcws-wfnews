@@ -186,12 +186,12 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       locationPromise = Promise.resolve(false);
     }   
     
-    // const timeoutPromise = this.countdown(timeoutDuration)
+    const timeoutPromise = this.countdown(timeoutDuration)
     
-    // console.log(timeoutPromise)
+    console.log(timeoutPromise)
     console.log(locationPromise)  
 
-    return locationPromise;
+    return Promise.race([timeoutPromise, locationPromise]);
   }
 
   pingService(): Observable<any> {
