@@ -108,7 +108,7 @@ export function LayerDisplayConfig(mapServices: MapServices) {
     },
     {
       id: 'bc-hillshade',
-      isVisible: true,
+      isVisible: false,
     },
     // use tilecache centres. we can go back to wms and add zones
     // once the cache is setup
