@@ -506,7 +506,6 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-
                     const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
                     if (polygonData.length) {
                       this.fixPolygonToMap(polygonData);
@@ -830,21 +829,27 @@ type = 'evac-order';
 
   extractPolygonData(response) {
     const polygonData = [];
-    response.forEach(element => {
+    for (const element of response) {
       polygonData.push(...element);
-    });
+  }
     return polygonData;
+  }
+
+  createConvex(polygonData) {
+    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
+    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
+    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    return convexHull;
   }
 
   fixPolygonToMap(polygonData: number[][]) {
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
-
     const viewer = getActiveMap().$viewer;
-    const bounds = polygonData.reduce((acc, coord) => [
+    const convex = this.createConvex(polygonData);
+    const bounds = convex.reduce((acc, coord) => [
       [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
       [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
     ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
-
       viewer.map.fitBounds([
         bounds
     ]);
@@ -854,6 +859,7 @@ type = 'evac-order';
     }
     
     //highlight the area
+    
     const swappedPolygonData: number[][] = polygonData.map(([latitude, longitude]) => [longitude, latitude]);
     this.highlightPolygon  = L.polygon(swappedPolygonData, {
       weight: 3,
