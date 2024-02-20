@@ -176,22 +176,22 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
     try {
       const promise = await Geolocation.getCurrentPosition()
-      .then(() => {locationPromise = Promise.resolve(true); alert('resolved true')}) 
+      .then(() => {locationPromise = Promise.resolve(true); console.log('resolved true')}) 
       .catch(() => {navigator.geolocation.getCurrentPosition(response => {
-        if(response) {locationPromise = Promise.resolve(true); alert('android true')}
-        else {locationPromise = Promise.resolve(false); alert('android false')}
+        if(response) {locationPromise = Promise.resolve(true); console.log('android true')}
+        else {locationPromise = Promise.resolve(false); console.log('android false')}
       })}) 
     } catch(error) {
-      alert(error)
+      console.log(error)
       locationPromise = Promise.resolve(false);
     }   
     
-    const timeoutPromise = this.countdown(timeoutDuration)
+    // const timeoutPromise = this.countdown(timeoutDuration)
     
-    alert(timeoutPromise)
-    alert(locationPromise)  
+    // console.log(timeoutPromise)
+    console.log(locationPromise)  
 
-    return Promise.race([timeoutPromise, locationPromise]);
+    return locationPromise;
   }
 
   pingService(): Observable<any> {
