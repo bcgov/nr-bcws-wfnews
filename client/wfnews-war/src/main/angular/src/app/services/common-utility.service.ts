@@ -163,14 +163,16 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
-  async checkLocationServiceStatus(): Promise<boolean> {
-    let resolved = false;
-    let locationPromise;
-    const timeoutDuration = 5000; // 5 seconds limit
-
-    const timeoutPromise = new Promise<boolean>((resolve) => {
+  countdown(timeoutDuration) {
+    const promise = new Promise<boolean>((resolve, reject) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
+    return promise;
+  }
+
+  async checkLocationServiceStatus(): Promise<boolean> {
+    let locationPromise;
+    const timeoutDuration = 5000; // 5 seconds limit
 
     try {
       const promise = await Geolocation.getCurrentPosition()
@@ -182,8 +184,10 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     } catch(error) {
       alert(error)
       locationPromise = Promise.resolve(false);
-    }     
-
+    }   
+    
+    const timeoutPromise = this.countdown(timeoutDuration)
+    
     alert(timeoutPromise)
     alert(locationPromise)  
 
