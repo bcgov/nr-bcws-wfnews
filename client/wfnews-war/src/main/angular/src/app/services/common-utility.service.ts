@@ -163,11 +163,6 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
-  isAndroid(): boolean {
-    const userAgent = window.navigator.userAgent.toLowerCase();
-    return /android/i.test(userAgent);
-  }
-
   countdown(timeoutDuration) {
     const promise = new Promise<boolean>((resolve, reject) => {
       setTimeout(() => resolve(false), timeoutDuration);
@@ -175,22 +170,26 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return promise;
   }
 
-  checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 10000; // 10 seconds limit
+  async checkLocationServiceStatus(): Promise<boolean> {
+    let locationPromise;
+    const timeoutDuration = 5000; // 5 seconds limit
 
-    const timeoutPromise = this.countdown(timeoutDuration);
+    try {
+      const promise = await Geolocation.getCurrentPosition()
+      .then(() => {locationPromise = Promise.resolve(true); console.log('resolved true')}) 
+      .catch(() => {navigator.geolocation.getCurrentPosition(response => {
+        if(response) {locationPromise = Promise.resolve(true); console.log('android true')}
+        else {locationPromise = Promise.resolve(false); console.log('android false')}
+      })}) 
+    } catch(error) {
+      console.log(error)
+      locationPromise = Promise.resolve(false);
+    }   
     
-    let locationPromise = Geolocation.getCurrentPosition()
-      .then(() => Promise.resolve(true))
-      .catch(() => Promise.resolve(false));
-
-    // resolve for firefox on android
-    if (this.isAndroid() && window?.navigator?.userAgent?.toLowerCase().indexOf('firefox') > -1 && window?.navigator?.geolocation){
-      window.navigator.geolocation.getCurrentPosition(function(position) {
-        if(position) locationPromise = Promise.resolve(true);
-        else locationPromise = Promise.resolve(false);
-      });
-    }
+    const timeoutPromise = this.countdown(timeoutDuration)
+    
+    console.log(timeoutPromise)
+    console.log(locationPromise)  
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
