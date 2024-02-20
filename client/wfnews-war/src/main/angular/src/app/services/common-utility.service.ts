@@ -174,19 +174,18 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
     try {
       const promise = await Geolocation.getCurrentPosition()
-      .then(() => {locationPromise = Promise.resolve(true); console.log('resolved true')}) 
+      .then(() => {locationPromise = Promise.resolve(true); alert('resolved true')}) 
       .catch(() => {navigator.geolocation.getCurrentPosition(response => {
-        console.log('android')
-        if(response) {locationPromise = Promise.resolve(true); console.log('android true')}
-        else {locationPromise = Promise.resolve(false); console.log('android false')}
+        if(response) {locationPromise = Promise.resolve(true); alert('android true')}
+        else {locationPromise = Promise.resolve(false); alert('android false')}
       })}) 
     } catch(error) {
-      console.error(error)
+      alert(error)
       locationPromise = Promise.resolve(false);
     }     
 
-    console.log(timeoutPromise)
-    console.log(locationPromise)  
+    alert(timeoutPromise)
+    alert(locationPromise)  
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
