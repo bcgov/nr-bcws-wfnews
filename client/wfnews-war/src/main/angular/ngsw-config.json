@@ -5,7 +5,7 @@
       "name": "wfnews",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
+        "files": ["/favicon.png", "/index.html", "/*.css", "/*.js"]
       }
     },
     {
