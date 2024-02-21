@@ -110,7 +110,7 @@ export class IncidentMapsPanel implements OnInit {
     const url = mapLink;
 
     try { 
-      await this.capacitorService.isMobile.then(async isMobile => {
+      await this.capacitorService.isMobile.then((isMobile) => {
         if (isMobile) {  
           this.downloadMobileFile(fileName, url)       
         } else {
@@ -177,23 +177,23 @@ export class IncidentMapsPanel implements OnInit {
       fileName += '.pdf';
     }
     
-    const download = await Filesystem.downloadFile({
-      path: fileName,
-      url: url,
-      directory: Directory.Documents,
-    }).then(download => {
-      if(download) {
-        this.snackbarService.open('PDF downloaded successfully.', 'Close', {
-          duration: 10000,
-          panelClass: 'snackbar-success-v2',
+    try {
+        const download = await Filesystem.downloadFile({
+            path: fileName,
+            url: url,
+            directory: Directory.Documents,
         });
-      } else {
-        this.snackbarService.open('PDF downloaded failed.', 'Close', {
-          duration: 10000,
-          panelClass: 'snackbar-error',
-        })
+        this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+            duration: 10000,
+            panelClass: 'snackbar-success-v2',
+        });
+        } catch (error) {
+        console.error('Error downloading PDF:', error);
+        this.snackbarService.open('PDF download failed.', 'Close', {
+            duration: 10000,
+            panelClass: 'snackbar-error',
+        });
       }
-    })  
   }
 
 }
