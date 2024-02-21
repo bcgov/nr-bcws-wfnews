@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
-import ca.bc.gov.nrs.wfnews.api.rest.client.v1.exception.ValidationException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.StatisticsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.SqlUtil;
@@ -26,13 +25,14 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
   @Autowired
 	private IncidentsService incidentsService;
 
-  public Response getStatistics(String fireCentre, Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException,ValidationException {
+  public Response getStatistics(String fireCentre, Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException {
 		Response response = null;
 
     String[] sqlKeywords = SqlUtil.sqlKeywords;
     for (String keyword : sqlKeywords) {
         if (fireCentre.contains(keyword) || fireCentre.contains("'")) {
-            throw new ValidationException("Potential use of sql statement detected");
+          logger.warn("Potential use of SQL statement detected");
+          return;
         }
     }
     
