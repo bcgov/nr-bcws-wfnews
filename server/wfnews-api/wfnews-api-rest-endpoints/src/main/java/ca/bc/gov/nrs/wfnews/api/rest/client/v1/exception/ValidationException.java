@@ -14,6 +14,7 @@ public class ValidationException extends Exception {
 	private static final long serialVersionUID = 1L;
 	
 	private List<Message> messages = new ArrayList<>();
+	private String message;
 
 	public ValidationException(List<Message> messages) {
 		super(messages==null||!messages.isEmpty()?null:messages.get(0).getMessageTemplate());
@@ -21,6 +22,12 @@ public class ValidationException extends Exception {
 		for (Message msg : messages) {
 			logger.debug(msg.getMessage());
 		}
+	}
+
+	public ValidationException(String message) {
+		super(message);
+		this.message = message;
+		logger.debug(message);
 	}
 
 	public List<Message> getMessages() {

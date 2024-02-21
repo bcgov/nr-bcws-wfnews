@@ -36,46 +36,46 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
       title: 'Emergencies and Alerts',
       resources: [
         {
-          title: 'Alerts and Bulletins',
+          title: 'Alerts and bulletins',
           subtitle: 'EmergencyInfoBC',
-          url: 'https://www.emergencyinfobc.gov.bc.ca/latest-news/',
+          url: 'https://www.emergencyinfobc.gov.bc.ca/',
           description:
-            'EmergencyInfoBC is active during partial and full-scale provincial emergencies. This site shares official response and recovery resources, as well as verified event information from trusted partners.',
+          'Official response and recovery resources and verified event information.'
         },
         {
-          title: 'Road Closures and Conditions',
+          title: 'Road closures and conditions',
           subtitle: 'DriveBC',
           url: 'https://drivebc.ca/#mapView&ll=54.004539%2C-123.75&z=6&xtg=Map%20Badge',
           description:
-            'DriveBC is managed by the B.C. Ministry of Transportation and Infrastructure. Travellers in B.C. can find information on current highway conditions before they leave. ',
+            'Current highway conditions for route planning.',
         },
         {
-          title: 'Public Weather Alerts',
+          title: 'Public weather alerts',
           subtitle: 'Environment Canada',
-          url: 'https://www.weather.gc.ca/warnings/index_e.html',
+          url: 'https://weather.gc.ca/mainmenu/alert_menu_e.html',
           description:
-            'Get current weather alerts across Canada from Environment Canada. Read about the latest events in weather summaries. ',
+            'Weather alerts and weather summaries.',
         },
         {
-          title: 'Report a Wildfire',
+          title: 'Reporting wildfires',
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels/report-a-wildfire',
           description:
-            'To report a wildfire, please call 1 800 663 5555 or *5555 on a cellphone. Learn more about the details emergency call takers may ask for when you are reporting a wildfire.',
+            'Outlines details emergency call takers may ask during a report of wildfire. To report a fire call 1 800 663 5555 or *5555 on a cellphone.',
         },
         {
           title: 'Air Quality Health Index',
-          subtitle: 'BC Air Quality',
+          subtitle: 'BC Ministry of Environment',
           url: 'https://www.env.gov.bc.ca/epd/bcairquality/readings/find-stations-map.html',
           description:
-            'View the latest air quality health index data on a map. Data is refreshed every 60 minutes.',
+            'Map of the latest air quality health index information. Data is refreshed hourly.',
         },
         {
-          title: 'Local Government Maps',
-          subtitle: 'gov.bc.ca',
+          title: 'Local government maps',
+          subtitle: 'Government of British Columbia',
           url: 'https://www2.gov.bc.ca/gov/content/governments/local-governments/facts-framework/local-government-maps',
           description:
-            'Keep up to date on evacuation orders and alerts by following your local government, First Nation and emergency services. Find the boundaries for regional districts, electoral areas and municipalities here.',
+            'Map of local governments including regional districts, electoral areas and municipalities.',
         },
       ],
     },
@@ -87,14 +87,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention',
           description:
-            'Wildfire prevention can happen at home, in the backcountry, and through larger-scale fire and fuel management planning. Learn what you can do to help.',
+            'Wildfire prevention at home, in the backcountry, and through larger-scale fire and fuel management planning.',
         },
         {
           title: 'Get Prepared for a Wildfire',
           subtitle: 'Prepared BC',
           url: 'https://www2.gov.bc.ca/gov/content/safety/emergency-management/preparedbc/know-your-hazards/wildfires',
           description:
-            'If you live in an area at risk of a wildfire, it’s important that you take time to get ready. Understand what to do before, during and after a wildfire here.',
+            'Overview of what to do before, during and after a wildfire, and a downloadable PFD of the Wildfire Preparedness Guide.',
         },
         {
           title: 'FireSmart BC',
@@ -108,21 +108,21 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/plan-prepare-stay-informed',
           description:
-            'B.C. experiences 1,600 wildfires per year, on average. While most of these fires are put out before they threaten people and communities, it is important to be prepared especially if you live in an area prone to wildfire.',
+            'Outline of how to prepare for evacuation if you live in an area prone to wildfire.'
         },
         {
           title: 'Fire Danger Rating',
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-situation/fire-danger',
           description:
-            'Find out the current fire danger rating (i.e. the risk of a wildfire starting) in your area and other information about fire weather.',
+            'Fire danger rating in your area and other information about fire weather.',
         },
         {
           title: 'Fire Bans and Restrictions',
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/fire-bans-and-restrictions',
           description:
-            'Decisions on when and where to implement fire bans and restrictions are made by B.C.’s six regional fire centres. Learn about fire bans and restrictions in your area.',
+            'Fire prohibitions and restrictions in British Columbia. These are made by B.C.’s six regional fire centres.'
         },
       ],
     },
@@ -130,14 +130,14 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
       title: 'More Information',
       resources: [
         {
-          title: 'Wildfire Contact Channels',
+          title: 'BC Wildfire Service Contact Channels',
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/contact-channels',
           description:
-            'Find the best way to connect with the BC Wildfire Service here. ',
+            'A variety of BC Wildfire Service contact channels here.',
         },
         {
-          title: 'Wildfire News Blog',
+          title: 'Wildfire Blog',
           subtitle: 'BC Wildfire Service',
           url: 'https://blog.gov.bc.ca/bcwildfire/',
           description:
@@ -148,12 +148,12 @@ export class WildfirewResourcesComponent implements OnInit, AfterViewInit {
           subtitle: 'BC Wildfire Service',
           url: 'https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response',
           description:
-            'The BC Wildfire Service is a leader in wildfire management, known for skilled personnel and a focus on safety. Learn more about wildfires in B.C. and the BC Wildfire Service here. ',
+            'The BC Wildfire Service is a leader in wildfire management, known for skilled personnel and a focus on safety. Learn more about wildfires in B.C. and the BC Wildfire Service here.'
         },
         {
           title: 'Wildfire Statistics',
           subtitle: 'BC Wildfire Service',
-          url: 'https://bcfireinfo.for.gov.bc.ca/hprScripts/WildfireNews/Statistics.asp',
+          url: this.appConfigService.getConfig().application.baseUrl.toString() + 'dashboard',
           description:
             'The BC Wildfire Service compiles statistics daily, throughout the fire season. View the latest wildfire statistics in B.C. here.',
         },
