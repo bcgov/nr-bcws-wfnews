@@ -193,14 +193,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 5000; // 5 seconds limit
-    let locationPromise;
-    let timeoutPromise;
-
-  
-    locationPromise = await this.checkLocation()
-    console.log('where')
-    timeoutPromise = this.countdown(timeoutDuration)
-    console.log('here22')
+   
+    const locationPromise = await this.checkLocation()
+    const timeoutPromise = this.countdown(timeoutDuration)
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
