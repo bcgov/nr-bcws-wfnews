@@ -241,13 +241,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       if (offlineReport) {
         // Send the report to the server
         const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport);
-
-        if (response.success) {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-          App.removeAllListeners();
-        }
+          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              // Remove the locally stored data if sync is successful
+              await this.storage.remove('offlineReportData');
+              App.removeAllListeners();
+            }
+          });
       }
     } catch (error) {
       console.error('Sync failed:', error);
