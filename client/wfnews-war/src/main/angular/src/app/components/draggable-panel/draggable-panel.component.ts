@@ -53,7 +53,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   identifyItem: any;
   identifyIncident: any = {};
   map: any;
-  highlightPolygon: any;
+  highlightPolygons: L.Polygon[] = [];
   pinDrop: any;
   defaultZoomLevel = 13;
   wildfireLayerIds: string[] = [
@@ -153,8 +153,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.currentIncidentRefs.length === 1) {
       const viewer = getActiveMap().$viewer;
-      if (this.highlightPolygon) {
-        viewer.map.removeLayer(this.highlightPolygon);
+      for (const polygon of this.highlightPolygons) {
+        viewer.map.removeLayer(polygon);
       }
       if (this.pinDrop) {
         viewer.map.removeLayer(this.pinDrop);
@@ -326,8 +326,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
 
   closePanel() {
     const viewer = getActiveMap().$viewer;
-    if (this.highlightPolygon) {
-      viewer.map.removeLayer(this.highlightPolygon);
+    for (const polygon of this.highlightPolygons) {
+      viewer.map.removeLayer(polygon);
     }
     if (this.pinDrop) {
       viewer.map.removeLayer(this.pinDrop);
@@ -507,7 +507,7 @@ return 'Unknown';
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                     const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
                     if (polygonData.length) {
-                      this.fixPolygonToMap(polygonData);
+                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
                   }
               });
@@ -524,7 +524,7 @@ return 'Unknown';
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                     const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
                     if (polygonData.length) {
-                      this.fixPolygonToMap(polygonData);
+                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
                   }
               });
@@ -542,7 +542,7 @@ return 'Unknown';
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                   const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
                   if (polygonData.length) {
-                    this.fixPolygonToMap(polygonData);
+                    this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
                 }
               });
@@ -560,7 +560,7 @@ return 'Unknown';
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                   const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
                   if (polygonData.length) {
-                    this.fixPolygonToMap(polygonData);
+                    this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
                 }
               });
@@ -571,6 +571,7 @@ return 'Unknown';
           if (this.identifyItem?.geometry?.coordinates.length > 0) {
             const coordinates = this.extractPolygonData(this.identifyItem.geometry.coordinates);
             if (coordinates.length) {
+              debugger
               this.fixPolygonToMap(coordinates);
             }
 
@@ -828,7 +829,7 @@ type = 'evac-order';
     const polygonData = [];
     for (const element of response) {
       polygonData.push(...element);
-  }
+    }
     return polygonData;
   }
 
@@ -839,7 +840,7 @@ type = 'evac-order';
     return convexHull;
   }
 
-  fixPolygonToMap(polygonData: number[][]) {
+  fixPolygonToMap(polygonData,response?) {
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
     const viewer = getActiveMap().$viewer;
     const convex = this.createConvex(polygonData);
@@ -851,19 +852,21 @@ type = 'evac-order';
         bounds
     ]);
 
-    if (this.highlightPolygon) {
-      viewer.map.removeLayer(this.highlightPolygon);
+    for (const polygon of this.highlightPolygons) {
+      viewer.map.removeLayer(polygon);
     }
     
     //highlight the area
-    
-    const swappedPolygonData: number[][] = polygonData.map(([latitude, longitude]) => [longitude, latitude]);
-    this.highlightPolygon  = L.polygon(swappedPolygonData, {
-      weight: 3,
-      color: 'black',
-      fillColor: 'white',
-      fillOpacity: 0.3
-    }).addTo(viewer.map);
+    for (const ring of response) {
+      const multiSwappedPolygonData: number[][] = ring.map(([latitude, longitude]) => [longitude, latitude]);
+      const polygon = L.polygon(multiSwappedPolygonData, {
+        weight: 3,
+        color: 'black',
+        fillColor: 'white',
+        fillOpacity: 0.3
+      }).addTo(viewer.map);
+      this.highlightPolygons.push(polygon);
+    }
 
   }
 }
