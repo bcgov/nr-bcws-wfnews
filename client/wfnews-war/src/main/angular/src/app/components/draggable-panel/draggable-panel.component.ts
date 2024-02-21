@@ -571,6 +571,7 @@ return 'Unknown';
           if (this.identifyItem?.geometry?.coordinates.length > 0) {
             const coordinates = this.extractPolygonData(this.identifyItem.geometry.coordinates);
             if (coordinates.length) {
+              debugger
               this.fixPolygonToMap(coordinates);
             }
 
