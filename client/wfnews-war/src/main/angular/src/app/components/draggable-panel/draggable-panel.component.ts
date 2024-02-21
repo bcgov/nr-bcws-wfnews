@@ -440,12 +440,17 @@ return 'Unknown';
   }
 
   zoomIn(level?: number, polygon?: boolean) {
+    const viewer = getActiveMap().$viewer;
     this.previousZoom = getActiveMap().$viewer.map._zoom;
     let long;
     let lat;
     if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
       long = Number(this.identifyIncident.longitude);
       lat = Number(this.identifyIncident.latitude);
+      viewer.panToFeature(
+        window['turf'].point([long, lat]),
+        level ? level : this.defaultZoomLevel,
+      );
     } else if (
       this.identifyItem?._identifyPoint?.longitude &&
       this.identifyItem?._identifyPoint?.latitude
@@ -458,11 +463,6 @@ return 'Unknown';
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
-        const viewer = getActiveMap().$viewer;
-        viewer.panToFeature(
-          window['turf'].point([long, lat]),
-          level ? level : 12,
-        );
         const layerId = this.identifyItem?.layerId;
         if (['drive-bc-active-events', 'bc-fsr', 'closed-recreation-site'].some(str => layerId.includes(str))) {
           const markerOptions = {
@@ -492,7 +492,6 @@ return 'Unknown';
             ).addTo(viewer.map);
           }
         } else if (['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
-          viewer.panToFeature(window['turf'].point([long, lat]), 5);
 
           if (layerId.includes('bans-and-prohibitions')) {
 
