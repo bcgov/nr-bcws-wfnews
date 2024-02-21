@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
+import ca.bc.gov.nrs.wfnews.api.rest.client.v1.exception.ValidationException;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.StatisticsEndpoint;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.StatisticsResource;
+import ca.bc.gov.nrs.wfnews.api.rest.v1.utils.SqlUtil;
 import ca.bc.gov.nrs.wfnews.service.api.v1.IncidentsService;
 import ca.bc.gov.nrs.wfone.common.rest.endpoints.BaseEndpointsImpl;
 
@@ -24,8 +26,15 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
   @Autowired
 	private IncidentsService incidentsService;
 
-  public Response getStatistics(String fireCentre, Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException {
+  public Response getStatistics(String fireCentre, Integer fireYear) throws NotFoundException, ForbiddenException, ConflictException,ValidationException {
 		Response response = null;
+
+    String[] sqlKeywords = SqlUtil.sqlKeywords;
+    for (String keyword : sqlKeywords) {
+        if (fireCentre.contains(keyword) || fireCentre.contains("'")) {
+            throw new ValidationException("Potential use of sql statement detected");
+        }
+    }
     
     try {
       List<StatisticsResource> result = incidentsService.getStatistics(fireCentre, fireYear, getFactoryContext());
