@@ -384,7 +384,11 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
     // if server is reachable look for previously stored offline RoFs to be submitted
     await this.commonUtilityService.checkOnlineStatus().then((result) => {
       if (result) {
-        this.commonUtilityService.syncDataWithServer();
+        // random timeout between 10 and 30 seconds 
+        const random = Math.floor((Math.random()*30000)+10000)
+        setTimeout(async () => {
+          await this.commonUtilityService.syncDataWithServer();
+        }, random);
       }
     });
   }
