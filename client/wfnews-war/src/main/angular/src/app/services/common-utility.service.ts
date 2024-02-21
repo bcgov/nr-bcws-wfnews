@@ -176,10 +176,16 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       await Geolocation.getCurrentPosition()
       .then(() => resolve(true))
       // if capacitor geolocation is not available, use navigator
-      .catch(() => navigator.geolocation.getCurrentPosition(response => {
-        if (response) resolve(true)
-        else resolve(false)
-      })) 
+      .catch((error) => {
+        alert(error)
+        navigator.geolocation.getCurrentPosition(response => {
+          if (response) resolve(true)
+          else resolve(false)
+        })
+      } ).catch(error => {
+        alert(error)
+        resolve(false)
+      }) 
     });
     return promise;
   }
@@ -187,9 +193,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 5000; // 5 seconds limit
-
+   
     const locationPromise = await this.checkLocation()
-    const timeoutPromise = this.countdown(timeoutDuration)  
+    const timeoutPromise = this.countdown(timeoutDuration)
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
