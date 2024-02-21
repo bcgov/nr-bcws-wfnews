@@ -164,32 +164,31 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   countdown(timeoutDuration) {
-    const promise = new Promise<boolean>((resolve, reject) => {
+    const promise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
     return promise;
   }
 
+  checkLocation() {
+    const promise = new Promise<boolean>(async (resolve) => {
+      // check capacitor 
+      await Geolocation.getCurrentPosition()
+      .then(() => resolve(true))
+      .catch(() => navigator.geolocation.getCurrentPosition(response => {
+        if (response) resolve(true)
+        else resolve(false)
+      })) 
+    });
+    return promise;
+  }
+
+
   async checkLocationServiceStatus(): Promise<boolean> {
-    let locationPromise;
     const timeoutDuration = 5000; // 5 seconds limit
 
-    try {
-      const promise = await Geolocation.getCurrentPosition()
-      .then(() => {locationPromise = Promise.resolve(true); console.log('resolved true')}) 
-      .catch(() => {navigator.geolocation.getCurrentPosition(response => {
-        if(response) {locationPromise = Promise.resolve(true); console.log('android true')}
-        else {locationPromise = Promise.resolve(false); console.log('android false')}
-      })}) 
-    } catch(error) {
-      console.log(error)
-      locationPromise = Promise.resolve(false);
-    }   
-    
-    const timeoutPromise = this.countdown(timeoutDuration)
-    
-    console.log(timeoutPromise)
-    console.log(locationPromise)  
+    const locationPromise = await this.checkLocation()
+    const timeoutPromise = this.countdown(timeoutDuration)  
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
