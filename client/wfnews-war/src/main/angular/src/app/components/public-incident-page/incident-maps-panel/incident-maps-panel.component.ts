@@ -15,8 +15,8 @@ import {
 import { PublishedIncidentService } from '../../../services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { CapacitorHttp } from '@capacitor/core';
 import { CapacitorService } from '@app/services/capacitor-service';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 
 export class DownloadableMap {
   name: string;
@@ -108,25 +108,13 @@ export class IncidentMapsPanel implements OnInit {
 
   async generateMapRequest(mapLink, fileName) {
     const url = mapLink;
-    let response;
 
     try { 
-      await this.capacitorService.isMobile.then(isMobile => {
-        if (isMobile) {
-          const options = {
-            method: 'GET',
-            url,
-            params: {responseType: 'blob'}   
-          };
-          response = CapacitorHttp.get(options).then(resp => {
-              this.downloadFile(resp.data, fileName);
-              this.snackbarService.open('PDF downloaded successfully.', 'Close', {
-                duration: 10000,
-                panelClass: 'snackbar-success-v2',
-              });
-          });
+      await this.capacitorService.isMobile.then((isMobile) => {
+        if (isMobile) {  
+          this.downloadMobileFile(fileName, url)       
         } else {
-          response = this.httpClient.request(
+          const response = this.httpClient.request(
             new HttpRequest('GET', url, {
               reportProgress: true,
               responseType: 'blob',
@@ -182,6 +170,30 @@ export class IncidentMapsPanel implements OnInit {
     a.target = '_blank';
     a.click();
     document.body.removeChild(a);
+  }
+
+  async downloadMobileFile(fileName: string, url: string) {    
+    if (!fileName.endsWith('.pdf')) {
+      fileName += '.pdf';
+    }
+    
+    try {
+        const download = await Filesystem.downloadFile({
+            path: fileName,
+            url: url,
+            directory: Directory.Documents,
+        });
+        this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+            duration: 10000,
+            panelClass: 'snackbar-success-v2',
+        });
+        } catch (error) {
+        console.error('Error downloading PDF:', error);
+        this.snackbarService.open('PDF download failed.', 'Close', {
+            duration: 10000,
+            panelClass: 'snackbar-error',
+        });
+      }
   }
 
 }
