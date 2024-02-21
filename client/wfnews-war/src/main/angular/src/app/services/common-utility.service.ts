@@ -164,32 +164,38 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   countdown(timeoutDuration) {
-    const promise = new Promise<boolean>((resolve, reject) => {
+    const promise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
     return promise;
   }
 
-  async checkLocationServiceStatus(): Promise<boolean> {
-    let locationPromise;
-    const timeoutDuration = 5000; // 5 seconds limit
+  checkLocation() {
+    const promise = new Promise<boolean>(async (resolve) => {
+      // check capacitor geolocation first
+      await Geolocation.getCurrentPosition()
+      .then(() => resolve(true))
+      // if capacitor geolocation is not available, use navigator
+      .catch((error) => {
+        alert(error)
+        navigator.geolocation.getCurrentPosition(response => {
+          if (response) resolve(true)
+          else resolve(false)
+        })
+      } ).catch(error => {
+        alert(error)
+        resolve(false)
+      }) 
+    });
+    return promise;
+  }
 
-    try {
-      const promise = await Geolocation.getCurrentPosition()
-      .then(() => {locationPromise = Promise.resolve(true); console.log('resolved true')}) 
-      .catch(() => {navigator.geolocation.getCurrentPosition(response => {
-        if(response) {locationPromise = Promise.resolve(true); console.log('android true')}
-        else {locationPromise = Promise.resolve(false); console.log('android false')}
-      })}) 
-    } catch(error) {
-      console.log(error)
-      locationPromise = Promise.resolve(false);
-    }   
-    
+
+  async checkLocationServiceStatus(): Promise<boolean> {
+    const timeoutDuration = 5000; // 5 seconds limit
+   
+    const locationPromise = await this.checkLocation()
     const timeoutPromise = this.countdown(timeoutDuration)
-    
-    console.log(timeoutPromise)
-    console.log(locationPromise)  
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
@@ -241,13 +247,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       if (offlineReport) {
         // Send the report to the server
         const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport);
-
-        if (response.success) {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-          App.removeAllListeners();
-        }
+          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              // Remove the locally stored data if sync is successful
+              await this.storage.remove('offlineReportData');
+              App.removeAllListeners();
+            }
+          });
       }
     } catch (error) {
       console.error('Sync failed:', error);
