@@ -177,13 +177,13 @@ valueMatch = trimmedAddress.substring(0, valueLength);
       .then(() => resolve(true))
       // if capacitor geolocation is not available, use navigator
       .catch((error) => {
-        alert(error)
+        alert('geo: ' + JSON.stringify(error))
         navigator.geolocation.getCurrentPosition(response => {
           if (response) resolve(true)
           else resolve(false)
         })
       } ).catch(error => {
-        alert(error)
+        alert('nav: ' + JSON.stringify(error))
         resolve(false)
       }) 
     });
