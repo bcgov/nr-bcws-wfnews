@@ -188,7 +188,7 @@ export class IncidentMapsPanel implements OnInit {
             panelClass: 'snackbar-success-v2',
         });
         } catch (error) {
-        console.error('Error downloading PDF:', error);
+        alert(error);
         this.snackbarService.open('PDF download failed.', 'Close', {
             duration: 10000,
             panelClass: 'snackbar-error',
