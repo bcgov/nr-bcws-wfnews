@@ -230,6 +230,7 @@ export class AddSavedLocationComponent implements OnInit {
   chooseRadiusOnMap() {
     const dialogRef = this.dialog.open(notificationMapComponent, {
       autoFocus: false,
+      width: '100dvw',
       minWidth: '100dvw',
       height: '100dvh',
       data: {
