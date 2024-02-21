@@ -110,7 +110,6 @@ this.nextId = 'disclaimer-page';
     });
 
    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
-    console.log('checking')
       if (!enabled) {
         this.dialog.open(DialogLocationComponent, {
           autoFocus: false,
