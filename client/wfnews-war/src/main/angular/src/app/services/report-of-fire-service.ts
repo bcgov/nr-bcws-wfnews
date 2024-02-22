@@ -37,12 +37,12 @@ export class ReportOfFireService {
   submittedOffline: boolean;
   longitude: number;
   latitude: number;
+  formData: FormData
 
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage,
-    private formData: FormData
+    private storage: Storage
   ) {}
 
   async saveReportOfFire(
@@ -127,14 +127,14 @@ return;
         return { success: true, message: 'Report submitted successfully' };
       } else {
         // submit to storage if there is an issue
-        this.submitToStorage(this.formData)
+        if (this.formData) this.submitToStorage(this.formData)
         // The server encountered an error
         const responseData = await response.json();
         return { success: false, message: responseData.error };
       }
     } catch (error) {
       // submit to storage if there is an error
-      this.submitToStorage(this.formData)
+      if (this.formData) this.submitToStorage(this.formData)
       // An error occurred during the HTTP request
       return {
         success: false,
