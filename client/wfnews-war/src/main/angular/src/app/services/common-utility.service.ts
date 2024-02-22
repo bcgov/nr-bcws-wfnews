@@ -171,22 +171,18 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocation() {
-    const promise = new Promise<boolean>(async (resolve) => {
-      // check capacitor geolocation first
-      await Geolocation.getCurrentPosition()
-      .then(() => resolve(true))
-      // if capacitor geolocation is not available, use navigator
-      .catch((error) => {
-        alert('geo: ' + JSON.stringify(error))
+    const promise = new Promise<boolean>((resolve) => {
+      try {
         navigator.geolocation.getCurrentPosition(response => {
-          if (response) resolve(true)
-          else resolve(false)
-        })
-      } ).catch(error => {
-        alert('nav: ' + JSON.stringify(error))
-        resolve(false)
-      }) 
-    });
+            if (response) resolve(true)
+            else resolve(false)
+          })
+        }catch(error) {
+            alert(error)
+            resolve(false)
+        }
+    })
+      
     return promise;
   }
 
