@@ -171,9 +171,12 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocation() {
+    alert(navigator)
+    alert(window.navigator)
+    alert(window.navigator.geolocation)
     const promise = new Promise<boolean>((resolve) => {
       try {
-        navigator.geolocation.getCurrentPosition(response => {
+        window.navigator.geolocation.getCurrentPosition(response => {
             if (response) {alert(true); resolve(true)}
             else {alert(true); resolve(false) }
           })
