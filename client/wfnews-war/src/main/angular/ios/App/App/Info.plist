@@ -67,6 +67,10 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
+	<key>UIFileSharingEnabled</key>
+	<true/>
+	<key>LSSupportsOpeningDocumentsInPlace</key>
+	<true/>
   <dict>
         <key>NSAllowsArbitraryLoads</key>
         <true/>
