@@ -109,10 +109,10 @@ export class IncidentMapsPanel implements OnInit {
   async generateMapRequest(mapLink, fileName) {
     const url = mapLink;
 
-    try { 
+    try {
       await this.capacitorService.isMobile.then((isMobile) => {
-        if (isMobile) {  
-          this.downloadMobileFile(fileName, url)       
+        if (isMobile) {
+          this.downloadMobileFile(fileName, url)
         } else {
           const response = this.httpClient.request(
             new HttpRequest('GET', url, {
@@ -123,13 +123,13 @@ export class IncidentMapsPanel implements OnInit {
           this.fetchMapResponse(response, fileName)
         }
       });
-      
-  }catch(error) {
-    this.snackbarService.open('PDF downloaded failed.', 'Close', {
-      duration: 10000,
-      panelClass: 'snackbar-error',
-    })
-  }
+
+    } catch (error) {
+      this.snackbarService.open('PDF download failed.', 'Close', {
+        duration: 10000,
+        panelClass: 'snackbar-error',
+      })
+    }
   }
 
   fetchMapResponse(request, fileName) {
@@ -148,12 +148,13 @@ export class IncidentMapsPanel implements OnInit {
           });
         }
       },
-      (err) =>{
-        this.snackbarService.open('PDF downloaded failed.', 'Close', {
+      (err) => {
+        this.snackbarService.open('PDF download failed.', 'Close', {
           duration: 10000,
           panelClass: 'snackbar-error',
-        })}
-      );
+        })
+      }
+    );
   }
 
   downloadFile(data: HttpResponse<Blob>, fileName: string) {
@@ -161,7 +162,7 @@ export class IncidentMapsPanel implements OnInit {
       fileName += '.pdf';
     }
 
-    const downloadedFile = new Blob([data.body], { type: 'application/pdf' }); 
+    const downloadedFile = new Blob([data.body], { type: 'application/pdf' });
     const a = document.createElement('a');
     a.setAttribute('style', 'display:none;');
     document.body.appendChild(a);
@@ -172,28 +173,36 @@ export class IncidentMapsPanel implements OnInit {
     document.body.removeChild(a);
   }
 
-  async downloadMobileFile(fileName: string, url: string) {    
+  async downloadMobileFile(fileName: string, url: string) {
     if (!fileName.endsWith('.pdf')) {
       fileName += '.pdf';
     }
-    
+
     try {
-        const download = await Filesystem.downloadFile({
-            path: fileName,
-            url: url,
-            directory: Directory.Documents,
-        });
-        this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+      const download = await Filesystem.downloadFile({
+        path: fileName,
+        url: url,
+        directory: Directory.Documents,
+      }).then(download => {
+        if (download) {
+          this.snackbarService.open('PDF downloaded successfully.', 'Close', {
             duration: 10000,
             panelClass: 'snackbar-success-v2',
-        });
-        } catch (error) {
-        alert(error);
-        this.snackbarService.open('PDF download failed.', 'Close', {
+          });
+        } else {
+          this.snackbarService.open('PDF download failed.', 'Close', {
             duration: 10000,
             panelClass: 'snackbar-error',
-        });
-      }
+          });
+        }
+      })
+    } catch (error) {
+      alert(error);
+      this.snackbarService.open('PDF download failed.', 'Close', {
+        duration: 10000,
+        panelClass: 'snackbar-error',
+      });
+    }
   }
 
 }

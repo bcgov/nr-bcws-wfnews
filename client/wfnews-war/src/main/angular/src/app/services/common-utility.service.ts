@@ -58,6 +58,7 @@ export class CommonUtilityService {
   }
 
   getCurrentLocation(callback?: (p: Position) => void) {
+    console.log('callback')
     if (navigator && navigator.geolocation) {
       return Geolocation.getCurrentPosition().then(
         (position) => {
@@ -171,19 +172,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocation() {
-    alert(navigator)
-    alert(window.navigator)
-    alert(window.navigator.geolocation)
     const promise = new Promise<boolean>((resolve) => {
-      try {
-        window.navigator.geolocation.getCurrentPosition(response => {
-            if (response) {alert(true); resolve(true)}
-            else {alert(true); resolve(false) }
-          })
-        }catch(error) {
-            alert(error)
-            resolve(false)
-        }
+      Geolocation.getCurrentPosition().then(
+        (position) => {
+          resolve(true)
+        },
+        (error) => {
+          resolve(false)
+        },
+      );
     })
       
     return promise;
