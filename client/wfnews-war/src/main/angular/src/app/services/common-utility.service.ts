@@ -58,7 +58,6 @@ export class CommonUtilityService {
   }
 
   getCurrentLocation(callback?: (p: Position) => void) {
-    console.log('callback')
     if (navigator && navigator.geolocation) {
       return Geolocation.getCurrentPosition().then(
         (position) => {
