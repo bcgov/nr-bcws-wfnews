@@ -37,11 +37,12 @@ export class ReportOfFireService {
   submittedOffline: boolean;
   longitude: number;
   latitude: number;
+  formData: FormData
 
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage,
+    private storage: Storage
   ) {}
 
   async saveReportOfFire(
@@ -78,7 +79,7 @@ formData.append('image2', await this.convertToBase64(image2));
       if (image3) {
 formData.append('image3', await this.convertToBase64(image3));
 }
-
+      this.formData = formData
       // if the device is offline save RoF in storage
       try {
         await this.commonUtilityService.checkOnlineStatus().then((result) => {
@@ -125,11 +126,15 @@ return;
         // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
       } else {
+        // submit to storage if there is an issue
+        if (this.formData) this.submitToStorage(this.formData)
         // The server encountered an error
         const responseData = await response.json();
         return { success: false, message: responseData.error };
       }
     } catch (error) {
+      // submit to storage if there is an error
+      if (this.formData) this.submitToStorage(this.formData)
       // An error occurred during the HTTP request
       return {
         success: false,

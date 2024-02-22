@@ -382,10 +382,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // if server is reachable look for previously stored offline RoFs to be submitted
-    await this.commonUtilityService.checkOnlineStatus().then((result) => {
+    await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-        this.commonUtilityService.syncDataWithServer();
-      }
+          await this.commonUtilityService.syncDataWithServer();
+        }
     });
   }
 
