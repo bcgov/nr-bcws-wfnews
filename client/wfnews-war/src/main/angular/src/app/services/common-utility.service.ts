@@ -172,19 +172,17 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   checkLocation() {
     const promise = new Promise<boolean>((resolve) => {
-      let bool;
       try {
-        // check capacitor geolocation first
         navigator.geolocation.getCurrentPosition(response => {
-            if (response) {bool = true; resolve(true) }
-            else {bool = false; resolve(false) }
+            if (response) resolve(true)
+            else resolve(false)
           })
         }catch(error) {
-            alert('nav: ' + JSON.stringify(error))
+            alert(error)
             resolve(false)
         }
-        alert(bool)
-    })  
+    })
+      
     return promise;
   }
 
