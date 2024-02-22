@@ -181,10 +181,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
         },
       );
     })
-      
+
     return promise;
   }
-
 
   async checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 5000; // 5 seconds limit
@@ -236,14 +235,8 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   async syncDataWithServer() {
     await this.storage.create();
     try {
-      let offlineReport;
-
       // Fetch and submit locally stored data
-      // Set timeout between 10 and 30 seconds
-      const random =  Math.floor((Math.random()*30000)+10000);
-      setTimeout(async () => {
-        offlineReport = await this.storage.get('offlineReportData');
-      }, random);
+      const offlineReport = await this.storage.get('offlineReportData');
       
       if (offlineReport) {
         // Send the report to the server
