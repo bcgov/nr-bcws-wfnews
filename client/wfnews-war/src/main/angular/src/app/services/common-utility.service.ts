@@ -171,19 +171,21 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocation() {
-    const promise = new Promise<boolean>((resolve) => {
-      Geolocation.getCurrentPosition().then(
-        (position) => {
-          resolve(true)
-        },
-        (error) => {
-          resolve(false)
-        },
-      );
-    })
-      
-    return promise;
-  }
+      if (window.navigator && window.navigator.geolocation) {
+        console.log(window.navigator.geolocation)
+        Geolocation.getCurrentPosition().then(
+          (position) => {
+            return Promise.resolve(true)
+          },
+          (error) => {
+            console.log(error)
+            return Promise.resolve(false)
+          },
+        );
+      } else {
+        return Promise.resolve(false)
+      }
+    }
 
 
   async checkLocationServiceStatus(): Promise<boolean> {
@@ -236,14 +238,8 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   async syncDataWithServer() {
     await this.storage.create();
     try {
-      let offlineReport;
-
       // Fetch and submit locally stored data
-      // Set timeout between 10 and 30 seconds
-      const random =  Math.floor((Math.random()*30000)+10000);
-      setTimeout(async () => {
-        offlineReport = await this.storage.get('offlineReportData');
-      }, random);
+      const offlineReport = await this.storage.get('offlineReportData');
       
       if (offlineReport) {
         // Send the report to the server
