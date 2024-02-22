@@ -174,8 +174,8 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const promise = new Promise<boolean>((resolve) => {
       try {
         navigator.geolocation.getCurrentPosition(response => {
-            if (response) resolve(true)
-            else resolve(false)
+            if (response) {alert(true); resolve(true)}
+            else {alert(true); resolve(false) }
           })
         }catch(error) {
             alert(error)
@@ -237,9 +237,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   async syncDataWithServer() {
     await this.storage.create();
     try {
-      // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
+      let offlineReport;
 
+      // Fetch and submit locally stored data
+      // Set timeout between 10 and 30 seconds
+      const random =  Math.floor((Math.random()*30000)+10000);
+      setTimeout(async () => {
+        offlineReport = await this.storage.get('offlineReportData');
+      }, random);
+      
       if (offlineReport) {
         // Send the report to the server
         const response =
