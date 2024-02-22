@@ -171,22 +171,19 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkLocation() {
-      if (window.navigator && window.navigator.geolocation) {
-        console.log(window.navigator.geolocation)
-        Geolocation.getCurrentPosition().then(
-          (position) => {
-            return Promise.resolve(true)
-          },
-          (error) => {
-            console.log(error)
-            return Promise.resolve(false)
-          },
-        );
-      } else {
-        return Promise.resolve(false)
-      }
-    }
+    const promise = new Promise<boolean>((resolve) => {
+      Geolocation.getCurrentPosition().then(
+        (position) => {
+          resolve(true)
+        },
+        (error) => {
+          resolve(false)
+        },
+      );
+    })
 
+    return promise;
+  }
 
   async checkLocationServiceStatus(): Promise<boolean> {
     const timeoutDuration = 5000; // 5 seconds limit
