@@ -77,10 +77,10 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
         }
 
         this.intervalRef = setInterval(async function() {
-            // Invoke function every 30 seconds while app is in background
+            // Invoke function every 2 minutes while app is in background
             const submitted = await self.checkStoredRoF(taskId);
             if(submitted) BackgroundTask.finish({ taskId });
-          }, 30000);
+          }, 120000);
           BackgroundTask.finish({ taskId });
       });
     });
