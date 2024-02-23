@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { BackgroundTask } from '@capawesome/capacitor-background-task';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -232,7 +233,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
+  async syncDataWithServer(taskId) {
     let submitted: boolean;
     await this.storage.create();
     try {
@@ -244,10 +245,10 @@ valueMatch = trimmedAddress.substring(0, valueLength);
         const response =
           await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
             if (response.success) {
-              submitted = true;
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
               App.removeAllListeners();
+              BackgroundTask.finish({ taskId });
             }
           });
       }
