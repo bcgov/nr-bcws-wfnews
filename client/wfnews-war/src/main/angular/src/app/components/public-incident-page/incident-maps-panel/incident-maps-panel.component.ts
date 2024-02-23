@@ -143,6 +143,7 @@ export class IncidentMapsPanel implements OnInit {
         } else if (ev instanceof HttpResponse) {
           this.downloadFile(ev as HttpResponse<Blob>, fileName);
           this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+            duration: 100000,
             panelClass: 'snackbar-success-v2',
           });
         }
@@ -184,10 +185,12 @@ export class IncidentMapsPanel implements OnInit {
       }).then(download => {
         if (download) {
           this.snackbarService.open('PDF downloaded successfully.', 'Close', {
+            duration: 100000,
             panelClass: 'snackbar-success-v2',
           });
         } else {
           this.snackbarService.open('PDF download failed.', 'Close', {
+            duration: 100000,
             panelClass: 'snackbar-error',
           });
         }
@@ -195,6 +198,7 @@ export class IncidentMapsPanel implements OnInit {
     } catch (error) {
       alert(error);
       this.snackbarService.open('PDF download failed.', 'Close', {
+        duration: 100000,
         panelClass: 'snackbar-error',
       });
     }
