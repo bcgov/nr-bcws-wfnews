@@ -76,14 +76,12 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
           this.intervalRef = null;
         }
 
-        // set 10 second timeout on background task to avoid duplicate ROF sync
-        setTimeout(() => {
-          this.intervalRef = setInterval(function() {
+        this.intervalRef = setInterval(async function() {
             // Invoke function every 30 seconds while app is in background
-            self.checkStoredRoF();
+            const submitted = await self.checkStoredRoF();
+            if(submitted) BackgroundTask.finish({ taskId });
           }, 30000);
-        }, 10000);
-        BackgroundTask.finish({ taskId });
+          BackgroundTask.finish({ taskId });
       });
     });
   }
@@ -93,15 +91,18 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
+    let submitted: boolean;
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-          await this.commonUtilityService.syncDataWithServer();
+        submitted = await this.commonUtilityService.syncDataWithServer();
         };
     });
+
+    return submitted;
   }
 
   triggerLocationServiceCheck() {
