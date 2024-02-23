@@ -248,7 +248,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
               App.removeAllListeners();
-              BackgroundTask.finish({ taskId });
+              if (taskId) BackgroundTask.finish({ taskId });
             }
           });
       }
