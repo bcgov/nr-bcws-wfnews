@@ -64,7 +64,7 @@ document.getElementById('mobile-navigation-bar').style.display = 'block';
             },
           });
         } else if (
-          this.params['source'] === 'incidents' &&
+          (this.params['source'] === 'incidents' || this.params['source'][0] === 'incidents') &&
           this.params['sourceYear'] &&
           this.params['sourceNumber']
         ) {
