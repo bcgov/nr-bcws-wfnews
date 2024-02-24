@@ -41,7 +41,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     if (this.reportOfFirePage.currentPage.instance.id === 'first-page') {
       App.removeAllListeners();
       // run background task
-        setTimeout (async () => {
+        (async () => {
           await this.backgroundListener();
       })
     }
