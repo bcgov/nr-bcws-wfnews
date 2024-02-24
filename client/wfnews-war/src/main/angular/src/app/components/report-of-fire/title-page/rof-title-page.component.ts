@@ -41,9 +41,9 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     if (this.reportOfFirePage.currentPage.instance.id === 'first-page') {
       App.removeAllListeners();
       // run background task
-      (async () => {
-        await this.backgroundListener();
-      })();
+        setTimeout (async () => {
+          await this.backgroundListener();
+      })
     }
   }
 
@@ -78,9 +78,16 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
 
         this.intervalRef = setInterval(async function() {
             // Invoke function every 2 minutes while app is in background
-            const submitted = await self.checkStoredRoF(taskId);
-            if(submitted) BackgroundTask.finish({ taskId });
+            await self.checkStoredRoF(taskId).then(submitted => {
+              if(submitted) {
+                App.removeAllListeners();
+                clearInterval(this.intervalRef);
+                BackgroundTask.finish({ taskId });
+              }
+            });
           }, 120000);
+          App.removeAllListeners();
+          clearInterval(this.intervalRef);
           BackgroundTask.finish({ taskId });
       });
     });
