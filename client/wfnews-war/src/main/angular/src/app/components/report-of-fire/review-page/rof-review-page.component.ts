@@ -383,7 +383,8 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
 
     //if server is reachable look for previously stored offline RoFs to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-       if (result) {
+      //backgroundTask seems to handle iOS sufficiently
+       if (result && this.commonUtilityService.isAndroid()) {
            await this.commonUtilityService.syncDataWithServer(null);
          }
      });

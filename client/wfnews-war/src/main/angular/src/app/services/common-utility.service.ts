@@ -164,6 +164,11 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
+  isAndroid(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /(android)/i.test(userAgent);
+  }
+
   countdown(timeoutDuration) {
     const promise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
