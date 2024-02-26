@@ -81,7 +81,6 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
             await self.checkStoredRoF(taskId).then(submitted => {
               if(submitted) {
                 App.removeAllListeners();
-                clearInterval(this.intervalRef);
                 BackgroundTask.finish({ taskId });
               }
             });
