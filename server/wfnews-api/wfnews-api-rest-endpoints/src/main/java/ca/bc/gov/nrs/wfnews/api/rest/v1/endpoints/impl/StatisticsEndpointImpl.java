@@ -30,8 +30,8 @@ public class StatisticsEndpointImpl extends BaseEndpointsImpl implements Statist
 
     String[] sqlKeywords = SqlUtil.sqlKeywords;
     for (String keyword : sqlKeywords) {
-        if (fireCentre.contains(keyword) || fireCentre.contains("'")) {
-          logger.warn("Potential use of SQL statement detected");
+      if (fireCentre != null && (fireCentre.contains(keyword) || fireCentre.contains("'"))) {
+        logger.warn("Potential use of SQL statement detected");
           return null;
         }
     }
