@@ -181,7 +181,7 @@ export class IncidentMapsPanel implements OnInit {
       const download = await Filesystem.downloadFile({
         path: fileName,
         url: url,
-        directory: Directory.External,
+        directory: Directory.Documents,
       }).then(download => {
         if (download) {
           this.snackbarService.open('PDF downloaded successfully.', 'Close', {
