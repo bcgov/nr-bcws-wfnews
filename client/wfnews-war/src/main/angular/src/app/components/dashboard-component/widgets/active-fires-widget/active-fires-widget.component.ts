@@ -174,7 +174,7 @@ export class ActiveFiresWidget implements AfterViewInit {
       });
   }
 
-  selectFireCentre(value) {
+  selectFireCentre() {
     this.queryData();
   }
 }
