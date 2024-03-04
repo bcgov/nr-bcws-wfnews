@@ -149,15 +149,15 @@ export class ActiveFiresWidget implements AfterViewInit {
 
         this.outOfControlData = [
           { name: 'Out of Control', value: this.activeOutOfControl },
-          { name: 'All Fires', value: this.activeFires },
+          { name: 'All Fires Minus', value: this.activeFires - this.activeOutOfControl},
         ];
         this.beingHeldData = [
           { name: 'Being Held', value: this.activeBeingHeld },
-          { name: 'All Fires', value: this.activeFires },
+          { name: 'All Fires Minus', value: this.activeFires - this.activeBeingHeld },
         ];
         this.underControlData = [
           { name: 'Under Control', value: this.activeUnderControl },
-          { name: 'All Fires', value: this.activeFires },
+          { name: 'All Fires Minus', value: this.activeFires - this.activeUnderControl },
         ];
 
         this.activeOutOfControlPct =
