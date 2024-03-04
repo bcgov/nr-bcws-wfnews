@@ -6,6 +6,7 @@ on:
       - closed
     branches:
       - 'main'
+      - 'release-branch-02262024'
     paths:
       - ".github/workflows/**"
       - "client/**"

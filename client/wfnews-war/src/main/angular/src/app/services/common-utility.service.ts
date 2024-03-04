@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { BackgroundTask } from '@capawesome/capacitor-background-task';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -163,6 +164,11 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
+  isAndroid(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /(android)/i.test(userAgent);
+  }
+
   countdown(timeoutDuration) {
     const promise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
@@ -232,7 +238,8 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
+  async syncDataWithServer(taskId) {
+    let submitted: boolean;
     await this.storage.create();
     try {
       // Fetch and submit locally stored data
@@ -246,12 +253,15 @@ valueMatch = trimmedAddress.substring(0, valueLength);
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
               App.removeAllListeners();
+              if (taskId) BackgroundTask.finish({ taskId });
             }
           });
       }
     } catch (error) {
       console.error('Sync failed:', error);
     }
+
+    return submitted;
   }
 
   async removeInvalidOfflineRoF() {
