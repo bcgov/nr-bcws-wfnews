@@ -94,6 +94,31 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           .then(function(smk) {
             self.mapInitialized.emit(smk);
 
+            // force bc fire centres to the front
+            // Note, this will move any active tile layer
+            // over to the overlay pane on app startup. If the tile
+            // is not active, it will not be moved
+            // note: When we disable the tile layer, we can (and should) remove this
+            smk.$viewer.map.eachLayer((lyr) => {
+              if (lyr?._smk_id === 'bc-fire-centres') {
+                lyr.bringToFront();
+                lyr.options.pane = 'tileOverlay';
+                let tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+                if (!tileOverlay) {
+                  smk.$viewer.map.createPane('tileOverlay');
+                  tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+                  //If you want to change the custom pane order,
+                  // set tileOverlay.style.zIndex = ###; to whatever number makes sense
+                }
+                // this will move the initially visible layer over on init, as it will
+                // be placed in the default div on app start. Not really a great way to
+                // do this so we should implement a better solution for layer pane order
+                // in smk directly. note that this requires the tile layer to be visible
+                // by default
+                tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+              }
+            });
+
             // enforce a max zoom setting, in case we're using cluster/heatmapping
             smk.$viewer.map._layersMaxZoom = 20;
 

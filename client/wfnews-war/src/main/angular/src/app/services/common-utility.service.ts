@@ -8,6 +8,7 @@ import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { BackgroundTask } from '@capawesome/capacitor-background-task';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -163,24 +164,38 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     return /iphone/.test(userAgent);
   }
 
-  checkLocationServiceStatus(): Promise<boolean> {
-    const timeoutDuration = 10000; // 10 seconds limit
+  isAndroid(): boolean {
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    return /(android)/i.test(userAgent);
+  }
 
-    const timeoutPromise = new Promise<boolean>((resolve) => {
+  countdown(timeoutDuration) {
+    const promise = new Promise<boolean>((resolve) => {
       setTimeout(() => resolve(false), timeoutDuration);
     });
-    
-    let locationPromise = Geolocation.getCurrentPosition()
-      .then(() => Promise.resolve(true))
-      .catch(() => Promise.resolve(false));
+    return promise;
+  }
 
-    // resolve for firefox
-    if (window?.navigator?.userAgent?.search("Firefox") && window?.navigator?.geolocation){
-      window.navigator.geolocation.getCurrentPosition(function(position) {
-        if(position) locationPromise = Promise.resolve(true);
-        else (locationPromise = Promise.resolve(false));
-      });
-    }
+  checkLocation() {
+    const promise = new Promise<boolean>((resolve) => {
+      Geolocation.getCurrentPosition().then(
+        (position) => {
+          resolve(true)
+        },
+        (error) => {
+          resolve(false)
+        },
+      );
+    })
+
+    return promise;
+  }
+
+  async checkLocationServiceStatus(): Promise<boolean> {
+    const timeoutDuration = 5000; // 5 seconds limit
+   
+    const locationPromise = await this.checkLocation()
+    const timeoutPromise = this.countdown(timeoutDuration)
 
     return Promise.race([timeoutPromise, locationPromise]);
   }
@@ -223,26 +238,30 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
+  async syncDataWithServer(taskId) {
+    let submitted: boolean;
     await this.storage.create();
     try {
       // Fetch and submit locally stored data
       const offlineReport = await this.storage.get('offlineReportData');
-
+      
       if (offlineReport) {
         // Send the report to the server
         const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport);
-
-        if (response.success) {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-          App.removeAllListeners();
-        }
+          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              // Remove the locally stored data if sync is successful
+              await this.storage.remove('offlineReportData');
+              App.removeAllListeners();
+              if (taskId) BackgroundTask.finish({ taskId });
+            }
+          });
       }
     } catch (error) {
       console.error('Sync failed:', error);
     }
+
+    return submitted;
   }
 
   async removeInvalidOfflineRoF() {

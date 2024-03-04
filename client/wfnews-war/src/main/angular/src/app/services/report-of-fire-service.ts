@@ -37,11 +37,12 @@ export class ReportOfFireService {
   submittedOffline: boolean;
   longitude: number;
   latitude: number;
+  formData: FormData
 
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage,
+    private storage: Storage
   ) {}
 
   async saveReportOfFire(
@@ -65,6 +66,8 @@ export class ReportOfFireService {
       this.longitude = reportOfFire.fireLocation[1];
     }
 
+    
+
     try {
       const formData = new FormData();
       formData.append('resource', resource);
@@ -78,7 +81,7 @@ formData.append('image2', await this.convertToBase64(image2));
       if (image3) {
 formData.append('image3', await this.convertToBase64(image3));
 }
-
+      this.formData = formData
       // if the device is offline save RoF in storage
       try {
         await this.commonUtilityService.checkOnlineStatus().then((result) => {
@@ -117,6 +120,7 @@ return;
           }
         }
       }
+
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -125,11 +129,15 @@ return;
         // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
       } else {
+        // submit to storage if there is an issue
+        if (this.formData) this.submitToStorage(this.formData)
         // The server encountered an error
         const responseData = await response.json();
         return { success: false, message: responseData.error };
       }
     } catch (error) {
+      // submit to storage if there is an error
+      if (this.formData) this.submitToStorage(this.formData)
       // An error occurred during the HTTP request
       return {
         success: false,
@@ -160,19 +168,43 @@ return;
 
   async convertToBase64(image: Photo | GalleryPhoto) {
     let base64;
+    let content;
+    let mimeType;
     try {
       if (image.path) {
         // read binary data (base64 encoded) from plugins that return File URIs, such as
         // the Camera.
         const contents = await Filesystem.readFile({
           path: image.path,
-        });
+        }).then(result => {
+          content = result.data;
+        })
 
-        base64 = image.path;
+        // Filesystem.readFile returns just the content of the base64 string. Detect mimeType from content
+        const identifier = content.charAt(0)
+        switch(identifier) {
+          case '/': 
+            mimeType = 'jpg';
+            break;
+          case 'i': 
+            mimeType = 'png';
+            break;
+          case 'R': 
+            mimeType = 'gif';
+            break;
+          case 'U': 
+            mimeType = 'webp';
+            break;
+          default: 
+            mimeType = 'jpg';
+            break;
+        }
+
+        base64 = 'data:image/' + mimeType + ';base64,' + content;    
       }
 
       // if the webPath is already a base64 string, return it
-      if (image?.webPath?.startsWith('data:image')) {
+      else if (image?.webPath?.startsWith('data:image')) {
         base64 = image.webPath;
       }
       // if it does not have base64 string convert it to one

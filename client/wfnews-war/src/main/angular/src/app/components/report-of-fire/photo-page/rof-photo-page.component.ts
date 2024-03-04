@@ -114,7 +114,6 @@ export class RoFPhotoPage extends RoFPage {
       }
       this.cdr.detectChanges();
     } catch (error) {
-      alert(error);
       console.error('Error adding from camera roll', error);
     }
   }

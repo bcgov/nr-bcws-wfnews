@@ -53,6 +53,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   identifyItem: any;
   identifyIncident: any = {};
   map: any;
+  highlightPolygons: L.Polygon[] = [];
+  pinDrop: any;
+  defaultZoomLevel = 13;
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
     'active-wildfires-out-of-control',
@@ -149,6 +152,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.currentIncidentRefs.length === 1) {
+      const viewer = getActiveMap().$viewer;
+      for (const polygon of this.highlightPolygons) {
+        viewer.map.removeLayer(polygon);
+      }
+      if (this.pinDrop) {
+        viewer.map.removeLayer(this.pinDrop);
+      }
+
       // single feature within clicked area
       this.showPanel = true;
       this.identifyItem = this.currentIncidentRefs[0];
@@ -172,7 +183,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
             .toPromise();
 
           this.identifyIncident = result;
-          this.zoomIn(getActiveMap().$viewer.map._zoom);
+          this.zoomIn(this.defaultZoomLevel);
 
           if (this.identifyIncident) {
             this.addMarker(this.identifyIncident);
@@ -186,14 +197,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         //identify anything other than incident
         if (
-          this.identifyItem.layerId.includes('bans-and-prohibitions') ||
-          this.identifyItem.layerId.includes('evacuation-orders-and-alerts') ||
-          this.identifyItem.layerId.includes('area-restrictions') ||
-          this.identifyItem.layerId.includes('weather-stations')
+          ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'weather-stations', 'danger-rating'].some(str => this.identifyItem.layerId.includes(str))
         ) {
           this.zoomIn(getActiveMap().$viewer.map._zoom, true);
         } else {
-          this.zoomIn(getActiveMap().$viewer.map._zoom);
+          this.zoomIn(this.defaultZoomLevel);
         }
       }
       const SMK = window['SMK'];
@@ -317,6 +325,14 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   closePanel() {
+    const viewer = getActiveMap().$viewer;
+    for (const polygon of this.highlightPolygons) {
+      viewer.map.removeLayer(polygon);
+    }
+    if (this.pinDrop) {
+      viewer.map.removeLayer(this.pinDrop);
+    }
+
     this.showPanel = false;
     this.allowBackToIncidentsPanel = false;
     this.identifyIncident = {};
@@ -424,12 +440,17 @@ return 'Unknown';
   }
 
   zoomIn(level?: number, polygon?: boolean) {
+    const viewer = getActiveMap().$viewer;
     this.previousZoom = getActiveMap().$viewer.map._zoom;
     let long;
     let lat;
     if (this.identifyIncident?.longitude && this.identifyIncident?.latitude) {
       long = Number(this.identifyIncident.longitude);
       lat = Number(this.identifyIncident.latitude);
+      viewer.panToFeature(
+        window['turf'].point([long, lat]),
+        level ? level : this.defaultZoomLevel,
+      );
     } else if (
       this.identifyItem?._identifyPoint?.longitude &&
       this.identifyItem?._identifyPoint?.latitude
@@ -442,19 +463,35 @@ return 'Unknown';
     }
     if (long && lat) {
       this.mapConfigService.getMapConfig().then(() => {
-        const viewer = getActiveMap().$viewer;
-        viewer.panToFeature(
-          window['turf'].point([long, lat]),
-          level ? level : 12,
-        );
         const layerId = this.identifyItem?.layerId;
-        if (
-          polygon &&
-          (layerId.includes('bans-and-prohibitions') ||
-            layerId.includes('evacuation-orders-and-alerts') ||
-            layerId.includes('area-restrictions'))
-        ) {
-          viewer.panToFeature(window['turf'].point([long, lat]), 5);
+        if (['drive-bc-active-events', 'bc-fsr', 'closed-recreation-site'].some(str => layerId.includes(str))) {
+          const markerOptions = {
+            icon: L.divIcon({
+              className: 'custom-icon-class',
+              html: `<div class="custom-marker" style="margin-top:-30px">
+                    <img alt="icon" src="/assets/images/svg-icons/pin-drop.svg"/>
+                  </div>`,
+              iconSize: [32, 32],
+            }),
+            draggable: false,
+          };
+
+          const pinDropLocation = [this.identifyItem?.geometry?.coordinates[1],this.identifyItem?.geometry?.coordinates[0]];
+          if (pinDropLocation) {
+            viewer.panToFeature(
+              window['turf'].point([this.identifyItem?.geometry?.coordinates[0], this.identifyItem?.geometry?.coordinates[1]]),
+              this.defaultZoomLevel
+            );
+            if (this.pinDrop) {
+              viewer.map.removeLayer(this.pinDrop);
+            }
+  
+            this.pinDrop = L.marker(
+              pinDropLocation,
+              markerOptions,
+            ).addTo(viewer.map);
+          }
+        } else if (['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
 
           if (layerId.includes('bans-and-prohibitions')) {
 
@@ -462,38 +499,34 @@ return 'Unknown';
               .getBansAndProhibitionsById(
                 this.identifyItem.properties.PROT_BAP_SYSID,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                if (response?.extent) {
-                  viewer.map.fitBounds([
-                    [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax]
-                ]);
-                }
+                  if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    if (polygonData.length) {
+                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                    }
+                  }
               });
           } else if (layerId.includes('evacuation-orders-and-alerts')) {
             this.agolService
               .getEvacOrdersByEventNumber(
                 this.identifyItem.properties.EVENT_NUMBER,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                if (response?.extent) {
-                  viewer.map.fitBounds([
-                    [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax]
-                ]);
-                }
+                  if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    if (polygonData.length) {
+                      this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                    }
+                  }
               });
           } else if (layerId.includes('area-restrictions')) {
             this.agolService
@@ -501,18 +534,46 @@ return 'Unknown';
                 `NAME='${this.identifyItem.properties.NAME}'`,
                 null,
                 {
-                  returnGeometry: false,
-                  returnCentroid: false,
-                  returnExtent: true,
+                  returnGeometry: true,
                 },
               )
               .toPromise()
               .then((response) => {
-                viewer.map.fitBounds([
-                    [response.extent.ymin, response.extent.xmin],
-                    [response.extent.ymax, response.extent.xmax]
-                ]);
+                if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  if (polygonData.length) {
+                    this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                  }                
+                }
               });
+          } else if (layerId.includes('danger-rating')) {
+            this.agolService
+              .getDangerRatings(
+                `PROT_DR_SYSID ='${this.identifyItem.properties.PROT_DR_SYSID}'`,
+                null,
+                {
+                  returnGeometry: true,
+                },
+              )
+              .toPromise()
+              .then((response) => {
+                if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  if (polygonData.length) {
+                    this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
+                  }                
+                }
+              });
+          }
+        } else if ( // local authorities
+          ['abms-regional-districts', 'clab-indian-reserves', 'abms-municipalities'].includes(layerId)
+        ) {
+          if (this.identifyItem?.geometry?.coordinates.length > 0) {
+            const coordinates = this.extractPolygonData(this.identifyItem.geometry.coordinates);
+            if (coordinates.length) {
+              this.fixPolygonToMap(coordinates);
+            }
+
           }
         }
       });
@@ -761,5 +822,50 @@ type = 'evac-order';
 
       return date.toLocaleDateString('en-US', options);
     } else return '';
+  }
+
+  extractPolygonData(response) {
+    const polygonData = [];
+    for (const element of response) {
+      polygonData.push(...element);
+    }
+    return polygonData;
+  }
+
+  createConvex(polygonData) {
+    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
+    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
+    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    return convexHull;
+  }
+
+  fixPolygonToMap(polygonData,response?) {
+    //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
+    const viewer = getActiveMap().$viewer;
+    const convex = this.createConvex(polygonData);
+    const bounds = convex.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+      viewer.map.fitBounds([
+        bounds
+    ]);
+
+    for (const polygon of this.highlightPolygons) {
+      viewer.map.removeLayer(polygon);
+    }
+    
+    //highlight the area
+    for (const ring of response) {
+      const multiSwappedPolygonData: number[][] = ring.map(([latitude, longitude]) => [longitude, latitude]);
+      const polygon = L.polygon(multiSwappedPolygonData, {
+        weight: 3,
+        color: 'black',
+        fillColor: 'white',
+        fillOpacity: 0.3
+      }).addTo(viewer.map);
+      this.highlightPolygons.push(polygon);
+    }
+
   }
 }
