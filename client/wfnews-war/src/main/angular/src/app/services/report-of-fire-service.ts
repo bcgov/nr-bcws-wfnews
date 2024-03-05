@@ -66,8 +66,6 @@ export class ReportOfFireService {
       this.longitude = reportOfFire.fireLocation[1];
     }
 
-    
-
     try {
       const formData = new FormData();
       formData.append('resource', resource);
@@ -120,7 +118,6 @@ return;
           }
         }
       }
-
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
@@ -321,4 +318,3 @@ formData.append('image3', image3);
   }
 
 }
-
