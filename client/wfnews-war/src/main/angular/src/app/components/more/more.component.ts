@@ -1,14 +1,24 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ResourcesRoutes } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-more',
   templateUrl: './more.component.html',
   styleUrls: ['./more.component.scss'],
 })
-export class MoreComponent {
-  constructor(private router: Router) {}
+export class MoreComponent implements OnInit{
+  public versionNumber;
+
+  constructor(private router: Router, private appConfig: AppConfigService) {}
+
+  ngOnInit(): void {
+    const version = this.appConfig.getConfig().application.version;
+    if (version) {
+      this.versionNumber = 'Version ' + version;
+    }
+  }
 
   navigate(menu) {
     switch (menu) {
