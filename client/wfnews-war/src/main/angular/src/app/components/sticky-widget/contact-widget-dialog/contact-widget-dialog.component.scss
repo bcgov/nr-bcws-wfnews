@@ -509,3 +509,14 @@
 ::ng-deep .mdc-snackbar__surface{
   background-color: transparent !important;
 }
+
+.version-number{
+  color: var(--Grays-Gray-1, #242424);
+  text-align: right;
+  font-family: "Noto Sans", BCSans, "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  padding-top: 8px;
+}
