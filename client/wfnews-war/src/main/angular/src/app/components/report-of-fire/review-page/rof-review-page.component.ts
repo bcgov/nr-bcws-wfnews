@@ -381,13 +381,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
-    //if server is reachable look for previously stored offline RoFs to be submitted
+    // if server is reachable look for previously stored offline RoFs to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-      //backgroundTask seems to handle iOS sufficiently
-       if (result && this.commonUtilityService.isAndroid()) {
-           await this.commonUtilityService.syncDataWithServer(null);
-         }
-     });
+      if (result) {
+          await this.commonUtilityService.syncDataWithServer();
+        }
+    });
   }
 
   async useMyCurrentLocation() {
