@@ -237,6 +237,12 @@ variable "nginx_names" {
   type        = list(string)
 }
 
+variable "redirect_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-redirect"]
+  type        = list(string)
+}
+
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfss-pointid-api"]

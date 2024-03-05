@@ -6,6 +6,7 @@ on:
       - closed
     branches:
       - 'main'
+      - 'dev-deploy'
     paths:
       - ".github/workflows/**"
       - "client/**"
