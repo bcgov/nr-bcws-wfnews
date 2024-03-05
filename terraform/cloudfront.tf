@@ -786,6 +786,83 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
   }
 }
 
+resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
+  #NOTE: This points at the same resource as wfnews_geofencing_nginx, but listens to a different URL and uses a different SSL cert
+  #      If we stop supporting the old Public Mobile application, this can be removed
+
+  count = var.cloudfront ? 1 : 0
+
+  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"
+      ]
+    }
+
+    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    origin_id   = "wfnews_redirect_${var.target_env}"
+
+    custom_header {
+      name  = "X-Cloudfront-Header"
+      value = var.cloudfront_header
+    }
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods = [
+      "DELETE",
+      "GET",
+      "HEAD",
+      "OPTIONS",
+      "PATCH",
+      "POST",
+    "PUT"]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_redirect_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization", "X-API-KEY", "apikey"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 86400
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+
+  tags = local.common_tags
+
+  viewer_certificate {
+    acm_certificate_arn = var.base_certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
 output "wfnews_cloudfront_client_url" {
   value = "https://${aws_cloudfront_distribution.wfnews_geofencing_client[0].domain_name}"
 }

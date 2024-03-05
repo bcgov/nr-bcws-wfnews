@@ -346,7 +346,12 @@ variable "license_plate" {
 }
 
 variable "certificate_arn" {
-  description = "ARN of bcwildfire certificate"
+  description = "ARN of *.env.bcwildfireservices.com certificate"
+  type        = string
+}
+
+variable "base_certificate_arn" {
+  description = "ARN of *.bcwildfireservices.com certificate"
   type        = string
 }
 
