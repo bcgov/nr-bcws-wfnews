@@ -23,6 +23,7 @@ export class ContactWidgetDialogComponent implements OnInit {
   public contactForm: UntypedFormGroup;
   public contactInformationConfig: any;
   public closeColor;
+  public versionNumber;
 
   isMobileView = isMobileView;
 
@@ -54,6 +55,10 @@ export class ContactWidgetDialogComponent implements OnInit {
       subject: new UntypedFormControl(''),
       message: new UntypedFormControl('', [Validators.maxLength(500)]),
     });
+    const version = this.appConfig.getConfig().application.version;
+    if (version) {
+      this.versionNumber = 'Version ' + version;
+    }
   }
 
   public error = (controlName: string, errorName: string) => this.contactForm.controls[controlName].hasError(errorName);
