@@ -50,6 +50,7 @@ import {
   FilterByLocationDialogComponent,
   LocationData,
 } from '../filter-by-location/filter-by-location-dialog.component';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 @Directive()
 export class WildFiresListComponent
@@ -113,6 +114,7 @@ export class WildFiresListComponent
     watchlistService: WatchlistService,
     commonUtilityService: CommonUtilityService,
     private breakpointObserver: BreakpointObserver,
+    private capacitorService: CapacitorService,
   ) {
     super(
       router,
@@ -285,16 +287,27 @@ export class WildFiresListComponent
     }
   }
 
-  selectIncident(incident: any) {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
+  async selectIncident(incident: any) {
+    const device = await this.capacitorService.checkDeviceSystem();
+    // IOS standalone app can not open url in blank page.
+    if (device.operatingSystem === 'ios') {
+      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
         queryParams: {
           fireYear: incident.fireYear,
           incidentNumber: incident.incidentNumberLabel,
         },
-      }),
-    );
-    window.open(url, '_blank');
+      });
+    } else {
+      const url = this.router.serializeUrl(
+        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
+          queryParams: {
+            fireYear: incident.fireYear,
+            incidentNumber: incident.incidentNumberLabel,
+          },
+        }),
+      );
+      window.open(url, '_blank');
+    }
   }
 
   onWatchlist(incident: any): boolean {
