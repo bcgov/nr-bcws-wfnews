@@ -147,6 +147,7 @@ generate "test_tfvars" {
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
     certificate_arn = "${get_env("BCWILDFIRE_CERT_ARN")}"
+    base_certificate_arn = "${get_env("BASE_BCWILDFIRE_CERT_ARN")}"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     YOUTUBE_API_KEY = "${local.YOUTUBE_API_KEY}"
     YOUTUBE_CHANNEL_ID = "${local.YOUTUBE_CHANNEL_ID}"
