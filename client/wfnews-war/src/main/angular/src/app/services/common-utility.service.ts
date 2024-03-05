@@ -307,7 +307,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   checkIfLandscapeMode() {
-        // also return true if this is table portrait mode wfnews-2022. 
+    // also return true if this is table portrait mode wfnews-2022. 
     if ((window.innerWidth > window.innerHeight) || (window.innerWidth <= 1024 && window.innerWidth >= 768 && window.innerHeight > window.innerWidth) ) {
       return true;
     } else {
