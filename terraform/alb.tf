@@ -282,7 +282,7 @@ resource "aws_lb_listener_rule" "wfnews_host_based_weighted_routing_liquibase" {
 
   condition {
     host_header {
-      values = [for sn in var.liquibase_names : "${sn}.*"]
+      values = [for sn in concat(var.liquibase_names,var.redirect_names) : "${sn}.*"]
     }
   }
 
