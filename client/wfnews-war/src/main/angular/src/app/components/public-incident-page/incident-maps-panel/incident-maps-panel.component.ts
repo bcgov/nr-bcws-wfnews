@@ -150,7 +150,6 @@ export class IncidentMapsPanel implements OnInit {
       },
       (err) => {
         this.snackbarService.open('PDF download failed.', 'Close', {
-          duration: 10000,
           panelClass: 'snackbar-error',
         })
       }
