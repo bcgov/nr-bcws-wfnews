@@ -804,7 +804,7 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
       ]
     }
 
-    domain_name = "${var.nginx_names[0]}.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
+    domain_name = "wfnews-redirect.${var.license_plate}-${var.target_env}.nimbus.cloud.gov.bc.ca"
     origin_id   = "wfnews_redirect_${var.target_env}"
 
     custom_header {
