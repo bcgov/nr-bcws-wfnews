@@ -32,6 +32,11 @@
 		</dependency>
 
 		<dependency>
+                        <groupId>org.glassfish.jaxb</groupId>
+                        <artifactId>jaxb-runtime</artifactId>
+                </dependency>
+
+		<dependency>
 			<groupId>ca.bc.gov.nrs.wfone</groupId>
 			<artifactId>wfone-notifications-persistence</artifactId>
 			<version>${project.parent.version}</version>
