@@ -8,6 +8,7 @@
   <version>1.0</version>
   <name>wfnews</name>
   <url>http://maven.apache.org</url>
+  <!-- BUILD TRIGGERING COMMENT -->
 
  <properties>
   <sonar.organization>bcgov-sonarcloud</sonar.organization>
