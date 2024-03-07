@@ -792,7 +792,7 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
