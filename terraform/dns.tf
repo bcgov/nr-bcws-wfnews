@@ -2,6 +2,10 @@ data "aws_route53_zone" "zone" {
   name = "${var.target_env}.bcwildfireservices.com"
 }
 
+data "aws_route53_zone" "base_zone" {
+  name = "bcwildfireservices.com"
+}
+
 resource "aws_route53_record" "wfnews_server" {
   zone_id = data.aws_route53_zone.zone.id
   name    = "wfnews-server.${var.target_env}.bcwildfireservices.com"
@@ -80,6 +84,18 @@ resource "aws_route53_record" "wfone-notifications-api" {
   alias {
     name                   = aws_cloudfront_distribution.wfone_notifications_api[0].domain_name
     zone_id                = aws_cloudfront_distribution.wfone_notifications_api[0].hosted_zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "wfnews-redirection-receiver" {
+
+  zone_id = data.aws_route53_zone.base_zone.id
+  name    = "wfnews-redirection-${var.target_env}.bcwildfireservices.com"
+  type    = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.wfnews_redirect_receiver[0].domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_redirect_receiver[0].hosted_zone_id
     evaluate_target_health = true
   }
 }
