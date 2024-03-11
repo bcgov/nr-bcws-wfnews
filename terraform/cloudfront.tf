@@ -1,3 +1,11 @@
+locals {
+  PMNamesMap = {
+    dev = "int"
+    test = "tst"
+    prod = "prod"
+  }
+} 
+
 resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   count = var.cloudfront ? 1 : 0
@@ -794,7 +802,7 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-%{ if var.target_env == "test" }tst%{ else }${var.target_env}%{ endif }.bcwildfireservices.com"]
+  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
