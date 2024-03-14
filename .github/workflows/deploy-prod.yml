@@ -19,7 +19,7 @@ jobs:
     uses: ./.github/workflows/lambda-zip.yml
     secrets: inherit
     with:
-      ENVIRONMENT: TEST
+      ENVIRONMENT: PROD
       REGISTRY: ${{ vars.REGISTRY }}
 
   tag-images:
