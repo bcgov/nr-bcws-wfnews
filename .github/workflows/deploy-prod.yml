@@ -120,21 +120,21 @@ jobs:
 
     secrets: inherit
 
-    ios-deploy:
-      uses: ./.github/workflows/ios.yml
-      needs: [tag-images]
-      with:
-        build_environment: PROD
-        upload_to_app_store: true
-        skip_slack_notification: false
-      secrets: inherit
+  ios-deploy:
+    uses: ./.github/workflows/ios.yml
+    needs: [tag-images]
+    with:
+      build_environment: PROD
+      upload_to_app_store: true
+      skip_slack_notification: false
+    secrets: inherit
   
-    android-deploy:
-      uses: ./.github/workflows/android.yml
-      needs: [tag-images]
-      with:
-        build_environment: PROD
-        upload_to_play_store: true
-        increment_version_number: true
-        skip_slack_notification: false
-      secrets: inherit
+  android-deploy:
+    uses: ./.github/workflows/android.yml
+    needs: [tag-images]
+    with:
+      build_environment: PROD
+      upload_to_play_store: true
+      increment_version_number: true
+      skip_slack_notification: false
+    secrets: inherit
