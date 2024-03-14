@@ -109,7 +109,7 @@ locals {
   WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID = get_env("WFONE_NOTIFICATIONS_API_WEBADE_OAUTH2_WFIM_CLIENT_ID")
 }
 
-generate "test_tfvars" {
+generate "prod_tfvars" {
   path              = "terragrunt.auto.tfvars"
   if_exists         = "overwrite"
   disable_signature = true
