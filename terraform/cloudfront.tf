@@ -1,3 +1,11 @@
+locals {
+  PMNamesMap = {
+    dev = "int"
+    test = "tst"
+    prod = "prod"
+  }
+} 
+
 resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
 
   count = var.cloudfront ? 1 : 0
@@ -789,10 +797,12 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
   #NOTE: This points at the same resource as wfnews_geofencing_nginx, but listens to a different URL and uses a different SSL cert
   #      If we stop supporting the old Public Mobile application, this can be removed
+  #
+  #      'IF' statement is because public mobile used 'tst' instead of 'test' for environment name
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com"]
+  aliases = ["wfnews-redirect-${var.target_env}.bcwildfireservices.com", "publicmobile-api-${local.PMNamesMap[var.target_env]}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
