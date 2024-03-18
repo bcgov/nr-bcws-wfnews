@@ -163,7 +163,7 @@
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
       json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
-      json.append("\"pointId\":\"").append(pointidUri).append("\"").append("\");
+      json.append("\"pointId\":\"").append(pointidUri).append("\"").append("\"");
     json.append("},");
 
     // WebADE OAuth Section
