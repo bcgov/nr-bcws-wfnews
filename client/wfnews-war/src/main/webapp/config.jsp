@@ -151,6 +151,11 @@
       notificationUri = notificationUri.substring(0, notificationUri.length() - 1); //Strip off trailing slash, if it exists.
     }
 
+    String pointidUri = EnvironmentVariable.getVariable("POINT_ID_URL"); 
+    if (pointidUri != null && pointidUri.endsWith("/")) {
+      pointidUri = pointidUri.substring(0, pointidUri.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     json.append("\"rest\":{");
       json.append("\"newsLocal\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"incidents\":\"").append(incidentsUri).append("\"").append(",");
@@ -158,7 +163,7 @@
       json.append("\"wfdm\":\"").append(wfdmUri).append("\"").append(",");
       json.append("\"fire-report-api\":\"").append(fireReportUri).append("\"").append(",");
       json.append("\"notification-api\":\"").append(notificationUri).append("\"").append(",");
-      json.append("\"pointId\":\"").append(properties.getProperty("pointid.url", "")).append("\"");
+      json.append("\"pointId\":\"").append(pointidUri).append("\"");
     json.append("},");
 
     // WebADE OAuth Section
