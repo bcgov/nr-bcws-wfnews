@@ -547,6 +547,11 @@ variable "NOTIFICATION_API_URL" {
   default = ""
 }
 
+variable "POINT_ID_URL" {
+  type = string
+  default = ""
+}
+
 variable "WFIM_CLIENT_URL" {
   type    = string
   default = ""
