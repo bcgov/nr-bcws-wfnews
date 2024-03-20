@@ -164,6 +164,7 @@ jobs:
           WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
           FIRE_REPORT_API_URL: ${{vars.FIRE_REPORT_API_URL}}
           NOTIFICATION_API_URL: ${{vars.NOTIFICATION_API_URL}}
+          POINT_ID_URL: ${{vars.POINT_ID_URL}}
           WFIM_CLIENT_URL: ${{vars.WFIM_CLIENT_URL}}
           WFIM_REST_URL: ${{vars.WFIM_REST_URL}}
           WFIM_CODE_TABLES_URL: ${{vars.WFIM_CODE_TABLES_URL}}
