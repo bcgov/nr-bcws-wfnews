@@ -792,9 +792,11 @@ f.title = 'Feature #' + (i + 1);
           };
 
           if (bm.type === 'vector') {
+            opts.renderer = L.canvas({ padding: 0.5 });
             const layer = esriVector.vectorTileLayer(bm.url, {
               style: bm.style,
               opts,
+              renderer: L.canvas({ padding: 0.5 })
             });
 
             layer.bringToBack = () => {
