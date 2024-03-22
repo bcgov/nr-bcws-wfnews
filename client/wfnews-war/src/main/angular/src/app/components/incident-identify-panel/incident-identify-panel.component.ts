@@ -11,6 +11,7 @@ import {
   convertToFireCentreDescription,
   getActiveMap,
 } from '../../utils';
+import { CapacitorService } from '@app/services/capacitor-service';
 
 @Component({
   selector: 'incident-identify-panel',
@@ -36,6 +37,7 @@ export class IncidentIdentifyPanelComponent {
     private router: Router,
     private watchlistService: WatchlistService,
     private mapConfigService: MapConfigService,
+    private capacitorService: CapacitorService,
   ) {}
 
   // if we want the "next" functionality, pass in the identify set
@@ -142,17 +144,28 @@ export class IncidentIdentifyPanelComponent {
     ).style.display = 'none';
   }
 
-  goToIncidentDetail() {
+  async goToIncidentDetail() {
     // this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], { queryParams: { incidentNumber: this.incident.incidentNumberLabel } })
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
+    const device = await this.capacitorService.checkDeviceSystem();
+    // IOS standalone app can not open url in blank page.
+    if (device.operatingSystem === 'ios') {
+      this.router.navigate([ResourcesRoutes.PUBLIC_INCIDENT], {
         queryParams: {
           fireYear: this.incident.fireYear,
           incidentNumber: this.incident.incidentNumberLabel,
         },
-      }),
-    );
-    window.open(url, '_blank');
+      });
+    } else {
+      const url = this.router.serializeUrl(
+        this.router.createUrlTree([ResourcesRoutes.PUBLIC_INCIDENT], {
+          queryParams: {
+            fireYear: this.incident.fireYear,
+            incidentNumber: this.incident.incidentNumberLabel,
+          },
+        }),
+      );
+      window.open(url, '_blank');
+    }
   }
 
   next() {

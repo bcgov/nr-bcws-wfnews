@@ -2,6 +2,10 @@ data "aws_route53_zone" "zone" {
   name = "${var.target_env}.bcwildfireservices.com"
 }
 
+data "aws_route53_zone" "base_zone" {
+  name = "bcwildfireservices.com"
+}
+
 resource "aws_route53_record" "wfnews_server" {
   zone_id = data.aws_route53_zone.zone.id
   name    = "wfnews-server.${var.target_env}.bcwildfireservices.com"

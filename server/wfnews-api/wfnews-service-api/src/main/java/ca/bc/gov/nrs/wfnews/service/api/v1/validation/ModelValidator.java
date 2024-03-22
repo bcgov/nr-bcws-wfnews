@@ -38,7 +38,7 @@ public class ModelValidator extends BaseValidator {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ModelValidator.class);
 	
-	@Value("${webade-oauth2.wfim.client.id}")
+	@Value("${WEBADE_OAUTH2_CLIENT_ID}")
 	private String webadeOauth2ClientId;
 
 	@Value("${WEBADE_OAUTH2_WFNEWS_REST_CLIENT_SECRET}")

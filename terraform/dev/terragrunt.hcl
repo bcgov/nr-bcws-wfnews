@@ -44,6 +44,7 @@ locals {
   WFDM_REST_URL = get_env("WFDM_REST_URL")
   FIRE_REPORT_API_URL = get_env("FIRE_REPORT_API_URL")
   NOTIFICATION_API_URL = get_env("NOTIFICATION_API_URL")
+  POINT_ID_URL = get_env("POINT_ID_URL")
   WFIM_CLIENT_URL = get_env("WFIM_CLIENT_URL")
   WFIM_REST_URL = get_env("WFIM_REST_URL")
   WFIM_CODE_TABLES_URL = get_env("WFIM_CODE_TABLES_URL")
@@ -149,6 +150,7 @@ generate "dev_tfvars" {
     license_plate = "${local.license_plate}"
     sns_email_targets = "${local.sns_email_targets}"
     certificate_arn = "${get_env("BCWILDFIRE_CERT_ARN")}"
+    base_certificate_arn = "${get_env("BASE_BCWILDFIRE_CERT_ARN")}"
     WEBADE-OAUTH2_TOKEN_CLIENT_URL = "${local.WEBADE-OAUTH2_TOKEN_CLIENT_URL}"
     YOUTUBE_API_KEY = "${local.YOUTUBE_API_KEY}"
     YOUTUBE_CHANNEL_ID = "${local.YOUTUBE_CHANNEL_ID}"
@@ -157,6 +159,7 @@ generate "dev_tfvars" {
     WFDM_REST_URL ="${local.WFDM_REST_URL}"
     FIRE_REPORT_API_URL ="${local.FIRE_REPORT_API_URL}"
     NOTIFICATION_API_URL ="${local.NOTIFICATION_API_URL}"
+    POINT_ID_URL ="${local.POINT_ID_URL}"
     WFIM_CLIENT_URL ="${local.WFIM_CLIENT_URL}"
     WFIM_REST_URL ="${local.WFIM_REST_URL}"
     WFIM_CODE_TABLES_URL ="${local.WFIM_CODE_TABLES_URL}"

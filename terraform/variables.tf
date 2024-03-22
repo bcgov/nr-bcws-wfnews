@@ -237,6 +237,12 @@ variable "nginx_names" {
   type        = list(string)
 }
 
+variable "redirect_names" {
+  description = "List of service names to use as subdomains"
+  default     = ["wfnews-redirect"]
+  type        = list(string)
+}
+
 variable "pointid_names" {
   description = "List of service names to use as subdomains"
   default     = ["wfss-pointid-api"]
@@ -346,7 +352,12 @@ variable "license_plate" {
 }
 
 variable "certificate_arn" {
-  description = "ARN of bcwildfire certificate"
+  description = "ARN of *.env.bcwildfireservices.com certificate"
+  type        = string
+}
+
+variable "base_certificate_arn" {
+  description = "ARN of *.bcwildfireservices.com certificate"
   type        = string
 }
 
@@ -532,6 +543,11 @@ variable "FIRE_REPORT_API_URL" {
 }
 
 variable "NOTIFICATION_API_URL" {
+  type = string
+  default = ""
+}
+
+variable "POINT_ID_URL" {
   type = string
   default = ""
 }
