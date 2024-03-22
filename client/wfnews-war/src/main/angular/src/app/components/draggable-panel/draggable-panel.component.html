@@ -524,6 +524,18 @@
                 <div class="identify-card-description small-padding">Wind Speed: <span class="reading">{{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</span></div>
                 <div class="identify-card-description small-padding">Precipitation (last hour): <span class="reading">{{identifyItem.data.validHour.precipitation}}mm</span></div>
                 <div class="identify-card-description small-padding">Precipitation (72-hours): <span class="reading">{{getPrecipitation(identifyItem)}}</span></div>
+
+                <div class="identify-card-description small-padding">FFMC: <span class="reading">{{identifyItem.data.validHour.fineFuelMoistureCode}}</span></div>
+                <div class="identify-card-description small-padding">ISI: <span class="reading">{{identifyItem.data.validHour.initialSpreadIndex}}</span></div>
+                <div class="identify-card-description small-padding">FWI: <span class="reading">{{identifyItem.data.validHour.fireWeatherIndex}}</span></div>
+
+                <div class="identify-card-title">Daily Indices:</div>
+                <div class="identify-card-description small-padding">FFMC: <span class="reading">{{identifyItem.data.daily[0].fineFuelMoistureCode}}</span></div>
+                <div class="identify-card-description small-padding">ISI: <span class="reading">{{identifyItem.data.daily[0].initialSpreadIndex}}</span></div>
+                <div class="identify-card-description small-padding">BUI: <span class="reading">{{identifyItem.data.daily[0].buildupIndex}}</span></div>
+                <div class="identify-card-description small-padding">DC: <span class="reading">{{identifyItem.data.daily[0].droughtCode}}</span></div>
+                <div class="identify-card-description small-padding">DMC: <span class="reading">{{identifyItem.data.daily[0].duffMoistureCode}}</span></div>
+                <div class="identify-card-description small-padding">FWI: <span class="reading">{{identifyItem.data.daily[0].fireWeatherIndex}}</span></div>
               </div>
               <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
                 <div class="identify-card-description">No current weather reading found for this station</div>

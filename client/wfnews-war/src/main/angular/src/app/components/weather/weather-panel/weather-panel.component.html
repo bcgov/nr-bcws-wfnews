@@ -26,6 +26,48 @@
   <div *ngIf="!hourly || (!hourly.temp && !hourly.relativeHumidity && !hourly.windSpeed && !hourly.windDirection&& !hourly.precipitation)" class="popup-attributes">
     No Information Available
   </div>
+  <div>
+    <div class="label">Fire Weather Indices</div>
+  </div>
+  <div *ngIf="!hourly || (!hourly.fineFuelMoistureCode && !hourly.relativeHumidity && !hourly.fireWeatherIndex && !daily.fineFuelMoistureCode)" class="popup-attributes">
+    No Information Available
+  </div>
+  <div *ngIf="hourly && hourly.fineFuelMoistureCode" class="popup-attributes">
+    <div class="label">Hourly FFMC:</div>
+    <div class="attribute">{{hourly.fineFuelMoistureCode}}</div>
+  </div>
+  <div *ngIf="hourly && hourly.initialSpreadIndex" class="popup-attributes">
+    <div class="label">Hourly ISI:</div>
+    <div class="attribute">{{hourly.initialSpreadIndex}}</div>
+  </div>
+  <div *ngIf="hourly && hourly.fireWeatherIndex" class="popup-attributes">
+    <div class="label">Hourly FWI:</div>
+    <div class="attribute">{{hourly.fireWeatherIndex}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.fineFuelMoistureCode" class="popup-attributes">
+    <div class="label">Daily FFMC:</div>
+    <div class="attribute">{{daily.fineFuelMoistureCode}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.buildupIndex" class="popup-attributes">
+    <div class="label">Daily BUI:</div>
+    <div class="attribute">{{daily.buildupIndex}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.droughtCode" class="popup-attributes">
+    <div class="label">Daily DC:</div>
+    <div class="attribute">{{daily.droughtCode}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.duffMoistureCode" class="popup-attributes">
+    <div class="label">Daily DMC:</div>
+    <div class="attribute">{{daily.duffMoistureCode}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.initialSpreadIndex" class="popup-attributes">
+    <div class="label">Daily ISI:</div>
+    <div class="attribute">{{daily.initialSpreadIndex}}</div>
+  </div>
+  <div *ngIf="hourly && daily && daily.fireWeatherIndex" class="popup-attributes">
+    <div class="label">Daily FWI:</div>
+    <div class="attribute">{{daily.fireWeatherIndex}}</div>
+  </div>
   <div class="popup-button-container">
     <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">Learn More</a>
   </div>
