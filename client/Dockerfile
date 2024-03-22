@@ -8,10 +8,10 @@ ENV TOMCAT_HOME=/usr/local/tomcat \
   TOMCAT_MAJOR=8 \
   JAVA_OPTS="$JAVA_OPTS" 
 
-
+# Install gzip along with sed
 # TODO: REVERT CHOWN COMMAND TO 770 ONCE DONE TESTING
 RUN apt-get update &&\
-  apt-get install -y sed  &&\
+  apt-get install -y sed gzip &&\
   rm -rf /usr/local/tomcat/webapps/ROOT  &&\
   mkdir /usr/local/tomcat/webapps/ROOT &&\
   unzip -d /usr/local/tomcat/webapps/ROOT/ '*.war' &&\
@@ -22,8 +22,7 @@ RUN apt-get update &&\
 
 VOLUME /usr/local/tomcat/logs /usr/local/tomcat/work
 
-RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work 
-
+RUN chmod 766 /usr/local/tomcat/logs && chmod 766 /usr/local/tomcat/work
 # run as tomcat user
 USER tomcat
 
