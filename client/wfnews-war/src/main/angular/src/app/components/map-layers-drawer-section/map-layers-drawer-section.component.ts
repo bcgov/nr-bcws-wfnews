@@ -21,7 +21,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   @Output() triggerRefreshChange = new EventEmitter<boolean>();
   @Output() layersChangedEvent = new EventEmitter<boolean>();
 
-  activeWeatherStations = false;
+  activeWeatherStations = true;
   areaRestrictions = false;
   bansAndProhibitions = false;
   beingHeldWildfire = false;
