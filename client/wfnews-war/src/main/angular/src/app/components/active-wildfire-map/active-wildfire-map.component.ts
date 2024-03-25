@@ -933,7 +933,7 @@ return;
       { itemId: 'precipitation', visible: false },
       { itemId: 'protected-lands-access-restrictions', visible: false },
       { itemId: 'radar-1km-rrai--radarurpprecipr14-linear', visible: false },
-      { itemId: 'weather-stations', visible: false },
+      { itemId: 'weather-stations', visible: true },
     ];
 
     switch (this.selectedLayer) {
