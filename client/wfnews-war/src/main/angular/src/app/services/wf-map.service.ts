@@ -332,23 +332,7 @@ export class WFMapService {
               tags: [
                 {
                   loader: 'script',
-                  url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-tooltip.js',
-                },
-                {
-                  loader: 'script',
-                  url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-arrow.js',
-                },
-                {
-                  loader: 'script',
                   url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-crosshairs.js',
-                },
-                {
-                  loader: 'style',
-                  url: './assets/js/smk/plugin-wfnews/style/wfnews-markers2.css',
-                },
-                {
-                  loader: 'style',
-                  url: './assets/js/smk/plugin-wfnews/style/wfnews-info.css',
                 },
               ],
             });
@@ -792,9 +776,11 @@ f.title = 'Feature #' + (i + 1);
           };
 
           if (bm.type === 'vector') {
+            opts.renderer = L.canvas({ padding: 0.5 });
             const layer = esriVector.vectorTileLayer(bm.url, {
               style: bm.style,
               opts,
+              renderer: L.canvas({ padding: 0.5 })
             });
 
             layer.bringToBack = () => {
