@@ -126,9 +126,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               self.lastClickedLocation = location;
               // If the layer is visible only
               if (
-                smk &&
-                smk.$viewer.displayContext.layers.itemId['weather-stations'] &&
-                smk.$viewer.displayContext.layers.itemId['weather-stations'][0]
+                smk?.$viewer.displayContext.layers.itemId['weather-stations'] &&
+                smk?.$viewer.displayContext.layers.itemId['weather-stations'][0]
                   .isVisible
               ) {
                 self.addNearbyWeatherStation(smk);
@@ -141,7 +140,20 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             });
 
             self.wfMap.setIdentifyDoneCallback(() => {
-              self.addSelectedIncidentPanels(smk);
+              // Apply a delay to the identify complete callback
+              // to allow for the weather station query to complete
+              // this is primarily for Mobile, which doesn't append
+              // the station to the identify results
+              if (
+                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
+                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible
+              ) {
+                setTimeout(() => self.addSelectedIncidentPanels(smk), 1000);
+              } else {
+                // if the weather stations layer is turned off, we can ignore the debounce
+                // and immediately execute
+                self.addSelectedIncidentPanels(smk)
+              }
             });
 
             return smk;
