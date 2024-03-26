@@ -25,6 +25,8 @@ export interface WeatherDailyCondition {
   windCardinalDir: string;
   precipitation: number;
   buildupIndex: number;
+  duffMoistureCode: number;
+  droughtCode: number;
   fineFuelMoistureCode: number;
   initialSpreadIndex: number;
   fireWeatherIndex: number;

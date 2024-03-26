@@ -271,6 +271,9 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           }
         }
 
+        station.latitude = self.lastClickedLocation.map.latitude;
+        station.longitude = self.lastClickedLocation.map.longitude;
+
         smk.$viewer.identified.add('weather-stations', [
           {
             type: 'Feature',
