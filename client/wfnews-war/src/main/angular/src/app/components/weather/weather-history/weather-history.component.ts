@@ -52,7 +52,7 @@ export class WeatherHistoryComponent implements OnInit {
       this.params = params;
     });
 
-    if (this.params && this.params['latitude'] && this.params['longitude']) {
+    if ((this.latitude && this.longitude) || (this.params && this.params['latitude'] && this.params['longitude'])) {
       this.pointIdService
         .fetchNearestWeatherStation(
           Number(this.params['latitude']),
@@ -66,6 +66,7 @@ export class WeatherHistoryComponent implements OnInit {
 
   setLoading(loading: boolean) {
     this.loading = loading;
+    this.changeDetector.markForCheck();
     this.changeDetector.detectChanges();
   }
 
