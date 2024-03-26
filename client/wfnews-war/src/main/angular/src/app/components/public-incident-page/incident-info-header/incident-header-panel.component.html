@@ -50,7 +50,7 @@
         <h4>Active Evacuation Orders and Alerts</h4>
         <div class="evac-list" *ngFor="let evac of evacOrders">
           <mat-icon [class]="evac.orderAlertStatus === 'Alert' ? 'alert' : 'order'" style="text-decoration: none;">{{
-            evac.orderAlertStatus === 'Alert' ? 'warning' : 'error' }} </mat-icon>
+            evac.orderAlertStatus === 'Alert' ? 'error' : 'warning' }} </mat-icon>
           <a [class]="'label ' + evac.orderAlertStatus === 'Alert' ? 'alert' : 'order'" [href]="evac.uri ? evac.uri : defaultEvacURL"
             target="_blank" rel="noopener">{{ evac.orderAlertStatus }}: {{evac.eventName}}</a>
           <div class="issued-by">(Issued By: {{evac.issuingAgency}})</div>
