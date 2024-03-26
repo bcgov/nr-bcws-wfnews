@@ -140,10 +140,10 @@ export class OverviewWidget implements OnInit, AfterViewInit {
       });
 
       try {
-        this.addDataToMap(underControl);
-        this.addDataToMap(holding);
-        this.addDataToMap(outOfControl);
-        this.addDataToMap(firesOfNote);
+        this.addDataToMap(underControl, ucIcon);
+        this.addDataToMap(holding, holdIcon);
+        this.addDataToMap(outOfControl, oocIcon);
+        this.addDataToMap(firesOfNote, fonIcon);
     } catch (err) {
       console.error(err);
     }
@@ -154,11 +154,11 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     });
   }
 
-  addDataToMap(data) {
+  addDataToMap(data, icon) {
     try {
       L.geoJSON(data, {
         pointToLayer(feature: any, latlng: any) {
-          return L.marker(latlng, { icon: fonIcon });
+          return L.marker(latlng, { icon: icon });
         },
       }).addTo(this.map);
     } catch(err) {
