@@ -332,23 +332,7 @@ export class WFMapService {
               tags: [
                 {
                   loader: 'script',
-                  url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-tooltip.js',
-                },
-                {
-                  loader: 'script',
-                  url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-arrow.js',
-                },
-                {
-                  loader: 'script',
                   url: './assets/js/smk/plugin-wfnews/viewer-leaflet/lib/layer-crosshairs.js',
-                },
-                {
-                  loader: 'style',
-                  url: './assets/js/smk/plugin-wfnews/style/wfnews-markers2.css',
-                },
-                {
-                  loader: 'style',
-                  url: './assets/js/smk/plugin-wfnews/style/wfnews-info.css',
                 },
               ],
             });
