@@ -139,30 +139,30 @@ export class OverviewWidget implements OnInit, AfterViewInit {
         shadowSize: [10, 10],
       });
 
-      L.geoJSON(underControl, {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, { icon: ucIcon });
-        },
-      }).addTo(this.map);
-      L.geoJSON(holding, {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, { icon: holdIcon });
-        },
-      }).addTo(this.map);
-      L.geoJSON(outOfControl, {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, { icon: oocIcon });
-        },
-      }).addTo(this.map);
-      L.geoJSON(firesOfNote, {
-        pointToLayer(feature, latlng) {
-          return L.marker(latlng, { icon: fonIcon });
-        },
-      }).addTo(this.map);
+      try {
+        this.addDataToMap(underControl);
+        this.addDataToMap(holding);
+        this.addDataToMap(outOfControl);
+        this.addDataToMap(firesOfNote);
+    } catch (err) {
+      console.error(err);
+    }
 
       this.map.fitBounds(bounds);
 
       this.cdr.detectChanges();
     });
+  }
+
+  addDataToMap(data) {
+    try {
+      L.geoJSON(data, {
+        pointToLayer(feature: any, latlng: any) {
+          return L.marker(latlng, { icon: fonIcon });
+        },
+      }).addTo(this.map);
+    } catch(err) {
+      console.error('Feature data not loaded. No data found.');
+    }
   }
 }
