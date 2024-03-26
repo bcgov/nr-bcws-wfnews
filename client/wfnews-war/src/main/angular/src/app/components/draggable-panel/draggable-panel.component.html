@@ -536,6 +536,8 @@
                 <div class="identify-card-description small-padding">DC: <span class="reading">{{identifyItem.data.daily[0].droughtCode}}</span></div>
                 <div class="identify-card-description small-padding">DMC: <span class="reading">{{identifyItem.data.daily[0].duffMoistureCode}}</span></div>
                 <div class="identify-card-description small-padding">FWI: <span class="reading">{{identifyItem.data.daily[0].fireWeatherIndex}}</span></div>
+
+                <wfnews-weather-history [latitude]="identifyItem.data.latitude" [longitude]="identifyItem.data.longitude"></wfnews-weather-history>
               </div>
               <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
                 <div class="identify-card-description">No current weather reading found for this station</div>
