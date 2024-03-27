@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
+import { YouTubeService } from '@app/services/youtube-service';
 import { convertToYoutubeId } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
@@ -19,6 +20,7 @@ export class VideosWidget implements AfterViewInit {
     private publishedIncidentService: PublishedIncidentService,
     private http: HttpClient,
     protected appConfigService: AppConfigService,
+    private youtubeService: YouTubeService
   ) {}
 
   ngAfterViewInit(): void {
@@ -38,7 +40,7 @@ export class VideosWidget implements AfterViewInit {
               externalUriGuid: video.etag,
               sourceObjectUniqueId: video.etag,
               externalUriDisplayLabel: video.snippet.title,
-              externalUri: `https://www.youtube.com/watch?v=${video.id.videoId}`,
+              externalUri: this.youtubeService.sanitizeYoutubeUrl(`https://www.youtube.com/watch?v=${video.id.videoId}`),
             });
           }
           this.startupComplete = true;
@@ -77,7 +79,7 @@ export class VideosWidget implements AfterViewInit {
                     externalUriGuid: video.externalUriGuid,
                     sourceObjectUniqueId: video.sourceObjectUniqueId,
                     externalUriDisplayLabel: video.externalUriDisplayLabel,
-                    externalUri: video.externalUri,
+                    externalUri: this.youtubeService.sanitizeYoutubeUrl(video.externalUri),
                   });
 
                   if (this.videos.length === 5) {

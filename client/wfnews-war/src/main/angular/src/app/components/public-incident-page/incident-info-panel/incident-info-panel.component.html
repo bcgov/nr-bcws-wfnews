@@ -29,19 +29,20 @@
       <div>
         <!-- Image/video section: fetch from aws cache -->
         <div *ngIf="primaryMedia !== null">
-          <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewd</div>
+          <div *ngIf="showWarning; else primaryImage" class="preview-warning">Warning: Primary Video/Image selection cannot be previewed</div>
           <ng-template #primaryImage>
             <div style="text-align: center;">
               <img alt="icon" id="primary-image-container" *ngIf="primaryMedia.type === 'image'" style="max-width: 100%; height: auto; max-height: 500px; border-radius: 16px;" [alt]="primaryMedia.title" [src]="primaryMedia.thumbnail" width="500" height="500" (error)="handleImageFallback(primaryMedia.href)" />
-              <youtube-player class="no-print" *ngIf="primaryMedia.type === 'video'"
-                videoId={{convertToYoutubeId(primaryMedia.href)}}
-                suggestedQuality="highres"
-                [startSeconds]="1"
-                [endSeconds]="20"
-                [height]="250"
-                [width]="400"
-                [disableCookies]="true">
-              </youtube-player>
+              <iframe class="no-print" *ngIf="primaryMedia.type === 'video'"
+                width="400" 
+                height="250" 
+                [src]="primaryMedia.href" 
+                sandbox="allow-scripts allow-same-origin allow-presentation" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" 
+                allowfullscreen>
+              </iframe>          
             </div>
           </ng-template>
         </div>
