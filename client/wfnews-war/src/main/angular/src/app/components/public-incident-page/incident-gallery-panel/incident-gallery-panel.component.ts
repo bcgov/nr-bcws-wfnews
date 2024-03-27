@@ -14,6 +14,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import { convertToYoutubeId } from '../../../utils';
 import { LightGallery } from 'lightgallery/lightgallery';
 import { ActivatedRoute, ParamMap } from '@angular/router';
+import { YouTubeService } from '@app/services/youtube-service';
 
 @Component({
   selector: 'incident-gallery-panel',
@@ -52,6 +53,7 @@ export class IncidentGalleryPanel implements OnInit {
     private appConfigService: AppConfigService,
     private cdr: ChangeDetectorRef,
     private router: ActivatedRoute,
+    private youtubeService: YouTubeService
   ) {}
 
   ngAfterViewChecked(): void {
@@ -130,7 +132,7 @@ export class IncidentGalleryPanel implements OnInit {
                 ).toLocaleDateString(),
                 fileName: '',
                 type: 'video',
-                href: uri.externalUri,
+                href: this.youtubeService.sanitizeYoutubeUrl(uri.externalUri),
               });
             }
             this.cdr.detectChanges();
