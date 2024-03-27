@@ -263,7 +263,7 @@ formData.append('image3', image3);
         body: formData,
       });
 
-      if (response.ok) {
+      if (response.status == 200 || response.ok) {
         // Remove the locally stored data if sync is successful
         await this.storage.remove('offlineReportData');
         App.removeAllListeners();
