@@ -27,13 +27,13 @@ objects:
       local: false
     tags:
     - annotations:
-        openshift.io/imported-from: 'tomcat:8.5.47-jdk11-openjdk'
+        openshift.io/imported-from: 'tomcat:9.0.85-jdk17-openjdk'
       from:
         kind: DockerImage
-        name: 'tomcat:8.5.47-jdk11-openjdk'
+        name: 'tomcat:9.0.85-jdk17-openjdk'
       generation: 2
       importPolicy: {}
-      name: '8.5.47-jdk11-openjdk'
+      name: '9.0.85-jdk17-openjdk'
       referencePolicy:
         type: Source
 - apiVersion: image.openshift.io/v1
@@ -190,7 +190,7 @@ objects:
         memory: 1Gi
     source:
       dockerfile: |-
-        FROM tomcat:8.5.47-jdk11-openjdk
+        FROM tomcat:9.0.85-jdk17-openjdk
         ENV TOMCAT_HOME=/usr/local/tomcat \
             CATALINA_HOME=/usr/local/tomcat \
             CATALINA_OUT=/usr/local/tomcat/logs
@@ -218,7 +218,7 @@ objects:
         imageOptimizationPolicy: SkipLayers
         from:
           kind: ImageStreamTag
-          name: wfone-notifications-api-tomcat:8.5.47-jdk11-openjdk
+          name: wfone-notifications-api-tomcat:9.0.85-jdk17-openjdk
       type: Docker
     triggers:
     - imageChange:

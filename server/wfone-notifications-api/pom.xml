@@ -8,8 +8,8 @@
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java-source-version>11</java-source-version>
-		<java-target-version>11</java-target-version>
+		<java-source-version>17</java-source-version>
+		<java-target-version>17</java-target-version>
 		<dollar>$</dollar>
 	</properties>
 	<modules>
@@ -25,6 +25,12 @@
 	</modules>
 	<dependencyManagement>
 		<dependencies>
+
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.32</version>
+			</dependency>
 
 			<dependency>
 				<groupId>ca.bc.gov.webade</groupId>
