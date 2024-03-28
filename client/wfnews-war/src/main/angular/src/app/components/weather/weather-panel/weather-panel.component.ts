@@ -8,8 +8,11 @@ import { Component, OnDestroy } from '@angular/core';
 export class WeatherPanelComponent implements OnDestroy {
   public stationData;
   public hourly;
+  public daily;
   public tempWindData;
   public precipHumidityData;
+  public latitude;
+  public longitude;
 
   ngOnDestroy(): void {
     (
@@ -22,6 +25,11 @@ export class WeatherPanelComponent implements OnDestroy {
     this.hourly = station.hourly[0].temperature
       ? station.hourly[0]
       : station.hourly[1];
+
+    this.latitude = this.stationData.latitude;
+    this.longitude = this.stationData.longitude;
+
+    this.daily = station.daily && station.daily[0] ? station.daily[0] : null;
 
     this.tempWindData = [];
     this.precipHumidityData = [];

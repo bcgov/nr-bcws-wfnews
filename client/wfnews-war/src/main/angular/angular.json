@@ -66,7 +66,6 @@
               "node_modules/lightgallery/scss/lightgallery.scss"
             ],
             "scripts": [
-              "node_modules/popper.js/dist/umd/popper.min.js",
               "node_modules/@qqnluaq/smk/dist/smk.js"
             ]
           },
@@ -117,7 +116,16 @@
             },
             "development": {
               "buildOptimizer": false,
-              "optimization": false,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": {
+                  "inline": true
+                }
+              },
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,

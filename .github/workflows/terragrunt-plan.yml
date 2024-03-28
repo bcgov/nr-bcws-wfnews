@@ -83,6 +83,7 @@ jobs:
 
           UNIQUE_DEPLOY_ID: ${{ github.run_id }}
           BCWILDFIRE_CERT_ARN: ${{secrets.BCWILDFIRE_CERT_ARN}}
+          BASE_BCWILDFIRE_CERT_ARN: ${{secrets.BASE_BCWILDFIRE_CERT_ARN}}
 
           agolAreaRestrictions: ${{vars.AGOL_AREA_RESTRICTIONS}}
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
@@ -138,6 +139,7 @@ jobs:
           WFDM_REST_URL: ${{vars.WFDM_REST_URL}}
           FIRE_REPORT_API_URL: ${{vars.FIRE_REPORT_API_URL}}
           NOTIFICATION_API_URL: ${{vars.NOTIFICATION_API_URL}}
+          POINT_ID_URL: ${{vars.POINT_ID_URL}}
           WFIM_CLIENT_URL: ${{vars.WFIM_CLIENT_URL}}
           WFIM_REST_URL: ${{vars.WFIM_REST_URL}}
           WFIM_CODE_TABLES_URL: ${{vars.WFIM_CODE_TABLES_URL}}
