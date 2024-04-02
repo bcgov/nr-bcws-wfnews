@@ -23,6 +23,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { YouTubeService } from '@app/services/youtube-service';
 
 @Component({
   selector: 'incident-info-panel',
@@ -51,6 +52,7 @@ export class IncidentInfoPanel implements AfterViewInit {
     private router: ActivatedRoute,
     private http: HttpClient,
     protected route: Router,
+    private youtubeService: YouTubeService
   ) {}
 
   handleImageFallback(href: string) {
@@ -201,7 +203,7 @@ console.error(error);
                 ).toLocaleDateString(),
                 fileName: '',
                 type: 'video',
-                href: uri.externalUri,
+                href: this.youtubeService.sanitizeYoutubeUrl(uri.externalUri),
               };
               setMedia = true;
               this.cdr.detectChanges();
