@@ -36,14 +36,17 @@
             </lightgallery>
 
             <div *ngIf="showVideos">
-                <youtube-player *ngFor="let item of videos"
+                <iframe *ngFor="let item of videos"
+                    width="400" 
+                    height="250" 
                     style="padding: 5px;"
-                    videoId={{convertToYoutubeId(item.href)}}
-                    suggestedQuality="highres"
-                    [startSeconds]="1"
-                    [height]="250"
-                    [width]="400">
-                </youtube-player>
+                    [src]="item.href" 
+                    sandbox="allow-scripts allow-same-origin allow-presentation" 
+                    frameborder="0" 
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" 
+                    allowfullscreen>
+              </iframe>
             </div>
           </div>
         </div>
