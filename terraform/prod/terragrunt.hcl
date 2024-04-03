@@ -120,7 +120,7 @@ generate "prod_tfvars" {
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     cloudfront_header = "${local.cloudfront_header}"
-    app_image = "tomcat:jdk8-corretto"
+    app_image = "tomcat:jdk17-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
     github_release_name = "${local.github_release_name}"
@@ -258,7 +258,7 @@ generate "prod_tfvars" {
     WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS = "${get_env("WFONE_NOTIFICATIONS_PUSH_SQS_WAIT_SECONDS")}"
     WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS = "${get_env("WFONE_NOTIFICATIONS_PUSH_CONSUMER_INTERVAL_SECONDS")}"
     WFONE_FIREBASE_DB_URL = "${get_env("WFONE_FIREBASE_DB_URL")}"
-    WFONE_NOTIFICATIONS_PUSH_PREFIX = "${get_env("DEFAULT_APPLICATION_ENVIRONMENT")}"
+    WFONE_NOTIFICATIONS_PUSH_PREFIX = "${get_env("WFONE_NOTIFICATIONS_PUSH_PREFIX")}"
     WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS = "${get_env("WFONE_NOTIFICATIONS_PUSH_NEAR_ME_INTERVAL_SECONDS")}"
     WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY = "${get_env("WFONE_NOTIFICATIONS_PUSH_AWS_ACCESS_KEY")}"
     WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY = "${get_env("WFONE_NOTIFICATIONS_PUSH_AWS_SECRET_KEY")}"
