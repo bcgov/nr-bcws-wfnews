@@ -50,7 +50,7 @@ jobs:
           
       - name: Build with Maven
         run: |
-          export MAVEN_OPTS="-Xmx3072m -XX:MaxPermSize=512m"
+          export MAVEN_OPTS="-Xmx3072m -XX:MaxMetaspaceSize=512m"
           export NODE_OPTIONS="--max-old-space-size=4096"
           mvn --settings client/mvn_settings/settings.xml --batch-mode --update-snapshots -f client/pom.xml -Drepo.login=${{ secrets.IDIR_AS_EMAIL }} -Drepo.password=${{ secrets.IDIR_PASSWORD }} -DskipTests package
         
