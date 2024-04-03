@@ -1,4 +1,4 @@
-FROM tomcat:8.5-jdk11-openjdk
+FROM tomcat:8.5-jdk17-openjdk
 
 COPY *.war .
 

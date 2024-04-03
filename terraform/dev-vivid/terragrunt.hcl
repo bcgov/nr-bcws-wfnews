@@ -37,7 +37,7 @@ generate "dev_tfvars" {
   contents          = <<-EOF
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
-    app_image = "tomcat:jdk8-corretto"
+    app_image = "tomcat:jdk17-corretto"
     fargate_cpu = 1024
     fargate_memory = 2048
     service_names = ["wfnews-project"]
