@@ -1,7 +1,7 @@
-FROM tomcat:8.5.47-jdk8-openjdk
-ENV TOMCAT_MAJOR=8 \
+FROM tomcat:9.0.85-jdk17-openjdk
+ENV TOMCAT_MAJOR=9 \
 JAVA_OPTS="$JAVA_OPTS -Djavax.net.debug=all -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/tmp -XX:+ExitOnOutOfMemoryError -XX:+PrintFlagsFinal" \
-TOMCAT_VERSION=8.5.47 \
+TOMCAT_VERSION=9.0.85 \
 TOMCAT_HOME=/usr/local/tomcat \
 CATALINA_HOME=/usr/local/tomcat \
 CATALINA_OUT=/usr/local/tomcat/logs

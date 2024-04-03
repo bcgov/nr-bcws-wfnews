@@ -119,7 +119,7 @@ generate "dev_tfvars" {
     cloudfront = true
     cloudfront_origin_domain = "cfront_test.html"
     cloudfront_header = "${local.cloudfront_header}"
-    app_image = "tomcat:jdk8-corretto"
+    app_image = "tomcat:jdk17-corretto"
     service_names = ["wfnews-project"]
     aws_sec_group = "App_sg"
 
