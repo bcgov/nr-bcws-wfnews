@@ -10,8 +10,8 @@
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java-source-version>1.8</java-source-version>
-		<java-target-version>1.8</java-target-version>
+		<java-source-version>17</java-source-version>
+		<java-target-version>17</java-target-version>
 		<dollar>$</dollar>
 	</properties>
 	<modules>
@@ -79,17 +79,17 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.10</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-jdbc</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.10</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-web</artifactId>
-				<version>5.2.22.RELEASE</version>
+				<version>5.3.10</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework.security</groupId>
