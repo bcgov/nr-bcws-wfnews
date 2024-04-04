@@ -129,8 +129,7 @@ return;
         // submit to storage if there is an issue
         if (this.formData) this.submitToStorage(this.formData)
         // The server encountered an error
-        const responseData = await response.json();
-        return { success: false, message: responseData.error };
+        return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
       // submit to storage if there is an error
@@ -271,8 +270,7 @@ formData.append('image3', image3);
         return { success: true, message: 'Report submitted successfully' };
       } else {
         // The server encountered an error
-        const responseData = await response.json();
-        return { success: false, message: responseData.error };
+        return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
       // An error occurred during the HTTP request
