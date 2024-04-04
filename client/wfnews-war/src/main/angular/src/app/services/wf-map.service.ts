@@ -49,9 +49,8 @@ export class WFMapService {
   }
 
   createSMK(option: any) {
-    const self = this;
-
     const SMK = window['SMK'];
+    const mapService = this;
 
     return this.patch()
       .then(() => {
@@ -96,7 +95,7 @@ export class WFMapService {
           );
 
           return SMK.INIT({
-            baseUrl: self.smkBaseUrl,
+            baseUrl: mapService.smkBaseUrl,
             ...option,
           });
         } catch (error) {
@@ -111,10 +110,8 @@ export class WFMapService {
   }
 
   public patch(): Promise<any> {
-    const wfMapService = this;
     try {
-      const self = this;
-
+      const mapService = this;
       const include = window['include'];
       const SMK = window['SMK'];
 
@@ -138,7 +135,7 @@ export class WFMapService {
             return SMK.INIT({
               id: 999,
               containerSel: temp,
-              baseUrl: self.smkBaseUrl,
+              baseUrl: mapService.smkBaseUrl,
               config: 'show-tool=bespoke',
             }).then((smk) => {
               const option2x = {
@@ -151,7 +148,7 @@ export class WFMapService {
                 maxZoom: 30,
               };
 
-              self.defineEsriVectorLayer('topography', 'BC Topography', [
+              mapService.defineEsriVectorLayer('topography', 'BC Topography', [
                 {
                   id: 'topography',
                   type: 'vector',
@@ -160,7 +157,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectorLayer('navigation', 'Navigation', [
+              mapService.defineEsriVectorLayer('navigation', 'Navigation', [
                 {
                   id: 'navigation',
                   type: 'vector',
@@ -169,7 +166,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectorLayer('imagery', 'Imagery', [
+              mapService.defineEsriVectorLayer('imagery', 'Imagery', [
                 {
                   id: 'imagery',
                   type: 'vector',
@@ -179,7 +176,7 @@ export class WFMapService {
                 { id: 'Imagery', type: 'tile', url: null, style: null },
               ]);
 
-              self.defineEsriVectorLayer('night', 'Night', [
+              mapService.defineEsriVectorLayer('night', 'Night', [
                 {
                   id: 'night',
                   type: 'vector',
@@ -188,7 +185,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectorLayer('bc-basemap', 'BC BaseMap', [
+              mapService.defineEsriVectorLayer('bc-basemap', 'BC BaseMap', [
                 {
                   id: 'bc-basemap',
                   type: 'vector',
@@ -505,15 +502,15 @@ export class WFMapService {
                   .getElementsByClassName('smk-sidepanel')
                   .item(0) as HTMLElement
               ).style.removeProperty('width');
-              if (self.identifyCallback) {
-                self.identifyCallback(location, area);
+              if (mapService.identifyCallback) {
+                mapService.identifyCallback(location, area);
               }
 
               return Promise.resolve()
                 .then(() => origIdentifyFeatures.call(vw, location, area))
                 .then(() => {
-                  if (self.identifyDoneCallback) {
-                    self.identifyDoneCallback(location, area);
+                  if (mapService.identifyDoneCallback) {
+                    mapService.identifyDoneCallback(location, area);
                   }
                 })
                 .catch((err) => {
@@ -568,7 +565,7 @@ export class WFMapService {
                     extraFilter,
                 };
 
-                return wfMapService
+                return mapService
                   .httpGet(this.config.serviceUrl, data)
                   .then((response: any) => {
                     console.log('parse ok');
@@ -743,7 +740,6 @@ export class WFMapService {
     }[],
   ) {
     order += 1;
-    const self = this;
     baseMapIds.push(id);
     window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
       title,
