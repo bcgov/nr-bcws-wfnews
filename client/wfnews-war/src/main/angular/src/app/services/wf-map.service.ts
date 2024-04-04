@@ -151,7 +151,7 @@ export class WFMapService {
                 maxZoom: 30,
               };
 
-              self.defineEsriVectoLayer('topography', 'BC Topography', [
+              self.defineEsriVectorLayer('topography', 'BC Topography', [
                 {
                   id: 'topography',
                   type: 'vector',
@@ -160,7 +160,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectoLayer('navigation', 'Navigation', [
+              self.defineEsriVectorLayer('navigation', 'Navigation', [
                 {
                   id: 'navigation',
                   type: 'vector',
@@ -169,7 +169,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectoLayer('imagery', 'Imagery', [
+              self.defineEsriVectorLayer('imagery', 'Imagery', [
                 {
                   id: 'imagery',
                   type: 'vector',
@@ -179,7 +179,7 @@ export class WFMapService {
                 { id: 'Imagery', type: 'tile', url: null, style: null },
               ]);
 
-              self.defineEsriVectoLayer('night', 'Night', [
+              self.defineEsriVectorLayer('night', 'Night', [
                 {
                   id: 'night',
                   type: 'vector',
@@ -188,7 +188,7 @@ export class WFMapService {
                 },
               ]);
 
-              self.defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
+              self.defineEsriVectorLayer('bc-basemap', 'BC BaseMap', [
                 {
                   id: 'bc-basemap',
                   type: 'vector',
@@ -731,7 +731,7 @@ export class WFMapService {
     });
   }
 
-  defineEsriVectoLayer(
+  defineEsriVectorLayer(
     id: string,
     title: string,
     baseMaps: {
