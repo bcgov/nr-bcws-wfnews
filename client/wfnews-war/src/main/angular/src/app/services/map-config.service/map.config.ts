@@ -8,7 +8,7 @@ export const mapConfig = (
   mapServices: MapServices,
   serviceStatus: MapServiceStatus,
   device: WfDevice,
-  appConfigService: AppConfigService,
+  appConfigService: AppConfigService
 ) => ({
   viewer: {
     type: 'leaflet',
@@ -16,7 +16,7 @@ export const mapConfig = (
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap: 'navigation',
+    baseMap:  navigator.platform.includes('Linux') || navigator.platform.includes('Android') ? 'openstreetmap' : 'navigation',
     minZoom: 4,
     maxZoom: 30,
   },

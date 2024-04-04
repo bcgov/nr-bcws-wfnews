@@ -153,7 +153,7 @@ export class WFMapService {
                   id: 'topography',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style: (style) => topoStyle,
+                  style: () => topoStyle,
                 },
               ]);
 
@@ -162,7 +162,7 @@ export class WFMapService {
                   id: 'navigation',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style: (style) => navStyle,
+                  style: () => navStyle,
                 },
               ]);
 
@@ -171,7 +171,7 @@ export class WFMapService {
                   id: 'imagery',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style: (style) => satelliteStyle,
+                  style: () => satelliteStyle,
                 },
                 { id: 'Imagery', type: 'tile', url: null, style: null },
               ]);
@@ -181,7 +181,7 @@ export class WFMapService {
                   id: 'night',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style: (style) => nightStyle,
+                  style: () => nightStyle,
                 },
               ]);
 
@@ -194,9 +194,7 @@ export class WFMapService {
                 },
               ]);
 
-              /*defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
-                                  { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                                ] );*/
+              defineOpenStreetMapLayer();
 
               smk.destroy();
               temp.parentElement.removeChild(temp);
@@ -859,10 +857,30 @@ const defineWmsBasemap = (
   window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
     title,
     order,
-    create: () => baseMaps.map((bm) => {
+    create() {
+      return baseMaps.map((bm) => {
         const L = window['L'];
         return L.tileLayer(bm.url, bm.option);
-      }),
+      });
+    }
+  };
+};
+
+const defineOpenStreetMapLayer = () => {
+  const L = window['L'];
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+    className: 'leaflet-tile-pane'
+  });
+  order += 1;
+
+  window['SMK'].TYPE.Viewer.prototype.basemap['openstreetmap'] = {
+    title: 'OpenStreetMap',
+    order,
+    create() {
+      return [osm];
+    }
   };
 };
 

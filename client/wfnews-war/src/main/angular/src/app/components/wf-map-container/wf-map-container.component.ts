@@ -15,12 +15,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { getActiveMap } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -84,8 +83,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
     // initialize the map
     initPromise = initPromise
-      .then(function() {
-        return self.wfMap
+      .then(() => self.wfMap
           .createSMK({
             id: mapIndex,
             containerSel: self.mapContainer.nativeElement,
@@ -93,7 +91,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             toggleAccordion: self.toggleAccordion,
             fullScreen: self.fullScreen,
           })
-          .then(function(smk) {
+          .then((smk) => {
             self.mapInitialized.emit(smk);
 
             // force bc fire centres to the front
@@ -101,30 +99,30 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             // over to the overlay pane on app startup. If the tile
             // is not active, it will not be moved
             // note: When we disable the tile layer, we can (and should) remove this
-            smk.$viewer.map.eachLayer((lyr) => {
-              if (lyr?._smk_id === 'bc-fire-centres') {
-                lyr.bringToFront();
-                lyr.options.pane = 'tileOverlay';
-                let tileOverlay = smk.$viewer.map.getPane('tileOverlay');
-                if (!tileOverlay) {
-                  smk.$viewer.map.createPane('tileOverlay');
-                  tileOverlay = smk.$viewer.map.getPane('tileOverlay');
-                  //If you want to change the custom pane order,
-                  // set tileOverlay.style.zIndex = ###; to whatever number makes sense
-                }
-                // this will move the initially visible layer over on init, as it will
-                // be placed in the default div on app start. Not really a great way to
-                // do this so we should implement a better solution for layer pane order
-                // in smk directly. note that this requires the tile layer to be visible
-                // by default
-                tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
-              }
-            });
+            // smk.$viewer.map.eachLayer((lyr) => {
+            //   if (lyr?._smk_id === 'bc-fire-centres') {
+            //     lyr.bringToFront();
+            //     lyr.options.pane = 'tileOverlay';
+            //     let tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+            //     if (!tileOverlay) {
+            //       smk.$viewer.map.createPane('tileOverlay');
+            //       tileOverlay = smk.$viewer.map.getPane('tileOverlay');
+            //       //If you want to change the custom pane order,
+            //       // set tileOverlay.style.zIndex = ###; to whatever number makes sense
+            //     }
+            //     // this will move the initially visible layer over on init, as it will
+            //     // be placed in the default div on app start. Not really a great way to
+            //     // do this so we should implement a better solution for layer pane order
+            //     // in smk directly. note that this requires the tile layer to be visible
+            //     // by default
+            //     tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+            //   }
+            // });
 
             // enforce a max zoom setting, in case we're using cluster/heatmapping
             smk.$viewer.map._layersMaxZoom = 20;
 
-            smk.$viewer.handlePick(3, function(location) {
+            smk.$viewer.handlePick(3, (location) => {
               self.lastClickedLocation = location;
               // If the layer is visible only
               if (
@@ -159,16 +157,16 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               } else {
                 // if the weather stations layer is turned off, we can ignore the debounce
                 // and immediately execute
-                self.addSelectedIncidentPanels(smk)
+                self.addSelectedIncidentPanels(smk);
               }
             });
 
             return smk;
-          });
-      })
-      .catch(function(e) {
+          }))
+      .catch((e) => {
         console.warn(e);
       });
+
     this.initPromise = initPromise;
   }
 
