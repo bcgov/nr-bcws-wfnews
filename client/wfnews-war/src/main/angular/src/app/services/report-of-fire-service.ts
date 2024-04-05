@@ -7,6 +7,7 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
+import { HttpClient } from '@angular/common/http';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -42,7 +43,8 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage
+    private storage: Storage,
+    private httpClient: HttpClient
   ) {}
 
   async saveReportOfFire(
@@ -118,19 +120,19 @@ return;
           }
         }
       }
-      const response = await fetch(rofUrl, {
-        method: 'POST',
-        body: formData,
-      });
-      if (response.ok) {
-        // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // submit to storage if there is an issue
-        if (this.formData) this.submitToStorage(this.formData)
-        // The server encountered an error
-        return { success: false, message: JSON.stringify(response) };
-      }
+
+      this.httpClient.post<any>(rofUrl, formData).subscribe(response => {
+        const message = response?.message as string
+        if (message && message.toLowerCase() == "report of fire received") {
+          // The server successfully processed the report
+          return { success: true, message: 'Report submitted successfully' };
+        } else {
+          // submit to storage if there is an issue
+          if (this.formData) this.submitToStorage(this.formData)
+          // The server encountered an error
+          return { success: false, message: JSON.stringify(response) };
+        }
+      })
     } catch (error) {
       // submit to storage if there is an error
       if (this.formData) this.submitToStorage(this.formData)
@@ -257,21 +259,19 @@ formData.append('image3', image3);
 
     try {
       // Make an HTTP POST request to your server's API endpoint
-      const response = await fetch(rofUrl, {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (response.status == 200 || response.ok) {
-        // Remove the locally stored data if sync is successful
-        await this.storage.remove('offlineReportData');
-        App.removeAllListeners();
-        // The server successfully processed the report
+      this.httpClient.post<any>(rofUrl, formData).subscribe(async response => {
+        const message = response?.message as string   
+        if (message && message.toLowerCase() == "report of fire received") {
+          // Remove the locally stored data if sync is successful
+          await this.storage.remove('offlineReportData');
+          App.removeAllListeners();
+          // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
       } else {
         // The server encountered an error
         return { success: false, message: JSON.stringify(response) };
-      }
+        }    
+      })
     } catch (error) {
       // An error occurred during the HTTP request
       return {
