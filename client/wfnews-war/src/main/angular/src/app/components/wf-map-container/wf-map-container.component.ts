@@ -35,7 +35,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   identifyContainer: ViewContainerRef;
   @Input() mapIndex = 0;
   @Input() mapConfig: Array<any>;
-  @Input() panelClosed: boolean = false;
 
   @Output() mapInitialized = new EventEmitter<any>();
   @Output() toggleAccordion = new EventEmitter<any>();
@@ -49,7 +48,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   private lastClickedLocation;
   private zone: NgZone;
   private componentRef: ComponentRef<any>;
-  private closePanel : boolean = false;
 
   constructor(
     protected wfMap: WFMapService,
@@ -70,12 +68,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.panelClosed?.currentValue != undefined) {
-        this.closePanel = changes.panelClosed?.currentValue;
-    }
-    else {
       this.initMap();
-    }
   }
 
   initMap(): void {
@@ -132,7 +125,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             smk.$viewer.map._layersMaxZoom = 20;
 
             smk.$viewer.handlePick(3, function(location) {
-              self.closePanel = false;
               self.lastClickedLocation = location;
               // If the layer is visible only
               if (
@@ -157,7 +149,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               if (
                 smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
                 smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible 
-                // !self.closePanel
               ) {
                 setTimeout(() => {
                   self.addSelectedIncidentPanels(smk);
@@ -195,7 +186,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     });
   }
   nearmeHandler(): void {
-      this.closePanel = false;
       // If the layer is visible only
       if (
         getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] &&

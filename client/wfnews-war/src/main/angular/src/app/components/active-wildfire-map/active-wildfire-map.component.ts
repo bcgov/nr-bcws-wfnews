@@ -145,7 +145,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public searchData: SearchResult;
 
   showPanel: boolean;
-  panelClosed : boolean;
 
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
