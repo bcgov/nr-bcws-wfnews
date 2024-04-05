@@ -20,6 +20,7 @@ import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { getActiveMap } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -69,7 +70,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.panelClosed) {
+    if (changes.panelClosed?.currentValue != undefined) {
         this.closePanel = changes.panelClosed?.currentValue;
     }
     else {
@@ -155,13 +156,15 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               // the station to the identify results
               if (
                 smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
-                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible &&
-                !self.closePanel
+                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible 
+                // !self.closePanel
               ) {
                 setTimeout(() => {
                   self.addSelectedIncidentPanels(smk);
-                  self.addNearbyWeatherStation(smk);
                 }, 1000);
+                // setTimeout(() => {
+                //   self.addNearbyWeatherStation(smk);
+                // }, 1000);
               } else {
                 // if the weather stations layer is turned off, we can ignore the debounce
                 // and immediately execute
@@ -190,6 +193,22 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
       smk.destroy();
     });
+  }
+  nearmeHandler(): void {
+      this.closePanel = false;
+      // If the layer is visible only
+      if (
+        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] &&
+        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0]
+          .isVisible
+      ) {
+        this.addNearbyWeatherStation(getActiveMap());
+        (
+          document
+            .getElementsByClassName('identify-panel')
+            .item(0) as HTMLElement
+        ).style.display = 'none';
+      }
   }
 
   addSelectedIncidentPanels(smk) {

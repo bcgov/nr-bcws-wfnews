@@ -74,7 +74,7 @@ declare const window: any;
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @Input() incidents: any;
-  @Output() panelClosedChange = new EventEmitter<boolean>();
+  @Output() useNearMe = new EventEmitter<boolean>();
 
   @ViewChild('WildfireStageOfControl')
   wildfireStageOfControlPanel: MatExpansionPanel;
@@ -292,7 +292,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                       ],
                       50000,
                     );
-                    this.panelClosedChange.emit(false);
+                    this.useNearMe.emit(true);
                   }
                   this.cdr.markForCheck();
                 }
@@ -512,7 +512,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
             if (long && lat) {
               if (!fireIsOutOrNotFound) {
                 this.showPanel = true;
-                this.panelClosed = false;
                 if (result) {
                   let id = null;
                   if (result.fireOfNoteInd) {
@@ -775,7 +774,6 @@ return;
 
   onSelectIncidents(incidentRefs) {
     this.showPanel = true;
-    this.panelClosed = false;
     this.incidentRefs = Object.keys(incidentRefs).map(
       (key) => incidentRefs[key],
     );
@@ -1304,11 +1302,6 @@ return;
       ];
     this.notificationState += 1;
     this.capacitorService.handleLocationPushNotification(n);
-  }
-
-  handlePanelClose(value) {
-    this.panelClosed = value;
-    this.panelClosedChange.emit(this.panelClosed);
   }
 
   testNotifications = [

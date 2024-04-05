@@ -31,7 +31,6 @@ import { AGOLService } from '@app/services/AGOL-service';
 })
 export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() incidentRefs: any[];
-  @Output() clickClosePanel = new EventEmitter<any>();
 
   resizeHeight = '10vh'; // Initial height of the panel
   currentIncidentRefs: any[];
@@ -328,7 +327,6 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   closePanel() {
-    this.clickClosePanel.emit(true);
     const viewer = getActiveMap().$viewer;
     for (const polygon of this.highlightPolygons) {
       viewer.map.removeLayer(polygon);
@@ -495,7 +493,7 @@ return 'Unknown';
               markerOptions,
             ).addTo(viewer.map);
           }
-        } else if (['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
+        } else if (layerId && ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'danger-rating'].some(str => layerId.includes(str))) {
 
           if (layerId.includes('bans-and-prohibitions')) {
 
