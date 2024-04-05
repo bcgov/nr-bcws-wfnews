@@ -233,12 +233,12 @@
             </div>
 
             <div *ngIf="weatherStations?.length">
-              <div class="criteria-title">Wildfire Services Weather Station</div>
+              <div class="criteria-title">Active Weather Stations</div>
               <div *ngFor="let station of weatherStations" class="widget-card">
                   <div class="widget-row" (click)="openPreviewPanel(station)">
                       <div class="left-content">
-                          <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="nearby weather station">
-                          {{station.title}} Weather Station
+                          <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" alt="nearby weather station">
+                          {{station.title}}
                       </div>
                       <div class="right-content">
                           <mat-icon svgIcon='arrow'></mat-icon>
@@ -510,39 +510,42 @@
               <mat-icon  *ngIf="!allowBackToIncidentsPanel"></mat-icon>
 
               <span class="preview-title">
-                  <img class="incident-icon-title" src="/assets/images/svg-icons/location-pin.svg" alt="weather station">
+                  <img class="incident-icon-title" src="/assets/images/svg-icons/carbon_partly-cloudy.svg" alt="weather station">
                   Active Weather Stations
               </span>
               <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>
           </div>
           <div class="identify-card">
-              <div class="identify-card-title">{{identifyItem.title}} Weather Station</div>
-              <div class="description-section" *ngIf="identifyItem?.data?.validHour">
-                <div class="identify-card-description small-padding">Last Reading: <span class="reading">{{convertStationHour(identifyItem.data.validHour.hour)}}</span></div>
-                <div class="identify-card-description small-padding">Temperature: <span class="reading">{{identifyItem.data.validHour.temp}}°C</span></div>
-                <div class="identify-card-description small-padding">Humidity: <span class="reading">{{identifyItem.data.validHour.relativeHumidity}}%</span></div>
-                <div class="identify-card-description small-padding">Wind Speed: <span class="reading">{{identifyItem.data.validHour.windSpeed}} km/h @ {{identifyItem.data.validHour.windDirection}}° {{identifyItem.data.validHour.windCardinalDir}}</span></div>
-                <div class="identify-card-description small-padding">Precipitation (last hour): <span class="reading">{{identifyItem.data.validHour.precipitation}}mm</span></div>
-                <div class="identify-card-description small-padding">Precipitation (72-hours): <span class="reading">{{getPrecipitation(identifyItem)}}</span></div>
-
-                <div class="identify-card-description small-padding">FFMC: <span class="reading">{{identifyItem.data.validHour.fineFuelMoistureCode}}</span></div>
-                <div class="identify-card-description small-padding">ISI: <span class="reading">{{identifyItem.data.validHour.initialSpreadIndex}}</span></div>
-                <div class="identify-card-description small-padding">FWI: <span class="reading">{{identifyItem.data.validHour.fireWeatherIndex}}</span></div>
-
-                <div class="identify-card-title">Daily Indices:</div>
-                <div class="identify-card-description small-padding">FFMC: <span class="reading">{{identifyItem.data.daily[0].fineFuelMoistureCode}}</span></div>
-                <div class="identify-card-description small-padding">ISI: <span class="reading">{{identifyItem.data.daily[0].initialSpreadIndex}}</span></div>
-                <div class="identify-card-description small-padding">BUI: <span class="reading">{{identifyItem.data.daily[0].buildupIndex}}</span></div>
-                <div class="identify-card-description small-padding">DC: <span class="reading">{{identifyItem.data.daily[0].droughtCode}}</span></div>
-                <div class="identify-card-description small-padding">DMC: <span class="reading">{{identifyItem.data.daily[0].duffMoistureCode}}</span></div>
-                <div class="identify-card-description small-padding">FWI: <span class="reading">{{identifyItem.data.daily[0].fireWeatherIndex}}</span></div>
-
-                <wfnews-weather-history [latitude]="identifyItem.data.latitude" [longitude]="identifyItem.data.longitude"></wfnews-weather-history>
-              </div>
-              <div class="description-section" *ngIf="identifyItem?.data?.validHour === null">
+              <div class="identify-card-title">Weather Station: {{identifyItem.title}}</div>
+                <ng-container *ngIf="identifyItem?.data?.validHour">
+                    <div class="identify-card-item">
+                        Today at {{convertStationHour(identifyItem.data.validHour.hour)}}
+                    </div>
+                    <div class="identify-card-item">
+                        <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_temperature-celsius.svg" class="incident-icon" >
+                        {{identifyItem.data.validHour.temp}}° C
+                    </div>
+                    <div class="identify-card-item">
+                        <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_humidity.svg" class="incident-icon" >
+                        Precipitation: {{identifyItem.data.validHour.precipitation}}mm | Humidity: {{identifyItem.data.validHour.relativeHumidity}}%
+                    </div>
+                    <div class="identify-card-item">
+                        <img alt="icon" height="20" width="20" src="/assets/images/svg-icons/carbon_windy-strong.svg" class="incident-icon" >
+                        Wind: {{identifyItem.data.validHour.windSpeed}}km/h {{identifyItem.data.validHour.windCardinalDir}}
+                    </div>
+                </ng-container>
+              <div class="description-section" *ngIf="!identifyItem?.data?.validHour">
                 <div class="identify-card-description">No current weather reading found for this station</div>
               </div>
           </div>
+          <div class="button-row">
+                <div class="divider"></div>
+                <div class="buttons">
+                    <button mat-flat-button class="mobile-button-primary" (click)="enterFullDetail()">
+                        Full Details
+                    </button>
+                </div>
+            </div>
       </div>
   </div>
 </div>

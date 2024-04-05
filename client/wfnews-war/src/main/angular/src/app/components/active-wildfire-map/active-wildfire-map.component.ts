@@ -4,9 +4,11 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   NgZone,
   OnInit,
+  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -72,6 +74,7 @@ declare const window: any;
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @Input() incidents: any;
+  @Output() useNearMe = new EventEmitter<boolean>();
 
   @ViewChild('WildfireStageOfControl')
   wildfireStageOfControlPanel: MatExpansionPanel;
@@ -288,6 +291,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                       ],
                       50000,
                     );
+                    this.useNearMe.emit(true);
                   }
                   this.cdr.markForCheck();
                 }
