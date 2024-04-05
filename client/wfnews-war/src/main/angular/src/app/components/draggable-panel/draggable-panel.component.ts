@@ -2,10 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnChanges,
   OnDestroy,
   OnInit,
+  Output,
   SimpleChanges,
 } from '@angular/core';
 import { Router } from '@angular/router';
@@ -29,6 +31,7 @@ import { AGOLService } from '@app/services/AGOL-service';
 })
 export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   @Input() incidentRefs: any[];
+  @Output() clickClosePanel = new EventEmitter<any>();
 
   resizeHeight = '10vh'; // Initial height of the panel
   currentIncidentRefs: any[];
@@ -325,6 +328,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   closePanel() {
+    this.clickClosePanel.emit(true);
     const viewer = getActiveMap().$viewer;
     for (const polygon of this.highlightPolygons) {
       viewer.map.removeLayer(polygon);
