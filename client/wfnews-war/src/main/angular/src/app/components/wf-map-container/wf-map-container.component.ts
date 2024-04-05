@@ -213,6 +213,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             'active-wildfires-under-control',
             'active-wildfires-out',
             'fire-perimeters',
+            'weather-stations',
           ].includes(feature.layerId)
         ) {
           lastFeature = feature;

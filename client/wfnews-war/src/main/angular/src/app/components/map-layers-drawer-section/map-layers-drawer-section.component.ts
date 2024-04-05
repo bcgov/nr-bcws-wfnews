@@ -166,6 +166,7 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
           break;
       }
     });
+    this.activeWeatherStations = true;
 
     this.triggerRefreshChange.emit(false);
     this.cdr.detectChanges();
