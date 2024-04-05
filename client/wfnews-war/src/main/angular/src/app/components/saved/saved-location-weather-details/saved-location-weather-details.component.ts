@@ -73,13 +73,22 @@ this.hourly = response.hourly[0];
     }
   }
 
-  backToSaved() {
-    this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
-      queryParams: {
-        name: this.name,
-        latitude: this.latitude,
-        longitude: this.longitude,
-      },
-    });
+  back() {
+    if (this.params['source'] && this.params['source'] === 'map') {
+      this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+        queryParams: {
+          longitude: this.longitude,
+          latitude: this.latitude,
+        },
+      });
+    } else {
+      this.router.navigate([ResourcesRoutes.SAVED_LOCATION], {
+        queryParams: {
+          name: this.name,
+          latitude: this.latitude,
+          longitude: this.longitude,
+        },
+      });
+    }
   }
 }
