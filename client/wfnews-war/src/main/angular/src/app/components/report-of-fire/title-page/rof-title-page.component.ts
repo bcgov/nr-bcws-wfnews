@@ -63,26 +63,18 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async backgroundListener() {
-    App.addListener('appStateChange', async ({ isActive }) => {
-      if (isActive) {
-        return;
-      }
-      // The app state has been changed to inactive.
-      // Start the background task by calling `beforeExit`.
-      const taskId = await BackgroundTask.beforeExit(async () => {
-        const self = this;
-        if (this.intervalRef) {
-          clearInterval(this.intervalRef);
-          this.intervalRef = null;
-        }
 
-        this.intervalRef = setInterval(function() {
-          // Invoke function every minute while app is in background
-          self.checkStoredRoF();
-        }, 30000);
-        BackgroundTask.finish({ taskId });
-      });
-    });
+    const self = this;
+    if (this.intervalRef) {
+      clearInterval(this.intervalRef);
+      this.intervalRef = null;
+    }
+
+    this.intervalRef = setInterval(function () {
+      // Invoke function every minute while app is in background
+      self.checkStoredRoF();
+    }, 30000);
+
   }
 
   openCallPage() {
@@ -90,14 +82,15 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
+    console.log('rof: checking')
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-          await this.commonUtilityService.syncDataWithServer();
-        };
+        await this.commonUtilityService.syncDataWithServer();
+      };
     });
   }
 
@@ -105,11 +98,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     // re-check if user's device has gone offline since view was initialised and route to offline if so
     this.commonUtilityService.checkOnline().then((result) => {
       if (!result) {
-this.nextId = 'disclaimer-page';
-}
+        this.nextId = 'disclaimer-page';
+      }
     });
 
-   this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
+    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
       if (!enabled) {
         this.dialog.open(DialogLocationComponent, {
           autoFocus: false,
