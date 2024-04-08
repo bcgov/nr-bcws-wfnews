@@ -13,6 +13,7 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
+import { interval } from 'rxjs';
 
 @Component({
   selector: 'rof-title-page',
@@ -63,18 +64,25 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async backgroundListener() {
+    App.addListener('appStateChange', async ({ isActive }) => {
+      if (isActive) {
+        return;
+      }
+      // The app state has been changed to inactive.
+      // Start the background task by calling `beforeExit`.
+      const taskId = await BackgroundTask.beforeExit(async () => {
+        const self = this;
+        if (this.intervalRef) {
+          clearInterval(this.intervalRef);
+          this.intervalRef = null;
+        }
 
-    const self = this;
-    if (this.intervalRef) {
-      clearInterval(this.intervalRef);
-      this.intervalRef = null;
-    }
-
-    this.intervalRef = setInterval(function () {
-      // Invoke function every minute while app is in background
-      self.checkStoredRoF();
-    }, 30000);
-
+        this.intervalRef = interval(30000).subscribe(() => {
+          self.checkStoredRoF();
+        });
+        BackgroundTask.finish({ taskId });
+      });
+    });
   }
 
   openCallPage() {
@@ -82,7 +90,6 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
-    console.log('rof: checking')
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
