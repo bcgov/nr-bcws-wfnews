@@ -577,6 +577,11 @@ return 'Unknown';
             }
 
           }
+        } else if (layerId.includes('weather-stations')) {
+          viewer.panToFeature(
+            window['turf'].point([long, lat]),
+            this.defaultZoomLevel,
+          );
         }
       });
     }
