@@ -82,6 +82,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
+    console.log('rof: checking')
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
