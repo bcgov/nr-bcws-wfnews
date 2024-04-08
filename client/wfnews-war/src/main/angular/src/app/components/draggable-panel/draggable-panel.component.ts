@@ -49,7 +49,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   filteredMunicipalities: any[];
   filteredFirstNationsTreatyLand: any[];
   filteredIndianReserve: any[];
-  weatherStations: any[];
+  weatherStations: any[] = [];
   showPanel: boolean;
   allowBackToIncidentsPanel: boolean;
   identifyItem: any;
@@ -142,17 +142,16 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
             (key) => identFeatureSet[key],
           );
 
-          if (
-            identifiedIncidents?.length !== this.currentIncidentRefs?.length
-          ) {
-            this.currentIncidentRefs = identifiedIncidents;
-          }
+          // if (
+          //   identifiedIncidents?.length !== this.currentIncidentRefs?.length
+          // ) {
+          //   this.currentIncidentRefs = identifiedIncidents;
+          // }
         } catch (err) {
           console.error(err);
         }
       }
     }
-
     if (this.currentIncidentRefs.length === 1) {
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
@@ -171,11 +170,11 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         incidentNumber = this.identifyItem.properties.FIRE_NUMBER;
         fireYear = this.identifyItem.properties.FIRE_YEAR;
       } else if (
-        this.identifyItem.properties.incident_number_label &&
-        this.identifyItem.properties.fire_year
+        this.identifyItem.properties?.incident_number_label &&
+        this.identifyItem.properties?.fire_year
       ) {
-        incidentNumber = this.identifyItem.properties.incident_number_label;
-        fireYear = this.identifyItem.properties.fire_year;
+        incidentNumber = this.identifyItem.properties?.incident_number_label;
+        fireYear = this.identifyItem.properties?.fire_year;
       }
       if (incidentNumber && fireYear) {
         // identify an incident
@@ -265,6 +264,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       this.weatherStations = this.currentIncidentRefs.filter(
         (item) => item.layerId === 'weather-stations',
       );
+      if (this.weatherStations) {
+        this.showPanel = true;
+      }
     }
   }
 
