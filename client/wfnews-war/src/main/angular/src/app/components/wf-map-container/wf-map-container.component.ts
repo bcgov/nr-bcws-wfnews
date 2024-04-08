@@ -185,15 +185,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       smk.destroy();
     });
   }
-  nearmeHandler(): void {
-      if (
-        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] &&
-        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0]
-          .isVisible
-      ) {
-        this.addNearbyWeatherStation(getActiveMap());
-      }
-  }
 
   addSelectedIncidentPanels(smk) {
     const self = this;
