@@ -233,6 +233,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   async syncDataWithServer() {
+    let dataSynced = false;
     await this.storage.create();
     try {
       // Fetch and submit locally stored data
@@ -243,6 +244,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
         const response =
           await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
             if (response.success) {
+              dataSynced = true;
               // Remove the locally stored data if sync is successful
               await this.storage.remove('offlineReportData');
               App.removeAllListeners();
@@ -252,6 +254,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     } catch (error) {
       console.error('Sync failed:', error);
     }
+    return dataSynced;
   }
 
   async removeInvalidOfflineRoF() {
