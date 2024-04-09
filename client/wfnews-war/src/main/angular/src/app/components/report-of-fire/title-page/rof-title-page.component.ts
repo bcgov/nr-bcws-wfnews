@@ -13,6 +13,7 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
+import { interval, timer } from 'rxjs';
 
 @Component({
   selector: 'rof-title-page',
@@ -58,7 +59,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.intervalRef) {
-      clearInterval(this.intervalRef);
+      this.intervalRef.unsubscribe()
     }
   }
 
@@ -71,15 +72,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this;
-        if (this.intervalRef) {
-          clearInterval(this.intervalRef);
-          this.intervalRef = null;
-        }
 
-        this.intervalRef = setInterval(function() {
-          // Invoke function every minute while app is in background
+        this.intervalRef = interval(30000).subscribe(() => {
           self.checkStoredRoF();
-        }, 30000);
+        });
+
         BackgroundTask.finish({ taskId });
       });
     });
@@ -90,14 +87,18 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
+    const self = this;
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-          await this.commonUtilityService.syncDataWithServer();
-        };
+        await this.commonUtilityService.syncDataWithServer().then(response => {
+          if(response) self.intervalRef.unsubscribe();
+        });
+        
+      };
     });
   }
 
@@ -105,11 +106,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     // re-check if user's device has gone offline since view was initialised and route to offline if so
     this.commonUtilityService.checkOnline().then((result) => {
       if (!result) {
-this.nextId = 'disclaimer-page';
-}
+        this.nextId = 'disclaimer-page';
+      }
     });
 
-   this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
+    this.commonUtilityService.checkLocationServiceStatus().then((enabled) => {
       if (!enabled) {
         this.dialog.open(DialogLocationComponent, {
           autoFocus: false,

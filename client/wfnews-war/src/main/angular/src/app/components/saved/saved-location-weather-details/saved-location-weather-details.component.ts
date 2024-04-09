@@ -64,9 +64,14 @@ export class SavedLocationWeatherDetailsComponent implements OnInit {
             if (response.daily) {
 this.daily = response.daily[0];
 }
-            if (response.hourly) {
-this.hourly = response.hourly[0];
-}
+    if (response.hourly) {
+      for (let i = 0; i < response.hourly.length; i++) {
+        if (response.hourly[i].temp !== null) {
+          this.hourly = response.hourly[i];
+          break; // Exit the loop once a non-null temp is found
+        }
+      }
+    }
           }
         })
         .catch((err) => console.error('Failed to fetch weather data: ' + err));

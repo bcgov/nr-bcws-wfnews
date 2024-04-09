@@ -4,11 +4,9 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
-  EventEmitter,
   Input,
   NgZone,
   OnInit,
-  Output,
   QueryList,
   ViewChild,
   ViewChildren,
@@ -52,6 +50,7 @@ import { NotificationService } from '@app/services/notification.service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { PushNotification } from '@capacitor/push-notifications';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
+import { PointIdService } from '@app/services/point-id.service';
 
 export type SelectedLayer =
   | 'evacuation-orders-and-alerts'
@@ -74,7 +73,6 @@ declare const window: any;
 })
 export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   @Input() incidents: any;
-  @Output() useNearMe = new EventEmitter<boolean>();
 
   @ViewChild('WildfireStageOfControl')
   wildfireStageOfControlPanel: MatExpansionPanel;
@@ -145,6 +143,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public searchData: SearchResult;
 
   showPanel: boolean;
+  useNearMe: boolean;
 
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
@@ -177,6 +176,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private agolService: AGOLService,
     private notificationService: NotificationService,
     protected capacitorService: CapacitorService,
+    protected pointIdService: PointIdService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -291,7 +291,6 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                       ],
                       50000,
                     );
-                    this.useNearMe.emit(true);
                   }
                   this.cdr.markForCheck();
                 }
@@ -771,19 +770,48 @@ return;
     this.showAccordion = !this.showAccordion;
   }
 
-  onSelectIncidents(incidentRefs) {
-    this.showPanel = true;
-    this.incidentRefs = Object.keys(incidentRefs).map(
-      (key) => incidentRefs[key],
-    );
-    if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
-      this.panToLocation(
-        this.incidentRefs[0]._identifyPoint.longitude,
-        this.incidentRefs[0]._identifyPoint.latitude,
-        true,
-      );
+async onSelectIncidents(incidentRefs) {
+  this.showPanel = true;
+  let tempIncidentRefs = Object.keys(incidentRefs).map((key) => incidentRefs[key]);
+
+  if (this.useNearMe && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0].isVisible) {
+    try {
+      const station = await this.pointIdService.fetchNearestWeatherStation(this.userLocation?.coords.latitude, this.userLocation?.coords.longitude);
+      for (const hours of station.hourly) {
+        if (hours.temp !== null) {
+          station.validHour = hours;
+          break;
+        }
+      }
+      let weatherStation = {
+        type: 'Feature',
+        layerId: 'weather-stations',
+        title: station.stationName,
+        properties: 'weather-stations',
+        data: station,
+        geometry: {
+          type: 'Point',
+          coordinates: [station.longitude, station.latitude],
+        },
+      };
+      tempIncidentRefs.push(weatherStation);
+    } catch (error) {
+      console.error('Error fetching weather station:', error);
+      // Handle error appropriately
     }
+    this.useNearMe = false;
   }
+  this.incidentRefs = tempIncidentRefs;
+
+  // Ensure this logic executes after incidentRefs is updated
+  if (this.incidentRefs.length && this.incidentRefs[0]._identifyPoint) {
+    this.panToLocation(
+      this.incidentRefs[0]._identifyPoint.longitude,
+      this.incidentRefs[0]._identifyPoint.latitude,
+      true
+    );
+  }
+}
 
   async initializeLayers() {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
@@ -1005,6 +1033,9 @@ return;
   }
 
   async useMyCurrentLocation() {
+    if (isMobileView){
+      this.useNearMe = true;
+    }
     this.clickedMyLocation = true;
     this.snowPlowHelper(this.url, {
       action: 'find_my_location',
@@ -1079,6 +1110,7 @@ return;
     this.smkApi.showFeature('near-me-highlight3x');
     this.smkApi.showFeature('my-location');
     this.clickedMyLocation = false;
+    this.useNearMe = false;
   }
 
   searchTextUpdated() {

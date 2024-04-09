@@ -185,21 +185,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
       smk.destroy();
     });
   }
-  nearmeHandler(): void {
-      // If the layer is visible only
-      if (
-        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] &&
-        getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0]
-          .isVisible
-      ) {
-        this.addNearbyWeatherStation(getActiveMap());
-        (
-          document
-            .getElementsByClassName('identify-panel')
-            .item(0) as HTMLElement
-        ).style.display = 'none';
-      }
-  }
 
   addSelectedIncidentPanels(smk) {
     const self = this;
@@ -235,7 +220,6 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             'active-wildfires-under-control',
             'active-wildfires-out',
             'fire-perimeters',
-            'weather-stations',
           ].includes(feature.layerId)
         ) {
           lastFeature = feature;
