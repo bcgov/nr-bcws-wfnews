@@ -57,9 +57,6 @@
     </div>
     <div class="stage-of-control-checkbox-group">
       <section class="checkbox-group">
-          <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="wildfiresOfNoteInd">
-            <img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span class="checkbox-label">Wildfire of Note</span>
-          </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="outOfControlFires">
             <img height="17" width="17" src="/assets/images/svg-icons/out-of-control.svg" alt="Out of Control" class="icon"><span class="checkbox-label">Out of Control</span>
           </mat-checkbox>
@@ -71,6 +68,9 @@
           </mat-checkbox>
           <mat-checkbox (change)="stageOfControlChanges($event)" value="all" [(ngModel)]="outWildfiresInd">
             <img height="17" width="17" src="/assets/images/svg-icons/out-fire.svg" alt="Out" class="icon"><span class="checkbox-label">Out</span>
+          </mat-checkbox>
+          <mat-checkbox class="wildfire-of-note-checkbox" (change)="stageOfControlChanges($event)" value="note" [(ngModel)]="wildfiresOfNoteInd">
+            <img height="17" width="17" src="/assets/images/local_fire_department.png" alt="Wildfire" class="icon"><span class="checkbox-label">Wildfire of Note</span>
           </mat-checkbox>
       </section>
   </div>
