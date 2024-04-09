@@ -59,7 +59,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.intervalRef) {
-      clearInterval(this.intervalRef);
+      this.intervalRef.unsubscribe()
     }
   }
 
@@ -73,7 +73,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this;
 
-        this.intervalRef = timer(0, 10000).subscribe(() => {
+        this.intervalRef = timer(0, 50000).subscribe(() => {
           self.checkStoredRoF();
         });
 
