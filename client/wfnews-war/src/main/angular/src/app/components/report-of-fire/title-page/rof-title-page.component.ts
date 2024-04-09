@@ -59,7 +59,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.intervalRef) {
-      clearInterval(this.intervalRef);
+      this.intervalRef.unsubscribe()
     }
   }
 
