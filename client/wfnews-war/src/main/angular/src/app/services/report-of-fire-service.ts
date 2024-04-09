@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { GalleryPhoto, Photo } from '@capacitor/camera';
 import { AppConfigService } from '@wf1/core-ui';
 import { CommonUtilityService } from './common-utility.service';
-import { Storage } from '@ionic/storage-angular';
 import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
 import { HttpClient } from '@angular/common/http';
+import { IonicStorageService } from './ionic-storage.service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -43,8 +43,8 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage,
-    private httpClient: HttpClient
+    private httpClient: HttpClient,
+    private storageService: IonicStorageService
   ) {}
 
   async saveReportOfFire(
@@ -101,7 +101,7 @@ return;
 
       let storedOfflineReportData;
       try {
-        storedOfflineReportData = await this.storage.clear();
+        storedOfflineReportData = this.storageService.remove('offlineReportData');
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
       }
@@ -113,7 +113,7 @@ return;
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
             try {
-              await this.storage.clear();
+              this.storageService.remove('offlineReportData');
             } catch (error) {
               console.error('An error occurred while removing offlineReportData:', error);
             }
@@ -260,10 +260,10 @@ formData.append('image3', image3);
     try {
       // Make an HTTP POST request to your server's API endpoint
       this.httpClient.post<any>(rofUrl, formData).subscribe(async response => {
-        const message = response?.message as string   
+        const message = response?.message as string  
         if (message && message.toLowerCase() == "report of fire received") {
           // Remove the locally stored data if sync is successful
-          await this.storage.clear();
+          this.storageService.remove('offlineReportData');
           App.removeAllListeners();
           // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };
@@ -282,11 +282,10 @@ formData.append('image3', image3);
   }
 
   async submitToStorage(formData: FormData) {
-    this.storage.create();
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    await this.storage.set('offlineReportData', json);
+    this.storageService.set('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.

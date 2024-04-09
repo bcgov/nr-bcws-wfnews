@@ -4,10 +4,10 @@ import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { App } from '@capacitor/app';
 import { Geolocation } from '@capacitor/geolocation';
-import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { IonicStorageService } from './ionic-storage.service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -39,8 +39,8 @@ export class CommonUtilityService {
     protected snackbarService: MatSnackBar,
     private http: HttpClient,
     private appConfigService: AppConfigService,
-    private storage: Storage,
     private injector: Injector,
+    private storageService: IonicStorageService
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -234,10 +234,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   async syncDataWithServer() {
     let dataSynced = false;
-    await this.storage.create();
     try {
       // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
+      const offlineReport = await this.storageService.get('offlineReportData');
       
       if (offlineReport) {
         // Send the report to the server
@@ -246,7 +245,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             if (response.success) {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
-              await this.storage.clear()
+              this.storageService.remove('offlineReportData');
               App.removeAllListeners();
             }
           });
@@ -258,10 +257,9 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   }
 
   async removeInvalidOfflineRoF() {
-    await this.storage.create();
     try {
       // Fetch locally stored data
-      const offlineReportSaved = await this.storage.get('offlineReportData');
+      const offlineReportSaved = await this.storageService.get('offlineReportData');
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -272,7 +270,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            await this.storage.clear();
+            this.storageService.remove('offlineReportData');
           }
         }
       }
