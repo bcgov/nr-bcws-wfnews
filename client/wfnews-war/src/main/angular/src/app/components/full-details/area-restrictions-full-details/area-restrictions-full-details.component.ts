@@ -254,7 +254,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   }
 
   navToBulletinUrl() {
-    window.open(this.restrictionData.bulletinUrl, '_blank');
+    window.open(this.restrictionData.bulletinUrl ? this.restrictionData.bulletinUrl : this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank');
   }
 
   onWatchlist(incident): boolean {

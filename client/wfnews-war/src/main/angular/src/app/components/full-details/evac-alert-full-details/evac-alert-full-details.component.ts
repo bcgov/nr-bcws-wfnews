@@ -223,7 +223,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   navToBulletinUrl() {
     if (this.evacData?.bulletinUrl) {
       window.open(this.evacData.bulletinUrl);
-    }
+    } else {
+      window.open(this.appConfigService.getConfig().externalAppConfig['evacDefaultBulletin'] as unknown as string, '_blank');
+    } 
   }
 
   onWatchlist(incident): boolean {
