@@ -222,9 +222,10 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   navToBulletinUrl() {
     if (this.evacData?.bulletinUrl) {
-      window.open(this.evacData.bulletinUrl);
+      debugger
+      window.open(this.evacData.bulletinUrl, '_blank');
     } else {
-      window.open(this.appConfigService.getConfig().externalAppConfig['evacDefaultBulletin'] as unknown as string, '_blank');
+      window.open('https://www.emergencyinfobc.gov.bc.ca', '_blank');
     } 
   }
 
