@@ -13,7 +13,7 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
-import { interval } from 'rxjs';
+import { timer } from 'rxjs';
 
 @Component({
   selector: 'rof-title-page',
@@ -59,7 +59,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.intervalRef) {
-      clearInterval(this.intervalRef);
+      this.intervalRef.unsubscribe()
     }
   }
 
@@ -73,7 +73,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this;
 
-        this.intervalRef = interval(30000).subscribe(() => {
+        this.intervalRef = timer(0, 50000).subscribe(() => {
           self.checkStoredRoF();
         });
 
