@@ -101,7 +101,7 @@ return;
 
       let storedOfflineReportData;
       try {
-        storedOfflineReportData = await this.storage.get('offlineReportData');
+        storedOfflineReportData = await this.storage.clear();
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
       }
@@ -113,7 +113,7 @@ return;
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
             try {
-              await this.storage.remove('offlineReportData');
+              await this.storage.clear();
             } catch (error) {
               console.error('An error occurred while removing offlineReportData:', error);
             }
@@ -263,7 +263,7 @@ formData.append('image3', image3);
         const message = response?.message as string   
         if (message && message.toLowerCase() == "report of fire received") {
           // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
+          await this.storage.clear();
           App.removeAllListeners();
           // The server successfully processed the report
         return { success: true, message: 'Report submitted successfully' };

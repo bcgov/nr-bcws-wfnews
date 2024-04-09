@@ -246,7 +246,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             if (response.success) {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
-              await this.storage.remove('offlineReportData');
+              await this.storage.clear()
               App.removeAllListeners();
             }
           });
@@ -272,7 +272,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            await this.storage.remove('offlineReportData');
+            await this.storage.clear();
           }
         }
       }
