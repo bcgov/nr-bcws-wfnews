@@ -48,7 +48,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
   }
 
   ngOnInit(): void {
-    this.ionViewDidEnter();
+    // this.ionViewDidEnter();
   }
 
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
