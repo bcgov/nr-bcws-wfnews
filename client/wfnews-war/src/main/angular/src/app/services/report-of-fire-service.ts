@@ -86,8 +86,14 @@ formData.append('image3', await this.convertToBase64(image3));
       try {
         await this.commonUtilityService.checkOnlineStatus().then((result) => {
           const self = this;
+          let int = 1;
           if (!result) {
-            this.submitToStorage(formData);
+            setInterval(()=> {
+              int = int + 1;
+              formData.append('counter', int.toString());
+              console.log('submitting offline')
+              this.submitToStorage(formData);
+            }, 5000)
             self.submittedOffline = true;
           }
         });
@@ -288,7 +294,10 @@ try {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    this.storageService.saveData('offlineReportData', json);
+    const storedData = this.storageService.getData('offlineReportData');
+    if (storedData == json){
+      return;
+    }else this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
