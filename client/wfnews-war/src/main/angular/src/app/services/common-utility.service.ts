@@ -7,7 +7,7 @@ import { Geolocation } from '@capacitor/geolocation';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
-import { IonicStorageService } from './ionic-storage.service';
+import { LocalStorageService } from './local-storage-service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -40,7 +40,7 @@ export class CommonUtilityService {
     private http: HttpClient,
     private appConfigService: AppConfigService,
     private injector: Injector,
-    private storageService: IonicStorageService
+    private storageService: LocalStorageService
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -236,7 +236,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     let dataSynced = false;
     try {
       // Fetch and submit locally stored data
-      const offlineReport = await this.storageService.get('offlineReportData');
+      const offlineReport = this.storageService.getData('offlineReportData');
       
       if (offlineReport) {
         // Send the report to the server
@@ -245,7 +245,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             if (response.success) {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
-              this.storageService.remove('offlineReportData');
+              this.storageService.removeData('offlineReportData');
               App.removeAllListeners();
             }
           });
@@ -259,7 +259,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
   async removeInvalidOfflineRoF() {
     try {
       // Fetch locally stored data
-      const offlineReportSaved = await this.storageService.get('offlineReportData');
+      const offlineReportSaved = this.storageService.getData('offlineReportData');
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -270,7 +270,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            this.storageService.remove('offlineReportData');
+            this.storageService.removeData('offlineReportData');
           }
         }
       }
