@@ -73,9 +73,11 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
       const taskId = await BackgroundTask.beforeExit(async () => {
         const self = this;
 
-        this.intervalRef = interval(30000).subscribe(() => {
-          self.checkStoredRoF();
-        });
+        if(!this.intervalRef) {
+          this.intervalRef = interval(30000).subscribe(() => {
+            self.checkStoredRoF();
+          });
+        }
 
         BackgroundTask.finish({ taskId });
       });

@@ -243,6 +243,7 @@ import { GoogleChartsService } from './services/google-charts.service';
 import { BaseDialogComponent } from './components/base-dialog/base-dialog.component';
 import { NotificationSnackbarComponent } from '@app/components/notification-snackbar/notification-snackbar.component';
 import { HTTP } from '@ionic-native/http/ngx';
+import { IonicStorageService } from './services/ionic-storage.service';
 
 // Copied from im-external.module  TODO: consolidate in one place
 export const DATE_FORMATS = {
@@ -563,6 +564,7 @@ export const DATE_FORMATS = {
     NotificationService,
     GoogleChartsService,
     HTTP,
+    IonicStorageService
   ],
   bootstrap: [AppComponent],
 })
