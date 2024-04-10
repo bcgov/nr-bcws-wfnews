@@ -121,18 +121,19 @@ return;
         }
       }
 
-      this.httpClient.post<any>(rofUrl, formData).subscribe(response => {
-        const message = response?.message as string
-        if (message && message.toLowerCase() == "report of fire received") {
-          // The server successfully processed the report
-          return { success: true, message: 'Report submitted successfully' };
-        } else {
-          // submit to storage if there is an issue
-          if (this.formData) this.submitToStorage(this.formData)
-          // The server encountered an error
-          return { success: false, message: JSON.stringify(response) };
-        }
-      })
+      const response = await fetch(rofUrl, {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok || response.status == 200) {
+        // The server successfully processed the report
+        return { success: true, message: 'Report submitted successfully' };
+      } else {
+        // submit to storage if there is an issue
+        if (this.formData) this.submitToStorage(this.formData)
+        // The server encountered an error
+        return { success: false, message: JSON.stringify(response) };
+      }
     } catch (error) {
       // submit to storage if there is an error
       if (this.formData) this.submitToStorage(this.formData)
@@ -257,29 +258,31 @@ formData.append('image2', image2);
 formData.append('image3', image3);
 }
 
-    try {
-      // Make an HTTP POST request to your server's API endpoint
-      this.httpClient.post<any>(rofUrl, formData).subscribe(async response => {
-        const message = response?.message as string  
-        if (message && message.toLowerCase() == "report of fire received") {
-          // Remove the locally stored data if sync is successful
-          this.storageService.remove('offlineReportData');
-          App.removeAllListeners();
-          // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // The server encountered an error
-        return { success: false, message: JSON.stringify(response) };
-        }    
-      })
-    } catch (error) {
-      // An error occurred during the HTTP request
-      return {
-        success: false,
-        message: 'An error occurred while submitting the report',
-      };
-    }
+try {
+  // Make an HTTP POST request to your server's API endpoint
+  const response = await fetch(rofUrl, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (response.ok || response.status == 200) {
+    // Remove the locally stored data if sync is successful
+    this.storageService.remove('offlineReportData');
+    App.removeAllListeners();
+    // The server successfully processed the report
+    return { success: true, message: 'Report submitted successfully' };
+  } else {
+    // The server encountered an error
+    return { success: false, message: JSON.stringify(response) };
   }
+} catch (error) {
+  // An error occurred during the HTTP request
+  return {
+    success: false,
+    message: 'An error occurred while submitting the report',
+  };
+}
+}
 
   async submitToStorage(formData: FormData) {
     const object = {};
