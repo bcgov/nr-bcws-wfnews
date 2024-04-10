@@ -86,14 +86,8 @@ formData.append('image3', await this.convertToBase64(image3));
       try {
         await this.commonUtilityService.checkOnlineStatus().then((result) => {
           const self = this;
-          let int = 1;
           if (!result) {
-            setInterval(()=> {
-              int = int + 1;
-              formData.append('counter', int.toString());
-              console.log('submitting offline')
-              this.submitToStorage(formData);
-            }, 5000)
+            this.submitToStorage(formData);
             self.submittedOffline = true;
           }
         });
