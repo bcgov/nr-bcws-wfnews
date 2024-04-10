@@ -7,7 +7,7 @@ import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
 import { HttpClient } from '@angular/common/http';
-import { IonicStorageService } from './ionic-storage.service';
+import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -44,7 +44,7 @@ export class ReportOfFireService {
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
     private httpClient: HttpClient,
-    private storageService: IonicStorageService
+    private storageService: LocalStorageService
   ) {}
 
   async saveReportOfFire(
@@ -101,7 +101,7 @@ return;
 
       let storedOfflineReportData;
       try {
-        storedOfflineReportData = this.storageService.remove('offlineReportData');
+        storedOfflineReportData = this.storageService.removeData('offlineReportData');
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
       }
@@ -113,7 +113,7 @@ return;
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
             try {
-              this.storageService.remove('offlineReportData');
+              this.storageService.removeData('offlineReportData');
             } catch (error) {
               console.error('An error occurred while removing offlineReportData:', error);
             }
@@ -267,7 +267,7 @@ try {
 
   if (response.ok || response.status == 200) {
     // Remove the locally stored data if sync is successful
-    this.storageService.remove('offlineReportData');
+    this.storageService.removeData('offlineReportData');
     App.removeAllListeners();
     // The server successfully processed the report
     return { success: true, message: 'Report submitted successfully' };
@@ -288,7 +288,7 @@ try {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    this.storageService.set('offlineReportData', json);
+    this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
