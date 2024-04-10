@@ -8,6 +8,8 @@ import {
 import * as L from 'leaflet';
 import { AppConfigService } from '@wf1/core-ui';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'bans-widget',
@@ -24,6 +26,7 @@ export class BansWidget implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private httpClient: HttpClient,
     private el: ElementRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -118,6 +121,16 @@ export class BansWidget implements OnInit, AfterViewInit {
 
       this.map.fitBounds(bounds);
       this.cdr.detectChanges();
+    });
+  }
+
+  toggleMapView(){
+    this.showViewMapButton = !this.showViewMapButton;
+    this.router.navigate
+    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
+      queryParams: {
+        featureType: 'British_Columbia_Bans_and_Prohibition_Areas',
+      },
     });
   }
 }
