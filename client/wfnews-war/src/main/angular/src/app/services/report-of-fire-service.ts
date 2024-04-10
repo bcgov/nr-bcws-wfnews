@@ -288,7 +288,10 @@ try {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    this.storageService.saveData('offlineReportData', json);
+    const storedData = this.storageService.getData('offlineReportData');
+    if (storedData == json){
+      return;
+    }else this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
