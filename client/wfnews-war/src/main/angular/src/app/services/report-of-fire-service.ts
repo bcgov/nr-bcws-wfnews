@@ -6,7 +6,6 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
@@ -26,6 +25,7 @@ export interface ReportOfFireType {
   otherInfo?: string;
   submittedTimestamp?: string;
   visibleFlame?: string[];
+  submissionID?: string;
   image1?: Photo | GalleryPhoto;
   image2?: Photo | GalleryPhoto;
   image3?: Photo | GalleryPhoto;
@@ -43,7 +43,6 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private httpClient: HttpClient,
     private storageService: LocalStorageService
   ) {}
 
