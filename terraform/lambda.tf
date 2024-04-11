@@ -2,7 +2,7 @@ resource "aws_lambda_layer_version" "wfnews_lambda_layer" {
   s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key = "python.zip"
   layer_name = "wfnews_lambda_layer"
-  compatible_runtimes = ["python3.8"]
+  compatible_runtimes = ["python3.9"]
 }
 
 data "aws_s3_object" "bans_and_prohibitions_monitor_hash" {
@@ -32,7 +32,7 @@ resource "aws_lambda_function" "monitor-bans-prohibitions" {
   source_code_hash = data.aws_s3_object.bans_and_prohibitions_monitor_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
-  runtime       = "python3.8"
+  runtime       = "python3.9"
   timeout = 900
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
@@ -57,7 +57,7 @@ resource "aws_lambda_function" "monitor-active-fires" {
   source_code_hash = data.aws_s3_object.active_fire_monitor_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
-  runtime       = "python3.8"
+  runtime       = "python3.9"
   layers        = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   timeout = 180
   environment {
@@ -82,7 +82,7 @@ resource "aws_lambda_function" "monitor-area-restrictions" {
   source_code_hash = data.aws_s3_object.area_restrictions_monitor_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
-  runtime       = "python3.8"
+  runtime       = "python3.9"
   timeout = 180
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {
@@ -107,7 +107,7 @@ resource "aws_lambda_function" "monitor-evacuation" {
   source_code_hash = data.aws_s3_object.evacuation_orders_monitor_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
-  runtime       = "python3.8"
+  runtime       = "python3.9"
   timeout = 180
   layers  = [aws_lambda_layer_version.wfnews_lambda_layer.arn]
   environment {

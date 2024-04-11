@@ -27,7 +27,7 @@ import { LatLng } from 'leaflet';
   styleUrls: ['./rof-review-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
+export class RoFReviewPage extends RoFPage implements AfterViewInit {
   public reportOfFirePages: any;
   map: any;
   smkApi: SmkApi;
@@ -45,10 +45,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.loadMap();
-  }
-
-  ngOnInit(): void {
-    this.ionViewDidEnter();
   }
 
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
@@ -375,18 +371,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
         return label;
       }
     }
-  }
-
-  async ionViewDidEnter() {
-    // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
-    await this.commonUtilityService.removeInvalidOfflineRoF();
-
-    // if server is reachable look for previously stored offline RoFs to be submitted
-    await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-      if (result) {
-          await this.commonUtilityService.syncDataWithServer();
-        }
-    });
   }
 
   async useMyCurrentLocation() {

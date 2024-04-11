@@ -4,10 +4,10 @@ import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { App } from '@capacitor/app';
 import { Geolocation } from '@capacitor/geolocation';
-import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { LocalStorageService } from './local-storage-service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -39,8 +39,8 @@ export class CommonUtilityService {
     protected snackbarService: MatSnackBar,
     private http: HttpClient,
     private appConfigService: AppConfigService,
-    private storage: Storage,
     private injector: Injector,
+    private storageService: LocalStorageService
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -232,33 +232,35 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
-    await this.storage.create();
+  async syncDataWithServer(interval: any) {
+    let dataSynced = false;
     try {
       // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
+      const offlineReport = this.storageService.getData('offlineReportData');
       
       if (offlineReport) {
         // Send the report to the server
         const response =
           await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
             if (response.success) {
+              dataSynced = true;
               // Remove the locally stored data if sync is successful
-              await this.storage.remove('offlineReportData');
+              this.storageService.removeData('offlineReportData');
               App.removeAllListeners();
+              interval?.intervalRef?.unsubscribe();
             }
           });
       }
     } catch (error) {
       console.error('Sync failed:', error);
     }
+    return dataSynced;
   }
 
   async removeInvalidOfflineRoF() {
-    await this.storage.create();
     try {
       // Fetch locally stored data
-      const offlineReportSaved = await this.storage.get('offlineReportData');
+      const offlineReportSaved = this.storageService.getData('offlineReportData');
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -269,7 +271,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            await this.storage.remove('offlineReportData');
+            this.storageService.removeData('offlineReportData');
           }
         }
       }

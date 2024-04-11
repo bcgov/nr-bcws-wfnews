@@ -19,7 +19,8 @@ import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
-import { getActiveMap, isMobileView } from '@app/utils';
+import { CommonUtilityService } from '@app/services/common-utility.service';
+import { getActiveMap } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -54,6 +55,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     protected injector: Injector,
     protected cdr: ChangeDetectorRef,
     protected componentFactoryResolver: ComponentFactoryResolver,
+    protected commonUtilityService: CommonUtilityService
   ) {
     mapIndexAuto += 1;
     this.mapIndexAuto = mapIndexAuto;
@@ -66,7 +68,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.initMap();
+      this.initMap();
   }
 
   initMap(): void {
@@ -146,9 +148,14 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               // the station to the identify results
               if (
                 smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
-                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible
+                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible 
               ) {
-                setTimeout(() => self.addSelectedIncidentPanels(smk), 1000);
+                setTimeout(() => {
+                  self.addSelectedIncidentPanels(smk);
+                }, 1000);
+                // setTimeout(() => {
+                //   self.addNearbyWeatherStation(smk);
+                // }, 1000);
               } else {
                 // if the weather stations layer is turned off, we can ignore the debounce
                 // and immediately execute
@@ -256,12 +263,22 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     }
   }
 
-  addNearbyWeatherStation(smk) {
+  async addNearbyWeatherStation(smk) {
     const self = this;
+    let lat, long;
+    if (this.lastClickedLocation?.map) {
+      lat = this.lastClickedLocation.map.latitude;
+      long = this.lastClickedLocation.map.longitude;
+    } else {
+      let userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+      lat = userLocation.coords.latitude;
+      long = userLocation.coords.longitude;
+    }
+
     this.pointIdService
       .fetchNearestWeatherStation(
-        this.lastClickedLocation.map.latitude,
-        this.lastClickedLocation.map.longitude,
+        lat,
+        long,
       )
       .then(function(station) {
         for (const hours of station.hourly) {
@@ -271,8 +288,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           }
         }
 
-        station.latitude = self.lastClickedLocation.map.latitude;
-        station.longitude = self.lastClickedLocation.map.longitude;
+        station.latitude = lat;
+        station.longitude = long;
 
         smk.$viewer.identified.add('weather-stations', [
           {
@@ -293,8 +310,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             geometry: {
               type: 'Point',
               coordinates: [
-                self.lastClickedLocation.map.longitude,
-                self.lastClickedLocation.map.latitude,
+                long,
+                lat,
               ],
             },
           },

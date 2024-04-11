@@ -222,8 +222,10 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
   navToBulletinUrl() {
     if (this.evacData?.bulletinUrl) {
-      window.open(this.evacData.bulletinUrl);
-    }
+      window.open(this.evacData.bulletinUrl, '_blank');
+    } else {
+      window.open('https://www.emergencyinfobc.gov.bc.ca', '_blank');
+    } 
   }
 
   onWatchlist(incident): boolean {
