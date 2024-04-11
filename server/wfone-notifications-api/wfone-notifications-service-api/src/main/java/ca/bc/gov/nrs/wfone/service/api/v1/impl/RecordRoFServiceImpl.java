@@ -242,7 +242,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		// reject if there is a duplicate record in the cache already
 		List<RoFFormDto> cachedRofs = getRofFormDao().select();
 		
-		if (!cachedRofs.isEmpty()) {
+		if (cachedRofs != null) {
 			for(RoFFormDto rof: cachedRofs) {
 				String RoF = rof.getReportOfFire();
 				
@@ -257,7 +257,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 			    		String submissionID = formJson.optString("submissionID");
 				    	String newSubmissionID = newRofJson.optString("submissionID");
 				    	if (submissionID != null && newSubmissionID != null && submissionID.equals(newSubmissionID)) {
-				    		alreadySubmitted = true;
+				    		return true;
 				    	}
 			    	}
 				}
