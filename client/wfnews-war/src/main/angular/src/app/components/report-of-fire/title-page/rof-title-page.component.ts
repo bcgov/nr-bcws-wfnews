@@ -14,6 +14,7 @@ import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
 import { interval, timer } from 'rxjs';
+import { ReportOfFireService } from '@app/services/report-of-fire-service';
 
 @Component({
   selector: 'rof-title-page',
@@ -34,6 +35,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
+    private reportOfFireService: ReportOfFireService
   ) {
     super();
   }
@@ -96,7 +98,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-        await this.commonUtilityService.syncDataWithServer(self).then(response => {
+        await this.reportOfFireService.syncDataWithServer().then(response => {
           if(response) self?.intervalRef?.unsubscribe();
         });
         
