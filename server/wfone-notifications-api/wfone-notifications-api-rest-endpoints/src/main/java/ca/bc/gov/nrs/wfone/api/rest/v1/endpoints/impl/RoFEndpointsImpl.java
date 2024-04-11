@@ -162,6 +162,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     	prof.setAssetsAtRisk(convertToStringArray(profJson.optJSONArray("assetsAtRisk")));
     	prof.setSignsOfResponse(convertToStringArray(profJson.optJSONArray("signsOfResponse")));
     	prof.setOtherInfo(profJson.optString("otherInfo"));
+    	prof.setSubmissionID(profJson.optString("submissionID"));
     	
     	return prof;
     }

@@ -27,6 +27,8 @@ public class PublicReportOfFire{
 	String[] signsOfResponse;
 	
 	String otherInfo;
+	
+	String submissionID;
 
 	public String getFullName() {
 		return this.fullName;
@@ -134,6 +136,14 @@ public class PublicReportOfFire{
 
 	public void setOtherInfo(String otherInfo) {
 		this.otherInfo = otherInfo;
+	}
+	
+	public String getSubmissionID() {
+		return this.submissionID;
+	}
+
+	public void setSubmissionID(String submissionID) {
+		this.submissionID = submissionID;
 	}
 
 }
