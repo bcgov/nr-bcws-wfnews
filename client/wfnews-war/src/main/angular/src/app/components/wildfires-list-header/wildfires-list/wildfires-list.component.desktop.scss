@@ -1,3 +1,5 @@
+@import "src/styles/variables";
+
 .header-row {
   display: flex;
   margin: 0;
@@ -223,6 +225,11 @@ table tr:nth-child(even) td {
 
     .mat-mdc-checkbox {
       border: none;
+    }
+    .wildfire-of-note-checkbox{
+      border-left: 1px solid $divider-color; 
+      padding-left: 20px;
+      border-radius: 0;
     }
   }
 }
