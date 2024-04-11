@@ -232,30 +232,6 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
-    let dataSynced = false;
-    try {
-      // Fetch and submit locally stored data
-      const offlineReport = this.storageService.getData('offlineReportData');
-      
-      if (offlineReport) {
-        // Send the report to the server
-        const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
-            if (response.success) {
-              dataSynced = true;
-              // Remove the locally stored data if sync is successful
-              this.storageService.removeData('offlineReportData');
-              App.removeAllListeners();
-            }
-          });
-      }
-    } catch (error) {
-      console.error('Sync failed:', error);
-    }
-    return dataSynced;
-  }
-
   async removeInvalidOfflineRoF() {
     try {
       // Fetch locally stored data
