@@ -40,7 +40,7 @@ export class AddSavedLocationComponent implements OnInit {
   radiusDistance: number;
   notificationName: string;
   public searchByLocationControl = new UntypedFormControl();
-  savedLocation: any = [];
+  savedLocation: any[] = [];
   locationToEditOrDelete;
   isEdit: boolean;
   isMobileView = isMobileView;
@@ -290,7 +290,7 @@ export class AddSavedLocationComponent implements OnInit {
     return this.notificationService
       .getUserNotificationPreferences()
       .then((response) => {
-        if (response?.notifications.length) {
+        if (response?.notifications?.length) {
           this.savedLocation = response.notifications;
         }
       })
