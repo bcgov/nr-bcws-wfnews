@@ -232,7 +232,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
+  async syncDataWithServer(interval: any) {
     let dataSynced = false;
     try {
       // Fetch and submit locally stored data
@@ -247,6 +247,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
               // Remove the locally stored data if sync is successful
               this.storageService.removeData('offlineReportData');
               App.removeAllListeners();
+              interval?.intervalRef?.unsubscribe();
             }
           });
       }

@@ -96,8 +96,8 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-        await this.commonUtilityService.syncDataWithServer().then(response => {
-          if(response) self.intervalRef.unsubscribe();
+        await this.commonUtilityService.syncDataWithServer(self).then(response => {
+          if(response) self?.intervalRef?.unsubscribe();
         });
         
       };
