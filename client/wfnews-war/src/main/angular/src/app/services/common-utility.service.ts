@@ -299,5 +299,20 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const sqlDetected = sqlKeywords.test(jsonBlob);
     return sqlDetected;
   }
+
+  extractPolygonData(response) {
+    const polygonData = [];
+    for (const element of response) {
+      polygonData.push(...element);
+    }
+    return polygonData;
+  }
+
+  createConvex(polygonData) {
+    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
+    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
+    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    return convexHull;
+  }
   
 }

@@ -4,13 +4,14 @@ import {
   PublishedIncidentService,
   SimpleIncident,
 } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateTime, openLink } from '@app/utils';
+import { ResourcesRoutes, convertToDateTime, getActiveMap, openLink } from '@app/utils';
 import L from 'leaflet';
 import { setDisplayColor } from '../../../utils';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AppConfigService } from '@wf1/core-ui';
 import { Router } from '@angular/router';
 import { WatchlistService } from '@app/services/watchlist-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 export class EvacData {
   public name: string;
@@ -29,6 +30,8 @@ export class EvacData {
 export class EvacAlertFullDetailsComponent implements OnInit {
   @Input() id: string;
   @Input() name: string;
+  @Input() eventNumber: string;
+
 
   public evacData: EvacData;
   public incident: SimpleIncident | null;
@@ -44,6 +47,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     protected router: Router,
     private watchlistService: WatchlistService,
+    private commonUtilityService: CommonUtilityService,
+
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -61,16 +66,54 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       Number(this.evacData?.centroidLatitude),
       Number(this.evacData?.centroidLongitude),
     ];
+    let bounds = null;
+    this.agolService
+    .getEvacOrdersByEventNumber(
+      this.eventNumber,
+      {
+        returnGeometry: true,
+      },
+    )
+    .toPromise()
+    .then((response) => {
+        if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+          const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+          if (polygonData.length) {
+            bounds = this.fixPolygonToMap(polygonData);
+            this.createMap(location, bounds);
+          }
+        }
+        else {
+          this.createMap(location)
+        }
+    });
+  }
 
-    this.map = L.map('restrictions-map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
-    }).setView(location, 9);
+  async createMap(location: number[], bounds?: any) {
+    if (bounds) {
+      this.map = L.map('restrictions-map', {
+        attributionControl: false,
+        zoomControl: false,
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        trackResize: false,
+        scrollWheelZoom: false,
+        }).fitBounds([
+          bounds
+      ]);
+    } else {
+      // failed to get polygon bounds, zoom into level 9 by default
+      this.map = L.map('restrictions-map', {
+        attributionControl: false,
+        zoomControl: false,
+        dragging: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        trackResize: false,
+        scrollWheelZoom: false,
+      }).setView(location, 9);
+    }
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -241,5 +284,17 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         incident.incidentNumberLabel,
       );
     }
+  }
+
+  fixPolygonToMap(polygonData,response?) {
+    const convex = this.commonUtilityService.createConvex(polygonData);
+    const bounds = convex.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+    return bounds;
+    //   viewer.map.fitBounds([
+    //     bounds
+    // ]);
   }
 }

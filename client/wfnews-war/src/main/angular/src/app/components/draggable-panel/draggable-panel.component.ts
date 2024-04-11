@@ -663,6 +663,7 @@ return 'Unknown';
               id: item.properties.EMRG_OAA_SYSID,
               name: item.properties.EVENT_NAME,
               source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+              eventNumber: item.properties.EVENT_NUMBER,
             },
           });
           break;
