@@ -158,6 +158,7 @@ whereString = null;
               distance,
               latitude: element.centroid.y,
               longitude: element.centroid.x,
+              eventNumber: element.attributes.EVENT_NUMBER
             });
           }
         }
