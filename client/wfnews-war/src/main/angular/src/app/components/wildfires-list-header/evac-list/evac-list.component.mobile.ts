@@ -29,6 +29,7 @@ export class EvacListComponentMobile extends EvacListComponent {
         id: item.emrgOAAsysID,
         eventNumber: item.eventNumber,
         source: [ResourcesRoutes.WILDFIRESLIST],
+        name: item.name
       },
     });
   }
