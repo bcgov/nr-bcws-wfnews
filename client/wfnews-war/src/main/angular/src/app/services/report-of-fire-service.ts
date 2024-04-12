@@ -120,8 +120,6 @@ return;
         }
       }
 
-      console.log(formData)
-
       const response = await fetch(rofUrl, {
         method: 'POST',
         body: formData,
