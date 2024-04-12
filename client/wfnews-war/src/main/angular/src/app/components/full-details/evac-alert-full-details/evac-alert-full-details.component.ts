@@ -79,7 +79,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
           const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
           if (polygonData.length) {
-            bounds = this.fixPolygonToMap(polygonData);
+            bounds = this.commonUtilityService.getPolygonBond(polygonData);
             this.createMap(location, bounds);
           }
         }
@@ -90,17 +90,15 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   async createMap(location: number[], bounds?: any) {
-    const mapOptions = bounds
-    ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
-    : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
+    const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
   
     // Create the map using the mapOptions
     this.map = L.map('restrictions-map', mapOptions);
-    
-    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
-    if (bounds) {
-      this.map.fitBounds(bounds);
-    }
+  
+  // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
+  if (bounds) {
+    this.map.fitBounds(bounds);
+  }
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -271,17 +269,5 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         incident.incidentNumberLabel,
       );
     }
-  }
-
-  fixPolygonToMap(polygonData,response?) {
-    const convex = this.commonUtilityService.createConvex(polygonData);
-    const bounds = convex.reduce((acc, coord) => [
-      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
-      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
-    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
-    return bounds;
-    //   viewer.map.fitBounds([
-    //     bounds
-    // ]);
   }
 }

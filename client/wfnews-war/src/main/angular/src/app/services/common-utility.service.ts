@@ -314,5 +314,20 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
     return convexHull;
   }
+
+  getPolygonBond(polygonData) {
+    const convex = this.createConvex(polygonData);
+    const bounds = convex.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+    return bounds;
+  }
+
+  getMapOptions(bounds: any, location: number[]) {
+    return bounds
+      ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
+      : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
+  }
   
 }

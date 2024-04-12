@@ -697,6 +697,18 @@ return 'Unknown';
           });
           break;
         default:
+          // some of the layerIds are bans-and-prohibitions-cat-2 , bans-and-prohibitions-3 etc. So need to double check here
+          if (this.identifyItem.layerId.includes('bans-and-prohibitions')) {
+            if (item.properties.PROT_BAP_SYSID) {
+              this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
+                queryParams: {
+                  type: 'bans-prohibitions',
+                  id: item.properties.PROT_BAP_SYSID,
+                  source: [ResourcesRoutes.ACTIVEWILDFIREMAP],
+                },
+              });
+            }
+          }
           break;
       }
     }
