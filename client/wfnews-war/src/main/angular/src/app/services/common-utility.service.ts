@@ -317,7 +317,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
 
   getPolygonBond(polygonData) {
     const convex = this.createConvex(polygonData);
-    const bounds = convex.reduce((acc, coord) => [
+    const bounds = convex?.reduce((acc, coord) => [
       [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
       [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
     ], [[Infinity, Infinity], [-Infinity, -Infinity]]);

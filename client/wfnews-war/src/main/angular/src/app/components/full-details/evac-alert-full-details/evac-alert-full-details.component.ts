@@ -78,7 +78,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
     .then((response) => {
         if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
           const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-          if (polygonData.length) {
+          if (polygonData?.length) {
             bounds = this.commonUtilityService.getPolygonBond(polygonData);
             this.createMap(location, bounds);
           }

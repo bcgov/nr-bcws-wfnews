@@ -510,7 +510,7 @@ return 'Unknown';
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                     const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-                    if (polygonData.length) {
+                    if (polygonData?.length) {
                       this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
                   }
@@ -527,7 +527,7 @@ return 'Unknown';
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                     const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-                    if (polygonData.length) {
+                    if (polygonData?.length) {
                       this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
                   }
@@ -545,7 +545,7 @@ return 'Unknown';
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                   const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-                  if (polygonData.length) {
+                  if (polygonData?.length) {
                     this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
                 }
@@ -563,7 +563,7 @@ return 'Unknown';
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
                   const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
-                  if (polygonData.length) {
+                  if (polygonData?.length) {
                     this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
                 }
@@ -864,7 +864,7 @@ return 'Unknown';
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
     const viewer = getActiveMap().$viewer;
     const convex = this.commonUtilityService.createConvex(polygonData);
-    const bounds = convex.reduce((acc, coord) => [
+    const bounds = convex?.reduce((acc, coord) => [
       [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
       [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
     ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
