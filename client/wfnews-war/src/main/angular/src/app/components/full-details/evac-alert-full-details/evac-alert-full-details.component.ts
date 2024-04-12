@@ -90,29 +90,16 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   }
 
   async createMap(location: number[], bounds?: any) {
+    const mapOptions = bounds
+    ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
+    : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
+  
+    // Create the map using the mapOptions
+    this.map = L.map('restrictions-map', mapOptions);
+    
+    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
     if (bounds) {
-      this.map = L.map('restrictions-map', {
-        attributionControl: false,
-        zoomControl: false,
-        dragging: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        trackResize: false,
-        scrollWheelZoom: false,
-        }).fitBounds([
-          bounds
-      ]);
-    } else {
-      // failed to get polygon bounds, zoom into level 9 by default
-      this.map = L.map('restrictions-map', {
-        attributionControl: false,
-        zoomControl: false,
-        dragging: false,
-        doubleClickZoom: false,
-        boxZoom: false,
-        trackResize: false,
-        scrollWheelZoom: false,
-      }).setView(location, 9);
+      this.map.fitBounds(bounds);
     }
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:

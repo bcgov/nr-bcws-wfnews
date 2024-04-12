@@ -21,6 +21,7 @@ import {
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -79,6 +80,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     private mapConfigService: MapConfigService,
     private router: Router,
     private agolService: AGOLService,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   ngOnDestroy(): void {
@@ -507,7 +509,7 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
                     if (polygonData.length) {
                       this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
@@ -524,7 +526,7 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                   if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                    const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                    const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
                     if (polygonData.length) {
                       this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                     }
@@ -542,7 +544,7 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
                   if (polygonData.length) {
                     this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
@@ -560,7 +562,7 @@ return 'Unknown';
               .toPromise()
               .then((response) => {
                 if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
-                  const polygonData = this.extractPolygonData(response.features[0].geometry.rings);
+                  const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
                   if (polygonData.length) {
                     this.fixPolygonToMap(polygonData,response.features[0].geometry.rings);
                   }                
@@ -571,7 +573,7 @@ return 'Unknown';
           ['abms-regional-districts', 'clab-indian-reserves', 'abms-municipalities'].includes(layerId)
         ) {
           if (this.identifyItem?.geometry?.coordinates.length > 0) {
-            const coordinates = this.extractPolygonData(this.identifyItem.geometry.coordinates);
+            const coordinates = this.commonUtilityService.extractPolygonData(this.identifyItem.geometry.coordinates);
             if (coordinates.length) {
               this.fixPolygonToMap(coordinates);
             }
@@ -845,25 +847,10 @@ return 'Unknown';
     } else return '';
   }
 
-  extractPolygonData(response) {
-    const polygonData = [];
-    for (const element of response) {
-      polygonData.push(...element);
-    }
-    return polygonData;
-  }
-
-  createConvex(polygonData) {
-    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
-    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
-    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
-    return convexHull;
-  }
-
   fixPolygonToMap(polygonData,response?) {
     //calculate the bounding box (bounds) for a set of polygon coordinates (polygonData).
     const viewer = getActiveMap().$viewer;
-    const convex = this.createConvex(polygonData);
+    const convex = this.commonUtilityService.createConvex(polygonData);
     const bounds = convex.reduce((acc, coord) => [
       [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
       [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
