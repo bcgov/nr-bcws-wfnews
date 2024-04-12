@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnInit,
-  OnDestroy,
 } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
@@ -22,7 +21,7 @@ import { ReportOfFireService } from '@app/services/report-of-fire-service';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
+export class RoFTitlePage extends RoFPage implements OnInit {
   public imageUrl: string;
   public closeButton: boolean;
   public messages: any;
@@ -57,12 +56,6 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     this.messages = this.message.split('\n');
     this.offLineMessages = this.offLineMessage.split('\n');
     this.offLine = !window.navigator.onLine;
-  }
-
-  ngOnDestroy(): void {
-    if (this.intervalRef) {
-      this.intervalRef.unsubscribe()
-    }
   }
 
   async backgroundListener() {
