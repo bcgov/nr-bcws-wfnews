@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router as Route } from '@angular/router';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
-import { AGOLService } from '@app/services/AGOL-service';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { ResourcesRoutes, setDisplayColor } from '@app/utils';
+import { AGOLService } from '@app/services/AGOL-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 @Component({
   selector: 'wfnews-danger-rating-full-details',
@@ -15,15 +16,17 @@ import { ResourcesRoutes, setDisplayColor } from '@app/utils';
 export class DangerRatingFullDetailsComponent implements OnInit {
   @Input() rating: string;
   @Input() location: string;
+  @Input() sysid: string;
 
   public map: any;
 
   constructor(
     private cdr: ChangeDetectorRef,
     private appConfigService: AppConfigService,
-    private agolService: AGOLService,
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
+    private agolService: AGOLService,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -48,19 +51,39 @@ export class DangerRatingFullDetailsComponent implements OnInit {
   async initMap() {
     // Create map and append data to the map component
     const locationData = JSON.parse(this.location) as LocationData;
+    let bounds = null;
+    this.agolService
+    .getDangerRatings(
+      `PROT_DR_SYSID ='${this.sysid}'`,
+      null,
+      {
+        returnGeometry: true,
+      },
+    )
+    .toPromise()
+    .then((response) => {
+      if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+        if (polygonData?.length) {
+          bounds = this.commonUtilityService.getPolygonBond(polygonData);
+          this.createMap(locationData, bounds);
+        }                
+      }
+    });
+  }
+
+  async createMap(locationData: LocationData, bounds?: any) {
     const location = [locationData.latitude, locationData.longitude];
 
-    // this code is duplicated in a few places now. Might make sense to move into
-    // a specific component or util factory class
-    this.map = L.map('restrictions-map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
-    }).setView(location, 9);
+    const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
+  
+    // Create the map using the mapOptions
+    this.map = L.map('restrictions-map', mapOptions);
+    
+    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
+    if (bounds) {
+      this.map.fitBounds(bounds);
+    }
     // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
