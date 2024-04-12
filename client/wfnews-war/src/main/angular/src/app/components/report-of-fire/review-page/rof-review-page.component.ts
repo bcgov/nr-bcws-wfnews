@@ -20,7 +20,6 @@ import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { SmkApi } from '@app/utils/smk';
 import { LatLng } from 'leaflet';
-import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'rof-review-page',
@@ -389,6 +388,10 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
         ];
       }
     });
+
+    const getUuid = require('uuid-by-string');
+    const uniqueID = getUuid(this.reportOfFire.fullName + this.reportOfFire.phoneNumber + this.reportOfFire.fireLocation.toString())
+
     const rofResource: ReportOfFireType = {
       fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
       phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
@@ -408,7 +411,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       otherInfo: this.reportOfFire.otherInfo,
       submittedTimestamp: new Date().getTime().toString(),
       visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
-      submissionID: UUID.UUID()
+      submissionID: uniqueID
     };
 
     try {
