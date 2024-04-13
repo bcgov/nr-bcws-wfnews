@@ -6,7 +6,6 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
@@ -26,6 +25,7 @@ export interface ReportOfFireType {
   otherInfo?: string;
   submittedTimestamp?: string;
   visibleFlame?: string[];
+  submissionID?: string;
   image1?: Photo | GalleryPhoto;
   image2?: Photo | GalleryPhoto;
   image3?: Photo | GalleryPhoto;
@@ -43,7 +43,6 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private httpClient: HttpClient,
     private storageService: LocalStorageService
   ) {}
 
@@ -318,6 +317,30 @@ try {
     } catch (err) {
       console.error('Error checking exif: ' + err);
     }
+  }
+
+  async syncDataWithServer() {
+    let dataSynced = false;
+    try {
+      // Fetch and submit locally stored data
+      const offlineReport = this.storageService.getData('offlineReportData');
+      
+      if (offlineReport) {
+        // Send the report to the server
+        const response =
+          await this.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              dataSynced = true;
+              // Remove the locally stored data if sync is successful
+              this.storageService.removeData('offlineReportData');
+              App.removeAllListeners();
+            }
+          });
+      }
+    } catch (error) {
+      console.error('Sync failed:', error);
+    }
+    return dataSynced;
   }
 
 }

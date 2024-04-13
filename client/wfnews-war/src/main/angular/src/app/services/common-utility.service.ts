@@ -232,31 +232,6 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer(interval: any) {
-    let dataSynced = false;
-    try {
-      // Fetch and submit locally stored data
-      const offlineReport = this.storageService.getData('offlineReportData');
-      
-      if (offlineReport) {
-        // Send the report to the server
-        const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
-            if (response.success) {
-              dataSynced = true;
-              // Remove the locally stored data if sync is successful
-              this.storageService.removeData('offlineReportData');
-              App.removeAllListeners();
-              interval?.intervalRef?.unsubscribe();
-            }
-          });
-      }
-    } catch (error) {
-      console.error('Sync failed:', error);
-    }
-    return dataSynced;
-  }
-
   async removeInvalidOfflineRoF() {
     try {
       // Fetch locally stored data
@@ -323,6 +298,36 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
     const sqlDetected = sqlKeywords.test(jsonBlob);
     return sqlDetected;
+  }
+
+  extractPolygonData(response) {
+    const polygonData = [];
+    for (const element of response) {
+      polygonData.push(...element);
+    }
+    return polygonData;
+  }
+
+  createConvex(polygonData) {
+    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
+    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
+    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    return convexHull;
+  }
+
+  getPolygonBond(polygonData) {
+    const convex = this.createConvex(polygonData);
+    const bounds = convex?.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+    return bounds;
+  }
+
+  getMapOptions(bounds: any, location: number[]) {
+    return bounds
+      ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
+      : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
   }
   
 }
