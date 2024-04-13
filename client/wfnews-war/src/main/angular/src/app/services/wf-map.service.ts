@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CapacitorService } from '@app/services/capacitor-service';
-import { getActiveMap } from '@app/utils';
+import { getActiveMap, isAndroidViaNavigator } from '@app/utils';
 import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
@@ -194,7 +194,9 @@ export class WFMapService {
                 },
               ]);
 
-              defineOpenStreetMapLayer();
+              if (isAndroidViaNavigator()) {
+                defineOpenStreetMapLayer();
+              }
 
               smk.destroy();
               temp.parentElement.removeChild(temp);
@@ -870,11 +872,10 @@ const defineOpenStreetMapLayer = () => {
   const L = window['L'];
   const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     maxZoom: 19,
-    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
-    className: 'leaflet-tile-pane'
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
   });
   order += 1;
-
+  baseMapIds.push('openstreetmap');
   window['SMK'].TYPE.Viewer.prototype.basemap['openstreetmap'] = {
     title: 'OpenStreetMap',
     order,

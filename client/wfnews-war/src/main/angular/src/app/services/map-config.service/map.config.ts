@@ -1,3 +1,4 @@
+import { isAndroidViaNavigator } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 import { WfDevice } from '@wf1/wfcc-application-ui';
 import { MapServices, MapServiceStatus } from '.';
@@ -16,7 +17,7 @@ export const mapConfig = (
     location: {
       extent: [-136.3, 49, -116, 60.2],
     },
-    baseMap:  navigator.platform.includes('Linux') || navigator.platform.includes('Android') ? 'openstreetmap' : 'navigation',
+    baseMap: isAndroidViaNavigator() ? 'openstreetmap' : 'navigation',
     minZoom: 4,
     maxZoom: 30,
   },
