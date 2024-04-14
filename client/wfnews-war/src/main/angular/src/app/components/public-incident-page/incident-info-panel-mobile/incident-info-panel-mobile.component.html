@@ -135,7 +135,8 @@
             <h1>Evacuations</h1>
             <div class="sub-content"
                 *ngIf="!(mobileEvacOrders && mobileEvacOrders.length > 0) && !(mobileEvacAlerts && mobileEvacAlerts.length > 0)">
-                There are no current evacuation orders or alerts associated with this incident.</div>
+                Evacuation Orders and Alerts are put into place by your local authority, government or First Nation. BC Wildfire Service displays this information when it becomes available. There are no current evacuation Orders or Alerts available to display for this incident. For the latest evacuation information, contact your local authority.
+            </div>
             <div id="evac-order" *ngIf="mobileEvacOrders && mobileEvacOrders.length >= 1">
                 <div class="evac-title"><img class="icon" src="/assets/images/svg-icons/union.svg"
                         alt="union" />Evacuation Orders</div>
