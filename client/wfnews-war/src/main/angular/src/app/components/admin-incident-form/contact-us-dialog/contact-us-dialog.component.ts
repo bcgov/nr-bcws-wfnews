@@ -20,11 +20,6 @@ export class ContactUsDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data,
   ) {}
 
-  callFireCentre(phoneNumber: string) {
-    const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ''));
-    window.open(`tel:${parsedPhoneNumber}`, '_system');
-  }
-
   emailFireCentre(recipientEmail: string) {
     const mailtoUrl = `mailto:${recipientEmail}`;
     window.location.href = mailtoUrl;
