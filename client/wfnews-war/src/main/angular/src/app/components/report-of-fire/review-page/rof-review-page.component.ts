@@ -20,6 +20,7 @@ import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { SmkApi } from '@app/utils/smk';
 import { LatLng } from 'leaflet';
+import { v5 as uuidv5 } from 'uuid';
 
 @Component({
   selector: 'rof-review-page',
@@ -389,8 +390,12 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit {
       }
     });
 
-    const getUuid = require('uuid-by-string');
-    const uniqueID = getUuid(this.reportOfFire.fullName + this.reportOfFire.phoneNumber + this.reportOfFire.fireLocation.toString())
+    // seed string to create submission UUID
+    const fixedFireLocation = [this.reportOfFire.fireLocation[0].toFixed(3), this.reportOfFire.fireLocation[1].toFixed(3)]
+    const seedString = this.reportOfFire.fullName + this.reportOfFire.phoneNumber + fixedFireLocation.toString();
+
+    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
+    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62")
 
     const rofResource: ReportOfFireType = {
       fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
