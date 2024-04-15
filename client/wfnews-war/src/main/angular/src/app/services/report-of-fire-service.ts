@@ -323,6 +323,7 @@ try {
     let dataSynced = false;
     let submissionID = null;
     let duplicateStored = false;
+    let submissionIdList = this.storageService.getData('submissionIDList');
     try {
       // Fetch and submit locally stored data
       const offlineReport = this.storageService.getData('offlineReportData');
@@ -332,7 +333,8 @@ try {
         const offlineJson = JSON.parse(offlineReport)
         if(offlineJson?.resource) {
           const resourceJson = JSON.parse(offlineJson.resource)
-          if (resourceJson?.submissionID && resourceJson.submissionID == this.storageService.getData('submissionID')) {
+          submissionID = resourceJson?.submissionID
+          if (submissionID && submissionIdList?.includes(submissionID)) {
             duplicateStored = true;
           }
         }
@@ -348,7 +350,10 @@ try {
               // Remove the locally stored data if sync is successful
               this.storageService.removeData('offlineReportData');
               // store submissionID for duplicate check 
-              if(submissionID) this.storageService.saveData('submissionID', submissionID)
+              if(submissionID) {
+                submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
+                this.storageService.saveData('submissionIDList', submissionIdList)
+              }
               App.removeAllListeners();
             }
           });
