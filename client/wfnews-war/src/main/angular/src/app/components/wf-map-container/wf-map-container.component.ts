@@ -15,12 +15,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
-import { CommonUtilityService } from '@app/services/common-utility.service';
-import { getActiveMap } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -84,8 +83,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
     // initialize the map
     initPromise = initPromise
-      .then(function() {
-        return self.wfMap
+      .then(() => self.wfMap
           .createSMK({
             id: mapIndex,
             containerSel: self.mapContainer.nativeElement,
@@ -93,7 +91,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             toggleAccordion: self.toggleAccordion,
             fullScreen: self.fullScreen,
           })
-          .then(function(smk) {
+          .then((smk) => {
             self.mapInitialized.emit(smk);
 
             // force bc fire centres to the front
@@ -117,14 +115,15 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
                 // do this so we should implement a better solution for layer pane order
                 // in smk directly. note that this requires the tile layer to be visible
                 // by default
-                tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+                const tilePanes = smk.$viewer.map.getPane('tilePane').childNodes;
+                tileOverlay.appendChild(tilePanes[tilePanes.length - 1]);
               }
             });
 
             // enforce a max zoom setting, in case we're using cluster/heatmapping
             smk.$viewer.map._layersMaxZoom = 20;
 
-            smk.$viewer.handlePick(3, function(location) {
+            smk.$viewer.handlePick(3, (location) => {
               self.lastClickedLocation = location;
               // If the layer is visible only
               if (
@@ -159,16 +158,16 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               } else {
                 // if the weather stations layer is turned off, we can ignore the debounce
                 // and immediately execute
-                self.addSelectedIncidentPanels(smk)
+                self.addSelectedIncidentPanels(smk);
               }
             });
 
             return smk;
-          });
-      })
-      .catch(function(e) {
+          }))
+      .catch((e) => {
         console.warn(e);
       });
+
     this.initPromise = initPromise;
   }
 
