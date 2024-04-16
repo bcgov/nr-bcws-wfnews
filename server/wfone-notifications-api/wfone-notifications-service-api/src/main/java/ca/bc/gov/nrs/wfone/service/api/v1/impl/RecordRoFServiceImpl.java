@@ -336,6 +336,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		String rofEndpoint = wfimUrl + "publicReportOfFires";
 
 		String serializedRof = prepareRoF(rofFormDataJson, mapper);
+		logger.info("Posting serialized ROF to WFIM: " + serializedRof);
 		
 		Date postDate = new Date();
 		HttpResponse<String> response = Unirest.post(rofEndpoint).header("Authorization", "Bearer " + token)
