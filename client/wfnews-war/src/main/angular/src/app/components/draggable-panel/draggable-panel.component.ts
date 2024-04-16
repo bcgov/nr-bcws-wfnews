@@ -196,6 +196,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
           console.error('Unable to identify', error);
         }
       } else {
+        debugger
         //identify anything other than incident
         if (
           ['bans-and-prohibitions', 'evacuation-orders-and-alerts', 'area-restrictions', 'weather-stations', 'danger-rating'].some(str => this.identifyItem.layerId.includes(str))
