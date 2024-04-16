@@ -1,31 +1,24 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { SpatialUtilsService } from '@wf1/core-ui';
 
 export type LonLat = [number, number];
 export type LatLon = [number, number];
 
-export function toPoint(lonLat: LonLat): any {
-  return window['turf'].point(lonLat);
-}
+export const toPoint = (lonLat: LonLat): any => window['turf'].point(lonLat);
 
-export function toLatLon(lonLat: LonLat): LatLon {
-  return [lonLat[1], lonLat[0]];
-}
+export const toLatLon = (lonLat: LonLat): LatLon => [lonLat[1], lonLat[0]];
 
-export function encodeUrl(
+export const encodeUrl = (
   url: string,
   data: { [key: string]: string | number | boolean },
-): string {
+): string => {
   if (!data) {
     return url;
   }
 
   const params = Object.keys(data)
-    .filter(function(k) {
-      return data[k];
-    })
-    .map(function(k) {
-      return `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`;
-    })
+    .filter((k) => data[k])
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
     .join('&');
 
   if (/[?]\S+$/.test(url)) {
@@ -37,13 +30,13 @@ export function encodeUrl(
   }
 
   return `${url}?${params}`;
-}
+};
 
-export function fetchJsonP(
+export const fetchJsonP = (
   url: string,
   data: { [key: string]: string | number | boolean },
   opt = { timeout: 10000 },
-): { response: Promise<any>; abort: () => void } {
+): { response: Promise<any>; abort: () => void } => {
   data['_'] = Math.round(Math.random() * 1e10);
 
   const cbfn = `callback_${data['_']}`;
@@ -52,8 +45,8 @@ export function fetchJsonP(
   let id;
   let cancel;
   const req = encodeUrl(url, data);
-  const promise = new Promise(function(res, rej) {
-    function cleanup() {
+  const promise = new Promise((res, rej) => {
+    const cleanup = () => {
       if (id) {
         clearTimeout(id);
       }
@@ -64,14 +57,14 @@ export function fetchJsonP(
       }
 
       window[cbfn] = null;
-    }
+    };
 
-    window[cbfn] = function(payload) {
+    window[cbfn] = (payload) => {
       cleanup();
       res(payload);
     };
 
-    cancel = function() {
+    cancel = () => {
       cleanup();
       rej(new Error('cancelled'));
     };
@@ -91,14 +84,12 @@ export function fetchJsonP(
     response: promise,
     abort: cancel,
   };
-}
+};
 
 // distance in km
-export function distance(loc1: LonLat, loc2: LonLat): number {
-  return window['turf'].distance(toPoint(loc1), toPoint(loc2));
-}
+export const distance = (loc1: LonLat, loc2: LonLat): number => window['turf'].distance(toPoint(loc1), toPoint(loc2));
 
-export function formatDistance(dist: number, unit: string): string {
+export const formatDistance = (dist: number, unit: string): string => {
   if (dist == null) {
     return 'n/a';
   }
@@ -106,14 +97,14 @@ export function formatDistance(dist: number, unit: string): string {
     return dist.toFixed(1) + ' ' + unit;
   }
   return dist.toFixed(0) + ' ' + unit;
-}
+};
 
 const DIRECTION = ['N', 'NE', 'E', 'SE', 'S', 'SW', 'W', 'NW'];
 
-export function direction(start: LonLat, end: LonLat): string {
+export const direction = (start: LonLat, end: LonLat): string => {
   const bearing = window['turf'].bearing(toPoint(start), toPoint(end));
   return DIRECTION[Math.floor((bearing + 382.5) / 45) % 8];
-}
+};
 
 const TIME_FORMAT = Intl.DateTimeFormat('en-CA', {
   timeZone: undefined,
@@ -436,18 +427,20 @@ export class Translate {
 }
 
 /**
- * This uses the ‘haversine’ formula to calculate the great-circle distance between two points – that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance between the points.
+ * This uses the ‘haversine’ formula to calculate the great-circle distance between two points 
+ * – that is, the shortest distance over the earth’s surface – giving an ‘as-the-crow-flies’ distance between the points.
  * a = sin²(Δφ/2) + cos φ1 ⋅ cos φ2 ⋅ sin²(Δλ/2)
  * c = 2 ⋅ atan2( √a, √(1−a) )
  * d = R ⋅ c
- * Where	φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km). note that angles need to be in radians to pass to trig functions
+ * Where	φ is latitude, λ is longitude, R is earth’s radius (mean radius = 6,371km). 
+ * note that angles need to be in radians to pass to trig functions
  * @param lat1 Latitude of the location
  * @param lat2 Latitude of the destination
  * @param lon1 Longitude of the location
  * @param lon2 Longitude of the destination
  * @returns
  */
-export function haversineDistance(lat1, lat2, lon1, lon2) {
+export const haversineDistance = (lat1, lat2, lon1, lon2) => {
   const R = 6371e3; // metres
   const φ1 = (lat1 * Math.PI) / 180; // φ, λ in radians
   const φ2 = (lat2 * Math.PI) / 180;
@@ -461,7 +454,7 @@ export function haversineDistance(lat1, lat2, lon1, lon2) {
 
   const d = R * c; // in metres
   return d;
-}
+};
 
 const metersPerUnit = {
   Mil: 2.5399999999999996e-8,

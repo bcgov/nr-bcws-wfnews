@@ -13,6 +13,7 @@ import { AppConfigService } from '@wf1/core-ui';
 import * as L from 'leaflet';
 import { setDisplayColor } from '@app/utils';
 import { WatchlistService } from '@app/services/watchlist-service';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 
 export class AreaRestriction {
   public name: string;
@@ -57,6 +58,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     private route: Route,
     private watchlistService: WatchlistService,
+    private commonUtilityService: CommonUtilityService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -75,17 +77,39 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       Number(this.restrictionData.centroidLongitude),
     ];
 
-    // this code is duplicated in a few places now. Might make sense to move into
-    // a specific component or util factory class
-    this.map = L.map('restrictions-map', {
-      attributionControl: false,
-      zoomControl: false,
-      dragging: false,
-      doubleClickZoom: false,
-      boxZoom: false,
-      trackResize: false,
-      scrollWheelZoom: false,
-    }).setView(location, 9);
+    let bounds = null;
+    this.agolService
+    .getAreaRestrictions(
+      `NAME='${this.name}'`,
+      null,
+      {
+        returnGeometry: true,
+      },
+    )
+    .toPromise()
+    .then((response) => {
+      if (response?.features?.length > 0 && response?.features[0].geometry?.rings?.length > 0){
+        const polygonData = this.commonUtilityService.extractPolygonData(response.features[0].geometry.rings);
+        if (polygonData?.length) {
+          bounds = this.commonUtilityService.getPolygonBond(polygonData);
+          this.createMap(location, bounds);
+        }                
+      } else {
+        this.createMap(location);
+      }
+    });
+  }
+
+  async createMap(location: number[], bounds?: any) {
+    const mapOptions = this.commonUtilityService.getMapOptions(bounds, location);
+  
+    // Create the map using the mapOptions
+    this.map = L.map('restrictions-map', mapOptions);
+    
+    // If bounds exist, fit the map to the bounds; otherwise, set the view to the default location and zoom level
+    if (bounds) {
+      this.map.fitBounds(bounds);
+    }
     // configure map  - change from osm to ESRI eventually. Needs to be done elsewhere too
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution:
@@ -254,7 +278,7 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
   }
 
   navToBulletinUrl() {
-    window.open(this.restrictionData.bulletinUrl, '_blank');
+    window.open(this.restrictionData.bulletinUrl ? this.restrictionData.bulletinUrl : this.appConfigService.getConfig().externalAppConfig['currentRestrictions'] as unknown as string, '_blank');
   }
 
   onWatchlist(incident): boolean {

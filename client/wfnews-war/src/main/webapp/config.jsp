@@ -74,6 +74,7 @@
       json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
       json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
+      json.append("\"evacDefaultBulletin\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
       json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
       json.append("\"recSiteTrailsClosures\":\"").append("http://www.sitesandtrailsbc.ca/closures.aspx").append("\",");
       json.append("\"parksClosures\":\"").append("https://bcparks.ca/active-advisories/?type=wildfire").append("\",");

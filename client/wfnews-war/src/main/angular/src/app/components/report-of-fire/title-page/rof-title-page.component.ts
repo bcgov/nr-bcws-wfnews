@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   OnInit,
-  OnDestroy,
 } from '@angular/core';
 import { RoFPage } from '../rofPage';
 import { ReportOfFire } from '../reportOfFireModel';
@@ -13,6 +12,8 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
+import { interval, timer } from 'rxjs';
+import { ReportOfFireService } from '@app/services/report-of-fire-service';
 
 @Component({
   selector: 'rof-title-page',
@@ -20,7 +21,7 @@ import { BackgroundTask } from '@capawesome/capacitor-background-task';
   styleUrls: ['./rof-title-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
+export class RoFTitlePage extends RoFPage implements OnInit {
   public imageUrl: string;
   public closeButton: boolean;
   public messages: any;
@@ -33,6 +34,7 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     private commonUtilityService: CommonUtilityService,
     private cdr: ChangeDetectorRef,
     private reportOfFirePage: ReportOfFirePage,
+    private reportOfFireService: ReportOfFireService
   ) {
     super();
   }
@@ -56,25 +58,25 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
     this.offLine = !window.navigator.onLine;
   }
 
-  ngOnDestroy(): void {
-    if (this.intervalRef) {
-      clearInterval(this.intervalRef);
-    }
-  }
-
   async backgroundListener() {
+    App.addListener('appStateChange', async ({ isActive }) => {
+      if (isActive) {
+        return;
+      }
+      // The app state has been changed to inactive.
+      // Start the background task by calling `beforeExit`.
+      const taskId = await BackgroundTask.beforeExit(async () => {
+        const self = this;
 
-    const self = this;
-    if (this.intervalRef) {
-      clearInterval(this.intervalRef);
-      this.intervalRef = null;
-    }
+        if(!this.intervalRef) {
+          this.intervalRef = interval(30000).subscribe(() => {
+            self.checkStoredRoF();
+          });
+        }
 
-    this.intervalRef = setInterval(function () {
-      // Invoke function every minute while app is in background
-      self.checkStoredRoF();
-    }, 30000);
-
+        BackgroundTask.finish({ taskId });
+      });
+    });
   }
 
   openCallPage() {
@@ -82,14 +84,17 @@ export class RoFTitlePage extends RoFPage implements OnInit, OnDestroy {
   }
 
   async checkStoredRoF() {
-    console.log('rof: checking')
+    const self = this;
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
     // check if the app is in the background and online and if so, check for saved offline RoF to be submitted
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
-        await this.commonUtilityService.syncDataWithServer();
+        await this.reportOfFireService.syncDataWithServer().then(response => {
+          if(response) self?.intervalRef?.unsubscribe();
+        });
+        
       };
     });
   }

@@ -4,10 +4,10 @@ import { Injectable, Injector } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { App } from '@capacitor/app';
 import { Geolocation } from '@capacitor/geolocation';
-import { Storage } from '@ionic/storage-angular';
 import { AppConfigService } from '@wf1/core-ui';
 import { Observable } from 'rxjs';
 import { ReportOfFireService } from './report-of-fire-service';
+import { LocalStorageService } from './local-storage-service';
 
 const MAX_CACHE_AGE = 30 * 1000;
 
@@ -39,8 +39,8 @@ export class CommonUtilityService {
     protected snackbarService: MatSnackBar,
     private http: HttpClient,
     private appConfigService: AppConfigService,
-    private storage: Storage,
     private injector: Injector,
+    private storageService: LocalStorageService
   ) {
     setTimeout(() => (this.rofService = injector.get(ReportOfFireService)));
   }
@@ -232,33 +232,10 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     }
   }
 
-  async syncDataWithServer() {
-    await this.storage.create();
-    try {
-      // Fetch and submit locally stored data
-      const offlineReport = await this.storage.get('offlineReportData');
-      
-      if (offlineReport) {
-        // Send the report to the server
-        const response =
-          await this.rofService.submitOfflineReportToServer(offlineReport).then(async response => {
-            if (response.success) {
-              // Remove the locally stored data if sync is successful
-              await this.storage.remove('offlineReportData');
-              App.removeAllListeners();
-            }
-          });
-      }
-    } catch (error) {
-      console.error('Sync failed:', error);
-    }
-  }
-
   async removeInvalidOfflineRoF() {
-    await this.storage.create();
     try {
       // Fetch locally stored data
-      const offlineReportSaved = await this.storage.get('offlineReportData');
+      const offlineReportSaved = this.storageService.getData('offlineReportData');
       if (offlineReportSaved) {
         const offlineReport = JSON.parse(offlineReportSaved);
 
@@ -269,7 +246,7 @@ valueMatch = trimmedAddress.substring(0, valueLength);
             resource.submittedTimestamp &&
             this.invalidTimestamp(resource.submittedTimestamp)
           ) {
-            await this.storage.remove('offlineReportData');
+            this.storageService.removeData('offlineReportData');
           }
         }
       }
@@ -321,6 +298,36 @@ valueMatch = trimmedAddress.substring(0, valueLength);
     const sqlKeywords = /\b(SELECT|INSERT|UPDATE|DELETE|ALTER|DROP|CREATE)\b(?!\s*\*)/i;
     const sqlDetected = sqlKeywords.test(jsonBlob);
     return sqlDetected;
+  }
+
+  extractPolygonData(response) {
+    const polygonData = [];
+    for (const element of response) {
+      polygonData.push(...element);
+    }
+    return polygonData;
+  }
+
+  createConvex(polygonData) {
+    const turfPoints = polygonData.map(coord => window['turf'].point(coord));
+    const pointsFeatureCollection = window['turf'].featureCollection(turfPoints);
+    const convexHull = window['turf'].convex(pointsFeatureCollection)?.geometry?.coordinates[0];
+    return convexHull;
+  }
+
+  getPolygonBond(polygonData) {
+    const convex = this.createConvex(polygonData);
+    const bounds = convex?.reduce((acc, coord) => [
+      [Math.min(acc[0][0], coord[1]), Math.min(acc[0][1], coord[0])],
+      [Math.max(acc[1][0], coord[1]), Math.max(acc[1][1], coord[0])]
+    ], [[Infinity, Infinity], [-Infinity, -Infinity]]);
+    return bounds;
+  }
+
+  getMapOptions(bounds: any, location: number[]) {
+    return bounds
+      ? { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false }
+      : { attributionControl: false, zoomControl: false, dragging: false, doubleClickZoom: false, boxZoom: false, trackResize: false, scrollWheelZoom: false, center: location, zoom: 9 };
   }
   
 }

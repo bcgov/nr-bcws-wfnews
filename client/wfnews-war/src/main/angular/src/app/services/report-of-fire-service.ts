@@ -2,12 +2,11 @@ import { Injectable } from '@angular/core';
 import { GalleryPhoto, Photo } from '@capacitor/camera';
 import { AppConfigService } from '@wf1/core-ui';
 import { CommonUtilityService } from './common-utility.service';
-import { Storage } from '@ionic/storage-angular';
 import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { HttpClient } from '@angular/common/http';
+import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -26,6 +25,7 @@ export interface ReportOfFireType {
   otherInfo?: string;
   submittedTimestamp?: string;
   visibleFlame?: string[];
+  submissionID?: string;
   image1?: Photo | GalleryPhoto;
   image2?: Photo | GalleryPhoto;
   image3?: Photo | GalleryPhoto;
@@ -43,8 +43,7 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private storage: Storage,
-    private httpClient: HttpClient
+    private storageService: LocalStorageService
   ) {}
 
   async saveReportOfFire(
@@ -101,7 +100,7 @@ return;
 
       let storedOfflineReportData;
       try {
-        storedOfflineReportData = await this.storage.get('offlineReportData');
+        storedOfflineReportData = this.storageService.removeData('offlineReportData');
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
       }
@@ -113,7 +112,7 @@ return;
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
             try {
-              await this.storage.remove('offlineReportData');
+              this.storageService.removeData('offlineReportData');
             } catch (error) {
               console.error('An error occurred while removing offlineReportData:', error);
             }
@@ -121,18 +120,19 @@ return;
         }
       }
 
-      this.httpClient.post<any>(rofUrl, formData).subscribe(response => {
-        const message = response?.message as string
-        if (message && message.toLowerCase() == "report of fire received") {
-          // The server successfully processed the report
-          return { success: true, message: 'Report submitted successfully' };
-        } else {
-          // submit to storage if there is an issue
-          if (this.formData) this.submitToStorage(this.formData)
-          // The server encountered an error
-          return { success: false, message: JSON.stringify(response) };
-        }
-      })
+      const response = await fetch(rofUrl, {
+        method: 'POST',
+        body: formData,
+      });
+      if (response.ok || response.status == 200) {
+        // The server successfully processed the report
+        return { success: true, message: 'Report submitted successfully' };
+      } else {
+        // submit to storage if there is an issue
+        if (this.formData) this.submitToStorage(this.formData)
+        // The server encountered an error
+        return { success: false, message: JSON.stringify(response) };
+      }
     } catch (error) {
       // submit to storage if there is an error
       if (this.formData) this.submitToStorage(this.formData)
@@ -257,36 +257,40 @@ formData.append('image2', image2);
 formData.append('image3', image3);
 }
 
-    try {
-      // Make an HTTP POST request to your server's API endpoint
-      this.httpClient.post<any>(rofUrl, formData).subscribe(async response => {
-        const message = response?.message as string   
-        if (message && message.toLowerCase() == "report of fire received") {
-          // Remove the locally stored data if sync is successful
-          await this.storage.remove('offlineReportData');
-          App.removeAllListeners();
-          // The server successfully processed the report
-        return { success: true, message: 'Report submitted successfully' };
-      } else {
-        // The server encountered an error
-        return { success: false, message: JSON.stringify(response) };
-        }    
-      })
-    } catch (error) {
-      // An error occurred during the HTTP request
-      return {
-        success: false,
-        message: 'An error occurred while submitting the report',
-      };
-    }
+try {
+  // Make an HTTP POST request to your server's API endpoint
+  const response = await fetch(rofUrl, {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (response.ok || response.status == 200) {
+    // Remove the locally stored data if sync is successful
+    this.storageService.removeData('offlineReportData');
+    App.removeAllListeners();
+    // The server successfully processed the report
+    return { success: true, message: 'Report submitted successfully' };
+  } else {
+    // The server encountered an error
+    return { success: false, message: JSON.stringify(response) };
   }
+} catch (error) {
+  // An error occurred during the HTTP request
+  return {
+    success: false,
+    message: 'An error occurred while submitting the report',
+  };
+}
+}
 
   async submitToStorage(formData: FormData) {
-    this.storage.create();
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    await this.storage.set('offlineReportData', json);
+    const storedData = this.storageService.getData('offlineReportData');
+    if (storedData == json){
+      return;
+    }else this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -313,6 +317,52 @@ formData.append('image3', image3);
     } catch (err) {
       console.error('Error checking exif: ' + err);
     }
+  }
+
+  async syncDataWithServer() {
+    let dataSynced = false;
+    let submissionID = null;
+    let duplicateStored = false;
+    let submissionIdList = this.storageService.getData('submissionIDList');
+    try {
+      // Fetch and submit locally stored data
+      const offlineReport = this.storageService.getData('offlineReportData');
+      
+      if (offlineReport) {
+         // Check for duplicate, reject if submissionID has already been stored
+        const offlineJson = JSON.parse(offlineReport)
+        if(offlineJson?.resource) {
+          const resourceJson = JSON.parse(offlineJson.resource)
+          submissionID = resourceJson?.submissionID
+          if (submissionID && submissionIdList?.includes(submissionID)) {
+            duplicateStored = true;
+          }
+        }
+
+        // Reject duplicate if submissionID has already been stored
+        if(duplicateStored) return;
+
+        // Send the report to the server
+        const response =
+          await this.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              dataSynced = true;
+              // Remove the locally stored data if sync is successful
+              this.storageService.removeData('offlineReportData');
+              // store submissionID for duplicate check 
+              if(submissionID) {
+                alert("submissionID: " + submissionID)
+                submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
+                this.storageService.saveData('submissionIDList', submissionIdList)
+              }
+              App.removeAllListeners();
+            }
+          });
+      }
+    } catch (error) {
+      console.error('Sync failed:', error);
+    }
+    return dataSynced;
   }
 
 }

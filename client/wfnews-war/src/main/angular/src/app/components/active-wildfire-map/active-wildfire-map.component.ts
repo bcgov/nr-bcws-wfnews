@@ -415,7 +415,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
-      if (params && params['longitude'] && params['latitude']) {
+      if ((params && params['longitude'] && params['latitude']) || (params && params['featureType'])) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
 
