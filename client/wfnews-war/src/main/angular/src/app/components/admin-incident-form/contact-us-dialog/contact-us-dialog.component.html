@@ -18,9 +18,9 @@
     </div>
 
     <div class="buttons-row">
-      <button mat-button class="mobile-button" (click)="callFireCentre(data.phoneNumber)">
+      <button mat-button class="mobile-button">
           <span class="material-icons">call</span>
-          Call Us
+          <a [href]="'tel:' + data.phoneNumber" style="text-decoration: none; color: inherit;">Call Us</a>
       </button>
       <button mat-button class="mobile-button" (click)="emailFireCentre(data.email)">
           <span class="material-icons-outlined">email</span>
