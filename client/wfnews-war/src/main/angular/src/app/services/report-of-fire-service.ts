@@ -351,6 +351,7 @@ try {
               this.storageService.removeData('offlineReportData');
               // store submissionID for duplicate check 
               if(submissionID) {
+                alert("submissionID: " + submissionID)
                 submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
                 this.storageService.saveData('submissionIDList', submissionIdList)
               }
