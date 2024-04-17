@@ -12,7 +12,7 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
-import { interval, timer } from 'rxjs';
+import { interval } from 'rxjs';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 
 @Component({
@@ -92,9 +92,11 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
       if (result) {
         await this.reportOfFireService.syncDataWithServer().then(response => {
-          if(response) self?.intervalRef?.unsubscribe();
-        });
-        
+          if(response) {
+            self?.intervalRef?.unsubscribe();
+            self.intervalRef = null;
+          }
+        });      
       };
     });
   }
