@@ -582,8 +582,8 @@ export class WFMapService {
                     console.log('feature count', response.features.length);
 
                     return response.features.map((f, i) => {
-                      if (prototype.config.titleAttribute) {
-                        f.title = f.properties[prototype.config.titleAttribute];
+                      if (this.config.titleAttribute) {
+                        f.title = f.properties[this.config.titleAttribute];
                       } else {
                         f.title = 'Feature #' + (i + 1);
                       }
