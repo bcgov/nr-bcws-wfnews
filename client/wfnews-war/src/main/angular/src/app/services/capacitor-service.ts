@@ -20,6 +20,7 @@ import { EventEmitterService } from './event-emitter.service';
 
 import { ResourcesRoutes } from '@app/utils';
 import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
+import { Preferences } from '@capacitor/preferences';
 
 export interface CompassHeading {
   magneticHeading?: number; //The heading in degrees from 0-359.99 at a single moment in time. (Number)
@@ -559,4 +560,22 @@ this.devicePropertiesPromise = Device.getInfo()
   get isMobile(): Promise<boolean> {
     return this.deviceProperties.then((p) => p.isMobilePlatform);
   }
+
+  async saveData(key: string, value: string) {
+    await Preferences.set({
+      key: key,
+      value: value
+    });
+  }
+  
+  async getData(key: string) {
+    const response = await Preferences.get({ key: key });
+    return response.value;
+  }
+
+  async removeData(key: string) {
+    await Preferences.remove({ key: key })
+  }
 }
+
+
