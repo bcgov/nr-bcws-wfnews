@@ -463,7 +463,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                   }
                 });
               } else {
-                this.panToLocation(long, lat, null);
+                this.panToLocation(long, lat);
               }
             } catch (error) {
               fireIsOutOrNotFound = true;
@@ -489,7 +489,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
           } else if (params['evacuationAlert'] && params['evacuationAlert'] === "true"){
             this.panToLocation(long, lat, 12);
           } else {
-            this.panToLocation(long, lat, null);
+            this.panToLocation(long, lat);
           } 
 
           // turn on layers
@@ -567,10 +567,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  panToLocation(long, lat, zoom) {
+  panToLocation(long, lat, zoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       getActiveMap().$viewer.panToFeature(
-        window['turf'].point([long, lat]), zoom);
+        window['turf'].point([long, lat]), 
+          zoom ? zoom : null);
     });
   }
 
@@ -816,8 +817,7 @@ async onSelectIncidents(incidentRefs) {
   if (this.incidentRefs.length && this.incidentRefs[0]._identifyPoint) {
     this.panToLocation(
       this.incidentRefs[0]._identifyPoint.longitude,
-      this.incidentRefs[0]._identifyPoint.latitude,
-      null
+      this.incidentRefs[0]._identifyPoint.latitude
     );
   }
 }
