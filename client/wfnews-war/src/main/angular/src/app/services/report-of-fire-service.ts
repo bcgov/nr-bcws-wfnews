@@ -348,7 +348,7 @@ try {
         }
 
         // Reject duplicate if submissionID has already been stored
-        if(duplicateStored) return;
+        if(duplicateStored) return true;
 
         // Send the report to the server
         const response =
