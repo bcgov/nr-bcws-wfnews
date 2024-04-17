@@ -6,7 +6,7 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { CapacitorService } from './capacitor-service';
+import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -43,7 +43,7 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private capacitorService: CapacitorService
+    private storageService: LocalStorageService
   ) {}
 
   async saveReportOfFire(
@@ -100,7 +100,7 @@ return;
 
       let storedOfflineReportData;
       try {
-        storedOfflineReportData = await this.capacitorService.removeData('offlineReportData');
+        storedOfflineReportData = this.storageService.removeData('offlineReportData');
       } catch (error) {
         console.error('An error occurred while retrieving offlineReportData:', error);
       }
@@ -112,7 +112,7 @@ return;
           const offlineResource = JSON.parse(offlineReport.resource);
           if (offlineResource === resource) {
             try {
-              await this.capacitorService.removeData('offlineReportData');
+              this.storageService.removeData('offlineReportData');
             } catch (error) {
               console.error('An error occurred while removing offlineReportData:', error);
             }
@@ -266,7 +266,7 @@ try {
 
   if (response.ok || response.status == 200) {
     // Remove the locally stored data if sync is successful
-    await this.capacitorService.removeData('offlineReportData');
+    this.storageService.removeData('offlineReportData');
     App.removeAllListeners();
     // The server successfully processed the report
     return { success: true, message: 'Report submitted successfully' };
@@ -287,11 +287,10 @@ try {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    await this.capacitorService.getData('offlineReportData').then(async response => {
-      if (response == json){
+    const data = this.storageService.getData('offlineReportData')
+      if (data == json){
         return;
-      }else await this.capacitorService.saveData('offlineReportData', json);
-    })
+      }else this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -329,12 +328,8 @@ try {
 
     try {
       // Fetch and submit locally stored data
-      await this.capacitorService.getData('offlineReportData').then(response => {
-        offlineReport = response;
-      })
-      await this.capacitorService.getData('submissionIDList').then(response => {
-        submissionIdList = response;
-      })
+      offlineReport = this.storageService.getData('offlineReportData')
+      submissionIdList = this.storageService.getData('submissionIDList')
       
       if (offlineReport) {
          // Check for duplicate, reject if submissionID has already been stored
@@ -356,11 +351,11 @@ try {
             if (response.success) {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
-              await this.capacitorService.removeData('offlineReportData');
+              this.storageService.removeData('offlineReportData');
               // store submissionID for duplicate check 
               if(submissionID) {
                 submissionIdList = submissionIdList ? submissionIdList + ", " +  submissionID : submissionID;
-                await this.capacitorService.saveData('submissionIDList', submissionIdList)
+                this.storageService.saveData('submissionIDList', submissionIdList)
               }
               App.removeAllListeners();
             }
