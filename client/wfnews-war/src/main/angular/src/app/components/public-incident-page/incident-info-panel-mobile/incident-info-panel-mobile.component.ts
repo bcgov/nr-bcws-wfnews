@@ -41,6 +41,7 @@ console.error(
           queryParams: {
             longitude: this.incident.longitude,
             latitude: this.incident.latitude,
+            activeWildfires: true
           },
         });
       }, 200);
