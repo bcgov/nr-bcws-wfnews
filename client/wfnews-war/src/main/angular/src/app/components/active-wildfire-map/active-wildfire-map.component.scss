@@ -637,3 +637,11 @@ mat-panel-title {
   left: 20px;
   z-index: 1000;
 }
+
+::ng-deep wf-map-container {
+  // this is a temporary fix for the spinner not being centered
+  // remove the changes or make them more focused if we add a class to the spinner
+  img {
+    left: calc(50% - 32px) !important;
+  }
+}
