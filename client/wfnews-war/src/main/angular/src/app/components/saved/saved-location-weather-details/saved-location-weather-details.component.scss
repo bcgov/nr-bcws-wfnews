@@ -56,3 +56,25 @@
   max-width: 1500px;
   margin: auto;
 }
+
+.popup-button-container{
+  margin-top: 30px;
+  .popup-button{
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid var(--Grays-Gray-7, #DEDEDE);
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    background: var(--Grey-Tab-Background, #F5F6F9);
+  }
+  
+  .external-link-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: top;
+    padding-left: 8px;
+  }  
+}
