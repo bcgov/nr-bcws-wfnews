@@ -6,7 +6,6 @@ import { App } from '@capacitor/app';
 import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
-import { HttpClient } from '@angular/common/http';
 import { LocalStorageService } from './local-storage-service';
 
 export interface ReportOfFireType {
@@ -26,6 +25,7 @@ export interface ReportOfFireType {
   otherInfo?: string;
   submittedTimestamp?: string;
   visibleFlame?: string[];
+  submissionID?: string;
   image1?: Photo | GalleryPhoto;
   image2?: Photo | GalleryPhoto;
   image3?: Photo | GalleryPhoto;
@@ -43,9 +43,8 @@ export class ReportOfFireService {
   constructor(
     private appConfigService: AppConfigService,
     private commonUtilityService: CommonUtilityService,
-    private httpClient: HttpClient,
     private storageService: LocalStorageService
-  ) {}
+  ) { }
 
   async saveReportOfFire(
     reportOfFire: ReportOfFireType,
@@ -58,7 +57,7 @@ export class ReportOfFireService {
     if (this.commonUtilityService.hasSQLKeywords(resource)) {
       console.error("JSON blob contains SQL keywords. Potential SQL injection attempt.");
       return;
-    } 
+    }
     // if the device's location is not populated use the fire location to set image GPS coordinates
     if (reportOfFire?.deviceLocation) {
       this.latitude = reportOfFire.deviceLocation[0];
@@ -73,21 +72,21 @@ export class ReportOfFireService {
       formData.append('resource', resource);
 
       if (image1) {
-formData.append('image1', await this.convertToBase64(image1));
-}
+        formData.append('image1', await this.convertToBase64(image1));
+      }
       if (image2) {
-formData.append('image2', await this.convertToBase64(image2));
-}
+        formData.append('image2', await this.convertToBase64(image2));
+      }
       if (image3) {
-formData.append('image3', await this.convertToBase64(image3));
-}
+        formData.append('image3', await this.convertToBase64(image3));
+      }
       this.formData = formData
       // if the device is offline save RoF in storage
       try {
-        await this.commonUtilityService.checkOnlineStatus().then((result) => {
+        await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
           const self = this;
           if (!result) {
-            this.submitToStorage(formData);
+            await this.submitToStorage(formData);
             self.submittedOffline = true;
           }
         });
@@ -96,8 +95,8 @@ formData.append('image3', await this.convertToBase64(image3));
       }
 
       if (this.submittedOffline) {
-return;
-}
+        return;
+      }
 
       let storedOfflineReportData;
       try {
@@ -130,13 +129,13 @@ return;
         return { success: true, message: 'Report submitted successfully' };
       } else {
         // submit to storage if there is an issue
-        if (this.formData) this.submitToStorage(this.formData)
+        if (this.formData) await this.submitToStorage(this.formData)
         // The server encountered an error
         return { success: false, message: JSON.stringify(response) };
       }
     } catch (error) {
       // submit to storage if there is an error
-      if (this.formData) this.submitToStorage(this.formData)
+      if (this.formData) await this.submitToStorage(this.formData)
       // An error occurred during the HTTP request
       return {
         success: false,
@@ -181,25 +180,25 @@ return;
 
         // Filesystem.readFile returns just the content of the base64 string. Detect mimeType from content
         const identifier = content.charAt(0)
-        switch(identifier) {
-          case '/': 
+        switch (identifier) {
+          case '/':
             mimeType = 'jpg';
             break;
-          case 'i': 
+          case 'i':
             mimeType = 'png';
             break;
-          case 'R': 
+          case 'R':
             mimeType = 'gif';
             break;
-          case 'U': 
+          case 'U':
             mimeType = 'webp';
             break;
-          default: 
+          default:
             mimeType = 'jpg';
             break;
         }
 
-        base64 = 'data:image/' + mimeType + ';base64,' + content;    
+        base64 = 'data:image/' + mimeType + ';base64,' + content;
       }
 
       // if the webPath is already a base64 string, return it
@@ -234,7 +233,7 @@ return;
   }
 
   async submitOfflineReportToServer(offlineReport?): Promise<any> {
-    // retrive the offline RoF from the device's storage and convert to FormData for submission
+    // retrieve the offline RoF from the device's storage and convert to FormData for submission
     // images will already to converted to base64 string from initial submission
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
     const rofJson = JSON.parse(offlineReport);
@@ -245,53 +244,53 @@ return;
 
     const formData = new FormData();
     if (resource) {
-formData.append('resource', resource);
-}
+      formData.append('resource', resource);
+    }
 
     if (image1) {
-formData.append('image1', image1);
-}
+      formData.append('image1', image1);
+    }
     if (image2) {
-formData.append('image2', image2);
-}
+      formData.append('image2', image2);
+    }
     if (image3) {
-formData.append('image3', image3);
-}
+      formData.append('image3', image3);
+    }
 
-try {
-  // Make an HTTP POST request to your server's API endpoint
-  const response = await fetch(rofUrl, {
-    method: 'POST',
-    body: formData,
-  });
+    try {
+      // Make an HTTP POST request to your server's API endpoint
+      const response = await fetch(rofUrl, {
+        method: 'POST',
+        body: formData,
+      });
 
-  if (response.ok || response.status == 200) {
-    // Remove the locally stored data if sync is successful
-    this.storageService.removeData('offlineReportData');
-    App.removeAllListeners();
-    // The server successfully processed the report
-    return { success: true, message: 'Report submitted successfully' };
-  } else {
-    // The server encountered an error
-    return { success: false, message: JSON.stringify(response) };
+      if (response.ok || response.status == 200) {
+        // Remove the locally stored data if sync is successful
+        this.storageService.removeData('offlineReportData');
+        App.removeAllListeners();
+        // The server successfully processed the report
+        return { success: true, message: 'Report submitted successfully' };
+      } else {
+        // The server encountered an error
+        return { success: false, message: JSON.stringify(response) };
+      }
+    } catch (error) {
+      // An error occurred during the HTTP request
+      return {
+        success: false,
+        message: 'An error occurred while submitting the report',
+      };
+    }
   }
-} catch (error) {
-  // An error occurred during the HTTP request
-  return {
-    success: false,
-    message: 'An error occurred while submitting the report',
-  };
-}
-}
 
   async submitToStorage(formData: FormData) {
     const object = {};
     formData.forEach((value, key) => (object[key] = value));
     const json = JSON.stringify(object);
-    const storedData = this.storageService.getData('offlineReportData');
-    if (storedData == json){
+    const data = this.storageService.getData('offlineReportData')
+    if (data == json) {
       return;
-    }else this.storageService.saveData('offlineReportData', json);
+    } else this.storageService.saveData('offlineReportData', json);
   }
 
   // could not seem to get this to work for non-JPEG, those will be handled in notifications api.
@@ -318,6 +317,56 @@ try {
     } catch (err) {
       console.error('Error checking exif: ' + err);
     }
+  }
+
+  async syncDataWithServer() {
+    let dataSynced = false;
+    let submissionID = null;
+    let duplicateStored = false;
+    let submissionIdList = null;
+    let offlineReport = null;
+
+    try {
+      // Fetch and submit locally stored data
+      offlineReport = this.storageService.getData('offlineReportData')
+      submissionIdList = this.storageService.getData('submissionIDList')
+
+      if (offlineReport) {
+        // Check for duplicate, reject if submissionID has already been stored
+        const offlineJson = JSON.parse(offlineReport)
+        if (offlineJson?.resource) {
+          const resourceJson = JSON.parse(offlineJson.resource)
+          submissionID = resourceJson?.submissionID
+          if (submissionID && submissionIdList?.includes(submissionID)) {
+            duplicateStored = true;
+          }
+        }
+
+        // Reject duplicate if submissionID has already been stored
+        if (duplicateStored) return true;
+
+        // Send the report to the server
+        const response =
+          await this.submitOfflineReportToServer(offlineReport).then(async response => {
+            if (response.success) {
+              dataSynced = true;
+              // Remove the locally stored data if sync is successful
+              this.storageService.removeData('offlineReportData');
+              const rof = this.storageService.getData('offlineReportData')
+              console.log('rof: ' + rof)
+              // store submissionID for duplicate check 
+              if (submissionID) {
+                submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
+                this.storageService.saveData('submissionIDList', submissionIdList)
+              }
+              App.removeAllListeners();
+            }
+          });
+      }
+    } catch (error) {
+      console.error('Sync failed:', error);
+    }
+    return dataSynced;
   }
 
 }

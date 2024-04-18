@@ -415,7 +415,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
-      if (params && params['longitude'] && params['latitude']) {
+      if ((params && params['longitude'] && params['latitude']) || (params && params['featureType'])) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
 
@@ -482,26 +482,37 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 },
               );
             }
+          } else if ((params['areaRestriction'] && params['areaRestriction'] === "true") || 
+              (params['evacuationAlert'] && params['evacuationAlert'] === "true") || 
+              (params['activeWildfires'] && params['activeWildfires'] === "true")){
+            this.panToLocation(long, lat, 12);
+          } else if (params['bansProhibitions'] && params['bansProhibitions'] === "true"){
+            this.panToLocation(long, lat, 6);
           } else {
             this.panToLocation(long, lat);
-          }
+          } 
+
           // turn on layers
-          if (params['featureType'] === 'British_Columbia_Area_Restrictions') {
+          if (params['featureType'] === 'British_Columbia_Area_Restrictions' || 
+              (params['areaRestriction'] && params['areaRestriction'] === "true")) {
             this.onSelectLayer('area-restrictions');
           }
 
           if (
             params['featureType'] ===
-            'British_Columbia_Bans_and_Prohibition_Areas'
+            'British_Columbia_Bans_and_Prohibition_Areas' || 
+              (params['bansProhibitions'] && params['bansProhibitions'] === "true")
           ) {
             this.onSelectLayer('bans-and-prohibitions');
           }
 
-          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') {
+          if (params['featureType'] === 'Evacuation_Orders_and_Alerts' || 
+              (params['evacuationAlert'] && params['evacuationAlert'] === "true")) {
             this.onSelectLayer('evacuation-orders-and-alerts');
           }
 
-          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView' || 
+              (params['activeWildfires'] && params['activeWildfires'] === "true")) {
             this.onSelectLayer('wildfire-stage-of-control');
           }
 
@@ -556,12 +567,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  panToLocation(long, lat, noZoom?) {
+  panToLocation(long, lat, zoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       getActiveMap().$viewer.panToFeature(
-        window['turf'].point([long, lat]),
-        noZoom ? null : 12,
-      );
+        window['turf'].point([long, lat]), 
+          zoom ? zoom : null);
     });
   }
 
@@ -807,8 +817,7 @@ async onSelectIncidents(incidentRefs) {
   if (this.incidentRefs.length && this.incidentRefs[0]._identifyPoint) {
     this.panToLocation(
       this.incidentRefs[0]._identifyPoint.longitude,
-      this.incidentRefs[0]._identifyPoint.latitude,
-      true
+      this.incidentRefs[0]._identifyPoint.latitude
     );
   }
 }

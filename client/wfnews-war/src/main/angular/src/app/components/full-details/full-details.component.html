@@ -3,13 +3,15 @@
       alt="Arrow Left" />{{getTitle()}}
     <img (click)="exit()" height="20" width="20" class="full-details-header-right-button" src="/assets/images/svg-icons/cancel.svg"
       alt="Cancel" />
-  </div>
+</div>
+<div class="contents">
   <div id="restrictions-map" class="map-container-mobile"></div>
-<div class="full-details">
-  <!-- This is probably fine for now, but we can change to use an injector like what we do in RoF pages -->
-  <wfnews-area-restrictions-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'area-restriction'" [id]="params['id']" [name]="params['name']"></wfnews-area-restrictions-full-details>
-  <wfnews-bans-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'bans-prohibitions'" [id]="params['id']"></wfnews-bans-full-details>
-  <wfnews-danger-rating-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'danger-rating'" [rating]="params['id']" [location]="params['location']"></wfnews-danger-rating-full-details>
-  <wfnews-evac-alert-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'evac-alert'" [id]="params['id']" [name]="params['name']"></wfnews-evac-alert-full-details>
-  <wfnews-evac-order-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'evac-order'" [id]="params['id']" [name]="params['name']"></wfnews-evac-order-full-details>
+  <div class="full-details">
+    <!-- This is probably fine for now, but we can change to use an injector like what we do in RoF pages -->
+    <wfnews-area-restrictions-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'area-restriction'" [id]="params['id']" [name]="params['name']"></wfnews-area-restrictions-full-details>
+    <wfnews-bans-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'bans-prohibitions'" [id]="params['id']"></wfnews-bans-full-details>
+    <wfnews-danger-rating-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'danger-rating'" [rating]="params['id']" [location]="params['location']" [sysid]="params['sysid']"></wfnews-danger-rating-full-details>
+    <wfnews-evac-alert-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'evac-alert'" [id]="params['id']" [name]="params['name']" [eventNumber]="params['eventNumber']"></wfnews-evac-alert-full-details>
+    <wfnews-evac-order-full-details *ngIf="params && params['id'] && params['type'] && params['type'] === 'evac-order'" [id]="params['id']" [name]="params['name']" [eventNumber]="params['eventNumber']"></wfnews-evac-order-full-details>
+  </div>
 </div>

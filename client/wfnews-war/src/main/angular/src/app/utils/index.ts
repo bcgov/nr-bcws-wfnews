@@ -755,3 +755,5 @@ return;
     return hc.temp != null;
   });
 }
+
+export const isAndroidViaNavigator = () => navigator.platform.includes('Linux') || navigator.platform.includes('Android');

@@ -6,7 +6,6 @@
   font-size: 0.8rem;
 
   .snackbar {
-    top: 30px;
     flex-grow: 1;
     width: 100%;
     height: 100%;
@@ -35,4 +34,8 @@
       top: -10px;
     }
   }
+}
+
+::ng-deep .cdk-overlay-container {
+  margin-top: 35px
 }
