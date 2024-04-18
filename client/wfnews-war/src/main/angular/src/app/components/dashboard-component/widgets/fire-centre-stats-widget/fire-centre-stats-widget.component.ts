@@ -1,6 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { FireCentres, currentFireYear } from '@app/utils';
+import { FireCentres, currentFireYear, snowPlowHelper } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'fire-centre-stats-widget',
@@ -19,8 +21,14 @@ export class FireCentreStatsWidget implements AfterViewInit {
   };
 
   private fireCentres = FireCentres;
+  public snowPlowHelper = snowPlowHelper
 
-  constructor(private publishedIncidentService: PublishedIncidentService) {}
+
+  constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    private appConfigService: AppConfigService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     Promise.all([
@@ -90,5 +98,18 @@ export class FireCentreStatsWidget implements AfterViewInit {
       .catch((err) => {
         console.error(err);
       });
+  }
+
+  toggleViewWildfireCounts(label: string) {
+    this.viewWildfireCounts = !this.viewWildfireCounts;
+    this.snowplowCaller(label)
+  }
+
+  snowplowCaller(label) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'dashboard_click',
+      text: label,
+    });
   }
 }
