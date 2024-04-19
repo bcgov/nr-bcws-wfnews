@@ -2,10 +2,10 @@
   <div class="widget-header">
     <span class="widget-title">Fire Centre Statistics</span>
     <div class="widget-button-bar">
-      <button [disabled]="!viewWildfireCounts" (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="!viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-blue.svg" alt="Hectares" class="button-icon" /><span class="button-label-selected">Hectares Burned</span></button>
-      <button (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-black.svg" alt="Hectares" class="button-icon" /><span class="button-label">Hectares Burned</span></button>
-      <button (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="!viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-black.svg" alt="Wildfires" class="button-icon" /><span class="button-label">Wildfires</span></button>
-      <button [disabled]="viewWildfireCounts" (click)="viewWildfireCounts = !viewWildfireCounts" *ngIf="viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Wildfires" class="button-icon" /><span class="button-label-selected">Wildfires</span></button>
+      <button [disabled]="!viewWildfireCounts" (click)="toggleViewWildfireCounts('Fire Centre Statistics Hectares Burned')" *ngIf="!viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-blue.svg" alt="Hectares" class="button-icon" /><span class="button-label-selected">Hectares Burned</span></button>
+      <button (click)="toggleViewWildfireCounts('Fire Centre Statistics Hectares Burned')" *ngIf="viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/measure-black.svg" alt="Hectares" class="button-icon" /><span class="button-label">Hectares Burned</span></button>
+      <button (click)="toggleViewWildfireCounts('Fire Centre Statistics Wildfires')" *ngIf="!viewWildfireCounts" class="button" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-black.svg" alt="Wildfires" class="button-icon" /><span class="button-label">Wildfires</span></button>
+      <button [disabled]="viewWildfireCounts" (click)="toggleViewWildfireCounts('Fire Centre Statistics Wildfires')" *ngIf="viewWildfireCounts" class="button-selected" mat-flat-button ><img height="24" width="24" src="/assets/images/svg-icons/wildfire-blue.svg" alt="Wildfires" class="button-icon" /><span class="button-label-selected">Wildfires</span></button>
     </div>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>

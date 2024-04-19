@@ -17,11 +17,13 @@ import {
   getActiveMap,
   setDisplayColor,
   convertToDateTime,
+  snowPlowHelper,
 } from '@app/utils';
 import * as L from 'leaflet';
 import { LocationData } from '../wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
 import { AGOLService } from '@app/services/AGOL-service';
 import { CommonUtilityService } from '@app/services/common-utility.service';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'wfnews-draggable-panel',
@@ -72,7 +74,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
   private previousZoom: number;
   private marker: any;
   private markerAnimation;
-
+  public snowPlowHelper = snowPlowHelper
   constructor(
     private publishedIncidentService: PublishedIncidentService,
     protected cdr: ChangeDetectorRef,
@@ -80,7 +82,8 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     private mapConfigService: MapConfigService,
     private router: Router,
     private agolService: AGOLService,
-    private commonUtilityService: CommonUtilityService
+    private commonUtilityService: CommonUtilityService,
+    private appConfigService: AppConfigService
   ) {}
 
   ngOnDestroy(): void {
@@ -686,6 +689,13 @@ return 'Unknown';
               },
             });
           }
+          const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+          this.snowPlowHelper(url, {
+            action: 'incident_details_button_click',
+            id: item.properties.incident_number_label,
+            text: 'Full Details',
+          });
+
           break;
         case 'weather-stations':
           this.router.navigate([ResourcesRoutes.WEATHER_DETAILS], {
