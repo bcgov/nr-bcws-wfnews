@@ -36,21 +36,13 @@ export class FireCauseWidget implements AfterViewInit {
 
     Promise.all([
       this.publishedIncidentService
-        .fetchStatistics(currentFireYear() - 1, fireCentre)
-        .toPromise(),
-      this.publishedIncidentService
         .fetchStatistics(currentFireYear(), fireCentre)
         .toPromise(),
     ])
-      .then(([previousYearStats, stats]) => {
+      .then(([stats]) => {
         // counts by cause code
         const currentYearHuman =
           stats.reduce(
-            (n, { activeHumanCausedFires }) => n + activeHumanCausedFires,
-            0,
-          ) || 0;
-        const previousYearHuman =
-          previousYearStats.reduce(
             (n, { activeHumanCausedFires }) => n + activeHumanCausedFires,
             0,
           ) || 0;
@@ -66,11 +58,6 @@ export class FireCauseWidget implements AfterViewInit {
             (n, { activeNaturalCausedFires }) => n + activeNaturalCausedFires,
             0,
           ) || 0;
-        const previousYearNatural =
-          previousYearStats.reduce(
-            (n, { activeNaturalCausedFires }) => n + activeNaturalCausedFires,
-            0,
-          ) || 0;
         const naturalOut =
           stats.reduce(
             (n, { extinguishedNaturalCausedFires }) =>
@@ -83,11 +70,6 @@ export class FireCauseWidget implements AfterViewInit {
             (n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires,
             0,
           ) || 0;
-        const previousYearUnknown =
-          previousYearStats.reduce(
-            (n, { activeUnknownCausedFires }) => n + activeUnknownCausedFires,
-            0,
-          ) || 0;
         const unknownOut =
           stats.reduce(
             (n, { extinguishedUnknownCausedFires }) =>
@@ -97,28 +79,23 @@ export class FireCauseWidget implements AfterViewInit {
 
         const totalCurrentYear =
           currentYearHuman + currentYearNatural + currentYearUnknown;
-        const totalPreviousYear =
-          previousYearHuman + previousYearNatural + previousYearUnknown;
         const totalOut = humanOut + naturalOut + unknownOut;
         const totalFires =
           totalCurrentYear +
-          totalPreviousYear +
           Number(this.yearly ? totalOut : 0);
 
         // If this is a yearly totals sum, then we need to include outfires
         this.lightningFires =
           currentYearNatural +
-          previousYearNatural +
           (this.yearly ? naturalOut : 0);
         this.lightningFiresPct =
           Math.round((this.lightningFires / totalFires) * 100) || 0;
         this.humanFires =
-          currentYearHuman + previousYearHuman + (this.yearly ? humanOut : 0);
+          currentYearHuman + (this.yearly ? humanOut : 0);
         this.humanFiresPct =
           Math.round((this.humanFires / totalFires) * 100) || 0;
         this.unknownFires =
           currentYearUnknown +
-          previousYearUnknown +
           (this.yearly ? unknownOut : 0);
         this.unknownFiresPct =
           Math.round((this.unknownFires / totalFires) * 100) || 0;

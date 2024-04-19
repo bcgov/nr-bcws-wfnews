@@ -37,8 +37,14 @@
           <div class="section-detail">Recorded: {{readableHour(daily.day + 12)}}</div>
           <div class="divider"></div>
       </div>
-      <div class="section">
-          <wfnews-weather-history *ngIf="latitude && longitude" [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
+      <div class="section" *ngIf="latitude && longitude">
+          <wfnews-weather-history [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
+          <div class="popup-button-container">
+            <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">
+                Fire Danger Class
+                <img alt="icon" class="external-link-icon" src="/assets/images/svg-icons/external-link-grey.svg">
+            </a>
+          </div>
       </div>
       <div class="bottom"></div>
   </div>

@@ -33,13 +33,10 @@ export class FireCentreStatsWidget implements AfterViewInit {
   ngAfterViewInit(): void {
     Promise.all([
       this.publishedIncidentService
-        .fetchStatistics(currentFireYear() - 1, null)
-        .toPromise(),
-      this.publishedIncidentService
         .fetchStatistics(currentFireYear(), null)
         .toPromise(),
     ])
-      .then(([previousYearStats, stats]) => {
+      .then(([stats]) => {
         for (const fc of this.fireCentres) {
           const currentYearActive =
             stats
@@ -59,28 +56,10 @@ export class FireCentreStatsWidget implements AfterViewInit {
                   activeUnderControlFires,
                 0,
               ) || 0;
-          const previousYearActive =
-            previousYearStats
-              .filter((f) => f.fireCentre === fc.description)
-              .reduce(
-                (
-                  n,
-                  {
-                    activeBeingHeldFires,
-                    activeOutOfControlFires,
-                    activeUnderControlFires,
-                  },
-                ) =>
-                  n +
-                  activeBeingHeldFires +
-                  activeOutOfControlFires +
-                  activeUnderControlFires,
-                0,
-              ) || 0;
 
           this.fireCentreTotals.push({
             name: fc.description.replace(' Fire Centre', ''),
-            value: currentYearActive + previousYearActive,
+            value: currentYearActive,
           });
 
           this.fireCentreHectares.push({

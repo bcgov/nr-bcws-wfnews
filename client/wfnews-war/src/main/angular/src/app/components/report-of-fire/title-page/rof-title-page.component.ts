@@ -12,7 +12,6 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
-import { interval } from 'rxjs';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 
 @Component({
@@ -66,12 +65,12 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       // The app state has been changed to inactive.
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
-        const self = this;
 
         if(!this.intervalRef) {
-          this.intervalRef = interval(30000).subscribe(() => {
-            self.checkStoredRoF();
-          });
+            this.intervalRef = setInterval(async () => {
+            if(await this.checkStoredRoF())
+              this.clearBackgroundInterval()
+          }, 30000);
         }
 
         BackgroundTask.finish({ taskId });
@@ -79,12 +78,18 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     });
   }
 
+  clearBackgroundInterval() {
+    clearInterval(this.intervalRef)
+    this.intervalRef = null;
+  }
+
   openCallPage() {
     this.reportOfFirePage.selectPage('call-page', null, false);
   }
 
   async checkStoredRoF() {
-    const self = this;
+    let rofSubmitted = false;
+
     // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
     await this.commonUtilityService.removeInvalidOfflineRoF();
 
@@ -93,12 +98,12 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       if (result) {
         await this.reportOfFireService.syncDataWithServer().then(response => {
           if(response) {
-            self?.intervalRef?.unsubscribe();
-            self.intervalRef = null;
+            rofSubmitted = true;
           }
         });      
       };
     });
+    return rofSubmitted;
   }
 
   triggerLocationServiceCheck() {
