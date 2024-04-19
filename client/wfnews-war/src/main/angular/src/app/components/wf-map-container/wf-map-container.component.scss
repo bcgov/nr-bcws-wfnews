@@ -8,7 +8,12 @@
     width: 100%;
     height: 100%;
     order: 2;
+
+    &.smk-hidden {
+      left: 48%;
+    }
   }
+ 
 }
 
 ::ng-deep .smk-map-frame .smk-overlay .smk-status {
