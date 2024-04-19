@@ -12,7 +12,6 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 import { ReportOfFirePage } from '@app/components/report-of-fire/report-of-fire.component';
 import { App } from '@capacitor/app';
 import { BackgroundTask } from '@capawesome/capacitor-background-task';
-import { Subscription, interval } from 'rxjs';
 import { ReportOfFireService } from '@app/services/report-of-fire-service';
 
 @Component({
@@ -27,7 +26,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   public messages: any;
   public offLineMessages: any;
   offLine = false;
-  private intervalRef: Subscription;
+  private intervalRef;
 
   public constructor(
     protected dialog: MatDialog,
@@ -68,10 +67,10 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       const taskId = await BackgroundTask.beforeExit(async () => {
 
         if(!this.intervalRef) {
-          this.intervalRef = interval(30000).subscribe(() => {
-            if(this.checkStoredRoF()) 
-              this.unsubscribeInterval();
-          });
+            this.intervalRef = setInterval(async () => {
+            if(await this.checkStoredRoF())
+              this.clearBackgroundInterval()
+          }, 30000);
         }
 
         BackgroundTask.finish({ taskId });
@@ -79,8 +78,9 @@ export class RoFTitlePage extends RoFPage implements OnInit {
     });
   }
 
-  unsubscribeInterval() {
-    this.intervalRef?.unsubscribe();
+  clearBackgroundInterval() {
+    clearInterval(this.intervalRef)
+    this.intervalRef = null;
   }
 
   openCallPage() {
