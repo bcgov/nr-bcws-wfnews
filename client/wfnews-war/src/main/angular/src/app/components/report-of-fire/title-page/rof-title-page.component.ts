@@ -80,7 +80,6 @@ export class RoFTitlePage extends RoFPage implements OnInit {
   }
 
   unsubscribeInterval() {
-    console.log('rof: unsubscribing')
     this.intervalRef?.unsubscribe();
   }
 
