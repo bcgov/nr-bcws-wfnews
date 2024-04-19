@@ -7,6 +7,12 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: "https",
   },
+  ios: {
+    overrideUserAgent: 'bc-wildfire-ios'
+  },
+  android: {
+    overrideUserAgent: 'bc-wildfire-android'
+  }
 };
 
 export default config;

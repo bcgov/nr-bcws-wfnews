@@ -1,7 +1,7 @@
 <div class="container">
   <div class="widget-header">
     <span class="widget-title">Wildfires of Note</span>
-    <a class="link" routerLink="../list" [queryParams]="{tab: 0}">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="Order" /></a>
+    <a class="link" routerLink="../list" [queryParams]="{tab: 0}" (click)="snowplowCaller('Evacuations View All')">View All<img height="20" width="20" style="position: relative; top: 5px; margin-left: 5px;" src="/assets/images/svg-icons/forward-arrow-grey.svg" alt="Order" /></a>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div *ngIf="startupComplete" class="count-panel-mobile">

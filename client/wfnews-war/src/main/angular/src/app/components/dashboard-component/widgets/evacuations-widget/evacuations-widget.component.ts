@@ -1,5 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AGOLService } from '@app/services/AGOL-service';
+import { snowPlowHelper } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 import moment from 'moment';
 
 @Component({
@@ -12,8 +15,12 @@ export class EvacuationsWidget implements AfterViewInit {
   public evacOrders = 0;
   public evacAlerts = 0;
   public evacList = [];
+  public snowPlowHelper = snowPlowHelper
 
-  constructor(private agolService: AGOLService) {}
+  constructor(private agolService: AGOLService,
+    private appConfigService: AppConfigService,
+    private router: Router,
+  ) {}
 
   ngAfterViewInit(): void {
     this.agolService
@@ -66,5 +73,13 @@ export class EvacuationsWidget implements AfterViewInit {
     if (value) {
       return moment(value).format('YYYY-MM-DD HH:mm:ss');
     }
+  }
+
+  snowplowCaller() {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'dashboard_click',
+      text: 'Evacuations View All',
+    });
   }
 }
