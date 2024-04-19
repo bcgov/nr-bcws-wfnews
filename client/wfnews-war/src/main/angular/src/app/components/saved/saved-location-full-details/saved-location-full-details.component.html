@@ -205,7 +205,7 @@
               <div class="wildfire-title">{{incident.incidentName}} Wildfire<img class="wildfire-title-icon" (click)="addToWatchlist(incident)"
                 [src]="onWatchlist(incident) ? '/assets/images/svg-icons/bookmark-blue.svg' : '/assets/images/svg-icons/bookmark.svg'" alt="Calendar" /></div>
               <div class="divider-2"></div>
-              <div *ngIf="incident.fireOfNoteInd" class="wilfire-of-note-panel"><img class="wilfire-of-note-panel-icon"
+              <div *ngIf="incident.fireOfNoteInd" class="wildfire-of-note-panel"><img class="icon"
                       src="/assets/images/local_fire_department.png" alt="Fire Of Note" />Wildfire
                   of Note</div>
               <div class="info"><span class="circle-icon {{getStageOfControlIcon(incident.stageOfControlCode)}}"></span>
