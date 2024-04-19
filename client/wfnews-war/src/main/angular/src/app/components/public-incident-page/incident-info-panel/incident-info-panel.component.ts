@@ -117,13 +117,13 @@ return 'Unknown';
 
   public getStageOfControlDescription(code: string) {
     if (code.toUpperCase().trim() === 'OUT') {
-return 'The Wildfire has been extinguished or winter conditions are present, and the Wildfire will not spread.';
+return 'The wildfire has been extinguished or winter conditions are present, and the Wildfire will not spread.';
 } else if (code.toUpperCase().trim() === 'OUT_CNTRL') {
 return 'A wildfire that is spreading or it is anticipated to spread beyond the current perimeter, or control line.';
 } else if (code.toUpperCase().trim() === 'HOLDING') {
-return 'A Wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
+return 'A wildfire that is projected, based on fuel and weather conditions and resource availability, to remain within the current perimeter, control line or boundary.';
 } else if (code.toUpperCase().trim() === 'UNDR_CNTRL') {
-return 'A Wildfire that is not projected to spread beyond the current perimeter.';
+return 'A wildfire that is not projected to spread beyond the current perimeter.';
 } else {
 return 'Unknown stage of control';
 }

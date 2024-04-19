@@ -93,8 +93,8 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       if (result) {
         await this.reportOfFireService.syncDataWithServer().then(response => {
           if(response) {
-            self?.intervalRef?.unsubscribe();
-            self.intervalRef = null;
+            //self?.intervalRef?.unsubscribe();
+            //self.intervalRef = null;
           }
         });      
       };
