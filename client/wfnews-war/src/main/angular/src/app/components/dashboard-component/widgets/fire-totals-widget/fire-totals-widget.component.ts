@@ -45,27 +45,11 @@ export class FireTotalsWidget implements AfterViewInit {
               activeUnderControlFires,
             0,
           ) || 0;
-        const previousYearActive =
-          previousYearStats.reduce(
-            (
-              n,
-              {
-                activeBeingHeldFires,
-                activeOutOfControlFires,
-                activeUnderControlFires,
-              },
-            ) =>
-              n +
-              activeBeingHeldFires +
-              activeOutOfControlFires +
-              activeUnderControlFires,
-            0,
-          ) || 0;
         const currentYearOut =
           stats.reduce((n, { outFires }) => n + outFires, 0) || 0;
 
         this.totalFires =
-          currentYearActive + previousYearActive + currentYearOut;
+          currentYearActive + currentYearOut;
         this.outFires = currentYearOut;
         this.hectaresBurned =
           Math.round(
