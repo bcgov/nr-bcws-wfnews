@@ -4,7 +4,7 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div *ngIf="!hideOnMobileView()">
-      <mat-tab-group mat-stretch-tabs [headerPosition]="above">
+      <mat-tab-group mat-stretch-tabs [headerPosition]="above" (selectedTabChange)="onTabChange($event)">
         <mat-tab label="Details">
           <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
         </mat-tab>

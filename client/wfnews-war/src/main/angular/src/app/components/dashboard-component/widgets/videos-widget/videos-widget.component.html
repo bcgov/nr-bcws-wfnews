@@ -1,7 +1,7 @@
 <div class="container">
   <div class="widget-header">
     <span class="widget-title">Latest Videos</span>
-    <button class="button" mat-flat-button onclick="window.open('https://www.youtube.com/@BCWildfireService', '_blank')"><span class="button-label">Go to Youtube</span><img height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="Order" class="button-icon" /></button>
+    <button class="button" (click)="snowplowCaller('Go to Youtube')"mat-flat-button onclick="window.open('https://www.youtube.com/@BCWildfireService', '_blank')"><span class="button-label">Go to Youtube</span><img height="24" width="24" src="/assets/images/svg-icons/link.svg" alt="Order" class="button-icon" /></button>
   </div>
   <ng-template #loading><mat-spinner [diameter]="80" class="spinner-position"></mat-spinner></ng-template>
   <div class="content" *ngIf="startupComplete; else loading">

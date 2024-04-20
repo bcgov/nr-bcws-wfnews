@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
 import { YouTubeService } from '@app/services/youtube-service';
-import { convertToYoutubeId } from '@app/utils';
+import { convertToYoutubeId, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -13,6 +14,7 @@ import { AppConfigService } from '@wf1/core-ui';
 export class VideosWidget implements AfterViewInit {
   public startupComplete = false;
   public videos = [];
+  public snowPlowHelper = snowPlowHelper
 
   convertToYoutubeId = convertToYoutubeId;
 
@@ -20,7 +22,8 @@ export class VideosWidget implements AfterViewInit {
     private publishedIncidentService: PublishedIncidentService,
     private http: HttpClient,
     protected appConfigService: AppConfigService,
-    private youtubeService: YouTubeService
+    private youtubeService: YouTubeService,
+    private router: Router
   ) {}
 
   ngAfterViewInit(): void {
@@ -92,5 +95,13 @@ export class VideosWidget implements AfterViewInit {
             }
           });
       });
+  }
+
+  snowplowCaller(text) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'dashboard_click',
+      text: text,
+    });
   }
 }

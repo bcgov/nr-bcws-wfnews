@@ -5,7 +5,9 @@ import { PublishedIncidentService } from '@app/services/published-incident-servi
 import {
   convertFireNumber,
   convertToStageOfControlDescription,
+  snowPlowHelper,
 } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'fires-of-note-widget',
@@ -17,6 +19,7 @@ export class FiresOfNoteWidget implements AfterViewInit {
   public activeFireOfNote = 0;
   public activeFiresList = [];
   public updateCount = 0;
+  public snowPlowHelper = snowPlowHelper
 
   convertToStageOfControlDescription = convertToStageOfControlDescription;
 
@@ -25,6 +28,7 @@ export class FiresOfNoteWidget implements AfterViewInit {
     private agolService: AGOLService,
     protected cdr: ChangeDetectorRef,
     protected router: Router,
+    protected appConfigService: AppConfigService
   ) {}
 
   ngAfterViewInit(): void {
@@ -95,5 +99,14 @@ export class FiresOfNoteWidget implements AfterViewInit {
         incidentNumber: incident.incidentNumberLabel,
       };
       this.router.navigate(['/incidents'], { queryParams });
+      this.snowplowCaller('navigate to ' + incident.incidentNumberLabel)
+  }
+
+  snowplowCaller(text) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'dashboard_click',
+      text: text,
+    });
   }
 }
