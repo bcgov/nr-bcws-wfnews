@@ -33,9 +33,8 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   @Input() name: string;
   @Input() eventNumber: string;
 
-
   public evacData: EvacData;
-  public incident: null | SimpleIncident;
+  public incident: SimpleIncident | null;
   public map: any;
 
   convertToDateTime = convertToDateTime;
