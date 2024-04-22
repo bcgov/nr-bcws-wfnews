@@ -156,7 +156,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     }
-    if (this.currentIncidentRefs.length === 1) {
+    if (this.currentIncidentRefs.length === 1 && this.allowBackToIncidentsPanel) {
+      // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
+      this.showPanel = true;
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
