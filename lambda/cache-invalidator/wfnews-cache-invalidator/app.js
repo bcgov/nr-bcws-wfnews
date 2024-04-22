@@ -1,6 +1,7 @@
 const AWS = require('aws-sdk');
 
-const distributionIds = ['ID1', 'ID2', 'ID3']; // fetch from app config. openmaps/agol sources only?
+const distributionIdsString = process.env.DISTRIBUTION_IDS;
+const distributionIds = distributionIdsString.split(',');
 
 /**
  *
