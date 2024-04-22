@@ -1,5 +1,5 @@
 <div>
-    <div class="draggable-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length > 1">
+    <div class="draggable-panel" *ngIf="showPanel && currentIncidentRefs && currentIncidentRefs.length >= 1">
         <div class="panel-container" >
             <div class="draggable-panel-title">
                 {{currentIncidentRefs.length}} Results <mat-icon svgIcon="cancel" (click)="closePanel()"></mat-icon>

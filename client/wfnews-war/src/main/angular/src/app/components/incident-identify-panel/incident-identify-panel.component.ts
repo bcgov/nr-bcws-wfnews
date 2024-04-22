@@ -136,9 +136,9 @@ export class IncidentIdentifyPanelComponent {
   }
 
   close() {
-    (
-      document.getElementsByClassName('incident-details').item(0) as HTMLElement
-    ).remove();
+    // (
+    //   document.getElementsByClassName('incident-details').item(0) as HTMLElement
+    // ).remove();
     (
       document.getElementsByClassName('identify-panel').item(0) as HTMLElement
     ).style.display = 'none';
