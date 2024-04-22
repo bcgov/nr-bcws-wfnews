@@ -60,15 +60,21 @@ export class HistoricalComparisonWidget implements AfterViewInit {
             n,
             {
               activeBeingHeldFires,
+              activeBeingHeldFiresOfNote,
               activeOutOfControlFires,
+              activeOutOfControlFiresOfNote,
               activeUnderControlFires,
+              activeUnderControlFiresOfNote,
               outFires,
             },
           ) =>
             n +
             activeBeingHeldFires +
+            activeBeingHeldFiresOfNote +
             activeOutOfControlFires +
+            activeOutOfControlFiresOfNote +
             activeUnderControlFires +
+            activeUnderControlFiresOfNote +
             outFires,
           0,
         ) || 0;

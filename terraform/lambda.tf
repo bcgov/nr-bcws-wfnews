@@ -124,3 +124,24 @@ resource "aws_lambda_function" "monitor-evacuation" {
     security_group_ids = [data.aws_security_group.app.id]
   }
 }
+
+resource "aws_lambda_function" "wfnews-cache-invalidator" {
+  function_name = "wfnews-cache-invalidator-${var.target_env}"
+  s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  s3_key =  "wfnews-cache-invalidator.zip"
+  source_code_hash = data.aws_s3_object.wfnews-cache-invalidator_hash.body
+  role          = aws_iam_role.lambda_iam_role.arn
+  handler       = "app.lambda_handler"
+  runtime       = "nodejs18.x"
+  timeout = 180
+  environment {
+    variables = {
+      S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
+      SECRET_NAME = var.SECRET_NAME
+    }
+  }
+  vpc_config {
+    subnet_ids         = module.network.aws_subnet_ids.web.ids
+    security_group_ids = [data.aws_security_group.app.id]
+  }
+}

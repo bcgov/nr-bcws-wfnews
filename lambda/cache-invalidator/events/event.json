@@ -1,0 +1,83 @@
+{
+  "body": {
+    "json": {
+      "Records": [
+          {
+              "kinesis": {
+                  "kinesisSchemaVersion": "1.0",
+                  "partitionKey": "1",
+                  "sequenceNumber": "49590338271490256608559692538361571095921575989136588898",
+                  "data": "eyJyZXNvdXJjZUJlZm9yZVVwZGF0ZSI6eyJjb250YWN0RW1haWxBZGRyZXNzIjpudWxsLCJuZXdzQ3JlYXRlZFRpbWVzdGFtcCI6MTY3ODM4MzQ2MzAwMCwid2lsZGZpcmVBdmlhdGlvblJlc291cmNlRGV0YWlsIjpudWxsLCJzdHJ1Y3R1cmVQcm90ZWN0aW9uUnNyY0RldGFpbCI6bnVsbCwicHVibGlzaGVkVXNlclR5cGVDb2RlIjpudWxsLCJpbmNpZGVudE51bWJlckxhYmVsIjoiRzcwMjIyIiwibG9uZ2l0dWRlIjotMTIxLjAsIndpbGRmaXJlQ3Jld1Jlc291cmNlc0RldGFpbCI6bnVsbCwicHVibGlzaGVkVXNlckd1aWQiOm51bGwsImluY2lkZW50U2l6ZU1hcHBlZEhhIjo2NS4wLCJmaXJlQ2VudHJlTmFtZSI6IlByaW5jZSBHZW9yZ2UgRmlyZSBDZW50cmUiLCJmaXJlWm9uZVVuaXRJZGVudGlmaWVyIjoiMTQiLCJpbmNpZGVudE92ZXJ2aWV3IjpudWxsLCJpbmNpZGVudFNpemVFc3RpbWF0ZWRIYSI6NjUuMCwid2lsZGZpcmVBdmlhdGlvblJlc291cmNlSW5kIjpmYWxzZSwicHVibGlzaGVkVXNlck5hbWUiOm51bGwsImluY2lkZW50Q2F1c2VEZXRhaWwiOm51bGwsImNvbnRhY3RPcmdVbml0SWRlbnRpZmVyIjpudWxsLCJkaXNjb3ZlcnlEYXRlIjoxNjc4MzgzNDYzMDAwLCJjb250YWN0UGhvbmVOdW1iZXIiOm51bGwsInVwZGF0ZURhdGUiOm51bGwsImxhdGl0dWRlIjo1MC4wLCJmaXJlQ2VudHJlQ29kZSI6bnVsbCwicHVibGlzaGVkVGltZXN0YW1wIjpudWxsLCJwdWJsaXNoZWRJbmNpZGVudERldGFpbEd1aWQiOiIzMTgzMDk1Mi0xNTFhLTQ3NDgtOGJiMi1kZjQ3NTQyNmZhZDgiLCJnZW5lcmFsSW5jaWRlbnRDYXVzZUNhdElkIjozLCJpbmNpZGVudE1nbXRDcmV3UnNyY0luZCI6ZmFsc2UsInB1Ymxpc2hlZEluY2lkZW50UmV2aXNpb25Db3VudCI6bnVsbCwicmVzb3VyY2VEZXRhaWwiOm51bGwsIndpbGRmaXJlQ3Jld1Jlc291cmNlc0luZCI6ZmFsc2UsImhlYXZ5RXF1aXBtZW50UmVzb3VyY2VzSW5kIjpmYWxzZSwiZGVjbGFyZWRPdXREYXRlIjpudWxsLCJpbmNpZGVudE5hbWUiOiJGSVJFIE5FQVIgREFXU09OIiwic3RhZ2VPZkNvbnRyb2xDb2RlIjoiT1VUX0NOVFJMIiwiaW5jaWRlbnRMb2NhdGlvbiI6IkZJUkUgTkVBUiBEQVdTT04gQ1JFRUsiLCJjcmVhdGVEYXRlIjpudWxsLCJpbmNpZGVudE1nbXRDcmV3UnNyY0RldGFpbCI6bnVsbCwibGFzdFVwZGF0ZWRUaW1lc3RhbXAiOjE2NzgzODM2NDIwNDAsIm5ld3NQdWJsaWNhdGlvblN0YXR1c0NvZGUiOiJEUkFGVCIsInB1Ymxpc2hlZFVzZXJVc2VySWQiOm51bGwsImluY2lkZW50R3VpZCI6IkY2N0MxN0FDRkZEMTcyRUNFMDUzMUQwOTIyOEU4NTIzIiwidXBkYXRlVXNlciI6IlNTWUxWRVIiLCJ0cmFkaXRpb25hbFRlcnJpdG9yeURldGFpbCI6bnVsbCwicmVzcG9uc2VUeXBlQ29kZSI6bnVsbCwiaGVhdnlFcXVpcG1lbnRSZXNvdXJjZXNEZXRhaWwiOm51bGwsImZpcmVZZWFyIjoyMDIyLCJmaXJlT2ZOb3RlSW5kIjpmYWxzZSwiY3JlYXRlVXNlciI6bnVsbCwic3RydWN0dXJlUHJvdGVjdGlvblJzcmNJbmQiOmZhbHNlLCJpbmNpZGVudFNpemVEZXRhaWwiOm51bGx9LCJyZXNvdXJjZUFmdGVyVXBkYXRlIjp7Imxhc3RVcGRhdGVkVGltZXN0YW1wIjoxNjc4MzgzODE5MjY1LCJ1cGRhdGVEYXRlIjoxNjc4MzgzODE5MjY1LCJpbmNpZGVudEd1aWQiOiJGNjdDMTdBQ0ZGRDE3MkVDRTA1MzFEMDkyMjhFODUyMyIsImluY2lkZW50U2l6ZU1hcHBlZEhhIjoxMDAuMCwibGF0aXR1ZGUiOjUwLjAsImZpcmVDZW50cmVOYW1lIjoiUHJpbmNlIEdlb3JnZSBGaXJlIENlbnRyZSIsImZpcmVab25lVW5pdElkZW50aWZpZXIiOiIxNCIsImZpcmVDZW50cmVDb2RlIjpudWxsLCJ1cGRhdGVVc2VyIjoiSURJUlxcU1NZTFZFUiIsImluY2lkZW50U2l6ZUVzdGltYXRlZEhhIjoxMDAuMCwicHVibGlzaGVkSW5jaWRlbnREZXRhaWxHdWlkIjoiMzE4MzA5NTItMTUxYS00NzQ4LThiYjItZGY0NzU0MjZmYWQ4IiwiZ2VuZXJhbEluY2lkZW50Q2F1c2VDYXRJZCI6MywicmVzcG9uc2VUeXBlQ29kZSI6bnVsbCwibmV3c0NyZWF0ZWRUaW1lc3RhbXAiOjE2NzgzODM0NjMwMDAsImRpc2NvdmVyeURhdGUiOjE2NzgzODM0NjMwMDAsImZpcmVZZWFyIjoyMDIyLCJmaXJlT2ZOb3RlSW5kIjpmYWxzZSwiaW5jaWRlbnROYW1lIjoiRklSRSBORUFSIERBV1NPTiIsImluY2lkZW50TnVtYmVyTGFiZWwiOiJHNzAyMjIiLCJzdGFnZU9mQ29udHJvbENvZGUiOiJPVVRfQ05UUkwiLCJsb25naXR1ZGUiOi0xMjEuMCwiaW5jaWRlbnRMb2NhdGlvbiI6IkZJUkUgTkVBUiBEQVdTT04gQ1JFRUsifSwiZXZlbnQiOiJVcGRhdGUiLCJ1cmwiOiJodHRwczovL3dmbmV3cy1zZXJ2ZXIuZGV2LmJjd2lsZGZpcmVzZXJ2aWNlcy5jb20vYnlJbmNpZGVudC9GNjdDMTdBQ0ZGRDE3MkVDRTA1MzFEMDkyMjhFODUyMyJ9",
+                  "approximateArrivalTimestamp": 1545084650.987
+              },
+              "eventSource": "aws:kinesis",
+              "eventVersion": "1.0",
+              "eventID": "shardId-000000000006:49590338271490256608559692538361571095921575989136588898",
+              "eventName": "aws:kinesis:record",
+              "invokeIdentityArn": "arn:aws:iam::123456789012:role/lambda-kinesis-role",
+              "awsRegion": "us-east-2",
+              "eventSourceARN": "arn:aws:kinesis:us-east-2:123456789012:stream/lambda-stream"
+          }
+      ]
+    }
+  },
+  "resource": "/{proxy+}",
+  "path": "/path/to/resource",
+  "httpMethod": "POST",
+  "isBase64Encoded": false,
+  "queryStringParameters": {
+    "foo": "bar"
+  },
+  "pathParameters": {
+    "proxy": "/path/to/resource"
+  },
+  "stageVariables": {
+    "baz": "qux"
+  },
+  "headers": {
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+    "Accept-Encoding": "gzip, deflate, sdch",
+    "Accept-Language": "en-US,en;q=0.8",
+    "Cache-Control": "max-age=0",
+    "CloudFront-Forwarded-Proto": "https",
+    "CloudFront-Is-Desktop-Viewer": "true",
+    "CloudFront-Is-Mobile-Viewer": "false",
+    "CloudFront-Is-SmartTV-Viewer": "false",
+    "CloudFront-Is-Tablet-Viewer": "false",
+    "CloudFront-Viewer-Country": "US",
+    "Host": "1234567890.execute-api.us-east-1.amazonaws.com",
+    "Upgrade-Insecure-Requests": "1",
+    "User-Agent": "Custom User Agent String",
+    "Via": "1.1 08f323deadbeefa7af34d5feb414ce27.cloudfront.net (CloudFront)",
+    "X-Amz-Cf-Id": "cDehVQoZnx43VYQb9j2-nvCh-9z396Uhbp027Y2JvkCPNLmGJHqlaA==",
+    "X-Forwarded-For": "127.0.0.1, 127.0.0.2",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "requestContext": {
+    "accountId": "123456789012",
+    "resourceId": "123456",
+    "stage": "prod",
+    "requestId": "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
+    "requestTime": "09/Apr/2015:12:34:56 +0000",
+    "requestTimeEpoch": 1428582896000,
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "accessKey": null,
+      "sourceIp": "127.0.0.1",
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "Custom User Agent String",
+      "user": null
+    },
+    "path": "/prod/path/to/resource",
+    "resourcePath": "/{proxy+}",
+    "httpMethod": "POST",
+    "apiId": "1234567890",
+    "protocol": "HTTP/1.1"
+  }
+}
