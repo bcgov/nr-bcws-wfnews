@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk');
 
-const distributionIdsString = process.env.DISTRIBUTION_IDS;
+const distributionIdsString = process.env.MAPS_CLOUDFRONT_DISTRIBUTION_IDS;
 const distributionIds = distributionIdsString.split(',');
 
 /**

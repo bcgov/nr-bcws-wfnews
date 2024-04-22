@@ -138,7 +138,7 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
     variables = {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      DISTRIBUTION_IDS = var.DISTRIBUTION_IDS
+      DISTRIBUTION_IDS = var.MAPS_CLOUDFRONT_DISTRIBUTION_IDS
     }
   }
   vpc_config {
