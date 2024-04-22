@@ -223,17 +223,17 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
           if (response) {
             simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
-            simpleIncident.incidentName = response.incidentName.replace('Fire', '').trim() + ' Wildfire';
+            simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
             simpleIncident.fireCentreName = response.fireCentreName;
             simpleIncident.fireYear = response.fireYear;
             simpleIncident.incidentNumberLabel = response.incidentNumberLabel;
             simpleIncident.fireOfNoteInd = response.fireOfNoteInd;
             simpleIncident.stageOfControlCode = response.stageOfControlCode;
             simpleIncident.stageOfControlIcon = getStageOfControlIcon(
-              response.stageOfControlCode,
+              response?.stageOfControlCode,
             );
             simpleIncident.stageOfControlLabel = getStageOfControlLabel(
-              response.stageOfControlCode,
+              response?.stageOfControlCode,
             );
           }
         })
