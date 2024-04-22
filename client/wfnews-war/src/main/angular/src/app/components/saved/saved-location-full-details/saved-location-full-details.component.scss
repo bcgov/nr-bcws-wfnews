@@ -235,6 +235,7 @@
   margin-right: 8px;
   height: 20px;
   width: 20px;
+  vertical-align: top;
 }
 
 .icon-top {
@@ -452,6 +453,7 @@
   }
 
   .info {
+    width: 90%;
     color: var(--Grey-6---666, #666);
     font-size: 16px;
     font-style: normal;
@@ -462,6 +464,7 @@
 }
 
 .wildfire-title {
+  width: 90%;
   color: var(--Black-1, #242424);
   font-size: 18px;
   font-style: normal;
@@ -524,4 +527,22 @@
   background-color: white !important;
   max-width: 1500px;
   margin: auto;
+}
+
+.wildfire-of-note-panel{
+  width: 181px;
+  height: 30px;
+  padding: 4px 12px 4px 12px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  font-family: "Noto sans", "BCSans", "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: normal;
+  letter-spacing: 0em;
+  text-align: left;
+  color: #98273b;
+  background: #fef1f2;
+  border: 1px solid #FBE3E3;
+  align-content: center;
 }
