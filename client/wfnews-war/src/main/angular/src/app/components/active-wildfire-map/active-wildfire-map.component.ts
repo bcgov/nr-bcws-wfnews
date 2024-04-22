@@ -50,6 +50,7 @@ import { NotificationService } from '@app/services/notification.service';
 import { CapacitorService } from '@app/services/capacitor-service';
 import { PushNotification } from '@capacitor/push-notifications';
 import { WildfireNotificationDialogComponent } from '@app/components/wildfire-notification-dialog/wildfire-notification-dialog.component';
+import { PointIdService } from '@app/services/point-id.service';
 
 export type SelectedLayer =
   | 'evacuation-orders-and-alerts'
@@ -142,6 +143,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
   public searchData: SearchResult;
 
   showPanel: boolean;
+  useNearMe: boolean;
 
   wildfireLayerIds: string[] = [
     'active-wildfires-fire-of-note',
@@ -174,6 +176,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     private agolService: AGOLService,
     private notificationService: NotificationService,
     protected capacitorService: CapacitorService,
+    protected pointIdService: PointIdService
   ) {
     this.incidentsServiceUrl = this.appConfig.getConfig().rest['newsLocal'];
     this.placeData = new PlaceData();
@@ -412,7 +415,7 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
         });
     });
     this.activedRouter.queryParams.subscribe((params: ParamMap) => {
-      if (params && params['longitude'] && params['latitude']) {
+      if ((params && params['longitude'] && params['latitude']) || (params && params['featureType'])) {
         const long = Number(params['longitude']);
         const lat = Number(params['latitude']);
 
@@ -479,26 +482,37 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
                 },
               );
             }
+          } else if ((params['areaRestriction'] && params['areaRestriction'] === "true") || 
+              (params['evacuationAlert'] && params['evacuationAlert'] === "true") || 
+              (params['activeWildfires'] && params['activeWildfires'] === "true")){
+            this.panToLocation(long, lat, 12);
+          } else if (params['bansProhibitions'] && params['bansProhibitions'] === "true"){
+            this.panToLocation(long, lat, 6);
           } else {
             this.panToLocation(long, lat);
-          }
+          } 
+
           // turn on layers
-          if (params['featureType'] === 'British_Columbia_Area_Restrictions') {
+          if (params['featureType'] === 'British_Columbia_Area_Restrictions' || 
+              (params['areaRestriction'] && params['areaRestriction'] === "true")) {
             this.onSelectLayer('area-restrictions');
           }
 
           if (
             params['featureType'] ===
-            'British_Columbia_Bans_and_Prohibition_Areas'
+            'British_Columbia_Bans_and_Prohibition_Areas' || 
+              (params['bansProhibitions'] && params['bansProhibitions'] === "true")
           ) {
             this.onSelectLayer('bans-and-prohibitions');
           }
 
-          if (params['featureType'] === 'Evacuation_Orders_and_Alerts') {
+          if (params['featureType'] === 'Evacuation_Orders_and_Alerts' || 
+              (params['evacuationAlert'] && params['evacuationAlert'] === "true")) {
             this.onSelectLayer('evacuation-orders-and-alerts');
           }
 
-          if (params['featureType'] === 'BCWS_ActiveFires_PublicView') {
+          if (params['featureType'] === 'BCWS_ActiveFires_PublicView' || 
+              (params['activeWildfires'] && params['activeWildfires'] === "true")) {
             this.onSelectLayer('wildfire-stage-of-control');
           }
 
@@ -553,12 +567,11 @@ export class ActiveWildfireMapComponent implements OnInit, AfterViewInit {
     });
   }
 
-  panToLocation(long, lat, noZoom?) {
+  panToLocation(long, lat, zoom?) {
     this.mapConfigService.getMapConfig().then(() => {
       getActiveMap().$viewer.panToFeature(
-        window['turf'].point([long, lat]),
-        noZoom ? null : 12,
-      );
+        window['turf'].point([long, lat]), 
+          zoom ? zoom : null);
     });
   }
 
@@ -767,19 +780,47 @@ return;
     this.showAccordion = !this.showAccordion;
   }
 
-  onSelectIncidents(incidentRefs) {
-    this.showPanel = true;
-    this.incidentRefs = Object.keys(incidentRefs).map(
-      (key) => incidentRefs[key],
-    );
-    if (this.incidentRefs[0] && this.incidentRefs[0]._identifyPoint) {
-      this.panToLocation(
-        this.incidentRefs[0]._identifyPoint.longitude,
-        this.incidentRefs[0]._identifyPoint.latitude,
-        true,
-      );
+async onSelectIncidents(incidentRefs) {
+  this.showPanel = true;
+  let tempIncidentRefs = Object.keys(incidentRefs).map((key) => incidentRefs[key]);
+
+  if (this.useNearMe && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'] && getActiveMap().$viewer.displayContext.layers.itemId['weather-stations'][0].isVisible) {
+    try {
+      const station = await this.pointIdService.fetchNearestWeatherStation(this.userLocation?.coords.latitude, this.userLocation?.coords.longitude);
+      for (const hours of station.hourly) {
+        if (hours.temp !== null) {
+          station.validHour = hours;
+          break;
+        }
+      }
+      let weatherStation = {
+        type: 'Feature',
+        layerId: 'weather-stations',
+        title: station.stationName,
+        properties: 'weather-stations',
+        data: station,
+        geometry: {
+          type: 'Point',
+          coordinates: [station.longitude, station.latitude],
+        },
+      };
+      tempIncidentRefs.push(weatherStation);
+    } catch (error) {
+      console.error('Error fetching weather station:', error);
+      // Handle error appropriately
     }
+    this.useNearMe = false;
   }
+  this.incidentRefs = tempIncidentRefs;
+
+  // Ensure this logic executes after incidentRefs is updated
+  if (this.incidentRefs.length && this.incidentRefs[0]._identifyPoint) {
+    this.panToLocation(
+      this.incidentRefs[0]._identifyPoint.longitude,
+      this.incidentRefs[0]._identifyPoint.latitude
+    );
+  }
+}
 
   async initializeLayers() {
     const selectedLayer = await Preferences.get({ key: 'selectedLayer' });
@@ -882,11 +923,17 @@ return;
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
+    
     this.selectedLayer = selectedLayer;
     this.selectedPanel = this.selectedLayer;
 
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
+      text: this.selectedLayer,
+    });
+
+    this.snowPlowHelper(this.url, {
+      action: 'map_layer_selection',
       text: this.selectedLayer,
     });
 
@@ -1001,6 +1048,12 @@ return;
   }
 
   async useMyCurrentLocation() {
+    this.snowPlowHelper(this.url, {
+      action: 'near_me_map_click'
+    });
+    if (isMobileView){
+      this.useNearMe = true;
+    }
     this.clickedMyLocation = true;
     this.snowPlowHelper(this.url, {
       action: 'find_my_location',
@@ -1075,6 +1128,7 @@ return;
     this.smkApi.showFeature('near-me-highlight3x');
     this.smkApi.showFeature('my-location');
     this.clickedMyLocation = false;
+    this.useNearMe = false;
   }
 
   searchTextUpdated() {
@@ -1142,6 +1196,9 @@ return;
   }
 
   openAllLayers() {
+    this.snowPlowHelper(this.url, {
+      action: 'all_layers_map_click'
+    });
     this.isAllLayersOpen = !this.isAllLayersOpen;
     this.isLegendOpen = false;
   }
@@ -1163,6 +1220,9 @@ return;
   }
 
   openSearchPage() {
+    this.snowPlowHelper(this.url, {
+      action: 'search_map_click'
+    });
     const dialogRef = this.dialog.open(SearchPageComponent, {
       width: '450px',
       height: '650px',

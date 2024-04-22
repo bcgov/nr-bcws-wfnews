@@ -15,6 +15,7 @@ export class AreaRestrictionListComponentMobile extends AreaRestrictionListCompo
           type: 'area-restriction',
           id: item.protRsSysID,
           source: [ResourcesRoutes.WILDFIRESLIST],
+          name:item.name
         },
       });
     }

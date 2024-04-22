@@ -40,7 +40,7 @@ export class AddSavedLocationComponent implements OnInit {
   radiusDistance: number;
   notificationName: string;
   public searchByLocationControl = new UntypedFormControl();
-  savedLocation: any;
+  savedLocation: any[] = [];
   locationToEditOrDelete;
   isEdit: boolean;
   isMobileView = isMobileView;
@@ -278,7 +278,7 @@ export class AddSavedLocationComponent implements OnInit {
           console.warn('saveNotificationPreferences fail', e);
           this.cdr.markForCheck();
           this.snackbarService.open(
-            'Failed to save location: ' + JSON.stringify(e.message),
+            'Failed to save location',
             'OK',
             { duration: 10000, panelClass: 'snackbar-error' },
           );
@@ -290,11 +290,16 @@ export class AddSavedLocationComponent implements OnInit {
     return this.notificationService
       .getUserNotificationPreferences()
       .then((response) => {
-        if (response.notifications) {
+        if (response?.notifications?.length) {
           this.savedLocation = response.notifications;
         }
       })
       .catch((err) => {
+        this.snackbarService.open(
+          'Failed to fetch saved locations',
+          'OK',
+          { duration: 10000, panelClass: 'snackbar-error' },
+        );
         console.error('error on fetch notifications', err);
       });
   }

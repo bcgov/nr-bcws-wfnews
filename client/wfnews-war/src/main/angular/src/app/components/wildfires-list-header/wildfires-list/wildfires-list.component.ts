@@ -75,7 +75,7 @@ export class WildFiresListComponent
   ];
   public selectedSortValue = '';
   selectedFireCentreCode = '';
-  wildfiresOfNoteInd = true;
+  wildfiresOfNoteInd = false;
   outOfControlFires = true;
   beingHeldFires = true;
   underControlFires = true;

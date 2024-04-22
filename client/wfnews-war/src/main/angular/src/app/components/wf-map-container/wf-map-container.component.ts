@@ -15,11 +15,11 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
+import { CommonUtilityService } from '@app/services/common-utility.service';
 import { PointIdService } from '../../services/point-id.service';
 import { WFMapService } from '../../services/wf-map.service';
 import { IncidentIdentifyPanelComponent } from '../incident-identify-panel/incident-identify-panel.component';
 import { WeatherPanelComponent } from '../weather/weather-panel/weather-panel.component';
-import { getActiveMap, isMobileView } from '@app/utils';
 
 let mapIndexAuto = 0;
 let initPromise = Promise.resolve();
@@ -54,6 +54,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     protected injector: Injector,
     protected cdr: ChangeDetectorRef,
     protected componentFactoryResolver: ComponentFactoryResolver,
+    protected commonUtilityService: CommonUtilityService
   ) {
     mapIndexAuto += 1;
     this.mapIndexAuto = mapIndexAuto;
@@ -66,7 +67,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.initMap();
+      this.initMap();
   }
 
   initMap(): void {
@@ -82,8 +83,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
 
     // initialize the map
     initPromise = initPromise
-      .then(function() {
-        return self.wfMap
+      .then(() => self.wfMap
           .createSMK({
             id: mapIndex,
             containerSel: self.mapContainer.nativeElement,
@@ -91,7 +91,7 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             toggleAccordion: self.toggleAccordion,
             fullScreen: self.fullScreen,
           })
-          .then(function(smk) {
+          .then((smk) => {
             self.mapInitialized.emit(smk);
 
             // force bc fire centres to the front
@@ -115,14 +115,15 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
                 // do this so we should implement a better solution for layer pane order
                 // in smk directly. note that this requires the tile layer to be visible
                 // by default
-                tileOverlay.appendChild(smk.$viewer.map.getPane('tilePane').childNodes[0]);
+                const tilePanes = smk.$viewer.map.getPane('tilePane').childNodes;
+                tileOverlay.appendChild(tilePanes[tilePanes.length - 1]);
               }
             });
 
             // enforce a max zoom setting, in case we're using cluster/heatmapping
             smk.$viewer.map._layersMaxZoom = 20;
 
-            smk.$viewer.handlePick(3, function(location) {
+            smk.$viewer.handlePick(3, (location) => {
               self.lastClickedLocation = location;
               // If the layer is visible only
               if (
@@ -146,22 +147,27 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
               // the station to the identify results
               if (
                 smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'] &&
-                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible
+                smk?.$viewer?.displayContext?.layers?.itemId['weather-stations'][0].isVisible 
               ) {
-                setTimeout(() => self.addSelectedIncidentPanels(smk), 1000);
+                setTimeout(() => {
+                  self.addSelectedIncidentPanels(smk);
+                }, 1000);
+                // setTimeout(() => {
+                //   self.addNearbyWeatherStation(smk);
+                // }, 1000);
               } else {
                 // if the weather stations layer is turned off, we can ignore the debounce
                 // and immediately execute
-                self.addSelectedIncidentPanels(smk)
+                self.addSelectedIncidentPanels(smk);
               }
             });
 
             return smk;
-          });
-      })
-      .catch(function(e) {
+          }))
+      .catch((e) => {
         console.warn(e);
       });
+
     this.initPromise = initPromise;
   }
 
@@ -256,12 +262,22 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
     }
   }
 
-  addNearbyWeatherStation(smk) {
+  async addNearbyWeatherStation(smk) {
     const self = this;
+    let lat, long;
+    if (this.lastClickedLocation?.map) {
+      lat = this.lastClickedLocation.map.latitude;
+      long = this.lastClickedLocation.map.longitude;
+    } else {
+      let userLocation = await this.commonUtilityService.getCurrentLocationPromise();
+      lat = userLocation.coords.latitude;
+      long = userLocation.coords.longitude;
+    }
+
     this.pointIdService
       .fetchNearestWeatherStation(
-        this.lastClickedLocation.map.latitude,
-        this.lastClickedLocation.map.longitude,
+        lat,
+        long,
       )
       .then(function(station) {
         for (const hours of station.hourly) {
@@ -271,8 +287,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
           }
         }
 
-        station.latitude = self.lastClickedLocation.map.latitude;
-        station.longitude = self.lastClickedLocation.map.longitude;
+        station.latitude = lat;
+        station.longitude = long;
 
         smk.$viewer.identified.add('weather-stations', [
           {
@@ -293,8 +309,8 @@ export class WFMapContainerComponent implements OnDestroy, OnChanges {
             geometry: {
               type: 'Point',
               coordinates: [
-                self.lastClickedLocation.map.longitude,
-                self.lastClickedLocation.map.latitude,
+                long,
+                lat,
               ],
             },
           },

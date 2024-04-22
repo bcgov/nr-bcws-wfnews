@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
-import { convertToDateTimeTimeZone, convertToDateYear, convertToDateYearUtc } from '@app/utils';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { convertToDateTimeTimeZone, convertToDateYear, convertToDateYearUtc, snowPlowHelper } from '@app/utils';
 import {
   AreaRestrictionsOption,
   EvacOrderOption,
@@ -10,6 +10,7 @@ import { AGOLService } from '../../services/AGOL-service';
 import { PublishedIncidentService } from '../../services/published-incident-service';
 import { findFireCentreByName, hideOnMobileView } from '../../utils';
 import { AppConfigService } from '@wf1/core-ui';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 @Component({
   selector: 'public-incident-page',
   templateUrl: './public-incident-page.component.html',
@@ -25,6 +26,7 @@ export class PublicIncidentPage implements OnInit {
   public evacOrders: EvacOrderOption[] = [];
   public areaRestrictions: AreaRestrictionsOption[] = [];
   public extent: any = null;
+  public snowPlowHelper = snowPlowHelper
 
   showImageWarning: boolean;
   showMapsWarning: boolean;
@@ -39,6 +41,7 @@ export class PublicIncidentPage implements OnInit {
     private publishedIncidentService: PublishedIncidentService,
     protected http: HttpClient,
     private appConfigService: AppConfigService,
+    private currentRouter: Router
   ) {}
 
   ngOnInit() {
@@ -283,13 +286,27 @@ this.incident.incidentSizeEstimatedHa =
       });
   }
 
-  callFireCentre(phoneNumber: string) {
-    const parsedPhoneNumber = parseInt(phoneNumber.replace(/-/g, ''));
-    window.open(`tel:${parsedPhoneNumber}`, '_system');
-  }
-
   emailFireCentre(recipientEmail: string) {
     const mailtoUrl = `mailto:${recipientEmail}`;
     window.location.href = mailtoUrl;
   }
+
+  onTabChange( event: MatTabChangeEvent) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.currentRouter.url.slice(1);
+    let actionName;
+    if (event?.tab?.textLabel === 'Response'){
+      actionName = 'incident_details_response_click'
+    }
+    else if (event?.tab?.textLabel === 'Gallery'){
+      actionName = 'incident_details_gallery_click'
+    }
+    else if (event?.tab?.textLabel === 'Maps'){
+      actionName = 'incident_ details_maps_click'
+    }
+    this.snowPlowHelper(url, {
+      action: actionName,
+      text: event?.tab?.textLabel
+    });
+  }
+  
 }

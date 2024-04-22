@@ -1,14 +1,14 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { getActiveMap } from '@app/utils';
+import { CapacitorService } from '@app/services/capacitor-service';
+import { getActiveMap, isAndroidViaNavigator } from '@app/utils';
+import { CapacitorHttp } from '@capacitor/core';
 import { AppConfigService } from '@wf1/core-ui';
 import * as esriVector from 'esri-leaflet-vector';
+import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
+import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
 import * as nightStyle from '../../assets/data/vector-basemap-night.json';
 import * as topoStyle from '../../assets/data/vector-basemap-topo.json';
-import * as navStyle from '../../assets/data/vector-basemap-navigation.json';
-import * as satelliteStyle from '../../assets/data/vector-basemap-imagery.json';
-import { HttpClient } from '@angular/common/http';
-import { CapacitorService } from '@app/services/capacitor-service';
-import { CapacitorHttp } from '@capacitor/core';
 
 export type Smk = any;
 export type SmkPromise = Promise<Smk>;
@@ -17,21 +17,21 @@ export type SmkPromise = Promise<Smk>;
   providedIn: 'root',
 })
 export class WFMapService {
-  private patchPromise: Promise<any>;
-  private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
   identifyCallback;
   identifyDoneCallback;
+  private patchPromise: Promise<any>;
+  private smkBaseUrl = `${window.location.protocol}//${window.location.host}/assets/smk/`;
 
   constructor(
     protected appConfigService: AppConfigService,
     private httpClient: HttpClient,
     private capacitorService: CapacitorService,
-  ) {}
+  ) { }
 
   setHandler(id, method, handler): Promise<any> {
     const SMK = window['SMK'];
 
-    return this.patch().then(function() {
+    return this.patch().then(() => {
       SMK.HANDLER.set(id, method, handler);
     });
   }
@@ -49,12 +49,11 @@ export class WFMapService {
   }
 
   createSMK(option: any) {
-    const self = this;
-
     const SMK = window['SMK'];
+    const mapService = this;
 
     return this.patch()
-      .then(function() {
+      .then(() => {
         try {
           option.config.push({
             // viewer: {
@@ -96,7 +95,7 @@ export class WFMapService {
           );
 
           return SMK.INIT({
-            baseUrl: self.smkBaseUrl,
+            baseUrl: mapService.smkBaseUrl,
             ...option,
           });
         } catch (error) {
@@ -104,23 +103,21 @@ export class WFMapService {
           throw error;
         }
       })
-      .catch(function(error) {
+      .catch((error) => {
         console.error('Error occurred during patching:', error);
         throw error; // Re-throw the error to propagate it to the caller
       });
   }
 
   public patch(): Promise<any> {
-    const service = this;
     try {
-      const self = this;
-
+      const mapService = this;
       const include = window['include'];
       const SMK = window['SMK'];
 
       if (!this.patchPromise) {
         this.patchPromise = Promise.resolve()
-          .then(function() {
+          .then(() => {
             console.log('start patching SMK');
 
             // Create a DIV for a temporary map.
@@ -138,9 +135,9 @@ export class WFMapService {
             return SMK.INIT({
               id: 999,
               containerSel: temp,
-              baseUrl: self.smkBaseUrl,
+              baseUrl: mapService.smkBaseUrl,
               config: 'show-tool=bespoke',
-            }).then(function(smk) {
+            }).then((smk) => {
               const option2x = {
                 tileSize: 512,
                 zoomOffset: -1,
@@ -151,75 +148,65 @@ export class WFMapService {
                 maxZoom: 30,
               };
 
-              self.defineEsriVectoLayer('topography', 'BC Topography', [
+              mapService.defineEsriVectorLayer('topography', 'BC Topography', [
                 {
                   id: 'topography',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style(style) {
-                    return topoStyle;
-                  },
+                  style: () => topoStyle,
                 },
               ]);
 
-              self.defineEsriVectoLayer('navigation', 'Navigation', [
+              mapService.defineEsriVectorLayer('navigation', 'Navigation', [
                 {
                   id: 'navigation',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style(style) {
-                    return navStyle;
-                  },
+                  style: () => navStyle,
                 },
               ]);
 
-              self.defineEsriVectoLayer('imagery', 'Imagery', [
+              mapService.defineEsriVectorLayer('imagery', 'Imagery', [
                 {
                   id: 'imagery',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style(style) {
-                    return satelliteStyle;
-                  },
+                  style: () => satelliteStyle,
                 },
                 { id: 'Imagery', type: 'tile', url: null, style: null },
               ]);
 
-              self.defineEsriVectoLayer('night', 'Night', [
+              mapService.defineEsriVectorLayer('night', 'Night', [
                 {
                   id: 'night',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/B6yKvIZqzuOr0jBR/arcgis/rest/services/Canada_Topographic/VectorTileServer',
-                  style(style) {
-                    return nightStyle;
-                  },
+                  style: () => nightStyle,
                 },
               ]);
 
-              self.defineEsriVectoLayer('bc-basemap', 'BC BaseMap', [
+              mapService.defineEsriVectorLayer('bc-basemap', 'BC BaseMap', [
                 {
                   id: 'bc-basemap',
                   type: 'vector',
                   url: 'https://tiles.arcgis.com/tiles/ubm4tcTYICKBpist/arcgis/rest/services/BC_BASEMAP/VectorTileServer',
-                  style(style) {
-                    return style;
-                  },
+                  style: (style) => style,
                 },
               ]);
 
-              /*defineEsriBasemap( 'topographic-tile', 'Topographic Tile', [
-                                  { id: 'Topographic', option: { ...topographicOption, ...option2x } }
-                                ] );*/
+              if (isAndroidViaNavigator()) {
+                defineOpenStreetMapLayer();
+              }
 
               smk.destroy();
               temp.parentElement.removeChild(temp);
             });
           })
-          .then(function() {
+          .then(() => {
             // add a component to Vue global used by SMK
-            const Vue = window['Vue'];
-            return include('component').then(function() {
-              const f = Vue.component('wf-feature', {
+            const vue = window['Vue'];
+            return include('component').then(() => {
+              const f = vue.component('wf-feature', {
                 template: '#wf-feature-template',
                 extends: SMK.COMPONENT.FeatureBase,
                 methods: {
@@ -243,7 +230,7 @@ export class WFMapService {
                 },
               });
 
-              Vue.component('wf-weather-station-feature', {
+              vue.component('wf-weather-station-feature', {
                 template: '#wf-weather-station-feature-template',
                 extends: f,
                 computed: {
@@ -255,7 +242,7 @@ export class WFMapService {
                 },
               });
 
-              Vue.component('wf-incident-feature', {
+              vue.component('wf-incident-feature', {
                 template: '#wf-incident-feature-template',
                 extends: f,
                 computed: {
@@ -268,7 +255,7 @@ export class WFMapService {
               });
             });
           })
-          .then(function() {
+          .then(() => {
             include.tag(
               'plugin-wfim-util',
               // { loader: "group", tags: [
@@ -420,10 +407,10 @@ export class WFMapService {
               'layer-image-leaflet',
               'layer-wms-time-leaflet',
             )
-              .then(function() {
+              .then(() => {
                 console.log('custom smk layers loaded');
               })
-              .catch(function(error) {
+              .catch((error) => {
                 console.error(
                   'Error occurred while loading custom SMK layers:',
                   error,
@@ -431,12 +418,12 @@ export class WFMapService {
                 throw error;
               });
           })
-          .then(function() {
-            SMK.TYPE.Viewer.leaflet.prototype.mapResized = function() {
-              const self = this;
-              setTimeout(function() {
-                self.map.invalidateSize({ animate: false });
-              }, 500);
+          .then(() => {
+            SMK.TYPE.Viewer.leaflet.prototype.mapResized = () => {
+              const prototype = SMK.TYPE.Viewer.leaflet.prototype;
+              setTimeout(() => {
+                prototype.map.invalidateSize({ animate: false });
+              }, 0);
             };
 
             const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;
@@ -515,17 +502,15 @@ export class WFMapService {
                   .getElementsByClassName('smk-sidepanel')
                   .item(0) as HTMLElement
               ).style.removeProperty('width');
-              if (self.identifyCallback) {
-                self.identifyCallback(location, area);
+              if (mapService.identifyCallback) {
+                mapService.identifyCallback(location, area);
               }
 
               return Promise.resolve()
-                .then(function() {
-                  return origIdentifyFeatures.call(vw, location, area);
-                })
-                .then(function() {
-                  if (self.identifyDoneCallback) {
-                    self.identifyDoneCallback(location, area);
+                .then(() => origIdentifyFeatures.call(vw, location, area))
+                .then(() => {
+                  if (mapService.identifyDoneCallback) {
+                    mapService.identifyDoneCallback(location, area);
                   }
                 })
                 .catch((err) => {
@@ -550,19 +535,17 @@ export class WFMapService {
 
             SMK.TYPE.Layer['wms']['leaflet'].prototype.getFeaturesInArea =
               function(area, view, option) {
-                const self = this;
+                const prototype = SMK.TYPE.Layer['wms']['leaflet'].prototype;
 
                 let extraFilter = this.config.where || '';
                 if (extraFilter) {
-extraFilter = ' AND ' + extraFilter;
-}
+                  extraFilter = ' AND ' + extraFilter;
+                }
 
                 const polygon =
                   'SRID=4326;POLYGON ((' +
                   area.geometry.coordinates[0]
-                    .map(function(c) {
-                      return c.join(' ');
-                    })
+                    .map((c) => c.join(' '))
                     .join(',') +
                   '))';
 
@@ -582,33 +565,33 @@ extraFilter = ' AND ' + extraFilter;
                     extraFilter,
                 };
 
-                return service
+                return mapService
                   .httpGet(this.config.serviceUrl, data)
-                  .then(function(data: any) {
+                  .then((response: any) => {
                     console.log('parse ok');
-                    if (data.data) {
+                    if (response.data) {
                       // from capacitor http
-                      data = data.data;
+                      response = response.data;
                     }
-                    if (!data) {
-throw new Error('no features');
-}
-                    if (!data.features || data.features.length == 0) {
-throw new Error('no features');
-}
-                    console.log('feature count', data.features.length);
+                    if (!response) {
+                      throw new Error('no features');
+                    }
+                    if (!response.features || response.features.length === 0) {
+                      throw new Error('no features');
+                    }
+                    console.log('feature count', response.features.length);
 
-                    return data.features.map(function(f, i) {
-                      if (self.config.titleAttribute) {
-f.title = f.properties[self.config.titleAttribute];
-} else {
-f.title = 'Feature #' + (i + 1);
-}
+                    return response.features.map((f, i) => {
+                      if (this.config.titleAttribute) {
+                        f.title = f.properties[this.config.titleAttribute];
+                      } else {
+                        f.title = 'Feature #' + (i + 1);
+                      }
 
                       return f;
                     });
                   })
-                  .then(function(features) {
+                  .then((features) => {
                     console.log('features returned', features.length);
                     return features;
                   });
@@ -616,67 +599,68 @@ f.title = 'Feature #' + (i + 1);
 
             SMK.TYPE.Layer['wms-time-cql']['leaflet'].prototype.initLegends =
               SMK.TYPE.Layer['wms']['leaflet'].prototype.initLegends =
-                function() {
-                  const J = window['jQuery'];
+              () => {
+                const J = window['jQuery'];
+                const prototype = SMK.TYPE.Layer['wms']['leaflet'].prototype;
 
-                  const url =
-                    this.config.serviceUrl +
-                    '?' +
-                    J.param({
-                      SERVICE: 'WMS',
-                      VERSION: '1.1.1',
-                      REQUEST: 'getlegendgraphic',
-                      FORMAT: 'image/png',
-                      TRANSPARENT: 'true',
-                      LAYER: this.config.layerName,
-                      STYLE: this.config.styleName,
-                    });
+                const url =
+                  prototype.config.serviceUrl +
+                  '?' +
+                  J.param({
+                    SERVICE: 'WMS',
+                    VERSION: '1.1.1',
+                    REQUEST: 'getlegendgraphic',
+                    FORMAT: 'image/png',
+                    TRANSPARENT: 'true',
+                    LAYER: prototype.config.layerName,
+                    STYLE: prototype.config.styleName,
+                  });
 
-                  return fetch(url, {
-                    method: 'GET',
-                    headers: this.config.header,
-                    mode: 'cors',
-                  })
-                    .then((res) => res.blob())
-                    .then(
-                      (blob) =>
-                        new Promise((res, rej) => {
-                          try {
-                            const reader = new FileReader();
-                            reader.onload = () => res(reader.result);
-                            reader.readAsDataURL(blob);
-                          } catch (e) {
-                            rej(e);
-                          }
-                        }),
-                    )
-                    .then(
-                      (dataUrl: string) =>
-                        new Promise((res, rej) => {
-                          try {
-                            const img = new Image();
-                            img.onload = () =>
-                              res([
-                                {
-                                  url: dataUrl,
-                                  width: img.width,
-                                  height: img.height,
-                                  ...this.config.legend,
-                                },
-                              ]);
-                            img.onerror = (ev) => rej(ev);
-                            img.src = dataUrl;
-                          } catch (e) {
-                            rej(e);
-                          }
-                        }),
-                    )
-                    .catch((e) => {
-                      console.warn(e);
-                    });
-                };
+                return fetch(url, {
+                  method: 'GET',
+                  headers: prototype.config.header,
+                  mode: 'cors',
+                })
+                  .then((res) => res.blob())
+                  .then(
+                    (blob) =>
+                      new Promise((res, rej) => {
+                        try {
+                          const reader = new FileReader();
+                          reader.onload = () => res(reader.result);
+                          reader.readAsDataURL(blob);
+                        } catch (e) {
+                          rej(e);
+                        }
+                      }),
+                  )
+                  .then(
+                    (dataUrl: string) =>
+                      new Promise((res, rej) => {
+                        try {
+                          const img = new Image();
+                          img.onload = () =>
+                            res([
+                              {
+                                url: dataUrl,
+                                width: img.width,
+                                height: img.height,
+                                ...prototype.config.legend,
+                              },
+                            ]);
+                          img.onerror = (ev) => rej(ev);
+                          img.src = dataUrl;
+                        } catch (e) {
+                          rej(e);
+                        }
+                      }),
+                  )
+                  .catch((e) => {
+                    console.warn(e);
+                  });
+              };
           })
-          .then(function() {
+          .then(() => {
             console.log('done patching SMK');
           });
       }
@@ -744,7 +728,7 @@ f.title = 'Feature #' + (i + 1);
     });
   }
 
-  defineEsriVectoLayer(
+  defineEsriVectorLayer(
     id: string,
     title: string,
     baseMaps: {
@@ -756,7 +740,6 @@ f.title = 'Feature #' + (i + 1);
     }[],
   ) {
     order += 1;
-    const self = this;
     baseMapIds.push(id);
     window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
       title,
@@ -771,9 +754,7 @@ f.title = 'Feature #' + (i + 1);
         };*/
         return baseMaps.map((bm) => {
           const opts = clone({ ...bm.option, wfnewsId: id });
-          opts.cacheToken = () => {
-            return baseMapCacheToken;
-          };
+          opts.cacheToken = () => baseMapCacheToken;
 
           if (bm.type === 'vector') {
             opts.renderer = L.canvas({ padding: 0.5 });
@@ -831,27 +812,25 @@ f.title = 'Feature #' + (i + 1);
   }
 }
 
-function clone(obj) {
-  return JSON.parse(JSON.stringify(obj));
-}
+const clone = (obj) => JSON.parse(JSON.stringify(obj));
 
 let order = 100;
 const baseMapIds = [];
 let baseMapCacheToken;
 const baseMapLayers = [];
 
-function defineEsriBasemap(
+const defineEsriBasemap = (
   id: string,
   title: string,
   baseMaps: { id: string; option?: { [key: string]: any } }[],
-) {
+) => {
   order += 1;
   baseMapIds.push(id);
   window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
     title,
     order,
     create() {
-      return baseMaps.map(function(bm) {
+      return baseMaps.map((bm) => {
         const L = window['L'];
 
         const orig = clone(L.esri.BasemapLayer.TILES[bm.id].options);
@@ -864,44 +843,56 @@ function defineEsriBasemap(
       });
     },
   };
-}
+};
 
-function changeCacheToken() {
+const changeCacheToken = () => {
   baseMapCacheToken = Math.trunc(Math.random() * 1e10);
-}
+};
 
-function defineWmsBasemap(
+const defineWmsBasemap = (
   id,
   title: string,
   baseMaps: { url: string; option?: { [key: string]: any } }[],
-) {
+) => {
   order += 1;
   baseMapIds.push(id);
   window['SMK'].TYPE.Viewer.prototype.basemap[id] = {
     title,
     order,
     create() {
-      return baseMaps.map(function(bm) {
+      return baseMaps.map((bm) => {
         const L = window['L'];
-
         return L.tileLayer(bm.url, bm.option);
       });
-    },
+    }
   };
-}
+};
 
-function encodeUrl(url, data) {
+const defineOpenStreetMapLayer = () => {
+  const L = window['L'];
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
+  });
+  order += 1;
+  baseMapIds.push('openstreetmap');
+  window['SMK'].TYPE.Viewer.prototype.basemap['openstreetmap'] = {
+    title: 'OpenStreetMap',
+    order,
+    create() {
+      return [osm];
+    }
+  };
+};
+
+const encodeUrl = (url, data) => {
   if (!data) {
     return url;
   }
 
   const params = Object.keys(data)
-    .filter(function(k) {
-      return data[k];
-    })
-    .map(function(k) {
-      return `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`;
-    })
+    .filter((k) => data[k])
+    .map((k) => `${encodeURIComponent(k)}=${encodeURIComponent(data[k])}`)
     .join('&');
 
   if (/[?]\S+$/.test(url)) {
@@ -913,12 +904,25 @@ function encodeUrl(url, data) {
   }
 
   return `${url}?${params}`;
-}
+};
 
-function zoomToProvince() {
-  zoomToGeometry(window['turf'].bboxPolygon([-136.3, 49, -116, 60.2]));
-}
-
-function zoomToGeometry(geom: any, zoomLevel: number | boolean = 12) {
+const zoomToGeometry = (geom: any, zoomLevel: number | boolean = 12) => {
   getActiveMap().$viewer.panToFeature(geom, zoomLevel);
-}
+};
+const zoomToProvince = () => {
+  getActiveMap().$viewer.panToFeature({
+    type: 'Feature',
+    geometry: {
+      type: 'Polygon',
+      coordinates: [
+        [
+          [-139.05, 60.0],
+          [-114.05, 60.0],
+          [-114.05, 48.0],
+          [-139.05, 48.0],
+          [-139.05, 60.0],
+        ],
+      ],
+    },
+  });
+};

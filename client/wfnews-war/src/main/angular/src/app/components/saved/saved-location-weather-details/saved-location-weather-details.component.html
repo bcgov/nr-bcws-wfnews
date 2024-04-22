@@ -1,13 +1,13 @@
 <div [class]="isMobileView() ? 'container' : 'desktop-container'">
-  <div class="header"><img (click)="backToSaved()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
+  <div class="header"><img (click)="back()" src="/assets/images/svg-icons/back-arrow.svg" alt="back-arrow"
       class="back-icon" />Back</div>
   <div class="content">
       <div class="section">
           <div class="section-title">Weather Detail</div>
-          <div class="section-detail">Weather Station: {{station.stationName}}</div>
+          <div class="section-detail">Weather Station: {{station ? station.stationName : null}}</div>
           <div class="divider"></div>
       </div>
-      <div class="section">
+      <div class="section" *ngIf="hourly">
           <div class="section-title">Hourly Indices</div>
           <div class="section-detail">Temperature: {{hourly.temp}}° C</div>
           <div class="section-detail">Relative Humidity: {{hourly.relativeHumidity}}%</div>
@@ -20,7 +20,7 @@
           <div class="section-detail">Recorded: {{readableHour(hourly.hour)}}</div>
           <div class="divider"></div>
       </div>
-      <div class="section">
+      <div class="section" *ngIf="daily">
           <div class="section-title">Daily Indices</div>
           <div class="section-detail">Date: {{readableDate(daily.day)}}</div>
           <div class="section-detail">Temperature: {{daily.temp}}° C</div>
@@ -37,8 +37,14 @@
           <div class="section-detail">Recorded: {{readableHour(daily.day + 12)}}</div>
           <div class="divider"></div>
       </div>
-      <div class="section">
-          <wfnews-weather-history *ngIf="latitude && longitude" [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
+      <div class="section" *ngIf="latitude && longitude">
+          <wfnews-weather-history [latitude]="latitude" [longitude]="longitude"></wfnews-weather-history>
+          <div class="popup-button-container">
+            <a class="popup-button" target="_blank" rel="noopener" href="https://wfapps.nrs.gov.bc.ca/pub/wfwx-danger-summary-war/dangerSummary">
+                Fire Danger Class
+                <img alt="icon" class="external-link-icon" src="/assets/images/svg-icons/external-link-grey.svg">
+            </a>
+          </div>
       </div>
       <div class="bottom"></div>
   </div>

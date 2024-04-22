@@ -29,7 +29,7 @@
           </div>
           <button class="button" mat-raised-button (click)="useMyCurrentLocation()"><mat-icon class="button-icon">my_location</mat-icon><span class="button-label">Find Me</span></button>
       </div>
-            <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)"></wf-map-container>
+            <wf-map-container class="map-container" [mapConfig]="mapConfig" (mapInitialized)="initMap($event)" (toggleAccordion)="onToggleAccordion()" (selectIncidents)="onSelectIncidents($event)" ></wf-map-container>
             <div class="layers-container" *ngIf="this.isMapLoaded" (mouseover)="setupScrollForLayersComponent()">
               <button *ngIf="!isMobileView() && showLeftLayerScroller()" mat-fab class="layer-scroll-button" (mousedown)="sliderButtonHold = true; slideLayerButtons(-40); $event.stopPropagation()" (mouseup)="sliderButtonHold = false"><img alt="left" src="../../../assets/images/svg-icons/chevron-left.svg"></button>
                 <mat-button-toggle-group id="layer-buttons" class="layer-buttons disable-scrollbars" multiple="false">

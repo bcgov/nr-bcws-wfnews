@@ -16,9 +16,9 @@
         <img height="17" width="17" src="/assets/images/category3ban.png" alt="Category 3" class="icon"><span class="checkbox-label">Category 3</span>
       </div>
     </div>
-    <div (click)="showViewMapButton = !showViewMapButton" (mouseenter)="showViewMapButton = true" (mouseleave)="showViewMapButton = false" id="bans-map" class="bans-map-container">
+    <div (click)="toggleMapView()" (mouseenter)="showViewMapButton = true" (mouseleave)="showViewMapButton = false" id="bans-map" class="bans-map-container">
       <div class="map-overlay" *ngIf="showViewMapButton">
-        <a class="link" routerLink="../map">View Full Map</a>
+        <a class="link">View Full Map</a>
       </div>
     </div>
   </div>

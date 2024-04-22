@@ -3,4 +3,5 @@
   "files.maxMemoryForLargeFilesMB": 8192,
   "java.compile.nullAnalysis.mode": "automatic",
   "java.jdt.ls.vmargs": "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx8G -Xms100m -javaagent:\"c:\\Users\\dhemsworth\\.vscode\\extensions\\vscjava.vscode-lombok-1.0.1\\server\\lombok.jar\""
+
 }

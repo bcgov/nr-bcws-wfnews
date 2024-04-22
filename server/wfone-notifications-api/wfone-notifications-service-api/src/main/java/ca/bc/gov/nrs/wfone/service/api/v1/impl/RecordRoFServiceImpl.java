@@ -212,6 +212,9 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		ObjectMapper mapper = new ObjectMapper();
 
 		String reportOfFireCacheGuid = UUID.randomUUID().toString();
+		
+		if(checkAlreadySubmitted(rofFormData)) return; 
+		
 		insertRoFCache(reportOfFireCacheGuid, rofFormData);
 
 		List<byte[]> imageList = new ArrayList<byte[]>();
@@ -231,6 +234,38 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 
 		form.setReportOfFire(mapper.writeValueAsString(updateForm));
 		getRofFormDao().update(form);
+	}
+	
+	private boolean checkAlreadySubmitted(String reportOfFire) throws DaoException {
+		boolean alreadySubmitted = false;
+		
+		// reject if there is a duplicate record in the cache already
+		List<RoFFormDto> cachedRofs = getRofFormDao().select();
+		
+		if (cachedRofs != null) {
+			for(RoFFormDto rof: cachedRofs) {
+				String RoF = rof.getReportOfFire();
+				
+				if (RoF != null && RoF.contains("submissionID") 
+						&& reportOfFire != null && reportOfFire.contains("submissionID")) {
+					JSONObject rofJson = new JSONObject(RoF);
+			    	String formString = rofJson.optString("form");
+			    	JSONObject formJson = new JSONObject(formString);
+			    	JSONObject newRofJson = new JSONObject(reportOfFire);
+			    		
+			    	if(formJson != null && newRofJson != null) {
+			    		String submissionID = formJson.optString("submissionID");
+				    	String newSubmissionID = newRofJson.optString("submissionID");
+				    	if (submissionID != null && newSubmissionID != null && submissionID.equals(newSubmissionID)) {
+				    		return true;
+				    	}
+			    	}
+				}
+			}	
+		}
+		
+		return alreadySubmitted;
+		
 	}
 
 	private void insertRoFCache(String reportOfFireCacheGuid, String reportOfFire)
@@ -301,6 +336,7 @@ public class RecordRoFServiceImpl implements RecordRoFService {
 		String rofEndpoint = wfimUrl + "publicReportOfFires";
 
 		String serializedRof = prepareRoF(rofFormDataJson, mapper);
+		logger.info("Posting serialized ROF to WFIM: " + serializedRof);
 		
 		Date postDate = new Date();
 		HttpResponse<String> response = Unirest.post(rofEndpoint).header("Authorization", "Bearer " + token)

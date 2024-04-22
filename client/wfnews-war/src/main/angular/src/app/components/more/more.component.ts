@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ResourcesRoutes } from '@app/utils';
+import { ResourcesRoutes, snowPlowHelper } from '@app/utils';
 import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
@@ -10,8 +10,10 @@ import { AppConfigService } from '@wf1/core-ui';
 })
 export class MoreComponent implements OnInit{
   public versionNumber;
-
-  constructor(private router: Router, private appConfig: AppConfigService) {}
+  public snowPlowHelper = snowPlowHelper
+  constructor(
+    private router: Router,
+    private appConfig: AppConfigService) {}
 
   ngOnInit(): void {
     const version = this.appConfig.getConfig().application.version;
@@ -21,6 +23,11 @@ export class MoreComponent implements OnInit{
   }
 
   navigate(menu) {
+    const url = this.appConfig.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'more_menu_navigation',
+      text: menu,
+    });
     switch (menu) {
       case 'wildfire-list':
         this.router.navigate([ResourcesRoutes.WILDFIRESLIST]);

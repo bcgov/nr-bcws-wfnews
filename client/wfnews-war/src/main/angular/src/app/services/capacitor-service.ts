@@ -1,26 +1,26 @@
 import { EventEmitter, Injectable, NgZone } from '@angular/core';
-import { MatSnackBarConfig } from '@angular/material/snack-bar';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { FCM } from '@capacitor-community/fcm';
-import { Store } from '@ngrx/store';
-import { BehaviorSubject, fromEvent } from 'rxjs';
-import { EventEmitterService } from './event-emitter.service';
-import { environment } from '../../environments/environment';
-import { RootState } from '../store';
-import { ApplicationStateService } from './application-state.service';
 import { App, AppState } from '@capacitor/app';
+import { AppLauncher } from '@capacitor/app-launcher';
+import { Browser } from '@capacitor/browser';
 import { Device } from '@capacitor/device';
 import { Geolocation, Position } from '@capacitor/geolocation';
-import { Browser } from '@capacitor/browser';
 import {
   PushNotificationSchema,
   PushNotifications,
 } from '@capacitor/push-notifications';
-import { AppLauncher } from '@capacitor/app-launcher';
+import { Store } from '@ngrx/store';
+import { BehaviorSubject, fromEvent } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { RootState } from '../store';
+import { ApplicationStateService } from './application-state.service';
+import { EventEmitterService } from './event-emitter.service';
 
-import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
 import { ResourcesRoutes } from '@app/utils';
+import { NotificationSnackbarComponent } from '../components/notification-snackbar/notification-snackbar.component';
+import { Preferences } from '@capacitor/preferences';
 
 export interface CompassHeading {
   magneticHeading?: number; //The heading in degrees from 0-359.99 at a single moment in time. (Number)
@@ -560,4 +560,22 @@ this.devicePropertiesPromise = Device.getInfo()
   get isMobile(): Promise<boolean> {
     return this.deviceProperties.then((p) => p.isMobilePlatform);
   }
+
+  async saveData(key: string, value: string) {
+    await Preferences.set({
+      key: key,
+      value: value
+    });
+  }
+  
+  async getData(key: string) {
+    const response = await Preferences.get({ key: key });
+    return response.value;
+  }
+
+  async removeData(key: string) {
+    await Preferences.remove({ key: key })
+  }
 }
+
+

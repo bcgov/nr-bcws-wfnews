@@ -44,6 +44,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     @Override
     public Response submitRoFForm(String document, FormDataBodyPart image1, FormDataBodyPart image2, FormDataBodyPart image3) throws ValidationException, Exception{
         logger.debug("<submitRoFForm");
+        logger.info("ROF body: " + document);
         Response response = null;
 
         String[] sqlKeywords = SqlUtil.sqlKeywords;
@@ -162,6 +163,7 @@ public class RoFEndpointsImpl extends BaseEndpointsImpl implements RoFEndpoints{
     	prof.setAssetsAtRisk(convertToStringArray(profJson.optJSONArray("assetsAtRisk")));
     	prof.setSignsOfResponse(convertToStringArray(profJson.optJSONArray("signsOfResponse")));
     	prof.setOtherInfo(profJson.optString("otherInfo"));
+    	prof.setSubmissionID(profJson.optString("submissionID"));
     	
     	return prof;
     }

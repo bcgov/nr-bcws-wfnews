@@ -4,7 +4,7 @@
       <incident-header-panel [incident]="incident" [evacOrders]="evacOrders" [extent]="extent"></incident-header-panel>
     </div>
     <div *ngIf="!hideOnMobileView()">
-      <mat-tab-group mat-stretch-tabs [headerPosition]="above">
+      <mat-tab-group mat-stretch-tabs [headerPosition]="above" (selectedTabChange)="onTabChange($event)">
         <mat-tab label="Details">
           <incident-info-panel [incident]="incident" [evacOrders]="evacOrders" [areaRestrictions]="areaRestrictions"></incident-info-panel>
         </mat-tab>
@@ -51,10 +51,10 @@
                     alt="carbon_phone" />{{incident.contactPhoneNumber}}</div>
         </div>
         <div class="contact-buttons">
-            <button mat-button class="mobile-buttons" (click)="callFireCentre(incident.contactPhoneNumber)">
+            <button mat-button class="mobile-buttons">
                 <img class="icon-contact" src="/assets/images/svg-icons/carbon_phone.svg"
                     alt="carbon_phone" />
-                Call Us
+                <a [href]="'tel:' + incident.contactPhoneNumber" style="text-decoration: none; color: inherit;">Call Us</a>
             </button>
             <button mat-button class="mobile-buttons" (click)="emailFireCentre(incident.contactEmailAddress)">
                 <img class="icon-contact" src="/assets/images/svg-icons/carbon_email.svg"

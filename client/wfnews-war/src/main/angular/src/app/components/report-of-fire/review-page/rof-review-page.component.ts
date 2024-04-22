@@ -20,6 +20,7 @@ import { equalsIgnoreCase } from '../../../utils';
 import offlineMapJson from '../../../../assets/maps/british-columbia.json';
 import { SmkApi } from '@app/utils/smk';
 import { LatLng } from 'leaflet';
+import { v5 as uuidv5 } from 'uuid';
 
 @Component({
   selector: 'rof-review-page',
@@ -27,7 +28,7 @@ import { LatLng } from 'leaflet';
   styleUrls: ['./rof-review-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
+export class RoFReviewPage extends RoFPage implements AfterViewInit {
   public reportOfFirePages: any;
   map: any;
   smkApi: SmkApi;
@@ -45,10 +46,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
 
   ngAfterViewInit(): void {
     this.loadMap();
-  }
-
-  ngOnInit(): void {
-    this.ionViewDidEnter();
   }
 
   initialize(data: any, index: number, reportOfFire: ReportOfFire) {
@@ -377,18 +374,6 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
     }
   }
 
-  async ionViewDidEnter() {
-    // first check do 24 hour check in storage and remove offline RoF if timeframe has elapsed
-    await this.commonUtilityService.removeInvalidOfflineRoF();
-
-    // if server is reachable look for previously stored offline RoFs to be submitted
-    await this.commonUtilityService.checkOnlineStatus().then(async (result) => {
-      if (result) {
-          await this.commonUtilityService.syncDataWithServer();
-        }
-    });
-  }
-
   async useMyCurrentLocation() {
     this.currentLocation =
       await this.commonUtilityService.getCurrentLocationPromise();
@@ -404,6 +389,14 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
         ];
       }
     });
+
+    // seed string to create submission UUID
+    const fixedFireLocation = [this.reportOfFire.fireLocation[0].toFixed(3), this.reportOfFire.fireLocation[1].toFixed(3)]
+    const seedString = this.reportOfFire.fullName + this.reportOfFire.phoneNumber + fixedFireLocation.toString();
+
+    // uuid library requires custom namespace GUID e.g. 7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62
+    const uniqueID = uuidv5(seedString, "7f7c68e7-8eab-4281-9c1f-4fe3d3e56e62")
+
     const rofResource: ReportOfFireType = {
       fullName: this.nullEmptyStrings(this.reportOfFire.fullName),
       phoneNumber: this.nullEmptyStrings(this.reportOfFire.phoneNumber),
@@ -423,6 +416,7 @@ export class RoFReviewPage extends RoFPage implements AfterViewInit, OnInit {
       otherInfo: this.reportOfFire.otherInfo,
       submittedTimestamp: new Date().getTime().toString(),
       visibleFlame: new Array<string>(this.reportOfFire.visibleFlame),
+      submissionID: uniqueID
     };
 
     try {

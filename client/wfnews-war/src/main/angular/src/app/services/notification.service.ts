@@ -108,7 +108,7 @@ export class NotificationService {
     return this.capacitorService.deviceProperties.then((p) => {
       const url = `${
         this.appConfigService.getConfig().rest['notification-api']
-      }/notificationSettings/${p.deviceId}`;
+      }/notificationSettings/${p?.deviceId}`;
       const headers = new HttpHeaders({
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
       });
