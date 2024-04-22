@@ -87,3 +87,31 @@ resource "aws_route53_record" "wfone-notifications-api" {
     evaluate_target_health = true
   }
 }
+
+resource "aws_route53_record" "wfnews_openmaps_cache" {
+  //We will eventually phase out old URLs, but use them for now
+  //count = var.target_env == "prod" ? 0 : 1
+
+  zone_id = data.aws_route53_zone.zone.id
+  name    = "maps.${var.target_env}.bcwildfireservices.com"
+  type    = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.wfnews_openmaps_cache[0].domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_openmaps_cache[0].hosted_zone_id
+    evaluate_target_health = true
+  }
+}
+
+resource "aws_route53_record" "wfnews_services6_cache" {
+  //We will eventually phase out old URLs, but use them for now
+  //count = var.target_env == "prod" ? 0 : 1
+
+  zone_id = data.aws_route53_zone.zone.id
+  name    = "services6.${var.target_env}.bcwildfireservices.com"
+  type    = "A"
+  alias {
+    name                   = aws_cloudfront_distribution.wfnews_services6_cache[0].domain_name
+    zone_id                = aws_cloudfront_distribution.wfnews_services6_cache[0].hosted_zone_id
+    evaluate_target_health = true
+  }
+}
