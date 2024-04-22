@@ -66,6 +66,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     'active-wildfires-under-control',
     'bcws-activefires-publicview-inactive',
     'fire-perimeters',
+    "active-wildfires-out"
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
@@ -155,7 +156,9 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
         }
       }
     }
-    if (this.currentIncidentRefs.length === 1) {
+    if (this.currentIncidentRefs.length === 1 && this.allowBackToIncidentsPanel) {
+      // only show preview detial if it is through openPreviewPanel(). We will always the preview list page by clicking on map, even there is only single item.
+      this.showPanel = true;
       const viewer = getActiveMap().$viewer;
       for (const polygon of this.highlightPolygons) {
         viewer.map.removeLayer(polygon);
@@ -384,6 +387,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       case 'active-wildfires-under-control':
       case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
+      case 'active-wildfires-out':
         return 'Wildfire';
     }
   }
@@ -677,6 +681,7 @@ return 'Unknown';
         case 'active-wildfires-out-of-control':
         case 'active-wildfires-holding':
         case 'active-wildfires-under-control':
+        case 'active-wildfires-out':
           if (
             item.properties.fire_year &&
             item.properties.incident_number_label
