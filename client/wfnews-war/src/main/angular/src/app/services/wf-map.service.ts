@@ -423,7 +423,7 @@ export class WFMapService {
               const prototype = SMK.TYPE.Viewer.leaflet.prototype;
               setTimeout(() => {
                 prototype.map.invalidateSize({ animate: false });
-              }, 500);
+              }, 0);
             };
 
             const oldInit = SMK.TYPE.Viewer.leaflet.prototype.initialize;

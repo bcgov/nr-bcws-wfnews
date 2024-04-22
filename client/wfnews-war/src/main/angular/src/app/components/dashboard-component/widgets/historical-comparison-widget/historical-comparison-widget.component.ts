@@ -1,6 +1,8 @@
 import { AfterViewInit, Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { PublishedIncidentService } from '@app/services/published-incident-service';
-import { currentFireYear } from '@app/utils';
+import { currentFireYear, snowPlowHelper } from '@app/utils';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'historical-comparison-widget',
@@ -14,12 +16,17 @@ export class HistoricalComparisonWidget implements AfterViewInit {
   public wildfireTotals = [];
   public hectareTotals = [];
   public fireYear: number;
+  public snowPlowHelper = snowPlowHelper
 
   public colorScheme = {
     domain: ['#146FB4', '#146FB4', '#146FB4', '#146FB4', '#146FB4', '#8D8D8D'],
   };
 
-  constructor(private publishedIncidentService: PublishedIncidentService) {}
+  constructor(
+    private publishedIncidentService: PublishedIncidentService,
+    private appConfigService: AppConfigService,
+    private router: Router
+  ) {}
 
   ngAfterViewInit(): void {
     this.loadHistoricalData().then(() => {
@@ -96,4 +103,18 @@ export class HistoricalComparisonWidget implements AfterViewInit {
       value: averageHectaresBurned,
     });
   }
+
+  toggleViewWildfireCounts(label: string) {
+    this.viewWildfireCounts = !this.viewWildfireCounts;
+    this.snowplowCaller(label)
+  }
+
+  snowplowCaller(label) {
+    const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+    this.snowPlowHelper(url, {
+      action: 'dashboard_click',
+      text: label,
+    });
+  }
+
 }

@@ -923,11 +923,17 @@ async onSelectIncidents(incidentRefs) {
   }
 
   onSelectLayer(selectedLayer: SelectedLayer) {
+    
     this.selectedLayer = selectedLayer;
     this.selectedPanel = this.selectedLayer;
 
     this.snowPlowHelper(this.url, {
       action: 'feature_layer_navigation',
+      text: this.selectedLayer,
+    });
+
+    this.snowPlowHelper(this.url, {
+      action: 'map_layer_selection',
       text: this.selectedLayer,
     });
 
@@ -1042,6 +1048,9 @@ async onSelectIncidents(incidentRefs) {
   }
 
   async useMyCurrentLocation() {
+    this.snowPlowHelper(this.url, {
+      action: 'near_me_map_click'
+    });
     if (isMobileView){
       this.useNearMe = true;
     }
@@ -1187,6 +1196,9 @@ async onSelectIncidents(incidentRefs) {
   }
 
   openAllLayers() {
+    this.snowPlowHelper(this.url, {
+      action: 'all_layers_map_click'
+    });
     this.isAllLayersOpen = !this.isAllLayersOpen;
     this.isLegendOpen = false;
   }
@@ -1208,6 +1220,9 @@ async onSelectIncidents(incidentRefs) {
   }
 
   openSearchPage() {
+    this.snowPlowHelper(this.url, {
+      action: 'search_map_click'
+    });
     const dialogRef = this.dialog.open(SearchPageComponent, {
       width: '450px',
       height: '650px',

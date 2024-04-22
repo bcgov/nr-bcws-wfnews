@@ -8,6 +8,8 @@ import {
 import * as L from 'leaflet';
 import { AppConfigService } from '@wf1/core-ui';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { ResourcesRoutes } from '@app/utils';
 
 @Component({
   selector: 'overview-widget',
@@ -24,6 +26,7 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private httpClient: HttpClient,
     private el: ElementRef,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -164,5 +167,10 @@ export class OverviewWidget implements OnInit, AfterViewInit {
     } catch(err) {
       console.error('Feature data not loaded. No data found.');
     }
+  }
+
+  toggleMapView(){
+    this.showViewMapButton = !this.showViewMapButton;
+    this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP]);
   }
 }
