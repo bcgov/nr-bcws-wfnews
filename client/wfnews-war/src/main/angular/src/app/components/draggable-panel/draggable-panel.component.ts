@@ -66,6 +66,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
     'active-wildfires-under-control',
     'bcws-activefires-publicview-inactive',
     'fire-perimeters',
+    "active-wildfires-out"
   ];
   convertToDateYear = convertToDateYear;
   convertToDateTime = convertToDateTime;
@@ -384,6 +385,7 @@ export class DraggablePanelComponent implements OnInit, OnChanges, OnDestroy {
       case 'active-wildfires-under-control':
       case 'bcws-activefires-publicview-inactive':
       case 'active-wildfires-holding':
+      case 'active-wildfires-out':
         return 'Wildfire';
     }
   }
@@ -677,6 +679,7 @@ return 'Unknown';
         case 'active-wildfires-out-of-control':
         case 'active-wildfires-holding':
         case 'active-wildfires-under-control':
+        case 'active-wildfires-out':
           if (
             item.properties.fire_year &&
             item.properties.incident_number_label
