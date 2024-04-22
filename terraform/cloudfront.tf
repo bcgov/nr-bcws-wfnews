@@ -873,6 +873,144 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
   }
 }
 
+resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
+  #NOTE: This points at the government openmaps service
+
+  count = var.cloudfront ? 1 : 0
+
+  aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"
+      ]
+    }
+
+    domain_name = var.target_env == "prod" ? "openmaps.gov.bc.ca" : "test.openmaps.gov.bc.ca" 
+    origin_id   = "wfnews_openmaps_cache_${var.target_env}"
+
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods = [
+      "GET",
+      "HEAD",
+      "OPTIONS"
+    ]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_openmaps_cache_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+
+  tags = local.common_tags
+
+  viewer_certificate {
+    acm_certificate_arn = var.certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
+resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
+  #NOTE: This points at the government openmaps service
+
+  count = var.cloudfront ? 1 : 0
+
+  aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
+
+  origin {
+    custom_origin_config {
+      http_port              = 80
+      https_port             = 443
+      origin_protocol_policy = "https-only"
+      origin_ssl_protocols = [
+      "TLSv1.2"
+      ]
+    }
+
+    domain_name = "services6.arcgis.com" 
+    origin_id   = "wfnews_services6_cache_${var.target_env}"
+
+  }
+
+  enabled         = true
+  is_ipv6_enabled = true
+
+  default_cache_behavior {
+    allowed_methods = [
+      "GET",
+      "HEAD",
+      "OPTIONS"
+    ]
+    cached_methods = ["GET", "HEAD"]
+
+    target_origin_id = "wfnews_services6_cache_${var.target_env}"
+
+    forwarded_values {
+      query_string = true
+      headers      = ["Origin", "Authorization"]
+
+      cookies {
+        forward = "all"
+      }
+    }
+
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+
+    viewer_protocol_policy = "redirect-to-https"
+    min_ttl                = 0
+    default_ttl            = 300
+    max_ttl                = 300
+  }
+
+  price_class = "PriceClass_100"
+
+  restrictions {
+    geo_restriction {
+      restriction_type = var.target_env == "prod" ? "none" : "whitelist"
+      locations        = var.target_env == "prod" ? [] : ["CA", "US", "AR"]
+    }
+  }
+
+  tags = local.common_tags
+
+  viewer_certificate {
+    acm_certificate_arn = var.certificate_arn
+    ssl_support_method  = "sni-only"
+  }
+}
+
 output "wfnews_cloudfront_client_url" {
   value = "https://${aws_cloudfront_distribution.wfnews_geofencing_client[0].domain_name}"
 }

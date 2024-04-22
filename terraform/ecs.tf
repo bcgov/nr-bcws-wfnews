@@ -382,7 +382,11 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name  = "OPENMAPS_BASE_URL",
-          value = var.openmapsBaseUrl
+          value = "https://${aws_route53_record.wfnews_openmaps_cache.name}"
+        },
+        {
+          name  = "SERVICES6_BASE_URL",
+          value = "https://${aws_route53_record.wfnews_services6_cache.name}"
         },
         {
           name  = "SITEMINDER_URL_PREFIX",
