@@ -54,6 +54,11 @@
     String agolDangerRatings = EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
     String agolEvacOrders = EnvironmentVariable.getVariable("AGOL_EVAC_ORDERS");
 
+    String services6 = EnvironmentVariable.getVariable("SERVICES6_BASE_URL"); 
+    if (services6 != null && services6.endsWith("/")) {
+      services6 = services6.substring(0, services6.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     // External Application Section
     json.append("\"externalAppConfig\":{");
       json.append("\"im\":{");
