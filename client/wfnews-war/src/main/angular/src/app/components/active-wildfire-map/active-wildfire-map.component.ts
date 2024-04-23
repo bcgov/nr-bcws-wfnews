@@ -932,11 +932,6 @@ async onSelectIncidents(incidentRefs) {
       text: this.selectedLayer,
     });
 
-    this.snowPlowHelper(this.url, {
-      action: 'map_layer_selection',
-      text: this.selectedLayer,
-    });
-
     Preferences.set({
       key: 'selectedLayer',
       value: this.selectedLayer,
