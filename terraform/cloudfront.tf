@@ -1029,7 +1029,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     access_control_allow_credentials = false
 
     access_control_allow_headers {
-      items = []
+      items = ["*"]
     }
 
     access_control_allow_methods {
@@ -1039,6 +1039,8 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     access_control_allow_origins {
       items = ["*"]
     }
+    
+    access_control_max_age_sec = 300
 
     origin_override = true
   }
