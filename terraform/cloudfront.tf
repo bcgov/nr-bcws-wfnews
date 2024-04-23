@@ -892,6 +892,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 
     domain_name = var.target_env == "prod" ? "openmaps.gov.bc.ca" : "test.openmaps.gov.bc.ca" 
     origin_id   = "wfnews_openmaps_cache_${var.target_env}"
+    origin_path = "/geo/pub/ows"
 
   }
 
