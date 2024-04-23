@@ -30,6 +30,7 @@ $activeFireLambdas = $rootFolder+"\active-fire-monitor\active_fire"
 $areaRestrictionsLambdas = $rootFolder+"\area-restrictions-monitor\area-restrictions"
 $bansProhibitionsLambdas = $rootFolder+"\bans-and-prohibitions-monitor\bans-and-prohibitions"
 $evacOrdersLambdas = $rootFolder+"\evacuation-orders-monitor\evacuation-orders"
+$cacheInvalidatorLambdas = $rootFolder+"\cache-invalidator\wfnews-cache-invalidator"
 $terraform = $rootFolder+"\terraform"
 
 
@@ -58,6 +59,12 @@ $evacOrdersCompress = @{
     DestinationPath = $evacOrdersLambdas + "\evacuation_orders.zip"
 }
 
+$cacheInvalidatorCompress = @{
+    Path= $cacheInvalidatorLambdas + "\*"
+    CompressionLevel = "Fastest"
+    DestinationPath = $cacheInvalidatorLambdas + "\cache_invalidator.zip"
+}
+
 #Upload active fires
 Set-Location -Path $activeFireLambdas
 Compress-Archive @activeFiresCompress -Force
@@ -81,6 +88,12 @@ Set-Location -Path $evacOrdersLambdas
 Compress-Archive @evacOrdersCompress -Force
 $destination3 = $bucket + "/evacuation_orders.zip"
 aws s3 cp evacuation_orders.zip $destination3
+
+#Upload cache invalidator
+Set-Location -Path $cacheInvalidatorLambdas
+Compress-Archive @cacheInvalidatorCompress -Force
+$destination3 = $bucket + "/cache_invalidator.zip"
+aws s3 cp cache_invalidator.zip $destination3
 
 #Apply terraform script to configure AWS resources
 Set-Location -Path $terraform

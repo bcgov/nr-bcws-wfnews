@@ -115,7 +115,8 @@ jobs:
           # MAP_ICONS_SHADOW_SIZE: ${{ vars.MAP_ICONS_SHADOW_SIZE }}
           # MAP_ICONS_TOOLTIP_OFFSET: ${{ vars.MAP_ICONS_TOOLTIP_OFFSET }}
           MORE_INFORMATION_LINK: ${{ vars.MORE_INFORMATION_LINK }}
-          OPENMAPS_BASE_URL: ${{ vars.OPENMAPS_BASE_URL }}
+          OPENMAPS_BASE_URL: https://maps.${{ vars.TARGET_ENV }}.bcwildfireservices.com
+          SERVICES6_BASE_URL: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com
           POINT_ID_URL: ${{ vars.POINT_ID_URL }}
           PROJECT_VERSION: ${{ steps.version.outputs.info }}
           REPORT_A_WILDFIRE_PHONE_LINE: ${{ vars.REPORT_A_WILDFIRE_PHONE_LINE }}

@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  wfnews-cache-invalidator
+
+  Sample SAM Template for wfnews-cache-invalidator
+  
+# More info about Globals: https://github.com/awslabs/serverless-application-model/blob/master/docs/globals.rst
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  WFNEWSCacheInvalidatorFunction:
+    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+    Properties:
+      CodeUri: wfnews-cache-invalidator/
+      Handler: app.lambdaHandler
+      Runtime: nodejs14.x
+      Architectures:
+        - x86_64
+      Events:
+        WFNEWSCacheInvalidator:
+          Type: Api # More info about API Event Source: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#api
+          Properties:
+            Path: /wfnews-cache-invalidator
+            Method: get
+        ScheduleEvent:
+          Type: Schedule
+          Properties:
+            Schedule: rate(5 minute)
+            Input: '{"source": "scheduled"}'
+
+Outputs:
+  # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function
+  # Find out more about other implicit resources you can reference within SAM
+  # https://github.com/awslabs/serverless-application-model/blob/master/docs/internals/generated_resources.rst#api
+  WFNEWSCacheInvalidatorApi:
+    Description: "Perimeter Monitor function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/wfnews-cache-invalidator/"
+  WFNEWSCacheInvalidatorFunction:
+    Description: "Cache Invalidator Lambda Function ARN"
+    Value: !GetAtt WFNEWSCacheInvalidatorFunction.Arn
+  WFNEWSCacheInvalidatorFunctionIamRole:
+    Description: "Implicit IAM Role created for the function"
+    Value: !GetAtt WFNEWSCacheInvalidatorFunction.Arn
