@@ -54,6 +54,11 @@
     String agolDangerRatings = EnvironmentVariable.getVariable("AGOL_DANGER_RATINGS");
     String agolEvacOrders = EnvironmentVariable.getVariable("AGOL_EVAC_ORDERS");
 
+    String services6 = EnvironmentVariable.getVariable("SERVICES6_BASE_URL"); 
+    if (services6 != null && services6.endsWith("/")) {
+      services6 = services6.substring(0, services6.length() - 1); //Strip off trailing slash, if it exists.
+    }
+
     // External Application Section
     json.append("\"externalAppConfig\":{");
       json.append("\"im\":{");
@@ -66,13 +71,13 @@
       json.append("\"bcWildfireResponsePage\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/wildfire-response/wildfire-personnel-and-response-tools").append("\",");
       json.append("\"appStoreUrl\":\"").append(properties.getProperty("appStoreUrl", "")).append("\",");
       json.append("\"googlePlayUrl\":\"").append(properties.getProperty("googlePlayUrl", "")).append("\",");
-      json.append("\"AGOLfireCentres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
+      json.append("\"AGOLfireCentres\":\"").append(services6).append("/ubm4tcTYICKBpist/ArcGIS/rest/services/British_Columbia_Fire_Centre_Boundaries/FeatureServer/0/query?where=1%3D1&objectIds=&time=&geometry=&geometryType=esriGeometryEnvelope&inSR=&spatialRel=esriSpatialRelIntersects&resultType=none&distance=0.0&units=esriSRUnit_Meter&relationParam=&returnGeodetic=false&outFields=*&returnGeometry=false&returnCentroid=false&featureEncoding=esriDefault&multipatchOption=xyFootprint&maxAllowableOffset=&geometryPrecision=&outSR=&defaultSR=&datumTransformation=&applyVCSProjection=false&returnIdsOnly=false&returnUniqueIdsOnly=false&returnCountOnly=false&returnExtentOnly=false&returnQueryGeometry=false&returnDistinctValues=false&cacheHint=false&orderByFields=&groupByFieldsForStatistics=&outStatistics=&having=&resultOffset=&resultRecordCount=&returnZ=false&returnM=false&returnExceededLimitFeatures=true&quantizationParameters=&sqlFormat=none&f=pjson&token=").append("\",");
       json.append("\"AGOLevacOrders\":\"").append(agolEvacOrders).append("\",");
       json.append("\"AGOLareaRestrictions\":\"").append(agolAreaRestrictions).append("\",");
       json.append("\"AGOLBansAndProhibitions\":\"").append(agolBansAndProhibitions).append("\",");
       json.append("\"AGOLDangerRatings\":\"").append(agolDangerRatings).append("\",");
-      json.append("\"AGOLperimetres\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
-      json.append("\"AGOLactiveFirest\":\"").append("https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
+      json.append("\"AGOLperimetres\":\"").append(services6).append("/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0/").append("\",");
+      json.append("\"AGOLactiveFirest\":\"").append(services6).append("/ubm4tcTYICKBpist/ArcGIS/rest/services/BCWS_ActiveFires_PublicView/FeatureServer/0/").append("\",");
       json.append("\"evacDefaultUrl\":\"").append("https://www.emergencyinfobc.gov.bc.ca/current-wildfire-information-2023").append("\",");
       json.append("\"evacDefaultBulletin\":\"").append("https://www.emergencyinfobc.gov.bc.ca").append("\",");
       json.append("\"currentRestrictions\":\"").append("https://www2.gov.bc.ca/gov/content/safety/wildfire-status/prevention/fire-bans-and-restrictions").append("\",");
@@ -124,6 +129,7 @@
     // External Application Section
     json.append("\"mapServices\":{");
       json.append("\"openmapsBaseUrl\":\"").append(openmaps).append("\"").append(",");
+      json.append("\"services6BaseUrl\":\"").append(services6).append("\"").append(",");
       json.append("\"wfnews\":\"").append(wfnewsUri).append("\"").append(",");
       json.append("\"drivebcBaseUrl\":\"").append(driveBc).append("\"");
     json.append("},");

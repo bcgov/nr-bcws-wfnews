@@ -9,7 +9,7 @@ export function ForestServiceRoadsLayerConfig(ls: layerSettings) {
       isQueryable: true,
       attribution: 'Copyright 117 DataBC, Government of British Columbia',
       serviceUrl:
-        'https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/FSR_Safety_Information_View/FeatureServer/0',
+        ls.services6BaseUrl + '/ubm4tcTYICKBpist/ArcGIS/rest/services/FSR_Safety_Information_View/FeatureServer/0',
       opacity: 1,
       titleAttribute: 'LOCATION',
       popupTemplate:
