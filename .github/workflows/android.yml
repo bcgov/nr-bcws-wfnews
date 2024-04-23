@@ -89,13 +89,13 @@ jobs:
           files: ${{ env.APP_CONFIG_FILE }}
         env:
           # From config.jsp
-          AGOL_ACTIVE_FIRES: ${{ vars.AGOL_ACTIVE_FIRES }}
+          AGOL_ACTIVE_FIRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_ACTIVE_FIRES }}
           AGOL_AREA_RESTRICTIONS: ${{ vars.AGOL_AREA_RESTRICTIONS }}
           AGOL_BANS_AND_PROHIBITIONS: ${{ vars.AGOL_BANS_AND_PROHIBITIONS }}
           AGOL_DANGER_RATINGS: ${{ vars.AGOL_DANGER_RATINGS }}
-          AGOL_EVAC_ORDERS: ${{ vars.AGOL_EVAC_ORDERS }}
-          AGOL_FIRE_CENTRES: ${{ vars.AGOL_FIRE_CENTRES }}
-          AGOL_PERIMETRES: ${{ vars.AGOL_PERIMETRES }}
+          AGOL_EVAC_ORDERS: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_EVAC_ORDERS }}
+          AGOL_FIRE_CENTRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_FIRE_CENTRES }}
+          AGOL_PERIMETRES: https://services6.${{ vars.TARGET_ENV }}.bcwildfireservices.com${{ vars.AGOL_PERIMETRES }}
           AGOL_URL: ${{ vars.AGOL_URL }}
           APP_STORE_URL: ${{ vars.APP_STORE_URL }}
           APPLICATION_ACRONYM: ${{ vars.APPLICATION_ACRONYM }}
