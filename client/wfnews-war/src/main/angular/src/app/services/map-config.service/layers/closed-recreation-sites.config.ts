@@ -49,7 +49,7 @@ export function ClosedRecreationSitesLayerConfig(ls: layerSettings) {
         },
       ],
       serviceUrl:
-        'https://services6.arcgis.com/ubm4tcTYICKBpist/ArcGIS/rest/services/RecSitesReservesInterpForests_DetailsClosures_publicView/FeatureServer/0',
+        ls.services6BaseUrl + '/ubm4tcTYICKBpist/ArcGIS/rest/services/RecSitesReservesInterpForests_DetailsClosures_publicView/FeatureServer/0',
       where: 'CLOSURE_IND = \'Y\'',
       titleAttribute: 'PROJECT_NAME',
       drawingInfo: {

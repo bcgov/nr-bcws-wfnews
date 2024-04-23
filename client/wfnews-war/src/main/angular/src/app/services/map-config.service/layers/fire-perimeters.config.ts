@@ -8,7 +8,7 @@ export function FirePerimetersLayerConfig(ls: layerSettings) {
       title: 'BC Wildfire Fire Perimeters',
       attribution: 'Copyright 117 DataBC, Government of British Columbia',
       serviceUrl:
-        'https://services6.arcgis.com/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0',
+        ls.services6BaseUrl + '/ubm4tcTYICKBpist/arcgis/rest/services/BCWS_FirePerimeters_PublicView/FeatureServer/0',
       where: 'FIRE_STATUS <> \'Out\'',
       opacity: 1,
       attributes: [

@@ -741,6 +741,11 @@ variable "LAMBDA_LAYER_KEY" {
   default = ""
 }
 
+variable "MAPS_CLOUDFRONT_DISTRIBUTION_IDS" {
+  type    = string
+  default = ""
+}
+
 
 
 variable "UNIQUE_DEPLOY_ID" {

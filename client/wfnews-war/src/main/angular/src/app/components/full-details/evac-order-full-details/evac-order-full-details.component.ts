@@ -17,6 +17,7 @@ export class EvacOrderFullDetailsComponent extends EvacAlertFullDetailsComponent
         source: [ResourcesRoutes.FULL_DETAILS],
         sourceId: this.id,
         sourceType: 'evac-order',
+        name: this.name
       },
     });
   }
