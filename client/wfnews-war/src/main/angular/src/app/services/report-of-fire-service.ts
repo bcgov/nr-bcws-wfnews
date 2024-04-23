@@ -7,6 +7,7 @@ import ExifReader from 'exifreader';
 import * as P from 'piexifjs';
 import { Filesystem } from '@capacitor/filesystem';
 import { LocalStorageService } from './local-storage-service';
+import { Subscription } from 'rxjs';
 
 export interface ReportOfFireType {
   fullName?: string;
@@ -319,7 +320,7 @@ export class ReportOfFireService {
     }
   }
 
-  async syncDataWithServer() {
+  async syncDataWithServer(intervalRef: Subscription) {
     let dataSynced = false;
     let submissionID = null;
     let duplicateStored = false;
@@ -357,6 +358,8 @@ export class ReportOfFireService {
                 submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
                 this.storageService.saveData('submissionIDList', submissionIdList)
               }
+
+              intervalRef.unsubscribe()
               App.removeAllListeners();
             }
           });
