@@ -136,21 +136,6 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       popupAnchor: [1, -34],
       shadowSize: [41, 41],
     });
-    if (this.incident) {
-      if (this.incident.fireOfNoteInd) {
-        L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
-      } else {
-        const colorToDisplay = setDisplayColor(
-          this.incident.stageOfControlCode,
-        );
-        L.circleMarker(location, {
-          radius: 5,
-          fillOpacity: 1,
-          color: 'black',
-          fillColor: colorToDisplay,
-        }).addTo(this.map);
-      }
-    }
 
     // now fetch the rest of the incidents in the area and display on map
     try {
