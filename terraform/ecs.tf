@@ -398,19 +398,19 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name  = "AGOL_AREA_RESTRICTIONS",
-          value = "https://${aws_route53_record.wfnews_services6_cache.name}${var.agolAreaRestrictions}"
+          value = var.agolAreaRestrictions
         },
         {
           name  = "AGOL_BANS_AND_PROHIBITIONS",
-          value = "https://${aws_route53_record.wfnews_services6_cache.name}${var.agolBansAndProhibitions}"
+          value = var.agolBansAndProhibitions
         },
         {
           name  = "AGOL_EVAC_ORDERS",
-          value = "https://${aws_route53_record.wfnews_services6_cache.name}${var.agolEvacOrders}"
+          value = "${var.WFARCGIS_URL}/${var.WFARCGIS_LAYER_EVACUATION_ORDERS_ALERTS}"
         },
         {
           name = "AGOL_DANGER_RATINGS",
-          value = "https://${aws_route53_record.wfnews_services6_cache.name}${var.agolDangerRatings}"
+          value = var.agolDangerRatings
         }
 
       ]
