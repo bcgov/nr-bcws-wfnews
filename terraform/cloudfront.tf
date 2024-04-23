@@ -1033,7 +1033,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     }
 
     access_control_allow_methods {
-      items = ["GET", "HEAD", "OPTIONS"]
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS"]
     }
 
     access_control_allow_origins {

@@ -67,7 +67,7 @@ export class RoFTitlePage extends RoFPage implements OnInit {
       // Start the background task by calling `beforeExit`.
       const taskId = await BackgroundTask.beforeExit(async () => {
 
-        if(!this.intervalRef) {
+        if(!this.intervalRef || this.intervalRef.closed) {
           this.intervalRef = interval(30000).subscribe(async () => {
             if(await this.checkStoredRoF()) 
               this.unsubscribeInterval();
