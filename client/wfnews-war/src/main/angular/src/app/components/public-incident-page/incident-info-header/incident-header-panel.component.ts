@@ -254,6 +254,7 @@ this.router.navigate([ResourcesRoutes.FULL_DETAILS], {
           queryParams: {
             type: this.params['sourceType'],
             id: this.params['sourceId'],
+            name: this.params['name']
           },
         });
 } else if (
