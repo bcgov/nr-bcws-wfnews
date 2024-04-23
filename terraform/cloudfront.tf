@@ -902,7 +902,9 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
     allowed_methods = [
       "GET",
       "HEAD",
-      "OPTIONS"
+      "OPTIONS",
+      "PUT",
+      "POST"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -971,7 +973,9 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
     allowed_methods = [
       "GET",
       "HEAD",
-      "OPTIONS"
+      "OPTIONS",
+      "PUT",
+      "POST"
     ]
     cached_methods = ["GET", "HEAD"]
 
