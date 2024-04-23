@@ -18,6 +18,7 @@ data "aws_iam_policy" "lambdaSecrets" {
   name = "SecretsManagerReadWrite"
 }
 
+
 resource "aws_iam_role" "lambda_iam_role" {
   name = "wfone-public-mobile-lambda-role-${var.target_env}"
   assume_role_policy = jsonencode({
@@ -63,9 +64,42 @@ resource "aws_iam_policy" "lambdaSQS" {
 EOF
 }
 
+resource "aws_iam_policy" "cloudfrontInvalidate" {
+  name        = "wfone-cloudfront-invalidate-${var.target_env}"
+  path        = "/"
+  policy = <<EOF
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "VisualEditor0",
+			"Effect": "Allow",
+			"Action": [
+				"cloudfront:GetDistribution",
+				"cloudfront:UpdateCachePolicy",
+				"cloudfront:ListInvalidations",
+				"cloudfront:ListDistributions",
+				"cloudfront:GetInvalidation",
+				"cloudfront:ListCachePolicies",
+				"cloudfront:UpdateDistribution",
+				"cloudfront:GetCachePolicy",
+				"cloudfront:CreateInvalidation"
+			],
+			"Resource": "*"
+		}
+	]
+}
+EOF
+}
+
 resource "aws_iam_role_policy_attachment" "lambdaAttach" {
   role       = aws_iam_role.lambda_iam_role.name
   policy_arn = data.aws_iam_policy.lambdaExecute.arn
+}
+
+resource "aws_iam_role_policy_attachment" "cloudfrontAttach" {
+  role       = aws_iam_role.lambda_iam_role.name
+  policy_arn = aws_iam_policy.cloudfrontInvalidate.arn
 }
 
 resource "aws_iam_role_policy_attachment" "sqsAttach" {

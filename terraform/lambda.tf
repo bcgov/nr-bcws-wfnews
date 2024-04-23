@@ -136,14 +136,14 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
   s3_key =  "wfnews-cache-invalidator.zip"
   source_code_hash = data.aws_s3_object.wfnews_cache_invalidator_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
-  handler       = "app.lambda_handler"
+  handler       = "app.lambdaHandler"
   runtime       = "nodejs18.x"
   timeout = 180
   environment {
     variables = {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache[0].id},${aws_cloudfront_distribution.wfnews_services6_cache[0].id}"
+      MAPS_CLOUDFRONT_DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache[0].id},${aws_cloudfront_distribution.wfnews_services6_cache[0].id}"
     }
   }
   vpc_config {
