@@ -53,7 +53,7 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r -j wfnews-cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
+          args: zip -qq -r cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
 
       - name: Make staging directory, copy files
         run: |
