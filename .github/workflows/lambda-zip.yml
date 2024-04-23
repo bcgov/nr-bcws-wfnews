@@ -40,7 +40,7 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r -j evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
+          args: zip -qq -r evacuation-orders-monitor.zip lambda/evacuation-orders-monitor/evacuation-orders
 
       - uses: actions/setup-node@v4
         with: 
@@ -48,12 +48,13 @@ jobs:
 
       - name: run npm install for cache invalidator
         run: |
-          cd lambda/cache-invalidator/wfnews-cache-invalidator
+          cd lambda/cache-invalidator/nodejs
           npm install
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r wfnews-cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
+          args: zip -qq -r -j wfnews-cache-invalidator.zip nodejs
+          working-directory: lambda/cache-invalidator
 
       - name: Make staging directory, copy files
         run: |

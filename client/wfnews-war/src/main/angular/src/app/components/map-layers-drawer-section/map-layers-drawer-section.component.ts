@@ -7,8 +7,10 @@ import {
   Output,
   SimpleChanges,
 } from '@angular/core';
-import { getActiveMap } from '@app/utils';
+import { Router } from '@angular/router';
+import { getActiveMap, snowPlowHelper } from '@app/utils';
 import { SmkApi } from '@app/utils/smk';
+import { AppConfigService } from '@wf1/core-ui';
 
 @Component({
   selector: 'map-layers-section',
@@ -20,6 +22,8 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   @Input() triggerRefresh: boolean;
   @Output() triggerRefreshChange = new EventEmitter<boolean>();
   @Output() layersChangedEvent = new EventEmitter<boolean>();
+  public snowPlowHelper = snowPlowHelper;
+
 
   activeWeatherStations = true;
   areaRestrictions = false;
@@ -44,7 +48,12 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
   underControlWildfire = false;
   wildfireOfNote = false;
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private appConfigService: AppConfigService,
+    private router: Router
+
+  ) {}
 
   ngOnChanges(changes: SimpleChanges) {
     if (this.mapInitialized || (this.mapInitialized && this.triggerRefresh)) {
@@ -172,7 +181,15 @@ export class MapLayersDrawerSectionComponent implements OnChanges {
     this.cdr.detectChanges();
   }
 
-  updateLayers() {
+  updateLayers(layerName: string | null = null, check: boolean = false) {
+    if (check) {
+      const url = this.appConfigService.getConfig().application.baseUrl.toString() + this.router.url.slice(1);
+      this.snowPlowHelper(url, {
+        action: 'map_layer_selection',
+        text: layerName,
+      });
+    }
+
     const smkApi = new SmkApi(getActiveMap());
 
     const layers = [

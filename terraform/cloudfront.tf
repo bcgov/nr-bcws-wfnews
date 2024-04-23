@@ -69,7 +69,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_client" {
     default_ttl            = 300
     max_ttl                = 86400
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
 
   ordered_cache_behavior {
@@ -219,7 +219,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_server" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -327,7 +327,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -344,7 +344,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_nginx" {
     viewer_protocol_policy = "redirect-to-https"
     cache_policy_id        = "658327ea-f89d-4fab-a63d-7e88639e58f6"
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
   }
 
   ordered_cache_behavior {
@@ -447,7 +447,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_client" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -545,7 +545,7 @@ resource "aws_cloudfront_distribution" "wfnews_geofencing_gov_api" {
 
     target_origin_id = "wfnews_nginx_gov_${var.target_env}"
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     forwarded_values {
       query_string = true
@@ -661,7 +661,7 @@ resource "aws_cloudfront_distribution" "wfss_pointid_api" {
 
     target_origin_id = "wfss_pointid_api_${var.target_env}"
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     forwarded_values {
       query_string = true
@@ -760,7 +760,7 @@ resource "aws_cloudfront_distribution" "wfone_notifications_api" {
 
     target_origin_id = "wfone_notifications_api_${var.target_env}"
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     forwarded_values {
       query_string = true
@@ -848,7 +848,7 @@ resource "aws_cloudfront_distribution" "wfnews_redirect_receiver" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -893,7 +893,6 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
     domain_name = var.target_env == "prod" ? "openmaps.gov.bc.ca" : "test.openmaps.gov.bc.ca" 
     origin_id   = "wfnews_openmaps_cache_${var.target_env}"
     origin_path = "/geo/pub/ows"
-
   }
 
   enabled         = true
@@ -901,9 +900,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -918,7 +915,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -970,9 +967,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -987,7 +982,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
       }
     }
 
-    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_reponse_headers.id
+    response_headers_policy_id = aws_cloudfront_response_headers_policy.cache_control_response_headers.id
 
     viewer_protocol_policy = "redirect-to-https"
     min_ttl                = 0
@@ -1024,8 +1019,27 @@ output "wfnews_cloudfront_nginx_url" {
   value = "https://${aws_cloudfront_distribution.wfnews_geofencing_nginx[0].domain_name}"
 }
 
-resource "aws_cloudfront_response_headers_policy" "cache_control_reponse_headers" {
+resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers" {
   name = "cache-control-response-headers-${var.target_env}"
+  cors_config {
+    access_control_allow_credentials = false
+
+    access_control_allow_headers {
+      items = ["*"]
+    }
+
+    access_control_allow_methods {
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS"]
+    }
+
+    access_control_allow_origins {
+      items = ["*"]
+    }
+    
+    access_control_max_age_sec = 300
+
+    origin_override = true
+  }
 
   custom_headers_config {
     items {
