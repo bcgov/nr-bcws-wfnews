@@ -6,6 +6,7 @@ import { ActiveWildfiresLayerConfig } from './active-wildfires.config';
 import { ActiveWildfiresHeatmapLayerConfig } from './active-wildfires.heatmap.config';
 import { AreaRestrictionsLayerConfig } from './area-restrictions.config';
 import { BansAndProhibitionsLayerConfig } from './bans-and-prohibitions.config';
+import { BasemapLayerConfig } from './basemap.config';
 import { FireCentresLayerConfig } from './bc-fire-centres.config';
 import { ProtectedLandsAccessRestrictionsLayerConfig } from './bc-parks-closures.config';
 import { WildfiresInactiveLayerConfig } from './bcws-activefires-publicview-inactive.config';
@@ -21,12 +22,12 @@ import { SmokeForecastLayerConfig } from './hourly-currentforecast-firesmoke.con
 import { PrecipitationLayerConfig } from './precipitation.config';
 import { WeatherStationsLayerConfig } from './weather-stations.config';
 import { WeatherLayerConfig } from './weather.config';
-import { BasemapLayerConfig } from './basemap.config';
 //import { FuelTreatmentLayerConfig } from './fuel-treatment';
 //import { PrescribedFireLayerConfig } from './prescribed-fire.config';
 
 export interface layerSettings {
   openmapsBaseUrl: string;
+  services6BaseUrl: string;
   drivebcBaseUrl: string;
   wfnewsUrl: string;
   evacOrdersURL: string;
@@ -39,6 +40,7 @@ export function LayerConfig(
   const ls: layerSettings = {
     openmapsBaseUrl: mapServices['openmapsBaseUrl'],
     drivebcBaseUrl: mapServices['drivebcBaseUrl'],
+    services6BaseUrl: mapServices['services6BaseUrl'],
     wfnewsUrl: mapServices['wfnews'],
     evacOrdersURL: appConfigService.getConfig().externalAppConfig['AGOLevacOrders'].toString()
   };
