@@ -56,7 +56,7 @@ jobs:
 
       - name: Zip node
         working-directory: lambda/cache-invalidator
-        run: zip -qq -r -j wfnews-cache-invalidator.zip nodejs  
+        run: zip -qq -r wfnews-cache-invalidator.zip nodejs  
           
 
       - name: Make staging directory, copy files
