@@ -25,6 +25,11 @@ data "aws_s3_object" "evacuation_orders_monitor_hash" {
   key = "evacuation-orders-monitor-hash.txt"
 }
 
+data "aws_s3_object" "wfnews_cache_invalidator_hash" {
+  bucket = data.aws_s3_bucket.wfnews_lambda.bucket
+  key = "wfnews-cache-invalidator-hash.txt"
+}
+
 resource "aws_lambda_function" "monitor-bans-prohibitions" {
   function_name = "wfnews-monitor-bans-${var.target_env}"
   s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
@@ -129,7 +134,7 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
   function_name = "wfnews-cache-invalidator-${var.target_env}"
   s3_bucket = data.aws_s3_bucket.wfnews_lambda.bucket
   s3_key =  "wfnews-cache-invalidator.zip"
-  source_code_hash = data.aws_s3_object.wfnews-cache-invalidator_hash.body
+  source_code_hash = data.aws_s3_object.wfnews_cache_invalidator_hash.body
   role          = aws_iam_role.lambda_iam_role.arn
   handler       = "app.lambda_handler"
   runtime       = "nodejs18.x"
@@ -138,7 +143,7 @@ resource "aws_lambda_function" "wfnews-cache-invalidator" {
     variables = {
       S3_BUCKET   = aws_s3_bucket.wfnews-monitor-queue-bucket.id
       SECRET_NAME = var.SECRET_NAME
-      DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache.id},${aws_cloudfront_distribution.wfnews_services6_cache.id}"
+      DISTRIBUTION_IDS = "${aws_cloudfront_distribution.wfnews_openmaps_cache[0].id},${aws_cloudfront_distribution.wfnews_services6_cache[0].id}"
     }
   }
   vpc_config {
