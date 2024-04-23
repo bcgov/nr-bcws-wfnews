@@ -4,7 +4,7 @@ import {
   PublishedIncidentService,
   SimpleIncident,
 } from '@app/services/published-incident-service';
-import { ResourcesRoutes, convertToDateTime, getActiveMap, openLink } from '@app/utils';
+import { ResourcesRoutes, convertToDateYear, convertToDateTime, openLink, getStageOfControlIcon, getStageOfControlLabel } from '@app/utils';
 import L from 'leaflet';
 import { setDisplayColor } from '../../../utils';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -15,6 +15,7 @@ import { CommonUtilityService } from '@app/services/common-utility.service';
 
 export class EvacData {
   public name: string;
+  public eventNumber: string;
   public issuedDate: string;
   public bulletinUrl: string;
   public issuingAgency: string;
@@ -32,13 +33,15 @@ export class EvacAlertFullDetailsComponent implements OnInit {
   @Input() name: string;
   @Input() eventNumber: string;
 
-
   public evacData: EvacData;
   public incident: SimpleIncident | null;
   public map: any;
 
   convertToDateTime = convertToDateTime;
+  convertToDateYear = convertToDateYear;
   openLink = openLink;
+  getStageOfControlIcon = getStageOfControlIcon;
+  getStageOfControlLabel = getStageOfControlLabel;
 
   constructor(
     private agolService: AGOLService,
@@ -200,22 +203,41 @@ export class EvacAlertFullDetailsComponent implements OnInit {
 
       this.evacData = new EvacData();
       this.evacData.name = evac.attributes.EVENT_NAME;
+      this.evacData.eventNumber = evac.attributes.EVENT_NUMBER;
       this.evacData.issuingAgency = evac.attributes.ISSUING_AGENCY;
       this.evacData.issuedDate = evac.attributes.DATE_MODIFIED;
       this.evacData.bulletinUrl = evac.attributes.BULLETIN_URL;
       this.evacData.centroidLatitude = evac.centroid.y;
       this.evacData.centroidLongitude = evac.centroid.x;
+      this.id = evac.attributes.EMRG_OAA_SYSID;
 
-      await this.populateIncident(evac.geometry.rings);
+      await this.populateIncident(this.evacData.eventNumber);
     } else {
       console.error('Could not populate evacuation order by ID: ' + this.id);
     }
   }
 
-  async populateIncident(polygon: [][]) {
+  async populateIncident(eventNumber: string) {
+    let simpleIncident: SimpleIncident = new SimpleIncident;
     try {
-      this.incident =
-        await this.publishedIncidentService.populateIncidentByPoint(polygon);
+        this.publishedIncidentService.fetchPublishedIncident(eventNumber).subscribe(response => {
+          if (response) {
+            simpleIncident.discoveryDate = convertToDateYear(response.discoveryDate);
+            simpleIncident.incidentName = response.incidentName?.replace('Fire', '').trim() + ' Wildfire';
+            simpleIncident.fireCentreName = response.fireCentreName;
+            simpleIncident.fireYear = response.fireYear;
+            simpleIncident.incidentNumberLabel = response.incidentNumberLabel;
+            simpleIncident.fireOfNoteInd = response.fireOfNoteInd;
+            simpleIncident.stageOfControlCode = response.stageOfControlCode;
+            simpleIncident.stageOfControlIcon = getStageOfControlIcon(
+              response?.stageOfControlCode,
+            );
+            simpleIncident.stageOfControlLabel = getStageOfControlLabel(
+              response?.stageOfControlCode,
+            );
+          }
+        })
+    this.incident = simpleIncident;
     } catch (error) {
       console.error(
         'Caught error while populating associated incident for evacuation: ' +
@@ -244,6 +266,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
         source: [ResourcesRoutes.FULL_DETAILS],
         sourceId: this.id,
         sourceType: 'evac-alert',
+        name: this.name
       },
     });
   }
