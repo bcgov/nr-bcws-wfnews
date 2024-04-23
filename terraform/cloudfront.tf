@@ -900,11 +900,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS",
-      "PUT",
-      "POST"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -971,11 +967,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS",
-      "PUT",
-      "POST"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
