@@ -171,7 +171,7 @@ resource "aws_ecs_task_definition" "wfnews_server" {
         },
         {
           name  = "WFNEWS_AGOL_QUERY_URL",
-          value = var.WFNEWS_AGOL_QUERY_URL
+          value = "https://${aws_route53_record.wfnews_services6_cache.name}${vars.WFNEWS_AGOL_QUERY_URL}"
         },
         {
           name  = "WFNEWS_DB_URL",
@@ -374,7 +374,7 @@ resource "aws_ecs_task_definition" "wfnews_client" {
         },
         {
           name  = "AGOL_URL",
-          value = var.agolUrl
+          value = "https://${aws_route53_record.wfnews_services6_cache.name}${var.agolUrl}"
         },
         {
           name  = "DRIVEBC_BASE_URL",
