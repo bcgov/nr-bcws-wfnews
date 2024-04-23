@@ -72,7 +72,7 @@ jobs:
           cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
           cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
           cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          cp wfnews-cache-invalidator.zip staging/wfnews-cache-invalidator.zip
+          cp lambda/cache-invalidator/wfnews-cache-invalidator.zip staging/wfnews-cache-invalidator.zip
           cp lambda/lambda-layer/python.zip staging/python.zip
 
       - name: Configure AWS Credentials
