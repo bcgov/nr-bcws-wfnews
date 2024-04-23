@@ -232,14 +232,15 @@ export class ReportOfFireService {
     return base64;
   }
 
-  async submitOfflineReportToServer(rofJson?): Promise<any> {
+  async submitOfflineReportToServer(offlineReport?): Promise<any> {
     // retrieve the offline RoF from the device's storage and convert to FormData for submission
     // images will already to converted to base64 string from initial submission
     const rofUrl = this.appConfigService.getConfig().rest['fire-report-api'];
-    const resource = JSON.stringify(rofJson?.resource);
-    const image1 = rofJson?.image1;
-    const image2 = rofJson?.image2;
-    const image3 = rofJson?.image3;
+    const rofJson = JSON.parse(offlineReport);
+    const resource = rofJson.resource;
+    const image1 = rofJson.image1;
+    const image2 = rofJson.image2;
+    const image3 = rofJson.image3;
 
     const formData = new FormData();
     if (resource) {
@@ -318,7 +319,7 @@ export class ReportOfFireService {
     }
   }
 
-  async syncDataWithServer(intervalRef) {
+  async syncDataWithServer() {
     let dataSynced = false;
     let submissionID = null;
     let duplicateStored = false;
@@ -338,12 +339,7 @@ export class ReportOfFireService {
           submissionID = resourceJson?.submissionID
           if (submissionID && submissionIdList?.includes(submissionID)) {
             duplicateStored = true;
-          }      
-          resourceJson['duplicateStored'] = duplicateStored;
-          resourceJson['intervalRef'] = intervalRef;
-          let offlineReportJson = JSON.parse(offlineReport)
-          offlineReportJson['resource'] = resourceJson;
-          offlineReport = offlineReportJson
+          }
         }
 
         // Reject duplicate if submissionID has already been stored
@@ -357,6 +353,7 @@ export class ReportOfFireService {
               // Remove the locally stored data if sync is successful
               this.storageService.removeData('offlineReportData');
               const rof = this.storageService.getData('offlineReportData')
+              console.log('rof: ' + rof)
               // store submissionID for duplicate check 
               if (submissionID) {
                 submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
