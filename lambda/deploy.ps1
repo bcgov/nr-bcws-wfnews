@@ -30,7 +30,7 @@ $activeFireLambdas = $rootFolder+"\active-fire-monitor\active_fire"
 $areaRestrictionsLambdas = $rootFolder+"\area-restrictions-monitor\area-restrictions"
 $bansProhibitionsLambdas = $rootFolder+"\bans-and-prohibitions-monitor\bans-and-prohibitions"
 $evacOrdersLambdas = $rootFolder+"\evacuation-orders-monitor\evacuation-orders"
-$cacheInvalidatorLambdas = $rootFolder+"\cache-invalidator\wfnews-cache-invalidator"
+$cacheInvalidatorLambdas = $rootFolder+"\cache-invalidator\nodejs"
 $terraform = $rootFolder+"\terraform"
 
 
