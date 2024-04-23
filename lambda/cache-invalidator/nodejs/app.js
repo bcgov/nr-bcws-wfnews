@@ -15,7 +15,7 @@ const distributionIds = distributionIdsString.split(',');
  * @returns {Object} object - API Gateway Lambda Proxy Output Format
  * 
  */
-export const lambdaHandler = async (event, context) => {
+exports.lambdaHandler = async (event, context) => {
     const cloudfront = new AWS.CloudFront();
     const invalidationPaths = ['/*']; // Paths to invalidate, right now assume it's the root for all services
     const results = [];
