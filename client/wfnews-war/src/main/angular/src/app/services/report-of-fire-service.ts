@@ -352,8 +352,6 @@ export class ReportOfFireService {
               dataSynced = true;
               // Remove the locally stored data if sync is successful
               this.storageService.removeData('offlineReportData');
-              const rof = this.storageService.getData('offlineReportData')
-              console.log('rof: ' + rof)
               // store submissionID for duplicate check 
               if (submissionID) {
                 submissionIdList = submissionIdList ? submissionIdList + ", " + submissionID : submissionID;
