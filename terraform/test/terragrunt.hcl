@@ -186,6 +186,7 @@ generate "test_tfvars" {
     agolAreaRestrictions = "${local.agolAreaRestrictions}"
     agolBansAndProhibitions = "${local.agolBansAndProhibitions}"
     agolDangerRatings = "${local.agolDangerRatings}"
+    agolEvacOrders = "${get_env("AGOL_EVAC_ORDERS")}"
     WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET = "${local.WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET}"
     MAX_RECEIVED_COUNT = "${local.MAX_RECEIVED_COUNT}"
     VISIBILITY_TIMEOUT_SECONDS = "${local.VISIBILITY_TIMEOUT_SECONDS}"

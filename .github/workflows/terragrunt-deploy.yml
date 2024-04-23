@@ -114,6 +114,7 @@ jobs:
           agolBansAndProhibitions: ${{vars.AGOL_BANS_AND_PROHIBITIONS}}
           agolDangerRatings: ${{vars.AGOL_DANGER_RATINGS}}
           agolUrl: ${{vars.AGOL_URL}}
+          AGOL_EVAC_ORDERS: ${{vars.AGOL_EVAC_ORDERS}}
           ALB_NAME: ${{ vars.ALB_NAME }}
           API_KEY: ${{ secrets.API_KEY }}
           NGINX_IMAGE: ${{vars.REGISTRY}}/${{ github.repository_owner }}/${{ vars.NGINX_IMAGE }}:${{ inputs.IMAGE_TAG }}
