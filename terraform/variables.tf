@@ -665,6 +665,11 @@ variable "agolDangerRatings" {
   default = ""
 }
 
+variable "agolEvacOrders" {
+  type  = string
+  default = ""
+}
+
 variable "WEBADE_OAUTH2_WFNEWS_UI_CLIENT_SECRET" {
   type    = string
   default = ""
