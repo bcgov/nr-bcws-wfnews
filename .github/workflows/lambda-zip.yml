@@ -48,12 +48,12 @@ jobs:
 
       - name: run npm install for cache invalidator
         run: |
-          cd lambda/cache-invalidator/wfnews-cache-invalidator
+          cd lambda/cache-invalidator/nodejs
           npm install
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r wfnews-cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
+          args: zip -qq -r wfnews-cache-invalidator.zip lambda/cache-invalidator/nodejs
 
       - name: Make staging directory, copy files
         run: |

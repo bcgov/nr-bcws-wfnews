@@ -126,11 +126,6 @@
       openmaps = openmaps.substring(0, openmaps.length() - 1); //Strip off trailing slash, if it exists.
     }
 
-    String services6 = EnvironmentVariable.getVariable("SERVICES6_BASE_URL"); 
-    if (services6 != null && services6.endsWith("/")) {
-      services6 = services6.substring(0, services6.length() - 1); //Strip off trailing slash, if it exists.
-    }
-
     // External Application Section
     json.append("\"mapServices\":{");
       json.append("\"openmapsBaseUrl\":\"").append(openmaps).append("\"").append(",");
