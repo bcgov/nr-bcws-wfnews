@@ -947,7 +947,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
 
   count = var.cloudfront ? 1 : 0
 
-  aliases = ["maps.${var.target_env}.bcwildfireservices.com"]
+  aliases = ["services6.${var.target_env}.bcwildfireservices.com"]
 
   origin {
     custom_origin_config {
