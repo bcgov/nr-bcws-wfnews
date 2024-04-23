@@ -53,7 +53,7 @@ jobs:
 
       - uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
+          args: zip -qq -r wfnews-cache-invalidator.zip lambda/cache-invalidator/wfnews-cache-invalidator
 
       - name: Make staging directory, copy files
         run: |
@@ -62,13 +62,13 @@ jobs:
           echo ${{hashFiles('**/area-restrictions-monitor.zip')}} >> staging/area-restrictions-monitor-hash.txt 
           echo ${{hashFiles('**/bans-and-prohibitions-monitor.zip')}} >> staging/bans-and-prohibitions-monitor-hash.txt
           echo ${{hashFiles('**/evacuation-orders-monitor.zip')}} >> staging/evacuation-orders-monitor-hash.txt
-          echo ${{hashFiles('**/cache-invalidator.zip')}} >> staging/wfnews-cache-invalidator-hash.txt
+          echo ${{hashFiles('**/wfnews-cache-invalidator.zip')}} >> staging/wfnews-cache-invalidator-hash.txt
           echo ${{hashFiles('**/python.zip')}} >> staging/python-hash
           cp active-fire-monitor.zip staging/active-fire-monitor.zip
           cp area-restrictions-monitor.zip staging/area-restrictions-monitor.zip
           cp bans-and-prohibitions-monitor.zip staging/bans-and-prohibitions-monitor.zip
           cp evacuation-orders-monitor.zip staging/evacuation-orders-monitor.zip
-          cp cache-invalidator.zip staging/cache-invalidator.zip
+          cp wfnews-cache-invalidator.zip staging/wfnews-cache-invalidator.zip
           cp lambda/lambda-layer/python.zip staging/python.zip
 
       - name: Configure AWS Credentials
