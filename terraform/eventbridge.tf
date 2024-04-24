@@ -35,6 +35,12 @@ resource "aws_cloudwatch_event_target" "wfnews-area-restrictions-event-target" {
   arn       = aws_lambda_function.monitor-area-restrictions.arn
 }
 
+resource "aws_cloudwatch_event_target" "wfnews-cache-invalidation-event-target" {
+  rule      = aws_cloudwatch_event_rule.wfnews-monitor-schedule.name
+  target_id = "wfnews-cache-invalidator-${var.target_env}-target"
+  arn       = aws_lambda_function.wfnews-cache-invalidator.arn
+}
+
 resource "aws_lambda_permission" "allow_fast_eventbridge_to_call_fires" {
   statement_id  = "AllowFiresFromCloudWatch"
   action        = "lambda:InvokeFunction"
@@ -65,4 +71,12 @@ resource "aws_lambda_permission" "allow_extended_eventbridge_to_call_restriction
   function_name = aws_lambda_function.monitor-area-restrictions.function_name
   principal     = "events.amazonaws.com"
   source_arn    = aws_cloudwatch_event_rule.wfnews-monitor-schedule-extended.arn
+}
+
+resource "aws_lambda_permission" "allow_fast_eventbridge_to_call_invalidator" {
+  statement_id  = "AllowEvacFromCloudWatch"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.wfnews-cache-invalidator.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.wfnews-monitor-schedule.arn
 }

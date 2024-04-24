@@ -900,9 +900,7 @@ resource "aws_cloudfront_distribution" "wfnews_openmaps_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -969,9 +967,7 @@ resource "aws_cloudfront_distribution" "wfnews_services6_cache" {
 
   default_cache_behavior {
     allowed_methods = [
-      "GET",
-      "HEAD",
-      "OPTIONS"
+      "HEAD", "DELETE", "POST", "GET", "OPTIONS", "PUT", "PATCH"
     ]
     cached_methods = ["GET", "HEAD"]
 
@@ -1033,7 +1029,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     }
 
     access_control_allow_methods {
-      items = ["GET", "HEAD", "OPTIONS"]
+      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS"]
     }
 
     access_control_allow_origins {

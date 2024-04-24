@@ -46,10 +46,10 @@ exports.lambdaHandler = async (event, context) => {
                 message: `${error} While invalidating cache ${distributionId}`
             })
         }
-
-        return {
-            statusCode: 200,
-            body: JSON.stringify(results)
-        };
     }
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify(results)
+    };
 }
