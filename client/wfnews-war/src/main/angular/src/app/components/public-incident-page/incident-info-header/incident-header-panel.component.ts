@@ -297,7 +297,7 @@ this.router.navigate([ResourcesRoutes.DASHBOARD]);
       const locationData = new LocationData();
       locationData.latitude = Number(this.incident.latitude);
       locationData.longitude = Number(this.incident.longitude);
-      locationData.radius = 10;
+      locationData.radius = 100;
       const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
         .fetchPublishedIncidentsList(
