@@ -220,9 +220,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
             simpleIncident.stageOfControlLabel = getStageOfControlLabel(
               response?.stageOfControlCode,
             );
+            this.incident = simpleIncident;
           }
         })
-    this.incident = simpleIncident;
     } catch (error) {
       console.error(
         'Caught error while populating associated incident for evacuation: ' +
