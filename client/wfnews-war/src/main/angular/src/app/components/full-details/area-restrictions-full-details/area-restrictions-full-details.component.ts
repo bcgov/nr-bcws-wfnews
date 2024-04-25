@@ -136,28 +136,13 @@ export class AreaRestrictionsFullDetailsComponent implements OnInit {
       popupAnchor: [1, -34],
       shadowSize: [41, 41],
     });
-    if (this.incident) {
-      if (this.incident.fireOfNoteInd) {
-        L.marker(location, { icon: fireOfNoteIcon }).addTo(this.map);
-      } else {
-        const colorToDisplay = setDisplayColor(
-          this.incident.stageOfControlCode,
-        );
-        L.circleMarker(location, {
-          radius: 15,
-          fillOpacity: 1,
-          color: 'black',
-          fillColor: colorToDisplay,
-        }).addTo(this.map);
-      }
-    }
 
     // now fetch the rest of the incidents in the area and display on map
     try {
       const locationData = new LocationData();
       locationData.latitude = Number(this.restrictionData.centroidLatitude);
       locationData.longitude = Number(this.restrictionData.centroidLongitude);
-      locationData.radius = 10;
+      locationData.radius = 100;
       const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
         .fetchPublishedIncidentsList(
