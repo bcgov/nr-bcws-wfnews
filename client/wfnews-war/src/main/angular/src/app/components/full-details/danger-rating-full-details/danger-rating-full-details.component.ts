@@ -114,7 +114,7 @@ export class DangerRatingFullDetailsComponent implements OnInit {
 
     // now fetch the rest of the incidents in the area and display on map
     try {
-      locationData.radius = 10;
+      locationData.radius = 100;
       const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
         .fetchPublishedIncidentsList(
