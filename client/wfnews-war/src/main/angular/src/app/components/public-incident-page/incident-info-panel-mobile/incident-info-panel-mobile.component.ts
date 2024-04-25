@@ -68,6 +68,7 @@ type = 'evac-order';
           sourceNumber: this.incident.incidentNumberLabel
             ? this.incident.incidentNumberLabel
             : this.incident.incidentNumber,
+          eventNumber: evac.eventNumber,
         },
       });
     }
@@ -84,6 +85,7 @@ this.route.navigate([ResourcesRoutes.FULL_DETAILS], {
           sourceNumber: this.incident.incidentNumberLabel
             ? this.incident.incidentNumberLabel
             : this.incident.incidentNumber,
+          name: area.name
         },
       });
 }
