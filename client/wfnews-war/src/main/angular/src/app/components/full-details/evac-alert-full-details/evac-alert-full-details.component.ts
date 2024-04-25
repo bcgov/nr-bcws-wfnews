@@ -142,7 +142,7 @@ export class EvacAlertFullDetailsComponent implements OnInit {
       const locationData = new LocationData();
       locationData.latitude = Number(this.evacData.centroidLatitude);
       locationData.longitude = Number(this.evacData.centroidLongitude);
-      locationData.radius = 10;
+      locationData.radius = 100;
       const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
       const incidents = await this.publishedIncidentService
         .fetchPublishedIncidentsList(
@@ -220,9 +220,9 @@ export class EvacAlertFullDetailsComponent implements OnInit {
             simpleIncident.stageOfControlLabel = getStageOfControlLabel(
               response?.stageOfControlCode,
             );
+            this.incident = simpleIncident;
           }
         })
-    this.incident = simpleIncident;
     } catch (error) {
       console.error(
         'Caught error while populating associated incident for evacuation: ' +

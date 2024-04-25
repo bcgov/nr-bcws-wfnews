@@ -159,7 +159,7 @@ export class BansFullDetailsComponent implements OnInit {
         const locationData = new LocationData();
         locationData.latitude = Number(this.banData.centroidLatitude);
         locationData.longitude = Number(this.banData.centroidLongitude);
-        locationData.radius = 10;
+        locationData.radius = 100;
         const stageOfControlCodes = ['OUT_CNTRL', 'HOLDING', 'UNDR_CNTRL'];
         const incidents = await this.publishedIncidentService
           .fetchPublishedIncidentsList(

@@ -226,6 +226,7 @@ this.incident.incidentSizeEstimatedHa =
               issuedOn: convertToDateTimeTimeZone(
                 element.attributes.DATE_MODIFIED,
               ),
+              eventNumber: element.attributes.EVENT_NUMBER
             });
           }
         }
