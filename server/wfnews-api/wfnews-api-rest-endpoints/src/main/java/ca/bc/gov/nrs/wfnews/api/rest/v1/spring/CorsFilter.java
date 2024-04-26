@@ -1,6 +1,8 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,29 +22,47 @@ import org.springframework.core.Ordered;
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
 public class CorsFilter implements Filter {
-  private static final Logger logger = LoggerFactory.getLogger(CorsFilter.class);
+	private static final Logger logger = LoggerFactory.getLogger(CorsFilter.class);
 
-  public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-    HttpServletResponse response = (HttpServletResponse) res;
-    HttpServletRequest request = (HttpServletRequest) req;
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    response.setHeader("Access-Control-Allow-Credentials", "true");
-    response.setHeader("Access-Control-Allow-Methods", "*");
-    response.setHeader("Access-Control-Max-Age", "3600");
-    response.setHeader("Access-Control-Allow-Headers", "*");
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpServletRequest request = (HttpServletRequest) req;
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Credentials", "true");
+		response.setHeader("Access-Control-Allow-Methods", "*");
+		response.setHeader("Access-Control-Max-Age", "3600");
 
-    if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
-      response.setStatus(HttpServletResponse.SC_OK);
-    } else {
-      chain.doFilter(req, res);
-    }
-  }
+		// Set Access-Control-Allow-Headers explicitly
+		Enumeration<String> headerNames = request.getHeaderNames();
+		ArrayList<String> headersList = new ArrayList<String>();
 
-  public void init(FilterConfig filterConfig) {
-    logger.info("Initializing CORS filter");
-  }
+		if (headerNames != null) {
+			while (headerNames.hasMoreElements()) {
+				headersList.add(headerNames.nextElement());
+			}
+		}
 
-  public void destroy() {
-    logger.info("Destructing CORS filter");
-  }
+		if (!headersList.isEmpty()) {
+			String headers = String.join(", ", headersList);
+			if (headers != null) {
+				response.setHeader("Access-Control-Allow-Headers", headers);
+			}else response.setHeader("Access-Control-Allow-Headers", "*");
+		} else
+			response.setHeader("Access-Control-Allow-Headers", "*");
+
+		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+			response.setStatus(HttpServletResponse.SC_OK);
+		} else {
+			chain.doFilter(req, res);
+		}
+	}
+
+	public void init(FilterConfig filterConfig) {
+		logger.info("Initializing CORS filter");
+	}
+
+	public void destroy() {
+		logger.info("Destructing CORS filter");
+	}
 }
