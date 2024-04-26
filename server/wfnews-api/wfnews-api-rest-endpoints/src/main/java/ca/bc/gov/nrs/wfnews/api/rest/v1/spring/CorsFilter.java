@@ -47,7 +47,7 @@ public class CorsFilter implements Filter {
 			String headers = String.join(", ", headersList);
 			if (headers != null) {
 				response.setHeader("Access-Control-Allow-Headers", headers);
-			}
+			}else response.setHeader("Access-Control-Allow-Headers", "*");
 		} else
 			response.setHeader("Access-Control-Allow-Headers", "*");
 
