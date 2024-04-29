@@ -338,7 +338,7 @@ export class WildFiresListComponent
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
         queryParams: {
-          wildfires: true,
+          activeWildfires: true,
           identify: true,
           longitude: incident.longitude,
           latitude: incident.latitude,

@@ -216,7 +216,7 @@ whereString = null;
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
         queryParams: {
-          evac: true,
+          evacuationAlert: true,
           identify: true,
           longitude: evac.longitude,
           latitude: evac.latitude,
