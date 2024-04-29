@@ -312,6 +312,8 @@ export class PublishedIncidentService {
     return this.httpClient.get<SituationReport>(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
       },
     });
   }
@@ -325,6 +327,9 @@ export class PublishedIncidentService {
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
+        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
       },
     };
     return this.httpClient.put<SituationReport>(url, report, headers);
@@ -339,6 +344,9 @@ export class PublishedIncidentService {
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
+        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
       },
     };
     return this.httpClient.post<SituationReport>(url, report, headers);
@@ -353,6 +361,9 @@ export class PublishedIncidentService {
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
+        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
       },
     };
     return this.httpClient.delete<SituationReport>(url, headers);
