@@ -161,7 +161,7 @@ whereString = null;
     setTimeout(() => {
       this.router.navigate([ResourcesRoutes.ACTIVEWILDFIREMAP], {
         queryParams: {
-          bans: true,
+          bansProhibitions: true,
           identify: true,
           longitude: ban.longitude,
           latitude: ban.latitude,
