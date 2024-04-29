@@ -105,6 +105,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
     heavyEquipmentResourceCount: undefined,
     incidentManagementResourceCount: undefined,
     structureProtectionResourceCount: undefined,
+    signOffSignatureGuid: undefined,
   };
 
   public readonly incidentForm: UntypedFormGroup;
@@ -172,6 +173,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       heavyEquipmentResourceCount: [],
       incidentManagementResourceCount: [],
       structureProtectionResourceCount: [],
+      signOffSignatureGuid: [],
     });
 
     this.incidentForm.valueChanges.subscribe(() => {
@@ -247,6 +249,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 self.currentAdminIncident.incidentLocation.geographicDescription;
               self.incident.wildfireIncidentGuid =
                 self.currentAdminIncident.wildfireIncidentGuid;
+              self.incident.signOffSignatureGuid = self.currentAdminIncident.signOffSignatureGuid
 
               self.incident.sizeType = 2;
               self.incident.sizeHectares =
@@ -270,6 +273,13 @@ export class AdminIncidentForm implements OnInit, OnChanges {
               self.incident.responseTypeCode = self.currentAdminIncident.responseTypeCode;
 
               this.areaRestrictionsDetailsPanel.getAreaRestrictions();
+
+              if (self.incident.signOffSignatureGuid) {
+                this.incidentForm.get('cause').disable();
+                this.incidentForm.get('fireName').disable();
+                this.incidentForm.get('sizeHectares').disable();
+              }
+
 
               this.http
                 .get('../../../../assets/data/fire-center-contacts-agol.json')
@@ -314,7 +324,6 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                   if (!response.incidentCauseDetail) {
                     self.incident.causeComments = CauseOptionDisclaimer[0];
                   }
-
                   self.incident.publishedStatus =
                     response.newsPublicationStatusCode;
                   self.incident.responseComments = response.resourceDetail;
