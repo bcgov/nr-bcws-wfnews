@@ -116,6 +116,7 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   currentAdminIncidentCause: IncidentCauseResource;
   publishedIncidentType: string;
   publishedIncidentDetailGuid: string;
+  currentEtag: string;
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -293,7 +294,9 @@ export class AdminIncidentForm implements OnInit, OnChanges {
                 });
 
               incidentResponse.getPublishedIncident.subscribe(
-                (response) => {
+                (result) => {
+                  const response = result.body;
+                  this.currentEtag = result.headers.get('ETag')
                   self.publishedIncidentDetailGuid =
                     response.publishedIncidentDetailGuid;
                   self.incident.traditionalTerritory =
@@ -481,21 +484,21 @@ export class AdminIncidentForm implements OnInit, OnChanges {
 
     try {
       const doc = await self.publishIncident(publishedIncidentResource);
-      this.publishedIncidentDetailGuid = doc.publishedIncidentDetailGuid;
+      this.publishedIncidentDetailGuid = doc?.publishedIncidentDetailGuid;
 
       // Handle evac orders
       await this.evacOrdersDetailsPanel.persistEvacOrders();
-
-      this.snackbarService.open('Incident Published Successfully', 'OK', {
-        duration: 100000,
-        panelClass: 'snackbar-success-v2',
-      });
-
-      // Update the Draft/Publish status on incident name
-      this.incident.lastPublished = doc.publishedTimestamp;
-      this.incident.publishedStatus = doc.newsPublicationStatusCode;
-      this.incidentForm.markAsPristine();
-      this.setIsFormDirty(false);
+      if (doc) {
+        this.snackbarService.open('Incident Published Successfully', 'OK', {
+          duration: 100000,
+          panelClass: 'snackbar-success-v2',
+        });
+              // Update the Draft/Publish status on incident name
+        this.incident.lastPublished = doc?.publishedTimestamp;
+        this.incident.publishedStatus = doc?.newsPublicationStatusCode;
+        this.incidentForm.markAsPristine();
+        this.setIsFormDirty(false);
+      }
     } catch (err) {
       this.snackbarService.open(
         'Failed to Publish Incident: ' + JSON.stringify(err.message),
@@ -509,9 +512,27 @@ export class AdminIncidentForm implements OnInit, OnChanges {
   }
 
   publishIncident(incident): Promise<any> {
-    return this.publishedIncidentService
-      .saveIMPublishedIncident(incident)
-      .toPromise();
+    return this.publishedIncidentService.getIMPublishedIncident(incident)
+        .toPromise()
+        .then(data => {
+            let etag = data.headers.get('ETag')
+            if(etag != this.currentEtag) {
+              this.snackbarService.open(
+                'There have been updates on this incident. To retrieve the latest information, please refresh the page.',
+                'Ok',
+                { duration: 10000, panelClass: 'snackbar-error' },
+              );
+              return;
+            } else {
+              return this.publishedIncidentService
+              .saveIMPublishedIncident(incident)
+              .toPromise();
+            }
+        })
+        .catch(error => {
+            console.error('Error publishing incident:', error);
+            throw error;  // Rethrow or handle the error as required
+        });
   }
 
   onShowPreview() {

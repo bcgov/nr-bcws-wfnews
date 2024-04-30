@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SituationReport } from '@app/components/wf-admin-panel/dashboard-panel/edit-dashboard.component';
 import { LocationData } from '@app/components/wildfires-list-header/filter-by-location/filter-by-location-dialog.component';
@@ -182,6 +182,7 @@ export class PublishedIncidentService {
                 'Content-Type': 'application/json',
                 Authorization: `bearer ${this.tokenService.getOauthToken()}`,
               },
+              observe: 'response'
             }),
           });
         }),
@@ -206,6 +207,25 @@ export class PublishedIncidentService {
       );
     } else {
       return this.httpClient.post(publishedUrl, publishedIncident, headers);
+    }
+  }
+
+  public getIMPublishedIncident(publishedIncident: any): Observable<any> {
+    const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']}/publishedIncidents`;
+    const headers = new HttpHeaders({
+        Authorization: `Bearer ${this.tokenService.getOauthToken()}`
+    });
+
+    if (publishedIncident.publishedIncidentDetailGuid) {
+        return this.httpClient.get(publishedUrl + `/${publishedIncident.publishedIncidentDetailGuid}`, {
+            headers: headers,
+            observe: 'response'
+        }).pipe(
+            map(response => {
+                console.log('ETag:', response.headers.get('ETag')); 
+                return response;  
+            })
+        );
     }
   }
 
