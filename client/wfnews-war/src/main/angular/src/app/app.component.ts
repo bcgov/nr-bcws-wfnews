@@ -377,7 +377,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
           ),
           new RouterLink(
             'Disclaimer',
-            'https://www2.gov.bc.ca/gov/content/home/disclaimer',
+            'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
             'home',
             'expanded',
             this.router,
@@ -920,7 +920,7 @@ export class AppComponent implements OnDestroy, OnInit, AfterViewInit {
   openLink(link: string) {
     if (link === 'Disclaimer') {
       window.open(
-        'https://www2.gov.bc.ca/gov/content/home/disclaimer',
+        'https://www2.gov.bc.ca/gov/content?id=DE91907CDB3E4B5EB2F0363569079B85',
         '_blank',
       );
     } else if (link === 'Privacy') {
