@@ -55,8 +55,9 @@ public class CorsFilter implements Filter {
 		// Set Access-Control-Allow-Origin explicitly	
 		String origin = null;
 		
-		if(request.getHeader("Origin") != null) 
+		if(request.getHeader("Origin") != null) {
 			origin = request.getHeader("Origin");
+		}
 		else origin = request.getHeader("origin");
 		
 		if(origin != null) {
