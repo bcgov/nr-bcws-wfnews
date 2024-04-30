@@ -32,12 +32,34 @@ export class PublishedIncidentService {
     private appConfigService: AppConfigService,
     private tokenService: TokenService,
     private httpClient: HttpClient,
-  ) {}
+  ) { }
+
+  getSituationReportHeaders() {
+    const headers = {
+      headers: {
+        Authorization: `bearer ${this.tokenService.getOauthToken()}`,
+        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
+      }
+    }
+    return headers;
+  }
+
+  getPublicSituationReportHeaders() {
+    const headers = {
+      headers: {
+        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
+        'Access-Control-Allow-Origin': "*",
+        'Accept': '*/*'
+      }
+    }
+    return headers;
+  }
 
   public async getActiveFireCount(): Promise<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncident?pageNumber=1&pageRowCount=1&out=false&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncident?pageNumber=1&pageRowCount=1&out=false&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
     const result = await this.httpClient
       .get(url, {
         headers: {
@@ -53,9 +75,8 @@ export class PublishedIncidentService {
     pageNum: number = 0,
     rowCount: number = 9999,
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&stageOfControlList=OUT&newFires=false`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&stageOfControlList=OUT&newFires=false`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -71,12 +92,10 @@ export class PublishedIncidentService {
     orderBy: string = 'lastUpdatedTimestamp%20DESC',
   ): Observable<any> {
     const url = out
-      ? `${
-          this.appConfigService.getConfig().rest['wfnews']
-        }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=true`
-      : `${
-          this.appConfigService.getConfig().rest['wfnews']
-        }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=false&orderBy=${orderBy}&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
+      ? `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=true`
+      : `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncident?pageNumber=${pageNum}&pageRowCount=${rowCount}&fireOfNote=${fireOfNote}&out=false&orderBy=${orderBy}&stageOfControlList=OUT_CNTRL&stageOfControlList=HOLDING&stageOfControlList=UNDR_CNTRL`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -138,11 +157,9 @@ export class PublishedIncidentService {
     guid: string,
     fireYear: string = null,
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncident/${guid}${
-      fireYear ? '?fireYear=' + fireYear : ''
-    }`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncident/${guid}${fireYear ? '?fireYear=' + fireYear : ''
+      }`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -154,9 +171,8 @@ export class PublishedIncidentService {
     fireYear: string,
     incidentNumber: string,
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['incidents']
-    }/incidents/${fireYear}/${incidentNumber}`;
+    const url = `${this.appConfigService.getConfig().rest['incidents']
+      }/incidents/${fireYear}/${incidentNumber}`;
 
     return this.httpClient
       .get(url, {
@@ -166,15 +182,14 @@ export class PublishedIncidentService {
       })
       .pipe(
         map((response: any) => ({
-            response,
-            wildfireIncidentGuid: response.wildfireIncidentGuid,
-          })),
+          response,
+          wildfireIncidentGuid: response.wildfireIncidentGuid,
+        })),
       )
       .pipe(
         concatMap((data) => {
-          const publishedUrl = `${
-            this.appConfigService.getConfig().rest['incidents']
-          }/publishedIncidents/byIncident/${data.wildfireIncidentGuid}`;
+          const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']
+            }/publishedIncidents/byIncident/${data.wildfireIncidentGuid}`;
           return of({
             response: data.response,
             getPublishedIncident: this.httpClient.get(publishedUrl, {
@@ -189,9 +204,8 @@ export class PublishedIncidentService {
   }
 
   public saveIMPublishedIncident(publishedIncident: any): Observable<any> {
-    const publishedUrl = `${
-      this.appConfigService.getConfig().rest['incidents']
-    }/publishedIncidents`;
+    const publishedUrl = `${this.appConfigService.getConfig().rest['incidents']
+      }/publishedIncidents`;
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
@@ -210,9 +224,8 @@ export class PublishedIncidentService {
   }
 
   public fetchPublishedIncidentAttachments(incidentName): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncidentAttachment/${incidentName}/attachments`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncidentAttachment/${incidentName}/attachments`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -224,9 +237,8 @@ export class PublishedIncidentService {
     page: number = 1,
     rows: number = 10,
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicExternalUri?pageNumber=${page}&pageRowCount=${rows}`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicExternalUri?pageNumber=${page}&pageRowCount=${rows}`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -235,9 +247,8 @@ export class PublishedIncidentService {
   }
 
   public fetchExternalUri(incidentNumber): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicExternalUri?sourceObjectUniqueId=${incidentNumber}&pageNumber=1&pageRowCount=100`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -246,9 +257,8 @@ export class PublishedIncidentService {
   }
 
   public fetchAttachments(incidentNumber): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncidentAttachment/${incidentNumber}/attachments`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -257,9 +267,8 @@ export class PublishedIncidentService {
   }
 
   public fetchAttachmentBytes(incidentNumber, attachmentGuid): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicPublishedIncidentAttachment/${incidentNumber}/attachments/${attachmentGuid}/bytes`;
     return this.httpClient.get(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -273,11 +282,9 @@ export class PublishedIncidentService {
     fireYear: number,
     fireCentre: string = 'BC',
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/statistics?fireYear=${fireYear}${
-      fireCentre ? '&fireCentre=' + fireCentre : ''
-    }`;
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/statistics?fireYear=${fireYear}${fireCentre ? '&fireCentre=' + fireCentre : ''
+      }`;
     return this.httpClient.get<any>(url, {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
@@ -293,69 +300,40 @@ export class PublishedIncidentService {
     published = true,
     cacheBust = false,
   ): Observable<any> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${
-      published ? 'TRUE' : 'FALSE'
-    }${cacheBust ? '&cacheBust=' + new Date().getTime() : ''}`;
-    return this.httpClient.get<SituationReport>(url, {
-      headers: {
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-      },
-    });
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published ? 'TRUE' : 'FALSE'
+      }${cacheBust ? '&cacheBust=' + new Date().getTime() : ''}`;
+    return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
   }
 
   public fetchSituationReport(reportGuid: string): Observable<SituationReport> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/publicSituationReport/${reportGuid}`;
-    return this.httpClient.get<SituationReport>(url, {
-      headers: {
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-      },
-    });
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/publicSituationReport/${reportGuid}`;
+    return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
   }
 
   public updateSituationReport(
     report: SituationReport,
   ): Observable<SituationReport> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/situationReport/${report.reportGuid}`;
-    const headers = {
-      headers: {
-        Authorization: `bearer ${this.tokenService.getOauthToken()}`,
-      },
-    };
-    return this.httpClient.put<SituationReport>(url, report, headers);
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/situationReport/${report.reportGuid}`;
+    return this.httpClient.put<SituationReport>(url, report, this.getSituationReportHeaders());
   }
 
   public createSituationReport(
     report: SituationReport,
   ): Observable<SituationReport> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/situationReport`;
-    const headers = {
-      headers: {
-        Authorization: `bearer ${this.tokenService.getOauthToken()}`,
-      },
-    };
-    return this.httpClient.post<SituationReport>(url, report, headers);
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/situationReport`;
+    return this.httpClient.post<SituationReport>(url, report, this.getSituationReportHeaders());
   }
 
   public deleteSituationReport(
     report: SituationReport,
   ): Observable<SituationReport> {
-    const url = `${
-      this.appConfigService.getConfig().rest['wfnews']
-    }/situationReport/${report.reportGuid}`;
-    const headers = {
-      headers: {
-        Authorization: `bearer ${this.tokenService.getOauthToken()}`,
-      },
-    };
-    return this.httpClient.delete<SituationReport>(url, headers);
+    const url = `${this.appConfigService.getConfig().rest['wfnews']
+      }/situationReport/${report.reportGuid}`;
+    return this.httpClient.delete<SituationReport>(url, this.getSituationReportHeaders());
   }
 
   async populateIncidentByPoint(restrictionPolygon: [][]) {
