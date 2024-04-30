@@ -39,8 +39,7 @@ export class PublishedIncidentService {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-        'Access-Control-Allow-Origin': "*",
-        'Accept': '*/*'
+        'Content-type': 'application/json'
       }
     }
     return headers;
@@ -50,8 +49,7 @@ export class PublishedIncidentService {
     const headers = {
       headers: {
         apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-        'Access-Control-Allow-Origin': "*",
-        'Accept': '*/*'
+        'Content-type': 'application/json'
       }
     }
     return headers;

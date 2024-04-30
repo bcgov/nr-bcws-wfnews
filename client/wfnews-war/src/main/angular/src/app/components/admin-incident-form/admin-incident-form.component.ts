@@ -510,29 +510,55 @@ export class AdminIncidentForm implements OnInit, OnChanges {
       this.cdr.detectChanges();
     }
   }
-
   publishIncident(incident): Promise<any> {
-    return this.publishedIncidentService.getIMPublishedIncident(incident)
+
+    if (incident.publishedIncidentDetailGuid == null) {
+      // If publishedIncidentGuid is null, just save the incident
+      // let publishedGuid;
+      // this.publishedIncidentService
+      // .fetchIMIncident(this.wildFireYear, this.incidentNumberSequnce)
+      //   .subscribe((response) => {
+      //     response.getPublishedIncident.subscribe(
+      //       (result) => {
+      //         publishedGuid = result?.body?.publishedIncidentDetailGuid
+      //       }
+      //     )
+      //   }  
+      // )
+      // if (publishedGuid) {
+
+      // } else {
+        
+      // }
+      const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
+      if (saveResult) {
+        return saveResult.toPromise();
+      }
+    } else {
+      // If publishedIncidentGuid is not null, check for updates and then save the incident
+      return this.publishedIncidentService.getIMPublishedIncident(incident)
         .toPromise()
         .then(data => {
-            let etag = data.headers.get('ETag')
-            if(etag != this.currentEtag) {
-              this.snackbarService.open(
-                'There have been updates on this incident. To retrieve the latest information, please refresh the page.',
-                'Ok',
-                { duration: 10000, panelClass: 'snackbar-error' },
-              );
-              return;
-            } else {
-              return this.publishedIncidentService
-              .saveIMPublishedIncident(incident)
-              .toPromise();
+          let etag = data.headers.get('ETag')
+          if (etag != this.currentEtag) {
+            this.snackbarService.open(
+              'There have been updates on this incident. To retrieve the latest information, please refresh the page. Note that after refreshing, any ongoing edits will be lost',
+              'Ok',
+              { duration: 10000, panelClass: 'snackbar-error' },
+            );
+            return;
+          } else {
+            const saveResult = this.publishedIncidentService.saveIMPublishedIncident(incident);
+            if (saveResult) {
+              return saveResult.toPromise();
             }
+          }
         })
         .catch(error => {
-            console.error('Error publishing incident:', error);
-            throw error;  // Rethrow or handle the error as required
+          console.error('Error publishing incident:', error);
+          throw error;  // Rethrow or handle the error as required
         });
+    }
   }
 
   onShowPreview() {

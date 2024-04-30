@@ -28,11 +28,41 @@ public class CorsFilter implements Filter {
 			throws IOException, ServletException {
 		HttpServletResponse response = (HttpServletResponse) res;
 		HttpServletRequest request = (HttpServletRequest) req;
-		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Credentials", "true");
-		response.setHeader("Access-Control-Allow-Methods", "*");
+		response.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS, HEAD, PUT, POST, DELETE");
 		response.setHeader("Access-Control-Max-Age", "3600");
-		response.setHeader("Access-Control-Allow-Headers", "*");
+		
+		// Set Access-Control-Allow-Headers explicitly
+		Enumeration<String> headerNames = request.getHeaderNames();
+		ArrayList<String> headersList = new ArrayList<String>();
+		
+		if (headerNames != null) {
+			while (headerNames.hasMoreElements()) {
+				headersList.add(headerNames.nextElement());
+				headersList.add("Content-type");
+				headersList.add("Authorization");
+			}
+		}
+
+		if (!headersList.isEmpty()) {
+			String headers = String.join(", ", headersList);
+			if (headers != null) {
+				response.setHeader("Access-Control-Allow-Headers", headers);
+			}else response.setHeader("Access-Control-Allow-Headers", "*");
+		} else
+			response.setHeader("Access-Control-Allow-Headers", "*");
+			
+		// Set Access-Control-Allow-Origin explicitly	
+		String origin = null;
+		
+		if(request.getHeader("Origin") != null) {
+			origin = request.getHeader("Origin");
+		} else origin = request.getHeader("origin");
+		
+		if(origin != null) {
+			response.setHeader("Access-Control-Allow-Origin", origin);
+		} else response.setHeader("Access-Control-Allow-Origin", "*");
+		
 
 		if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
 			response.setStatus(HttpServletResponse.SC_OK);
