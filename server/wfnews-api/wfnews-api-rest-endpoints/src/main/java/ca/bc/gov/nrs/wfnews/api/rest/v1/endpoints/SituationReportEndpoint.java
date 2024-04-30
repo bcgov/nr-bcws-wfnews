@@ -36,7 +36,7 @@ import io.swagger.annotations.ResponseHeader;
 
 @Path("/situationReport")
 @Api(value = "SituationReportEndpoint", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.GET_TOPLEVEL, description = "") }) })
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*", methods="GET, OPTIONS, HEAD, PUT, POST, DELETE")
 public interface SituationReportEndpoint extends BaseEndpoints {
   @ApiOperation(value = "Add a Sitation Report Resource", response = SituationReportResource.class, notes = "Add a Situation Report", authorizations = { @Authorization(value = "Webade-OAUTH2", scopes = { @AuthorizationScope(scope = Scopes.CREATE_PUBLISHED_INCIDENT, description = "") }) }, extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
 	@ApiImplicitParams({
