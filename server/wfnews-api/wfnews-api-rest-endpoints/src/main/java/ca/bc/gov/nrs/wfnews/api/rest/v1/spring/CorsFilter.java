@@ -1,7 +1,6 @@
 package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
