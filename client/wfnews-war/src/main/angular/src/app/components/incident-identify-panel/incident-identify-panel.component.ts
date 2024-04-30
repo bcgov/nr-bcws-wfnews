@@ -81,8 +81,8 @@ export class IncidentIdentifyPanelComponent {
     const id = incidentRef.FIRE_NUMBER
       ? incidentRef.FIRE_NUMBER
       : incidentRef.incident_number_label;
-    const year = incidentRef.fire_year;
-
+    const year = incidentRef.fire_year ? incidentRef.fire_year : incidentRef.FIRE_YEAR;
+    // activeFire uses fire_year and fire perimeter uses FIRE_YEAR
     this.publishedIncidentService
       .fetchPublishedIncident(id, year)
       .toPromise()
