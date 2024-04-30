@@ -93,6 +93,10 @@
   color: black !important;
 }
 
+::ng-deep  .disabled-input:disabled {
+  color: #c6c8cb !important; /* Set the color to red when input is disabled */
+}
+
 ::ng-deep .item-full-width {
   width: 100%;
 }
