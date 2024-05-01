@@ -38,18 +38,6 @@ export class PublishedIncidentService {
     const headers = {
       headers: {
         Authorization: `bearer ${this.tokenService.getOauthToken()}`,
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-        'Content-type': 'application/json'
-      }
-    }
-    return headers;
-  }
-
-  getPublicSituationReportHeaders() {
-    const headers = {
-      headers: {
-        apikey: this.appConfigService.getConfig().application['wfnewsApiKey'],
-        'Content-type': 'application/json'
       }
     }
     return headers;
@@ -321,13 +309,13 @@ export class PublishedIncidentService {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/publicSituationReport?pageNumber=${pageNum}&pageRowCount=${rowCount}&published=${published ? 'TRUE' : 'FALSE'
       }${cacheBust ? '&cacheBust=' + new Date().getTime() : ''}`;
-    return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
+    return this.httpClient.get<SituationReport>(url);
   }
 
   public fetchSituationReport(reportGuid: string): Observable<SituationReport> {
     const url = `${this.appConfigService.getConfig().rest['wfnews']
       }/publicSituationReport/${reportGuid}`;
-    return this.httpClient.get<SituationReport>(url, this.getPublicSituationReportHeaders());
+    return this.httpClient.get<SituationReport>(url);
   }
 
   public updateSituationReport(

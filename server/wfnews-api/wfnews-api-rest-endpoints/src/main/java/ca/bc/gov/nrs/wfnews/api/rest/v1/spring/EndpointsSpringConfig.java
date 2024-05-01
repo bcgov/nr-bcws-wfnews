@@ -30,7 +30,6 @@ import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
 	,ResourceFactorySpringConfig.class
 	,SecuritySpringConfig.class
 	,WebConfig.class
-	,CorsFilter.class
 })
 public class EndpointsSpringConfig {
 
