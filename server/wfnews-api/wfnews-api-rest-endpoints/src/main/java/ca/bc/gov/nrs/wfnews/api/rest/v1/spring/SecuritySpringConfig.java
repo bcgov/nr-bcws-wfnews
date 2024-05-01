@@ -143,7 +143,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-		configuration.addAllowedOrigin(Arrays.asList("https://wildfiresituation.nrs.gov.bc.ca/", "https://wfnews-client.dev.bcwildfireservices.com/", "https://wfnews-client.test.bcwildfireservices.com/"));
+		configuration.addAllowedOrigin(Arrays.asList("https://wildfiresituation.nrs.gov.bc.ca", "https://wfnews-client.dev.bcwildfireservices.com", "https://wfnews-client.test.bcwildfireservices.com"));
 		configuration.addAllowedMethod(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
 		configuration.addAllowedHeader(Arrays.asList("Content-Type", "Apikey", "Authorization"));
 		configuration.setAllowCredentials(true);
