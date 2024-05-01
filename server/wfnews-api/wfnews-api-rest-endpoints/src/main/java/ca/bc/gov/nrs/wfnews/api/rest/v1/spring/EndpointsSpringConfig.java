@@ -29,7 +29,7 @@ import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
 	,ServiceApiSpringConfig.class
 	,ResourceFactorySpringConfig.class
 	,SecuritySpringConfig.class
-	,WebConfig.class
+	,CorsFilter.class
 })
 public class EndpointsSpringConfig {
 
