@@ -121,7 +121,10 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http.cors().and().csrf().disable()
+		http.cors(cors -> {
+			cors.configurationSource(corsConfigurationSource());
+		})
+		.and().csrf().disable()
 		.oauth2ResourceServer(oauth2 -> oauth2
 			.authenticationManagerResolver(authenticationManagerResolver())
 		)
@@ -138,16 +141,14 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
-    final CorsConfiguration configuration = new CorsConfiguration();
-
-    configuration.setAllowedOrigins(Collections.unmodifiableList(Arrays.asList("*")));
-    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
-    // configuration.setAllowCredentials(true);
-    configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("*")));
-
-    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-    source.registerCorsConfiguration("/**", configuration);
-
-    return source;
+    CorsConfiguration configuration = new CorsConfiguration();
+		configuration.addAllowedOrigin("*");
+		configuration.addAllowedMethod("*");
+		configuration.addAllowedHeader("*");
+		configuration.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new
+				UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
   }
 }
