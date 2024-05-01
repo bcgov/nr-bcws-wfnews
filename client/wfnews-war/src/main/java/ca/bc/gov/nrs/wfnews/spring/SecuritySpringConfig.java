@@ -117,7 +117,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
     origins.add("*");
 
     configuration.setAllowedOrigins(origins);
-    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "OPTIONS")));
+    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "PUT", "POST", "OPTIONS")));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(origins);
 
