@@ -43,6 +43,7 @@ export class IncidentInfoPanel implements AfterViewInit {
   public convertToYoutubeId = convertToYoutubeId;
   public isMobileView = isMobileView;
   getResponseTypeDescription = getResponseTypeDescription;
+  public areaRestrictionLink : string;
 
   public constructor(
     private publishedIncidentService: PublishedIncidentService,
@@ -99,6 +100,9 @@ console.error(error);
     });
 
     this.fetchPrimaryImage();
+    this.areaRestrictionLink = this.appConfigService.getConfig().externalAppConfig[
+      'currentRestrictions' 
+    ] as unknown as string
   }
 
   public getStageOfControlLabel(code: string) {
