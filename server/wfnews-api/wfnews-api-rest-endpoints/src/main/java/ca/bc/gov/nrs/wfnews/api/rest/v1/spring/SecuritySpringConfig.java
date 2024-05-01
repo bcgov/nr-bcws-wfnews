@@ -139,15 +139,16 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
-    final CorsConfiguration configuration = new CorsConfiguration();
+	  final CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.setAllowedOrigins(Collections.unmodifiableList(Arrays.asList("*")));
-		configuration.setAllowedMethods(
-				Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
-		configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("apikey")));
+	  configuration.setAllowedOrigins(Collections.unmodifiableList(Arrays.asList("*")));
+	  configuration.setAllowedMethods(
+			  Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
+	  configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("apikey")));
 
-		final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
+	  final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+	  source.registerCorsConfiguration("/**", configuration);
 
-		return source;
+	  return source;
+  }
 }
