@@ -6,7 +6,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import ca.bc.gov.nrs.wfnews.api.rest.v1.common.AttachmentsAwsConfig;
-import ca.bc.gov.nrs.wfone.api.rest.v1.spring.CorsFilter;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +29,7 @@ import ca.bc.gov.nrs.wfone.common.utils.ApplicationContextProvider;
 	,ServiceApiSpringConfig.class
 	,ResourceFactorySpringConfig.class
 	,SecuritySpringConfig.class
+	,WebConfig.class
 	,CorsFilter.class
 })
 public class EndpointsSpringConfig {
