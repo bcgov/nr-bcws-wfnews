@@ -121,11 +121,10 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http
-		.csrf().disable()
-		.cors(cors -> {
+		http.cors(cors -> {
 			cors.configurationSource(corsConfigurationSource());
 		})
+		.and().csrf().disable()
 		.oauth2ResourceServer(oauth2 -> oauth2
 			.authenticationManagerResolver(authenticationManagerResolver())
 		)
