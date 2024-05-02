@@ -49,6 +49,9 @@ public class ApplicationInitializer extends AbstractSecurityWebApplicationInitia
         versionForwardingFilter.setInitParameter(VersionForwardingFilter.RESPONSE_VERSION_PARAM, "1");
         versionForwardingFilter.setInitParameter(VersionForwardingFilter.DEFAULT_REQUEST_VERSION_PARAM, "1");
         versionForwardingFilter.addMappingForUrlPatterns(null, false, "/*");
+
+        FilterRegistration.Dynamic corsFilter = servletContext.addFilter("CORS Filter", CorsFilter.class);
+        corsFilter.addMappingForUrlPatterns(null, false, "/*");
         
     	LOGGER.info(">beforeSpringSecurityFilterChain");
 	}

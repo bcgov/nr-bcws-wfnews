@@ -1,0 +1,97 @@
+name: Deploy Backend Services
+
+on:
+  workflow_dispatch:
+    inputs:
+      IS_HOTFIX:
+        description: 'Is this a hotfix?'
+        required: false
+        default: 'false'
+
+jobs:
+  call-lambda-zip:
+    uses: ./.github/workflows/lambda-zip.yml
+    secrets: inherit
+    with:
+      ENVIRONMENT: DEV
+      REGISTRY: ${{ vars.REGISTRY }}
+
+  wfnews-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfnews-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  wfone-notifications-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfone-notifications-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  wfone-notification-push-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfone-notification-push-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  wfss-pointid-api-server-build:
+    uses: ./.github/workflows/mvn-server.yml
+    secrets: inherit
+    with:
+      PROJECT_NAME: wfss-pointid-api
+      ENVIRONMENT: DEV
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      BRANCH: ${{ vars.PATCH_BRANCH }}
+      TAG: ${{ vars.HOTFIX_TAG }}
+
+  liquibase-build:
+    uses: ./.github/workflows/liquibase.yml
+    secrets: inherit
+    with:
+      ENVIRONMENT: DEV
+
+  nginx-build:
+    uses: ./.github/workflows/nginx.yml
+    secrets: inherit
+    with:
+      ENVIRONMENT: DEV
+
+  terragrunt-deploy-dev:
+    uses: ./.github/workflows/terragrunt-deploy.yml
+    needs: [call-lambda-zip, wfnews-api-server-build, wfone-notifications-api-server-build, liquibase-build, nginx-build, wfss-pointid-api-server-build, wfone-notification-push-api-server-build]
+    with:
+      DEFAULT_APPLICATION_ENVIRONMENT: DEV
+      IMAGE_TAG: ${{ inputs.IS_HOTFIX == 'true' && format('hotfix-{0}', inputs.BRANCH) || format( 'pr-{0}', github.event.pull_request.number) }}
+      IS_HOTFIX: ${{ inputs.IS_HOTFIX }}
+      TARGET_ENV: dev
+
+      MAX_RECEIVED_COUNT: 10
+      VISIBILITY_TIMEOUT_SECONDS: 100
+      PUSH_NOTIFICATION_AWS_USER: ""
+      EVENT_BRIDGE_ARN: ""
+      WFNEWS_URL: ""
+      BAN_PROHIBITION_MONITOR_KEY: ""
+      ACTIVE_FIRE_MONITOR_KEY: ""
+      AREA_RESTRICTIONS_MONITOR_KEY: ""
+      EVACUATION_MONITOR_KEY: ""
+      LAMBDA_LAYER_KEY: ""
+
+    secrets: inherit
+
+  jmeter-test-dev:
+    uses: ./.github/workflows/jmeter.yml
+    needs: [terragrunt-deploy-dev]
+    with:
+      ENVIRONMENT: dev

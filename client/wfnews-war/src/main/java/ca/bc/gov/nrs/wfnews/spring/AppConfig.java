@@ -48,7 +48,7 @@ public class AppConfig implements WebMvcConfigurer {
         .allowCredentials(true)
         .allowedOriginPatterns("*")
         .allowedHeaders("*")
-        .allowedMethods("HEAD", "GET", "PUT", "POST", "OPTIONS");
+        .allowedMethods("HEAD", "GET", "POST", "OPTIONS");
     }
 
     @Override

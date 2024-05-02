@@ -2,7 +2,6 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -122,11 +121,7 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		http
-		.csrf().disable()
-		.cors(cors -> {
-			cors.configurationSource(corsConfigurationSource());
-		})
+		http.cors().and().csrf().disable()
 		.oauth2ResourceServer(oauth2 -> oauth2
 			.authenticationManagerResolver(authenticationManagerResolver())
 		)
@@ -143,14 +138,16 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
 
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
-    CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("https://wildfiresituation.nrs.gov.bc.ca", "https://wfnews-client.dev.bcwildfireservices.com", "https://wfnews-client.test.bcwildfireservices.com"));
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-		configuration.setAllowedHeaders(List.of("Content-Type", "Apikey", "Authorization"));
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new
-				UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
+    final CorsConfiguration configuration = new CorsConfiguration();
+
+    configuration.setAllowedOrigins(Collections.unmodifiableList(Arrays.asList("*")));
+    configuration.setAllowedMethods(Collections.unmodifiableList(Arrays.asList("HEAD", "GET", "POST", "DELETE", "PUT", "OPTIONS")));
+    configuration.setAllowCredentials(true);
+    configuration.setAllowedHeaders(Collections.unmodifiableList(Arrays.asList("*")));
+
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", configuration);
+
+    return source;
   }
 }

@@ -13,6 +13,8 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.endpoints.security.Scopes;
@@ -44,6 +46,7 @@ public interface AttachmentsListEndpoint {
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	Response getIncidentAttachmentList(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("List primary attachments") @QueryParam("primaryIndicator") @DefaultValue("false") String primaryIndicator,

@@ -17,6 +17,7 @@ import javax.ws.rs.core.Response;
 
 import org.glassfish.jersey.media.multipart.FormDataBodyPart;
 import org.glassfish.jersey.media.multipart.FormDataParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
 
 import ca.bc.gov.nrs.common.rest.resource.HeaderConstants;
 import ca.bc.gov.nrs.common.wfone.rest.resource.MessageListRsrc;
@@ -53,6 +54,7 @@ public interface AttachmentsEndpoint {
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}")
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	Response getIncidentAttachment(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid
@@ -71,6 +73,7 @@ public interface AttachmentsEndpoint {
 	})
 	@GET
 	@Path("/publicPublishedIncidentAttachment/{incidentNumberSequence}/attachments/{attachmentGuid}/bytes")
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	Response getIncidentAttachmentBytes(
 			@ApiParam("The incidentNumberSequence of the Wildfire Incident resource.") @PathParam("incidentNumberSequence") String incidentNumberSequence,
 			@ApiParam("The attachmentGuid of the Attachment resource.") @PathParam("attachmentGuid") String attachmentGuid,

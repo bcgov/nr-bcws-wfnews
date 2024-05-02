@@ -9,12 +9,15 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.rest.endpoints.BaseEndpoints;
 import ca.bc.gov.nrs.common.service.ConflictException;
 import ca.bc.gov.nrs.common.service.ForbiddenException;
 import ca.bc.gov.nrs.common.service.NotFoundException;
 
 @Path("/statistics")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public interface StatisticsEndpoint extends BaseEndpoints {
   @GET
 	@Produces({ MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML })
