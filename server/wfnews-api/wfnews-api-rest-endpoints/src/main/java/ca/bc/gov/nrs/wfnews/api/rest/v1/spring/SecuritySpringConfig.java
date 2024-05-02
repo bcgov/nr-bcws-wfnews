@@ -2,7 +2,6 @@ package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -144,9 +143,9 @@ public class SecuritySpringConfig extends WebSecurityConfigurerAdapter  {
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(List.of("https://wildfiresituation.nrs.gov.bc.ca", "https://wfnews-client.dev.bcwildfireservices.com", "https://wfnews-client.test.bcwildfireservices.com"));
-		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-		configuration.setAllowedHeaders(List.of("Content-Type", "Apikey", "Authorization"));
+		configuration.addAllowedOrigin("https://wildfiresituation.nrs.gov.bc.ca, https://wfnews-client.dev.bcwildfireservices.com, https://wfnews-client.test.bcwildfireservices.com");
+		configuration.addAllowedMethod("GET, POST, PUT, DELETE, OPTIONS, HEAD");
+		configuration.addAllowedHeader("Content-Type, Apikey, Authorization");
 		configuration.setAllowCredentials(true);
 		UrlBasedCorsConfigurationSource source = new
 				UrlBasedCorsConfigurationSource();
