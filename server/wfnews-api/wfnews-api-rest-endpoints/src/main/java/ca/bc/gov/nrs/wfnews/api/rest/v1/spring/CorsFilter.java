@@ -1,4 +1,4 @@
-package ca.bc.gov.nrs.wfone.api.rest.v1.spring;
+package ca.bc.gov.nrs.wfnews.api.rest.v1.spring;
 
 import java.io.IOException;
 
