@@ -6,6 +6,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
+
 import ca.bc.gov.nrs.common.wfone.rest.resource.HeaderConstants;
 import ca.bc.gov.nrs.wfnews.api.rest.v1.resource.EndpointsRsrc;
 import io.swagger.v3.oas.annotations.Operation;
@@ -21,6 +23,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 @Path("/openapi.json")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 public interface SwaggerEndpoints {
 	
 	@Operation(operationId = "Get Swagger Document", summary = "Get Swagger Document", extensions = {@Extension(properties = {@ExtensionProperty(name = "auth-type", value = "#{wso2.x-auth-type.app_and_app_user}"), @ExtensionProperty(name = "throttling-tier", value = "Unlimited") })})
