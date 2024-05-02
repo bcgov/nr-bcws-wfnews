@@ -1021,25 +1021,6 @@ output "wfnews_cloudfront_nginx_url" {
 
 resource "aws_cloudfront_response_headers_policy" "cache_control_response_headers" {
   name = "cache-control-response-headers-${var.target_env}"
-  cors_config {
-    access_control_allow_credentials = true
-
-    access_control_allow_headers {
-      items = ["*"]
-    }
-
-    access_control_allow_methods {
-      items = ["GET", "POST", "PUT", "HEAD", "OPTIONS"]
-    }
-
-    access_control_allow_origins {
-      items = ["*"]
-    }
-    
-    access_control_max_age_sec = 300
-
-    origin_override = true
-  }
 
   custom_headers_config {
     items {
