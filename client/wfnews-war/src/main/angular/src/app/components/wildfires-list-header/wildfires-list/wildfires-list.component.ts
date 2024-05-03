@@ -226,9 +226,6 @@ export class WildFiresListComponent
           this.currentSortDirection === 'ASC' ? 'DESC' : 'ASC';
         this.selectedSortValue = '';
       }
-      // "[" and "]" are invalid character and will cause java.lang.IllegalArgumentException
-      this.searchText = this.searchText.replace('[','');
-      this.searchText = this.searchText.replace(']','');
 
       this.store.dispatch(
         searchWildfires(
