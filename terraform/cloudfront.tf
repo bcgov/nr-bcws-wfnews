@@ -1117,6 +1117,7 @@ resource "aws_cloudfront_response_headers_policy" "cache_control_response_header
     access_control_allow_origins {
       items = [
         "capacitor://localhost",
+        "http://localhost",
         "https://wfnews-client.dev.bcwildfireservices.com",
         "https://wfnews-client.test.bcwildfireservices.com",
         "https://wildfiresituation.nrs.gov.bc.ca"
