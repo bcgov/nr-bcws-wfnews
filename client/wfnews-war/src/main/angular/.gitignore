@@ -45,3 +45,5 @@ Thumbs.db
 
 # config
 appConfig.*.json
+
+*storybook.log
