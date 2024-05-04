@@ -238,6 +238,12 @@
               "-d",
               "."
             ],
+            "styles": [
+              "src/styles/main.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/ng-pick-datetime/assets/style/picker.min.css",
+              "node_modules/lightgallery/scss/lightgallery.scss"
+            ],
             "outputDir": "storybook-static"
           }
         }
