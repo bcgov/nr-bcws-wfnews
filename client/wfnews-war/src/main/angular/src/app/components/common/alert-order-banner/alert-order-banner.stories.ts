@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/angular';
 import { AlertOrderBannerComponent } from './alert-order-banner.component';
 
 const meta: Meta<AlertOrderBannerComponent> = {
-  title: 'Common/AlertOrderBanner',
+  title: 'Banners/AlertOrderBanner',
   component: AlertOrderBannerComponent,
   tags: ['autodocs'],
 };

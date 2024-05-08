@@ -2,7 +2,7 @@ import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/
 import { CheckboxButtonComponent } from './checkbox-button.component';
 
 const meta: Meta<CheckboxButtonComponent> = {
-  title: 'Common/CheckboxButton',
+  title: 'Buttons/CheckboxButton',
   component: CheckboxButtonComponent,
   tags: ['autodocs'], 
 };

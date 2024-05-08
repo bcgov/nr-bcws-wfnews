@@ -2,7 +2,7 @@ import { componentWrapperDecorator, type Meta, type StoryObj } from '@storybook/
 import { LinkButtonComponent } from './link-button.component';
 
 const meta: Meta<LinkButtonComponent> = {
-  title: 'Common/LinkButton',
+  title: 'Buttons/LinkButton',
   component: LinkButtonComponent,
   tags: ['autodocs'], 
 };

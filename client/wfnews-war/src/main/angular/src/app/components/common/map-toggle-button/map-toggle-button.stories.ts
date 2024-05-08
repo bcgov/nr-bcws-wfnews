@@ -3,7 +3,7 @@ import { componentWrapperDecorator, moduleMetadata, type Meta, type StoryObj } f
 import { MapToggleButtonComponent } from './map-toggle-button.component';
 
 const meta: Meta<MapToggleButtonComponent> = {
-  title: 'Common/MapToggleButton',
+  title: 'Buttons/MapToggleButton',
   component: MapToggleButtonComponent,
   tags: ['autodocs'],
   parameters: {

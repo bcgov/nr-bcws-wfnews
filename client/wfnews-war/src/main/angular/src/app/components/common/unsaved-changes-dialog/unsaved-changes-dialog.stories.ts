@@ -22,7 +22,7 @@ class LaunchDialogComponent {
 }
 
 const meta: Meta<LaunchDialogComponent> = {
-  title: 'Common/UnsavedChangesDialog',
+  title: 'Dialogs/UnsavedChangesDialog',
   component: LaunchDialogComponent,
   tags: ['autodocs'],
   decorators: [

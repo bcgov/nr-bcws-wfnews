@@ -3,7 +3,7 @@ import { componentWrapperDecorator, moduleMetadata, type Meta } from '@storybook
 import { MobileSlidingDrawerComponent } from './mobile-sliding-drawer.component';
 
 const meta: Meta<MobileSlidingDrawerComponent> = {
-  title: 'Common/MobileSlidingDrawer',
+  title: 'Menus/MobileSlidingDrawer',
   component: MobileSlidingDrawerComponent,
   tags: ['autodocs'],
   parameters: {
