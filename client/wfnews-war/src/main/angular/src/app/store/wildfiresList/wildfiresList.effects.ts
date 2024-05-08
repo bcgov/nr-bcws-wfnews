@@ -103,7 +103,8 @@ export class WildfiresListEffect {
             url = url.concat('&radius=').concat((radius * 1000).toString());
           } else if (searchText) {
             // "[" and "]" are invalid character and will cause java.lang.IllegalArgumentException
-            searchText = searchText.replace(/[\[\]]/g, '');
+            searchText = searchText.replace('[','');
+            searchText = searchText.replace(']','');
             url += `&searchText=${searchText}`;
           }
 
