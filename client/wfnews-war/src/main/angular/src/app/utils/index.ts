@@ -27,6 +27,7 @@ export enum ResourcesRoutes {
   ADMIN = 'admin',
   ADMIN_INCIDENT = 'incident',
   PUBLIC_INCIDENT = 'incidents',
+  PUBLIC_EVENT = 'events',
   FULL_DETAILS = 'full-details',
   SAVED = 'saved',
   ADD_LOCATION = 'add-location',

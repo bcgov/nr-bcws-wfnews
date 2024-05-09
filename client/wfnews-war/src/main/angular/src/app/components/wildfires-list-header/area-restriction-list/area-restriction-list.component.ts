@@ -51,6 +51,8 @@ export class AreaRestrictionListComponent implements OnInit {
     'distance',
     'viewMap',
   ];
+  hoveredItem: any = null;
+
 
   public locationData: LocationData;
   convertToDateTime = convertToDateTime;
@@ -210,5 +212,15 @@ export class AreaRestrictionListComponent implements OnInit {
     this.searchTimer = setTimeout(() => {
       this.search();
     }, 1000);
+  }
+
+  selectItem(event) {
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([ResourcesRoutes.PUBLIC_EVENT], {
+        queryParams: {
+        },
+      }),
+    );
+    window.open(url, '_blank');
   }
 }
